@@ -20,6 +20,12 @@ export interface TeaserStateItem extends AbstractStateItem {
   [key: string]: any
 }
 
+export interface TagStateItem {
+  label: string,
+  value: string
+}
+
 export default interface TeaserState {
-  items: TeaserStateItem[]
+  items: TeaserStateItem[],
+  tags: TagStateItem[]
 }

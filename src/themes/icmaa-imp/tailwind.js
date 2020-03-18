@@ -73,7 +73,8 @@ module.exports = {
       },
       flex: {
         'fix': '0 0 auto',
-        'expand': '1 0 auto'
+        'expand': '1 0 auto',
+        'full': '1 0 100%'
       },
       opacity: {
         '60': '.6'

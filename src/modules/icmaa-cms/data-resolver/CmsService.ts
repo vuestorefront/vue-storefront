@@ -84,9 +84,23 @@ const listQueue = (options: { documentType: string, query: Record<string, any>, 
   })
 }
 
+const datasource = <T>(options: { code: string }): Promise<T | boolean> => {
+  return IcmaaTaskQueue.execute({
+    url: processURLAddress(config.icmaa_cms.endpoint) + `/datasource/${options.code}`,
+    payload: {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    },
+    is_result_cacheable: true,
+    silent: true
+  }).then(resp => resp.resultCode === 200 ? resp.result : false)
+}
+
 export default {
   single,
   singleQueue,
   list,
-  listQueue
+  listQueue,
+  datasource
 }

@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import { list as listAbstract, MutationTypesInterface } from 'icmaa-cms/store/abstract/actions'
 
-import { storageKey } from './'
+import { stateKey } from './'
 import * as types from './mutation-types'
 import SearchAliasState, { SearchAliasStateItem } from '../../types/SearchAliasState'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -20,7 +20,7 @@ const actions: ActionTree<SearchAliasState, RootState> = {
     return listAbstract<SearchAliasStateItem>({
       documentType,
       mutationTypes,
-      storageKey,
+      stateKey,
       context,
       options,
       identifier: 'identifier'

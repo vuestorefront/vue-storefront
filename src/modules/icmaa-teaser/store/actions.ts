@@ -1,9 +1,11 @@
 import { ActionTree } from 'vuex'
-import { list as listAbstract, MutationTypesInterface, ListOptionsInterface } from 'icmaa-cms/store/abstract/actions'
+import { listQueue as listAbstract, MutationTypesInterface, ListOptionsInterface } from 'icmaa-cms/store/abstract/actions'
 
-import { teaserStorageKey as storageKey } from './'
+import { teaserStateKey as stateKey } from './'
 import * as types from './mutation-types'
-import TeaserState, { TeaserStateItem } from '../types/TeaserState'
+import TeaserState, { TeaserStateItem, TagStateItem } from '../types/TeaserState'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
+import CmsService from 'icmaa-cms/data-resolver/CmsService'
 import RootState from '@vue-storefront/core/types/RootState'
 
 import { getCurrentStoreviewDatetime } from 'icmaa-config/helpers/datetime'
@@ -16,7 +18,7 @@ const mutationTypes: MutationTypesInterface = {
 }
 
 const actions: ActionTree<TeaserState, RootState> = {
-  list: async (context, tags: string): Promise<TeaserStateItem[]> => {
+  list: async (context, tags: string): Promise<Task> => {
     const datetime = getCurrentStoreviewDatetime()
     const options = {
       tag: { 'in_array': tags },
@@ -25,7 +27,20 @@ const actions: ActionTree<TeaserState, RootState> = {
       show_to: { 'gt-date': datetime }
     }
 
-    return listAbstract<TeaserStateItem>({ documentType, mutationTypes, storageKey, context, options, identifier: 'uuid' })
+    return listAbstract<TeaserStateItem>({ documentType, mutationTypes, stateKey, context, options, identifier: 'uuid' })
+  },
+  listSync: async (context, task) => {
+    task.result.forEach(data => context.commit(mutationTypes.add, data))
+  },
+  fetchTags: async ({ commit }): Promise<TagStateItem[]|boolean> => {
+    return CmsService.datasource<TagStateItem[]>({ code: 'tags' })
+      .then(results => {
+        if (results) {
+          commit(types.ICMAA_TEASER_TAGS_SET, results)
+        }
+
+        return results
+      })
   }
 }
 

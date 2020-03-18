@@ -13,16 +13,16 @@
     </div>
     <template v-else>
       <template v-if="showLarge && teaserLarge">
-        <teaser-fullsize :teaser="teaserLarge" class="t-mb-8" />
+        <teaser-fullsize :teaser="teaserLarge" :redirect-to-edit="redirectToEdit" class="t-mb-8" />
       </template>
       <template v-if="teaserSmall && teaserSmall.length > 0">
         <template v-if="showSmallInRow">
           <div class="t-flex t-flex-wrap">
-            <teaser-small v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" />
+            <teaser-small v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :redirect-to-edit="redirectToEdit" :key="'small_' + index" />
           </div>
         </template>
         <template v-else>
-          <teaser-split v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" :class="{ 't-mb-8': index !== (teaserSmall.length - 1) }" />
+          <teaser-split v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :redirect-to-edit="redirectToEdit" :key="'small_' + index" :class="{ 't-mb-8': index !== (teaserSmall.length - 1) }" />
         </template>
       </template>
     </template>
@@ -44,6 +44,11 @@ export default {
       type: String,
       required: true
     },
+    customercluster: {
+      type: [String, Boolean],
+      required: false,
+      default: false
+    },
     showLarge: {
       type: Boolean,
       default: true
@@ -55,6 +60,10 @@ export default {
     limit: {
       type: Number,
       default: 4
+    },
+    redirectToEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -69,22 +78,26 @@ export default {
     TeaserSmall
   },
   computed: {
-    ...mapGetters('icmaaTeaser', ['getSmallTeaser', 'getLargeTeaser']),
-    ...mapGetters({ viewport: 'ui/getViewport' }),
+    ...mapGetters({
+      teaserByType: 'icmaaTeaser/getTeaserByType',
+      viewport: 'ui/getViewport'
+    }),
     teaserLarge () {
-      return this.getLargeTeaser(this.tags)[0]
+      return this.teaserByType('large', this.tags, this.customercluster)[0]
     },
     teaserSmall () {
-      const teaser = this.getSmallTeaser(this.tags)
+      const teaser = this.teaserByType('small', this.tags, this.customerCluster)
       return teaser.slice(0, this.TeaserSmallRow ? 4 : this.limit)
     },
     isMobile () {
       return ['xs', 'sm'].includes(this.viewport)
     }
   },
-  async mounted () {
-    await this.$store.dispatch('icmaaTeaser/list', this.tags)
-    this.loading = false
+  mounted () {
+    this.$store.dispatch('icmaaTeaser/list', this.tags)
+      .then(() => {
+        this.loading = false
+      })
   }
 }
 </script>

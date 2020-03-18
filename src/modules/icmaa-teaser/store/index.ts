@@ -11,7 +11,8 @@ export const teaserStorageKey = 'teaser'
 export const TeaserStore: Module<TeaserState, RootState> = {
   namespaced: true,
   state: {
-    items: []
+    items: [],
+    tags: []
   },
   getters,
   actions,

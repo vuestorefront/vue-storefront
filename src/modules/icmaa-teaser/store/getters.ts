@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import TeaserState, { TeaserStateItem } from '../types/TeaserState'
+import TeaserState, { TeaserStateItem, TagStateItem } from '../types/TeaserState'
 import RootState from '@vue-storefront/core/types/RootState'
 
 import config from 'config'
@@ -12,14 +12,34 @@ import orderBy from 'lodash-es/orderBy'
 
 const getters: GetterTree<TeaserState, RootState> = {
   getTeaser: (state): TeaserStateItem[] => state.items,
-  getSmallTeaser: (state, getters) => (tag: string): TeaserStateItem[] => {
-    return getters.getFilteredTeaser({ size: 'small', tag: tag.split(',') })
-  },
-  getLargeTeaser: (state, getters) => (tag: string): TeaserStateItem[] => {
-    return getters.getFilteredTeaser({ size: 'large', tag: tag.split(',') })
+  getTeaserByType: (state, getters) => (size: 'small'|'large', tag: string, cluster?: string|boolean): TeaserStateItem[] => {
+    let filter: any = { size, tag: tag.split(',') }
+    if (cluster) {
+      filter = Object.assign(filter, { cluster })
+    }
+
+    return getters.getFilteredTeaser(filter)
   },
   getFilteredTeaser: (state, getters, RootState, rootGetters) => (filters): TeaserStateItem[] => {
     let items = state.items
+
+    const cluster = filters.hasOwnProperty('cluster') ? filters.cluster : rootGetters['user/getCluster']
+    if (filters.hasOwnProperty('cluster')) {
+      delete filters.cluster
+    }
+
+    items = items.filter(i => {
+      if (i.cluster.length === 0) {
+        return true
+      }
+
+      if (!cluster && i.cluster.includes(config.icmaa_cluster.noClusterValue)) {
+        return true
+      }
+
+      return i.cluster.includes(cluster)
+    })
+
     forEach(filters, (value, key) => {
       if (isArray(value)) {
         items = items.filter(i => {
@@ -34,19 +54,6 @@ const getters: GetterTree<TeaserState, RootState> = {
       }
     })
 
-    const cluster = rootGetters['user/getCluster']
-    items = items.filter(i => {
-      if (i.cluster.length === 0) {
-        return true
-      }
-
-      if (!cluster && i.cluster.includes(config.icmaa_cluster.noClusterValue)) {
-        return true
-      }
-
-      return i.cluster.includes(cluster)
-    })
-
     items = items
       .filter(i => isDatetimeInBetween(i.showFrom, i.showTo))
       .filter(i => i.active)
@@ -58,7 +65,8 @@ const getters: GetterTree<TeaserState, RootState> = {
     items = orderBy(items, ['order'], ['desc'])
 
     return items
-  }
+  },
+  getTags: (state): TagStateItem[] => state.tags
 }
 
 export default getters

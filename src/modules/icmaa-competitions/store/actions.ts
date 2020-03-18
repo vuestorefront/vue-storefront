@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import { single as singleAbstract, list as listAbstract, MutationTypesInterface, SingleOptionsInterface, ListOptionsInterface } from 'icmaa-cms/store/abstract/actions'
 import FormService from '../data-resolver/FormService'
 
-import { competitionsStorageKey as storageKey } from './'
+import { competitionsStateKey as stateKey } from './'
 import * as types from './mutation-types'
 import CompetitionsState, { Competition } from '../types/CompetitionsState'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -18,9 +18,9 @@ const mutationTypes: MutationTypesInterface = {
 
 const actions: ActionTree<CompetitionsState, RootState> = {
   single: async (context, options: SingleOptionsInterface): Promise<Competition> =>
-    singleAbstract<Competition>({ documentType, mutationTypes, storageKey, context, options }),
+    singleAbstract<Competition>({ documentType, mutationTypes, stateKey, context, options }),
   list: async (context, options: ListOptionsInterface): Promise<Competition[]> =>
-    listAbstract<Competition>({ documentType, mutationTypes, storageKey, context, options }),
+    listAbstract<Competition>({ documentType, mutationTypes, stateKey, context, options }),
   post: async ({ state, dispatch }, { sheetId, data }): Promise<boolean> => {
     data.ip = await dispatch('getIp')
     data.created_at = getCurrentStoreviewDatetime()
@@ -31,7 +31,7 @@ const actions: ActionTree<CompetitionsState, RootState> = {
     const headers = { 'Content-Type': 'application/json' }
     const response = await fetch(ipService, { headers })
       .then(resp => resp.json())
-      .catch(err => false)
+      .catch(() => false)
 
     return response.ip || false
   }

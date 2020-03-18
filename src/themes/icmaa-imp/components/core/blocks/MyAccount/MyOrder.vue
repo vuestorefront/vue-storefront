@@ -216,7 +216,7 @@ export default {
     }
   },
   async mounted () {
-    await await this.$store.dispatch('attribute/list', { filterValues: this.attributeCodes })
+    await this.$store.dispatch('attribute/list', { filterValues: this.attributeCodes })
   }
 }
 </script>

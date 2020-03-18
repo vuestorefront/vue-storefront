@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import { list as listAbstract, MutationTypesInterface } from 'icmaa-cms/store/abstract/actions'
 
-import { adviceStorageKey as storageKey } from './'
+import { adviceStateKey as stateKey } from './'
 import * as types from './mutation-types'
 import AdviceState, { AdviceStateItem } from '../types/AdviceState'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -27,7 +27,7 @@ const actions: ActionTree<AdviceState, RootState> = {
     return listAbstract<AdviceStateItem>({
       documentType,
       mutationTypes,
-      storageKey,
+      stateKey,
       context,
       options,
       identifier: 'uuid'

@@ -16,9 +16,9 @@ const actions = (stateKey: string, storageKey: string, documentType: string): Ac
 
   return {
     single: async (context, options: SingleOptionsInterface): Promise<GenericStateItem> =>
-      singleAbstract<GenericStateItem>({ documentType, mutationTypes, storageKey, context, options, identifier: 'uuid' }),
+      singleAbstract<GenericStateItem>({ documentType, mutationTypes, stateKey, context, options, identifier: 'uuid' }),
     list: async (context, options: Record<string, any> = {}): Promise<GenericStateItem[]> =>
-      listAbstract<GenericStateItem>({ documentType, mutationTypes, storageKey, context, options, identifier: 'uuid' })
+      listAbstract<GenericStateItem>({ documentType, mutationTypes, stateKey, context, options, identifier: 'uuid' })
   }
 }
 

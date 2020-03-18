@@ -9,6 +9,7 @@
         {{ teaser.text1 }}
       </router-link>
     </h2>
+    <edit-button :edit-url="editUrl" class="t-left-0 t-ml-6 t--mt-4" />
   </div>
 </template>
 
@@ -16,12 +17,14 @@
 import TeaserMixin from 'icmaa-teaser/mixins/teaserMixin'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import EditButton from 'theme/components/core/blocks/Teaser/EditButton'
 
 export default {
   name: 'TeaserSmall',
   mixins: [ TeaserMixin ],
   components: {
-    RetinaImage
+    RetinaImage,
+    EditButton
   },
   computed: {
     lastRow () {

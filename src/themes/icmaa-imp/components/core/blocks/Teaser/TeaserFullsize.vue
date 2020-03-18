@@ -8,6 +8,7 @@
           <material-icon icon="arrow_forward" size="sm" class="t-ml-2" />
         </router-link>
       </h2>
+      <edit-button :edit-url="editUrl" class="t-left-0 t-ml-2 t--mt-4" />
     </div>
   </div>
 </template>
@@ -18,13 +19,15 @@ import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import TeaserMixin from 'icmaa-teaser/mixins/teaserMixin'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
+import EditButton from 'theme/components/core/blocks/Teaser/EditButton'
 
 export default {
   name: 'TeaserFullsize',
   mixins: [ TeaserMixin ],
   components: {
     MaterialIcon,
-    RetinaImage
+    RetinaImage,
+    EditButton
   },
   computed: {
     ...mapGetters({

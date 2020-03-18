@@ -5,6 +5,9 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import rootStore from '@vue-storefront/core/store'
 
+import { defaultStateKey } from '../store/default'
+import * as types from '../store/default/mutation-types'
+
 const createQueryString: Function = (params: Record<string, any>): string =>
   Object.keys(params).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&')
 
@@ -38,6 +41,7 @@ const IcmaaTaskQueue = {
   },
 
   async queue (task: Record<string, any>): Promise<Task|any> {
+    const taskId = getTaskId(task.url)
     Object.assign(
       task,
       {
@@ -46,13 +50,17 @@ const IcmaaTaskQueue = {
       }
     )
 
-    const taskId = getTaskId(task.url)
+    if (rootStore.getters[`${defaultStateKey}/getTaskById`](taskId)) {
+      return task
+    }
+
     Logger.debug(`Queued task: ${taskId}`, 'icmaa-task-queue', task.url)()
 
     const cacheItem = await cache.getItem(taskId)
     if (cacheItem) {
-      rootStore.dispatch('icmaaCms/taskQueueSync', cacheItem)
+      rootStore.dispatch(`${defaultStateKey}/taskQueueSync`, cacheItem)
     } else {
+      rootStore.commit(`${defaultStateKey}/${types.ICMAA_CMS_TASK_ADD}`, taskId)
       return TaskQueue.queue(task)
     }
   },
