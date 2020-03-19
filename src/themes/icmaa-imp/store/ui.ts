@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
+import { clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 const AsyncUserNavigation = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-user" */ '../components/core/blocks/MyAccount/NavigationSidebar.vue')
 
@@ -86,6 +87,7 @@ export const uiStore = {
     },
     closeAll ({ commit }) {
       commit('setCloseAll')
+      clearAllBodyScrollLocks()
     },
     setSidebar ({ commit }, status: boolean) {
       commit('toggleSidebar', 'sidebar', status)
