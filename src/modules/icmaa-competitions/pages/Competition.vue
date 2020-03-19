@@ -146,6 +146,11 @@ export default {
     }
   },
   async asyncData ({ store, route, context }) {
+    if (context) {
+      context.cacheTags
+        .add('competition')
+    }
+
     const value = route.params.identifier
     await store.dispatch('icmaaCompetitions/single', { value })
   }

@@ -27,7 +27,14 @@ export default {
       return this.rawLandingPages && this.rawLandingPages.find(p => p.identifier === this.identifier)
     }
   },
-  async asyncData ({ store }) {
+  async asyncData ({ store, context }) {
+    if (context) {
+      context.cacheTags
+        .add('landingpage')
+        .add('category')
+        .add('product')
+    }
+
     await store.dispatch('icmaaCmsLangingPages/single', { value: this.identifier })
   }
 }

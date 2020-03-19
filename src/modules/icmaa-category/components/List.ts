@@ -53,6 +53,12 @@ export default {
     }
   },
   async asyncData ({ store, route, context }) {
+    if (context) {
+      context.cacheTags
+        .add('category')
+        .add('cms')
+    }
+
     await store.dispatch(
       'icmaaCategory/list',
       {

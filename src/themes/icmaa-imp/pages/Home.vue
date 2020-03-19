@@ -41,7 +41,9 @@ export default {
   },
   async asyncData ({ context }) {
     if (context) {
-      context.output.cacheTags.add(`home`)
+      context.output.cacheTags
+        .add('home')
+        .add('cms')
     }
   }
 }
