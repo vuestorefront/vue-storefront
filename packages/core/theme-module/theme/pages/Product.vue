@@ -246,8 +246,7 @@ export default {
 
     search({ slug });
 
-    const product = computed(() => getProductVariants(products.value, { master: true,
-      attributes: context.root.$route.query })[0]);
+    const product = computed(() => getProductVariants(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => getProductAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => getProductAttributes(product.value, ['color', 'size']));
 
