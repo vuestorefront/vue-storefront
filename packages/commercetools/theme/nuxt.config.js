@@ -26,22 +26,8 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  router: {
-    extendRoutes(routes, resolve) {
-      // TEMPORARY, will be removed
-      // @todo move to common middleware in core module and cover use case where we don't have slug at all
-      // aka URL dispatcher
-      // TEMPORARY: just to show example prismic page
-      routes.push({
-        name: 'prismic',
-        path: '/prismic',
-        component: resolve(__dirname, 'pages/Prismic.vue')
-      });
-    }
-  },
   plugins: [
     './plugins/commercetools.js',
-    './plugins/prismic.js',
     './plugins/i18n.js'
   ],
   buildModules: [
@@ -52,13 +38,11 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools-composables',
-          '@vue-storefront/prismic',
           '@vue-storefront/utils',
           '@vue-storefront/factories'
         ],
         prod: [
           '@vue-storefront/commercetools-composables',
-          '@vue-storefront/prismic',
           '@vue-storefront/utils',
           '@vue-storefront/factories'
         ]
