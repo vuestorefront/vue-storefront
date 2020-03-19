@@ -1,8 +1,6 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../src';
 import { UseCategory } from '@vue-storefront/interfaces';
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
-Vue.use(VueCompositionApi);
+
 // mock persisted state
 import * as vsfUtils from '@vue-storefront/utils';
 jest.mock('@vue-storefront/utils');
