@@ -444,6 +444,14 @@ yarn start
 
 Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
+## Cache Strategies 
+
+### Varnish cache for VSF
+_Vue Storefront_ has multiple layers of cache, and the forefront cache is _Varnish_ which serves a request just as fast as a static HTML page once it's hit. You can install it from [here](https://github.com/new-fantastic/vsf-cache-varnish).
+
+### Vue Storefront Proxy
+_Vue Storefront_ can be set up with [OpenResty](http://openresty.org/en/) based reverse proxy serving cached pages from Redis without Vue StoreFront (VSF or VSF API) calls, using LUA. [Here](https://github.com/ClickAndMortar/docker/tree/master/vue-storefront/proxy) is the github repo. 
+
 ## Production setup - using Docker / Kubernetes
 
 To be prepared.
