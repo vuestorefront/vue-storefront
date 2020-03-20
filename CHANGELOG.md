@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed problem with not showing error message when placing an order fails - @qiqqq
 - Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
 - Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
+- Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
 
 ### Changed / Improved
 
