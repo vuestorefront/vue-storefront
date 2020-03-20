@@ -29,7 +29,7 @@ export default {
   },
   async asyncData ({ store, context }) {
     if (context) {
-      context.cacheTags
+      context.output.cacheTags
         .add('landingpage')
         .add('category')
         .add('product')

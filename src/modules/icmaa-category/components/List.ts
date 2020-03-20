@@ -54,7 +54,7 @@ export default {
   },
   async asyncData ({ store, route, context }) {
     if (context) {
-      context.cacheTags
+      context.output.cacheTags
         .add('category')
         .add('cms')
     }
