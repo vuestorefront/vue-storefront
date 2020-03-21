@@ -32,7 +32,7 @@ You can override any of API Client methods with `override` function. It accepts 
 
 <Content slot-key="override"/>
 
-Let's say we have a `getProduct` method in our API Client that accepts `params` parameter and returns an array of products. It could look more or less like this:
+Lets see how we can override `getProduct` method in our API Client. It accepts `params` parameter and returns an array of products. It could look more or less like this:
 
 
 TODO: Make it per-platform example

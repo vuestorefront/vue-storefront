@@ -2155,7 +2155,7 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
 
-"@types/minimatch@*", "@types/minimatch@3.0.3":
+"@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
@@ -6217,7 +6217,7 @@ handle-thing@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
 
-handlebars@^4.4.0, handlebars@^4.7.2:
+handlebars@^4.4.0, handlebars@^4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.3.tgz#8ece2797826886cf8082d1726ff21d2a022550ee"
   dependencies:
@@ -6345,7 +6345,7 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
 
-highlight.js@^9.17.1:
+highlight.js@^9.18.1:
   version "9.18.1"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
   integrity sha512-OrVKYz70LHsnCgmbXctv/bfuvntIKDz177h0Co37DQ5jamGZLVmoCVMtjMtNZY3X9DrCcKfklHPNeA0uPZhSJg==
@@ -12174,37 +12174,30 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typedoc-default-themes@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.7.2.tgz#1e9896f920b58e6da0bba9d7e643738d02405a5a"
-  integrity sha512-fiFKlFO6VTqjcno8w6WpTsbCgXmfPHVjnLfYkmByZE7moaz+E2DSpAT+oHtDHv7E0BM5kAhPrHJELP2J2Y2T9A==
+typedoc-default-themes@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.8.0.tgz#991d6121d492e662eb371f30edc982440fe04a63"
+  integrity sha512-0bzAjVEX6ClhE3jLRdU7vR8Fsfbt4ZcPa+gkqyAVgTlQ1fLo/7AkCbTP+hC5XAiByDfRfsAGqj9y6FNjJh0p4A==
   dependencies:
     backbone "^1.4.0"
     jquery "^3.4.1"
     lunr "^2.3.8"
-    underscore "^1.9.1"
+    underscore "^1.9.2"
 
-typedoc@^0.16.11:
-  version "0.16.11"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.16.11.tgz#95f862c6eba78533edc9af7096d2295b718eddc1"
-  integrity sha512-YEa5i0/n0yYmLJISJ5+po6seYfJQJ5lQYcHCPF9ffTF92DB/TAZO/QrazX5skPHNPtmlIht5FdTXCM2kC7jQFQ==
+typedoc@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.17.1.tgz#0ea6efcf8c8a4f9490118afc338f3dbb7df849a4"
+  integrity sha512-1AckBdQNvBm0jgR7eko9t3FMPfjoxiKEpQx8ePCsyfTQDPwLVpFIFzn5pXA+smDGTWf2BT7FQrKU6BDzSdgMng==
   dependencies:
-    "@types/minimatch" "3.0.3"
     fs-extra "^8.1.0"
-    handlebars "^4.7.2"
-    highlight.js "^9.17.1"
+    handlebars "^4.7.3"
+    highlight.js "^9.18.1"
     lodash "^4.17.15"
     marked "^0.8.0"
     minimatch "^3.0.0"
     progress "^2.0.3"
     shelljs "^0.8.3"
-    typedoc-default-themes "^0.7.2"
-    typescript "3.7.x"
-
-typescript@3.7.x:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+    typedoc-default-themes "^0.8.0"
 
 typescript@^3.6.4:
   version "3.8.2"
@@ -12244,7 +12237,7 @@ umask@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/umask/-/umask-1.1.0.tgz#f29cebf01df517912bb58ff9c4e50fde8e33320d"
 
-underscore@>=1.8.3, underscore@^1.9.1:
+underscore@>=1.8.3, underscore@^1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.2.tgz#0c8d6f536d6f378a5af264a72f7bec50feb7cf2f"
   integrity sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==

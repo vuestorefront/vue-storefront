@@ -1,5 +1,9 @@
-<IncludeContent content-key="getting-started" />
+---
+platform: Commercetools
+---
+ 
 
+<IncludeContent content-key="getting-started" />
 
 <!-- Installation command -->
 ::: slot installation

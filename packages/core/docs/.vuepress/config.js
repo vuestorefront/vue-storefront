@@ -1,55 +1,62 @@
 module.exports = {
-  title: 'VSF Next',
+  title: 'Vue Storefront Next',
   description: 'Vue Storefront 2 documentation',
-  locales: {
-    '/': {
-      title: 'Vue Storefront Next',
-      description: ''
-    },
-    '/commercetools/': {
-      title: 'Vue Storefront Commercetools',
-      description: ''
-    }
-  },
   themeConfig: {
-    locales: {
-      '/' : {
-        selectText: 'Choose eCommerce platform',
-        label: 'Overview',
-        sidebar: [
-          {
-            title: 'Contributing',
-            collapsable: false,
-            children: [
-              ['/contributing/themes', 'Working with themes'],
-            ],
-          },
-        ]
-      },
-      '/commercetools/' : {
-        // text for the language dropdown
-        selectText: 'Commercetools',
-        // label for this locale in the language dropdown
-        label: 'Commercetools',
-        platformName: 'Commercetools',
-        sidebar: [
-          {
-            title: 'Essentials',
-            collapsable: false,
-            children: [
-              ['/commercetools/', 'Introduction'],
-              ['/commercetools/getting-started', 'Getting Started'],
-              ['/commercetools/api-client', 'API Client'],
-            ],
-          }, {
-            title: 'Theme',
-            collapsable: false,
-            children: [
-              ['/commercetools/auth-middleware', 'Auth Middleware']
-            ],
-          }
-        ]
-      }
+    nav: [
+      { text: 'General information', link: '/' },
+      { text: 'Commercetools', link: '/commercetools/' },
+      { text: 'Shopware', items: [
+        { text: 'Documentation' , link: 'https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa'},
+        { text: 'Demo' , link: 'https://shopware-pwa.storefrontcloud.io/'},
+        { text: 'GitHub' , link: 'https://github.com/DivanteLtd/shopware-pwa'}
+      ]},
+      { text: 'Magento', items: [
+        { text: 'Documentation' , link: 'https://docs.vuestorefront.io/'},
+        { text: 'Demo' , link: 'https://demo.vuestorefront.io/'},
+        { text: 'GitHub' , link: 'https://github.com/DivanteLtd/vue-storefront'}
+      ]},
+      { text: 'Integration tutorial', link: '/integration/' },
+      { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
+      { text: 'Github', link: 'https://github.com/DivanteLtd/next' },
+    ],
+    sidebar: {
+      '/commercetools/': [
+        {
+          title: 'Essentials',
+          collapsable: false,
+          children: [
+            ['/commercetools/', 'Introduction'],
+            ['/commercetools/getting-started', 'Getting Started'],
+            ['/commercetools/api-client', 'API Client'],
+            ['/commercetools/feature-list', 'Feature list']
+          ]
+        }, {
+          title: 'Theme',
+          collapsable: false,
+          children: [
+            ['/commercetools/auth-middleware', 'Auth Middleware']
+          ],
+        }
+      ],
+      '/integration/': [
+        {
+          title: 'Integration tutorial',
+          collapsable: false,
+          children: [
+            ['/integration/', 'Introduction'],
+            ['/integration/api-client', 'API Client'],
+          ],
+        },
+      ],
+      '/': [
+        {
+          title: 'Contributing',
+          collapsable: false,
+          children: [
+            ['/contributing/themes', 'Working with themes'],
+          ],
+        },
+      ],
     }
   }
 }

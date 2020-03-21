@@ -1,5 +1,5 @@
 {
-  "inputFiles": ["../api-client/src/api"],
+  "inputFiles": ["../../commercetools/api-client/src/api"],
   "mode": "modules",
   "exclude": "**/*+(defaultMutation|defaultQuery).ts",
   "json": "api.json",

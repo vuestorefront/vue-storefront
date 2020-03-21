@@ -5,15 +5,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "yarn typedoc && vuepress dev",
-    "build": "yarn typedoc && vuepress build"
-  },
-  "dependencies": {
+    "dev": "node ./scripts/generateCtApi.js && vuepress dev",
+    "build": "vuepress build && node ./scripts/generateCtApi.js "
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "vuepress": "^1.2.0",
-    "typedoc": "^0.16.11"
+    "typedoc": "^0.17.1",
+    "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
   "license": "MIT"

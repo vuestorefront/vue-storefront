@@ -56,7 +56,6 @@
 - [x] I can see the totals in the cart So I know the values before I decide on placing an order.
 - [x] I want to remove the product from the cart As I do not want to buy it any longer.
 - [x] I want to edit the quantity of the product in a Cart Page.
-- [ ] I want to choose a shipping method So it may get calculated into the cart totals.
 
 ### Checkout
 
