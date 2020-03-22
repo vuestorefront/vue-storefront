@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add custom currency separators and amount of fraction digits - @EndPositive (#3553)
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 - Add `/cache-version.json` route to get current cache version
+- Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
 
 ### Fixed
 

@@ -17,6 +17,7 @@ import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-resources'
 
+// import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 // TODO:distributed across proper pages BEFORE 1.11
@@ -38,6 +39,7 @@ export function registerClientModules () {
   registerModule(CmsModule)
   registerModule(NewsletterModule)
   registerModule(InitialResourcesModule)
+  // registerModule(DeviceModule)
 }
 
 // Deprecated API, will be removed in 2.0
