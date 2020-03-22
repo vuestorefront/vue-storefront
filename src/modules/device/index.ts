@@ -29,6 +29,6 @@ export const DeviceModule: StorefrontModule = async function ({ app, appConfig }
         Vue.prototype.$device.isMobileOrTablet = true
       }
     }
-    (<any>app).device = Vue.prototype.$device
+   (app as any).device  = Vue.prototype.$device
   }
 }

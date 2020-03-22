@@ -55,11 +55,14 @@ export default (userAgent: string, tests: Array<string>): DeviceTests => {
     } else {
       switch (test) {
         case 'isTablet':
-          deviceTests[test] = !testers['isMobile'](userAgent) && !testers['isMobileOrTablet'](userAgent)
+          deviceTests[test] = !testers['isMobile'](userAgent) && !testers['isMobileOrTablet'](userAgent);
+          break;
         case 'isDesktop':
           deviceTests[test] = !testers['isMobileOrTablet'](userAgent)
+          break;
         case 'isDesktopOrTablet':
           deviceTests[test] = !testers['isMobile'](userAgent)
+          break;
       }
     }
   }
