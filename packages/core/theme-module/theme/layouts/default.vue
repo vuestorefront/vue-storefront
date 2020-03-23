@@ -40,11 +40,6 @@ export default {
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
 
-body {
-  padding: 0;
-  margin: 0;
-}
-
 #layout {
   box-sizing: border-box;
   @media screen and (min-width: $desktop-min) {
