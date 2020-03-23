@@ -24,7 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add custom currency separators and amount of fraction digits - @EndPositive (#3553)
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 - Add `/cache-version.json` route to get current cache version
-- Add inc/dec steps to product qty on product page
+- Add inc/dec steps to product qty on product page - @flancer64
+- Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
 
 ### Fixed
 
@@ -41,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed problem with not showing error message when placing an order fails - @qiqqq
 - Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
 - Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
+- Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
 
 ### Changed / Improved
 
