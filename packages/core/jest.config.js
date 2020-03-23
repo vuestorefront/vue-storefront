@@ -17,6 +17,9 @@ module.exports = {
     '^@vue-storefront/(.*?)$': '<rootDir>/$1/src'
   },
   rootDir: __dirname,
-  setupFilesAfterEnv: ['./factories/__tests__/setup.ts'],
+  setupFilesAfterEnv: [
+    './factories/__tests__/setup.ts',
+    './utils/__tests__/setup.ts'
+  ],
   testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
 };
