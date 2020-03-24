@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Fixed
+- Fixes when having multiple custom options with overlapping option_type_id values, selecting 1 changes the others - @carlokok (#4196)
 - Update eslint and fix code style. - @gibkigonzo (#4179 #4181)
 - add missing cache tags for category and product - @gibkigonzo (#4173)
 
