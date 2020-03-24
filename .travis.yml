@@ -1,6 +1,9 @@
 language: node_js
 node_js: "10"
 
+addons:
+  chrome: stable
+
 cache:
   yarn: true
   directories:
@@ -12,6 +15,10 @@ cache:
     - packages/commercetools/composables/lib
     - packages/commercetools/theme/.nuxt
     - packages/commercetools/theme/node_modules
+    - packages/about-you/api-client/node_modules
+    - packages/about-you/api-client/lib
+    - packages/about-you/composables/node_modules
+    - packages/about-you/composables/lib
     - packages/core/utils/node_modules
     - packages/core/utils/lib
     - packages/core/factories/node_modules
@@ -28,21 +35,29 @@ env:
 services:
   - docker
 
+before_install:
+  - npm install -g @lhci/cli
+
 install:
   - yarn
 
 jobs:
   include:
+    - stage: build
+      name: Build commercetools
+      script:
+        - yarn build:prismic && yarn build:ct
+
+    - stage: build
+      name: Build about you
+      script:
+        - yarn build:ay
+
     - stage: test core
       script: yarn test:core --coverage
       name: Test core packages
       after_script:
         - cat ./packages/core/coverage/lcov.info | coveralls
-
-    - stage: Build
-      name: Build
-      script:
-        - yarn build:prismic && yarn build:ct
 
     - stage: test commercetools
       script: yarn test:ct:api-client --coverage
@@ -62,11 +77,27 @@ jobs:
       after_script:
         - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
 
+    - stage: test about you
+      script: yarn test:ay:api-client --coverage
+      name: Test api-client
+      after_script:
+        - cat ./packages/about-you/api-client/coverage/lcov.info | coveralls
+
+    - stage: test about you
+      script: yarn build:ay:api-client && yarn test:ay:composables --coverage
+      name: Test composables
+      after_script:
+        - cat ./packages/about-you/composables/coverage/lcov.info | coveralls
+
     - stage: test prismic
       script: yarn test:prismic --coverage
       name: Test prismic
       after_script:
         - cat ./packages/prismic/coverage/lcov.info | coveralls
+
+    - stage: lighthouse
+      name: commercetools
+      script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000
 
     - build_image:
       if: branch = master AND type != pull_request

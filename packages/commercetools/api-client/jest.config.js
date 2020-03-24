@@ -6,7 +6,7 @@ module.exports = {
     ...baseConfig.transform,
     '\\.(gql|graphql)$': 'jest-transform-graphql'
   },
-  setupFilesAfterEnv: ['./tests/setup.ts'],
+  setupFilesAfterEnv: ['./__tests__/setup.ts'],
   moduleNameMapper: {
     'api-client(.*)$': '<rootDir>$1'
   }

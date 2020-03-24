@@ -19,7 +19,9 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   })
 }));
 
-describe.skip('[commercetools-composables] useUser', () => {
+jest.spyOn(console, 'error').mockImplementation();
+
+describe('[commercetools-composables] useUser', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -49,6 +51,25 @@ describe.skip('[commercetools-composables] useUser', () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.user).toEqual(user.customer);
     expect(wrapper.vm.$data.loading).toBeFalsy();
+  });
+
+  it('registers new customer with error', async () => {
+    const user = {
+      customer: {
+        firstName: 'john',
+        lastName: 'doe'
+      }
+    };
+    (customerSignMeUp as any).mockImplementation(() => {
+      throw new Error('api error');
+    });
+    const wrapper = mountComposable(useUser);
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.$data.register(user.customer);
+
+    expect(console.error).toBeCalled();
   });
 
   it('login customer and log out', async () => {
@@ -114,6 +135,13 @@ describe.skip('[commercetools-composables] useUser', () => {
     await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
     await wrapper.vm.$data.changePassword();
-    expect(wrapper.vm.$data.error.message).toEqual('error from API');
+    expect(console.error).toBeCalled();
+  });
+
+  it.skip('updates user', async () => {
+    const wrapper = mountComposable(useUser);
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$data.updateUser();
   });
 });

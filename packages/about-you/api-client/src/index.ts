@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { BapiClient } from '@aboutyou/backbone';
 import { SetupConfig } from './types';
 import getProductApi from './api/getProduct';
@@ -24,11 +26,13 @@ let methods = {
   removeCoupon: removeCouponApi
 };
 
+// TODO:: TEST THIS!!
 function override(overrides) {
   methods = { ...methods,
     ...overrides };
 }
 
+// TODO:: TEST THIS!!
 function setup(setupConfig: SetupConfig) {
   apiClient = new BapiClient(setupConfig);
   return apiClient;

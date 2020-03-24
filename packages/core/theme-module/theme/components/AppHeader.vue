@@ -50,7 +50,9 @@ export default {
     };
     const { cart } = useCart();
     const cartTotalItems = computed(() => {
-      return getCartTotalItems(cart.value).toString();
+      const count = getCartTotalItems(cart.value);
+      // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/922
+      return count ? count.toString() : null;
     });
     return {
       cartTotalItems,

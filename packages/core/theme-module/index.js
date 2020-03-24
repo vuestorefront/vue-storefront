@@ -57,6 +57,12 @@ module.exports = function DefaultThemeModule(moduleOptions) {
       pages: '.theme/pages'
     }};
 
+  this.options.css = [
+    ...this.options.css,
+    // CSS reset stylesheet
+    '.theme/assets/css/reset.scss'
+  ];
+
   this.extendBuild(config => {
     delete config.resolve.alias['~'];
     config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');

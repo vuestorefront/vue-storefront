@@ -5,7 +5,7 @@ import { useProductFactory } from '@vue-storefront/factories';
 import { ProductSearch } from '@vue-storefront/commercetools-api/lib/src/types/Api';
 import { SearchResult } from '@vue-storefront/interfaces';
 
-const loadProductVariants = async (params: ProductSearch): Promise<SearchResult<ProductVariant>> => {
+const productsSearch = async (params: ProductSearch): Promise<SearchResult<ProductVariant>> => {
   const productResponse = await getProduct(params);
   const enhancedProductResponse = enhanceProduct(productResponse);
   return {
@@ -14,4 +14,4 @@ const loadProductVariants = async (params: ProductSearch): Promise<SearchResult<
   };
 };
 
-export default useProductFactory<ProductVariant, ProductSearch>({ productsSearch: loadProductVariants });
+export default useProductFactory<ProductVariant, ProductSearch>({ productsSearch });
