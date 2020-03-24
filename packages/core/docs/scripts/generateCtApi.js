@@ -17,6 +17,6 @@ app.bootstrap({
 const project = app.convert(app.expandInputFiles(['../../commercetools/api-client/src/api']));
 
 if (project) {
-  const outputDir = '.vuepress/dist/commercetools/api-client';
+  const outputDir = '.vuepress/public/commercetools/api-client';
   app.generateDocs(project, outputDir);
 }
