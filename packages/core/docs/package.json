@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./scripts/generateCtApi.js && vuepress dev",
-    "build": "vuepress build && node ./scripts/generateCtApi.js "
+    "build": "node ./scripts/generateCtApi.js && vuepress build"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
