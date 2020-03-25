@@ -1,11 +1,25 @@
+![Vue Storefront](https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067)
 # Vue Storefront Next
 
-[![Coverage Status](https://coveralls.io/repos/github/DivanteLtd/next/badge.svg?branch=master)](https://coveralls.io/github/DivanteLtd/next?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/DivanteLtd/next/badge.svg?branch=master)](https://coveralls.io/github/DivanteLtd/next?branch=master)<a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
-This project is on the early stages of development. It's not usable yet. Once its production ready this repo will be merged into the [main repo](https://github.com/DivanteLtd/vue-storefront/).
+**Disclaimer:** This project is still in beta phase. It's not usable to full extend yet. Once its production ready this repo will be merged into the [main repo](https://github.com/DivanteLtd/vue-storefront/).
 
-- [Documentation](https://vsf-next-docs.netlify.com)
-- [Demo](https://vsf-next-demo.storefrontcloud.io/)
+Vue Storefront is the most popular and most advanced PWA Headless frontend for eCommerce.
+- [Documentation](https://vsf-next-docs.netlify.com) (WIP)
+- [Demo](https://vsf-next-demo.storefrontcloud.io/) (WIP)
+
+![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
+**Supported platforms**
+- Magento 1.9/2
+- Spryker
+- Spree
+- Sylius
+- Shopware 6
+- Commercetools
+- AboutYou Cloud
+- ...more coming!
+
 
 ## What you need
 * [yarn](https://yarnpkg.com/getting-started) - Dependency manager
