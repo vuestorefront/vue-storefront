@@ -33,7 +33,7 @@ export const getProductSlug = (product: ProductVariant | Readonly<ProductVariant
 
 // todo change to getProductPrices returning different types of prices https://github.com/DivanteLtd/next/issues/128
 
-export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): number | null => product ? product.price.value.centAmount / 100 : null;
+export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): number | null => product ? product.price?.value.centAmount / 100 : null;
 
 export const getProductGallery = (product: ProductVariant | Readonly<ProductVariant>): UiMediaGalleryItem[] =>
   (product ? product.images : [])

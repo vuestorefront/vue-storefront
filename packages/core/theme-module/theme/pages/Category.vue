@@ -292,7 +292,7 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, watch } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCategory, useProduct } from '<%= options.composables %>';
 import {
   getProductName,
@@ -303,6 +303,7 @@ import {
   getProductVariants,
   getProductDescription
 } from '<%= options.helpers %>';
+import { onSSR } from '@vue-storefront/utils';
 
 export default {
   transition: 'fade',
@@ -313,16 +314,12 @@ export default {
       params.slug_1
     );
 
-    const { categories, search, loading } = useCategory('category-page');
-    const { products: categoryProducts, search: productsSearch, loading: productsLoading } = useProduct('category-products');
+    const { categories, search, loading } = useCategory('categories');
+    const { products: categoryProducts, search: productsSearch, loading: productsLoading } = useProduct('categoryProducts');
 
-    search({ slug: lastSlug });
-
-    // ugly workaround until we will have async setup
-    watch(categories, () => {
-      if (categories.value.length) {
-        productsSearch({ catId: categories.value[0].id });
-      }
+    onSSR(async () => {
+      await search({ slug: lastSlug });
+      await productsSearch({ catId: categories.value[0].id });
     });
 
     const products = computed(() => getProductVariants(categoryProducts.value, { master: true}));

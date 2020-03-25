@@ -1,5 +1,6 @@
 import { UseProduct, SearchResult } from '@vue-storefront/interfaces';
 import { ref, Ref, computed } from '@vue/composition-api';
+import { useSSR } from '@vue-storefront/utils';
 
 type SearchParams = {
   perPage?: number;
@@ -17,23 +18,17 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
   factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS>
 ) {
   return function useProduct(cacheId: string): UseProduct<PRODUCT> {
-    console.info(
-      'SSR Temporarly disbled for product composable https://github.com/DivanteLtd/next/issues/232',
-      cacheId
-    );
-    // const { state, persistedResource } = usePersistedState(id);
-
-    // const products: Ref<ProductVariant[]> = ref(state || []);\
-    const products: Ref<PRODUCT[]> = ref([]);
-    const totalProducts: Ref<number> = ref(0);
+    const { initialState, saveToInitialState } = useSSR(cacheId);
+    const products: Ref<PRODUCT[]> = ref(initialState || []);
+    const totalProducts = ref(0);
     const loading = ref(false);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS) => {
       loading.value = true;
-      // products.value = await persistedResource<ProductVariant[]>(loadProductVariants, params);
       const { data, total } = await factoryParams.productsSearch(params);
       products.value = data;
       totalProducts.value = total;
+      saveToInitialState(data);
       loading.value = false;
     };
 

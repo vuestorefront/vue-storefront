@@ -1,8 +1,7 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../src';
 import { UseCategory } from '@vue-storefront/interfaces';
-
-// mock persisted state
 import * as vsfUtils from '@vue-storefront/utils';
+
 jest.mock('@vue-storefront/utils');
 const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 
@@ -26,9 +25,9 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties when no persisted state set', () => {
-      mockedUtils.usePersistedState.mockReturnValueOnce({
-        state: null,
-        persistedResource: jest.fn()
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: null,
+        saveToInitialState: jest.fn()
       });
       const { loading, categories } = useCategory();
 
@@ -40,9 +39,9 @@ describe('[CORE - factories] useCategoryFactory', () => {
   describe('computes', () => {
     describe('categories', () => {
       it('should return categories from state', () => {
-        mockedUtils.usePersistedState.mockReturnValueOnce({
-          state: [{ id: 'mockedCategory' }],
-          persistedResource: jest.fn()
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: [{ id: 'mockedCategory' }],
+          saveToInitialState: jest.fn()
         });
         const { categories } = useCategory();
         expect(categories.value).toEqual([{ id: 'mockedCategory' }]);
@@ -52,24 +51,18 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('methods', () => {
     describe('search', () => {
-      const persistedResource = jest.fn();
       beforeEach(() => {
-        mockedUtils.usePersistedState.mockReturnValueOnce({
-          state: null,
-          persistedResource
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
         });
       });
 
       it('should invoke persistedResource on search', async () => {
-        persistedResource.mockResolvedValueOnce([
-          { categoryId: 'mockedCategory' }
-        ]);
         const { categories, search } = useCategory();
         await search({ someparam: 'qwerty' });
-        expect(persistedResource).toBeCalledWith(params.categorySearch, {
-          someparam: 'qwerty'
-        });
-        expect(categories.value).toEqual([{ categoryId: 'mockedCategory' }]);
+        expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
+        expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });
   });

@@ -171,8 +171,8 @@
       </div>
     </div>
     <RelatedProducts
-      v-if="product"
-      :product="product"
+      :products="relatedProducts"
+      :loading="relatedLoading"
       title="Match it with"
     />
     <InstagramFeed />
@@ -232,8 +232,10 @@ import {
   getProductName,
   getProductGallery,
   getProductPrice,
-  getProductAttributes
+  getProductAttributes,
+  getProductCategories
 } from '<%= options.helpers %>';
+import { onSSR } from '@vue-storefront/utils';
 
 export default {
   name: 'Product',
@@ -241,14 +243,19 @@ export default {
   setup(props, context) {
     const qty = ref(1);
     const { slug } = context.root.$route.params;
-    const { products, search } = useProduct('product-page');
+    const { products, search } = useProduct('products');
+    const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
-
-    search({ slug });
 
     const product = computed(() => getProductVariants(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => getProductAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => getProductAttributes(product.value, ['color', 'size']));
+    const categories = computed(() => getProductCategories(product.value));
+
+    onSSR(async () => {
+      await search({ slug });
+      await searchRelatedProducts({ catId: [categories.value[0]] });
+    });
 
     const updateFilter = (filter) => {
       context.root.$router.push({
@@ -262,6 +269,8 @@ export default {
       updateFilter,
       configuration,
       product,
+      relatedProducts,
+      relatedLoading,
       options,
       getProductName,
       getProductPrice,

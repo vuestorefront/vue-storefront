@@ -1,5 +1,5 @@
 import { UseCategory } from '@vue-storefront/interfaces';
-import { usePersistedState } from '@vue-storefront/utils';
+import { useSSR } from '@vue-storefront/utils';
 import { ref, Ref, computed } from '@vue/composition-api';
 
 export type UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> = {
@@ -10,16 +10,14 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
   factoryParams: UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS>
 ) {
   return function useCategory(cacheId?: string): UseCategory<CATEGORY> {
-    const { state, persistedResource } = usePersistedState(cacheId);
-    const categories: Ref<CATEGORY[]> = ref(state || []);
+    const { initialState, saveToInitialState } = useSSR(cacheId);
+    const categories: Ref<CATEGORY[]> = ref(initialState || []);
     const loading = ref(false);
 
     const search = async (params: CATEGORY_SEARCH_PARAMS) => {
       loading.value = true;
-      categories.value = await persistedResource<CATEGORY[]>(
-        factoryParams.categorySearch,
-        params
-      );
+      categories.value = await factoryParams.categorySearch(params);
+      saveToInitialState(categories.value);
       loading.value = false;
     };
 
