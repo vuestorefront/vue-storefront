@@ -1,0 +1,30 @@
+./config/* \
+./core/* \
+./coverage/* \
+./dist/* \
+./packages/* \
+./src/* \
+.env \
+.eslintignore \
+.eslintrc.js \
+.huskyrc.js \
+.jshintrc \
+.lintstagedrc.js \
+.node-version \
+.postcssrc \
+CHANGELOG.md \
+CODE_OF_CONDUCT.md \
+CONTRIBUTING.md \
+LICENSE \
+README.md \
+babel.config.js \
+ecosystem.json \
+lerna.json \
+package.json \
+shims.d.ts \
+tsconfig-build.json \
+tsconfig.json \
+yarn.lock \
+-x "*node_modules/**/*" \
+-x ".git/**/*" \
+-x ".cache/**/*"

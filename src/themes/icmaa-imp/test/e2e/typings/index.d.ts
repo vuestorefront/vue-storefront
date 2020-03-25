@@ -170,6 +170,15 @@ declare namespace Cypress {
     openNavigationSidebar(triggerSelector?: string, overlaySelector?: string): Chainable<Window>,
 
     /**
+     * Close main navigation sidebar.
+     *
+     * @example
+     * cy.closeNavigationSidebar()
+     * cy.closeNavigationSidebar('@sidebarB')
+     */
+    closeNavigationSidebar(alias?: string): Chainable<Window>,
+
+    /**
      * Open filter sidebar.
      * Adds alias `sidebar` for further use.
      *

@@ -162,6 +162,11 @@ Cypress.Commands.add('openNavigationSidebar', (trigger: string = '[data-test-id=
     .should('be.visible')
 })
 
+Cypress.Commands.add('closeNavigationSidebar', (alias: string = '@sidebar') => {
+  cy.get(alias).findByTestId('closeButton').click()
+  cy.get(alias).should('not.be.visible')
+})
+
 Cypress.Commands.add('openFilterSidebar', () => {
   cy.openNavigationSidebar('[data-test-id="ButtonFilter"]')
 })

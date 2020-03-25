@@ -83,7 +83,7 @@ module.exports = function (config, { isClient, isDev }) {
    * Remove `data-test-id` attributes from DOM for production mode
    * @see https://forum.vuejs.org/t/how-to-remove-attributes-from-tags-inside-vue-components/24138/9
    */
-  if (!isDev) {
+  if (!isDev && !process.env.CI_TESTS) {
     config.module.rules.map(rule => {
       if (rule.loader === 'vue-loader') {
         rule.options.compilerOptions = {

@@ -1,0 +1,16 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
+    "@types/chai": "^4.2.8",
+    "@types/faker": "^4.1.9",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.0",
+    "cypress": "^4.1.0",
+    "eslint-plugin-cypress": "^2.9.0",
+    "faker": "^4.1.0"
+  }
+}

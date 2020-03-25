@@ -196,6 +196,7 @@
     "src/modules/*",
     "src/trace/*",
     "src/themes/*",
+    "src/themes/*/test/*",
     "docs",
     "core/modules/*",
     "test/unit",

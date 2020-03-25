@@ -1,0 +1,92 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - develop-*
+      - build/*
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        env:
+          - MANDANT: imp
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+
+      - name: Install
+        uses: bahmutov/npm-install@v1
+
+      - name: Get repository name, and branch name
+        run: |
+           echo ::set-env name=APP::$(echo ${GITHUB_REPOSITORY##*/})
+           echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})
+
+      - name: Get environment by branch
+        run: |
+          echo ::set-env name=ENV::$(if [ ${{ env.BRANCH_NAME }} = "master" ]; then echo "production"; else echo "test"; fi)
+
+      - name: Checkout "icmaa/vue-storefront-workspace" repo
+        run: |
+          rm -rf vue-storefront-workspace
+          git clone --no-tags --depth 1 https://${{ secrets.GITHUB_PAT }}@github.com/icmaa/vue-storefront-workspace
+
+      - name: Sync config JSON files
+        run: rsync -r ./vue-storefront-workspace/template/${{ env.APP }}/ ./
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build "${{ env.APP }}"
+        timeout-minutes: 15
+        run: yarn build
+        env:
+          NODE_CONFIG_ENV: ${{ env.ENV }}
+          NODE_APP_INSTANCE: ${{ matrix.env.MANDANT }}
+
+      - name: Zip build
+        run: |
+          mkdir builds
+          zip -r builds/${{ env.APP }}-${{ matrix.env.MANDANT }}-${{ env.ENV }}-latest.zip $(cat .build-files)
+          cp builds/${{ env.APP }}-${{ matrix.env.MANDANT }}-${{ env.ENV }}-latest.zip builds/${{ env.APP }}-${{ matrix.env.MANDANT }}-${{ env.ENV }}-$(date '+%Y%m%d-%H%M%S').zip
+
+      - name: Upload binary to S3 bucket
+        uses: jakejarvis/s3-sync-action@master
+        env:
+          SOURCE_DIR: builds/
+          AWS_REGION: 'us-east-1'
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  # release:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Get commit message
+  #       run: echo ::set-env name=COMMIT_MSG::$(git log --format=%B -n 1 ${{ github.event.after }})
+  #     - id: get_date
+  #       run: |
+  #         echo ::set-output name=date::$(date '+%Y%m%d-%H%M%S')
+  #         echo ::set-output name=date_long::$(date '+%Y-%m-%d %H:%M:%S')
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         tag_name: release-${{ steps.get_date.outputs.date }}
+  #         release_name: Release - ${{ steps.get_date.outputs.date_long }}
+  #         body: ${{ env.COMMIT_MSG }}

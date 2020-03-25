@@ -4,15 +4,17 @@
   "integrationFolder": "integration",
   "pluginsFile": "plugins/index.js",
   "supportFile": "support/index.ts",
-  "screenshotsFolder": "screenshots",
   "trashAssetsBeforeRuns": true,
   "video": false,
+  "videosFolder": "videos",
+  "videoUploadOnPasses": false,
+  "screenshotsFolder": "screenshots",
   "viewportWidth": 375,
   "viewportHeight": 812,
   "defaultCommandTimeout": 20000,
   "requestTimeout": 20000,
   "env": {
-    "store_codes": ["de", "fr", "it", "uk"],
+    "store_codes": ["de", "fr", "es", "uk"],
     "category_pages": ["new", "boys.html", "girls.html"]
   }
 }

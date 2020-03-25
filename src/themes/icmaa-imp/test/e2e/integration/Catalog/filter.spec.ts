@@ -1,20 +1,22 @@
 describe('Filter', () => {
   it('Select department filter', () => {
     cy.visitCategoryPage()
-    cy.openFilterSidebar()
 
     cy.getByTestId('productsTotal').then((element) => {
       const productsTotalNumber = parseInt(element.text())
 
+      cy.openFilterSidebar()
       cy.get('@sidebar').find('[data-attribute-key="department"] button')
         .clickRandomElement()
 
+      cy.url().should('include', `?department=`)
+
+      cy.closeNavigationSidebar()
+
       cy.getByTestId('productsTotal').should((element) => {
         const productsTotalFiltered = parseInt(element.text())
-        expect(productsTotalNumber).gt(productsTotalFiltered)
+        expect(productsTotalFiltered).lte(productsTotalNumber)
       })
     })
-
-    cy.url().should('include', `?department=`)
   })
 })

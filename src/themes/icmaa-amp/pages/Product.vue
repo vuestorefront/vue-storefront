@@ -114,7 +114,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -126,7 +125,6 @@ import ProductGtmMixin from 'icmaa-google-tag-manager/mixins/productGtm'
 export default {
   components: {
     Breadcrumbs,
-    ProductAttribute,
     ProductBundleOptions,
     ProductCustomOptions,
     ProductLinks,

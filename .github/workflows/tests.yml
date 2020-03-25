@@ -1,0 +1,122 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+
+env:
+  NODE_APP_INSTANCE: "imp"
+  NODE_CONFIG_ENV: "test"
+  NODE_TLS_REJECT_UNAUTHORIZED: 0
+  CI_TESTS: true
+
+jobs:
+
+  test-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+
+      - name: Run ESlint
+        run: |
+          yarn
+          yarn lint
+
+  test-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+
+      - name: Install
+        uses: bahmutov/npm-install@v1
+
+      - name: Checkout "icmaa/vue-storefront-workspace" repo
+        run: |
+          rm -rf vue-storefront-workspace
+          git clone --no-tags --depth 1 https://${{ secrets.GITHUB_PAT }}@github.com/icmaa/vue-storefront-workspace
+
+      - name: Sync config JSON files
+        run: rsync -r ./vue-storefront-workspace/template/vue-storefront/ ./
+
+      - name: Run Jest-Unit-Tests
+        run: |
+          yarn
+          yarn test:unit
+
+  tests-e2e:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [ 'runner-1', 'runner-2', 'runner-3', 'runner-4', 'runner-5' ]
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+
+      - name: Checkout "icmaa/vue-storefront-workspace" repo
+        run: |
+          rm -rf vue-storefront-workspace
+          git clone --no-tags --depth 1 https://${{ secrets.GITHUB_PAT }}@github.com/icmaa/vue-storefront-workspace
+
+      - name: Sync config JSON files
+        run: rsync -r ./vue-storefront-workspace/template/vue-storefront/ ./
+
+      - name: Install
+        uses: bahmutov/npm-install@v1
+
+      - name: Build
+        run: yarn build
+
+      - name: Start
+        run: |
+          yarn pm2 start ecosystem.ci.json
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        timeout-minutes: 5
+        with:
+          working-directory: src/themes/icmaa-imp/test/e2e
+          wait-on: http://localhost:3000
+          wait-on-timeout: 120
+          browser: chrome
+          headless: true
+          config: video=true
+          # spec: integration/Cms/**/*
+          record: true
+          parallel: true
+          group: ${{ runner.os }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+          CYPRESS_PROJECT_ID: ${{secrets.CYPRESS_PROJECT_ID}}
+
+      - name: Dump and consolidate log outputs
+        if: failure()
+        run: |
+          mkdir artifacts
+          yarn pm2 logs --format --nostream --lines 10000000 > artifacts/server.log
+          zip -r artifacts/build.zip . -x "*node_modules/**/*" -x ".git/**/*" -x ".cache/**/*"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: build
+          path: artifacts

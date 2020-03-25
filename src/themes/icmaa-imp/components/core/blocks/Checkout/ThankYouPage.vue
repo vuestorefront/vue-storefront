@@ -79,7 +79,7 @@
 import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
-import ButtonOutline from 'theme/components/core/blocks/Button'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -168,7 +168,7 @@ export default {
   components: {
     BaseTextarea,
     Breadcrumbs,
-    ButtonOutline
+    ButtonComponent
   }
 }
 </script>
