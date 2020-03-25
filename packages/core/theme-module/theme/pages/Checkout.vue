@@ -80,20 +80,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/shared/styles/variables";
+@import "~@storefront-ui/vue/styles";
 
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
 #checkout {
   box-sizing: border-box;
   padding: 0 var(--spacer-big);
   @include for-desktop {
     max-width: 1240px;
-    margin: auto;
-    padding: var(--spacer-extra-big);
+    margin: 0 auto;
   }
 }
 .checkout {
@@ -108,7 +102,7 @@ export default {
   &__aside {
     @include for-desktop {
       flex: 0 0 25.5rem;
-      margin-left: 4.25rem;
+      margin: 0 0 0 4.25rem;
     }
   }
 }

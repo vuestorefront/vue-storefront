@@ -52,15 +52,59 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
-@mixin for-mobile {
-  @media screen and (max-width: $desktop-min) {
-    @content;
+@import "~@storefront-ui/vue/styles";
+.shipping-list {
+  margin: 0 0 var(--spacer-extra-big) 0;
+}
+.shipping {
+  display: flex;
+  padding: var(--spacer-big) 0;
+  border: 1px solid var(--c-light);
+  border-width: 1px 0 0 0;
+  &:last-child {
+    border-width: 1px 0 1px 0;
+  }
+  &__content {
+    flex: 1;
+    color: var(--c-text);
+    font: 300 var(--font-size-small) / 1.6 var(--body-font-family-secondary);
+  }
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    @include for-desktop {
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+  &__button-delete {
+    --button-background: var(--c-light);
+    --button-color: var(--c-dark-variant);
+    &:hover {
+      --button-background: var(--c-light-variant);
+    }
+    @include for-desktop {
+      margin: 0 0 0 var(--spacer-big);
+    }
+  }
+  &__address {
+    margin: 0 0 var(--spacer-big) 0;
+    &:last-child {
+      margin: 0;
+    }
+  }
+  &__client-name {
+    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   }
 }
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
+.tab-orphan {
+  @include for-mobile {
+    --tabs-title-display: none;
+    --tabs-content-padding: 0;
+    --tabs-conent-border-width: 0;
   }
 }
 .form {
@@ -75,51 +119,37 @@ export default {
   }
   &__title {
     margin: 0 0 var(--spacer-big) 0;
-    font-family: var(--body-font-family-secondary);
-    font-size: var(--font-size-regular-desktop);
-    font-weight: 500;
-    line-height: 1.6;
+    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   }
   &__button {
-    width: 100%;
+    --button-width: 100%;
     @include for-desktop {
-      width: auto;
+      --button-width: auto;
     }
   }
 }
-.message,
-.notice {
-  font-family: var(--body-font-family-primary);
-  font-weight: var(--body-font-weight-primary);
-  line-height: 1.6;
-}
 .message {
   margin: 0 0 var(--spacer-extra-big) 0;
-  font-size: var(--font-size-regular-mobile);
-  @include for-desktop {
-    font-size: var(--font-size-regular-desktop);
+  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  &__label {
+    font-weight: 500;
+  }
+}
+a {
+  color: var(--c-text-muted);
+  text-decoration: none;
+  &:hover {
+    color: var(--c-text);
   }
 }
 .notice {
   margin: var(--spacer-big) 0 0 0;
-  font-size: var(--font-size-extra-small-desktop);
-  @include for-desktop {
-    max-width: 70%;
-    margin: var(--spacer) 0 0 0;
-    font-size: var(--font-size-extra-small-desktop);
-  }
+  font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
 }
-.tab-orphan {
-  @include for-mobile {
-    ::v-deep .sf-tabs {
-      &__title {
-        display: none;
-      }
-      &__content {
-        border: 0;
-        padding: 0;
-      }
-    }
+.action-button {
+  --button-width: 100%;
+  @include for-desktop {
+    --button-width: auto;
   }
 }
 </style>

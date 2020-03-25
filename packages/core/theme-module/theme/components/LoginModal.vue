@@ -1,7 +1,8 @@
 <template>
-  <div id="sign-in">
+  <div>
     <SfModal
       :visible="isLoginModalOpen"
+      title="Log in"
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
         <div v-if="isLogin" key="log-in">
@@ -14,7 +15,7 @@
                   :errorMessage="errors[0]"
                   name="email"
                   label="Your email"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
@@ -25,14 +26,14 @@
                   name="password"
                   label="Password"
                   type="password"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <SfCheckbox
                 v-model="rememberMe"
                 name="remember-me"
                 label="Remember me"
-                class="form__checkbox"
+                class="form__element"
               />
               <SfButton
                 type="submit"
@@ -47,11 +48,11 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton class="sf-button--text button--muted">Forgotten password?</SfButton>
+            <SfButton class="sf-button--text color-secondary">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton class="sf-button--text" @click="isLogin = false">Register today?</SfButton>
+            <SfButton class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
@@ -64,7 +65,7 @@
                   :errorMessage="errors[0]"
                   name="email"
                   label="Your email"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
@@ -74,7 +75,7 @@
                   :errorMessage="errors[0]"
                   name="first-name"
                   label="First Name"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
@@ -84,7 +85,7 @@
                   :errorMessage="errors[0]"
                   name="last-name"
                   label="Last Name"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
@@ -95,14 +96,14 @@
                   name="password"
                   label="Password"
                   type="password"
-                  class="form__input"
+                  class="form__element"
                 />
               </ValidationProvider>
               <SfCheckbox
                 v-model="createAccount"
                 name="create-account"
                 label="I want to create an account"
-                class="form__checkbox"
+                class="form__element"
               />
               <SfButton
                 type="submit"
@@ -117,7 +118,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton class="sf-button--text" @click="isLogin = true">login in to your account</SfButton>
+            <SfButton class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -194,54 +195,30 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
-#sign-in {
-  box-sizing: border-box;
-  @include for-desktop {
-    max-width: 1240px;
-    margin: auto;
-  }
-}
+
 .form {
-  &__input {
-    margin-bottom: var(--spacer-extra-big);
+  &__element {
+    margin: 0 0 var(--spacer-extra-big) 0;
   }
-  &__checkbox {
-    margin-bottom: var(--spacer-big);
-  }
-  &__button {
-    margin-top: var(--spacer-big);
+}
+.action,
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacer-big) 0 var(--spacer-big) 0;
+  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  & > * {
+    margin: 0 0 0 var(--spacer);
   }
 }
 .action {
-  margin-top: var(--spacer-big);
-  text-align: center;
+  margin: var(--spacer-big) 0 var(--spacer-big) 0;
 }
 .bottom {
-  padding-top: var(--spacer-extra-big);
-  margin-top: var(--spacer-extra-big);
-  border-top: 1px solid var(--c-light);
-  line-height: 1.6;
-  text-align: center;
-}
-.sf-button--muted {
-  color: var(--c-text-muted);
-}
-
-.loader {
-  padding: 11px 0;
-
-  &::v-deep .sf-loader__overlay {
-    background: transparent;
-  }
-}
-
-.alert {
-  margin: 15px 0;
-  font-size: 13px;
+  padding: var(--spacer-extra-big) 0 0 0;
+  margin: var(--spacer-extra-big) 0 0 0;
+  border: 1px solid var(--c-light);
+  border-width: 1px 0 0 0;
 }
 </style>

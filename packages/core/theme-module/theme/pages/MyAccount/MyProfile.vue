@@ -150,14 +150,13 @@ export default {
   },
   setup() {
     const resetPassForm = () => ({ currentPassword: '', newPassword: '', repeatPassword: '' });
-    const { user, changePassword, error } = useUser();
+    const { user, changePassword } = useUser();
+    const error = ref(null);
     const form = ref(resetPassForm());
 
     const updatePassword = async () => {
       await changePassword(form.value.currentPassword, form.value.newPassword);
-      if (!error.value) {
-        form.value = resetPassForm();
-      }
+      form.value = resetPassForm();
     };
 
     return {
@@ -197,17 +196,12 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
+@import "~@storefront-ui/vue/styles";
 
 .form {
   &__element {
     display: block;
-    margin-bottom: var(--spacer-extra-big);
+    margin: 0 0 var(--spacer-extra-big) 0;
   }
 
   &__button {

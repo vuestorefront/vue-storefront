@@ -111,10 +111,10 @@
           Review order
         </SfButton>
         <SfButton
-          class="sf-button--full-width sf-button--text form__action-button form__action-button--secondary"
+          class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary"
           @click="$emit('click:back')"
         >
-          Go back to Personal details
+          Go back to Shipping Methods
         </SfButton>
       </div>
     </div>
@@ -186,30 +186,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/shared/styles/variables";
-
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
-@mixin for-mobile {
-  @media screen and (max-width: $desktop-min) {
-    @content;
-  }
-}
+@import "~@storefront-ui/vue/styles";
 .title {
-  margin-bottom: var(--spacer-extra-big);
+  margin: 0 0 var(--spacer-extra-big);
 }
 .form {
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
   }
   &__element {
-    margin-bottom: var(--spacer-extra-big);
+    margin: 0 0 var(--spacer-extra-big) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -219,10 +207,14 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding-left: var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-extra-big);
         }
       }
     }
+  }
+  &__group {
+    display: flex;
+    align-items: center;
   }
   &__action {
     @include for-desktop {
@@ -231,71 +223,54 @@ export default {
     }
   }
   &__action-button {
-    flex: 1;
     &--secondary {
       margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
-        margin: 0;
+        --button-margin: 0;
         text-align: left;
       }
     }
   }
-  &__select {
-    ::v-deep .sf-select__selected {
-      padding: 5px 0;
+  &__button {
+    --button-width: 100%;
+    @include for-desktop {
+      --button-width: auto;
     }
   }
-  &__radio {
-    white-space: nowrap;
-  }
-}
-.payment-image {
-  display: flex;
-  align-items: center;
-  height: 2.125rem;
-  width: auto;
-  ::v-deep > * {
-    width: auto;
-    max-width: unset;
+  &__radio-group {
+    flex: 0 0 100%;
+    margin: 0 0 var(--spacer-extra-big) 0;
   }
 }
 .payment-methods {
   @include for-desktop {
     display: flex;
     padding: var(--spacer-big) 0;
-    border-top: 1px solid var(--c-light);
-    border-bottom: 1px solid var(--c-light);
+    border: 1px solid var(--c-light);
+    border-width: 1px 0;
   }
 }
 .payment-method {
-  border-top: 1px solid var(--c-light);
+  --radio-container-align-items: center;
+  --ratio-content-margin: 0 0 0 var(--spacer);
+  --radio-label-font-size: var(--font-size-regular);
+  white-space: nowrap;
+  border: 1px solid var(--c-light);
+  border-width: 1px 0 0 0;
+  &:last-child {
+    border-width: 1px 0;
+  }
   @include for-mobile {
-    background-color: transparent;
+    --radio-background: transparent;
   }
   @include for-desktop {
     border: 0;
-    border-radius: 4px;
-  }
-  &:last-child {
-    border-bottom: 1px solid var(--c-light);
-    @include for-desktop {
-      border-bottom: 0;
-    }
-  }
-  ::v-deep {
-    .sf-radio {
-      &__container {
-        align-items: center;
-      }
-      &__content {
-        margin: 0 0 0 var(--spacer);
-      }
-    }
+    --radio-border-radius: 4px;
   }
 }
 .credit-card-form {
-  margin-bottom: var(--spacer-big);
+  margin: 0 0 var(--spacer-big) 0;
   @include for-desktop {
     flex: 0 0 66.666%;
     padding: 0 calc((100% - 66.666%) / 2);
@@ -308,10 +283,11 @@ export default {
   }
   &__label {
     flex: unset;
+    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   }
   &__element {
     display: flex;
-    flex: 0 0 66.666%;
+    flex: 0 0 66.66%;
   }
   &__input {
     flex: 1;
@@ -319,7 +295,7 @@ export default {
       flex: 0 0 46.666%;
     }
     & + & {
-      margin-left: var(--spacer-big);
+      margin: 0 0 0 var(--spacer-big);
     }
   }
 }

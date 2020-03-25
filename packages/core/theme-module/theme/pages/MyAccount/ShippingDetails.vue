@@ -327,14 +327,6 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#shipping-details-form {
-  .sf-select__selected {
-    padding: 0;
-    border-bottom: 1px solid #f1f2f3;
-  }
-}
-</style>
 <style lang='scss' scoped>
 @import '~@storefront-ui/vue/styles';
 @mixin for-mobile {

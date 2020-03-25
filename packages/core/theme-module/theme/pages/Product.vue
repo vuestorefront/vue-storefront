@@ -33,27 +33,23 @@
       </div>
       <div class="product__description">
         <SfSticky class="product-details">
-          <div class="product-details__mobile-top">
-            <div>
-              <SfHeading
-                :title="getProductName(product)"
-                :level="1"
-                class="sf-heading--no-underline sf-heading--left product-details__heading"
-              />
-              <div class="product-details__sub">
-                <SfPrice
-                  :regular="'$' + getProductPrice(product)"
-                  class="sf-price--big product-details__sub-price"
-                />
-                <div class="product-details__sub-rating">
-                  <SfRating :score="4" :max="5" />
-                  <div class="product-details__sub-reviews desktop-only">
-                    Read all 1 review
-                  </div>
-                  <div class="product-details__sub-reviews mobile-only">
-                    (1)
-                  </div>
-                </div>
+          <SfHeading
+            :title="getProductName(product)"
+            :level="1"
+            class="sf-heading--no-underline sf-heading--left product-details__heading"
+          />
+          <div class="product-details__sub">
+            <SfPrice
+              :regular="'$' + getProductPrice(product)"
+              class="product-details__sub-price"
+            />
+            <div class="product-details__sub-rating">
+              <SfRating :score="4" :max="5" />
+              <div class="product-details__sub-reviews desktop-only">
+                Read all 1 review
+              </div>
+              <div class="product-details__sub-reviews mobile-only">
+                (1)
               </div>
             </div>
           </div>
@@ -63,7 +59,9 @@
             favorite brands.
           </p>
           <div class="product-details__action">
-            <button class="sf-action">Size guide</button>
+            <SfButton class="sf-button--text color-secondary"
+              >Size guide</SfButton
+            >
           </div>
           <div class="product-details__section">
             <SfSelect
@@ -112,10 +110,14 @@
               class="product-details__add-to-cart"
             />
             <div class="product-details__action">
-              <button class="sf-action">Save for later</button>
+              <SfButton class="sf-button--text color-secondary"
+                >Save for later</SfButton
+              >
             </div>
             <div class="product-details__action">
-              <button class="sf-action">Add to compare</button>
+              <SfButton class="sf-button--text color-secondary"
+                >Add to compare</SfButton
+              >
             </div>
           </div>
           <SfTabs class="product-details__tabs" :openTab="2">
@@ -175,29 +177,26 @@
     />
     <InstagramFeed />
     <SfBanner
-      title="Download our application to your mobile"
       image="/homepage/bannerD.png"
-      class="banner-application sf-banner--left sf-banner--center desktop-only"
+      subtitle="Fashion to Take Away"
+      title="Download our application to your mobile"
+      class="sf-banner--left desktop-only banner-app"
     >
-      <template #subtitle>
-        <div class="banner-application__subtitle">Fashion to Take Away</div>
-      </template>
-      <template #title>
-        <h1 class="banner-application__title">
-          Download our application to your&nbsp;mobile
-        </h1>
-      </template>
       <template #call-to-action>
-        <div>
-          <img
-            class="banner-application__download"
+        <div class="banner-app__call-to-action">
+          <SfImage
+            class="banner-app__image"
             src="/homepage/google.png"
-            alt=""
+            :width="191"
+            :height="51"
+            alt="Google Play"
           />
-          <img
-            class="banner-application__download"
+          <SfImage
+            class="banner-app__image"
             src="/homepage/apple.png"
-            alt=""
+            :width="174"
+            :height="57"
+            alt="App Store"
           />
         </div>
       </template>
@@ -220,7 +219,8 @@ import {
   SfAlert,
   SfSticky,
   SfReview,
-  SfBreadcrumbs
+  SfBreadcrumbs,
+  SfButton
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -287,6 +287,7 @@ export default {
     SfSticky,
     SfReview,
     SfBreadcrumbs,
+    SfButton,
     InstagramFeed,
     RelatedProducts
   },
@@ -353,63 +354,23 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/shared/styles/variables";
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
+@import "~@storefront-ui/vue/styles";
 #product {
   box-sizing: border-box;
   @include for-desktop {
     max-width: 1240px;
-    margin: auto;
+    margin: 0 auto;
   }
 }
-.banner-application {
-  min-height: 420px;
-  max-width: 1040px;
-  margin: auto;
-  padding-right: calc(25% + 5rem);
-  padding-left: 2.5rem;
-  line-height: 1.6;
-  &__title {
-    margin: var(--spacer-big) 0 0 0;
-    font-size: var(--h1-font-size-desktop);
-    font-weight: var(--h1-font-weight-desktop);
-  }
-  &__subtitle {
-    color: #a3a5ad;
-    font-family: var(--body-font-family-primary);
-    font-size: var(--font-size-extra-big-desktop);
-    font-weight: var(--body-font-weight-primary);
-  }
-  &__download {
-    max-height: 47px;
-    margin-top: var(--spacer-extra-big);
-    & + & {
-      margin-left: var(--spacer-big);
-    }
+.section {
+  padding: 0 var(--spacer-big);
+  @include for-desktop {
+    padding: 0;
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big);
-}
-.gallery-mobile {
-  --height-other: 240px;
-  --height-iOS: 265px;
-  height: calc(100vh - #{var(--height-other)});
-  @supports (-webkit-overflow-scrolling: touch) {
-    height: calc(100vh - #{var(--height-iOS)});
-  }
-  ::v-deep .sf-image {
-    img {
-      width: 100%;
-    }
-  }
-  ::v-deep .sf-gallery__stage {
-    width: 100%;
-  }
+  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big)
+    var(--spacer-extra-big);
 }
 .product {
   @include for-desktop {
@@ -422,32 +383,56 @@ export default {
   &__description {
     padding: 0 var(--spacer-big);
     @include for-desktop {
-      margin-left: calc(var(--spacer-big) * 5);
+      margin: 0 0 0 calc(var(--spacer-big) * 5);
     }
   }
 }
-.product-card {
-  max-width: unset; // ?
-  &:hover {
-    @include for-desktop {
-      box-shadow: 0px 4px 20px rgba(168, 172, 176, 0.19);
-    }
-  }
-}
-.product-carousel {
-  margin: -20px -#{var(--spacer-big)} -20px 0;
-  @include for-desktop {
-    margin: -20px 0;
-  }
-  ::v-deep .sf-carousel__wrapper {
-    padding: 20px 0;
-    @include for-desktop {
-      padding: 20px;
-      max-width: calc(100% - 216px);
-    }
-  }
+.product-property {
+  margin: var(--spacer) 0;
 }
 .product-details {
+  &__heading {
+    --heading-title-font-size: var(--font-size-big);
+    --heading-title-font-weight: var(--body-font-weight-primary);
+    margin: var(--spacer-big) 0 0 0;
+    @include for-desktop {
+      --heading-title-font-size: var(--h1-font-size);
+      --heading-title-font-weight: var(--body-font-weight-secondary);
+      margin: 0;
+    }
+  }
+  &__sub {
+    @include for-desktop {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  &__sub-price {
+    --price-font-size: 1.5rem;
+  }
+  &__sub-rating {
+    display: flex;
+    align-items: center;
+    margin: calc(var(--spacer-big) / 2) 0 0 0;
+    @include for-desktop {
+      margin: 0;
+    }
+  }
+  &__sub-reviews {
+    margin: 0 0 0 0.625rem;
+    font-size: var(--font-size-extra-small);
+  }
+  &__section {
+    border: 1px solid var(--c-light);
+    border-width: 0 0 1px 0;
+    padding: 0 0 0.625rem 0;
+    @include for-desktop {
+      border: 0;
+      padding: 0;
+    }
+  }
   &__action {
     display: flex;
     margin: var(--spacer-big) 0 calc(var(--spacer-big) / 2);
@@ -456,150 +441,100 @@ export default {
     }
   }
   &__add-to-cart {
-    margin-top: 1.5rem;
+    margin: 1.5rem 0 0 0;
     @include for-desktop {
-      margin-top: var(--spacer-extra-big);
+      margin: var(--spacer-extra-big) 0 0 0;
     }
   }
   &__alert {
-    margin-top: 1.5rem;
+    margin: 1.5rem 0 0 0;
   }
   &__attribute {
-    margin-bottom: var(--spacer-big);
+    margin: 0 0 var(--spacer-big) 0;
   }
   &__description {
     margin: var(--spacer-extra-big) 0 calc(var(--spacer-big) * 3) 0;
     font-family: var(--body-font-family-secondary);
-    font-size: var(--font-size-regular-mobile);
+    font-size: var(--font-size-regular);
     line-height: 1.6;
     @include for-desktop {
-      font-size: var(--font-size-regular-desktop);
-    }
-  }
-  &__divider {
-    margin-top: 30px;
-  }
-  &__heading {
-    margin-top: var(--spacer-big);
-    ::v-deep .sf-heading__title {
-      font-size: var(--font-size-big-mobile);
-      font-weight: var(--body-font-weight-primary);
-      @include for-desktop {
-        font-size: var(--h1-font-size-desktop);
-        font-weight: var(--body-font-weight-secondary);
-      }
-    }
-    @include for-desktop {
-      margin-top: 0;
-    }
-  }
-  &__mobile-bar {
-    display: none;
-    padding: var(--spacer-medium) 0;
-    box-sizing: border-box;
-    .product--is-active & {
-      display: block;
-      @include for-desktop {
-        display: none;
-      }
-    }
-    @include for-desktop {
-      display: none;
-    }
-  }
-  &__mobile-top {
-    display: flex;
-    align-items: center;
-    @include for-desktop {
-      display: block;
+      font-size: var(--font-size-regular);
     }
   }
   &__properties {
-    margin-top: var(--spacer-big);
-  }
-  &__sub {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  &__sub-price {
-    flex-basis: 100%;
-    margin-top: calc(var(--spacer-big) / 4);
-    @include for-desktop {
-      flex-basis: auto;
-      margin-top: calc(var(--spacer-big) / 2);
-    }
-  }
-  &__sub-rating {
-    display: flex;
-    margin-top: calc(var(--spacer-big) / 2);
-    @include for-desktop {
-      margin-left: auto;
-    }
-  }
-  &__sub-reviews {
-    margin-left: 10px;
-    font-size: 0.75rem;
-  }
-  &__section {
-    border-bottom: 1px solid #f1f2f3;
-    padding-bottom: 10px;
-    @include for-desktop {
-      border: 0;
-      padding-bottom: 0;
-    }
+    margin: var(--spacer-big) 0 0 0;
   }
   &__tabs {
-    margin-top: var(--spacer-big);
+    margin: var(--spacer-big) 0 0 0;
     @include for-desktop {
-      margin-top: calc(5 * var(--spacer-big));
+      margin: calc(5 * var(--spacer-big)) 0 0 0;
     }
     p {
       margin: 0;
     }
   }
   &__review {
-    padding-bottom: var(--spacer-big);
-    @include for-desktop {
-      padding-bottom: var(--spacer-extra-big);
-      border-bottom: 1px solid var(--c-light);
-    }
+    padding: var(--spacer-big) 0;
+    border: 1px solid var(--c-light);
+    border-width: 0 0 1px 0;
+  }
+}
+.product-carousel {
+  margin: 0 calc(var(--spacer-big) * -1) 0 0;
+  @include for-desktop {
+    margin: var(--spacer-big) 0;
+    --carousel-padding: var(--spacer-big);
+    --carousel-max-width: calc(100% - 13.5rem);
+  }
+}
+.product-card {
+  &:hover {
+    --product-card-box-shadow: 0 4px 20px rgba(168, 172, 176, 0.19);
+  }
+}
+.images-grid {
+  max-width: 60rem;
+  margin: 0 auto;
+  &__row {
+    display: flex;
     & + & {
-      padding-top: var(--spacer-extra-big);
-      border-top: 1px solid var(--c-light);
+      margin: calc(var(--spacer-big) / 2) 0 0 0;
       @include for-desktop {
-        border-top: 0;
-        padding-top: var(--spacer-extra-big);
+        margin: var(--spacer-big) 0 0 0;
+      }
+    }
+  }
+  &__col {
+    flex: 1;
+    margin: 0;
+    & + & {
+      margin: 0 0 0 calc(var(--spacer-big) / 2);
+      @include for-desktop {
+        margin: 0 0 0 var(--spacer-big);
       }
     }
   }
 }
-.product-property {
-  padding: var(--spacer-small) 0;
-}
-.section {
-  padding-left: var(--spacer-big);
-  padding-right: var(--spacer-big);
-  @include for-desktop {
-    padding-left: 0;
-    padding-right: 0;
+.banner-app {
+  --banner-title-margin: var(--spacer-big) 0 0 0;
+  --banner-title-font-size: var(--h1-font-size);
+  --banner-title-font-weight: var(--h1-font-weight);
+  --banner-subtitle-font-size: var(--font-size-extra-big);
+  --banner-subtitle-font-weight: var(--body-font-weight-primary);
+  min-height: 26.25rem;
+  max-width: 65rem;
+  margin: 0 auto;
+  padding-right: calc(25% + 5rem);
+  padding-left: 2.5rem;
+  &__call-to-action {
+    display: flex;
+    margin: var(--space-big) 0 0 0;
   }
-}
-/* SfAction or SfButton modifier */
-.sf-action {
-  padding: 0;
-  border: 0;
-  outline: none;
-  background-color: transparent;
-  color: var(--c-text);
-  font-family: var(--body-font-family-secondary);
-  font-size: var(--font-size-regular-mobile);
-  font-weight: var(--body-font-weight-secondary);
-  line-height: 1.6;
-  text-decoration: underline;
-  cursor: pointer;
-  @include for-desktop {
-    font-size: var(--font-size-regular-desktop);
+  &__image {
+    width: 22%;
+    & + & {
+      margin: 0 0 0 var(--spacer-big);
+    }
   }
 }
 </style>
