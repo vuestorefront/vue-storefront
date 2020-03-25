@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 - Removed unused locales in disabled multistore - @gibkigonzo (#4072)
 - Optimized attributes loading - @andrzejewsky (#3948)
+- Cart optimization can now be used regardless if entity optimization is enabled - @juho-jaakkola (#4198)
 - Improve typescript support for test utils - @resubaka (#4067)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
