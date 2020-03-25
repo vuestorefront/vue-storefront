@@ -44,7 +44,6 @@
                   <div>Login</div>
                 </SfLoader>
               </SfButton>
-              <SfAlert v-if="error" class="alert" type="danger" :message="error" />
             </form>
           </ValidationObserver>
           <div class="action">

@@ -3,3 +3,4 @@ node_modules
 coverage
 .DS_STORE
 lerna-debug.log
+.idea

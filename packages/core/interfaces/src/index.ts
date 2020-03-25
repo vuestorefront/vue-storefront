@@ -43,6 +43,7 @@ export interface UseUser
   ) => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+  refreshUser: () => Promise<void>;
 }
 
 export interface UseUserOrders<ORDER> {

@@ -155,7 +155,7 @@
           >
             <SfProductCard
               v-for="(product, i) in products"
-              :key="i"
+              :key="getProductSlug(product)"
               :style="{ '--index': i }"
               :title="getProductName(product)"
               :image="getProductGallery(product)[0].big"
@@ -177,7 +177,7 @@
           >
             <SfProductCardHorizontal
               v-for="(product, i) in products"
-              :key="i"
+              :key="getProductSlug(product)"
               :style="{ '--index': i }"
               :title="getProductName(product)"
               :description="getProductDescription(product)"
@@ -292,7 +292,7 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, ref } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import { useCategory, useProduct } from '<%= options.composables %>';
 import {
   getProductName,
