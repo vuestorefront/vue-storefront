@@ -116,36 +116,36 @@
     <div class="main section">
       <div class="sidebar desktop-only">
         <SfLoader :class="{ loading }" :loading="loading">
-        <SfAccordion :firstOpen="true" :showChevron="false">
-          <SfAccordionItem
-            v-for="(cat, i) in categoryTree && categoryTree.items"
-            :key="i"
-            :header="cat.label"
-          >
-            <template>
-              <SfList>
-                <SfListItem>
-                  <SfMenuItem :label="cat.label">
-                    <template #label>
-                      <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-                <SfListItem v-for="(subCat, j) in cat.items" :key="j">
-                  <SfMenuItem :label="subCat.label">
-                    <template #label="{ label }">
-                      <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-              </SfList>
-            </template>
-          </SfAccordionItem>
-        </SfAccordion>
+          <SfAccordion :firstOpen="true" :showChevron="false">
+            <SfAccordionItem
+              v-for="(cat, i) in categoryTree && categoryTree.items"
+              :key="i"
+              :header="cat.label"
+            >
+              <template>
+                <SfList>
+                  <SfListItem>
+                    <SfMenuItem :label="cat.label">
+                      <template #label>
+                        <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem v-for="(subCat, j) in cat.items" :key="j">
+                    <SfMenuItem :label="subCat.label">
+                      <template #label="{ label }">
+                        <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </template>
+            </SfAccordionItem>
+          </SfAccordion>
         </SfLoader>
       </div>
-      <SfLoader :class="{ loading: productsLoading }" :loading="productsLoading">
-        <div class="products">
+      <div class="products">
+        <SfLoader :class="{ loading: productsLoading }" :loading="productsLoading">
           <transition-group
             v-if="isGridView"
             appear
@@ -198,8 +198,8 @@
             :total="4"
             :visible="5"
           />
-        </div>
-      </SfLoader>
+        </SfLoader>
+      </div>
     </div>
     <SfSidebar
       :visible="isFilterSidebarOpen"
