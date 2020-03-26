@@ -18,6 +18,7 @@ Vue Storefront is the most popular and most advanced PWA Headless frontend for e
 - Shopware 6
 - Commercetools
 - AboutYou Cloud
+- Salesforce Commerce Cloud
 - ...more coming!
 
 
