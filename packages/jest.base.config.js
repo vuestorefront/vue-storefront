@@ -9,6 +9,5 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.ts'
   ],
-  collectCoverage: true,
   testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
 };
