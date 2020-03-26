@@ -5,6 +5,7 @@ import { ProductWith } from '@aboutyou/backbone/types/ProductWith';
 import { Pagination } from '@aboutyou/backbone/endpoints/products/productsByIds';
 import { ProductSortConfig } from '@aboutyou/backbone/endpoints/products/products';
 import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
+import { DeleteItemParameters } from '@aboutyou/backbone/endpoints/basket/deleteItem';
 
 export interface SetupConfig {
   host: string;
@@ -13,6 +14,8 @@ export interface SetupConfig {
 
 export type GetCategorySearchParams = { ids?: number[]; path?: string[]; with?: CategoryWith; depth?: number }
 export type GetProductSearchParams = { ids?: number[]; with?: ProductWith; where?: ProductSearchQuery; sort?: ProductSortConfig; pagination?: Pagination; masterKey?: string; term?: string };
+export type AddToBasketParams = { basketKey: string; variantId: number }
+export type ClearCartParams = { basketKey: string }
 
 export {
   BapiCategory,
@@ -21,5 +24,6 @@ export {
   ProductWith,
   Pagination,
   ProductSortConfig,
-  ProductSearchQuery
+  ProductSearchQuery,
+  DeleteItemParameters
 };
