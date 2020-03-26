@@ -53,6 +53,7 @@ module.exports = {
           title: 'Contributing',
           collapsable: false,
           children: [
+            ['/contributing/workflow', 'Development workflow'],
             ['/contributing/themes', 'Working with themes'],
           ],
         },
