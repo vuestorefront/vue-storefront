@@ -15,8 +15,7 @@
   "dependencies": {
     "@storefront-ui/vue": "^0.6.2",
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "@vue-storefront/commercetools-composables": "^0.0.3",
-    "@vue-storefront/commercetools-helpers": "^0.0.3",
+    "@vue-storefront/commercetools": "^0.0.3",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "core-js": "^2.6.5",

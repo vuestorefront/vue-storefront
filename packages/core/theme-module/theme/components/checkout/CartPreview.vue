@@ -16,10 +16,10 @@
           <SfCollectedProduct
             v-for="(product, index) in products"
             :key="index"
-            :qty="getCartProductQty(product)"
-            :image="getCartProductImage(product)"
-            :title="getCartProductName(product)"
-            :regular-price="getCartProductPrice(product)"
+            :qty="cartGetters.getItemQty(product)"
+            :image="cartGetters.getItemImage(product)"
+            :title="cartGetters.getItemName(product)"
+            :regular-price="cartGetters.getItemPrice(product).regular"
             class="collected-product"
             @click:remove="removeFromCart(product)"
             @input="updateQuantity(product, $event)"
@@ -27,7 +27,7 @@
             <template #configuration>
               <div class="product__properties">
                 <SfProperty
-                  v-for="(value, key) in getCartProductAttributes(product, ['color', 'size'])"
+                  v-for="(value, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
                   :key="key"
                   :name="key"
                   :value="value"
@@ -37,9 +37,9 @@
             </template>
             <template #actions>
               <div>
-                <div class="product__action">{{ getCartProductSku(product) }}</div>
+                <div class="product__action">{{ cartGetters.getItemSku(product) }}</div>
                 <div class="product__action">
-                  Quantity: <span class="product__qty">{{ getCartProductQty(product) }}</span>
+                  Quantity: <span class="product__qty">{{ cartGetters.getItemQty(product) }}</span>
                 </div>
               </div>
             </template>
@@ -60,12 +60,12 @@
       />
       <SfProperty
         name="Shipping"
-        :value="getShippingMethodPrice(chosenShippingMethod)"
+        :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
         class="sf-property--full-width property"
       />
       <SfProperty
         name="Total"
-        :value="totals.total + getShippingMethodPrice(chosenShippingMethod)"
+        :value="totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
         class="sf-property--full-width property-total"
       />
     </div>
@@ -107,22 +107,7 @@ import {
   SfInput
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, useCheckout } from '<%= options.composables %>';
-
-import {
-  getShippingMethodName,
-  getShippingMethodDescription,
-  getShippingMethodPrice,
-  getCartProducts,
-  getCartTotals,
-  getCartTotalItems,
-  getCartProductName,
-  getCartProductImage,
-  getCartProductPrice,
-  getCartProductQty,
-  getCartProductAttributes,
-  getCartProductSku
-} from '<%= options.helpers %>';
+import { useCart, useCheckout, checkoutGetters, cartGetters } from '<%= options.composables %>';
 
 export default {
   name: 'CartPreview',
@@ -140,9 +125,9 @@ export default {
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
-    const products = computed(() => getCartProducts(cart.value));
-    const totalItems = computed(() => getCartTotalItems(cart.value));
-    const totals = computed(() => getCartTotals(cart.value));
+    const products = computed(() => cartGetters.getItems(cart.value));
+    const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+    const totals = computed(() => cartGetters.getTotals(cart.value));
 
     return {
       totalItems,
@@ -154,15 +139,8 @@ export default {
       showPromoCode,
       removeFromCart,
       updateQuantity,
-      getShippingMethodName,
-      getShippingMethodDescription,
-      getShippingMethodPrice,
-      getCartProductName,
-      getCartProductImage,
-      getCartProductPrice,
-      getCartProductQty,
-      getCartProductAttributes,
-      getCartProductSku,
+      checkoutGetters,
+      cartGetters,
       characteristics: [
         {
           title: 'Safety',

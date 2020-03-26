@@ -18,7 +18,7 @@
         <SfButton class="sf-button--text" @click="$emit('click:edit', 1)">Edit</SfButton>
       </div>
       <p class="content">
-        <span class="content__label">{{ getShippingMethodName(chosenShippingMethod) }}</span><br />
+        <span class="content__label">{{ checkoutGetters.getShippingMethodName(chosenShippingMethod) }}</span><br />
         {{ shippingDetails.streetName }} {{ shippingDetails.apartment }}, {{ shippingDetails.zipCode }}<br />
         {{ shippingDetails.city }}, {{ shippingDetails.country }}
       </p>
@@ -50,12 +50,7 @@
 </template>
 <script>
 import { SfHeading, SfButton } from '@storefront-ui/vue';
-import { useCheckout } from '<%= options.composables %>';
-import {
-  getShippingMethodName,
-  getShippingMethodDescription,
-  getShippingMethodPrice
-} from '<%= options.helpers %>';
+import { useCheckout, checkoutGetters } from '<%= options.composables %>';
 
 export default {
   name: 'OrderReview',
@@ -72,9 +67,7 @@ export default {
       shippingDetails,
       chosenShippingMethod,
       chosenPaymentMethod,
-      getShippingMethodName,
-      getShippingMethodDescription,
-      getShippingMethodPrice
+      checkoutGetters
     };
   }
 };

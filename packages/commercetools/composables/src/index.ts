@@ -7,6 +7,14 @@ import useCheckout from './useCheckout';
 import useUser from './useUser';
 import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
+import {
+  cartGetters,
+  categoryGetters,
+  checkoutGetters,
+  productGetters,
+  userGetters,
+  orderGetters
+} from './getters';
 
 export {
   useCategory,
@@ -15,6 +23,12 @@ export {
   useCheckout,
   useUser,
   useLocale,
-  useUserOrders
+  useUserOrders,
+  cartGetters,
+  categoryGetters,
+  checkoutGetters,
+  productGetters,
+  userGetters,
+  orderGetters
 };
 

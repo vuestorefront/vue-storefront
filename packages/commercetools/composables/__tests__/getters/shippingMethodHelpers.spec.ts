@@ -3,9 +3,9 @@ import {
   getShippingMethodName,
   getShippingMethodDescription,
   getShippingMethodPrice
-} from './../src/index';
+} from './../../src/getters/checkoutGetters';
 
-describe('[commercetools-helpers] shipping method', () => {
+describe('[commercetools-getters] shipping method', () => {
   it('returns shipping method id', () => {
     expect(getShippingMethodId(null)).toEqual('');
     expect(getShippingMethodId({ id: '123' } as any)).toEqual('123');

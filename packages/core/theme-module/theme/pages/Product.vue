@@ -24,7 +24,7 @@
           ]"
         />
         <SfImage
-          v-for="(image, i) in getProductGallery(product).splice(0, 2)" :key="i"
+          v-for="(image, i) in productGetters.getGallery(product).splice(0, 2)" :key="i"
           :src="image.big"
           :width="590"
           :height="700"
@@ -34,13 +34,13 @@
       <div class="product__description">
         <SfSticky class="product-details">
           <SfHeading
-            :title="getProductName(product)"
+            :title="productGetters.getName(product)"
             :level="1"
             class="sf-heading--no-underline sf-heading--left product-details__heading"
           />
           <div class="product-details__sub">
             <SfPrice
-              :regular="'$' + getProductPrice(product)"
+              :regular="'$' + productGetters.getPrice(product).regular"
               class="product-details__sub-price"
             />
             <div class="product-details__sub-rating">
@@ -226,15 +226,7 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-import { useProduct, useCart } from '<%= options.composables %>';
-import {
-  getProductVariants,
-  getProductName,
-  getProductGallery,
-  getProductPrice,
-  getProductAttributes,
-  getProductCategories
-} from '<%= options.helpers %>';
+import { useProduct, useCart, productGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/utils';
 
 export default {
@@ -247,10 +239,10 @@ export default {
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
 
-    const product = computed(() => getProductVariants(products.value, { master: true, attributes: context.root.$route.query })[0]);
-    const options = computed(() => getProductAttributes(products.value, ['color', 'size']));
-    const configuration = computed(() => getProductAttributes(product.value, ['color', 'size']));
-    const categories = computed(() => getProductCategories(product.value));
+    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
+    const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
+    const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
+    const categories = computed(() => productGetters.getCategoryIds(product.value));
 
     onSSR(async () => {
       await search({ slug });
@@ -272,12 +264,10 @@ export default {
       relatedProducts,
       relatedLoading,
       options,
-      getProductName,
-      getProductPrice,
-      getProductGallery,
       qty,
       addToCart,
-      loading
+      loading,
+      productGetters
     };
   },
   components: {

@@ -71,12 +71,6 @@ jobs:
       after_script:
         - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
-    - stage: test commercetools
-      script: yarn test:ct:helpers --coverage
-      name: Test helpers
-      after_script:
-        - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
-
     - stage: test about you
       script: yarn test:ay:api-client --coverage
       name: Test api-client

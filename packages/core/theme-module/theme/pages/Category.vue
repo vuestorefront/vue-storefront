@@ -154,16 +154,16 @@
         >
           <SfProductCard
             v-for="(product, i) in products"
-            :key="getProductSlug(product)"
+            :key="productGetters.getSlug(product)"
             :style="{ '--index': i }"
-            :title="getProductName(product)"
-            :image="getProductGallery(product)[0].big"
-            :regular-price="'$' + getProductPrice(product)"
+            :title="productGetters.getName(product)"
+            :image="productGetters.getCoverImage(product)"
+            :regular-price="'$' + productGetters.getPrice(product).regular"
             :max-rating="5"
             :score-rating="3"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${getProductSlug(product)}`"
+            :link="`/p/${productGetters.getSlug(product)}`"
             class="products__product-card"
           />
         </transition-group>
@@ -176,18 +176,18 @@
         >
           <SfProductCardHorizontal
             v-for="(product, i) in products"
-            :key="getProductSlug(product)"
+            :key="productGetters.getSlug(product)"
             :style="{ '--index': i }"
-            :title="getProductName(product)"
-            :description="getProductDescription(product)"
-            :image="getProductGallery(product)[0].big"
-            :regular-price="'$' + getProductPrice(product)"
+            :title="productGetters.getName(product)"
+            :description="productGetters.getDescription(product)"
+            :image="productGetters.getCoverImage(product)"
+            :regular-price="'$' + productGetters.getPrice(product).regular"
             :max-rating="5"
             :score-rating="3"
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${getProductSlug(product)}`"
+            :link="`/p/${productGetters.getSlug(product)}`"
           />
         </transition-group>
         <SfPagination
@@ -309,16 +309,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@vue/composition-api';
-import { useCategory, useProduct } from '<%= options.composables %>';
-import {
-  getProductName,
-  getProductGallery,
-  getProductPrice,
-  getProductSlug,
-  getCategoryTree,
-  getProductVariants,
-  getProductDescription
-} from '<%= options.helpers %>';
+import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/utils';
 
 // TODO: move to composable when core is ready: https://github.com/DivanteLtd/next/issues/296
@@ -420,8 +411,8 @@ export default {
       }
     });
 
-    const products = computed(() => getProductVariants(categoryProducts.value, { master: true}));
-    const categoryTree = computed(() => getCategoryTree(categories.value[0]));
+    const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true}));
+    const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
 
     const getCategoryUrl = (slug) => `/c/${params.slug_1}/${slug}`;
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
@@ -438,14 +429,10 @@ export default {
       products,
       productsLoading,
       categoryTree,
-      getProductName,
-      getProductGallery,
-      getProductPrice,
-      getProductSlug,
-      getProductDescription,
       getCategoryUrl,
       isCategorySelected,
       loading,
+      productGetters,
       totalProducts,
       totalPages: computed(() => Math.ceil(totalProducts.value / itemsPerPage.value)),
       currentPage,

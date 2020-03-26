@@ -84,19 +84,19 @@
       <div class="form__radio-group">
         <SfRadio
           v-for="item in shippingMethods"
-          :key="getShippingMethodName(item)"
-          :label="getShippingMethodName(item)"
-          :value="getShippingMethodId(item)"
-          :selected="getShippingMethodId(chosenShippingMethod)"
+          :key="checkoutGetters.getShippingMethodName(item)"
+          :label="checkoutGetters.getShippingMethodName(item)"
+          :value="checkoutGetters.getShippingMethodId(item)"
+          :selected="checkoutGetters.getShippingMethodId(chosenShippingMethod)"
           @input="() => chosenShippingMethod = item"
           name="shippingMethod"
-          :description="getShippingMethodDescription(item)"
+          :description="checkoutGetters.getShippingMethodDescription(item)"
           class="form__radio shipping"
         >
           <template #label="{label}">
             <div class="sf-radio__label shipping__label">
               <div>{{ label }}</div>
-              <div>${{ getShippingMethodPrice(item) }}</div>
+              <div>${{ checkoutGetters.getShippingMethodPrice(item) }}</div>
             </div>
           </template>
           <template #description="{description}">
@@ -131,14 +131,7 @@ import {
   SfSelect,
   SfRadio
 } from '@storefront-ui/vue';
-
-import {
-  getShippingMethodName,
-  getShippingMethodDescription,
-  getShippingMethodPrice,
-  getShippingMethodId
-} from '@vue-storefront/commercetools-helpers';
-import { useCheckout } from '@vue-storefront/commercetools-composables';
+import { useCheckout, checkoutGetters } from '<%= options.composables %>';
 
 const COUNTRIES = [
   { key: 'US',
@@ -172,10 +165,7 @@ export default {
       shippingDetails,
       chosenShippingMethod,
       shippingMethods,
-      getShippingMethodName,
-      getShippingMethodDescription,
-      getShippingMethodPrice,
-      getShippingMethodId,
+      checkoutGetters,
       COUNTRIES
     };
   }

@@ -32,8 +32,7 @@ export default {
     }],
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/boilerplate-api',
-      composables: '@vue-storefront/boilerplate-composables',
-      helpers: '@vue-storefront/boilerplate-helpers'
+      composables: '@vue-storefront/boilerplate-composables'
     }]
   ],
   plugins: [],

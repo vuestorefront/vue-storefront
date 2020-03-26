@@ -133,7 +133,7 @@ import {
   SfCheckbox
 } from '@storefront-ui/vue';
 import { ref, watch } from '@vue/composition-api';
-import { useCheckout } from '@vue-storefront/commercetools-composables';
+import { useCheckout } from '<%= options.composables %>';
 
 const COUNTRIES = [
   { key: 'US',

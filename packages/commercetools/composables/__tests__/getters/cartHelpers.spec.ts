@@ -1,15 +1,15 @@
 import {
-  getCartProducts,
   getCartTotals,
   getCartShippingPrice,
-  getCartTotalItems,
-  getCartProductName,
-  getCartProductPrice,
-  getCartProductImage,
-  getCartProductSku,
-  getCartProductAttributes,
-  getProductAttributes
-} from './../src/index';
+  getCartItems,
+  getCartItemName,
+  getCartItemImage,
+  getCartItemPrice,
+  getCartItemAttributes,
+  getCartItemSku,
+  getCartTotalItems
+} from './../../src/getters/cartGetters';
+import { getProductAttributes } from './../../src/getters/productGetters';
 
 const price = (p) => ({ value: { centAmount: p } });
 const variant = (p = {}) => ({
@@ -42,13 +42,13 @@ const cart = {
   }
 } as any;
 
-describe('[commercetools-helpers] cart helpers', () => {
+describe('[commercetools-getters] cart helpers', () => {
   it('returns default values', () => {
-    expect(getCartProducts(null)).toEqual([]);
+    expect(getCartItems(null)).toEqual([]);
   });
 
   it('returns products', () => {
-    expect(getCartProducts(cart)).toEqual(cart.lineItems);
+    expect(getCartItems(cart)).toEqual(cart.lineItems);
   });
 
   it('returns cart total price', () => {
@@ -83,17 +83,17 @@ describe('[commercetools-helpers] cart helpers', () => {
   });
 
   it('returns cart product name', () => {
-    expect(getCartProductName({ name: 'test' } as any)).toEqual('test');
+    expect(getCartItemName({ name: 'test' } as any)).toEqual('test');
   });
 
   it('returns cart product image', () => {
     expect(
-      getCartProductImage({ variant: { images: [{ url: 'image.jpg' }]}} as any)
+      getCartItemImage({ variant: { images: [{ url: 'image.jpg' }]}} as any)
     ).toEqual('image.jpg');
   });
 
   it('returns cart product price', () => {
-    expect(getCartProductPrice({ price: { value: { centAmount: 111 }}} as any)).toEqual(1.11);
+    expect(getCartItemPrice({ price: { value: { centAmount: 111 }}} as any)).toEqual({ regular: 1.11, special: 1.11 });
   });
 
   it('returns cart product attributes', () => {
@@ -108,11 +108,11 @@ describe('[commercetools-helpers] cart helpers', () => {
       }));
 
     expect(
-      getCartProductAttributes({ variant: 'test variant' } as any, ['filter'])
+      getCartItemAttributes({ variant: 'test variant' } as any, ['filter'])
     ).toEqual(args);
   });
 
   it('returns cart product sku', () => {
-    expect(getCartProductSku({ variant: { sku: 'XXX1' }} as any)).toEqual('XXX1');
+    expect(getCartItemSku({ variant: { sku: 'XXX1' }} as any)).toEqual('XXX1');
   });
 });

@@ -1,10 +1,10 @@
 import {
   getOrderDate,
-  getOrderNumber,
+  getOrderId,
   getOrderStatus,
-  getOrderTotal
-} from '../src';
-import { OrderState, Order } from '../src/types/GraphQL';
+  getOrderPrice
+} from './../../src/getters/orderGetters';
+import { OrderState, Order } from './../../src/types/GraphQL';
 
 const order: Order = {
   createdAt: 123456789,
@@ -16,12 +16,12 @@ const order: Order = {
   }
 } as any;
 
-describe('[commercetools-helpers] order helpers', () => {
+describe('[commercetools-getters] order getters', () => {
   it('returns default values', () => {
     expect(getOrderDate(null)).toBe('');
-    expect(getOrderNumber(null)).toBe('');
+    expect(getOrderId(null)).toBe('');
     expect(getOrderStatus(null)).toBe('');
-    expect(getOrderTotal(null)).toBe(null);
+    expect(getOrderPrice(null)).toBe(null);
   });
 
   it('returns date', () => {
@@ -29,7 +29,7 @@ describe('[commercetools-helpers] order helpers', () => {
   });
 
   it('returns order number', () => {
-    expect(getOrderNumber(order)).toEqual('645ygdf');
+    expect(getOrderId(order)).toEqual('645ygdf');
   });
 
   it('returns status', () => {
@@ -37,6 +37,6 @@ describe('[commercetools-helpers] order helpers', () => {
   });
 
   it('returns total gross', () => {
-    expect(getOrderTotal(order)).toEqual(123.45);
+    expect(getOrderPrice(order)).toEqual(123.45);
   });
 });

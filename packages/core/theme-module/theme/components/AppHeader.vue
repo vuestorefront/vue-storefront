@@ -33,8 +33,7 @@
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
-import { useCart, useUser } from '<%= options.composables %>';
-import { getCartTotalItems } from '<%= options.helpers %>';
+import { useCart, useUser, cartGetters } from '<%= options.composables %>';
 import { computed } from '@vue/composition-api';
 const { toggleCartSidebar, toggleLoginModal } = uiState;
 
@@ -50,7 +49,7 @@ export default {
     };
     const { cart } = useCart();
     const cartTotalItems = computed(() => {
-      const count = getCartTotalItems(cart.value);
+      const count = cartGetters.getTotalItems(cart.value);
       // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/922
       return count ? count.toString() : null;
     });

@@ -15,9 +15,6 @@ coverage:
       commercetools-composables:
         flags: commercetools-composables
         target: 90%
-      commercetools-helpers:
-        flags: commercetools-helpers
-        target: 90%
 flags:
   commercetools-api-client:
     paths:
@@ -25,6 +22,3 @@ flags:
   commercetools-composables:
     paths:
       - packages/commercetools/composables
-  commercetools-helpers:
-    paths:
-      - packages/commercetools/helpers

@@ -1,4 +1,4 @@
-import { getVariantByAttributes } from '../src/_utils';
+import { getVariantByAttributes } from './../../src/getters/_utils';
 
 const product = {
   _name: 'variant 1',
@@ -16,7 +16,7 @@ const product = {
   images: [{ url: 'imageV11/url.jpg' }, { url: 'imageV12/url.jpg' }]
 } as any;
 
-describe('[commercetools-helpers] getVariantByAttribute', () => {
+describe('[commercetools-getters] getVariantByAttribute', () => {
   it('returns configured product', () => {
     const variants = [
       {

@@ -22,7 +22,7 @@
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              <span class="content__label">{{ getShippingMethodName(chosenShippingMethod) }}</span><br />
+              <span class="content__label">{{ checkoutGetters.getShippingMethodName(chosenShippingMethod) }}</span><br />
               {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
@@ -79,22 +79,22 @@
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage :src="getCartProductImage(product)" />
+          <SfImage :src="cartGetters.getItemImage(product)" />
         </SfTableData>
         <SfTableData class="table__data table__data--left">
-          <div class="product-title">{{ getCartProductName(product) }}</div>
-          <div class="product-sku">{{ getCartProductSku(product) }}</div>
+          <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
+          <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-for="(value, key) in getCartProductAttributes(product, ['size', 'color'])"
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData class="table__data">{{ getCartProductQty(product) }}</SfTableData>
+        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
         <SfTableData class="table__data">
           <SfPrice
-            :regular="getCartProductPrice(product)"
+            :regular="cartGetters.getItemPrice(product).regular"
             class="product-price"
           />
         </SfTableData>
@@ -128,7 +128,7 @@
           </SfProperty>
           <SfProperty
             name="Shipping"
-            :value="getShippingMethodPrice(chosenShippingMethod)"
+            :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
             class="sf-property--full-width property"
           >
             <template #name>
@@ -178,20 +178,8 @@ import {
   SfProperty,
   SfAccordion
 } from '@storefront-ui/vue';
-import {
-  getShippingMethodName,
-  getShippingMethodPrice,
-  getCartProducts,
-  getCartTotals,
-  getCartProductName,
-  getCartProductImage,
-  getCartProductPrice,
-  getCartProductQty,
-  getCartProductAttributes,
-  getCartProductSku
-} from '@vue-storefront/commercetools-helpers';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, useCart } from '@vue-storefront/commercetools-composables';
+import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.composables %>';
 
 export default {
   name: 'ReviewOrder',
@@ -211,8 +199,8 @@ export default {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
-    const products = computed(() => getCartProducts(cart.value));
-    const totals = computed(() => getCartTotals(cart.value));
+    const products = computed(() => cartGetters.getItems(cart.value));
+    const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
       personalDetails,
       shippingDetails,
@@ -234,20 +222,14 @@ export default {
       billingDetails,
       chosenShippingMethod,
       chosenPaymentMethod,
-      getShippingMethodName,
-      getShippingMethodPrice,
       billingSameAsShipping,
       terms,
       totals,
       removeFromCart,
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
-      getCartProductName,
-      getCartProductImage,
-      getCartProductPrice,
-      getCartProductQty,
-      getCartProductAttributes,
-      getCartProductSku
+      cartGetters,
+      checkoutGetters
     };
   }
 };

@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/commercetools-composables",
+  "name": "@vue-storefront/commercetools",
   "version": "0.0.3",
   "sideEffects": false,
   "main": "lib/index.cjs.js",

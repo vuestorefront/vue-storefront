@@ -3,11 +3,11 @@ import {
   getProductSlug,
   getProductPrice,
   getProductGallery,
-  getProductVariants,
+  getProductFiltered,
   getProductAttributes,
-  getProductCategories,
+  getProductCategoryIds,
   getProductId
-} from './../src/index';
+} from './../../src/getters/productGetters';
 
 const product = {
   _name: 'variant 1',
@@ -30,13 +30,13 @@ const product = {
   ]
 } as any;
 
-describe('[commercetools-helpers] product helpers', () => {
+describe('[commercetools-getters] product getters', () => {
   it('returns default values', () => {
     expect(getProductName(null)).toBe('');
     expect(getProductSlug(null)).toBe('');
-    expect(getProductPrice(null)).toBe(null);
+    expect(getProductPrice(null)).toEqual({ regular: null, special: null });
     expect(getProductGallery(null)).toEqual([]);
-    expect(getProductVariants(null)).toEqual([]);
+    expect(getProductFiltered(null)).toEqual([]);
   });
 
   it('returns name', () => {
@@ -48,7 +48,7 @@ describe('[commercetools-helpers] product helpers', () => {
   });
 
   it('returns price', () => {
-    expect(getProductPrice(product)).toBe(12);
+    expect(getProductPrice(product)).toEqual({ regular: 12, special: 12 });
   });
 
   it('returns gallery', () => {
@@ -73,7 +73,7 @@ describe('[commercetools-helpers] product helpers', () => {
       { _name: 'variant 2',
         _master: true }
     ];
-    expect(getProductVariants(variants as any, { master: true })).toEqual([{
+    expect(getProductFiltered(variants as any, { master: true })).toEqual([{
       _name: 'variant 2',
       _master: true
     }]);
@@ -90,7 +90,7 @@ describe('[commercetools-helpers] product helpers', () => {
       { _name: 'variant 2_2',
         _master: false }
     ];
-    expect(getProductVariants(variants as any, { master: true })).toEqual([
+    expect(getProductFiltered(variants as any, { master: true })).toEqual([
       { _name: 'variant 1_2',
         _master: true },
       { _name: 'variant 2_1',
@@ -105,7 +105,7 @@ describe('[commercetools-helpers] product helpers', () => {
       { _name: 'variant 2',
         _master: true }
     ];
-    expect(getProductVariants(variants as any)).toEqual(variants);
+    expect(getProductFiltered(variants as any)).toEqual(variants);
   });
 
   it('returns product by given attributes', () => {
@@ -144,7 +144,7 @@ describe('[commercetools-helpers] product helpers', () => {
 
     const attributes = { color: 'black',
       size: '38' };
-    expect(getProductVariants(variants, { attributes })).toEqual([variant2]);
+    expect(getProductFiltered(variants, { attributes })).toEqual([variant2]);
   });
 
   // Attributes
@@ -206,7 +206,7 @@ describe('[commercetools-helpers] product helpers', () => {
   });
 
   it('returns product categories', () => {
-    expect(getProductCategories(product)).toEqual([
+    expect(getProductCategoryIds(product)).toEqual([
       'catA',
       'catB'
     ]);

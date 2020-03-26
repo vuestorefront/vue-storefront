@@ -4,10 +4,10 @@
       <SfCarousel class="product-carousel">
         <SfCarouselItem v-for="(product, i) in products" :key="i">
           <SfProductCard
-            :title="getProductName(product)"
-            :image="getProductGallery(product)[0].normal"
-            :regular-price="getProductPrice(product)"
-            :link="`/p/${getProductSlug(product)}`"
+            :title="productGetters.getName(product)"
+            :image="productGetters.getCoverImage(product)"
+            :regular-price="productGetters.getPrice(product).regular"
+            :link="`/p/${productGetters.getSlug(product)}`"
             class="product-card"
           />
         </SfCarouselItem>
@@ -25,22 +25,12 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 
-import {
-  getProductSlug,
-  getProductName,
-  getProductGallery,
-  getProductPrice
-} from '<%= options.helpers %>';
+import { productGetters } from '<%= options.composables %>';
 
 export default {
   name: 'RelatedProducts',
   setup() {
-    return {
-      getProductSlug,
-      getProductName,
-      getProductGallery,
-      getProductPrice
-    };
+    return { productGetters };
   },
   components: {
     SfCarousel,

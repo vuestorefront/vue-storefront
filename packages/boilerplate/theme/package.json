@@ -16,7 +16,6 @@
     "@storefront-ui/vue": "^0.5.1",
     "@vue-storefront/boilerplate-api": "^0.0.1",
     "@vue-storefront/boilerplate-composables": "^0.0.1",
-    "@vue-storefront/boilerplate-helpers": "^0.0.1",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "core-js": "^2.6.5",

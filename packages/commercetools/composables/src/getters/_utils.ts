@@ -1,5 +1,5 @@
-import { AgnosticProductAttribute } from '@vue-storefront/interfaces';
-import { ProductVariant } from './types/GraphQL';
+import { AgnosticAttribute } from '@vue-storefront/interfaces';
+import { ProductVariant } from './../types/GraphQL';
 
 const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
@@ -31,7 +31,7 @@ const getAttributeValue = (attribute) => {
   }
 };
 
-export const formatAttributeList = (attributes: Array<any>): Array<AgnosticProductAttribute> =>
+export const formatAttributeList = (attributes: Array<any>): AgnosticAttribute[] =>
   attributes.map((attr) => {
     const attrValue = getAttributeValue(attr);
     return {

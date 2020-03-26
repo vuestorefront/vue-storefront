@@ -21,12 +21,12 @@
             <SfButton class="desktop-only orders__download-all">Download all</SfButton>
           </SfTableHeader>
         </SfTableHeading>
-        <SfTableRow v-for="order in orders" :key="getOrderNumber(order)">
-          <SfTableData>{{ getOrderNumber(order) }}</SfTableData>
-          <SfTableData>{{ getOrderDate(order) }}</SfTableData>
-          <SfTableData>{{ getOrderTotal(order) }}</SfTableData>
+        <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
+          <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
+          <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
+          <SfTableData>{{ orderGetters.getPrice(order).regular }}</SfTableData>
           <SfTableData>
-            <span :class="getStatusTextClass(order)">{{ getOrderStatus(order) }}</span>
+            <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
           </SfTableData>
           <SfTableData class="orders__view">
             <SfButton class="sf-button--text color-secondary mobile-only">Download</SfButton>
@@ -52,13 +52,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 
-import { useUserOrders } from '<%= options.composables %>';
-import {
-  getOrderDate,
-  getOrderNumber,
-  getOrderTotal,
-  getOrderStatus
-} from '<%= options.helpers %>';
+import { useUserOrders, orderGetters } from '<%= options.composables %>';
 import { AgnosticOrderStatus } from '@vue-storefront/interfaces';
 
 export default {
@@ -81,7 +75,7 @@ export default {
     ];
 
     const getStatusTextClass = (order) => {
-      const status = getOrderStatus(order);
+      const status = orderGetters.getStatus(order);
       switch (status) {
         case AgnosticOrderStatus.Open:
           return 'text-warning';
@@ -95,11 +89,8 @@ export default {
     return {
       tableHeaders,
       orders: computed(() => orders ? orders.value : []),
-      getOrderNumber,
-      getOrderDate,
-      getOrderTotal,
-      getOrderStatus,
-      getStatusTextClass
+      getStatusTextClass,
+      orderGetters
     };
   }
 };

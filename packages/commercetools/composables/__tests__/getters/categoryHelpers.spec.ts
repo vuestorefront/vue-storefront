@@ -1,4 +1,4 @@
-import { getCategoryProducts, getCategoryTree } from './../src/index';
+import { getCategoryTree } from './../../src/getters/categoryGetters';
 
 const category = {
   id: '6e6d2ca4-2431-42f9-ba5d-747bdb499786',
@@ -294,24 +294,7 @@ const category = {
   ]
 } as any;
 
-describe('[commercetools-helpers] category helpers', () => {
-  it('returns empty array when there are no _products', () => {
-    expect(getCategoryProducts(null)).toEqual([]);
-  });
-
-  it('returns all products', () => {
-    expect(getCategoryProducts(category)).toEqual(category._products);
-  });
-
-  it('returns master products', () => {
-    expect(getCategoryProducts(category, { master: true })).toEqual([
-      { _name: 'prod1',
-        _master: true },
-      { _name: 'prod5',
-        _master: true }
-    ]);
-  });
-
+describe('[commercetools-getters] category helpers', () => {
   it('returns null when there is no category', () => {
     expect(getCategoryTree(null)).toBe(null);
   });
