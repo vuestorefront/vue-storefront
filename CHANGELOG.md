@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 
+- The default config file is now in more human-readable format - @juho-jaakkola (#4197)
 
 ### Fixed
 - Update eslint and fix code style. - @gibkigonzo (#4179 #4181)
