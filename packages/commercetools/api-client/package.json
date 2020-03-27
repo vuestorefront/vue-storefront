@@ -6,7 +6,7 @@
   "module": "lib/index.es.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "cross-env APP_ENV=test jest --rootDir ."
   },
