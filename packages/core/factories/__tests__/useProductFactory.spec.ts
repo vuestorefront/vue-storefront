@@ -10,7 +10,7 @@ const useProduct: (cacheId: string) => UseProduct<any> = useProductFactory<
   any
 >({
   productsSearch: searchParams => {
-    return Promise.resolve({ data: [{ name: 'product' + searchParams }], total: 1 });
+    return Promise.resolve({ data: [{ name: 'product ' + searchParams.slug }], total: 1 });
   }
 });
 
@@ -29,16 +29,21 @@ describe('[CORE - factories] useProductFactory', () => {
   });
 
   it('returns product response', async () => {
+    const saveToInitialState = jest.fn();
     mockedUtils.useSSR.mockReturnValueOnce({
       initialState: null,
-      saveToInitialState: jest.fn()
+      saveToInitialState
     });
 
     const { search, products, totalProducts } = useProduct('test-use-product');
 
     await search({ slug: 'product-slug' });
 
-    expect(products.value).toEqual([{name: 'product' + { slug: 'product-slug' }}]);
+    expect(products.value).toEqual([{name: 'product product-slug' }]);
     expect(totalProducts.value).toEqual(1);
+    expect(saveToInitialState).toBeCalledWith({
+      data: [{name: 'product product-slug' }],
+      total: 1
+    });
   });
 });
