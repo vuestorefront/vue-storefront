@@ -7,6 +7,10 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { claimCollection } from 'theme/store/claims'
 
 export const isEnabled = async (config: any): Promise<boolean> => {
+  if (isServer) {
+    return false
+  }
+
   const { id, forceCookieAccept } = config
   const cookie = await claimCollection(false).getItem('cookiesAccepted')
   const accepted = (!forceCookieAccept || (cookie && cookie.value === true))

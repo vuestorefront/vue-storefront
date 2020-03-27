@@ -16,7 +16,7 @@ export default {
       return this.ordersHistory.length > 0 ? this.ordersHistory[0] : false
     },
     orderId () {
-      return this.order.id
+      return this.order.increment_id || this.order.id
     },
     orderStoreName () {
       return this.order.store_name
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     checkoutSuccessGtm () {
-      if (!this.enabled || !this.order || this.gtmLastOrderId === this.order.id) {
+      if (!this.enabled || !this.order || this.gtmLastOrderId === this.orderId) {
         return
       }
 

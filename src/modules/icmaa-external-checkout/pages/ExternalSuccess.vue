@@ -21,7 +21,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import Composite from '@vue-storefront/core/mixins/composite'
 
 import GoogleCustomerReview from 'icmaa-google-tag-manager/components/GoogleCustomerReview'
 import CheckoutSuccessGtmMixin from 'icmaa-google-tag-manager/mixins/checkoutSuccessGtm'
@@ -31,7 +30,7 @@ export default {
   components: {
     GoogleCustomerReview
   },
-  mixins: [ Composite, CheckoutSuccessGtmMixin ],
+  mixins: [ CheckoutSuccessGtmMixin ],
   computed: {
     ...mapGetters({
       cartItems: 'cart/getCartItems',
@@ -46,18 +45,30 @@ export default {
     }
   },
   async beforeMount () {
-    if (this.isLoggedIn) {
-      await this.$store.dispatch('user/refreshOrdersHistory', { resolvedFromCache: false })
-      this.$bus.$emit('checkout-success-last-order-loaded', this.lastOrder)
-    }
-
+    await this.onLogin()
     this.clearCart()
+  },
+  watch: {
+    /**
+     * We need to call the `onLogin` method using a watcher because it's possible that the user isn't already
+     * logged in when the beforeMount event hook is called. Otherwise the `checkout-success-last-order-loaded`
+     * event won't ever be fired on first request because `isLoggedIn` is false.
+     */
+    isLoggedIn (isLoggedIn) {
+      this.onLogin(isLoggedIn)
+    }
   },
   methods: {
     clearCart () {
       if (this.cartIsNotEmpty) {
         this.$store.dispatch('cart/clear', {})
         this.$store.dispatch('cart/serverCreate', { guestCart: false })
+      }
+    },
+    async onLogin (value) {
+      if (value || this.isLoggedIn) {
+        await this.$store.dispatch('user/refreshOrdersHistory', { resolvedFromCache: false })
+        this.$bus.$emit('checkout-success-last-order-loaded', this.lastOrder)
       }
     }
   }
