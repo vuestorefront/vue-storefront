@@ -1,7 +1,7 @@
 <template>
   <div class="row p25 between-xs">
     <div class="blend">
-      <product-image :image="image" />
+      <product-image :image="image" :alt="product.name | htmlDecode" />
     </div>
     <div class="col-xs">
       <div class="row">

@@ -37,7 +37,7 @@
               <template v-for="(name, path) in carrierLogos">
                 <div :key="path" class="t-flex t-flex-initial t-w-1/3 t-justify-center t-px-2 t-pb-4">
                   <div class="t-flex t-flex-initial t-h-12 t-w-full t-py-2 t-px-1 t-items-center t-justify-center t-border t-border-base-lighter t-rounded-sm">
-                    <router-link :to="localizedRoute(`/service-payment`)">
+                    <router-link :to="localizedRoute(`/service-payment`)" :title="$t('Service')">
                       <div :class="path" class="t-flex t-max-w-full" />
                     </router-link>
                   </div>
