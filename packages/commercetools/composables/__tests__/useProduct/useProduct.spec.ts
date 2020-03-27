@@ -34,6 +34,10 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 
 jest.mock('./../../src/helpers/internals/enhanceProduct', () => jest.fn((args) => args));
 
+jest.mock('@vue-storefront/factories', () => ({
+  useProductFactory: (params) => () => params
+}));
+
 describe('[commercetools-composables] useProduct', () => {
   it('loads product variants', async () => {
     const { productsSearch } = useProduct('test-product') as any;

@@ -13,6 +13,10 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } }))
 }));
 
+jest.mock('@vue-storefront/factories', () => ({
+  useCartFactory: (params) => () => params,
+}));
+
 describe('[commercetools-composables] useCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();

@@ -1,4 +1,4 @@
-import { useUserOrders } from '../../src';
+import useUserOrders from '../../src/useUserOrders';
 import { getMyOrders } from '@vue-storefront/commercetools-api';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
@@ -9,6 +9,10 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
       }
     }
   }))
+}));
+
+jest.mock('@vue-storefront/factories', () => ({
+  useUserOrdersFactory: (params) => () => params
 }));
 
 describe('[commercetools-composables] useUserOrders', () => {
