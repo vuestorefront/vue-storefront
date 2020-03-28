@@ -1,7 +1,8 @@
+import { SearchResult } from '@vue-storefront/interfaces';
 import { getProduct } from '@vue-storefront/about-you-api';
 import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
 
-const mapProductSearch = async (params): Promise<BapiProduct[]> => {
+const mapProductSearch = async (params): Promise<SearchResult<BapiProduct>> => {
   const searchParams = {
     ids: params.ids,
     with: params.term,
@@ -12,7 +13,12 @@ const mapProductSearch = async (params): Promise<BapiProduct[]> => {
     term: params.term
   };
 
-  return await getProduct(searchParams);
+  const products = await getProduct(searchParams);
+
+  return {
+    data: products,
+    total: products.length
+  };
 };
 
 export default mapProductSearch;

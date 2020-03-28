@@ -4,7 +4,7 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/factories/src/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",

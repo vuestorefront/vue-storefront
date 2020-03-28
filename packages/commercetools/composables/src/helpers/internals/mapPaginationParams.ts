@@ -1,4 +1,4 @@
-import { BaseSearch } from '@vue-storefront/commercetools-api/lib/src/types/Api';
+import { BaseSearch } from '@vue-storefront/commercetools-api/lib//types/Api';
 
 export default ({ page, perPage }: {
   perPage?: number;

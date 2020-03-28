@@ -4,7 +4,7 @@ import { UseCheckout } from '@vue-storefront/interfaces';
 import { placeOrder as processOrder, getShippingMethods } from '@vue-storefront/commercetools-api';
 import { ref, Ref, watch, computed } from '@vue/composition-api';
 import { cart } from './../useCart';
-import { ShippingMethod, AddressInput, Customer } from '@vue-storefront/commercetools-api/lib/src/types/GraphQL';
+import { ShippingMethod, AddressInput, Customer } from '@vue-storefront/commercetools-api/lib//types/GraphQL';
 
 const PAYMENT_METHODS_MOCK = [
   {

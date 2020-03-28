@@ -1,7 +1,3 @@
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
-Vue.use(VueCompositionApi);
-
 import { params } from '../../src/useUser/factoryParams';
 import {
   getMe as apiGetMe,
@@ -54,7 +50,7 @@ describe('[commercetools-composables] factoryParams', () => {
   });
   it('updateUser return updated user', async () => {
     // wait until the apiClient receive userUpdate method
-    const update = {currentUser: 'Jon', updatedUserData: 'Bob'};
+    const update = {currentUser: 'Jon', updatedUserData: 'Bob'} as any;
     expect(await params.updateUser(update)).toEqual(update);
   });
   it('register method return a new customer', async () => {
@@ -87,7 +83,7 @@ describe('[commercetools-composables] factoryParams', () => {
       (apiCustomerChangeMyPassword as jest.Mock).mockReturnValueOnce(userEmail);
       (authenticate as jest.Mock).mockReturnValueOnce({value: {email: 'Test', password: '123'}});
 
-      expect(await params.changePassword({currentUser: userEmail, currentPassword: '', newPassword: '123'}))
+      expect(await params.changePassword({currentUser: userEmail, currentPassword: '', newPassword: '123'} as any))
         .toEqual({
           password: '123',
           email: 'Test'
@@ -106,7 +102,7 @@ describe('[commercetools-composables] factoryParams', () => {
         (authenticate as jest.Mock).mockImplementationOnce(() => {
           throw {graphQLErrors: [{message: 'There is an error'}]};
         });
-        await params.changePassword({currentUser: {version: {}}});
+        await params.changePassword({currentUser: {version: {}}} as any);
         expect(refreshCartMock).toHaveBeenCalled();
         expect(consoleErrorSpy).toBeCalledWith('There is an error');
       });
@@ -116,7 +112,7 @@ describe('[commercetools-composables] factoryParams', () => {
         (authenticate as jest.Mock).mockImplementationOnce(() => {
           throw 'There is an error';
         });
-        await params.changePassword({currentUser: {version: {}}});
+        await params.changePassword({currentUser: {version: {}}} as any);
         expect(consoleErrorSpy).toBeCalledWith('There is an error');
       });
     });

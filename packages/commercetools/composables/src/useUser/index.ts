@@ -1,7 +1,7 @@
 import { UseUser } from '@vue-storefront/interfaces';
 import {
   Customer
-} from '@vue-storefront/commercetools-api/lib/src/types/GraphQL';
+} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
 
 import { params } from './factoryParams';
 import { useUserFactory } from '@vue-storefront/factories';

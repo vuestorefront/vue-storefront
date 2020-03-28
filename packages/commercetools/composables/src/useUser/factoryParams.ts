@@ -1,5 +1,5 @@
 import {UseUserFactoryParams} from '@vue-storefront/factories';
-import {Customer} from '@vue-storefront/commercetools-api/lib/src/types/GraphQL';
+import {Customer} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
 import { authenticate } from './authenticate';
 import {
   customerSignMeUp as apiCustomerSignMeUp,
@@ -10,7 +10,7 @@ import {
 } from '@vue-storefront/commercetools-api';
 import useCart from '../useCart';
 
-export const params: UseUserFactoryParams<Customer, any> = {
+export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async () => {
     try {
       const profile = await apiGetMe({ customer: true });

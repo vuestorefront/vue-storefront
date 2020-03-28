@@ -9,7 +9,7 @@ import {
   cookies,
   setup
 } from '@vue-storefront/commercetools-api';
-import { LocaleItem } from '@vue-storefront/commercetools-api/lib/src/types/setup';
+import { LocaleItem } from '@vue-storefront/commercetools-api/lib//types/setup';
 import Cookies from 'js-cookie';
 import { UseLocale } from '@vue-storefront/interfaces';
 

@@ -22,7 +22,7 @@ describe('[about-you-composables] useProduct', () => {
       }
     };
 
-    const mockFn = jest.fn();
+    const mockFn = jest.fn(() => []);
     (getProduct as jest.Mock).mockImplementation(mockFn);
 
     await mapProductSearch(searchParams);
