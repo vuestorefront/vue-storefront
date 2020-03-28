@@ -61,7 +61,9 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, { attempt: 2, preLoad: 1.5 })
-    Vue.use(Meta)
+    Vue.use(Meta, {
+      ssrAppId: 1
+    })
     Vue.use(VueObserveVisibility)
 
     Object.keys(corePlugins).forEach(key => {
