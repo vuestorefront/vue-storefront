@@ -25,7 +25,7 @@ const IcmaaTaskQueue = {
             Logger.debug(`Fetched task: ${taskId}`, 'icmaa-task-queue', task.url)()
 
             if (resp.resultCode === 200) {
-              cache.setItem(taskId, resp)
+              cache.setItem(taskId, resp, null, true)
               return resp
             }
 
