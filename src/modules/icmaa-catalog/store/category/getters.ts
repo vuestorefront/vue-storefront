@@ -36,6 +36,10 @@ const getters: GetterTree<CategoryState, RootState> = {
     return intersection(pathIds, whitelist).length > 0
   },
   isCurrentCategoryInTicketWhitelist: (state, getters): boolean => {
+    if (!getters.getCurrentCategory) {
+      return false
+    }
+
     return getters.isCategoryInTicketWhitelist(getters.getCurrentCategory)
   },
   getIncludeExcludeFields: (state, getters) => (category: Category): { includeFields, excludeFields } => {

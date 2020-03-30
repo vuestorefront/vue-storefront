@@ -19,7 +19,7 @@
         <material-icon icon="repeat" size="sm" class="t-mr-1" /> {{ s.retweet_count }}
         <material-icon icon="favorite" size="sm" class="t-mr-1 t-ml-4" /> {{ s.favorite_count }}
         <span class="t-flex-1" />
-        <a :href="`https://twitter.com/${screenName}/status/${s.id_str}`" target="_blank" class="t-text-base-lighter">
+        <a :href="`https://twitter.com/${screenName}/status/${s.id_str}`" target="_blank" rel="noopener noreferrer" class="t-text-base-lighter">
           <material-icon icon="chevron_right" size="sm" />
           <span class="t-sr-only">{{ $t('Read more') }}</span>
         </a>

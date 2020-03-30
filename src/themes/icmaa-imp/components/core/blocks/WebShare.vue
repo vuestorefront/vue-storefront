@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a v-for="(shareUrl, key) in shareUrls" :key="key" :href="shareUrl" target="_blank" class="t-text-base-light" :class="{ 't-mr-4': key !== lastKey }">
+    <a v-for="(shareUrl, key) in shareUrls" :key="key" :href="shareUrl" target="_blank" rel="noopener noreferrer" title="key | capitalize" class="t-text-base-light" :class="{ 't-mr-4': key !== lastKey }">
       <material-icon icon-set="icmaa" :icon="key" size="sm" />
     </a>
   </div>

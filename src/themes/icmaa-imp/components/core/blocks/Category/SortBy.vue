@@ -1,6 +1,6 @@
 <template>
   <div class="sort-by">
-    <base-select name="sortby" v-model="selected" @change="sort" :options="sortingOptionsForSelect" :initial-option-text="$t('Sort By')" select-class="t-text-sm" />
+    <base-select name="sortby" id="sortby" v-model="selected" @change="sort" :options="sortingOptionsForSelect" :initial-option-text="$t('Sort By')" :label="$t('Sort By')" :hide-label="true" select-class="t-text-sm" />
   </div>
 </template>
 

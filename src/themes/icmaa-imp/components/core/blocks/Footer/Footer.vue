@@ -10,7 +10,7 @@
               </h4>
               <div class="t-flex t-flex-wrap t-justify-between xl:t-justify-start">
                 <template v-for="(icon, index) in socialMediaIcons">
-                  <a :key="index" :href="icon.href" :title="icon.name" target="_blank" class="t-flex t-flex-fix t-items-center t-justify-center t-w-10 t-h-10 t-rounded-full t-bg-base-light t-text-white md:t-w-8 md:t-h-8 lg:t-w-10 lg:t-h-10 xl:t-mr-4">
+                  <a :key="index" :href="icon.href" :title="icon.name" target="_blank" rel="noopener noreferrer" class="t-flex t-flex-fix t-items-center t-justify-center t-w-10 t-h-10 t-rounded-full t-bg-base-light t-text-white md:t-w-8 md:t-h-8 lg:t-w-10 lg:t-h-10 xl:t-mr-4">
                     <material-icon :icon="icon.icon" icon-set="icmaa" class="t-flex md:t-text-lg lg:t-text-2xl" />
                   </a>
                 </template>

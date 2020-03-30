@@ -8,10 +8,10 @@
         YouTube
       </h3>
       <div class="t-relative t-w-full t-bg-white" style="padding-top: 56.25%" v-if="youtubeVideo">
-        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="youtubeVideo" frameborder="0" allowfullscreen />
+        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="youtubeVideo" title="YouTube Video" frameborder="0" allowfullscreen />
       </div>
       <div class="t-relative t-w-full t-bg-white" style="padding-top: 56.25%" v-else-if="vimeoVideo">
-        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="vimeoVideo" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen />
+        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="vimeoVideo" title="Vimeo Video" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen />
       </div>
     </div>
     <div class="t-w-full md:t-w-1/3 t-mb-6 md:t-mb-0 t-px-4" v-if="twitterId">
@@ -19,7 +19,7 @@
         <span class="t-flex t-flex-fix t-items-center t-justify-center t-w-10 t-h-10 t-rounded-full t-text-white t-bg-twitter t-mr-2">
           <material-icon icon="twitter" icon-set="icmaa" class="t-flex md:t-text-lg lg:t-text-2xl" />
         </span>
-        <a :href="`https://twitter.com/${twitterId}`" target="_blank" class="t-text-twitter" v-if="twitterId">
+        <a :href="`https://twitter.com/${twitterId}`" target="_blank" rel="noopener noreferrer" :title="'@' + twitterId" class="t-text-twitter" v-if="twitterId">
           {{ '@' + twitterId }}
         </a>
         <span v-else>Twitter</span>

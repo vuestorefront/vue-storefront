@@ -34,7 +34,7 @@
     <div class="t-container t-w-full">
       <h2 class="t-text-white t-text-center t-text-4xl t-my-4" v-html="content.video.headline" />
       <div class="t-relative t-w-full t-bg-white" style="padding-top: 56.25%">
-        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="content.video.link" frameborder="0" allowfullscreen />
+        <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="content.video.link" title="YouTube Video" frameborder="0" allowfullscreen />
       </div>
     </div>
 
