@@ -2,8 +2,8 @@
 
 ## Documentation Checklist
 
-- [ ] Documentation of Next is created.
-- [ ] Documentation of commercetools API Client is created.
+- [x] Documentation of Next is created.
+- [x] Documentation of commercetools API Client is created.
 - [ ] Documentation of composables is created.
 - [ ] Documentation of helpers is created.
 
@@ -28,7 +28,7 @@
 - [ ] I want to use filters in category page So I can limit the products visible in the category page.
 - [ ] I want to use sorting in the category page so I can change the order of the products to find these easily.
 - [x] I want to open the specific category So I can see products inside.
-- [ ] I want to use pagination in the category page So I don't have to load all the products within' the category at once.
+- [x] I want to use pagination in the category page So I don't have to load all the products within' the category at once.
 - [x] I want to see the prices on the category page So I know how much do I need to pay for the product.
 - [ ] I want to see the discounts on the category page So I can be attracted by lower prices.
 
@@ -44,7 +44,7 @@
 - [x] I want to add a product to the cart So I can buy that in the next step.
 - [x] I want to edit the quantity of the product before adding it to the cart.
 - [x] I want to change the variants of the product So I can easily switch between versions of the same master product.
-- [ ] I want to see the product gallery So I can see how the product looks like.
+- [x] I want to see the product gallery So I can see how the product looks like.
 - [x] I want to see the prices on the product page So I know how much do I need to pay for the product.
 - [ ] I want to see the discounts on the product page So I can be attracted by lower prices.
 - [x] I want to have properties pre-selected (like colour, size) when opening the Variant Product Page.
