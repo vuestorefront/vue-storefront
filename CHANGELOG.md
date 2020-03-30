@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
 - Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
 - Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
+- Use same data format in getConfigurationMatchLevel - @gibkigonzo (#4208)
 
 ### Changed / Improved
 
