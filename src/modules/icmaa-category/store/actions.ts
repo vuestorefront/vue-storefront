@@ -6,7 +6,9 @@ import * as types from './mutation-types'
 import * as catTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import { fetchCategoryById, fetchChildCategories } from '../helpers'
 import { SearchQuery } from 'storefront-query-builder'
+import { getFilterHash } from '../helpers'
 
+import forEach from 'lodash-es/forEach'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -37,8 +39,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       return { parent, list: list as Category[] }
     }
   },
-  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, cluster: any, size: number, sort: string|string[] }): Promise<ProductListingWidgetState> {
-    let { categoryId, cluster, size, sort } = params
+  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, filter: any, cluster: any, size: number, sort: string|string[] }): Promise<ProductListingWidgetState> {
+    let { categoryId, filter, cluster, size, sort } = params
 
     if (state.productListingWidget.find(i => i.parent === categoryId && i.cluster === cluster && i.list.length >= size)) {
       return
@@ -51,6 +53,14 @@ const actions: ActionTree<CategoryState, RootState> = {
       .applyFilter({ key: 'status', value: { in: [0, 1] } })
       .applyFilter({ key: 'category_ids', value: { in: [categoryId] } })
 
+    let filterHash = getFilterHash(filter)
+    if (filter !== false) {
+      forEach(filter, (value, key) => {
+        value = { in: [value] }
+        query.applyFilter({ key, value })
+      })
+    }
+
     if (cluster) {
       cluster = parseInt(cluster)
       query.applyFilter({ key: 'customercluster', value: { or: [cluster] } })
@@ -59,7 +69,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
 
     return dispatch('product/findProducts', { query, size, sort }, { root: true }).then(products => {
-      const payload = { parent: categoryId, list: products.items, cluster }
+      const payload = { parent: categoryId, list: products.items, cluster, filterHash }
       commit(types.ICMAA_CATEGORY_LIST_ADD_PRODUCT, payload)
       return payload
     })
