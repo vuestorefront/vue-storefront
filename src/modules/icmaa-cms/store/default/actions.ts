@@ -12,7 +12,7 @@ const actions: ActionTree<{}, RootState> = {
     if (task.resultCode === 200) {
       const taskId = IcmaaTaskQueue.getTaskId(task.url)
 
-      cache.setItem(taskId, task)
+      cache.setItem(taskId, task, null, true)
       commit(types.ICMAA_CMS_TASK_RMV, taskId)
 
       Logger.debug(`Synced task: ${taskId}`, 'icmaa-task-queue', task.url)()
