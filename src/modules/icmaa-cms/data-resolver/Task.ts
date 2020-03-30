@@ -1,4 +1,5 @@
 import { cacheStorage as cache } from '../'
+import { getHash } from 'icmaa-config/helpers/hash'
 
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -10,8 +11,6 @@ import * as types from '../store/default/mutation-types'
 
 const createQueryString: Function = (params: Record<string, any>): string =>
   Object.keys(params).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&')
-
-const getHash: Function = (s: string): number => Math.abs(s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0))
 
 const getTaskId: Function = (s: string): string => `task-${getHash(s)}`
 
@@ -26,7 +25,7 @@ const IcmaaTaskQueue = {
             Logger.debug(`Fetched task: ${taskId}`, 'icmaa-task-queue', task.url)()
 
             if (resp.resultCode === 200) {
-              cache.setItem(taskId, resp)
+              cache.setItem(taskId, resp, null, true)
               return resp
             }
 

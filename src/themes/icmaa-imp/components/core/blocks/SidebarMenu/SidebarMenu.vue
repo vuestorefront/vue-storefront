@@ -13,10 +13,10 @@
         <div class="t-flex t-items-center t-w-full">
           <div class="t-flex t-items-center t-w-full" @click="closeMenu">
             <template v-for="(link, index) in metaNavigation">
-              <router-link :to="localizedRoute(link.route)" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" :key="index" v-if="link.isRoute === true">
+              <router-link :to="localizedRoute(link.route)" :title="link.name | htmlDecode" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" :key="index" v-if="link.isRoute === true">
                 {{ link.name }}
               </router-link>
-              <a :href="link.route" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" target="_blank" :key="index" v-else>
+              <a :href="link.route" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" target="_blank" rel="noopener noreferrer" :title="link.name | htmlDecode" :key="index" v-else>
                 {{ link.name }}
               </a>
             </template>

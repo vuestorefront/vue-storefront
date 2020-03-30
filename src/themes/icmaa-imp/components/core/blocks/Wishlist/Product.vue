@@ -2,7 +2,7 @@
   <li class="t-w-full t-flex t-mr-4 t-py-2">
     <div class="t-w-1/3 t-mr-4">
       <router-link :to="productLink">
-        <product-image :image="image" />
+        <product-image :image="image" :alt="product.name | htmlDecode" />
       </router-link>
     </div>
     <div class="t-w-2/3 t-flex t-flex-col t-py-2 t-justify-between">

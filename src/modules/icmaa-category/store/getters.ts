@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import CategoryState, { CategoryStateListItem, ProductListingWidgetState } from '../types/CategoryState'
 import RootState from '@vue-storefront/core/types/RootState'
-import { sortByLetter } from '../helpers'
+import { sortByLetter, getFilterHash } from '../helpers'
 
 const getters: GetterTree<CategoryState, RootState> = {
   lists: state => state.lists,
@@ -27,14 +27,13 @@ const getters: GetterTree<CategoryState, RootState> = {
 
     return false
   },
-  getProductListingWidget: (state): ProductListingWidgetState[] => state.productListingWidget,
-  getProductListingWidgetByCategoryId: (state, getters, RootState, rootGetters) => (parent: number): ProductListingWidgetState => {
+  getProductListingWidget: (state, getters, RootState, rootGetters) => (parent: number, filter: Record<string, any>|boolean = false): ProductListingWidgetState => {
     let cluster = rootGetters['user/getCluster']
     if (cluster !== false) {
       cluster = parseInt(rootGetters['user/getCluster'])
     }
 
-    return state.productListingWidget.find(i => i.parent === parent && i.cluster === cluster)
+    return state.productListingWidget.find(i => i.parent === parent && i.cluster === cluster && i.filterHash === getFilterHash(filter))
   }
 }
 

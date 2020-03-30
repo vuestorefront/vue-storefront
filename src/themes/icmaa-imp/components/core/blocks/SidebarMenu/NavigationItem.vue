@@ -1,11 +1,11 @@
 <template>
   <div class="t-flex t-flex-wrap t-flex-fix t-content-center t-justify-center" :class="[ widthClass, { 't-mb-2': marginBottom } ]">
-    <router-link v-if="!hasChildren" :to="localizedRoute(route)" class="t-cursor-pointer t-rounded-sm t-flex t-flex-wrap t-mx-1 t-w-full t-h-full t-text-center t-justify-center t-items-center t-text-sm" :class="[ icon ? 't-py-2' : 't-py-4', backgroundColorClass, textColorClass, backgroundImageClass ]" :style="[ backgroundImageStyle ]">
+    <router-link v-if="!hasChildren" :to="localizedRoute(route)" :title="name | htmlDecode" class="t-cursor-pointer t-rounded-sm t-flex t-flex-wrap t-mx-1 t-w-full t-h-full t-text-center t-justify-center t-items-center t-text-sm" :class="[ icon ? 't-py-2' : 't-py-4', backgroundColorClass, textColorClass, backgroundImageClass ]" :style="[ backgroundImageStyle ]">
       <template v-if="icon">
         <material-icon v-bind="{ icon, iconSet }" size="sm" />
-        <div class="t-w-full t-text-xxs t-mt-1">
+        <span class="t-block t-w-full t-text-xxs t-mt-1">
           {{ name }}
-        </div>
+        </span>
       </template>
       <template v-else>
         {{ name }}

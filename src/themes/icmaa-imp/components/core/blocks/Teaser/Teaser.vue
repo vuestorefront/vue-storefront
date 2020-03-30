@@ -86,7 +86,7 @@ export default {
       return this.teaserByType('large', this.tags, this.customercluster)[0]
     },
     teaserSmall () {
-      const teaser = this.teaserByType('small', this.tags, this.customerCluster)
+      const teaser = this.teaserByType('small', this.tags, this.customercluster)
       return teaser.slice(0, this.TeaserSmallRow ? 4 : this.limit)
     },
     isMobile () {

@@ -1,6 +1,6 @@
 <template>
   <div class="base-select">
-    <label v-if="hasLabel" :for="id" class="t-w-full t-flex t-self-center t-mb-1 t-px-1 t-text-base-tone t-text-sm">
+    <label v-if="hasLabel" :for="id" :class="{ 't-sr-only': hideLabel }" class="t-w-full t-flex t-self-center t-mb-1 t-px-1 t-text-base-tone t-text-sm">
       <slot>
         {{ label }}
       </slot>
@@ -48,6 +48,10 @@ export default {
   props: {
     label: {
       type: [String, Boolean],
+      default: false
+    },
+    hideLabel: {
+      type: [Boolean],
       default: false
     },
     value: {

@@ -53,6 +53,7 @@ export default {
       return {
         'merchant_id': this.merchantId,
         'order_id': this.order.increment_id,
+        'email': this.order.customer_email, // DSGVO, no ?
         'delivery_country': this.shippingAddress.country_id,
         'estimated_delivery_date': this.deliveryDate
       }

@@ -43,7 +43,7 @@
       <div class="t-w-full t-bg-insd t-mt-8">
         <h2 class="t-text-white t-p-5 t-uppercase t-text-xl" v-html="content.infovideo.headline" />
         <div class="t-relative t-w-full t-bg-white" style="padding-top: 56.25%">
-          <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="content.infovideo.link" frameborder="0" allowfullscreen />
+          <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="content.infovideo.link" title="YouTube Video" frameborder="0" allowfullscreen />
         </div>
       </div>
 
@@ -62,7 +62,7 @@
             </div>
             <div class="t-w-full md:t-w-1/2">
               <div class="t-relative t-w-full t-bg-white" style="padding-top: 57.75%">
-                <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="headlineband.video" frameborder="0" allowfullscreen />
+                <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="headlineband.video" title="YouTube Video" frameborder="0" allowfullscreen />
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@
             </div>
             <div class="t-w-1/2">
               <div class="t-relative t-w-full t-bg-white" style="padding-top: 57.75%">
-                <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="band.video" frameborder="0" allowfullscreen />
+                <iframe class="t-absolute t-top-0" width="100%" height="100%" :src="band.video" title="YouTube Video" frameborder="0" allowfullscreen />
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ describe('Menu sidebar footer', () => {
     cy.get('@sidebar')
       .find('[data-test-id="SidebarMenuFooter"]')
       .should('be.visible')
-      .find('a')
+      .find('a:not([rel*="noopener"])')
       .random()
       .as('link')
       .should('have.attr', 'href')

@@ -11,7 +11,8 @@ const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/p
 const ResetPassword = () => import(/* webpackChunkName: "vsf-reset-password" */ 'theme/pages/ResetPassword.vue')
 
 let routes = [
-  { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
+  { name: 'home', path: '/', component: Home },
+  { name: 'home-pwa', path: '/pwa.html', component: Home },
   { name: 'checkout', path: '/checkout', component: Checkout },
   { name: 'my-account', path: '/my-account', component: MyAccount },
   { name: 'my-addresses', path: '/my-account/addresses', component: MyAccount, props: { activeBlock: 'MyAddresses' } },

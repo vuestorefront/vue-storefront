@@ -28,16 +28,21 @@ export default {
       type: Number,
       required: true
     },
+    filter: {
+      type: [Object, Boolean],
+      required: false,
+      default: false
+    },
     sort: {
       type: String,
       default: 'online:desc'
     }
   },
   computed: {
-    ...mapGetters('icmaaCategory', ['getProductListingWidgetByCategoryId']),
+    ...mapGetters('icmaaCategory', ['getProductListingWidget']),
     ...mapGetters({ cluster: 'user/getCluster' }),
     products () {
-      const products = this.getProductListingWidgetByCategoryId(this.categoryId)
+      const products = this.getProductListingWidget(this.categoryId, this.filter)
       if (!products) {
         return []
       }
@@ -56,6 +61,7 @@ export default {
       await this.$store.dispatch('icmaaCategory/loadProductListingWidgetProducts', {
         categoryId: this.categoryId,
         cluster: this.cluster,
+        filter: this.filter,
         sort: this.sort,
         size
       })

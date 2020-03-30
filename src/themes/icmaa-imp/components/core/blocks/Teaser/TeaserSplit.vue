@@ -1,11 +1,11 @@
 <template>
   <div data-test-id="TeaserSplit" class="teaser-split t-relative t-flex t-flex-col md:t-flex-row t-mx-4 t-cursor-pointer t-webkit-tap-transparent" :class="{ 't-bg-white': !backgroundColor }" :style="{ 'background-color': backgroundColor }" @click="redirect" @mouseover="onHover" @mouseleave="onHover">
-    <retina-image :image="imageUrl" :width="624" :height="624" :placeholder="true" ratio="1:1" class="t-w-full md:t-w-1/2 md:t-h-full" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
+    <retina-image :image="imageUrl" :width="624" :height="624" :placeholder="true" ratio="1:1" class="t-w-full md:t-w-1/2 md:t-h-full" :alt="teaser.text1 | translate | htmlDecode" v-if="showLeft" />
     <div class="t-w-full md:t-w-1/2 t-flex t-items-center">
       <div class="t-w-full t-p-8">
         <h2 class="t-w-full t-leading-tight t-font-bold t-text-2-1/2xl t-mb-5">
-          <router-link :to="link" :title="teaser.text1 | htmlDecode" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
-            {{ teaser.text1 }}
+          <router-link :to="link" :title="teaser.text1 | translate | htmlDecode" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
+            {{ teaser.text1 | translate }}
           </router-link>
         </h2>
         <div class="t-w-full t-text-sm t-mb-10" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
@@ -13,7 +13,7 @@
         </div>
         <div class="t-w-full">
           <button-component class="t-text-xs t-uppercase t-truncate" :type="textColor ? 'ghost-custom' : 'ghost'" :custom-color="textColor">
-            {{ teaser.buttonText }}
+            {{ teaser.buttonText | translate }}
           </button-component>
         </div>
         <div v-if="teaser.text3" class="t-w-full t-hidden lg:t-block t-text-sm t-mt-24" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <retina-image :image="imageUrl" :width="624" :height="624" :placeholder="true" ratio="1:1" class="t-w-full md:t-w-1/2 md:t-h-full" :alt="teaser.text1 | htmlDecode" v-if="!showLeft" />
+    <retina-image :image="imageUrl" :width="624" :height="624" :placeholder="true" ratio="1:1" class="t-w-full md:t-w-1/2 md:t-h-full" :alt="teaser.text1 | translate | htmlDecode" v-if="!showLeft" />
     <edit-button :edit-url="editUrl" :class="[ showLeft ? 't-left-0 t--ml-2 t--mt-2' : 't-right-0 t--mr-2 t--mt-2', { 't-hidden': !hover }]" />
   </div>
 </template>

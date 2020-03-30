@@ -1,5 +1,5 @@
 <template>
-  <img v-lazy="lazyObj" :data-srcset="`${sizes.src} 1x, ${sizes.srcAt2x} 2x`" v-on="$listeners" class="product-image t-w-full t-w-auto">
+  <img v-lazy="lazyObj" :data-srcset="`${sizes.src} 1x, ${sizes.srcAt2x} 2x`" v-on="$listeners" :alt="alt" class="product-image t-w-full t-w-auto">
 </template>
 
 <script>
