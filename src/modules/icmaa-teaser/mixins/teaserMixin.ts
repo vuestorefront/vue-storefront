@@ -1,8 +1,10 @@
 import config from 'config'
 import { mapGetters } from 'vuex'
 import { processURLAddress } from '@vue-storefront/core/helpers'
+import translatorMixin from './translatorMixin'
 
 export default {
+  mixins: [ translatorMixin ],
   props: {
     teaser: {
       type: Object,
