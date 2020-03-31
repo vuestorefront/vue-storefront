@@ -10,7 +10,6 @@
   "author": "dlandmann d.landmann@impericon.com and contributors",
   "license": "MIT",
   "dependencies": {
-    "bodybuilder": "2.2.13",
     "vue": "^2.6.6",
     "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",

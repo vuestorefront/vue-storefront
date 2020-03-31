@@ -1,7 +1,7 @@
 <template>
   <button class="t-flex t-flex-fix t-px-2 t-cursor-pointer">
     <material-icon :icon="icon" />
-    <span class="t-sr-only t-sr-only-focusable" :tabindex="tabIndex" :text="$t(text)" />
+    <span class="t-sr-only t-sr-only-focusable" tabindex="0" :text="$t(text)" />
   </button>
 </template>
 
@@ -18,10 +18,6 @@ export default {
     text: {
       type: String,
       required: true
-    },
-    tabIndex: {
-      type: Number,
-      default: 1
     }
   },
   components: {
