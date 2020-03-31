@@ -260,7 +260,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
-Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
+Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from other storeviews.
 
 ## Entities
 
@@ -466,6 +466,12 @@ This is related to `alwaysSyncPlatformPricesOver` and when it's set to true, the
 ```
 
 This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will wait for dynamic prices before rendering the page. Otherwise, the product and category pages will be rendered using the default (Elasticsearch-based) prices and then asynchronously override them with current ones.
+
+```json
+  "alwaysSyncPricesClientSide": false,
+```
+
+This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will force a refresh of the prices on the client side, including the token from the current logged in user, so customer specific pricing can be applied. 
 
 
 ```json

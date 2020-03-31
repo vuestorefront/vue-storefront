@@ -25,7 +25,7 @@ const invokeClientEntry = async () => {
   if (window.__INITIAL_STATE__) {
     // skip fields that were set by createApp
     const initialState = coreHooksExecutors.beforeHydrated(
-      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version'])
+      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version', 'route'])
     )
     store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
@@ -103,6 +103,9 @@ const invokeClientEntry = async () => {
       if (!matched.length || !matched[0]) {
         return next()
       }
+
+      store.dispatch('url/setCurrentRoute', {to, from})
+
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && globalConfig.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {

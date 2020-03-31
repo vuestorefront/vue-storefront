@@ -199,7 +199,7 @@ const mergeActions = {
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
-    dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
+    await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
 
     diffLog
       .merge(mergeClientItemsDiffLog)

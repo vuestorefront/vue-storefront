@@ -1,3 +1,4 @@
+
 <img src="https://d9hhrg4mnvzow.cloudfront.net/www.vuestorefront.io/280b19d0-logo-vs_0by02c0by02c000000.jpg"></img>
 
 # Vue Storefront - headless PWA for any eCommerce
@@ -7,6 +8,7 @@
 <a href="https://github.com/DivanteLtd/vue-storefront"><img src="https://img.shields.io/badge/stable%20branch-master-blue.svg" alt="Branch stable"></a>
 <a href="https://github.com/DivanteLtd/vue-storefront/tree/develop"><img src="https://img.shields.io/badge/dev%20branch-develop-blue.svg" alt="Branch Develop"></a>
 <a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>, [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront), Prestashop or Shopware) through the API.
 
@@ -22,7 +24,6 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@lukeromanowicz` (testing, magento, backend)
 - `@degi` Degi Kwag (docs)
 
-
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
@@ -33,7 +34,6 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
 
-
 ## See it in action
 
 <table>
@@ -43,8 +43,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
         <a href="https://demo.storefrontcloud.io">
           <img
             src="https://divante.co/open-graph/vuestorefront/GitHub-Readme-Try-Demo.png"
-            alt="B2C Theme demo"
-            style="width: 100px;">
+            alt="B2C Theme demo" />
         </a>
       </td>
       <td align="left" valign="top">
@@ -54,24 +53,47 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
   </tbody>
 </table>
 
+## 🆕 Capybara Theme
+
+Starting new project on Vue Storefront? Try out the new <a href="https://github.com/DivanteLtd/vsf-capybara">Capybara Theme</a>. Based on <a href="https://storefrontui.io">StorefrontUI Design System</a>
+
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://capybara.storefrontcloud.io/">
+          <img width="290" 
+            src="http://i3.ytimg.com/vi/x2_w-ZBOfqE/maxresdefault.jpg"
+            alt="B2C Theme demo" />
+        </a>
+      </td>
+      <td align="left" valign="top">
+        Try out our open demo and if you like it <strong> first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Vue Storefront Official Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to Magento2. <br />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ## Be up to date with the news
 
 We're trying to be very open regarding our development plans, news, roadmap and in general: sharing a lot. Please do bookmark our [Official blog](https://blog.vuestorefront.io/) to be always up to date!
 
-## Video demo
+## Foundations | Vue Storefront 1.x
 
-[![See how it works!](docs/.vuepress/public/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
+[![See how it works!](https://blog.vuestorefront.io/wp-content/uploads/2020/03/Foundations-_-Vue-Storefront.png)](https://www.youtube.com/watch?v=o10oinxCYfY&list=PLIDwzUVxSXjN9pK1NzBTcirV3-K0OCay0)
 
-## Technical Webcast #1 - demo and the architecture
+## How to install Vue Storefront on Windows?
 
-[![Demo and the architecture of Vue Storefront](docs/.vuepress/public/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
+[![Demo and the architecture of Vue Storefront](https://blog.vuestorefront.io/wp-content/uploads/2020/03/How-to-install-Vue-Storefront-on-Windows_.png)](https://www.youtube.com/watch?v=zL_T3WzVLG0&list=PLIDwzUVxSXjN9pK1NzBTcirV3-K0OCay0&index=2)
 
-- [Read on how to integrate it with Magento2](http://blog.vuestorefront.io/vue-storefront-how-to-install-and-integrate-with-magento-2/), [Read how to create Vue Storefront theme](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/),
+- [Read on how to integrate it with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html#using-native-magento-2-module),
+- [Read how to create Vue Storefront theme](https://docs.vuestorefront.io/guide/core-themes/themes.html),
 - [Read the interviews with authors of first production deployments](http://blog.vuestorefront.io/vsf-on-production-interview-with-gogetgold-com/)
 
 ## Is it production ready?
 
-Yes! There are more than 20 implementations happening right now and many live shops (check [awesome live projects on Vue Storefront](https://www.vuestorefront.io/live-projects/)).
+Yes! There are more than **70 implementations** happening right now and many live shops (check [awesome live projects on Vue Storefront](https://www.vuestorefront.io/live-projects/)).
 
 ## Browser Compatibility
 
@@ -84,7 +106,7 @@ For an up-to-date list of supported browsers please see "browserslist" in packag
 
 ## Join the community on Slack
 
-If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtNTAwODYzNzI3MjAzLWFkZjc0YjVjODA1Y2I2MTdlNmM0NThjY2M5MzgzN2U2NzE4YmE2YzA4YTM0MTY3OWQzZjBhMjBlZDhmYjAyNGI)
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](http://slack.vuestorefront.io/)
 
 ## Roadmap
 
@@ -115,14 +137,24 @@ The documentation is always THE HARDEST PART of each open source project! But we
 
 **Please find out what we've already managed to prepare:** [available on Github Pages](https://docs.vuestorefront.io/). Please note that new docs are still Work In Progress and will be successfully updated. You can find them also under the `docs` folder.
 
-You can find some tutorials and explanations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
+You can find some tutorials and explanations on our [YouTube channel](https://www.youtube.com/vuestorefront)
 
 ### Installation
 
+- [Starter pack for install](https://docs.vuestorefront.io/guide/cookbook/setup.html)
 - [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
 - [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
 - [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
 - [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
+
+### Cookbooks
+
+- [Ch1. Data Imports](https://docs.vuestorefront.io/guide/cookbook/data-import.html)
+- [Ch2. Elasticsearch in the VSF context](https://docs.vuestorefront.io/guide/cookbook/elastic.html)
+- [Ch3. Starter pack for new comers (Install)](https://docs.vuestorefront.io/guide/cookbook/setup.html)
+- [Ch5. Building a Module from scratch](https://docs.vuestorefront.io/guide/cookbook/module.html)
+- [Ch6. Theming in depth](https://docs.vuestorefront.io/guide/cookbook/theme.html)
+- [Chef's secret note: Hardcore training for serious business](https://docs.vuestorefront.io/guide/cookbook/checklist.html)
 
 ### Basics
 
@@ -191,7 +223,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 ## Awesome projects related to Vue Storefront
 
-Check [Vue Storefront Awesome](https://github.com/frqnck/awesome-vue-storefront)
+Check [Vue Storefront Live Projects](https://www.vuestorefront.io/live-projects/)
 
 ## The business challenges
 
@@ -211,9 +243,9 @@ Here you can read more about the proof of concept for [Vue Storefront connected 
 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
 
-## The architecture
+## The headless architecture
 
-![Architecture diagram](docs/.vuepress/public/GitHub-Architecture-VS.png)
+![Architecture diagram](https://blog.vuestorefront.io/wp-content/uploads/2020/03/headless_VSF_slide.png)
 
 ## The design
 
@@ -247,7 +279,7 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 
 ## Workshops
 
-If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
+If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more]([https://divante.com/products/vue-storefront](https://divante.com/products/vue-storefront))
 
 ## Support us!
 
@@ -326,7 +358,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="docs/.vuepress/public/partners/macopedia.svg"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/macopedia_blue_logo.png"
             alt="Macopedia"
             width="150"
           >
@@ -382,7 +414,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
        <td align="center" valign="middle">
     <a href="https://www.wagento.com">
           <img
-            src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
+            src="https://www.wagento.com/hubfs/logo-standard-color@4x%20(1).png"
             alt="Wagento"
             width="150"
           >
@@ -661,10 +693,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="https://kodbruket.se/">
+<a href="https://lightcom.io/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
-            alt="Kodbrucket"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/03/lightcom_logo.png"
+            alt="Lightcom"
             height="25"
           >
         </a>
@@ -849,10 +881,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="https://www.lightcom.io/">
+<a href="https://www.solveda.com/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/Logo%20PNG%20File.png"
-            alt="Lightcom"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/SOLVEDA_logo.png"
+            alt="Solveda"
             height="40"
           >
         </a>
@@ -914,10 +946,56 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
+         <a href="https://bitbag.io/services/pwa-progressive-web-app/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/BitBag_logo.png"
+            alt="BitBag"
+            height="40" >
+        </a>
+</td>
+   <td align="center" valign="middle">
 <a href="https://www.ohmybrand.es/">
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
             alt="Oh My Brand"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+            <tr>
+      <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+    <a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>

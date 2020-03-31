@@ -3,15 +3,14 @@
     <div class="mt50 h5" v-if="!itemsPerPage || itemsPerPage.length === 0">
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
-    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review">
-      <meta itemprop="itemReviewed" :content="productName | htmlDecode">
-      <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
+    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index">
+      <h4 class="weight-400 m0">
         {{ item.title }}
       </h4>
       <p class="cl-tertiary mt10 mb20 fs-medium-small">
         {{ item.nickname }}, {{ item.created_at | date(null, storeView) }}
       </p>
-      <p class="cl-gray lh25" itemprop="reviewBody" :content="item.detail">
+      <p class="cl-gray lh25">
         {{ item.detail }}
       </p>
     </div>
@@ -31,12 +30,13 @@
         <i class="material-icons">chevron_right</i>
       </a>
     </div>
+    <script v-html="getJsonLd" type="application/ld+json" />
   </div>
 </template>
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-
+import {reviewJsonLd} from '@vue-storefront/core/helpers'
 export default {
   props: {
     perPage: {
@@ -51,6 +51,10 @@ export default {
     productName: {
       type: String,
       default: ''
+    },
+    product: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -86,6 +90,9 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    getJsonLd () {
+      return reviewJsonLd(this.itemsPerPage, this.product, this.$store.state.storeView.i18n.currencyCode)
     }
   },
   methods: {

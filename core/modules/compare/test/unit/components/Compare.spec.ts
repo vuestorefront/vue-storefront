@@ -24,7 +24,7 @@ describe('Compare', () => {
     expect(storeMock.modules.attribute.actions.list).toBeCalledWith(expect.anything(), {
       filterValues: [],
       filterField: 'is_user_defined'
-    }, undefined);
+    });
   })
 
   it('removeFromCompare dispatches addItem action', () => {
@@ -51,6 +51,6 @@ describe('Compare', () => {
 
     (wrapper.vm as any).removeFromCompare(product);
 
-    expect(storeMock.modules.compare.actions.removeItem).toBeCalledWith(expect.anything(), product, undefined);
+    expect(storeMock.modules.compare.actions.removeItem).toBeCalledWith(expect.anything(), product);
   })
 });

@@ -103,21 +103,23 @@ export class SearchAdapter {
         start: start,
         perPage: size,
         aggregations: resp.aggregations,
+        attributeMetadata: resp.attribute_metadata,
         suggestions: resp.suggest
       }
     } else {
-      if (resp.error) {
-        throw new Error(JSON.stringify(resp.error))
+      const isErrorObject = (resp && resp.code) >= 400 ? resp : null
+      if (resp.error || isErrorObject) {
+        throw new Error(JSON.stringify(resp.error || resp))
       } else {
-        throw new Error('Unknown error with elasticsearch result in resultPorcessor for entity type \'' + type + '\'')
+        throw new Error('Unknown error with elasticsearch result in resultProcessor for entity type \'' + type + '\'')
       }
     }
   }
 
-  public registerEntityType (entityType, { url = '', url_ssr = '', queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', url_ssr = '', queryProcessor, resultProcessor }) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
-      resultPorcessor: resultPorcessor
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -134,7 +136,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'product', start, size)
       }
     })
@@ -144,7 +146,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'attribute', start, size)
       }
     })
@@ -154,7 +156,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'category', start, size)
       }
     })
@@ -164,7 +166,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'taxrule', start, size)
       }
     })
@@ -174,7 +176,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'review', start, size)
       }
     })
@@ -183,7 +185,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_page', start, size)
       }
     })
@@ -192,7 +194,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_block', start, size)
       }
     })
@@ -201,7 +203,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_hierarchy', start, size)
       }
     })

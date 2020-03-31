@@ -50,7 +50,12 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.__DEMO_MODE__ = (config.demomode === true)
   if (ssrContext) {
     // @deprecated - we shouldn't share server context between requests
-    Vue.prototype.$ssrRequestContext = {output: {cacheTags: ssrContext.output.cacheTags}}
+    Vue.prototype.$ssrRequestContext = {
+      output: {
+        cacheTags: ssrContext.output.cacheTags
+      },
+      userAgent: ssrContext.server.request.headers['user-agent']
+    }
 
     Vue.prototype.$cacheTags = ssrContext.output.cacheTags
   }
