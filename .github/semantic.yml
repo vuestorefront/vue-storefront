@@ -1,0 +1,8 @@
+titleOnly: true
+scopes:
+  - core
+  - core-theme
+  - docs
+  - commercetools
+  - ayc
+  - boilerplate
