@@ -11,7 +11,7 @@ const actions: ActionTree<RecommendationsState, RootState> = {
   async single ({ commit, dispatch }, { product, type, size }): Promise<Recommendations|boolean> {
     const rulesDTO = await dispatch('getRulesFromCms')
     const rules = new Rules(product, type, rulesDTO)
-    const query = rules.getSearchQuery().build()
+    const query = rules.getSearchQuery()
 
     const { includeFields, excludeFields } = entities.productList
     const result = await dispatch('product/findProducts', { query, size, includeFields, excludeFields }, { root: true })
