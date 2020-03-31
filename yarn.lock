@@ -5,7 +5,6 @@
 "@aboutyou/backbone@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-4.0.1.tgz#bf5349b4d3f399db6fcc31940f9f6d862c8654dc"
-  integrity sha512-Iy/pUjNbS6xhxdKtPdfsBrm/jwvIgPVEp9lH+xatrwChmjpipm6b1T+IuSQM9oSJqB3CRM3p/7v19AyrgReDuQ==
   dependencies:
     axios "^0.18.0"
     query-string "^6.2.0"
@@ -1937,7 +1936,6 @@
 "@storefront-ui/shared@^0.6.4":
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.6.4.tgz#8e8582673d7739df76cce044ef2a12bec0ec1694"
-  integrity sha512-gqv+l6Yl/55RtaQc26Ek0W6LW+s5Hhn7n13mC0qdtwkhmfwFnnr6wjonrvwcS5K2NvfRNug5Q1/At4UXGb6LHw==
 
 "@storefront-ui/vue@^0.5.1":
   version "0.5.1"
@@ -1962,7 +1960,6 @@
 "@storefront-ui/vue@^0.6.4":
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.6.4.tgz#ada7b8c7bbc2e0aa9ac9398ecfb551411cd4e552"
-  integrity sha512-ZZHC2RD67HJc/YIOs7BYUfLEX2w414EPSuTzpfxvsUfj/UxEE7Dei7nSuPL81mYri6ZfbR6Kcda3CgDNwidM3g==
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "^0.6.4"
@@ -2058,6 +2055,10 @@
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.33.tgz#31610c901eca573b8713c3330abc6e6b9f588546"
   dependencies:
     "@types/node" "*"
+
+"@types/cookie@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.3.3.tgz#85bc74ba782fb7aa3a514d11767832b0e3bc6803"
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -3278,7 +3279,6 @@ babel-preset-jest@^24.9.0:
 backbone@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.4.0.tgz#54db4de9df7c3811c3f032f34749a4cd27f3bd12"
-  integrity sha512-RLmDrRXkVdouTg38jcgHhyQ/2zjg7a8E6sz2zxfz21Hh17xDJYUHBZimVIt5fUyS8vbfpeSmTL3gUjTEvUV3qQ==
   dependencies:
     underscore ">=1.8.3"
 
@@ -4250,6 +4250,20 @@ convert-source-map@^1.4.0, convert-source-map@^1.7.0:
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
+
+cookie-universal-nuxt@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/cookie-universal-nuxt/-/cookie-universal-nuxt-2.1.3.tgz#f850df248c7225646554ea4255c696e69060e0e2"
+  dependencies:
+    "@types/cookie" "^0.3.3"
+    cookie-universal "^2.1.3"
+
+cookie-universal@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/cookie-universal/-/cookie-universal-2.1.3.tgz#b5bb6fb32c7d1d631d5c94c58fae6e7709600044"
+  dependencies:
+    "@types/cookie" "^0.3.3"
+    cookie "^0.4.0"
 
 cookie@0.4.0, cookie@^0.4.0:
   version "0.4.0"
@@ -6348,7 +6362,6 @@ hex-color-regex@^1.1.0:
 highlight.js@^9.18.1:
   version "9.18.1"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
-  integrity sha512-OrVKYz70LHsnCgmbXctv/bfuvntIKDz177h0Co37DQ5jamGZLVmoCVMtjMtNZY3X9DrCcKfklHPNeA0uPZhSJg==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -6767,7 +6780,6 @@ internal-ip@^4.3.0:
 interpret@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
-  integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
 invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
@@ -7544,7 +7556,6 @@ jest@^24.1.0, jest@^24.9.0:
 jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
-  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
 
 js-base64@^2.1.8:
   version "2.5.2"
@@ -7563,7 +7574,6 @@ js-beautify@^1.6.12:
 js-cookie@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
-  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -8103,7 +8113,6 @@ lru-cache@^5.1.1:
 lunr@^2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.8.tgz#a8b89c31f30b5a044b97d2d28e2da191b6ba2072"
-  integrity sha512-oxMeX/Y35PNFuZoHp+jUj5OSEmLCaIH4KTFJh7a93cHBoFmpw2IoPs22VIz7vyO2YUnx2Tn9dzIwO2P/4quIRg==
 
 macos-release@^2.2.0:
   version "2.3.0"
@@ -8217,7 +8226,6 @@ markdown-it@^8.4.1:
 marked@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.8.0.tgz#ec5c0c9b93878dc52dd54be8d0e524097bd81a99"
-  integrity sha512-MyUe+T/Pw4TZufHkzAfDj6HarCBWia2y27/bhuYkTaiUnfDYFnCP3KUN+9oM7Wi6JA2rymtVYbQu3spE0GCmxQ==
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -10572,7 +10580,6 @@ realpath-native@^1.1.0:
 rechoir@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
-  integrity sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=
   dependencies:
     resolve "^1.1.6"
 
@@ -11178,7 +11185,6 @@ shell-quote@^1.6.1:
 shelljs@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.3.tgz#a7f3319520ebf09ee81275b2368adb286659b097"
-  integrity sha512-fc0BKlAWiLpwZljmOvAOTE/gXawtCoNrP5oaY7KIaQbbyHeQVg01pSEuEGvGh3HEdBU4baCD7wQBwADmM/7f7A==
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
@@ -12177,7 +12183,6 @@ typedarray@^0.0.6:
 typedoc-default-themes@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.8.0.tgz#991d6121d492e662eb371f30edc982440fe04a63"
-  integrity sha512-0bzAjVEX6ClhE3jLRdU7vR8Fsfbt4ZcPa+gkqyAVgTlQ1fLo/7AkCbTP+hC5XAiByDfRfsAGqj9y6FNjJh0p4A==
   dependencies:
     backbone "^1.4.0"
     jquery "^3.4.1"
@@ -12187,7 +12192,6 @@ typedoc-default-themes@^0.8.0:
 typedoc@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.17.1.tgz#0ea6efcf8c8a4f9490118afc338f3dbb7df849a4"
-  integrity sha512-1AckBdQNvBm0jgR7eko9t3FMPfjoxiKEpQx8ePCsyfTQDPwLVpFIFzn5pXA+smDGTWf2BT7FQrKU6BDzSdgMng==
   dependencies:
     fs-extra "^8.1.0"
     handlebars "^4.7.3"
@@ -12240,7 +12244,6 @@ umask@^1.1.0:
 underscore@>=1.8.3, underscore@^1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.2.tgz#0c8d6f536d6f378a5af264a72f7bec50feb7cf2f"
-  integrity sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==
 
 unfetch@^4.1.0:
   version "4.1.0"

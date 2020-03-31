@@ -30,6 +30,9 @@ export default {
     './plugins/commercetools.js',
     './plugins/i18n.js'
   ],
+  router: {
+    middleware: 'commercetools'
+  },
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -54,7 +57,8 @@ export default {
     }]
   ],
   modules: [
-    'nuxt-i18n'
+    'nuxt-i18n',
+    'cookie-universal-nuxt'
   ],
   build: {
     transpile: [

@@ -2,10 +2,10 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import createCommerceToolsLink from './../../src/helpers/createCommerceToolsLink';
-import loadAccessToken from './../../src/helpers/createCommerceToolsLink/loadAccessToken';
+import createAccessToken from './../../src/helpers/createAccessToken';
 
 jest.unmock('./../../src/helpers/createCommerceToolsLink');
-jest.mock('./../../src/helpers/createCommerceToolsLink/loadAccessToken', () => jest.fn(() => 'access token'));
+jest.mock('./../../src/helpers/createAccessToken', () => jest.fn(() => ({ access_token: 'access token'})));
 jest.mock('apollo-link-http');
 jest.mock('apollo-link-context');
 jest.mock('apollo-link');
@@ -34,18 +34,11 @@ describe('[commercetools-api-client] createCommerceToolsLink', () => {
       });
     });
 
-    createCommerceToolsLink({
-      uri: '',
-      authHost: '',
-      projectKey: '',
-      clientId: '',
-      clientSecret: '',
-      scopes: []
-    });
+    createCommerceToolsLink();
 
     expect(createHttpLink).toBeCalled();
     expect(setContext).toBeCalled();
-    expect(loadAccessToken).toBeCalledTimes(1);
+    expect(createAccessToken).toBeCalledTimes(1);
   });
 
   it('builds link for logged user', (done) => {
@@ -67,18 +60,11 @@ describe('[commercetools-api-client] createCommerceToolsLink', () => {
       });
     });
 
-    createCommerceToolsLink({
-      uri: '',
-      authHost: '',
-      projectKey: '',
-      clientId: '',
-      clientSecret: '',
-      scopes: []
-    });
+    createCommerceToolsLink();
 
     expect(createHttpLink).toBeCalled();
     expect(setContext).toBeCalled();
-    expect(loadAccessToken).toBeCalledTimes(2);
+    expect(createAccessToken).toBeCalledTimes(2);
   });
 
   it('builds link for registered user', (done) => {
@@ -100,17 +86,10 @@ describe('[commercetools-api-client] createCommerceToolsLink', () => {
       });
     });
 
-    createCommerceToolsLink({
-      uri: '',
-      authHost: '',
-      projectKey: '',
-      clientId: '',
-      clientSecret: '',
-      scopes: []
-    });
+    createCommerceToolsLink();
 
     expect(createHttpLink).toBeCalled();
     expect(setContext).toBeCalled();
-    expect(loadAccessToken).toBeCalledTimes(2);
+    expect(createAccessToken).toBeCalledTimes(2);
   });
 });

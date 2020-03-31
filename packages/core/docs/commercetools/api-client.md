@@ -1,7 +1,7 @@
 ---
 platform: Commercetools
 ---
- 
+
 
 <IncludeContent content-key="api-client" />
 
@@ -32,7 +32,7 @@ setup({
 **`setup`** accepts following properties:
 
 
-- `api: ApiConfig` 
+- `api: ApiConfig`
 ```js
 export interface ApiConfig {
   uri: string;
@@ -64,6 +64,57 @@ export interface CookiesConfig {
   localeCookieName: string;
 }
 ```
+- `auth?: Auth`
+```js
+export interface Auth {
+  onTokenChange?: (token: Token) => void;
+  onTokenRemove?: () => void;
+}
+```
+
+### Token handling
+
+Commercetools platform requires token to load data from the API. Our api-client generates this token itself, but you have to store it to prevent generating this multiple times. In order to do it, you can use  `onTokenChange` event to react on token updating and `setup` function for reconfiguration.
+
+The most common use-case is storing that token using cookies:
+
+```js
+import { setup } from '@vue-storefront/commercetools-api';
+import { config } from './your/config';
+
+const currentToken = app.$cookies.get('ct-token');
+
+const onTokenChange = (token) => {
+  app.$cookies.set('ct-token', token);
+};
+
+setup({ ...config, currentToken, auth: { onTokenChange } });
+```
+
+Sometimes, you may need more flexibility and you want to create a new token by yourself. It's useful, for instance when you want to integrate it with server middlewares and fetch the token first, before others calls.
+
+There is a function `createAccessToken` that gives you that possibility, it generates an access token on-demand.
+
+```js
+import { createAccessToken } from '@vue-storefront/commercetools-api';
+import { setup } from '@vue-storefront/commercetools-api';
+import { config } from './your/config';
+
+const serverMiddleware = async ({ app }) => {
+  let currentToken = app.$cookies.get('ct-token');
+
+  if (!currentToken) {
+    currentToken = await createAccessToken();
+  }
+
+  app.$cookies.set('vsf-commercetools-token', currentToken);
+
+  setup({ ...config, currentToken });
+};
+
+export default serverMiddleware;
+```
+
 :::
 
 ::: slot methods

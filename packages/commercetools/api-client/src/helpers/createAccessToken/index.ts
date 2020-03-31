@@ -1,5 +1,6 @@
 import SdkAuth from '@commercetools/sdk-auth';
-import { Token, ApiConfig, CustomerCredentials } from './../../types/setup';
+import { Token, ApiConfig, CustomerCredentials } from '../../types/setup';
+import { api } from './../../index';
 
 interface FlowOptions {
   currentToken?: Token;
@@ -38,11 +39,11 @@ const refreshTokenFlow = async (config: ApiConfig): Promise<Token> => {
 
 const isTokenExpired = (token: Token): boolean => Date.now() > token.expires_at;
 
-const createAccessTokenFlow = async (config: ApiConfig, options: FlowOptions = {}): Promise<Token> => {
+const createAccessToken = async (options: FlowOptions = {}): Promise<Token> => {
   const { currentToken } = options;
 
   if (options.customerCredentials) {
-    return customerPasswordFlow(config, options.customerCredentials);
+    return customerPasswordFlow(api, options.customerCredentials);
   }
 
   if (currentToken && !isTokenExpired(currentToken)) {
@@ -50,12 +51,12 @@ const createAccessTokenFlow = async (config: ApiConfig, options: FlowOptions = {
   }
 
   if (!currentToken) {
-    return anonymousFlow(config);
+    return anonymousFlow(api);
   }
 
   if (isTokenExpired(currentToken)) {
-    return refreshTokenFlow(config);
+    return refreshTokenFlow(api);
   }
 };
 
-export default createAccessTokenFlow;
+export default createAccessToken;

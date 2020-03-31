@@ -7,18 +7,13 @@ describe('[commercetools-api-client] setup', () => {
     jest.clearAllMocks();
   });
 
-  it('set configuration with given api', () => {
-    (createCommerceToolsLink as any).mockImplementation((arg) => {
-      expect(arg).toEqual('api-config');
-
-      return 'createCommerceToolsLink';
-    });
-
-    setup({ api: 'api-config' } as any);
+  it('set configuration without api', () => {
+    setup({ api: null } as any);
+    expect(createCommerceToolsLink).not.toBeCalled();
   });
 
-  it('set configuration without api', () => {
-    setup({} as any);
-    expect(createCommerceToolsLink).not.toBeCalled();
+  it('creating link is being called when configuration is provided', () => {
+    setup({ api: 'api-config' } as any);
+    expect(createCommerceToolsLink).toBeCalled();
   });
 });

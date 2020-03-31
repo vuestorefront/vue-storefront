@@ -1,5 +1,5 @@
 import customerSignOut from './../../../src/api/customerSignOut';
-import { cleanToken } from './../../../src/helpers/createCommerceToolsLink/tokenCache';
+import { auth } from './../../../src/index';
 
 describe('[commercetools-api-client] customerSignOut', () => {
   beforeEach(() => {
@@ -9,6 +9,6 @@ describe('[commercetools-api-client] customerSignOut', () => {
   it('clears user session', async () => {
     await customerSignOut();
 
-    expect(cleanToken).toBeCalled();
+    expect(auth.onTokenRemove).toBeCalled();
   });
 });
