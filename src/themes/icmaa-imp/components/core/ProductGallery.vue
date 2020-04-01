@@ -5,6 +5,7 @@
       <div v-if="isOnline" class="t-relative t-w-full">
         <no-ssr>
           <product-gallery-carousel
+            v-if="showProductGalleryCarousel"
             :gallery="gallery"
             :configuration="configuration"
             :product-name="product.name"
@@ -21,9 +22,8 @@
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductImage from './ProductImage'
+import ProductGalleryCarousel from './ProductGalleryCarousel'
 import NoSSR from 'vue-no-ssr'
-
-const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel')
 
 export default {
   components: {
@@ -40,7 +40,8 @@ export default {
   data () {
     return {
       currentSlide: 0,
-      carouselLoaded: false
+      carouselLoaded: false,
+      showProductGalleryCarousel: false
     }
   },
   computed: {
@@ -52,6 +53,9 @@ export default {
     validateRoute () {
       this.$forceUpdate()
     }
+  },
+  mounted () {
+    this.showProductGalleryCarousel = true
   }
 }
 </script>
