@@ -8,6 +8,7 @@ import { IcmaaExtendedProductStore } from './store/product'
 import { SearchAliasStore, stateKey } from './store/search-alias'
 
 import { products, entities } from 'config'
+import config from 'config'
 import uniq from 'lodash-es/uniq'
 
 export const IcmaaExtendedCatalogModule: StorefrontModule = async ({ store }) => {
@@ -26,8 +27,10 @@ export const IcmaaExtendedCatalogModule: StorefrontModule = async ({ store }) =>
      * * We also added `attribute.list_by_code` and `attribute.list_by_id` to the `ssr.initialStateFilter` config
      *   value to filter those from initial state json – these are massive JSON objects (like 55000 line extra).
      */
-    await store.dispatch('attribute/list', {
-      filterValues: uniq([...products.defaultFilters, ...entities.productList.includeFields])
-    })
+    if (!config.entities.attribute.loadByAttributeMetadata) {
+      await store.dispatch('attribute/list', {
+        filterValues: uniq([...products.defaultFilters, ...entities.productList.includeFields])
+      })
+    }
   }
 }

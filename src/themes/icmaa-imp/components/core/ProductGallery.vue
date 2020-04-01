@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery'
-import ProductImage from './ProductImage'
 import { onlineHelper } from '@vue-storefront/core/helpers'
+import ProductImage from './ProductImage'
+import NoSSR from 'vue-no-ssr'
 
 const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel')
 

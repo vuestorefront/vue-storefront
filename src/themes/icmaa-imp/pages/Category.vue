@@ -117,7 +117,9 @@ const composeInitialPageState = async (store, route, forceLoad = false, pageSize
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const hasCategoryExtras = store.getters['icmaaCategoryExtras/getCategoryExtrasByUrlKey'](route.path)
     const currentCategory = cachedCategory && !forceLoad && hasCategoryExtras ? cachedCategory : await store.dispatch('category-next/loadCategoryWithExtras', { filters })
-    await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
+    if (!store.getters['url/isBackRoute']) {
+      await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
+    }
 
     const breadCrumbsLoader = store.dispatch(
       'category-next/loadCategoryBreadcrumbs',

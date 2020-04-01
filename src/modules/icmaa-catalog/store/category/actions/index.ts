@@ -38,14 +38,19 @@ const actions: ActionTree<CategoryState, RootState> = {
     filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
 
     const { includeFields, excludeFields } = getters.getIncludeExcludeFields(searchCategory)
-    const { items, perPage, start, total, aggregations } = await quickSearchByQuery({
+    const { items, perPage, start, total, aggregations, attributeMetadata } = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
       includeFields,
       excludeFields,
       size: pageSize
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
+    await dispatch('loadAvailableFiltersFrom', {
+      aggregations,
+      attributeMetadata,
+      category: searchCategory,
+      filters: searchQuery.filters
+    })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
