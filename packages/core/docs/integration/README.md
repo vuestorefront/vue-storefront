@@ -23,6 +23,11 @@ One of the most important requirements for any Vue Storefront integration is to 
 
 We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic you will have all the tools needed to start building Composition Functions.
 
+:::warning Don't assume someone is using Nuxt!
+
+API Client and Composition API functions should work out of the box in any Vue.js environment (like Vue CLI), you should **never** require Nuxt for them to work
+
+:::
 ## To do
 
 1. Copy `packages/boilerplate` folder and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package. 

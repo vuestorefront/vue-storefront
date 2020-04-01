@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@vue-storefront/factories": "^0.0.1"
   },
   "files": [
     "lib/**/*"

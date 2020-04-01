@@ -20,21 +20,60 @@ By default fresh API Client package has following structure:
 - `src/types.ts` - This is a place where all your types should be placed. Especially interfaces for API Client methods and data entities like `category`, `product` etc.
 - `src/api` - This is a directory where you will put all API Client methods. It contains some example functions but feel free to remove them or add new. The content of this folder highly depend on eCommerce platform you're integrating with.
 
-## Using `ApiClientFactory`
+## Using `apiClientFactory`
 
-There is one particularly important element in `src/index.ts` file of your integration - `ApiClientFactory`. This function takes care of setting up everything you will need to implement API Client non-eCommerce functionalities like setup or overriding mechanism.
-
-```js
-const { setup, override, settings } = ApiClientFactory<MyPlatformApiClientMethods>(defaultSettings, onSetup)
-```
-
-Now lets take a look at what `ApiClientFactory` accepts and returns:
+There is one particularly important element in `src/index.ts` file of your integration - `apiClientFactory`. This function takes care of setting up everything you will need to implement API Client non-eCommerce functionalities like setup or overriding mechanism.
 
 ```js
-ApiClientFactory<API_CLIENT_METHODS>(defaultSettings, onSetup: (settings) => void)
+const { setup, override, update, settings } = apiClientFactory<MyPlatformApiClientMethods, MyPlatformApiClientSettings>({ defaultSettings, onSetup })
 ```
 
+Now, let's take a look at what `apiClientFactory` accepts and returns:
 
+```js
+apiClientFactory<API_CLIENT_METHODS, API_CLIENT_SETTINGS> (
+  factoryParams: { 
+    defaultSettings: API_CLIENT_SETTINGS;
+    onSetup: (config: API_CLIENT_SETTINGS) => void;
+  }
+) => { 
+  override: (overrides: API_CLIENT_METHODS) => void;
+  setup: (settings: API_CLIENT_SETTINGS) => void;
+  update: (settings: API_CLIENT_SETTINGS) => void;
+  getSettings: () => API_CLIENT_SETTINGS
+})
+```
+
+### Types
+
+- `API_CLIENT_METHODS` - This should be an interface containing signatures of all your API Client methods
+```ts
+import { 
+  GetCategory, 
+  GetCategoryParams,
+  GetProduct,
+  GetProductParams,
+  ...
+} from './types'
+
+interface MyPlatformApiClientMethods {
+  getCategory: (params: GetCategoryParams): GetCategory,
+  getProduct: (params: GetProductParams): GetProduct
+  ...
+}
+```
+- `API_CLIENT_SETTINGS` - Here you should specify all possible settings that can be passed to your API Client
+```ts
+interface MyPlatformApiClientSettings {
+  api?: string;
+  authSecret?: string;
+  defaultLocale?: string
+  ...
+} 
+```
+::: warning 
+Mark all API Client configuration settings as optional. Uusally users need to pass only a subset of them and use defaults for others
+:::
 ### Params
 
 - `defaultSettings` - This is a default configuration for your API Client. It's just an object similar to this one:
@@ -46,7 +85,7 @@ ApiClientFactory<API_CLIENT_METHODS>(defaultSettings, onSetup: (settings) => voi
   ...
 }
 ```
-- `onSetup(settings)` - Function that will be invoked after `setup`. Usually this is a place where you create an instance of external API Client or Axios. `settings` parameter contains `defaultSettings` merged with settings passed to `setup` method. It could look similarly to below function:
+- `onSetup(settings)` - Function that will be invoked after `setup` is called. Usually this is a place where you create an instance of external API Client or Axios. `settings` parameter contains `defaultSettings` merged with settings passed to `setup` method. It could look similarly to below function:
 ```js
 let api;
 
@@ -54,32 +93,20 @@ onSetup(settings) {
    api = new PlatformApiClient(settings)
 }
 ```
-- `API_CLIENT_METHODS` - Typings for API Client methods
-```ts
-import { GetCategory, 
-         GetCategoryParams,
-         GetProduct,
-         GetProductParams,
-         ...
-} from './types'
 
-interface MyPlatformApiClientMethods {
-  getCategory: (params: GetCategoryParams): GetCategory,
-  getProduct: (params: GetProductParams): GetProduct
-  ...
-}
-```
-### Returned values
+### Returns
 
-- `settings` - Default configuration of your API Client overridable with `setup` and `override`. This is almost exactly the same object you have passed as `defaultSettings` enriched with `overrides` property. It's a 
-- `setup` - Method responsible for setting up API Client. It saves credentials and options to `settings`. This is a method that user willing to use the integration needs to invoke.
-- `override` Method responsible for overriding API Client methods. 
+- `getSettings` - Method returning current configuration of your API Client _(readonly)_
+- `setup` - Method responsible for setting up API Client. It saves credentials and options to your settings. This is a method that users willing to use the integration need to invoke.
+- `override` - Method enabling overriding API Client methods. 
+- `update` - Method to update your 
 
 
 ## Implementing API Client method
 
-Lets see how we can implement a single API Client method. All other methods will be done in a same way
-Below you can find an example of properly implemented API Client method
+Let's see how we can implement a single API Client method. All other methods will be done in a same way
+
+Below you can find an example of a properly implemented API Client method
 
 ```js
 import { GetCategory, GetCategoryParams } from '../../types'
@@ -87,10 +114,12 @@ import { settings } from '../../index'
 import { MyPlatformApiClient } '../../index'
 
 function getCategory (params: GetCategoryParams): GetCategory {
- const products = await MyPlatformApiClient.getCategory(params)
+  if (settings.overrides.getCategory) return settings.overrides.getCategory(params)
+
+  const products = await MyPlatformApiClient.getCategory(params)
 }
 
-export default settings.overrides.getCategory || getCategory
+export default getCategory
 ```
 Okay. So what happened here?
 ```js
@@ -103,12 +132,19 @@ We also imported `settings` object that will be used later to enable overriding 
 
 ```js
 function getCategory (params: GetCategoryParams): GetCategory {
- const products = await MyPlatformApiClient.getCategory(params)
+  if (settings.overrides.getCategory) return settings.overrides.getCategory(params)
+
+  const products = await MyPlatformApiClient.getCategory(params)
+  return products
 }
 ```
-Then we just invoked `getCategory` method from our dedicated platform API Client (or one we made with axios).
+This part is very important because without it API Client methods overriding mechanism won't work.
 
-```js
-export default settings.overrides.getCategory || getCategory
-```
-This line is really important because it enables users to override API Client methods. Every time someone will use `override` method from `index.ts` and pass `getCategory` function there it will be automatically saved in `settings.overrides.getCategory`. By default this property is undefined therefore we're exporting `getCategory` but once it's filled the overrided method will be imported.
+First we are checking if user provided `getCategory` method to `override` function. Every time someone will use `override` method from `index.ts` and pass `getCategory` function there it will be automatically saved in `settings.overrides.getCategory`. If user did that then we are just using this new function, otherwise we're using the default one where we're invoking `MyPlatformApiClient.getCategory` method from our dedicated platform API Client (or one we made with axios).
+
+Thats all! This is more or less how every API Client method works.
+
+## To do
+
+1. Fill in the apiClientFactory types and params
+2. Implement API Client methods for interactions with product, cart, checkout, user, wishlist. If you're not sure how to handle some specific case check `commercetools` integration for reference.
