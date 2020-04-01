@@ -100,7 +100,7 @@ export default {
       const attribute = this.attributes[attributeKey]
       if (attribute && attribute.options && attribute.options.length > 1) {
         /** Only sort items with `sort_order` prop */
-        if (!filter.options.some(o => o.hasOwnProperty('sort_order'))) {
+        if (!attribute.options.some(o => o.hasOwnProperty('sort_order'))) {
           return filter
         }
 
