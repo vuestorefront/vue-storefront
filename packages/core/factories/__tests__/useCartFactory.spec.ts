@@ -1,8 +1,11 @@
 import { useCartFactory, UseCartFactoryParams } from '../src';
 import { UseCart } from '@vue-storefront/interfaces';
-import Vue from 'vue';
-import VueCompositionApi, { ref } from '@vue/composition-api';
-Vue.use(VueCompositionApi);
+import { ref } from '@vue/composition-api';
+import * as vsfUtils from '@vue-storefront/utils';
+
+jest.mock('@vue-storefront/utils');
+const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
+mockedUtils.onSSR.mockImplementation((fn) => fn());
 
 let useCart: () => UseCart<any, any, any, any>;
 let params: UseCartFactoryParams<any, any, any, any>;
@@ -42,29 +45,44 @@ describe('[CORE - factories] useCartFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: null,
+        saveToInitialState: jest.fn()
+      });
       const { cart, coupon, loading } = useCart();
 
       expect(cart.value).toEqual(null);
       expect(coupon.value).toEqual(null);
-      expect(loading.value).toEqual(false);
+      expect(loading.value).toEqual(true);
     });
 
     it('should load cart if not provided during factory creation', async () => {
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: null,
+        saveToInitialState: jest.fn()
+      });
       useCart();
-      expect(params.loadCart).toHaveBeenCalled();
+      expect(params.loadCart).toBeCalled();
     });
 
     it('should not load cart if is provided during factory creation', () => {
-      inputCart = { id: 'existingCart' };
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: { id: 'existingCart' },
+        saveToInitialState: jest.fn()
+      });
       createComposable();
       useCart();
-      expect(params.loadCart).not.toHaveBeenCalled();
+      expect(params.loadCart).not.toBeCalled();
     });
   });
 
   describe('computes', () => {
     describe('isOnCart', () => {
       it('should invoke implemented isOnCart method', () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { isOnCart } = useCart();
         const result = isOnCart({ id: 'productId' });
         expect(result).toEqual(true);
@@ -79,7 +97,10 @@ describe('[CORE - factories] useCartFactory', () => {
   describe('methods', () => {
     describe('refreshCart', () => {
       it('should refresh cart', async () => {
-        inputCart = { id: 'existingCart' };
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: { id: 'existingCart' },
+          saveToInitialState: jest.fn()
+        });
         createComposable();
         const { refreshCart, cart } = useCart();
         await refreshCart();
@@ -90,6 +111,10 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('addToCart', () => {
       it('should invoke adding to cart', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { addToCart, cart } = useCart();
         await addToCart({ id: 'productId' }, 2);
         expect(params.addToCart).toHaveBeenCalledWith({
@@ -103,6 +128,10 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('removeFromCart', () => {
       it('should invoke adding to cart', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { removeFromCart, cart } = useCart();
         await removeFromCart({ id: 'productId' });
         expect(params.removeFromCart).toHaveBeenCalledWith({
@@ -115,18 +144,30 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('updateQuantity', () => {
       it('should not invoke quantity update if quantity is not provided', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { updateQuantity } = useCart();
         await updateQuantity({ id: 'productId' });
         expect(params.updateQuantity).not.toBeCalled();
       });
 
       it('should not invoke quantity update if quantity is lower than 1', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { updateQuantity } = useCart();
         await updateQuantity({ id: 'productId' }, 0);
         expect(params.updateQuantity).not.toBeCalled();
       });
 
       it('should invoke quantity update', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { updateQuantity, cart } = useCart();
         await updateQuantity({ id: 'productId' }, 2);
         expect(params.updateQuantity).toHaveBeenCalledWith({
@@ -140,6 +181,10 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('clearCart', () => {
       it('should invoke clearCart', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { clearCart, cart } = useCart();
         await clearCart();
         expect(params.clearCart).toHaveBeenCalledWith({ currentCart: null });
@@ -149,6 +194,10 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('applyCoupon', () => {
       it('should apply provided coupon', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { applyCoupon, cart, coupon } = useCart();
         await applyCoupon('qwerty');
         expect(params.applyCoupon).toHaveBeenCalledWith({
@@ -162,6 +211,10 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: null,
+          saveToInitialState: jest.fn()
+        });
         const { removeCoupon, cart, coupon } = useCart();
         await removeCoupon();
         expect(params.removeCoupon).toHaveBeenCalledWith({
