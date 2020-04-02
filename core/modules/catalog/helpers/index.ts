@@ -56,8 +56,12 @@ const getConfigurationMatchLevel = (configuration, variant): number => {
   return configProperties
     .map(configProperty => {
       const variantPropertyId = variant[configProperty]
+      if (configuration[configProperty] === null) {
+        return false
+      }
+
       return [].concat(configuration[configProperty])
-        .map((f) => toString(f.id))
+        .map(f => toString(f.id))
         .includes(variantPropertyId)
     })
     .filter(Boolean)
