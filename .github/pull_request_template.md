@@ -1,1 +1,1 @@
-- [ ] I Accept [Individual Contributor License Agreement](https://github.com/DivanteLtd/next/blob/master/CLA.md)
+- [ ] I'm confirming that if i made any changes to public APIs or exposed any public APIs they are doccumented.

@@ -4,7 +4,7 @@
 
 ___
 
-API Client is just a tiny abstraction layer over network calls of your eCommerce platform. Every network call responsible for getting/setting certain type of data should be a simple function. For example when we have an enpoitnt responsible for fetching categories `category/{id}` we can express it as a following function `getCategory(id: string)`.
+API Client is just a tiny abstraction layer over network calls of your eCommerce platform. You can think about that as a data layer for your application. Every network call responsible for getting/setting certain type of data should be a simple function. For example when we have an enpoitnt responsible for fetching categories `category/{id}` we can express it as a following function `getCategory(id: string)`.
 
 API Client is also a root source for all Typescript interfaces related to your integration.
 
@@ -87,10 +87,10 @@ Mark all API Client configuration settings as optional. Uusally users need to pa
 ```
 - `onSetup(settings)` - Function that will be invoked after `setup` is called. Usually this is a place where you create an instance of external API Client or Axios. `settings` parameter contains `defaultSettings` merged with settings passed to `setup` method. It could look similarly to below function:
 ```js
-let api;
+let MyPlatformApiClient;
 
 onSetup(settings) {
-   api = new PlatformApiClient(settings)
+   MyPlatformApiClient = new PlatformApiClient(settings)
 }
 ```
 
@@ -146,5 +146,12 @@ Thats all! This is more or less how every API Client method works.
 
 ## To do
 
+::: warning Don't forget about unit tests
+Every integration needs to have 100% unit tests coverage
+:::
 1. Fill in the apiClientFactory types and params
-2. Implement API Client methods for interactions with product, cart, checkout, user, wishlist. If you're not sure how to handle some specific case check `commercetools` integration for reference.
+2. Implement API Client methods for CRUD interactions with product, category, cart, checkout, user, wishlist. If you're not sure how to handle some specific case check `commercetools` integration for reference.
+
+## Common problems
+
+- **Sharing platform token:** We suggest using same approach as in within commercetools integration https://vsf-next-docs.netlify.com/commercetools/api-client.html#token-handling. Keep in mind that the solution shouldn't depend on Nuxt (but Nuxt theme can implement a solution using what integration has provided)

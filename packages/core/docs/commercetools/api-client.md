@@ -72,7 +72,7 @@ export interface Auth {
 }
 ```
 
-### Token handling
+### Commercetools token handling
 
 Commercetools platform requires token to load data from the API. Our api-client generates this token itself, but you have to store it to prevent generating this multiple times. In order to do it, you can use  `onTokenChange` event to react on token updating and `setup` function for reconfiguration.
 

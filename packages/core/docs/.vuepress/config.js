@@ -28,6 +28,7 @@ module.exports = {
             ['/commercetools/', 'Introduction'],
             ['/commercetools/getting-started', 'Getting Started'],
             ['/commercetools/api-client', 'API Client'],
+            ['/commercetools/composables', 'Composables'],
             ['/commercetools/feature-list', 'Feature list']
           ]
         }, {
@@ -45,6 +46,7 @@ module.exports = {
           children: [
             ['/integration/', 'Introduction'],
             ['/integration/api-client', 'API Client'],
+            ['/integration/composables', 'Composables'],
           ],
         },
       ],
