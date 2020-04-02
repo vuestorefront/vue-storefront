@@ -7,8 +7,6 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
-import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
 import { icmaa, icmaa_catalog } from 'config'
 import intersection from 'lodash-es/intersection'
