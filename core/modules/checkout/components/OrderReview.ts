@@ -55,8 +55,8 @@ export const OrderReview = {
           }]
         })
 
-        this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
+          this.$bus.$emit('notification-progress-stop')
           this.onFailure(result)
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('password'))) {
@@ -72,6 +72,7 @@ export const OrderReview = {
             username: this.getPersonalDetails.emailAddress,
             password: this.getPersonalDetails.password
           })
+          this.$bus.$emit('notification-progress-stop')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
           this.onSuccess()
         }

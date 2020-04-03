@@ -56,7 +56,7 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
 
 const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
   TaskQueue.queue({
-    url:processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ const getProfile = async () =>
 const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(
-      getApiEndpointUrl(config.users, 'history_endpoint').replace('{{pageSize}}', pageSize+'').replace('{{currentPage}}', currentPage+'')
+      getApiEndpointUrl(config.users, 'history_endpoint').replace('{{pageSize}}', pageSize + '').replace('{{currentPage}}', currentPage + '')
     ),
     payload: {
       method: 'GET',

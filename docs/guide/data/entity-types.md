@@ -27,7 +27,7 @@ searchAdapter.registerEntityTypeByQuery('testentity', {
     // function that can modify the query each time before it's being executed
     return query;
   },
-  resultPorcessor: (resp, start, size) => {
+  resultProcessor: (resp, start, size) => {
     if (resp === null) {
       throw new Error('Invalid graphQl result - null not exepcted');
     }
@@ -38,7 +38,7 @@ searchAdapter.registerEntityTypeByQuery('testentity', {
         throw new Error(JSON.stringify(resp.error));
       } else {
         throw new Error(
-          "Unknown error with graphQl result in resultPorcessor for entity type 'category'",
+          "Unknown error with graphQl result in resultProcessor for entity type 'category'",
         );
       }
     }

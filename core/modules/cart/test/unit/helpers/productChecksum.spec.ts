@@ -5,14 +5,8 @@ const configurableProduct: CartItem = {
   product_option: {
     extension_attributes: {
       configurable_item_options: [
-        {
-          option_id: '93',
-          option_value: 53
-        },
-        {
-          option_id: '142',
-          option_value: 169
-        }
+        { option_id: '93', option_value: '53' },
+        { option_id: '142', option_value: '169' }
       ]
     }
   }
@@ -22,26 +16,10 @@ const bundleProduct: CartItem = {
   product_option: {
     extension_attributes: {
       bundle_options: [
-        {
-          option_id: 1,
-          option_qty: 1,
-          option_selections: [2]
-        },
-        {
-          option_id: 2,
-          option_qty: 1,
-          option_selections: [4]
-        },
-        {
-          option_id: 3,
-          option_qty: 1,
-          option_selections: [5]
-        },
-        {
-          option_id: 4,
-          option_qty: 1,
-          option_selections: [8]
-        }
+        { option_id: '1', option_qty: '1', option_selections: [ '2' ] },
+        { option_id: '2', option_qty: '1', option_selections: [ '4' ] },
+        { option_id: '3', option_qty: '1', option_selections: [ '5' ] },
+        { option_id: '4', option_qty: '1', option_selections: [ '8' ] }
       ]
     }
   }
@@ -49,10 +27,10 @@ const bundleProduct: CartItem = {
 
 describe('Cart productChecksum', () => {
   it('returns checksum for bundle product', async () => {
-    expect(productChecksum(bundleProduct)).toBe('d8ba5d5baf59fe28647d6a08fdaeb683a7b39ccdebc77eecabc6457c');
+    expect(productChecksum(bundleProduct)).toBe('3e183f026489207a9cd535d20f141e07ddfea729af58a9088b82612f');
   });
 
   it('returns checksum for configurable product', async () => {
-    expect(productChecksum(configurableProduct)).toBe('0bbb27ec7a3cb5dfd1d3f6c4ee54c8b522c4063fe6ea0571794d446f');
+    expect(productChecksum(configurableProduct)).toBe('357e8f9f8918873f12ed993c3073ddd3e8980c933034b5e2fdab10b6');
   });
 });

@@ -1,7 +1,9 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+
 let config = require('config')
 const path = require('path')
 const glob = require('glob')
+const fs = require('fs')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
@@ -28,7 +30,7 @@ const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
-const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
+const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`^.*\\.(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
 process['noDeprecation'] = true
@@ -91,13 +93,13 @@ function invalidateCache (req, res) {
         }
       })
 
-      serverHooksExecutors.afterCacheInvalidated()
-
       Promise.all(subPromises).then(r => {
         apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
         apiStatus(res, error, 500)
         console.error(error)
+      }).finally(() => {
+        serverHooksExecutors.afterCacheInvalidated({ tags, req })
       })
 
       if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain
@@ -145,6 +147,12 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
+
+function cacheVersion (req, res) {
+  res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
+}
+
+app.get('/cache-version.json', cacheVersion)
 
 app.get('*', (req, res, next) => {
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {

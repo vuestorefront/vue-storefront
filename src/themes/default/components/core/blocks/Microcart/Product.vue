@@ -51,7 +51,6 @@
           </div>
           <product-quantity
             class="h5 cl-accent lh25 qty"
-            v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             :value="productQty"
             :max-quantity="maxQuantity"
             :loading="isStockInfoLoading"

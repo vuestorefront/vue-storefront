@@ -63,11 +63,11 @@ export default {
 
   name: 'ResetPassword',
 
-  data() {
+  data () {
     return {
       email: this.$route.query.email,
       password: '',
-      rPassword: '',
+      rPassword: ''
     };
   },
 
@@ -89,7 +89,7 @@ export default {
 
   methods: {
 
-    async resetPassword() {
+    async resetPassword () {
       const { storeCode } = currentStoreView();
 
       // 1. Change password
@@ -105,7 +105,6 @@ export default {
       });
 
       try {
-
         // Send request to the VSF-API
         let response = await this.$store.dispatch('user/createPassword', {
           email: this.email,
@@ -126,7 +125,6 @@ export default {
             type: 'error'
           });
         } else if (response.code === 200) {
-
           this.$store.dispatch('notification/spawnNotification', {
             action1: { label: i18n.t('OK') },
             message: i18n.t('Sucessfully changed password'),
@@ -134,7 +132,6 @@ export default {
           });
 
           if (this.$store.state.config.users.loginAfterCreatePassword) {
-
             const { id: authNotificationId } = this.$store.dispatch('notification/spawnNotification', {
               action1: { label: i18n.t('OK') },
               message: i18n.t('Authorization in progress ...'),
@@ -151,17 +148,14 @@ export default {
               this.$store.dispatch('notification/removeNotificationById', authNotificationId);
 
               if (loginResult.code !== 200) {
-
                 this.$store.dispatch('notification/spawnNotification', {
                   action1: { label: i18n.t('OK') },
                   message: i18n.t('Something went wrong, sorry'),
                   type: 'error'
                 });
-
               } else {
                 this.$router.push(this.localizedRoute('/'));
               }
-
             } catch (err) {
               this.$store.dispatch('notification/removeNotificationById', authNotificationId);
 
@@ -187,7 +181,7 @@ export default {
     }
   },
 
-  async asyncData({ context, route }) {
+  async asyncData ({ context, route }) {
     // route.query.token & email are needed for this route
     // Otherwise redirect to the home
     const { storeCode } = currentStoreView();

@@ -7,8 +7,6 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
-import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
 import { icmaa, icmaa_catalog } from 'config'
 import intersection from 'lodash-es/intersection'
@@ -38,14 +36,19 @@ const actions: ActionTree<CategoryState, RootState> = {
     filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
 
     const { includeFields, excludeFields } = getters.getIncludeExcludeFields(searchCategory)
-    const { items, perPage, start, total, aggregations } = await quickSearchByQuery({
+    const { items, perPage, start, total, aggregations, attributeMetadata } = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
       includeFields,
       excludeFields,
       size: pageSize
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
+    await dispatch('loadAvailableFiltersFrom', {
+      aggregations,
+      attributeMetadata,
+      category: searchCategory,
+      filters: searchQuery.filters
+    })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)

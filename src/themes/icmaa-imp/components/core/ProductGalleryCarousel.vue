@@ -22,10 +22,13 @@
 
 <script>
 import config from 'config'
-import { Carousel, Slide } from 'vue-carousel'
 import ProductImage from './ProductImage'
 import reduce from 'lodash-es/reduce'
 import map from 'lodash-es/map'
+
+const importCarousel = (component) => import(/* webpackChunkName: "vue-carousel" */ 'vue-carousel').then(c => c[component])
+const Carousel = () => importCarousel('Carousel')
+const Slide = () => importCarousel('Slide')
 
 export default {
   name: 'ProductGalleryCarousel',
