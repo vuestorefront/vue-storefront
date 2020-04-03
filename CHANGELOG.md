@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix overlapping text in PersonalDetails component - @jakubmakielkowski (#4024)
 - Redirect from checkout to home with a proper store code - @Fifciu
 - Added back error notification when user selects invalid configuration - @1070rik (#4033)
-- findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo (#4042)
+- findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo, @cewald (#4042, #4216)
 - use storeCode for mappingFallback url - @gibkigonzo (#4050)
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
