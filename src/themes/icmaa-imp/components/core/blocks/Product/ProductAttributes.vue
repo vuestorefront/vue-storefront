@@ -16,10 +16,8 @@
 
 <script>
 import config from 'config'
-import { date } from '@vue-storefront/core/filters/date'
-
 import { mapGetters } from 'vuex'
-import { ProductAttribute } from '@vue-storefront/core/modules/catalog/components/ProductAttribute'
+import { date } from '@vue-storefront/core/filters/date'
 
 export default {
   name: 'ProductAttributes',

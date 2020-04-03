@@ -183,6 +183,7 @@
         "stock",
         "image",
         "thumbnail",
+        "small_image",
         "visibility",
         "type_id",
         "tax_class_id",

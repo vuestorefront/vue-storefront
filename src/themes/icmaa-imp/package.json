@@ -16,7 +16,7 @@
     "vue": "^2.6.6",
     "vue-carousel": "^0.18.0",
     "vue-lazyload": "^1.3.3",
-    "vue-no-ssr": "^0.2.2",
+    "vue-no-ssr": "^1.1.1",
     "vue-progressbar": "^0.7.5",
     "vue-recaptcha": "^1.2.0",
     "vue-scrollto": "^2.15.0",
