@@ -94,13 +94,15 @@ jobs:
       script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000
 
     - build_image:
-      if: branch = master AND type != pull_request
+      if: type != pull_request
       name: "Build docker image"
       stage: docker_build
       script:
         - docker build --build-arg COMMIT -t registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT -f dev/docker/Dockerfile .
         - echo $DOCKER_PASSWORD | docker login  -u="$DOCKER_USERNAME" --password-stdin registry.storefrontcloud.io
         - docker push registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT
+        - curl $COMMIT.vsf-next-demo.preview.storefrontcloud.io
+        - echo "This commit preview is available here $COMMIT.vsf-next-demo.preview.storefrontcloud.io"
 
     - deploy_to_storefrontcloud:
       if: branch = master AND type != pull_request
