@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@aboutyou/backbone": "^4.0.1",
+    "@aboutyou/backbone": "^4.1.0",
     "axios": "^0.19.2"
   },
   "files": [
