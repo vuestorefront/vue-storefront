@@ -200,6 +200,9 @@ export const routerHelper = Vue.observable({
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
 !isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
+if (!isServer && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual'
+}
 
 /*
   * serial executes Promises sequentially.

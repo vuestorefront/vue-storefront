@@ -1,3 +1,4 @@
+import { isServer } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
 import * as types from './mutation-types'
@@ -10,6 +11,7 @@ import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFal
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import isEqual from 'lodash-es/isEqual'
+import omit from 'lodash-es/omit'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -95,9 +97,28 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  setCurrentRoute ({ commit, state }, { to, from } = {}) {
-    commit(types.SET_CURRENT_ROUTE, to)
-    commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
-    commit(types.SET_PREV_ROUTE, from)
+  setCurrentRoute ({ commit, state, rootGetters }, { to, from } = {}) {
+    commit(types.SET_CURRENT_ROUTE, {
+      ...to,
+      scrollPosition: {...state.prevRoute.scrollPosition},
+      categoryPageSize: state.prevRoute.categoryPageSize
+    })
+
+    const sameAsPrevRoute = isEqual(
+      omit(state.prevRoute, ['scrollPosition', 'categoryPageSize']),
+      omit(state.currentRoute, ['scrollPosition', 'categoryPageSize'])
+    )
+    const hasDifferentPath = (state.currentRoute && state.currentRoute.path) !== (from && from.path)
+    commit(types.IS_BACK_ROUTE, sameAsPrevRoute && hasDifferentPath)
+
+    const scrollPosition = {
+      x: !isServer ? window.pageXOffset : 0,
+      y: !isServer ? window.pageYOffset : 0
+    }
+    commit(types.SET_PREV_ROUTE, {
+      ...from,
+      scrollPosition,
+      categoryPageSize: rootGetters['category-next/getCategoryProducts'].length
+    })
   }
 }

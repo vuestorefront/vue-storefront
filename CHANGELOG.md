@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixes bug that caused addToCart action not to display messages to user - @juho-jaakkola (#4185)
 - add missing cache tags for category and product - @gibkigonzo (#4173)
 - add ssrAppId to avoid second meta render on csr - @gibkigonzo (#4203)
+- take control over default broswer behavior and use saved category page size to load prev products - @gibkigonzo (#4201)
 
 ## [1.11.2] - 2020.03.10
 
