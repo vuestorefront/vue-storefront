@@ -312,12 +312,6 @@ import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/utils';
 
-// TODO: move to composable when core is ready: https://github.com/DivanteLtd/next/issues/296
-const defaultPagination = {
-  page: 1,
-  itemsPerPage: 20
-};
-
 const perPageOptions = [20, 40, 100];
 
 const sortByOptions = [
@@ -385,8 +379,8 @@ export default {
 
     const { categories, search, loading } = useCategory('categories');
     const { products: categoryProducts, totalProducts, search: productsSearch, loading: productsLoading } = useProduct('categoryProducts');
-    const currentPage = ref(parseInt(query.page, 10) || defaultPagination.page);
-    const itemsPerPage = ref(parseInt(query.items, 10) || defaultPagination.itemsPerPage);
+    const currentPage = ref(parseInt(query.page, 10) || 1);
+    const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
 
     onSSR(async () => {
       await search({ slug: lastSlug });
@@ -405,8 +399,8 @@ export default {
           perPage: itemsPerPage.value
         });
         context.root.$router.push({ query: {
-          items: itemsPerPage.value !== defaultPagination.itemsPerPage ? itemsPerPage.value : undefined,
-          page: currentPage.value !== defaultPagination.page ? currentPage.value : undefined
+          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
+          page: currentPage.value !== 1 ? currentPage.value : undefined
         }});
       }
     });
@@ -437,7 +431,7 @@ export default {
       totalPages: computed(() => Math.ceil(totalProducts.value / itemsPerPage.value)),
       currentPage,
       itemsPerPage,
-      perPageOptions,
+      perPageOptions: computed(() => perPageOptions),
       sortBy,
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
