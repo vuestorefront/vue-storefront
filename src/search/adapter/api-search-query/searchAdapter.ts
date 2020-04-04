@@ -12,7 +12,7 @@ import { SearchAdapter as OrgSearchAdapter } from '@vue-storefront/core/lib/sear
 
 export class SearchAdapter extends OrgSearchAdapter {
   public async search (Request) {
-    const rawQueryObject = Request.searchQuery
+    const rawQueryObject: SearchQuery = Request.searchQuery
     const response_format = 'compact'
     let request_format = 'search-query'
 
@@ -28,6 +28,11 @@ export class SearchAdapter extends OrgSearchAdapter {
     }
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       rawQueryObject['groupToken'] = Request.groupToken
+    }
+    if (Request.sort && typeof rawQueryObject.applySort === 'function') {
+      const [ field, options ] = Request.sort.split(':')
+      rawQueryObject.applySort({ field, options })
+      delete Request.sort
     }
     const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
     Request.index = storeView.elasticsearch.index
