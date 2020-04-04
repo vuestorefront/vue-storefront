@@ -31,6 +31,13 @@ module.exports = {
             ['/commercetools/composables', 'Composables'],
             ['/commercetools/feature-list', 'Feature list']
           ]
+        },
+        {
+          title: 'Composables',
+          collapsable: false,
+          children: [
+            ['/commercetools/use-product', 'useProduct'],
+          ]
         }, {
           title: 'Theme',
           collapsable: false,

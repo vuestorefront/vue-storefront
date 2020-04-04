@@ -3,7 +3,7 @@
 
 While API Client is a data layer for the application composables are the business logic part based on [Vue.js Composition API](https://vue-composition-api-rfc.netlify.com/). This package contains the following Composition API functions responsible for interacting with specific parts of eCommerce platform logic:
 - `useProduct` to fetch, filter and sort products
-- `useCategory` to get the information about category
+- `useCategory` to fetch categories
 - `useCart` to manage basket
 - `useUser` to manage authorization and user profile
    - `useUserOrders` (subcomposable to `useUser`) to manage user orders that has already been placed
@@ -18,17 +18,26 @@ Every composable is exposing more or less following properties:
 - **Main data object** - a single, readonly object that the rest of the composition function interacts with or depends on. For example in `useProduct` it's a `products` object that `search()` function interacts with.
 - **Main function that interacts with data object** which usually calls the API and updates the main data object, For example in `useProduct` and `useCategory` it's a `search` method, in `useCart` it's a `loadCart()` method etc.
 - **Supportive data objects** which are depending directly on indirectly on the main data object, for example, `loading`, `error` or `isAuthenticated` from `useUser` that is depending on `user` object.
-- **Getters** functions that can help you extract certain properties from complex objects and transform them to UI-friendly form, for example, we can use `productGetters.getproductAttributes()` function to extract attribute list from a certain product. **There are always the same getters for every eCommerce platform and they are always returning the same formats** which makes them a great tool to keep your frontend backend-agnostic if needed.
 
-Let's see an example of how Vue Storefront Composable could look like. This is how you can perform a product search in Vue Storefront:
+Let's see an example of how Vue Storefront Composable could look like. This is how you can perform a product search:
 
-```js
-const { products, search, loading, productGetters } = useProduct()
+<Content slot-key="example-product-search" />
 
-// We're performing a search method, so loading property value changes to `true`.
-search({ id: '12345' })
-// Once the api call is done `products` object is populated with the result and `loading` becomes `false` again.
+At the moment of invoking a `search` method the`loading` property value changes to `true`. Once the api call is done `products` object is populated with the result and `loading` becomes `false` again.
 
-// Then when we want to extract attributes list from prduct object and transform them to UI-friendly form ([{ name, value, label }]) we can use a getter. We're making it a computed property so when the `search` method will be invoked again and `product` will change the `attributes` object will change as well.
-const attributes = computed(() => productGetters.getproductAttributes(product.value[0]))
-```
+## Getters
+::: tip 
+Usage of getters is coompletely optional. Use them where it makes sense to you.
+:::
+
+Sometimes its hard to extract certain subproperties from complex data objects like products or categories and display them in the UI in a simple way. This is the reason why we introduced **getters**. Every getter is a simple function you can use to extract certain subproperties from specific objects. Every composable has its corresponding getter functions.
+
+<Content slot-key="example-product-search-getters" />
+
+___
+
+::: tip Writing backend-agnostic code
+In many cases using getters can save you time and contribute to cleaner code but there is one more thing about getters that makes them really useful. They're always returning agnostic data formats. No matter which platform we're using `productGetters.getAttributes()` will always return the data in a same, UI-friendly format. 
+
+Because interfaces for composables and getters are the same for every platform the above code from above example will work exactly the each one of them. Because of that you can use getters to keep your frontend code agnostic regarding eCommerce platform. This approach can be really useful when you're considering a migration to different platform in the near future
+:::
