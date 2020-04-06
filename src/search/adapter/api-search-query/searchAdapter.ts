@@ -29,6 +29,7 @@ export class SearchAdapter extends OrgSearchAdapter {
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       rawQueryObject['groupToken'] = Request.groupToken
     }
+    // Added our custom sorting here
     if (Request.sort && typeof rawQueryObject.applySort === 'function') {
       const [ field, options ] = Request.sort.split(':')
       rawQueryObject.applySort({ field, options })
