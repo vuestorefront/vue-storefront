@@ -5,6 +5,7 @@ import createCommerceToolsLink from './../../src/helpers/createCommerceToolsLink
 import createAccessToken from './../../src/helpers/createAccessToken';
 
 jest.unmock('./../../src/helpers/createCommerceToolsLink');
+// eslint-disable-next-line
 jest.mock('./../../src/helpers/createAccessToken', () => jest.fn(() => ({ access_token: 'access token'})));
 jest.mock('apollo-link-http');
 jest.mock('apollo-link-context');

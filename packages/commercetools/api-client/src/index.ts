@@ -32,7 +32,7 @@ let locales = [];
 let currentToken: Token = null;
 let api: ApiConfig = null;
 let auth: Auth = {
-  onTokenChange: (token: Token) => {},
+  onTokenChange: () => {},
   onTokenRemove: () => {}
 };
 let cookies = {

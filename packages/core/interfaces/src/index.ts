@@ -142,22 +142,20 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseLocale
-<
-  LOCALE,
-  COUNTRY,
-  CURRENCY,
-  AVAILABLE_LOCALES,
-  AVAILABLE_COUNTRIES,
-  AVAILABLE_CURRENCIES,
-> {
-  locale: LOCALE;
-  country: COUNTRY;
-  currency: CURRENCY;
-  availableLocales: AVAILABLE_LOCALES;
-  availableCountries: AVAILABLE_COUNTRIES;
-  availableCurrencies: AVAILABLE_CURRENCIES;
+export interface UseLocale {
+  availableLocales: ComputedProperty<AgnosticLocale[]>;
+  availableCountries: ComputedProperty<AgnosticCountry[]>;
+  availableCurrencies: ComputedProperty<AgnosticCurrency[]>;
+  country: ComputedProperty<AgnosticCountry>;
+  currency: ComputedProperty<AgnosticCurrency>;
+  loadAvailableLocales: () => Promise<void>;
+  loadAvailableCountries: () => Promise<void>;
+  loadAvailableCurrencies: () => Promise<void>;
   loading: ComputedProperty<boolean>;
+  locale: ComputedProperty<AgnosticLocale>;
+  setLocale: (locale: AgnosticLocale) => Promise<void>;
+  setCountry: (country: AgnosticCountry) => Promise<void>;
+  setCurrency: (currency: AgnosticCurrency) => Promise<void>;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -258,6 +256,26 @@ export interface AgnosticProductReview {
 export interface SearchResult<T> {
   data: T[];
   total: number;
+}
+
+export interface AgnosticLocale {
+  code: string;
+  label: string;
+  [x: string]: unknown;
+}
+
+export interface AgnosticCountry {
+  code: string;
+  label: string;
+  [x: string]: unknown;
+}
+
+export interface AgnosticCurrency {
+  code: string;
+  label: string;
+  prefixSign: boolean;
+  sign: string;
+  [x: string]: unknown;
 }
 
 // TODO - remove this interface
