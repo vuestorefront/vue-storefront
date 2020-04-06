@@ -8,6 +8,7 @@ const SearchQuery = {
   applyFilter: jest.fn()
 };
 
+jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
 jest.mock('@vue-storefront/core/lib/search/searchQuery', () => () =>
   SearchQuery
 );

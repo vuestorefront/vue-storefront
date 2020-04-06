@@ -80,9 +80,18 @@ const itemActions = {
         productIndex++
       }
     }
-    await dispatch('create')
+
+    let newDiffLog = await dispatch('create')
+    if (newDiffLog !== undefined) {
+      diffLog.merge(newDiffLog)
+    }
+
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      return dispatch('sync', { forceClientState: true })
+      const syncDiffLog = await dispatch('sync', { forceClientState: true })
+
+      if (!syncDiffLog.isEmpty()) {
+        diffLog.merge(syncDiffLog)
+      }
     }
 
     return diffLog
