@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 - Add `/cache-version.json` route to get current cache version
 - Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
+- Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
 
 ### Fixed
 
