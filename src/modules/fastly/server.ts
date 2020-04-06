@@ -24,7 +24,6 @@ serverHooks.beforeCacheInvalidated(async ({ tags }) => {
     config.server.availableCacheTags.indexOf(tag) >= 0 ||
     config.server.availableCacheTags.find(t => tag.indexOf(t) === 0)
   )
-  console.log(surrogate_keys)
 
   const response = await fetch(`https://api.fastly.com/service/${config.get('fastly.serviceId')}/purge`, {
     method: 'POST',
