@@ -22,6 +22,3 @@ Open:
 ```
 http://localhost:3000/invalidate?key=aeSu7aip&tag=home
 ```
-
-## Problems
-Please be aware that you can send maximum 256 keys per request, more info https://docs.fastly.com/api/purge#purge_db35b293f8a724717fcf25628d713583
