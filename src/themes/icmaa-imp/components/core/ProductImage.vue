@@ -1,5 +1,6 @@
 <template>
-  <img v-lazy="lazyObj" :data-srcset="`${sizes.src} 1x, ${sizes.srcAt2x} 2x`" v-on="$listeners" :alt="alt" class="product-image t-w-full t-w-auto">
+  <img v-lazy="lazyObj" :data-srcset="`${sizes.src} 1x, ${sizes.srcAt2x} 2x`" v-on="$listeners" :alt="alt" class="product-image t-w-full t-w-auto" v-if="image.src">
+  <img :src="sizes.error" :alt="alt" class="product-image t-w-full t-w-auto" v-else>
 </template>
 
 <script>
@@ -57,7 +58,7 @@ export default {
   methods: {
     getImageWithSize (width = 0, height = 0) {
       const regex = /(\/img\/)(\d+\/\d+)(\/resize\/)/gm
-      const src = this.image.src
+      const src = this.image.src || ''
       return src.replace(regex, `$1${width}/${height}$3`)
     },
     onLoaded ({ el, src }) {
