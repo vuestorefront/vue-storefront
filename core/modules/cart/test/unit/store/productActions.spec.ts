@@ -76,7 +76,7 @@ describe('Cart productActions', () => {
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => ({ items: [serverItem] }));
     const result = await (cartActions as any).findProductOption(contextMock, { serverItem });
-    expect(contextMock.dispatch).toBeCalledWith('product/list', { query: { _appliedFilters: [{ attribute: 'configurable_children.sku', options: Object, scope: 'default', value: { eq: 1 } }], _availableFilters: [], _searchText: '' }, size: 1, start: 0, updateState: false }, { root: true })
+    expect(contextMock.dispatch).toBeCalledWith('product/list', { query: { _appliedFilters: [{ attribute: 'configurable_children.sku', options: Object, scope: 'default', value: { eq: 1 } }], _availableFilters: [], _appliedSort: [], _searchText: '' }, size: 1, start: 0, updateState: false }, { root: true })
     expect(result).toEqual({ childSku: 1, sku: 1 })
   });
 
