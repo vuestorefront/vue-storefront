@@ -36,9 +36,10 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
-    filterQr
-      .applyFilter({ key: 'stock', scope: 'catalog', value: null })
-      .applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+    if (!searchQuery.sort) {
+      filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    }
 
     const {items, perPage, start, total, aggregations, attributeMetadata} = await quickSearchByQuery({
       query: filterQr,
@@ -77,9 +78,10 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
-    filterQr
-      .applyFilter({ key: 'stock', scope: 'catalog', value: null })
-      .applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+    if (!searchQuery.sort) {
+      filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    }
 
     const searchResult = await quickSearchByQuery({
       query: filterQr,
