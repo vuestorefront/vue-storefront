@@ -528,9 +528,9 @@
     "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
-    "alwaysSyncPlatformPricesOver": true,
-    "clearPricesBeforePlatformSync": true,
-    "waitForPlatformSync": true,
+    "alwaysSyncPlatformPricesOver": false,
+    "clearPricesBeforePlatformSync": false,
+    "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": [
