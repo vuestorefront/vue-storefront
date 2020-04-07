@@ -513,7 +513,7 @@ class Storefront extends Abstract {
           backend_dir: this.answers.backend_dir || false
         }
 
-        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2, flag: 'a'})
       } catch (e) {
         reject(new Error('Can\'t create storefront config.'))
       }
