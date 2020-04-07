@@ -47,6 +47,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product breadcrumbs path
    */
   async setupBreadcrumbs (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     let breadcrumbsName = null
     let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
@@ -317,6 +318,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+    console.warn('deprecated, will be removed in 1.13')
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
