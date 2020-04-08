@@ -192,9 +192,9 @@
         </transition-group>
         <SfPagination
           v-show="totalPages > 1"
-          class="products__pagination desktop-only"
+          class="products__pagination"
           :current="currentPage"
-          @click="page => currentPage = page"
+          @click="goToPage"
           :total="totalPages"
           :visible="5"
         />
@@ -419,6 +419,11 @@ export default {
       products.value[index].isOnWishlist = !this.products.value[index].isOnWishlist;
     }
 
+    const goToPage = (pageNumber) => {
+      currentPage.value = pageNumber;
+      context.root.$scrollTo(context.root.$el, 2000);
+    };
+
     return {
       products,
       productsLoading,
@@ -440,7 +445,8 @@ export default {
       updateFilter,
       clearAllFilters,
       toggleWishlist,
-      isGridView
+      isGridView,
+      goToPage
     };
   },
   components: {
@@ -598,6 +604,17 @@ export default {
   @include for-desktop {
     margin: var(--spacer-big);
   }
+  @include for-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+
+    &__pagination {
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
   &__grid,
   &__list {
     display: flex;
@@ -611,7 +628,7 @@ export default {
       flex: 1 1 25%;
     }
   }
-  // TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941
+  // TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941, https://github.com/DivanteLtd/storefront-ui/issues/1001
   &__pagination__options {
     display: flex;
     justify-content: center;
