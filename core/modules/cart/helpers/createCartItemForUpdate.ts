@@ -5,6 +5,7 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
   const sku = clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku
   const cartItem = {
     sku,
+    item_id: serverItem ? serverItem.item_id : null,
     qty: mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty,
     product_option: clientItem.product_option
   } as any as CartItem
