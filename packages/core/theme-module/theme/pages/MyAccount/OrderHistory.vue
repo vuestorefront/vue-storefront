@@ -54,6 +54,7 @@ import { computed } from '@vue/composition-api';
 
 import { useUserOrders, orderGetters } from '<%= options.composables %>';
 import { AgnosticOrderStatus } from '@vue-storefront/interfaces';
+import { onSSR } from '@vue-storefront/utils';
 
 export default {
   name: 'PersonalDetails',
@@ -65,7 +66,9 @@ export default {
   setup() {
     const { orders, searchOrders } = useUserOrders();
 
-    searchOrders();
+    onSSR(async () => {
+      await searchOrders();
+    });
 
     const tableHeaders = [
       'Order ID',

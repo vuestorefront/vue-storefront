@@ -1,5 +1,6 @@
 import { ref, Ref, computed } from '@vue/composition-api';
 import { UseUser } from '@vue-storefront/interfaces';
+import { useSSR, onSSR } from '@vue-storefront/utils';
 
 export type UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> = {
   loadUser: () => Promise<USER>;
@@ -20,6 +21,10 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
   );
 
   return function useUser(): UseUser<USER, UPDATE_USER_PARAMS> {
+    const { initialState, saveToInitialState } = useSSR('vsf-user');
+
+    user.value = initialState || null;
+
     const updateUser = async (params: UPDATE_USER_PARAMS) => {
       loading.value = true;
       try {
@@ -80,6 +85,7 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading.value = true;
       try {
         user.value = await factoryParams.loadUser();
+        saveToInitialState(user.value);
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -87,7 +93,12 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    refreshUser();
+    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
+    onSSR(async () => {
+      if (!user.value) {
+        await refreshUser();
+      }
+    });
 
     return {
       user: computed(() => user.value),

@@ -1,7 +1,13 @@
-import { useUserFactory } from '../src';
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
-Vue.use(VueCompositionApi);
+import { useUserFactory } from '../src/useUserFactory';
+import * as vsfUtils from '@vue-storefront/utils';
+
+jest.mock('@vue-storefront/utils');
+const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
+mockedUtils.onSSR.mockImplementation((fn) => fn());
+mockedUtils.useSSR.mockReturnValueOnce({
+  initialState: null,
+  saveToInitialState: jest.fn()
+});
 
 const factoryParams = {
   loadUser: jest.fn(() => null),
@@ -27,6 +33,7 @@ describe('[CORE - factories] useUserFactory', () => {
       expect(loading.value).toEqual(false);
       expect(isAuthenticated.value).toEqual(null);
     });
+
     it('isAuthenticated returns true for logged in user', async () => {
       const { isAuthenticated } = useUserMethods;
       const userToLogin = { username: 'John', password: '123456'};
