@@ -42,6 +42,11 @@ export class SearchAdapter {
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       rawQueryObject['groupToken'] = Request.groupToken
     }
+    if (Request.sort) {
+      const [ field, options ] = Request.sort.split(':')
+      rawQueryObject.applySort({ field, options })
+      delete Request.sort
+    }
     const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
     Request.index = storeView.elasticsearch.index
 
