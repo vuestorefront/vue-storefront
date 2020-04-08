@@ -15,6 +15,6 @@ describe('createSinglePageLoadQuery should', () => {
     const filter = { key: 'test', value: undefined }
     let singlePageMockQuery = createSinglePageLoadQuery(filter)
 
-    expect(singlePageMockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(singlePageMockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })

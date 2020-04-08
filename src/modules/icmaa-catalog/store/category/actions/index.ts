@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import * as types from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '@vue-storefront/core/modules/catalog-next/store/category/CategoryState'
-import { products } from 'config'
+import { products, entities } from 'config'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
@@ -21,7 +21,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * * Add custom `includeFields`/`excludeFields` loaded via getter
    * * Disable child-configuration in `processCategoryProducts`
    */
-  async loadCategoryProducts ({ commit, getters, dispatch }, { route, category, pageSize = 50 } = {}) {
+  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
@@ -31,14 +31,19 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
+    const { includeFields, excludeFields } = entities.productList
+    const sort = searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
+
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
     filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+    if (!searchQuery.sort) {
+      filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    }
 
-    const { includeFields, excludeFields } = getters.getIncludeExcludeFields(searchCategory)
-    const { items, perPage, start, total, aggregations, attributeMetadata } = await quickSearchByQuery({
+    const {items, perPage, start, total, aggregations, attributeMetadata} = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort,
       includeFields,
       excludeFields,
       size: pageSize
@@ -67,15 +72,20 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
-    const { includeFields, excludeFields } = getters.getIncludeExcludeFields(getters.getCurrentCategory)
+
+    const { includeFields, excludeFields } = entities.productList
+    const sort = searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
 
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
     filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+    if (!searchQuery.sort) {
+      filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
+    }
 
     const searchResult = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort,
       start: start + perPage,
       size: perPage,
       includeFields,
