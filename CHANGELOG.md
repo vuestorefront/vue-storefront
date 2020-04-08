@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update getCurrentCartHash after add/remove coupon - @gibkigonzo (#4220)
 - update replaceNumberToString, so it will change ONLY numbers to string - @gibkigonzo (#4217)
 - allow empty shipping methods in checkout - @gibkigozno (#4192)
+- configure products before price update - this is needed to have variant sku as product sku - @gibkigonzo (#4053)
 
 ## [1.11.2] - 2020.03.10
 

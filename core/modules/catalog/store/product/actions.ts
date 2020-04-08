@@ -47,6 +47,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product breadcrumbs path
    */
   async setupBreadcrumbs (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     let breadcrumbsName = null
     let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
@@ -317,6 +318,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+    console.warn('deprecated, will be removed in 1.13')
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
@@ -327,19 +329,21 @@ const actions: ActionTree<ProductState, RootState> = {
     return prod
   },
   async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
-    if (products.items && products.items.length) { // preconfigure products; eg: after filters
-      for (let product of products.items) {
-        product = await context.dispatch('preConfigureProduct', { product, populateRequestCacheTags, configuration }) // preConfigure(product)
-      }
-    }
+    const configuredProducts = await context.dispatch(
+      'category-next/configureProducts',
+      {
+        products: products.items,
+        filters: configuration || {},
+        populateRequestCacheTags
+      },
+      { root: true }
+    )
 
-    await context.dispatch('tax/calculateTaxes', { products: products.items }, { root: true })
+    await context.dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
 
-    for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
-      prod = configureChildren(prod)
-
+    for (let product of configuredProducts) { // we store each product separately in cache to have offline access to products/single method
       if (isCacheable) { // store cache only for full loads
-        storeProductToCache(prod, cacheByKey)
+        storeProductToCache(product, cacheByKey)
       }
     }
 
