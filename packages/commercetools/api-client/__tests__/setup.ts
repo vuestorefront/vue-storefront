@@ -7,7 +7,7 @@ jest.mock('apollo-client');
 jest.mock('@commercetools/sdk-auth', () => jest.fn(() => ({
   anonymousFlow: () => Promise.resolve('anonymous flow'),
   customerPasswordFlow: () => Promise.resolve('customer password flow'),
-  refreshTokenFlow: () => Promise.resolve('refresh token flow')
+  refreshTokenFlow: (refreshToken) => Promise.resolve(refreshToken)
 })));
 
 setup({

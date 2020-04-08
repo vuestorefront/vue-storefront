@@ -33,11 +33,12 @@ describe('[commercetools-api-client] tokenFlow', () => {
 
   it('creates refresh token flow', async () => {
     const currentToken = {
-      expires_at: Date.now() - 100
+      expires_at: Date.now() - 100,
+      refresh_token: 'current-refresh-token'
     } as any;
     const token = await createAccessToken({ currentToken });
 
-    expect(token).toEqual('refresh token flow');
+    expect(token).toEqual('current-refresh-token');
   });
 
   it('returns current token', async () => {

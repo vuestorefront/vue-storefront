@@ -31,10 +31,10 @@ const customerPasswordFlow = async (config: ApiConfig, credentials: CustomerCred
   return authClient.customerPasswordFlow(credentials);
 };
 
-const refreshTokenFlow = async (config: ApiConfig): Promise<Token> => {
+const refreshTokenFlow = async (config: ApiConfig, refreshToken: string): Promise<Token> => {
   const authClient = createAuthClient(config);
 
-  return authClient.refreshTokenFlow();
+  return authClient.refreshTokenFlow(refreshToken);
 };
 
 const isTokenExpired = (token: Token): boolean => Date.now() > token.expires_at;
@@ -55,7 +55,7 @@ const createAccessToken = async (options: FlowOptions = {}): Promise<Token> => {
   }
 
   if (isTokenExpired(currentToken)) {
-    return refreshTokenFlow(api);
+    return refreshTokenFlow(api, currentToken.refresh_token);
   }
 };
 
