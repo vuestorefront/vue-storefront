@@ -114,18 +114,18 @@ module.exports = {
             'data/data-loader'
           ],
         },
-        {
-          title: 'Working with Vuex',
-          collapsable: false,
-          children: [
-            'vuex/introduction',
-            'vuex/vuex-conventions',
-            'vuex/product-store',
-            'vuex/category-store',
-            'vuex/stock-store',
-            'vuex/attribute-store',
-          ],
-        },
+        // {
+        //   title: 'Working with Vuex',
+        //   collapsable: false,
+        //   children: [
+        //     'vuex/introduction',
+        //     'vuex/vuex-conventions',
+        //     'vuex/product-store',
+        //     'vuex/category-store',
+        //     'vuex/stock-store',
+        //     'vuex/attribute-store',
+        //   ],
+        // },
         {
           title: 'Integrations',
           collapsable: false,
@@ -155,7 +155,8 @@ module.exports = {
           children: [
             'archives/modules',
             'archives/extensions',
-            'archives/components'
+            'archives/components',
+            'archives/vuex'
           ],
         },
       ],
