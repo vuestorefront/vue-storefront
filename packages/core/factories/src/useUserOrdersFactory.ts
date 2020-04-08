@@ -9,8 +9,8 @@ export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
   return function useUserOrders(): UseUserOrders<ORDER> {
     const { initialState, saveToInitialState } = useSSR('vsf-user-orders');
-    const orders: Ref<ORDER[]> = ref(initialState ? initialState.data : []);
-    const totalOrders: Ref<number> = ref(initialState ? initialState.total : 0);
+    const orders: Ref<ORDER[]> = ref(initialState?.data || []);
+    const totalOrders: Ref<number> = ref(initialState?.total || 0);
     const loading: Ref<boolean> = ref(false);
 
     const searchOrders = async (params?: ORDER_SEARCH_PARAMS): Promise<void> => {

@@ -15,7 +15,9 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const loading = ref(false);
 
     const search = async (params: CATEGORY_SEARCH_PARAMS) => {
-      loading.value = true;
+      if (!initialState) {
+        loading.value = true;
+      }
       categories.value = await factoryParams.categorySearch(params);
       saveToInitialState(categories.value);
       loading.value = false;

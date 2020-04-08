@@ -28,10 +28,42 @@ describe('[CORE - factories] useProductFactory', () => {
     expect(totalProducts.value).toEqual(0);
   });
 
+  it('creates properties with ssr', () => {
+    mockedUtils.useSSR.mockReturnValueOnce({
+      initialState: { data: [{ prod: 1 }], total: 5 },
+      saveToInitialState: jest.fn()
+    });
+
+    const { products, loading, totalProducts } = useProduct('test-product');
+
+    expect(products.value).toEqual([{ prod: 1 }]);
+    expect(loading.value).toEqual(false);
+    expect(totalProducts.value).toEqual(5);
+  });
+
   it('returns product response', async () => {
     const saveToInitialState = jest.fn();
     mockedUtils.useSSR.mockReturnValueOnce({
       initialState: null,
+      saveToInitialState
+    });
+
+    const { search, products, totalProducts } = useProduct('test-use-product');
+
+    await search({ slug: 'product-slug' });
+
+    expect(products.value).toEqual([{name: 'product product-slug' }]);
+    expect(totalProducts.value).toEqual(1);
+    expect(saveToInitialState).toBeCalledWith({
+      data: [{name: 'product product-slug' }],
+      total: 1
+    });
+  });
+
+  it('returns product response with ssr', async () => {
+    const saveToInitialState = jest.fn();
+    mockedUtils.useSSR.mockReturnValueOnce({
+      initialState: { data: [{ prod: 1 }], total: 5 },
       saveToInitialState
     });
 

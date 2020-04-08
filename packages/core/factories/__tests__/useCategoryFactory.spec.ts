@@ -51,15 +51,25 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('methods', () => {
     describe('search', () => {
-      beforeEach(() => {
+      it('should invoke persistedResource on search', async () => {
         mockedUtils.useSSR.mockReturnValueOnce({
           initialState: null,
           saveToInitialState: jest.fn()
         });
+        const { categories, search } = useCategory();
+        expect(categories.value).toEqual([]);
+        await search({ someparam: 'qwerty' });
+        expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
+        expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
       });
 
-      it('should invoke persistedResource on search', async () => {
+      it('should invoke persistedResource on search with ssr', async () => {
+        mockedUtils.useSSR.mockReturnValueOnce({
+          initialState: [{ id: 'category-ssr' }],
+          saveToInitialState: jest.fn()
+        });
         const { categories, search } = useCategory();
+        expect(categories.value).toEqual([{ id: 'category-ssr' }]);
         await search({ someparam: 'qwerty' });
         expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
