@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - take control over default broswer behavior and use saved category page size to load prev products - @gibkigonzo (#4201)
 - update getCurrentCartHash after add/remove coupon - @gibkigonzo (#4220)
 - update replaceNumberToString, so it will change ONLY numbers to string - @gibkigonzo (#4217)
+- allow empty shipping methods in checkout - @gibkigozno (#4192)
 
 ## [1.11.2] - 2020.03.10
 
