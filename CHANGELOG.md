@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `vsf-capybara` support as a dependency and extend CLI to support customization - @psmyrek (#4209)
+- Pass the original item_id when updating/deleting a cart entry @carlokok (#4218)
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
