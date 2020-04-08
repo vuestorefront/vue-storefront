@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import { Carousel, Slide } from 'vue-carousel'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductGalleryImage from './ProductGalleryImage'
@@ -83,8 +82,8 @@ export default {
     }
   },
   components: {
-    Carousel,
-    Slide,
+    'Carousel': () => import(/* webpackChunkName: "vue-carousel" */ 'vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import(/* webpackChunkName: "vue-carousel" */ 'vue-carousel').then(Slider => Slider.Slide),
     ProductImage,
     ProductGalleryImage,
     ProductVideo

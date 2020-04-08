@@ -1,15 +1,17 @@
 <template>
   <div class="t-text-sm">
     <div class="description t-whitespace-pre-line" v-text="stripHTML(product.description.trim())" />
-    <ul class="attributes t-mt-6" v-if="attributes.length > 0">
-      <product-attributes
-        :key="attr.attribute_code"
-        v-for="attr in attributes"
-        :product="product"
-        :attribute="attr"
-        class="t-mb-3"
-      />
-    </ul>
+    <no-ssr>
+      <ul class="attributes t-mt-6" v-if="attributes.length > 0">
+        <product-attributes
+          v-for="(attr, i) in attributes"
+          :key="'product-attribute-' + attr.attribute_code + '-' + i"
+          :product="product"
+          :attribute="attr"
+          class="t-mb-3"
+        />
+      </ul>
+    </no-ssr>
     <div class="blank t-mt-6" v-if="blank">
       <span class="t-font-bold t-block t-mb-2">{{ blank.label }}</span>
       <img :src="blank.image" :srcset="`${blank.image} 1x, ${blank.imageAt2x} 2x`" :alt="blank.label + ' - ' + blank.optionLabel">
@@ -25,6 +27,7 @@ import { mapGetters } from 'vuex'
 import { stripHTML } from '@vue-storefront/core/filters/strip-html'
 import ProductAttributes from 'theme/components/core/blocks/Product/ProductAttributes'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+import NoSSR from 'vue-no-ssr'
 
 export default {
   props: {
@@ -35,24 +38,26 @@ export default {
   },
   components: {
     ProductAttributes,
-    MaterialIcon
+    MaterialIcon,
+    'no-ssr': NoSSR
   },
   computed: {
     ...mapGetters({
-      attributesByCode: 'attribute/attributeListByCode',
+      attributesByCode: 'attribute/getAttributeListByCode',
       getAttributeLabel: 'attribute/getAttributeLabel',
-      getOptionLabel: 'attribute/getOptionLabel'
+      getOptionLabel: 'attribute/getOptionLabel',
+      original: 'product/getOriginalProduct'
     }),
     attributes () {
       return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_visible_on_front === true && (this.product[a.attribute_code] && this.product[a.attribute_code][0] !== '')
+        return a.is_visible && a.is_visible_on_front === true && this.original[a.attribute_code] && this.original[a.attribute_code][0] !== ''
       })
     },
     blank () {
-      const blank = this.product.rohling
-      if (this.product.rohling) {
+      const blank = this.original.rohling
+      if (this.original.rohling) {
         const label = this.getAttributeLabel({ attributeKey: 'rohling' })
-        const optionLabel = this.getOptionLabel({ attributeKey: 'rohling', optionId: this.product.rohling })
+        const optionLabel = this.getOptionLabel({ attributeKey: 'rohling', optionId: this.original.rohling })
         const imagePath = '/assets/features/blanks/'
         const image = imagePath + optionLabel + '.png'
         const imageAt2x = imagePath + optionLabel + '@2x.png'
@@ -63,7 +68,7 @@ export default {
       return false
     },
     departmentAdvice () {
-      return this.product.department === 6
+      return this.original.department === 6
     }
   },
   methods: {

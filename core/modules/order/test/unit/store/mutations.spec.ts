@@ -1922,5 +1922,4 @@ describe('Order mutations', () => {
       expect(stateMock).toEqual(expectedState)
     })
   })
-
 });

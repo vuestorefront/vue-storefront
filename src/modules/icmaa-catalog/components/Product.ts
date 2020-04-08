@@ -12,10 +12,6 @@ export default {
       context.output.cacheTags.add(`product`)
     }
 
-    const filterValues = Object.keys(store.getters['product/getCurrentProduct'])
-      .filter(fieldName => config.icmaa_catalog.entities.product.prefetchAttributes.includes(fieldName))
-    await store.dispatch('attribute/list', { filterValues })
-
     await store.dispatch('icmaaCategoryExtras/loadDepartmentChildCategoryIdMap')
 
     const departmentCategoryId = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategoryId']
@@ -26,6 +22,13 @@ export default {
       if (category) {
         await store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
       }
+    }
+  },
+  mounted () {
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      this.$store.dispatch('attribute/loadProductAttributes', { products: [ this.product ] })
+    } else {
+      this.$store.dispatch('product/loadProductAttributes', { product: this.product })
     }
   },
   computed: {

@@ -190,6 +190,8 @@ export default {
     }
   },
   async mounted () {
+    this.$v.searchString.$touch()
+
     this.$refs.searchString.focus()
     disableBodyScroll(this.$refs.searchSidebar)
 

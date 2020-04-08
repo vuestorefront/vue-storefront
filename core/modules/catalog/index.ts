@@ -24,9 +24,11 @@ export const CatalogModule: StorefrontModule = async function ({store, router, a
   store.registerModule('category', categoryModule)
 
   // MOD < We do the prefetch on our own routine to improve performance – see `icmaa-catalog/index.ts`.
-  // await store.dispatch('attribute/list', { // loading attributes for application use
-  //   filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
-  // })
+  // if (!config.entities.attribute.loadByAttributeMetadata) {
+  //   await store.dispatch('attribute/list', { // loading attributes for application use
+  //     filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
+  //   })
+  // }
   // MOD > End
 
   if (!isServer) {

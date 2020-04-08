@@ -15,6 +15,8 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
+import isEqual from 'lodash-es/isEqual'
+import * as types from './mutation-types'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -60,7 +62,8 @@ export const actions: ActionTree<UrlState, any> = {
         if (routeData !== null) {
           return resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
         } else {
-          dispatch('mapFallbackUrl', { url, params: parsedQuery }).then(mappedFallback => {
+          const mappingActionName = config.urlModule.enableMapFallbackUrl ? 'mapFallbackUrl' : 'mappingFallback'
+          dispatch(mappingActionName, { url, params: parsedQuery }).then(mappedFallback => {
             const routeData = getFallbackRouteData({ mappedFallback, url })
             dispatch('registerMapping', { url, routeData }) // register mapping for further usage
             resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
@@ -75,7 +78,10 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    console.warn('Deprecated action mappingFallback - use mapFallbackUrl instead')
+    console.warn(`
+      Deprecated action mappingFallback - use mapFallbackUrl instead.
+      You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
+    `)
     const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
@@ -152,6 +158,9 @@ export const actions: ActionTree<UrlState, any> = {
           })
         }
       )
+      if (!response.ok) {
+        return null
+      }
       response = await response.json()
       return response
     } catch (err) {
@@ -205,5 +214,10 @@ export const actions: ActionTree<UrlState, any> = {
         break
       }
     }
+  },
+  setCurrentRoute ({ commit, state }, {to, from} = {}) {
+    commit(types.SET_CURRENT_ROUTE, to)
+    commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
+    commit(types.SET_PREV_ROUTE, from)
   }
 }

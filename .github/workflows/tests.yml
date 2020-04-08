@@ -13,6 +13,7 @@ env:
 jobs:
 
   test-lint:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +27,7 @@ jobs:
           yarn lint
 
   test-unit:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -50,6 +52,7 @@ jobs:
           yarn test:unit
 
   tests-e2e:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     strategy:
@@ -102,6 +105,7 @@ jobs:
           record: true
           parallel: true
           group: ${{ runner.os }}
+          ci-build-id: '${{ github.workflow }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}

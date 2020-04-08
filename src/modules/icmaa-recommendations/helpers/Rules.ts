@@ -1,7 +1,7 @@
-import forEach from 'lodash-es/forEach'
-import bodybuilder from 'bodybuilder'
-import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import { SearchQuery } from 'storefront-query-builder'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import forEach from 'lodash-es/forEach'
+import Product from '@vue-storefront/core/modules/catalog/types/Product'
 
 export interface RuleSets {
   [ruleSetKey: string]: {
@@ -26,7 +26,7 @@ class Rules {
   protected product: Product
   protected type: string
 
-  protected query: bodybuilder.Bodybuilder
+  protected query: SearchQuery
   protected isBuild: boolean = false
   protected validRules: { [ruleKey: string]: Rule } = {}
   protected filter: { and: Record<string, any>, or: Record<string, any> } = {
@@ -60,7 +60,7 @@ class Rules {
     this.rules = rules[type]
     this.type = type
     this.product = product
-    this.query = bodybuilder()
+    this.query = new SearchQuery()
 
     this.addDefaultFilter()
 
@@ -81,10 +81,10 @@ class Rules {
   }
 
   /**
-   * Returns bodybuilder object representation of current string
-   * @returns {bodybuilder.Bodybuilder}
+   * Returns SearchQuery object representation of current string
+   * @returns {SearchQuery}
    */
-  public getSearchQuery (): bodybuilder.Bodybuilder {
+  public getSearchQuery (): SearchQuery {
     if (!this.isBuild) {
       forEach(this.filter, (filters, andOrKey) => {
         const isOr = andOrKey === 'or'
@@ -104,7 +104,7 @@ class Rules {
    * @returns {string}
    */
   protected getElasticSearchQueryString (): string {
-    return JSON.stringify(this.getSearchQuery().build())
+    return JSON.stringify(this.getSearchQuery())
   }
 
   /**
@@ -180,8 +180,9 @@ class Rules {
    */
   protected addDefaultFilter (): this {
     this.query
-      .filter('terms', 'visibility', [2, 3, 4])
-      .filter('terms', 'status', [0, 1])
+      .applyFilter({ key: 'stock', scope: 'catalog', value: null })
+      .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
+      .applyFilter({ key: 'status', value: { in: [0, 1] } })
 
     return this
   }
@@ -212,11 +213,7 @@ class Rules {
    * @returns {this}
    */
   protected filterAttributeNotNull ({ key, value, isOr }: FilterOptions): this {
-    this.filterAttributeIsNullAndIsNotNull(
-      { key, value, isOr },
-      'query'
-    )
-
+    this.filterAttributeIsNullAndIsNotNull({ key, value, isOr }, false)
     return this
   }
 
@@ -224,25 +221,21 @@ class Rules {
    * @returns {this}
    */
   protected filterAttributeIsNull ({ key, value, isOr }: FilterOptions): this {
-    this.filterAttributeIsNullAndIsNotNull(
-      { key, value, isOr },
-      'notQuery'
-    )
-
+    this.filterAttributeIsNullAndIsNotNull({ key, value, isOr }, true)
     return this
   }
 
   /**
-   * @param {string} keyword
+   * @param {string} operator
    * @returns {this}
    */
-  protected filterAttributeIsNullAndIsNotNull ({ key, isOr }: FilterOptions, keyword: string = 'query'): this {
+  protected filterAttributeIsNullAndIsNotNull ({ key, isOr }: FilterOptions, exists: boolean): this {
     if (isOr) {
-      this.query.orQuery('bool', (b) => {
-        return b[keyword]('exists', key, null)
-      })
+      const operator = exists ? 'or' : 'nor'
+      this.query.applyFilter({ key, value: { [operator]: null } })
     } else {
-      this.query[keyword]('exists', key, null)
+      const operator = exists ? 'in' : 'nin'
+      this.query.applyFilter({ key, value: { [operator]: null } })
     }
 
     return this
@@ -305,12 +298,8 @@ class Rules {
    * @returns {this}
    */
   protected filterAttributeLowerOrGreaterOrEqual ({ key, value, isOr }: FilterOptions, keyword: string = 'lte'): this {
-    if (isOr) {
-      this.query.orQuery('range', key, { [keyword]: value })
-    } else {
-      this.query.query('range', key, { [keyword]: value })
-    }
-
+    const operator = isOr ? 'or' + (keyword.charAt(0).toUpperCase() + keyword.substr(1)) : keyword
+    this.query.applyFilter({ key, value: { [operator]: value } })
     return this
   }
 
@@ -318,21 +307,8 @@ class Rules {
    * @returns {this}
    */
   protected filterAttributeValue ({ key, value, isOr }: FilterOptions): this {
-    if (isOr) {
-      if (value === null) {
-        this.query.orQuery('bool', (b) => {
-          return b.notQuery('exists', key)
-        })
-      } else {
-        this.query.orQuery('terms', key, this.getArrayFilterValue(value))
-      }
-    } else {
-      if (value === null) {
-        this.query.notQuery('exists', key)
-      } else {
-        this.query.query('terms', key, this.getArrayFilterValue(value))
-      }
-    }
+    const operator = isOr ? 'or' : 'in'
+    this.query.applyFilter({ key, value: { [operator]: value } })
 
     return this
   }
@@ -341,35 +317,10 @@ class Rules {
    * @returns {this}
    */
   protected filterNotAttributeValue ({ key, value, isOr }: FilterOptions): this {
-    if (isOr) {
-      if (value === null) {
-        this.query.orQuery('exists', key)
-      } else {
-        this.query.orQuery('bool', (b) => {
-          return b.notQuery('terms', key, this.getArrayFilterValue(value))
-        })
-      }
-    } else {
-      if (value === null) {
-        this.query.query('exists', key)
-      } else {
-        this.query.notQuery('terms', key, this.getArrayFilterValue(value))
-      }
-    }
+    const operator = isOr ? 'nor' : 'nin'
+    this.query.applyFilter({ key, value: { [operator]: value } })
 
     return this
-  }
-
-  /**
-   * @param {any[]} value
-   * @returns {any[]}
-   */
-  protected getArrayFilterValue (value: any): any[] {
-    if (!Array.isArray(value)) {
-      return [value]
-    }
-
-    return value
   }
 
   /**

@@ -15,6 +15,6 @@ describe('createPageLoadingQuery', () => {
     const filter = { filterField: 'test', filterValues: undefined }
     let pageLoadingQuery = createPageLoadingQuery(filter)
 
-    expect(pageLoadingQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(pageLoadingQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })

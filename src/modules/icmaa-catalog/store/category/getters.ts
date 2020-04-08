@@ -31,15 +31,14 @@ const getters: GetterTree<CategoryState, RootState> = {
     return intersection(parents, currentFilterKeys).length > 0
   },
   isCategoryInTicketWhitelist: () => (category: Category): boolean => {
+    if (!category || !category.path) {
+      return false
+    }
     let whitelist = icmaa_catalog.entities.productListTicket.parentCategoryWhitelist || []
     const pathIds = category.path.split('/').map(id => Number(id))
     return intersection(pathIds, whitelist).length > 0
   },
   isCurrentCategoryInTicketWhitelist: (state, getters): boolean => {
-    if (!getters.getCurrentCategory) {
-      return false
-    }
-
     return getters.isCategoryInTicketWhitelist(getters.getCurrentCategory)
   },
   getIncludeExcludeFields: (state, getters) => (category: Category): { includeFields, excludeFields } => {

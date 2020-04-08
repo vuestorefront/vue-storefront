@@ -7,7 +7,7 @@
             {{ message }}<br>
             <span class="t-hidden lg:t-inline t-text-xs t-text-base-lighter t-font-thin">{{ messageSub }}</span>
           </div>
-          <button-component size="sm" type="ghost-white" icon="check" @click="accept">
+          <button-component size="sm" type="alt-3" icon="check" @click="accept">
             {{ $t('Accept') }}
           </button-component>
           <button-component size="sm" type="transparent-white" icon="info" :icon-only="true" @click="$router.push(localizedRoute(detailsLink))">

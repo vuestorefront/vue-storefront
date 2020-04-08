@@ -56,6 +56,6 @@ describe('AddToWishlist', () => {
 
     (wrapper.vm as any).addToWishlist(product);
 
-    expect(mockStore.modules.wishlist.actions.addItem).toHaveBeenCalledWith(expect.anything(), product, undefined);
+    expect(mockStore.modules.wishlist.actions.addItem).toHaveBeenCalledWith(expect.anything(), product);
   });
 });

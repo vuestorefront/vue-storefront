@@ -1,6 +1,6 @@
-import { StoreView } from '@vue-storefront/core/lib/types'
+import { StoreView as StoreViewAbstract } from '@vue-storefront/core/lib/types'
 
-export interface StoreView {
+export interface StoreView extends StoreViewAbstract {
   [key: string]: any
 }
 

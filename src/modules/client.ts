@@ -13,6 +13,7 @@ import { CmsModule } from '@vue-storefront/core/modules/cms'
 import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
+import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-resources'
 // ICMAA Modules
 import { IcmaaExtendedConfigModule } from 'icmaa-config'
 import { IcmaaExtendedUrlModule } from 'icmaa-url'
@@ -38,6 +39,7 @@ import { IcmaaTrackingModule } from 'icmaa-tracking'
 import { IcmaaExternalCheckoutModule } from 'icmaa-external-checkout'
 import { IcmaaAmpRendererModule } from './icmaa-amp-renderer'
 
+// import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 // TODO:distributed across proper pages BEFORE 1.11
@@ -56,6 +58,8 @@ export function registerClientModules () {
   registerModule(BreadcrumbsModule)
   registerModule(CmsModule)
   registerModule(NewsletterModule)
+  registerModule(InitialResourcesModule)
+  // registerModule(DeviceModule)
   // ICMAA Modules
   registerModule(IcmaaExtendedConfigModule)
   registerModule(IcmaaExtendedUrlModule)

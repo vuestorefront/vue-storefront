@@ -22,6 +22,10 @@ We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind th
 
 ### Prerequisites
 
+:::tip NOTE
+This guide is tested on _Ubuntu 18.04_ and other major distros. The list will be updated continuously. 
+:::
+
 Vue Storefront requires **Elasticsearch** and the **Redis server** to be installed. By default, in the development mode, both dependencies are provided with the `docker-compose.yml` Docker images. However, for production purposes, we recommend installing the servers natively.
 
 For the purpose of this tutorial, we will use default packages distributed along with Debian operating systems, without any security hardening, config hardening operations.
@@ -70,29 +74,83 @@ Some additional materials:
 
 #### NGINX configuration
 
+:::warning OPTIONAL
+In case you have already set up SSL on your own domain, please skip to [the next step](#now-you-can-run-the-nginx-with-ssl-applied). 
+:::
+
 Create NGINX config file from the template (please run as a root user):
 
 ```bash
 curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
-Now you can run the NGINX:
+
+You need to replace two lines of the configuration you just downloaded with the actual path to your certificate files with its key. 
+
+**Install the SSL certificate**
+
+SSL secured connection is a ___must-have requisite___ for PWA and service-workers by its spec.
+
+In this guide, we will use free ___Let's Enrypt___ service to get the SSL certificate for the sake of simplicity. 
+In order to use ___Let's Encrypt___, you need to install `certbot`, the guide is [here](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx). 
+
+:::tip NOTE
+As sure as it gets, you can use any other SSL service provider of your choice which best suits your need. It's not free most of time though. 
+:::
+
+Once `certbot` installation is done, run the following command to get the certificate information. 
+```bash
+certbot certificates
+```
+
+The result would be like as follows : 
+```bash
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: prod.vuestorefront.io
+    Domains: prod.vuestorefront.io
+    Expiry Date: 2020-04-19 22:47:19+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
+
+Replace the paths for certificate and its key in the `/etc/nginx/sites-available/prod.vuestorefront.io` with the info above as follows :
+```bash{5,6}
+# ... abridged
+
+  ssl on;
+
+  ssl_certificate /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem;
+
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+# abridged ...
+``` 
+
+:::tip NOTE
+```bash
+server {
+  listen 80;
+  server_name prod.vuestorefront.io; 
+  return 301 https://prod.vuestorefront.io$request_uri;
+}
+```
+
+This section runs the standard `http://prod.vuestorefront.io` and creates a wildcard redirect from `http://prod.vuestorefront.io/*` -> `https://prod.vuestorefront.io/*`. 
+:::
+
+#### Now you can run the NGINX with SSL applied :
 
 ```bash
 /etc/init.d/nginx restart
 ```
 
-This will allow you to run your site without the SSL certificate
-
-**Install the SSL certificate**
-
-SSL secured connection is a must for run PWA and use service-workers.
-
-For SSL we'll be using Free SSL solution called `Let's Enrypt`
-
-This section runs the standard http://prod.vuestorefront.io and creates a wildcard redirect from http://prod.vuestorefront.io/* -> https://prod.vuestorefront.io/. SSL secured connection is a must to run PWA and use Service Workers.
-
-After you're done with the installation, open the file at `/etc/nginx/sites-enabled/prod.vuestorefront.io-ssl` and add `http2` after the `server_name` value (but before the semicolon!). It should look like this: 
+:::tip TIP
+After you're done with the installation, once again open `/etc/nginx/sites-available/prod.vuestorefront.io` and add `http2` after the `listen 443 ssl` (but before the semicolon!). It should look like this: 
 ```
 server {
     listen 443 ssl http2;
@@ -103,17 +161,18 @@ server {
 }
 ```
 
-`http2` is not required, but can optimize the experience for browsers which support it. More details on http/2 can be found at https://developers.google.com/web/fundamentals/performance/http2/  
+`http2` is not required, but can optimize the experience for browsers that support it. More details on http/2 can be found at [here](https://developers.google.com/web/fundamentals/performance/http2/)
+:::
 
-##### Some notes on the provided nginx config 
+#### Some notes on the provided nginx config 
 
 Here we go with the SSL settings based on our best experiences from the past. Please read details in the
  [NGINX documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) if you like ;)
 
 ```
-gzip on;
-gzip_proxied any;
-gzip_types
+  gzip on;
+  gzip_proxied any;
+  gzip_types
   text/css
   text/javascript
   text/xml
@@ -130,22 +189,22 @@ location / {
 }
 ```
 
-We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) from the `ngx_http_proxy_module` to pull content from the Vue Storefront node.js server. The site will be available under https://prod.vuestorefront.io/
+We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) from the `ngx_http_proxy_module` to pass content from the Vue Storefront node.js server. The content should be available under ___https://prod.vuestorefront.io/___ according to the configuration. 
 
 ```
 location /assets/ {
   proxy_pass http://localhost:3000/assets/;
 }
 ```
+It just works the same way with sub directories too. 
 
-The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
 ```
 location /api/ {
   proxy_pass http://localhost:8080/api/;
 }
 ```
 
-The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). The API will be available under: https://prod.vuestorefront.io/api
+The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under ___https://prod.vuestorefront.io/api___
 
 ```
 location /img/ {
@@ -153,7 +212,7 @@ location /img/ {
 }
 ```
 
-The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under: https://prod.vuestorefront.io/img
+The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under ___https://prod.vuestorefront.io/img___
 
 #### Apache2 configuration
 
@@ -301,10 +360,6 @@ The only lines you need to alter are:
         "allowedHosts": [
             ".*divante.pl",
             ".*vuestorefront.io"
-        ],
-        "trustedHosts": [
-            ".*divante.pl",
-            ".*vuestorefront.io"
         ]
     },
     "keepDownloads": true,
@@ -322,7 +377,7 @@ The only lines you need to alter are:
 }
 ```
 
-You should put here the `allowedHosts` and `trustedHosts` for the Imageable to download the product images. The domain name points to the Magento 2 instance where images are sourced. In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
+You should put here the `allowedHosts` for the _imageable_ node to download the product images. The domain name points to the Magento 2 instance where images are sourced. In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
 
  #### Using your own Magento 2 instance
  

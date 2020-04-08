@@ -244,7 +244,9 @@ export const Payment = {
       }
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
-      this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+      if (this.payment.paymentMethod) {
+        this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+      }
     },
     changeCountry () {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })

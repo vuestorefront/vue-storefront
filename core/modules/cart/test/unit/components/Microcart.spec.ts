@@ -96,7 +96,7 @@ describe('Microcart', () => {
 
     (wrapper.vm as any).applyCoupon(couponCode);
 
-    expect(storeMock.modules.cart.actions.applyCoupon).toBeCalledWith(expect.anything(), 'foo', undefined);
+    expect(storeMock.modules.cart.actions.applyCoupon).toBeCalledWith(expect.anything(), 'foo');
   });
 
   it('removeCoupon dispatches removeCoupon action to delete it', () => {

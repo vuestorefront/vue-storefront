@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import toString from 'lodash-es/toString'
 import config from 'config'
-
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -84,10 +83,6 @@ export default {
       const defaultFilters = config.products.defaultFilters
       store.dispatch('category/resetFilters')
       EventBus.$emit('filter-reset')
-      await store.dispatch('attribute/list', { // load filter attributes for this specific category
-        filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
-      })
       const parentCategory = await store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
       let query = store.getters['category/getCurrentCategoryProductQuery']
       if (!query.searchProductQuery) {

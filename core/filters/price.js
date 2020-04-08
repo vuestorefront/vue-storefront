@@ -1,14 +1,21 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-const formatValue = (value, locale) => {
-  const price = Math.abs(parseFloat(value))
-  const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  return formatter.format(price)
-}
-
 const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
   return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
-}
+};
+
+const getLocaleSeparators = (defaultLocale) => {
+  return {
+    decimal: (0.01).toLocaleString(defaultLocale).replace(/[0-9]/g, ''),
+    group: (1000).toLocaleString(defaultLocale).replace(/[0-9]/g, '')
+  }
+};
+
+const replaceSeparators = (formattedPrice, currencySeparators, separators) => {
+  if (currencySeparators.decimal) formattedPrice = formattedPrice.replace(separators.decimal, currencySeparators.decimal);
+  if (currencySeparators.group) formattedPrice = formattedPrice.replace(separators.group, currencySeparators.group);
+  return formattedPrice;
+};
 
 /**
  * Converts number to price string
@@ -23,10 +30,17 @@ export function price (value, storeView) {
     return value;
   }
 
-  const { defaultLocale, currencySign, priceFormat } = _storeView.i18n
+  const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
 
-  const formattedValue = formatValue(value, defaultLocale)
-  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
+  const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
+
+  const localePrice = value.toLocaleString(defaultLocale, options);
+
+  let formattedPrice = localePrice;
+  if (currencyDecimal !== '' || currencyGroup !== '') {
+    formattedPrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
+  }
+  const valueWithSign = applyCurrencySign(formattedPrice, { currencySign, priceFormat });
 
   if (value >= 0) {
     return valueWithSign
