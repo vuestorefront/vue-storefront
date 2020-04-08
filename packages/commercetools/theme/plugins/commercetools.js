@@ -22,6 +22,9 @@ export default ({ app }) => {
 
   setup({
     ...config,
+    locale: app.$cookies.get(config.cookies.localeCookieName),
+    currency: app.$cookies.get(config.cookies.currencyCookieName),
+    country: app.$cookies.get(config.cookies.countryCookieName),
     currentToken,
     auth: {
       onTokenChange,

@@ -80,7 +80,7 @@ module.exports = function DefaultThemeModule(moduleOptions) {
     });
     routes.push({
       name: 'product',
-      path: '/p/:slug/',
+      path: '/p/:id/:slug/',
       component: resolve(projectLocalThemeDir, 'pages/Product.vue')
     });
     routes.push({

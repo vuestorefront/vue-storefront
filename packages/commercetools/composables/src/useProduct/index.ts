@@ -10,11 +10,16 @@ const productsSearch = async (params: {
   sort?: any;
   term?: any;
   filters?: any;
+  catId?: string | string[];
+  skus?: string[];
+  slug?: string;
+  id?: string;
 }): Promise<SearchResult<ProductVariant>> => {
   const apiSearchParams = {
     ...params,
     ...mapPaginationParams(params)
   };
+
   const productResponse = await getProduct(apiSearchParams);
   const enhancedProductResponse = enhanceProduct(productResponse);
   return {

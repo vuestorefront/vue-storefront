@@ -13,6 +13,12 @@ export default async ({ app }) => {
 
   app.$cookies.set(CT_TOKEN_COOKIE_NAME, currentToken);
 
-  setup({ ...config, currentToken });
+  setup({
+    ...config,
+    currentToken,
+    locale: app.$cookies.get(config.cookies.localeCookieName),
+    currency: app.$cookies.get(config.cookies.currencyCookieName),
+    country: app.$cookies.get(config.cookies.countryCookieName)
+  });
 };
 

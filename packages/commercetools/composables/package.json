@@ -12,10 +12,11 @@
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
+    "@vue-storefront/factories": "^0.0.1",
     "@vue-storefront/interfaces": "^0.0.3",
     "@vue-storefront/utils": "^0.0.3",
     "@vue/composition-api": "^0.3.4",
-    "@vue-storefront/factories": "^0.0.1",
+    "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
   "devDependencies": {

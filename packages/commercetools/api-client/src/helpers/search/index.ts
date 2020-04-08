@@ -21,6 +21,10 @@ const buildProductWhere = (search: ProductSearch) => {
     return `masterData(current(slug(${locale}="${search.slug}")))`;
   }
 
+  if (search && search.id) {
+    return `id="${search.id}"`;
+  }
+
   return '';
 };
 

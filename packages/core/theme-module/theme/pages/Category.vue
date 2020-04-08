@@ -163,7 +163,7 @@
             :score-rating="3"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getSlug(product)}`"
+            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
             class="products__product-card"
           />
         </transition-group>
@@ -187,7 +187,7 @@
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getSlug(product)}`"
+            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
           />
         </transition-group>
         <SfPagination

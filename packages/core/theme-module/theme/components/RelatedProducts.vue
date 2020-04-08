@@ -7,7 +7,7 @@
             :title="productGetters.getName(product)"
             :image="productGetters.getCoverImage(product)"
             :regular-price="productGetters.getPrice(product).regular"
-            :link="`/p/${productGetters.getSlug(product)}`"
+            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
             class="product-card"
           />
         </SfCarouselItem>

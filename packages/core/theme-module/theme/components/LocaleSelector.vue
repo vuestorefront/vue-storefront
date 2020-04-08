@@ -22,25 +22,29 @@
 </template>
 
 <script>
-import { SfButton, SfImage, SfSelect } from '@storefront-ui/vue';
+import { SfImage, SfSelect, SfButton } from '@storefront-ui/vue';
 import { useLocale } from '<%= options.composables %>';
+
+/*
+  This is the old version of that component.
+  Waiting for core useLocaleFactory.
+*/
 
 export default {
   components: {
-    SfButton,
     SfImage,
-    SfSelect
+    SfSelect,
+    SfButton
   },
   setup(props, context) {
-    const { $i18n, $router, $route } = context.root;
+    const { $router, $route } = context.root;
     const { locale, ...fields } = useLocale();
-    const setCookie = $i18n.setLocaleCookie;
+    const setCookie = context.root.$i18n.setLocaleCookie;
 
     const handleChangeLang = ({ name }) => {
       locale.value = name;
       setCookie(name);
-      $router.go({ path: $route.fullPath,
-        force: true });
+      $router.go({ path: $route.fullPath, force: true });
     };
 
     return {
@@ -54,33 +58,27 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
-
 .container {
   margin: 0 -5px;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-
   &::v-deep .sf-select {
     --select-font-size: var(--font-size-small);
   }
-
   &__select {
     padding: 0 5px;
     margin: 0;
     cursor: pointer;
-
     &::v-deep .sf-select__dropdown {
       min-width: 150px;
     }
-
     &::v-deep .sf-select__selected {
       padding: 0;
       display: flex;
       align-items: center;
     }
   }
-
   &__lang {
     --image-width: 20px;
     background: none;
@@ -89,12 +87,10 @@ export default {
     align-items: center;
     opacity: 0.5;
     border: none;
-
     &:hover,
     &--selected {
       opacity: 1;
     }
   }
 }
-
 </style>

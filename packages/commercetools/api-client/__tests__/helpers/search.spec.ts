@@ -33,6 +33,10 @@ describe('[commercetools-api-client] search', () => {
     expect(buildProductWhere({ slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug")))');
   });
 
+  it('returns product search query by id', () => {
+    expect(buildProductWhere({ id: 'product-id' })).toBe('id="product-id"');
+  });
+
   it('returns order search query by id', () => {
     expect(buildOrderWhere({ id: 'orderid' })).toBe('id="orderid"');
   });

@@ -18,6 +18,7 @@ export interface ProductSearch extends BaseSearch {
   catId?: string | string[];
   skus?: string[];
   slug?: string;
+  id?: string;
 }
 
 export interface CategorySearch extends BaseSearch {

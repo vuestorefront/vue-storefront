@@ -27,8 +27,7 @@ export default {
   },
   loading: { color: '#fff' },
   plugins: [
-    './plugins/commercetools.js',
-    './plugins/i18n.js'
+    './plugins/commercetools.js'
   ],
   router: {
     middleware: 'commercetools'
@@ -77,12 +76,21 @@ export default {
   i18n: {
     locales: localeNames,
     defaultLocale: localeNames[0],
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     vueI18n: {
-      fallbackLocale: localeNames[0]
+      fallbackLocale: localeNames[0],
+      messages: {
+        en: {
+          welcome: 'Welcome 1'
+        },
+        de: {
+          welcome: 'Welcome 2'
+        }
+      }
     },
     detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName
+      cookieKey: config.cookies.localeCookieName,
+      alwaysRedirect: true
     }
   }
 };
