@@ -89,9 +89,9 @@ jobs:
       after_script:
         - cat ./packages/prismic/coverage/lcov.info | coveralls
 
-    - stage: lighthouse
-      name: commercetools
-      script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000 --collect.startServerReadyPattern="Listening"
+    # - stage: lighthouse
+    #   name: commercetools
+    #   script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000 --collect.startServerReadyPattern="Listening"
 
     - build_image:
       if: type = pull_request
