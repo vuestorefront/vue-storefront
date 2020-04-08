@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 - Add `/cache-version.json` route to get current cache version
 - Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
+- Move generating files from webpack config to script @gibkigonzo (#4236)
 
 ### Fixed
 
