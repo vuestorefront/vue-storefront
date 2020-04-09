@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0-rc1] - UNRELEASED
 
 ### Added
+- Allow parent_ids field on product as an alternative to urlpath based breadcrumb navigation (#4219)
+- Pass the original item_id when updating/deleting a cart entry @carlokok (#4218)
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
@@ -26,16 +28,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `/cache-version.json` route to get current cache version
 - Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
 - Update to `storefront-query-builder` version `1.0.0` - @cewald (#4234)
+- Move generating files from webpack config to script @gibkigonzo (#4236)
 
 ### Fixed
 
+- Fixed `resultPorcessor` typo - @psmyrek
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
 - Revert init filters in Vue app - @gibkigonzo (#3929)
 - All categories disappearing if you add the child category name to includeFields - @1070rik (#4015)
 - Fix overlapping text in PersonalDetails component - @jakubmakielkowski (#4024)
 - Redirect from checkout to home with a proper store code - @Fifciu
 - Added back error notification when user selects invalid configuration - @1070rik (#4033)
-- findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo (#4042)
+- findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo, @cewald (#4042, #4216)
 - use storeCode for mappingFallback url - @gibkigonzo (#4050)
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
@@ -53,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 - Removed unused locales in disabled multistore - @gibkigonzo (#4072)
 - Optimized attributes loading - @andrzejewsky (#3948)
+- Cart optimization can now be used regardless if entity optimization is enabled - @juho-jaakkola (#4198)
 - Improve typescript support for test utils - @resubaka (#4067)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)

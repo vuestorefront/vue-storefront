@@ -16,6 +16,10 @@ This new `api-search-query` adapter supports the `response_format` query paramet
 
 The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 
+**Check entity optimization settings**
+
+Cart optimization was earlier disabled automatically if entity optimization was disabled. Now they can be used independently from each other. If you don't want to use cart optimization, make sure that the `entities.optimizeShoppingCart` configuration entry is disabled explicitly.
+
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
