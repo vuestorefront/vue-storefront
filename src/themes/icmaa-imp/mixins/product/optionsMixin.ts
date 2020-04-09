@@ -70,11 +70,7 @@ export default {
               return { id: value_index, label, type }
             }
           )
-          filterVariants.map(option => {
-            option['available'] = this.isOptionAvailable(option)
-            return option
-          }
-          )
+          filterVariants.map(option => Object.assign(option, { available: this.isOptionAvailable(option) }))
           filtersMap[type] = filterVariants
         })
       }
@@ -106,8 +102,9 @@ export default {
      * @param option
      */
     isOptionAvailable (option) {
-      let currentConfig = Object.assign({}, this.configuration)
-      currentConfig[option.type] = option
+      const confChildren = this.product.configurable_children.find(c => c[option.type] === option.id)
+      const sku = confChildren ? confChildren.sku : null
+      const currentConfig = Object.assign({}, this.configuration, { [option.type]: option }, { sku })
 
       const variant = findConfigurableChildAsync({ product: this.product, configuration: currentConfig, availabilityCheck: true })
       return typeof variant !== 'undefined' && variant !== null && variant[option.type] === option.id
