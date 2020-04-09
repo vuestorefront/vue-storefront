@@ -45,6 +45,11 @@ serverHooks.afterApplicationInitialized(({ app }) => {
     // } else {
     //   return sendFile(req, res).then(v => res.json(v))
     // }
+
+    res.header('Access-Control-Allow-Origin', '*')
+      .header('Access-Control-Allow-Methods', 'GET')
+      .header('Access-Control-Allow-Headers', 'Content-Type')
+
     return sendFile(req, res).then(v => res.json(v))
   }
 
