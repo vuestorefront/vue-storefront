@@ -16,7 +16,7 @@ serverHooks.afterApplicationInitialized(({ app }) => {
     csv.split('\n')
       .filter(l => l.length > 0)
       .forEach(line => {
-        const [ key, name ] = line.split(',').map(v => v.replace(regex, '$2'))
+        const [ key, name ] = line.split(/(?<=^".*"),(?=".*"$)/).map(v => v.replace(regex, '$2'))
         phrases.push({ name, value: name })
       })
 
