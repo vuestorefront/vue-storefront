@@ -167,7 +167,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
     const category: Category = categories && categories.length ? categories[0] : null
-    if (Vue.prototype.$cacheTags) {
+    if (category && Vue.prototype.$cacheTags) {
       Vue.prototype.$cacheTags.add(`C${category.id}`)
     }
     commit(types.CATEGORY_ADD_CATEGORY, category)
