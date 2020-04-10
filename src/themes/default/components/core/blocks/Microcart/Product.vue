@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import config from 'config'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
@@ -178,6 +178,9 @@ export default {
   },
   mixins: [Product, ProductOption, EditMode],
   computed: {
+    ...mapState({
+      isMicrocartOpen: state => state.ui.microcart
+    }),
     hasProductInfo () {
       return this.product.info && Object.keys(this.product.info).length > 0
     },
@@ -297,8 +300,15 @@ export default {
           const maxQuantity = await this.getQuantity()
           this.maxQuantity = maxQuantity
         }
-      },
-      immediate: true
+      }
+    },
+    isMicrocartOpen: {
+      async handler (isOpen) {
+        if (isOpen) {
+          const maxQuantity = await this.getQuantity()
+          this.maxQuantity = maxQuantity
+        }
+      }
     }
   }
 }
