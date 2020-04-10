@@ -94,7 +94,7 @@ jobs:
     #   script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000 --collect.startServerReadyPattern="Listening"
 
     - build_image:
-      if: type = pull_request
+      if: branch = master AND type != pull_request
       name: "Build docker image"
       stage: docker build
       script:
