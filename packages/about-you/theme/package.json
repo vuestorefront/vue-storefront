@@ -1,0 +1,34 @@
+{
+  "name": "@vue-storefront/about-you-theme",
+  "description": "My breathtaking Nuxt.js project",
+  "author": "Łukasz Romanowicz",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build -m",
+    "build:analyze": "nuxt build -a -m",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@storefront-ui/vue": "^0.6.4",
+    "@vue-storefront/about-you": "^0.0.3",
+    "@vue-storefront/about-you-api": "^0.0.1",
+    "@vue-storefront/nuxt": "^0.0.3",
+    "@vue-storefront/nuxt-theme": "^0.0.1",
+    "cookie-universal-nuxt": "^2.1.3",
+    "core-js": "^2.6.5",
+    "nuxt": "^2.10.2",
+    "nuxt-i18n": "^6.5.0",
+    "vee-validate": "^3.2.3"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.3.1",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "vue-jest": "^4.0.0-0"
+  }
+}

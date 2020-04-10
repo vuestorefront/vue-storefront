@@ -24,6 +24,12 @@ let methods = {
   addCoupon: addCouponApi,
   removeCoupon: removeCouponApi
 };
+let locale = 'en';
+let currency = '';
+let country = '';
+let countries = [];
+let currencies = [];
+let locales = [];
 
 // TODO:: TEST THIS!!
 function override(overrides) {
@@ -31,7 +37,13 @@ function override(overrides) {
     ...overrides };
 }
 
-function setup() {
+function setup(setupConfig) {
+  locale = setupConfig.locale || locale;
+  currency = setupConfig.currency || currency;
+  country = setupConfig.country || country;
+  countries = setupConfig.countries || countries;
+  currencies = setupConfig.currencies || currencies;
+  locales = setupConfig.locales || locales;
   apiClient = new BapiClient({
     host: 'https://boston.backbone-api.demo.aboutyou.cloud/v1/',
     auth: { username: 'aboutyou',
@@ -63,6 +75,12 @@ export {
   removeCoupon,
   override,
   setup,
-  apiClient
+  apiClient,
+  locale,
+  locales,
+  country,
+  currency,
+  countries,
+  currencies
 };
 

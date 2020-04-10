@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { SearchResult } from '@vue-storefront/interfaces';
 import { getProduct } from '@vue-storefront/about-you-api';
 import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';

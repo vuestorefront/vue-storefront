@@ -136,5 +136,14 @@
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-unused-vars": 2,
     "@typescript-eslint/ban-ts-ignore": 0
-  }
+  },
+  "overrides": [
+    {
+      "files": "*.ts",
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off"
+      }
+    }
+  ]
 }
