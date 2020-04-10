@@ -15,6 +15,6 @@ describe('createLoadingBlockQuery', () => {
     const filter = { filterField: 'test', filterValues: undefined }
     let loadingBlockQuery = createLoadingBlockQuery(filter)
 
-    expect(loadingBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(loadingBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })
