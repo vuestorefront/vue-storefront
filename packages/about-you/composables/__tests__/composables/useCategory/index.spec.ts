@@ -1,4 +1,4 @@
-import useCategory from '../../src/composables/useCategory';
+import useCategory from '../../../src/composables/useCategory';
 
 jest.mock('@vue-storefront/about-you-api', () => ({
   getCategory: () =>

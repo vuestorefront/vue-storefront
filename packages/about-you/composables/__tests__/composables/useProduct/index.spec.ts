@@ -1,6 +1,6 @@
 import { getProduct } from '@vue-storefront/about-you-api';
-import useProduct from '../../src/composables/useProduct';
-import { mapProductSearch } from '../../src/helpers';
+import useProduct from '../../../src/composables/useProduct';
+import { mapProductSearch } from '../../../src/helpers';
 
 jest.mock('@vue-storefront/about-you-api');
 jest.mock('@vue-storefront/factories', () => ({
