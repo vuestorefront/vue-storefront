@@ -178,11 +178,13 @@ module.exports = function (installationDir) {
           taskQueue.push(tasks.cloneVersion)
           if (answers.themeName !== 'classic') {
             taskQueue.push(tasks.cloneTheme)
-            taskQueue.push(tasks.configureTheme)
           }
           if (answers.installation === options.installation.installer) {
             taskQueue.push(tasks.installDeps)
             taskQueue.push(tasks.runInstaller)
+          }
+          if (answers.themeName !== 'classic') {
+            taskQueue.push(tasks.configureTheme)
           }
           new Listr(taskQueue).run(answers)
         })
