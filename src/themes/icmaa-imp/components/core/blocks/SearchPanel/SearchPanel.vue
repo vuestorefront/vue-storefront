@@ -11,7 +11,8 @@
       <div v-if="getNoResultsMessage" class="t-px-2 t-mt-2 t-text-sm">
         {{ $t(getNoResultsMessage) }}
       </div>
-      <category-panel :categories="categories" v-model="selectedCategoryIds" v-if="!emptyResults && filteredProducts.length && categories.length > 1" class="t-mb-4" />
+      <category-panel :categories="categories" title="Categories" :link="true" v-if="!emptyResults && filteredProducts.length && categories.length > 0" class="t-mb-4" />
+      <category-panel :categories="categoryFilters" v-model="selectedCategoryIds" v-if="!emptyResults && filteredProducts.length && categoryFilters.length > 1" class="t-mb-4" />
       <div class="product-listing t-flex t-flex-wrap t-bg-base-lightest t--mx-4 t-px-3 t-py-4" v-if="!emptyResults && filteredProducts.length > 0">
         <product-tile v-for="product in filteredProducts" :key="product.id" :product="product" @click.native="closeSidebar" class="t-w-1/2 lg:t-w-1/3 t-px-1 t-mb-8" />
       </div>
@@ -41,6 +42,7 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import debounce from 'lodash-es/debounce'
+import uniq from 'lodash-es/uniq'
 
 export default {
   name: 'SearchPanel',
@@ -62,6 +64,7 @@ export default {
   data () {
     return {
       searchString: '',
+      searchAlias: '',
       products: [],
       size: 12,
       start: 0,
@@ -87,7 +90,7 @@ export default {
       }
       return productList
     },
-    categories () {
+    categoryFilters () {
       const categoriesMap = {}
       this.products.forEach(product => {
         [...product.category].forEach(category => {
@@ -95,6 +98,19 @@ export default {
         })
       })
       return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
+    },
+    categories () {
+      const splitChars = [' ', '-', ',']
+      return this.categoryFilters.filter(category => {
+        let searchStrings = []
+        const strings = [this.searchString, this.searchAlias]
+        strings.forEach(s => splitChars.forEach(c => searchStrings.push(...s.split(c).filter(s => s.length >= 3))))
+        searchStrings = uniq(searchStrings)
+
+        const searchRegex = new RegExp(`(${searchStrings.join('|')})`, 'i')
+
+        return searchStrings.length > 0 && searchRegex.test(category.name)
+      })
     },
     getNoResultsMessage () {
       let msg = ''
@@ -143,7 +159,7 @@ export default {
     search: debounce(async function () {
       if (!this.$v.searchString.$invalid) {
         let query = prepareQuickSearchQuery(
-          await this.getAlias(this.searchString)
+          this.searchAlias = await this.getAlias(this.searchString)
         )
 
         this.start = 0

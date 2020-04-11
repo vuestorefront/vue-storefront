@@ -16,7 +16,7 @@ serverHooks.afterApplicationInitialized(({ app }) => {
     csv.split('\n')
       .filter(l => l.length > 0)
       .forEach(line => {
-        const [ key, name ] = line.split(',').map(v => v.replace(regex, '$2'))
+        const [ key, name ] = line.split(/(?<=^".*"),(?=".*"$)/).map(v => v.replace(regex, '$2'))
         phrases.push({ name, value: name })
       })
 
@@ -45,6 +45,11 @@ serverHooks.afterApplicationInitialized(({ app }) => {
     // } else {
     //   return sendFile(req, res).then(v => res.json(v))
     // }
+
+    res.header('Access-Control-Allow-Origin', '*')
+      .header('Access-Control-Allow-Methods', 'GET')
+      .header('Access-Control-Allow-Headers', 'Content-Type')
+
     return sendFile(req, res).then(v => res.json(v))
   }
 
