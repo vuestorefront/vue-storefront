@@ -102,10 +102,7 @@ export default {
      * @param option
      */
     isOptionAvailable (option) {
-      const confChildren = this.product.configurable_children.find(c => c[option.type] === option.id)
-      const sku = confChildren ? confChildren.sku : null
-      const currentConfig = Object.assign({}, this.configuration, { [option.type]: option }, { sku })
-
+      const currentConfig = Object.assign({}, this.configuration, { [option.type]: option })
       const variant = findConfigurableChildAsync({ product: this.product, configuration: currentConfig, availabilityCheck: true })
       return typeof variant !== 'undefined' && variant !== null && variant[option.type] === option.id
     }
