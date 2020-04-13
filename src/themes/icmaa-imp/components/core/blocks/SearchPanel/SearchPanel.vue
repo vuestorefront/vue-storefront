@@ -12,7 +12,7 @@
         {{ $t(getNoResultsMessage) }}
       </div>
       <category-panel :categories="categories" title="Categories" :link="true" v-if="!emptyResults && filteredProducts.length && categories.length > 0" class="t-mb-4" />
-      <category-panel :categories="categoryFilters" v-model="selectedCategoryIds" v-if="!emptyResults && filteredProducts.length && categoryFilters.length > 1" class="t-mb-4" />
+      <category-panel :categories="categoryAggs" v-model="selectedCategoryIds" v-if="!emptyResults && filteredProducts.length && categoryAggs.length > 1" class="t-mb-4" />
       <div class="product-listing t-flex t-flex-wrap t-bg-base-lightest t--mx-4 t-px-3 t-py-4" v-if="!emptyResults && filteredProducts.length > 0">
         <product-tile v-for="product in filteredProducts" :key="product.id" :product="product" @click.native="closeSidebar" class="t-w-1/2 lg:t-w-1/3 t-px-1 t-mb-8" />
       </div>
@@ -66,7 +66,8 @@ export default {
       searchString: '',
       searchAlias: '',
       products: [],
-      size: 24,
+      categoryAggs: [],
+      size: 12,
       start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
       emptyResults: true,
@@ -90,18 +91,9 @@ export default {
       }
       return productList
     },
-    categoryFilters () {
-      const categoriesMap = {}
-      this.products.forEach(product => {
-        [...product.category].forEach(category => {
-          categoriesMap[category.category_id] = category
-        })
-      })
-      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
-    },
     categories () {
       const splitChars = [' ', '-', ',']
-      return this.categoryFilters.filter(category => {
+      return this.categoryAggs.filter(category => {
         let searchStrings = []
         const strings = [this.searchString, this.searchAlias]
         strings.forEach(s => splitChars.forEach(c => searchStrings.push(...s.split(c).filter(s => s.length >= 3))))
@@ -126,7 +118,7 @@ export default {
     }
   },
   watch: {
-    categories () {
+    categoryAggs () {
       this.selectedCategoryIds = []
     }
   },
@@ -166,10 +158,13 @@ export default {
         this.moreProducts = true
         this.loadingProducts = true
         this.$store.dispatch('product/list', { query, start: this.start, configuration: {}, size: this.size, updateState: false }).then(resp => {
-          this.products = resp.items
+          const { items, aggregations } = resp
+          this.products = items
           this.start += this.size
-          this.emptyResults = resp.items.length < 1
+          this.emptyResults = items.length < 1
           this.loadingProducts = false
+
+          this.populateCategoryAggregations(aggregations)
         }).catch((err) => {
           Logger.error(err, 'components-search')()
         })
@@ -183,12 +178,13 @@ export default {
         let query = this.prepareQuickSearchQuery(await this.getAlias(this.searchString))
         this.loadingProducts = true
         this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
-          let page = Math.floor(resp.total / this.size)
-          let exceeed = resp.total - this.size * page
-          if (resp.start === resp.total - exceeed) {
+          const { items, aggregations, total, start } = resp
+          let page = Math.floor(total / this.size)
+          let exceeed = total - this.size * page
+          if (start === total - exceeed) {
             this.moreProducts = false
           }
-          this.products = this.products.concat(resp.items)
+          this.products = this.products.concat(items)
           this.start += this.size
           this.emptyResults = this.products.length < 1
           this.loadingProducts = false
@@ -211,6 +207,18 @@ export default {
         .applyFilter({ key: 'status', value: {'in': [0, 1]} })
 
       return searchQuery
+    },
+    populateCategoryAggregations (aggr) {
+      // This is a massive nested aggregation object which we crawl and collect all
+      // available categories of all results not just those who are on results page
+      this.categoryAggs = []
+      if (aggr.categories_found && aggr.categories_found.doc_count > 0) {
+        const { categories_found } = aggr
+        const categories = categories_found.categories.buckets
+        categories.forEach(bucket => {
+          this.categoryAggs.push(bucket.hits.hits.hits[0]._source.category)
+        })
+      }
     },
     closeSidebar () {
       this.$store.dispatch('ui/setSearchpanel', false)
