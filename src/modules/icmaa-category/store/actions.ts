@@ -48,7 +48,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     let query = new SearchQuery()
     query
-      .applyFilter({ key: 'stock', value: '', scope: 'default' })
+      .applyFilter({ key: 'stock', value: '' })
       .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
       .applyFilter({ key: 'status', value: { in: [0, 1] } })
       .applyFilter({ key: 'category_ids', value: { in: [categoryId] } })

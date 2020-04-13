@@ -39,7 +39,7 @@ import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
+import { SearchQuery } from 'storefront-query-builder'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import debounce from 'lodash-es/debounce'
 import uniq from 'lodash-es/uniq'
@@ -66,7 +66,7 @@ export default {
       searchString: '',
       searchAlias: '',
       products: [],
-      size: 12,
+      size: 24,
       start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
       emptyResults: true,
@@ -158,7 +158,7 @@ export default {
     },
     search: debounce(async function () {
       if (!this.$v.searchString.$invalid) {
-        let query = prepareQuickSearchQuery(
+        let query = this.prepareQuickSearchQuery(
           this.searchAlias = await this.getAlias(this.searchString)
         )
 
@@ -180,7 +180,7 @@ export default {
     }, 350),
     async loadMoreProducts () {
       if (!this.$v.searchString.$invalid) {
-        let query = prepareQuickSearchQuery(await this.getAlias(this.searchString))
+        let query = this.prepareQuickSearchQuery(await this.getAlias(this.searchString))
         this.loadingProducts = true
         this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
           let page = Math.floor(resp.total / this.size)
@@ -200,6 +200,17 @@ export default {
         this.products = []
         this.emptyResults = true
       }
+    },
+    prepareQuickSearchQuery (value) {
+      let searchQuery = new SearchQuery()
+
+      searchQuery = searchQuery
+        .applyFilter({ key: 'search-text', value })
+        .applyFilter({ key: 'stock', value: '' })
+        .applyFilter({ key: 'visibility', value: {'in': [3, 4]} })
+        .applyFilter({ key: 'status', value: {'in': [0, 1]} })
+
+      return searchQuery
     },
     closeSidebar () {
       this.$store.dispatch('ui/setSearchpanel', false)
