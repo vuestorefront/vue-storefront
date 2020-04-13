@@ -4,6 +4,7 @@ const consola = require('consola');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
 const compileTemplates = require('./compileTemplates.js');
+const copyThemeFiles = require('./copyThemeFiles.js');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -30,6 +31,8 @@ module.exports = function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
   const themeFiles = getAllFiles(path.join(__dirname, 'theme')).filter(file => !file.includes('/static/'));
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
+  const themeComponentsDir = path.join(this.options.rootDir, 'pages');
+  const themePagesDir = path.join(this.options.rootDir, 'components');
 
   const compileAgnosticTemplates = () => {
     themeFiles.forEach((file) => {
@@ -48,6 +51,8 @@ module.exports = function DefaultThemeModule(moduleOptions) {
   log.info('Adding theme files...');
 
   compileAgnosticTemplates();
+  copyThemeFiles(themeComponentsDir);
+  copyThemeFiles(themePagesDir);
 
   this.options.dir = {
     ...this.options.dir,
@@ -132,7 +137,12 @@ module.exports = function DefaultThemeModule(moduleOptions) {
     chokidar.watch(path.join(__dirname, '/theme/')).on('all', () => {
       // TODO: Compile only the template that has changed
       compileAgnosticTemplates();
-      log.success('Theme files recompiled');
+    });
+    chokidar.watch(themeComponentsDir).on('all', () => {
+      copyThemeFiles(themeComponentsDir);
+    });
+    chokidar.watch(themePagesDir).on('all', () => {
+      copyThemeFiles(themePagesDir);
     });
   }
 };
