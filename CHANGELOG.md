@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to `storefront-query-builder` version `1.0.0` - @cewald (#4234)
 - Move generating files from webpack config to script @gibkigonzo (#4236)
 - Add correct type matching to `getConfigurationMatchLevel` - @cewald (#4241)
+- Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
 
 ### Fixed
 
