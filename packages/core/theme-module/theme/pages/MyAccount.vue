@@ -50,11 +50,10 @@ import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
 import MyReviews from './MyAccount/MyReviews';
-import auth from '../middleware/auth';
 
+// TODO: protect this route: https://github.com/DivanteLtd/next/issues/379
 export default {
   name: 'MyAccount',
-  middleware: auth,
   components: {
     SfBreadcrumbs,
     SfContentPages,

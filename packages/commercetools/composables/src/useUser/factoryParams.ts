@@ -24,7 +24,6 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
     }
   },
   logOut: async () => {
-    await useCart().refreshCart();
     await apiCustomerSignOut();
   },
   updateUser: async ({currentUser, updatedUserData}): Promise<Customer> => {
