@@ -4,6 +4,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile'
 import { UserService } from '@vue-storefront/core/data-resolver'
+import { UserService as IcmaaUserService } from '../data-resolver/UserService'
 import * as types from './mutation-types'
 import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-types'
 import { SearchQuery } from 'storefront-query-builder'
@@ -94,6 +95,30 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     return resp
+  },
+  async loadLastOrderToHistory ({ commit, dispatch }, { token }) {
+    const resp = await IcmaaUserService.getLastOrder(token)
+
+    if (resp.code === 200) {
+      const order = await dispatch('loadOrderProducts', { order: resp.result, history: [ resp.result ] })
+
+      commit(userTypes.USER_ORDERS_HISTORY_LOADED, { items: [ order ] })
+      EventBus.$emit('user-after-loaded-orders', resp.result)
+    }
+
+    return resp
+  },
+  async loadLastOrderFromCache ({ dispatch }) {
+    let resolvedFromCache = false
+    const ordersHistory = await dispatch('loadOrdersFromCache')
+    if (ordersHistory) {
+      Logger.log('Current user order history served from cache', 'user')()
+      resolvedFromCache = true
+    }
+
+    if (!resolvedFromCache) {
+      Promise.resolve(null)
+    }
   },
   async loadOrderProducts ({ dispatch }, { order, history }) {
     const index = history.findIndex(o => o.id === order.id)
