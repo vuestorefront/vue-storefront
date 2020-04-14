@@ -45,7 +45,6 @@ describe('[commercetools-composables] factoryParams', () => {
     const refreshCartMock = jest.fn(() => {});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
     await params.logOut();
-    expect(refreshCartMock).toHaveBeenCalled();
     expect(apiCustomerSignOut).toHaveBeenCalled();
   });
   it('updateUser return updated user', async () => {
@@ -64,7 +63,6 @@ describe('[commercetools-composables] factoryParams', () => {
     const customer = {username: 'test@test.pl', password: '123456'};
     (authenticate as jest.Mock).mockReturnValueOnce(customer);
     expect(await params.logIn(customer)).toEqual(customer);
-    expect(refreshCartMock).toHaveBeenCalled();
   });
 
   describe('changePassword', () => {
@@ -88,7 +86,6 @@ describe('[commercetools-composables] factoryParams', () => {
           password: '123',
           email: 'Test'
         });
-      expect(refreshCartMock).toHaveBeenCalled();
       expect(apiCustomerSignOut).toHaveBeenCalled();
     });
 
@@ -103,7 +100,6 @@ describe('[commercetools-composables] factoryParams', () => {
           throw {graphQLErrors: [{message: 'There is an error'}]};
         });
         await params.changePassword({currentUser: {version: {}}} as any);
-        expect(refreshCartMock).toHaveBeenCalled();
         expect(consoleErrorSpy).toBeCalledWith('There is an error');
       });
       it('with message from exception', async () => {
