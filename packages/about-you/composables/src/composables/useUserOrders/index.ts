@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 
-import { useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/factories';
+import { useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/core';
 import { BapiOrder, BapiOrderSearchParams } from '../../types';
-import { SearchResult } from '@vue-storefront/interfaces';
+import { SearchResult } from '@vue-storefront/core';
 
 // @todo userOrders
 

@@ -5,7 +5,7 @@ jest.mock('@vue-storefront/about-you-api', () => ({
     Promise.resolve({})
 }));
 
-jest.mock('@vue-storefront/factories', () => ({
+jest.mock('@vue-storefront/core', () => ({
   useCategoryFactory: jest.fn(() => () => ({ foo: 'bar' }))
 }));
 

@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticAttribute } from '@vue-storefront/interfaces';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticAttribute } from '@vue-storefront/core';
 import { Cart, LineItem } from '@vue-storefront/boilerplate-api/src/types';
 
 export const getCartItems = (cart: Cart): LineItem[] => [];

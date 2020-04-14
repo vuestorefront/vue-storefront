@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import { UseCart } from '@vue-storefront/interfaces';
+import { UseCart } from '@vue-storefront/core';
 import { Ref, ref } from '@vue/composition-api';
 import { Cart, ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 

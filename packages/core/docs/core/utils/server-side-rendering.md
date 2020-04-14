@@ -9,7 +9,7 @@ In the most cases, the composable functions provide SSR support (it is always tr
 To build that composable you have to create a new composable-factory with using `useSSR` function.
 
 ```js
-import { useSSR } from '@vue-storefront/utils';
+import { useSSR } from '@vue-storefront/core';
 
 const useCategory = (cacheId) => {
   const { initialState, saveToInitialState} = useSSR(cacheId);
@@ -34,7 +34,7 @@ The `useSSR` returns `initialState` field that keeps shared state between client
 It's possible to create your own implementation of shared-state. In that case you have to provide implementation of the `useSSR`.
 
 ```js
-import { configureSSR } from '@vue-storefront/utils';
+import { configureSSR } from '@vue-storefront/core';
 
 configureSSR({
   useSSR: (id: string) => {
@@ -60,7 +60,7 @@ in your theme:
 
 ```js
 import { useExample } from 'your/integration/composables';
-import { onSSR } from '@vue-storefront/utils';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
@@ -84,7 +84,7 @@ In the future, Vue 3 will provide an async setup and `onSSR` won't be needed any
 
 ```js
 import { useExample } from 'your/integration/composables';
-import { onSSR } from '@vue-storefront/utils';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   async setup() {

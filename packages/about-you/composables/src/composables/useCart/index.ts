@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { UseCart } from '@vue-storefront/interfaces';
-import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/factories';
+import { UseCart } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { BapiCart, BapiCartItem, BapiCoupon, BapiProduct } from '../../types';
 

@@ -3,7 +3,7 @@ import useProduct from '../../../src/composables/useProduct';
 import { mapProductSearch } from '../../../src/helpers';
 
 jest.mock('@vue-storefront/about-you-api');
-jest.mock('@vue-storefront/factories', () => ({
+jest.mock('@vue-storefront/core', () => ({
   useProductFactory: jest.fn(() => () => ({ foo: 'bar' }))
 }));
 

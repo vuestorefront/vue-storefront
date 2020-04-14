@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UserGetters} from '@vue-storefront/interfaces';
+import { UserGetters} from '@vue-storefront/core';
 import {BapiUser} from '../../types';
 
 export const getUserFirstName = (user: BapiUser): string => user ? user.firstName : '';

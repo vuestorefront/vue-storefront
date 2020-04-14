@@ -1,4 +1,4 @@
-import { UseProduct } from '@vue-storefront/interfaces';
+import { UseProduct } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 

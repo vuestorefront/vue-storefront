@@ -1,4 +1,4 @@
-import { UserOrderGetters, AgnosticOrderStatus } from '@vue-storefront/interfaces';
+import { UserOrderGetters, AgnosticOrderStatus } from '@vue-storefront/core';
 import { Order, OrderState } from './../types/GraphQL';
 
 export const getOrderDate = (order: Order): string => order?.createdAt || '';

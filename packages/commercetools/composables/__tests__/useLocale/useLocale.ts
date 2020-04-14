@@ -1,4 +1,4 @@
-jest.mock('@vue-storefront/factories', () => ({
+jest.mock('@vue-storefront/core', () => ({
   useLocaleFactory: jest.fn(() => () => ({locale: 'en'}))
 }));
 
@@ -6,7 +6,7 @@ jest.mock('../../src/useLocale/factoryParams', () => ({
   params: {}
 }));
 
-import { useLocaleFactory } from '@vue-storefront/factories';
+import { useLocaleFactory } from '@vue-storefront/core';
 import { params } from '../../src/useLocale/factoryParams';
 import useLocale from '../../src/useLocale';
 describe('[commercetools-composables] useLocale', () => {

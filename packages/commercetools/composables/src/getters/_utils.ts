@@ -1,4 +1,4 @@
-import { AgnosticAttribute } from '@vue-storefront/interfaces';
+import { AgnosticAttribute } from '@vue-storefront/core';
 import { ProductVariant } from './../types/GraphQL';
 
 const getAttributeValue = (attribute) => {

@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { UseLocale } from '@vue-storefront/interfaces';
-import { useLocaleFactory } from '@vue-storefront/factories';
+import { UseLocale } from '@vue-storefront/core';
+import { useLocaleFactory } from '@vue-storefront/core';
 
 import { params } from './factoryParams';
 

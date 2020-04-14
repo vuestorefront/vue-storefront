@@ -1,5 +1,5 @@
 import getProduct from './api/getProduct';
-import { apiClientFactory } from '@vue-storefront/factories';
+import { apiClientFactory } from '@vue-storefront/core';
 
 const { setup, override } = apiClientFactory<any, any>();
 

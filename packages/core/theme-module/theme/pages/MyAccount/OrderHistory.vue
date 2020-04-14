@@ -53,8 +53,8 @@ import {
 import { computed } from '@vue/composition-api';
 
 import { useUserOrders, orderGetters } from '<%= options.composables %>';
-import { AgnosticOrderStatus } from '@vue-storefront/interfaces';
-import { onSSR } from '@vue-storefront/utils';
+import { AgnosticOrderStatus } from '@vue-storefront/core';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'PersonalDetails',

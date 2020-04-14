@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UseUserFactoryParams } from '@vue-storefront/factories';
+import { UseUserFactoryParams } from '@vue-storefront/core';
 import { BapiUser } from '../../types';
 
 export const params: UseUserFactoryParams<BapiUser, any, any> = {

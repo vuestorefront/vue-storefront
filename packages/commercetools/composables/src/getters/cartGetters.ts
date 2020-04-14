@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/interfaces';
+import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
 

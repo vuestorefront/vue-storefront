@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import { UseCategory } from '@vue-storefront/interfaces';
+import { UseCategory } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { Category, CategoryFilter } from '@vue-storefront/boilerplate-api/src/types';
 

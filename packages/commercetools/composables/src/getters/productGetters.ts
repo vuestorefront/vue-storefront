@@ -1,4 +1,4 @@
-import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/interfaces';
+import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, Image } from './../types/GraphQL';
 import { formatAttributeList, getVariantByAttributes } from './_utils';
 

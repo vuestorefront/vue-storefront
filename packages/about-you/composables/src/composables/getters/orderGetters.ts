@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UserOrderGetters } from '@vue-storefront/interfaces';
+import { UserOrderGetters } from '@vue-storefront/core';
 import { BapiOrder } from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

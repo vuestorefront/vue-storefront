@@ -34,7 +34,7 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 
 jest.mock('./../../src/helpers/internals/enhanceProduct', () => jest.fn((args) => args));
 
-jest.mock('@vue-storefront/factories', () => ({
+jest.mock('@vue-storefront/core', () => ({
   useProductFactory: (params) => () => params
 }));
 

@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UseCheckout } from '@vue-storefront/interfaces';
+import { UseCheckout } from '@vue-storefront/core';
 import { placeOrder as processOrder, getShippingMethods } from '@vue-storefront/commercetools-api';
 import { ref, Ref, watch, computed } from '@vue/composition-api';
 import { cart } from './../useCart';

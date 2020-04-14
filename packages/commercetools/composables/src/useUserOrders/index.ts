@@ -1,8 +1,8 @@
-import { useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/factories';
+import { useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/core';
 import { Order } from '../types/GraphQL';
 import { OrderSearchParams } from '../types';
 import { getMyOrders } from '@vue-storefront/commercetools-api';
-import { SearchResult } from '@vue-storefront/interfaces';
+import { SearchResult } from '@vue-storefront/core';
 
 const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
   searchOrders: async (params: OrderSearchParams = {}): Promise<SearchResult<Order>> => {

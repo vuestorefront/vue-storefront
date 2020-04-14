@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import { UseWishlist } from '@vue-storefront/interfaces';
+import { UseWishlist } from '@vue-storefront/core';
 import { Ref, ref, watch } from '@vue/composition-api';
 import { Wishlist, ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 

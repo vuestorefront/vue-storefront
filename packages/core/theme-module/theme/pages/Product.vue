@@ -227,7 +227,7 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '<%= options.composables %>';
-import { onSSR } from '@vue-storefront/utils';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Product',

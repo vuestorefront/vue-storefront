@@ -1,4 +1,4 @@
-import { UseCart } from '@vue-storefront/interfaces';
+import { UseCart } from '@vue-storefront/core';
 import {
   addToCart as apiAddToCart,
   removeFromCart as apiRemoveFromCart,
@@ -6,7 +6,7 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/factories';
+import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 
 export const cart: Ref<Cart> = ref(null);

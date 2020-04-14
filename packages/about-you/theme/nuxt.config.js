@@ -34,13 +34,13 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/core',
+          '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/about-you',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/core',
+          '@vue-storefront/core'
         ]
       }
     }],

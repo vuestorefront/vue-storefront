@@ -12,7 +12,8 @@
   "devDependencies": {
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
-    "consola": "^2.10.1"
+    "consola": "^2.10.1",
+    "loglevel": "^1.6.7"
   },
   "publishConfig": {
     "access": "public"

@@ -3,7 +3,7 @@ import {
   AgnosticAttribute,
   AgnosticPrice,
   ProductGetters
-} from '@vue-storefront/interfaces';
+} from '@vue-storefront/core';
 import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 
 type ProductVariantFilters = any

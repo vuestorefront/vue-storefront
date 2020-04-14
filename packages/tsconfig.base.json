@@ -16,8 +16,7 @@
     "strict": false,
     "preserveSymlinks": true,
     "paths": {
-      "@vue-storefront/interfaces": ["core/interfaces/src"],
-      "@vue-storefront/utils": ["core/utils/src"]
+      "@vue-storefront/core": ["core/core/src"],
     },
   },
   "exclude": ["node_modules", "**/*.spec.ts"]

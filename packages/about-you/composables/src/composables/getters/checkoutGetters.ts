@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { CheckoutGetters} from '@vue-storefront/interfaces';
+import { CheckoutGetters} from '@vue-storefront/core';
 import { ShippingMethod } from '@vue-storefront/boilerplate-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

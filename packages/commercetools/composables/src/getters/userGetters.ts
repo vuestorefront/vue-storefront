@@ -1,4 +1,4 @@
-import { UserGetters} from '@vue-storefront/interfaces';
+import { UserGetters} from '@vue-storefront/core';
 import { Customer } from './../types/GraphQL';
 
 export const getUserFirstName = (user: Customer): string => user ? user.firstName : '';

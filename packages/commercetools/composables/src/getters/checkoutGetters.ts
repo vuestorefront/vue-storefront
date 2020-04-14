@@ -1,4 +1,4 @@
-import { CheckoutGetters} from '@vue-storefront/interfaces';
+import { CheckoutGetters} from '@vue-storefront/core';
 import { ShippingMethod } from './../types/GraphQL';
 
 export const getShippingMethodId = (shippingMethod: ShippingMethod): string =>

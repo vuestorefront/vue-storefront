@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/interfaces';
+import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
 import { Cart, LineItem } from '@vue-storefront/boilerplate-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
