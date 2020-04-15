@@ -20,6 +20,6 @@ describe('createHierarchyLoadQuery', () => {
     const filter = { id: null }
     let hierarchyLoadQuery = createHierarchyLoadQuery(filter)
 
-    expect(hierarchyLoadQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(hierarchyLoadQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })
