@@ -584,5 +584,11 @@
   },
   "fastly": {
     "enabled":false
+  },
+  "nginx": {
+    "enabled":false
+  },
+  "varnish": {
+    "enabled":false
   }
 }

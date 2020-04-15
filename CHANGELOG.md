@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add correct type matching to `getConfigurationMatchLevel` - @cewald (#4241)
 - Support `useSpecificImagePaths` with `useExactUrlsNoProxy` - @cewald (#4243)
 - Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
+- Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
 
 ### Fixed
 
