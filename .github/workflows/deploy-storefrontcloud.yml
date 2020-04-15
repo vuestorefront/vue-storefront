@@ -5,7 +5,6 @@ on:
       - master
       - develop
       - hotfix/v*
-      - feature/gh_actions
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,15 +58,6 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"test","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
-            echo "Instance updated"
-          else
-            echo "Something went wrong during the update process..."
-            exit 1
-          fi
-      - name: Deploy on next for test
-        if: github.ref == 'refs/heads/feature/gh_actions'
-        run: |
-          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"next","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."
