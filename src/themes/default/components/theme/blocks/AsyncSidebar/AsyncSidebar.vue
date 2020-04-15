@@ -1,18 +1,21 @@
 <template>
-  <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
-    <div
-      class="mw-100 fixed cl-accent bg-cl-primary"
-      :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
-      data-testid="sidebar"
-      ref="sidebar"
-      v-if="isOpen"
-    >
-      <component :is="component" @close="$emit('close')" @reload="getComponent" />
-    </div>
-  </transition>
+  <no-ssr>
+    <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
+      <div
+        class="mw-100 fixed cl-accent bg-cl-primary"
+        :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
+        data-testid="sidebar"
+        ref="sidebar"
+        v-show="isOpen"
+      >
+        <component :is="component" @close="$emit('close')" @reload="getComponent" />
+      </div>
+    </transition>
+  </no-ssr>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
 import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
@@ -33,17 +36,20 @@ export default {
       default: 'right'
     }
   },
+  components: {
+    'no-ssr': NoSSR
+  },
   data () {
     return {
       component: null
     }
   },
-  created () {
-    this.getComponent()
-  },
   watch: {
     isOpen (state) {
       if (state) {
+        if (!this.component) {
+          this.getComponent()
+        }
         this.$nextTick(() => {
           disableBodyScroll(this.$refs.sidebar)
         })
