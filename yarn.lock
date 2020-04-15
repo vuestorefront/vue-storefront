@@ -2179,6 +2179,11 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.6.4.tgz#8e8582673d7739df76cce044ef2a12bec0ec1694"
   integrity sha512-gqv+l6Yl/55RtaQc26Ek0W6LW+s5Hhn7n13mC0qdtwkhmfwFnnr6wjonrvwcS5K2NvfRNug5Q1/At4UXGb6LHw==
 
+"@storefront-ui/shared@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.1.tgz#299105a9ff010277658a52de93ae623ed8778867"
+  integrity sha512-FF/JzUAjHNRY8gpzJRnj+/OpeshGQIRyvdHIXDJI7LQQ8a7gj6PurOhKly1+9+cTY015rvDoaaisox/YSmX4Ng==
+
 "@storefront-ui/vue@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.5.1.tgz#62c69d204232bd4050beb01963829fc4a4fbf751"
@@ -2207,6 +2212,27 @@
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "^0.6.4"
+    "@vue/babel-preset-app" "^4.0.0-alpha.1"
+    body-scroll-lock "^2.6.4"
+    core-js "^3.1.3"
+    hammerjs "^2.0.8"
+    leaflet "^1.5.1"
+    lozad "^1.9.0"
+    node-sass "^4.12.0"
+    sass-loader "^7.1.0"
+    simplebar-vue "^1.4.0"
+    vue-drag-drop "^1.1.4"
+    vue-fragment "^1.5.1"
+    vue2-leaflet "^2.1.1"
+    webpack-dev-middleware "3.6.0"
+
+"@storefront-ui/vue@^0.7.0":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.1.tgz#5ddccb5902689dbb59cdb0d008c65fe82c61ba40"
+  integrity sha512-lpOG1f8z6Ue80zsbAJ2CEalv9wpvTY6rVILL7ePT+J5J/IL6IFwlJ8GFFKE2bCk6FF4u2vswu8QL4ihfePs5Jg==
+  dependencies:
+    "@glidejs/glide" "^3.3.0"
+    "@storefront-ui/shared" "^0.7.1"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     body-scroll-lock "^2.6.4"
     core-js "^3.1.3"
