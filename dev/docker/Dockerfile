@@ -9,9 +9,7 @@ COPY . .
 # Should be yarn install --production
 RUN apt update && apt install -y git \
   && yarn install \
-  && yarn build:client \
-  && yarn build:server \
-  && yarn build:sw
+  && yarn build
 
 COPY dev/docker/vue-storefront.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/vue-storefront.sh
