@@ -21,12 +21,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1.4.1
         with:
           node-version: '13.x'
 
       - name: Install
-        uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1.1.0
 
       - name: Get repository name, and branch name
         run: |
