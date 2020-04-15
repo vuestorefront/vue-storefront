@@ -150,9 +150,8 @@ export default {
     },
     search: debounce(async function () {
       if (!this.$v.searchString.$invalid) {
-        let query = this.prepareQuickSearchQuery(
-          this.searchAlias = await this.getAlias(this.searchString)
-        )
+        this.searchAlias = await this.getAlias(this.searchString)
+        let query = this.prepareQuickSearchQuery(this.searchAlias)
 
         this.start = 0
         this.moreProducts = true
@@ -175,7 +174,7 @@ export default {
     }, 350),
     async loadMoreProducts () {
       if (!this.$v.searchString.$invalid) {
-        let query = this.prepareQuickSearchQuery(await this.getAlias(this.searchString))
+        let query = this.prepareQuickSearchQuery(await this.getAlias(this.searchString), true)
         this.loadingProducts = true
         this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
           const { items, aggregations, total, start } = resp
@@ -197,11 +196,12 @@ export default {
         this.emptyResults = true
       }
     },
-    prepareQuickSearchQuery (value) {
+    prepareQuickSearchQuery (value, plain = false) {
       let searchQuery = new SearchQuery()
 
+      const searchFilterKey = plain ? 'search-text-plain' : 'search-text'
       searchQuery = searchQuery
-        .applyFilter({ key: 'search-text', value })
+        .applyFilter({ key: searchFilterKey, value })
         .applyFilter({ key: 'stock', value: '' })
         .applyFilter({ key: 'visibility', value: {'in': [3, 4]} })
         .applyFilter({ key: 'status', value: {'in': [0, 1]} })
