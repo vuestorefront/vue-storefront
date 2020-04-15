@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to `storefront-query-builder` version `1.0.0` - @cewald (#4234)
 - Move generating files from webpack config to script @gibkigonzo (#4236)
 - Add correct type matching to `getConfigurationMatchLevel` - @cewald (#4241)
+- Support `useSpecificImagePaths` with `useExactUrlsNoProxy` - @cewald (#4243)
+- Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
 - Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
 
 ### Fixed
@@ -50,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
 - Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
 - Use same data format in getConfigurationMatchLevel - @gibkigonzo (#4208)
+- removed possible memory leak in ssr - @resubaka (#4247)
 
 ### Changed / Improved
 
@@ -64,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
 - Include token in pricing sync -  @carlokok (#4156)
+- Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
 
 ## [1.11.2] - 2020.03.10
 

@@ -582,6 +582,9 @@
     "endpoint": "/api/url",
     "map_endpoint": "/api/url/map"
   },
+  "fastly": {
+    "enabled":false
+  },
   "nginx": {
     "enabled":false
   },

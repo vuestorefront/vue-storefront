@@ -15,8 +15,6 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
 
-const storeView = currentStoreView()
-
 export default {
   name: 'InstantCheckoutButton',
   beforeCreate () {
@@ -25,7 +23,7 @@ export default {
   data () {
     return {
       supported: false,
-      country: rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry,
+      country: rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : currentStoreView().tax.defaultCountry,
       paymentMethods: [
         {
           supportedMethods: ['basic-card'],
@@ -56,7 +54,7 @@ export default {
         bucket.push({
           label: product.name,
           amount: {
-            currency: storeView.i18n.currencyCode,
+            currency: currentStoreView().i18n.currencyCode,
             value: this.getProductPrice(product)
           }
         })
@@ -67,7 +65,7 @@ export default {
         if (this.selectedShippingOption.length > 0) {
           bucket.push({
             label: i18n.t('Shipping'),
-            amount: { currency: storeView.i18n.currencyCode, value: this.selectedShippingOption[0].amount.value }
+            amount: { currency: currentStoreView().i18n.currencyCode, value: this.selectedShippingOption[0].amount.value }
           })
         }
 
@@ -81,7 +79,7 @@ export default {
       if (shipping.length > 0) {
         bucket.push({
           label: shipping[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: shipping[0].value }
+          amount: { currency: currentStoreView().i18n.currencyCode, value: shipping[0].value }
         })
       }
 
@@ -107,7 +105,7 @@ export default {
 
         return {
           label: i18n.t('Grand total'),
-          amount: { currency: storeView.i18n.currencyCode, value: subtotal }
+          amount: { currency: currentStoreView().i18n.currencyCode, value: subtotal }
         }
       }
 
@@ -118,7 +116,7 @@ export default {
       if (total.length > 0) {
         return {
           label: total[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: total[0].value }
+          amount: { currency: currentStoreView().i18n.currencyCode, value: total[0].value }
         }
       }
 
@@ -231,7 +229,7 @@ export default {
               label: method.method_title,
               selected: setDefault ? this.$store.getters['checkout/getShippingMethods'][0].method_code === method.method_code : false,
               amount: {
-                currency: storeView.i18n.currencyCode,
+                currency: currentStoreView().i18n.currencyCode,
                 value: method.price_incl_tax
               }
             })
