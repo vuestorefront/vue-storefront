@@ -84,7 +84,7 @@ export default {
 
 #checkout {
   box-sizing: border-box;
-  padding: 0 var(--spacer-big);
+  padding: 0 var(--spacer-xl);
   @include for-desktop {
     max-width: 1240px;
     margin: 0 auto;

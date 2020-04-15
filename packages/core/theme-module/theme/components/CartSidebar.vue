@@ -123,7 +123,7 @@ export default {
     margin: 0;
   }
   &__total-price {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
 }
 .empty-cart {
@@ -142,11 +142,11 @@ export default {
     text-align: center;
   }
   &__label {
-    margin: var(--spacer-extra-big) 0 0 0;
+    margin: var(--spacer-2xl) 0 0 0;
     font: 400 var(--font-size-big) / 1.6 var(--body-font-family-secondary);
   }
   &__description {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-primary);
   }
   &__icon {
@@ -160,13 +160,13 @@ export default {
 }
 .collected-product-list {
   flex: 1;
-  margin: var(--spacer-big) calc(var(--spacer-big) * -1);
+  margin: var(--spacer-xl) calc(var(--spacer-xl) * -1);
 }
 .collected-product {
-  margin: var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0;
   font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
   &__properties {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
   }
   &__actions {
     transition: opacity 150ms ease-in-out;

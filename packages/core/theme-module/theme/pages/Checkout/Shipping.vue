@@ -176,7 +176,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+  margin: 0 0 var(--spacer-2xl);
 }
 .form {
   @include for-desktop {
@@ -185,7 +185,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -195,7 +195,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-2xl);
         }
       }
     }
@@ -212,7 +212,7 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-big) 0;
+      margin: var(--spacer-xl) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;
@@ -228,11 +228,11 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .shipping {
-  margin: 0 calc(var(--spacer-big) * -1);
+  margin: 0 calc(var(--spacer-xl) * -1);
   &__label {
     display: flex;
     justify-content: space-between;

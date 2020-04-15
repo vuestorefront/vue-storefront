@@ -46,9 +46,9 @@ export default {
   &__row {
     display: flex;
     & + & {
-      margin-top: calc(var(--spacer-big) / 2);
+      margin-top: calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin-top: var(--spacer-big);
+        margin-top: var(--spacer-xl);
       }
     }
   }
@@ -56,9 +56,9 @@ export default {
     margin: 0;
     flex: 1;
     & + & {
-      margin-left: calc(var(--spacer-big) / 2);
+      margin-left: calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin-left: var(--spacer-big);
+        margin-left: var(--spacer-xl);
       }
     }
   }

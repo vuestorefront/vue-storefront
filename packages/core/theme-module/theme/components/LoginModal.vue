@@ -197,7 +197,7 @@ export default {
 
 .form {
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .action,
@@ -205,18 +205,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
   font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   & > * {
     margin: 0 0 0 var(--spacer);
   }
 }
 .action {
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
 }
 .bottom {
-  padding: var(--spacer-extra-big) 0 0 0;
-  margin: var(--spacer-extra-big) 0 0 0;
+  padding: var(--spacer-2xl) 0 0 0;
+  margin: var(--spacer-2xl) 0 0 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
 }

@@ -362,14 +362,14 @@ export default {
   }
 }
 .section {
-  padding: 0 var(--spacer-big);
+  padding: 0 var(--spacer-xl);
   @include for-desktop {
     padding: 0;
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big)
-    var(--spacer-extra-big);
+  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
+    var(--spacer-2xl);
 }
 .product {
   @include for-desktop {
@@ -380,9 +380,9 @@ export default {
     flex: 1;
   }
   &__description {
-    padding: 0 var(--spacer-big);
+    padding: 0 var(--spacer-xl);
     @include for-desktop {
-      margin: 0 0 0 calc(var(--spacer-big) * 5);
+      margin: 0 0 0 calc(var(--spacer-xl) * 5);
     }
   }
 }
@@ -393,7 +393,7 @@ export default {
   &__heading {
     --heading-title-font-size: var(--font-size-big);
     --heading-title-font-weight: var(--body-font-weight-primary);
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     @include for-desktop {
       --heading-title-font-size: var(--h1-font-size);
       --heading-title-font-weight: var(--body-font-weight-secondary);
@@ -414,7 +414,7 @@ export default {
   &__sub-rating {
     display: flex;
     align-items: center;
-    margin: calc(var(--spacer-big) / 2) 0 0 0;
+    margin: calc(var(--spacer-xl) / 2) 0 0 0;
     @include for-desktop {
       margin: 0;
     }
@@ -434,7 +434,7 @@ export default {
   }
   &__action {
     display: flex;
-    margin: var(--spacer-big) 0 calc(var(--spacer-big) / 2);
+    margin: var(--spacer-xl) 0 calc(var(--spacer-xl) / 2);
     @include for-desktop {
       justify-content: flex-end;
     }
@@ -442,17 +442,17 @@ export default {
   &__add-to-cart {
     margin: 1.5rem 0 0 0;
     @include for-desktop {
-      margin: var(--spacer-extra-big) 0 0 0;
+      margin: var(--spacer-2xl) 0 0 0;
     }
   }
   &__alert {
     margin: 1.5rem 0 0 0;
   }
   &__attribute {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
   &__description {
-    margin: var(--spacer-extra-big) 0 calc(var(--spacer-big) * 3) 0;
+    margin: var(--spacer-2xl) 0 calc(var(--spacer-xl) * 3) 0;
     font-family: var(--body-font-family-secondary);
     font-size: var(--font-size-regular);
     line-height: 1.6;
@@ -461,28 +461,28 @@ export default {
     }
   }
   &__properties {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
   }
   &__tabs {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     @include for-desktop {
-      margin: calc(5 * var(--spacer-big)) 0 0 0;
+      margin: calc(5 * var(--spacer-xl)) 0 0 0;
     }
     p {
       margin: 0;
     }
   }
   &__review {
-    padding: var(--spacer-big) 0;
+    padding: var(--spacer-xl) 0;
     border: 1px solid var(--c-light);
     border-width: 0 0 1px 0;
   }
 }
 .product-carousel {
-  margin: 0 calc(var(--spacer-big) * -1) 0 0;
+  margin: 0 calc(var(--spacer-xl) * -1) 0 0;
   @include for-desktop {
-    margin: var(--spacer-big) 0;
-    --carousel-padding: var(--spacer-big);
+    margin: var(--spacer-xl) 0;
+    --carousel-padding: var(--spacer-xl);
     --carousel-max-width: calc(100% - 13.5rem);
   }
 }
@@ -497,9 +497,9 @@ export default {
   &__row {
     display: flex;
     & + & {
-      margin: calc(var(--spacer-big) / 2) 0 0 0;
+      margin: calc(var(--spacer-xl) / 2) 0 0 0;
       @include for-desktop {
-        margin: var(--spacer-big) 0 0 0;
+        margin: var(--spacer-xl) 0 0 0;
       }
     }
   }
@@ -507,15 +507,15 @@ export default {
     flex: 1;
     margin: 0;
     & + & {
-      margin: 0 0 0 calc(var(--spacer-big) / 2);
+      margin: 0 0 0 calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin: 0 0 0 var(--spacer-big);
+        margin: 0 0 0 var(--spacer-xl);
       }
     }
   }
 }
 .banner-app {
-  --banner-title-margin: var(--spacer-big) 0 0 0;
+  --banner-title-margin: var(--spacer-xl) 0 0 0;
   --banner-title-font-size: var(--h1-font-size);
   --banner-title-font-weight: var(--h1-font-weight);
   --banner-subtitle-font-size: var(--font-size-extra-big);
@@ -532,7 +532,7 @@ export default {
   &__image {
     width: 22%;
     & + & {
-      margin: 0 0 0 var(--spacer-big);
+      margin: 0 0 0 var(--spacer-xl);
     }
   }
 }

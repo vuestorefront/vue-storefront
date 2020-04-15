@@ -29,7 +29,7 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
   font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   &__label {
     font-weight: 500;

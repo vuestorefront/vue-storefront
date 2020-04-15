@@ -175,8 +175,8 @@ export default {
   box-sizing: border-box;
   width: 100%;
   background-color: #f1f2f3;
-  padding: var(--spacer-extra-big);
-  margin-bottom: var(--spacer-big);
+  padding: var(--spacer-2xl);
+  margin-bottom: var(--spacer-xl);
   &:last-child {
     margin-bottom: 0;
   }
@@ -185,13 +185,13 @@ export default {
   }
 }
 .title {
-  margin-bottom: var(--spacer-extra-big);
+  margin-bottom: var(--spacer-2xl);
 }
 .total-items {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacer-big);
+  margin-bottom: var(--spacer-xl);
 }
 .property {
   margin-bottom: var(--spacer);
@@ -200,7 +200,7 @@ export default {
   }
 }
 .property-total {
-  margin-top: var(--spacer-extra-big);
+  margin-top: var(--spacer-2xl);
   font-size: var(--font-size-extra-big-desktop);
   font-weight: 500;
   ::v-deep .sf-property__name {
@@ -212,12 +212,12 @@ export default {
 }
 .collected-product {
   &:not(:last-child) {
-    margin-bottom: var(--spacer-big);
+    margin-bottom: var(--spacer-xl);
   }
 }
 .characteristic {
   &:not(:last-child) {
-    margin-bottom: var(--spacer-big);
+    margin-bottom: var(--spacer-xl);
   }
 }
 .promo-code {
@@ -228,7 +228,7 @@ export default {
     font-size: var(--font-size-big-desktop);
   }
   &__input {
-    margin: var(--spacer-big) 0;
+    margin: var(--spacer-xl) 0;
     ::v-deep input {
       border-color: var(--c-gray-variant);
     }
@@ -236,7 +236,7 @@ export default {
 }
 .product {
   &__properties {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
   }
   &__property,
   &__action {
@@ -245,7 +245,7 @@ export default {
   &__action {
     color: var(--c-gray-variant);
     font-size: var(--font-size-extra-small-desktop);
-    margin: 0 0 var(--spacer-small) 0;
+    margin: 0 0 var(--spacer-sm) 0;
     &:last-child {
       margin: 0;
     }

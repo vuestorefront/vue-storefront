@@ -135,7 +135,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+  margin: 0 0 var(--spacer-2xl);
 }
 .form {
   @include for-desktop {
@@ -144,7 +144,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -154,7 +154,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-2xl);
         }
       }
     }
@@ -171,7 +171,7 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-big) 0;
+      margin: var(--spacer-xl) 0;
       @include for-desktop {
         --button-margin: 0;
         text-align: right;
@@ -191,17 +191,17 @@ export default {
   --button-text-decoration: none;
 }
 .characteristic {
-  margin: 0 0 var(--spacer-big) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   &:last-child {
     margin: 0;
   }
 }
 .modal {
   &__heading {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
   &__button {
-    margin: var(--spacer-extra-big) 0 0 0;
+    margin: var(--spacer-2xl) 0 0 0;
   }
 }
 </style>

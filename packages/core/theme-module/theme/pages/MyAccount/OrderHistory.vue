@@ -104,7 +104,7 @@ export default {
 
 .no-orders {
   &__title {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   }
   &__content {
@@ -119,7 +119,7 @@ export default {
 }
 .orders {
   &__download-all {
-    --button-padding: 0.625rem var(--spacer-big);
+    --button-padding: 0.625rem var(--spacer-xl);
     --button-font-size: var(--font-size-extra-small);
     white-space: nowrap;
   }
@@ -130,7 +130,7 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
   font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   &__label {
     font-weight: 500;

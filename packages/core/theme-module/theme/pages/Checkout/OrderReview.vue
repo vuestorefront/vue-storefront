@@ -240,7 +240,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+  margin: 0 0 var(--spacer-2xl);
 }
 .form {
   @include for-desktop {
@@ -249,7 +249,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -259,7 +259,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-2xl);
         }
       }
     }
@@ -276,7 +276,7 @@ export default {
   }
   &__action-button {
     &--secondary {
-      --button-margin: var(--spacer-big) 0;
+      --button-margin: var(--spacer-xl) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;
@@ -292,11 +292,11 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .table {
-  margin: 0 0 var(--spacer-big) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   &__header {
     font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
     @include for-desktop {
@@ -335,25 +335,25 @@ export default {
 }
 .summary {
   background: var(--c-light);
-  margin: 0 calc(var(--spacer-big) * -1);
-  padding: var(--spacer-big);
+  margin: 0 calc(var(--spacer-xl) * -1);
+  padding: var(--spacer-xl);
   @include for-desktop {
     background: transparent;
   }
   &__group {
     @include for-desktop {
       display: flex;
-      margin: 0 0 var(--spacer-extra-big) 0;
+      margin: 0 0 var(--spacer-2xl) 0;
     }
   }
   &__terms {
     flex: 1;
     order: -1;
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
   &__total {
-    margin: 0 0 var(--spacer-extra-big) 0;
-    padding: 0 var(--spacer-big);
+    margin: 0 0 var(--spacer-2xl) 0;
+    padding: 0 var(--spacer-xl);
     flex: 0 0 16.875rem;
     @include for-desktop {
       padding: 0;
@@ -361,7 +361,7 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-big) 0;
+      margin: var(--spacer-xl) 0;
       @include for-desktop {
         order: -1;
         margin: 0;
@@ -374,20 +374,20 @@ export default {
       var(--body-font-family-secondary);
     --property-value-font: 500 var(--font-size-big) / 1.6
       var(--body-font-family-secondary);
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     text-transform: uppercase;
     font: 500 var(--font-size-big) / 1.6 var(--body-font-family-secondary);
   }
 }
 .property {
-  margin: 0 0 var(--spacer-big) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   font: 400 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   &__name {
     color: var(--c-text-muted);
   }
 }
 .accordion {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
   &__item {
     display: flex;
     align-items: flex-start;
@@ -400,7 +400,7 @@ export default {
   }
 }
 .content {
-  margin: 0 0 var(--spacer-big) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   font: 300 var(--font-size-mall) / 1.6 var(--body-font-family-secondary);
   color: var(--c-text);
   &:last-child {

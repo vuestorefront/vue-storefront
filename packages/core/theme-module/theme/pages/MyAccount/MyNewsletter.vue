@@ -54,11 +54,11 @@ export default {
 <style lang='scss' scoped>
 @import "~@storefront-ui/vue/styles";
 .shipping-list {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
 }
 .shipping {
   display: flex;
-  padding: var(--spacer-big) 0;
+  padding: var(--spacer-xl) 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
   &:last-child {
@@ -87,11 +87,11 @@ export default {
       --button-background: var(--c-light-variant);
     }
     @include for-desktop {
-      margin: 0 0 0 var(--spacer-big);
+      margin: 0 0 0 var(--spacer-xl);
     }
   }
   &__address {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     &:last-child {
       margin: 0;
     }
@@ -109,16 +109,16 @@ export default {
 }
 .form {
   &__element {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__checkbox-group {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
   &__title {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   }
   &__button {
@@ -129,7 +129,7 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
   font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
   &__label {
     font-weight: 500;
@@ -143,7 +143,7 @@ a {
   }
 }
 .notice {
-  margin: var(--spacer-big) 0 0 0;
+  margin: var(--spacer-xl) 0 0 0;
   font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
 }
 .action-button {
