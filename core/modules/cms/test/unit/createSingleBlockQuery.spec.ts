@@ -15,6 +15,6 @@ describe('createSingleBlockLoadQuery should', () => {
     const argsMock = { key: 'test', value: undefined }
     let mockSingleBlockQuery = createSingleBlockQuery(argsMock)
 
-    expect(mockSingleBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(mockSingleBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })
