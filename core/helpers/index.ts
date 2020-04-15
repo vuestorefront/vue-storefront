@@ -7,6 +7,7 @@ import { sha3_224 } from 'js-sha3'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+import omit from 'lodash-es/omit'
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
@@ -222,8 +223,11 @@ export const serial = async promises => {
 }
 
 // helper to calculate the hash of the shopping cart
-export const calcItemsHmac = (items, token) => {
-  return sha3_224(JSON.stringify({ items, token: token }))
+export const calcItemsHmac = (items = [], token) => {
+  return sha3_224(JSON.stringify({
+    items: items.map(item => omit(item, ['stock'])),
+    token: token
+  }))
 }
 
 export function extendStore (moduleName: string | string[], module: any) {
