@@ -47,14 +47,14 @@ export function slugify (text) {
  * @returns {string}
  */
 export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
-  if (config.images.useExactUrlsNoProxy) {
-    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }).path // this is exact url mode
-  } else {
-    if (config.images.useSpecificImagePaths) {
-      const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
-      relativeUrl = path + relativeUrl
-    }
+  if (config.images.useSpecificImagePaths) {
+    const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
+    relativeUrl = path + relativeUrl
+  }
 
+  if (config.images.useExactUrlsNoProxy) {
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height, pathType }).path // this is exact url mode
+  } else {
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
     // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
@@ -69,7 +69,7 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
     }
     const path = relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
 
-    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height }).path
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height, pathType }).path
   }
 }
 
