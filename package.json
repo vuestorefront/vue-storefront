@@ -72,7 +72,6 @@
       "packages/commercetools/*",
       "packages/boilerplate/*",
       "packages/core/*",
-      "packages/core/core",
       "packages/prismic",
       "packages/about-you/*"
     ],
