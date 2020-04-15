@@ -581,5 +581,8 @@
     "enableMapFallbackUrl": false,
     "endpoint": "/api/url",
     "map_endpoint": "/api/url/map"
+  },
+  "fastly": {
+    "enabled":false
   }
 }

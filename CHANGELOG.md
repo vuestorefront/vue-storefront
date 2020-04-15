@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move generating files from webpack config to script @gibkigonzo (#4236)
 - Add correct type matching to `getConfigurationMatchLevel` - @cewald (#4241)
 - Support `useSpecificImagePaths` with `useExactUrlsNoProxy` - @cewald (#4243)
+- Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
 
 ### Fixed
 
