@@ -35,9 +35,19 @@ jobs:
           target_url: https://demo.storefrontcloud.io
           environment: production
           initial_status: in_progress
-      - name: Deploy on Storefrontcloud.io
+      - name: Deploy on demo.storefrontcloud.io
+        if: github.ref == 'master'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+            echo "Instance updated"
+          else
+            echo "Something went wrong during the update process..."
+            exit 1
+          fi
+      - name: Deploy on demo.storefrontcloud.io
+        if: github.ref == 'feature/gh_actions'
+        run: |
+          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"next","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."
