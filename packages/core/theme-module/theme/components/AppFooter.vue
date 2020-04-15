@@ -7,7 +7,6 @@
           :key="item"
           >
           <SfMenuItem
-            class="sf-footer__menu-item"
             :label="item"
           />
         </SfListItem>
@@ -20,7 +19,6 @@
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
             :label="item"
           />
         </SfListItem>
@@ -33,7 +31,6 @@
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
             :label="item"
           />
         </SfListItem>
@@ -46,15 +43,14 @@
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
             :label="item"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Social" style="margin-left: auto">
-      <div :style="style">
-        <img v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" style="height: 0.75rem; margin-right: 1.25rem" />
+    <SfFooterColumn title="Social">
+      <div class="footer__socials">
+        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" width="12" height="12" />
       </div>
     </SfFooterColumn>
   </SfFooter>
@@ -80,29 +76,6 @@ export default {
       isMobile: false,
       desktopMin: 1024
     };
-  },
-  computed: {
-    style() {
-      return this.isMobile ? { padding: '20px 40px' } : { padding: '6px 0' };
-    }
-  },
-  methods: {
-    isMobileHandler(e) {
-      this.isMobile = e.matches;
-    }
-  },
-  mounted() {
-    this.isMobile =
-      Math.max(document.documentElement.clientWidth, window.innerWidth) <
-      this.desktopMin;
-    window
-      .matchMedia('(max-width: 1024px)')
-      .addListener(this.isMobileHandler);
-  },
-  beforeDestroy() {
-    window
-      .matchMedia('(max-width: 1024px)')
-      .removeListener(this.isMobileHandler);
   }
 };
 </script>
@@ -115,10 +88,17 @@ export default {
     @content;
   }
 }
-#footer {
-  /* temporary */
-  @include for-desktop {
-    padding: 0 2.5rem;
+
+.footer {
+  &__socials {
+    padding: var(--spacer-base) var(--spacer-xl);
+
+    @media screen and (min-width: $desktop-min) {
+      padding: var(--spacer-sm) 0;
+    }
+  }
+  &__social-image {
+    margin: 0 var(--spacer-base) 0 0;
   }
 }
 </style>
