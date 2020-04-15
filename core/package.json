@@ -16,7 +16,7 @@
     "lean-he": "^2.0.0",
     "localforage": "^1.7.2",
     "lodash-es": "^4.17",
-    "lru-cache": "^4.0.1",
+    "lru-cache": "^5.1.1",
     "query-string": "^6.2.0",
     "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
