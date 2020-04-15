@@ -298,13 +298,13 @@ export default {
 .table {
   margin: 0 0 var(--spacer-xl) 0;
   &__header {
-    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
     @include for-desktop {
       text-align: center;
     }
   }
   &__data {
-    font: 300 var(--font-size-small) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-sm) / 1.6 var(--font-family-secondary);
     @include for-desktop {
       text-align: center;
     }
@@ -325,10 +325,10 @@ export default {
 }
 .product-sku {
   color: var(--c-text-muted);
-  font-size: var(--font-size-extra-small);
+  font-size: var(--font-xs);
 }
 .product-price {
-  --price-font-size: var(--font-size-small);
+  --price-font-size: var(--font-sm);
 }
 .button {
   cursor: pointer;
@@ -370,18 +370,18 @@ export default {
     }
   }
   &__property-total {
-    --property-name-font: 500 var(--font-size-big) / 1.6
-      var(--body-font-family-secondary);
-    --property-value-font: 500 var(--font-size-big) / 1.6
-      var(--body-font-family-secondary);
+    --property-name-font: 500 var(--font-lg) / 1.6
+      var(--font-family-secondary);
+    --property-value-font: 500 var(--font-lg) / 1.6
+      var(--font-family-secondary);
     margin: var(--spacer-xl) 0 0 0;
     text-transform: uppercase;
-    font: 500 var(--font-size-big) / 1.6 var(--body-font-family-secondary);
+    font: 500 var(--font-lg) / 1.6 var(--font-family-secondary);
   }
 }
 .property {
   margin: 0 0 var(--spacer-xl) 0;
-  font: 400 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  font: 400 var(--font-base) / 1.6 var(--font-family-secondary);
   &__name {
     color: var(--c-text-muted);
   }
@@ -401,7 +401,7 @@ export default {
 }
 .content {
   margin: 0 0 var(--spacer-xl) 0;
-  font: 300 var(--font-size-mall) / 1.6 var(--body-font-family-secondary);
+  font: 300 var(--font-size-mall) / 1.6 var(--font-family-secondary);
   color: var(--c-text);
   &:last-child {
     margin: 0;

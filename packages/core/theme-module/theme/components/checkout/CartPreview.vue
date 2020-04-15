@@ -225,7 +225,7 @@ export default {
     padding: 0;
     background-color: transparent;
     color: var(--c-primary);
-    font-size: var(--font-size-big-desktop);
+    font-size: var(--font-lg-desktop);
   }
   &__input {
     margin: var(--spacer-xl) 0;
@@ -240,11 +240,11 @@ export default {
   }
   &__property,
   &__action {
-    font-size: var(--font-size-extra-small-desktop);
+    font-size: var(--font-xs-desktop);
   }
   &__action {
     color: var(--c-gray-variant);
-    font-size: var(--font-size-extra-small-desktop);
+    font-size: var(--font-xs-desktop);
     margin: 0 0 var(--spacer-sm) 0;
     &:last-child {
       margin: 0;

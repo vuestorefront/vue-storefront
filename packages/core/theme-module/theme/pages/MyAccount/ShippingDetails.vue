@@ -370,12 +370,11 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font-family: var(--body-font-family-primary);
-  font-weight: var(--body-font-weight-primary);
+  font-family: var(--font-family-primary);
   line-height: 1.6;
-  font-size: var(--font-size-regular-mobile);
+  font-size: var(--font-base-mobile);
   @include for-desktop {
-    font-size: var(--font-size-regular-desktop);
+    font-size: var(--font-base-desktop);
   }
 }
 .shipping-list {
@@ -391,11 +390,11 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-size-small-mobile);
+    font-size: var(--font-sm-mobile);
     font-weight: 300;
     line-height: 1.6;
     @include for-desktop {
-      font-size: var(--font-size-small-desktop);
+      font-size: var(--font-sm-desktop);
     }
   }
   &__actions {
@@ -424,7 +423,7 @@ export default {
     }
   }
   &__client-name {
-    font-size: var(--font-size-regular-desktop);
+    font-size: var(--font-base-desktop);
     font-weight: 500;
   }
 }

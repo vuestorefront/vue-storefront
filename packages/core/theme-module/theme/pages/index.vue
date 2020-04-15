@@ -94,6 +94,7 @@
         <div class="banner-application__subtitle">Fashion to Take Away</div>
       </template>
       <template #title>
+        <!-- TODO: replace with SfHeading -->
         <h1 class="banner-application__title">
           Download our application to your&nbsp;mobile
         </h1>
@@ -293,13 +294,11 @@ export default {
   &__title {
     margin: var(--spacer-xl) 0 0 0;
     font-size: var(--h1-font-size-desktop);
-    font-weight: var(--h1-font-weight-desktop);
   }
   &__subtitle {
     color: #a3a5ad;
-    font-family: var(--body-font-family-primary);
+    font-family: var(--font-family-primary);
     font-size: var(--font-size-extra-big-desktop);
-    font-weight: var(--body-font-weight-primary);
   }
   &__download {
     max-height: 47px;

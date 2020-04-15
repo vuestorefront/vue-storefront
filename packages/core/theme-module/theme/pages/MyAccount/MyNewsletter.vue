@@ -67,7 +67,7 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font: 300 var(--font-size-small) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-sm) / 1.6 var(--font-family-secondary);
   }
   &__actions {
     display: flex;
@@ -97,7 +97,7 @@ export default {
     }
   }
   &__client-name {
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
 }
 .tab-orphan {
@@ -119,7 +119,7 @@ export default {
   }
   &__title {
     margin: 0 0 var(--spacer-xl) 0;
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__button {
     --button-width: 100%;
@@ -130,7 +130,7 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   &__label {
     font-weight: 500;
   }
@@ -144,7 +144,7 @@ a {
 }
 .notice {
   margin: var(--spacer-xl) 0 0 0;
-  font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
+  font: 300 var(--font-xs) / 1.6 var(--font-family-secondary);
 }
 .action-button {
   --button-width: 100%;

@@ -490,7 +490,7 @@ export default {
 .navbar {
   position: relative;
   display: flex;
-  font: 300 var(--font-size-small) / 1.6 var(--font-family-primary);
+  font: 300 var(--font-sm) / 1.6 var(--font-family-primary);
   @include for-desktop {
     border: 1px solid var(--c-light);
     border-width: 1px 0 1px 0;
@@ -512,7 +512,7 @@ export default {
     display: flex;
     align-items: center;
     padding: var(--spacer-lg) 0;
-    font-size: var(--font-size-small);
+    font-size: var(--font-sm);
     line-height: 1.6;
     @include for-desktop {
       padding: var(--spacer-xl) 0;
@@ -529,14 +529,13 @@ export default {
   }
   &__title {
     padding: 0;
-    font-size: var(--font-size-big);
-    font-family: var(--body-font-family-secondary);
+    font-size: var(--font-lg);
+    font-family: var(--font-family-secondary);
     font-weight: 500;
     line-height: 1.6;
   }
   &__filters-button {
     --button-text-decoration: none;
-    --button-font-weight: var(--body-font-weight-secondary);
     --button-color: var(--c-text);
     --button-transition: all 150ms linear;
     display: flex;
@@ -561,7 +560,7 @@ export default {
     display: flex;
     align-items: center;
     margin: 0 auto 0 var(--spacer-2xl);
-    --select-font-size: var(--font-size-small);
+    --select-font-size: var(--font-sm);
   }
   &__counter {
     margin: auto;
@@ -671,7 +670,7 @@ export default {
   padding: var(--spacer-xl);
   &__title {
     margin: calc(var(--spacer-xl) * 3) 0 var(--spacer-xl) 0;
-    font: 400 var(--font-size-extra-big) / 1.6 var(--body-font-family-secondary);
+    font: 400 var(--font-size-extra-big) / 1.6 var(--font-family-secondary);
     line-height: 1.6;
     &:first-child {
       margin: 0 0 var(--spacer-xl) 0;

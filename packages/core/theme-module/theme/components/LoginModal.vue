@@ -206,7 +206,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   & > * {
     margin: 0 0 0 var(--spacer);
   }

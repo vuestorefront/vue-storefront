@@ -254,7 +254,7 @@ export default {
 .payment-method {
   --radio-container-align-items: center;
   --ratio-content-margin: 0 0 0 var(--spacer);
-  --radio-label-font-size: var(--font-size-regular);
+  --radio-label-font-size: var(--font-base);
   white-space: nowrap;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
@@ -283,7 +283,7 @@ export default {
   }
   &__label {
     flex: unset;
-    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__element {
     display: flex;

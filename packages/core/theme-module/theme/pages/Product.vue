@@ -391,12 +391,10 @@ export default {
 }
 .product-details {
   &__heading {
-    --heading-title-font-size: var(--font-size-big);
-    --heading-title-font-weight: var(--body-font-weight-primary);
+    --heading-title-font-size: var(--font-lg);
     margin: var(--spacer-xl) 0 0 0;
     @include for-desktop {
       --heading-title-font-size: var(--h1-font-size);
-      --heading-title-font-weight: var(--body-font-weight-secondary);
       margin: 0;
     }
   }
@@ -409,7 +407,7 @@ export default {
     }
   }
   &__sub-price {
-    --price-font-size: 1.5rem;
+    --price-font-size: var(--font-xl);
   }
   &__sub-rating {
     display: flex;
@@ -421,7 +419,7 @@ export default {
   }
   &__sub-reviews {
     margin: 0 0 0 0.625rem;
-    font-size: var(--font-size-extra-small);
+    font-size: var(--font-xs);
   }
   &__section {
     border: 1px solid var(--c-light);
@@ -440,24 +438,24 @@ export default {
     }
   }
   &__add-to-cart {
-    margin: 1.5rem 0 0 0;
+    margin: var(--spacer-base) 0 0 0;
     @include for-desktop {
       margin: var(--spacer-2xl) 0 0 0;
     }
   }
   &__alert {
-    margin: 1.5rem 0 0 0;
+    margin: var(--spacer-base) 0 0 0;
   }
   &__attribute {
     margin: 0 0 var(--spacer-xl) 0;
   }
   &__description {
     margin: var(--spacer-2xl) 0 calc(var(--spacer-xl) * 3) 0;
-    font-family: var(--body-font-family-secondary);
-    font-size: var(--font-size-regular);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-base);
     line-height: 1.6;
     @include for-desktop {
-      font-size: var(--font-size-regular);
+      font-size: var(--font-base);
     }
   }
   &__properties {
@@ -517,9 +515,7 @@ export default {
 .banner-app {
   --banner-title-margin: var(--spacer-xl) 0 0 0;
   --banner-title-font-size: var(--h1-font-size);
-  --banner-title-font-weight: var(--h1-font-weight);
   --banner-subtitle-font-size: var(--font-size-extra-big);
-  --banner-subtitle-font-weight: var(--body-font-weight-primary);
   min-height: 26.25rem;
   max-width: 65rem;
   margin: 0 auto;

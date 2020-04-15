@@ -64,7 +64,7 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   &::v-deep .sf-select {
-    --select-font-size: var(--font-size-small);
+    --select-font-size: var(--font-sm);
   }
   &__select {
     padding: 0 5px;

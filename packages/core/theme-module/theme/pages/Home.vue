@@ -311,7 +311,6 @@ export default {
   --banner-title-font-size: var(--h1-font-size);
   --banner-title-font-weight: var(--h1-font-weight);
   --banner-subtitle-font-size: var(--font-size-extra-big);
-  --banner-subtitle-font-weight: var(--body-font-weight-primary);
   min-height: 26.25rem;
   max-width: 65rem;
   margin: 0 auto;

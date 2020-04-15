@@ -105,10 +105,10 @@ export default {
 .no-orders {
   &__title {
     margin: 0 0 var(--spacer-xl) 0;
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__content {
-    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__button {
     --button-width: 100%;
@@ -120,7 +120,7 @@ export default {
 .orders {
   &__download-all {
     --button-padding: 0.625rem var(--spacer-xl);
-    --button-font-size: var(--font-size-extra-small);
+    --button-font-size: var(--font-xs);
     white-space: nowrap;
   }
   &__view {
@@ -131,7 +131,7 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   &__label {
     font-weight: 500;
   }

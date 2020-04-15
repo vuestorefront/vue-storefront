@@ -229,15 +229,14 @@ export default {
 }
 .message,
 .notice {
-  font-family: var(--body-font-family-primary);
-  font-weight: var(--body-font-weight-primary);
+  font-family: var(--font-family-primary);
   line-height: 1.6;
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font-size: var(--font-size-regular-mobile);
+  font-size: var(--font-base-mobile);
   @include for-desktop {
-    font-size: var(--font-size-regular-desktop);
+    font-size: var(--font-base-desktop);
   }
   &__label {
     font-weight: 400;
@@ -245,11 +244,11 @@ export default {
 }
 .notice {
   margin: var(--spacer-xl) 0 0 0;
-  font-size: var(--font-size-extra-small-mobile);
+  font-size: var(--font-xs-mobile);
   @include for-desktop {
     max-width: 70%;
     margin: var(--spacer) 0 0 0;
-    font-size: var(--font-size-extra-small-desktop);
+    font-size: var(--font-xs-desktop);
   }
 }
 </style>

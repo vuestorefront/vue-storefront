@@ -239,7 +239,7 @@ export default {
   }
   &__description {
     --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-size-extra-small);
+    --radio-description-font-size: var(--font-xs);
   }
   &__delivery {
     color: var(--c-text-muted);
