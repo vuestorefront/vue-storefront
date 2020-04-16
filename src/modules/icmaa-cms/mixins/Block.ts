@@ -32,6 +32,9 @@ export default {
     },
     content (): object {
       return stringToComponent(this.block.content)
+    },
+    isValidComponent (): boolean {
+      return (this.content && Object.keys(this.content).length > 0)
     }
   },
   methods: {

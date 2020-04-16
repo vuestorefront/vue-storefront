@@ -27,10 +27,11 @@ export default {
     },
     sortedProductOptions () {
       return cloneDeep(this.product.configurable_options).map(o => {
+        const attribute = Object.assign({ options: [] }, this.getAttributeListByCode[o.attribute_code])
+        const { options } = attribute
+
         // Sort by attributes value `sort_order` parameter
         o.values = o.values.sort((a, b) => {
-          const attribute = this.getAttributeListByCode[o.attribute_code]
-          const { options } = attribute
           const aValue = a.value_index
           const bValue = b.value_index
 

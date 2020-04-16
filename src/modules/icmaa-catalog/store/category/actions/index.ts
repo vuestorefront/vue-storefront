@@ -36,7 +36,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
-    filterQr.applyFilter({ key: 'stock', value: '', scope: 'default' })
+    filterQr.applyFilter({ key: 'stock', value: '' })
     if (!searchQuery.sort) {
       filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
     }
@@ -78,7 +78,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     // Add our custom category filter
     // @see DivanteLtd/vue-storefront#4111
-    filterQr.applyFilter({ key: 'stock', value: '', scope: 'default' })
+    filterQr.applyFilter({ key: 'stock', value: '' })
     if (!searchQuery.sort) {
       filterQr.applySort({ field: 'is_in_sale', options: { 'missing': '_first' } })
     }

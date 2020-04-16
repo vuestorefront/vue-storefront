@@ -180,7 +180,7 @@ class Rules {
    */
   protected addDefaultFilter (): this {
     this.query
-      .applyFilter({ key: 'stock', value: '', scope: 'default' })
+      .applyFilter({ key: 'stock', value: '' })
       .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
       .applyFilter({ key: 'status', value: { in: [0, 1] } })
 

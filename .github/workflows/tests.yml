@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1.4.1
         with:
           node-version: '13.x'
 
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1.4.1
         with:
           node-version: '13.x'
 
@@ -69,7 +69,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1.4.1
         with:
           node-version: '13.x'
 
@@ -82,7 +82,7 @@ jobs:
         run: rsync -r ./vue-storefront-workspace/template/vue-storefront/ ./
 
       - name: Install
-        uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1.1.0
 
       - name: Build
         run: yarn build
