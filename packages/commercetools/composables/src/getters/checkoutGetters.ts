@@ -1,6 +1,6 @@
 import { CheckoutGetters} from '@vue-storefront/core';
 import { ShippingMethod } from './../types/GraphQL';
-
+import { createFormatPrice } from './_utils';
 export const getShippingMethodId = (shippingMethod: ShippingMethod): string =>
   shippingMethod ? shippingMethod.id : '';
 
@@ -18,11 +18,14 @@ export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number =
   return shippingMethod.zoneRates[0].shippingRates[0].price.centAmount / 100;
 };
 
+export const getFormattedPrice = (price: number) => createFormatPrice(price);
+
 const checkoutGetters: CheckoutGetters<ShippingMethod> = {
   getShippingMethodId,
   getShippingMethodName,
   getShippingMethodDescription,
-  getShippingMethodPrice
+  getShippingMethodPrice,
+  getFormattedPrice
 };
 
 export default checkoutGetters;

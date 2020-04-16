@@ -11,6 +11,13 @@ import {
 } from './../../src/getters/cartGetters';
 import { getProductAttributes } from './../../src/getters/productGetters';
 
+import * as utils from './../../src/getters/_utils';
+
+jest.spyOn(utils, 'createPrice').mockImplementation((product) => ({
+  special: product?.price.value.centAmount / 100,
+  regular: product?.price.value.centAmount / 100
+} as any));
+
 const price = (p) => ({ value: { centAmount: p } });
 const variant = (p = {}) => ({
   ...p,

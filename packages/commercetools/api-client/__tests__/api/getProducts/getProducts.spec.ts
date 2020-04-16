@@ -8,7 +8,8 @@ describe('[commercetools-api-client] getProduct', () => {
     const givenVariables = {
       where: 'masterData(current(categories(id in ("724b250d-9805-4657-ae73-3c02a63a9a13"))))',
       locale: 'en',
-      currency: 'USD'
+      currency: 'USD',
+      country: 'UK'
     };
 
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {

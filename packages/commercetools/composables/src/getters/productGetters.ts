@@ -1,6 +1,6 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, Image } from './../types/GraphQL';
-import { formatAttributeList, getVariantByAttributes } from './_utils';
+import { formatAttributeList, getVariantByAttributes, createPrice, createFormatPrice } from './_utils';
 
 interface ProductVariantFilters {
   master?: boolean;
@@ -11,14 +11,7 @@ export const getProductName = (product: ProductVariant | Readonly<ProductVariant
 
 export const getProductSlug = (product: ProductVariant | Readonly<ProductVariant>): string => product ? (product as any)._slug : '';
 
-export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): AgnosticPrice => {
-  const price = product ? product.price?.value.centAmount / 100 : null;
-
-  return {
-    regular: price,
-    special: price
-  };
-};
+export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): AgnosticPrice => createPrice(product);
 
 export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] =>
   (product ? product.images : [])
@@ -92,6 +85,8 @@ export const getProductCategoryIds = (product: ProductVariant): string[] => (pro
 
 export const getProductId = (product: ProductVariant): string => (product as any)._id;
 
+export const getFormattedPrice = (price: number) => createFormatPrice(price);
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -102,7 +97,8 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getAttributes: getProductAttributes,
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
-  getId: getProductId
+  getId: getProductId,
+  getFormattedPrice
 };
 
 export default productGetters;

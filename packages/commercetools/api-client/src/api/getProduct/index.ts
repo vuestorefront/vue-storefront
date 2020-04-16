@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, locale, currency } from './../../index';
+import { apolloClient, locale, currency, country } from './../../index';
 import { ProductSearch } from './../../types/Api';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
@@ -28,7 +28,8 @@ const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<Prod
       limit: search.limit,
       offset: search.offset,
       locale,
-      currency
+      currency,
+      country
     },
     // temporary, seems like bug in apollo:
     // @link: https://github.com/apollographql/apollo-client/issues/3234

@@ -8,12 +8,12 @@
     >
       <SfImage :src="`/icons/langs/${lang.name}.png`" width="20" />
     </SfButton>
-    <SfSelect v-model="country" class="container__select">
+    <SfSelect v-model="country" @change="handleSelectChange" class="container__select">
       <SfSelectOption v-for="currentCountry in availableCountries" :key="currentCountry.name" :value="currentCountry.name">
         <div>{{ currentCountry.label }}</div>
       </SfSelectOption>
     </SfSelect>
-    <SfSelect v-model="currency" class="container__select">
+    <SfSelect v-model="currency"  @change="handleSelectChange" class="container__select">
       <SfSelectOption v-for="currentCurrency in availableCurrencies" :key="currentCurrency.name" :value="currentCurrency.name">
         <div>{{ currentCurrency.label }}</div>
       </SfSelectOption>
@@ -47,8 +47,13 @@ export default {
       $router.go({ path: $route.fullPath, force: true });
     };
 
+    const handleSelectChange = () => {
+      $router.go({ path: $route.fullPath, force: true });
+    };
+
     return {
       handleChangeLang,
+      handleSelectChange,
       locale,
       ...fields
     };

@@ -1,6 +1,7 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
+import { createPrice, createFormatPrice } from './_utils';
 
 export const getCartItems = (cart: Cart): LineItem[] => {
   if (!cart) {
@@ -14,14 +15,7 @@ export const getCartItemName = (product: LineItem): string => product.name;
 
 export const getCartItemImage = (product: LineItem): string => product.variant.images[0].url;
 
-export const getCartItemPrice = (product: LineItem): AgnosticPrice => {
-  const price = product.price.value.centAmount / 100;
-
-  return {
-    regular: price,
-    special: price
-  };
-};
+export const getCartItemPrice = (product: LineItem): AgnosticPrice => createPrice(product);
 
 export const getCartItemQty = (product: LineItem): number => product.quantity;
 
@@ -57,6 +51,8 @@ export const getCartTotalItems = (cart: Cart): number => {
   return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
 };
 
+export const getFormattedPrice = (price: number) => createFormatPrice(price);
+
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
@@ -67,7 +63,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemQty: getCartItemQty,
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
-  getTotalItems: getCartTotalItems
+  getTotalItems: getCartTotalItems,
+  getFormattedPrice
 };
 
 export default cartGetters;

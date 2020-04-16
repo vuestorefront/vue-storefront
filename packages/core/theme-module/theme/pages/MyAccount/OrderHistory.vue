@@ -24,7 +24,7 @@
         <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
           <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
           <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-          <SfTableData>{{ orderGetters.getPrice(order).regular }}</SfTableData>
+          <SfTableData>{{ orderGetters.getFormattedPrice(orderGetters.getPrice(order)) }}</SfTableData>
           <SfTableData>
             <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
           </SfTableData>

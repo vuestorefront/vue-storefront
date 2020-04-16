@@ -19,7 +19,8 @@
             :qty="cartGetters.getItemQty(product)"
             :image="cartGetters.getItemImage(product)"
             :title="cartGetters.getItemName(product)"
-            :regular-price="cartGetters.getItemPrice(product).regular"
+            :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
+            :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
             class="collected-product"
             @click:remove="removeFromCart(product)"
             @input="updateQuantity(product, $event)"
@@ -55,17 +56,17 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="totals.subtotal"
+        :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
         class="sf-property--full-width property"
       />
       <SfProperty
         name="Shipping"
-        :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
+        :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
         class="sf-property--full-width property"
       />
       <SfProperty
         name="Total"
-        :value="totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
+        :value="checkoutGetters.getFormattedPrice(totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
         class="sf-property--full-width property-total"
       />
     </div>

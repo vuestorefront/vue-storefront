@@ -1,5 +1,6 @@
-import { AgnosticAttribute } from '@vue-storefront/core';
-import { ProductVariant } from './../types/GraphQL';
+import { AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
+import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } from './../types/GraphQL';
+import { locale, currency, country } from '@vue-storefront/commercetools-api';
 
 const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
@@ -57,3 +58,28 @@ export const getVariantByAttributes = (products: ProductVariant[] | Readonly<Pro
   });
 };
 
+const getPrice = (price: ProductPrice | DiscountedProductPriceValue) => price ? price.value.centAmount / 100 : null;
+const getDiscount = (product: ProductVariant | LineItem) => product.price?.discounted;
+
+export const createPrice = (product: ProductVariant | LineItem): AgnosticPrice => {
+  if (!product) {
+    return { regular: null, special: null };
+  }
+
+  const discount = getDiscount(product);
+  const regularPrice = getPrice(product.price);
+  const specialPrice = discount?.discount.isActive ? getPrice(discount) : null;
+
+  return {
+    regular: regularPrice,
+    special: specialPrice
+  };
+};
+
+export const createFormatPrice = (price: number) => {
+  if (!price) {
+    return null;
+  }
+
+  return new Intl.NumberFormat(`${locale}-${country}`, { style: 'currency', currency }).format(price);
+};

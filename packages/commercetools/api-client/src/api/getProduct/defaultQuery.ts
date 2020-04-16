@@ -1,6 +1,9 @@
 import gql from 'graphql-tag';
+import { ProductPriceFragment } from './../../fragments';
 
 export default gql`
+  ${ProductPriceFragment}
+
   fragment Images on ProductVariant {
     images {
       url
@@ -9,13 +12,8 @@ export default gql`
   }
 
   fragment Price on ProductVariant {
-    price(currency: $currency) {
-      value {
-        type
-        currencyCode
-        centAmount
-        fractionDigits
-      }
+    price(currency: $currency, country: $country) {
+      ...DefaultProductPrice
     }
   }
 
@@ -78,6 +76,7 @@ export default gql`
     $skus: [String!]
     $locale: Locale!
     $currency: Currency!
+    $country: Country!
   ) {
     products(
       where: $where

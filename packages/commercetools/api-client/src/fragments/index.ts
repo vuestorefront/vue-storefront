@@ -1,4 +1,29 @@
 
+export const ProductPriceFragment = `
+  fragment DefaultProductPrice on ProductPrice {
+    discounted {
+      value {
+        type
+        currencyCode
+        centAmount
+        fractionDigits
+      }
+      discount {
+        validFrom
+        validUntil
+        isActive
+        name(locale: $locale)
+      }
+    }
+    value {
+      type
+      currencyCode
+      centAmount
+      fractionDigits
+    }
+  }
+`;
+
 export const AddressFragment = `
   fragment DefaultAddress on Address {
     title
@@ -24,6 +49,8 @@ export const CustomerFragment = `
 `;
 
 export const LineItemFragment = `
+  ${ProductPriceFragment}
+
   fragment DefaultLineItem on LineItem {
     id
     productId
@@ -79,9 +106,7 @@ export const LineItemFragment = `
       }
     }
     price {
-      value {
-        centAmount
-      }
+      ...DefaultProductPrice
     }
   }
 `;
