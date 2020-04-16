@@ -8,7 +8,6 @@
         <SfButton class="topbar__button sf-button--text">Find out more</SfButton>
       </template>
       <template #right>
-        <div>Location:</div>
         <LocaleSelector />
     </template>
   </SfTopBar>
