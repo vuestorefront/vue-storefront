@@ -104,10 +104,12 @@ export default {
           return filter
         }
 
-        filter.options.sort((a, b) => {
+        options.sort((a, b) => {
           const aSort = attribute.options.find(o => o.value === a.id)
+          const aSortOrder = aSort && aSort.hasOwnProperty('sort_order') ? aSort.sort_order : 0
           const bSort = attribute.options.find(o => o.value === b.id)
-          return aSort.sort_order - bSort.sort_order
+          const bSortOrder = bSort && bSort.hasOwnProperty('sort_order') ? bSort.sort_order : 0
+          return aSortOrder - bSortOrder
         })
       }
 
