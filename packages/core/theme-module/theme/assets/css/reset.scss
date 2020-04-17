@@ -1,5 +1,10 @@
 // Reset CSS
+html {
+  width: auto;
+  overflow-x: hidden;
+}
 body {
+  overflow-x: hidden;
   color: var(--c-text);
   font-size: var(--font-base);
   font-family: var(--font-family-primary);

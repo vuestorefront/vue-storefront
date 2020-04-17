@@ -5,6 +5,7 @@
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
     >
+    <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
       <nuxt-link to="/" class="sf-header__logo">
         <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
