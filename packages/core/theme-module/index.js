@@ -3,8 +3,9 @@ const fs = require('fs');
 const consola = require('consola');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
-const compileTemplates = require('./compileTemplates.js');
-const copyThemeFiles = require('./copyThemeFiles.js');
+const compileTemplate = require('./scripts/compileTemplate');
+const { copyThemeFile, copyThemeFiles } = require('./scripts/copyThemeFiles');
+const getAllFilesFromDir = require('./scripts/getAllFilesFromDir');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -13,46 +14,39 @@ const log = {
   error: (message) => consola.error(chalk.bold('VSF'), message)
 };
 
-const getAllFiles = (dirPath, arrayOfFiles) => {
-  arrayOfFiles = arrayOfFiles || [];
-  const files = fs.readdirSync(dirPath);
-  files.forEach((file) => {
-    if (fs.statSync(dirPath + '/' + file).isDirectory()) {
-      arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
-    } else {
-      arrayOfFiles.push((dirPath + '/' + file).split(__dirname + '/').pop());
-    }
-  });
-
-  return arrayOfFiles;
-};
-
-module.exports = function DefaultThemeModule(moduleOptions) {
+module.exports = async function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
-  const themeFiles = getAllFiles(path.join(__dirname, 'theme')).filter(file => !file.includes('/static/'));
+
+  const baseThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
   const themeComponentsDir = path.join(this.options.rootDir, 'pages');
   const themePagesDir = path.join(this.options.rootDir, 'components');
+  const themeHelpersDir = path.join(this.options.rootDir, 'helpers');
+  const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes('/static/'));
 
-  const compileAgnosticTemplates = () => {
-    themeFiles.forEach((file) => {
-      compileTemplates(
-        path.join(__dirname, file),
-        this.options.buildDir.split('.nuxt').pop() + '.theme/' + file.split('theme/').pop(),
-        {
-          apiClient: moduleOptions.apiClient,
-          helpers: moduleOptions.helpers,
-          composables: moduleOptions.composables
-        }
-      );
-    });
+  console.log(themeFiles);
+
+  const compileAgnosticTemplate = (filePath) => {
+    return compileTemplate(
+      path.join(__dirname, filePath),
+      this.options.buildDir.split('.nuxt').pop() + '.theme/' + filePath.split('theme/').pop(),
+      {
+        apiClient: moduleOptions.apiClient,
+        helpers: moduleOptions.helpers,
+        composables: moduleOptions.composables
+      });
   };
 
   log.info('Adding theme files...');
 
-  compileAgnosticTemplates();
-  copyThemeFiles(themeComponentsDir);
-  copyThemeFiles(themePagesDir);
+  await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
+  await Promise.all([
+    copyThemeFiles(themeComponentsDir),
+    copyThemeFiles(themePagesDir),
+    copyThemeFiles(themeHelpersDir)
+  ]);
+
+  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
   this.options.dir = {
     ...this.options.dir,
@@ -74,8 +68,6 @@ module.exports = function DefaultThemeModule(moduleOptions) {
     config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
     config.resolve.alias['~'] = path.join(projectLocalThemeDir);
   });
-
-  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
   this.extendRoutes((routes, resolve) => {
     routes.unshift({
@@ -133,16 +125,34 @@ module.exports = function DefaultThemeModule(moduleOptions) {
   });
 
   if (global.coreDev) {
-    log.info('Watching changes in @vue-storefront/nuxt-theme');
-    chokidar.watch(path.join(__dirname, '/theme/')).on('all', () => {
-      // TODO: Compile only the template that has changed
-      compileAgnosticTemplates();
+    log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
+
+    chokidar.watch(baseThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
+      const overwriteFilePath = baseFilePath.replace(baseThemeDir, this.options.rootDir);
+
+      if (event === 'add' || event === 'change') {
+        if (!fs.existsSync(overwriteFilePath)) {
+          compileAgnosticTemplate(baseFilePath.replace(__dirname, ''));
+        }
+      } else if (event === 'unlink') {
+        if (!fs.existsSync(overwriteFilePath)) {
+          fs.unlinkSync(baseFilePath.replace(baseThemeDir, projectLocalThemeDir));
+        }
+      }
     });
-    chokidar.watch(themeComponentsDir).on('all', () => {
-      copyThemeFiles(themeComponentsDir);
-    });
-    chokidar.watch(themePagesDir).on('all', () => {
-      copyThemeFiles(themePagesDir);
-    });
+
+    chokidar.watch([themeComponentsDir, themePagesDir, themeHelpersDir], { ignoreInitial: true })
+      .on('all', (event, filePath) => {
+        if (event === 'unlink') {
+          const baseFilePath = filePath.replace(this.options.rootDir, baseThemeDir);
+          if (fs.existsSync(baseFilePath)) {
+            compileAgnosticTemplate(baseFilePath.replace(__dirname, ''));
+          } else {
+            fs.unlinkSync(filePath.replace(this.options.rootDir, projectLocalThemeDir));
+          }
+        } else if (event === 'add' || event === 'change') {
+          copyThemeFile(filePath);
+        }
+      });
   }
 };
