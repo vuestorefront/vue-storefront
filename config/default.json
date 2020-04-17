@@ -490,6 +490,9 @@
       }
     ]
   },
+  "freshrelevance": {
+    "id": false
+  },
   "syncTasks": {
     "disablePersistentTaskQueue": true
   },

@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support `useSpecificImagePaths` with `useExactUrlsNoProxy` - @cewald (#4243)
 - Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
 - Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
+- Add [Fresh Relevance](https://www.freshrelevance.com) module - @louisjordan @dhendo (#4259)
 
 ### Fixed
 
