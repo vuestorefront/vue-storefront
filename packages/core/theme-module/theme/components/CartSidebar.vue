@@ -5,19 +5,19 @@
       :button="false"
       title="My Cart"
       @close="toggleCartSidebar"
-      class="sf-sidebar--right"
+      class="sidebar sf-sidebar--right"
     >
       <template #title>
         <div class="heading__wrapper">
           <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
-          <button class="heading__close-button" aria-label="Cart sidebar close button">
-            <SfIcon icon="cross" size="14px" color="gray-primaary"/>
+          <button class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
+            <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </button>
         </div>
       </template>
       <transition name="fade" mode="out-in">
         <div v-if="totalItems" class="my-cart" key="my-cart">
-          <h3 class="my-cart__total-items">Total items: {{ totalItems }}</h3>
+          <div class="my-cart__total-items">Total items: <strong>{{ totalItems }}</strong></div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
@@ -27,34 +27,26 @@
                 :title="cartGetters.getItemName(product)"
                 :regular-price="cartGetters.getItemPrice(product).regular"
                 :stock="99999"
+                image-width="180"
+                image-height="200"
                 :qty="cartGetters.getItemQty(product)"
                 @input="updateQuantity(product, $event)"
                 @click:remove="removeFromCart(product)"
                 class="collected-product"
               >
-                <template #configuration>
-                  <div class="collected-product__properties">
-                    <SfProperty
-                      v-for="(value, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
-                      :key="key"
-                      :name="key"
-                      :value="value"
-                    />
-                  </div>
-                </template>
-                <template #actions>
-                  <div class="collected-product__actions">
-                    <SfButton class="sf-button--text color-secondary collected-product__action">Save for later</SfButton>
-                    <SfButton class="sf-button--text color-secondary collected-product__action">Add to compare</SfButton>
-                  </div>
-                </template>
+               <template #configuration>
+                <div class="collected-product__properties">
+                  <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
+                  <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
+                </div>
+              </template>
+              <template #actions>
+                  <SfButton class="sf-button--text desktop-only">Save for later</SfButton>
+              </template>
               </SfCollectedProduct>
             </transition-group>
           </div>
-          <SfProperty class="sf-property--full-width my-cart__total-price">
-            <template #name>
-              <span class="sf-property__name">TOTAL</span>
-            </template>
+          <SfProperty class="sf-property--full-width my-cart__total-price" name="Total price:">
             <template #value>
               <SfPrice :regular="totals.subtotal" />
             </template>
@@ -127,12 +119,19 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
+.sidebar {
+  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
+}
+
 .my-cart {
   flex: 1;
   display: flex;
   flex-direction: column;
   &__total-items {
-    font: 400 var(--font-lg) / 1.6 var(--font-family-secondary);
+    font: var(--font-normal) var(--font-lg) / 1.6 var(--font-family-secondary);
+    color: var(--c-dark-variant);
     margin: 0;
   }
   &__total-price {
@@ -183,25 +182,13 @@ export default {
     border: none;
   }
 }
-.collected-product-list {
-  flex: 1;
-  margin: var(--spacer-xl) calc(var(--spacer-xl) * -1);
-}
+
 .collected-product {
-  margin: var(--spacer-xl) 0;
-  font: 300 var(--font-xs) / 1.6 var(--font-family-secondary);
+  margin: var(--spacer-base) 0;
+
   &__properties {
-    margin: var(--spacer-xl) 0 0 0;
+    margin: var(--spacer-sm) 0 0 0;
   }
-  &__actions {
-    transition: opacity 150ms ease-in-out;
-    opacity: var(--cp-actions-opacity, 0);
-  }
-  &__action {
-    --button-padding: 0;
-  }
-  &:hover {
-    --cp-actions-opacity: 1;
-  }
+
 }
 </style>
