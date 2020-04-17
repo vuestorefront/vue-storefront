@@ -38,8 +38,8 @@ module.exports = function (installationDir) {
       },
       minVsfVersion: '^1.11.0'
     },
-    classic: {
-      label: 'Classic',
+    default: {
+      label: 'Default',
       branches: {
         master: options.version.stable
       },
@@ -64,7 +64,12 @@ module.exports = function (installationDir) {
         `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${installationDir}/src/themes/${answers.themeName}`,
         `cd ${installationDir}/src/themes/${answers.themeName}`,
         `git remote rm origin`
-      ].join(' && '))
+      ].join(' && ')),
+      skip: answers => {
+        if (fs.existsSync(`${installationDir}/src/themes/${answers.themeName}`)) {
+          return `Chosen theme already exists in Vue Storefront installation directory ./${installationDir}/src/themes/`
+        }
+      }
     },
     configureTheme: {
       title: 'Configuring Vue Storefront theme',
@@ -160,8 +165,7 @@ module.exports = function (installationDir) {
               .map(([branchName, branchLabel]) => ({
                 name: branchLabel,
                 value: branchName
-              })),
-            when: answers => answers.themeName !== 'classic'
+              }))
           },
           {
             type: 'list',
@@ -176,16 +180,12 @@ module.exports = function (installationDir) {
         .then(answers => {
           const taskQueue = []
           taskQueue.push(tasks.cloneVersion)
-          if (answers.themeName !== 'classic') {
-            taskQueue.push(tasks.cloneTheme)
-          }
+          taskQueue.push(tasks.cloneTheme)
           if (answers.installation === options.installation.installer) {
             taskQueue.push(tasks.installDeps)
             taskQueue.push(tasks.runInstaller)
           }
-          if (answers.themeName !== 'classic') {
-            taskQueue.push(tasks.configureTheme)
-          }
+          taskQueue.push(tasks.configureTheme)
           new Listr(taskQueue).run(answers)
         })
     })
