@@ -1,7 +1,10 @@
+import config from 'config'
+
 let AmpThemeRouting
 
 try {
-  AmpThemeRouting = require('src/themes/default-amp/router')
+  const themeName = config.theme.replace('@vue-storefront/theme-', '')
+  AmpThemeRouting = require(`src/themes/${themeName}-amp/router`)
 } catch (err) {
   AmpThemeRouting = null
 }
