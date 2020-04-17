@@ -46,7 +46,11 @@
               </SfCollectedProduct>
             </transition-group>
           </div>
-          <SfProperty class="sf-property--full-width my-cart__total-price" name="Total price:">
+          <div class="sidebar-bottom">
+          <SfProperty class="sf-property--full-width my-cart__total-price">
+            <template #name>
+              <span class="my-cart__total-price-label">Total price:</span>
+            </template>
             <template #value>
               <SfPrice :regular="totals.subtotal" />
             </template>
@@ -54,6 +58,7 @@
           <nuxt-link to="/checkout/personal-details">
             <SfButton class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
+          </div>
         </div>
         <div v-else class="empty-cart" key="empty-cart">
           <div class="empty-cart__banner">
@@ -130,12 +135,19 @@ export default {
   display: flex;
   flex-direction: column;
   &__total-items {
-    font: var(--font-normal) var(--font-lg) / 1.6 var(--font-family-secondary);
+    font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
     color: var(--c-dark-variant);
     margin: 0;
   }
   &__total-price {
+    --property-name-font-size: var(--font-xl);
+    --price-font-size: var(--font-xl);
     margin: 0 0 var(--spacer-xl) 0;
+
+    &-label {
+      font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
+      color: var(--c-dark-variant);
+    }
   }
 }
 .empty-cart {
@@ -181,6 +193,10 @@ export default {
     background: none;
     border: none;
   }
+}
+
+.sidebar-bottom {
+  margin: auto 0 0 0;
 }
 
 .collected-product {
