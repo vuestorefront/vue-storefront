@@ -2,10 +2,19 @@
   <div id="cart">
     <SfSidebar
       :visible="isCartSidebarOpen"
+      :button="false"
       title="My Cart"
       @close="toggleCartSidebar"
       class="sf-sidebar--right"
     >
+      <template #title>
+        <div class="heading__wrapper">
+          <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
+          <button class="heading__close-button" aria-label="Cart sidebar close button">
+            <SfIcon icon="cross" size="14px" color="gray-primaary"/>
+          </button>
+        </div>
+      </template>
       <transition name="fade" mode="out-in">
         <div v-if="totalItems" class="my-cart" key="my-cart">
           <h3 class="my-cart__total-items">Total items: {{ totalItems }}</h3>
@@ -51,7 +60,7 @@
             </template>
           </SfProperty>
           <nuxt-link to="/checkout/personal-details">
-            <SfButton class="sf-button--full-width">Go to checkout</SfButton>
+            <SfButton class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
         </div>
         <div v-else class="empty-cart" key="empty-cart">
@@ -72,7 +81,9 @@
 <script>
 import {
   SfSidebar,
+  SfHeading,
   SfButton,
+  SfIcon,
   SfProperty,
   SfPrice,
   SfCollectedProduct
@@ -88,6 +99,8 @@ export default {
   components: {
     SfSidebar,
     SfButton,
+    SfHeading,
+    SfIcon,
     SfProperty,
     SfPrice,
     SfCollectedProduct
@@ -156,6 +169,18 @@ export default {
     @include for-desktop {
       margin-left: 50%;
     }
+  }
+}
+.heading {
+  &__wrapper {
+    --heading-title-color: var(--c-dark-variant);
+    --heading-title-font-weight: var(--font-normal);
+    display: flex;
+    justify-content: space-between;
+  }
+  &__close-button {
+    background: none;
+    border: none;
   }
 }
 .collected-product-list {
