@@ -7,8 +7,8 @@ cache:
     - node_modules
 
 install:
-  - yarn
   - git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+  - yarn
 
 jobs:
   include:
