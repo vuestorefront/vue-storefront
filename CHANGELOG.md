@@ -71,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
 - Include token in pricing sync -  @carlokok (#4156)
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
+- Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
 
 ## [1.11.2] - 2020.03.10
 
