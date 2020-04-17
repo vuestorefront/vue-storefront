@@ -30,6 +30,10 @@ type BapiOrder = {
 
 }
 
+type BapiLineItem = {
+
+}
+
 type BapiOrderSearchParams = {
 
 }
@@ -52,6 +56,7 @@ export {
   BapiCategory,
   BapiCoupon,
   BapiOrder,
+  BapiLineItem,
   BapiOrderSearchParams,
   BapiProduct,
   BapiShippingMethod,

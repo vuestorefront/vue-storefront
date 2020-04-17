@@ -210,11 +210,15 @@ export interface CheckoutGetters<SHIPPING_METHOD> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
-export interface UserOrderGetters<ORDER> {
+export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getDate: (order: ORDER) => string;
   getId: (order: ORDER) => string;
   getStatus: (order: ORDER) => string;
   getPrice: (order: ORDER) => number;
+  getItems: (order: ORDER) => ORDER_ITEM[];
+  getItemSku: (item: ORDER_ITEM) => string;
+  getItemName: (item: ORDER_ITEM) => string;
+  getItemQty: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
