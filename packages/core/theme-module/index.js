@@ -24,8 +24,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const themeHelpersDir = path.join(this.options.rootDir, 'helpers');
   const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes('/static/'));
 
-  console.log(themeFiles);
-
   const compileAgnosticTemplate = (filePath) => {
     return compileTemplate(
       path.join(__dirname, filePath),
