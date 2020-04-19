@@ -68,21 +68,11 @@ export default {
       })
     }
   },
-  beforeMount () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-load', this.selectVariant)
-  },
   mounted () {
-    this.selectVariant()
-
     if (this.configuration.color) {
       const {color} = this.configuration
       this.currentColor = color.id
     }
-  },
-  beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.selectVariant)
-    this.$bus.$off('product-after-load', this.selectVariant)
   },
   methods: {
     imageLoaded (image, loaded) {
@@ -91,20 +81,6 @@ export default {
     navigate (index) {
       if (this.$refs.carousel) {
         this.$refs.carousel.goToPage(index)
-      }
-    },
-    selectVariant () {
-      if (config.products.gallery.mergeConfigurableChildren) {
-        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
-          result[attribute] = this.configuration[attribute].id
-          return result
-        }, {})
-        if (option) {
-          let index = this.gallery.findIndex(
-            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
-          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
-          this.navigate(index)
-        }
       }
     },
     switchCarouselSpeed () {

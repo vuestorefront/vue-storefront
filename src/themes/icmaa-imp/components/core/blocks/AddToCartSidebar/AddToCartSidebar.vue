@@ -1,5 +1,5 @@
 <template>
-  <sidebar :title="productOptionsLabel" :close-on-click="false">
+  <sidebar :title="productOptionsLabelPlaceholder" :close-on-click="false">
     <div class="t-flex t-flex-wrap t-pb-20">
       <template v-if="product.type_id === 'configurable'">
         <div class="error t-w-full " v-if="product.errors && Object.keys(product.errors).length > 0">
@@ -10,7 +10,7 @@
             v-for="(filter, key) in availableFilters[option.attribute_code]"
             :key="key"
             :option="filter"
-            @change="changeFilter"
+            @change="onSelect"
             :price="getOptionPrice(filter)"
             :is-last="key === Object.keys(availableFilters[option.attribute_code]).length - 1"
             :is-loading="isLoading"
@@ -46,7 +46,6 @@ import { notifications } from '@vue-storefront/core/modules/cart/helpers'
 import Composite from '@vue-storefront/core/mixins/composite'
 import ProductPriceMixin from 'theme/mixins/product/priceMixin'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
-import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
 import ProductStockAlertMixin from 'icmaa-product-alert/mixins/productStockAlertMixin'
 
 import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
@@ -59,7 +58,7 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'AddToCartSidebar',
-  mixins: [ Composite, ProductOptionsMixin, ProductAddToCartMixin, ProductPriceMixin, ProductStockAlertMixin ],
+  mixins: [ Composite, ProductOptionsMixin, ProductPriceMixin, ProductStockAlertMixin ],
   components: {
     Sidebar,
     DefaultSelector,
@@ -77,7 +76,7 @@ export default {
     }
   },
   mounted () {
-    this.setSelectedOptionByCurrentConfigurableProduct()
+    this.setSelectedOptionByCurrentConfiguration()
   },
   computed: {
     ...mapGetters({
@@ -92,7 +91,7 @@ export default {
     }
   },
   methods: {
-    setSelectedOptionByCurrentConfigurableProduct () {
+    setSelectedOptionByCurrentConfiguration () {
       if (this.product.type_id !== 'configurable') {
         return
       }
@@ -115,19 +114,14 @@ export default {
         })
       })
     },
-    changeFilter (option) {
+    async onSelect (option) {
       if (option.available) {
-        this.$bus.$emit(
-          'filter-changed-product',
-          Object.assign({ attribute_code: option.type }, option)
-        )
-        this.setSelectedOptionByCurrentConfigurableProduct()
+        await this.$store.dispatch('product/updateConfiguration', { option })
 
-        this.loading = true
-        this.addToCart(this.product)
-          .then(() => {
-            this.loading = false
-          })
+        this.setSelectedOptionByCurrentConfiguration()
+        this.$bus.$emit('user-has-selected-product-variant')
+
+        this.$store.dispatch('ui/closeAll')
       } else {
         this.selectedOption = option
         this.addProductStockAlert(option)

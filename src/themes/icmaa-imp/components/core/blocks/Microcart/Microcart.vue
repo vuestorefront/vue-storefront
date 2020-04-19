@@ -34,8 +34,11 @@
         </div>
 
         <template v-if="!isCheckoutMode">
-          <button-component type="primary" class="t-w-full" :link="{ name: 'checkout' }" @click.native="toCheckout">
+          <button-component type="primary" class="t-w-full" @click.native="continueShopping(true)">
             {{ $t('Go to checkout') }}
+          </button-component>
+          <button-component type="transparent" class="t-w-full t-mt-2" @click.native="continueShopping()">
+            {{ $t('Continue shopping') }}
           </button-component>
         </template>
       </template>
@@ -92,9 +95,11 @@ export default {
     }
   },
   methods: {
-    toCheckout () {
+    continueShopping (toCheckout = false) {
       this.$store.dispatch('ui/closeAll')
-      this.$router.push(this.localizedRoute('/checkout'))
+      if (toCheckout === true) {
+        this.$router.push(this.localizedRoute('/checkout'))
+      }
     },
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {

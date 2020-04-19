@@ -1,7 +1,7 @@
 describe('Menu sidebar footer', () => {
   it('Footer navigation in menu sidebar', () => {
     cy.visitAsRecurringUser('/')
-    cy.openNavigationSidebar()
+    cy.openSidebar()
 
     cy.get('@sidebar')
       .find('[data-test-id="SidebarMenuFooter"]')

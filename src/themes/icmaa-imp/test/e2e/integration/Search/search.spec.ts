@@ -2,7 +2,7 @@ describe('Search and SearchAliases', () => {
   it('Search Pants and his Alias Hosen', () => {
     cy.visitAsRecurringUser('/', { storeCode: 'de' })
 
-    cy.openNavigationSidebar('[data-test-id="SearchInput"]')
+    cy.openSidebar('[data-test-id="SearchInput"]')
     cy.get('@sidebar').find('input').as('searchInput')
       .type('Pants')
 

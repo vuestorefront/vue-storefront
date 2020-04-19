@@ -28,10 +28,21 @@ export default {
 
         this.$store.dispatch('ui/closeAll')
 
+        if (diffLog.clientNotifications.some(n => n.type === 'success')) {
+          this.$store.dispatch('ui/setMicrocart', true)
+        }
+
         diffLog.clientNotifications.forEach(notificationData => {
           // Add go-to-checkout as notification option
           if (notificationData.type === 'success') {
-            notificationData.action2 = { label: i18n.t('Go to checkout'), action: this.goToCheckout }
+            notificationData.action1 = Object.assign({}, notificationData.action1, {
+              label: i18n.t('Continue shopping'),
+              action: this.continueShopping
+            })
+            notificationData.action2 = Object.assign({}, notificationData.action2, {
+              label: i18n.t('Go to checkout'),
+              action: this.goToCheckout
+            })
           }
 
           this.notifyUser(notificationData)
@@ -47,8 +58,14 @@ export default {
     notifyUser (notificationData) {
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     },
+    continueShopping (toCheckout = false) {
+      this.$store.dispatch('ui/closeAll')
+      if (toCheckout === true) {
+        this.$router.push(this.localizedRoute('/checkout'))
+      }
+    },
     goToCheckout () {
-      this.$router.push(this.localizedRoute('/checkout'))
+      this.continueShopping(true)
     }
   },
   validations: {

@@ -4,7 +4,7 @@ describe('Add to And Remove from Wishlist ', () => {
     cy.getByTestId('AddToWishlistButton').click()
     cy.checkNotification('success')
     cy.scrollTo('top')
-    cy.openNavigationSidebar('[data-test-id="HeaderButtonWishlist"]')
+    cy.openSidebar('[data-test-id="HeaderButtonWishlist"]')
     cy.get('@sidebar').findByTestId('AddToWishlistButton').clickRandomElement()
     cy.checkNotification('success')
   })

@@ -11,7 +11,7 @@ describe('Filter', () => {
 
       cy.url().should('include', `?department=`)
 
-      cy.closeNavigationSidebar()
+      cy.closeSidebar()
 
       cy.getByTestId('productsTotal').should((element) => {
         const productsTotalFiltered = parseInt(element.text())

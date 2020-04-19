@@ -1,7 +1,7 @@
 describe('Menu sidebar', () => {
   it('Sidebar should be visible and contain links', () => {
     cy.visitAsRecurringUser('/')
-    cy.openNavigationSidebar()
+    cy.openSidebar()
 
     cy.get('@sidebar')
       .find('a')

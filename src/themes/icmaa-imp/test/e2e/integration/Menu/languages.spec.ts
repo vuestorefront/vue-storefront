@@ -19,7 +19,7 @@ describe('Language selector', () => {
   it('Language modal should show', () => {
     cy.visitAsRecurringUser('/')
 
-    cy.openNavigationSidebar()
+    cy.openSidebar()
       .get('@sidebar')
       .getByTestId('SidebarMenuFooter')
       .find('svg')

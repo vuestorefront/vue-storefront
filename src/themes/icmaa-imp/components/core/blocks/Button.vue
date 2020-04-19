@@ -44,6 +44,8 @@ export default {
         return [
           'primary',
           'second',
+          'white',
+          'white-custom',
           'sale',
           'alt-3',
           'facebook',
@@ -138,6 +140,8 @@ export default {
         'primary': 't-bg-primary t-text-white',
         'second': 't-bg-base-darkest t-text-white',
         'sale': 't-bg-sale t-text-white',
+        'white': 't-bg-white t-text-base-tone',
+        'white-custom': 't-bg-white',
         'alt-3': 't-bg-alt-3 t-text-white',
         'facebook': 't-bg-facebook t-text-white',
         'tag': 't-border t-border-base-light t-bg-white t-text-base-dark hover:t-border-base-dark',

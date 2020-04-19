@@ -92,6 +92,18 @@ const actions: ActionTree<ProductState, RootState> = {
 
       await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
+  },
+  async updateConfiguration ({ dispatch, commit, getters }, { option }) {
+    const configuration = Object.assign({}, getters.getCurrentProductConfiguration, { [option.type]: option })
+    const selectedVariant = await dispatch('configure', {
+      product: getters.getCurrentProduct,
+      configuration,
+      selectDefaultVariant: true,
+      fallbackToDefaultWhenNoAvailable: false,
+      setProductErorrs: true
+    })
+
+    commit(types.PRODUCT_SET_CURRENT_CONFIGURATION, selectedVariant ? configuration : {})
   }
 }
 
