@@ -246,9 +246,10 @@ export default {
       return this.product.type_id === 'simple' || this.isOnesizeProduct
     },
     isOnesizeProduct () {
-      if (this.productOptions.length === 1 && this.productOptions[0].attribute_code === 'size') {
-        return Object.values(this.productOptions[0].values)
-          .find(o => this.getOptionLabel({ attributeKey: 'size', optionId: o.value_index }) === 'Onesize') !== undefined
+      const sizeFilter = (o) => o.attribute_code.includes('size')
+      if (this.productOptions.length === 1 && this.productOptions.some(sizeFilter)) {
+        return this.productOptions.filter(sizeFilter).map(p => p.values)
+          .some(c => c.find(o => o.label === 'Onesize'))
       }
 
       return false
