@@ -44,12 +44,12 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">Sort by:</span>
-          <SfSelect class="sort-by" v-model="sortBy">
+          <SfSelect  v-model="sortBy">
             <SfSelectOption
               v-for="option in sortByOptions"
               :key="option.value"
               :value="option.value"
-              class="sort-by__option"
+              class="sort__option"
               >{{ option.label }}</SfSelectOption
             >
           </SfSelect>
@@ -60,43 +60,28 @@
           <span class="navbar__label mobile-only">{{ totalProducts }} Items</span>
         </div>
         <div class="navbar__view desktop-only">
-          <span>View </span>
+          <span class="navbar__view-label">View</span>
           <SfIcon
             class="navbar__view-icon"
             :color="isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="10px"
+            icon="tiles"
+            size="32px"
             role="button"
             aria-label="Change to grid view"
             :aria-pressed="isGridView"
             @click="isGridView = true"
           >
-            <svg viewBox="0 0 10 10">
-              <rect width="2" height="2" />
-              <rect y="4" width="2" height="2" />
-              <rect y="8" width="2" height="2" />
-              <rect x="4" width="2" height="2" />
-              <rect x="4" y="4" width="2" height="2" />
-              <rect x="4" y="8" width="2" height="2" />
-              <rect x="8" width="2" height="2" />
-              <rect x="8" y="4" width="2" height="2" />
-              <rect x="8" y="8" width="2" height="2" />
-            </svg>
           </SfIcon>
           <SfIcon
             class="navbar__view-icon"
             :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="11px"
+            icon="list"
+            size="32px"
             role="button"
             aria-label="Change to list view"
             :aria-pressed="!isGridView"
             @click="isGridView = false"
-          >
-            <svg viewBox="0 0 11 10">
-              <rect width="11" height="2" />
-              <rect y="8" width="11" height="2" />
-              <rect y="4" width="7" height="2" />
-            </svg>
-          </SfIcon>
+          />
         </div>
         <SfButton
           class="sf-button--text navbar__filters-button mobile-only"
@@ -123,15 +108,15 @@
               :header="cat.label"
             >
               <template>
-                <SfList>
-                  <SfListItem>
+                <SfList class="list">
+                  <SfListItem class="list__item">
                     <SfMenuItem :label="cat.label">
                       <template #label>
                         <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
-                  <SfListItem v-for="(subCat, j) in cat.items" :key="j">
+                  <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :label="subCat.label">
                       <template #label="{ label }">
                         <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
@@ -548,11 +533,10 @@ export default {
     color: var(--c-text-muted);
     margin: 0 var(--spacer-2xs) 0 0;
   }
-  &__select {
-    --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
-    --select-margin: 0;
-  }
+
   &__sort {
+    --select-margin: 0;
+    --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
     display: flex;
     align-items: center;
     margin: 0 auto 0 var(--spacer-2xl);
@@ -581,13 +565,6 @@ export default {
     }
   }
 }
-.sort-by {
-  --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
-  --select-margin: 0;
-  flex: unset;
-  width: 11.875rem;
-  --select-dropdown-z-index: 1;
-}
 .main {
   display: flex;
 }
@@ -600,7 +577,7 @@ export default {
 .products {
   box-sizing: border-box;
   flex: 1;
-  margin: 0 calc(var(--spacer) * -1);
+  margin: 0 calc(var(--spacer-base) * -1);
   @include for-desktop {
     margin: var(--spacer-xl);
   }
@@ -664,6 +641,13 @@ export default {
       display: flex;
       justify-content: center;
       margin: var(--spacer-2xl) 0 0 0;
+    }
+  }
+}
+.list {
+  &__item {
+    &:not(:last-of-type) {
+      --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
   }
 }
