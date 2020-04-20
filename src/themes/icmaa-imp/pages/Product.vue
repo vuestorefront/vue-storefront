@@ -50,14 +50,14 @@
               </div>
 
               <div class="t-flex t-flex-wrap">
-                <div v-if="product.type_id === 'configurable' && !isOnesizeProduct && !loading" class="t-flex t-flex-grow t-w-full t-mb-4 lg:t-w-3/6 lg:t-mr-4">
+                <div v-if="product.type_id === 'configurable' && !isOnesizeProduct" class="t-flex t-flex-grow t-w-full t-mb-4 lg:t-w-3/6 lg:t-mr-4">
                   <button-component type="select" icon="arrow_forward" data-test-id="AddToCartSize" class="t-w-full" :disabled="isAddToCartDisabled" @click.native="openAddtocart">
                     {{ productOptionsLabel }}
                   </button-component>
                 </div>
                 <button-component type="primary" data-test-id="AddToCart" class="t-flex-grow lg:t-w-2/6 disabled:t-opacity-75 t-relative t-mb-4 t-mr-4" :disabled="isAddToCartDisabled" @click.native="addToCartButtonClick">
                   {{ $t('Add to cart') }}
-                  <loader-background v-if="loading && isSingleOptionProduct" class="t-bottom-0" height="t-h-1" bar="t-bg-base-lightest t-opacity-25" />
+                  <loader-background v-if="loading" class="t-bottom-0" height="t-h-1" bar="t-bg-base-lightest t-opacity-25" />
                 </button-component>
                 <add-to-wishlist :product="product" class="t-flex-fix" />
               </div>
@@ -196,11 +196,23 @@ export default {
     return {
       AddToCartSidebar,
       quantity: 0,
-      loading: false
+      loading: false,
+      userHasSelectedVariant: false
     }
   },
   created () {
     this.getQuantity()
+
+    this.$bus.$on('user-has-selected-product-variant', () => {
+      this.userHasSelectedVariant = true
+    })
+  },
+  watch: {
+    originalProduct (newVal, oldVal) {
+      if (newVal.id !== oldVal.id) {
+        this.userHasSelectedVariant = false
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -234,12 +246,30 @@ export default {
       return this.product.type_id === 'simple' || this.isOnesizeProduct
     },
     isOnesizeProduct () {
-      if (this.productOptions.length === 1 && this.productOptions[0].attribute_code === 'size') {
-        return Object.values(this.productOptions[0].values)
-          .find(o => this.getOptionLabel({ attributeKey: 'size', optionId: o.value_index }) === 'Onesize') !== undefined
+      const sizeFilter = (o) => o.attribute_code.includes('size')
+      if (this.productOptions.length === 1 && this.productOptions.some(sizeFilter)) {
+        return this.productOptions.filter(sizeFilter).map(p => p.values)
+          .some(c => c.find(o => ['Onesize', i18n.t('Onesize')].includes(o.label)))
       }
 
       return false
+    },
+    hasConfiguration () {
+      return this.configuration && Object.keys(this.configuration).length > 0 && this.userHasSelectedVariant
+    },
+    productOptionsLabel () {
+      if (this.hasConfiguration) {
+        let labels = []
+        const values = Object.values(this.configuration)
+        for (let conf of values) {
+          const label = conf.label !== conf.id ? conf.label : this.getOptionLabel({ attributeKey: conf.type, optionId: conf.id })
+          labels.push(label)
+        }
+
+        return labels.join(', ')
+      }
+
+      return this.productOptionsLabelPlaceholder
     },
     detailsTabs () {
       let tabs = ['details']
@@ -273,7 +303,7 @@ export default {
     }),
     addToCartButtonClick () {
       if (!this.loading) {
-        if (this.isSingleOptionProduct) {
+        if (this.isSingleOptionProduct || this.hasConfiguration) {
           this.loading = true
           this.addToCart(this.product)
             .then(() => { this.loading = false })

@@ -159,24 +159,24 @@ declare namespace Cypress {
     getStoreCode(): Chainable<string>,
 
     /**
-     * Open main navigation sidebar.
+     * Open sidebar.
      * Adds alias `sidebar` for further use.
      *
      * @example
-     * cy.openNavigationSidebar()
-     * cy.openNavigationSidebar('[data-test-id="HeaderButtonWishlist"]')
-     * cy.openNavigationSidebar('[data-test-id="HeaderButtonAccount"]', '[data-test-id="Modal"]')
+     * cy.openSidebar()
+     * cy.openSidebar('[data-test-id="HeaderButtonWishlist"]')
+     * cy.openSidebar('[data-test-id="HeaderButtonAccount"]', '[data-test-id="Modal"]')
      */
-    openNavigationSidebar(triggerSelector?: string, overlaySelector?: string): Chainable<Window>,
+    openSidebar(triggerSelector?: string, overlaySelector?: string): Chainable<Window>,
 
     /**
-     * Close main navigation sidebar.
+     * Close sidebar.
      *
      * @example
-     * cy.closeNavigationSidebar()
-     * cy.closeNavigationSidebar('@sidebarB')
+     * cy.closeSidebar()
+     * cy.closeSidebar('@sidebarB')
      */
-    closeNavigationSidebar(alias?: string): Chainable<Window>,
+    closeSidebar(alias?: string): Chainable<Window>,
 
     /**
      * Open filter sidebar.
