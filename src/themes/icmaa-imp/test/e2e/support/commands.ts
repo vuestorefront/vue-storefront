@@ -320,7 +320,7 @@ Cypress.Commands.add('addCurrentProductToCart', (checkAvailability = true) => {
           .filter('.available')
           .random()
           .then($item => {
-            cy.wrap<string>($item.text().trim()).as('optionLabel')
+            cy.wrap<string>($item.find('span').first().text().trim()).as('optionLabel')
             cy.wrap($item)
           })
           .click()
