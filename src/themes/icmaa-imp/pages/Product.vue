@@ -249,7 +249,7 @@ export default {
       const sizeFilter = (o) => o.attribute_code.includes('size')
       if (this.productOptions.length === 1 && this.productOptions.some(sizeFilter)) {
         return this.productOptions.filter(sizeFilter).map(p => p.values)
-          .some(c => c.find(o => o.label === 'Onesize'))
+          .some(c => c.find(o => ['Onesize', i18n.t('Onesize')].includes(o.label)))
       }
 
       return false
