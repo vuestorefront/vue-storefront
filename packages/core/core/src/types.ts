@@ -261,11 +261,6 @@ export interface AgnosticProductReview {
   rating: number | null;
 }
 
-export interface SearchResult<T> {
-  data: T[];
-  total: number;
-}
-
 export interface AgnosticLocale {
   code: string;
   label: string;

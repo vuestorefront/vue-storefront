@@ -1,5 +1,5 @@
-import { UseUserOrders, SearchResult } from '../../src/types';
-import { UseUserOrdersFactoryParams, useUserOrdersFactory } from '../../src/factories';
+import { UseUserOrders } from '../../src/types';
+import { UseUserOrdersFactoryParams, useUserOrdersFactory, OrdersSearchResult } from '../../src/factories';
 import { Ref } from '@vue/composition-api';
 import * as vsfUtils from '../../src/utils';
 
@@ -7,7 +7,7 @@ jest.mock('../../src/utils');
 const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 mockedUtils.onSSR.mockImplementation((fn) => fn());
 
-let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<SearchResult<any>>>>>;
+let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>>;
 let params: UseUserOrdersFactoryParams<any, any>;
 
 function createComposable(): void {

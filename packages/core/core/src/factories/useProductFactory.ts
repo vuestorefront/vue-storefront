@@ -1,4 +1,4 @@
-import { UseProduct, SearchResult } from '../types';
+import { UseProduct } from '../types';
 import { ref, Ref, computed } from '@vue/composition-api';
 import { useSSR } from '../utils';
 
@@ -10,8 +10,13 @@ type SearchParams = {
   filters?: any;
 }
 
+export interface ProductsSearchResult<PRODUCT> {
+  data: PRODUCT[];
+  total: number;
+}
+
 export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<SearchResult<PRODUCT>>;
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<ProductsSearchResult<PRODUCT>>;
 };
 
 export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(

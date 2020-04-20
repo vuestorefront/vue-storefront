@@ -1,9 +1,14 @@
 import { ref, Ref, computed } from '@vue/composition-api';
-import { UseUserOrders, SearchResult } from '../types';
+import { UseUserOrders } from '../types';
 import { useSSR } from '../../src/utils';
 
+export interface OrdersSearchResult<ORDER> {
+  data: ORDER[];
+  total: number;
+}
+
 export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
-  searchOrders: (params: ORDER_SEARCH_PARAMS) => Promise<SearchResult<ORDER>>;
+  searchOrders: (params: ORDER_SEARCH_PARAMS) => Promise<OrdersSearchResult<ORDER>>;
 };
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {

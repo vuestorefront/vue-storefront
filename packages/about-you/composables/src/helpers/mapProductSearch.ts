@@ -1,8 +1,8 @@
-import { SearchResult } from '@vue-storefront/core';
 import { getProduct } from '@vue-storefront/about-you-api';
 import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
+import { ProductsSearchResult } from '@vue-storefront/core';
 
-const mapProductSearch = async (params): Promise<SearchResult<BapiProduct>> => {
+const mapProductSearch = async (params): Promise<ProductsSearchResult<BapiProduct>> => {
   const searchParams = {
     ids: params.ids,
     with: params.term,
