@@ -6,7 +6,7 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <h1 class="navbar__title">Categories</h1>
+        <SfHeading :level="3" title="Categories" class="navbar__title" />
       </div>
       <div class="navbar__main">
         <SfButton
@@ -161,6 +161,7 @@
             :regular-price="'$' + productGetters.getPrice(product).regular"
             :max-rating="5"
             :score-rating="3"
+            :show-add-to-cart-button="true"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
             :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
@@ -297,6 +298,7 @@ import {
   SfButton,
   SfList,
   SfIcon,
+  SfHeading,
   SfMenuItem,
   SfFilter,
   SfProductCard,
@@ -463,7 +465,8 @@ export default {
     SfSelect,
     SfBreadcrumbs,
     SfLoader,
-    SfColor
+    SfColor,
+    SfHeading
   }
 };
 </script>
@@ -477,92 +480,85 @@ export default {
     margin: 0 auto;
   }
 }
-.section {
-  padding: 0 var(--spacer-xl);
-  @include for-desktop {
-    padding: 0;
+.main {
+  &.section {
+    padding: var(--spacer-xs);
+    @include for-desktop {
+      padding: 0;
+    }
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
-    var(--spacer-2xl);
+  padding: var(--spacer-base) 0 var(--spacer-base)
+    var(--spacer-xs);
 }
 .navbar {
   position: relative;
   display: flex;
-  font: 300 var(--font-sm) / 1.6 var(--font-family-primary);
+  border: 1px solid var(--c-light);
+  border-width: 0 0 1px 0;
   @include for-desktop {
-    border: 1px solid var(--c-light);
     border-width: 1px 0 1px 0;
   }
-  &::after {
-    position: absolute;
-    bottom: 0;
-    left: var(--spacer-xl);
-    width: calc(100% - calc(var(--spacer-xl) * 2));
-    height: 1px;
-    background: var(--c-light);
-    content: "";
+  &.section {
+    padding: var(--spacer-sm);
     @include for-desktop {
-      content: none;
+      padding: 0;
     }
   }
   &__aside,
   &__main {
     display: flex;
     align-items: center;
-    padding: var(--spacer-lg) 0;
-    font-size: var(--font-sm);
-    line-height: 1.6;
-    @include for-desktop {
-      padding: var(--spacer-xl) 0;
-    }
+    padding: var(--spacer-sm) 0;
   }
   &__aside {
     flex: 0 0 15%;
-    padding: var(--spacer-xl) var(--spacer-2xl);
+    padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
   &__main {
     flex: 1;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
+    }
   }
   &__title {
-    padding: 0;
-    font-size: var(--font-lg);
-    font-family: var(--font-family-secondary);
-    font-weight: 500;
-    line-height: 1.6;
+    --heading-title-font-weight: var(--font-light);
+    --heading-title-font-size: var(--font-xl);
   }
   &__filters-button {
-    --button-text-decoration: none;
-    --button-color: var(--c-text);
-    --button-transition: all 150ms linear;
     display: flex;
     align-items: center;
-    @include for-desktop {
-      margin: 0 0 0 var(--spacer-2xl);
-    }
     svg {
       fill: var(--c-text-muted);
+      transition: fill 150ms ease;
     }
     &:hover {
-      --button-color: var(--c-primary);
       svg {
         fill: var(--c-primary);
       }
     }
   }
   &__label {
+    font-family: var(--font-family-secondary);
+    font-weight: var(--font-normal);
     color: var(--c-text-muted);
+    margin: 0 var(--spacer-2xs) 0 0;
+  }
+  &__select {
+    --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
+    --select-margin: 0;
   }
   &__sort {
     display: flex;
     align-items: center;
     margin: 0 auto 0 var(--spacer-2xl);
-    --select-font-size: var(--font-sm);
   }
   &__counter {
+    font-family: var(--font-family-secondary);
     margin: auto;
     @include for-desktop {
       margin: auto 0 auto auto;
@@ -571,28 +567,33 @@ export default {
   &__view {
     display: flex;
     align-items: center;
-    margin: 0 var(--spacer-2xl);
+    margin: 0 var(--spacer-xl);
     @include for-desktop {
-      margin: var(--spacer-xl);
+      margin: 0 0 0 var(--spacer-2xl);
     }
     &-icon {
-      margin: 0 0 0 0.625rem;
       cursor: pointer;
+    }
+    &-label {
+      margin: 0 var(--spacer-sm) 0 0;
+      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
+      text-decoration: underline;
     }
   }
 }
 .sort-by {
-  /*--select-padding: 0 0.625rem;*/
+  --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
+  --select-margin: 0;
   flex: unset;
   width: 11.875rem;
-  --select-dropdown-z-index: 10;
+  --select-dropdown-z-index: 1;
 }
 .main {
   display: flex;
 }
 .sidebar {
   flex: 0 0 15%;
-  padding: var(--spacer-2xl);
+  padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
@@ -623,7 +624,7 @@ export default {
     --product-card-padding: var(--spacer);
     flex: 1 1 50%;
     @include for-desktop {
-      --product-card-padding: var(--spacer-xl);
+      --product-card-padding: var(--spacer-sm);
       flex: 1 1 25%;
     }
   }
@@ -647,7 +648,7 @@ export default {
     --product-card-horizontal-padding: var(--spacer);
     flex: 0 0 100%;
     @include for-desktop {
-      --product-card-horizontal-padding: var(--spacer-xl);
+      --product-card-horizontal-padding: var(--spacer-sm);
     }
   }
   &__slide-enter {
@@ -667,31 +668,48 @@ export default {
   }
 }
 .filters {
-  padding: var(--spacer-xl);
   &__title {
-    margin: calc(var(--spacer-xl) * 3) 0 var(--spacer-xl) 0;
-    font: 400 var(--font-size-extra-big) / 1.6 var(--font-family-secondary);
-    line-height: 1.6;
+    --heading-title-font-size: var(--font-xl);
+    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
     &:first-child {
-      margin: 0 0 var(--spacer-xl) 0;
+      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
     }
   }
-  &__colors {
-    margin: calc(var(--spacer) * -1);
-  }
   &__color {
-    margin: var(--spacer);
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
   }
   &__item {
-    margin: var(--spacer) 0;
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
+    }
+    @include for-desktop {
+      --checkbox-padding: 0;
+      margin: var(--spacer-sm) 0;
+      border: 0;
+      padding: 0;
+    }
+  }
+  &__accordion-item {
+    --accordion-item-content-padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
   }
   &__buttons {
-    margin: calc(var(--spacer-xl) * 3) 0 0 0;
+    margin: var(--spacer-sm) 0;
   }
   &__button-clear {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
-    margin: 0.625rem 0 0 0;
+    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>
