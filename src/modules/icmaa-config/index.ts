@@ -25,14 +25,15 @@ export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) 
         const envBuildtime = process.env.__BUILDTIME__
 
         if (!storageBuildtime || storageBuildtime !== envBuildtime) {
+          const whitelist = config.icmaa_config.localStorageBuildFlushWhitelist
           Object.keys(StorageManager.storageMap).forEach(async key => {
-            if (key.startsWith('icmaa-')) {
-              Logger.debug('Flush localforage:', 'icmaa-config', key)()
+            if (whitelist.some(regexString => new RegExp(regexString).test(key))) {
+              Logger.log('Flush localforage:', 'icmaa-config', key)()
               await StorageManager.get(key).clear()
             }
           })
 
-          Logger.debug('Set build time:', 'icmaa-config', envBuildtime)()
+          Logger.log('Set build time:', 'icmaa-config', envBuildtime)()
           await configStorage.setItem('buildtime', envBuildtime)
         }
       })
