@@ -42,6 +42,7 @@
               :regular-price="product.price.regular"
               :max-rating="product.rating.max"
               :score-rating="product.rating.score"
+              :show-add-to-cart-button="true"
               :is-on-wishlist="product.isOnWishlist"
               class="product-card"
               @click:wishlist="toggleWishlist(i)"
@@ -266,7 +267,7 @@ export default {
 .call-to-action {
   margin: var(--spacer-xl) 0;
   @include for-desktop {
-    margin: calc(var(--spacer-2xl) * 2) 0;
+    margin: var(--spacer-2xl) 0 0 0;
   }
 }
 .product-carousel {
@@ -279,9 +280,6 @@ export default {
 }
 .product-card {
   max-width: unset;
-  &:hover {
-    --product-card-box-shadow: 0 4px 20px rgba(168, 172, 176, 0.19);
-  }
 }
 .images-grid {
   max-width: 60rem;

@@ -48,7 +48,7 @@ export default {
     & + & {
       margin-top: calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin-top: var(--spacer-xl);
+        margin-top: var(--spacer-sm);
       }
     }
   }
@@ -58,7 +58,7 @@ export default {
     & + & {
       margin-left: calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin-left: var(--spacer-xl);
+        margin-left: var(--spacer-sm);
       }
     }
   }
