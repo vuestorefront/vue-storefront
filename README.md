@@ -32,6 +32,18 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
 
 PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
+## Vue Storefront Next
+
+We're developing a next version of Vue Storefront on the [`next` branch](https://github.com/DivanteLtd/vue-storefront/tree/next). 
+
+We're building the following integrations within Next architecture:
+- Shopware 6 (developer preview)
+- Commercetools (developer preview)
+- AboutYou Cloud
+- Shopify
+- Salesforce Commerce Cloud
+
+You can learn more about Vue Storefront Next from the README on the `next` branch and [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s) video
 
 ## See it in action
 
