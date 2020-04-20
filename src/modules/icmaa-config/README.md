@@ -9,7 +9,7 @@ The files are structured similar to the `npm-config` module, like:
 local-${mandant}-storeview-${store-code}.json
 ```
 
-This module also put the current `process.env.__BUILDTIME__` into local-storage and force a flush if it isn't sync anymore. This way we can force a new load of specific data into local-storage with each new build.
+This module also put the current `process.env.__BUILDTIME__` into local-storage and force a flush if it isn't sync anymore. This way we can force a new load of specific data into local-storage with each new build. Items in local-storage that should be protected from flush, must be added to the `localStorageBuildFlushWhitelist` config array in `icmaa_config` config node (can be a RegExp).
 
 ## Installation
 
@@ -29,7 +29,16 @@ For `v1.10.x`:
 
 ## Configs
 
-...
+* Add the following configs to your `config/local.json`:
+  ```
+  {
+    "icmaa_config": {
+      "localStorageBuildFlushWhitelist": [
+        "cart", "user", "anything\-.*"
+      ]
+    }
+  }
+  ```
 
 ## Todo
 
