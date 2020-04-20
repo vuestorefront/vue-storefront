@@ -17,8 +17,8 @@ jobs:
         with:
           name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.CLOUD_USERNAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
           dockerfile: dev/docker/Dockerfile
           buildoptions: "--compress"
   deploy:
