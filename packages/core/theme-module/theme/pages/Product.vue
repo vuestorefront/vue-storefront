@@ -35,19 +35,18 @@
         <SfSticky class="product-details">
           <SfHeading
             :title="productGetters.getName(product)"
-            :level="1"
+            :level="3"
             class="sf-heading--no-underline sf-heading--left product-details__heading"
           />
           <div class="product-details__sub">
             <SfPrice
               :regular="'$' + productGetters.getPrice(product).regular"
-              class="product-details__sub-price"
             />
             <div class="product-details__sub-rating">
               <SfRating :score="4" :max="5" />
-              <div class="product-details__sub-reviews desktop-only">
-                Read all 1 review
-              </div>
+              <SfButton class="product-details__sub-reviews sf-button--text desktop-only">
+                Read all reviews
+              </SfButton>
               <div class="product-details__sub-reviews mobile-only">
                 (1)
               </div>
@@ -69,7 +68,7 @@
               :selected="configuration.size"
               @change="size => updateFilter({ size })"
               label="Size"
-              class="sf-select--bordered product-details__attribute"
+              class="sf-select--underlined product-details__attribute"
             >
               <SfSelectOption
                 v-for="size in options.size"
@@ -79,21 +78,17 @@
                 <SfProductOption :label="size.label" />
               </SfSelectOption>
             </SfSelect>
-            <SfSelect
-              v-if="options.color"
-              :selected="configuration.color"
-              @change="color => updateFilter({ color })"
-              label="Color"
-              class="sf-select--bordered product-details__attribute"
-            >
-              <SfSelectOption
-                v-for="color in options.color"
-                :key="color.value"
-                :value="color.value"
-              >
-                <SfProductOption :label="color.label" />
-              </SfSelectOption>
-            </SfSelect>
+            <div v-if="options.color" class="product-details__colors desktop-only">
+            <p class="product-details__color-label">Color:</p>
+            <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
+            <SfColor
+              v-for="(color, i) in options.color"
+              :key="i"
+              :color="color.value"
+              class="product-details__color"
+              @click="updateFilter({color})"
+            />
+          </div>
           </div>
           <div class="product-details__section">
             <SfAlert
@@ -220,7 +215,8 @@ import {
   SfSticky,
   SfReview,
   SfBreadcrumbs,
-  SfButton
+  SfButton,
+  SfColor
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -272,6 +268,7 @@ export default {
   },
   components: {
     SfAlert,
+    SfColor,
     SfProperty,
     SfHeading,
     SfPrice,
@@ -368,8 +365,7 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
-    var(--spacer-2xl);
+  margin: var(--spacer-base) auto var(--spacer-lg);
 }
 .product {
   @include for-desktop {
@@ -382,6 +378,7 @@ export default {
   &__description {
     padding: 0 var(--spacer-xl);
     @include for-desktop {
+      padding: 0;
       margin: 0 0 0 calc(var(--spacer-xl) * 5);
     }
   }
@@ -391,11 +388,9 @@ export default {
 }
 .product-details {
   &__heading {
-    --heading-title-font-size: var(--font-lg);
-    margin: var(--spacer-xl) 0 0 0;
+    margin: 0 var(--spacer-sm);
     @include for-desktop {
-      --heading-title-font-size: var(--h1-font-size);
-      margin: 0;
+      margin: var(--spacer-base) 0;
     }
   }
   &__sub {
@@ -406,19 +401,36 @@ export default {
       justify-content: space-between;
     }
   }
-  &__sub-price {
-    --price-font-size: var(--font-xl);
-  }
   &__sub-rating {
     display: flex;
     align-items: center;
     margin: calc(var(--spacer-xl) / 2) 0 0 0;
     @include for-desktop {
+      flex-direction: column;
+      align-items:flex-start;
       margin: 0;
     }
   }
+    &__colors {
+    @include font(
+      --product-color-font,
+      var(--font-normal),
+      var(--font-lg),
+      1.6,
+      var(--font-family-secondary)
+    );
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacer-xl);
+  }
+  &__color-label {
+    margin: 0 var(--spacer-lg) 0 0;
+  }
+  &__color {
+    margin: 0 var(--spacer-2xs);
+  }
   &__sub-reviews {
-    margin: 0 0 0 0.625rem;
+    margin: var(--spacer-2xs) 0 0 0;
     font-size: var(--font-xs);
   }
   &__section {
@@ -432,7 +444,9 @@ export default {
   }
   &__action {
     display: flex;
-    margin: var(--spacer-xl) 0 calc(var(--spacer-xl) / 2);
+    &:not(:last-of-type) {
+      margin: var(--spacer-xl) 0 var(--spacer-base);
+    }
     @include for-desktop {
       justify-content: flex-end;
     }
@@ -450,9 +464,10 @@ export default {
     margin: 0 0 var(--spacer-xl) 0;
   }
   &__description {
-    margin: var(--spacer-2xl) 0 calc(var(--spacer-xl) * 3) 0;
+    margin: var(--spacer-xl) 0;
     font-family: var(--font-family-secondary);
     font-size: var(--font-base);
+    color: var(--c-dark-variant);
     line-height: 1.6;
     @include for-desktop {
       font-size: var(--font-base);
@@ -462,12 +477,9 @@ export default {
     margin: var(--spacer-xl) 0 0 0;
   }
   &__tabs {
-    margin: var(--spacer-xl) 0 0 0;
+    margin: var(--spacer-lg) auto var(--spacer-2xl);
     @include for-desktop {
-      margin: calc(5 * var(--spacer-xl)) 0 0 0;
-    }
-    p {
-      margin: 0;
+      margin-top: var(--spacer-2xl);
     }
   }
   &__review {
