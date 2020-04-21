@@ -81,7 +81,7 @@
             label="Enter promo code"
             class="promo-code__input"
           />
-          <SfButton class="sf-button--full-width">Apply code</SfButton>
+          <SfButton class="sf-button--full-width" @click="applyCoupon(promoCode)">Apply code</SfButton>
         </div>
       </transition>
     </div>
@@ -122,7 +122,7 @@ export default {
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity } = useCart();
+    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
@@ -142,6 +142,7 @@ export default {
       updateQuantity,
       checkoutGetters,
       cartGetters,
+      applyCoupon,
       characteristics: [
         {
           title: 'Safety',

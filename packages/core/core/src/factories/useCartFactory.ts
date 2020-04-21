@@ -99,24 +99,31 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const applyCoupon = async (coupon: string) => {
-      loading.value = true;
-      const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
-        currentCart: factoryParams.cart.value,
-        coupon
-      });
-      factoryParams.cart.value = updatedCart;
-      appliedCoupon.value = updatedCoupon;
-      loading.value = false;
+      try {
+        loading.value = true;
+        const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
+          currentCart: factoryParams.cart.value,
+          coupon
+        });
+        factoryParams.cart.value = updatedCart;
+        appliedCoupon.value = updatedCoupon;
+      } finally {
+        loading.value = false;
+      }
     };
 
     const removeCoupon = async () => {
-      loading.value = true;
-      const { updatedCart, updatedCoupon } = await factoryParams.removeCoupon({
-        currentCart: factoryParams.cart.value
-      });
-      factoryParams.cart.value = updatedCart;
-      appliedCoupon.value = updatedCoupon;
-      loading.value = false;
+      try {
+        loading.value = true;
+        const { updatedCart, updatedCoupon } = await factoryParams.removeCoupon({
+          currentCart: factoryParams.cart.value
+        });
+        factoryParams.cart.value = updatedCart;
+        appliedCoupon.value = updatedCoupon;
+        loading.value = false;
+      } finally {
+        loading.value = false;
+      }
     };
 
     // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
