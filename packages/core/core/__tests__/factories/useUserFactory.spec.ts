@@ -19,7 +19,8 @@ const factoryParams = {
   refreshUser: jest.fn()
 };
 
-const useUserMethods = useUserFactory(factoryParams)();
+const { useUser, setUser } = useUserFactory(factoryParams);
+const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {
   beforeEach(() => {
@@ -42,6 +43,11 @@ describe('[CORE - factories] useUserFactory', () => {
       );
       await useUserMethods.login(userToLogin);
       expect(isAuthenticated.value).toBe(true);
+    });
+
+    it('set given user property', () => {
+      setUser({ username: 'test' });
+      expect(useUserMethods.user.value).toEqual({ username: 'test' });
     });
   });
   describe('methods', () => {

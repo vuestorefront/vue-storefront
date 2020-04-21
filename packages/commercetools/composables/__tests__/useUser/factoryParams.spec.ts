@@ -6,11 +6,12 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
 
-import useCart from '../../src/useCart';
+import { useCart } from '../../src/useCart';
 
-jest.mock('../../src/useCart', () =>
-  jest.fn(() => {})
-);
+jest.mock('../../src/useCart', () => ({
+  useCart: jest.fn(() => {}),
+  setCart: jest.fn()
+}));
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
@@ -61,7 +62,7 @@ describe('[commercetools-composables] factoryParams', () => {
     const refreshCartMock = jest.fn(() => {});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
     const customer = {username: 'test@test.pl', password: '123456'};
-    (authenticate as jest.Mock).mockReturnValueOnce(customer);
+    (authenticate as jest.Mock).mockReturnValueOnce({ customer });
     expect(await params.logIn(customer)).toEqual(customer);
   });
 

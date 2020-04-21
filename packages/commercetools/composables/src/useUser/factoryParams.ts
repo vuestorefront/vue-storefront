@@ -8,7 +8,7 @@ import {
   getMe as apiGetMe,
   customerChangeMyPassword as apiCustomerChangeMyPassword
 } from '@vue-storefront/commercetools-api';
-import useCart from '../useCart';
+import { setCart } from '../useCart';
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async () => {
@@ -35,8 +35,9 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   },
   logIn: async ({ username, password }) => {
     const customerLogin = { email: username, password };
-    await useCart().refreshCart();
-    return await authenticate(customerLogin, apiCustomerSignMeIn);
+    const { customer, cart } = await authenticate(customerLogin, apiCustomerSignMeIn);
+    setCart(cart);
+    return customer;
   },
   changePassword: async function changePassword({currentUser, currentPassword, newPassword}) {
     try {

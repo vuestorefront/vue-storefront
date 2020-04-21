@@ -1,6 +1,5 @@
 import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
-import { ref } from '@vue/composition-api';
 import * as vsfUtils from '../../src/utils';
 
 jest.mock('../../src/utils');
@@ -8,12 +7,11 @@ const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 mockedUtils.onSSR.mockImplementation((fn) => fn());
 
 let useCart: () => UseCart<any, any, any, any>;
+let setCart = null;
 let params: UseCartFactoryParams<any, any, any, any>;
-let inputCart: any = null;
 
 function createComposable() {
   params = {
-    cart: ref(inputCart),
     loadCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
     addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
     removeFromCart: jest
@@ -33,12 +31,13 @@ function createComposable() {
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };
-  useCart = useCartFactory<any, any, any, any>(params);
+  const factory = useCartFactory<any, any, any, any>(params);
+  useCart = factory.useCart;
+  setCart = factory.setCart;
 }
 
 describe('[CORE - factories] useCartFactory', () => {
   beforeEach(() => {
-    inputCart = null;
     jest.clearAllMocks();
     createComposable();
   });
@@ -73,6 +72,16 @@ describe('[CORE - factories] useCartFactory', () => {
       createComposable();
       useCart();
       expect(params.loadCart).not.toBeCalled();
+    });
+    it('set given cart', () => {
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: null,
+        saveToInitialState: jest.fn()
+      });
+      const { cart } = useCart();
+      expect(cart.value).toEqual(null);
+      setCart({ cart: 'test' });
+      expect(cart.value).toEqual({ cart: 'test' });
     });
   });
 
