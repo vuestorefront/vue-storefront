@@ -21,8 +21,8 @@ module.exports = {
         link: 'https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg',
       },
       {
-        text: 'Medium',
-        link: 'https://medium.com/the-vue-storefront-journal',
+        text: 'Blog',
+        link: 'https://blog.vuestorefront.io/',
       },
     ],
     sidebar: {
