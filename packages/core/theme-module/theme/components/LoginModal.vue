@@ -3,6 +3,7 @@
     <SfModal
       :visible="isLoginModalOpen"
       title="Log in"
+      class="modal"
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
         <div v-if="isLogin" key="log-in">
@@ -56,7 +57,7 @@
         </div>
         <div v-else key="sign-up" class="form">
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form class="from" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
+            <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
                   v-model="form.email"
@@ -196,8 +197,9 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .form {
+  margin-top: var(--spacer-sm);
   &__element {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
 }
 .action,
@@ -208,7 +210,7 @@ export default {
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
   font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   & > * {
-    margin: 0 0 0 var(--spacer);
+    margin: 0 0 0 var(--spacer-xs);
   }
 }
 .action {
