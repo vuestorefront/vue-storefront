@@ -2634,6 +2634,14 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
+"@vue-storefront/core@2.0.1-prealpha.300":
+  version "2.0.1-prealpha.300"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
+  integrity sha512-kXvPfJGEnak2FuO7LYbYYyxvVDWmKQl6lGxnxvQu8Dm8Kme+pPQ2zHtLeMQYVKAE1fmPoiq/gYPjFl3GMaTejg==
+  dependencies:
+    "@vue/composition-api" "^0.4.0"
+    vue "^2.6.11"
+
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.0.0.tgz#048fe579958da408fb7a8b2a3ec050b50a661040"
