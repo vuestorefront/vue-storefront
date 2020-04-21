@@ -1,10 +1,10 @@
 {
   "name": "@vue-storefront/about-you-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/about-you/api-client/src/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@aboutyou/backbone": "^4.1.0",
-    "axios": "^0.19.2"
+    "@vue-storefront/core": "^2.0.0"
   },
   "files": [
     "lib/**/*"
