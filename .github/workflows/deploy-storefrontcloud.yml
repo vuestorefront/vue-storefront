@@ -2,6 +2,7 @@ name: Deploy to Storefrontcloud
 on:
   push:
     branches:
+      - next
       - release/next
 jobs:
   build:
@@ -34,7 +35,17 @@ jobs:
           target_url: https://vsf-next-demo.storefrontcloud.io
           environment: production
           initial_status: in_progress
-      - name: Deploy on Storefrontcloud.io
+      - name: Deploy on lovecrafts-demo.storefrontcloud.io
+        if: github.ref == 'refs/heads/next'
+        run: |
+          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"lovecrafts-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+            echo "Instance updated"
+          else
+            echo "Something went wrong during the update process..."
+            exit 1
+          fi
+      - name: Deploy on vsf-next-demo.storefrontcloud.io
+        if: github.ref == 'refs/release/next'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"vsf-next-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
