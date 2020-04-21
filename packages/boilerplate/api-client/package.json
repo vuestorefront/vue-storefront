@@ -1,6 +1,7 @@
 {
   "name": "@vue-storefront/boilerplate-api",
   "version": "0.0.1",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
