@@ -209,7 +209,11 @@
       @close="isFilterSidebarOpen = false"
     >
       <div class="filters">
-        <h3 class="filters__title">Collection</h3>
+        <SfHeading
+          :level="4"
+          title="Collection"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.collection"
           :key="filter.value"
@@ -219,7 +223,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Color</h3>
+        <SfHeading
+          :level="4"
+          title="Color"
+          class="filters__title sf-heading--left"
+        />
         <div class="filters__colors">
           <SfColor
             v-for="filter in filters.color"
@@ -230,7 +238,11 @@
             @click="filter.selected = !filter.selected"
           />
         </div>
-        <h3 class="filters__title">Size</h3>
+        <SfHeading
+          :level="4"
+          title="Size"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.size"
           :key="filter.value"
@@ -240,7 +252,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Price</h3>
+        <SfHeading
+          :level="4"
+          title="Price"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.price"
           :key="filter.value"
@@ -250,7 +266,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Material</h3>
+       <SfHeading
+          :level="4"
+          title="Material"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.material"
           :key="filter.value"
@@ -654,9 +674,6 @@ export default {
   &__title {
     --heading-title-font-size: var(--font-xl);
     margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-    &:first-child {
-      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-    }
   }
   &__color {
     margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
