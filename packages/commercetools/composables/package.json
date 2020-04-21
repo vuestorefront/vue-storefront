@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "@vue-storefront/core": "^2.0.0",
+    "@vue-storefront/core": "2.0.1-prealpha.300",
     "@vue/composition-api": "^0.3.4",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"

@@ -14,7 +14,7 @@
   "dependencies": {
     "@vue-storefront/about-you-api": "^0.0.1",
     "@vue/composition-api": "^0.3.4",
-    "@vue-storefront/core": "^2.0.0",
+    "@vue-storefront/core": "2.0.1-prealpha.300",
     "vue": "^2.6.x"
   },
   "devDependencies": {
