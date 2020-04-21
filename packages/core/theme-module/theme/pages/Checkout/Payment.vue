@@ -1,7 +1,8 @@
 <template>
   <div>
     <SfHeading
-      title="3. Payment"
+      :level="3"
+      title="Payment"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -188,7 +189,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-2xl);
+   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
 .form {
   @include for-desktop {
@@ -224,7 +225,6 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-xl) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;

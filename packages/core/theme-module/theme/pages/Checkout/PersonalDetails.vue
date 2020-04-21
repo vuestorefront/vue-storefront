@@ -123,7 +123,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-xl);
+  margin: 0 0 var(--spacer-xl) 0;
 }
 .log-in {
   &__info {

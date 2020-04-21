@@ -71,19 +71,13 @@
       />
     </div>
     <div class="highlighted promo-code">
-      <SfButton class="promo-code__button" @click="showPromoCode = !showPromoCode">
-        {{ showPromoCode ? "-" : "+" }} Promo Code</SfButton>
-      <transition name="fade">
-        <div v-if="showPromoCode">
-          <SfInput
-            v-model="promoCode"
-            name="promoCode"
-            label="Enter promo code"
-            class="promo-code__input"
-          />
-          <SfButton class="sf-button--full-width">Apply code</SfButton>
-        </div>
-      </transition>
+      <SfInput
+        v-model="promoCode"
+        name="promoCode"
+        label="Enter promo code"
+        class="sf-input--filled promo-code__input"
+      />
+      <SfCircleIcon class="promo-code__circle-icon" icon="check" />
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -105,7 +99,8 @@ import {
   SfCollectedProduct,
   SfProperty,
   SfCharacteristic,
-  SfInput
+  SfInput,
+  SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useCart, useCheckout, checkoutGetters, cartGetters } from '<%= options.composables %>';
@@ -118,7 +113,8 @@ export default {
     SfCollectedProduct,
     SfProperty,
     SfCharacteristic,
-    SfInput
+    SfInput,
+    SfCircleIcon
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
@@ -218,17 +214,17 @@ export default {
   }
 }
 .promo-code {
-  &__button {
-    padding: 0;
-    background-color: transparent;
-    color: var(--c-primary);
-    font-size: var(--font-lg-desktop);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  &__circle-icon {
+    --button-size: 2rem;
+    --icon-size: 0.6875rem;
   }
   &__input {
-    margin: var(--spacer-xl) 0;
-    ::v-deep input {
-      border-color: var(--c-gray-variant);
-    }
+    --input-background: var(--c-white);
+    flex: 1;
+    margin: 0 var(--spacer-lg) 0 0;
   }
 }
 .product {

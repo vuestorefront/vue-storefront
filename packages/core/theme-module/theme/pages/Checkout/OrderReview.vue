@@ -1,7 +1,8 @@
 <template>
   <div>
     <SfHeading
-      title="4. Order review"
+      :level="3"
+      title="Order review"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion first-open class="accordion mobile-only">
@@ -240,7 +241,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .title {
-  margin: 0 0 var(--spacer-2xl);
+   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
 .form {
   @include for-desktop {

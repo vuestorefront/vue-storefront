@@ -1,7 +1,8 @@
 <template>
   <div>
     <SfHeading
-      title="2. Shipping"
+      :level="3"
+      title="Shipping"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -77,6 +78,7 @@
       />
     </div>
     <SfHeading
+      :level="3"
       title="Shipping method"
       class="sf-heading--left sf-heading--no-underline title"
     />
@@ -176,7 +178,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-2xl);
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
 .form {
   @include for-desktop {
@@ -185,7 +187,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -195,7 +197,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-2xl);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }
@@ -212,7 +214,6 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-xl) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;
