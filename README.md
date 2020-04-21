@@ -985,19 +985,19 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="">
+<a href="https://beecommerce.pl/en/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/beecommerce_color_horizontal.png"
+            alt="BeeCommerce"
             height="40"
           >
         </a>
 </td>
      <td align="center" valign="middle">
-<a href="">
+<a href="https://www.gpmd.co.uk/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/gpmd-logo-dark@2x.png"
+            alt="GPMD"
             height="40"
           >
         </a>
