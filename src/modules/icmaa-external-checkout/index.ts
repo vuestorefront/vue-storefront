@@ -23,10 +23,26 @@ export const IcmaaExternalCheckoutModule: StorefrontModule = function ({ router,
       Vue.use(VueCookies)
     })
 
+    const getCookies = (): { customerToken: string, quoteToken: string, lastOrderToken: string } => {
+      return {
+        customerToken: Vue.$cookies.get('vsf_token_customer'),
+        quoteToken: Vue.$cookies.get('vsf_token_quote'),
+        lastOrderToken: Vue.$cookies.get('vsf_token_lastorder')
+      }
+    }
+
+    EventBus.$on('session-after-started', async () => {
+      const { customerToken, quoteToken, lastOrderToken } = getCookies()
+
+      if (store.getters['user/isLoggedIn'] && (customerToken || quoteToken || lastOrderToken)) {
+        Vue.$cookies.remove('vsf_token_customer', undefined, getCookieHostname())
+        Vue.$cookies.remove('vsf_token_quote', undefined, getCookieHostname())
+        Vue.$cookies.remove('vsf_token_lastorder', undefined, getCookieHostname())
+      }
+    })
+
     EventBus.$on('session-after-nonauthorized', async () => {
-      const customerToken = Vue.$cookies.get('vsf_token_customer')
-      const quoteToken = Vue.$cookies.get('vsf_token_quote')
-      const lastOrderToken = Vue.$cookies.get('vsf_token_lastorder')
+      const { customerToken, quoteToken, lastOrderToken } = getCookies()
 
       if (!store.getters['user/isLoggedIn'] && (customerToken || quoteToken || lastOrderToken)) {
         if (customerToken) {
@@ -69,6 +85,10 @@ export const IcmaaExternalCheckoutModule: StorefrontModule = function ({ router,
         Logger.info('Remove Magento session-cookie', 'external-checkout', Vue.$cookies.get('frontend'))()
         Vue.$cookies.remove('frontend')
       }
+
+      Vue.$cookies.remove('vsf_token_customer', undefined, getCookieHostname())
+      Vue.$cookies.remove('vsf_token_quote', undefined, getCookieHostname())
+      Vue.$cookies.remove('vsf_token_lastorder', undefined, getCookieHostname())
     })
   }
 
