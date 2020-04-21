@@ -175,8 +175,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   background-color: #f1f2f3;
-  padding: var(--spacer-2xl);
-  margin-bottom: var(--spacer-xl);
+  padding: var(--spacer-xl);
   &:last-child {
     margin-bottom: 0;
   }

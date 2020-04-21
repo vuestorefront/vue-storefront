@@ -577,7 +577,6 @@ export default {
 .products {
   box-sizing: border-box;
   flex: 1;
-  margin: 0 calc(var(--spacer-base) * -1);
   @include for-desktop {
     margin: var(--spacer-xl);
   }
