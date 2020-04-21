@@ -5,3 +5,4 @@ coverage
 lerna-debug.log
 .idea
 .vscode
+.npmrc
