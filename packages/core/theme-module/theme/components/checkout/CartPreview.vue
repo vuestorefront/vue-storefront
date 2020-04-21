@@ -2,10 +2,11 @@
   <div>
     <div class="highlighted">
       <SfHeading
+        :level="3"
         title="Order summary"
         class="sf-heading--left sf-heading--no-underline title"
       />
-      <div class="total-items">
+      <!-- <div class="total-items">
         <h3>Total items: {{ totalItems }}</h3>
         <SfButton class="sf-button--text" @click="listIsHidden = !listIsHidden">
           {{ listIsHidden ? "Show" : "Hide" }} items list
@@ -45,28 +46,28 @@
             </template>
           </SfCollectedProduct>
         </div>
-      </transition>
+      </transition> -->
     </div>
     <div class="highlighted highlighted--total">
       <SfProperty
         name="Products"
         :value="totalItems"
-        class="sf-property--full-width property"
+        class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Subtotal"
         :value="totals.subtotal"
-        class="sf-property--full-width property"
+        class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Shipping"
         :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
-        class="sf-property--full-width property"
+        class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Total"
         :value="totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
-        class="sf-property--full-width property-total"
+        class="sf-property--full-width sf-property--large property-total"
       />
     </div>
     <div class="highlighted promo-code">
@@ -183,9 +184,6 @@ export default {
     margin-bottom: 1px;
   }
 }
-.title {
-  margin-bottom: var(--spacer-2xl);
-}
 .total-items {
   display: flex;
   justify-content: space-between;
@@ -193,7 +191,7 @@ export default {
   margin-bottom: var(--spacer-xl);
 }
 .property {
-  margin-bottom: var(--spacer);
+  margin-bottom: var(--spacer-sm);
   ::v-deep .sf-property__name {
     text-transform: unset;
   }
