@@ -10,11 +10,12 @@ jest.mock('./../../src/useCart/currentCart');
 jest.mock('@vue-storefront/commercetools-api', () => ({
   addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
   removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } }))
+  updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
+  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } }))
 }));
 
 jest.mock('@vue-storefront/core', () => ({
-  useCartFactory: (params) => () => params,
+  useCartFactory: (params) => () => params
 }));
 
 describe('[commercetools-composables] useCart', () => {
@@ -69,7 +70,7 @@ describe('[commercetools-composables] useCart', () => {
     const { applyCoupon } = useCart() as any;
     const response = await applyCoupon({ currentCart: 'current cart', coupon: 'X123' });
 
-    expect(response).toEqual({ updatedCart: 'current cart', updatedCoupon: 'X123' });
+    expect(response).toEqual({ updatedCart: 'some cart', updatedCoupon: 'X123' });
   });
 
   it('removes coupon', async () => {

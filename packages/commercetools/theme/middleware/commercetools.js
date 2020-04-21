@@ -5,17 +5,13 @@ import { config } from './../plugins/commercetools-config';
 const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
 
 export default async ({ app }) => {
-  let currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
+  const newToken = await createAccessToken();
 
-  if (!currentToken) {
-    currentToken = await createAccessToken();
-  }
-
-  app.$cookies.set(CT_TOKEN_COOKIE_NAME, currentToken);
+  app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
 
   setup({
     ...config,
-    currentToken,
+    currentToken: newToken,
     locale: app.$cookies.get(config.cookies.localeCookieName),
     currency: app.$cookies.get(config.cookies.currencyCookieName),
     country: app.$cookies.get(config.cookies.countryCookieName)

@@ -37,6 +37,24 @@ describe('[commercetools-getters] utils/createPrice', () => {
     expect(price).toEqual({ regular: 2.5, special: null });
   });
 
+  it('returns regular price for lineItem when discount is inactive and there is no cart discount', () => {
+    const price = createPrice({
+      __typename: 'LineItem',
+      discountedPricePerQuantity: [],
+      price: {
+        value: { centAmount: 250 },
+        discounted: {
+          discount: {
+            isActive: false
+          },
+          value: { centAmount: 350 }
+        }
+      }
+    } as any);
+
+    expect(price).toEqual({ regular: 2.5, special: null });
+  });
+
   it('returns regular and special price', () => {
     const price = createPrice({
       price: {
@@ -51,5 +69,27 @@ describe('[commercetools-getters] utils/createPrice', () => {
     } as any);
 
     expect(price).toEqual({ regular: 2.5, special: 3.5 });
+  });
+
+  it('returns regular and special price for line item', () => {
+    const price = createPrice({
+      __typename: 'LineItem',
+      discountedPricePerQuantity: [{
+        discountedPrice: {
+          value: { centAmount: 2400 }
+        }
+      }],
+      price: {
+        value: { centAmount: 250 },
+        discounted: {
+          discount: {
+            isActive: true
+          },
+          value: { centAmount: 350 }
+        }
+      }
+    } as any);
+
+    expect(price).toEqual({ regular: 2.5, special: 24 });
   });
 });

@@ -2634,6 +2634,21 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
+"@vue-storefront/commercetools-api@canary":
+  version "0.0.4-prealpha.306"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.4-prealpha.306.tgz#ba1618fed89d731f77b0747571484581c3273182"
+  integrity sha512-kjqJlvHXBhdGYpCPa+YjYjktgjb5m3uSnLsb7ufQQgAdCx0pWKS1Rd7W7Ne6EgxrGJTDzjYiHN0j/Z5SxVYqog==
+  dependencies:
+    "@commercetools/sdk-auth" "^3.0.1"
+    apollo-cache-inmemory "^1.6.3"
+    apollo-client "^2.6.4"
+    apollo-link "^1.2.13"
+    apollo-link-context "^1.0.19"
+    apollo-link-http "^1.5.16"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
