@@ -2,7 +2,7 @@ name: Deploy to Storefrontcloud
 on:
   push:
     branches:
-      - master
+      - next
       - release/next
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
           environment: production
           initial_status: in_progress
       - name: Deploy on lovecrafts-demo.storefrontcloud.io
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/next'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"lovecrafts-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
