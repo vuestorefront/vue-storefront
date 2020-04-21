@@ -6,10 +6,9 @@
     />
     <div class="product">
       <div class="product__gallery">
-        <SfGallery
+        <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
+        <!-- <SfGallery
           class="gallery-mobile mobile-only"
-          :image-width="375"
-          :image-height="490"
           :images="[
             {
               mobile: { url: '/productpage/productM.jpg' },
@@ -22,13 +21,12 @@
               big: { url: '/productpage/productM.jpg' }
             }
           ]"
-        />
+        /> -->
         <SfImage
           v-for="(image, i) in productGetters.getGallery(product).splice(0, 2)" :key="i"
           :src="image.big"
           :width="590"
           :height="700"
-          class="desktop-only"
         />
       </div>
       <div class="product__description">
@@ -57,12 +55,13 @@
             and metallic cocktail dresses and party dresses from all your
             favorite brands.
           </p>
-          <div class="product-details__action">
+          <div class="product-details__action desktop-only">
             <SfButton class="sf-button--text color-secondary"
               >Size guide</SfButton
             >
           </div>
-          <div class="product-details__section">
+          <!-- TODO: add size selector after design is added -->
+          <div class="product-details__section desktop-only" >
             <SfSelect
               v-if="options.size"
               :selected="configuration.size"
@@ -78,6 +77,7 @@
                 <SfProductOption :label="size.label" />
               </SfSelectOption>
             </SfSelect>
+            <!-- TODO: add color picker after PR done by SFUI team -->
             <div v-if="options.color" class="product-details__colors desktop-only">
             <p class="product-details__color-label">Color:</p>
             <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
@@ -90,12 +90,7 @@
             />
           </div>
           </div>
-          <div class="product-details__section">
-            <SfAlert
-              message="Low in stock"
-              type="warning"
-              class="product-details__alert mobile-only"
-            />
+          <div class="product-details__section desktop-only">
             <SfAddToCart
               :stock="stock"
               v-model="qty"
@@ -376,7 +371,7 @@ export default {
     flex: 1;
   }
   &__description {
-    padding: 0 var(--spacer-xl);
+    padding: 0 var(--spacer-sm);
     @include for-desktop {
       padding: 0;
       margin: 0 0 0 calc(var(--spacer-xl) * 5);
@@ -384,11 +379,11 @@ export default {
   }
 }
 .product-property {
-  margin: var(--spacer) 0;
+  margin: var(--spacer-xs) 0;
 }
 .product-details {
   &__heading {
-    margin: 0 var(--spacer-sm);
+    margin: var(--spacer-lg) 0 0 0;
     @include for-desktop {
       margin: var(--spacer-base) 0;
     }
@@ -404,7 +399,7 @@ export default {
   &__sub-rating {
     display: flex;
     align-items: center;
-    margin: calc(var(--spacer-xl) / 2) 0 0 0;
+    margin: var(--spacer-sm) 0 0 0;
     @include for-desktop {
       flex-direction: column;
       align-items:flex-start;
@@ -477,7 +472,9 @@ export default {
     margin: var(--spacer-xl) 0 0 0;
   }
   &__tabs {
-    margin: var(--spacer-lg) auto var(--spacer-2xl);
+    --tabs-title-padding: var(--spacer-sm) 0;
+    --tabs-content-tab-padding: var(--spacer-sm) 0;
+    margin: var(--spacer-lg) 0 0 0;
     @include for-desktop {
       margin-top: var(--spacer-2xl);
     }

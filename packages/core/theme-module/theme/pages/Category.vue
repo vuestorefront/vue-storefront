@@ -622,7 +622,7 @@ export default {
   }
   // end of TODO
   &__product-card-horizontal {
-    --product-card-horizontal-padding: var(--spacer);
+    --product-card-horizontal-padding: var(--spacer-xs);
     flex: 0 0 100%;
     @include for-desktop {
       --product-card-horizontal-padding: var(--spacer-sm);
