@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/commercetools",
   "version": "0.0.3",
-  "private": true,
+  "private": false,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
