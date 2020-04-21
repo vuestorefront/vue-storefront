@@ -1,6 +1,7 @@
 {
   "name": "@vue-storefront/about-you-api",
   "version": "0.0.1",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -16,8 +17,5 @@
   },
   "files": [
     "lib/**/*"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

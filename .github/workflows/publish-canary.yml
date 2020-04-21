@@ -1,0 +1,25 @@
+name: Publish canary
+on:
+  push:
+    branches:
+      - next
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          registry-url: https://registry.npmjs.org/
+      - name: Build packages
+        run: |
+          yarn
+          yarn build:core
+      - name: Publish canary version
+        run: |
+          yarn lerna publish --canary --force-publish --yes --preid prealpha --dist-tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
