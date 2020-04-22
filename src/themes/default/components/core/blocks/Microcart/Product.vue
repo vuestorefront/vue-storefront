@@ -308,7 +308,8 @@ export default {
           const maxQuantity = await this.getQuantity()
           this.maxQuantity = maxQuantity
         }
-      }
+      },
+      immediate: true
     }
   }
 }
