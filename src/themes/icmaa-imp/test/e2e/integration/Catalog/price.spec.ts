@@ -4,7 +4,7 @@ interface PriceDTO {
 }
 
 const stripPrice = (price: string): string => {
-  const regex = /^([a-zA-Z\s]*)/g
+  const regex = /^([\D\s]*)/g
   return price.replace(regex, '').trim()
 }
 
