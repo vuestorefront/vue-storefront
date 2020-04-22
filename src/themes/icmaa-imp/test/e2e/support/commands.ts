@@ -124,7 +124,13 @@ Cypress.Commands.add('visitAsRecurringUser', (url, options?) => {
 })
 
 Cypress.Commands.add('visitCategoryPage', (options?) => {
-  cy.wrap<string>(Settings.randomCategoryPage)
+  let url = Settings.randomCategoryPage
+  if (options && options.url) {
+    url = options.url
+    delete options.url
+  }
+
+  cy.wrap<string>(url)
     .as('categoryEntryPointUrl')
     .then(url => cy.visitAsRecurringUser(url, options))
 })

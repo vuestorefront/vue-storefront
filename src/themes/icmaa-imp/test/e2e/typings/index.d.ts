@@ -129,7 +129,7 @@ declare namespace Cypress {
      *
      * @example
      * cy.visitCategoryPage()
-     * cy.visitCategoryPage({ storeCode: 'de' })
+     * cy.visitCategoryPage({ url: '/new', storeCode: 'de' })
      */
     visitCategoryPage(options?: Partial<ExtVisitOptions>): Chainable<Window>,
 
