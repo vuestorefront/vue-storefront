@@ -1,6 +1,6 @@
 <template>
   <SfFooter :column="4" multiple id="footer">
-    <SfFooterColumn title="About us">
+    <SfFooterColumn :title="$t('About us')">
       <SfList>
         <SfListItem
           v-for="item in aboutUs"
@@ -8,12 +8,12 @@
           >
           <SfMenuItem
             class="sf-footer__menu-item"
-            :label="item"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Departments">
+    <SfFooterColumn :title="$t('Departments')">
       <SfList>
         <SfListItem
           v-for="item in departments"
@@ -21,12 +21,12 @@
         >
           <SfMenuItem
             class="sf-footer__menu-item"
-            :label="item"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Help">
+    <SfFooterColumn :title="$t('Help')">
       <SfList>
         <SfListItem
           v-for="item in help"
@@ -34,12 +34,12 @@
         >
           <SfMenuItem
             class="sf-footer__menu-item"
-            :label="item"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Payment &amp; delivery">
+    <SfFooterColumn :title="$t('Payment & Delivery')">
       <SfList>
         <SfListItem
           v-for="item in paymentsDelivery"
@@ -47,7 +47,7 @@
         >
           <SfMenuItem
             class="sf-footer__menu-item"
-            :label="item"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>

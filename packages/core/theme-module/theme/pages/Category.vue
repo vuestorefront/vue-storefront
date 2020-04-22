@@ -6,7 +6,7 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <h1 class="navbar__title">Categories</h1>
+        <h1 class="navbar__title">{{ $t('Categories') }}</h1>
       </div>
       <div class="navbar__main">
         <SfButton
@@ -40,10 +40,10 @@
               </g>
             </svg>
           </SfIcon>
-          Filters
+          {{ $t('Filters') }}
         </SfButton>
         <div class="navbar__sort desktop-only">
-          <span class="navbar__label">Sort by:</span>
+          <span class="navbar__label">{{ $t('Sort by') }}:</span>
           <SfSelect class="sort-by" v-model="sortBy">
             <SfSelectOption
               v-for="option in sortByOptions"
@@ -55,7 +55,7 @@
           </SfSelect>
         </div>
         <div class="navbar__counter">
-          <span class="navbar__label desktop-only">Products found: </span>
+          <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <strong class="desktop-only">{{ totalProducts }}</strong>
           <span class="navbar__label mobile-only">{{ totalProducts }} Items</span>
         </div>
@@ -102,7 +102,7 @@
           class="sf-button--text navbar__filters-button mobile-only"
           @click="isFilterSidebarOpen = true"
         >
-          Sort by
+          {{ $t('Sort by') }}
           <SfIcon size="15px" style="margin-left: 10px;">
             <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
               <path
