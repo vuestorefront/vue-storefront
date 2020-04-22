@@ -114,12 +114,12 @@ import { settings } from '../../index'
 import { MyPlatformApiClient } '../../index'
 
 function getCategory (params: GetCategoryParams): GetCategory {
-  if (settings.overrides.getCategory) return settings.overrides.getCategory(params)
-
   const products = await MyPlatformApiClient.getCategory(params)
+  return products
 }
 
-export default getCategory
+export default getCategory || settings.overrides.getCategory
+
 ```
 Okay. So what happened here?
 ```js
@@ -132,15 +132,17 @@ We also imported `settings` object that will be used later to enable overriding 
 
 ```js
 function getCategory (params: GetCategoryParams): GetCategory {
-  if (settings.overrides.getCategory) return settings.overrides.getCategory(params)
-
   const products = await MyPlatformApiClient.getCategory(params)
   return products
 }
 ```
+Then we're just writing our `getCategory` method.
+```js
+export default getCategory || settings.overrides.getCategory
+```
 This part is very important because without it API Client methods overriding mechanism won't work.
 
-First we are checking if user provided `getCategory` method to `override` function. Every time someone will use `override` method from `index.ts` and pass `getCategory` function there it will be automatically saved in `settings.overrides.getCategory`. If user did that then we are just using this new function, otherwise we're using the default one where we're invoking `MyPlatformApiClient.getCategory` method from our dedicated platform API Client (or one we made with axios).
+We are checking if user provided `getCategory` method to `override` function. Every time someone will use `override` method from `index.ts` and pass `getCategory` function there it will be automatically saved in `settings.overrides.getCategory`. If user did that then we are just using this new function, otherwise we're using the default one where we're invoking `MyPlatformApiClient.getCategory` method from our dedicated platform API Client (or one we made with axios).
 
 Thats all! This is more or less how every API Client method works.
 
