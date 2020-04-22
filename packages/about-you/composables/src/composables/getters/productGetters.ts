@@ -6,18 +6,18 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
+import { BapiProduct } from '@aboutyou/backbone';
 
 type ProductVariantFilters = any
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => 'product name';
+export const getProductName = (product: BapiProduct): string => 'product-name';
+
+// platform doesn't seem to support slugs
+export const getProductSlug = (product: BapiProduct): string => product.id.toString();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: ProductVariant): string => 'product-slug';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
+export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
   return {
     regular: 0,
     special: 0
@@ -25,31 +25,31 @@ export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
+export const getProductGallery = (product: BapiProduct): AgnosticMediaGalleryItem[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: ProductVariant): string => '';
+export const getProductCoverImage = (product: BapiProduct): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
+export const getProductFiltered = (products: BapiProduct[], filters: ProductVariantFilters | any = {}): BapiProduct[] => {
   return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+export const getProductAttributes = (products: BapiProduct[] | BapiProduct, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   return {};
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductDescription = (product: BapiProduct): any => (product as any)._description;
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductCategoryIds = (product: BapiProduct): string[] => (product as any)._categoriesRef;
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductId = (product: BapiProduct): string => product.id.toString();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getFormattedPrice = (price: number) => String(price);
 
-const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
+const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

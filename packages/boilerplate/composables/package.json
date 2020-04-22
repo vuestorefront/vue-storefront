@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/boilerplate-composables",
+  "name": "@vue-storefront/boilerplate",
   "version": "0.0.1",
   "private": true,
   "sideEffects": false,

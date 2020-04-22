@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import { config } from './plugins/commercetools-config.js';
 
-const localeNames = config.locales.map(l => l.name);
+const localeNames = config.locales.map(l => ({ code: l.name, file: `${l.name}.js` }));
 
 export default {
   mode: 'universal',
@@ -74,18 +74,11 @@ export default {
   },
   i18n: {
     locales: localeNames,
-    defaultLocale: localeNames[0],
-    strategy: 'no_prefix',
+    defaultLocale: localeNames[0].code,
+    lazy: true,
+    langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: localeNames[0],
-      messages: {
-        en: {
-          welcome: 'Welcome 1'
-        },
-        de: {
-          welcome: 'Welcome 2'
-        }
-      }
+      fallbackLocale: localeNames[0].code
     },
     detectBrowserLanguage: {
       cookieKey: config.cookies.localeCookieName,

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aboutyou/backbone@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-4.1.0.tgz#bcdcd4036f36093f0d10c87ab990245fdd340178"
-  integrity sha512-Sqh5whUW5LLadTExCzq2nAPDXYSOhbeaxTcNm8/h7aQFzd6yhQ6W2FUpWN8zw3a/flH4pe7kYDK+0UWO9ROVYQ==
+"@aboutyou/backbone@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-7.0.0.tgz#8fc943b151de9877983ff3771f0f6e5dad58344f"
+  integrity sha512-KymZVTU8X2GNsOkt4dsvi8esTwskS6vKBMoLPRTK32S7pavSdsaee+iAnJJN4Ilhj7tsNhxskA2JarrirsN0Ng==
   dependencies:
     axios "^0.18.0"
     query-string "^6.2.0"
@@ -2169,36 +2169,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@storefront-ui/shared@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.5.1.tgz#313cf978470e43cf7a1af401d65617eb496f6ba4"
-  integrity sha512-WhyhVug+RDyxlVq4Beb46OD6jePnHBz3luSj2NbTUAhDGWWcnr6GcaGJALdtxSIcl58lyr11wnHSD+aE+a7c1A==
-
 "@storefront-ui/shared@^0.6.4":
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.6.4.tgz#8e8582673d7739df76cce044ef2a12bec0ec1694"
   integrity sha512-gqv+l6Yl/55RtaQc26Ek0W6LW+s5Hhn7n13mC0qdtwkhmfwFnnr6wjonrvwcS5K2NvfRNug5Q1/At4UXGb6LHw==
-
-"@storefront-ui/vue@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.5.1.tgz#62c69d204232bd4050beb01963829fc4a4fbf751"
-  integrity sha512-ocuZNggS9oEyuXhYHjshJSfHQQ0iSUrFPWPz5ijG3Q1Af9c/GXZ0NPG/agPehRynpgiCOkMsZzPtbU8FK4+u4g==
-  dependencies:
-    "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.5.1"
-    "@vue/babel-preset-app" "^4.0.0-alpha.1"
-    body-scroll-lock "^2.6.4"
-    core-js "^3.1.3"
-    hammerjs "^2.0.8"
-    leaflet "^1.5.1"
-    lozad "^1.9.0"
-    node-sass "^4.12.0"
-    sass-loader "^7.1.0"
-    simplebar-vue "^1.4.0"
-    vue-drag-drop "^1.1.4"
-    vue-fragment "^1.5.1"
-    vue2-leaflet "^2.1.1"
-    webpack-dev-middleware "3.6.0"
 
 "@storefront-ui/vue@^0.6.4":
   version "0.6.4"
@@ -3683,13 +3657,6 @@ axios@^0.18.0:
   dependencies:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
-
-axios@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
-  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
-  dependencies:
-    follow-redirects "1.5.10"
 
 babel-code-frame@^6.22.0:
   version "6.26.0"
@@ -14432,7 +14399,7 @@ vary@^1.1.2, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vee-validate@^3.2.3, vee-validate@^3.2.5:
+vee-validate@^3.2.3:
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.2.5.tgz#e3f4e389fbb00917c2cd2f72170e8042aea5fc08"
   integrity sha512-qUgx4fcD077aNYuaRmK5qZ6G/qRHI0igC5tvGP1IRtvkScOyhCHuZwCcto4VPy5Cip0yAOqrbFudD9JOevwZhw==

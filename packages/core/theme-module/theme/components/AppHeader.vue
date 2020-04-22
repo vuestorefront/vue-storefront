@@ -22,7 +22,7 @@
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
-        <nuxt-link to="/c/cat">
+        <nuxt-link to="/c/kids">
           KIDS
         </nuxt-link>
       </SfHeaderNavigationItem>

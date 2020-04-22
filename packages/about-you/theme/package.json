@@ -15,7 +15,7 @@
   "dependencies": {
     "@storefront-ui/vue": "^0.6.4",
     "@vue-storefront/about-you": "^0.0.3",
-    "@vue-storefront/about-you-api": "^0.0.1",
+    "@vue-storefront/about-you-api": "^0.1.0",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "cookie-universal-nuxt": "^2.1.3",
