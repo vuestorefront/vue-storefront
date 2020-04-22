@@ -9,7 +9,7 @@ jest.mock('@vue-storefront/core', () => ({
   useCategoryFactory: jest.fn(() => () => ({ foo: 'bar' }))
 }));
 
-describe('[about-you-composables] useCategory', () => {
+describe.skip('[about-you-composables] useCategory', () => {
   it('returns value of factory execution', () => {
     expect(useCategory('test')).toEqual({ foo: 'bar' });
   });

@@ -3,15 +3,13 @@
 import { UseLocaleFactoryParams } from '@vue-storefront/core';
 
 import {
-  countries,
-  currencies,
-  locales
+  getSettings
 } from '@vue-storefront/about-you-api';
 
 export const params: UseLocaleFactoryParams = {
-  loadAvailableLocales: async () => locales,
-  loadAvailableCountries: async () => countries,
-  loadAvailableCurrencies: async () => currencies,
+  loadAvailableLocales: async () => getSettings().locales,
+  loadAvailableCountries: async () => getSettings().countries,
+  loadAvailableCurrencies: async () => getSettings().currencies,
   setCountry: async (country) => country,
   setCurrency: async (currency) => currency,
   setLocale: async (locale) => locale
