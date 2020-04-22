@@ -127,14 +127,14 @@
                   <SfListItem>
                     <SfMenuItem :label="cat.label">
                       <template #label>
-                        <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="getCategoryUrl(cat)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
                   <SfListItem v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :label="subCat.label">
                       <template #label="{ label }">
-                        <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="getCategoryUrl(subCat)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -312,7 +312,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
-import { getCategorySearchParameters } from '~/helpers/category/getCategorySearchParameters';
+import { getCategorySearchParameters, getCategoryUrl } from '~/helpers/category';
 import { onSSR } from '@vue-storefront/core';
 
 const perPageOptions = [20, 40, 100];
@@ -376,7 +376,7 @@ function clearAllFilters() {
 export default {
   transition: 'fade',
   setup(props, context) {
-    const { params, query } = context.root.$route;
+    const { query } = context.root.$route;
 
     const { categories, search, loading } = useCategory('categories');
     const { products: categoryProducts, totalProducts, search: productsSearch, loading: productsLoading } = useProduct('categoryProducts');
@@ -406,10 +406,9 @@ export default {
       }
     });
 
-    const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true}));
+    const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true }));
     const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
 
-    const getCategoryUrl = (slug) => `/c/${params.slug_1}/${slug}`;
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
     const sortBy = ref('price-up');
