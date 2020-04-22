@@ -21,7 +21,7 @@
     "vue-template-compiler": "^2.6.x"
   },
   "peerDependencies": {
-    "@aboutyou/backbone": "^4.1.0"
+    "@aboutyou/backbone": "^7.0.0"
   },
   "files": [
     "lib/**/*"

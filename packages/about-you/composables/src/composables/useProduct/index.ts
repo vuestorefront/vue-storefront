@@ -10,7 +10,7 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct> = useProductFacto
 
     return {
       data: products.entities,
-      total: products.pagination?.total || products.entities.length
+      total: products.pagination.total
     };
   }
 });

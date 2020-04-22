@@ -4,6 +4,9 @@ export const getCategorySearchParameters = (context) => {
 
   return {
     path: [pathWithoutPrefix],
-    with: ['descendants']
+    with: {
+      parents: 'all',
+      children: 2
+    }
   };
 };

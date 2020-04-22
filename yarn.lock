@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aboutyou/backbone@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-4.1.0.tgz#bcdcd4036f36093f0d10c87ab990245fdd340178"
-  integrity sha512-Sqh5whUW5LLadTExCzq2nAPDXYSOhbeaxTcNm8/h7aQFzd6yhQ6W2FUpWN8zw3a/flH4pe7kYDK+0UWO9ROVYQ==
+"@aboutyou/backbone@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-7.0.0.tgz#8fc943b151de9877983ff3771f0f6e5dad58344f"
+  integrity sha512-KymZVTU8X2GNsOkt4dsvi8esTwskS6vKBMoLPRTK32S7pavSdsaee+iAnJJN4Ilhj7tsNhxskA2JarrirsN0Ng==
   dependencies:
     axios "^0.18.0"
     query-string "^6.2.0"
