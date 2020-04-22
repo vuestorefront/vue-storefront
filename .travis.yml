@@ -47,7 +47,7 @@ jobs:
     - stage: build
       name: Build about you
       script:
-        - yarn build:ay
+        - yarn build:ayc
 
     - stage: unit tests
       script: yarn test:core --coverage
@@ -68,13 +68,13 @@ jobs:
         - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
     - stage: unit tests
-      script: yarn test:ay:api-client --coverage
+      script: yarn test:ayc:api-client --coverage
       name: Test AY api-client
       after_script:
         - cat ./packages/about-you/api-client/coverage/lcov.info | coveralls
 
     - stage: unit tests
-      script: yarn build:ay:api-client && yarn test:ay:composables --coverage
+      script: yarn build:ayc:api-client && yarn test:ayc:composables --coverage
       name: Test AY composables
       after_script:
         - cat ./packages/about-you/composables/coverage/lcov.info | coveralls
