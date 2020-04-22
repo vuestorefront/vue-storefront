@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/boilerplate-composables",
+  "name": "@vue-storefront/boilerplate",
   "version": "0.0.1",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,7 +13,12 @@
   "dependencies": {
     "@vue-storefront/boilerplate-api": "^0.0.1",
     "@vue-storefront/core": "^2.0.0",
-    "@vue/composition-api": "^0.3.4"
+    "@vue/composition-api": "^0.3.4",
+    "vue": "^2.6.x"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "vue-template-compiler": "^2.6.x"
   },
   "files": [
     "lib/**/*"
