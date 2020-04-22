@@ -176,7 +176,7 @@
             }]"
           />
           <div class="t-mt-2 t-text-xs t-text-base-light t-leading-snug" v-if="['FR'].includes(countryId)">
-            En cas de problème avec votre livraison, le coursier GLS peut vous contacter par téléphone pour décider d'une nouvelle date de livraison.
+            Votre numéro de téléphone peut être nécessaire au livreur pour vous contacter en cas de soucis.
           </div>
         </div>
         <div v-if="hasVatId" class="t-w-full t-mb-4">
