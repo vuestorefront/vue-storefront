@@ -6,8 +6,8 @@ describe('Language selector', () => {
   it('Modal popup as new user', () => {
     cy.getBrowserLanguage()
 
-    cy.get<string>('@browserStoreCode').then(lang => {
-      const storeViews = _.omit(Settings.availableStoreViews, [lang])
+    cy.get<string[]>('@browserLanguages').then(lang => {
+      const storeViews: any = Settings.availableStoreViews.filter(l => !lang.includes(l) && l !== 'uk')
       cy.visit('/', { storeCode: _.sample(storeViews) })
     })
 

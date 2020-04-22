@@ -250,10 +250,25 @@ Cypress.Commands.add('checkNotification', (status: string) => {
 
 Cypress.Commands.add('getBrowserLanguage', () => {
   cy.window().then(win => {
+    const navigator: any = win.navigator
+    let languages: string[] = []
+
+    if (navigator.languages) {
+      navigator.languages.forEach((l: string) => languages.push(l))
+    }
+    if (navigator.userLanguage) {
+      languages.push(navigator.userLanguage);
+    }
+    if (navigator.language) {
+      languages.push(navigator.language);
+    }
+
     cy.wrap(win.navigator.language)
-      .as('browserStoreCode')
-    cy.wrap(win.navigator.language.split('-')[0].toLocaleLowerCase())
       .as('browserLanguage')
+    cy.wrap(languages)
+      .as('browserLanguages')
+    cy.wrap(win.navigator.language.split('-')[0].toLocaleLowerCase())
+      .as('browserStoreCode')
   })
 })
 
