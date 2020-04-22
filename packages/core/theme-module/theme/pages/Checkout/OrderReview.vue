@@ -112,6 +112,7 @@
       </SfTableRow>
     </SfTable>
     <SfHeading
+      :level="3"
       title="Order details"
       class="sf-heading--left sf-heading--no-underline title"
     />
@@ -153,14 +154,11 @@
         </SfCheckbox>
       </div>
       <div class="summary__group">
-        <SfButton class="sf-button--full-width summary__action-button" @click="processOrder">
-          Place my order
+        <SfButton class="color-secondary form__back-button" @click="$emit('click:back')">
+          Go back
         </SfButton>
-        <SfButton
-          class="sf-button--full-width sf-button--text color-secondary summary__action-button summary__action-button--secondary"
-          @click="$emit('click:back')"
-        >
-          Go back to Payment
+        <SfButton class="form__action-button" @click="processOrder">
+          Place my order
         </SfButton>
       </div>
     </div>
@@ -250,7 +248,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -260,7 +258,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-2xl);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }

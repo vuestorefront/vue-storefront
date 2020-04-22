@@ -111,15 +111,13 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
+        <!-- TODO: add nuxt link for returning to personal details -->
+        <SfButton class="color-secondary form__back-button">
+          Go back
+        </SfButton>
+        <SfButton class="form__action-button" @click="$emit('nextStep')">
           Continue to payment
         </SfButton>
-        <SfButton
-          class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary"
-          @click="$emit('click:back')">
-            Go back to Personal details
-        </SfButton
-        >
       </div>
     </div>
   </div>
@@ -220,6 +218,9 @@ export default {
         text-align: left;
       }
     }
+  }
+  &__back-button {
+    margin: 0 var(--spacer-sm) 0 0;
   }
   &__button {
     --button-width: 100%;

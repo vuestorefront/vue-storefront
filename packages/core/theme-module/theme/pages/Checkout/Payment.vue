@@ -2,7 +2,7 @@
   <div>
     <SfHeading
       :level="3"
-      title="Payment"
+      title="Billing address"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -84,8 +84,8 @@
       />
     </div>
     <SfHeading
+      :level="3"
       title="Payment methods"
-      subtitle="Choose your payment method"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -108,14 +108,12 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
-          Review order
+        <!-- TODO: add nuxt link for returning to personal details -->
+        <SfButton class="color-secondary form__back-button">
+          Go back
         </SfButton>
-        <SfButton
-          class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary"
-          @click="$emit('click:back')"
-        >
-          Go back to Shipping Methods
+        <SfButton class="form__action-button" @click="$emit('nextStep')">
+          Review my order
         </SfButton>
       </div>
     </div>
@@ -198,7 +196,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -208,7 +206,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-2xl);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }
@@ -232,6 +230,9 @@ export default {
       }
     }
   }
+  &__back-button {
+    margin: 0 var(--spacer-sm) 0 0;
+  }
   &__button {
     --button-width: 100%;
     @include for-desktop {
@@ -246,7 +247,7 @@ export default {
 .payment-methods {
   @include for-desktop {
     display: flex;
-    padding: var(--spacer-xl) 0;
+    padding: var(--spacer-lg) 0;
     border: 1px solid var(--c-light);
     border-width: 1px 0;
   }
