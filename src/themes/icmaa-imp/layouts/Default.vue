@@ -127,7 +127,23 @@ export default {
     this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
   },
   metaInfo () {
-    return this.getMetaData()
+    let metaData = this.getMetaData()
+
+    /**
+     * #199586 We need to enable it for iOS devices to prevent from input zoom on focus
+     * - The zoom will lead in errors reported by customers that "the site don't fit"
+     * - iOS zooms all inputs which font-size is smaller than 16px – ours is by design
+     * - We need to disable this meta-tag by default because Google-Lighthouse-Check needs
+     *   this page to be accessible
+     * - Since iOS11 you're still able to zoom the page but prevent the input zoom with this
+     */
+    if (!isServer && /iPhone|iPad/.test(navigator.userAgent)) {
+      metaData.meta.push(
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' }
+      )
+    }
+
+    return metaData
   },
   components: {
     MainHeader,
