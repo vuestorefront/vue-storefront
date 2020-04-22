@@ -1,6 +1,7 @@
 import { AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } from './../types/GraphQL';
 import { locale, currency, country } from '@vue-storefront/commercetools-api';
+import { DiscountedLineItemPrice } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
 const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
@@ -58,17 +59,36 @@ export const getVariantByAttributes = (products: ProductVariant[] | Readonly<Pro
   });
 };
 
-const getPrice = (price: ProductPrice | DiscountedProductPriceValue) => price ? price.value.centAmount / 100 : null;
+const getPrice = (price: ProductPrice | DiscountedProductPriceValue | DiscountedLineItemPrice) => price ? price.value.centAmount / 100 : null;
+
 const getDiscount = (product: ProductVariant | LineItem) => product.price?.discounted;
+
+const getSpecialPrice = (product: ProductVariant | LineItem) => {
+  const discount = getDiscount(product);
+
+  if (product.__typename === 'LineItem') {
+    const { discountedPricePerQuantity } = product;
+    const discountsLength = discountedPricePerQuantity.length;
+
+    if (discountsLength > 0) {
+      return getPrice(discountedPricePerQuantity[discountsLength - 1].discountedPrice);
+    }
+  }
+
+  if (discount?.discount.isActive) {
+    return getPrice(discount);
+  }
+
+  return null;
+};
 
 export const createPrice = (product: ProductVariant | LineItem): AgnosticPrice => {
   if (!product) {
     return { regular: null, special: null };
   }
 
-  const discount = getDiscount(product);
   const regularPrice = getPrice(product.price);
-  const specialPrice = discount?.discount.isActive ? getPrice(discount) : null;
+  const specialPrice = getSpecialPrice(product);
 
   return {
     regular: regularPrice,

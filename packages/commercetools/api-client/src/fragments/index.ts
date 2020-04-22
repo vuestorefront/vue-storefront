@@ -57,9 +57,42 @@ export const LineItemFragment = `
     name(locale: $locale)
     productSlug(locale: $locale)
     quantity
+    discountedPricePerQuantity {
+      quantity
+      discountedPrice {
+        value {
+          centAmount
+        }
+        includedDiscounts {
+          discount {
+            name(locale: $locale)
+            isActive
+          }
+        }
+      }
+    }
     variant {
       id
       sku
+      price(currency: "USD") {
+        tiers {
+          value {
+            centAmount
+          }
+        }
+        value {
+          centAmount
+        }
+        discounted {
+          value {
+            centAmount
+          }
+          discount {
+            isActive
+            name(locale: $locale)
+          }
+        }
+      }
       images {
         url
         label
@@ -150,6 +183,22 @@ export const CartFragment = `
       price {
         centAmount
       }
+    }
+    discountCodes {
+      discountCode {
+        id
+        code
+        isActive
+        validFrom
+        validUntil
+        name(locale: $locale)
+      }
+    }
+    refusedGifts {
+      isActive
+      validFrom
+      validUntil
+      name(locale: $locale)
     }
     cartState
     version
