@@ -225,7 +225,9 @@ export const serial = async promises => {
 // helper to calculate the hash of the shopping cart
 export const calcItemsHmac = (items = [], token) => {
   return sha3_224(JSON.stringify({
-    items: items.map(item => omit(item, ['stock'])),
+    // we need to omit those properties because they are loaded async and added to product data
+    // and they are not needed to compare products
+    items: items.map(item => omit(item, ['stock', 'totals'])),
     token: token
   }))
 }
