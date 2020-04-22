@@ -14,8 +14,11 @@ interface UrlMapperOptions {
 }
 
 const getUrlPathFromUrl = (url): string => {
-  let path = removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string
-  return removeHashFromRoute(path) as string
+  if (url.startsWith('/')) url = url.slice(1)
+  if (url.endsWith('/')) url = url.slice(0, -1)
+  url = removeStoreCodeFromRoute(url) as string
+  url = removeHashFromRoute(url) as string
+  return url
 }
 
 const getLocalizedDispatcherRouteName = (name) => {
@@ -66,7 +69,7 @@ const forCmsPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
 const forCmsLandingPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
   return dispatch('icmaaCmsLangingPages/single', { value: urlPath }, { root: true })
     .then((page: GenericStateItem) => {
-      if (page !== null) {
+      if (page !== null && Object.values(page).length > 0) {
         return {
           name: getLocalizedDispatcherRouteName('icmaa-cms-landing-page'),
           params: {

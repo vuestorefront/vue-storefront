@@ -16547,6 +16547,13 @@ tailwindcss-accessibility@^1.0.0:
   resolved "https://registry.yarnpkg.com/tailwindcss-accessibility/-/tailwindcss-accessibility-1.0.0.tgz#3a1aeda1d46004e3dd69b85774d27a9d276e776a"
   integrity sha512-5bLincK3LVx6U7Wk19X7ZQDg59ZgulkNexlzUYU01mvXnKALv+xc8n+CH007A+YH5Wa6EuL64ay5Ci5+yqJPVQ==
 
+tailwindcss-animations@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-animations/-/tailwindcss-animations-2.0.0.tgz#6e12fe9c70f862f8ac228adf7256b26a4f7cd7c3"
+  integrity sha512-YLdhPiQeDtpnqWd0J70rvy08MDbsq+BBLrzMmPR1Pe6MJDFYDuk4CYGI14GVgj7xRBGkByzp/rAfBcUWD7zpng==
+  dependencies:
+    lodash "^4.17.15"
+
 tailwindcss@^1.0.5:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.2.0.tgz#5df317cebac4f3131f275d258a39da1ba3a0f291"

@@ -12,6 +12,7 @@
 <script>
 import dayjs from 'dayjs'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   name: 'PromoBanner',
@@ -27,20 +28,20 @@ export default {
   data () {
     return {
       map: [
-        { id: '1', key: 'exclusive', label: 'Exclusive', background: '#B18C3E' },
+        { id: '1', key: 'exclusive', label: i18n.t('Exclusive'), background: '#B18C3E' },
         { id: '3', key: 'american_apparel', label: 'American Apparel', background: null },
-        { id: '5', key: 'preorder', label: 'Preorder', background: '#611222' },
-        { id: '6', key: 'special_offer', label: 'Special Offer', background: '#64BCAC' },
-        { id: '7', key: 'special_offer', label: 'Special Offer', background: '#64BCAC' },
+        { id: '5', key: 'preorder', label: i18n.t('Preorder'), background: '#611222' },
+        { id: '6', key: 'special_offer', label: i18n.t('Special Offer'), background: '#64BCAC' },
+        { id: '7', key: 'special_offer', label: i18n.t('Special Offer'), background: '#64BCAC' },
         { id: '8', key: 'artery', label: 'Artery', background: null },
         { id: '9', key: 'sumerian', label: 'Sumerian Records', background: null },
         { id: '10', key: 'deathwish', label: 'Deathwish', background: null },
         { id: '11', key: 'continental', label: 'Continental', background: null },
         { id: '12', key: 'purenoise', label: 'Pure Noise', background: null },
-        { id: '13', key: 'limited', label: 'Limited', background: '#023AE1' },
-        { id: '14', key: 'backprint', label: 'Backprint', background: '#551D99' },
-        { id: '', key: 'sale', label: 'Sale', background: '#006EA1' },
-        { id: '', key: 'new', label: 'New', background: '#1AC759' }
+        { id: '13', key: 'limited', label: i18n.t('Limited'), background: '#023AE1' },
+        { id: '14', key: 'backprint', label: i18n.t('Backprint'), background: '#551D99' },
+        { id: '', key: 'sale', label: i18n.t('Sale'), background: '#006EA1' },
+        { id: '', key: 'new', label: i18n.t('New'), background: '#1AC759' }
       ]
     }
   },

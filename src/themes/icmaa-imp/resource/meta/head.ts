@@ -6,7 +6,7 @@ import { StoreView } from 'icmaa-config/types/ConfigState'
 
 const defaults: any = (store: StoreView) => {
   const { storeCode, meta, facebook } = store
-  const storeLang = store.i18n.defaultLanguage.toLowerCase()
+  const storeLang = store.i18n.defaultLocale
 
   const hreflang = new Hreflang(store)
   const iconPath = `/assets/${config.icmaa.mandant}/meta`
