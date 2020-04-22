@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0-rc1] - UNRELEASED
 
 ### Added
+
+- Add `vsf-capybara` support as a dependency and extend CLI to support customization - @psmyrek (#4209)
 - Allow parent_ids field on product as an alternative to urlpath based breadcrumb navigation (#4219)
 - Pass the original item_id when updating/deleting a cart entry @carlokok (#4218)
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
@@ -54,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use same data format in getConfigurationMatchLevel - @gibkigonzo (#4208)
 - removed possible memory leak in ssr - @resubaka (#4247)
 - Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
+- Bugfix for build exception in Node v13.13+ - @cewald (#4249)
 
 ### Changed / Improved
 

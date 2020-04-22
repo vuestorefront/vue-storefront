@@ -965,10 +965,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
             <tr>
       <td align="center" valign="middle">
-<a href="">
+<a href="https://www.2hatslogic.com/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/03/2hatslogic-logo.png"
+            alt="2hatslogic"
             height="40"
           >
         </a>

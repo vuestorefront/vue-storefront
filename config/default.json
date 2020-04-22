@@ -17,7 +17,7 @@
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
     "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
-    "dynamicConfigReload": false,
+    "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
     "dynamicConfigInclude": [],

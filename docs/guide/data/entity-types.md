@@ -9,13 +9,13 @@ Vue Storefront uses multiple data-entity types to cover the whole scope of the s
 
 These entity types were hardcoded and there was no ability to easily use another custom entity type required for customization.
 
-Now, Vue Storefront has a new logic to work with entities in the data-fetching prospective: Entity Types.
+Now, Vue Storefront has a new logic to work with entities in the data-fetching perspective: Entity Types.
 
 Each search adapter should register an entity type to cover a search feature. Default API and new GraphQL search adapters are updated to register all required existing entity types, but developers can also inject custom entity types to work with some other custom entity type data (for example, to get a list of offline stores or something else).
 
 To use it, an internal GraphQL server should be updated with adding a corresponding resolver for the new entity type. Also, you can use some other external GraphQL server that already has implemented a resolver for this entity type.
 
-To register such an entity type, you should use the `searchAdapter.registerEntityTypeByQuer`y` method like shown in the example below:
+To register such an entity type, you should use the `searchAdapter.registerEntityTypeByQuery` method like shown in the example below:
 
 ```js
 const factory = new SearchAdapterFactory();
@@ -48,7 +48,7 @@ searchAdapter.registerEntityTypeByQuery('testentity', {
 
 The sample extension `sample-custom-entity-graphql` was added to illustrate how it can be used. It injects a custom entity type `testentity` and sets a custom GraphQL server URL (it is the same as a default API host in the example, because a resolver for this `testentity` was added there for testing. But please notice it was removed there).
 
-To test a sample extension with resolver, you can add a GraphqQL schema file and resolver file in the separate `src/graphql/elastcisearch/testentity` folder in the Vue Storefront API.
+To test a sample extension with resolver, you can add a GraphQL schema file and resolver file in the separate `src/graphql/elastcisearch/testentity` folder in the Vue Storefront API.
 
 `schema.graphqls` file:
 
