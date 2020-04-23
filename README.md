@@ -7,7 +7,7 @@
 **Disclaimer:** This project is still in beta phase. It's not usable to full extend yet. Once its production ready this repo will be merged into the [main repo](https://github.com/DivanteLtd/vue-storefront/).
 
 Vue Storefront is the most popular and most advanced PWA Headless frontend for eCommerce.
-- [Documentation](https://vsf-next-docs.netlify.com) (WIP)
+- [Documentation](https://docs-next.vuestorefront.io/) (WIP)
 - [Demo](https://vsf-next-demo.storefrontcloud.io/) (WIP)
 
 ![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
