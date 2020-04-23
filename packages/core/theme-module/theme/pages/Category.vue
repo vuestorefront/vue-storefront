@@ -127,14 +127,14 @@
                   <SfListItem>
                     <SfMenuItem :label="cat.label">
                       <template #label>
-                        <nuxt-link :to="getCategoryUrl(cat)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="getCategoryPath(cat)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
                   <SfListItem v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :label="subCat.label">
                       <template #label="{ label }">
-                        <nuxt-link :to="getCategoryUrl(subCat)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="getCategoryPath(subCat)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -312,7 +312,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
-import { getCategorySearchParameters, getCategoryUrl } from '~/helpers/category';
+import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { onSSR } from '@vue-storefront/core';
 
 const perPageOptions = [20, 40, 100];
@@ -428,7 +428,7 @@ export default {
       products,
       productsLoading,
       categoryTree,
-      getCategoryUrl,
+      getCategoryPath,
       isCategorySelected,
       loading,
       productGetters,

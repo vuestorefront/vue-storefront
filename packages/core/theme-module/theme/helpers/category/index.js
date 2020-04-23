@@ -1,7 +1,7 @@
 import { getCategorySearchParameters } from './getCategorySearchParameters';
-import { getCategoryUrl } from './getCategoryUrl';
+import { getCategoryPath } from './getCategoryPath';
 
 export {
   getCategorySearchParameters,
-  getCategoryUrl
+  getCategoryPath
 };
