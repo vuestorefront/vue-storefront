@@ -11,7 +11,7 @@
           :configuration="configuration"
           :product="product"
         />
-        <div class="t-w-full t-p-8 t-bg-white lg:t-w-1/2">
+        <div class="t-w-full t-p-8 t-bg-white lg:t-w-1/2" :class="{ 'lg:t-flex lg:t-flex-col lg:t-justify-between': isPreorder }">
           <category-extras-header class="t--mx-8 t--mt-8 t-mb-8 lg:t-pl-px t-border-b t-border-base-lightest" v-if="!['xs', 'sm', 'md'].includes(viewport)" :spotify-logo-limit="spotifyLogoLimit" />
           <div class="t-flex t-flex-wrap">
             <h1 data-test-id="productName" itemprop="name" class="t-flex-grow t-w-1/2 t-mb-0 t-leading-snug">
@@ -59,10 +59,11 @@
                   {{ $t('Add to cart') }}
                   <loader-background v-if="loading" class="t-bottom-0" height="t-h-1" bar="t-bg-base-lightest t-opacity-25" />
                 </button-component>
-                <add-to-wishlist :product="product" class="t-flex-fix" />
+                <add-to-wishlist :product="product" class="t-flex-fix t-mb-4" />
               </div>
             </div>
           </div>
+          <product-preorder v-if="isPreorder" :product="product" />
         </div>
       </div>
     </div>
@@ -145,6 +146,7 @@ import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
 import DepartmentLogo from 'theme/components/core/blocks/CategoryExtras/DepartmentLogo'
 import DetailsTabs from 'theme/components/core/blocks/Product/Tabs'
+import ProductPreorder from 'theme/components/core/blocks/Product/ProductPreorder'
 import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
 import ProductFeatures from 'theme/components/core/blocks/Product/ProductFeatures'
 import ProductCareInstructions from 'theme/components/core/blocks/Product/ProductCareInstructions'
@@ -176,6 +178,7 @@ export default {
     LoaderBackground,
     ProductGallery,
     DetailsTabs,
+    ProductPreorder,
     ProductDetails,
     ProductFeatures,
     ProductCareInstructions,
@@ -253,6 +256,9 @@ export default {
       }
 
       return false
+    },
+    isPreorder () {
+      return this.product.promo_id === '5'
     },
     hasConfiguration () {
       return this.configuration && Object.keys(this.configuration).length > 0 && this.userHasSelectedVariant

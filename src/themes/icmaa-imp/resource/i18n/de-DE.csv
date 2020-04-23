@@ -68,7 +68,9 @@
 "Default billing address","Standard Rechnungsadresse"
 "Default shipping address","Standard Versandadresse"
 "Delete","Löschen"
-"Delivery","Lieferung"
+"Delivery of your complete order not before official release. The preorder date is the release or delivery date for Germany, as we were told by the record label,the producer or the shipping company. There is no guarantee for a delivery on that date. In exceptional cases, especially for US imported products, there might be delays. As soon as we receive the article, we will ship it.","Lieferung der kompletten Bestellung nicht vor dem offiziellen Release. Das Preorderdatum ist das Veröffentlichungsdatum bzw. das Lieferdatum für Deutschland, das uns vom Plattenlabel, Hersteller oder Lieferanten genannt wird. Es besteht keine Garantie auf Lieferung zu diesem Datum. Es kann in Ausnahmefällen, insbesondere bei Importen aus den USA, zu Verzögerungen kommen. Sobald wir den Artikel bekommen, liefern wir ihn schnellstmöglich aus."
+"Delivery of your complete order not before {date}. The preorder date is the release date for Germany, as we were told by the record label or distributor. There is no guarantee for a delivery on that date. In exceptional cases, especially for imported products, there might be delays. As soon as we receive the article, we will ship it.","Lieferung der kompletten Bestellung nicht vor dem {date}. Das Preorderdatum ist das Veröffentlichungsdatum bzw. das Lieferdatum für Deutschland, das uns vom Plattenlabel bzw. Lieferanten genannt wurde. Es besteht keine Garantie auf Lieferung zu diesem Datum. Es kann in Ausnahmefällen, insbesondere bei Importen, zu Verzögerungen kommen. Sobald wir den Artikel bekommen, liefern wir ihn schnellstmöglich aus."
+"Delivery","Lieferung",
 "Departments","Kategorien"
 "Discount code","Rabatt-Code"
 "Discount","Rabatt"
@@ -188,6 +190,7 @@
 "No reviews have been posted yet. Please don't hesitate to share Your opinion and write the first review!","Bisher wurden keine Bewertungen abgegeben. Teile deine Meinung und schreibe die erste Bewertung!"
 "Not available in time","Nicht rechtzeitig lieferbar"
 "Not yet an account?","Noch kein Konto?"
+"Notice","Achtung Preorder"
 "Oh great, you are already subscribed.","Großartig, du bist bereits angemeldet."
 "Onesize","Onesize"
 "Only a few left","Nur noch wenige auf Lager"
