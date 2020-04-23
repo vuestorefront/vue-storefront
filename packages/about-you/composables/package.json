@@ -1,6 +1,7 @@
 {
   "name": "@vue-storefront/about-you",
   "version": "0.0.3",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -11,9 +12,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/about-you-api": "^0.0.1",
+    "@vue-storefront/about-you-api": "^0.1.0",
     "@vue/composition-api": "^0.3.4",
-    "@vue-storefront/core": "^2.0.0",
+    "@vue-storefront/core": "2.0.1-prealpha.300",
     "vue": "^2.6.x"
   },
   "devDependencies": {
@@ -21,13 +22,9 @@
     "vue-template-compiler": "^2.6.x"
   },
   "peerDependencies": {
-    "@aboutyou/backbone": "^4.1.0"
+    "@aboutyou/backbone": "^7.0.0"
   },
   "files": [
     "lib/**/*"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "8d866340da30761f4f72a6d1b60f78f9665c6738"
+  ]
 }

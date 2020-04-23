@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import mapProductSearch from './mapProductSearch';
+import mapProductSearchByQueryParams from './product/mapProductSearchByQueryParams';
 
 export {
-  mapProductSearch
+  mapProductSearchByQueryParams
 };

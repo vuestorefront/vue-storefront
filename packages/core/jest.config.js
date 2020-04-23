@@ -17,7 +17,7 @@ module.exports = {
   },
   rootDir: __dirname,
   setupFilesAfterEnv: [
-    './core/__tests__/setup.ts',
+    './core/__tests__/setup.ts'
   ],
   testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
 };

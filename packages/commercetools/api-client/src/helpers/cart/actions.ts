@@ -1,4 +1,4 @@
-import { ProductVariant, AddressInput, LineItem } from './../../types/GraphQL';
+import { ProductVariant, AddressInput, LineItem, ReferenceInput } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
@@ -70,4 +70,12 @@ export const addPaymentAction = (paymentMethodId: string) => ({
       id: paymentMethodId
     }
   }
+});
+
+export const addDiscountCodeAction = (code: string) => ({
+  addDiscountCode: { code }
+});
+
+export const removeDiscountCodeAction = (discountCode: ReferenceInput) => ({
+  removeDiscountCode: { discountCode }
 });
