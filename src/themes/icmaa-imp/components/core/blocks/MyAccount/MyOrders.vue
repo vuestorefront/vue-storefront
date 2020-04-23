@@ -18,7 +18,7 @@
             <status-icon :status="order.status" />
           </div>
           <div class="t-w-1/2 lg:t-w-1/4 lg:t-order-3 t-text-2xl t-text-base-darkest t-mb-2 lg:t-mb-0">
-            {{ order.grand_total | price }}
+            {{ order.grand_total | round | price }}
           </div>
           <div class="t-w-1/2 lg:t-w-1/4 lg:t-order-1">
             <div class="t-font-bold t-mb-1 t-text-base-lighter t-text-xxs t-uppercase">

@@ -1,7 +1,11 @@
+import Vue from 'vue'
+import config from 'config'
 import { coreHooks } from '@vue-storefront/core/hooks'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { ExtendedConfigStore } from './store'
-import config from 'config'
+import { once } from '@vue-storefront/core/helpers'
+
+import { round, formatValue } from './helpers/price'
 
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -39,4 +43,9 @@ export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) 
       })
     }
   }
+
+  once('__VUE_EXTEND__', () => {
+    Vue.filter('round', round)
+    Vue.filter('formatValue', formatValue)
+  })
 }
