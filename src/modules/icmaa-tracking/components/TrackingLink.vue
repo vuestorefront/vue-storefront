@@ -15,7 +15,7 @@ export default {
   name: 'TrackingLink',
   props: {
     orderId: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
     status: {

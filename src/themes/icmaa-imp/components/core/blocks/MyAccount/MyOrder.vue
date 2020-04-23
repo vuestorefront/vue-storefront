@@ -104,11 +104,11 @@
             </div>
           </div>
           <div class="t-w-2/3 md:t-w-2/12 t-text-right">
-            {{ item.qty_ordered }}
+            {{ item.qty_ordered | round(0) }}
             <span class="t-text-xxs t-uppercase md:t-hidden" v-text="$t('Pcs.')" />
           </div>
           <div class="t-w-1/3 md:t-w-2/12 t-text-right" :data-div="$t('Subtotal')">
-            {{ item.row_total_incl_tax | price }}
+            {{ item.row_total_incl_tax | round | price }}
           </div>
         </div>
       </div>
@@ -117,15 +117,25 @@
     <div class="t-p-4 t-bg-white t-mb-4">
       <div class="t-flex t-flex-wrap t--mx-2 t-text-sm t-text-base-tone">
         <div class="t-w-2/3 lg:t-w-3/4 t-px-2 t-text-right" v-text="$t('Subtotal')" />
-        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right" v-text="price(order.subtotal)" />
+        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right">
+          {{ order.subtotal | round | price }}
+        </div>
         <div class="t-w-2/3 lg:t-w-3/4 t-px-2 t-text-right" v-text="$t('Shipping')" />
-        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right" v-text="price(order.shipping_amount)" />
+        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right">
+          {{ order.shipping_amount | round | price }}
+        </div>
         <div class="t-w-2/3 lg:t-w-3/4 t-px-2 t-text-right" v-text="$t('Tax')" />
-        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right" v-text="price((order.tax_amount + order.discount_tax_compensation_amount))" />
+        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right">
+          {{ (parseFloat(order.tax_amount) + parseFloat(order.discount_tax_compensation_amount)) | round | price }}
+        </div>
         <div class="t-w-2/3 lg:t-w-3/4 t-px-2 t-text-right" v-text="$t('Discount')" />
-        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right" v-text="price(order.discount_amount)" />
+        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right">
+          {{ order.discount_amount | round | price }}
+        </div>
         <div class="t-w-2/3 lg:t-w-3/4 t-px-2 t-text-right t-text-lg t-font-bold t-text-base-darkest t-mt-2" v-text="$t('Grand total')" />
-        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right t-text-lg t-font-bold t-text-base-darkest t-mt-2" v-text="price(order.grand_total)" />
+        <div class="t-w-1/3 lg:t-w-1/4 t-px-2 t-text-right t-text-lg t-font-bold t-text-base-darkest t-mt-2">
+          {{ order.grand_total | round | price }}
+        </div>
       </div>
     </div>
   </div>
@@ -136,7 +146,6 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from 'icmaa-url/helpers'
-import { price } from 'icmaa-config/helpers/price'
 import i18n from '@vue-storefront/i18n'
 import Headline from 'theme/components/core/blocks/MyAccount/Headline'
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
@@ -184,13 +193,12 @@ export default {
     }
   },
   methods: {
-    price,
     getProduct (orderItem) {
       if (!this.order || !this.order.products) {
         return false
       }
 
-      return this.order.products.find(p => p.id === orderItem.product_id) || false
+      return this.order.products.find(p => p.id.toString() === orderItem.product_id.toString()) || false
     },
     getProductOptions (orderItem) {
       if (!this.order || !this.order.products) {
