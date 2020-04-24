@@ -2,7 +2,7 @@
   <div>
     <SfHeading
       :level="3"
-      title="Order review"
+      title="Order details"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion first-open class="accordion mobile-only">
@@ -111,11 +111,6 @@
         </SfTableData>
       </SfTableRow>
     </SfTable>
-    <SfHeading
-      :level="3"
-      title="Order details"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
     <div class="summary">
       <div class="summary__group">
         <div class="summary__total">
@@ -123,28 +118,19 @@
             name="Subtotal"
             :value="totals.subtotal"
             class="sf-property--full-width property"
-          >
-            <template #name>
-              <span class="property__name">Subtotal</span>
-            </template>
-          </SfProperty>
+          />
           <SfProperty
             name="Shipping"
             :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
             class="sf-property--full-width property"
-          >
-            <template #name>
-              <span class="property__name">Shipping</span>
-            </template>
-          </SfProperty>
-          <SfProperty
-            name="Total"
-            :value="totals.total"
-            class="sf-property--full-width property--huge summary__property-total"
-          >
-            <template #name>TOTAL</template>
-          </SfProperty>
+          />
         </div>
+        <SfDivider />
+        <SfProperty
+          name="Total price"
+          :value="totals.total"
+          class="sf-property--full-width sf-property--large summary__property-total"
+        />
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
@@ -152,16 +138,18 @@
             </div>
           </template>
         </SfCheckbox>
-      </div>
-      <div class="summary__group">
-        <SfButton class="color-secondary form__back-button" @click="$emit('click:back')">
-          Go back
-        </SfButton>
-        <SfButton class="form__action-button" @click="processOrder">
-          Place my order
-        </SfButton>
+          <div class="summary__action">
+          <!-- TODO: add nuxt link for navigating back and forward -->
+          <SfButton class="color-secondary summary__back-button">
+            Go back
+          </SfButton>
+          <SfButton class="summary__action-button" @click="$emit('nextStep')">
+            Continue to shipping
+          </SfButton>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -171,6 +159,7 @@ import {
   SfTable,
   SfCheckbox,
   SfButton,
+  SfDivider,
   SfImage,
   SfIcon,
   SfPrice,
@@ -187,6 +176,7 @@ export default {
     SfTable,
     SfCheckbox,
     SfButton,
+    SfDivider,
     SfImage,
     SfIcon,
     SfPrice,
@@ -239,7 +229,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .title {
-   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+   margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
 }
 .form {
   @include for-desktop {
@@ -297,13 +287,11 @@ export default {
 .table {
   margin: 0 0 var(--spacer-xl) 0;
   &__header {
-    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
     @include for-desktop {
       text-align: center;
     }
   }
   &__data {
-    font: 300 var(--font-sm) / 1.6 var(--font-family-secondary);
     @include for-desktop {
       text-align: center;
     }
@@ -322,6 +310,7 @@ export default {
     }
   }
 }
+
 .product-sku {
   color: var(--c-text-muted);
   font-size: var(--font-xs);
@@ -334,53 +323,46 @@ export default {
 }
 .summary {
   background: var(--c-light);
-  margin: 0 calc(var(--spacer-xl) * -1);
-  padding: var(--spacer-xl);
   @include for-desktop {
     background: transparent;
   }
   &__group {
     @include for-desktop {
-      display: flex;
       margin: 0 0 var(--spacer-2xl) 0;
     }
   }
   &__terms {
-    flex: 1;
-    order: -1;
-    margin: 0 0 var(--spacer-xl) 0;
+    margin: var(--spacer-base) 0 0 0;
   }
   &__total {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-sm) 0;
     padding: 0 var(--spacer-xl);
     flex: 0 0 16.875rem;
     @include for-desktop {
       padding: 0;
     }
   }
+  &__action {
+    display: flex;
+    margin: var(--spacer-2xl) 0 0 0;
+  }
+
   &__action-button {
     &--secondary {
-      margin: var(--spacer-xl) 0;
       @include for-desktop {
-        order: -1;
-        margin: 0;
-        text-align: left;
+        text-align: right;
       }
     }
   }
+  &__back-button {
+    margin: 0 var(--spacer-xl) 0 0;
+  }
   &__property-total {
-    --property-name-font: 500 var(--font-lg) / 1.6
-      var(--font-family-secondary);
-    --property-value-font: 500 var(--font-lg) / 1.6
-      var(--font-family-secondary);
     margin: var(--spacer-xl) 0 0 0;
-    text-transform: uppercase;
-    font: 500 var(--font-lg) / 1.6 var(--font-family-secondary);
   }
 }
 .property {
-  margin: 0 0 var(--spacer-xl) 0;
-  font: 400 var(--font-base) / 1.6 var(--font-family-secondary);
+  margin: 0 0 var(--spacer-sm) 0;
   &__name {
     color: var(--c-text-muted);
   }
@@ -400,7 +382,6 @@ export default {
 }
 .content {
   margin: 0 0 var(--spacer-xl) 0;
-  font: 300 var(--font-size-mall) / 1.6 var(--font-family-secondary);
   color: var(--c-text);
   &:last-child {
     margin: 0;

@@ -201,7 +201,7 @@ export default {
     }
   }
   &__back-button {
-    margin: 0 var(--spacer-sm) 0 0;
+    margin: 0 var(--spacer-xl) 0 0;
   }
   &__button {
     --button-width: 100%;

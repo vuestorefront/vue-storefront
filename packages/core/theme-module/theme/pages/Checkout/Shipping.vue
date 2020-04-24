@@ -176,7 +176,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
 }
 .form {
   @include for-desktop {
@@ -220,7 +220,7 @@ export default {
     }
   }
   &__back-button {
-    margin: 0 var(--spacer-sm) 0 0;
+    margin: 0 var(--spacer-xl) 0 0;
   }
   &__button {
     --button-width: 100%;
