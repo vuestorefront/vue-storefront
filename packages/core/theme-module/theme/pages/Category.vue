@@ -127,14 +127,14 @@
                   <SfListItem>
                     <SfMenuItem :label="cat.label">
                       <template #label>
-                        <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="localePath(getCategoryUrl(cat.slug))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
                   <SfListItem v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :label="subCat.label">
                       <template #label="{ label }">
-                        <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="localePath(getCategoryUrl(subCat.slug))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -164,7 +164,7 @@
             :score-rating="3"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
         </transition-group>
@@ -189,7 +189,7 @@
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </transition-group>
         <SfPagination

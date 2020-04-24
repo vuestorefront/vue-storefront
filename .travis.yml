@@ -36,6 +36,7 @@ before_install:
 
 install:
   - yarn
+  - yarn link-packages
 
 jobs:
   include:

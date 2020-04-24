@@ -38,6 +38,7 @@
     "dev:ayc": "cd packages/about-you/theme && yarn dev",
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
+    "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue"
   },
   "devDependencies": {
@@ -78,7 +79,9 @@
       "packages/about-you/*"
     ],
     "nohoist": [
-      "**/**/**"
+      "**/**/api-client/**",
+      "**/**/composables/**",
+      "**/**/theme/**"
     ]
   },
   "husky": {
