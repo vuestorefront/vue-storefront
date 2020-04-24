@@ -79,9 +79,7 @@
       "packages/about-you/*"
     ],
     "nohoist": [
-      "**/**/api-client/**",
-      "**/**/composables/**",
-      "**/**/theme/**"
+      "**/**/**"
     ]
   },
   "husky": {
