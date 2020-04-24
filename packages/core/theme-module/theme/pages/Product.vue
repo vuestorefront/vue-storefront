@@ -33,7 +33,7 @@
         <SfSticky class="product-details">
           <SfHeading
             :title="productGetters.getName(product)"
-            :level="3"
+            :level="1"
             class="sf-heading--no-underline sf-heading--left product-details__heading"
           />
           <div class="product-details__sub">
