@@ -123,7 +123,10 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-xl) 0;
+ margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .log-in {
   &__info {
@@ -188,16 +191,19 @@ export default {
     margin: var(--spacer-xl) 0 var(--spacer-lg) 0;
   }
   &__action {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       flex: 0 0 100%;
-      display: flex;
+      flex-direction: row;
+      margin: 0;
     }
   }
   &__action-button {
-    &--secondary {
-      @include for-desktop {
-        text-align: right;
-      }
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0;
     }
   }
   &__back-button {

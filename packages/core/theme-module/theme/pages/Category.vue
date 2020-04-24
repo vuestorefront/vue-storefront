@@ -615,6 +615,10 @@ export default {
   &__list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
   }
   &__product-card {
     --product-card-padding: var(--spacer);

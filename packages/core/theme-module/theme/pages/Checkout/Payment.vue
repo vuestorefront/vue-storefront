@@ -187,7 +187,10 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .form {
   @include for-desktop {
@@ -254,7 +257,7 @@ export default {
 }
 .payment-method {
   --radio-container-align-items: center;
-  --ratio-content-margin: 0 0 0 var(--spacer);
+  --ratio-content-margin: 0 0 0 var(--spacer-base);
   --radio-label-font-size: var(--font-base);
   white-space: nowrap;
   border: 1px solid var(--c-light);

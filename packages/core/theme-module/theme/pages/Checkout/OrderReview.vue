@@ -229,7 +229,10 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .title {
-   margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .form {
   @include for-desktop {
@@ -343,8 +346,10 @@ export default {
     }
   }
   &__action {
-    display: flex;
+    @include for-desktop {
+      display: flex;
     margin: var(--spacer-2xl) 0 0 0;
+    }
   }
 
   &__action-button {

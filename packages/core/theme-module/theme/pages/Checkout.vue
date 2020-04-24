@@ -108,7 +108,10 @@ export default {
     }
   }
   &__steps {
-    --steps-content-padding: 0;
+    --steps-content-padding: 0 var(--spacer-base);
+    @include for-desktop {
+      --steps-content-padding: 0;
+    }
   }
 }
 </style>

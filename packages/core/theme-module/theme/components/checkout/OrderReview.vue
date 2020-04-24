@@ -105,7 +105,10 @@ export default {
   }
 }
 .title {
-  margin-bottom: var(--spacer-2xl);
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .content {
   margin: 0 0 var(--spacer-xl) 0;
