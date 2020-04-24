@@ -932,7 +932,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
 <a href="https://www.hotwax.co/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/HotWax.png"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/hotwax-logo.png"
             alt="HotWax"
             height="40"
           >
@@ -1003,18 +1003,18 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
-    <a href="">
+    <a href="https://www.netsteps.gr/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/netsteps_logo_color.png"
+            alt="Netsteps"
             height="40"
           >
         </a>
 </td>
    <td align="center" valign="middle">
-<a href="">
+<a href="https://www.theretailinsights.com">
           <img
-            src=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/Retailinsights-logo.png"
             alt=""
             height="40"
           >
