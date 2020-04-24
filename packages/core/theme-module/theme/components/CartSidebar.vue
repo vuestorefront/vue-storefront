@@ -167,11 +167,11 @@ export default {
   }
   &__label {
     margin: var(--spacer-2xl) 0 0 0;
-    font: 400 var(--font-lg) / 1.6 var(--font-family-secondary);
+    font: var(--font-normal) var(--font-lg) / 1.6 var(--font-family-secondary);
   }
   &__description {
     margin: var(--spacer-xl) 0 0 0;
-    font: 300 var(--font-base) / 1.6 var(--font-family-primary);
+    font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
   }
   &__icon {
     width: 18.125rem;
