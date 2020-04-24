@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
 - Use same data format in getConfigurationMatchLevel - @gibkigonzo (#4208)
 - removed possible memory leak in ssr - @resubaka (#4247)
+- Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
 - Bugfix for build exception in Node v13.13+ - @cewald (#4249)
 
 ### Changed / Improved
