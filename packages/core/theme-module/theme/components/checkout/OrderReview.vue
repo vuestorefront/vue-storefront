@@ -114,7 +114,7 @@ export default {
   margin: 0 0 var(--spacer-xl) 0;
   color: var(--c-text);
   font-size: var(--font-xs-desktop);
-  font-weight: 300;
+  font-weight: var(--font-light);
   line-height: 1.6;
   &:last-child {
     margin: 0;

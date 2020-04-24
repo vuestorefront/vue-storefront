@@ -208,7 +208,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
+  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
   & > * {
     margin: 0 0 0 var(--spacer-xs);
   }
@@ -217,8 +217,7 @@ export default {
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
 }
 .bottom {
-  padding: var(--spacer-2xl) 0 0 0;
-  margin: var(--spacer-2xl) 0 0 0;
+  padding: var(--spacer-xl) 0 0 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
 }
