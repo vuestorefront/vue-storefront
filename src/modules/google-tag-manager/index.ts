@@ -10,7 +10,7 @@ import { afterRegistration, isEnabled } from './hooks/afterRegistration'
 
 export const KEY = 'google-tag-manager'
 
-export const GoogleTagManagerModule: StorefrontModule = function ({store, router, appConfig}) {
+export const GoogleTagManagerModule: StorefrontModule = function ({ store, router, appConfig }) {
   if (isEnabled(appConfig.googleTagManager.id)) {
     once('__VUE_EXTEND_GTM__', () => {
       Vue.use(VueGtm, {

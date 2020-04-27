@@ -57,14 +57,14 @@ export default {
       this.isOpen = false
     },
     setVisited () {
-      this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
+      this.$store.dispatch('claims/set', { claimCode: 'cookiesAccepted', value: true })
     }
   },
   mounted () {
-    this.$store.dispatch('claims/check', {claimCode: 'cookiesAccepted'}).then((cookieClaim) => {
+    this.$store.dispatch('claims/check', { claimCode: 'cookiesAccepted' }).then((cookieClaim) => {
       if (!cookieClaim) {
         this.isOpen = true
-        this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: false})
+        this.$store.dispatch('claims/set', { claimCode: 'cookiesAccepted', value: false })
       } else {
         this.isOpen = !cookieClaim.value
       }

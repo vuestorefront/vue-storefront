@@ -15,7 +15,7 @@ const PaymentBackendMethodsStore = {
   }
 }
 
-export const PaymentBackendMethodsModule: StorefrontModule = function ({store}) {
+export const PaymentBackendMethodsModule: StorefrontModule = function ({ store }) {
   store.registerModule('payment-backend-methods', PaymentBackendMethodsStore)
 
   let correctPaymentMethod = false

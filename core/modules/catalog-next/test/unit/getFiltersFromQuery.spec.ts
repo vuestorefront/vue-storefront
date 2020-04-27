@@ -91,7 +91,7 @@ describe('getFiltersFromQuery method', () => {
     const filtersQuery = {
       color: '49'
     }
-    const result = getFiltersFromQuery({availableFilters, filtersQuery})
+    const result = getFiltersFromQuery({ availableFilters, filtersQuery })
     expect(result).toEqual({
       filters: {
         color: [
@@ -110,7 +110,7 @@ describe('getFiltersFromQuery method', () => {
     const filtersQuery = {
       color: ['49', '50']
     }
-    const result = getFiltersFromQuery({availableFilters, filtersQuery})
+    const result = getFiltersFromQuery({ availableFilters, filtersQuery })
     expect(result).toEqual({
       filters: {
         color: [
@@ -135,7 +135,7 @@ describe('getFiltersFromQuery method', () => {
     const filtersQuery = {
       color: '111'
     }
-    const result = getFiltersFromQuery({availableFilters, filtersQuery})
+    const result = getFiltersFromQuery({ availableFilters, filtersQuery })
     expect(result).toEqual({
       filters: {}
     })
@@ -145,7 +145,7 @@ describe('getFiltersFromQuery method', () => {
     const filtersQuery = {
       sort: 'updated_at'
     }
-    const result = getFiltersFromQuery({availableFilters, filtersQuery})
+    const result = getFiltersFromQuery({ availableFilters, filtersQuery })
     expect(result).toEqual({
       filters: {},
       sort: 'updated_at'

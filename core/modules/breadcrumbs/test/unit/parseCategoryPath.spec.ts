@@ -19,7 +19,7 @@ describe('parseCategoryPath method', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: ''}));
+      (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: '' }));
       categories = [
         {
           path: '1/2',
@@ -90,7 +90,7 @@ describe('parseCategoryPath method', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: ''}));
+      (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: '' }));
       categories = [
         {
           path: '1/2',

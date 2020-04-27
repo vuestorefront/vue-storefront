@@ -33,7 +33,7 @@ export default {
       this.$store.dispatch('cart/configureItem', { product: this.product, configuration })
     },
     getEditedProduct (filter = {}) {
-      const selectedFilters = {...this.getSelectedOptions, [filter.type]: filter}
+      const selectedFilters = { ...this.getSelectedOptions, [filter.type]: filter }
       const sizeId = get(selectedFilters, 'size.id', '')
       const colorId = get(selectedFilters, 'color.id', '')
       const children = this.product.configurable_children || []

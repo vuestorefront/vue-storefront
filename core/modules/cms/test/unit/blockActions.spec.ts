@@ -28,7 +28,7 @@ describe('Block actions', () => {
       const filter = {};
       const items = ['item1', 'item2', 'item3'];
 
-      (quickSearchByQuery as any).mockResolvedValue({items});
+      (quickSearchByQuery as any).mockResolvedValue({ items });
 
       const wrapper = (actions: any) => actions.list(contextMock, filter)
       let listAction = await wrapper(blockActions)
@@ -75,7 +75,7 @@ describe('Block actions', () => {
       }
       const filter = {};
 
-      (quickSearchByQuery as any).mockResolvedValue({items: ['item1', 'item2']});
+      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1', 'item2'] });
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(blockActions)
@@ -87,7 +87,7 @@ describe('Block actions', () => {
     it('should add single block if cache is NOT skipped', async () => {
       const contextMock = {
         commit: jest.fn(),
-        getters: { findCmsBlocks: jest.fn(() => [{key: 'key1', value: 'val1'}]) }
+        getters: { findCmsBlocks: jest.fn(() => [{ key: 'key1', value: 'val1' }]) }
       }
       const filter = { skipCache: true };
 
@@ -105,7 +105,7 @@ describe('Block actions', () => {
         commit: jest.fn(),
         getters: { findCmsBlocks: jest.fn(() => [{ test: 'val1' }]) }
       }
-      const filter = {key: 'test', value: 'val1'};
+      const filter = { key: 'test', value: 'val1' };
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(blockActions)
