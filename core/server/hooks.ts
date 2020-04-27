@@ -26,7 +26,7 @@ const {
 const {
   hook: afterCacheInvalidatedHook,
   executor: afterCacheInvalidatedExecutor
-} = createListenerHook<afterCacheInvalidatedParamter>()
+} = createListenerHook<AfterCacheInvalidatedParamter>()
 
 // beforeStartApp
 interface Extend {
