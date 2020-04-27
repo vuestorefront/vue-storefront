@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.6.4",
-    "@vue-storefront/commercetools": "^0.0.3",
-    "@vue-storefront/commercetools-api": "^0.0.3",
+    "@vue-storefront/commercetools": "canary",
+    "@vue-storefront/commercetools-api": "canary",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "cookie-universal-nuxt": "^2.1.3",

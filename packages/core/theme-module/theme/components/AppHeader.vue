@@ -6,23 +6,23 @@
     :cartItemsQty="cartTotalItems"
     >
     <template #logo>
-      <nuxt-link to="/" class="sf-header__logo">
+      <nuxt-link :to="localePath('/')" class="sf-header__logo">
         <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
       </nuxt-link>
     </template>
     <template #navigation>
       <SfHeaderNavigationItem>
-        <nuxt-link to="/c/women">
+        <nuxt-link :to="localePath('/c/women')">
           WOMEN
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
-        <nuxt-link to="/c/men">
+        <nuxt-link :to="localePath('/c/men')">
           MEN
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
-        <nuxt-link to="/c/kids">
+        <nuxt-link :to="localePath('/c/kids')">
           KIDS
         </nuxt-link>
       </SfHeaderNavigationItem>
