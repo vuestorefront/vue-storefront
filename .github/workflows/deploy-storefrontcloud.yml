@@ -5,8 +5,30 @@ on:
       - next
       - release/next
 jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/next'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+          registry-url: https://registry.npmjs.org/
+      - name: Build packages
+        run: |
+          yarn
+          yarn build:core
+          yarn build:ct
+      - name: Publish canary version
+        run: |
+          yarn lerna publish --canary --force-publish --yes --preid prealpha --dist-tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
   build:
     runs-on: ubuntu-latest
+    needs: publish
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
