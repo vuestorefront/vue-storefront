@@ -10,6 +10,7 @@ export const getCategoryTree = (category: BapiCategory): AgnosticCategoryTree | 
   return {
     label: category.name,
     slug: category.slug,
+    path: category.path,
     items: category.children ? category.children.map(getCategoryTree) : []
   };
 };

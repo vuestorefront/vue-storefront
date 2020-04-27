@@ -60,6 +60,7 @@
     "jest": "^24.9.0",
     "lerna": "^3.15.0",
     "lint-staged": "^10.0.7",
+    "rimraf": "^3.0.2",
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
