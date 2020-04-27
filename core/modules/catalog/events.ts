@@ -18,7 +18,7 @@ export const productAfterPriceupdate = async (product, store) => {
 export const filterChangedProduct = async (filterOption, store, router) => {
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: store.getters['product/getCurrentProductConfiguration'] })
   const prevOption = store.getters['product/getCurrentProductConfiguration'][filterOption.attribute_code]
-  let changedConfig = Object.assign({}, store.getters['product/getCurrentProductConfiguration'], {[filterOption.attribute_code]: filterOption})
+  let changedConfig = Object.assign({}, store.getters['product/getCurrentProductConfiguration'], { [filterOption.attribute_code]: filterOption })
   const selectedVariant = await store.dispatch('product/configure', {
     product: store.getters['product/getCurrentProduct'],
     configuration: changedConfig,
@@ -27,7 +27,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     setProductErorrs: true
   }, { root: true })
   if (config.products.setFirstVarianAsDefaultInURL) {
-    router.push({params: { childSku: selectedVariant.sku }})
+    router.push({ params: { childSku: selectedVariant.sku } })
   }
   if (!selectedVariant) {
     if (prevOption) {
@@ -53,7 +53,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
       message: i18n.t(
         'No such configuration for the product. Please do choose another combination of attributes.'
       ),
-      action1: {label: i18n.t('OK')}
+      action1: { label: i18n.t('OK') }
     })
   }
 }

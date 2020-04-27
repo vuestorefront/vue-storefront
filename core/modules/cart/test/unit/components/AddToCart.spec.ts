@@ -10,7 +10,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
-jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
+jest.mock('@vue-storefront/i18n', () => ({ loadLanguageAsync: jest.fn() }))
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: jest.fn()
 }));

@@ -23,11 +23,11 @@
               type="radio"
               class="m0 no-outline"
               :name="('customOption_' + option.option_id)"
-              :id="('customOption_' + opval.option_type_id)"
+              :id="('customOption_' + option.option_id + '_' + opval.option_type_id)"
               focus
               :value="opval.option_type_id"
               v-model="inputValues[('customOption_' + option.option_id)]"
-            ><label class="pl10 lh20 h4 pointer" :for="('customOption_' + opval.option_type_id)" v-html="opval.title" />
+            ><label class="pl10 lh20 h4 pointer" :for="('customOption_' + option.option_id +'_' + opval.option_type_id)" v-html="opval.title" />
           </div>
         </div>
         <div v-if="option.type === 'checkbox'">

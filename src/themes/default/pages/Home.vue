@@ -48,11 +48,11 @@ import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-import {Logger} from '@vue-storefront/core/lib/logger'
-import {mapGetters} from 'vuex'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import { mapGetters } from 'vuex'
 import config from 'config'
-import {registerModule} from '@vue-storefront/core/lib/modules'
-import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 
 export default {
   data () {

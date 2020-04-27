@@ -1107,7 +1107,7 @@ describe('Order actions', () => {
         (task)
       );
       const contextMock = createContextMock();
-      const order = {'transmited': true}
+      const order = { 'transmited': true }
       const order1 = {
         order_id: 'orderId',
         created_at: '10-29-2019',

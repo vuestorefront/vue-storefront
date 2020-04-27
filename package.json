@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -125,7 +125,7 @@
     "detect-installed": "^2.0.4",
     "empty-dir": "^1.0.0",
     "eslint": "^5.0.0",
-    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.13.0",

@@ -11,7 +11,7 @@ import { filterChangedProduct, productAfterCustomoptions, productAfterBundleopti
 import { isServer } from '@vue-storefront/core/helpers'
 import uniq from 'lodash-es/uniq'
 
-export const CatalogModule: StorefrontModule = async function ({store, router, appConfig}) {
+export const CatalogModule: StorefrontModule = async function ({ store, router, appConfig }) {
   StorageManager.init('categories')
   StorageManager.init('attributes')
   StorageManager.init('products')
