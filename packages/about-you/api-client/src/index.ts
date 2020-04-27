@@ -3,7 +3,7 @@
 import { apiClientFactory } from '@vue-storefront/core';
 import { BapiClient } from '@aboutyou/backbone';
 
-let apiClient: BapiClient|null = null;
+let apiClient: BapiClient | null = null;
 
 const { setup, override, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {
@@ -16,11 +16,12 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
   },
   onSetup: (setupConfig) => {
     // todo: add possibility to override
-    console.log(setupConfig);
     apiClient = new BapiClient({
       host: setupConfig.api.host,
-      auth: { username: setupConfig.api.auth.username,
-        password: setupConfig.api.auth.password },
+      auth: {
+        username: setupConfig.api.auth.username,
+        password: setupConfig.api.auth.password
+      },
       shopId: setupConfig.api.shopId
     });
   }
