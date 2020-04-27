@@ -35,7 +35,7 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   }
 
   if (currentToken) {
-    const tokenIntrospection = await sdkAuth.introspectToken(currentToken);
+    const tokenIntrospection = await sdkAuth.introspectToken(currentToken.access_token);
 
     if (tokenIntrospection.active) {
       return Promise.resolve(currentToken);
