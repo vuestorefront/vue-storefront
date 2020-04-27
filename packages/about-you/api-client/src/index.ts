@@ -14,14 +14,14 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
     currencies: [],
     locales: []
   },
-  onSetup: () => {
+  onSetup: (setupConfig) => {
     // todo: add possibility to override
-    // todo: move credentials to settings
+    console.log(setupConfig);
     apiClient = new BapiClient({
-      host: 'https://boston.backbone-api.demo.aboutyou.cloud/v1/',
-      auth: { username: 'aboutyou',
-        password: 'OmNErAb96Y5Qn75SFhXr' },
-      shopId: 121
+      host: setupConfig.api.host,
+      auth: { username: setupConfig.api.auth.username,
+        password: setupConfig.api.auth.password },
+      shopId: setupConfig.api.shopId
     });
   }
 });
