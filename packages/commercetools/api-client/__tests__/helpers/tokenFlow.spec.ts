@@ -13,12 +13,17 @@ const passwordFlowMock = jest.fn(() => ({
   refresh_token: 'user refresh token'
 }));
 
+const introspectTokenMock = jest.fn(() => ({
+  active: true
+}));
+
 jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
   getTokenInfo: () => tokenInfo
 }));
 jest.spyOn(sdk, 'default').mockImplementation(() => ({
   anonymousFlow: anonymousFlowMock,
-  customerPasswordFlow: passwordFlowMock
+  customerPasswordFlow: passwordFlowMock,
+  introspectToken: introspectTokenMock
 }));
 
 const config = {
@@ -39,6 +44,7 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates anonymous access token when there is no token  set', async () => {
+    introspectTokenMock.mockReturnValueOnce({ active: false });
     const token = await createAccessToken();
 
     expect(token).toEqual({
@@ -48,14 +54,10 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates anonymous access token when token is invalid', async () => {
-    const token1 = await createAccessToken({ currentToken: null } as any);
-    const token2 = await createAccessToken({ currentToken: {} } as any);
+    introspectTokenMock.mockReturnValueOnce({ active: false });
+    const token = await createAccessToken({ currentToken: null } as any);
 
-    expect(token1).toEqual({
-      access_token: 'anonymous token',
-      refresh_token: 'anonymous refresh token'
-    });
-    expect(token2).toEqual({
+    expect(token).toEqual({
       access_token: 'anonymous token',
       refresh_token: 'anonymous refresh token'
     });
