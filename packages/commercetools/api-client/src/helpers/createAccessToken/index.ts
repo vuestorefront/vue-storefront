@@ -34,10 +34,12 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
     return sdkAuth.customerPasswordFlow(options.customerCredentials);
   }
 
-  const tokenIntrospection = await sdkAuth.introspectToken(currentToken);
+  if (currentToken) {
+    const tokenIntrospection = await sdkAuth.introspectToken(currentToken);
 
-  if (tokenIntrospection.active) {
-    return Promise.resolve(currentToken);
+    if (tokenIntrospection.active) {
+      return Promise.resolve(currentToken);
+    }
   }
 
   return sdkAuth.anonymousFlow();
