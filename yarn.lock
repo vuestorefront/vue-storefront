@@ -2344,40 +2344,9 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@vue-storefront/commercetools-api@canary":
-  version "0.0.4-prealpha.312"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.4-prealpha.312.tgz#e3d84f82ab5322e3c5e9372b729e13e787faa322"
-  dependencies:
-    "@commercetools/sdk-auth" "^3.0.1"
-    apollo-cache-inmemory "^1.6.3"
-    apollo-client "^2.6.4"
-    apollo-link "^1.2.13"
-    apollo-link-context "^1.0.19"
-    apollo-link-http "^1.5.16"
-    graphql "^14.5.8"
-    graphql-tag "^2.10.1"
-    isomorphic-fetch "^2.2.1"
-
-"@vue-storefront/commercetools@canary":
-  version "0.0.4-prealpha.312"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools/-/commercetools-0.0.4-prealpha.312.tgz#ca872c1163df605c758af9f58094c879f60cc8ee"
-  dependencies:
-    "@vue-storefront/commercetools-api" canary
-    "@vue-storefront/core" "2.0.1-prealpha.300"
-    "@vue/composition-api" "^0.3.4"
-    js-cookie "^2.2.1"
-    vue "^2.6.x"
-
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
-  dependencies:
-    "@vue/composition-api" "^0.4.0"
-    vue "^2.6.11"
-
-"@vue-storefront/core@canary":
-  version "2.0.1-prealpha.335"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.335.tgz#4c69dbc365c183900281e020ae1420091a3ce77d"
   dependencies:
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"
