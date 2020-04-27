@@ -432,7 +432,7 @@ Now it mirrors `core/` folder structure, which is desired behaviour.
 
 We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
 
-**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
+**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `yarn migrate` in the `vue-storefront-api` folder.
 
 ### Default storage of the shopping carts and user data moved to localStorage
 

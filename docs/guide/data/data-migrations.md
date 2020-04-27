@@ -11,7 +11,7 @@ Vue Storefront uses a data-migration mechanism based on [node-migrate](https://g
 We use node-migrate, which is pre-configured with npm, so we're using the following alias:
 
 ```bash
-npm run migrate
+yarn migrate
 ```
 
 which runs the migrations against `migrations` folder.
@@ -21,7 +21,7 @@ which runs the migrations against `migrations` folder.
 You can add a new migration by simply adding a file to the `migrations` directory (not recommended) or using the command line tool:
 
 ```bash
-npm run migrate create name-of-my-migration
+yarn migrate create name-of-my-migration
 ```
 
 The tool automatically generates the file under the `migrations` folder.
