@@ -19,4 +19,6 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   };
 };
 
-export default mapProductSearchByQueryParams;
+export {
+  mapProductSearchByQueryParams
+};
