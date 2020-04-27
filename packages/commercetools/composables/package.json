@@ -1,6 +1,7 @@
 {
   "name": "@vue-storefront/commercetools",
   "version": "0.0.3",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -11,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "canary",
+    "@vue-storefront/commercetools-api": "^0.0.3",
     "@vue-storefront/core": "canary",
     "@vue/composition-api": "^0.3.4",
     "js-cookie": "^2.2.1",
