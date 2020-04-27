@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { apiClientFactory } from '@vue-storefront/core';
+import { SetupConfig } from './types/setup';
 import { BapiClient } from '@aboutyou/backbone';
 
 let apiClient: BapiClient | null = null;
@@ -14,7 +15,7 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
     currencies: [],
     locales: []
   },
-  onSetup: (setupConfig) => {
+  onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
     apiClient = new BapiClient({
       host: setupConfig.api.host,
