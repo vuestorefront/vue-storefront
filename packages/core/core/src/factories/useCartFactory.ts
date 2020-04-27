@@ -39,7 +39,7 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
   return function useCart(): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
     const { initialState, saveToInitialState } = useSSR('vsf-cart');
 
-    factoryParams.cart.value = initialState || null;
+    factoryParams.cart.value = factoryParams.cart.value || initialState || null;
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;

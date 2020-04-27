@@ -1,9 +1,10 @@
 /* istanbul ignore file */
 
 import { apiClientFactory } from '@vue-storefront/core';
+import { SetupConfig } from './types/setup';
 import { BapiClient } from '@aboutyou/backbone';
 
-let apiClient: BapiClient|null = null;
+let apiClient: BapiClient | null = null;
 
 const { setup, override, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {
@@ -14,14 +15,15 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
     currencies: [],
     locales: []
   },
-  onSetup: () => {
+  onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
-    // todo: move credentials to settings
     apiClient = new BapiClient({
-      host: 'https://boston.backbone-api.demo.aboutyou.cloud/v1/',
-      auth: { username: 'aboutyou',
-        password: 'OmNErAb96Y5Qn75SFhXr' },
-      shopId: 121
+      host: setupConfig.api.host,
+      auth: {
+        username: setupConfig.api.auth.username,
+        password: setupConfig.api.auth.password
+      },
+      shopId: setupConfig.api.shopId
     });
   }
 });

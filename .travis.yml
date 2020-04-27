@@ -88,21 +88,3 @@ jobs:
     # - stage: lighthouse
     #   name: commercetools
     #   script: lhci autorun --rc-overrides.upload.target=temporary-public-storage --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000 --collect.startServerReadyPattern="Listening"
-
-    - build_image:
-      if: branch = master AND type != pull_request
-      name: "Build docker image"
-      stage: docker build
-      script:
-        - travis_wait 30 docker build --build-arg COMMIT -t registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT -f dev/docker/Dockerfile .
-        - echo $DOCKER_PASSWORD | docker login  -u="$DOCKER_USERNAME" --password-stdin registry.storefrontcloud.io
-        - docker push registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT
-        - curl $COMMIT.vsf-next-demo.preview.storefrontcloud.io
-        - echo "This commit preview is available here $COMMIT.vsf-next-demo.preview.storefrontcloud.io"
-
-    - deploy_to_storefrontcloud:
-      if: branch = master AND type != pull_request
-      name: "Deploy to StorefrontCloud"
-      stage: deploy
-      script:
-        - "curl -u $CLOUD_USERNAME:$CLOUD_PASSWORD -H 'Content-Type: application/json' -X POST -d \"{\\\"code\\\":\\\"vsf-next-demo\\\", \\\"frontContainerVersion\\\":\\\"$COMMIT\\\"}\" https://farmer.storefrontcloud.io/instances"
