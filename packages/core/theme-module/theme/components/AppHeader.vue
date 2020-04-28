@@ -5,6 +5,7 @@
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
     >
+    <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
       <nuxt-link :to="localePath('/')" class="sf-header__logo">
         <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
@@ -50,7 +51,7 @@ export default {
     const { cart } = useCart();
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
-      // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/922
+      // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/1061
       return count ? count.toString() : null;
     });
     return {

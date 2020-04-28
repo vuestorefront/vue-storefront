@@ -6,7 +6,7 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <h1 class="navbar__title">{{ $t('Categories') }}</h1>
+        <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
       </div>
       <div class="navbar__main">
         <SfButton
@@ -44,12 +44,12 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="sort-by" v-model="sortBy">
+          <SfSelect  v-model="sortBy">
             <SfSelectOption
               v-for="option in sortByOptions"
               :key="option.value"
               :value="option.value"
-              class="sort-by__option"
+              class="sort__option"
               >{{ option.label }}</SfSelectOption
             >
           </SfSelect>
@@ -60,43 +60,28 @@
           <span class="navbar__label mobile-only">{{ totalProducts }} Items</span>
         </div>
         <div class="navbar__view desktop-only">
-          <span>View </span>
+          <span class="navbar__view-label">View</span>
           <SfIcon
             class="navbar__view-icon"
             :color="isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="10px"
+            icon="tiles"
+            size="32px"
             role="button"
             aria-label="Change to grid view"
             :aria-pressed="isGridView"
             @click="isGridView = true"
           >
-            <svg viewBox="0 0 10 10">
-              <rect width="2" height="2" />
-              <rect y="4" width="2" height="2" />
-              <rect y="8" width="2" height="2" />
-              <rect x="4" width="2" height="2" />
-              <rect x="4" y="4" width="2" height="2" />
-              <rect x="4" y="8" width="2" height="2" />
-              <rect x="8" width="2" height="2" />
-              <rect x="8" y="4" width="2" height="2" />
-              <rect x="8" y="8" width="2" height="2" />
-            </svg>
           </SfIcon>
           <SfIcon
             class="navbar__view-icon"
             :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="11px"
+            icon="list"
+            size="32px"
             role="button"
             aria-label="Change to list view"
             :aria-pressed="!isGridView"
             @click="isGridView = false"
-          >
-            <svg viewBox="0 0 11 10">
-              <rect width="11" height="2" />
-              <rect y="8" width="11" height="2" />
-              <rect y="4" width="7" height="2" />
-            </svg>
-          </SfIcon>
+          />
         </div>
         <SfButton
           class="sf-button--text navbar__filters-button mobile-only"
@@ -123,15 +108,15 @@
               :header="cat.label"
             >
               <template>
-                <SfList>
-                  <SfListItem>
+                <SfList class="list">
+                  <SfListItem class="list__item">
                     <SfMenuItem :label="cat.label">
                       <template #label>
                         <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
-                  <SfListItem v-for="(subCat, j) in cat.items" :key="j">
+                  <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :label="subCat.label">
                       <template #label="{ label }">
                         <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
@@ -162,6 +147,7 @@
             :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
             :max-rating="5"
             :score-rating="3"
+            :show-add-to-cart-button="true"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -224,8 +210,12 @@
       title="Filters"
       @close="isFilterSidebarOpen = false"
     >
-      <div class="filters">
-        <h3 class="filters__title">Collection</h3>
+      <div class="filters desktop-only">
+        <SfHeading
+          :level="4"
+          title="Collection"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.collection"
           :key="filter.value"
@@ -235,7 +225,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Color</h3>
+        <SfHeading
+          :level="4"
+          title="Color"
+          class="filters__title sf-heading--left"
+        />
         <div class="filters__colors">
           <SfColor
             v-for="filter in filters.color"
@@ -246,7 +240,11 @@
             @click="filter.selected = !filter.selected"
           />
         </div>
-        <h3 class="filters__title">Size</h3>
+        <SfHeading
+          :level="4"
+          title="Size"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.size"
           :key="filter.value"
@@ -256,7 +254,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Price</h3>
+        <SfHeading
+          :level="4"
+          title="Price"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.price"
           :key="filter.value"
@@ -266,7 +268,11 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
-        <h3 class="filters__title">Material</h3>
+       <SfHeading
+          :level="4"
+          title="Material"
+          class="filters__title sf-heading--left"
+        />
         <SfFilter
           v-for="filter in filters.material"
           :key="filter.value"
@@ -276,6 +282,7 @@
           class="filters__item"
           @change="filter.selected = !filter.selected"
         />
+
         <div class="filters__buttons">
           <SfButton
             @click="isFilterSidebarOpen = false"
@@ -289,6 +296,63 @@
           >
         </div>
       </div>
+       <SfAccordion class="filters mobile-only">
+        <SfAccordionItem header="Collection" class="filters__accordion-item">
+          <SfFilter
+            v-for="filter in filters.collection"
+            :key="filter.value"
+            :label="filter.label"
+            :count="filter.count"
+            :selected="filter.selected"
+            class="filters__item"
+            @change="filter.selected = !filter.selected"
+          />
+        </SfAccordionItem>
+        <SfAccordionItem header="Color" class="filters__accordion-item">
+          <SfFilter
+            v-for="filter in filters.color"
+            :key="filter.value"
+            :label="filter.label"
+            :color="filter.color"
+            :selected="filter.selected"
+            class="filters__item"
+            @change="filter.selected = !filter.selected"
+          />
+        </SfAccordionItem>
+        <SfAccordionItem header="Size" class="filters__accordion-item">
+          <SfFilter
+            v-for="filter in filters.size"
+            :key="filter.value"
+            :label="filter.label"
+            :count="filter.count"
+            :selected="filter.selected"
+            class="filters__item"
+            @change="filter.selected = !filter.selected"
+          />
+        </SfAccordionItem>
+        <SfAccordionItem header="Price" class="filters__accordion-item">
+          <SfFilter
+            v-for="filter in filters.price"
+            :key="filter.value"
+            :label="filter.label"
+            :count="filter.count"
+            :selected="filter.selected"
+            class="filters__item"
+            @change="filter.selected = !filter.selected"
+          />
+        </SfAccordionItem>
+        <SfAccordionItem header="Material" class="filters__accordion-item">
+          <SfFilter
+            v-for="filter in filters.material"
+            :key="filter.value"
+            :value="filter.value"
+            :label="filter.label"
+            :selected="filter.selected"
+            class="filters__item"
+            @change="filter.selected = !filter.selected"
+          />
+        </SfAccordionItem>
+      </SfAccordion>
     </SfSidebar>
   </div>
 </template>
@@ -299,6 +363,7 @@ import {
   SfButton,
   SfList,
   SfIcon,
+  SfHeading,
   SfMenuItem,
   SfFilter,
   SfProductCard,
@@ -463,7 +528,8 @@ export default {
     SfSelect,
     SfBreadcrumbs,
     SfLoader,
-    SfColor
+    SfColor,
+    SfHeading
   }
 };
 </script>
@@ -477,93 +543,84 @@ export default {
     margin: 0 auto;
   }
 }
-.section {
-  padding: 0 var(--spacer-big);
-  @include for-desktop {
-    padding: 0;
+.main {
+  &.section {
+    padding: var(--spacer-xs);
+    @include for-desktop {
+      padding: 0;
+    }
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big)
-    var(--spacer-extra-big);
+  padding: var(--spacer-base) 0 var(--spacer-base)
+    var(--spacer-xs);
 }
 .navbar {
   position: relative;
   display: flex;
-  font: 300 var(--font-size-small) / 1.6 var(--body-font-family-primary);
+  border: 1px solid var(--c-light);
+  border-width: 0 0 1px 0;
   @include for-desktop {
-    border: 1px solid var(--c-light);
     border-width: 1px 0 1px 0;
   }
-  &::after {
-    position: absolute;
-    bottom: 0;
-    left: var(--spacer-big);
-    width: calc(100% - calc(var(--spacer-big) * 2));
-    height: 1px;
-    background: var(--c-light);
-    content: "";
+  &.section {
+    padding: var(--spacer-sm);
     @include for-desktop {
-      content: none;
+      padding: 0;
     }
   }
   &__aside,
   &__main {
     display: flex;
     align-items: center;
-    padding: var(--spacer-medium) 0;
-    font-size: var(--font-size-small);
-    line-height: 1.6;
-    @include for-desktop {
-      padding: var(--spacer-big) 0;
-    }
+    padding: var(--spacer-sm) 0;
   }
   &__aside {
     flex: 0 0 15%;
-    padding: var(--spacer-big) var(--spacer-extra-big);
+    padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
   &__main {
     flex: 1;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
+    }
   }
   &__title {
-    padding: 0;
-    font-size: var(--font-size-big);
-    font-family: var(--body-font-family-secondary);
-    font-weight: 500;
-    line-height: 1.6;
+    --heading-title-font-weight: var(--font-light);
+    --heading-title-font-size: var(--font-xl);
   }
   &__filters-button {
-    --button-text-decoration: none;
-    --button-font-weight: var(--body-font-weight-secondary);
-    --button-color: var(--c-text);
-    --button-transition: all 150ms linear;
     display: flex;
     align-items: center;
-    @include for-desktop {
-      margin: 0 0 0 var(--spacer-extra-big);
-    }
     svg {
       fill: var(--c-text-muted);
+      transition: fill 150ms ease;
     }
     &:hover {
-      --button-color: var(--c-primary);
       svg {
         fill: var(--c-primary);
       }
     }
   }
   &__label {
+    font-family: var(--font-family-secondary);
+    font-weight: var(--font-normal);
     color: var(--c-text-muted);
+    margin: 0 var(--spacer-2xs) 0 0;
   }
+
   &__sort {
+    --select-margin: 0;
+    --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
     display: flex;
     align-items: center;
-    margin: 0 auto 0 var(--spacer-extra-big);
-    --select-font-size: var(--font-size-small);
+    margin: 0 auto 0 var(--spacer-2xl);
   }
   &__counter {
+    font-family: var(--font-family-secondary);
     margin: auto;
     @include for-desktop {
       margin: auto 0 auto auto;
@@ -572,37 +629,34 @@ export default {
   &__view {
     display: flex;
     align-items: center;
-    margin: 0 var(--spacer-extra-big);
+    margin: 0 var(--spacer-xl);
     @include for-desktop {
-      margin: var(--spacer-big);
+      margin: 0 0 0 var(--spacer-2xl);
     }
     &-icon {
-      margin: 0 0 0 0.625rem;
       cursor: pointer;
     }
+    &-label {
+      margin: 0 var(--spacer-sm) 0 0;
+      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
+      text-decoration: underline;
+    }
   }
-}
-.sort-by {
-  /*--select-padding: 0 0.625rem;*/
-  flex: unset;
-  width: 11.875rem;
-  --select-dropdown-z-index: 10;
 }
 .main {
   display: flex;
 }
 .sidebar {
   flex: 0 0 15%;
-  padding: var(--spacer-extra-big);
+  padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
 .products {
   box-sizing: border-box;
   flex: 1;
-  margin: 0 calc(var(--spacer) * -1);
   @include for-desktop {
-    margin: var(--spacer-big);
+    margin: var(--spacer-xl);
   }
   @include for-mobile {
     display: flex;
@@ -619,12 +673,16 @@ export default {
   &__list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
   }
   &__product-card {
     --product-card-padding: var(--spacer);
     flex: 1 1 50%;
     @include for-desktop {
-      --product-card-padding: var(--spacer-big);
+      --product-card-padding: var(--spacer-sm);
       flex: 1 1 25%;
     }
   }
@@ -645,10 +703,10 @@ export default {
   }
   // end of TODO
   &__product-card-horizontal {
-    --product-card-horizontal-padding: var(--spacer);
+    --product-card-horizontal-padding: var(--spacer-xs);
     flex: 0 0 100%;
     @include for-desktop {
-      --product-card-horizontal-padding: var(--spacer-big);
+      --product-card-horizontal-padding: var(--spacer-sm);
     }
   }
   &__slide-enter {
@@ -663,36 +721,57 @@ export default {
     @include for-desktop {
       display: flex;
       justify-content: center;
-      margin: var(--spacer-extra-big) 0 0 0;
+      margin: var(--spacer-2xl) 0 0 0;
+    }
+  }
+}
+.list {
+  &__item {
+    &:not(:last-of-type) {
+      --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
   }
 }
 .filters {
-  padding: var(--spacer-big);
   &__title {
-    margin: calc(var(--spacer-big) * 3) 0 var(--spacer-big) 0;
-    font: 400 var(--font-size-extra-big) / 1.6 var(--body-font-family-secondary);
-    line-height: 1.6;
-    &:first-child {
-      margin: 0 0 var(--spacer-big) 0;
-    }
-  }
-  &__colors {
-    margin: calc(var(--spacer) * -1);
+    --heading-title-font-size: var(--font-xl);
+    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   }
   &__color {
-    margin: var(--spacer);
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
   }
   &__item {
-    margin: var(--spacer) 0;
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
+    }
+    @include for-desktop {
+      --checkbox-padding: 0;
+      margin: var(--spacer-sm) 0;
+      border: 0;
+      padding: 0;
+    }
+  }
+  &__accordion-item {
+    --accordion-item-content-padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
   }
   &__buttons {
-    margin: calc(var(--spacer-big) * 3) 0 0 0;
+    margin: var(--spacer-sm) 0;
   }
   &__button-clear {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
-    margin: 0.625rem 0 0 0;
+    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>

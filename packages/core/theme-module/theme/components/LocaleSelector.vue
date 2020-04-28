@@ -8,16 +8,12 @@
     >
       <SfImage :src="`/icons/langs/${lang.name}.png`" width="20" />
     </SfButton>
-    <SfSelect v-model="country" @change="handleSelectChange" class="container__select">
-      <SfSelectOption v-for="currentCountry in availableCountries" :key="currentCountry.name" :value="currentCountry.name">
-        <div>{{ currentCountry.label }}</div>
-      </SfSelectOption>
-    </SfSelect>
-    <SfSelect v-model="currency"  @change="handleSelectChange" class="container__select">
+    <!-- TODO: replace with SfDropdown or dedicated component -->
+    <!-- <SfSelect v-model="currency" class="container__select">
       <SfSelectOption v-for="currentCurrency in availableCurrencies" :key="currentCurrency.name" :value="currentCurrency.name">
-        <div>{{ currentCurrency.label }}</div>
+        <div>{{ currentCurrency.name }}</div>
       </SfSelectOption>
-    </SfSelect>
+    </SfSelect> -->
   </div>
 </template>
 
@@ -69,7 +65,7 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   &::v-deep .sf-select {
-    --select-font-size: var(--font-size-small);
+    --select-font-size: var(--font-sm);
   }
   &__select {
     padding: 0 5px;
@@ -86,6 +82,7 @@ export default {
   }
   &__lang {
     --image-width: 20px;
+    --button-box-shadow: none;
     background: none;
     padding: 0 5px;
     display: flex;

@@ -42,6 +42,7 @@
               :regular-price="product.price.regular"
               :max-rating="product.rating.max"
               :score-rating="product.rating.score"
+              :show-add-to-cart-button="true"
               :is-on-wishlist="product.isOnWishlist"
               class="product-card"
               @click:wishlist="toggleWishlist(i)"
@@ -247,15 +248,15 @@ export default {
   }
 }
 .section {
-  padding: 0 var(--spacer-big);
+  padding: 0 var(--spacer-sm);
   @include for-desktop {
     padding: 0;
   }
 }
 .banner-grid {
-  margin: var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0;
   @include for-desktop {
-    margin: var(--spacer-extra-big) 0;
+    margin: var(--spacer-2xl) 0;
   }
 }
 .banner-central {
@@ -264,24 +265,21 @@ export default {
   }
 }
 .call-to-action {
-  margin: var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0;
   @include for-desktop {
-    margin: calc(var(--spacer-extra-big) * 2) 0;
+    margin: var(--spacer-2xl) 0 0 0;
   }
 }
 .product-carousel {
-  margin: 0 calc(var(--spacer-big) * -1) 0 0;
+  margin: 0 calc(var(--spacer-xl) * -1) 0 0;
   @include for-desktop {
-    margin: var(--spacer-big) 0;
-    --carousel-padding: var(--spacer-big);
+    margin: var(--spacer-xl) 0;
+    --carousel-padding: var(--spacer-xl);
     --carousel-max-width: calc(100% - 13.5rem);
   }
 }
 .product-card {
   max-width: unset;
-  &:hover {
-    --product-card-box-shadow: 0 4px 20px rgba(168, 172, 176, 0.19);
-  }
 }
 .images-grid {
   max-width: 60rem;
@@ -289,9 +287,9 @@ export default {
   &__row {
     display: flex;
     & + & {
-      margin: calc(var(--spacer-big) / 2) 0 0 0;
+      margin: calc(var(--spacer-xl) / 2) 0 0 0;
       @include for-desktop {
-        margin: var(--spacer-big) 0 0 0;
+        margin: var(--spacer-xl) 0 0 0;
       }
     }
   }
@@ -299,19 +297,18 @@ export default {
     flex: 1;
     margin: 0;
     & + & {
-      margin: 0 0 0 calc(var(--spacer-big) / 2);
+      margin: 0 0 0 calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin: 0 0 0 var(--spacer-big);
+        margin: 0 0 0 var(--spacer-xl);
       }
     }
   }
 }
 .banner-app {
-  --banner-title-margin: var(--spacer-big) 0 0 0;
+  --banner-title-margin: var(--spacer-xl) 0 0 0;
   --banner-title-font-size: var(--h1-font-size);
   --banner-title-font-weight: var(--h1-font-weight);
   --banner-subtitle-font-size: var(--font-size-extra-big);
-  --banner-subtitle-font-weight: var(--body-font-weight-primary);
   min-height: 26.25rem;
   max-width: 65rem;
   margin: 0 auto;
@@ -324,7 +321,7 @@ export default {
   &__image {
     width: 22%;
     & + & {
-      margin: 0 0 0 var(--spacer-big);
+      margin: 0 0 0 var(--spacer-xl);
     }
   }
 }
