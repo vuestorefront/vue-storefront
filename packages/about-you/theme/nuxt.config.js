@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import {config} from 'theme/plugins/commercetools-config';
 
 export default {
   mode: 'universal',
@@ -77,7 +76,7 @@ export default {
       fallbackLocale: 'en'
     },
     detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName,
+      cookieKey: 'vsf-lang',
       alwaysRedirect: true
     }
   }
