@@ -43,8 +43,20 @@ describe('[commercetools-api-client] tokenFlow', () => {
     setup(config);
   });
 
+  it('return same token', async () => {
+    introspectTokenMock.mockReturnValue({ active: true });
+
+    const currentToken = {
+      access_token: 'bbbbb',
+      refresh_token: 'aaaa'
+    };
+    const token = await createAccessToken({ currentToken } as any);
+
+    expect(token).toEqual(currentToken);
+  });
+
   it('creates anonymous access token when there is no token  set', async () => {
-    introspectTokenMock.mockReturnValueOnce({ active: false });
+    introspectTokenMock.mockReturnValue({ active: false });
     const token = await createAccessToken();
 
     expect(token).toEqual({
@@ -54,23 +66,13 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates anonymous access token when token is invalid', async () => {
-    introspectTokenMock.mockReturnValueOnce({ active: false });
+    introspectTokenMock.mockReturnValue({ active: false });
     const token = await createAccessToken({ currentToken: null } as any);
 
     expect(token).toEqual({
       access_token: 'anonymous token',
       refresh_token: 'anonymous refresh token'
     });
-  });
-
-  it('return same token', async () => {
-    const currentToken = {
-      access_token: 'bbbbb',
-      refresh_token: 'aaaa'
-    };
-    const token = await createAccessToken({ currentToken } as any);
-
-    expect(token).toEqual(currentToken);
   });
 
   it('creates customer  token', async () => {
@@ -88,6 +90,8 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('returns same token as in the configuration', async () => {
+    introspectTokenMock.mockReturnValue({ active: true });
+
     const currentToken = {
       access_token: 'current token',
       refresh_token: 'current refresh token'

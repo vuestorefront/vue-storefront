@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
 import { BapiCategory } from '../../types';
 

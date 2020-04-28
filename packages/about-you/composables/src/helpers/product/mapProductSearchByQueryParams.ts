@@ -11,12 +11,23 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     searchQuery.term = params.term;
   }
 
+  const pagination: { page?: number; perPage?: number} = {};
+
+  if (params.page) {
+    pagination.page = params.page;
+  }
+  if (params.perPage) {
+    pagination.perPage = params.perPage;
+  }
+
   return {
     with: {},
     where: searchQuery,
     sort: {},
-    pagination: {}
+    pagination: pagination
   };
 };
 
-export default mapProductSearchByQueryParams;
+export {
+  mapProductSearchByQueryParams
+};
