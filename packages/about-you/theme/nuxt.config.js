@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import {config} from 'theme/plugins/commercetools-config';
 
 export default {
   mode: 'universal',
@@ -66,5 +67,18 @@ export default {
         })
       })
     ]
+  },
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    lazy: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: config.cookies.localeCookieName,
+      alwaysRedirect: true
+    }
   }
 };
