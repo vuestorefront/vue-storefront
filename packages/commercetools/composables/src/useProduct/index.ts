@@ -13,7 +13,7 @@ const productsSearch = async (params: {
   skus?: string[];
   slug?: string;
   id?: string;
-}): Promise<ProductsSearchResult<ProductVariant>> => {
+}): Promise<ProductsSearchResult<ProductVariant, any>> => {
   const apiSearchParams = {
     ...params,
     ...mapPaginationParams(params)
@@ -33,4 +33,4 @@ export default useProductFactory<ProductVariant, {
   sort?: any;
   term?: any;
   filters?: any;
-}>({ productsSearch });
+}, any>({ productsSearch });
