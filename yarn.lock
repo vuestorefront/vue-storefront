@@ -2758,14 +2758,6 @@
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"
 
-"@vue-storefront/core@2.0.1-prealpha.364":
-  version "2.0.1-prealpha.364"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.364.tgz#d5e73641d5fb7b94e4d12312c5a3d1a1e53b4dfa"
-  integrity sha512-oEd0lhrBE67tOzSDkEMXPZZl0kY9PKQgF1F2gCfI1yKta50Ps6Gj2trlP6+Fb+1Novqaszpc4Uy1iLMzPVZ2qg==
-  dependencies:
-    "@vue/composition-api" "^0.4.0"
-    vue "^2.6.11"
-
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.0.0.tgz#048fe579958da408fb7a8b2a3ec050b50a661040"
