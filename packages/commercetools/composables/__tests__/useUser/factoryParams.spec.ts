@@ -5,12 +5,13 @@ import {
   customerChangeMyPassword as apiCustomerChangeMyPassword
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
-
 import useCart from '../../src/useCart';
 
-jest.mock('../../src/useCart', () =>
-  jest.fn(() => {})
-);
+jest.mock('../../src/useCart', () => ({
+  __esModule: true,
+  cart: { value: null },
+  default: jest.fn()
+}));
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
@@ -54,21 +55,21 @@ describe('[commercetools-composables] factoryParams', () => {
   });
   it('register method return a new customer', async () => {
     const customer = {email: 'test@test.pl', password: '123456', firstName: 'Don', lastName: 'Jon'};
-    (authenticate as jest.Mock).mockReturnValueOnce(customer);
+    (authenticate as jest.Mock).mockReturnValueOnce({ customer });
     expect(await params.register(customer)).toEqual(customer);
   });
   it('logIn method return a logged in customer', async () => {
     const refreshCartMock = jest.fn(() => {});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
     const customer = {username: 'test@test.pl', password: '123456'};
-    (authenticate as jest.Mock).mockReturnValueOnce(customer);
+    (authenticate as jest.Mock).mockReturnValueOnce({ customer });
     expect(await params.logIn(customer)).toEqual(customer);
   });
 
   describe('changePassword', () => {
     it('register method return a new customer', async () => {
       const customer = {email: 'test@test.pl', password: '123456', firstName: 'Don', lastName: 'Jon'};
-      (authenticate as jest.Mock).mockReturnValueOnce(customer);
+      (authenticate as jest.Mock).mockReturnValueOnce({ customer });
       expect(await params.register(customer)).toEqual(customer);
     });
 

@@ -9,7 +9,7 @@ describe('[commercetools-composables] useUser/authenticate', () => {
   it('returns logged user data', async() => {
     const customer = {email: 'test@test.com', password: '123456'};
     const callback = async userData => ({data: {user: { customer: userData}}});
-    expect(await authenticate(customer, callback)).toEqual(customer);
+    expect(await authenticate(customer, callback)).toEqual({ customer });
   });
   describe('error is called by a console error', () => {
     it('with first message from graphQL errors array', async () => {
