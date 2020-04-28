@@ -66,5 +66,18 @@ export default {
         })
       })
     ]
+  },
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    lazy: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: 'vsf-lang',
+      alwaysRedirect: true
+    }
   }
 };
