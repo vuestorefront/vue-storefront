@@ -50,7 +50,8 @@ export default {
     }]
   ],
   modules: [
-    'nuxt-i18n'
+    'nuxt-i18n',
+    'vue-scrollto/nuxt'
   ],
   build: {
     transpile: [

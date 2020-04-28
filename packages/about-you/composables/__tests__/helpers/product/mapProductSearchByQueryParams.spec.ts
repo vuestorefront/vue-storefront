@@ -17,7 +17,9 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
   it('returns mapped products query for given params', async () => {
     const params = {
       catId: 1337,
-      term: 'foo'
+      term: 'foo',
+      page: 2,
+      perPage: 20
     };
     const expectedQuery = {
       with: {},
@@ -26,7 +28,10 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
         term: params.term
       },
       sort: {},
-      pagination: {}
+      pagination: {
+        page: params.page,
+        perPage: params.perPage
+      }
     };
 
     const result = mapProductSearchByQueryParams(params);
