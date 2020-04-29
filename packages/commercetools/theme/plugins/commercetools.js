@@ -2,7 +2,7 @@ import { setup } from '@vue-storefront/commercetools-api';
 import { config } from './commercetools-config';
 
 const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
-// setup@setip.com
+
 export default ({ app }) => {
   const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
 
