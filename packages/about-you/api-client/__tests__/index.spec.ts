@@ -153,22 +153,22 @@ describe('[about-you-api] index', () => {
       });
 
       it('getVariantsByIds', () => {
-        getVariantsByIds([1244, 1245], {with: {attributes: {}, advancedAttributes: {}, stock: 'all'}, campaignKey: 'px', pricePromotionKey: 'dd2'});
+        getVariantsByIds([1244, 1245], {with: {attributes: {} as any, advancedAttributes: {} as any, stock: 'all'}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
         expect(BapiClientMock.variants.getByIds).toHaveBeenCalled();
       });
 
       it('getWishlist', () => {
-        getWishlist('');
+        getWishlist('wishlistKey', {with: {items: {product: {}, variant: {}}}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
         expect(BapiClientMock.wishlist.get).toHaveBeenCalled();
       });
 
       it('addItemToWishlist', () => {
-        addItemToWishlist('', '' as any);
+        addItemToWishlist('wishlistKey', {masterKey: 'masterKey'}, {with: {}, campaignKey: 'px', childShopId: 6565, pricePromotionKey: 'ppkey' });
         expect(BapiClientMock.wishlist.addItem).toHaveBeenCalled();
       });
 
       it('deleteItemFromWishlist', () => {
-        deleteItemFromWishlist('', '');
+        deleteItemFromWishlist('wishlistKey', 'itemKey', {with: {}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
         expect(BapiClientMock.wishlist.deleteItem).toHaveBeenCalled();
       });
 
