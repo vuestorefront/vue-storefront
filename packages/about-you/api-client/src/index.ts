@@ -1,4 +1,4 @@
-/* istanbul ignore file */
+// /* istanbul ignore file */
 
 import { apiClientFactory } from '@vue-storefront/core';
 import { SetupConfig } from './types/setup';
