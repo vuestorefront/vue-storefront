@@ -42,10 +42,21 @@ const BapiClientMock = {
     deleteItem: jest.fn()
   }
 };
+const defaultSettings = {
+  api: {
+    host: 'Test',
+    auth: {
+      username: 'John',
+      password: 'Galt'
+    },
+    shopId: 1957
+  }
+};
 describe('[about-you-api] index', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
+    (BapiClient as any).mockImplementation(() => BapiClientMock);
   });
   describe('onSetup', () => {
     it('has been called after passing to apiClientFactory', async () => {
@@ -57,25 +68,12 @@ describe('[about-you-api] index', () => {
 
       expect(onSetup).toHaveBeenCalled();
     });
-    it('has returned setupConfig', () => {
-      const defaultSettings = {
-        api: {
-          host: 'Test',
-          auth: {
-            username: 'John',
-            password: 'Galt'
-          },
-          shopId: 1957
-        }
-      };
-
-      (BapiClient as any).mockImplementation(() => BapiClientMock);
-
-      expect(setup(defaultSettings));
-
-      getCart('key');
-      expect(BapiClientMock.basket.get).toHaveBeenCalled();
-
+    describe('returns apiClient with methods', () => {
+      it('getCart', () => {
+        expect(setup(defaultSettings));
+        getCart('key');
+        expect(BapiClientMock.basket.get).toHaveBeenCalled();
+      });
     });
   });
 
