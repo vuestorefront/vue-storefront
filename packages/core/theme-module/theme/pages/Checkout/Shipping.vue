@@ -1,7 +1,8 @@
 <template>
   <div>
     <SfHeading
-      title="2. Shipping"
+      :level="3"
+      title="Shipping"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -77,6 +78,7 @@
       />
     </div>
     <SfHeading
+      :level="3"
       title="Shipping method"
       class="sf-heading--left sf-heading--no-underline title"
     />
@@ -109,15 +111,13 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
+        <!-- TODO: add nuxt link for returning to personal details -->
+        <SfButton class="color-secondary form__back-button">
+          Go back
+        </SfButton>
+        <SfButton class="form__action-button" @click="$emit('nextStep')">
           Continue to payment
         </SfButton>
-        <SfButton
-          class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary"
-          @click="$emit('click:back')">
-            Go back to Personal details
-        </SfButton
-        >
       </div>
     </div>
   </div>
@@ -176,7 +176,10 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .form {
   @include for-desktop {
@@ -185,7 +188,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -195,7 +198,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }
@@ -212,13 +215,15 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;
         text-align: left;
       }
     }
+  }
+  &__back-button {
+    margin: 0 var(--spacer-xl) 0 0;
   }
   &__button {
     --button-width: 100%;
@@ -228,18 +233,18 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .shipping {
-  margin: 0 calc(var(--spacer-big) * -1);
+  margin: 0 calc(var(--spacer-xl) * -1);
   &__label {
     display: flex;
     justify-content: space-between;
   }
   &__description {
     --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-size-extra-small);
+    --radio-description-font-size: var(--font-xs);
   }
   &__delivery {
     color: var(--c-text-muted);

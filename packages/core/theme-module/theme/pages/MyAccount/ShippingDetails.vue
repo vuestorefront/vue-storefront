@@ -342,7 +342,7 @@ export default {
 .form {
   &__element {
     display: block;
-    margin-bottom: var(--spacer-extra-big);
+    margin-bottom: var(--spacer-2xl);
   }
 
   &__button {
@@ -359,7 +359,7 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-extra-big);
+        margin-right: var(--spacer-2xl);
       }
 
       &:last-child {
@@ -369,21 +369,20 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
-  font-family: var(--body-font-family-primary);
-  font-weight: var(--body-font-weight-primary);
+  margin: 0 0 var(--spacer-2xl) 0;
+  font-family: var(--font-family-primary);
   line-height: 1.6;
-  font-size: var(--font-size-regular-mobile);
+  font-size: var(--font-base-mobile);
   @include for-desktop {
-    font-size: var(--font-size-regular-desktop);
+    font-size: var(--font-base-desktop);
   }
 }
 .shipping-list {
-  margin-bottom: var(--spacer-extra-big);
+  margin-bottom: var(--spacer-2xl);
 }
 .shipping {
   display: flex;
-  padding: var(--spacer-big) 0;
+  padding: var(--spacer-xl) 0;
   border-top: 1px solid var(--c-light);
   &:last-child {
     border-bottom: 1px solid var(--c-light);
@@ -391,11 +390,11 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-size-small-mobile);
+    font-size: var(--font-sm-mobile);
     font-weight: 300;
     line-height: 1.6;
     @include for-desktop {
-      font-size: var(--font-size-small-desktop);
+      font-size: var(--font-sm-desktop);
     }
   }
   &__actions {
@@ -414,17 +413,17 @@ export default {
     background-color: var(--c-light);
     color: var(--c-text-muted);
     @include for-desktop {
-      margin-left: var(--spacer-big);
+      margin-left: var(--spacer-xl);
     }
   }
   &__address {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__client-name {
-    font-size: var(--font-size-regular-desktop);
+    font-size: var(--font-base-desktop);
     font-weight: 500;
   }
 }

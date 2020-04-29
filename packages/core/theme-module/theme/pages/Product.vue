@@ -6,10 +6,9 @@
     />
     <div class="product">
       <div class="product__gallery">
-        <SfGallery
+        <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
+        <!-- <SfGallery
           class="gallery-mobile mobile-only"
-          :image-width="375"
-          :image-height="490"
           :images="[
             {
               mobile: { url: '/productpage/productM.jpg' },
@@ -22,13 +21,12 @@
               big: { url: '/productpage/productM.jpg' }
             }
           ]"
-        />
+        /> -->
         <SfImage
           v-for="(image, i) in productGetters.getGallery(product).splice(0, 2)" :key="i"
           :src="image.big"
           :width="590"
           :height="700"
-          class="desktop-only"
         />
       </div>
       <div class="product__description">
@@ -42,13 +40,12 @@
             <SfPrice
               :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
               :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-              class="product-details__sub-price"
             />
             <div class="product-details__sub-rating">
               <SfRating :score="4" :max="5" />
-              <div class="product-details__sub-reviews desktop-only">
-                Read all 1 review
-              </div>
+              <SfButton class="product-details__sub-reviews sf-button--text desktop-only">
+                Read all reviews
+              </SfButton>
               <div class="product-details__sub-reviews mobile-only">
                 (1)
               </div>
@@ -59,18 +56,19 @@
             and metallic cocktail dresses and party dresses from all your
             favorite brands.
           </p>
-          <div class="product-details__action">
+          <div class="product-details__action desktop-only">
             <SfButton class="sf-button--text color-secondary"
               >Size guide</SfButton
             >
           </div>
-          <div class="product-details__section">
+          <!-- TODO: add size selector after design is added -->
+          <div class="product-details__section desktop-only" >
             <SfSelect
               v-if="options.size"
               :selected="configuration.size"
               @change="size => updateFilter({ size })"
               label="Size"
-              class="sf-select--bordered product-details__attribute"
+              class="sf-select--underlined product-details__attribute"
             >
               <SfSelectOption
                 v-for="size in options.size"
@@ -80,28 +78,20 @@
                 <SfProductOption :label="size.label" />
               </SfSelectOption>
             </SfSelect>
-            <SfSelect
-              v-if="options.color"
-              :selected="configuration.color"
-              @change="color => updateFilter({ color })"
-              label="Color"
-              class="sf-select--bordered product-details__attribute"
-            >
-              <SfSelectOption
-                v-for="color in options.color"
-                :key="color.value"
-                :value="color.value"
-              >
-                <SfProductOption :label="color.label" />
-              </SfSelectOption>
-            </SfSelect>
-          </div>
-          <div class="product-details__section">
-            <SfAlert
-              message="Low in stock"
-              type="warning"
-              class="product-details__alert mobile-only"
+            <!-- TODO: add color picker after PR done by SFUI team -->
+            <div v-if="options.color" class="product-details__colors desktop-only">
+            <p class="product-details__color-label">Color:</p>
+            <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
+            <SfColor
+              v-for="(color, i) in options.color"
+              :key="i"
+              :color="color.value"
+              class="product-details__color"
+              @click="updateFilter({color})"
             />
+          </div>
+          </div>
+          <div class="product-details__section desktop-only">
             <SfAddToCart
               :stock="stock"
               v-model="qty"
@@ -221,7 +211,8 @@ import {
   SfSticky,
   SfReview,
   SfBreadcrumbs,
-  SfButton
+  SfButton,
+  SfColor
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -273,6 +264,7 @@ export default {
   },
   components: {
     SfAlert,
+    SfColor,
     SfProperty,
     SfHeading,
     SfPrice,
@@ -363,14 +355,13 @@ export default {
   }
 }
 .section {
-  padding: 0 var(--spacer-big);
+  padding: 0 var(--spacer-xl);
   @include for-desktop {
     padding: 0;
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big)
-    var(--spacer-extra-big);
+  margin: var(--spacer-base) auto var(--spacer-lg);
 }
 .product {
   @include for-desktop {
@@ -381,24 +372,21 @@ export default {
     flex: 1;
   }
   &__description {
-    padding: 0 var(--spacer-big);
+    padding: 0 var(--spacer-sm);
     @include for-desktop {
-      margin: 0 0 0 calc(var(--spacer-big) * 5);
+      padding: 0;
+      margin: 0 0 0 calc(var(--spacer-xl) * 5);
     }
   }
 }
 .product-property {
-  margin: var(--spacer) 0;
+  margin: var(--spacer-xs) 0;
 }
 .product-details {
   &__heading {
-    --heading-title-font-size: var(--font-size-big);
-    --heading-title-font-weight: var(--body-font-weight-primary);
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-lg) 0 0 0;
     @include for-desktop {
-      --heading-title-font-size: var(--h1-font-size);
-      --heading-title-font-weight: var(--body-font-weight-secondary);
-      margin: 0;
+      margin: var(--spacer-base) 0;
     }
   }
   &__sub {
@@ -409,20 +397,37 @@ export default {
       justify-content: space-between;
     }
   }
-  &__sub-price {
-    --price-font-size: 1.5rem;
-  }
   &__sub-rating {
     display: flex;
     align-items: center;
-    margin: calc(var(--spacer-big) / 2) 0 0 0;
+    margin: var(--spacer-sm) 0 0 0;
     @include for-desktop {
+      flex-direction: column;
+      align-items:flex-start;
       margin: 0;
     }
   }
+    &__colors {
+    @include font(
+      --product-color-font,
+      var(--font-normal),
+      var(--font-lg),
+      1.6,
+      var(--font-family-secondary)
+    );
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacer-xl);
+  }
+  &__color-label {
+    margin: 0 var(--spacer-lg) 0 0;
+  }
+  &__color {
+    margin: 0 var(--spacer-2xs);
+  }
   &__sub-reviews {
-    margin: 0 0 0 0.625rem;
-    font-size: var(--font-size-extra-small);
+    margin: var(--spacer-2xs) 0 0 0;
+    font-size: var(--font-xs);
   }
   &__section {
     border: 1px solid var(--c-light);
@@ -435,55 +440,57 @@ export default {
   }
   &__action {
     display: flex;
-    margin: var(--spacer-big) 0 calc(var(--spacer-big) / 2);
+    &:not(:last-of-type) {
+      margin: var(--spacer-xl) 0 var(--spacer-base);
+    }
     @include for-desktop {
       justify-content: flex-end;
     }
   }
   &__add-to-cart {
-    margin: 1.5rem 0 0 0;
+    margin: var(--spacer-base) 0 0 0;
     @include for-desktop {
-      margin: var(--spacer-extra-big) 0 0 0;
+      margin: var(--spacer-2xl) 0 0 0;
     }
   }
   &__alert {
-    margin: 1.5rem 0 0 0;
+    margin: var(--spacer-base) 0 0 0;
   }
   &__attribute {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
   &__description {
-    margin: var(--spacer-extra-big) 0 calc(var(--spacer-big) * 3) 0;
-    font-family: var(--body-font-family-secondary);
-    font-size: var(--font-size-regular);
+    margin: var(--spacer-xl) 0;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-base);
+    color: var(--c-dark-variant);
     line-height: 1.6;
     @include for-desktop {
-      font-size: var(--font-size-regular);
+      font-size: var(--font-base);
     }
   }
   &__properties {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
   }
   &__tabs {
-    margin: var(--spacer-big) 0 0 0;
+    --tabs-title-padding: var(--spacer-sm) 0;
+    --tabs-content-tab-padding: var(--spacer-sm) 0;
+    margin: var(--spacer-lg) 0 0 0;
     @include for-desktop {
-      margin: calc(5 * var(--spacer-big)) 0 0 0;
-    }
-    p {
-      margin: 0;
+      margin-top: var(--spacer-2xl);
     }
   }
   &__review {
-    padding: var(--spacer-big) 0;
+    padding: var(--spacer-xl) 0;
     border: 1px solid var(--c-light);
     border-width: 0 0 1px 0;
   }
 }
 .product-carousel {
-  margin: 0 calc(var(--spacer-big) * -1) 0 0;
+  margin: 0 calc(var(--spacer-xl) * -1) 0 0;
   @include for-desktop {
-    margin: var(--spacer-big) 0;
-    --carousel-padding: var(--spacer-big);
+    margin: var(--spacer-xl) 0;
+    --carousel-padding: var(--spacer-xl);
     --carousel-max-width: calc(100% - 13.5rem);
   }
 }
@@ -498,9 +505,9 @@ export default {
   &__row {
     display: flex;
     & + & {
-      margin: calc(var(--spacer-big) / 2) 0 0 0;
+      margin: calc(var(--spacer-xl) / 2) 0 0 0;
       @include for-desktop {
-        margin: var(--spacer-big) 0 0 0;
+        margin: var(--spacer-xl) 0 0 0;
       }
     }
   }
@@ -508,19 +515,17 @@ export default {
     flex: 1;
     margin: 0;
     & + & {
-      margin: 0 0 0 calc(var(--spacer-big) / 2);
+      margin: 0 0 0 calc(var(--spacer-xl) / 2);
       @include for-desktop {
-        margin: 0 0 0 var(--spacer-big);
+        margin: 0 0 0 var(--spacer-xl);
       }
     }
   }
 }
 .banner-app {
-  --banner-title-margin: var(--spacer-big) 0 0 0;
+  --banner-title-margin: var(--spacer-xl) 0 0 0;
   --banner-title-font-size: var(--h1-font-size);
-  --banner-title-font-weight: var(--h1-font-weight);
   --banner-subtitle-font-size: var(--font-size-extra-big);
-  --banner-subtitle-font-weight: var(--body-font-weight-primary);
   min-height: 26.25rem;
   max-width: 65rem;
   margin: 0 auto;
@@ -533,7 +538,7 @@ export default {
   &__image {
     width: 22%;
     & + & {
-      margin: 0 0 0 var(--spacer-big);
+      margin: 0 0 0 var(--spacer-xl);
     }
   }
 }

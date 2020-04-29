@@ -3,6 +3,7 @@
     <SfModal
       :visible="isLoginModalOpen"
       title="Log in"
+      class="modal"
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
         <div v-if="isLogin" key="log-in">
@@ -56,7 +57,7 @@
         </div>
         <div v-else key="sign-up" class="form">
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form class="from" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
+            <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
                   v-model="form.email"
@@ -196,8 +197,9 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .form {
+  margin-top: var(--spacer-sm);
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
 }
 .action,
@@ -205,18 +207,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
+  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
   & > * {
-    margin: 0 0 0 var(--spacer);
+    margin: 0 0 0 var(--spacer-xs);
   }
 }
 .action {
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
 }
 .bottom {
-  padding: var(--spacer-extra-big) 0 0 0;
-  margin: var(--spacer-extra-big) 0 0 0;
+  padding: var(--spacer-xl) 0 0 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
 }

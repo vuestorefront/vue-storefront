@@ -94,6 +94,7 @@
         <div class="banner-application__subtitle">Fashion to Take Away</div>
       </template>
       <template #title>
+        <!-- TODO: replace with SfHeading -->
         <h1 class="banner-application__title">
           Download our application to your&nbsp;mobile
         </h1>
@@ -251,10 +252,10 @@ export default {
 }
 
 .call-to-action-newsletter {
-  margin: var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0;
   box-sizing: border-box;
   @include for-desktop {
-    margin: calc(var(--spacer-extra-big) * 2) 0;
+    margin: calc(var(--spacer-2xl) * 2) 0;
   }
 }
 .product-card {
@@ -266,7 +267,7 @@ export default {
   }
 }
 .product-carousel {
-  margin: -20px -#{var(--spacer-big)} -20px 0;
+  margin: -20px -#{var(--spacer-xl)} -20px 0;
   @include for-desktop {
     margin: -20px 0;
   }
@@ -291,28 +292,26 @@ export default {
   padding-left: 2.5rem;
   line-height: 1.6;
   &__title {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     font-size: var(--h1-font-size-desktop);
-    font-weight: var(--h1-font-weight-desktop);
   }
   &__subtitle {
     color: #a3a5ad;
-    font-family: var(--body-font-family-primary);
+    font-family: var(--font-family-primary);
     font-size: var(--font-size-extra-big-desktop);
-    font-weight: var(--body-font-weight-primary);
   }
   &__download {
     max-height: 47px;
-    margin-top: var(--spacer-extra-big);
+    margin-top: var(--spacer-2xl);
     & + & {
-      margin-left: var(--spacer-big);
+      margin-left: var(--spacer-xl);
     }
   }
 }
 .banners {
-  margin: var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0;
   @include for-desktop {
-    margin: var(--spacer-extra-big) 0;
+    margin: var(--spacer-2xl) 0;
   }
 }
 .sf-banner {
@@ -320,8 +319,8 @@ export default {
 }
 .section {
   @media (max-width: $desktop-min) {
-    padding-left: var(--spacer-big);
-    padding-right: var(--spacer-big);
+    padding-left: var(--spacer-xl);
+    padding-right: var(--spacer-xl);
   }
 }
 .bottom-navigation-circle {
