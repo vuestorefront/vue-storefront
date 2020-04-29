@@ -2089,18 +2089,18 @@
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
 
-"@storefront-ui/shared@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.3.tgz#6aa0c624fa3001c36bea4c6ee2acc66fe632597f"
-  integrity sha512-0aEgYPAdlgwtO5VKpJDX/2Hd8SvuH4/vX1FGa85bd5UJVJ7W83xCcKLkFhwTMbnPgAmoV64khHOegePDAJQXNw==
+"@storefront-ui/shared@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.5.tgz#a4663c985ab1d1eb4ea7793d77c57ab539a4ca0f"
+  integrity sha512-3/JlkAwJOsvqObqgtrBCzAaqcdGYi2Ootua4jm+Brh3W1y5WZfZavhCsuyKc8//pG/R3M1XUmO0eodZgGFfbFw==
 
-"@storefront-ui/vue@^0.7.4":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.4.tgz#f8b35068acfbd113082938014f84f509710e569f"
-  integrity sha512-hPhkjyyRlwqoaX9+ZTC0usvhkbNjFtfrPXOKiNMsCF0ty85PPbHc2AiNJhvUJdZZVbAz2rh9E9HamljD+Ry6TA==
+"@storefront-ui/vue@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.5.tgz#f74bd44586efbb14fc2d7f1deb9ea46ebc4a6d17"
+  integrity sha512-ORV+oIcOYASa0cvLgdU0FzKKIcdwgxyJ4Wx8SwzVtDcFUvuBRI9pnmQyi0KfpkGt4RpIMoRXcLxWXLKdfxACmg==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.7.3"
+    "@storefront-ui/shared" "^0.7.5"
     "@storybook/addon-storysource" "^5.3.18"
     "@storybook/addon-viewport" "^5.3.18"
     "@types/jest" "^25.2.1"

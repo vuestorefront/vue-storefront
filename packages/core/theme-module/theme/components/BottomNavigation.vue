@@ -8,21 +8,7 @@
     <SfBottomNavigationItem  icon="heart" size="20px" label="Wishlist"/>
     <SfBottomNavigationItem icon="profile" size="20px" label="Account"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
-  <SfBottomNavigationItem
-        label="Basket"
-        icon="add_to_cart"
-        >
-        <template #icon>
-          <SfCircleIcon aria-label="Add to cart">
-            <SfIcon
-              icon="add_to_cart"
-              color="white"
-              size="25px"
-              :style="{margin: '0 0 0 -2px'}"
-            />
-          </SfCircleIcon>
-        </template>
-      </SfBottomNavigationItem>
+    <SfBottomNavigationItem label="Basket" icon="add_to_cart" />
   </SfBottomNavigation>
 </template>
 
