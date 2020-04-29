@@ -78,7 +78,7 @@ describe('[about-you-api] index', () => {
       });
 
       it('addItemToCart', () => {
-        addItemToCart('basketKey', 0);
+        addItemToCart('basketKey', 1244);
         expect(BapiClientMock.basket.addItem).toHaveBeenCalled();
       });
 
@@ -88,27 +88,27 @@ describe('[about-you-api] index', () => {
       });
 
       it('updateItemInCart', () => {
-        updateItemInCart('basketKey', 'itemKey', 0);
+        updateItemInCart('basketKey', 'itemKey', 1);
         expect(BapiClientMock.basket.updateItem).toHaveBeenCalled();
       });
 
       it('bulkUpdateItemsInCart', () => {
-        bulkUpdateItemsInCart('basketKey', { variantId: 0, quantity: 0, params: 'with' } as any);
+        bulkUpdateItemsInCart('basketKey', { variantId: 1244, quantity: 1, params: 'with' || 'campaignKey' || 'pricePromotionKey' || 'childShopId' || 'customData' || 'displayData' } as any);
         expect(BapiClientMock.basket.addOrUpdateItems).toHaveBeenCalled();
       });
 
       it('getCategoryById', () => {
-        getCategoryById(0);
+        getCategoryById(2244);
         expect(BapiClientMock.categories.getById).toHaveBeenCalled();
       });
 
       it('getCategoriesByIds', () => {
-        getCategoriesByIds([]);
+        getCategoriesByIds([2244, 2245]);
         expect(BapiClientMock.categories.getByIds).toHaveBeenCalled();
       });
 
       it('getCategoryByPath', () => {
-        getCategoryByPath([]);
+        getCategoryByPath(['path1', 'path2']);
         expect(BapiClientMock.categories.getByPath).toHaveBeenCalled();
       });
 
@@ -118,27 +118,27 @@ describe('[about-you-api] index', () => {
       });
 
       it('getFilters', () => {
-        getFilters('' as any);
+        getFilters({ where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'x22x', with: ['values', 'category_ids']});
         expect(BapiClientMock.filters.get).toHaveBeenCalled();
       });
 
       it('getFiltersValues', () => {
-        getFiltersValues('', '' as any);
+        getFiltersValues('groupName', { where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'x8888x'});
         expect(BapiClientMock.filters.getValues).toHaveBeenCalled();
       });
 
       it('getProductById', () => {
-        getProductById(0);
+        getProductById(2244, { with: {}, campaignKey: 'px', pricePromotionKey: '', includeSellableForFree: true});
         expect(BapiClientMock.products.getById).toHaveBeenCalled();
       });
 
       it('getProductsByIds', () => {
-        getProductsByIds([]);
+        getProductsByIds([2244, 2245], { with: {}, campaignKey: 'px', pricePromotionKey: '', includeSellableForFree: true});
         expect(BapiClientMock.products.getByIds).toHaveBeenCalled();
       });
 
       it('getProductsByQuery', () => {
-        getProductsByQuery();
+        getProductsByQuery({where: {}, sort: {}, campaignKey: 'px', with: {}, pagination: {page: 0, perPage: 1}, includeSellableForFree: false, includeSoldOut: false, pricePromotionKey: '22x', minProductId: 1122});
         expect(BapiClientMock.products.query).toHaveBeenCalled();
       });
 
