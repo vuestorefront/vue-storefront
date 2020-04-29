@@ -143,17 +143,17 @@ describe('[about-you-api] index', () => {
       });
 
       it('getSearchSuggestions', () => {
-        getSearchSuggestions('');
+        getSearchSuggestions('term', {campaignKey: 'px', with: {brands: 'all', categories: 'all', productNames: 'all', products: 'all'}});
         expect(BapiClientMock.search.suggestions).toHaveBeenCalled();
       });
 
       it('getSearchMappings', () => {
-        getSearchMappings('');
+        getSearchMappings('term');
         expect(BapiClientMock.search.mappings).toHaveBeenCalled();
       });
 
       it('getVariantsByIds', () => {
-        getVariantsByIds([]);
+        getVariantsByIds([1244, 1245], {with: {attributes: {}, advancedAttributes: {}, stock: 'all'}, campaignKey: 'px', pricePromotionKey: 'dd2'});
         expect(BapiClientMock.variants.getByIds).toHaveBeenCalled();
       });
 
