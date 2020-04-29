@@ -13,6 +13,7 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { LocaleItem } from '@vue-storefront/commercetools-api/lib/types/setup';
 import Cookies from 'js-cookie';
+import { useSSR, onSSR } from '@vue-storefront/core';
 
 /*
   This is the old version of that component.
@@ -27,11 +28,12 @@ type AvailableCountries = Ref<Readonly<LocaleItem[]>>
 type AvailableCurrencies = Ref<Readonly<LocaleItem[]>>
 
 export default function useLocale() {
+  const { initialState, saveToInitialState } = useSSR('ct-locale');
   const loading = ref(false);
   const error = ref(null);
-  const locale: Locale = ref(null);
-  const country: Country = ref(null);
-  const currency: Currency = ref(null);
+  const locale: Locale = ref(initialState?.locale);
+  const country: Country = ref(initialState?.country);
+  const currency: Currency = ref(initialState?.currency);
   const availableLocales: AvailableLocales = computed<LocaleItem[]>(() => locales);
   const availableCountries: AvailableCountries = computed<LocaleItem[]>(() => countries);
   const availableCurrencies: AvailableCurrencies = computed<LocaleItem[]>(() => currencies);
@@ -54,6 +56,15 @@ export default function useLocale() {
     if (!currency.value) return;
     Cookies.set(cookies.currencyCookieName, currency.value);
     setup({ currency: currency.value });
+  });
+
+  onSSR(() => {
+    country.value = Cookies.get(cookies.countryCookieName) || defaultCountry;
+    currency.value = Cookies.get(cookies.currencyCookieName) || defaultCurrency;
+    locale.value = Cookies.get(cookies.localeCookieName) || defaultLocale;
+    const configuration = { locale: locale.value, country: country.value, currency: currency.value };
+    saveToInitialState(configuration);
+    setup(configuration);
   });
 
   return {

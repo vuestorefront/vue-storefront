@@ -10,6 +10,7 @@ export default ({ app }) => {
     try {
       if (!process.server) {
         app.$cookies.set(CT_TOKEN_COOKIE_NAME, token);
+        setup({ currentToken: token });
       }
     } catch (e) {
       // Cookies on is set after request has sent.
