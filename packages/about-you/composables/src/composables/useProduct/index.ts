@@ -14,7 +14,6 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
     } else {
       products = await getProductsByQuery(mapProductSearchByQueryParams(params));
     }
-    products = await getProductsByQuery(mapProductSearchByQueryParams(params));
 
     return {
       data: products.entities,

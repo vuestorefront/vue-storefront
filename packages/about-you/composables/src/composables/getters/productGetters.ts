@@ -40,8 +40,8 @@ export const getProductCoverImage = (product: BapiProduct): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: BapiProduct[], filters: ProductVariantFilters | any = {}): BapiProduct[] => {
-  return products || [];
+export const getProductFiltered = (products: BapiProduct[] | BapiProduct, filters: ProductVariantFilters | any = {}): any => {
+  return Array.isArray(products || []) ? products : [products];
 };
 
 export const getProductAttributes = (product: BapiProduct, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
