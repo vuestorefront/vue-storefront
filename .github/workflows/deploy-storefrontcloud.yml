@@ -4,6 +4,7 @@ on:
     branches:
       - next
       - release/next
+      - demo-c
 jobs:
   publish:
     runs-on: ubuntu-latest
