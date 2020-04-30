@@ -21,6 +21,7 @@ import customerSignOut from './api/customerSignOut';
 import getMyOrders from './api/getMyOrders';
 import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
+import getChannels from './api/getChannels';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import createAccessToken from './helpers/createAccessToken';
 
@@ -84,6 +85,7 @@ export {
   getCategory,
   createCart,
   updateCart,
+  getChannels,
   getCart,
   addToCart,
   removeFromCart,

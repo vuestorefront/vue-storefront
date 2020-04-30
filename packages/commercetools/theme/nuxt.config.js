@@ -22,7 +22,12 @@ export default {
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico' }
+        href: '/favicon.ico'
+      },
+      {
+        href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap',
+        rel: 'stylesheet'
+      }
     ]
   },
   loading: { color: '#fff' },
@@ -56,8 +61,17 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    'nuxt-fontawesome'
   ],
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      }
+    ]
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'

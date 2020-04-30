@@ -7,13 +7,17 @@ import useCheckout from './useCheckout';
 import useUser from './useUser';
 import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
+import useMultistore from './useMultistore';
+import useGeolocation from './useGeolocation';
+
 import {
   cartGetters,
   categoryGetters,
   checkoutGetters,
   productGetters,
   userGetters,
-  orderGetters
+  orderGetters,
+  multistoreGetters
 } from './getters';
 
 export {
@@ -23,12 +27,15 @@ export {
   useCheckout,
   useUser,
   useLocale,
+  useMultistore,
+  useGeolocation,
   useUserOrders,
   cartGetters,
   categoryGetters,
   checkoutGetters,
   productGetters,
   userGetters,
-  orderGetters
+  orderGetters,
+  multistoreGetters
 };
 

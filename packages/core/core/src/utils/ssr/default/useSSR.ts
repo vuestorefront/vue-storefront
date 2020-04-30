@@ -28,17 +28,17 @@ export const useSSR = (key: string) => {
   };
 };
 
-let snapsshot = 0;
+// let snapsshot = 0;
 
 const hasWindowStateChanged = () => {
   // @ts-ignore
-  const currentSnapshot = window.__VSF_STATE__ ? JSON.stringify(window.__VSF_STATE__).length : 0;
+  // const currentSnapshot = window.__VSF_STATE__ ? JSON.stringify(window.__VSF_STATE__).length : 0;
 
-  if (snapsshot !== currentSnapshot) {
-    snapsshot = currentSnapshot;
-
-    return true;
-  }
+  // if (snapsshot !== currentSnapshot) {
+  //   snapsshot = currentSnapshot;
+  //   console.log('test');
+  //   return true;
+  // }
 
   return false;
 };

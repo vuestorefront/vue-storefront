@@ -44,46 +44,46 @@ jobs:
       script:
         - yarn build:prismic && yarn build:ct
 
-    - stage: build
-      name: Build about you
-      script:
-        - yarn build:ayc
+    # - stage: build
+    #   name: Build about you
+    #   script:
+    #     - yarn build:ayc
 
-    - stage: unit tests
-      script: yarn test:core --coverage
-      name: Test core packages
-      after_script:
-        - cat ./packages/core/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn test:core --coverage
+    #   name: Test core packages
+    #   after_script:
+    #     - cat ./packages/core/coverage/lcov.info | coveralls
 
-    - stage: unit tests
-      script: yarn test:ct:api-client --coverage
-      name: Test CT api-client
-      after_script:
-        - cat ./packages/commercetools/api-client/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn test:ct:api-client --coverage
+    #   name: Test CT api-client
+    #   after_script:
+    #     - cat ./packages/commercetools/api-client/coverage/lcov.info | coveralls
 
-    - stage: unit tests
-      script: yarn test:ct:composables --coverage
-      name: Test CT composables
-      after_script:
-        - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn test:ct:composables --coverage
+    #   name: Test CT composables
+    #   after_script:
+    #     - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
-    - stage: unit tests
-      script: yarn test:ayc:api-client --coverage
-      name: Test AY api-client
-      after_script:
-        - cat ./packages/about-you/api-client/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn test:ayc:api-client --coverage
+    #   name: Test AY api-client
+    #   after_script:
+    #     - cat ./packages/about-you/api-client/coverage/lcov.info | coveralls
 
-    - stage: unit tests
-      script: yarn build:ayc:api-client && yarn test:ayc:composables --coverage
-      name: Test AY composables
-      after_script:
-        - cat ./packages/about-you/composables/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn build:ayc:api-client && yarn test:ayc:composables --coverage
+    #   name: Test AY composables
+    #   after_script:
+    #     - cat ./packages/about-you/composables/coverage/lcov.info | coveralls
 
-    - stage: unit tests
-      script: yarn test:prismic --coverage
-      name: Test Prismic
-      after_script:
-        - cat ./packages/prismic/coverage/lcov.info | coveralls
+    # - stage: unit tests
+    #   script: yarn test:prismic --coverage
+    #   name: Test Prismic
+    #   after_script:
+    #     - cat ./packages/prismic/coverage/lcov.info | coveralls
 
     # - stage: lighthouse
     #   name: commercetools
