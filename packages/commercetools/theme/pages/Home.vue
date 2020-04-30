@@ -11,21 +11,21 @@
     <div class="features">
       <div class="features__container">
         <div class="features__item">
-          <img src="add-to-cart.png" width="256" height="256" />
+          <img src="/add-to-cart.png" width="256" height="256" />
           <h3>Find your store</h3>
         </div>
         <div class="features__item">
-          <img src="magnifying-glass.png" width="256" height="256" />
+          <img src="/magnifying-glass.png" width="256" height="256" />
           <h3>Reserve your items</h3>
         </div>
         <div class="features__item">
-          <img src="pickup.png" width="256" height="256" />
+          <img src="/pickup.png" width="256" height="256" />
           <h3>Go Pickup</h3>
         </div>
       </div>
     </div>
 
-    <div class="find" style="background-image: url('store-search-bg.jpg')">
+    <div class="find" style="background-image: url('/store-search-bg.jpg')">
       <div class="find__container">
         <div class="find__info">
           <span>store locator</span>
@@ -49,7 +49,7 @@
       </div>
       <div class="stores__item" v-for="store in multistores" :key="getId(store)">
         <div class="stores__item__content">
-          <img src="logo-small.png" />
+          <img src="/logo-small.png" />
           <div class="stores__item__content__address">
             <h3>{{ getName(store) }}</h3>
             <span>{{ getAddressLine1(store) }}</span>
