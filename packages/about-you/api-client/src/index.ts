@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import { apiClientFactory } from '@vue-storefront/core';
 import { SetupConfig } from './types/setup';
 import { BapiClient } from '@aboutyou/backbone';
