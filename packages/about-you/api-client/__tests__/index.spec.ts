@@ -73,47 +73,47 @@ describe('[about-you-api] index', () => {
       }),
 
       it('getCart', () => {
-        getCart('basketKey');
+        getCart('basketKey', {with: {}, campaignKey: 'px', checkoutShopId: 224});
         expect(BapiClientMock.basket.get).toHaveBeenCalled();
       });
 
       it('addItemToCart', () => {
-        addItemToCart('basketKey', 1244);
+        addItemToCart('basketKey', 1244, 1, {with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'});
         expect(BapiClientMock.basket.addItem).toHaveBeenCalled();
       });
 
       it('deleteItemFromCart', () => {
-        deleteItemFromCart('basketKey', 'itemKey');
+        deleteItemFromCart('basketKey', 'itemKey', {with: {}, campaignKey: 'px'});
         expect(BapiClientMock.basket.deleteItem).toHaveBeenCalled();
       });
 
       it('updateItemInCart', () => {
-        updateItemInCart('basketKey', 'itemKey', 1);
+        updateItemInCart('basketKey', 'itemKey', 1, {with: {}, campaignKey: 'px'});
         expect(BapiClientMock.basket.updateItem).toHaveBeenCalled();
       });
 
       it('bulkUpdateItemsInCart', () => {
-        bulkUpdateItemsInCart('basketKey', { variantId: 1244, quantity: 1, params: 'with' || 'campaignKey' || 'pricePromotionKey' || 'childShopId' || 'customData' || 'displayData' } as any);
+        bulkUpdateItemsInCart('basketKey', { variantId: 1244, quantity: 1, params: {childShopId: 2222, with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'} } as any);
         expect(BapiClientMock.basket.addOrUpdateItems).toHaveBeenCalled();
       });
 
       it('getCategoryById', () => {
-        getCategoryById(2244);
+        getCategoryById(2244, {with: {}, includeHidden: true});
         expect(BapiClientMock.categories.getById).toHaveBeenCalled();
       });
 
       it('getCategoriesByIds', () => {
-        getCategoriesByIds([2244, 2245]);
+        getCategoriesByIds([2244, 2245], {with: {}});
         expect(BapiClientMock.categories.getByIds).toHaveBeenCalled();
       });
 
       it('getCategoryByPath', () => {
-        getCategoryByPath(['path1', 'path2']);
+        getCategoryByPath(['path1', 'path2'], {with: {}, includeHidden: true});
         expect(BapiClientMock.categories.getByPath).toHaveBeenCalled();
       });
 
       it('getCategoryRoots', () => {
-        getCategoryRoots();
+        getCategoryRoots({with: {children: 1}, includeHidden: true});
         expect(BapiClientMock.categories.getRoots).toHaveBeenCalled();
       });
 
@@ -123,7 +123,7 @@ describe('[about-you-api] index', () => {
       });
 
       it('getFiltersValues', () => {
-        getFiltersValues('groupName', { where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'x8888x'});
+        getFiltersValues('groupName', { where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'px'});
         expect(BapiClientMock.filters.getValues).toHaveBeenCalled();
       });
 
