@@ -106,6 +106,7 @@ export interface UseWishlist
   WISHLIST_ITEM,
 > {
   wishlist: ComputedProperty<WISHLIST>;
+  getWishList: () => Promise<WISHLIST>;
   addToWishlist: (product: PRODUCT, quantity: number) => Promise<void>;
   isOnWishlist: (product: PRODUCT) => ComputedProperty<boolean>;
   removeFromWishlist: (product: WISHLIST_ITEM) => Promise<void>;
