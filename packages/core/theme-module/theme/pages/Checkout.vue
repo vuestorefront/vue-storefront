@@ -28,6 +28,7 @@ import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/checkout/CartPreview';
 import OrderReview from '~/components/checkout/OrderReview';
 import { ref } from '@vue/composition-api';
+import { useUser } from '<%= options.composables %>';
 
 const STEPS = [
   { name: 'personal-details',
@@ -55,13 +56,22 @@ export default {
   setup(props, context) {
     const showCartPreview = ref(true);
     const currentStep = ref(0);
+    const { isAuthenticated } = useUser();
 
     const handleShowReview = () => {
       showCartPreview.value = false;
     };
 
     const updateStep = (next) => {
-      currentStep.value = next;
+      if (next == 0 && isAuthenticated.value) {
+        if (currentStep.value == STEPS[1]) {
+          context.root.$router.push('/');
+        } else {
+          next++;
+          context.root.$router.push(STEPS[next].name);
+        }
+      } else 
+        currentStep.value = next;
     };
 
     const handleNextStep = (nextStep) => {
