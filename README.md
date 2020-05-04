@@ -425,7 +425,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
        <td align="center" valign="middle">
     <a href="https://www.wagento.com">
           <img
-            src="https://www.wagento.com/hubfs/logo-standard-color@4x%20(1).png"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/05/wagento_jpg.png"
             alt="Wagento"
             width="150"
           >
@@ -1003,10 +1003,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
-    <a href="">
+    <a href="https://www.theretailinsights.com/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/Retailinsights-logo.png"
+            alt="The Retail Insights"
             height="40"
           >
         </a>
