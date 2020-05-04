@@ -172,7 +172,7 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getCategoryIds: (product: PRODUCT) => string[];
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
-  getBreadcrumb?: (product: PRODUCT) => AgnosticBreadcrumb[];
+  getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -193,7 +193,7 @@ export interface CartGetters<CART, CART_ITEM> {
 
 export interface CategoryGetters<CATEGORY> {
   getTree: (category: CATEGORY) => AgnosticCategoryTree | null;
-  getBreadcrumb?: (category: CATEGORY) => AgnosticBreadcrumb[];
+  getBreadcrumbs?: (category: CATEGORY) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
