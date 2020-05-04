@@ -8,5 +8,6 @@ export interface SearchRequest {
   from: number,
   sort: string,
   _sourceExclude?: string,
-  _sourceInclude?: string
+  _sourceInclude?: string,
+  filters: any
 }

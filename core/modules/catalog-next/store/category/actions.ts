@@ -38,7 +38,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
-      size: pageSize
+      size: pageSize,
+      filters: searchQuery.filters
     })
     await dispatch('loadAvailableFiltersFrom', {
       aggregations,
@@ -47,8 +48,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
-    commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
+    commit(types.CATEGORY_SET_PRODUCTS, items)
 
     return items
   },

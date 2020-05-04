@@ -39,6 +39,9 @@ export class SearchAdapter {
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       ElasticsearchQueryBody['groupToken'] = Request.groupToken
     }
+    if (Request.hasOwnProperty('filters')) {
+      ElasticsearchQueryBody['filters'] = Request.filters
+    }
 
     const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
 
