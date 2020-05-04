@@ -235,6 +235,7 @@ export default {
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const breadcrumbs = productGetters.getBreadcrumbs ? computed(() => productGetters.getBreadcrumbs(product.value)) : computed(() => props.fallbackBreadcrumbs);
 
     onSSR(async () => {
       await search({ id });
@@ -259,7 +260,8 @@ export default {
       qty,
       addToCart,
       loading,
-      productGetters
+      productGetters,
+      breadcrumbs
     };
   },
   components: {
@@ -321,7 +323,7 @@ export default {
         }
       ],
       detailsIsActive: false,
-      breadcrumbs: [
+      fallbackBreadcrumbs: [
         {
           text: 'Home',
           route: {

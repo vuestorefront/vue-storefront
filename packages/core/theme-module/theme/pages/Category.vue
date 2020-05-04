@@ -422,7 +422,7 @@ const filters = {
 };
 
 // TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
-const breadcrumbs = [
+const fallbackBreadcrumbs = [
   { text: 'Home', route: { link: '#' } },
   { text: 'Women', route: { link: '#' } }
 ];
@@ -489,6 +489,8 @@ export default {
       context.root.$scrollTo(context.root.$el, 2000);
     };
 
+    const breadcrumbs = categoryGetters.getBreadcrumbs ? computed(() => categoryGetters.getBreadcrumbs(categories.value[0])) : computed(() => fallbackBreadcrumbs);
+
     return {
       products,
       productsLoading,
@@ -506,7 +508,7 @@ export default {
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
       filters: ref(filters),
-      breadcrumbs: computed(() => breadcrumbs),
+      breadcrumbs,
       updateFilter,
       clearAllFilters,
       toggleWishlist,
