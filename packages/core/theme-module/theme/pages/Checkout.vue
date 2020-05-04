@@ -8,6 +8,7 @@
               @showReview="handleShowReview"
               @changeStep="updateStep($event)"
               @nextStep="handleNextStep(index + 1)"
+              @prevStep="handleNextStep(index - 1)"
             />
           </SfStep>
         </SfSteps>
@@ -65,7 +66,7 @@ export default {
     };
 
     const handleNextStep = (nextStep) => {
-      context.root.$router.push(nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
+      context.root.$router.push(nextStep < 0 ? '/' : nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
     };
 
     return {

@@ -61,7 +61,7 @@
       </transition>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
-        <SfButton class="color-secondary form__back-button">
+        <SfButton class="color-secondary form__back-button" @click="$emit('prevStep')">
           Go back
         </SfButton>
         <SfButton class="form__action-button" @click="$emit('nextStep')">

@@ -141,7 +141,7 @@
         </SfCheckbox>
           <div class="summary__action">
           <!-- TODO: add nuxt link for navigating back and forward -->
-          <SfButton class="color-secondary summary__back-button">
+          <SfButton class="color-secondary summary__back-button" @click="$emit('prevStep')">
             Go back
           </SfButton>
           <SfButton class="summary__action-button" @click="$emit('nextStep')">
