@@ -43,7 +43,9 @@
   </div>
 </template>
 <script>
-import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
+import { SfBreadcrumbs, SfContentPages, SfButton } from '@storefront-ui/vue';
+import { computed } from '@vue/composition-api';
+import { useUser } from '<%= options.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import LoyaltyCard from './MyAccount/LoyaltyCard';
@@ -57,12 +59,38 @@ export default {
   components: {
     SfBreadcrumbs,
     SfContentPages,
+    SfButton,
     MyProfile,
     ShippingDetails,
     LoyaltyCard,
     MyNewsletter,
     OrderHistory,
     MyReviews
+  },
+  setup(props, context) {
+    const { $router, $route } = context.root;
+    const { logout } = useUser();
+    const activePage = computed(() => {
+      const { pageName } = $route.params;
+
+      if (pageName) {
+        return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
+      }
+
+      return 'My profile';
+    });
+
+    const changeActivePage = async (title) => {
+      if (title === 'Log out') {
+        await logout();
+        $router.push('/');
+        return;
+      }
+
+      $router.push(`/my-account/${title.toLowerCase().replace(' ', '-')}`);
+    };
+
+    return { changeActivePage, activePage };
   },
   data() {
     return {
@@ -117,26 +145,6 @@ export default {
         ]
       }
     };
-  },
-  computed: {
-    activePage() {
-      const { pageName } = this.$route.params;
-
-      if (pageName) {
-        return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
-      }
-
-      return 'My profile';
-    }
-  },
-  methods: {
-    changeActivePage(title) {
-      if (title === 'Log out') {
-        return;
-      }
-
-      this.$router.push(`/my-account/${title.toLowerCase().replace(' ', '-')}`);
-    }
   }
 };
 </script>

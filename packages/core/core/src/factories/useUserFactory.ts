@@ -16,9 +16,7 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 ) {
   const user: Ref<USER> = ref(null);
   const loading: Ref<boolean> = ref(false);
-  const isAuthenticated = computed(
-    () => user.value && Object.keys(user.value).length > 0
-  );
+  const isAuthenticated = computed(() => Boolean(user.value));
 
   return function useUser(): UseUser<USER, UPDATE_USER_PARAMS> {
     const { initialState, saveToInitialState } = useSSR('vsf-user');
@@ -64,7 +62,7 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const logout = async () => {
       try {
         await factoryParams.logOut();
-        user.value = {} as USER;
+        user.value = null;
       } catch (err) {
         throw new Error(err);
       }
