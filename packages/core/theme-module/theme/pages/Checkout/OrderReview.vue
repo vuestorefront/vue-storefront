@@ -144,8 +144,8 @@
           <SfButton class="color-secondary summary__back-button">
             Go back
           </SfButton>
-          <SfButton class="summary__action-button" @click="$emit('nextStep')">
-            Continue to shipping
+          <SfButton class="summary__action-button" @click="processOrder()" :disabled="ordering">
+            Order
           </SfButton>
         </div>
       </div>
@@ -189,6 +189,7 @@ export default {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
+    const ordering = ref(false);
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -201,7 +202,9 @@ export default {
     } = useCheckout();
 
     const processOrder = async () => {
+      ordering.value = true;
       await placeOrder();
+      ordering.value = false;
       context.emit('nextStep');
     };
 
@@ -215,6 +218,7 @@ export default {
       billingSameAsShipping,
       terms,
       totals,
+      ordering,
       removeFromCart,
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
