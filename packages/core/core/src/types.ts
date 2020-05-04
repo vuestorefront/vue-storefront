@@ -172,6 +172,7 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getCategoryIds: (product: PRODUCT) => string[];
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
+  getSummary?: (product: PRODUCT) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 

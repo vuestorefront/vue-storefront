@@ -51,7 +51,9 @@
               </div>
             </div>
           </div>
-          <p class="product-details__description desktop-only">
+          <div class="product-details__description desktop-only" v-html="productGetters.getSummary(product)" v-if="productGetters.getSummary">
+          </div>
+          <p class="product-details__description desktop-only" v-else>
             Find stunning women cocktail and party dresses. Stand out in lace
             and metallic cocktail dresses and party dresses from all your
             favorite brands.
@@ -113,7 +115,8 @@
           </div>
           <SfTabs class="product-details__tabs" :openTab="2">
             <SfTab title="Description">
-              <div>
+              <div v-html="productGetters.getDescription(product)" v-if="productGetters.getDescription"></div>
+              <div v-else>
                 <p>
                   The Karissa V-Neck Tee features a semi-fitted shape that's
                   flattering for every figure. You can hit the gym with
