@@ -1,5 +1,5 @@
 
-import { ComputedProperty, UseWishlist } from '@vue-storefront/core';
+import { UseWishlist } from '@vue-storefront/core';
 import { Ref, ref, computed } from '@vue/composition-api';
 
 export type UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_PRODUCT> = {
@@ -7,7 +7,6 @@ export type UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_PRODUCT> = {
   getWishlist: () => Promise<WISHLIST>;
   addToWishlist: (params: { product: PRODUCT; quantity: number }) => Promise<WISHLIST_PRODUCT>;
   removeFromWishlist: (params: { product: PRODUCT }) => Promise<void>;
-  isOnWishlist: (params: { product: PRODUCT }) => ComputedProperty<boolean>;
   clearWishlist: () => Promise<void>;
   refreshWishlist: () => Promise<void>;
 }
@@ -44,8 +43,6 @@ export function useWishlistFactory<WISHLIST, PRODUCT, WISHLIST_PRODUCT>(factoryP
       }
     };
 
-    const isOnWishlist = () => computed(() => false);
-
     const clearWishlist = async () => {
       try {
         loading.value = true;
@@ -70,7 +67,6 @@ export function useWishlistFactory<WISHLIST, PRODUCT, WISHLIST_PRODUCT>(factoryP
       addToWishlist,
       removeFromWishlist,
       clearWishlist,
-      isOnWishlist,
       refreshWishlist,
       loading: computed(() => loading.value)
     };
