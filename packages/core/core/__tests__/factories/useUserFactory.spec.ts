@@ -31,7 +31,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
       expect(user.value).toEqual(null);
       expect(loading.value).toEqual(false);
-      expect(isAuthenticated.value).toEqual(null);
+      expect(isAuthenticated.value).toEqual(false);
     });
 
     it('isAuthenticated returns true for logged in user', async () => {
