@@ -1,5 +1,6 @@
 /* istanbul ignore file */
-import { UseWishlist, useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
+import { UseWishlist } from '@vue-storefront/core';
+import { useWishlistFactory, UseWishlistFactoryParams } from '../../factories/';
 import { Ref, ref } from '@vue/composition-api';
 import { BapiProduct, BapiWishlist, BapiWishlistProduct } from '../../types';
 
