@@ -61,6 +61,19 @@
           <button @click="gotToStore(store)">Make my store</button>
         </div>
       </div>
+      <!-- <div class="stores__item" >
+        <div class="stores__item__content">
+          <img src="/logo-small.png" />
+          <div class="stores__item__content__address">
+            <h3> storename</h3>
+            <span> addressline 1</span>
+            <span> addressline 2</span>
+          </div>
+        </div>
+        <div class="stores__item__actions">
+          <button>Make my store</button>
+        </div>
+      </div> -->
     </div>
 
     <div class="footer">

@@ -160,7 +160,7 @@
 
   &__info {
     flex: 1;
-    padding: 45px 0 60px;
+    padding: 45px 60px;
     @include for-mobile {
       padding: 0;
     }
@@ -242,17 +242,22 @@
   }
 
   &__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
     max-width: 1080px;
     margin: 0 auto;
     border-top: 1px solid #eeeeee;
-    padding: 25px 0;
-
+    padding: 25px;
+    @include for-desktop {
+      padding: 25px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     &__content {
       display: flex;
-
+      @include for-mobile {
+        padding-bottom: 10px;
+      }
       &__address {
         display: flex;
         flex-direction: column;
@@ -275,11 +280,11 @@
         font-size: 0.75rem;
         font-weight: 800;
         text-transform: uppercase;
+        letter-spacing: 0.2em;
       }
     }
 
     &__actions {
-
       span {
         font-size: 1.5rem;
         color: #909090;
@@ -298,6 +303,7 @@
         line-height: 36px;
         color:white;
         cursor: pointer;
+        margin-left: auto;
       }
     }
   }
