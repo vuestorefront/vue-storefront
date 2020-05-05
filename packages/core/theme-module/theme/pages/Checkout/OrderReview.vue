@@ -16,7 +16,7 @@
               {{ personalDetails.email }}
             </p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
+          <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
@@ -30,7 +30,7 @@
             </p>
             <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">Edit</SfButton
+          <SfButton data-cy="order-review-btn_shippin-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">Edit</SfButton
           >
         </div>
       </SfAccordionItem>
@@ -50,7 +50,7 @@
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Payment method">
@@ -58,7 +58,7 @@
           <div class="accordion__content">
             <p class="content">{{ chosenPaymentMethod.label }}</p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton data-cy="order-review-btn_payment-edit2" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
         </div>
       </SfAccordionItem>
     </SfAccordion>
@@ -102,6 +102,7 @@
         </SfTableData>
         <SfTableData class="table__action">
           <SfIcon
+            data-cy="order-review-icon_remove-from-cart"
             icon="cross"
             size="xxs"
             color="#BEBFC4"
@@ -141,10 +142,10 @@
         </SfCheckbox>
           <div class="summary__action">
           <!-- TODO: add nuxt link for navigating back and forward -->
-          <SfButton class="color-secondary summary__back-button">
+          <SfButton data-cy="order-review-btn_summary-back" class="color-secondary summary__back-button">
             Go back
           </SfButton>
-          <SfButton class="summary__action-button" @click="$emit('nextStep')">
+          <SfButton data-cy="order-review-btn_summary-conitnue" class="summary__action-button" @click="$emit('nextStep')">
             Continue to shipping
           </SfButton>
         </div>

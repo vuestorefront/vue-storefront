@@ -9,11 +9,12 @@
         <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
       </div>
       <div class="navbar__main">
-        <SfButton
+        <SfButton data-cy="category-btn_filters"
           class="sf-button--text navbar__filters-button"
           @click="isFilterSidebarOpen = true"
         >
-          <SfIcon size="15px" style="margin-right: 10px;">
+          <SfIcon
+            data-cy="category-icon_" size="15px" style="margin-right: 10px;">
             <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
               <g clip-icon="url(#clip0)">
                 <path
@@ -44,7 +45,7 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect  v-model="sortBy">
+          <SfSelect  v-model="sortBy" data-cy="category-select_sortBy">
             <SfSelectOption
               v-for="option in sortByOptions"
               :key="option.value"
@@ -62,6 +63,7 @@
         <div class="navbar__view desktop-only">
           <span class="navbar__view-label">View</span>
           <SfIcon
+            data-cy="category-icon_grid-view"
             class="navbar__view-icon"
             :color="isGridView ? '#1D1F22' : '#BEBFC4'"
             icon="tiles"
@@ -73,6 +75,7 @@
           >
           </SfIcon>
           <SfIcon
+            data-cy="category-icon_list-view"
             class="navbar__view-icon"
             :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
             icon="list"
@@ -83,12 +86,13 @@
             @click="isGridView = false"
           />
         </div>
-        <SfButton
+        <SfButton data-cy="category-btn_filters-mobile"
           class="sf-button--text navbar__filters-button mobile-only"
           @click="isFilterSidebarOpen = true"
         >
           {{ $t('Sort by') }}
-          <SfIcon size="15px" style="margin-left: 10px;">
+          <SfIcon
+            data-cy="category-icon_sort-by" size="15px" style="margin-left: 10px;">
             <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M8.32809 15.2897L12 11.7644V12.2892L8.13547 16L4.27094 12.2892V11.7644L7.94285 15.2897V6.83165H8.32809L8.32809 15.2897ZM3.67191 0.710288L0 4.23556V3.71082L3.86453 0L7.72906 3.71082V4.23556L4.05715 0.710288V9.16835H3.67191L3.67191 0.710288Z"
@@ -138,6 +142,7 @@
           class="products__grid"
         >
           <SfProductCard
+            data-cy="category-product-card"
             v-for="(product, i) in products"
             :key="productGetters.getSlug(product)"
             :style="{ '--index': i }"
@@ -162,6 +167,7 @@
           class="products__list"
         >
           <SfProductCardHorizontal
+            data-cy="category-product-cart_wishlist"
             v-for="(product, i) in products"
             :key="productGetters.getSlug(product)"
             :style="{ '--index': i }"
@@ -179,6 +185,7 @@
           />
         </transition-group>
         <SfPagination
+          data-cy="category-pagination"
           v-show="totalPages > 1"
           class="products__pagination"
           :current="currentPage"
@@ -232,6 +239,7 @@
         />
         <div class="filters__colors">
           <SfColor
+            data-cy="category-color_change"
             v-for="filter in filters.color"
             :key="filter.value"
             :color="filter.color"
@@ -284,12 +292,12 @@
         />
 
         <div class="filters__buttons">
-          <SfButton
+          <SfButton data-cy="category-btn_done"
             @click="isFilterSidebarOpen = false"
             class="sf-button--full-width"
             >Done</SfButton
           >
-          <SfButton
+          <SfButton data-cy="category-btn_clear-all"
             @click="clearAllFilters"
             class="sf-button--full-width filters__button-clear"
             >Clear all</SfButton

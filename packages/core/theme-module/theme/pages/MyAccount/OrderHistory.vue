@@ -8,7 +8,7 @@
       <div v-if="orders.length === 0" class="no-orders">
         <p class="no-orders__title">You currently have no orders</p>
         <p class="no-orders__content">Best get shopping pronto...</p>
-        <SfButton class="no-orders__button">Start shopping</SfButton>
+        <SfButton data-cy="order-history-btn_start" class="no-orders__button">Start shopping</SfButton>
       </div>
       <SfTable v-else class="orders">
         <SfTableHeading>
@@ -18,7 +18,7 @@
             >{{ tableHeader }}</SfTableHeader>
           <SfTableHeader>
             <span class="mobile-only">Download</span>
-            <SfButton class="desktop-only orders__download-all">Download all</SfButton>
+            <SfButton data-cy="order-history-btn_download-all" class="desktop-only orders__download-all">Download all</SfButton>
           </SfTableHeader>
         </SfTableHeading>
         <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
@@ -29,8 +29,8 @@
             <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
           </SfTableData>
           <SfTableData class="orders__view">
-            <SfButton class="sf-button--text color-secondary mobile-only">Download</SfButton>
-            <SfButton class="sf-button--text color-secondary desktop-only">VIEW</SfButton>
+            <SfButton data-cy="order-history-btn_download" class="sf-button--text color-secondary mobile-only">Download</SfButton>
+            <SfButton data-cy="order-history-btn_view" class="sf-button--text color-secondary desktop-only">VIEW</SfButton>
           </SfTableData>
         </SfTableRow>
       </SfTable>
