@@ -25,7 +25,7 @@
 ### Category Page
 
 - [x] I want to see a category tree So I can understand the structure of eCommerce's offer.
-- [ ] I want to use filters in category page So I can limit the products visible in the category page.
+- [x] I want to use filters in category page So I can limit the products visible in the category page.
 - [ ] I want to use sorting in the category page so I can change the order of the products to find these easily.
 - [x] I want to open the specific category So I can see products inside.
 - [x] I want to use pagination in the category page So I don't have to load all the products within' the category at once.
