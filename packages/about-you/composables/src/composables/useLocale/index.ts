@@ -1,10 +1,29 @@
-/* istanbul ignore file */
+import { getCurrentInstance } from '@vue/composition-api';
 
-import { UseLocale } from '@vue-storefront/core';
-import { useLocaleFactory } from '@vue-storefront/core';
+const useLocale = () => {
+  const vm = getCurrentInstance() as any;
+  const {
+    locales: availableLocales,
+    locale: defaultLocale,
+    setLocaleCookie,
+    setLocale: setLocaleI18n
+  } = vm.$i18n;
 
-import { params } from './factoryParams';
+  const availableCountries = availableLocales.map((locale) => locale.country);
+  const availableCurrencies = availableLocales.map((locale) => locale.currency);
+  const currentLocale = availableLocales.find((locale) => locale.code === defaultLocale);
 
-const useLocale: () => UseLocale = useLocaleFactory(params);
+  const setCookie = (name) => setLocaleCookie(name);
+  const setLocale = (name) => setLocaleI18n(name);
+
+  return {
+    availableLocales,
+    availableCountries,
+    availableCurrencies,
+    locale: currentLocale,
+    setCookie,
+    setLocale
+  };
+};
 
 export default useLocale;

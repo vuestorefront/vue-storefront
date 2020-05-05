@@ -3,7 +3,7 @@
     <SfButton
       v-for="lang in availableLocales"
       :key="lang.code"
-      :class="['container__lang', { 'container__lang--selected': lang.code === locale}]"
+      :class="['container__lang', { 'container__lang--selected': lang.code === locale.code}]"
       @click="handleChangeLang(lang.code)"
     >
       <SfImage :src="`/icons/langs/${lang.code}.png`" width="20" />
@@ -13,6 +13,7 @@
 
 <script>
 import { SfImage, SfSelect, SfButton } from '@storefront-ui/vue';
+import { useLocale } from '@vue-storefront/about-you';
 
 export default {
   components: {
@@ -22,7 +23,7 @@ export default {
   },
   setup(props, context) {
     const { $router, $route } = context.root;
-    const { locales, locale, setLocaleCookie: setCookie, setLocale } = context.root.$i18n;
+    const { availableLocales, locale, setCookie, setLocale } = useLocale();
 
     const handleChangeLang = (name) => {
       setLocale(name);
@@ -38,7 +39,7 @@ export default {
       handleChangeLang,
       handleSelectChange,
       locale,
-      availableLocales: locales
+      availableLocales
     };
   }
 };
