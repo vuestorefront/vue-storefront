@@ -2,10 +2,7 @@ import { BapiCategory } from '@aboutyou/backbone/types/BapiCategory';
 import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
 import { UseCategory } from '@vue-storefront/core';
 import { UseProduct } from '@vue-storefront/core';
-
-import { Ref } from '@vue/composition-api';
-
-export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
+import { ComputedProperty } from '@vue-storefront/core';
 
 // @todo: replace with real BapiUser type when AYC publishes that part of api
 type BapiUser = {
