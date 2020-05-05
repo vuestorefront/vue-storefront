@@ -3,7 +3,7 @@ import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } f
 import { locale, currency, country } from '@vue-storefront/commercetools-api';
 import { DiscountedLineItemPrice } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
-const getAttributeValue = (attribute) => {
+export const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
     case 'StringAttribute':
       return attribute.stringValue;
@@ -26,8 +26,7 @@ const getAttributeValue = (attribute) => {
     case 'BooleanAttribute':
       return attribute.booleanValue;
     case 'ReferenceAttribute':
-      return { typeId: attribute.typeId,
-        id: attribute.id };
+      return { typeId: attribute.typeId, id: attribute.id };
     default:
       return null;
   }
