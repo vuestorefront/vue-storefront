@@ -116,14 +116,14 @@
                   <SfListItem class="list__item">
                     <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
                       <template #label>
-                        <nuxt-link :to="getCategoryPath(cat)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
                   <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
                     <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
                       <template #label="{ label }">
-                        <nuxt-link :to="getCategoryPath(subCat)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -155,7 +155,7 @@
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
         </transition-group>
@@ -181,7 +181,7 @@
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </transition-group>
         <SfPagination
