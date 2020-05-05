@@ -5,15 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.11.3] - UNRELEASED
+## [1.11.4] - UNRELEASED
 
 ### Added
 
 
 ### Changed / Improved
 
+
+### Fixed
+
+- Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+
+
+## [1.11.3] - 2020.04.27
+
+### Changed / Improved
+
 - The default config file is now in more human-readable format - @juho-jaakkola (#4197)
-- Create only once aside async component - @gibkigonzo (#4229)
+- Create only once aside async component - @gibkigonzo (#4229, #4268)
 
 ### Fixed
 - Fixes when having multiple custom options with overlapping option_type_id values, selecting 1 changes the others - @carlokok (#4196)
@@ -26,8 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update replaceNumberToString, so it will change ONLY numbers to string - @gibkigonzo (#4217)
 - allow empty shipping methods in checkout - @gibkigozno (#4192)
 - configure products before price update - this is needed to have variant sku as product sku - @gibkigonzo (#4053)
-- omit stock when creating cart hash, it is not needed to compare products - @gibkigozno (#4235)
-- Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+- omit stock and totals when creating cart hash, it is not needed to compare products - @gibkigozno (#4235, #4273)
 
 ## [1.11.2] - 2020.03.10
 
