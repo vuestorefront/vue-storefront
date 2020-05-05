@@ -48,10 +48,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-
-    await dispatch('tax/calculateTaxes', { products: items }, { root: true })
-    dispatch('registerCategoryProductsMapping', items) // we don't need to wait for this
-    commit(types.CATEGORY_SET_PRODUCTS, items)
+    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
+    commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
 
     return items
   },
@@ -77,9 +75,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       total: searchResult.total
     })
 
-    await dispatch('tax/calculateTaxes', { products: searchResult.items }, { root: true })
-    dispatch('registerCategoryProductsMapping', searchResult.items) // we don't need to wait for this
-    commit(types.CATEGORY_ADD_PRODUCTS, searchResult.items)
+    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
+    commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
 
     return searchResult.items
   },
@@ -113,7 +110,11 @@ const actions: ActionTree<CategoryState, RootState> = {
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
     await dispatch('tax/calculateTaxes', { products: products }, { root: true })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    return dispatch('configureProducts', { products, filters })
+    if (!config.entities.product.enableProductNext) {
+      return dispatch('configureProducts', { products, filters })
+    } else {
+      return products
+    }
   },
   /**
    * Configure configurable products to have first available options selected
