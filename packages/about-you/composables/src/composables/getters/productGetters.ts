@@ -10,12 +10,21 @@ import { getSettings } from '@vue-storefront/about-you-api';
 
 type ProductVariantFilters = any
 
-export const getProductName = (product: BapiProduct): string => {
-  return product ? product.advancedAttributes?.productName?.values[0].fieldSet[0][0].value.toString() : '';
+export const getProductMultiAttributeValue = (attributes: any, attributeName: string, attrType = 'fieldSet') => {
+  const attributeValues = attributes?.[attributeName]?.values ?? null;
+  if (Array.isArray(attributeValues)) {
+    const [attrSets] = attributeValues;
+    const [[attributeSetValues]] = attrSets[attrType];
+    return attributeSetValues.value;
+  }
+  return attributeValues;
+};
+
+export const getProductName = (product: BapiProduct): any => {
+  return product?.advancedAttributes ? getProductMultiAttributeValue(product.advancedAttributes, 'productName') : '';
 };
 
 export const getProductSlug = (product: BapiProduct): string => {
-  // return product.advancedAttributes?.productNameSlug?
   return product ? product.id.toString() : '';
 };
 
@@ -32,14 +41,13 @@ export const getProductGallery = (product: BapiProduct): AgnosticMediaGalleryIte
     big: `${getSettings().imgUrl}/${imgObj.hash}`,
     normal: '',
     small: ''
-  })) || [];
+  }));
 };
 
 export const getProductCoverImage = (product: BapiProduct): string => {
-  return product ? `${getSettings().imgUrl}/${product.images?.[0].hash}` : null;
+  return product?.images?.[0].hash ? `${getSettings().imgUrl}/${product.images[0].hash}` : null;
 };
 
-// istanbul ignore next
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: BapiProduct[] | BapiProduct, filters: ProductVariantFilters | any = {}): BapiProduct[] => {
   return Array.isArray(products) ? products : [products];
@@ -52,11 +60,11 @@ export const getProductAttributes = (product: BapiProduct, filterByAttributeName
 };
 
 export const getProductDescription = (product: BapiProduct): string => {
-  return product ? product.advancedAttributes?.description?.values?.[0].fieldSet?.[0][0].value.toString() : '';
+  return product?.advancedAttributes ? getProductMultiAttributeValue(product.advancedAttributes, 'description') : '';
 };
 
 export const getProductCategoryIds = (product: BapiProduct) => {
-  const categories = (product?.categories ?? []).reduce((prevCategory, currCategory) => prevCategory.concat(currCategory), []) || [];
+  const categories = (product?.categories ?? []).reduce((prevCategory, currCategory) => prevCategory.concat(currCategory), []);
   const categoryIdsSet = new Set(categories.map(category => category.categoryId.toString()));
   return Array.from(categoryIdsSet);
 };
@@ -76,6 +84,7 @@ const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
+  getMultiAttributeValue: getProductMultiAttributeValue,
   getFormattedPrice
 };
 

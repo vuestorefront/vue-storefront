@@ -9,7 +9,8 @@ import {
   getProductCategoryIds,
   getProductId,
   getProductCoverImage,
-  getFormattedPrice
+  getFormattedPrice,
+  getProductMultiAttributeValue
 } from '../../../src/composables/getters/productGetters';
 
 jest.mock('@vue-storefront/about-you-api', () => ({
@@ -42,7 +43,10 @@ const product = {
         fieldSet: [[{
           value: 'product-name-1'
         }
-        ]]
+        ]],
+        groupSet: [[{
+          value: 'product-name'
+        }]]
       }]
     }
   },
@@ -81,12 +85,30 @@ describe('[commercetools-getters] product getters', () => {
     expect(getFormattedPrice(null)).toEqual('');
     expect(getProductGallery(null)).toEqual([]);
     expect(getProductFiltered(null)).toEqual([null]);
+    expect(getProductFiltered(null, null)).toEqual([null]);
     expect(getProductCategoryIds(null)).toEqual([]);
     expect(getProductAttributes(null)).toEqual({});
+    expect(getProductMultiAttributeValue(null, 'productName')).toBe(null);
+    expect(getProductMultiAttributeValue(product.advancedAttributes, null)).toBe(null);
+  });
+
+  it('returns product multi attribute value from fieldSet', () => {
+    expect(getProductMultiAttributeValue(product.advancedAttributes, 'productNameSlug')).toBe('product-name-1');
+  });
+
+  it('returns product multi attribute value from fieldSet', () => {
+    expect(getProductMultiAttributeValue(product.advancedAttributes, 'productNameSlug', 'groupSet')).toBe('product-name');
   });
 
   it('returns name', () => {
     expect(getProductName(product)).toBe('Product Name 1');
+  });
+
+  it('return empty string instead of product name if not contains advanced attributes', () => {
+    const productWithoutAdvAttr = {
+      id: 1234
+    } as any;
+    expect(getProductName(productWithoutAdvAttr)).toEqual('');
   });
 
   it('returns slug', () => {
@@ -107,6 +129,15 @@ describe('[commercetools-getters] product getters', () => {
 
   it('returns product cover image', () => {
     expect(getProductCoverImage(product)).toEqual('ayc.com/images/99c1');
+  });
+
+  it('returns null when product not contains cover image hash', () => {
+    const productWithoutCoverImg = {
+      images: [
+        {}
+      ]
+    } as any;
+    expect(getProductCoverImage(productWithoutCoverImg)).toBe(null);
   });
 
   it('returns gallery', () => {
@@ -138,6 +169,22 @@ describe('[commercetools-getters] product getters', () => {
       color: { label: 'blue', value: 'blue' },
       size: { label: 'xl', value: 'XL' }
     });
+  });
+
+  it('returns attributes with null values when product does not contain attributes', () => {
+    const productWithoutAttributes = {} as any;
+    expect(getProductAttributes(productWithoutAttributes, ['color', 'size'])).toEqual({color: null, size: null});
+  });
+
+  it('return given attribute with null when does not exists in product attributes', () => {
+    const productWithoutOneAttribute = {
+      attributes: {
+        color: {
+          value: 'blue'
+        }
+      }
+    } as any;
+    expect(getProductAttributes(productWithoutOneAttribute, ['color', 'size'])).toEqual({color: {value: 'blue'}, size: null});
   });
 
   it('returns product categories', () => {

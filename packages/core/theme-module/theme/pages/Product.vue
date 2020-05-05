@@ -239,6 +239,7 @@ export default {
     onSSR(async () => {
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]] });
+      console.log(product.value.advancedAttributes.productName);
     });
 
     const updateFilter = (filter) => {
