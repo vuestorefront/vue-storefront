@@ -11,11 +11,11 @@
     <div class="features">
       <div class="features__container">
         <div class="features__item">
-          <img src="/add-to-cart.png" width="256" height="256" />
+          <img src="/magnifying-glass.png" width="256" height="256" />
           <h3>Find your store</h3>
         </div>
         <div class="features__item">
-          <img src="/magnifying-glass.png" width="256" height="256" />
+          <img src="/add-to-cart.png" width="256" height="256" />
           <h3>Reserve your items</h3>
         </div>
         <div class="features__item">

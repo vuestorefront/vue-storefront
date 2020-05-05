@@ -26,6 +26,7 @@ export default {
 @import "../pages/main.scss";
 
 .selector {
+
   position: fixed;
   bottom: 0;
   left: 0;
@@ -38,6 +39,9 @@ export default {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   border-radius: 4px 4px 0 0;
 
+  @include for-mobile {
+    display: none;
+  }
   &__content  {
     flex: 1;
     display: flex;

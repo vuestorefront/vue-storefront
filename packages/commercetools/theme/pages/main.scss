@@ -1,7 +1,18 @@
 
+@import "~@storefront-ui/vue/styles";
+
+
+
+:root {
+  --c-primary: #eb5256;
+}
+
 .container {
   font-family: 'Montserrat', sans-serif;
-  padding: 0 80px;
+  padding: 0 15px;
+  @include for-desktop {
+    padding: 0 80px;
+  }
 }
 
 .circle-button {
@@ -48,7 +59,9 @@
   align-items: center;
   background: #eb5256;
   height: 560px;
-
+  @include for-mobile {
+    height: 180px;
+  }
   &__content {
     position: relative;
     color: white;
@@ -60,9 +73,11 @@
     justify-content: center;
     align-items: center;
     font-size: 4.8rem;
-    font-weight: 700;
+    font-weight: 500;
     text-align: center;
-
+    @include for-mobile {
+      transform: scale(0.35)
+    }
     svg {
       position: absolute;
       bottom: -45px;
@@ -82,7 +97,9 @@
     align-items: center;
     max-width: 1080px;
     justify-content: center;
-    padding: 37px 0;
+    @include for-desktop {
+      padding: 37px 0;
+    }
   }
 
   &__item {
@@ -94,21 +111,31 @@
     img {
       width: 75px;
       height: 100%;
+      @include for-mobile {
+        width: 35px;
+      }
     }
 
-    &:not(:first-child):before {
-      position: absolute;
-      content: " ";
-      height: 100%;
-      top: 0;
-      left: -1px;
-      border-left: 1px solid #ddd;
+    @include for-desktop {
+      &:not(:first-child):before {
+        position: absolute;
+        content: " ";
+        height: 100%;
+        top: 0;
+        left: -1px;
+        border-left: 1px solid #ddd;
+      }
     }
   }
 
   h3 {
     font-weight: 700;
     font-size: 1.25em;
+    @include for-mobile {
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
   }
 }
 
@@ -118,20 +145,32 @@
   border-radius: 20px;
   margin: 70px 0;
   padding: 45px;
-
+  @include for-mobile {
+    padding: 45px 20px;
+    margin: 10px 0;
+  }
   &__container {
     max-width: 1080px;
     display: flex;
     margin: 0 auto;
+    @include for-mobile {
+      flex-direction: column;
+    }
   }
 
   &__info {
     flex: 1;
     padding: 45px 0 60px;
+    @include for-mobile {
+      padding: 0;
+    }
     span {
       font-size: 0.5625rem;
       text-transform: uppercase;
-      color: #313131
+      color: #313131;
+      @include for-mobile {
+        display: none;
+      }
     }
 
     h3 {
@@ -139,6 +178,13 @@
       color: white;
       font-size: 3.125rem;
       line-height: 1;
+      @include for-mobile {
+        color: black;
+        letter-spacing: 0.2em;
+        font-weight: 500;
+        font-size: 10px;
+        margin-bottom: 10px;
+      }
     }
   }
 
@@ -157,7 +203,11 @@
       height: 65px;
       font-weight: 200;
       border-bottom: 2px solid rgba(255, 255, 255, 0.4);
-
+      @include for-mobile {
+        font-size: 16px;
+        height: 40px;
+        font-weight: 100;
+      }
       &::placeholder {
         color: white;
         font-weight: 200;
@@ -178,7 +228,7 @@
   color: #909090;
   background: #f4f4f4;
   font-size: .9em;
-  padding: 30px 0;
+  padding: 30px;
   text-align: center;
   vertical-align: middle;
   margin-bottom: 100px;
@@ -218,6 +268,7 @@
         color: #f98608;
         font-size: 1.1875rem;
         font-weight: 400;
+        padding-right: 20px;
       }
 
       span {
