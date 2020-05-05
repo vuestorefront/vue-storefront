@@ -84,12 +84,17 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     return resp
   },
-  async loadProductAttributes (context, { products }) {
+  async loadProductAttributes (context, { products, merge = false }) {
     const attributeMetadata = products
       .filter(product => product.attributes_metadata)
       .map(product => product.attributes_metadata)
 
     const attributes = transformMetadataToAttributes(attributeMetadata)
+
+    if (merge) {
+      attributes.attrHashByCode = {...attributes.attrHashByCode, ...context.state.list_by_code}
+      attributes.attrHashById = {...attributes.attrHashById, ...context.state.list_by_id}
+    }
 
     context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
   },

@@ -39,9 +39,6 @@ export class SearchAdapter {
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       ElasticsearchQueryBody['groupToken'] = Request.groupToken
     }
-    if (Request.hasOwnProperty('filters')) {
-      ElasticsearchQueryBody['filters'] = Request.filters
-    }
 
     const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
 
@@ -56,7 +53,8 @@ export class SearchAdapter {
     const httpQuery: HttpQuery = {
       size: Request.size,
       from: Request.from,
-      sort: Request.sort
+      sort: Request.sort,
+      ...(Request.hasOwnProperty('filters') ? { filters: JSON.stringify(Request.filters) } : {})
     }
 
     if (Request._sourceExclude) {

@@ -48,6 +48,9 @@ const actions: ActionTree<CategoryState, RootState> = {
       filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
+
+    await dispatch('tax/calculateTaxes', { products: items }, { root: true })
+    dispatch('registerCategoryProductsMapping', items) // we don't need to wait for this
     commit(types.CATEGORY_SET_PRODUCTS, items)
 
     return items
@@ -65,15 +68,18 @@ const actions: ActionTree<CategoryState, RootState> = {
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields
+      excludeFields: entities.productList.excludeFields,
+      filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,
       start: searchResult.start,
       total: searchResult.total
     })
-    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
-    commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
+
+    await dispatch('tax/calculateTaxes', { products: searchResult.items }, { root: true })
+    dispatch('registerCategoryProductsMapping', searchResult.items) // we don't need to wait for this
+    commit(types.CATEGORY_ADD_PRODUCTS, searchResult.items)
 
     return searchResult.items
   },
@@ -127,7 +133,10 @@ const actions: ActionTree<CategoryState, RootState> = {
       return dispatch('url/registerMapping', {
         url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
-          params: { parentSku: product.sku, slug },
+          params: {
+            parentSku: product.parentSku || product.sku,
+            slug
+          },
           'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
         }
       }, { root: true })
