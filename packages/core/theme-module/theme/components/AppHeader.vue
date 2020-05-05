@@ -1,5 +1,6 @@
 <template>
   <SfHeader
+    data-cy="app-header"
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:account="onAccountClicked"
