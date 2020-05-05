@@ -7,7 +7,9 @@ import {
   getProductFiltered,
   getProductAttributes,
   getProductCategoryIds,
-  getProductId
+  getProductId,
+  getProductCoverImage,
+  getFormattedPrice
 } from '../../../src/composables/getters/productGetters';
 
 jest.mock('@vue-storefront/about-you-api', () => ({
@@ -44,6 +46,16 @@ const product = {
       }]
     }
   },
+  attributes: {
+    color: {
+      value: 'blue',
+      label: 'blue'
+    },
+    size: {
+      value: 'XL',
+      label: 'xl'
+    }
+  },
   categories: [
     [{
       categoryId: 344491
@@ -64,9 +76,11 @@ describe('[commercetools-getters] product getters', () => {
     expect(getProductName(null)).toBe('');
     expect(getProductSlug(null)).toBe('');
     expect(getProductDescription(null)).toBe('');
+    expect(getProductCoverImage(null)).toEqual(null);
     expect(getProductPrice(null)).toEqual({ regular: 0, special: 0 });
+    expect(getFormattedPrice(null)).toEqual('');
     expect(getProductGallery(null)).toEqual([]);
-    expect(getProductFiltered(null)).toEqual([]);
+    expect(getProductFiltered(null)).toEqual([null]);
     expect(getProductCategoryIds(null)).toEqual([]);
     expect(getProductAttributes(null)).toEqual({});
   });
@@ -87,6 +101,14 @@ describe('[commercetools-getters] product getters', () => {
     expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11450 });
   });
 
+  it('return formated price', () => {
+    expect(getFormattedPrice(11450)).toEqual('11450€');
+  });
+
+  it('returns product cover image', () => {
+    expect(getProductCoverImage(product)).toEqual('ayc.com/images/99c1');
+  });
+
   it('returns gallery', () => {
     expect(getProductGallery(product)).toEqual([
       {
@@ -101,6 +123,23 @@ describe('[commercetools-getters] product getters', () => {
       }
     ]);
   });
+
+  it('returns filtered product as array', () => {
+    expect(getProductFiltered(product)).toEqual([product]);
+  });
+
+  it('returns filtered products', () => {
+    const products = [product, product];
+    expect(getProductFiltered(products)).toEqual(products);
+  });
+
+  it('returns given product attributes', () => {
+    expect(getProductAttributes(product, ['size', 'color'])).toEqual({
+      color: { label: 'blue', value: 'blue' },
+      size: { label: 'xl', value: 'XL' }
+    });
+  });
+
   it('returns product categories', () => {
     expect(getProductCategoryIds(product)).toEqual([
       '344491',
