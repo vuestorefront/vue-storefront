@@ -1,4 +1,6 @@
 import webpack from 'webpack';
+import { locales } from './plugins/locales-config';
+const localeNames = locales.locales.map(l => ({ code: l.name, file: `${l.name}.js` }));
 
 export default {
   mode: 'universal',
@@ -34,12 +36,10 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ]
       }
@@ -68,15 +68,15 @@ export default {
     ]
   },
   i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: localeNames,
+    defaultLocale: localeNames[0].code,
     lazy: true,
     langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: 'en'
+      fallbackLocale: localeNames[0].code
     },
     detectBrowserLanguage: {
-      cookieKey: 'vsf-lang',
+      cookieKey: locales.cookies.localeCookieName,
       alwaysRedirect: true
     }
   }

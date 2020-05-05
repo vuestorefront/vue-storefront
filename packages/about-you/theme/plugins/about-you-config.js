@@ -6,11 +6,5 @@ export const config = {
       password: 'OmNErAb96Y5Qn75SFhXr'
     },
     shopId: 121
-  },
-  locale: 'en',
-  currency: '',
-  country: '',
-  countries: [],
-  currencies: [],
-  locales: []
+  }
 };
