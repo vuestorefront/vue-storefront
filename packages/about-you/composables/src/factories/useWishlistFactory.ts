@@ -1,5 +1,5 @@
 
-import { UseWishlist } from '@vue-storefront/core';
+import { UseWishlist } from '../types/';
 import { Ref, ref, computed } from '@vue/composition-api';
 
 export type UseWishlistFactoryParams<WISHLIST, PRODUCT> = {
