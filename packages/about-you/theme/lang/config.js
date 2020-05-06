@@ -2,6 +2,7 @@ const locales = [
   {
     code: 'en',
     file: 'en.js',
+    name: 'en',
     label: 'English',
     shopId: 1,
     country: {
@@ -16,6 +17,7 @@ const locales = [
   {
     code: 'de',
     file: 'de.js',
+    name: 'de',
     label: 'German',
     shopId: 2,
     country: {

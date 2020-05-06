@@ -12,6 +12,8 @@ const useLocale = () => {
   const availableCountries = availableLocales.map((locale) => locale.country);
   const availableCurrencies = availableLocales.map((locale) => locale.currency);
   const currentLocale = availableLocales.find((locale) => locale.code === defaultLocale);
+  const currency = currentLocale.currency;
+  const country = currentLocale.country;
 
   const setCookie = (name) => setLocaleCookie(name);
   const setLocale = (name) => setLocaleI18n(name);
@@ -20,7 +22,9 @@ const useLocale = () => {
     availableLocales,
     availableCountries,
     availableCurrencies,
-    locale: currentLocale,
+    locale: currentLocale.name,
+    currency,
+    country,
     setCookie,
     setLocale
   };
