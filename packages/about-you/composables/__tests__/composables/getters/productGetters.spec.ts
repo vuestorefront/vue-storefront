@@ -72,7 +72,7 @@ const product = {
     }
     ]],
   images: [{ hash: 'images/99c1' }, { hash: 'images/99c2'}],
-  priceRange: { max: { withoutTax: 11450 }}
+  priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11400}}
 } as any;
 
 describe('[commercetools-getters] product getters', () => {
@@ -120,7 +120,7 @@ describe('[commercetools-getters] product getters', () => {
   });
 
   it('returns price', () => {
-    expect(getProductPrice(product)).toEqual({ regular: 11450, special: null });
+    expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11400 });
   });
 
   it('return formated price', () => {

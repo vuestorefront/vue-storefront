@@ -28,10 +28,10 @@ export const getProductSlug = (product: BapiProduct): string => {
 };
 
 export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
-  const productPrice = product?.priceRange?.max?.withoutTax ?? 0;
+  const productPrice = product?.priceRange;
   return {
-    regular: productPrice,
-    special: null
+    regular: productPrice?.max?.withoutTax ?? 0,
+    special: productPrice?.min?.withoutTax ?? null
   };
 };
 
