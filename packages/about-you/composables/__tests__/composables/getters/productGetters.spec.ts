@@ -81,7 +81,7 @@ describe('[commercetools-getters] product getters', () => {
     expect(getProductSlug(null)).toBe('');
     expect(getProductDescription(null)).toBe('');
     expect(getProductCoverImage(null)).toEqual(null);
-    expect(getProductPrice(null)).toEqual({ regular: 0, special: 0 });
+    expect(getProductPrice(null)).toEqual({ regular: 0, special: null });
     expect(getFormattedPrice(null)).toEqual('');
     expect(getProductGallery(null)).toEqual([]);
     expect(getProductFiltered(null)).toEqual([null]);
@@ -120,7 +120,7 @@ describe('[commercetools-getters] product getters', () => {
   });
 
   it('returns price', () => {
-    expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11450 });
+    expect(getProductPrice(product)).toEqual({ regular: 11450, special: null });
   });
 
   it('return formated price', () => {

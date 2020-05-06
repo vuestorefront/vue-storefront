@@ -31,7 +31,7 @@ export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
   const productPrice = product?.priceRange?.max?.withoutTax ?? 0;
   return {
     regular: productPrice,
-    special: productPrice
+    special: null
   };
 };
 
