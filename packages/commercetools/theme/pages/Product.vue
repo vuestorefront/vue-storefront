@@ -92,6 +92,7 @@
               class="product-details__add-to-cart"
             />
           </div>
+
           <SfTabs class="product-details__tabs" :openTab="2">
             <SfTab title="Description">
               <div>
@@ -140,11 +141,11 @@
         </SfSticky>
       </div>
     </div>
-    <RelatedProducts
+    <!-- <RelatedProducts
       :products="relatedProducts"
       :loading="relatedLoading"
       title="More products"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -189,17 +190,17 @@ export default {
     const { id } = context.root.$route.params;
     const attributes = getAttributesFromSearchParams(context.root.$route.query);
     const { products, search } = useProduct('products');
-    const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
+    // const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
-    const categories = computed(() => productGetters.getCategoryIds(product.value));
+    // const categories = computed(() => productGetters.getCategoryIds(product.value));
 
     onSSR(async () => {
       await search({ id });
-      await searchRelatedProducts({ catId: [categories.value[0]] });
+      // await searchRelatedProducts({ catId: [categories.value[0]] });
     });
 
     const updateFilter = (filter) => {
@@ -214,8 +215,8 @@ export default {
       updateFilter,
       configuration,
       product,
-      relatedProducts,
-      relatedLoading,
+      // relatedProducts,
+      // relatedLoading,
       options,
       qty,
       addToCart,

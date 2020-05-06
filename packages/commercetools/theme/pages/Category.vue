@@ -91,7 +91,7 @@
           v-show="totalPages > 1"
           class="products__pagination__options"
         >
-          <span class="products__pagination__label">Items per page:</span>
+          <div class="products__pagination__label">Items per page:</div>
           <SfSelect class="items-per-page" v-model="itemsPerPage">
             <SfSelectOption
               v-for="option in perPageOptions"

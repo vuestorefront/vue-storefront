@@ -2,10 +2,10 @@
   <div class="header">
     <div class="header__top">
       <div class="header__logo">
-        <img class="header__logo" src="/logo.png" />
+        <nuxt-link to="/"><img class="header__logo" src="/logo.png" /></nuxt-link>
       </div>
       <div class="header__logo-mobile">
-        <img src="/logomini.png" />
+        <nuxt-link to="/"><img src="/logomini.png" /> </nuxt-link>
       </div>
       <ul>
         <li><nuxt-link to="/">Home</nuxt-link></li>

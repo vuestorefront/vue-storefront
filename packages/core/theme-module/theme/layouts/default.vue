@@ -246,16 +246,6 @@ export default {
   }
 }
 
-.footer {
-  color: #909090;
-  background: #f4f4f4;
-  font-size: .9em;
-  padding: 30px;
-  text-align: center;
-  vertical-align: middle;
-  margin-bottom: 100px;
-}
-
 .stores {
   &__loader {
     width: 100%;
