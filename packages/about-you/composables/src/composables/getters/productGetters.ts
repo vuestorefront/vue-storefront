@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { BapiProduct } from '@aboutyou/backbone';
 import {
   AgnosticMediaGalleryItem,
