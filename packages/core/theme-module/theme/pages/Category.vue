@@ -246,6 +246,7 @@ import {
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
+import { applyFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
@@ -281,8 +282,6 @@ export default {
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
     const filters = ref(null);
 
-    const filtersFromQuery = Object.entries(query).filter(([name]) => !['page', 'items'].includes(name));
-
     const productsSearchParams = computed(() => ({
       catId: (categories.value[0] || {}).id,
       page: currentPage.value,
@@ -294,34 +293,17 @@ export default {
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
       filters.value = availableFilters.value;
-      filtersFromQuery.forEach(([name, values]) => {
-        if (!filters.value[name]) {
-          return;
-        }
-
-        if (!Array.isArray(values)) {
-          values = [values];
-        }
-        filters.value[name].options.forEach(option => {
-          if (values.includes(option.value)) {
-            option.selected = true;
-          }
-        });
-      });
+      applyFiltersFromUrl(context, filters.value);
       await productsSearch(productsSearchParams.value);
     });
 
     watch([currentPage, itemsPerPage, filters], () => {
-      console.log('filters: ', filters.value);
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
           page: currentPage.value !== 1 ? currentPage.value : undefined,
-          ...Object.entries(filters.value || {}).reduce((prev, [name, filter]) => {
-            prev[name] = filter.options.filter(option => option.selected).map(option => option.value);
-            return prev;
-          }, {})
+          ...getFiltersForUrl(filters.value)
         }});
       }
     }, { deep: true });
