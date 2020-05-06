@@ -1,9 +1,11 @@
 <template>
   <SfHeader
+    data-cy="app-header"
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
+    :accountIcon="accountIcon"
     >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
@@ -45,16 +47,21 @@ export default {
   },
   setup(props, { root }) {
     const { isAuthenticated } = useUser();
-    const onAccountClicked = () => {
-      isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
-    };
     const { cart } = useCart();
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
       // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/1061
       return count ? count.toString() : null;
     });
+
+    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
+
+    const onAccountClicked = () => {
+      isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
+    };
+
     return {
+      accountIcon,
       cartTotalItems,
       toggleLoginModal,
       onAccountClicked,

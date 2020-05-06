@@ -7,7 +7,7 @@
       />
       <div class="highlighted__header">
         <h3 class="highlighted__title">Personal details</h3>
-        <SfButton class="sf-button--text" @click="$emit('click:edit', 0)">Edit</SfButton>
+        <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text" @click="$emit('click:edit', 0)">Edit</SfButton>
       </div>
       <p class="content">{{ personalDetails.firstName }} {{ personalDetails.lastName }}<br /></p>
       <p class="content">{{ personalDetails.email }}</p>
@@ -15,7 +15,7 @@
     <div class="highlighted">
       <div class="highlighted__header">
         <h3 class="highlighted__title">Shipping details</h3>
-        <SfButton class="sf-button--text" @click="$emit('click:edit', 1)">Edit</SfButton>
+        <SfButton data-cy="order-review-btn_shipping-edit" class="sf-button--text" @click="$emit('click:edit', 1)">Edit</SfButton>
       </div>
       <p class="content">
         <span class="content__label">{{ checkoutGetters.getShippingMethodName(chosenShippingMethod) }}</span><br />
@@ -27,7 +27,7 @@
     <div class="highlighted">
       <div class="highlighted__header">
         <h3 class="highlighted__title">Billing address</h3>
-        <SfButton class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
+        <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
       </div>
       <p v-if="billingSameAsShipping" class="content">Same as shipping address</p>
       <template v-else>
@@ -42,7 +42,7 @@
     <div class="highlighted">
       <div class="highlighted__header">
         <h3 class="highlighted__title">Payment method</h3>
-        <SfButton class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
+        <SfButton data-cy="order-review-btn_payment-edit" class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
       </div>
       <p class="content">{{ paymentMethod.label }}</p>
     </div>
