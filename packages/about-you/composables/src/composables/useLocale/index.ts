@@ -1,4 +1,4 @@
-import { getCurrentInstance } from '@vue/composition-api';
+import { getCurrentInstance, ref } from '@vue/composition-api';
 
 const useLocale = () => {
   const vm = getCurrentInstance() as any;
@@ -22,7 +22,7 @@ const useLocale = () => {
     availableLocales,
     availableCountries,
     availableCurrencies,
-    locale: currentLocale.name,
+    locale: ref(currentLocale.name),
     currency,
     country,
     setCookie,
