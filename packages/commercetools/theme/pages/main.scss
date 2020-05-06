@@ -29,6 +29,10 @@
   flex: 0 0 auto;
   font-size: 16px;
   cursor: pointer;
+  @include for-mobile {
+    color: #eb5256;
+    background: white
+  }
 }
 
 .circle-icon {

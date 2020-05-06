@@ -1,6 +1,7 @@
 <template>
+<div>
+  <Header />
   <div class="container">
-    <Header />
     <div class="hero">
       <div class="hero__content">
         click & collect
@@ -83,6 +84,7 @@
     <StoreLocator @click="loadLocation" />
 
   </div>
+  </div>
 </template>
 <script>
 
@@ -96,7 +98,7 @@ import StoreLocator from './../components/StoreLocator';
 import Loading from './../components/Loading';
 
 export default {
-  layout: null,
+  layout: 'circlek',
   components: {
     Header,
     StoreLocator,

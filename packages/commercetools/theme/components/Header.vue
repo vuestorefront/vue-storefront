@@ -1,10 +1,12 @@
 <template>
   <div class="header">
-    <div class="desktop">
+    <div class="header__top">
       <div class="header__logo">
         <img class="header__logo" src="/logo.png" />
       </div>
-      <div class="header__logo-mobile">Logo mobile</div>
+      <div class="header__logo-mobile">
+        <img src="/logomini.png" />
+      </div>
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">Browse</a></li>
@@ -23,10 +25,11 @@
           <font-awesome-icon :icon="['fas', 'shopping-cart']" />
         </button>
       </div>
-    </div>
-    <div class="mobile">
-    </div>
     <CartSidebar />
+    </div>
+    <div class="header__bottom">
+      <input type="text" placeholder="Find products"/>
+    </div>
   </div>
 </template>
 
@@ -54,22 +57,43 @@ export default {
 @import "../pages/main.scss";
 
 .header {
-  .desktop {
+  height: 100px;
+  &__top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    padding: 15px 0;
   }
+  &__bottom {
+    @include for-desktop {
+      display: none;
+    }
+    input {
+      width: 100%;
+      border-radius: 10px;
+      height: 45px;
+      border: 0;
+      padding: 0 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+  }
+
   @include for-mobile {
     background: #EB5256;
     color: white;
     border-radius: 0 0 20px 20px;
+    padding: 0 15px;
+    height: 130px;
   }
 
   &__cart {
-    width: auto;
-    border-radius: 100px;
-    padding: 0 .60em 0 .12em;
+    @include for-desktop {
+      width: auto;
+      border-radius: 100px;
+      padding: 0 .60em 0 .12em;
+
+    }
 
     span {
       font-size: .8em;
@@ -81,11 +105,19 @@ export default {
     }
   }
 
+  .divider {
+    @include for-mobile {
+      display: none;
+    }
+  }
   &__links {
     margin: 0 -9px;
     display: flex;
     align-items: center;
-
+    @include for-mobile {
+      flex-grow: 2;
+      justify-content: flex-end;
+    }
     > div, button {
       margin: 0 9px;
     }
@@ -121,6 +153,10 @@ export default {
     }
   }
   &__logo-mobile {
+    img {
+      width: 25px;
+      height: 30px;
+    }
     @include for-desktop {
       display: none
     }

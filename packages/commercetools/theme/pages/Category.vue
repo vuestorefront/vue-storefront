@@ -1,6 +1,7 @@
 <template>
+<div>
+      <Header />
   <div id="category">
-    <Header />
     <div class="main section">
       <div class="sidebar desktop-only">
         <SfLoader :class="{ loading }" :loading="loading">
@@ -258,6 +259,7 @@
       </SfAccordion>
     </SfSidebar>
     <StoreLocator :store="multistoreGetters.getName(selectedStore)" />
+  </div>
   </div>
 </template>
 
