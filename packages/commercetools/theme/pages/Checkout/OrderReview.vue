@@ -145,7 +145,7 @@
             Go back
           </SfButton>
           <SfButton class="summary__action-button" @click="$emit('nextStep')">
-            Place order
+            Continue to shipping
           </SfButton>
         </div>
       </div>

@@ -22,7 +22,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 :root {
-  --c-primary: #eb5256;
+  --c-primary: #eb5256 !important;
 }
 
 .container {
