@@ -57,6 +57,10 @@ export default {
 @import "../pages/main.scss";
 
 .header {
+  font-family: 'Montserrat', sans-serif;
+  @include for-desktop {
+    padding: 0 80px;
+  }
   height: 100px;
   &__top {
     display: flex;
@@ -114,10 +118,9 @@ export default {
     margin: 0 -9px;
     display: flex;
     align-items: center;
-    @include for-mobile {
-      flex-grow: 2;
-      justify-content: flex-end;
-    }
+    flex-grow: 2;
+    justify-content: flex-end;
+
     > div, button {
       margin: 0 9px;
     }
@@ -131,9 +134,11 @@ export default {
 
   ul {
     list-style-type: none;
+    flex-grow: 2;
     display: flex;
     font-size: .9em;
     text-transform: uppercase;
+    justify-content: flex-end;
     @include for-mobile {
       display: none;
     }

@@ -58,7 +58,6 @@
           </div>
         </div>
         <div class="stores__item__actions">
-          <span>448.37 miles</span>
           <button @click="gotToStore(store)">Make my store</button>
         </div>
       </div>
