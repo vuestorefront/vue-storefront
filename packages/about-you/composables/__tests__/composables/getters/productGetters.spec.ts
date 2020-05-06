@@ -197,7 +197,4 @@ describe('[commercetools-getters] product getters', () => {
   it('returns product ID', () => {
     expect(getProductId(product)).toEqual('1234');
   });
-
-  it('returns empty array if there is no product', () => {
-  });
 });
