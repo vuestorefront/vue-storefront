@@ -19,6 +19,7 @@ export default ({ app }) => {
 
   const onTokenRemove = () => {
     app.$cookies.remove(CT_TOKEN_COOKIE_NAME);
+    setup({ currentToken: null });
   };
 
   setup({

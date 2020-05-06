@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <SfButton
+      data-cy="locale-select_change-langauge"
       v-for="lang in availableLocales"
       :key="lang.name"
       :class="['container__lang', { 'container__lang--selected': lang.name === locale}]"

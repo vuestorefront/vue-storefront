@@ -1,10 +1,15 @@
 import { mapProductSearchByQueryParams } from '../../../src/helpers/product/mapProductSearchByQueryParams';
 
 describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
-  it('returns empty products query given no params', async () => {
+  it('returns products query with default attrs when given no params', async () => {
     const params = {};
     const expectedQuery = {
-      with: {},
+      with: {
+        advancedAttributes: {
+          withKey: ['productName']
+        },
+        priceRange: true
+      },
       where: {},
       sort: {},
       pagination: {}
@@ -22,7 +27,12 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
       perPage: 20
     };
     const expectedQuery = {
-      with: {},
+      with: {
+        advancedAttributes: {
+          withKey: ['productName']
+        },
+        priceRange: true
+      },
       where: {
         categoryId: params.catId,
         term: params.term

@@ -5,6 +5,8 @@ import { config } from './../plugins/commercetools-config';
 const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
 
 export default async ({ app }) => {
+  if (!process.server) return;
+
   const newToken = await createAccessToken();
 
   app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
