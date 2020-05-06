@@ -13,6 +13,7 @@ export default async function init(context) {
         password: 'OmNErAb96Y5Qn75SFhXr'
       },
       shopId: selectedLocale.shopId
-    }
+    },
+    imgUrl: 'https://mt1.dam.demo.aboutyou.cloud/boston'
   });
 }
