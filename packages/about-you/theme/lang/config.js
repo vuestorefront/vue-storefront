@@ -4,7 +4,7 @@ const locales = [
     file: 'en.js',
     name: 'en',
     label: 'English',
-    shopId: 1,
+    shopId: 121,
     country: {
       name: 'US',
       label: 'United States'
@@ -19,7 +19,7 @@ const locales = [
     file: 'de.js',
     name: 'de',
     label: 'German',
-    shopId: 2,
+    shopId: 121,
     country: {
       name: 'DE',
       label: 'Germany'
