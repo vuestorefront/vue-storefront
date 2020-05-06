@@ -1,18 +1,19 @@
 export const config = {
   api: {
-    uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
-    authHost: 'https://auth.sphere.io',
-    projectKey: 'vsf-ct-dev',
-    clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
-    clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+    // https://api.us-central1.gcp.commercetools.com
+    uri: 'https://api.us-central1.gcp.commercetools.com/circlek/graphql',
+    authHost: 'https://auth.us-central1.gcp.commercetools.com',
+    projectKey: 'circlek',
+    clientId: 'AHsN7uAag9J-pInVWPKoeQr7',
+    clientSecret: 'wKnW2gMQu6gUzN1CVjsKTZDtSbw2n1EA',
     scopes: [
-      'create_anonymous_token:vsf-ct-dev',
-      'manage_my_orders:vsf-ct-dev',
-      'manage_my_profile:vsf-ct-dev',
-      'manage_my_shopping_lists:vsf-ct-dev',
-      'manage_my_payments:vsf-ct-dev',
-      'view_products:vsf-ct-dev',
-      'view_published_products:vsf-ct-dev'
+      'create_anonymous_token:circlek',
+      'manage_my_orders:circlek',
+      'manage_my_profile:circlek',
+      'manage_my_shopping_lists:circlek',
+      'manage_my_payments:circlek',
+      'view_categories:circlek',
+      'view_published_products:circlek'
     ]
   },
   locale: 'en',
