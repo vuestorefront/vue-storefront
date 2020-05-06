@@ -16,9 +16,8 @@ export const getAttributeValue = (attribute) => {
     case 'NumberAttribute':
       return attribute.numberValue;
     case 'EnumAttribute':
-      return attribute.label;
     case 'LocalizedEnumAttribute':
-      return attribute.localizedLabel;
+      return attribute.key;
     case 'LocalizedStringAttribute':
       return attribute.localizedString;
     case 'MoneyAttribute':
@@ -38,7 +37,7 @@ export const formatAttributeList = (attributes: Array<any>): AgnosticAttribute[]
     return {
       name: attr.name,
       value: attrValue,
-      label: attr.label ? attr.label : (typeof attrValue === 'string') ? attrValue : null
+      label: attr.label || attr.localizedLabel || ((typeof attrValue === 'string') ? attrValue : null)
     };
   });
 

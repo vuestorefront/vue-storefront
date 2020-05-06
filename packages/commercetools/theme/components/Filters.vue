@@ -38,10 +38,10 @@
         </template>
       </template>
       <div class="filters__buttons">
-        <SfButton
+        <!-- <SfButton
           @click="applyFilters"
           class="sf-button--full-width"
-        >Done</SfButton>
+        >Done</SfButton> -->
         <SfButton
           @click="clearFilters"
           class="sf-button--full-width filters__button-clear"
@@ -99,8 +99,7 @@ export default {
       color: 'Color',
       style: 'Style',
       madeInItaly: 'Made In Italy',
-      designer: 'Designer',
-      isOnStock: 'On Stock'
+      designer: 'Designer'
     };
 
     const clearFilters = () => {
