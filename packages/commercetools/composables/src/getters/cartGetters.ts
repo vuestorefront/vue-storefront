@@ -32,7 +32,7 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
     };
   }
 
-  const subtotalPrice = cart.totalPrice.centAmount;
+  const subtotalPrice = cart?.totalPrice?.centAmount;
   const shipping = cart.shippingInfo ? cart.shippingInfo.price.centAmount : 0;
 
   return {
