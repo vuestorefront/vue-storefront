@@ -1,4 +1,4 @@
-import { ProductVariant, AddressInput, LineItem, ReferenceInput } from './../../types/GraphQL';
+import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
@@ -22,19 +22,18 @@ export const createChangeLineItemQuantityAction = (product: LineItem) => ({
   }
 });
 
-export const setShippingAddressAction = (shippingDetails: AddressInput) => ({
+export const setShippingAddressAction = (shippingDetails: Address) => ({
   setShippingAddress: {
     address: {
       firstName: shippingDetails.firstName,
       lastName: shippingDetails.lastName,
       streetName: shippingDetails.streetName,
-      streetNumber: '',
+      streetNumber: shippingDetails.streetNumber,
       city: shippingDetails.city,
-      // TODO:: selecting state
       // state: shippingDetails.state,
       postalCode: shippingDetails.postalCode,
       country: shippingDetails.country,
-      phone: shippingDetails.phone
+      phone: shippingDetails?.contactInfo?.phone
     }
   }
 });
@@ -47,19 +46,22 @@ export const setShippingMethodAction = (shippingMethodId: string) => ({
   }
 });
 
-export const setBillingAddressAction = (shippingDetails: AddressInput) => ({
+export const addPayment = (payment: ResourceIdentifierInput) => ({
+  addPayment: { payment }
+});
+
+export const setBillingAddressAction = (billingDetails: Address) => ({
   setBillingAddress: {
     address: {
-      firstName: shippingDetails.firstName,
-      lastName: shippingDetails.lastName,
-      streetName: shippingDetails.streetName,
-      streetNumber: '',
-      city: shippingDetails.city,
-      // TODO:: selecting state
-      // state: shippingDetails.state,
-      postalCode: shippingDetails.postalCode,
-      country: shippingDetails.country,
-      phone: shippingDetails.phone
+      firstName: billingDetails.firstName,
+      lastName: billingDetails.lastName,
+      streetName: billingDetails.streetName,
+      streetNumber: billingDetails.streetNumber,
+      city: billingDetails.city,
+      // state: billingDetails.state,
+      postalCode: billingDetails.postalCode,
+      country: billingDetails.country,
+      phone: billingDetails.contactInfo.phone
     }
   }
 });
@@ -79,3 +81,8 @@ export const addDiscountCodeAction = (code: string) => ({
 export const removeDiscountCodeAction = (discountCode: ReferenceInput) => ({
   removeDiscountCode: { discountCode }
 });
+
+export const setCustomerEmail = (email: string) => ({
+  setCustomerEmail: { email }
+});
+

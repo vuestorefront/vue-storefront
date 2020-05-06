@@ -1,6 +1,6 @@
 import updateCart from '../updateCart';
 import { CartResponse, OrderResponse } from '../../types/Api';
-import { Cart, AddressInput } from '../../types/GraphQL';
+import { Cart, Address } from '../../types/GraphQL';
 import {
   setShippingAddressAction,
   setShippingMethodAction,
@@ -11,8 +11,8 @@ import createMyOrderFromCart from './../createMyOrderFromCart';
 import { CartUpdateAction } from '../../types/GraphQL';
 
 interface Order {
-  shippingDetails: AddressInput;
-  billingDetails: AddressInput;
+  shippingDetails: Address;
+  billingDetails: Address;
   shippingMethod: string;
   paymentMethod?: string;
 }
@@ -24,7 +24,7 @@ interface PlaceOrderResponse {
 
 const placeOrder = async (cart: Cart, order: Order): Promise<PlaceOrderResponse> => {
   const actions: CartUpdateAction[] = [
-    setShippingAddressAction(order.shippingDetails),
+    setShippingAddressAction(order.shippingDetails as any),
     setShippingMethodAction(order.shippingMethod),
     setBillingAddressAction(order.billingDetails)
   ];

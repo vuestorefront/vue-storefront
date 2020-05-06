@@ -21,8 +21,10 @@ import customerSignOut from './api/customerSignOut';
 import getMyOrders from './api/getMyOrders';
 import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
+import updateMyCustomer from './api/updateMyCustomer';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import createAccessToken from './helpers/createAccessToken';
+import * as cartActions from './helpers/cart/actions';
 
 let apolloClient: ApolloClient<any> = null;
 let locale = 'en';
@@ -80,6 +82,7 @@ export {
   currency,
   countries,
   currencies,
+  cartActions,
   getProduct,
   getCategory,
   createCart,
@@ -89,6 +92,7 @@ export {
   removeFromCart,
   getMe,
   updateCartQuantity,
+  updateMyCustomer,
   placeOrder,
   createMyOrderFromCart,
   getShippingMethods,

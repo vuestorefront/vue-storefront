@@ -1,72 +1,42 @@
 /* istanbul ignore file */
+import createSetDetails from './createSetDetails';
+import createSetShippingMethod from './createSetShippingMethod';
+import createLoadShippingMethods from './createLoadShippingMethods';
+import createLoadPaymentMethods from './createLoadPaymentMethods';
+import createSetPersonalDetails from './createSetPersonalDetails';
+import createSetPaymentMethod from './createSetPaymentMethod';
+import createPlaceOrder from './createPlaceOrder';
+import createLoadDetails from './createLoadDetails';
+import { checkoutComputed } from './shared';
 
-import { UseCheckout } from '@vue-storefront/core';
-import { placeOrder as processOrder, getShippingMethods } from '@vue-storefront/commercetools-api';
-import { ref, Ref, watch, computed } from '@vue/composition-api';
-import { cart } from './../useCart';
-import { ShippingMethod, AddressInput, Customer } from '@vue-storefront/commercetools-api/lib//types/GraphQL';
+// TODO: Move to core
+const useCheckoutFactory = (factoryParams) => {
+  const setShippingMethod = createSetShippingMethod(factoryParams);
+  const setShippingDetails = createSetDetails(factoryParams, 'shipping');
+  const setBillingDetails = createSetDetails(factoryParams, 'billing');
+  const loadShippingMethods = createLoadShippingMethods(factoryParams, { setShippingMethod });
+  const loadPaymentMethods = createLoadPaymentMethods(factoryParams);
+  const loadDetails = createLoadDetails(factoryParams);
+  const setPersonalDetails = createSetPersonalDetails(factoryParams, { setShippingDetails });
+  const setPaymentMethod = createSetPaymentMethod(factoryParams);
+  const placeOrder = createPlaceOrder(factoryParams);
 
-const PAYMENT_METHODS_MOCK = [
-  {
-    label: 'Visa Debit',
-    value: 'debit'
-  },
-  {
-    label: 'MasterCard',
-    value: 'mastercard'
-  },
-  {
-    label: 'Visa Electron',
-    value: 'electron'
-  },
-  {
-    label: 'Cash on delivery',
-    value: 'cash'
-  },
-  {
-    label: 'Check',
-    value: 'check'
-  }
-];
-export const paymentMethods: Ref<any[]> = ref(PAYMENT_METHODS_MOCK);
-export const shippingMethods: Ref<any[]> = ref([]);
-export const personalDetails: Ref<Customer> = ref({});
-export const shippingDetails: Ref<AddressInput> = ref({});
-export const billingDetails: Ref<AddressInput> = ref({});
-export const chosenPaymentMethod: Ref<string> = ref('');
-export const chosenShippingMethod: Ref<ShippingMethod> = ref({});
-
-// TODO(CHECKOUT): selecting payment method
-export default function useCheckout(): UseCheckout<any, any, any, any, any, any, any, any> {
-  watch(async () => {
-    if (shippingMethods.value.length === 0) {
-      // TODO(CHECKOUT): Update shipping data for each update form
-      const shippingMethodsResponse = await getShippingMethods();
-      shippingMethods.value = shippingMethodsResponse.data.shippingMethods.results as any;
-    }
-  });
-
-  const placeOrder = async () => {
-    const orderData = {
-      shippingDetails: shippingDetails.value,
-      billingDetails: billingDetails.value,
-      shippingMethod: chosenShippingMethod.value.id
+  const useCheckout = () => {
+    return {
+      ...checkoutComputed,
+      setShippingDetails,
+      setBillingDetails,
+      loadShippingMethods,
+      loadPaymentMethods,
+      setShippingMethod,
+      setPersonalDetails,
+      setPaymentMethod,
+      placeOrder,
+      loadDetails
     };
-
-    await processOrder(cart.value, orderData);
   };
 
-  const loading = ref(true);
+  return useCheckout;
+};
 
-  return {
-    paymentMethods,
-    shippingMethods,
-    personalDetails,
-    shippingDetails,
-    billingDetails,
-    chosenPaymentMethod,
-    chosenShippingMethod,
-    placeOrder,
-    loading: computed(() => loading.value)
-  };
-}
+export default useCheckoutFactory({});
