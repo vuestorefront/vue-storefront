@@ -123,6 +123,13 @@ describe('[commercetools-getters] product getters', () => {
     expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11400 });
   });
 
+  it('return null when min price is different than max', () => {
+    const productWithSamePriceRange = {
+      priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11450}}
+    } as any;
+    expect(getProductPrice(productWithSamePriceRange)).toEqual({ regular: 11450, special: null });
+  });
+
   it('return formated price', () => {
     expect(getFormattedPrice(11450)).toEqual('11450€');
   });

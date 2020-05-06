@@ -28,10 +28,11 @@ export const getProductSlug = (product: BapiProduct): string => {
 };
 
 export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
-  const productPrice = product?.priceRange;
+  const productPriceMin = product?.priceRange.min?.withoutTax ?? 0;
+  const productPriceMax = product?.priceRange.max?.withoutTax ?? 0;
   return {
-    regular: productPrice?.max?.withoutTax ?? 0,
-    special: productPrice?.min?.withoutTax ?? null
+    regular: productPriceMax,
+    special: productPriceMax !== productPriceMin ? productPriceMin : null
   };
 };
 
