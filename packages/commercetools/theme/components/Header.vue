@@ -8,20 +8,20 @@
         <img src="/logomini.png" />
       </div>
       <ul>
-        <li><a href="#">Home</a></li>
+        <li><nuxt-link to="/">Home</nuxt-link></li>
         <li><a href="#">Browse</a></li>
         <li><a href="#">Our stores</a></li>
       </ul>
       <div class="header__links">
-        <button class="circle-button">
-          <font-awesome-icon :icon="['fas', 'search']" />
-        </button>
+        <nuxt-link to="/"><button class="circle-button">
+          <font-awesome-icon :icon="['fas', 'home']" />
+        </button></nuxt-link>
         <button class="circle-button">
           <font-awesome-icon :icon="['fas', 'user']" />
         </button>
         <div class="divider" />
         <button class="circle-button header__cart" @click="toggleCartSidebar()">
-          <span>$ {{ cart.totalPrice.centAmount }} </span>
+          <span>{{ cartGetters.getFormattedPrice(totals.subtotal) }} </span>
           <font-awesome-icon :icon="['fas', 'shopping-cart']" />
         </button>
       </div>
@@ -34,17 +34,21 @@
 </template>
 
 <script>
-import { useCart } from '@vue-storefront/commercetools';
+import { useCart, cartGetters } from '@vue-storefront/commercetools';
 import uiState from '~/assets/ui-state';
 const { toggleCartSidebar } = uiState;
 import CartSidebar from '~/components/CartSidebar.vue';
-
+import { computed } from '@vue/composition-api';
 export default {
   setup () {
     const { cart } = useCart();
+    const totals = computed(() => cartGetters.getTotals(cart.value));
+
     return {
       cart,
-      toggleCartSidebar
+      toggleCartSidebar,
+      cartGetters,
+      totals
     };
   },
   components: {

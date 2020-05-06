@@ -1,4 +1,7 @@
 <template>
+<div>
+    <Header />
+
   <div id="product">
     <SfBreadcrumbs
       class="breadcrumbs desktop-only"
@@ -41,20 +44,9 @@
               :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
               :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
             />
-            <div class="product-details__sub-rating">
-              <SfRating :score="4" :max="5" />
-              <SfButton class="product-details__sub-reviews sf-button--text desktop-only">
-                Read all reviews
-              </SfButton>
-              <div class="product-details__sub-reviews mobile-only">
-                (1)
-              </div>
-            </div>
           </div>
           <p class="product-details__description desktop-only">
-            Find stunning women cocktail and party dresses. Stand out in lace
-            and metallic cocktail dresses and party dresses from all your
-            favorite brands.
+            {{ product._description }}
           </p>
           <div class="product-details__action desktop-only">
             <SfButton class="sf-button--text color-secondary"
@@ -100,26 +92,12 @@
               @click="addToCart(product, parseInt(qty))"
               class="product-details__add-to-cart"
             />
-            <div class="product-details__action">
-              <SfButton class="sf-button--text color-secondary"
-                >Save for later</SfButton
-              >
-            </div>
-            <div class="product-details__action">
-              <SfButton class="sf-button--text color-secondary"
-                >Add to compare</SfButton
-              >
-            </div>
           </div>
           <SfTabs class="product-details__tabs" :openTab="2">
             <SfTab title="Description">
               <div>
                 <p>
-                  The Karissa V-Neck Tee features a semi-fitted shape that's
-                  flattering for every figure. You can hit the gym with
-                  confidence while it hugs curves and hides common "problem"
-                  areas. Find stunning women's cocktail dresses and party
-                  dresses.
+                  {{ product._description }}
                 </p>
               </div>
               <div class="product-details__properties">
@@ -164,34 +142,9 @@
     <RelatedProducts
       :products="relatedProducts"
       :loading="relatedLoading"
-      title="Match it with"
+      title="More products"
     />
-    <InstagramFeed />
-    <SfBanner
-      image="/homepage/bannerD.png"
-      subtitle="Fashion to Take Away"
-      title="Download our application to your mobile"
-      class="sf-banner--left desktop-only banner-app"
-    >
-      <template #call-to-action>
-        <div class="banner-app__call-to-action">
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/google.png"
-            :width="191"
-            :height="51"
-            alt="Google Play"
-          />
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/apple.png"
-            :width="174"
-            :height="57"
-            alt="App Store"
-          />
-        </div>
-      </template>
-    </SfBanner>
+  </div>
   </div>
 </template>
 <script>
@@ -220,6 +173,7 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+import Header from './../components/Header';
 
 const getAttributesFromSearchParams = (searchParams) =>
   Object.keys(searchParams).reduce((prev, curr) => ({
@@ -288,7 +242,8 @@ export default {
     SfBreadcrumbs,
     SfButton,
     InstagramFeed,
-    RelatedProducts
+    RelatedProducts,
+    Header
   },
   data() {
     return {
@@ -353,7 +308,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
+@import "main.scss";
 #product {
   box-sizing: border-box;
   @include for-desktop {
