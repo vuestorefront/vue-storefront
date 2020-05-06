@@ -1,6 +1,4 @@
 <template>
-<div>
-      <Header />
   <div id="category">
     <div class="main section">
       <div class="sidebar desktop-only">
@@ -258,7 +256,6 @@
     </SfSidebar>
     <StoreLocator :store="multistoreGetters.getName(selectedStore)" />
   </div>
-  </div>
 </template>
 
 <script>
@@ -450,7 +447,6 @@ export default {
 
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
-@import "main.scss";
 
 #category {
   box-sizing: border-box;

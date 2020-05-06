@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../pages/main.scss";
+@import "~@storefront-ui/vue/styles";
 
 .header {
   font-family: 'Montserrat', sans-serif;

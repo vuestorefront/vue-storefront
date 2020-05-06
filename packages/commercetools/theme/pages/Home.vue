@@ -1,6 +1,4 @@
 <template>
-<div>
-  <Header />
   <div class="container">
     <div class="hero">
       <div class="hero__content">
@@ -76,13 +74,8 @@
       </div> -->
     </div>
 
-    <div class="footer">
-      Copyright 2020 © <b>Circle K Stores and Alimentation Couche-Tard.</b>
-    </div>
-
     <StoreLocator @click="loadLocation" />
 
-  </div>
   </div>
 </template>
 <script>
@@ -97,7 +90,6 @@ import StoreLocator from './../components/StoreLocator';
 import Loading from './../components/Loading';
 
 export default {
-  layout: 'circlek',
   components: {
     Header,
     StoreLocator,
@@ -130,7 +122,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-@import "main.scss";
-</style>

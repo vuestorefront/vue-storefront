@@ -1,7 +1,4 @@
 <template>
-<div>
-    <Header />
-
   <div id="product">
     <SfBreadcrumbs
       class="breadcrumbs desktop-only"
@@ -46,7 +43,9 @@
             />
           </div>
           <p class="product-details__description desktop-only">
-            {{ product._description }}
+            Find stunning women cocktail and party dresses. Stand out in lace
+            and metallic cocktail dresses and party dresses from all your
+            favorite brands.
           </p>
           <div class="product-details__action desktop-only">
             <SfButton class="sf-button--text color-secondary"
@@ -83,7 +82,7 @@
             />
           </div>
           </div>
-          <div class="product-details__section desktop-only">
+          <div class="product-details__section">
             <SfAddToCart
               :stock="stock"
               v-model="qty"
@@ -97,7 +96,9 @@
             <SfTab title="Description">
               <div>
                 <p>
-                  {{ product._description }}
+                  Find stunning women cocktail and party dresses. Stand out in lace
+                  and metallic cocktail dresses and party dresses from all your
+                  favorite brands.
                 </p>
               </div>
               <div class="product-details__properties">
@@ -144,7 +145,6 @@
       :loading="relatedLoading"
       title="More products"
     />
-  </div>
   </div>
 </template>
 <script>
@@ -308,7 +308,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "main.scss";
+@import "~@storefront-ui/vue/styles";
 #product {
   box-sizing: border-box;
   @include for-desktop {
