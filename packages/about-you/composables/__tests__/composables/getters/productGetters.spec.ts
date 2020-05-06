@@ -72,7 +72,7 @@ const product = {
     }
     ]],
   images: [{ hash: 'images/99c1' }, { hash: 'images/99c2'}],
-  priceRange: { max: { withoutTax: 11450 }}
+  priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11400}}
 } as any;
 
 describe('[commercetools-getters] product getters', () => {
@@ -81,7 +81,7 @@ describe('[commercetools-getters] product getters', () => {
     expect(getProductSlug(null)).toBe('');
     expect(getProductDescription(null)).toBe('');
     expect(getProductCoverImage(null)).toEqual(null);
-    expect(getProductPrice(null)).toEqual({ regular: 0, special: 0 });
+    expect(getProductPrice(null)).toEqual({ regular: 0, special: null });
     expect(getFormattedPrice(null)).toEqual('');
     expect(getProductGallery(null)).toEqual([]);
     expect(getProductFiltered(null)).toEqual([null]);
@@ -120,7 +120,14 @@ describe('[commercetools-getters] product getters', () => {
   });
 
   it('returns price', () => {
-    expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11450 });
+    expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11400 });
+  });
+
+  it('return null when min price is different than max', () => {
+    const productWithSamePriceRange = {
+      priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11450}}
+    } as any;
+    expect(getProductPrice(productWithSamePriceRange)).toEqual({ regular: 11450, special: null });
   });
 
   it('return formated price', () => {
