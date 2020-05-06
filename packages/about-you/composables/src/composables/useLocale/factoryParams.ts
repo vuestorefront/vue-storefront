@@ -1,10 +1,7 @@
 /* istanbul ignore file */
 
 import { UseLocaleFactoryParams } from '@vue-storefront/core';
-
-import {
-  getSettings
-} from '@vue-storefront/about-you-api';
+import { getSettings } from '@vue-storefront/about-you-api';
 
 export const params: UseLocaleFactoryParams = {
   loadAvailableLocales: async () => getSettings().locales,
