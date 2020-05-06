@@ -8,7 +8,7 @@ import createSetPaymentMethod from './createSetPaymentMethod';
 import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
-
+import { cart } from './../useCart';
 // TODO: Move to core
 const useCheckoutFactory = (factoryParams) => {
   const setShippingMethod = createSetShippingMethod(factoryParams);
@@ -22,6 +22,8 @@ const useCheckoutFactory = (factoryParams) => {
   const placeOrder = createPlaceOrder(factoryParams);
 
   const useCheckout = () => {
+    console.log(cart);
+
     return {
       ...checkoutComputed,
       setShippingDetails,
