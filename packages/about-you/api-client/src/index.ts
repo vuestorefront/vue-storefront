@@ -11,7 +11,8 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
     country: '',
     countries: [],
     currencies: [],
-    locales: []
+    locales: [],
+    imgUrl: 'https://mt1.dam.demo.aboutyou.cloud/boston'
   },
   onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
