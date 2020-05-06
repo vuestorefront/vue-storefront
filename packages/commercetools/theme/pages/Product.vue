@@ -218,8 +218,14 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-import { useProduct, useCart, productGetters } from '<%= options.composables %>';
+import { useProduct, useCart, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+
+const getAttributesFromSearchParams = (searchParams) =>
+  Object.keys(searchParams).reduce((prev, curr) => ({
+    ...prev,
+    ...(curr !== 'store' && { [curr]: searchParams[curr] })
+  }), {});
 
 export default {
   name: 'Product',
@@ -227,12 +233,12 @@ export default {
   setup(props, context) {
     const qty = ref(1);
     const { id } = context.root.$route.params;
+    const attributes = getAttributesFromSearchParams(context.root.$route.query);
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
 
-    console.log(context.root.$route.query);
-    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
+    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
