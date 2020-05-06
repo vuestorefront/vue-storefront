@@ -66,6 +66,7 @@ export default {
     padding: 0 80px;
   }
   height: 100px;
+  
   &__top {
     display: flex;
     justify-content: space-between;
