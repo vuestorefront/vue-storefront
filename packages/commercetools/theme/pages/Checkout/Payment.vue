@@ -144,10 +144,7 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton class="color-secondary form__back-button">
-          Go back
-        </SfButton>
+        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
         <SfButton class="form__action-button" type="submit">
           Review my order
         </SfButton>
@@ -216,11 +213,13 @@ export default {
       chosenPaymentMethod,
       loadPaymentMethods,
       setBillingDetails,
-      setPaymentMethod
+      setPaymentMethod,
+      loadDetails
     } = useCheckout();
     const sameAsShipping = ref(false);
     let oldBilling = null;
 
+    loadDetails();
     loadPaymentMethods();
 
     const handleFormSubmit = async () => {
@@ -307,6 +306,10 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
+
+    &:hover {
+      color:  white;
+    }
   }
   &__button {
     --button-width: 100%;

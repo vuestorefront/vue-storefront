@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { cart } from './../useCart';
-import { personalDetails } from './shared';
+import initFields from './initFields';
 
 const createLoadDetails = (factoryParams) => async () => {
-  personalDetails.value.email = cart.value.customerEmail;
+  initFields(cart.value);
 };
 
 export default createLoadDetails;

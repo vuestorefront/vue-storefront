@@ -92,9 +92,9 @@
             :errorMessage="errors[0]"
           >
             <SfSelectOption
-              v-for="countryOption in COUNTRIES"
-              :key="countryOption.key"
-              :value="countryOption.key"
+              v-for="countryOption in countries"
+              :key="countryOption.name"
+              :value="countryOption.name"
             >
               {{ countryOption.label }}
             </SfSelectOption>
@@ -148,10 +148,7 @@
             </SfRadio>
           </div>
           <div class="form__action">
-            <!-- TODO: add nuxt link for returning to personal details -->
-            <SfButton class="color-secondary form__back-button">
-              Go back
-            </SfButton>
+            <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
             <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted">
               Continue to payment
             </SfButton>
@@ -173,6 +170,7 @@ import {
   SfSelect,
   SfRadio
 } from '@storefront-ui/vue';
+import { countries } from '@vue-storefront/commercetools-api';
 import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
@@ -186,17 +184,6 @@ extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
-
-const COUNTRIES = [
-  { key: 'US',
-    label: 'United States' },
-  { key: 'UK',
-    label: 'United Kingdom' },
-  { key: 'IT',
-    label: 'Italy' },
-  { key: 'PL',
-    label: 'Poland' }
-];
 
 export default {
   name: 'PersonalDetails',
@@ -219,16 +206,18 @@ export default {
       shippingMethods,
       loadShippingMethods,
       isShippingAddressCompleted,
-      isShippingMethodCompleted
+      isShippingMethodCompleted,
+      loadDetails
     } = useCheckout();
 
+    loadDetails();
     loadShippingMethods();
 
     const handleFormSubmit = async () => {
       await setShippingDetails(shippingDetails.value, { save: true });
 
-      if (isShippingAddressCompleted.value && !isShippingMethodCompleted.value) {
-        loadShippingMethods();
+      if (!isShippingMethodCompleted.value) {
+        await loadShippingMethods();
         return;
       }
 
@@ -244,7 +233,7 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      COUNTRIES
+      countries
     };
   }
 };
@@ -302,6 +291,10 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
+
+    &:hover {
+      color:  white;
+    }
   }
   &__button {
     --button-width: 100%;

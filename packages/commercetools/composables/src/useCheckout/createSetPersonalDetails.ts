@@ -3,6 +3,7 @@
 import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
 import { personalDetails } from './shared';
+import initFields from './initFields';
 
 const createSetPersonalDetails = (factoryParams: any, { setShippingDetails }) => async (data, options: any = {}) => {
   personalDetails.value = { ...personalDetails.value, ...data };
@@ -18,6 +19,7 @@ const createSetPersonalDetails = (factoryParams: any, { setShippingDetails }) =>
     });
 
     cart.value = cartResponse.data.cart;
+    initFields(cart.value);
     setShippingDetails({ firstName, lastName });
   }
 };

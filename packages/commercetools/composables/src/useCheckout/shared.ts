@@ -1,6 +1,5 @@
 import { ref, Ref, computed } from '@vue/composition-api';
 import { ShippingMethod, Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
-import { cart } from './../useCart';
 
 export const initialDetails = { contactInfo: {} };
 export const paymentMethods: Ref<any[]> = ref([]);
@@ -8,15 +7,20 @@ export const shippingMethods: Ref<any[]> = ref([]);
 export const personalDetails: Ref<Customer> = ref({});
 export const chosenPaymentMethod: Ref<any> = ref({});
 export const chosenShippingMethod: Ref<ShippingMethod> = ref({});
+export const isShippingAddressCompleted: Ref<boolean> = ref(false);
+export const isBillingAddressCompleted: Ref<boolean> = ref(false);
+export const billingDetails: Ref<any> = ref(initialDetails);
+export const shippingDetails: Ref<any> = ref(initialDetails);
 
 export const checkoutComputed = {
-  billingDetails: computed(() => cart.value.billingAddress || initialDetails),
+  billingDetails: computed(() => billingDetails.value),
   shippingMethods: computed(() => shippingMethods.value),
   personalDetails: computed(() => personalDetails.value),
-  shippingDetails: computed(() => cart.value.shippingAddress || initialDetails),
+  shippingDetails: computed(() => shippingDetails.value),
   chosenShippingMethod: computed(() => chosenShippingMethod.value),
   chosenPaymentMethod: computed(() => chosenPaymentMethod.value),
   paymentMethods: computed(() => paymentMethods.value),
-  isShippingAddressCompleted: computed(() => Object.keys(cart.value.shippingAddress).length > 4),
+  isShippingAddressCompleted: computed(() => isShippingAddressCompleted.value),
+  isBillingAddressCompleted: computed(() => isBillingAddressCompleted.value),
   isShippingMethodCompleted: computed(() => Object.keys(chosenShippingMethod.value).length > 0)
 };

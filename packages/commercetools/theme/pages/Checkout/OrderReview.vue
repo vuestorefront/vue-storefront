@@ -140,10 +140,7 @@
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <!-- TODO: add nuxt link for navigating back and forward -->
-          <SfButton class="color-secondary summary__back-button">
-            Go back
-          </SfButton>
+          <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">Go back</nuxt-link>
           <SfButton class="summary__action-button" @click="processOrder">
             Make an order
           </SfButton>
@@ -365,6 +362,11 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
+    color:  white;
+
+    &:hover {
+      color:  white;
+    }
   }
   &__property-total {
     margin: var(--spacer-xl) 0 0 0;

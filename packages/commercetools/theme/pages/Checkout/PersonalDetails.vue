@@ -76,10 +76,7 @@
           />
         </transition>
         <div class="form__action">
-          <!-- TODO: add nuxt link for returning to home page -->
-          <SfButton class="color-secondary form__back-button" @click="$router.push('/')">
-            Go back
-          </SfButton>
+          <nuxt-link to="/" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
           <SfButton class="form__action-button" type="submit">
             Continue to shipping
           </SfButton>
@@ -254,6 +251,10 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
+
+    &:hover {
+      color: white;
+    }
   }
   &__button {
     --button-width: 100%;
