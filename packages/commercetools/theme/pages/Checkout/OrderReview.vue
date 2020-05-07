@@ -182,7 +182,6 @@ export default {
     SfAccordion
   },
   setup(props, context) {
-    context.emit('changeStep', 3);
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
@@ -201,8 +200,8 @@ export default {
     loadShippingMethods();
 
     const processOrder = async () => {
-      await placeOrder();
-      context.emit('nextStep');
+      const order = await placeOrder();
+      context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
     };
 
     return {

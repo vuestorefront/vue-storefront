@@ -55,7 +55,7 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
   locales = setupConfig.locales || locales;
   cookies = setupConfig.cookies || cookies;
   auth = setupConfig.auth || auth;
-  currentToken = setupConfig.currentToken || currentToken;
+  currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
 
   if (setupConfig.api) {
     apolloClient = new ApolloClient({

@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="log-in desktop-only">
-      <SfButton class="log-in__button color-secondary"
-        >Log in to your account</SfButton
-      >
+      <SfButton class="log-in__button color-secondary" @click="toggleLoginModal">
+        Log in to your account
+      </SfButton>
       <p class="log-in__info">or fill the details below:</p>
     </div>
     <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
@@ -66,14 +66,18 @@
           />
         </div>
         <transition name="fade">
-          <SfInput
-            v-if="createAccount"
-            v-model="personalDetails.password"
-            type="password"
-            label="Create Password"
-            class="form__element"
-            required
-          />
+          <ValidationProvider v-if="createAccount" name="email" rules="required" v-slot="{ errors }" slim>
+            <SfInput
+              :value="personalDetails.password"
+              @input="password => setPersonalDetails({ password })"
+              type="password"
+              label="Create Password"
+              class="form__element"
+              required
+              :valid="!errors[0]"
+              :errorMessage="errors[0]"
+            />
+          </ValidationProvider>
         </transition>
         <div class="form__action">
           <nuxt-link to="/" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
@@ -98,8 +102,10 @@ import {
 import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
+import uiState from '~/assets/ui-state';
+import { useCheckout, useUser } from '@vue-storefront/commercetools';
 
-import { useCheckout } from '@vue-storefront/commercetools';
+const { toggleLoginModal } = uiState;
 
 extend('required', {
   ...required,
@@ -129,7 +135,7 @@ export default {
     ValidationProvider
   },
   setup(props, context) {
-    context.emit('changeStep', 0);
+    const { register } = useUser();
     const { loadDetails, personalDetails, setPersonalDetails } = useCheckout();
     const accountBenefits = ref(false);
     const createAccount = ref(false);
@@ -137,8 +143,14 @@ export default {
     loadDetails();
 
     const handleFormSubmit = async () => {
-      await setPersonalDetails(personalDetails, { save: true });
-      context.emit('nextStep');
+      if (createAccount.value) {
+        await register(personalDetails.value);
+        context.root.$router.push('/checkout/shipping');
+        return;
+      }
+
+      await setPersonalDetails(personalDetails.value, { save: true });
+      context.root.$router.push('/checkout/shipping');
     };
 
     return {
@@ -147,6 +159,7 @@ export default {
       createAccount,
       setPersonalDetails,
       handleFormSubmit,
+      toggleLoginModal,
       characteristics: [
         { description: 'Faster checkout',
           icon: 'clock' },

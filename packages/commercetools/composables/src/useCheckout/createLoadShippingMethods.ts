@@ -11,12 +11,12 @@ const createLoadShippingMethods = (factoryParams: any, { setShippingMethod }) =>
   shippingMethods.value = shippingMethodsResponse.data.shippingMethods as any;
   const defaultShipping = shippingMethods.value.find(method => method.isDefault) || shippingMethods.value[0];
   const { shippingInfo } = cart.value;
-  console.log('load  methods', shippingInfo);
-  if (!shippingInfo) {
+
+  if (!shippingInfo && defaultShipping) {
     await setShippingMethod(defaultShipping, { save: true });
   }
 
-  chosenShippingMethod.value = shippingInfo ? shippingInfo.shippingMethod : defaultShipping;
+  chosenShippingMethod.value = shippingInfo ? shippingInfo.shippingMethod : defaultShipping || {};
 };
 
 export default createLoadShippingMethods;

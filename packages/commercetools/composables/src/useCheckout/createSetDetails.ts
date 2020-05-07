@@ -23,6 +23,7 @@ const createSetDetails = (factoryParams: any, type: string) => {
         id: cart.value.id,
         version: cart.value.version,
         actions: [
+          ...(type === 'shipping' ? [cartActions.setShippingMethodAction()] : []),
           cartActions[apiAction](field.value)
         ]
       });

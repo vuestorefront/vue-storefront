@@ -47,6 +47,7 @@ export interface SetupConfig<TCacheShape> {
   locales?: LocaleItem[];
   cookies?: CookiesConfig;
   auth?: Auth;
+  forceToken?: boolean;
 }
 
 export interface CustomerCredentials {

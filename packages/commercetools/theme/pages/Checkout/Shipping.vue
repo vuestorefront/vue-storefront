@@ -5,8 +5,8 @@
       title="Shipping"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <ValidationObserver v-slot="{ handleSubmit }">
-      <form @submit.prevent="handleSubmit(handleFormSubmit)">
+    <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
+      <form @submit.prevent="handleSubmit(dirty ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
         <div class="form">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
@@ -114,13 +114,13 @@
           </ValidationProvider>
         </div>
         <SfHeading
-          v-if="isShippingAddressCompleted"
+          v-if="isShippingAddressCompleted && !dirty"
           :level="3"
           title="Shipping method"
           class="sf-heading--left sf-heading--no-underline title"
         />
         <div class="form">
-          <div class="form__radio-group" v-if="isShippingAddressCompleted">
+          <div class="form__radio-group" v-if="isShippingAddressCompleted && !dirty">
             <SfRadio
               v-for="item in shippingMethods"
               :key="checkoutGetters.getShippingMethodName(item)"
@@ -149,7 +149,7 @@
           </div>
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted">
+            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty" :disabled="!isShippingMethodCompleted">
               Continue to payment
             </SfButton>
             <SfButton class="form__action-button" type="submit" v-else>
@@ -197,7 +197,6 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    context.emit('changeStep', 1);
     const {
       shippingDetails,
       chosenShippingMethod,
@@ -213,22 +212,24 @@ export default {
     loadDetails();
     loadShippingMethods();
 
-    const handleFormSubmit = async () => {
+    const handleShippingAddressSubmit = (reset) => async () => {
       await setShippingDetails(shippingDetails.value, { save: true });
+      await loadShippingMethods();
+      reset();
+    };
 
-      if (!isShippingMethodCompleted.value) {
-        await loadShippingMethods();
-        return;
-      }
-
-      context.emit('nextStep');
+    const handleShippingMethodSubmit = (reset) => async () => {
+      reset();
+      context.root.$router.push('/checkout/payment');
     };
 
     return {
+      handleShippingAddressSubmit,
+      handleShippingMethodSubmit,
       isShippingAddressCompleted,
+      isShippingMethodCompleted,
       setShippingDetails,
       setShippingMethod,
-      handleFormSubmit,
       shippingDetails,
       chosenShippingMethod,
       shippingMethods,

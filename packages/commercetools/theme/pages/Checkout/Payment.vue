@@ -205,7 +205,6 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    context.emit('changeStep', 2);
     const {
       billingDetails,
       shippingDetails,
@@ -224,7 +223,7 @@ export default {
 
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });
-      context.emit('nextStep');
+      context.root.$router.push('/checkout/order-review');
     };
 
     const handleCheckSameAddress = () => {

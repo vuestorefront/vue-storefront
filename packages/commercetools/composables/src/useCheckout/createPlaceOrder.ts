@@ -7,10 +7,12 @@ import initFields from './initFields';
 const createPlaceOrder = (factoryParams) => async () => {
   const { id, version } = cart.value;
 
-  await createMyOrderFromCart({ id, version });
+  const orderResponse = await createMyOrderFromCart({ id, version });
   const cartResponse = await createCart();
   cart.value = cartResponse.data.cart;
   initFields(cart.value);
+
+  return orderResponse.data.order;
 };
 
 export default createPlaceOrder;

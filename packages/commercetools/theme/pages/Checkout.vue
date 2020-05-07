@@ -2,18 +2,14 @@
   <div id="checkout">
     <div class="checkout">
       <div class="checkout__main">
-        <SfSteps :active="currentStep" v-if="currentStep < steps.length" class="checkout__steps">
-          <SfStep v-for="(step, index) in steps" :key="step.name" :name="step.label">
-            <nuxt-child
-              @showReview="handleShowReview"
-              @changeStep="updateStep($event)"
-              @nextStep="handleNextStep(index + 1)"
-            />
+        <SfSteps :active="currentStepIndex" @change="handleStepClick" v-if="!isThankYou" :class="{ 'checkout__steps': true, 'checkout__steps-auth': isAuthenticated }">
+          <SfStep v-for="(step, key) in STEPS" :key="key" :name="step">
+            <nuxt-child />
           </SfStep>
         </SfSteps>
-        <nuxt-child v-else @changeStep="updateStep($event)" />
+        <nuxt-child v-else  />
       </div>
-      <div class="checkout__aside desktop-only" v-if="currentStep < 4">
+      <div class="checkout__aside desktop-only" v-if="!isThankYou">
         <transition name="fade">
           <CartPreview v-if="showCartPreview" key="order-summary" />
           <OrderReview v-else key="order-review" />
@@ -30,16 +26,12 @@ import OrderReview from '~/components/checkout/OrderReview';
 import { ref, computed } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
 
-const STEPS = [
-  { name: 'personal-details',
-    label: 'Personal Details' },
-  { name: 'shipping',
-    label: 'Shipping' },
-  { name: 'payment',
-    label: 'Payment' },
-  { name: 'order-review',
-    label: 'Review' }
-];
+const STEPS = {
+  'personal-details': 'Personal Details',
+  shipping: 'Shipping',
+  payment: 'Payment',
+  'order-review': 'Review'
+};
 
 export default {
   name: 'Checkout',
@@ -50,32 +42,23 @@ export default {
     OrderReview
   },
   setup(props, context) {
+    const currentStep = computed(() =>context.root.$route.path.split('/').pop());
     const { isAuthenticated } = useUser();
     const showCartPreview = ref(true);
-    const currentStep = ref(0);
+    const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
+    const isThankYou = computed(() => currentStep.value === 'thank-you');
 
-    const handleShowReview = () => {
-      showCartPreview.value = false;
+    const handleStepClick = (stepIndex) => {
+      const key = Object.keys(STEPS)[stepIndex];
+      context.root.$router.push(`/checkout/${key}`);
     };
-
-    const updateStep = (next) => {
-      currentStep.value = next;
-    };
-
-    const handleNextStep = (nextStep) => {
-      context.root.$router.push(nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
-    };
-
-    const steps = computed(() =>
-      isAuthenticated.value ? STEPS.filter(step => step.name !== 'personal-details') : STEPS
-    );
 
     return {
-      steps,
-      handleNextStep,
+      handleStepClick,
+      STEPS,
+      currentStepIndex,
+      isThankYou,
       currentStep,
-      updateStep,
-      handleShowReview,
       showCartPreview,
       isAuthenticated
     };
@@ -115,6 +98,11 @@ export default {
     @include for-desktop {
       --steps-content-padding: 0;
     }
+
+    &-auth::v-deep .sf-steps__step:first-child {
+      --steps-step-color: #e8e4e4;
+    }
   }
 }
+
 </style>

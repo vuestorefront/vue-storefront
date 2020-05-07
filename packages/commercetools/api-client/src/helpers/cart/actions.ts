@@ -38,11 +38,9 @@ export const setShippingAddressAction = (shippingDetails: Address) => ({
   }
 });
 
-export const setShippingMethodAction = (shippingMethodId: string) => ({
+export const setShippingMethodAction = (shippingMethodId?: string) => ({
   setShippingMethod: {
-    shippingMethod: {
-      id: shippingMethodId
-    }
+    shippingMethod: shippingMethodId ? { id: shippingMethodId } : null
   }
 });
 

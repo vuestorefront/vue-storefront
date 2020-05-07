@@ -88,8 +88,6 @@ export default {
     SfCallToAction
   },
   setup(props, context) {
-    context.emit('changeStep', 4);
-
     return {
       address: {
         name: 'Divante Headquarter',
@@ -98,7 +96,7 @@ export default {
         email: 'demo@vuestorefront.io'
       },
       order: {
-        number: '#80932031-030-00'
+        number: `#${context.root.$route.query.order}`
       }
     };
   }
