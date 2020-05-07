@@ -353,7 +353,6 @@ export default {
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
 
     onSSR(async () => {
-      console.log('test');
       await selectStore(query.store);
       await search(getCategorySearchParameters(context));
       await productsSearch({
