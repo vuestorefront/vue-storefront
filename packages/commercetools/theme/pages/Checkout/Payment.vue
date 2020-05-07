@@ -10,7 +10,7 @@
         v-model="sameAsShipping"
         label="Copy address data from shipping"
         name="copyShippingAddress"
-        class="form__element"
+        class="form__element form__checkbox"
       />
       <SfInput
         v-model="billingDetails.firstName"
@@ -109,11 +109,14 @@
       </div>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton class="color-secondary form__back-button">
+        <SfButton class="color-secondary form__back-button desktop-only">
           Go back
         </SfButton>
         <SfButton class="form__action-button" @click="$emit('nextStep')">
           Review my order
+        </SfButton>
+        <SfButton class="sf-button--text mobile-only">
+          Go back
         </SfButton>
       </div>
     </div>
@@ -199,9 +202,9 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
+      margin: 0 0 var(--spacer-xl) 0;
     }
     &--half {
       @include for-desktop {
@@ -214,23 +217,27 @@ export default {
       }
     }
   }
+  &__checkbox {
+    margin: 0 0 var(--spacer-xl) 0;
+  }
   &__group {
     display: flex;
     align-items: center;
   }
   &__action {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       flex: 0 0 100%;
       display: flex;
+      flex-direction: row;
     }
   }
   &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0;
     }
   }
   &__back-button {
@@ -248,6 +255,7 @@ export default {
   }
 }
 .payment-methods {
+  margin: 0 0 var(--spacer-base) 0;
   @include for-desktop {
     display: flex;
     padding: var(--spacer-lg) 0;
@@ -257,16 +265,11 @@ export default {
 }
 .payment-method {
   --radio-container-align-items: center;
-  --ratio-content-margin: 0 0 0 var(--spacer-base);
+  --radio-content-margin: 0 0 0 var(--spacer-base);
   --radio-label-font-size: var(--font-base);
   white-space: nowrap;
-  border: 1px solid var(--c-light);
-  border-width: 1px 0 0 0;
-  &:last-child {
-    border-width: 1px 0;
-  }
   @include for-mobile {
-    --radio-background: transparent;
+    --radio-container-padding: var(--spacer-sm) 0;
   }
   @include for-desktop {
     border: 0;
