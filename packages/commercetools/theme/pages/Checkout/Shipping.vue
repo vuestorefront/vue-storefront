@@ -174,6 +174,7 @@ import { countries } from '@vue-storefront/commercetools-api';
 import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
+import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
   ...required,
@@ -209,8 +210,10 @@ export default {
       loadDetails
     } = useCheckout();
 
-    loadDetails();
-    loadShippingMethods();
+    onSSR(async () => {
+      await loadDetails();
+      await loadShippingMethods();
+    });
 
     const handleShippingAddressSubmit = (reset) => async () => {
       await setShippingDetails(shippingDetails.value, { save: true });

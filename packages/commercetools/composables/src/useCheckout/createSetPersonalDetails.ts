@@ -5,7 +5,7 @@ import { cart } from './../useCart';
 import { personalDetails } from './shared';
 import initFields from './initFields';
 
-const createSetPersonalDetails = (factoryParams: any, { setShippingDetails }) => async (data, options: any = {}) => {
+const createSetPersonalDetails = ({ factoryParams, setShippingDetails }) => async (data, options: any = {}) => {
   personalDetails.value = { ...personalDetails.value, ...data };
   const { firstName, lastName } = personalDetails.value;
 

@@ -99,11 +99,12 @@ import {
   SfModal,
   SfCharacteristic
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, watch } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
 import uiState from '~/assets/ui-state';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
+import { onSSR } from '@vue-storefront/core';
 
 const { toggleLoginModal } = uiState;
 
@@ -135,12 +136,14 @@ export default {
     ValidationProvider
   },
   setup(props, context) {
-    const { register } = useUser();
+    const { register, isAuthenticated } = useUser();
     const { loadDetails, personalDetails, setPersonalDetails } = useCheckout();
     const accountBenefits = ref(false);
     const createAccount = ref(false);
 
-    loadDetails();
+    onSSR(async () => {
+      loadDetails();
+    });
 
     const handleFormSubmit = async () => {
       if (createAccount.value) {
@@ -152,6 +155,12 @@ export default {
       await setPersonalDetails(personalDetails.value, { save: true });
       context.root.$router.push('/checkout/shipping');
     };
+
+    watch(isAuthenticated, () => {
+      if (isAuthenticated.value) {
+        context.root.$router.push('/checkout/shipping');
+      }
+    });
 
     return {
       personalDetails,

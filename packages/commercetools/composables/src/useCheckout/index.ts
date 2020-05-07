@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import { useSSR } from '@vue-storefront/core';
 import createSetDetails from './createSetDetails';
 import createSetShippingMethod from './createSetShippingMethod';
 import createLoadShippingMethods from './createLoadShippingMethods';
@@ -8,20 +9,31 @@ import createSetPaymentMethod from './createSetPaymentMethod';
 import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
+import initFields from './initFields';
 
 // TODO: Move to core
 const useCheckoutFactory = (factoryParams) => {
-  const setShippingMethod = createSetShippingMethod(factoryParams);
-  const setShippingDetails = createSetDetails(factoryParams, 'shipping');
-  const setBillingDetails = createSetDetails(factoryParams, 'billing');
-  const loadShippingMethods = createLoadShippingMethods(factoryParams, { setShippingMethod });
-  const loadPaymentMethods = createLoadPaymentMethods(factoryParams);
-  const loadDetails = createLoadDetails(factoryParams);
-  const setPersonalDetails = createSetPersonalDetails(factoryParams, { setShippingDetails });
-  const setPaymentMethod = createSetPaymentMethod(factoryParams);
-  const placeOrder = createPlaceOrder(factoryParams);
+  let isInitialized = false;
 
   const useCheckout = () => {
+    const { initialState, saveToInitialState } = useSSR('vsf-cart');
+    const methodsParams = { factoryParams, saveToInitialState };
+    const setShippingMethod = createSetShippingMethod(methodsParams);
+    const setShippingDetails = createSetDetails({ ...methodsParams, type: 'shipping' });
+    const setBillingDetails = createSetDetails({ ...methodsParams, type: 'billing' });
+    const loadShippingMethods = createLoadShippingMethods({ ...methodsParams, setShippingMethod });
+    const loadPaymentMethods = createLoadPaymentMethods(methodsParams);
+    const loadDetails = createLoadDetails(methodsParams);
+    const setPersonalDetails = createSetPersonalDetails({ ...methodsParams, setShippingDetails });
+    const setPaymentMethod = createSetPaymentMethod(methodsParams);
+    const placeOrder = createPlaceOrder(methodsParams);
+
+    if (!isInitialized) {
+      initFields(initialState);
+    }
+
+    isInitialized = true;
+
     return {
       ...checkoutComputed,
       setShippingDetails,

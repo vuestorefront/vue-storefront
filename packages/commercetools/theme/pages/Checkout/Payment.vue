@@ -169,6 +169,7 @@ import { ref } from '@vue/composition-api';
 import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
+import { onSSR } from '@vue-storefront/core';
 
 const COUNTRIES = [
   { key: 'US',
@@ -218,8 +219,10 @@ export default {
     const sameAsShipping = ref(false);
     let oldBilling = null;
 
-    loadDetails();
-    loadPaymentMethods();
+    onSSR(async () => {
+      await loadDetails();
+      await loadPaymentMethods();
+    });
 
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });

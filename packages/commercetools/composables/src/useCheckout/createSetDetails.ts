@@ -7,7 +7,7 @@ import initFields from './initFields';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetDetails = (factoryParams: any, type: string) => {
+const createSetDetails = ({ factoryParams, type }) => {
   const configurations = {
     shipping: { field: shippingDetails, apiAction: 'setShippingAddressAction' },
     billing: { field: billingDetails, apiAction: 'setBillingAddressAction' }

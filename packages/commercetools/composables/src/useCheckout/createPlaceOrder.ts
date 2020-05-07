@@ -4,7 +4,7 @@ import { createMyOrderFromCart, createCart } from '@vue-storefront/commercetools
 import { cart } from './../useCart';
 import initFields from './initFields';
 
-const createPlaceOrder = (factoryParams) => async () => {
+const createPlaceOrder = ({ factoryParams }) => async () => {
   const { id, version } = cart.value;
 
   const orderResponse = await createMyOrderFromCart({ id, version });

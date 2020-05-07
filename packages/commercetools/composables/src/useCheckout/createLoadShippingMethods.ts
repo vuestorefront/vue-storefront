@@ -4,7 +4,7 @@ import { getShippingMethods } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
 import { shippingMethods, chosenShippingMethod, isShippingAddressCompleted } from './shared';
 
-const createLoadShippingMethods = (factoryParams: any, { setShippingMethod }) => async () => {
+const createLoadShippingMethods = ({ factoryParams, setShippingMethod }) => async () => {
   if (!isShippingAddressCompleted.value) return;
 
   const shippingMethodsResponse = await getShippingMethods(cart.value.id);

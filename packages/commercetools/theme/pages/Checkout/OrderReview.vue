@@ -166,6 +166,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'ReviewOrder',
@@ -197,7 +198,9 @@ export default {
       placeOrder
     } = useCheckout();
 
-    loadShippingMethods();
+    onSSR(async () => {
+      loadShippingMethods();
+    });
 
     const processOrder = async () => {
       const order = await placeOrder();

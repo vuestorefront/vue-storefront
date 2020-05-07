@@ -40,7 +40,7 @@ const PAYMENT_METHODS_MOCK = [
   }
 ];
 
-const createLoadPaymentMethods = (factoryParams: any) => async () => {
+const createLoadPaymentMethods = ({ factoryParams }) => async () => {
   paymentMethods.value = PAYMENT_METHODS_MOCK;
   chosenPaymentMethod.value = PAYMENT_METHODS_MOCK[0];
 };

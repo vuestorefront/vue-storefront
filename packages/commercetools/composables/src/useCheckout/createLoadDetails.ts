@@ -2,7 +2,7 @@
 import { cart } from './../useCart';
 import initFields from './initFields';
 
-const createLoadDetails = (factoryParams) => async () => {
+const createLoadDetails = ({ factoryParams }) => async () => {
   initFields(cart.value);
 };
 

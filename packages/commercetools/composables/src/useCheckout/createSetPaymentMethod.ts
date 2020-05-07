@@ -2,7 +2,7 @@
 
 import { chosenPaymentMethod } from './shared';
 
-const createSetPaymentMethod = (factoryParams: any) => async (method, options: any = {}) => {
+const createSetPaymentMethod = ({ factoryParams }) => async (method, options: any = {}) => {
   chosenPaymentMethod.value = method;
 };
 
