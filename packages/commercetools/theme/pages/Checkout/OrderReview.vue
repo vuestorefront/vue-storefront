@@ -125,32 +125,40 @@
             :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
             class="sf-property--full-width property"
           />
-        </div>
-        <SfDivider />
-        <SfProperty
-          name="Total price"
-          :value="totals.total"
-          class="sf-property--full-width sf-property--large summary__property-total"
-        />
-        <SfCheckbox v-model="terms" name="terms" class="summary__terms">
+          <SfProperty
+            name="Total price"
+            :value="totals.total"
+            class="sf-property--full-width summary__property-total"
+          />
+          <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
               I agree to <a href="#">Terms and conditions</a>
             </div>
           </template>
         </SfCheckbox>
-          <div class="summary__action">
-          <!-- TODO: add nuxt link for navigating back and forward -->
-          <SfButton class="color-secondary summary__back-button">
-            Go back
-          </SfButton>
-          <SfButton class="summary__action-button" @click="$emit('nextStep')">
-            Continue to shipping
-          </SfButton>
         </div>
       </div>
     </div>
-
+    <div class="info mobile-only">
+      <SfCharacteristic
+        v-for="characteristic in characteristics"
+        :key="characteristic.title"
+        :title="characteristic.title"
+        :description="characteristic.description"
+        :icon="characteristic.icon"
+        class="characteristic"
+      />
+    </div>
+    <div class="summary__action">
+      <!-- TODO: add nuxt link for navigating back and forward -->
+      <SfButton class="summary__action-button">
+        Place my order
+      </SfButton>
+      <SfButton class="sf-button--text mobile-only">
+        Go back
+      </SfButton>
+    </div>
   </div>
 </template>
 
@@ -160,12 +168,12 @@ import {
   SfTable,
   SfCheckbox,
   SfButton,
-  SfDivider,
   SfImage,
   SfIcon,
   SfPrice,
   SfProperty,
-  SfAccordion
+  SfAccordion,
+  SfCharacteristic
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
@@ -177,12 +185,12 @@ export default {
     SfTable,
     SfCheckbox,
     SfButton,
-    SfDivider,
     SfImage,
     SfIcon,
     SfPrice,
     SfProperty,
-    SfAccordion
+    SfAccordion,
+    SfCharacteristic
   },
   setup(props, context) {
     context.emit('changeStep', 3);
@@ -219,7 +227,25 @@ export default {
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
-      checkoutGetters
+      checkoutGetters,
+      characteristics: [
+        {
+          title: 'Safety',
+          description: 'It carefully packaged with a personal touch',
+          icon: 'safety'
+        },
+        {
+          title: 'Easy shipping',
+          description:
+            'You’ll receive dispatch confirmation and an arrival date',
+          icon: 'shipping'
+        },
+        {
+          title: 'Changed your mind?',
+          description: 'Rest assured, we offer free returns within 30 days',
+          icon: 'return'
+        }
+      ]
     };
   }
 };
@@ -340,24 +366,27 @@ export default {
   }
   &__total {
     margin: 0 0 var(--spacer-sm) 0;
-    padding: 0 var(--spacer-xl);
+    padding: var(--spacer-lg) var(--spacer-xl);
     flex: 0 0 16.875rem;
     @include for-desktop {
       padding: 0;
     }
   }
   &__action {
+    display: flex;
+    flex-direction: column;
+    margin: var(--spacer-base) 0 var(--spacer-sm) 0;
     @include for-desktop {
+      flex: 0 0 100%;
       display: flex;
-    margin: var(--spacer-2xl) 0 0 0;
+      flex-direction: row;
     }
   }
 
   &__action-button {
-    &--secondary {
-      @include for-desktop {
-        text-align: right;
-      }
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0;
     }
   }
   &__back-button {
@@ -386,6 +415,16 @@ export default {
     flex: unset;
   }
 }
+
+.info {
+  margin: var(--spacer-base) 0 0 0;
+}
+.characteristic {
+  margin: 0 0 var(--spacer-xl) 0;
+  &:last-child {
+    margin: 0;
+  }
+}
 .content {
   margin: 0 0 var(--spacer-xl) 0;
   color: var(--c-text);
@@ -396,6 +435,7 @@ export default {
     font-weight: 400;
   }
 }
+
 a {
   color: var(--c-text-muted);
   text-decoration: none;
