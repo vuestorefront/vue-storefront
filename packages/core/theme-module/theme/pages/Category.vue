@@ -225,6 +225,7 @@
         />
         <SfFilter
           v-for="filter in filters.collection"
+          :data-cy="`category-filter_collection_${filter.value}`"
           :key="filter.value"
           :label="filter.label"
           :count="filter.count"
@@ -239,8 +240,8 @@
         />
         <div class="filters__colors">
           <SfColor
-            data-cy="category-color_change"
             v-for="filter in filters.color"
+            :data-cy="`category-filter_color_${filter.value}`"
             :key="filter.value"
             :color="filter.color"
             :selected="filter.selected"
@@ -255,6 +256,7 @@
         />
         <SfFilter
           v-for="filter in filters.size"
+          :data-cy="`category-filter_size_${filter.value}`"
           :key="filter.value"
           :label="filter.label"
           :count="filter.count"
@@ -269,6 +271,7 @@
         />
         <SfFilter
           v-for="filter in filters.price"
+          :data-cy="`category-filter_price_${filter.value}`"
           :key="filter.value"
           :label="filter.label"
           :count="filter.count"
@@ -283,6 +286,7 @@
         />
         <SfFilter
           v-for="filter in filters.material"
+          :data-cy="`category-filter_material_${filter.value}`"
           :key="filter.value"
           :value="filter.value"
           :label="filter.label"
@@ -308,6 +312,7 @@
         <SfAccordionItem header="Collection" class="filters__accordion-item">
           <SfFilter
             v-for="filter in filters.collection"
+            :data-cy="`category-filter_collection_${filter.value}`"
             :key="filter.value"
             :label="filter.label"
             :count="filter.count"
@@ -319,6 +324,7 @@
         <SfAccordionItem header="Color" class="filters__accordion-item">
           <SfFilter
             v-for="filter in filters.color"
+            :data-cy="`category-filter_color_${filter.value}`"
             :key="filter.value"
             :label="filter.label"
             :color="filter.color"
@@ -330,6 +336,7 @@
         <SfAccordionItem header="Size" class="filters__accordion-item">
           <SfFilter
             v-for="filter in filters.size"
+            :data-cy="`category-filter_size_${filter.value}`"
             :key="filter.value"
             :label="filter.label"
             :count="filter.count"
@@ -341,6 +348,7 @@
         <SfAccordionItem header="Price" class="filters__accordion-item">
           <SfFilter
             v-for="filter in filters.price"
+            :data-cy="`category-filter_price_${filter.value}`"
             :key="filter.value"
             :label="filter.label"
             :count="filter.count"
@@ -352,6 +360,7 @@
         <SfAccordionItem header="Material" class="filters__accordion-item">
           <SfFilter
             v-for="filter in filters.material"
+            :data-cy="`category-filter_material_${filter.value}`"
             :key="filter.value"
             :value="filter.value"
             :label="filter.label"
