@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@storefront-ui/vue": "^0.7.5",
+    "@storefront-ui/vue": "^0.7.6",
     "@vue-storefront/commercetools": "^0.0.3",
     "@vue-storefront/commercetools-api": "^0.0.3",
     "@vue-storefront/nuxt": "^0.0.3",

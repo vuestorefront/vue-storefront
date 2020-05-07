@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion first-open class="accordion mobile-only">
-      <SfAccordionItem header="Personal Details">
+      <SfAccordionItem class="accordion-header" header="Personal Details">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
@@ -19,7 +19,7 @@
           <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem header="Shipping address">
+      <SfAccordionItem class="accordion-header" header="Shipping address">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
@@ -34,7 +34,7 @@
           >
         </div>
       </SfAccordionItem>
-      <SfAccordionItem header="Billing address">
+      <SfAccordionItem class="accordion-header" header="Billing address">
         <div class="accordion__item">
           <div class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
@@ -115,6 +115,11 @@
     <div class="summary">
       <div class="summary__group">
         <div class="summary__total">
+             <SfHeading
+              title="Totals"
+              :level="3"
+              class="sf-heading--left sf-heading--no-underline title"
+            />
           <SfProperty
             name="Subtotal"
             :value="totals.subtotal"
@@ -366,7 +371,7 @@ export default {
   }
   &__total {
     margin: 0 0 var(--spacer-sm) 0;
-    padding: var(--spacer-lg) var(--spacer-xl);
+    padding: var(--spacer-xs) var(--spacer-xl) var(--spacer-lg) var(--spacer-xl);
     flex: 0 0 16.875rem;
     @include for-desktop {
       padding: 0;
@@ -393,7 +398,10 @@ export default {
     margin: 0 var(--spacer-xl) 0 0;
   }
   &__property-total {
+    padding: var(--spacer-base) 0;
     margin: var(--spacer-xl) 0 0 0;
+    border: 2px solid var(--c-white);
+    border-width: 2px 0 0 0;
   }
 }
 .property {
@@ -403,7 +411,7 @@ export default {
   }
 }
 .accordion {
-  margin: 0 0 var(--spacer-2xl) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   &__item {
     display: flex;
     align-items: flex-start;
@@ -414,6 +422,10 @@ export default {
   &__edit {
     flex: unset;
   }
+}
+
+.accordion-header {
+  background: transparent !important;
 }
 
 .info {
