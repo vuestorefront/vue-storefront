@@ -61,11 +61,14 @@
       </transition>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
-        <SfButton class="color-secondary form__back-button">
+        <SfButton class="color-secondary form__back-button desktop-only">
           Go back
         </SfButton>
         <SfButton class="form__action-button" @click="$emit('nextStep')">
           Continue to shipping
+        </SfButton>
+        <SfButton class="sf-button--text mobile-only">
+          or log in to your account
         </SfButton>
       </div>
     </div>
@@ -170,9 +173,9 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
+      margin: 0 0 var(--spacer-xl) 0;
     }
     &--half {
       @include for-desktop {
@@ -192,7 +195,7 @@ export default {
   }
   &__action {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       flex: 0 0 100%;
