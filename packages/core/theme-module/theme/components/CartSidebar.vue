@@ -58,7 +58,7 @@
             </template>
           </SfProperty>
           <nuxt-link to="/checkout/personal-details">
-            <SfButton data-cy="cart-sidebar-btn_checkout" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
+            <SfButton data-cy="cart-sidebar-btn_checkout" class="sf-button--full-width color-secondary" @click="toggleCartSidebar()">Go to checkout</SfButton>
           </nuxt-link>
           </div>
         </div>
