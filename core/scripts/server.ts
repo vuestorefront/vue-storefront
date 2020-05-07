@@ -156,18 +156,16 @@ app.get('*', (req, res, next) => {
   const errorHandler = err => {
     if (err && err.code === 404) {
       if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
-        apiStatus(res, 'Vue Storefront: Resource is not found', 404)
         console.error(`Resource is not found : ${req.url}`)
-        next()
+        return apiStatus(res, 'Vue Storefront: Resource is not found', 404)
       } else {
-        res.redirect('/page-not-found')
         console.error(`Redirect for resource not found : ${req.url}`)
+        return res.redirect('/page-not-found')
       }
     } else {
-      res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
       console.error(err)
-      next()
+      return res.redirect('/error')
     }
   }
 
@@ -221,10 +219,10 @@ app.get('*', (req, res, next) => {
         isProd
       })
 
-      if (typeof afterOutputRenderedResponse.output === 'string') {
-        res.end(afterOutputRenderedResponse.output)
-      } else if (typeof afterOutputRenderedResponse === 'string') {
+      if (typeof afterOutputRenderedResponse === 'string') {
         res.end(afterOutputRenderedResponse)
+      } else if (typeof afterOutputRenderedResponse.output === 'string') {
+        res.end(afterOutputRenderedResponse.output)
       } else {
         res.end(output)
       }
