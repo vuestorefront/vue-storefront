@@ -1,4 +1,10 @@
 import { setup } from '@vue-storefront/about-you-api';
-import { config } from './about-you-config';
+import { config } from './about-you-config.js';
+import { getCartToken } from '~/helpers/cart/getCartToken';
 
-setup(config);
+export default ({ app }) => {
+  setup({
+    ...config,
+    cartToken: getCartToken(app)
+  });
+};
