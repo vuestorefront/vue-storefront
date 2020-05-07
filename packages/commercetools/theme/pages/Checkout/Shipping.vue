@@ -112,11 +112,14 @@
       </div>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton class="color-secondary form__back-button">
+        <SfButton class="color-secondary form__back-button desktop-only">
           Go back
         </SfButton>
         <SfButton class="form__action-button" @click="$emit('nextStep')">
           Continue to payment
+        </SfButton>
+        <SfButton class="sf-button--text mobile-only">
+          Go back
         </SfButton>
       </div>
     </div>
@@ -188,9 +191,9 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
+      margin: 0 0 var(--spacer-xl) 0;
     }
     &--half {
       @include for-desktop {
@@ -208,18 +211,19 @@ export default {
     align-items: center;
   }
   &__action {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       flex: 0 0 100%;
       display: flex;
+      flex-direction: row;
     }
   }
   &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0;
     }
   }
   &__back-button {
@@ -233,7 +237,7 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 var(--spacer-base) var(--spacer-xl) var(--spacer-base);
   }
 }
 .shipping {
