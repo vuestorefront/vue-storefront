@@ -241,7 +241,7 @@ export default {
 
     onSSR(async () => {
       await search({ id });
-      await searchRelatedProducts({ catId: [categories.value[0]] });
+      await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
     });
 
     const updateFilter = (filter) => {
@@ -256,7 +256,8 @@ export default {
       updateFilter,
       configuration,
       product,
-      relatedProducts,
+      // TODO: Temporary. Product search function returns products with all available variants as a flat array. Because of that it omits query limitation.
+      relatedProducts: relatedProducts.value.filter((relatedProduct, i) => i < 8),
       relatedLoading,
       options,
       qty,
