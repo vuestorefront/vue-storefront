@@ -12,7 +12,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
         // clear cart without sync, because after order cart will be already cleared on backend
-        await dispatch('cart/clear', { sync: false }, {root: true})
+        await dispatch('cart/clear', { sync: false }, { root: true })
         await dispatch('dropPassword')
       }
     } catch (e) {

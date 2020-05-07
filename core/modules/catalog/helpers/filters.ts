@@ -6,8 +6,8 @@ const getAvailableFiltersByProduct = (product: Product) => {
   if (product && product.configurable_options) {
     product.configurable_options.forEach(configurableOption => {
       const type = configurableOption.attribute_code
-      const filterVariants = configurableOption.values.map(({value_index, label}) => {
-        return {id: value_index, label, type}
+      const filterVariants = configurableOption.values.map(({ value_index, label }) => {
+        return { id: value_index, label, type }
       })
       filtersMap[type] = filterVariants
     })

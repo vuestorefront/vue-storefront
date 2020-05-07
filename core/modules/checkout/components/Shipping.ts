@@ -172,7 +172,7 @@ export const Shipping = {
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
       if (currentShippingMethod) {
-        this.shipping = Object.assign(this.shipping, {shippingCarrier: currentShippingMethod.carrier_code})
+        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
         this.$bus.$emit('checkout-after-shippingMethodChanged', {
           country: this.shipping.country,
           method_code: currentShippingMethod.method_code,

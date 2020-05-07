@@ -6,10 +6,11 @@ import cloneDeep from 'lodash-es/cloneDeep';
 
 const replaceNumberToString = obj => {
   Object.keys(obj).forEach(key => {
-    if (typeof obj[key] === 'object') {
+    if (obj[key] !== null && typeof obj[key] === 'object') {
       return replaceNumberToString(obj[key]);
+    } else if (typeof obj[key] === 'number') {
+      obj[key] = String(obj[key]);
     }
-    obj[key] = String(obj[key]);
   });
   return obj;
 }

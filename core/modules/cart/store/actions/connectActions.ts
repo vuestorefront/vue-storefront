@@ -69,7 +69,7 @@ const connectActions = {
     const cartToken = getters['getCartToken']
     if (storedItems.length && !cartToken) {
       Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: false })
+      return dispatch('connect', { guestCart: false })
     }
   }
 }

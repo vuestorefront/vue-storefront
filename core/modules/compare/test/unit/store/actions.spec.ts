@@ -23,7 +23,7 @@ let product
 describe('Compare actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    product = {id: 'xyz'};
+    product = { id: 'xyz' };
   });
 
   describe('load', () => {

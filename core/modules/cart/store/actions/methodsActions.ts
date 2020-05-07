@@ -60,10 +60,10 @@ const methodsActions = {
     }
   },
   async updateShippingMethods ({ dispatch }, { shippingMethods }) {
-    if (shippingMethods.length > 0) {
-      const newShippingMethods = shippingMethods.map(method => ({ ...method, is_server_method: true }))
-      await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
-    }
+    const newShippingMethods = shippingMethods
+      .map(method => ({ ...method, is_server_method: true }))
+      .filter(method => !method.hasOwnProperty('available') || method.available)
+    await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
@@ -80,7 +80,7 @@ const methodsActions = {
         postcode: shippingDetails.zipCode,
         city: shippingDetails.city,
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
-      } : {country_id: storeView.tax.defaultCountry}
+      } : { country_id: storeView.tax.defaultCountry }
 
       const { result } = await CartService.getShippingMethods(address)
       await dispatch('updateShippingMethods', { shippingMethods: result })
