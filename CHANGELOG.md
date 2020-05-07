@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+- exit from errorHandler after redirection - @gibkigonzo (#4246)
 
 
 ## [1.11.3] - 2020.04.27
