@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="log-in desktop-only">
-      <SfButton class="log-in__button color-secondary"
+      <SfButton data-cy="personal-details-btn_login" class="log-in__button color-secondary"
         >Log in to your account</SfButton
       >
       <p class="log-in__info">or fill the details below:</p>
@@ -9,6 +9,7 @@
     <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
     <div class="form">
       <SfInput
+        data-cy="personal-details-input_firstName"
         v-model="personalDetails.firstName"
         label="First name"
         name="firstName"
@@ -16,6 +17,7 @@
         required
       />
       <SfInput
+        data-cy="personal-details-input_lastName"
         v-model="personalDetails.lastName"
         label="Last name"
         name="lastName"
@@ -23,6 +25,7 @@
         required
       />
       <SfInput
+        data-cy="personal-details-input_email"
         v-model="personalDetails.email"
         label="Your email"
         name="email"
@@ -51,6 +54,7 @@
       </div>
       <transition name="fade">
         <SfInput
+          data-cy="personal-details-input_password"
           v-if="createAccount"
           v-model="personalDetails.password"
           type="password"
@@ -61,10 +65,10 @@
       </transition>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
-        <SfButton class="color-secondary form__back-button">
+        <SfButton data-cy="personal-details-btn_go-back" class="color-secondary form__back-button">
           Go back
         </SfButton>
-        <SfButton class="form__action-button" @click="$emit('nextStep')">
+        <SfButton data-cy="personal-details-btn_continue" class="form__action-button" @click="$emit('nextStep')">
           Continue to shipping
         </SfButton>
       </div>

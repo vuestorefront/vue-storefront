@@ -37,6 +37,7 @@
         <SfCarouselItem v-for="(product, i) in products" :key="i">
           <nuxt-link to="/p/philippemodel-sneakers-grey-red">
             <SfProductCard
+              data-cy="home-product-cart_wishlist"
               :title="product.title"
               :image="product.image"
               :regular-price="product.price.regular"

@@ -23,6 +23,7 @@
             :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
             :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
             class="collected-product"
+            data-cy="collected-product-cart-preview"
             @click:remove="removeFromCart(product)"
             @input="updateQuantity(product, $event)"
           >
@@ -73,6 +74,7 @@
     </div>
     <div class="highlighted promo-code">
       <SfInput
+        data-cy="cart-preview-input_promoCode"
         v-model="promoCode"
         name="promoCode"
         :label="$t('Enter promo code')"

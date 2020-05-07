@@ -27,7 +27,7 @@
             class="form__element"
           />
         </div>
-        <SfButton class="form__button">Join Newsletter</SfButton>
+        <SfButton data-cy="newsletter-btn_join" class="form__button">Join Newsletter</SfButton>
       </div>
       <p class="notice">
         I have read and understand the <a href="#">Privacy</a> and
