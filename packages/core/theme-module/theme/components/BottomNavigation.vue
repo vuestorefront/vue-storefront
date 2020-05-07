@@ -1,14 +1,14 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="mobile-only">
-    <nuxt-link to="/">
+    <nuxt-link data-cy="bottom-navigation-url_home" to="/">
       <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
     </nuxt-link>
-    <SfBottomNavigationItem icon="menu" size="20px" label="Menu"/>
-    <SfBottomNavigationItem  icon="heart" size="20px" label="Wishlist"/>
-    <SfBottomNavigationItem icon="profile" size="20px" label="Account"/>
+    <SfBottomNavigationItem data-cy="bottom-navigation-url_menu" icon="menu" size="20px" label="Menu"/>
+    <SfBottomNavigationItem data-cy="bottom-navigation-url_wishlist" icon="heart" size="20px" label="Wishlist"/>
+    <SfBottomNavigationItem data-cy="bottom-navigation-url_account" icon="profile" size="20px" label="Account"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
-    <SfBottomNavigationItem
+    <SfBottomNavigationItem data-cy="bottom-navigation-url_add-to-cart"
       label="Basket"
       icon="add_to_cart"
       >

@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="My orders">
+    <SfTab data-cy="order-history-tab_my-orders" title="My orders">
       <p class="message">
         Check the details and status of your orders in the online store. You can
         also cancel your order or request a return.
@@ -35,7 +35,7 @@
         </SfTableRow>
       </SfTable>
     </SfTab>
-    <SfTab title="Returns">
+    <SfTab data-cy="order-history-tab_returns" title="Returns">
       <p class="message">
         This feature is not implemented yet! Please take a look at<br />
         <a href="#">https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!</a>

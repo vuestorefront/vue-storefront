@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1" class="tab-orphan">
-    <SfTab title="My newsletter">
+    <SfTab data-cy="my-newsletter-tab" title="My newsletter">
       <p class="message">
         Set up your newsletter and we will send you information about new
         products and trends from the sections you selected every week.
