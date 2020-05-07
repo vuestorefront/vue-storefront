@@ -108,7 +108,7 @@ export default {
 
     const gotToStore = (store) => {
       selectStore(store);
-      context.root.$router.push(`/c/women/women-clothing-jackets?store=${multistoreGetters.getId(store)}`)
+      context.root.$router.push(`/c/new/fresh-food?store=${multistoreGetters.getId(store)}`)
     }
 
     return {

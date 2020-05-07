@@ -4,8 +4,8 @@ export const config = {
     uri: 'https://api.us-central1.gcp.commercetools.com/circlek/graphql',
     authHost: 'https://auth.us-central1.gcp.commercetools.com',
     projectKey: 'circlek',
-    clientId: 'AHsN7uAag9J-pInVWPKoeQr7',
-    clientSecret: 'wKnW2gMQu6gUzN1CVjsKTZDtSbw2n1EA',
+    clientId: 'Xyf1Njzq_GqTzrSK8ElEz5Ag',
+    clientSecret: 'VpRBg-meCN6yMMMyIFKNZP5FN2iX3ve_',
     scopes: [
       'create_anonymous_token:circlek',
       'manage_my_orders:circlek',
@@ -13,7 +13,8 @@ export const config = {
       'manage_my_shopping_lists:circlek',
       'manage_my_payments:circlek',
       'view_categories:circlek',
-      'view_published_products:circlek'
+      'view_published_products:circlek',
+      'view_products:circlek'
     ]
   },
   locale: 'en',
