@@ -100,7 +100,7 @@
             </SfSelectOption>
           </SfSelect>
           </ValidationProvider>
-          <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
+          <ValidationProvider name="phone" rules="required|digits:9" v-slot="{ errors }" slim>
           <SfInput
             :value="shippingDetails.contactInfo.phone"
             @input="phone => setShippingDetails({ contactInfo: { phone } })"
@@ -173,7 +173,7 @@ import {
 import { countries } from '@vue-storefront/commercetools-api';
 import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, min } from 'vee-validate/dist/rules';
+import { required, min, digits } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
@@ -184,6 +184,11 @@ extend('required', {
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
+});
+
+extend('digits', {
+  ...digits,
+  message: 'Please provide a valid phone number'
 });
 
 export default {

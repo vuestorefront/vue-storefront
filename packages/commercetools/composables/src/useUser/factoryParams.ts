@@ -9,7 +9,7 @@ import {
   createCart,
   customerChangeMyPassword as apiCustomerChangeMyPassword
 } from '@vue-storefront/commercetools-api';
-import { cart as defaultCart, cart } from '../useCart';
+import { cart as defaultCart } from '../useCart';
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async () => {
@@ -27,7 +27,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   logOut: async () => {
     await apiCustomerSignOut();
     const cartResponse = await createCart();
-    cart.value = cartResponse.data.cart;
+    defaultCart.value = cartResponse.data.cart;
   },
   updateUser: async ({currentUser, updatedUserData}): Promise<Customer> => {
     // Change code below if the apiClient receive userUpdate method

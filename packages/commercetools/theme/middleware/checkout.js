@@ -1,6 +1,6 @@
 import { getMe } from '@vue-storefront/commercetools-api';
 
-const canEnterPersonalDetails = cart => !cart.customerId;
+const canEnterPersonalDetails = cart => !cart.customerId && cart.lineItems.length > 0;
 
 const canEnterShipping = cart => cart.customerEmail || cart.customerId;
 
@@ -11,6 +11,8 @@ const canEnterReview = cart => Boolean(cart.billingAddress);
 export default async ({ app }) => {
   const currentPath = app.context.route.fullPath.split('/checkout/')[1];
   const { data: { me: { activeCart } } } = await getMe();
+
+  if (!activeCart) return;
 
   switch (currentPath) {
     case 'personal-details':
