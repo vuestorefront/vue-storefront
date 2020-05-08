@@ -6,7 +6,7 @@ const canEnterShipping = cart => cart.customerEmail || cart.customerId;
 
 const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
 
-const canEnterReview = cart => cart.billingAddress;
+const canEnterReview = cart => Boolean(cart.billingAddress);
 
 export default async ({ app }) => {
   const currentPath = app.context.route.fullPath.split('/checkout/')[1];
@@ -32,6 +32,7 @@ export default async ({ app }) => {
       if (!canEnterReview(activeCart)) {
         app.context.redirect('/');
       }
+      break;
   }
 };
 

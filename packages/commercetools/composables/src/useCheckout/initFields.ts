@@ -8,8 +8,9 @@ import {
   isPersonalDetailsCompleted,
   chosenShippingMethod
 } from './shared';
+import { Cart } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
-const initFields = (cart) => {
+const initFields = (cart: Cart) => {
   personalDetails.value.email = cart.customerEmail;
   shippingDetails.value = { ...initialDetails, ...shippingDetails.value, ...cart.shippingAddress };
   billingDetails.value = cart.billingAddress || initialDetails;

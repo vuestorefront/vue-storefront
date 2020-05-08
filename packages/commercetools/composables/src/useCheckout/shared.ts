@@ -1,14 +1,14 @@
 /* istanbul ignore file */
 
 import { ref, Ref, computed } from '@vue/composition-api';
-import { ShippingMethod, Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
 export const initialDetails = { contactInfo: {} };
 export const paymentMethods: Ref<any[]> = ref([]);
 export const shippingMethods: Ref<any[]> = ref([]);
 export const personalDetails: Ref<Customer> = ref({});
 export const chosenPaymentMethod: Ref<any> = ref({});
-export const chosenShippingMethod: Ref<ShippingMethod> = ref({});
+export const chosenShippingMethod: Ref<any> = ref({});
 export const isPersonalDetailsCompleted: Ref<boolean> = ref(false);
 export const isShippingAddressCompleted: Ref<boolean> = ref(false);
 export const isBillingAddressCompleted: Ref<boolean> = ref(false);

@@ -42,7 +42,7 @@ export default {
     OrderReview
   },
   setup(props, context) {
-    const currentStep = computed(() =>context.root.$route.path.split('/').pop());
+    const currentStep = computed(() => context.root.$route.path.split('/').pop());
     const { isAuthenticated } = useUser();
     const showCartPreview = ref(true);
     const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));

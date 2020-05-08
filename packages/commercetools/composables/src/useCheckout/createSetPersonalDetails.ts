@@ -9,19 +9,19 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails }) => asyn
   personalDetails.value = { ...personalDetails.value, ...data };
   const { firstName, lastName } = personalDetails.value;
 
-  if (options.save) {
-    const cartResponse = await updateCart({
-      id: cart.value.id,
-      version: cart.value.version,
-      actions: [
-        cartActions.setCustomerEmail(personalDetails.value.email)
-      ]
-    });
+  if (!options.save) return;
 
-    cart.value = cartResponse.data.cart;
-    initFields(cart.value);
-    setShippingDetails({ firstName, lastName });
-  }
+  const cartResponse = await updateCart({
+    id: cart.value.id,
+    version: cart.value.version,
+    actions: [
+      cartActions.setCustomerEmail(personalDetails.value.email)
+    ]
+  });
+
+  cart.value = cartResponse.data.cart;
+  initFields(cart.value);
+  setShippingDetails({ firstName, lastName });
 };
 
 export default createSetPersonalDetails;

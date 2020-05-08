@@ -8,18 +8,18 @@ import initFields from './initFields';
 const setShippingMethod = ({ factoryParams }) => async (method, options: any = {}) => {
   chosenShippingMethod.value = method;
 
-  if (options.save) {
-    const cartResponse = await updateCart({
-      id: cart.value.id,
-      version: cart.value.version,
-      actions: [
-        cartActions.setShippingMethodAction(method.id)
-      ]
-    });
+  if (!options.save) return;
 
-    cart.value = cartResponse.data.cart;
-    initFields(cart.value);
-  }
+  const cartResponse = await updateCart({
+    id: cart.value.id,
+    version: cart.value.version,
+    actions: [
+      cartActions.setShippingMethodAction(method.id)
+    ]
+  });
+
+  cart.value = cartResponse.data.cart;
+  initFields(cart.value);
 };
 
 export default setShippingMethod;
