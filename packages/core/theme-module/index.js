@@ -89,6 +89,11 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       component: resolve(projectLocalThemeDir, 'pages/MyAccount.vue')
     });
     routes.push({
+      name: 'new-password',
+      path: '/new-password/:username/:token',
+      component: resolve(projectLocalThemeDir, 'pages/NewPassword.vue')
+    });
+    routes.push({
       name: 'checkout',
       path: '/checkout',
       component: resolve(projectLocalThemeDir, 'pages/Checkout.vue'),

@@ -44,6 +44,14 @@ export interface UseUser
   refreshUser: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+  forgotPassword: (user: {
+    username: string
+  }) => Promise<void>,
+  createPassword: (
+    username: string,
+    token: string,
+    newPassword: string) => Promise<void>,
+  [x: string]: any;
 }
 
 export interface UseUserOrders<ORDER> {

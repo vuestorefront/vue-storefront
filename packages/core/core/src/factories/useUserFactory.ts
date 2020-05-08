@@ -9,6 +9,8 @@ export type UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
   register: (params: REGISTER_USER_PARAMS) => Promise<USER>;
   logIn: (params: { username: string; password: string }) => Promise<USER>;
   changePassword: (params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
+  forgotPassword?: (params: { username: string }) => Promise<void>;
+  createPassword?: (params: { username: string, token: string, newPassword: string}) => Promise<void>;
 };
 
 export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
@@ -91,6 +93,22 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
+    const forgotPassword = async(params: { username: string }) => {
+      try {
+        await factoryParams?.forgotPassword(params);
+      } catch (err) {
+        throw new Error(err);
+      }
+    };
+
+    const createPassword = async(username: string, token: string, newPassword: string) => {
+      try {
+        await factoryParams?.createPassword({ username, token, newPassword});
+      } catch (err) {
+        throw new Error(err);
+      }
+    };
+
     // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
     onSSR(async () => {
       if (!user.value) {
@@ -107,6 +125,8 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       isAuthenticated,
       changePassword,
       refreshUser,
+      forgotPassword,
+      createPassword,
       loading: computed(() => loading.value)
     };
   };
