@@ -17,7 +17,7 @@
             <SfColor
               v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.label}`"
-              :data-cy="`category-filter_color_${oprion.value}`"
+              :data-cy="`category-filter_color_${option.value}`"
               :color="option.value"
               :selected="option.selected"
               class="filters__color"
@@ -28,7 +28,7 @@
             <SfFilter
               v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.label}`"
-              :data-cy="`category-filter_${filterName}_${filter.value}`"
+              :data-cy="`category-filter_${filterName}_${option.value}`"
               :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.label"
               :selected="option.selected"
               class="filters__item"

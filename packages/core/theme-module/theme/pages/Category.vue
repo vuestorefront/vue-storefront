@@ -246,7 +246,7 @@ import {
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
-import { applyFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
+import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
@@ -292,8 +292,7 @@ export default {
     onSSR(async () => {
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
-      filters.value = availableFilters.value;
-      applyFiltersFromUrl(context, filters.value);
+      filters.value = getFiltersFromUrl(context, availableFilters.value);
       await productsSearch(productsSearchParams.value);
     });
 

@@ -1,4 +1,4 @@
-export const applyFiltersFromUrl = (context, filters) => {
+export const getFiltersFromUrl = (context, filters) => {
   const { query } = context.root.$route;
   const filtersFromQuery = Object.entries(query).filter(([name]) => !['page', 'items'].includes(name));
   filtersFromQuery.forEach(([name, values]) => {
@@ -15,4 +15,5 @@ export const applyFiltersFromUrl = (context, filters) => {
       }
     });
   });
+  return filters;
 };

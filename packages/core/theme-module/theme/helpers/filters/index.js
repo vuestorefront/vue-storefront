@@ -1,2 +1,2 @@
-export { applyFiltersFromUrl } from './applyFiltersFromUrl';
+export { getFiltersFromUrl } from './getFiltersFromUrl';
 export { getFiltersForUrl } from './getFiltersForUrl';
