@@ -6,7 +6,7 @@
       :open-tab="1"
       class="tab-orphan"
     >
-      <SfTab title="Change the address">
+      <SfTab data-cy="shipping-details-tab_change" title="Change the address">
         <p class="message">
           Keep your addresses and contact details updated.
         </p>
@@ -129,7 +129,7 @@
       </SfTab>
     </SfTabs>
     <SfTabs v-else key="address-list" :open-tab="1" class="tab-orphan">
-      <SfTab title="Shipping details">
+      <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
         <p class="message">
           Manage all the shipping addresses you want (work place, home address
           ...) This way you won"t have to enter the shipping address manually

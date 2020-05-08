@@ -33,6 +33,7 @@
                 />
               </ValidationProvider>
               <SfCheckbox
+                data-cy="login-checkbox-remember-me"
                 v-model="rememberMe"
                 name="remember-me"
                 label="Remember me"

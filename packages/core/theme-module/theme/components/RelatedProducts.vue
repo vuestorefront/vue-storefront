@@ -1,7 +1,7 @@
 <template>
   <SfSection :title-heading="title" class="section">
     <SfLoader :class="{ loading }" :loading="loading">
-      <SfCarousel class="product-carousel">
+      <SfCarousel data-cy="related-products-carousel" class="product-carousel">
         <SfCarouselItem v-for="(product, i) in products" :key="i">
           <SfProductCard
             :title="productGetters.getName(product)"
