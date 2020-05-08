@@ -21,7 +21,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import MicrocartIcon from '@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon'
-import {syncCartWhenLocalStorageChange} from '@vue-storefront/core/modules/cart/helpers'
+import { syncCartWhenLocalStorageChange } from '@vue-storefront/core/modules/cart/helpers'
 
 export default {
   mounted () {

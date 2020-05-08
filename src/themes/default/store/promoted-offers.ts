@@ -26,7 +26,7 @@ export const promotedStore = {
     getHeadImage: state => state.headImage
   },
   actions: {
-    async updatePromotedOffers ({commit, rootState}, data) {
+    async updatePromotedOffers ({ commit, rootState }, data) {
       let promotedBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_promoted_offers` : `promoted_offers`
       try {
         // Workaround to get jest --watch to work so don't change the import sting to a template string
@@ -36,7 +36,7 @@ export const promotedStore = {
         Logger.debug('Unable to load promotedOffers' + err)()
       }
     },
-    async updateHeadImage ({commit, rootState}, data) {
+    async updateHeadImage ({ commit, rootState }, data) {
       let mainImageResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_main-image` : `main-image`
       try {
         // Workaround to get jest --watch to work so don't change the import sting to a template string

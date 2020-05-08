@@ -13,12 +13,12 @@ const StorageManager = {
 };
 const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory
 
-jest.mock('@vue-storefront/core/lib/storage-manager', () => ({StorageManager}))
+jest.mock('@vue-storefront/core/lib/storage-manager', () => ({ StorageManager }))
 jest.mock('@vue-storefront/core/helpers', () => ({
   isServer: () => false
 }));
 jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
-jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
+jest.mock('@vue-storefront/i18n', () => ({ loadLanguageAsync: jest.fn() }))
 
 Vue.use(Vuex);
 

@@ -8,6 +8,7 @@ const SearchQuery = {
   applyFilter: jest.fn()
 };
 
+jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
 jest.mock('@vue-storefront/core/lib/search/searchQuery', () => () =>
   SearchQuery
 );
@@ -228,7 +229,7 @@ describe('Url actions', () => {
         slug: 'shorts-19'
       };
 
-      contextMock.dispatch.mockImplementation(() => Promise.resolve({slug: 'shorts-19'}))
+      contextMock.dispatch.mockImplementation(() => Promise.resolve({ slug: 'shorts-19' }))
 
       const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
 

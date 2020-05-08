@@ -331,7 +331,8 @@ export default {
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
-  async asyncData ({ store, route }) {
+  async asyncData ({ store, route, context }) {
+    if (context) context.output.cacheTags.add('product')
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     if (isServer) await loadBreadcrumbsPromise

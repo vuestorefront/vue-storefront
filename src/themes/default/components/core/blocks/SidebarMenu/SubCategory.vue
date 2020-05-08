@@ -125,7 +125,7 @@ export default {
         return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
       }
     },
-    hasChildren() {
+    hasChildren () {
       return this.children && this.children.length
     },
     ...mapState({

@@ -50,7 +50,7 @@ const itemActions = {
     const record = getters.getCartItems.find(p => productsEquals(p, product))
     const qty = record ? record.qty + 1 : (product.qty ? product.qty : 1)
 
-    return dispatch('stock/queueCheck', { product, qty }, {root: true})
+    return dispatch('stock/queueCheck', { product, qty }, { root: true })
   },
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
@@ -80,9 +80,18 @@ const itemActions = {
         productIndex++
       }
     }
-    await dispatch('create')
+
+    let newDiffLog = await dispatch('create')
+    if (newDiffLog !== undefined) {
+      diffLog.merge(newDiffLog)
+    }
+
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      return dispatch('sync', { forceClientState: true })
+      const syncDiffLog = await dispatch('sync', { forceClientState: true })
+
+      if (!syncDiffLog.isEmpty()) {
+        diffLog.merge(syncDiffLog)
+      }
     }
 
     return diffLog

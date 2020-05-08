@@ -32,7 +32,7 @@ jest.mock('@vue-storefront/core/lib/search/searchQuery', () => ({
 }));
 jest.mock('@vue-storefront/core/lib/sync', () => ({
   TaskQueue: {
-    execute: jest.fn(() => Promise.resolve({code: 200}))
+    execute: jest.fn(() => Promise.resolve({ code: 200 }))
   }
 }))
 jest.mock('@vue-storefront/core/data-resolver', () => ({
@@ -58,7 +58,7 @@ describe('Review actions', () => {
 
       await wrapper(reviewActions);
 
-      expect(createLoadReviewsQuery).toBeCalledWith({...payload, approved: true});
+      expect(createLoadReviewsQuery).toBeCalledWith({ ...payload, approved: true });
     });
 
     it('make quick search by query with default values', async () => {

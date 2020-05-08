@@ -171,4 +171,4 @@ const logger = new Logger(
   buildTimeConfig.console.showErrorOnProduction
 )
 
-export {logger as Logger}
+export { logger as Logger }
