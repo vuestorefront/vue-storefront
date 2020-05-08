@@ -7,7 +7,15 @@ import useProduct from './composables/useProduct';
 import { useUser, setUser } from './composables/useUser';
 import useUserOrders from './composables/useUserOrders';
 import useWishlist from './composables/useWishlist';
-import { cartGetters, userGetters, categoryGetters, productGetters, checkoutGetters, orderGetters } from './composables/getters/';
+import {
+  cartGetters,
+  userGetters,
+  categoryGetters,
+  productGetters,
+  checkoutGetters,
+  orderGetters,
+  wishlistGetters
+} from './composables/getters/';
 
 export {
   cartGetters,
@@ -15,6 +23,7 @@ export {
   checkoutGetters,
   productGetters,
   orderGetters,
+  wishlistGetters,
   useCart,
   useCategory,
   useCheckout,

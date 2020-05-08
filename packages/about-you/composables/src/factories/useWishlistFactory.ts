@@ -2,23 +2,25 @@
 import { UseWishlist } from '../types/';
 import { Ref, ref, computed } from '@vue/composition-api';
 
-export type UseWishlistFactoryParams<WISHLIST, PRODUCT> = {
+export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
   wishlist: Ref<WISHLIST>;
   loadWishlist: () => Promise<WISHLIST>;
-  addToWishlist: (params: { product: PRODUCT; quantity: number }) => Promise<WISHLIST>;
-  removeFromWishlist: (params: { product: PRODUCT }) => Promise<WISHLIST>;
-  clearWishlist: () => Promise<void>;
+  addToWishlist: (params: { product: PRODUCT }) => Promise<WISHLIST>;
+  removeFromWishlist: (params: { item: WISHLIST_ITEM }) => Promise<WISHLIST>;
 }
 
-export function useWishlistFactory<WISHLIST, PRODUCT, WISHLIST_PRODUCT>(factoryParams: UseWishlistFactoryParams<WISHLIST, PRODUCT>) {
+export function useWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT>(factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>) {
   const loading: Ref<boolean> = ref<boolean>(false);
 
-  return function useWishlist(): UseWishlist<WISHLIST, PRODUCT, WISHLIST_PRODUCT> {
+  return function useWishlist(): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> {
 
     const addToWishlist = async (product) => {
+      let wishlistResponse: any;
       try {
         loading.value = true;
-        factoryParams.wishlist.value = await factoryParams.addToWishlist(product);
+        wishlistResponse = await factoryParams.addToWishlist(product);
+        console.log(wishlistResponse);
+        factoryParams.wishlist.value = wishlistResponse;
       } finally {
         loading.value = false;
       }
@@ -28,15 +30,6 @@ export function useWishlistFactory<WISHLIST, PRODUCT, WISHLIST_PRODUCT>(factoryP
       try {
         loading.value = true;
         factoryParams.wishlist.value = await factoryParams.removeFromWishlist(product);
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const clearWishlist = async () => {
-      try {
-        loading.value = true;
-        await factoryParams.clearWishlist();
       } finally {
         loading.value = false;
       }
@@ -55,7 +48,6 @@ export function useWishlistFactory<WISHLIST, PRODUCT, WISHLIST_PRODUCT>(factoryP
       wishlist: computed(() => factoryParams.wishlist.value),
       addToWishlist,
       removeFromWishlist,
-      clearWishlist,
       refreshWishlist,
       loading: computed(() => loading.value)
     };

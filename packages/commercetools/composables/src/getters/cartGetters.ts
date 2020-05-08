@@ -1,4 +1,8 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import {
+  CartGetters,
+  AgnosticPrice,
+  AgnosticTotals
+} from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
 import { createPrice, createFormatPrice } from './_utils';
@@ -13,16 +17,21 @@ export const getCartItems = (cart: Cart): LineItem[] => {
 
 export const getCartItemName = (product: LineItem): string => product.name;
 
-export const getCartItemImage = (product: LineItem): string => product.variant.images[0].url;
+export const getCartItemImage = (product: LineItem): string =>
+  product.variant.images[0].url;
 
-export const getCartItemPrice = (product: LineItem): AgnosticPrice => createPrice(product);
+export const getCartItemPrice = (product: LineItem): AgnosticPrice =>
+  createPrice(product);
 
 export const getCartItemQty = (product: LineItem): number => product.quantity;
 
-export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) =>
-  getProductAttributes(product.variant, filterByAttributeName);
+export const getCartItemAttributes = (
+  product: LineItem,
+  filterByAttributeName?: Array<string>
+) => getProductAttributes(product.variant, filterByAttributeName);
 
-export const getCartItemSku = (product: LineItem): string => product.variant.sku;
+export const getCartItemSku = (product: LineItem): string =>
+  product.variant.sku;
 
 export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (!cart) {
@@ -41,14 +50,18 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
   };
 };
 
-export const getCartShippingPrice = (cart: Cart): number => cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
+export const getCartShippingPrice = (cart: Cart): number =>
+  cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
 
 export const getCartTotalItems = (cart: Cart): number => {
   if (!cart) {
     return 0;
   }
 
-  return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
+  return cart.lineItems.reduce(
+    (previous, current) => previous + current.quantity,
+    0
+  );
 };
 
 export const getFormattedPrice = (price: number) => createFormatPrice(price);
