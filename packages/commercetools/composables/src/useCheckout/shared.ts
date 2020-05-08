@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { ref, Ref, computed } from '@vue/composition-api';
 import { ShippingMethod, Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
