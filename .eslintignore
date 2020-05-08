@@ -1,5 +1,5 @@
 **/node_modules/**/*
 **/lib/*
 **/GraphQL.ts
-
+**cypress/plugins/index.js
 !**/.vuepress/**/*
