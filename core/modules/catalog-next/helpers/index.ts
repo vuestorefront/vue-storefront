@@ -475,7 +475,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       Vue.set(context.state.current_configuration, attribute_code, confVal)
-      console.log('context.state.current_configuration', context.state.current_configuration)
     }
     if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options

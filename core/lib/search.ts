@@ -28,7 +28,7 @@ export function isOnline (): boolean {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null, filters = {} } = {}): Promise<SearchResponse> => {
+export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null, filters = null } = {}): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -44,7 +44,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       size: size,
       from: start,
       sort: sort,
-      filters
+      ...(filters ? { filters } : {})
     }
 
     if (excludeFields) Request._sourceExclude = excludeFields

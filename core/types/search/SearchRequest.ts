@@ -9,5 +9,5 @@ export interface SearchRequest {
   sort: string,
   _sourceExclude?: string,
   _sourceInclude?: string,
-  filters: any
+  filters?: any
 }
