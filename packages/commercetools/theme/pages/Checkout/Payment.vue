@@ -145,7 +145,7 @@
       </div>
       <div class="form__action">
         <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-        <SfButton class="form__action-button" type="submit">
+        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress">
           Review my order
         </SfButton>
       </div>
@@ -214,7 +214,8 @@ export default {
       loadPaymentMethods,
       setBillingDetails,
       setPaymentMethod,
-      loadDetails
+      loadDetails,
+      loading
     } = useCheckout();
     const sameAsShipping = ref(false);
     let oldBilling = null;
@@ -242,6 +243,7 @@ export default {
     };
 
     return {
+      loading,
       billingDetails,
       paymentMethods,
       chosenPaymentMethod,

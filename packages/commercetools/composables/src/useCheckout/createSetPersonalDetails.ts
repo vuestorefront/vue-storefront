@@ -2,7 +2,7 @@
 
 import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
-import { personalDetails } from './shared';
+import { personalDetails, loading} from './shared';
 import initFields from './initFields';
 
 const createSetPersonalDetails = ({ factoryParams, setShippingDetails }) => async (data, options: any = {}) => {
@@ -10,6 +10,7 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails }) => asyn
   const { firstName, lastName } = personalDetails.value;
 
   if (!options.save) return;
+  loading.value.personalDetails = true;
 
   const cartResponse = await updateCart({
     id: cart.value.id,
@@ -22,6 +23,7 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails }) => asyn
   cart.value = cartResponse.data.cart;
   initFields(cart.value);
   setShippingDetails({ firstName, lastName });
+  loading.value.personalDetails = false;
 };
 
 export default createSetPersonalDetails;

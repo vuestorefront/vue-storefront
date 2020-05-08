@@ -14,8 +14,18 @@ export const isShippingAddressCompleted: Ref<boolean> = ref(false);
 export const isBillingAddressCompleted: Ref<boolean> = ref(false);
 export const billingDetails: Ref<any> = ref(initialDetails);
 export const shippingDetails: Ref<any> = ref(initialDetails);
+export const loading = ref({
+  personalDetails: false,
+  paymentMethods: false,
+  shippingMethods: false,
+  shippingAddress: false,
+  billingAddress: false,
+  shippingMethod: false,
+  order: false
+});
 
 export const checkoutComputed = {
+  loading: computed(() => loading.value),
   billingDetails: computed(() => billingDetails.value),
   shippingMethods: computed(() => shippingMethods.value),
   personalDetails: computed(() => personalDetails.value),

@@ -149,10 +149,10 @@
           </div>
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty" :disabled="!isShippingMethodCompleted">
+            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
               Continue to payment
             </SfButton>
-            <SfButton class="form__action-button" type="submit" v-else>
+            <SfButton class="form__action-button" type="submit" :disabled="loading.shippingMethods" v-else>
               Select shipping method
             </SfButton>
           </div>
@@ -207,7 +207,8 @@ export default {
       loadShippingMethods,
       isShippingAddressCompleted,
       isShippingMethodCompleted,
-      loadDetails
+      loadDetails,
+      loading
     } = useCheckout();
 
     onSSR(async () => {
@@ -227,6 +228,7 @@ export default {
     };
 
     return {
+      loading,
       handleShippingAddressSubmit,
       handleShippingMethodSubmit,
       isShippingAddressCompleted,

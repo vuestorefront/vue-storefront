@@ -9,6 +9,17 @@ const isShippingAddressCompleted = { value: true };
 const personalDetails = { value: {} };
 const isBillingAddressCompleted = { value: false };
 const isPersonalDetailsCompleted = { value: false };
+const loading = {
+  value: {
+    personalDetails: false,
+    paymentMethods: false,
+    shippingMethods: false,
+    shippingAddress: false,
+    billingAddress: false,
+    shippingMethod: false,
+    order: false
+  }
+};
 
 const resetFields = () => {
   billingDetails.value = {};
@@ -22,6 +33,15 @@ const resetFields = () => {
   personalDetails.value = {};
   isBillingAddressCompleted.value = false;
   isPersonalDetailsCompleted.value = false;
+  loading.value = {
+    personalDetails: false,
+    paymentMethods: false,
+    shippingMethods: false,
+    shippingAddress: false,
+    billingAddress: false,
+    shippingMethod: false,
+    order: false
+  };
 };
 
 jest.mock('./../../src/useCart', jest.fn(() => ({
@@ -38,7 +58,8 @@ jest.mock('./../../src/useCheckout/shared', () => ({
   isBillingAddressCompleted,
   isPersonalDetailsCompleted,
   personalDetails,
-  initialDetails: {}
+  initialDetails: {},
+  loading
 }));
 jest.mock('./../../src/useCheckout/initFields', () => jest.fn());
 jest.mock('@vue-storefront/commercetools-api', () => ({
@@ -54,11 +75,8 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   }
 }));
 
-// import {
-//   updateCart
-// } from '@vue-storefront/commercetools-api';
-
-import createSetDetails from './../../src/useCheckout/createSetDetails';
+import createSetBillingDetails from './../../src/useCheckout/createSetBillingDetails';
+import createSetShippingDetails from './../../src/useCheckout/createSetShippingDetails';
 import createSetShippingMethod from './../../src/useCheckout/createSetShippingMethod';
 import createLoadShippingMethods from './../../src/useCheckout/createLoadShippingMethods';
 import createLoadPaymentMethods from './../../src/useCheckout/createLoadPaymentMethods';
@@ -66,7 +84,6 @@ import createSetPersonalDetails from './../../src/useCheckout/createSetPersonalD
 import createSetPaymentMethod from './../../src/useCheckout/createSetPaymentMethod';
 import createPlaceOrder from './../../src/useCheckout/createPlaceOrder';
 import createLoadDetails from './../../src/useCheckout/createLoadDetails';
-
 import { updateCart, getShippingMethods, createMyOrderFromCart, createCart } from '@vue-storefront/commercetools-api';
 import initFields from './../../src/useCheckout/initFields';
 
@@ -77,7 +94,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
   });
 
   it('set shipping details', async () => {
-    const setShippingDetails = createSetDetails({ factoryParams: {}, type: 'shipping' });
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {} });
     const shippingAddress = { firstName: 'John', lastName: 'Doe' };
     await setShippingDetails(shippingAddress);
 
@@ -85,7 +102,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
   });
 
   it('send shipping details to the api', async () => {
-    const setShippingDetails = createSetDetails({ factoryParams: {}, type: 'shipping' });
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {} });
     const shippingAddress = { firstName: 'John', lastName: 'Doe' };
     await setShippingDetails(shippingAddress, { save: true });
 
@@ -109,7 +126,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
   });
 
   it('set billing details', async () => {
-    const setBillingDetails = createSetDetails({ factoryParams: {}, type: 'billing' });
+    const setBillingDetails = createSetBillingDetails({ factoryParams: {} });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress);
 
@@ -117,7 +134,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
   });
 
   it('send billing details to the api', async () => {
-    const setBillingDetails = createSetDetails({ factoryParams: {}, type: 'billing' });
+    const setBillingDetails = createSetBillingDetails({ factoryParams: {} });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress, { save: true });
 

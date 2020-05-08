@@ -81,7 +81,7 @@
         </transition>
         <div class="form__action">
           <nuxt-link to="/" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-          <SfButton class="form__action-button" type="submit">
+          <SfButton class="form__action-button" type="submit" :disabled="loading.personalDetails">
             Continue to shipping
           </SfButton>
         </div>
@@ -137,7 +137,7 @@ export default {
   },
   setup(props, context) {
     const { register, isAuthenticated } = useUser();
-    const { loadDetails, personalDetails, setPersonalDetails } = useCheckout();
+    const { loadDetails, personalDetails, setPersonalDetails, loading } = useCheckout();
     const accountBenefits = ref(false);
     const createAccount = ref(false);
 
@@ -163,6 +163,7 @@ export default {
     });
 
     return {
+      loading,
       personalDetails,
       accountBenefits,
       createAccount,

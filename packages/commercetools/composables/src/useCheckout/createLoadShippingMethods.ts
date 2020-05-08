@@ -2,10 +2,11 @@
 
 import { getShippingMethods } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
-import { shippingMethods, chosenShippingMethod, isShippingAddressCompleted } from './shared';
+import { shippingMethods, chosenShippingMethod, isShippingAddressCompleted, loading } from './shared';
 
 const createLoadShippingMethods = ({ factoryParams, setShippingMethod }) => async () => {
   if (!isShippingAddressCompleted.value) return;
+  loading.value.shippingMethods = true;
 
   const shippingMethodsResponse = await getShippingMethods(cart.value.id);
   shippingMethods.value = shippingMethodsResponse.data.shippingMethods;
@@ -17,6 +18,7 @@ const createLoadShippingMethods = ({ factoryParams, setShippingMethod }) => asyn
   }
 
   chosenShippingMethod.value = shippingInfo?.shippingMethod || defaultShipping || {};
+  loading.value.shippingMethods = false;
 };
 
 export default createLoadShippingMethods;

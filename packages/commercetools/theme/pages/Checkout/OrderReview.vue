@@ -141,7 +141,7 @@
         </SfCheckbox>
           <div class="summary__action">
           <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">Go back</nuxt-link>
-          <SfButton class="summary__action-button" @click="processOrder">
+          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading.order">
             Make an order
           </SfButton>
         </div>
@@ -195,7 +195,8 @@ export default {
       chosenShippingMethod,
       chosenPaymentMethod,
       loadShippingMethods,
-      placeOrder
+      placeOrder,
+      loading
     } = useCheckout();
 
     onSSR(async () => {
@@ -208,6 +209,7 @@ export default {
     };
 
     return {
+      loading,
       products,
       personalDetails,
       shippingDetails,
