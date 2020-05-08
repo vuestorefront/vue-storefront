@@ -21,7 +21,7 @@ export interface UseProduct<PRODUCT, PRODUCT_FILTERS> {
 export interface UseUser
 <
   USER,
-  UPDATE_USER_PARAMS
+  UPDATE_USER_PARAMS extends { email: string, firstName: string, lastName: string }
 > {
   user: ComputedProperty<USER>;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
