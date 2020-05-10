@@ -217,159 +217,10 @@
       title="Filters"
       @close="isFilterSidebarOpen = false"
     >
-      <div class="filters desktop-only">
-        <SfHeading
-          :level="4"
-          title="Collection"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.collection"
-          :data-cy="`category-filter_collection_${filter.value}`"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-        <SfHeading
-          :level="4"
-          title="Color"
-          class="filters__title sf-heading--left"
-        />
-        <div class="filters__colors">
-          <SfColor
-            v-for="filter in filters.color"
-            :data-cy="`category-filter_color_${filter.value}`"
-            :key="filter.value"
-            :color="filter.color"
-            :selected="filter.selected"
-            class="filters__color"
-            @click="filter.selected = !filter.selected"
-          />
-        </div>
-        <SfHeading
-          :level="4"
-          title="Size"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.size"
-          :data-cy="`category-filter_size_${filter.value}`"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-        <SfHeading
-          :level="4"
-          title="Price"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.price"
-          :data-cy="`category-filter_price_${filter.value}`"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-       <SfHeading
-          :level="4"
-          title="Material"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.material"
-          :data-cy="`category-filter_material_${filter.value}`"
-          :key="filter.value"
-          :value="filter.value"
-          :label="filter.label"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-
-        <div class="filters__buttons">
-          <SfButton data-cy="category-btn_done"
-            @click="isFilterSidebarOpen = false"
-            class="sf-button--full-width"
-            >Done</SfButton
-          >
-          <SfButton data-cy="category-btn_clear-all"
-            @click="clearAllFilters"
-            class="sf-button--full-width filters__button-clear"
-            >Clear all</SfButton
-          >
-        </div>
-      </div>
-       <SfAccordion class="filters mobile-only">
-        <SfAccordionItem header="Collection" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.collection"
-            :data-cy="`category-filter_collection_${filter.value}`"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Color" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.color"
-            :data-cy="`category-filter_color_${filter.value}`"
-            :key="filter.value"
-            :label="filter.label"
-            :color="filter.color"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Size" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.size"
-            :data-cy="`category-filter_size_${filter.value}`"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Price" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.price"
-            :data-cy="`category-filter_price_${filter.value}`"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Material" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.material"
-            :data-cy="`category-filter_material_${filter.value}`"
-            :key="filter.value"
-            :value="filter.value"
-            :label="filter.label"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-      </SfAccordion>
+      <Filters
+        :filters="filters"
+        @click:apply-filters="applyFilters"
+      ></Filters>
     </SfSidebar>
   </div>
 </template>
@@ -395,7 +246,9 @@ import {
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
+import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
+import Filters from '../components/Filters';
 
 const perPageOptions = [20, 40, 100];
 
@@ -405,55 +258,11 @@ const sortByOptions = [
   { value: 'price-down', label: 'Price from high to low' }
 ];
 
-// TODO: to be implemented in https://github.com/DivanteLtd/next/issues/200
-const filters = {
-  collection: [
-    { label: 'Summer fly', value: 'summer-fly', count: '10', selected: false },
-    { label: 'Best 2018', value: 'best-2018', count: '23', selected: false },
-    { label: 'Your choice', value: 'your-choice', count: '54', selected: false }
-  ],
-  color: [
-    { label: 'Red', value: 'red', color: '#990611', selected: false },
-    { label: 'Black', value: 'black', color: '#000000', selected: false },
-    { label: 'Yellow', value: 'yellow', color: '#DCA742', selected: false },
-    { label: 'Blue', value: 'blue', color: '#004F97', selected: false },
-    { label: 'Navy', value: 'navy', color: '#656466', selected: false }
-  ],
-  size: [
-    { label: 'Size 2 (XXS)', value: 'xxs', count: '10', selected: false },
-    { label: 'Size 4-6 (XS)', value: 'xs', count: '23', selected: false },
-    { label: 'Size 8-10 (S)', value: 's', count: '54', selected: false },
-    { label: 'Size 12-14 (M)', value: 'm', count: '109', selected: false },
-    { label: 'Size 16-18 (L)', value: 'l', count: '23', selected: false },
-    { label: 'Size 20-22(XL)', value: 'xl', count: '12', selected: false },
-    { label: 'Size 24-26 (XXL)', value: 'xxl', count: '2', selected: false }
-  ],
-  price: [
-    { label: 'Under $200', value: 'under-200', count: '23', selected: false },
-    { label: 'Under $300', value: 'under-300', count: '54', selected: false }
-  ],
-  material: [
-    { label: 'Cotton', value: 'coton', count: '33', selected: false },
-    { label: 'Silk', value: 'silk', count: '73', selected: false }
-  ]
-};
-
 // TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
 const breadcrumbs = [
   { text: 'Home', route: { link: '#' } },
   { text: 'Women', route: { link: '#' } }
 ];
-
-function updateFilter() {}
-
-function clearAllFilters() {
-  const filtersNames = Object.keys(filters);
-  filtersNames.forEach((name) => {
-    filters[name].forEach((value) => {
-      value.selected = false;
-    });
-  });
-}
 
 export default {
   transition: 'fade',
@@ -461,32 +270,42 @@ export default {
     const { query } = context.root.$route;
 
     const { categories, search, loading } = useCategory('categories');
-    const { products: categoryProducts, totalProducts, search: productsSearch, loading: productsLoading } = useProduct('categoryProducts');
+    const {
+      products: categoryProducts,
+      totalProducts,
+      search: productsSearch,
+      loading: productsLoading,
+      availableFilters
+    } = useProduct('categoryProducts');
+
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
+    const filters = ref(null);
+
+    const productsSearchParams = computed(() => ({
+      catId: (categories.value[0] || {}).id,
+      page: currentPage.value,
+      perPage: itemsPerPage.value,
+      filters: filters.value
+    }));
 
     onSSR(async () => {
       await search(getCategorySearchParameters(context));
-      await productsSearch({
-        catId: (categories.value[0] || {}).id,
-        page: currentPage.value,
-        perPage: itemsPerPage.value
-      });
+      await productsSearch(productsSearchParams.value);
+      filters.value = getFiltersFromUrl(context, availableFilters.value);
+      await productsSearch(productsSearchParams.value);
     });
 
-    watch([currentPage, itemsPerPage], () => {
+    watch([currentPage, itemsPerPage, filters], () => {
       if (categories.value.length) {
-        productsSearch({
-          catId: categories.value[0].id,
-          page: currentPage.value,
-          perPage: itemsPerPage.value
-        });
+        productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
-          page: currentPage.value !== 1 ? currentPage.value : undefined
+          page: currentPage.value !== 1 ? currentPage.value : undefined,
+          ...getFiltersForUrl(filters.value)
         }});
       }
-    });
+    }, { deep: true });
 
     const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true }));
     const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
@@ -506,6 +325,12 @@ export default {
       context.root.$scrollTo(context.root.$el, 2000);
     };
 
+    const applyFilters = (updatedFilters) => {
+      filters.value = updatedFilters;
+      productsSearch(productsSearchParams.value);
+      isFilterSidebarOpen.value = false;
+    };
+
     return {
       products,
       productsLoading,
@@ -522,10 +347,9 @@ export default {
       sortBy,
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
-      filters: ref(filters),
+      filters,
       breadcrumbs: computed(() => breadcrumbs),
-      updateFilter,
-      clearAllFilters,
+      applyFilters,
       toggleWishlist,
       isGridView,
       goToPage
@@ -546,7 +370,8 @@ export default {
     SfBreadcrumbs,
     SfLoader,
     SfColor,
-    SfHeading
+    SfHeading,
+    Filters
   }
 };
 </script>
