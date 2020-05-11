@@ -18,8 +18,9 @@ export const getWishlistItemPrice = (item: BapiWishlistProduct): string => {
   return getProductPrice(item.product).regular.toString();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistItemQty = (item: BapiWishlistProduct): number => {
-  return item.product?.id;
+  return null;
 };
 
 export const getWishlistItemAttributes = () => undefined;
@@ -28,17 +29,18 @@ export const getWishlistItemSku = (item: BapiWishlistProduct): string => item.pr
 
 export const getWishlistTotals = (wishlist: BapiWishlist): AgnosticTotals => {
   return {
-    total: wishlist.items.length,
-    subtotal: wishlist.items.length
+    total: wishlist.items?.length,
+    subtotal: wishlist.items?.length
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistShippingPrice = (wishlist: BapiWishlist): number => {
-  return wishlist.items.length;
+  return null;
 };
 
 export const getWishlistTotalItems = (wishlist: BapiWishlist): number => {
-  return wishlist.items.length;
+  return wishlist.items?.length;
 };
 
 export const getFormattedPrice = (price: number) => `${price}$`;

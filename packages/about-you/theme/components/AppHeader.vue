@@ -35,14 +35,14 @@
         </SfHeaderNavigationItem>
       </template>
     </SfHeader>
-    <FakeWishlist />
+    <Wishlist :isWishlistSidebarOpen="isWishlistOpen" @closeWishlist="isWishlistOpen = false"/>
   </div>
 </template>
 
 <script>
-import FakeWishlist from './FakeWishlist';
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
+import Wishlist from './Wishlist';
 import { useCart, useUser, cartGetters } from '@vue-storefront/about-you';
 import { computed, ref } from '@vue/composition-api';
 const { toggleCartSidebar, toggleLoginModal } = uiState;
@@ -50,7 +50,7 @@ export default {
   components: {
     SfHeader,
     SfImage,
-    FakeWishlist
+    Wishlist
   },
   setup(props, { root }) {
     const isWishlistOpen = ref(false);

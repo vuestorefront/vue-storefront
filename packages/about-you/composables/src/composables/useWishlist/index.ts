@@ -7,7 +7,7 @@ import { BapiProduct, BapiWishlist, BapiWishlistProduct } from '../../types';
 import { getWishlist, addItemToWishlist, deleteItemFromWishlist } from '@vue-storefront/about-you-api';
 
 // This state will be shared between all 'useCart` instances.
-const wishlist: Ref<BapiWishlist> = ref<BapiWishlist>(null);
+const wishlist: Ref<BapiWishlist> = ref<BapiWishlist>({ key: null, items: null });
 
 const params: UseWishlistFactoryParams<BapiWishlist, BapiWishlistProduct, BapiProduct> = {
   wishlist,
@@ -23,7 +23,8 @@ const params: UseWishlistFactoryParams<BapiWishlist, BapiWishlistProduct, BapiPr
   },
   removeFromWishlist: async ({ item }) => {
     return await deleteItemFromWishlist(wishlist.value.key, item.key);
-  }
+  },
+  clearWishlist: async () => {}
 };
 
 const useWishlist: () => UseWishlist<BapiWishlist, BapiWishlistProduct, BapiProduct> = useWishlistFactory<BapiWishlist, BapiWishlistProduct, BapiProduct>(params);

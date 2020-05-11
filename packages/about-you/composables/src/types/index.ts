@@ -61,9 +61,10 @@ interface UseWishlist
   PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT) => Promise<void>;
+  addToWishlist: (product: PRODUCT, quantity: number) => Promise<void>;
   removeFromWishlist: (item: WISHLIST_ITEM) => Promise<void>;
   refreshWishlist: () => Promise<void>;
+  clearWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 export interface UseCompare<PRODUCT> {

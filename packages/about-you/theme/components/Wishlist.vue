@@ -1,7 +1,7 @@
 <template>
   <div id="wishlist">
     <SfSidebar
-      :visible="isWishlistSidebarOpen"
+      :visible="isWishlistOpen"
       :button="false"
       title="My Wishlist"
       @close="isWishlistOpen = false"
@@ -14,7 +14,7 @@
             data-cy="wishlist-sidebar-button_toggle-wishlist"
             class="heading__close-button"
             aria-label="Wishlist sidebar close button"
-            @click="isWishlistSidebarOpen = false"
+            @click="isWishlistOpen = false"
           >
             <SfIcon icon="cross" size="14px" color="gray-primary" />
           </button>
@@ -47,7 +47,7 @@
                 image-width="180"
                 image-height="200"
                 :qty="wishlistGetters.getItemQty(product)"
-                @input="loadWishlist(product, $event)"
+                @input="refreshWishlist(product, $event)"
                 @click:remove="removeFromWishlist(product)"
                 class="collected-product"
               >
@@ -126,7 +126,7 @@ import {
   SfPrice,
   SfCollectedProduct
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { watch, ref, computed, onBeforeMount } from '@vue/composition-api';
 import { useWishlist, wishlistGetters } from '@vue-storefront/about-you';
 
 export default {
@@ -146,18 +146,36 @@ export default {
       default: false
     }
   },
-  setup() {
-    const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
+  setup(props, { emit }) {
+    const isWishlistOpen = ref(null);
+
+    const { wishlist, removeFromWishlist, refreshWishlist } = useWishlist();
+
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() =>
       wishlistGetters.getTotalItems(wishlist.value)
     );
 
+    onBeforeMount(async () => {
+      await refreshWishlist();
+    });
+
+    watch(() => props.isWishlistSidebarOpen, (value) => {
+      isWishlistOpen.value = value;
+    });
+
+    watch(() => isWishlistOpen.value, (curr) => {
+      if (!curr) {
+        emit('closeWishlist', false);
+      }
+    });
+
     return {
+      isWishlistOpen,
       products,
       removeFromWishlist,
-      loadWishlist,
+      refreshWishlist,
       totals,
       totalItems,
       wishlistGetters
@@ -183,9 +201,9 @@ export default {
     font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
     color: var(--c-dark-variant);
     margin: 0;
-  }
   &__total-price {
     --property-name-font-size: var(--font-xl);
+  }
     --price-font-size: var(--font-xl);
     margin: 0 0 var(--spacer-xl) 0;
 
