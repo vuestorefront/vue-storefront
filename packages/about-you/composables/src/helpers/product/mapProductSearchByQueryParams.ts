@@ -21,7 +21,12 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   }
 
   return {
-    with: {},
+    with: {
+      advancedAttributes: {
+        withKey: ['productName']
+      },
+      priceRange: true
+    },
     where: searchQuery,
     sort: {},
     pagination: pagination

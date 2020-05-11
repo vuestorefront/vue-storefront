@@ -2089,18 +2089,18 @@
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
 
-"@storefront-ui/shared@^0.7.5":
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.5.tgz#a4663c985ab1d1eb4ea7793d77c57ab539a4ca0f"
-  integrity sha512-3/JlkAwJOsvqObqgtrBCzAaqcdGYi2Ootua4jm+Brh3W1y5WZfZavhCsuyKc8//pG/R3M1XUmO0eodZgGFfbFw==
+"@storefront-ui/shared@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.10.tgz#8b3d07587b9d88bca7e447f43fa8643161c41de7"
+  integrity sha512-x4QWtcmwIKIy97I+/nROBvoFUObphlSWiZXZgvsu8/8cdJqPbkas5hz2U6twskJ/0qLFQytXhayJ5ElwG/EcbA==
 
-"@storefront-ui/vue@^0.7.5":
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.5.tgz#f74bd44586efbb14fc2d7f1deb9ea46ebc4a6d17"
-  integrity sha512-ORV+oIcOYASa0cvLgdU0FzKKIcdwgxyJ4Wx8SwzVtDcFUvuBRI9pnmQyi0KfpkGt4RpIMoRXcLxWXLKdfxACmg==
+"@storefront-ui/vue@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.10.tgz#ee918311b5b030c571bb49b42aa97105f039f6ca"
+  integrity sha512-uhjNHXR05TWKBSn/rKuMSfShwTrL7cn9EFuCQDe61Z/tld6ZXklB63CIll2OeVhfg9T+KordGJUssY+pPt9zgA==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.7.5"
+    "@storefront-ui/shared" "^0.7.10"
     "@storybook/addon-storysource" "^5.3.18"
     "@storybook/addon-viewport" "^5.3.18"
     "@types/jest" "^25.2.1"
@@ -2730,6 +2730,14 @@
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
+  dependencies:
+    "@vue/composition-api" "^0.4.0"
+    vue "^2.6.11"
+
+"@vue-storefront/core@^2.0.1-prealpha.429":
+  version "2.0.1-prealpha.429"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.429.tgz#a9604cd37504d75283bf90c74c00b734df810cb1"
+  integrity sha512-pSz9/q6nduyj7RXh3f0M+/D/OzudUgUgJ+0vLanbZ6d6Yd8dxeosrkCLrX8emgahCTG+hagIVEt9UIUI5Sclxw==
   dependencies:
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"

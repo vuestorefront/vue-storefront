@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
