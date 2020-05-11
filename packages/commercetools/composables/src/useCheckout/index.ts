@@ -10,6 +10,7 @@ import createSetPaymentMethod from './createSetPaymentMethod';
 import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
+import { cart } from './../useCart';
 import initFields from './initFields';
 
 // TODO: Move to core
@@ -30,7 +31,7 @@ const useCheckoutFactory = (factoryParams) => {
     const placeOrder = createPlaceOrder(methodsParams);
 
     if (!isInitialized) {
-      initFields(initialState);
+      initFields(cart.value || initialState || {});
     }
 
     isInitialized = true;
