@@ -213,7 +213,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
     dispatch('wishlist/clear', null, { root: true })
-    dispatch('compare/clear', null, {root: true})
+    dispatch('compare/clear', null, { root: true })
     dispatch('checkout/savePersonalDetails', {}, { root: true })
     dispatch('checkout/saveShippingDetails', {}, { root: true })
     dispatch('checkout/savePaymentDetails', {}, { root: true })

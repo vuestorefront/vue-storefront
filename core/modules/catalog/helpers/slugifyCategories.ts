@@ -14,7 +14,7 @@ const slugifyCategories = (category: Category | ChildrenData): Category | Childr
   if (category.children_data) {
     for (let subcat of category.children_data) {
       if (subcat.name && !subcat.slug) {
-        slugifyCategories({...subcat, slug: createSlug(subcat)} as any as ChildrenData)
+        slugifyCategories({ ...subcat, slug: createSlug(subcat) } as any as ChildrenData)
       }
     }
   }

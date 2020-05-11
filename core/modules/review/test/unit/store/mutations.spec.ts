@@ -11,7 +11,7 @@ describe('Review mutations', () => {
       const stateMock = {
         items: []
       }
-      const reviewItem = {foo: '123'}
+      const reviewItem = { foo: '123' }
       const expectedState = {
         items: [
           reviewItem

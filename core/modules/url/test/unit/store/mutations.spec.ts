@@ -13,11 +13,11 @@ describe('url mutations', () => {
       }
       const payloadData = {
         url: 'https://www.example.com',
-        routeData: {name: 'example'}
+        routeData: { name: 'example' }
       }
       const expectedState = {
         dispatcherMap: {
-          'https://www.example.com': {name: 'example'}
+          'https://www.example.com': { name: 'example' }
         }
       }
       const wrapper = (mutations: any) => mutations[types.REGISTER_MAPPING](stateMock, payloadData)

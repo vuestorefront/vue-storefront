@@ -32,7 +32,7 @@ class SearchQuery {
     * @param {Object}
     * @return {Object}
     */
-  applyFilter ({key, value, scope = 'default', options = Object}) {
+  applyFilter ({ key, value, scope = 'default', options = Object }) {
     this._appliedFilters.push({
       attribute: key,
       value: value,
@@ -47,7 +47,7 @@ class SearchQuery {
     * @param {Object}
     * @return {Object}
     */
-  addAvailableFilter ({field, scope = 'default', options = {}}) {
+  addAvailableFilter ({ field, scope = 'default', options = {} }) {
     // value can has only String, Array or numeric type
     this._availableFilters.push({
       field: field,

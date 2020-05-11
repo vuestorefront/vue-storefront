@@ -28,7 +28,7 @@ const mutations: MutationTree<ProductState> = {
     state.related = Object.assign(
       {},
       state.related,
-      {[key]: items}
+      { [key]: items }
     )
   },
   [types.PRODUCT_SET_CURRENT] (state, product) {
@@ -39,7 +39,7 @@ const mutations: MutationTree<ProductState> = {
     state.current_configuration = {}
     state.offlineImage = null
     state.parent = null
-    state.current_options = {color: [], size: []}
+    state.current_options = { color: [], size: [] }
     state.current_bundle_options = {}
     state.current_custom_options = {}
   },
@@ -59,10 +59,10 @@ const mutations: MutationTree<ProductState> = {
     state.current_custom_options = Object.assign(
       {},
       state.current_custom_options,
-      {[optionId]: {
+      { [optionId]: {
         option_id: optionId,
         option_value: optionValue
-      }}
+      } }
     )
   },
   [types.PRODUCT_SET_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
@@ -74,14 +74,14 @@ const mutations: MutationTree<ProductState> = {
     state.current_bundle_options = Object.assign(
       {},
       state.current_bundle_options,
-      {[optionId]: option}
+      { [optionId]: option }
     )
   },
   [types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     state.custom_options_validators = Object.assign(
       {},
       state.custom_options_validators,
-      {[validationRule]: validatorFunction}
+      { [validationRule]: validatorFunction }
     )
   },
   [types.PRODUCT_SET_GALLERY] (state, productGallery) {

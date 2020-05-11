@@ -10,7 +10,7 @@ import { createLoadReviewsQuery } from '@vue-storefront/core/modules/review/help
 import { ReviewsService } from '@vue-storefront/core/data-resolver'
 
 const actions: ActionTree<ReviewState, RootState> = {
-  async list (context, {productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null}) {
+  async list (context, { productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null }) {
     const query = createLoadReviewsQuery({ productId, approved })
 
     const reviewResponse = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields })

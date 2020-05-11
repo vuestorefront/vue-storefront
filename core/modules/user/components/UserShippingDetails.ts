@@ -97,7 +97,7 @@ export const UserShippingDetails = {
           } else {
             updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
               toString(address.id) === toString(this.currentUser.default_shipping)
-                ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
+                ? { ...address, ...updatedShippingDetailsAddress } // update default address if already exist
                 : address
             )
           }

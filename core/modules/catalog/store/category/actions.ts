@@ -353,8 +353,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
-  addAvailableFilter ({commit}, {key, options} = {}) {
-    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
+  addAvailableFilter ({ commit }, { key, options } = {}) {
+    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, { key, options })
   },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
@@ -362,10 +362,10 @@ const actions: ActionTree<CategoryState, RootState> = {
   searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   },
-  setSearchOptions ({commit}, searchOptions) {
+  setSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_SET_SEARCH_OPTIONS, searchOptions)
   },
-  mergeSearchOptions ({commit}, searchOptions) {
+  mergeSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_MERGE_SEARCH_OPTIONS, searchOptions)
   }
 }
