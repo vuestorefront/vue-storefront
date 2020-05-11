@@ -1,16 +1,16 @@
 import { ApolloQueryResult } from 'apollo-client';
-import { apolloClient } from '../../index';
+import { apolloClient, locale } from '../../index';
 import defaultQuery from './defaultQuery';
-import { ShippingMethodQueryResult } from './../../types/GraphQL';
+import { ShippingMethod } from './../../types/GraphQL';
 
 interface ShippingMethodData {
-  shippingMethods: ShippingMethodQueryResult;
+  shippingMethods: ShippingMethod[];
 }
 
-const getShippingMethods = async (): Promise<ApolloQueryResult<ShippingMethodData>> => {
+const getShippingMethods = async (cartId?: string): Promise<ApolloQueryResult<ShippingMethodData>> => {
   return await apolloClient.query({
     query: defaultQuery,
-    variables: {},
+    variables: { locale, cartId },
     fetchPolicy: 'no-cache'
   });
 };

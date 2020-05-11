@@ -3,7 +3,7 @@
     <TopBar class="desktop-only" />
     <div id="layout" >
       <AppHeader />
-      <nuxt />
+      <nuxt :key="$route.fullPath"/>
       <BottomNavigation />
       <AppFooter />
       <CartSidebar />
