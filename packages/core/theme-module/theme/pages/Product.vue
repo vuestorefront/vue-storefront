@@ -51,13 +51,8 @@
               </div>
             </div>
           </div>
-          <div class="product-details__description desktop-only" v-html="productGetters.getSummary(product)" v-if="productGetters.getSummary">
+          <div class="product-details__description desktop-only" v-html="shortDescription">
           </div>
-          <p class="product-details__description desktop-only" v-else>
-            Find stunning women cocktail and party dresses. Stand out in lace
-            and metallic cocktail dresses and party dresses from all your
-            favorite brands.
-          </p>
           <div class="product-details__action desktop-only">
             <SfButton data-cy="product-btn_size-guide" class="sf-button--text color-secondary"
               >Size guide</SfButton
@@ -241,6 +236,19 @@ export default {
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const shortDescription = computed(() => {
+      if (productGetters?.getShortDescription)
+        return productGetters.getShortDescription(product.value);
+      else {
+        let description = productGetters.getDescription(product.value);
+        if (description.length > 250) {
+          let spaceIndex = description.indexOf(' ', 250);
+          if (spaceIndex >= 0)
+            description = description.substr(0, spaceIndex);
+        }
+        return description;
+      }
+    });
 
     onSSR(async () => {
       await search({ id });
@@ -265,7 +273,8 @@ export default {
       qty,
       addToCart,
       loading,
-      productGetters
+      productGetters,
+      shortDescription
     };
   },
   components: {
