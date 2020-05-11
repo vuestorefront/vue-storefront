@@ -5,14 +5,7 @@ import { BapiClient } from '@aboutyou/backbone';
 let apiClient: BapiClient | null = null;
 
 const { setup, override, update, getSettings } = apiClientFactory<any, any>({
-  defaultSettings: {
-    locale: 'en',
-    currency: '',
-    country: '',
-    countries: [],
-    currencies: [],
-    locales: []
-  },
+  defaultSettings: {},
   onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
     apiClient = new BapiClient({

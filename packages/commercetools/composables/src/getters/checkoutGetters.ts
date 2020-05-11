@@ -1,6 +1,7 @@
 import { CheckoutGetters} from '@vue-storefront/core';
 import { ShippingMethod } from './../types/GraphQL';
 import { createFormatPrice } from './_utils';
+
 export const getShippingMethodId = (shippingMethod: ShippingMethod): string =>
   shippingMethod ? shippingMethod.id : '';
 
