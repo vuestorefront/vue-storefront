@@ -385,7 +385,6 @@ export default {
       filters: ref(filters),
       breadcrumbs: computed(() => breadcrumbs),
       updateFilter,
-      clearAllFilters,
       toggleWishlist,
       isGridView
     };
