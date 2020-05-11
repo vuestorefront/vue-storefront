@@ -33,13 +33,15 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
 export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
 ) {
+  let isInitialized = false;
   const appliedCoupon: Ref<COUPON | null> = ref(null);
   const loading: Ref<boolean> = ref<boolean>(false);
 
   return function useCart(): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
     const { initialState, saveToInitialState } = useSSR('vsf-cart');
 
-    factoryParams.cart.value = factoryParams.cart.value || initialState || null;
+    factoryParams.cart.value = isInitialized ? factoryParams.cart.value : initialState || null;
+    isInitialized = true;
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;

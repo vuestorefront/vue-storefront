@@ -118,19 +118,19 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="totals.subtotal"
+            :value="cartGetters.getFormattedPrice(totals.subtotal)"
             class="sf-property--full-width property"
           />
           <SfProperty
             name="Shipping"
-            :value="checkoutGetters.getShippingMethodPrice(chosenShippingMethod)"
+            :value="cartGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
             class="sf-property--full-width property"
           />
         </div>
         <SfDivider />
         <SfProperty
           name="Total price"
-          :value="totals.total"
+          :value="cartGetters.getFormattedPrice(totals.total)"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">

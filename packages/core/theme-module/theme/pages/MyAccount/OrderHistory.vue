@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="My orders">
+    <SfTab data-cy="order-history-tab_my-orders" title="My orders">
       <div v-if="currentOrder">
         <SfButton data-cy="order-history-btn_orders" class="sf-button--text color-secondary" @click="currentOrder = null">All Orders</SfButton>
         <div class="highlighted highlighted--total">
@@ -75,7 +75,7 @@
         </SfTable>
       </div>
     </SfTab>
-    <SfTab title="Returns">
+    <SfTab data-cy="order-history-tab_returns" title="Returns">
       <p class="message">
         This feature is not implemented yet! Please take a look at<br />
         <a href="#">https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!</a>

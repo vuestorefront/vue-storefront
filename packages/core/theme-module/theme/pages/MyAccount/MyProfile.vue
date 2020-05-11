@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="Personal data">
+    <SfTab data-cy="my-profile-tab_personal-data" title="Personal data">
       <p class="message">
         Feel free to edit any of your details below so your account is always up
         to date
@@ -53,7 +53,7 @@
         <a href="">Privacy Policy.</a>
       </p>
     </SfTab>
-    <SfTab title="Password change">
+    <SfTab data-cy="my-profile-tab_password-change" title="Password change">
       <p class="message">
         If you want to change the password to access your account, enter the
         following information:<br />Your current email address is

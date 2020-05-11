@@ -57,8 +57,8 @@
               <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link to="/checkout/personal-details">
-            <SfButton data-cy="cart-sidebar-btn_checkout" class="sf-button--full-width color-secondary" @click="toggleCartSidebar()">Go to checkout</SfButton>
+          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <SfButton data-cy="cart-sidebar-btn_checkout" @click="toggleCartSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
           </div>
         </div>
@@ -88,7 +88,7 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '<%= options.composables %>';
+import { useCart, useUser, cartGetters } from '<%= options.composables %>';
 import uiState from '~/assets/ui-state';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -106,11 +106,13 @@ export default {
   },
   setup() {
     const { cart, removeFromCart, updateQuantity } = useCart();
+    const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
     return {
+      isAuthenticated,
       products,
       removeFromCart,
       updateQuantity,

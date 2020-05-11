@@ -35,7 +35,7 @@
     <SfSection title-heading="Best Sellers" class="section">
       <SfCarousel class="product-carousel">
         <SfCarouselItem v-for="(product, i) in products" :key="i">
-          <nuxt-link to="/p/philippemodel-sneakers-grey-red">
+          <nuxt-link data-cy="home-url_product" to="/p/philippemodel-sneakers-grey-red">
             <SfProductCard
               data-cy="home-product-cart_wishlist"
               :title="product.title"
