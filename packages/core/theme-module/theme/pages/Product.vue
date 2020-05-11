@@ -256,8 +256,10 @@ export default {
       updateFilter,
       configuration,
       product,
-      // TODO: Temporary. Product search function returns products with all available variants as a flat array. Because of that it omits query limitation.
-      relatedProducts: relatedProducts.value.filter((relatedProduct, i) => i < 8),
+      relatedProducts: computed(() => productGetters
+        .getFiltered(relatedProducts.value, { master: true })
+        .filter((relatedProduct, i) => i < 8)
+      ),
       relatedLoading,
       options,
       qty,
