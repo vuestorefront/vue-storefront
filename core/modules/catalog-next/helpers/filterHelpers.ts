@@ -7,7 +7,7 @@ export const getSystemFilterNames: string[] = config.products.systemFilterNames
 /**
  * Creates new filtersQuery (based on currentQuery) by modifying specific filter variant.
  */
-export const changeFilterQuery = ({currentQuery = {}, filterVariant}: {currentQuery?: any, filterVariant?: FilterVariant} = {}) => {
+export const changeFilterQuery = ({ currentQuery = {}, filterVariant }: {currentQuery?: any, filterVariant?: FilterVariant} = {}) => {
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
   if (getSystemFilterNames.includes(filterVariant.type)) {
@@ -33,7 +33,7 @@ export const changeFilterQuery = ({currentQuery = {}, filterVariant}: {currentQu
   return newQuery
 }
 
-export const getFiltersFromQuery = ({filtersQuery = {}, availableFilters = {}} = {}): { filters: Filters } => {
+export const getFiltersFromQuery = ({ filtersQuery = {}, availableFilters = {} } = {}): { filters: Filters } => {
   const searchQuery = {
     filters: {}
   }
@@ -50,7 +50,7 @@ export const getFiltersFromQuery = ({filtersQuery = {}, availableFilters = {}} =
         const variant = filter.find(filterVariant => filterVariant.id === singleValue)
         if (!variant) return
         if (!Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
-        searchQuery.filters[filterKey].push({...variant, attribute_code: filterKey})
+        searchQuery.filters[filterKey].push({ ...variant, attribute_code: filterKey })
       })
     }
   })

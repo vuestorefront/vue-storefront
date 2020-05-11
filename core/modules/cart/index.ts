@@ -5,7 +5,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import Vue from 'vue'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const CartModule: StorefrontModule = function ({store}) {
+export const CartModule: StorefrontModule = function ({ store }) {
   StorageManager.init('cart')
 
   store.registerModule('cart', cartStore)

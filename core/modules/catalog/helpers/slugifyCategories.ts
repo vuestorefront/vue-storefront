@@ -13,11 +13,9 @@ const createSlug = (category: ChildrenData): string => {
 const slugifyCategories = (category: Category | ChildrenData): Category | ChildrenData => {
   if (category.children_data) {
     category.children_data.forEach((subCat: ChildrenData): void => {
-      if (subCat.name) {
-        subCat.slug = createSlug(subCat)
+      if (subCat.name && !subCat.slug) {
+        slugifyCategories({ ...subCat, slug: createSlug(subCat) } as any as ChildrenData)
       }
-
-      slugifyCategories(subCat)
     })
   }
   return category

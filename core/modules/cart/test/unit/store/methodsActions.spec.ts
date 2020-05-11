@@ -159,4 +159,10 @@ describe('Cart methodsActions', () => {
     await (cartActions as any).updateShippingMethods(contextMock, { shippingMethods: [{ method: 1 }] });
     expect(contextMock.dispatch).toBeCalledWith('checkout/replaceShippingMethods', [{ is_server_method: true, method: 1 }], { root: true })
   })
+
+  it('doesn\'t add not available method', async () => {
+    const contextMock = createContextMock()
+    await (cartActions as any).updateShippingMethods(contextMock, { shippingMethods: [{ method: 1, available: false }] });
+    expect(contextMock.dispatch).toBeCalledWith('checkout/replaceShippingMethods', [], { root: true })
+  })
 });

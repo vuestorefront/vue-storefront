@@ -22,7 +22,7 @@ describe('User mutations', () => {
       const expectedState = {
         token: data.lastUserToken
       }
-      const wrapper = (mutations: any) => mutations[types.USER_TOKEN_CHANGED](stateMock, {newToken: data.lastUserToken})
+      const wrapper = (mutations: any) => mutations[types.USER_TOKEN_CHANGED](stateMock, { newToken: data.lastUserToken })
 
       wrapper(userMutations)
 
@@ -39,7 +39,7 @@ describe('User mutations', () => {
       }
       const wrapper = (mutations: any) => mutations[types.USER_TOKEN_CHANGED](stateMock, {
         newToken: data.lastUserToken,
-        meta: {refreshToken: 'refresh-token'}
+        meta: { refreshToken: 'refresh-token' }
       })
 
       wrapper(userMutations)

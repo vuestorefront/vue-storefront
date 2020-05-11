@@ -43,7 +43,7 @@ describe('Logger', () => {
       jest.isolateModules(() => {
         const Logger = require('../../logger').Logger
 
-        expect(Logger.convertToString({foo: 'bar'})).toBe('{"foo":"bar"}')
+        expect(Logger.convertToString({ foo: 'bar' })).toBe('{"foo":"bar"}')
       })
     })
 
@@ -51,7 +51,7 @@ describe('Logger', () => {
       jest.isolateModules(() => {
         const Logger = require('../../logger').Logger
 
-        expect(Logger.convertToString({message: 'foo'})).toBe('foo')
+        expect(Logger.convertToString({ message: 'foo' })).toBe('foo')
       })
     })
     it('returns primitive payloads unchanged', () => {

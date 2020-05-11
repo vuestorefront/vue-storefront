@@ -49,6 +49,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product breadcrumbs path
    */
   async setupBreadcrumbs (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     let breadcrumbsName = null
     let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
@@ -206,14 +207,14 @@ const actions: ActionTree<ProductState, RootState> = {
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
-  checkConfigurableParent (context, {product}) {
+  checkConfigurableParent (context, { product }) {
     if (product.type_id === 'simple') {
       Logger.log('Checking configurable parent')()
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.getters.getCurrentProduct.sku}})
+      searchQuery = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': context.getters.getCurrentProduct.sku } })
 
-      return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
+      return context.dispatch('list', { query: searchQuery, start: 0, size: 1, updateState: false }).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.PRODUCT_SET_PARENT, parentProduct)
@@ -320,6 +321,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+    console.warn('deprecated, will be removed in 1.13')
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
@@ -330,19 +332,21 @@ const actions: ActionTree<ProductState, RootState> = {
     return prod
   },
   async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
-    if (products.items && products.items.length) { // preconfigure products; eg: after filters
-      for (let product of products.items) {
-        product = await context.dispatch('preConfigureProduct', { product, populateRequestCacheTags, configuration }) // preConfigure(product)
-      }
-    }
+    const configuredProducts = await context.dispatch(
+      'category-next/configureProducts',
+      {
+        products: products.items,
+        filters: configuration || {},
+        populateRequestCacheTags
+      },
+      { root: true }
+    )
 
-    await context.dispatch('tax/calculateTaxes', { products: products.items }, { root: true })
+    await context.dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
 
-    for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
-      prod = configureChildren(prod)
-
+    for (let product of configuredProducts) { // we store each product separately in cache to have offline access to products/single method
       if (isCacheable) { // store cache only for full loads
-        storeProductToCache(prod, cacheByKey)
+        storeProductToCache(product, cacheByKey)
       }
     }
 
@@ -358,7 +362,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
-    const query = searchQuery.applyFilter({key: 'configurable_children.sku', value: { 'eq': product.sku }})
+    const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
     const products = await context.dispatch('findProducts', { query, configuration })
     return products.items && products.items.length > 0 ? products.items[0] : null
   },
@@ -437,7 +441,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
       const syncProducts = () => {
         let searchQuery = new SearchQuery()
-        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
+        searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': options[key] } })
 
         return context.dispatch('list', { // product list syncs the platform price on it's own
           query: searchQuery,
@@ -626,7 +630,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Load the product data and sets current product
    */
   async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
-    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
     await dispatch('reset')
     // pass both id and sku to render a product

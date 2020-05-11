@@ -168,7 +168,7 @@ export function filterOutUnavailableVariants (context, product) {
           }
           Logger.debug('Cached stock items and delta' + stockItems + confChildSkus)()
           if (confChildSkus.length > 0) {
-            context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
+            context.dispatch('stock/list', { skus: confChildSkus }, { root: true }).then((task) => {
               if (task && task.resultCode === 200) {
                 const diffLog = []
                 _filterChildrenByStockitem(context, union(task.result, stockItems), product, diffLog)
@@ -192,7 +192,7 @@ export function filterOutUnavailableVariants (context, product) {
       }
       const rootStockCached = context.rootState.stock.cache[product.id]
       if (!rootStockCached) {
-        context.dispatch('stock/list', { skus: [product.sku] }, {root: true}).then((task) => {
+        context.dispatch('stock/list', { skus: [product.sku] }, { root: true }).then((task) => {
           _filterRootProductByStockitem(context, task && task.result && task.result.length ? task.result[0] : null, product, reject)
           Logger.debug('Filtered root product stock with the network call')()
           _filterConfigurableHelper()
