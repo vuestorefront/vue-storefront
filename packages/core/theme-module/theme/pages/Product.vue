@@ -256,10 +256,7 @@ export default {
       updateFilter,
       configuration,
       product,
-      relatedProducts: computed(() => productGetters
-        .getFiltered(relatedProducts.value, { master: true })
-        .filter((relatedProduct, i) => i < 8)
-      ),
+      relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
       options,
       qty,
