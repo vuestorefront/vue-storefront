@@ -36,7 +36,9 @@ export const getProductsByQuery: typeof BapiClient.prototype.products.query = (.
 export const getSearchSuggestions: typeof BapiClient.prototype.search.suggestions = (...args) => apiClient.search.suggestions(...args);
 export const getSearchMappings: typeof BapiClient.prototype.search.mappings = (...args) => apiClient.search.mappings(...args);
 export const getVariantsByIds: typeof BapiClient.prototype.variants.getByIds = (...args) => apiClient.variants.getByIds(...args);
-export const getWishlist: typeof BapiClient.prototype.wishlist.get = (...args) => apiClient.wishlist.get(...args);
+export const getWishlist: typeof BapiClient.prototype.wishlist.get = (wishlistKey, ...args) => {
+  return apiClient.wishlist.get(wishlistKey || getSettings().wishlistToken, ...args);
+};
 export const addItemToWishlist: typeof BapiClient.prototype.wishlist.addItem = (...args) => apiClient.wishlist.addItem(...args);
 export const deleteItemFromWishlist: typeof BapiClient.prototype.wishlist.deleteItem = (...args) => apiClient.wishlist.deleteItem(...args);
 

@@ -35,12 +35,12 @@
         </SfHeaderNavigationItem>
       </template>
     </SfHeader>
-    <Wishlist :isWishlistSidebarOpen="isWishlistOpen" />
+    <FakeWishlist />
   </div>
 </template>
 
 <script>
-import Wishlist from './Wishlist';
+import FakeWishlist from './FakeWishlist';
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
 import { useCart, useUser, cartGetters } from '@vue-storefront/about-you';
@@ -50,7 +50,7 @@ export default {
   components: {
     SfHeader,
     SfImage,
-    Wishlist
+    FakeWishlist
   },
   setup(props, { root }) {
     const isWishlistOpen = ref(false);
