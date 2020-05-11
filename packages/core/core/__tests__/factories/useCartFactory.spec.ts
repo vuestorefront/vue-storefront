@@ -45,15 +45,16 @@ describe('[CORE - factories] useCartFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
-      mockedUtils.useSSR.mockReturnValueOnce({
-        initialState: null,
-        saveToInitialState: jest.fn()
-      });
-      const { cart, coupon, loading } = useCart();
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-cart1', saveToInitialState: jest.fn() });
+      const { cart: cart1, coupon, loading } = useCart();
 
-      expect(cart.value).toEqual(null);
+      expect(cart1.value).toEqual('some-cart1');
       expect(coupon.value).toEqual(null);
-      expect(loading.value).toEqual(true);
+      expect(loading.value).toEqual(false);
+
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-cart2', saveToInitialState: jest.fn() });
+      const { cart: cart2 } = useCart();
+      expect(cart2.value).toEqual('some-cart1');
     });
 
     it('should load cart if not provided during factory creation', async () => {
