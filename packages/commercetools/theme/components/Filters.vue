@@ -49,6 +49,7 @@
       </div>
     </div>
     <SfAccordion class="filters mobile-only">
+      <slot name="categories-mobile"></slot>
       <template v-for="(label, filterName) in filtersMap">
         <SfAccordionItem
           v-if="filters[filterName]"

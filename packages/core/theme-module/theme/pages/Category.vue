@@ -111,24 +111,22 @@
               :key="i"
               :header="cat.label"
             >
-              <template>
-                <SfList class="list">
-                  <SfListItem class="list__item">
-                    <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
-                      <template #label>
-                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                    <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
-                      <template #label="{ label }">
-                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </template>
+              <SfList class="list">
+                <SfListItem class="list__item">
+                  <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
+                    <template #label>
+                      <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                    </template>
+                  </SfMenuItem>
+                </SfListItem>
+                <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
+                  <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
+                    <template #label="{ label }">
+                      <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                    </template>
+                  </SfMenuItem>
+                </SfListItem>
+              </SfList>
             </SfAccordionItem>
           </SfAccordion>
         </SfLoader>
@@ -220,7 +218,47 @@
       <Filters
         :filters="filters"
         @click:apply-filters="applyFilters"
-      ></Filters>
+      >
+        <template #categories-mobile>
+          <SfAccordionItem
+            header="Category"
+            class="filters__accordion-item"
+          >
+            <SfAccordion class="categories mobile-only">
+              <SfAccordionItem
+                v-for="cat in categoryTree && categoryTree.items"
+                :key="`category-${cat.slug}`"
+                :header="cat.label"
+              >
+                <SfList class="list">
+                  <SfListItem class="list__item">
+                    <SfMenuItem
+                      :data-cy="`category-link_subcategory_${cat.slug}`"
+                      :label="cat.label"
+                      icon=""
+                    >
+                      <template #label>
+                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
+                    <SfMenuItem
+                      :data-cy="`category-link_subcategory_${subCat.slug}`"
+                      :label="subCat.label"
+                      icon=""
+                    >
+                      <template #label="{ label }">
+                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </SfAccordionItem>
+            </SfAccordion>
+          </SfAccordionItem>
+        </template>
+      </Filters>
     </SfSidebar>
   </div>
 </template>
@@ -614,6 +652,12 @@ export default {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
     margin: var(--spacer-xs) 0 0 0;
+  }
+  .categories {
+    padding-left: var(--spacer-sm);
+    .sf-accordion-item__content {
+      padding-left: var(--spacer-sm);
+    }
   }
 }
 </style>
