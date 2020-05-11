@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import localeConfig from './lang/config';
 
 export default {
   mode: 'universal',
@@ -34,12 +35,10 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ]
       }
@@ -67,17 +66,5 @@ export default {
       })
     ]
   },
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-    lazy: true,
-    langDir: 'lang/',
-    vueI18n: {
-      fallbackLocale: 'en'
-    },
-    detectBrowserLanguage: {
-      cookieKey: 'vsf-lang',
-      alwaysRedirect: true
-    }
-  }
+  i18n: localeConfig
 };

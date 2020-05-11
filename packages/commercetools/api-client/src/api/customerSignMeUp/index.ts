@@ -6,8 +6,8 @@ import { SignInResponse } from './../../types/Api';
 const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   return await apolloClient.mutate({
     mutation: CustomerSignMeUpMutation,
-    variables: { draft,
-      locale }
+    variables: { draft, locale },
+    fetchPolicy: 'no-cache'
   }) as SignInResponse;
 };
 

@@ -14,7 +14,7 @@ export function useLocaleFactory(factoryParams: UseLocaleFactoryParams) {
   const loading: Ref<boolean> = ref(false);
   const currentLocale: Ref<AgnosticLocale> = ref(null);
   const currentCountry: Ref<AgnosticCountry> = ref(null);
-  const currentState: Ref<AgnosticCurrency> = ref(null);
+  const currentCurrency: Ref<AgnosticCurrency> = ref(null);
   const availableLocalesState: Ref<AgnosticLocale[]> = ref([]);
   const availableCountriesState: Ref<AgnosticCountry[]> = ref([]);
   const availableCurrenciesState: Ref<AgnosticCurrency[]> = ref([]);
@@ -31,7 +31,7 @@ export function useLocaleFactory(factoryParams: UseLocaleFactoryParams) {
   };
   const setCurrency = async (currency: AgnosticCurrency) => {
     loading.value = true;
-    currentState.value = await factoryParams.setCurrency(currency);
+    currentCurrency.value = await factoryParams.setCurrency(currency);
     loading.value = false;
   };
   const loadAvailableLocales = async () => {
@@ -55,7 +55,7 @@ export function useLocaleFactory(factoryParams: UseLocaleFactoryParams) {
       loading: computed<boolean>(() => loading.value),
       locale: computed<AgnosticLocale>(() => currentLocale.value),
       country: computed<AgnosticCountry>(() => currentCountry.value),
-      currency: computed<AgnosticCurrency>(() => currentState.value),
+      currency: computed<AgnosticCurrency>(() => currentCurrency.value),
       availableLocales: computed<AgnosticLocale[]>(() => availableLocalesState.value),
       availableCountries: computed<AgnosticCountry[]>(() => availableCountriesState.value),
       availableCurrencies: computed<AgnosticCurrency[]>(() => availableCurrenciesState.value)

@@ -11,6 +11,7 @@
             <form class="form" @submit.prevent="handleSubmit(handleLogin)">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_email"
                   v-model="form.username"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -21,6 +22,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_password"
                   v-model="form.password"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -31,12 +33,13 @@
                 />
               </ValidationProvider>
               <SfCheckbox
+                data-cy="login-checkbox-remember-me"
                 v-model="rememberMe"
                 name="remember-me"
                 label="Remember me"
                 class="form__element"
               />
-              <SfButton
+              <SfButton data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -48,11 +51,11 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton class="sf-button--text color-secondary">Forgotten password?</SfButton>
+            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
@@ -60,6 +63,7 @@
             <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_email"
                   v-model="form.email"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -70,6 +74,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_firstName"
                   v-model="form.firstName"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -80,6 +85,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_lastName"
                   v-model="form.lastName"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -90,6 +96,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_password"
                   v-model="form.password"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -105,7 +112,7 @@
                 label="I want to create an account"
                 class="form__element"
               />
-              <SfButton
+              <SfButton data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -118,7 +125,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
