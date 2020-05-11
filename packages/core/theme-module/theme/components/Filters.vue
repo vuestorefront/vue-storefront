@@ -1,3 +1,6 @@
 <template>
-  <span>This component should be overriden in integration-specific theme.</span>
+  <div>
+    <span>This component should be overriden in integration-specific theme.</span>
+    <slot name="categories-mobile"></slot>
+  </div>
 </template>
