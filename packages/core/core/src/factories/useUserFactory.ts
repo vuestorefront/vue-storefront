@@ -14,16 +14,16 @@ export type UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
 export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
 ) {
+  let isInitialized = false;
   const user: Ref<USER> = ref(null);
   const loading: Ref<boolean> = ref(false);
-  const isAuthenticated = computed(
-    () => user.value && Object.keys(user.value).length > 0
-  );
+  const isAuthenticated = computed(() => Boolean(user.value));
 
   return function useUser(): UseUser<USER, UPDATE_USER_PARAMS> {
     const { initialState, saveToInitialState } = useSSR('vsf-user');
 
-    user.value = initialState || null;
+    user.value = isInitialized ? user.value : initialState || null;
+    isInitialized = true;
 
     const updateUser = async (params: UPDATE_USER_PARAMS) => {
       loading.value = true;
@@ -64,7 +64,7 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const logout = async () => {
       try {
         await factoryParams.logOut();
-        user.value = {} as USER;
+        user.value = null;
       } catch (err) {
         throw new Error(err);
       }

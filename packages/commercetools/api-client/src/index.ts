@@ -11,7 +11,6 @@ import addToCart from './api/addToCart';
 import removeFromCart from './api/removeFromCart';
 import updateCartQuantity from './api/updateCartQuantity';
 import getMe from './api/getMe';
-import placeOrder from './api/placeOrder';
 import createMyOrderFromCart from './api/createMyOrderFromCart';
 import getShippingMethods from './api/getShippingMethods';
 import updateShippingDetails from './api/updateShippingDetails';
@@ -23,6 +22,7 @@ import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import createAccessToken from './helpers/createAccessToken';
+import * as cartActions from './helpers/cart/actions';
 
 let apolloClient: ApolloClient<any> = null;
 let locale = 'en';
@@ -53,7 +53,7 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
   locales = setupConfig.locales || locales;
   cookies = setupConfig.cookies || cookies;
   auth = setupConfig.auth || auth;
-  currentToken = setupConfig.currentToken || currentToken;
+  currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
 
   if (setupConfig.api) {
     apolloClient = new ApolloClient({
@@ -80,6 +80,7 @@ export {
   currency,
   countries,
   currencies,
+  cartActions,
   getProduct,
   getCategory,
   createCart,
@@ -89,7 +90,6 @@ export {
   removeFromCart,
   getMe,
   updateCartQuantity,
-  placeOrder,
   createMyOrderFromCart,
   getShippingMethods,
   updateShippingDetails,

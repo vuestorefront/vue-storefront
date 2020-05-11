@@ -36,6 +36,11 @@ export const AddressFragment = `
     region
     country
     company
+    state
+    contactInfo {
+      phone
+      email
+    }
   }
 `;
 
@@ -144,10 +149,32 @@ export const LineItemFragment = `
   }
 `;
 
+export const ShippingMethodFragment = `
+  fragment DefaultShippingMethod on ShippingMethod {
+    id
+    version
+    name
+    description
+    isDefault
+    localizedDescription(locale: $locale)
+    zoneRates {
+      zone {
+        name
+      }
+      shippingRates {
+        price {
+          centAmount
+        }
+      }
+    }
+  }
+`;
+
 export const CartFragment = `
   ${AddressFragment}
   ${CustomerFragment}
   ${LineItemFragment}
+  ${ShippingMethodFragment}
 
   fragment DefaultCart on Cart {
     id
@@ -179,9 +206,17 @@ export const CartFragment = `
         centAmount
       }
     }
+    paymentInfo {
+      payments {
+        id
+      }
+    }
     shippingInfo {
       price {
         centAmount
+      }
+      shippingMethod {
+        ...DefaultShippingMethod
       }
     }
     discountCodes {
@@ -222,22 +257,3 @@ export const OrderFragment = `
   }
 `;
 
-export const ShippingMethodFragment = `
-  fragment DefaultShippingMethod on ShippingMethod {
-    id
-    version
-    name
-    description
-    isDefault
-    zoneRates {
-      zone {
-        name
-      }
-      shippingRates {
-        price {
-          centAmount
-        }
-      }
-    }
-  }
-`;

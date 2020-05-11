@@ -6,7 +6,7 @@
       :open-tab="1"
       class="tab-orphan"
     >
-      <SfTab title="Change the address">
+      <SfTab data-cy="shipping-details-tab_change" title="Change the address">
         <p class="message">
           Keep your addresses and contact details updated.
         </p>
@@ -16,6 +16,7 @@
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
+                  data-cy="shipping-details-input_firstName"
                   v-model="firstName"
                   name="firstName"
                   label="First Name"
@@ -26,6 +27,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
+                  data-cy="shipping-details-input_lastName"
                   v-model="lastName"
                   name="lastName"
                   label="Last Name"
@@ -37,6 +39,7 @@
             </div>
             <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="shipping-details-input_streetName"
                 v-model="streetName"
                 name="streetName"
                 label="Street Name"
@@ -46,6 +49,7 @@
               />
             </ValidationProvider>
             <SfInput
+              data-cy="shipping-details-input_apartment"
               v-model="apartment"
               name="apartment"
               label="House/Apartment number"
@@ -55,6 +59,7 @@
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
+                  data-cy="shipping-details-input_city"
                   v-model="city"
                   name="city"
                   label="City"
@@ -65,6 +70,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="shipping-details-input_state"
                   v-model="state"
                   name="state"
                   label="State/Province"
@@ -77,6 +83,7 @@
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
                 <SfInput
+                  data-cy="shipping-details-input_zipCode"
                   v-model="zipCode"
                   name="zipCode"
                   label="Zip-code"
@@ -87,6 +94,7 @@
               </ValidationProvider>
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
+                  data-cy="shipping-details-select_country"
                   v-model="country"
                   name="country"
                   label="Country"
@@ -106,6 +114,7 @@
             </div>
             <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="shipping-details-input_phoneNumber"
                 v-model="phoneNumber"
                 name="phone"
                 label="Phone number"
@@ -114,13 +123,13 @@
                 :errorMessage="errors[0]"
               />
             </ValidationProvider>
-            <SfButton class="form__button">Update the address</SfButton>
+            <SfButton data-cy="shipping-details-btn_update" class="form__button">Update the address</SfButton>
           </form>
         </ValidationObserver>
       </SfTab>
     </SfTabs>
     <SfTabs v-else key="address-list" :open-tab="1" class="tab-orphan">
-      <SfTab title="Shipping details">
+      <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
         <p class="message">
           Manage all the shipping addresses you want (work place, home address
           ...) This way you won"t have to enter the shipping address manually
@@ -148,6 +157,7 @@
             </div>
             <div class="shipping__actions">
               <SfIcon
+                data-cy="shipping-details-icon_delete"
                 icon="cross"
                 color="gray"
                 size="14px"
@@ -155,8 +165,8 @@
                 class="mobile-only"
                 @click="deleteAddress(key)"
               />
-              <SfButton @click="changeAddress(key)">Change</SfButton>
-              <SfButton
+              <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
+              <SfButton data-cy="shipping-details-btn_delete"
                 class="shipping__button-delete desktop-only"
                 @click="deleteAddress(key)"
                 >Delete</SfButton
@@ -164,7 +174,7 @@
             </div>
           </div>
         </transition-group>
-        <SfButton class="action-button" @click="changeAddress(-1)"
+        <SfButton data-cy="shipping-details-btn_add" class="action-button" @click="changeAddress(-1)"
           >Add new address</SfButton
         >
       </SfTab>

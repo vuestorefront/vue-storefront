@@ -30,7 +30,7 @@ export default {
     './plugins/commercetools.js'
   ],
   router: {
-    middleware: 'commercetools'
+    middleware: ['commercetools', 'checkout']
   },
   buildModules: [
     // to core

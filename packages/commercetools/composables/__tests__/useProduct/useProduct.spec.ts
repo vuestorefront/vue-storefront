@@ -46,7 +46,8 @@ describe('[commercetools-composables] useProduct', () => {
 
     expect(response).toEqual({
       data: [product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')],
-      total: 54
+      total: 54,
+      availableFilters: {}
     });
     expect(getProduct).toBeCalledWith({ id: 'product-id' });
     expect(enhanceProducts).toBeCalledWith(productResponse);

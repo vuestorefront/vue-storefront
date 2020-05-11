@@ -5,45 +5,48 @@
       :breadcrumbs="breadcrumbs"
     />
     <SfContentPages
+      data-cy="my-account_content-pages"
       title="My Account"
       :active="activePage"
       class="my-account"
       @click:change="changeActivePage"
     >
       <SfContentCategory title="Personal Details">
-        <SfContentPage title="My profile">
+        <SfContentPage data-cy="my-account-page_my-profile" title="My profile">
           <MyProfile
             :account="account"
             @update:personal="account = { ...account, ...$event }"
           />
         </SfContentPage>
-        <SfContentPage title="Shipping details">
+        <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
           <ShippingDetails
             :account="account"
             @update:shipping="account = { ...account, ...$event }"
           />
         </SfContentPage>
-        <SfContentPage title="Loyalty card">
+        <SfContentPage data-cy="my-account-page_loyalty-card" title="Loyalty card">
           <LoyaltyCard />
         </SfContentPage>
-        <SfContentPage title="My newsletter">
+        <SfContentPage data-cy="my-account-page_my-newsletter" title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
       </SfContentCategory>
       <SfContentCategory title="Order details">
-        <SfContentPage title="Order history">
+        <SfContentPage data-cy="my-account-page_order-history" title="Order history">
           <OrderHistory />
         </SfContentPage>
-        <SfContentPage title="My reviews">
+        <SfContentPage data-cy="my-account-page_my-reviews" title="My reviews">
           <MyReviews />
         </SfContentPage>
       </SfContentCategory>
-      <SfContentPage title="Log out" />
+      <SfContentPage data-cy="my-account-page_log-out" title="Log out" />
     </SfContentPages>
   </div>
 </template>
 <script>
-import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
+import { SfBreadcrumbs, SfContentPages, SfButton } from '@storefront-ui/vue';
+import { computed } from '@vue/composition-api';
+import { useUser } from '<%= options.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import LoyaltyCard from './MyAccount/LoyaltyCard';
@@ -57,12 +60,38 @@ export default {
   components: {
     SfBreadcrumbs,
     SfContentPages,
+    SfButton,
     MyProfile,
     ShippingDetails,
     LoyaltyCard,
     MyNewsletter,
     OrderHistory,
     MyReviews
+  },
+  setup(props, context) {
+    const { $router, $route } = context.root;
+    const { logout } = useUser();
+    const activePage = computed(() => {
+      const { pageName } = $route.params;
+
+      if (pageName) {
+        return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
+      }
+
+      return 'My profile';
+    });
+
+    const changeActivePage = async (title) => {
+      if (title === 'Log out') {
+        await logout();
+        $router.push('/');
+        return;
+      }
+
+      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
+    };
+
+    return { changeActivePage, activePage };
   },
   data() {
     return {
@@ -117,26 +146,6 @@ export default {
         ]
       }
     };
-  },
-  computed: {
-    activePage() {
-      const { pageName } = this.$route.params;
-
-      if (pageName) {
-        return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
-      }
-
-      return 'My profile';
-    }
-  },
-  methods: {
-    changeActivePage(title) {
-      if (title === 'Log out') {
-        return;
-      }
-
-      this.$router.push(`/my-account/${title.toLowerCase().replace(' ', '-')}`);
-    }
   }
 };
 </script>
