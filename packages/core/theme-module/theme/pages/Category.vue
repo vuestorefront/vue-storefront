@@ -382,9 +382,9 @@ export default {
       sortBy,
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
-      filters: ref(filters),
-      breadcrumbs: computed(() => breadcrumbs),
-      updateFilter,
+      filters,
+      breadcrumbs,
+      applyFilters,
       toggleWishlist,
       isGridView
     };
