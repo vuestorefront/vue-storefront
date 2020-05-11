@@ -187,7 +187,6 @@
           v-show="totalPages > 1"
           class="products__pagination"
           :current="currentPage"
-          @click="goToPage"
           :total="totalPages"
           :visible="5"
         />
@@ -281,7 +280,7 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@vue/composition-api';
+import { computed, ref, watch, onMounted } from '@vue/composition-api';
 import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
@@ -306,6 +305,7 @@ export default {
   transition: 'fade',
   setup(props, context) {
     const { query } = context.root.$route;
+    onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
 
     const { categories, search, loading } = useCategory('categories');
     const {
@@ -334,13 +334,13 @@ export default {
       await productsSearch(productsSearchParams.value);
     });
 
-    watch([currentPage, itemsPerPage, filters], () => {
+    watch([itemsPerPage, filters], () => {
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
-          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
-          page: currentPage.value !== 1 ? currentPage.value : undefined,
-          ...getFiltersForUrl(filters.value)
+          ...context.root.$route.query,
+          ...getFiltersForUrl(filters.value),
+          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
         }});
       }
     }, { deep: true });
@@ -357,11 +357,6 @@ export default {
     function toggleWishlist(index) {
       products.value[index].isOnWishlist = !this.products.value[index].isOnWishlist;
     }
-
-    const goToPage = (pageNumber) => {
-      currentPage.value = pageNumber;
-      context.root.$scrollTo(context.root.$el, 2000);
-    };
 
     const applyFilters = (updatedFilters) => {
       filters.value = updatedFilters;
@@ -389,8 +384,7 @@ export default {
       breadcrumbs: computed(() => breadcrumbs),
       applyFilters,
       toggleWishlist,
-      isGridView,
-      goToPage
+      isGridView
     };
   },
   components: {
