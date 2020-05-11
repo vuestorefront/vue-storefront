@@ -22,6 +22,7 @@ const introspectTokenMock = jest.fn(() => ({
 jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
   getTokenInfo: () => tokenInfo
 }));
+
 jest.spyOn(sdk, 'default').mockImplementation(() => ({
   anonymousFlow: anonymousFlowMock,
   customerPasswordFlow: passwordFlowMock,
