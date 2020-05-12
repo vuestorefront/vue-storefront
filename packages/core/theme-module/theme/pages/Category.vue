@@ -316,9 +316,10 @@ export default {
       availableFilters
     } = useProduct('categoryProducts');
 
-    const currentPage = ref(parseInt(query.page, 10) || 1);
+    const currentPage = computed(() => parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
     const filters = ref(null);
+    const isGridView = ref(query.gridview != "false");
 
     const productsSearchParams = computed(() => ({
       catId: (categories.value[0] || {}).id,
@@ -334,14 +335,16 @@ export default {
       await productsSearch(productsSearchParams.value);
     });
 
-    watch([itemsPerPage, filters], () => {
+    watch([currentPage, itemsPerPage, filters, sortBy, isGridView], async () => {
       if (categories.value.length) {
-        productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           ...context.root.$route.query,
+          gridview: isGridView.value ? undefined : "false",
           ...getFiltersForUrl(filters.value),
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
         }});
+        await productsSearch(productsSearchParams.value);
+        context.root.$scrollTo(context.root.$el, 2000);
       }
     }, { deep: true });
 
@@ -351,7 +354,6 @@ export default {
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
     const sortBy = ref('price-up');
-    const isGridView = ref(true);
     const isFilterSidebarOpen = ref(false);
 
     function toggleWishlist(index) {
