@@ -1,4 +1,5 @@
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import config from 'config'
 
 export const homepageStore = {
   namespaced: true,
@@ -10,11 +11,17 @@ export const homepageStore = {
     async fetchNewCollection ({ commit, dispatch }) {
       const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
-      const newProductsResult = await dispatch('product/list', {
+      let newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
         size: 8,
         sort: 'created_at:desc'
       }, { root: true })
+      if (!config.entities.product.enableProductNext) {
+        newProductsResult.items = await dispatch(
+          'category-next/configureProducts',
+          { products: newProductsResult.items
+          }, { root: true })
+      }
       commit('SET_NEW_COLLECTION', newProductsResult.items)
     },
     async loadBestsellers ({ commit, dispatch }) {

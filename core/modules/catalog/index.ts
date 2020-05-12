@@ -17,14 +17,13 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   StorageManager.init('products')
   StorageManager.init('elasticCache', true, appConfig.server.elasticCacheQuota)
 
-  // store.registerModule('product', productModule)
+  if (!config.entities.product.enableProductNext) {
+    store.registerModule('product', productModule)
+  }
   store.registerModule('attribute', attributeModule)
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
-  if (!config.entities.product.enableProductNext) {
-    store.registerModule('product', productModule)
-  }
 
   if (!config.entities.attribute.loadByAttributeMetadata) {
     await store.dispatch('attribute/list', { // loading attributes for application use

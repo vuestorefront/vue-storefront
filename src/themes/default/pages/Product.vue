@@ -381,7 +381,9 @@ export default {
     },
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
-      await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      if (config.entities.product.enableProductNext) {
+        await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      }
       this.$bus.$emit('filter-changed-product', selectedConfiguration)
       this.getQuantity()
     },

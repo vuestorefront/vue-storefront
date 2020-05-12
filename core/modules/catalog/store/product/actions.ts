@@ -275,7 +275,6 @@ const actions: ActionTree<ProductState, RootState> = {
     }
     context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
     let selectedVariant = context.getters.getCurrentProduct
-    console.log('productOptions', productOptions)
     populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
   },
   filterUnavailableVariants (context, { product }) {
