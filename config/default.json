@@ -846,8 +846,8 @@
     "newProducts": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Tees" }
+          "key": "new",
+          "value": { "eq": 1 }
         }
       ]
     },
