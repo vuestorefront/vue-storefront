@@ -27,6 +27,12 @@ const getCurrentToken = (options: FlowOptions = {}) => {
   return options.currentToken;
 };
 
+const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
+  const tokenIntrospection = await sdkAuth.introspectToken(token.access_token);
+
+  return tokenIntrospection.active;
+};
+
 const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   const currentToken = getCurrentToken(options);
 
@@ -35,9 +41,9 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   }
 
   if (currentToken) {
-    const tokenIntrospection = await sdkAuth.introspectToken(currentToken.access_token);
+    const tokenActive = await isTokenActive(sdkAuth, currentToken);
 
-    if (tokenIntrospection.active) {
+    if (tokenActive) {
       return Promise.resolve(currentToken);
     }
   }
