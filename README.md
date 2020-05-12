@@ -656,11 +656,11 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
 </td>
-  <td align="center" valign="middle">
-<a href="http://madepeople.se">
+   <td align="center" valign="middle">
+<a href="https://www.freshrelevance.com/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/MadePeople.png"
-            alt="Made People"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/05/Fresh-Relevance-Rectangle-Logo-600px.png"
+            alt="Fresh Relevance"
             height="40"
           >
         </a>
@@ -998,6 +998,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/gpmd-logo-dark@2x.png"
             alt="GPMD"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+    <a href="https://www.mediawave.de">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/05/logo_mediawave.png"
+            alt="Mediawave"
+            height="40"
+          >
+        </a>
+</td>
+          <td align="center" valign="middle">
+<a href="https://www.zaproo.com/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/05/zaproo_logo.png"
+            alt="Zaproo"
+            height="40"
+          >
+        </a>
+</td> 
+</tr>
+              <tr>
+      <td align="center" valign="middle">
+<a href="http://www.mcfadyen.com/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/05/McFadyenLogo-NewTag.png"
+            alt="McFadyen"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+    <a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
