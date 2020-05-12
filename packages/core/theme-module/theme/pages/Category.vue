@@ -320,6 +320,7 @@ export default {
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
     const filters = ref(null);
     const isGridView = ref(query.gridview != "false");
+    const sortBy = ref(query.sort || 'price-up');
 
     const productsSearchParams = computed(() => ({
       catId: (categories.value[0] || {}).id,
@@ -342,6 +343,7 @@ export default {
           ...context.root.$route.query,
           gridview: isGridView.value ? undefined : "false",
           ...getFiltersForUrl(filters.value),
+          sort: sortBy.value,
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
         }});
         await productsSearch(productsSearchParams.value);
@@ -354,7 +356,6 @@ export default {
 
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
-    const sortBy = ref('price-up');
     const isFilterSidebarOpen = ref(false);
 
     function toggleWishlist(index) {
