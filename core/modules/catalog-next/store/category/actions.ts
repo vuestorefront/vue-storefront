@@ -39,7 +39,17 @@ const actions: ActionTree<CategoryState, RootState> = {
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize,
-      filters: searchQuery.filters
+      filters: searchQuery.filters,
+      options: {
+        prefetchGroupProducts: false,
+        setProductErrors: false,
+        fallbackToDefaultWhenNoAvailable: true,
+        assignProductConfiguration: false,
+        setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+        filterUnavailableVariants: false,
+        setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
+        separateSelectedVariant: false
+      }
     })
     await dispatch('loadAvailableFiltersFrom', {
       aggregations,
@@ -67,7 +77,17 @@ const actions: ActionTree<CategoryState, RootState> = {
       size: perPage,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
-      filters: searchQuery.filters
+      filters: searchQuery.filters,
+      options: {
+        prefetchGroupProducts: false,
+        setProductErrors: false,
+        fallbackToDefaultWhenNoAvailable: true,
+        assignProductConfiguration: false,
+        setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+        filterUnavailableVariants: false,
+        setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
+        separateSelectedVariant: false
+      }
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,

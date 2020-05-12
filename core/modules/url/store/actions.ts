@@ -18,6 +18,7 @@ import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/pa
 import isEqual from 'lodash-es/isEqual'
 import * as types from './mutation-types'
 import omit from 'lodash-es/omit'
+import { storeProductToCache } from '@vue-storefront/core/modules/catalog/helpers/search';
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -119,7 +120,7 @@ export const actions: ActionTree<UrlState, any> = {
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
 
     // search for record in ES based on `url`
-    const fallbackData = await dispatch('getFallbackByUrl', { url })
+    const fallbackData = await dispatch('getFallbackByUrl', { url, params })
 
     // if there is record in ES then map data
     if (fallbackData) {
@@ -140,7 +141,7 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Search for record in ES which contains url value (check which fields it searches in vsf-api config.urlModule.map.searchedFields)
    */
-  async getFallbackByUrl (context, { url }) {
+  async getFallbackByUrl (context, { url, params }) {
     try {
       const requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
       let response: any = await fetch(
@@ -155,7 +156,12 @@ export const actions: ActionTree<UrlState, any> = {
           body: JSON.stringify({
             url,
             includeFields: null, // send `includeFields: null || undefined` to fetch all fields
-            excludeFields: []
+            excludeFields: [],
+            options: {
+              prefetchGroupProducts: true,
+              assignProductConfiguration: true
+            },
+            filters: { sku: params.childSku }
           })
         }
       )
@@ -199,7 +205,7 @@ export const actions: ActionTree<UrlState, any> = {
   async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
-        // TODO: find a way to cache simple, configurable, group, bundle or custom_options products
+        storeProductToCache(_source, 'sku')
         break
       }
       case 'category': {

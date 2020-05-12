@@ -16,7 +16,8 @@ import {
   optionLabel
 } from '@vue-storefront/core/modules/catalog/helpers/optionLabel'
 import {
-  getOptimizedFields
+  getOptimizedFields,
+  storeProductToCache
 } from '@vue-storefront/core/modules/catalog/helpers/search'
 
 export const setRequestCacheTags = ({ products = [] }) => {
@@ -40,5 +41,6 @@ export {
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
   optionLabel,
-  getOptimizedFields
+  getOptimizedFields,
+  storeProductToCache
 }

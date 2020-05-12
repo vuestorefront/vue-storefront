@@ -11,7 +11,8 @@ import {
   configurableChildrenImages,
   attributeImages,
   setRequestCacheTags,
-  getOptimizedFields
+  getOptimizedFields,
+  storeProductToCache
 } from '../../helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
@@ -137,7 +138,7 @@ const actions: ActionTree<ProductState, RootState> = {
     excludeFields = null,
     includeFields = null,
     configuration = null,
-    populateRequestCacheTags = true,
+    populateRequestCacheTags = false,
     prefetchGroupProducts = !isServer,
     setProductErrors = false,
     fallbackToDefaultWhenNoAvailable = true,
@@ -173,8 +174,6 @@ const actions: ActionTree<ProductState, RootState> = {
 
     await context.dispatch('tax/calculateTaxes', { products: resp.items }, { root: true })
 
-    // storeProductToCache()
-
     return resp
   },
   async findConfigurableParent (context, { product, configuration }) {
@@ -207,7 +206,8 @@ const actions: ActionTree<ProductState, RootState> = {
         size: 1,
         configuration: { sku: options.childSku },
         prefetchGroupProducts: true,
-        assignProductConfiguration: true
+        assignProductConfiguration: true,
+        populateRequestCacheTags: true
       })
       return response.items && response.items.length > 0 ? response.items[0] : null
     }
@@ -242,6 +242,8 @@ const actions: ActionTree<ProductState, RootState> = {
     const product = skipCache ? await getProduct() : await getProductFromCache()
     if (setCurrentProduct) await dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })
+
+    storeProductToCache(product, 'sku')
 
     return product
   },
