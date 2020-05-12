@@ -3,7 +3,7 @@ import getters from './getters'
 import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '@vue-storefront/core/modules/catalog/types/ProductState'
-import actions from './actions'
+import * as actions from './actions'
 
 export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
