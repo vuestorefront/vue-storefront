@@ -17,7 +17,7 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   StorageManager.init('products')
   StorageManager.init('elasticCache', true, appConfig.server.elasticCacheQuota)
 
-  store.registerModule('product', productModule)
+  // store.registerModule('product', productModule)
   store.registerModule('attribute', attributeModule)
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)
@@ -32,7 +32,7 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   if (!isServer) {
     // Things moved from Product.js
     EventBus.$on('product-after-priceupdate', product => productAfterPriceupdate(product, store))
-    EventBus.$on('filter-changed-product', filterOptions => filterChangedProduct(filterOptions, store, router))
+    // EventBus.$on('filter-changed-product', filterOptions => filterChangedProduct(filterOptions, store, router))
     EventBus.$on('product-after-customoptions', payload => productAfterCustomoptions(payload, store))
     EventBus.$on('product-after-bundleoptions', payload => productAfterBundleoptions(payload, store))
 

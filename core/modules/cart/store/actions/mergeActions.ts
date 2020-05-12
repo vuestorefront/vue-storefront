@@ -197,6 +197,7 @@ const mergeActions = {
       dryRun,
       mergeQty
     }
+
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })

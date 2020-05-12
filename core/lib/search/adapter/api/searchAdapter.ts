@@ -54,7 +54,8 @@ export class SearchAdapter {
       size: Request.size,
       from: Request.from,
       sort: Request.sort,
-      ...(Request.hasOwnProperty('filters') ? { filters: JSON.stringify(Request.filters) } : {})
+      ...(Request.hasOwnProperty('filters') ? { filters: JSON.stringify(Request.filters) } : {}),
+      ...(Request.hasOwnProperty('options') ? { options: JSON.stringify(Request.options) } : {})
     }
 
     if (Request._sourceExclude) {

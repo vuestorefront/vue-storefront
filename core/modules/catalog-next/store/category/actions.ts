@@ -108,12 +108,12 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Configures products
    */
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
-    const configuredProducts = await dispatch('configureProducts', { products, filters })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
     if (!config.entities.product.enableProductNext) {
-      dispatch('configureProducts', { products, filters })
+      const configuredProducts = await dispatch('configureProducts', { products, filters })
+      return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
     }
-    return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
+    return dispatch('tax/calculateTaxes', { products }, { root: true })
   },
   /**
    * Configure configurable products to have first available options selected

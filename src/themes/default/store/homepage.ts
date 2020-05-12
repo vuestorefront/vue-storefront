@@ -15,11 +15,7 @@ export const homepageStore = {
         size: 8,
         sort: 'created_at:desc'
       }, { root: true })
-      const configuredProducts = await dispatch(
-        'category-next/configureProducts',
-        { products: newProductsResult.items
-        }, { root: true })
-      commit('SET_NEW_COLLECTION', configuredProducts)
+      commit('SET_NEW_COLLECTION', newProductsResult.items)
     },
     async loadBestsellers ({ commit, dispatch }) {
       const response = await dispatch('product/list', {
