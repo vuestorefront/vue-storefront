@@ -90,7 +90,6 @@ export const actions: ActionTree<UrlState, any> = {
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
-      console.log(url, productQuery)
       const product = products.items[0]
       return {
         name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
@@ -205,7 +204,9 @@ export const actions: ActionTree<UrlState, any> = {
   async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
-        storeProductToCache(_source, 'sku')
+        if (config.entities.product.enableProductNext) {
+          storeProductToCache(_source, 'sku')
+        }
         break
       }
       case 'category': {
