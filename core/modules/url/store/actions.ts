@@ -158,7 +158,14 @@ export const actions: ActionTree<UrlState, any> = {
             excludeFields: [],
             options: {
               prefetchGroupProducts: true,
-              assignProductConfiguration: true
+              assignProductConfiguration: true,
+              populateRequestCacheTags: false,
+              setProductErrors: false,
+              fallbackToDefaultWhenNoAvailable: true,
+              setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
+              separateSelectedVariant: false,
+              setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+              filterUnavailableVariants: config.products.filterUnavailableVariants
             },
             filters: { sku: params.childSku }
           })
