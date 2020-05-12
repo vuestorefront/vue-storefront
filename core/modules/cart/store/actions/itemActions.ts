@@ -9,15 +9,36 @@ import {
   notifications
 } from '@vue-storefront/core/modules/cart/helpers'
 import { cartHooksExecutors } from './../../hooks'
+import { SearchQuery } from 'storefront-query-builder'
+import config from 'config'
+
+const configureProductNextAsync = async (context, { product, configuration }) => {
+  let searchQuery = new SearchQuery()
+  searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'eq': product.parentSku } })
+  const { items: [newProductVariant] } = await context.dispatch('product/findProducts', {
+    query: searchQuery,
+    size: 1,
+    configuration,
+    fallbackToDefaultWhenNoAvailable: false,
+    setProductErrors: true,
+    separateSelectedVariant: true
+  }, { root: true })
+  const { variant = {}, options, product_option } = newProductVariant
+
+  return { ...variant, options, product_option }
+}
 
 const itemActions = {
   async configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
-    const variant = configureProductAsync(context, {
-      product,
-      configuration,
-      selectDefaultVariant: false
-    })
+    const variant = config.entities.product.enableProductNext
+      ? await configureProductNextAsync(context, { product, configuration })
+      : configureProductAsync(context, {
+        product,
+        configuration,
+        selectDefaultVariant: false
+      })
+
     const itemWithSameSku = getters.getCartItems.find(item => item.sku === variant.sku)
 
     if (itemWithSameSku && product.sku !== variant.sku) {

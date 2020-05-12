@@ -22,6 +22,9 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
+  if (!config.entities.product.enableProductNext) {
+    store.registerModule('product', productModule)
+  }
 
   if (!config.entities.attribute.loadByAttributeMetadata) {
     await store.dispatch('attribute/list', { // loading attributes for application use
@@ -32,7 +35,9 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   if (!isServer) {
     // Things moved from Product.js
     EventBus.$on('product-after-priceupdate', product => productAfterPriceupdate(product, store))
-    // EventBus.$on('filter-changed-product', filterOptions => filterChangedProduct(filterOptions, store, router))
+    if (!config.entities.product.enableProductNext) {
+      EventBus.$on('filter-changed-product', filterOptions => filterChangedProduct(filterOptions, store, router))
+    }
     EventBus.$on('product-after-customoptions', payload => productAfterCustomoptions(payload, store))
     EventBus.$on('product-after-bundleoptions', payload => productAfterBundleoptions(payload, store))
 

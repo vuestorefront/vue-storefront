@@ -1,7 +1,7 @@
 import Vue from 'vue'
+import config from 'config'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import {
   doPlatformPricesSync,
@@ -10,24 +10,24 @@ import {
   getMediaGallery,
   configurableChildrenImages,
   attributeImages,
-  setRequestCacheTags
+  setRequestCacheTags,
+  getOptimizedFields
 } from '../../helpers'
-import { getOptimizedFields } from '../../helpers/search'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import { isServer } from '@vue-storefront/core/helpers'
 import { SearchQuery } from 'storefront-query-builder'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import cloneDeep from 'lodash-es/cloneDeep'
 import uniqBy from 'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
-import ProductState from '../../types/ProductState'
+import ProductState from '@vue-storefront/core/modules/catalog/types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
-import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<ProductState, RootState> = {
   doPlatformPricesSync (context, { products }) {
@@ -62,7 +62,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
-  checkConfigurableParent ({ dispatch, getters }, {product}) {
+  checkConfigurableParent ({ dispatch, getters }, { product }) {
     if (product.type_id === 'simple') {
       Logger.log('Checking configurable parent')()
       return dispatch('findConfigurableParent', { product: { sku: getters.getCurrentProduct.sku } })
@@ -142,7 +142,8 @@ const actions: ActionTree<ProductState, RootState> = {
     setProductErrors = false,
     fallbackToDefaultWhenNoAvailable = true,
     assignProductConfiguration = false,
-    setFirstVariantAsDefaultInURL = false
+    setFirstVariantAsDefaultInURL = config.products.setFirstVarianAsDefaultInURL,
+    separateSelectedVariant = false
   }) {
     const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
     const resp = await quickSearchByQuery({
@@ -160,13 +161,14 @@ const actions: ActionTree<ProductState, RootState> = {
         setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
         filterUnavailableVariants: config.products.filterUnavailableVariants,
         assignProductConfiguration,
-        setFirstVariantAsDefaultInURL
+        setFirstVariantAsDefaultInURL,
+        separateSelectedVariant
       },
       filters: configuration
     })
 
     if (populateRequestCacheTags) {
-      setRequestCacheTags({products: resp.items})
+      setRequestCacheTags({ products: resp.items })
     }
 
     await context.dispatch('tax/calculateTaxes', { products: resp.items }, { root: true })
@@ -177,7 +179,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
-    const query = searchQuery.applyFilter({key: 'configurable_children.sku', value: { 'eq': product.sku }})
+    const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
     const products = await context.dispatch('findProducts', { query, configuration })
     return products.items && products.items.length > 0 ? products.items[0] : null
   },
@@ -199,7 +201,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     const getProduct = async () => {
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
+      searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': options[key] } })
       const response = await dispatch('findProducts', {
         query: searchQuery,
         size: 1,
@@ -302,7 +304,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Load the product data and sets current product
    */
   async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
-    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
 
     // pass both id and sku to render a product

@@ -6,23 +6,29 @@ export const filterChangedProduct = async (filterOption, store, router) => {
   const currentProductConfiguration = store.getters['product/getCurrentProductConfiguration']
   const changedConfig = Object.assign({}, currentProductConfiguration, { [filterOption.attribute_code]: filterOption })
   let searchQuery = new SearchQuery()
-  searchQuery = searchQuery.applyFilter({key: 'sku', value: {'eq': store.getters['product/getCurrentProduct'].parentSku}})
-  const { items: [newVariant] } = await store.dispatch('product/findProducts', {
+  searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'eq': store.getters['product/getCurrentProduct'].parentSku } })
+  const { items: [newProductVariant] } = await store.dispatch('product/findProducts', {
     query: searchQuery,
     size: 1,
     configuration: changedConfig,
-    prefetchGroupProducts: true,
-    setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
     fallbackToDefaultWhenNoAvailable: false,
     setProductErrors: true,
-    assignProductConfiguration: true
+    assignProductConfiguration: true,
+    separateSelectedVariant: true
   })
-  if (config.products.setFirstVarianAsDefaultInURL && newVariant) {
-    router.push({ params: { childSku: newVariant.sku } })
+  const { configuration, selectedVariant, options, product_option } = newProductVariant
+  if (config.products.setFirstVarianAsDefaultInURL && selectedVariant) {
+    router.push({ params: { childSku: selectedVariant.sku } })
   }
-  if (newVariant) {
-    await store.dispatch('product/setCurrent', newVariant)
-    return newVariant
+  if (selectedVariant) {
+    const newProductConfiguration = Object.assign(
+      {},
+      store.getters['product/getCurrentProduct'],
+      selectedVariant,
+      { configuration, options, product_option }
+    )
+    await store.dispatch('product/setCurrent', newProductConfiguration)
+    return selectedVariant
   } else {
     store.dispatch('notification/spawnNotification', {
       type: 'warning',

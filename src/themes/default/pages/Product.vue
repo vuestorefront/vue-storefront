@@ -380,7 +380,9 @@ export default {
       })
     },
     async changeFilter (variant) {
-      await filterChangedProduct(Object.assign({ attribute_code: variant.type }, variant), this.$store, this.$router)
+      const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
+      await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      this.$bus.$emit('filter-changed-product', selectedConfiguration)
       this.getQuantity()
     },
     openSizeGuide () {

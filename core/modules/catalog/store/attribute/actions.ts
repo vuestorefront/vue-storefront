@@ -92,8 +92,8 @@ const actions: ActionTree<AttributeState, RootState> = {
     const attributes = transformMetadataToAttributes(attributeMetadata)
 
     if (merge) {
-      attributes.attrHashByCode = {...attributes.attrHashByCode, ...context.state.list_by_code}
-      attributes.attrHashById = {...attributes.attrHashById, ...context.state.list_by_id}
+      attributes.attrHashByCode = { ...attributes.attrHashByCode, ...context.state.list_by_code }
+      attributes.attrHashById = { ...attributes.attrHashById, ...context.state.list_by_id }
     }
 
     context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
