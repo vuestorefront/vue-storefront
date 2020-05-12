@@ -325,7 +325,8 @@ export default {
       catId: (categories.value[0] || {}).id,
       page: currentPage.value,
       perPage: itemsPerPage.value,
-      filters: filters.value
+      filters: filters.value,
+      sortBy: sortBy.value
     }));
 
     onSSR(async () => {
