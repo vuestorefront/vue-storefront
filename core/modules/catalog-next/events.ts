@@ -18,7 +18,8 @@ export const filterChangedProduct = async (filterOption, store, router) => {
   })
   const { configuration, selectedVariant, options, product_option } = newProductVariant
   if (config.products.setFirstVarianAsDefaultInURL && selectedVariant) {
-    router.push({ params: { childSku: selectedVariant.sku } })
+    const routeProp = config.seo.useUrlDispatcher ? 'params' : 'query'
+    router.push({ [routeProp]: { childSku: selectedVariant.sku } })
   }
   if (selectedVariant) {
     const newProductConfiguration = Object.assign(

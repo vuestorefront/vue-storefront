@@ -140,7 +140,6 @@ export async function findProducts (context, {
   setProductErrors = false,
   fallbackToDefaultWhenNoAvailable = true,
   assignProductConfiguration = false,
-  setFirstVariantAsDefaultInURL = config.products.setFirstVarianAsDefaultInURL,
   separateSelectedVariant = false
 }) {
   const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
@@ -159,7 +158,6 @@ export async function findProducts (context, {
       setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
       filterUnavailableVariants: config.products.filterUnavailableVariants,
       assignProductConfiguration,
-      setFirstVariantAsDefaultInURL,
       separateSelectedVariant
     },
     filters: configuration

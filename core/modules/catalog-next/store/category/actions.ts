@@ -47,7 +47,6 @@ const actions: ActionTree<CategoryState, RootState> = {
         assignProductConfiguration: false,
         setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
         filterUnavailableVariants: false,
-        setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
         separateSelectedVariant: false
       }
     })
@@ -85,7 +84,6 @@ const actions: ActionTree<CategoryState, RootState> = {
         assignProductConfiguration: false,
         setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
         filterUnavailableVariants: false,
-        setFirstVariantAsDefaultInURL: config.products.setFirstVarianAsDefaultInURL,
         separateSelectedVariant: false
       }
     })
