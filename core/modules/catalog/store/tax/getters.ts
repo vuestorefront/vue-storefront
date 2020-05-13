@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import TaxState from '../../types/TaxState'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 const getters: GetterTree<TaxState, RootState> = {
   getRules: (state) => state.rules,
@@ -17,7 +18,7 @@ const getters: GetterTree<TaxState, RootState> = {
     return currentUser.group_id
   },
   getIsUserGroupedTaxActive: (state, getters, rootState) => {
-    return typeof rootState.storeView.tax.userGroupId === 'number'
+    return typeof currentStoreView().tax.userGroupId === 'number'
   }
 }
 
