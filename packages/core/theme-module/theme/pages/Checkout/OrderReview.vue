@@ -169,6 +169,7 @@ import {
   SfAccordion
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.composables %>';
 
 export default {
@@ -189,7 +190,7 @@ export default {
     context.emit('changeStep', 3);
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
-    const { cart, removeFromCart } = useCart();
+    const { cart, removeFromCart, loadCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -200,6 +201,10 @@ export default {
       chosenPaymentMethod,
       placeOrder
     } = useCheckout();
+
+    onSSR(async () => {
+      await loadCart();
+    });
 
     const processOrder = async () => {
       await placeOrder();

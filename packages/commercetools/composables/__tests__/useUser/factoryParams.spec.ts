@@ -42,6 +42,12 @@ describe('[commercetools-composables] factoryParams', () => {
     });
 
     expect(await params.loadUser()).toEqual(null);
+
+    (apiGetMe as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('some error');
+    });
+
+    await expect(params.loadUser()).rejects.toThrowError('some error');
   });
   it('logOut method calls API log out method', async () => {
     (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});

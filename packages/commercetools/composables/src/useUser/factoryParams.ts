@@ -17,7 +17,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
       const profile = await apiGetMe({ customer: true });
       return profile.data.me.customer;
     } catch (err) {
-      const error = err.graphQLErrors ? err.graphQLErrors[0].message : err;
+      const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
       if (error.includes('Resource Owner Password Credentials Grant')) {
         return null;
       }

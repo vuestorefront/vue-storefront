@@ -84,7 +84,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const refreshCart = async () => {
+    const loadCart = async () => {
+      if (cart.value) return;
+
       loading.value = true;
       cart.value = await factoryParams.loadCart();
       saveToInitialState(cart.value);
@@ -135,18 +137,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    onSSR(async () => {
-      if (!cart.value) {
-        await refreshCart();
-      }
-    });
-
     return {
       cart: computed(() => cart.value),
       isOnCart,
       addToCart,
-      refreshCart,
+      loadCart,
       removeFromCart,
       clearCart,
       updateQuantity,

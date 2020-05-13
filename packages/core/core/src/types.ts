@@ -97,7 +97,7 @@ export interface UseCart
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon: (coupon: string) => Promise<void>;
   removeCoupon: () => Promise<void>;
-  refreshCart: () => Promise<void>;
+  loadCart: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
