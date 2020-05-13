@@ -1,16 +1,10 @@
 /* istanbul ignore file */
-
-import { UseCart } from '@vue-storefront/core';
 import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
-import { ref, Ref } from '@vue/composition-api';
 import { BapiCart, BapiCartItem, BapiCoupon, BapiProduct } from '../../types';
-
-export const cart: Ref<BapiCart> = ref(null);
 
 // @todo: implement cart
 
 const params: UseCartFactoryParams<BapiCart, BapiCartItem, BapiProduct, BapiCoupon> = {
-  cart,
   loadCart: async () => {
     return {};
   },
@@ -44,6 +38,6 @@ const params: UseCartFactoryParams<BapiCart, BapiCartItem, BapiProduct, BapiCoup
   }
 };
 
-const useCart: () => UseCart<BapiCart, BapiCartItem, BapiProduct, BapiCoupon> = useCartFactory<BapiCart, BapiCartItem, BapiProduct, BapiCoupon>(params);
+const { useCart, setCart } = useCartFactory<BapiCart, BapiCartItem, BapiProduct, BapiCoupon>(params);
 
-export default useCart;
+export { useCart, setCart };
