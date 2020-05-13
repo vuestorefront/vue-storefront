@@ -2,7 +2,7 @@ import webpack from 'webpack'
 import merge from 'webpack-merge'
 import base from './webpack.base.config'
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = merge(base, {
   optimization: {
@@ -28,7 +28,7 @@ const config = merge(base, {
     }
   },
   plugins: [
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'

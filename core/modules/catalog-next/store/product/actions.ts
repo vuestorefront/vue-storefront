@@ -26,41 +26,15 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import { ActionContext } from 'vuex'
+import RootState from '@vue-storefront/core/types/RootState'
+import ProductState from '@vue-storefront/core/modules/catalog/types/ProductState'
 
-// const actions: ActionTree<ProductState, RootState> = {
-export function doPlatformPricesSync (context, { products }) {
-  return doPlatformPricesSyncImported(products)
-}
-/**
- * Download Magento2 / other platform prices to put them over ElasticSearch prices
- */
-export function syncPlatformPricesOver ({ rootGetters }, { skus }) {
-  const storeView = currentStoreView()
-  let url = `${getApiEndpointUrl(config.products, 'endpoint')}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
-  if (rootGetters['tax/getIsUserGroupedTaxActive']) {
-    url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
-  }
-
-  if (rootGetters['user/getToken']) {
-    url = `${url}&token=${rootGetters['user/getToken']}`
-  }
-
-  return TaskQueue.execute({ url, // sync the cart
-    payload: {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    },
-    callback_event: 'prices-after-sync'
-  }).then((task: any) => {
-    return task.result
-  })
-}
 /**
  * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
  * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
  */
-export function checkConfigurableParent ({ dispatch, getters }, { product }) {
+export function checkConfigurableParent ({ dispatch, getters }: ActionContext<ProductState, RootState>, { product }) {
   if (product.type_id === 'simple') {
     Logger.log('Checking configurable parent')()
     return dispatch('findConfigurableParent', { product: { sku: getters.getCurrentProduct.sku } })
@@ -74,7 +48,7 @@ export function checkConfigurableParent ({ dispatch, getters }, { product }) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export async function list ({ dispatch, commit }, {
+export async function list ({ dispatch, commit }: ActionContext<ProductState, RootState>, {
   query,
   start = 0,
   size = 50,
@@ -115,7 +89,7 @@ export async function list ({ dispatch, commit }, {
 
   return searchResult
 }
-export async function registerProductsMapping ({ dispatch }, products = []) {
+export async function registerProductsMapping ({ dispatch }: ActionContext<ProductState, RootState>, products = []) {
   await Promise.all(products.map(product => {
     if (product.url_path) {
       const { url_path, sku, slug, type_id, parentSku } = product
@@ -126,7 +100,7 @@ export async function registerProductsMapping ({ dispatch }, products = []) {
     }
   }))
 }
-export async function findProducts (context, {
+export async function findProducts (context: ActionContext<ProductState, RootState>, {
   query,
   start = 0,
   size = 50,
@@ -171,17 +145,11 @@ export async function findProducts (context, {
 
   return resp
 }
-export async function findConfigurableParent (context, { product, configuration }) {
-  const searchQuery = new SearchQuery()
-  const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
-  const products = await context.dispatch('findProducts', { query, configuration })
-  return products.items && products.items.length > 0 ? products.items[0] : null
-}
 /**
  * Search products by specific field
  * @param {Object} options
  */
-export async function single ({ dispatch }, {
+export async function single ({ dispatch }: ActionContext<ProductState, RootState>, {
   options,
   setCurrentProduct = true,
   key = 'sku',
@@ -243,27 +211,11 @@ export async function single ({ dispatch }, {
   return product
 }
 /**
- * Assign the custom options object to the currentl product
- */
-export function setCustomOptions (context, { customOptions, product }) {
-  if (customOptions) { // TODO: this causes some kind of recurrency error
-    context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.getters.getCurrentProduct, customOptions: customOptions }) }))
-  }
-}
-/**
- * Assign the bundle options object to the vurrent product
- */
-export function setBundleOptions (context, { bundleOptions, product }) {
-  if (bundleOptions) { // TODO: this causes some kind of recurrency error
-    context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
-  }
-}
-/**
  * Set current product with given variant's properties
  * @param {Object} context
  * @param {Object} productVariant
  */
-export function setCurrent (context, product) {
+export function setCurrent (context: ActionContext<ProductState, RootState>, product) {
   if (product && typeof product === 'object') {
     const productUpdated = Object.assign({}, product)
     Vue.set(context.state, 'current_configuration', product.configuration || {})
@@ -274,17 +226,85 @@ export function setCurrent (context, product) {
     return productUpdated
   } else Logger.debug('Unable to update current product.', 'product')()
 }
+
+export async function getProductVariant (context: ActionContext<ProductState, RootState>, { product, configuration }) {
+  let searchQuery = new SearchQuery()
+  searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'eq': product.parentSku } })
+  const { items: [newProductVariant] } = await context.dispatch('findProducts', {
+    query: searchQuery,
+    size: 1,
+    configuration,
+    fallbackToDefaultWhenNoAvailable: false,
+    setProductErrors: true,
+    separateSelectedVariant: true
+  })
+  const { variant = {}, options, product_option } = newProductVariant
+
+  return { ...variant, options, product_option }
+}
+
+// const actions: ActionTree<ProductState, RootState> = {
+export function doPlatformPricesSync (context: ActionContext<ProductState, RootState>, { products }) {
+  return doPlatformPricesSyncImported(products)
+}
+/**
+ * Download Magento2 / other platform prices to put them over ElasticSearch prices
+ */
+export function syncPlatformPricesOver ({ rootGetters }: ActionContext<ProductState, RootState>, { skus }) {
+  const storeView = currentStoreView()
+  let url = `${getApiEndpointUrl(config.products, 'endpoint')}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
+  if (rootGetters['tax/getIsUserGroupedTaxActive']) {
+    url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
+  }
+
+  if (rootGetters['user/getToken']) {
+    url = `${url}&token=${rootGetters['user/getToken']}`
+  }
+
+  return TaskQueue.execute({ url, // sync the cart
+    payload: {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    },
+    callback_event: 'prices-after-sync'
+  }).then((task: any) => {
+    return task.result
+  })
+}
+export async function findConfigurableParent (context: ActionContext<ProductState, RootState>, { product, configuration }) {
+  const searchQuery = new SearchQuery()
+  const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
+  const products = await context.dispatch('findProducts', { query, configuration })
+  return products.items && products.items.length > 0 ? products.items[0] : null
+}
+/**
+ * Assign the custom options object to the currentl product
+ */
+export function setCustomOptions (context: ActionContext<ProductState, RootState>, { customOptions, product }) {
+  if (customOptions) { // TODO: this causes some kind of recurrency error
+    context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.getters.getCurrentProduct, customOptions: customOptions }) }))
+  }
+}
+/**
+ * Assign the bundle options object to the vurrent product
+ */
+export function setBundleOptions (context: ActionContext<ProductState, RootState>, { bundleOptions, product }) {
+  if (bundleOptions) { // TODO: this causes some kind of recurrency error
+    context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
+  }
+}
 /**
  * Set related products
  */
-export function related (context, { key = 'related-products', items }) {
+export function related (context: ActionContext<ProductState, RootState>, { key = 'related-products', items }) {
   context.commit(types.PRODUCT_SET_RELATED, { key, items })
 }
 
 /**
  * Load product attributes
  */
-export async function loadProductAttributes ({ dispatch }, { product }) {
+export async function loadProductAttributes ({ dispatch }: ActionContext<ProductState, RootState>, { product }) {
   const productFields = Object.keys(product).filter(fieldName => {
     return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
   })
@@ -300,7 +320,7 @@ export async function loadProductAttributes ({ dispatch }, { product }) {
 /**
  * Load the product data and sets current product
  */
-export async function loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
+export async function loadProduct ({ dispatch }: ActionContext<ProductState, RootState>, { parentSku, childSku = null, route = null }) {
   Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
   EventBus.$emit('product-before-load', { store: rootStore, route: route })
 
@@ -341,7 +361,7 @@ export async function loadProduct ({ dispatch }, { parentSku, childSku = null, r
 /**
  * Add custom option validator for product custom options
  */
-export function addCustomOptionValidator (context, { validationRule, validatorFunction }) {
+export function addCustomOptionValidator (context: ActionContext<ProductState, RootState>, { validationRule, validatorFunction }) {
   context.commit(types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
 }
 
@@ -349,7 +369,7 @@ export function addCustomOptionValidator (context, { validationRule, validatorFu
  * Set product gallery depending on product type
  */
 
-export function setProductGallery (context, { product }) {
+export function setProductGallery (context: ActionContext<ProductState, RootState>, { product }) {
   if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
     if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
       return context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.getters.getCurrentProduct))
@@ -359,7 +379,7 @@ export function setProductGallery (context, { product }) {
     .filter(f => f.src && f.src !== config.images.productPlaceholder)
   context.commit(types.PRODUCT_SET_GALLERY, productGallery)
 }
-export async function loadProductBreadcrumbs ({ dispatch, rootGetters }, { product = {} as any } = {}) {
+export async function loadProductBreadcrumbs ({ dispatch, rootGetters }: ActionContext<ProductState, RootState>, { product = {} as any } = {}) {
   if (product && product.category_ids) {
     const currentCategory = rootGetters['category-next/getCurrentCategory']
     let breadcrumbCategory

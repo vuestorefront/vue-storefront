@@ -1,5 +1,5 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import { productModule } from './store/product'
+// import { productModule } from './store/product'
 import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
 import { taxModule } from './store/tax'
@@ -17,9 +17,7 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   StorageManager.init('products')
   StorageManager.init('elasticCache', true, appConfig.server.elasticCacheQuota)
 
-  if (!config.entities.product.enableProductNext) {
-    store.registerModule('product', productModule)
-  }
+  // store.registerModule('product', productModule)
   store.registerModule('attribute', attributeModule)
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)

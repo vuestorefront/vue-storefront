@@ -68,11 +68,6 @@ describe('Cart itemActions', () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    config.entities = {
-      product: {
-        enableProductNext: false
-      }
-    }
     const configureProductAsyncMock = configureProductAsync as jest.Mock
     configureProductAsyncMock.mockImplementation(() => product2)
 
