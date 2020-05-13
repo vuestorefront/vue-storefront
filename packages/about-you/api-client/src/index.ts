@@ -19,15 +19,8 @@ const { setup, override, update, getSettings } = apiClientFactory<any, any>({
   }
 });
 
-export const getCart: typeof BapiClient.prototype.basket.get = (id, ...args) => {
-  console.log(getSettings());
-  return apiClient.basket.get(id || getSettings().cartToken, ...args);
-};
-export const addItemToCart: typeof BapiClient.prototype.basket.addItem = (id, ...args) => {
-  console.log(getSettings());
-  console.log('adding item to cart:', id || getSettings().cartToken, ...args);
-  return apiClient.basket.addItem(id || getSettings().cartToken, ...args);
-};
+export const getCart: typeof BapiClient.prototype.basket.get = (id, ...args) => apiClient.basket.get(id || getSettings().cartToken, ...args);
+export const addItemToCart: typeof BapiClient.prototype.basket.addItem = (id, ...args) => apiClient.basket.addItem(id || getSettings().cartToken, ...args);
 export const deleteItemFromCart: typeof BapiClient.prototype.basket.deleteItem = (id, ...args) => apiClient.basket.deleteItem(id || getSettings().cartToken, ...args);
 export const updateItemInCart: typeof BapiClient.prototype.basket.updateItem = (id, ...args) => apiClient.basket.updateItem(id || getSettings().cartToken, ...args);
 export const bulkUpdateItemsInCart: typeof BapiClient.prototype.basket.addOrUpdateItems = (id, ...args) => apiClient.basket.addOrUpdateItems(id || getSettings().cartToken, ...args);
