@@ -16,7 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+- Fixes problems related to tax calculation and price filter in multistore setup - @juho-jaakkola (#4376)
 - Blank order details page - @mdanilowicz (#4382)
+
 
 ## [1.11.3] - 2020.04.27
 
