@@ -3,6 +3,8 @@ import * as sdk from '@commercetools/sdk-auth';
 import createAccessToken from './../../src/helpers/createAccessToken';
 import { setup } from './../../src/index';
 
+jest.unmock('./../../src/helpers/createAccessToken');
+
 const anonymousFlowMock = jest.fn(() => ({
   access_token: 'anonymous token',
   refresh_token: 'anonymous refresh token'
@@ -20,6 +22,7 @@ const introspectTokenMock = jest.fn(() => ({
 jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
   getTokenInfo: () => tokenInfo
 }));
+
 jest.spyOn(sdk, 'default').mockImplementation(() => ({
   anonymousFlow: anonymousFlowMock,
   customerPasswordFlow: passwordFlowMock,
