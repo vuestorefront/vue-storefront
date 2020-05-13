@@ -141,6 +141,8 @@ export const actions: ActionTree<UrlState, any> = {
    * Search for record in ES which contains url value (check which fields it searches in vsf-api config.urlModule.map.searchedFields)
    */
   async getFallbackByUrl (context, { url, params }) {
+    const groupId = (config.usePriceTiers && context.rootState.user.groupId) || null
+    const groupToken = context.rootState.user.groupToken || null
     try {
       const requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
       let response: any = await fetch(
@@ -166,7 +168,9 @@ export const actions: ActionTree<UrlState, any> = {
               setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
               filterUnavailableVariants: config.products.filterUnavailableVariants
             },
-            filters: { sku: params.childSku }
+            filters: { sku: params.childSku },
+            groupId,
+            groupToken
           })
         }
       )
