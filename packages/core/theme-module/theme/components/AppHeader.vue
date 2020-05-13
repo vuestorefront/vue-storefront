@@ -6,7 +6,8 @@
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
-    >
+    class="sf-header--has-mobile-search"
+  >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
       <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
@@ -30,6 +31,9 @@
         </nuxt-link>
       </SfHeaderNavigationItem>
     </template>
+    <template #aside>
+      <LocaleSelector class="mobile-only" />
+    </template>
   </SfHeader>
 </template>
 
@@ -39,13 +43,15 @@ import uiState from '~/assets/ui-state';
 import { useCart, useUser, cartGetters } from '<%= options.composables %>';
 import { computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import LocaleSelector from './LocaleSelector';
 
 const { toggleCartSidebar, toggleLoginModal } = uiState;
 
 export default {
   components: {
     SfHeader,
-    SfImage
+    SfImage,
+    LocaleSelector
   },
   setup(props, { root }) {
     const { isAuthenticated } = useUser();
