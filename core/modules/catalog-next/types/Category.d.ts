@@ -20,7 +20,8 @@ export interface Category {
   url_path: string,
   url_key: string,
   children_data: ChildrenData[],
-  slug: string
+  slug: string,
+  position?: number
 }
 
 export interface Filters {

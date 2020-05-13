@@ -22,6 +22,8 @@ import omit from 'lodash-es/omit'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
+import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
+import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
@@ -255,6 +257,52 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     await dispatch('breadcrumbs/set', { current: currentRouteName, routes: parseCategoryPath(sorted) }, { root: true })
     return sorted
+  },
+  /**
+   * Load categories within specified parent
+   * @param {Object} commit promise
+   * @param {Object} parent parent category
+   */
+  async fetchMenuCategories ({ commit, getters, dispatch }, {
+    parent = null,
+    key = null,
+    value = null,
+    level = null,
+    onlyActive = true,
+    onlyNotEmpty = false,
+    size = 4000,
+    start = 0,
+    sort = 'position:asc',
+    includeFields = (config.entities.optimize ? config.entities.category.includeFields : null),
+    excludeFields = (config.entities.optimize ? config.entities.category.excludeFields : null),
+    skipCache = false
+  }) {
+    const { searchQuery, isCustomizedQuery } = createCategoryListQuery({ parent, level, key, value, onlyActive, onlyNotEmpty })
+    const shouldLoadCategories = skipCache || isCustomizedQuery
+
+    if (shouldLoadCategories) {
+      const resp = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort, size, start, includeFields, excludeFields })
+
+      await dispatch('registerCategoryMapping', { categories: resp.items })
+
+      commit(types.CATEGORY_UPD_MENU_CATEGORIES, { items: resp.items })
+
+      return resp
+    }
+
+    const list = { items: getters.getMenuCategories, total: getters.getMenuCategories.length }
+
+    return list
+  },
+  async registerCategoryMapping ({ dispatch }, { categories }) {
+    for (let category of categories) {
+      if (category.url_path) {
+        await dispatch('url/registerMapping', {
+          url: localizedDispatcherRoute(category.url_path),
+          routeData: transformCategoryUrl(category)
+        }, { root: true })
+      }
+    }
   }
 }
 

@@ -16,6 +16,7 @@ import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/help
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
+import config from 'config';
 
 function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {
@@ -139,6 +140,9 @@ const getters: GetterTree<CategoryState, RootState> = {
     const totalValue = typeof total === 'object' ? total.value : total
 
     return totalValue || 0
+  },
+  getMenuCategories (state, getters, rootState, rootGetters) {
+    return config.entities.product.enableProductNext ? state.menuCategories : rootGetters['category/getCategories']
   }
 }
 
