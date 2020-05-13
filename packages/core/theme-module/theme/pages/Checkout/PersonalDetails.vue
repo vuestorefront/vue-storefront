@@ -1,11 +1,15 @@
 <template>
   <div>
-    <SfHeading
-      title="1. Personal details"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <div class="log-in desktop-only">
+      <SfButton data-cy="personal-details-btn_login" class="log-in__button color-secondary"
+        >Log in to your account</SfButton
+      >
+      <p class="log-in__info">or fill the details below:</p>
+    </div>
+    <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
     <div class="form">
       <SfInput
+        data-cy="personal-details-input_firstName"
         v-model="personalDetails.firstName"
         label="First name"
         name="firstName"
@@ -13,6 +17,7 @@
         required
       />
       <SfInput
+        data-cy="personal-details-input_lastName"
         v-model="personalDetails.lastName"
         label="Last name"
         name="lastName"
@@ -20,27 +25,36 @@
         required
       />
       <SfInput
+        data-cy="personal-details-input_email"
         v-model="personalDetails.email"
         label="Your email"
         name="email"
         class="form__element"
         required
       />
+      <div class="info">
+        <p class="info__heading">
+          Enjoy these perks with your free account!
+        </p>
+        <SfCharacteristic
+          v-for="(characteristic, key) in characteristics"
+          :key="key"
+          :description="characteristic.description"
+          :icon="characteristic.icon"
+          size-icon="0.75rem"
+          class="info__characteristic"
+        />
+      </div>
       <div class="form__element form__group">
         <SfCheckbox
           v-model="createAccount"
           name="createAccount"
           label="I want to create an account"
-          class="form__checkbox"
         />
-        <SfButton
-          class="sf-button--text info color-secondary"
-          @click="accountBenefits = true"
-          >+info
-        </SfButton>
       </div>
       <transition name="fade">
         <SfInput
+          data-cy="personal-details-input_password"
           v-if="createAccount"
           v-model="personalDetails.password"
           type="password"
@@ -50,37 +64,15 @@
         />
       </transition>
       <div class="form__action">
-        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
+        <!-- TODO: add nuxt link for returning to home page -->
+        <SfButton data-cy="personal-details-btn_go-back" class="color-secondary form__back-button">
+          Go back
+        </SfButton>
+        <SfButton data-cy="personal-details-btn_continue" class="form__action-button" @click="$emit('nextStep')">
           Continue to shipping
         </SfButton>
-        <SfButton class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary">
-          or log in to your account
-        </SfButton
-        >
       </div>
     </div>
-    <SfModal
-      :visible="accountBenefits"
-      class="modal"
-      @close="accountBenefits = false"
-    >
-      <SfHeading
-        title="Account Benefits"
-        subtitle="Enjoy these perks with your free account!"
-        class="sf-heading--left sf-heading--no-underline modal__heading"
-      />
-      <SfCharacteristic
-        v-for="(characteristic, key) in characteristics"
-        :key="key"
-        :description="characteristic.description"
-        :icon="characteristic.icon"
-        class="characteristic"
-      />
-      <SfButton
-        class="sf-button--full-width color-secondary modal__button" @click="accountBenefits = false">
-        Ok
-      </SfButton>
-    </SfModal>
   </div>
 </template>
 
@@ -135,7 +127,45 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+ margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
+}
+.log-in {
+  &__info {
+    margin: var(--spacer-lg) 0;
+    color: var(--c-dark-variant);
+    font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
+    @include for-desktop {
+      font-weight: var(--font-normal);
+      font-size: var(--font-sm);
+    }
+  }
+  &__button {
+    margin: var(--spacer-2xl) 0 var(--spacer-xl) 0;
+  }
+}
+.info {
+  margin: 0 0 var(--spacer-xl) 0;
+  &__heading {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-light);
+  }
+  &__characteristic {
+    --characteristic-description-font-size: var(--font-xs);
+    margin: 0 0 var(--spacer-sm) var(--spacer-2xs);
+  }
+  @include for-desktop {
+    margin: 0;
+    &__heading {
+      margin: 0 0 var(--spacer-sm) 0;
+      font-size: var(--font-xs);
+    }
+    &__characteristic {
+      margin: var(--spacer-base) 0;
+    }
+  }
 }
 .form {
   @include for-desktop {
@@ -144,7 +174,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -154,7 +184,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }
@@ -162,21 +192,26 @@ export default {
   &__group {
     display: flex;
     align-items: center;
+    margin: var(--spacer-xl) 0 var(--spacer-lg) 0;
   }
   &__action {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       flex: 0 0 100%;
-      display: flex;
+      flex-direction: row;
+      margin: 0;
     }
   }
   &__action-button {
-    &--secondary {
-      margin: var(--spacer-big) 0;
-      @include for-desktop {
-        --button-margin: 0;
-        text-align: right;
-      }
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0;
     }
+  }
+  &__back-button {
+    margin: 0 var(--spacer-xl) 0 0;
   }
   &__button {
     --button-width: 100%;
@@ -191,17 +226,17 @@ export default {
   --button-text-decoration: none;
 }
 .characteristic {
-  margin: 0 0 var(--spacer-big) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   &:last-child {
     margin: 0;
   }
 }
 .modal {
   &__heading {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
   &__button {
-    margin: var(--spacer-extra-big) 0 0 0;
+    margin: var(--spacer-2xl) 0 0 0;
   }
 }
 </style>

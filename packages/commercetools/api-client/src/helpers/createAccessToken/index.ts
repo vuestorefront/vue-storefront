@@ -19,14 +19,18 @@ const createAuthClient = (config: ApiConfig): SdkAuth =>
     scopes: config.scopes
   });
 
-const isValid = (token: Token) => Boolean(token && token.refresh_token);
-
 const getCurrentToken = (options: FlowOptions = {}) => {
   if (currentToken) {
     return currentToken;
   }
 
   return options.currentToken;
+};
+
+const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
+  const tokenIntrospection = await sdkAuth.introspectToken(token.access_token);
+
+  return tokenIntrospection.active;
 };
 
 const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
@@ -36,8 +40,12 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
     return sdkAuth.customerPasswordFlow(options.customerCredentials);
   }
 
-  if (isValid(currentToken)) {
-    return Promise.resolve(currentToken);
+  if (currentToken) {
+    const tokenActive = await isTokenActive(sdkAuth, currentToken);
+
+    if (tokenActive) {
+      return Promise.resolve(currentToken);
+    }
   }
 
   return sdkAuth.anonymousFlow();

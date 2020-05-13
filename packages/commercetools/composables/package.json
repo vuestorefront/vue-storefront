@@ -1,12 +1,13 @@
 {
   "name": "@vue-storefront/commercetools",
   "version": "0.0.3",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest"
   },
@@ -26,6 +27,5 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "8d866340da30761f4f72a6d1b60f78f9665c6738"
+  }
 }

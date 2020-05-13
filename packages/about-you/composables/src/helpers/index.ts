@@ -1,7 +1,11 @@
 /* istanbul ignore file */
 
-import mapProductSearch from './mapProductSearch';
+import { mapProductSearchBySingleProductParams } from './product/mapProductSearchBySingleProductParams';
+import { mapProductSearchByQueryParams } from './product/mapProductSearchByQueryParams';
+import { mapCategorySearchByPathParams } from './category/mapCategorySearchByPathParams';
 
 export {
-  mapProductSearch
+  mapProductSearchBySingleProductParams,
+  mapProductSearchByQueryParams,
+  mapCategorySearchByPathParams
 };

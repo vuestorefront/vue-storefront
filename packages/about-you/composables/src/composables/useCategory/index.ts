@@ -1,9 +1,7 @@
-import { getCategory } from '@vue-storefront/about-you-api';
 import { useCategoryFactory } from '@vue-storefront/core';
 import { UseCategory, BapiCategory } from '../../types';
+import { params } from './factoryParams';
 
-const useCategory: (id: string) => UseCategory<BapiCategory> = useCategoryFactory<BapiCategory, any>({
-  categorySearch: getCategory
-});
+const useCategory: (id: string) => UseCategory<BapiCategory> = useCategoryFactory<BapiCategory, any>(params);
 
 export default useCategory;

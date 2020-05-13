@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1" class="tab-orphan">
-    <SfTab title="My reviews">
+    <SfTab data-cy="my-reviews-tab" title="My reviews">
       <p class="message">
         This feature is not implemented yet! Please take a look at<br />
         <a href="#"
@@ -29,8 +29,8 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  margin: 0 0 var(--spacer-2xl) 0;
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   &__label {
     font-weight: 500;
   }

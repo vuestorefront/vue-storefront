@@ -25,7 +25,6 @@ jest.mock('@vue-storefront/core', () => ({
   useCategoryFactory: (params) => () => params
 }));
 
-
 describe('[commercetools-composables] useCategory', () => {
   it('loads categories', async () => {
     const { categorySearch } = useCategory('test-category') as any;

@@ -63,6 +63,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/contributing/workflow', 'Development workflow'],
+            ['/contributing/api-design-philosophy', 'API Design Philosophy'],
             ['/contributing/themes', 'Working with themes'],
           ],
         },

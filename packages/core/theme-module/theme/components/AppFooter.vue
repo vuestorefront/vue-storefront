@@ -1,60 +1,60 @@
 <template>
   <SfFooter :column="4" multiple id="footer">
-    <SfFooterColumn title="About us">
+    <SfFooterColumn :title="$t('About us')">
       <SfList>
         <SfListItem
           v-for="item in aboutUs"
           :key="item"
           >
           <SfMenuItem
-            class="sf-footer__menu-item"
-            :label="item"
+            :data-cy="`app-foter-url_about-us_${item.split(' ').join('-').toLowerCase()}`"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Departments">
+    <SfFooterColumn :title="$t('Departments')">
       <SfList>
         <SfListItem
           v-for="item in departments"
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
-            :label="item"
+            :data-cy="`app-foter-url_departments_${item.split(' ').join('-').toLowerCase()}`"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Help">
+    <SfFooterColumn :title="$t('Help')">
       <SfList>
         <SfListItem
           v-for="item in help"
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
-            :label="item"
+            :data-cy="`app-foter-url_help_${item.split(' ').join('-').toLowerCase()}`"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Payment &amp; delivery">
+    <SfFooterColumn :title="$t('Payment & Delivery')">
       <SfList>
         <SfListItem
           v-for="item in paymentsDelivery"
           :key="item"
         >
           <SfMenuItem
-            class="sf-footer__menu-item"
-            :label="item"
+            :data-cy="`app-foter-url_payment_${item.split(' ').join('-').toLowerCase()}`"
+            :label="$t(item)"
           />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Social" style="margin-left: auto">
-      <div :style="style">
-        <img v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" style="height: 0.75rem; margin-right: 1.25rem" />
+    <SfFooterColumn title="Social">
+      <div class="footer__socials">
+        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" width="12" height="12" />
       </div>
     </SfFooterColumn>
   </SfFooter>
@@ -80,29 +80,6 @@ export default {
       isMobile: false,
       desktopMin: 1024
     };
-  },
-  computed: {
-    style() {
-      return this.isMobile ? { padding: '20px 40px' } : { padding: '6px 0' };
-    }
-  },
-  methods: {
-    isMobileHandler(e) {
-      this.isMobile = e.matches;
-    }
-  },
-  mounted() {
-    this.isMobile =
-      Math.max(document.documentElement.clientWidth, window.innerWidth) <
-      this.desktopMin;
-    window
-      .matchMedia('(max-width: 1024px)')
-      .addListener(this.isMobileHandler);
-  },
-  beforeDestroy() {
-    window
-      .matchMedia('(max-width: 1024px)')
-      .removeListener(this.isMobileHandler);
   }
 };
 </script>
@@ -115,10 +92,17 @@ export default {
     @content;
   }
 }
-#footer {
-  /* temporary */
-  @include for-desktop {
-    padding: 0 2.5rem;
+
+.footer {
+  &__socials {
+    padding: var(--spacer-base) var(--spacer-xl);
+
+    @media screen and (min-width: $desktop-min) {
+      padding: var(--spacer-sm) 0;
+    }
+  }
+  &__social-image {
+    margin: 0 var(--spacer-base) 0 0;
   }
 }
 </style>

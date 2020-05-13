@@ -1,55 +1,79 @@
-/* istanbul ignore file */
-
+import { BapiProduct } from '@aboutyou/backbone';
 import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
+import { getSettings } from '@vue-storefront/about-you-api';
 
 type ProductVariantFilters = any
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => 'product name';
+export const getProductMultiAttributeValue = (attributes: any, attributeName: string, attrType = 'fieldSet') => {
+  const attributeValues = attributes?.[attributeName]?.values ?? null;
+  if (Array.isArray(attributeValues)) {
+    const [attrSets] = attributeValues;
+    const [[attributeSetValues]] = attrSets[attrType];
+    return attributeSetValues.value;
+  }
+  return attributeValues;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: ProductVariant): string => 'product-slug';
+export const getProductName = (product: BapiProduct): any => {
+  return product?.advancedAttributes ? getProductMultiAttributeValue(product.advancedAttributes, 'productName') : '';
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
+export const getProductSlug = (product: BapiProduct): string => {
+  return product ? product.id.toString() : '';
+};
+
+export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
+  const productPriceMin = product?.priceRange.min?.withoutTax ?? 0;
+  const productPriceMax = product?.priceRange.max?.withoutTax ?? 0;
   return {
-    regular: 0,
-    special: 0
+    regular: productPriceMax,
+    special: productPriceMax !== productPriceMin ? productPriceMin : null
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
+export const getProductGallery = (product: BapiProduct): AgnosticMediaGalleryItem[] => {
+  return (product ? product.images : []).map(imgObj => ({
+    big: `${getSettings().imgUrl}/${imgObj.hash}`,
+    normal: '',
+    small: ''
+  }));
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: ProductVariant): string => '';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
-  return products;
+export const getProductCoverImage = (product: BapiProduct): string => {
+  return product?.images?.[0].hash ? `${getSettings().imgUrl}/${product.images[0].hash}` : null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
-  return {};
+export const getProductFiltered = (products: BapiProduct[] | BapiProduct, filters: ProductVariantFilters | any = {}): BapiProduct[] => {
+  return Array.isArray(products) ? products : [products];
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductAttributes = (product: BapiProduct, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+  return Object.assign({}, ...(filterByAttributeName ?? []).map(attrName => {
+    return { [attrName]: product.attributes?.[attrName] || null };
+  }));
+};
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductDescription = (product: BapiProduct): string => {
+  return product?.advancedAttributes ? getProductMultiAttributeValue(product.advancedAttributes, 'description') : '';
+};
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductCategoryIds = (product: BapiProduct) => {
+  const categories = (product?.categories ?? []).reduce((prevCategory, currCategory) => prevCategory.concat(currCategory), []);
+  const categoryIdsSet = new Set(categories.map(category => category.categoryId.toString()));
+  return Array.from(categoryIdsSet);
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) => String(price);
+export const getProductId = (product: BapiProduct): string => product.id.toString();
 
-const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
+export const getFormattedPrice = (price: number): string => price ? `${price}€` : '';
+
+const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,
@@ -60,6 +84,7 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
+  getMultiAttributeValue: getProductMultiAttributeValue,
   getFormattedPrice
 };
 

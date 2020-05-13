@@ -3,6 +3,7 @@
     <SfModal
       :visible="isLoginModalOpen"
       title="Log in"
+      class="modal"
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
         <div v-if="isLogin" key="log-in">
@@ -10,6 +11,7 @@
             <form class="form" @submit.prevent="handleSubmit(handleLogin)">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_email"
                   v-model="form.username"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -20,6 +22,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_password"
                   v-model="form.password"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -30,12 +33,13 @@
                 />
               </ValidationProvider>
               <SfCheckbox
+                data-cy="login-checkbox-remember-me"
                 v-model="rememberMe"
                 name="remember-me"
                 label="Remember me"
                 class="form__element"
               />
-              <SfButton
+              <SfButton data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -47,18 +51,19 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton class="sf-button--text color-secondary">Forgotten password?</SfButton>
+            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form class="from" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
+            <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_email"
                   v-model="form.email"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -69,6 +74,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_firstName"
                   v-model="form.firstName"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -79,6 +85,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_lastName"
                   v-model="form.lastName"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -89,6 +96,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <SfInput
+                  data-cy="login-input_password"
                   v-model="form.password"
                   :valid="!errors[0]"
                   :errorMessage="errors[0]"
@@ -104,7 +112,7 @@
                 label="I want to create an account"
                 class="form__element"
               />
-              <SfButton
+              <SfButton data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -117,7 +125,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -196,8 +204,9 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .form {
+  margin-top: var(--spacer-sm);
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
 }
 .action,
@@ -205,18 +214,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
+  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
   & > * {
-    margin: 0 0 0 var(--spacer);
+    margin: 0 0 0 var(--spacer-xs);
   }
 }
 .action {
-  margin: var(--spacer-big) 0 var(--spacer-big) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
 }
 .bottom {
-  padding: var(--spacer-extra-big) 0 0 0;
-  margin: var(--spacer-extra-big) 0 0 0;
+  padding: var(--spacer-xl) 0 0 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
 }

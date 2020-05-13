@@ -2,16 +2,26 @@
   <div id="cart">
     <SfSidebar
       :visible="isCartSidebarOpen"
+      :button="false"
       title="My Cart"
       @close="toggleCartSidebar"
-      class="sf-sidebar--right"
+      class="sidebar sf-sidebar--right"
     >
+      <template #title>
+        <div class="heading__wrapper">
+          <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
+          <button data-cy="cart-sidebar-button_toggle-cart" class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
+            <SfIcon icon="cross" size="14px" color="gray-primary"/>
+          </button>
+        </div>
+      </template>
       <transition name="fade" mode="out-in">
         <div v-if="totalItems" class="my-cart" key="my-cart">
-          <h3 class="my-cart__total-items">Total items: {{ totalItems }}</h3>
+          <div class="my-cart__total-items">Total items: <strong>{{ totalItems }}</strong></div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
+                data-cy="collected-product-cart-sidebar"
                 v-for="product in products"
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
@@ -19,41 +29,38 @@
                 :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
                 :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
                 :stock="99999"
+                image-width="180"
+                image-height="200"
                 :qty="cartGetters.getItemQty(product)"
                 @input="updateQuantity(product, $event)"
                 @click:remove="removeFromCart(product)"
                 class="collected-product"
               >
-                <template #configuration>
-                  <div class="collected-product__properties">
-                    <SfProperty
-                      v-for="(value, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
-                      :key="key"
-                      :name="key"
-                      :value="value"
-                    />
-                  </div>
-                </template>
-                <template #actions>
-                  <div class="collected-product__actions">
-                    <SfButton class="sf-button--text color-secondary collected-product__action">Save for later</SfButton>
-                    <SfButton class="sf-button--text color-secondary collected-product__action">Add to compare</SfButton>
-                  </div>
-                </template>
+               <template #configuration>
+                <div class="collected-product__properties">
+                  <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
+                  <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
+                </div>
+              </template>
+              <template #actions>
+                  <SfButton data-cy="cart-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
+              </template>
               </SfCollectedProduct>
             </transition-group>
           </div>
+          <div class="sidebar-bottom">
           <SfProperty class="sf-property--full-width my-cart__total-price">
             <template #name>
-              <span class="sf-property__name">TOTAL</span>
+              <span class="my-cart__total-price-label">Total price:</span>
             </template>
             <template #value>
               <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link to="/checkout/personal-details">
-            <SfButton class="sf-button--full-width">Go to checkout</SfButton>
+          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <SfButton data-cy="cart-sidebar-btn_checkout" @click="toggleCartSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
+          </div>
         </div>
         <div v-else class="empty-cart" key="empty-cart">
           <div class="empty-cart__banner">
@@ -64,7 +71,7 @@
               shopping to fill it in.
             </p>
           </div>
-          <SfButton class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="cart-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
         </div>
       </transition>
     </SfSidebar>
@@ -73,13 +80,15 @@
 <script>
 import {
   SfSidebar,
+  SfHeading,
   SfButton,
+  SfIcon,
   SfProperty,
   SfPrice,
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '<%= options.composables %>';
+import { useCart, useUser, cartGetters } from '<%= options.composables %>';
 import uiState from '~/assets/ui-state';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -89,17 +98,21 @@ export default {
   components: {
     SfSidebar,
     SfButton,
+    SfHeading,
+    SfIcon,
     SfProperty,
     SfPrice,
     SfCollectedProduct
   },
   setup() {
     const { cart, removeFromCart, updateQuantity } = useCart();
+    const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
     return {
+      isAuthenticated,
       products,
       removeFromCart,
       updateQuantity,
@@ -115,16 +128,30 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
+.sidebar {
+  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
+}
+
 .my-cart {
   flex: 1;
   display: flex;
   flex-direction: column;
   &__total-items {
-    font: 400 var(--font-size-big) / 1.6 var(--body-font-family-secondary);
+    font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
+    color: var(--c-dark-variant);
     margin: 0;
   }
   &__total-price {
-    margin: 0 0 var(--spacer-big) 0;
+    --property-name-font-size: var(--font-xl);
+    --price-font-size: var(--font-xl);
+    margin: 0 0 var(--spacer-xl) 0;
+
+    &-label {
+      font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
+      color: var(--c-dark-variant);
+    }
   }
 }
 .empty-cart {
@@ -143,12 +170,12 @@ export default {
     text-align: center;
   }
   &__label {
-    margin: var(--spacer-extra-big) 0 0 0;
-    font: 400 var(--font-size-big) / 1.6 var(--body-font-family-secondary);
+    margin: var(--spacer-2xl) 0 0 0;
+    font: var(--font-normal) var(--font-lg) / 1.6 var(--font-family-secondary);
   }
   &__description {
-    margin: var(--spacer-big) 0 0 0;
-    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-primary);
+    margin: var(--spacer-xl) 0 0 0;
+    font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
   }
   &__icon {
     width: 18.125rem;
@@ -159,25 +186,29 @@ export default {
     }
   }
 }
-.collected-product-list {
-  flex: 1;
-  margin: var(--spacer-big) calc(var(--spacer-big) * -1);
+.heading {
+  &__wrapper {
+    --heading-title-color: var(--c-dark-variant);
+    --heading-title-font-weight: var(--font-normal);
+    display: flex;
+    justify-content: space-between;
+  }
+  &__close-button {
+    background: none;
+    border: none;
+  }
 }
+
+.sidebar-bottom {
+  margin: auto 0 0 0;
+}
+
 .collected-product {
-  margin: var(--spacer-big) 0;
-  font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
+  margin: var(--spacer-base) 0;
+
   &__properties {
-    margin: var(--spacer-big) 0 0 0;
+    margin: var(--spacer-sm) 0 0 0;
   }
-  &__actions {
-    transition: opacity 150ms ease-in-out;
-    opacity: var(--cp-actions-opacity, 0);
-  }
-  &__action {
-    --button-padding: 0;
-  }
-  &:hover {
-    --cp-actions-opacity: 1;
-  }
+
 }
 </style>

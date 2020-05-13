@@ -1,12 +1,13 @@
 {
   "name": "@vue-storefront/commercetools-api",
   "version": "0.0.3",
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib && rollup -c",
+    "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "cross-env APP_ENV=test jest --rootDir ."
   },
@@ -32,6 +33,5 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "8d866340da30761f4f72a6d1b60f78f9665c6738"
+  }
 }

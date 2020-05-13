@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="My orders">
+    <SfTab data-cy="order-history-tab_my-orders" title="My orders">
       <p class="message">
         Check the details and status of your orders in the online store. You can
         also cancel your order or request a return.
@@ -8,7 +8,7 @@
       <div v-if="orders.length === 0" class="no-orders">
         <p class="no-orders__title">You currently have no orders</p>
         <p class="no-orders__content">Best get shopping pronto...</p>
-        <SfButton class="no-orders__button">Start shopping</SfButton>
+        <SfButton data-cy="order-history-btn_start" class="no-orders__button">Start shopping</SfButton>
       </div>
       <SfTable v-else class="orders">
         <SfTableHeading>
@@ -18,7 +18,7 @@
             >{{ tableHeader }}</SfTableHeader>
           <SfTableHeader>
             <span class="mobile-only">Download</span>
-            <SfButton class="desktop-only orders__download-all">Download all</SfButton>
+            <SfButton data-cy="order-history-btn_download-all" class="desktop-only orders__download-all">Download all</SfButton>
           </SfTableHeader>
         </SfTableHeading>
         <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
@@ -29,13 +29,13 @@
             <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
           </SfTableData>
           <SfTableData class="orders__view">
-            <SfButton class="sf-button--text color-secondary mobile-only">Download</SfButton>
-            <SfButton class="sf-button--text color-secondary desktop-only">VIEW</SfButton>
+            <SfButton data-cy="order-history-btn_download" class="sf-button--text color-secondary mobile-only">Download</SfButton>
+            <SfButton data-cy="order-history-btn_view" class="sf-button--text color-secondary desktop-only">VIEW</SfButton>
           </SfTableData>
         </SfTableRow>
       </SfTable>
     </SfTab>
-    <SfTab title="Returns">
+    <SfTab data-cy="order-history-tab_returns" title="Returns">
       <p class="message">
         This feature is not implemented yet! Please take a look at<br />
         <a href="#">https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!</a>
@@ -104,11 +104,11 @@ export default {
 
 .no-orders {
   &__title {
-    margin: 0 0 var(--spacer-big) 0;
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    margin: 0 0 var(--spacer-xl) 0;
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__content {
-    font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__button {
     --button-width: 100%;
@@ -119,8 +119,8 @@ export default {
 }
 .orders {
   &__download-all {
-    --button-padding: 0.625rem var(--spacer-big);
-    --button-font-size: var(--font-size-extra-small);
+    --button-padding: 0.625rem var(--spacer-xl);
+    --button-font-size: var(--font-xs);
     white-space: nowrap;
   }
   &__view {
@@ -130,8 +130,8 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  margin: 0 0 var(--spacer-2xl) 0;
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   &__label {
     font-weight: 500;
   }

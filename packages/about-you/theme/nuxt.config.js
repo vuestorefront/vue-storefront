@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import localeConfig from './lang/config';
 
 export default {
   mode: 'universal',
@@ -34,12 +35,10 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ]
       }
@@ -50,7 +49,8 @@ export default {
     }]
   ],
   modules: [
-    'nuxt-i18n'
+    'nuxt-i18n',
+    'vue-scrollto/nuxt'
   ],
   build: {
     transpile: [
@@ -65,5 +65,6 @@ export default {
         })
       })
     ]
-  }
+  },
+  i18n: localeConfig
 };

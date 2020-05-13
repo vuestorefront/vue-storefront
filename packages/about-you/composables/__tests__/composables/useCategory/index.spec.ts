@@ -1,16 +1,18 @@
 import useCategory from '../../../src/composables/useCategory';
-
-jest.mock('@vue-storefront/about-you-api', () => ({
-  getCategory: () =>
-    Promise.resolve({})
-}));
+import { useCategoryFactory } from '@vue-storefront/core';
+import { params } from '../../../src/composables/useCategory/factoryParams';
 
 jest.mock('@vue-storefront/core', () => ({
-  useCategoryFactory: jest.fn(() => () => ({ foo: 'bar' }))
+  useCategoryFactory: jest.fn(() => categoryId => ({categoryId}))
+}));
+
+jest.mock('../../../src/composables/useCategory/factoryParams', () => ({
+  params: {}
 }));
 
 describe('[about-you-composables] useCategory', () => {
-  it('returns value of factory execution', () => {
-    expect(useCategory('test')).toEqual({ foo: 'bar' });
+  it('returns useUserFactory functions', () => {
+    expect(useCategoryFactory).toHaveBeenCalledWith(params);
+    expect(useCategory('category-id')).toEqual({categoryId: 'category-id'});
   });
 });

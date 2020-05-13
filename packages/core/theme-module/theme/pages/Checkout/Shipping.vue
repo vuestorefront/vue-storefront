@@ -1,11 +1,13 @@
 <template>
   <div>
     <SfHeading
-      title="2. Shipping"
+      :level="3"
+      title="Shipping"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
       <SfInput
+        data-cy="shipping-details-input_firstName"
         v-model="shippingDetails.firstName"
         label="First name"
         name="firstName"
@@ -13,6 +15,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_lastName"
         v-model="shippingDetails.lastName"
         label="Last name"
         name="lastName"
@@ -20,6 +23,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_streetName"
         v-model="shippingDetails.streetName"
         label="Street name"
         name="streetName"
@@ -27,6 +31,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_apartmanet"
         v-model="shippingDetails.apartment"
         label="House/Apartment number"
         name="apartment"
@@ -34,6 +39,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_city"
         v-model="shippingDetails.city"
         label="City"
         name="city"
@@ -41,6 +47,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_state"
         v-model="shippingDetails.state"
         label="State/Province"
         name="state"
@@ -48,6 +55,7 @@
         required
       />
       <SfInput
+        data-cy="shipping-details-input_postalCode"
         v-model="shippingDetails.postalCode"
         label="Zip-code"
         name="zipCode"
@@ -55,6 +63,7 @@
         required
       />
       <SfSelect
+        data-cy="shipping-details-select_country"
         v-model="shippingDetails.country"
         label="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
@@ -69,6 +78,7 @@
         </SfSelectOption>
       </SfSelect>
       <SfInput
+        data-cy="shipping-details-input_phone"
         v-model="shippingDetails.phone"
         label="Phone number"
         name="phone"
@@ -77,12 +87,14 @@
       />
     </div>
     <SfHeading
+      :level="3"
       title="Shipping method"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
       <div class="form__radio-group">
         <SfRadio
+          data-cy="shipping-details-radio_shippingMethod"
           v-for="item in shippingMethods"
           :key="checkoutGetters.getShippingMethodName(item)"
           :label="checkoutGetters.getShippingMethodName(item)"
@@ -109,15 +121,13 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
+        <!-- TODO: add nuxt link for returning to personal details -->
+        <SfButton data-cy="shipping-btn_go-back" class="color-secondary form__back-button">
+          Go back
+        </SfButton>
+        <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="$emit('nextStep')">
           Continue to payment
         </SfButton>
-        <SfButton
-          class="sf-button--full-width sf-button--text color-secondary form__action-button form__action-button--secondary"
-          @click="$emit('click:back')">
-            Go back to Personal details
-        </SfButton
-        >
       </div>
     </div>
   </div>
@@ -176,7 +186,10 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
-  margin: 0 0 var(--spacer-extra-big);
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
+  }
 }
 .form {
   @include for-desktop {
@@ -185,7 +198,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -195,7 +208,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding: 0 0 0 var(--spacer-extra-big);
+          padding: 0 0 0 var(--spacer-xl);
         }
       }
     }
@@ -212,13 +225,15 @@ export default {
   }
   &__action-button {
     &--secondary {
-      margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
         --button-margin: 0;
         text-align: left;
       }
     }
+  }
+  &__back-button {
+    margin: 0 var(--spacer-xl) 0 0;
   }
   &__button {
     --button-width: 100%;
@@ -228,18 +243,18 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .shipping {
-  margin: 0 calc(var(--spacer-big) * -1);
+  margin: 0 calc(var(--spacer-xl) * -1);
   &__label {
     display: flex;
     justify-content: space-between;
   }
   &__description {
     --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-size-extra-small);
+    --radio-description-font-size: var(--font-xs);
   }
   &__delivery {
     color: var(--c-text-muted);

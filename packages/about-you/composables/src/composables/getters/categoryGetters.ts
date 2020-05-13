@@ -1,14 +1,20 @@
-/* istanbul ignore file */
-
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category } from '@vue-storefront/boilerplate-api/src/types';
+import { BapiCategory } from '../../types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCategoryTree = (category: Category): AgnosticCategoryTree => {
-  return {} as AgnosticCategoryTree;
+export const getCategoryTree = (category: BapiCategory): AgnosticCategoryTree | null => {
+  if (!category) {
+    return null;
+  }
+
+  return {
+    label: category.name,
+    slug: category.slug,
+    path: category.path,
+    items: category.children ? category.children.map(getCategoryTree) : []
+  };
 };
 
-const categoryGetters: CategoryGetters<Category> = {
+const categoryGetters: CategoryGetters<BapiCategory> = {
   getTree: getCategoryTree
 };
 

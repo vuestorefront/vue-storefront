@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1" class="tab-orphan">
-    <SfTab title="My newsletter">
+    <SfTab data-cy="my-newsletter-tab" title="My newsletter">
       <p class="message">
         Set up your newsletter and we will send you information about new
         products and trends from the sections you selected every week.
@@ -27,7 +27,7 @@
             class="form__element"
           />
         </div>
-        <SfButton class="form__button">Join Newsletter</SfButton>
+        <SfButton data-cy="newsletter-btn_join" class="form__button">Join Newsletter</SfButton>
       </div>
       <p class="notice">
         I have read and understand the <a href="#">Privacy</a> and
@@ -54,11 +54,11 @@ export default {
 <style lang='scss' scoped>
 @import "~@storefront-ui/vue/styles";
 .shipping-list {
-  margin: 0 0 var(--spacer-extra-big) 0;
+  margin: 0 0 var(--spacer-2xl) 0;
 }
 .shipping {
   display: flex;
-  padding: var(--spacer-big) 0;
+  padding: var(--spacer-xl) 0;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
   &:last-child {
@@ -67,7 +67,7 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font: 300 var(--font-size-small) / 1.6 var(--body-font-family-secondary);
+    font: 300 var(--font-sm) / 1.6 var(--font-family-secondary);
   }
   &__actions {
     display: flex;
@@ -87,17 +87,17 @@ export default {
       --button-background: var(--c-light-variant);
     }
     @include for-desktop {
-      margin: 0 0 0 var(--spacer-big);
+      margin: 0 0 0 var(--spacer-xl);
     }
   }
   &__address {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__client-name {
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
 }
 .tab-orphan {
@@ -109,17 +109,17 @@ export default {
 }
 .form {
   &__element {
-    margin: 0 0 var(--spacer-big) 0;
+    margin: 0 0 var(--spacer-xl) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__checkbox-group {
-    margin: 0 0 var(--spacer-extra-big) 0;
+    margin: 0 0 var(--spacer-2xl) 0;
   }
   &__title {
-    margin: 0 0 var(--spacer-big) 0;
-    font: 500 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+    margin: 0 0 var(--spacer-xl) 0;
+    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
   }
   &__button {
     --button-width: 100%;
@@ -129,8 +129,8 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-extra-big) 0;
-  font: 300 var(--font-size-regular) / 1.6 var(--body-font-family-secondary);
+  margin: 0 0 var(--spacer-2xl) 0;
+  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
   &__label {
     font-weight: 500;
   }
@@ -143,8 +143,8 @@ a {
   }
 }
 .notice {
-  margin: var(--spacer-big) 0 0 0;
-  font: 300 var(--font-size-extra-small) / 1.6 var(--body-font-family-secondary);
+  margin: var(--spacer-xl) 0 0 0;
+  font: 300 var(--font-xs) / 1.6 var(--font-family-secondary);
 }
 .action-button {
   --button-width: 100%;
