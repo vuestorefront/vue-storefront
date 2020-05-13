@@ -22,7 +22,6 @@ const params: UseWishlistFactoryParams<BapiWishlist, BapiWishlistProduct, BapiPr
     return Promise.reject();
   },
   removeFromWishlist: async ({ item }) => {
-    console.log(item);
     return await deleteItemFromWishlist(wishlist.value.key, item.key);
   },
   clearWishlist: async () => {}
