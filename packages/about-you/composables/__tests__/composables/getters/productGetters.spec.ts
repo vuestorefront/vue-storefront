@@ -75,7 +75,7 @@ const product = {
   priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11400}}
 } as any;
 
-describe('[commercetools-getters] product getters', () => {
+describe('[about-you-composables] product getters', () => {
   it('returns default values', () => {
     expect(getProductName(null)).toBe('');
     expect(getProductSlug(null)).toBe('');
@@ -120,18 +120,18 @@ describe('[commercetools-getters] product getters', () => {
   });
 
   it('returns price', () => {
-    expect(getProductPrice(product)).toEqual({ regular: 11450, special: 11400 });
+    expect(getProductPrice(product)).toEqual({ regular: 114.5, special: 114 });
   });
 
   it('return null when min price is different than max', () => {
     const productWithSamePriceRange = {
       priceRange: { max: { withoutTax: 11450 }, min: {withoutTax: 11450}}
     } as any;
-    expect(getProductPrice(productWithSamePriceRange)).toEqual({ regular: 11450, special: null });
+    expect(getProductPrice(productWithSamePriceRange)).toEqual({ regular: 114.5, special: null });
   });
 
   it('return formated price', () => {
-    expect(getFormattedPrice(11450)).toEqual('11450€');
+    expect(getFormattedPrice(114.5)).toEqual('114.50€');
   });
 
   it('returns product cover image', () => {
