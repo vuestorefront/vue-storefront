@@ -61,7 +61,14 @@ describe('[about-you-composables] useWishlist', () => {
     const { removeFromWishlist, wishlist } = useWishlist();
     (wishlist.value.key as any) = mockedWishlist.key;
 
-    const removeFromWishlistResponse = await removeFromWishlist({key: '1', product: ({} as any)});
+    const removeFromWishlistResponse = await removeFromWishlist({
+      item: { key: 1, product: {} }
+    } as any);
     expect(removeFromWishlistResponse).toEqual(mockedWishlist);
+  });
+
+  it('returns empty function on clear wishlist', async () => {
+    const {clearWishlist} = useWishlist();
+    expect(await clearWishlist()).toBe(undefined);
   });
 });

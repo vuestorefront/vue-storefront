@@ -26,6 +26,7 @@ export function useWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT>(factoryPara
     const removeFromWishlist = async (product) => {
       try {
         loading.value = true;
+        console.log(product);
         factoryParams.wishlist.value = await factoryParams.removeFromWishlist(product);
       } finally {
         loading.value = false;
