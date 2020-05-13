@@ -5,7 +5,7 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "sideEffect": false,
   "dependencies": {
     "@vue-storefront/core": "^2.0.1-prealpha.429",
