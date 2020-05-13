@@ -136,8 +136,8 @@ describe('[about-you-composables] product getters', () => {
     });
   });
 
-  it('return formated price', () => {
-    expect(getFormattedPrice(114.5)).toEqual('114.50€');
+  it('return formatted price', () => {
+    expect(getFormattedPrice(11450)).toEqual('11450€');
   });
 
   describe('getProductCoverImage', () => {

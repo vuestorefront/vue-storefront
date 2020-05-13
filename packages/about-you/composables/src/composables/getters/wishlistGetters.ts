@@ -1,9 +1,9 @@
-import { AgnosticTotals } from '@vue-storefront/core';
+import { AgnosticTotals, AgnosticPrice } from '@vue-storefront/core';
 import { BapiWishlistProduct, BapiWishlist } from '../../types';
 import { getProductName, getProductCoverImage, getProductPrice } from './productGetters';
 
 export const getWishlistItems = wishlist => {
-  return wishlist.items;
+  return wishlist ? wishlist.items : [];
 };
 
 export const getWishlistItemName = (item: BapiWishlistProduct): string => {
@@ -14,8 +14,8 @@ export const getWishlistItemImage = (item: BapiWishlistProduct): string => {
   return getProductCoverImage(item.product);
 };
 
-export const getWishlistItemPrice = (item: BapiWishlistProduct): string => {
-  return getProductPrice(item.product).regular.toString();
+export const getWishlistItemPrice = (item: BapiWishlistProduct): AgnosticPrice => {
+  return getProductPrice(item.product);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,14 +23,16 @@ export const getWishlistItemQty = (item: BapiWishlistProduct): number => {
   return null;
 };
 
-export const getWishlistItemAttributes = () => undefined;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getWishlistItemAttributes = (wishlist: BapiWishlist) => undefined;
 
-export const getWishlistItemSku = (item: BapiWishlistProduct): string => item.product?.id.toString();
+export const getWishlistItemSku = (item: BapiWishlistProduct): string => item?.product ? item.product.id.toString() : '';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistTotals = (wishlist: BapiWishlist): AgnosticTotals => {
   return {
-    total: wishlist.items?.length,
-    subtotal: wishlist.items?.length
+    total: 0,
+    subtotal: 0
   };
 };
 
@@ -40,10 +42,10 @@ export const getWishlistShippingPrice = (wishlist: BapiWishlist): number => {
 };
 
 export const getWishlistTotalItems = (wishlist: BapiWishlist): number => {
-  return wishlist.items?.length;
+  return wishlist?.items ? wishlist.items.length : 0;
 };
 
-export const getFormattedPrice = (price: number) => `${price}$`;
+export const getFormattedPrice = (price: number) => price ? `${price}€` : '0€';
 
 const wishlistGetters = {
   getTotals: getWishlistTotals,
