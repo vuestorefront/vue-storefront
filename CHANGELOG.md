@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The default config file is now in more human-readable format - @juho-jaakkola (#4197)
 - Create only once aside async component - @gibkigonzo (#4229, #4268)
+- Use docker network instead of `network_mode: host` to link this project to the api project (4399)
 
 ### Fixed
 - Fixes when having multiple custom options with overlapping option_type_id values, selecting 1 changes the others - @carlokok (#4196)
