@@ -6,12 +6,11 @@ import {
   createCart as apiCreateCart
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
-import useCart from '../../src/useCart';
+import { useCart } from '../../src/useCart';
 
 jest.mock('../../src/useCart', () => ({
-  __esModule: true,
-  cart: { value: null },
-  default: jest.fn()
+  useCart: jest.fn(() => {}),
+  setCart: jest.fn()
 }));
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
@@ -43,6 +42,12 @@ describe('[commercetools-composables] factoryParams', () => {
     });
 
     expect(await params.loadUser()).toEqual(null);
+
+    (apiGetMe as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('some error');
+    });
+
+    await expect(params.loadUser()).rejects.toThrowError('some error');
   });
   it('logOut method calls API log out method', async () => {
     (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});

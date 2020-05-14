@@ -44,9 +44,17 @@ const resetFields = () => {
   };
 };
 
+const loadCart = jest.fn();
+const setCart = jest.fn((newCart) => {
+  cart.value = newCart;
+});
+const cartFields = { cart, loadCart };
+
 jest.mock('./../../src/useCart', jest.fn(() => ({
-  cart
+  useCart: () => cartFields,
+  setCart
 })));
+
 jest.mock('./../../src/useCheckout/shared', () => ({
   billingDetails,
   shippingDetails,
@@ -94,7 +102,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
   });
 
   it('set shipping details', async () => {
-    const setShippingDetails = createSetShippingDetails({ factoryParams: {} });
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {}, cartFields, setCart });
     const shippingAddress = { firstName: 'John', lastName: 'Doe' };
     await setShippingDetails(shippingAddress);
 
@@ -102,7 +110,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
   });
 
   it('send shipping details to the api', async () => {
-    const setShippingDetails = createSetShippingDetails({ factoryParams: {} });
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {}, cartFields, setCart });
     const shippingAddress = { firstName: 'John', lastName: 'Doe' };
     await setShippingDetails(shippingAddress, { save: true });
 
@@ -126,7 +134,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
   });
 
   it('set billing details', async () => {
-    const setBillingDetails = createSetBillingDetails({ factoryParams: {} });
+    const setBillingDetails = createSetBillingDetails({ factoryParams: {}, cartFields, setCart });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress);
 
@@ -134,7 +142,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
   });
 
   it('send billing details to the api', async () => {
-    const setBillingDetails = createSetBillingDetails({ factoryParams: {} });
+    const setBillingDetails = createSetBillingDetails({ factoryParams: {}, cartFields, setCart });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress, { save: true });
 
@@ -157,7 +165,7 @@ describe('[commercetools-composables] useCheckout/loadDetails', () => {
   });
 
   it('loads details', async () => {
-    const loadDetails = createLoadDetails({ factoryParams: {} });
+    const loadDetails = createLoadDetails({ factoryParams: {}, cartFields });
     await loadDetails();
     expect(initFields).toBeCalled();
   });
@@ -186,7 +194,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
   it('skip loading when shipping address is not completed', async () => {
     isShippingAddressCompleted.value = false;
     const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
     await loadShippingMethods();
 
     expect(getShippingMethods).not.toBeCalled();
@@ -195,7 +203,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
 
   it('loads shipping methods and set first one', async () => {
     const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
     await loadShippingMethods();
 
     expect(getShippingMethods).toBeCalled();
@@ -208,7 +216,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
     const methods = [{ method: 1 }, { method: 2, isDefault: true }];
     (getShippingMethods as any).mockReturnValueOnce({ data: { shippingMethods: methods } });
     const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
     await loadShippingMethods();
 
     expect(getShippingMethods).toBeCalled();
@@ -220,7 +228,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
   it('loads shipping methods with empty list', async () => {
     (getShippingMethods as any).mockReturnValueOnce({ data: { shippingMethods: [] } });
     const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
     await loadShippingMethods();
 
     expect(getShippingMethods).toBeCalled();
@@ -236,7 +244,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
       shippingInfo: { shippingMethod: { method: 'cart' } }
     } as any;
     const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
     await loadShippingMethods();
 
     expect(getShippingMethods).toBeCalled();
@@ -253,7 +261,7 @@ describe('[commercetools-composables] useCheckout/placeOrder', () => {
   });
 
   it('places order', async () => {
-    const placeOrder = createPlaceOrder({ factoryParams: {} });
+    const placeOrder = createPlaceOrder({ factoryParams: {}, cartFields, setCart });
     await placeOrder();
 
     expect(createMyOrderFromCart).toBeCalled();
@@ -286,7 +294,7 @@ describe('[commercetools-composables] useCheckout/setPersonalDetails', () => {
 
   it('set personal details', async () => {
     const setShippingDetails = jest.fn();
-    const setPersonalDetails = createSetPersonalDetails({ factoryParams: {}, setShippingDetails });
+    const setPersonalDetails = createSetPersonalDetails({ factoryParams: {}, setShippingDetails, cartFields, setCart });
     const data = { firstName: 'John', lastName: 'Doe' };
     await setPersonalDetails(data);
 
@@ -297,7 +305,7 @@ describe('[commercetools-composables] useCheckout/setPersonalDetails', () => {
 
   it('set personal details and send it to the API', async () => {
     const setShippingDetails = jest.fn();
-    const setPersonalDetails = createSetPersonalDetails({ factoryParams: {}, setShippingDetails });
+    const setPersonalDetails = createSetPersonalDetails({ factoryParams: {}, setShippingDetails, cartFields, setCart });
     const data = { firstName: 'John', lastName: 'Doe' };
     await setPersonalDetails(data, { save: true });
 
@@ -319,7 +327,7 @@ describe('[commercetools-composables] useCheckout/setShippingMethod', () => {
   });
 
   it('set shipping method', async () => {
-    const setShippingMethod = createSetShippingMethod({ factoryParams: {} });
+    const setShippingMethod = createSetShippingMethod({ factoryParams: {}, cartFields, setCart });
     const method = { name: 'method1', id: 1};
     await setShippingMethod(method);
 
@@ -328,7 +336,7 @@ describe('[commercetools-composables] useCheckout/setShippingMethod', () => {
   });
 
   it('set shipping method and send it to the API', async () => {
-    const setShippingMethod = createSetShippingMethod({ factoryParams: {} });
+    const setShippingMethod = createSetShippingMethod({ factoryParams: {}, cartFields, setCart });
     const method = { name: 'method1', id: 1};
     await setShippingMethod(method, { save: true });
 

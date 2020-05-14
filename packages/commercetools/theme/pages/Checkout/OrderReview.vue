@@ -196,11 +196,13 @@ export default {
       chosenPaymentMethod,
       loadShippingMethods,
       placeOrder,
-      loading
+      loading,
+      loadDetails,
     } = useCheckout();
 
     onSSR(async () => {
-      loadShippingMethods();
+      await loadDetails();
+      await loadShippingMethods();
     });
 
     const processOrder = async () => {

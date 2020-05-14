@@ -142,7 +142,7 @@ export default {
     const createAccount = ref(false);
 
     onSSR(async () => {
-      loadDetails();
+      await loadDetails();
     });
 
     const handleFormSubmit = async () => {

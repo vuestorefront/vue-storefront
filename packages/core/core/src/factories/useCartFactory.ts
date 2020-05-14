@@ -3,7 +3,6 @@ import { Ref, ref, computed } from '@vue/composition-api';
 import { useSSR, onSSR } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
-  cart: Ref<CART>;
   loadCart: () => Promise<CART>;
   addToCart: (params: {
     currentCart: CART;
@@ -30,37 +29,47 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
-export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
+interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
+  useCart: () => UseCart<CART, CART_ITEM, PRODUCT, COUPON>;
+  setCart: (cart: CART) => void;
+}
+
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
-) {
-  let isInitialized = false;
+): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
   const appliedCoupon: Ref<COUPON | null> = ref(null);
   const loading: Ref<boolean> = ref<boolean>(false);
+  const cart: Ref<CART> = ref(null);
+  let isInitialized = false;
 
-  return function useCart(): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
+  const setCart = (newCart: CART) => {
+    cart.value = newCart;
+  };
+
+  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
     const { initialState, saveToInitialState } = useSSR('vsf-cart');
 
-    factoryParams.cart.value = isInitialized ? factoryParams.cart.value : initialState || null;
+    cart.value = isInitialized ? cart.value : initialState || null;
     isInitialized = true;
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;
       const updatedCart = await factoryParams.addToCart({
-        currentCart: factoryParams.cart.value,
+        currentCart: cart.value,
         product,
         quantity
       });
-      factoryParams.cart.value = updatedCart;
+      cart.value = updatedCart;
       loading.value = false;
     };
 
     const removeFromCart = async (product: CART_ITEM) => {
       loading.value = true;
       const updatedCart = await factoryParams.removeFromCart({
-        currentCart: factoryParams.cart.value,
+        currentCart: cart.value,
         product
       });
-      factoryParams.cart.value = updatedCart;
+      cart.value = updatedCart;
       loading.value = false;
     };
 
@@ -68,34 +77,36 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
       if (quantity && quantity > 0) {
         loading.value = true;
         const updatedCart = await factoryParams.updateQuantity({
-          currentCart: factoryParams.cart.value,
+          currentCart: cart.value,
           product,
           quantity
         });
-        factoryParams.cart.value = updatedCart;
+        cart.value = updatedCart;
         loading.value = false;
       }
     };
 
-    const refreshCart = async () => {
+    const loadCart = async () => {
+      if (cart.value) return;
+
       loading.value = true;
-      factoryParams.cart.value = await factoryParams.loadCart();
-      saveToInitialState(factoryParams.cart.value);
+      cart.value = await factoryParams.loadCart();
+      saveToInitialState(cart.value);
       loading.value = false;
     };
 
     const clearCart = async () => {
       loading.value = true;
       const updatedCart = await factoryParams.clearCart({
-        currentCart: factoryParams.cart.value
+        currentCart: cart.value
       });
-      factoryParams.cart.value = updatedCart;
+      cart.value = updatedCart;
       loading.value = false;
     };
 
     const isOnCart = (product: PRODUCT) => {
       return factoryParams.isOnCart({
-        currentCart: factoryParams.cart.value,
+        currentCart: cart.value,
         product
       });
     };
@@ -104,10 +115,10 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
       try {
         loading.value = true;
         const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
-          currentCart: factoryParams.cart.value,
+          currentCart: cart.value,
           coupon
         });
-        factoryParams.cart.value = updatedCart;
+        cart.value = updatedCart;
         appliedCoupon.value = updatedCoupon;
       } finally {
         loading.value = false;
@@ -118,9 +129,9 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
       try {
         loading.value = true;
         const { updatedCart, updatedCoupon } = await factoryParams.removeCoupon({
-          currentCart: factoryParams.cart.value
+          currentCart: cart.value
         });
-        factoryParams.cart.value = updatedCart;
+        cart.value = updatedCart;
         appliedCoupon.value = updatedCoupon;
         loading.value = false;
       } finally {
@@ -128,18 +139,11 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    onSSR(async () => {
-      if (!factoryParams.cart.value) {
-        await refreshCart();
-      }
-    });
-
     return {
-      cart: computed(() => factoryParams.cart.value),
+      cart: computed(() => cart.value),
       isOnCart,
       addToCart,
-      refreshCart,
+      loadCart,
       removeFromCart,
       clearCart,
       updateQuantity,
@@ -149,4 +153,6 @@ export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
       loading: computed(() => loading.value)
     };
   };
-}
+
+  return { useCart, setCart };
+};
