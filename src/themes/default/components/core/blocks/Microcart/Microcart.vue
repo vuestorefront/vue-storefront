@@ -222,7 +222,7 @@ export default {
       this.addCouponPressed = false
     },
     onEscapePress () {
-      this.toggleMicrocart()
+      this.$store.dispatch('ui/closeMicrocart')
     },
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {
