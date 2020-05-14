@@ -57,9 +57,9 @@ In the result, you should get:
 Then, to use these indexes in Vue Storefront, you should index the database schema using the `vue-storefront-api` db tool:
 
 ```bash
-npm run db rebuild -- --indexName=vue_storefront_catalog_it
-npm run db rebuild -- --indexName=vue_storefront_catalog_de
-npm run db rebuild -- --indexName=vue_storefront_catalog
+yarn db rebuild -- --indexName=vue_storefront_catalog_it
+yarn db rebuild -- --indexName=vue_storefront_catalog_de
+yarn db rebuild -- --indexName=vue_storefront_catalog
 ```
 
 ## Vue Storefront and Vue Storefront API configuration
@@ -154,9 +154,9 @@ By default, the language / store is switched by the URL prefix:
 General URL format is:
 `http://localhost:3000/{storeCode}`
 
-The storeCode may be switched by ENV variable set before running `npm run dev` / `npm start`:
+The storeCode may be switched by ENV variable set before running `yarn dev` / `yarn start`:
 
-- `export STORE_CODE=de && npm run dev` will run the shop with the `de` shop loaded
+- `export STORE_CODE=de && yarn dev` will run the shop with the `de` shop loaded
 
 Another option, useful when using multistore mode with the NGINX/varnish mode, is to set the shop code by the `x-vs-store-code` http reqeuest header.
 

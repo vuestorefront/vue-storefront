@@ -1362,7 +1362,7 @@ Upon the release of 1.10, we also present a new way of setup and all its sorts f
 We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) as the version goes up. 
 
 ### 1. Preparation
-- You need to have installed [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine. (or [`yarn`](https://yarnpkg.com/lang/en/docs/install/#debian-stable) if you chose it)
+- You need to have installed [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine and [`yarn`](https://yarnpkg.com/lang/en/docs/install/#debian-stable).
 
 ### 2. Recipe
 1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows : 

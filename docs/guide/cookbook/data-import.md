@@ -22,7 +22,7 @@ Vue Storefront uses a data-migration mechanism based on [node-migrate](https://g
 ### 2. Recipe
 1. Run a node script from **Vue Storefront API root path** which is configured out of the box.
 ```bash
-npm run migrate
+yarn migrate
 ```
 which runs the migrations in `migrations` folder. 
 
@@ -370,7 +370,7 @@ We worked in the red rectangle part of the architecture as a preparation for dat
 
 What we did in a simple term, we taught Elasticsearch types and sorts of data(mapping, also known as schema) we will use for Vue Storefront API later on. 
 
-Upon running `npm run migrate`, it runs the pre-configured [migration scripts](https://github.com/DivanteLtd/vue-storefront-api/tree/master/migrations) using [node-migrate](https://github.com/tj/node-migrate). If you take a closer look into the migration scripts, you will notice the ultimate js file which is located at [`./src/lib/elastic.js`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/lib/elastic.js) that does the actual labor for migration.
+Upon running `yarn migrate`, it runs the pre-configured [migration scripts](https://github.com/DivanteLtd/vue-storefront-api/tree/master/migrations) using [node-migrate](https://github.com/tj/node-migrate). If you take a closer look into the migration scripts, you will notice the ultimate js file which is located at [`./src/lib/elastic.js`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/lib/elastic.js) that does the actual labor for migration.
  If you take one more closer look in the `elastic.js` file, you will also find all the schema files are located under [`./config`](https://github.com/DivanteLtd/vue-storefront-api/tree/master/config) folder.
  What those scripts do can be divided into steps as per the file name.
  It first creates index from index schema, then import schema from `elastic.schema.[types].json` files. It will then reindex them, and delete temporary index. Finally it will work a few workarounds to deal with deprecated process. 
@@ -386,14 +386,14 @@ If you encountered with the exception as follows during the migration script :
 It means you don't have the temporary index `vue_storefront_catalog_temp` which is required. 
 Solution is :
 ```bash
-npm run restore
+yarn restore
 ```
 This will create the necessary temporary index, then the necessary temp index will be deleted by the steps mentioned [above](#_3-peep-into-the-kitchen-what-happens-internally) when the migration is finished
 
 #### Secret 2. Add a new migration script
 You might need to write your own migration script. In that case, you can do so by adding a file under the `./migrations` directory though this is not a recommended way. `node-migrate` provides you with the cli command for the purpose as follows : 
 ```bash
-npm run migrate create name-of-migration
+yarn migrate create name-of-migration
 ``` 
 This wil create a migration script template under `./migration` folder with the standard naming convention.
  [more info](https://github.com/tj/node-migrate#creating-migrations)
@@ -438,7 +438,7 @@ module.exports.down = function(next) {
 ```
 
 #### Secret 3. Execute migration multiple times
-If you run a migration multiple times using `npm run migrate`, it will only run the migration once and subsequent execution will be ignored and only repeat the result as follows :
+If you run a migration multiple times using `yarn migrate`, it will only run the migration once and subsequent execution will be ignored and only repeat the result as follows :
 
 ![migration complete](../images/npm-run-migrate-result.png)
 
@@ -725,7 +725,7 @@ node --harmony cli.js pages
 
 7. Finally, reindex the Elasticsearch making sure up-to-date with data source in **Vue Storefront API** root path. 
 ```bash
-npm run db rebuild
+yarn db rebuild
 ```
  
 ### 3. Peep into the kitchen (what happens internally) 
