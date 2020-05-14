@@ -18,7 +18,7 @@ export const Wishlist = {
   },
   methods: {
     closeWishlist () {
-      this.$store.dispatch('ui/toggleWishlist')
+      this.$store.dispatch('ui/closeWishlist')
     }
   }
 }

@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
-
+- Fixed ESC button action (minicart, wishlist) - @mdanilowicz (#4393)
 
 ## [1.11.3] - 2020.04.27
 
