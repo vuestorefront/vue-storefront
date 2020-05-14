@@ -7,7 +7,13 @@ export default {
   mixins: [Composite],
   computed: {
     pageTitle () {
-      return this.$store.state.cmsPage.current ? this.$store.state.cmsPage.current.title : ''
+      return this.$store.state.cmsPage.current ? this.$store.state.cmsPage.current.meta_title || this.$store.state.cmsPage.current.title : ''
+    },
+    pageDescription () {
+      return this.$store.state.cmsPage.current ? this.$store.state.cmsPage.current.meta_description : ''
+    },
+    pageKeywords () {
+      return this.$store.state.cmsPage.current ? this.$store.state.cmsPage.current.meta_keywords : ''
     }
   },
   watch: {
@@ -39,7 +45,10 @@ export default {
   metaInfo () {
     return {
       title: htmlDecode(this.pageTitle || this.$route.meta.title),
-      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.$route.meta.description) }] : []
+      meta: [
+        { vmid: 'description', name: 'description', content: htmlDecode(this.pageDescription || this.$route.meta.description) },
+        { vmid: 'keywords', name: 'keywords', content: htmlDecode(this.pageKeywords) }
+      ]
     }
   }
 }
