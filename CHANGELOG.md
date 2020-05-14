@@ -18,7 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
-
+- Fixed ESC button action (minicart, wishlist) - @mdanilowicz (#4393)
+- Fixes problems related to tax calculation and price filter in multistore setup - @juho-jaakkola (#4376)
+- Blank order details page - @mdanilowicz (#4382)
+- upadate cart hash after sync with backend - @gibkigonzo (#4387)
+- exit from errorHandler after redirection - @gibkigonzo (#4246)
 
 ## [1.11.3] - 2020.04.27
 
