@@ -53,7 +53,7 @@ describe('[CORE - factories] useCartFactory', () => {
 
       mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-cart2', saveToInitialState: jest.fn() });
       const { cart: cart2 } = useCart();
-      expect(cart2.value).toEqual('some-cart2');
+      expect(cart2.value).toEqual('some-cart1');
     });
 
     it('should not load cart if is provided during factory creation', () => {

@@ -20,7 +20,7 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartField
   });
 
   setCart(cartResponse.data.cart);
-  initFields(cartFields.cart.value);
+  initFields(cartResponse.data.cart);
   setShippingDetails({ firstName, lastName });
   loading.value.personalDetails = false;
 };

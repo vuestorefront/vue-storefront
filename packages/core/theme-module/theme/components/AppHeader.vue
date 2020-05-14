@@ -69,7 +69,7 @@ export default {
     };
 
     onSSR(async () => {
-      loadCart();
+      await loadCart();
     });
 
     return {

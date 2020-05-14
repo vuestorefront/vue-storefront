@@ -40,6 +40,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   const appliedCoupon: Ref<COUPON | null> = ref(null);
   const loading: Ref<boolean> = ref<boolean>(false);
   const cart: Ref<CART> = ref(null);
+  let isInitialized = false;
 
   const setCart = (newCart: CART) => {
     cart.value = newCart;
@@ -48,7 +49,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
     const { initialState, saveToInitialState } = useSSR('vsf-cart');
 
-    cart.value = initialState || null;
+    cart.value = isInitialized ? cart.value : initialState || null;
+    isInitialized = true;
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;
@@ -154,126 +156,3 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
   return { useCart, setCart };
 };
-
-/*
-export function useCartFactory<CART, CART_ITEM, PRODUCT, COUPON>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
-) {
-  let isInitialized = false;
-  const appliedCoupon: Ref<COUPON | null> = ref(null);
-  const loading: Ref<boolean> = ref<boolean>(false);
-
-  return function useCart(): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
-    const { initialState, saveToInitialState } = useSSR('vsf-cart');
-
-    factoryParams.cart.value = isInitialized ? factoryParams.cart.value : initialState || null;
-    isInitialized = true;
-
-    const addToCart = async (product: PRODUCT, quantity: number) => {
-      loading.value = true;
-      const updatedCart = await factoryParams.addToCart({
-        currentCart: factoryParams.cart.value,
-        product,
-        quantity
-      });
-      factoryParams.cart.value = updatedCart;
-      loading.value = false;
-    };
-
-    const removeFromCart = async (product: CART_ITEM) => {
-      loading.value = true;
-      const updatedCart = await factoryParams.removeFromCart({
-        currentCart: factoryParams.cart.value,
-        product
-      });
-      factoryParams.cart.value = updatedCart;
-      loading.value = false;
-    };
-
-    const updateQuantity = async (product: CART_ITEM, quantity?: number) => {
-      if (quantity && quantity > 0) {
-        loading.value = true;
-        const updatedCart = await factoryParams.updateQuantity({
-          currentCart: factoryParams.cart.value,
-          product,
-          quantity
-        });
-        factoryParams.cart.value = updatedCart;
-        loading.value = false;
-      }
-    };
-
-    const refreshCart = async () => {
-      loading.value = true;
-      factoryParams.cart.value = await factoryParams.loadCart();
-      saveToInitialState(factoryParams.cart.value);
-      loading.value = false;
-    };
-
-    const clearCart = async () => {
-      loading.value = true;
-      const updatedCart = await factoryParams.clearCart({
-        currentCart: factoryParams.cart.value
-      });
-      factoryParams.cart.value = updatedCart;
-      loading.value = false;
-    };
-
-    const isOnCart = (product: PRODUCT) => {
-      return factoryParams.isOnCart({
-        currentCart: factoryParams.cart.value,
-        product
-      });
-    };
-
-    const applyCoupon = async (coupon: string) => {
-      try {
-        loading.value = true;
-        const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
-          currentCart: factoryParams.cart.value,
-          coupon
-        });
-        factoryParams.cart.value = updatedCart;
-        appliedCoupon.value = updatedCoupon;
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const removeCoupon = async () => {
-      try {
-        loading.value = true;
-        const { updatedCart, updatedCoupon } = await factoryParams.removeCoupon({
-          currentCart: factoryParams.cart.value
-        });
-        factoryParams.cart.value = updatedCart;
-        appliedCoupon.value = updatedCoupon;
-        loading.value = false;
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    onSSR(async () => {
-      if (!factoryParams.cart.value) {
-        await refreshCart();
-      }
-    });
-
-    return {
-      cart: computed(() => factoryParams.cart.value),
-      isOnCart,
-      addToCart,
-      refreshCart,
-      removeFromCart,
-      clearCart,
-      updateQuantity,
-      coupon: computed(() => appliedCoupon.value),
-      applyCoupon,
-      removeCoupon,
-      loading: computed(() => loading.value)
-    };
-  };
-}
-*/

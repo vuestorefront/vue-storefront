@@ -11,7 +11,7 @@ const createPlaceOrder = ({ factoryParams, cartFields, setCart }) => async () =>
   const orderResponse = await createMyOrderFromCart({ id, version });
   const cartResponse = await createCart();
   setCart(cartResponse.data.cart);
-  initFields(cartFields.cart.value);
+  initFields(cartResponse.data.cart);
 
   loading.value.order = false;
   return orderResponse.data.order;

@@ -21,7 +21,7 @@ const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => asyn
   });
 
   setCart(cartResponse.data.cart);
-  initFields(cartFields.cart.value);
+  initFields(cartResponse.data.cart);
   loading.value.billingAddress = false;
 };
 

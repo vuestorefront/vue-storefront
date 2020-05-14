@@ -22,7 +22,7 @@ const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => asy
   });
 
   setCart(cartResponse.data.cart);
-  initFields(cartFields.cart.value);
+  initFields(cartResponse.data.cart);
   loading.value.shippingAddress = false;
 };
 

@@ -121,8 +121,8 @@ export default {
     SfCircleIcon
   },
   setup() {
-    const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity, applyCoupon, loadCart } = useCart();
+    const { chosenShippingMethod, loadDetails } = useCheckout();
+    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
@@ -131,7 +131,7 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
 
     onSSR(async () => {
-      loadCart();
+      await loadDetails();
     });
 
     return {

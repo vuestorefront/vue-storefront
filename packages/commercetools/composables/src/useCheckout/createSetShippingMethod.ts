@@ -19,7 +19,7 @@ const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (met
   });
 
   setCart(cartResponse.data.cart);
-  initFields(cartFields.cart.value);
+  initFields(cartResponse.data.cart);
   loading.value.shippingMethod = false;
 };
 
