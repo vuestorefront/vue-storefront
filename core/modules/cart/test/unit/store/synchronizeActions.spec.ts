@@ -224,7 +224,11 @@ describe('Cart synchronizeActions', () => {
     config.cart = {
       synchronize: false
     }
-    const contextMock = createContextMock();
+    const contextMock = createContextMock({
+      getters: {
+        getCurrentCartHash: 'zyx'
+      }
+    });
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => product)
 
