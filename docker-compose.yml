@@ -8,7 +8,6 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
-    network_mode: host
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
@@ -26,5 +25,12 @@ services:
       - './packages:/var/www/packages'
     tmpfs:
       - /var/www/dist
+    networks:
+      - vue-storefront-api_default
     ports:
       - '3000:3000'
+
+networks:
+  vue-storefront-api_default:
+    external: true
+
