@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.4] - UNRELEASED
+
+### Added
+
+
+### Changed / Improved
+
+
+### Fixed
+
+- Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+- Fixes problems related to tax calculation and price filter in multistore setup - @juho-jaakkola (#4376)
+- Blank order details page - @mdanilowicz (#4382)
+
+
 ## [1.11.3] - 2020.04.27
 
 ### Changed / Improved
