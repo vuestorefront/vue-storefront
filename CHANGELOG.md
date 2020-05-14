@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixes problems related to tax calculation and price filter in multistore setup - @juho-jaakkola (#4376)
 - Blank order details page - @mdanilowicz (#4382)
 - upadate cart hash after sync with backend - @gibkigonzo (#4387)
+- exit from errorHandler after redirection - @gibkigonzo (#4246)
 
 ## [1.11.3] - 2020.04.27
 
