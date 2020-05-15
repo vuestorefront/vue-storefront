@@ -3,7 +3,7 @@ import { BapiWishlistProduct, BapiWishlist } from '../../types';
 import { getProductName, getProductCoverImage, getProductPrice } from './productGetters';
 
 export const getWishlistItems = wishlist => {
-  return wishlist ? wishlist.items : [];
+  return wishlist?.items ?? [];
 };
 
 export const getWishlistItemName = (item: BapiWishlistProduct): string => {
@@ -26,7 +26,9 @@ export const getWishlistItemQty = (item: BapiWishlistProduct): number => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistItemAttributes = (wishlist: BapiWishlist) => undefined;
 
-export const getWishlistItemSku = (item: BapiWishlistProduct): string => item?.product ? item.product.id.toString() : '';
+export const getWishlistItemSku = (item: BapiWishlistProduct): string => {
+  return item?.product?.id ? item.product?.id.toString() : '';
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistTotals = (wishlist: BapiWishlist): AgnosticTotals => {

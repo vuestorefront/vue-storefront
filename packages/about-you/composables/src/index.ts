@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 import { useCart, setCart } from './composables/useCart';
+import { useWishlist, setWishlist } from './composables/useWishlist';
 import useCategory from './composables/useCategory';
 import useCheckout from './composables/useCheckout';
 import useLocale from './composables/useLocale';
 import useProduct from './composables/useProduct';
 import { useUser, setUser } from './composables/useUser';
 import useUserOrders from './composables/useUserOrders';
-import useWishlist from './composables/useWishlist';
 import {
   cartGetters,
   userGetters,
@@ -33,6 +33,7 @@ export {
   useUserOrders,
   useWishlist,
   setCart,
+  setWishlist,
   setUser,
   userGetters
 };

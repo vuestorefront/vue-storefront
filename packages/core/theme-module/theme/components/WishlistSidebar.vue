@@ -1,7 +1,7 @@
 <template>
   <div id="wishlist">
     <SfSidebar
-      :visible="isWishlistOpen"
+      :visible="isWishlistSidebarOpen"
       :button="false"
       title="My Wishlist"
       @close="toggleWishlistSidebar"
@@ -14,7 +14,7 @@
             data-cy="wishlist-sidebar-button_toggle-wishlist"
             class="heading__close-button"
             aria-label="Wishlist sidebar close button"
-            @click="isWishlistOpen = false"
+            @click="toggleWishlistSidebar"
           >
             <SfIcon icon="cross" size="14px" color="gray-primary" />
           </button>
@@ -25,17 +25,18 @@
           <div class="my-wishlist-items">
             Total items: <strong>{{ totalItems }}</strong>
           </div>
+
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
                 data-cy="collected-product-wishlist-sidebar"
                 v-for="product in products"
-                :key="wihslistGetters.getItemSku(product)"
-                :image="wihslistGetters.getItemImage(product)"
-                :title="wihslistGetters.getItemName(product)"
+                :key="wishlistGetters.getItemSku(product)"
+                :image="wishlistGetters.getItemImage(product)"
+                :title="wishlistGetters.getItemName(product)"
                 :regular-price="
-                  wihslistGetters.getFormattedPrice(
-                    wihslistGetters.getItemPrice(product).regular
+                  wishlistGetters.getFormattedPrice(
+                    wishlistGetters.getItemPrice(product).regular
                   )
                 "
                 :special-price="
@@ -46,30 +47,9 @@
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                :qty="wishlistGetters.getItemQty(product)"
-                @input="refreshWishlist(product, $event)"
                 @click:remove="removeFromWishlist(product)"
                 class="collected-product"
               >
-                <template #configuration>
-                  <div class="collected-product__properties">
-                    <SfProperty
-                      name="Size"
-                      :value="wishlistGetters.getItemAttributes(product).size"
-                    />
-                    <SfProperty
-                      name="Color"
-                      :value="wishlistGetters.getItemAttributes(product).color"
-                    />
-                  </div>
-                </template>
-                <template #actions>
-                  <SfButton
-                    data-cy="wishlist-sidebar-btn_save-later"
-                    class="sf-button--text desktop-only"
-                    >Save for later</SfButton
-                  >
-                </template>
               </SfCollectedProduct>
             </transition-group>
           </div>
@@ -126,12 +106,12 @@ import {
   SfPrice,
   SfCollectedProduct
 } from '@storefront-ui/vue';
-// import { computed } from '@vue/composition-api';
-import { useWishlist } from '<%= options.composables %>';
+import { computed } from '@vue/composition-api';
+import { useWishlist, wishlistGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
-const { isWishlistOpen, toggleWishlistSidebar } = uiState;
+const { isWishlistSidebarOpen, toggleWishlistSidebar } = uiState;
 
 export default {
   name: 'Wishlist',
@@ -145,27 +125,27 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { refreshWishlist } = useWishlist.useWishlist();
-
-    // const products = computed(() => wishlistGetters.getItems(wishlist.value));
-    // const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
-    // const totalItems = computed(() =>
-    //   wishlistGetters.getTotalItems(wishlist.value)
-    // );
-
+    const { wishlist, loadWishlist, removeFromWishlist } = useWishlist();
+    console.log(wishlist);
+    const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
+    const totalItems = computed(() =>
+      wishlistGetters.getTotalItems(wishlist.value)
+    );
     onSSR(async () => {
-      await refreshWishlist();
+      await loadWishlist();
     });
 
     return {
-      isWishlistOpen,
-      toggleWishlistSidebar
-      // products,
-      // removeFromWishlist,
-      // refreshWishlist,
-      // totals,
-      // totalItems,
-      // wishlistGetters
+      wishlist,
+      isWishlistSidebarOpen,
+      toggleWishlistSidebar,
+      products,
+      removeFromWishlist,
+      loadWishlist,
+      totals,
+      totalItems,
+      wishlistGetters
     };
   }
 };

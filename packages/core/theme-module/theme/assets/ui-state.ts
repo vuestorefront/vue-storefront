@@ -15,9 +15,9 @@ const toggleCartSidebar = () => {
   state.isCartSidebarOpen = !state.isCartSidebarOpen;
 };
 
-const isWishlistSidebarOpen = computed(() => state.isCartSidebarOpen);
+const isWishlistSidebarOpen = computed(() => state.isWishlistSidebarOpen);
 const toggleWishlistSidebar = () => {
-  state.isCartSidebarOpen = !state.isCartSidebarOpen;
+  state.isWishlistSidebarOpen = !state.isWishlistSidebarOpen;
 };
 
 const isLoginModalOpen = computed(() => state.isLoginModalOpen);

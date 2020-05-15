@@ -41,7 +41,7 @@
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
-import { useCart, useUser, cartGetters } from '<%= options.composables %>';
+import { useCart, useWishlist, useUser, cartGetters } from '<%= options.composables %>';
 import { computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import LocaleSelector from './LocaleSelector';
@@ -57,9 +57,9 @@ export default {
   setup(props, { root }) {
     const { isAuthenticated } = useUser();
     const { cart, loadCart } = useCart();
+    const { loadWishlist } = useWishlist();
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
-      // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/1061
       return count ? count.toString() : null;
     });
 
@@ -71,6 +71,7 @@ export default {
 
     onSSR(async () => {
       await loadCart();
+      await loadWishlist();
     });
 
     return {
