@@ -11,7 +11,11 @@ export type UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_ITEM> = {
     currentWishlist: WISHLIST;
     wishlistItem: WISHLIST_ITEM;
   }) => Promise<WISHLIST>;
-  clearWishlist: () => Promise<void>;
+  clearWishlist: (prams: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
+  isOnWishlist: (prams: {
+    currentWishlist: WISHLIST;
+    product: PRODUCT;
+  }) => boolean;
 };
 
 interface UseWishlistFactory<WISHLIST, PRODUCT, WISHLIST_ITEM> {
@@ -57,7 +61,9 @@ export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
     const clearWishlist = async () => {
       try {
         loading.value = true;
-        await factoryParams.clearWishlist();
+        await factoryParams.clearWishlist({
+          currentWishlist: wishlist.value
+        });
       } finally {
         loading.value = false;
       }
@@ -74,8 +80,15 @@ export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
       }
     };
 
+    const isOnWishlist = (product) =>
+      factoryParams.isOnWishlist({
+        currentWishlist: wishlist.value,
+        product
+      });
+
     return {
       wishlist: computed(() => wishlist.value),
+      isOnWishlist,
       addToWishlist,
       removeFromWishlist,
       loadWishlist,

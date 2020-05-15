@@ -1,55 +1,49 @@
-import { AgnosticTotals, AgnosticPrice } from '@vue-storefront/core';
-import { BapiWishlistProduct, BapiWishlist } from '../../types';
-import { getProductName, getProductCoverImage, getProductPrice } from './productGetters';
+import {
+  WishlistGetters,
+  AgnosticPrice,
+  AgnosticTotals
+} from '@vue-storefront/core';
+import { WishlistItem, WishlistResponseData } from '@aboutyou/backbone/endpoints/wishlist/getWishlist';
+import {
+  getProductCoverImage,
+  getProductName,
+  getProductPrice,
+  getFormattedPrice,
+  getProductId,
+  getProductAttributes
+} from './productGetters';
 
-export const getWishlistItems = wishlist => {
-  return wishlist?.items ?? [];
-};
+export const getWishlistItems = (wishlist: WishlistResponseData): WishlistItem[] => wishlist?.items ?? [];
 
-export const getWishlistItemName = (item: BapiWishlistProduct): string => {
-  return getProductName(item.product);
-};
+export const getWishlistItemName = (product: WishlistItem): string => product?.product ? getProductName(product.product) : '';
 
-export const getWishlistItemImage = (item: BapiWishlistProduct): string => {
-  return getProductCoverImage(item.product);
-};
+export const getWishlistItemImage = (product: WishlistItem): string =>
+  product?.product ? getProductCoverImage(product.product) : '';
 
-export const getWishlistItemPrice = (item: BapiWishlistProduct): AgnosticPrice => {
-  return getProductPrice(item.product);
-};
+export const getWishlistItemPrice = (product: WishlistItem): AgnosticPrice =>
+  product?.product ? getProductPrice(product.product) : { regular: 0, special: 0 };
 
+// unavailable
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemQty = (item: BapiWishlistProduct): number => {
-  return null;
+export const getWishlistItemQty = (product: WishlistItem): number => 1;
+
+export const getWishlistItemAttributes = (product: WishlistItem, filterByAttributeName?: string[]) => {
+  return product?.product ? getProductAttributes(product.product, filterByAttributeName) : {};
 };
 
+export const getWishlistItemSku = (product: WishlistItem): string => product?.product ? getProductId(product.product) : '';
+
+// unavailable
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemAttributes = (wishlist: BapiWishlist) => undefined;
+export const getWishlistTotals = (wishlist: WishlistItem): AgnosticTotals => ({ total: 0, subtotal: 0 });
 
-export const getWishlistItemSku = (item: BapiWishlistProduct): string => {
-  return item?.product?.id ? item.product?.id.toString() : '';
-};
-
+// unavailable
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistTotals = (wishlist: BapiWishlist): AgnosticTotals => {
-  return {
-    total: 0,
-    subtotal: 0
-  };
-};
+export const getWishlistShippingPrice = (wishlist: WishlistResponseData): number => 0;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistShippingPrice = (wishlist: BapiWishlist): number => {
-  return null;
-};
+export const getWishlistTotalItems = (wishlist: WishlistResponseData): number => wishlist?.items.length;
 
-export const getWishlistTotalItems = (wishlist: BapiWishlist): number => {
-  return wishlist?.items ? wishlist.items.length : 0;
-};
-
-export const getFormattedPrice = (price: number) => price ? `${price}€` : '0€';
-
-const wishlistGetters = {
+const wishlistGetters: WishlistGetters<WishlistResponseData, WishlistItem> = {
   getTotals: getWishlistTotals,
   getShippingPrice: getWishlistShippingPrice,
   getItems: getWishlistItems,

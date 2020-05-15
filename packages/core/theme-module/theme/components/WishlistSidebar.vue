@@ -9,23 +9,15 @@
     >
       <template #title>
         <div class="heading__wrapper">
-          <SfHeading :level="3" title="My wishlist" class="sf-heading--left" />
-          <button
-            data-cy="wishlist-sidebar-button_toggle-wishlist"
-            class="heading__close-button"
-            aria-label="Wishlist sidebar close button"
-            @click="toggleWishlistSidebar"
-          >
-            <SfIcon icon="cross" size="14px" color="gray-primary" />
+          <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
+          <button data-cy="wishlist-sidebar-button_toggle-wishlist" class="heading__close-button" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
+            <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </button>
         </div>
       </template>
       <transition name="fade" mode="out-in">
         <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
-          <div class="my-wishlist-items">
-            Total items: <strong>{{ totalItems }}</strong>
-          </div>
-
+          <div class="my-wishlist__total-items">Total items: <strong>{{ totalItems }}</strong></div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
@@ -34,63 +26,51 @@
                 :key="wishlistGetters.getItemSku(product)"
                 :image="wishlistGetters.getItemImage(product)"
                 :title="wishlistGetters.getItemName(product)"
-                :regular-price="
-                  wishlistGetters.getFormattedPrice(
-                    wishlistGetters.getItemPrice(product).regular
-                  )
-                "
-                :special-price="
-                  wishlistGetters.getFormattedPrice(
-                    wishlistGetters.getItemPrice(product).special
-                  )
-                "
+                :regular-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).regular)"
+                :special-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).special)"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
+                :qty="wishlistGetters.getItemQty(product)"
                 @click:remove="removeFromWishlist(product)"
                 class="collected-product"
               >
+               <template #configuration>
+                <div class="collected-product__properties">
+                  <SfProperty name="Size" :value="wishlistGetters.getItemAttributes(product).size"/>
+                  <SfProperty name="Color" :value="wishlistGetters.getItemAttributes(product).color"/>
+                </div>
+              </template>
+              <template #actions>
+                  <SfButton data-cy="wishlist-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
+              </template>
               </SfCollectedProduct>
             </transition-group>
           </div>
           <div class="sidebar-bottom">
-            <SfProperty class="sf-property--full-width my-wishlist__total-price">
-              <template #name>
-                <span class="my-wishlist__total-price-label">Total price:</span>
-              </template>
-              <template #value>
-                <SfPrice
-                  :regular="wishlistGetters.getFormattedPrice(totals.subtotal)"
-                />
-              </template>
-            </SfProperty>
-            <nuxt-link to="/checkout/personal-details">
-              <SfButton
-                data-cy="wishlist-sidebar-btn_checkout"
-                class="sf-button--full-width color-secondary"
-                >Go to checkout</SfButton
-              >
-            </nuxt-link>
+          <SfProperty class="sf-property--full-width my-wishlist__total-price">
+            <template #name>
+              <span class="my-wishlist__total-price-label">Total price:</span>
+            </template>
+            <template #value>
+              <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
+            </template>
+          </SfProperty>
+          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <SfButton data-cy="wishlist-sidebar-btn_checkout" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
+          </nuxt-link>
           </div>
         </div>
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
-            <img
-              src="@storefront-ui/shared/icons/empty_cart.svg"
-              alt
-              class="empty-wishlist__icon"
-            />
+            <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-wishlist__icon" />
             <h3 class="empty-wishlist__label">Your bag is empty</h3>
             <p class="empty-wishlist__description">
               Looks like you haven’t added any items to the bag yet. Start
               shopping to fill it in.
             </p>
           </div>
-          <SfButton
-            data-cy="wishlist-sidebar-btn_start-shopping"
-            class="sf-button--full-width color-secondary"
-            >Start shopping</SfButton
-          >
+          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
         </div>
       </transition>
     </SfSidebar>
@@ -107,7 +87,7 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useWishlist, wishlistGetters } from '<%= options.composables %>';
+import { useWishlist, useUser, wishlistGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
@@ -125,23 +105,22 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { wishlist, loadWishlist, removeFromWishlist } = useWishlist();
+    const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
+    const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
-    const totalItems = computed(() =>
-      wishlistGetters.getTotalItems(wishlist.value)
-    );
+    const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
+
     onSSR(async () => {
       await loadWishlist();
     });
 
     return {
-      wishlist,
-      isWishlistSidebarOpen,
-      toggleWishlistSidebar,
+      isAuthenticated,
       products,
       removeFromWishlist,
-      loadWishlist,
+      isWishlistSidebarOpen,
+      toggleWishlistSidebar,
       totals,
       totalItems,
       wishlistGetters
@@ -154,8 +133,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .sidebar {
-  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0
-    var(--spacer-base);
+  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }
 
@@ -167,9 +145,9 @@ export default {
     font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
     color: var(--c-dark-variant);
     margin: 0;
+  }
   &__total-price {
     --property-name-font-size: var(--font-xl);
-  }
     --price-font-size: var(--font-xl);
     margin: 0 0 var(--spacer-xl) 0;
 
@@ -234,5 +212,6 @@ export default {
   &__properties {
     margin: var(--spacer-sm) 0 0 0;
   }
+
 }
 </style>
