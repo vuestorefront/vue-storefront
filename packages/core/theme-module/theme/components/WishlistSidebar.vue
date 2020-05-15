@@ -126,8 +126,8 @@ import {
   SfPrice,
   SfCollectedProduct
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
-import { useWishlist, wishlistGetters } from '@vue-storefront/about-you';
+// import { computed } from '@vue/composition-api';
+import { useWishlist } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
@@ -145,13 +145,13 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { wishlist, removeFromWishlist, refreshWishlist} = useWishlist.useWishlist();
+    const { refreshWishlist } = useWishlist.useWishlist();
 
-    const products = computed(() => wishlistGetters.getItems(wishlist.value));
-    const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
-    const totalItems = computed(() =>
-      wishlistGetters.getTotalItems(wishlist.value)
-    );
+    // const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    // const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
+    // const totalItems = computed(() =>
+    //   wishlistGetters.getTotalItems(wishlist.value)
+    // );
 
     onSSR(async () => {
       await refreshWishlist();
@@ -159,13 +159,13 @@ export default {
 
     return {
       isWishlistOpen,
-      toggleWishlistSidebar,
-      products,
-      removeFromWishlist,
-      refreshWishlist,
-      totals,
-      totalItems,
-      wishlistGetters
+      toggleWishlistSidebar
+      // products,
+      // removeFromWishlist,
+      // refreshWishlist,
+      // totals,
+      // totalItems,
+      // wishlistGetters
     };
   }
 };
