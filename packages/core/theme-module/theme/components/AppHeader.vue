@@ -3,6 +3,7 @@
     data-cy="app-header"
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
+    @click:wishlist="toggleWishlistSidebar"
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
@@ -45,7 +46,7 @@ import { computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import LocaleSelector from './LocaleSelector';
 
-const { toggleCartSidebar, toggleLoginModal } = uiState;
+const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = uiState;
 
 export default {
   components: {
@@ -77,7 +78,8 @@ export default {
       cartTotalItems,
       toggleLoginModal,
       onAccountClicked,
-      toggleCartSidebar
+      toggleCartSidebar,
+      toggleWishlistSidebar
     };
   }
 };

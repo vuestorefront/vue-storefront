@@ -1,21 +1,20 @@
 import { UseWishlist } from '../types';
 import { Ref, ref, computed } from '@vue/composition-api';
 
-export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
+export type UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_ITEM> = {
   loadWishlist: (params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   addToWishlist: (params: {
     currentWishlist: WISHLIST;
     product: PRODUCT;
-    quantity?: number;
   }) => Promise<WISHLIST>;
   removeFromWishlist: (params: {
     currentWishlist: WISHLIST;
-    product: WISHLIST_ITEM;
+    wishlistItem: WISHLIST_ITEM;
   }) => Promise<WISHLIST>;
   clearWishlist: () => Promise<void>;
 };
 
-interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
+interface UseWishlistFactory<WISHLIST, PRODUCT, WISHLIST_ITEM> {
   useWishlist: () => UseWishlist<WISHLIST, PRODUCT, WISHLIST_ITEM>;
   setWishlist: (newWishlist: WISHLIST) => void;
 }
@@ -31,25 +30,24 @@ export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
   };
 
   const useWishlist = (): UseWishlist<WISHLIST, PRODUCT, WISHLIST_ITEM> => {
-    const addToWishlist = async (product: PRODUCT, quantity?: number) => {
+    const addToWishlist = async (product: PRODUCT) => {
       try {
         loading.value = true;
         wishlist.value = await factoryParams.addToWishlist({
           currentWishlist: wishlist.value,
-          product,
-          quantity
+          product
         });
       } finally {
         loading.value = false;
       }
     };
 
-    const removeFromWishlist = async (product: WISHLIST_ITEM) => {
+    const removeFromWishlist = async (wishlistItem: WISHLIST_ITEM) => {
       try {
         loading.value = true;
         wishlist.value = await factoryParams.removeFromWishlist({
           currentWishlist: wishlist.value,
-          product
+          wishlistItem
         });
       } finally {
         loading.value = false;
@@ -65,7 +63,7 @@ export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
       }
     };
 
-    const refreshWishlist = async () => {
+    const loadWishlist = async () => {
       try {
         loading.value = true;
         wishlist.value = await factoryParams.loadWishlist({
@@ -80,7 +78,7 @@ export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
       wishlist: computed(() => wishlist.value),
       addToWishlist,
       removeFromWishlist,
-      refreshWishlist,
+      loadWishlist,
       clearWishlist,
       loading: computed(() => loading.value)
     };

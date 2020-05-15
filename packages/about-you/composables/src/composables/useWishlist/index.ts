@@ -1,11 +1,10 @@
-/* istanbul ignore file */
-import { useWishlistFactory, UseWishlistFactoryParams } from '../../factories/';
-import { BapiProduct, BapiWishlist, BapiWishlistProduct } from '../../types';
+import { useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
 import { getWishlist, addItemToWishlist, deleteItemFromWishlist } from '@vue-storefront/about-you-api';
+import { BapiProduct, BapiWishlist, BapiWishlistProduct } from '../../types';
 
-const params: UseWishlistFactoryParams<BapiWishlist, BapiWishlistProduct, BapiProduct> = {
+const params: UseWishlistFactoryParams<BapiWishlist, BapiProduct, BapiWishlistProduct> = {
   loadWishlist: async ({ currentWishlist }) => {
-    return await getWishlist(currentWishlist.key);
+    return await getWishlist(currentWishlist.key || null);
   },
   addToWishlist: async ({currentWishlist, product }) => {
     const addItemToWishlistResponse = await addItemToWishlist(currentWishlist.key, { masterKey: product.masterKey });
@@ -14,13 +13,12 @@ const params: UseWishlistFactoryParams<BapiWishlist, BapiWishlistProduct, BapiPr
     }
     return Promise.reject();
   },
-  removeFromWishlist: async ({currentWishlist, item }) => {
-    console.log(item);
-    return await deleteItemFromWishlist(currentWishlist.key, item.key);
+  removeFromWishlist: async ({currentWishlist, wishlistItem }) => {
+    return await deleteItemFromWishlist(currentWishlist.key, wishlistItem.key);
   },
   clearWishlist: async () => {}
 };
 
-const { useWishlist, setWishlist } = useWishlistFactory<BapiWishlist, BapiWishlistProduct, BapiProduct>(params);
+const { useWishlist, setWishlist } = useWishlistFactory<BapiWishlist, BapiProduct, BapiWishlistProduct>(params);
 
 export default {useWishlist, setWishlist};

@@ -101,16 +101,16 @@ export interface UseCart
   loading: ComputedProperty<boolean>;
 }
 
-interface UseWishlist
+export interface UseWishlist
 <
   WISHLIST,
-  WISHLIST_ITEM,
   PRODUCT,
+  WISHLIST_ITEM,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT, quantity?: number) => Promise<void>;
-  removeFromWishlist: (WISHLIST, item: WISHLIST_ITEM) => Promise<void>;
-  refreshWishlist: () => Promise<void>;
+  addToWishlist: (product: PRODUCT) => Promise<void>;
+  removeFromWishlist: (item: WISHLIST_ITEM) => Promise<void>;
+  loadWishlist: () => Promise<void>;
   clearWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }

@@ -4,7 +4,7 @@
       :visible="isWishlistOpen"
       :button="false"
       title="My Wishlist"
-      @close="isWishlistOpen = false"
+      @close="toggleWishlistSidebar"
       class="sidebar sf-sidebar--right"
     >
       <template #title>
@@ -126,8 +126,12 @@ import {
   SfPrice,
   SfCollectedProduct
 } from '@storefront-ui/vue';
-import { watch, ref, computed, onBeforeMount } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import { useWishlist, wishlistGetters } from '@vue-storefront/about-you';
+import { onSSR } from '@vue-storefront/core';
+import uiState from '~/assets/ui-state';
+
+const { isWishlistOpen, toggleWishlistSidebar } = uiState;
 
 export default {
   name: 'Wishlist',
@@ -140,16 +144,8 @@ export default {
     SfPrice,
     SfCollectedProduct
   },
-  props: {
-    isWishlistSidebarOpen: {
-      type: Boolean,
-      default: false
-    }
-  },
-  setup(props, { emit }) {
-    const isWishlistOpen = ref(null);
-
-    const { wishlist, removeFromWishlist, refreshWishlist } = useWishlist();
+  setup() {
+    const { wishlist, removeFromWishlist, refreshWishlist} = useWishlist.useWishlist();
 
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
@@ -157,22 +153,13 @@ export default {
       wishlistGetters.getTotalItems(wishlist.value)
     );
 
-    onBeforeMount(async () => {
+    onSSR(async () => {
       await refreshWishlist();
-    });
-
-    watch(() => props.isWishlistSidebarOpen, (value) => {
-      isWishlistOpen.value = value;
-    });
-
-    watch(() => isWishlistOpen.value, (curr) => {
-      if (!curr) {
-        emit('closeWishlist', false);
-      }
     });
 
     return {
       isWishlistOpen,
+      toggleWishlistSidebar,
       products,
       removeFromWishlist,
       refreshWishlist,
