@@ -84,8 +84,7 @@ const cart = {
                       value: 'T-Shirt Majestic Filatures grau'
                     }
                   ]
-                ],
-                groupSet: []
+                ]
               }
             ]
           }
@@ -136,11 +135,11 @@ const cart = {
 } as any;
 
 describe('[about-you-composables] cart getters', () => {
-  it('returns default values', () => {
+  it('returns empty array when cart doesn\'t exist', () => {
     expect(getCartItems(null)).toEqual([]);
   });
 
-  it('returns products', () => {
+  it('returns products existing in the cart', () => {
     expect(getCartItems(cart)).toEqual(cart.items);
   });
 
