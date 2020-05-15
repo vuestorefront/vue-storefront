@@ -108,6 +108,7 @@ export default {
     const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    console.log(products);
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 

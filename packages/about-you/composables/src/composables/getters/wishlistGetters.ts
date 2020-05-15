@@ -28,7 +28,7 @@ export const getWishlistItemPrice = (product: WishlistItem): AgnosticPrice =>
 export const getWishlistItemQty = (product: WishlistItem): number => 1;
 
 export const getWishlistItemAttributes = (product: WishlistItem, filterByAttributeName?: string[]) => {
-  return product?.product ? getProductAttributes(product.product, filterByAttributeName) : {};
+  return product?.product ? getProductAttributes(product.product, filterByAttributeName) : [];
 };
 
 export const getWishlistItemSku = (product: WishlistItem): string => product?.product ? getProductId(product.product) : '';

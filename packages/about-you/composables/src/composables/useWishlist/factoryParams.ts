@@ -39,14 +39,18 @@ export const params: UseWishlistFactoryParams<WishlistResponseData, BapiProduct,
     if (getWishlistItemByProduct({ currentWishlist, product })) {
       return Promise.resolve(currentWishlist);
     }
-    const addItemToWishlistResponse = await addItemToWishlist(null, { productId: product.id });
+    const addItemToWishlistResponse = await addItemToWishlist(
+      null,
+      { productId: product.id },
+      { with: wishlistWith }
+    );
     if (addItemToWishlistResponse.type === 'success') {
       return Promise.resolve(addItemToWishlistResponse.wishlist);
     }
     return Promise.reject();
   },
   removeFromWishlist: async ({ wishlistItem }) => {
-    return await deleteItemFromWishlist(null, wishlistItem?.key);
+    return await deleteItemFromWishlist(null, wishlistItem?.key, {with: wishlistWith});
   },
   clearWishlist: async ({ currentWishlist }) => {
     return (await Promise.all(currentWishlist.items.map(product => deleteItemFromWishlist(null, product.key)))).pop();
