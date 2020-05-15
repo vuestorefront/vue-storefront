@@ -126,7 +126,6 @@ export default {
   },
   setup() {
     const { wishlist, loadWishlist, removeFromWishlist } = useWishlist();
-    console.log(wishlist);
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() =>
