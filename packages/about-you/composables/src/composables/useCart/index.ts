@@ -5,6 +5,9 @@ import { BasketResponseData } from '@aboutyou/backbone';
 import { BasketItem } from '@aboutyou/backbone/endpoints/basket/getBasket';
 import { BapiProduct } from '../../types';
 
-const useCart: () => UseCart<BasketResponseData, BasketItem, BapiProduct, any> = useCartFactory<BasketResponseData, BasketItem, BapiProduct, any>(params);
+const { useCart, setCart }: {
+  useCart: () => UseCart<BasketResponseData, BasketItem, BapiProduct, any>;
+  setCart: (BasketResponseData) => void;
+} = useCartFactory<BasketResponseData, BasketItem, BapiProduct, any>(params);
 
-export default useCart;
+export { useCart, setCart };

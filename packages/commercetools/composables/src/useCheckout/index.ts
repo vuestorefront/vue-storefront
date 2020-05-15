@@ -10,12 +10,14 @@ import createSetPaymentMethod from './createSetPaymentMethod';
 import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
+import { useCart, setCart } from './../useCart';
 
 // TODO: Move to core
 const useCheckoutFactory = (factoryParams) => {
   const useCheckout = () => {
+    const cartFields = useCart();
     const { saveToInitialState } = useSSR('vsf-cart');
-    const methodsParams = { factoryParams, saveToInitialState };
+    const methodsParams = { factoryParams, saveToInitialState, cartFields, setCart };
     const setShippingMethod = createSetShippingMethod(methodsParams);
     const setShippingDetails = createSetShippingDetails(methodsParams);
     const setBillingDetails = createSetBillingDetails(methodsParams);
