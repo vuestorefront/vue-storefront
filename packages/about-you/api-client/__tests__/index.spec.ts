@@ -1,6 +1,28 @@
 import { apiClientFactory } from '@vue-storefront/core';
 import { BapiClient } from '@aboutyou/backbone';
-import { setup, getCart, addItemToCart, deleteItemFromCart, updateItemInCart, bulkUpdateItemsInCart, getCategoryById, getCategoriesByIds, getCategoryByPath, getCategoryRoots, getFilters, getFiltersValues, getProductById, getProductsByIds, getProductsByQuery, getSearchMappings, getSearchSuggestions, getVariantsByIds, getWishlist, addItemToWishlist, deleteItemFromWishlist } from '../src/index';
+import {
+  setup,
+  getCart,
+  addItemToCart,
+  deleteItemFromCart,
+  updateItemInCart,
+  bulkUpdateItemsInCart,
+  getCategoryById,
+  getCategoriesByIds,
+  getCategoryByPath,
+  getCategoryRoots,
+  getFilters,
+  getFiltersValues,
+  getProductById,
+  getProductsByIds,
+  getProductsByQuery,
+  getSearchMappings,
+  getSearchSuggestions,
+  getVariantsByIds,
+  getWishlist,
+  addItemToWishlist,
+  deleteItemFromWishlist
+} from '../src/index';
 
 jest.mock('@aboutyou/backbone', () => ({
   BapiClient: jest.fn()
@@ -51,7 +73,11 @@ const defaultSettings = {
     },
     shopId: 1957
   },
+<<<<<<< HEAD
   cartToken: '1234-1234-1234-abcd-12312412'
+=======
+  wishlistToken: 'db4a-2adc-7246-212c-1589494417559'
+>>>>>>> fix tests for api client
 };
 
 describe('[about-you-api] index', () => {
@@ -114,52 +140,102 @@ describe('[about-you-api] index', () => {
       });
 
       it('getCategoryById', () => {
-        getCategoryById(2244, {with: {}, includeHidden: true});
+        getCategoryById(2244, { with: {}, includeHidden: true });
         expect(BapiClientMock.categories.getById).toHaveBeenCalled();
       });
 
       it('getCategoriesByIds', () => {
-        getCategoriesByIds([2244, 2245], {with: {}});
+        getCategoriesByIds([2244, 2245], { with: {} });
         expect(BapiClientMock.categories.getByIds).toHaveBeenCalled();
       });
 
       it('getCategoryByPath', () => {
-        getCategoryByPath(['path1', 'path2'], {with: {}, includeHidden: true});
+        getCategoryByPath(['path1', 'path2'], {
+          with: {},
+          includeHidden: true
+        });
         expect(BapiClientMock.categories.getByPath).toHaveBeenCalled();
       });
 
       it('getCategoryRoots', () => {
-        getCategoryRoots({with: {children: 1}, includeHidden: true});
+        getCategoryRoots({ with: { children: 1 }, includeHidden: true });
         expect(BapiClientMock.categories.getRoots).toHaveBeenCalled();
       });
 
       it('getFilters', () => {
-        getFilters({ where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'x22x', with: ['values', 'category_ids']});
+        getFilters({
+          where: {
+            categoryId: 2244,
+            term: '',
+            minPrice: 0,
+            maxPrice: 100,
+            attributes: []
+          },
+          campaignKey: 'x22x',
+          with: ['values', 'category_ids']
+        });
         expect(BapiClientMock.filters.get).toHaveBeenCalled();
       });
 
       it('getFiltersValues', () => {
-        getFiltersValues('groupName', { where: {categoryId: 2244, term: '', minPrice: 0, maxPrice: 100, attributes: []}, campaignKey: 'px'});
+        getFiltersValues('groupName', {
+          where: {
+            categoryId: 2244,
+            term: '',
+            minPrice: 0,
+            maxPrice: 100,
+            attributes: []
+          },
+          campaignKey: 'px'
+        });
         expect(BapiClientMock.filters.getValues).toHaveBeenCalled();
       });
 
       it('getProductById', () => {
-        getProductById(2244, { with: {}, campaignKey: 'px', pricePromotionKey: '', includeSellableForFree: true});
+        getProductById(2244, {
+          with: {},
+          campaignKey: 'px',
+          pricePromotionKey: '',
+          includeSellableForFree: true
+        });
         expect(BapiClientMock.products.getById).toHaveBeenCalled();
       });
 
       it('getProductsByIds', () => {
-        getProductsByIds([2244, 2245], { with: {}, campaignKey: 'px', pricePromotionKey: '', includeSellableForFree: true});
+        getProductsByIds([2244, 2245], {
+          with: {},
+          campaignKey: 'px',
+          pricePromotionKey: '',
+          includeSellableForFree: true
+        });
         expect(BapiClientMock.products.getByIds).toHaveBeenCalled();
       });
 
       it('getProductsByQuery', () => {
-        getProductsByQuery({where: {}, sort: {}, campaignKey: 'px', with: {}, pagination: {page: 0, perPage: 1}, includeSellableForFree: false, includeSoldOut: false, pricePromotionKey: '22x', minProductId: 1122});
+        getProductsByQuery({
+          where: {},
+          sort: {},
+          campaignKey: 'px',
+          with: {},
+          pagination: { page: 0, perPage: 1 },
+          includeSellableForFree: false,
+          includeSoldOut: false,
+          pricePromotionKey: '22x',
+          minProductId: 1122
+        });
         expect(BapiClientMock.products.query).toHaveBeenCalled();
       });
 
       it('getSearchSuggestions', () => {
-        getSearchSuggestions('term', {campaignKey: 'px', with: {brands: 'all', categories: 'all', productNames: 'all', products: 'all'}});
+        getSearchSuggestions('term', {
+          campaignKey: 'px',
+          with: {
+            brands: 'all',
+            categories: 'all',
+            productNames: 'all',
+            products: 'all'
+          }
+        });
         expect(BapiClientMock.search.suggestions).toHaveBeenCalled();
       });
 
@@ -169,25 +245,120 @@ describe('[about-you-api] index', () => {
       });
 
       it('getVariantsByIds', () => {
-        getVariantsByIds([1244, 1245], {with: {attributes: {} as any, advancedAttributes: {} as any, stock: 'all'}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
+        getVariantsByIds([1244, 1245], {
+          with: {
+            attributes: {} as any,
+            advancedAttributes: {} as any,
+            stock: 'all'
+          },
+          campaignKey: 'px',
+          pricePromotionKey: 'ppkey'
+        });
         expect(BapiClientMock.variants.getByIds).toHaveBeenCalled();
       });
 
       it('getWishlist', () => {
-        getWishlist('wishlistKey', {with: {items: {product: {}, variant: {}}}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
-        expect(BapiClientMock.wishlist.get).toHaveBeenCalled();
+        getWishlist('wishlistKey', {
+          with: { items: { product: {}, variant: {} } },
+          campaignKey: 'px',
+          pricePromotionKey: 'ppkey'
+        });
+        expect(BapiClientMock.wishlist.get).toHaveBeenCalledWith(
+          'wishlistKey',
+          {
+            campaignKey: 'px',
+            pricePromotionKey: 'ppkey',
+            with: { items: { product: {}, variant: {} } }
+          }
+        );
+        getWishlist(null, {
+          with: { items: { product: {}, variant: {} } },
+          campaignKey: 'px',
+          pricePromotionKey: 'ppkey'
+        });
+        expect(BapiClientMock.wishlist.get).toHaveBeenCalledWith(
+          defaultSettings.wishlistToken,
+          {
+            campaignKey: 'px',
+            pricePromotionKey: 'ppkey',
+            with: { items: { product: {}, variant: {} } }
+          }
+        );
       });
 
       it('addItemToWishlist', () => {
-        addItemToWishlist('wishlistKey', {masterKey: 'masterKey'}, {with: {}, campaignKey: 'px', childShopId: 6565, pricePromotionKey: 'ppkey' });
-        expect(BapiClientMock.wishlist.addItem).toHaveBeenCalled();
+        addItemToWishlist(
+          'wishlistKey',
+          { masterKey: 'masterKey' },
+          {
+            with: {},
+            campaignKey: 'px',
+            childShopId: 6565,
+            pricePromotionKey: 'ppkey'
+          }
+        );
+        expect(BapiClientMock.wishlist.addItem).toHaveBeenCalledWith(
+          'wishlistKey',
+          { masterKey: 'masterKey' },
+          {
+            campaignKey: 'px',
+            childShopId: 6565,
+            pricePromotionKey: 'ppkey',
+            with: {}
+          }
+        );
+        addItemToWishlist(
+          null,
+          { masterKey: 'masterKey' },
+          {
+            with: {},
+            campaignKey: 'px',
+            childShopId: 6565,
+            pricePromotionKey: 'ppkey'
+          }
+        );
+        expect(BapiClientMock.wishlist.addItem).toHaveBeenCalledWith(
+          defaultSettings.wishlistToken,
+          { masterKey: 'masterKey' },
+          {
+            campaignKey: 'px',
+            childShopId: 6565,
+            pricePromotionKey: 'ppkey',
+            with: {}
+          }
+        );
       });
 
       it('deleteItemFromWishlist', () => {
-        deleteItemFromWishlist('wishlistKey', 'itemKey', {with: {}, campaignKey: 'px', pricePromotionKey: 'ppkey'});
-        expect(BapiClientMock.wishlist.deleteItem).toHaveBeenCalled();
+        deleteItemFromWishlist('wishlistKey', 'itemKey', {
+          with: {},
+          campaignKey: 'px',
+          pricePromotionKey: 'ppkey'
+        });
+        expect(BapiClientMock.wishlist.deleteItem).toHaveBeenCalledWith(
+          'wishlistKey',
+          'itemKey',
+          {
+            campaignKey: 'px',
+            pricePromotionKey: 'ppkey',
+            with: {}
+          }
+        );
+        deleteItemFromWishlist(null, 'itemKey', {
+          with: {},
+          campaignKey: 'px',
+          pricePromotionKey: 'ppkey'
+        });
+        expect(BapiClientMock.wishlist.deleteItem).toHaveBeenCalledWith(
+          defaultSettings.wishlistToken,
+          'itemKey',
+          {
+            campaignKey: 'px',
+            pricePromotionKey: 'ppkey',
+            with: {}
+          }
+        );
       });
-
     });
   });
 });
