@@ -1,47 +1,36 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
-import { configureProductAsync,
+import { preConfigureProduct, storeProductToCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
+import { SearchQuery } from 'storefront-query-builder'
+import { optionLabel } from '../../helpers/optionLabel'
+import trim from 'lodash-es/trim'
+import cloneDeep from 'lodash-es/cloneDeep'
+import rootStore from '@vue-storefront/core/store'
+import RootState from '@vue-storefront/core/types/RootState'
+import ProductState from '../../types/ProductState'
+import { Logger } from '@vue-storefront/core/lib/logger';
+import toString from 'lodash-es/toString'
+import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import {
+  registerProductsMapping,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
   populateProductConfigurationAsync,
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
-  getMediaGallery,
-  configurableChildrenImages,
-  attributeImages } from '../../helpers'
-import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
-import { SearchQuery } from 'storefront-query-builder'
-import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
-import { optionLabel } from '../../helpers/optionLabel'
-import { isOnline } from '@vue-storefront/core/lib/search'
-import omit from 'lodash-es/omit'
-import trim from 'lodash-es/trim'
-import cloneDeep from 'lodash-es/cloneDeep'
-import uniqBy from 'lodash-es/uniqBy'
-import rootStore from '@vue-storefront/core/store'
-import RootState from '@vue-storefront/core/types/RootState'
-import ProductState from '../../types/ProductState'
-import { Logger } from '@vue-storefront/core/lib/logger';
-import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import toString from 'lodash-es/toString'
-import config from 'config'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { formatProductLink } from 'core/modules/url/helpers'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
-import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
-
-const PRODUCT_REENTER_TIMEOUT = 20000
+  getProductGallery,
+  setRequestCacheTags
+} from '@vue-storefront/core/modules/catalog/helpers'
 
 const actions: ActionTree<ProductState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
   reset (context) {
+    console.warn('deprecated, will be removed in 1.13')
     const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
     context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
@@ -106,37 +95,27 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   doPlatformPricesSync (context, { products }) {
+    console.warn('deprecated, will be removed in 1.13')
     return doPlatformPricesSync(products)
   },
   /**
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
-  syncPlatformPricesOver ({ rootGetters }, { skus }) {
-    const storeView = currentStoreView()
-    let url = `${getApiEndpointUrl(config.products, 'endpoint')}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
-    if (rootGetters['tax/getIsUserGroupedTaxActive']) {
-      url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
-    }
-
-    if (rootGetters['user/getToken']) {
-      url = `${url}&token=${rootGetters['user/getToken']}`
-    }
-
-    return TaskQueue.execute({ url, // sync the cart
-      payload: {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors'
-      },
-      callback_event: 'prices-after-sync'
-    }).then((task: any) => {
-      return task.result
+  async syncPlatformPricesOver ({ rootGetters }, { skus }) {
+    console.warn('deprecated, will be removed in 1.13')
+    const result = await ProductService.getProductRenderList({
+      skus,
+      isUserGroupedTaxActive: rootGetters['tax/getIsUserGroupedTaxActive'],
+      userGroupId: rootGetters['tax/getUserTaxGroupId'],
+      token: rootGetters['user/getToken']
     })
+    return result
   },
   /**
    * Setup associated products
    */
   setupAssociated (context, { product, skipCache = true }) {
+    console.warn('deprecated, will be removed in 1.13')
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
@@ -207,21 +186,14 @@ const actions: ActionTree<ProductState, RootState> = {
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
-  checkConfigurableParent (context, { product }) {
+  checkConfigurableParent ({ commit, dispatch, getters }, { product }) {
     if (product.type_id === 'simple') {
       Logger.log('Checking configurable parent')()
-
-      let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': context.getters.getCurrentProduct.sku } })
-
-      return context.dispatch('list', { query: searchQuery, start: 0, size: 1, updateState: false }).then((resp) => {
-        if (resp.items.length >= 1) {
-          const parentProduct = resp.items[0]
-          context.commit(types.PRODUCT_SET_PARENT, parentProduct)
-        }
-      }).catch((err) => {
-        Logger.error(err)()
-      })
+      const parent = dispatch('findConfigurableParent', { product: { sku: getters.getCurrentProduct.sku } })
+      if (parent) {
+        commit(types.PRODUCT_SET_PARENT, parent)
+      }
+      return parent
     }
   },
   /**
@@ -230,6 +202,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   loadConfigurableAttributes (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     let attributeKey = 'attribute_id'
     const configurableAttrKeys = product.configurable_options.map(opt => {
       if (opt.attribute_id) {
@@ -278,6 +251,7 @@ const actions: ActionTree<ProductState, RootState> = {
     populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
   },
   filterUnavailableVariants (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     return filterOutUnavailableVariants(context, product)
   },
 
@@ -289,48 +263,64 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  async list ({ dispatch, commit }, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
-    const searchResult = await dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
-    await dispatch('preConfigureAssociated', { searchResult, prefetchGroupProducts })
+  async list (context, {
+    query,
+    start = 0,
+    size = 50,
+    sort = '',
+    prefetchGroupProducts = !isServer,
+    excludeFields = null,
+    includeFields = null,
+    configuration = null,
+    populateRequestCacheTags = true,
+    updateState = false,
+    append = false
+  }) {
+    console.warn('deprecated from 1.13, use "findProducts" instead')
+    const { items } = await context.dispatch('findProducts', {
+      query,
+      start,
+      size,
+      sort,
+      excludeFields,
+      includeFields,
+      configuration,
+      populateRequestCacheTags,
+      prefetchGroupProducts
+    })
 
     if (updateState) {
-      if (append) commit(types.PRODUCT_ADD_PAGED_PRODUCTS, searchResult)
-      else commit(types.PRODUCT_SET_PAGED_PRODUCTS, searchResult)
+      console.warn('updateState and append are deprecated from 1.13')
+      if (append) context.commit(types.PRODUCT_ADD_PAGED_PRODUCTS, { items })
+      else context.commit(types.PRODUCT_SET_PAGED_PRODUCTS, { items })
     }
 
-    EventBus.$emit('product-after-list', { query, start, size, sort, entityType, meta, result: searchResult })
+    EventBus.$emit('product-after-list', { query, start, size, sort, entityType: 'product', result: { items } })
 
-    return searchResult
+    return { items }
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
-    const { storeCode, appendStoreCode } = currentStoreView()
+    console.warn('deprecated, will be removed in 1.13')
+    registerProductsMapping(context, searchResult.items)
     for (let product of searchResult.items) {
-      if (product.url_path) {
-        const { parentSku, slug } = product
-
-        context.dispatch('url/registerMapping', {
-          url: localizedDispatcherRoute(product.url_path, storeCode),
-          routeData: transformProductUrl({ sku: parentSku, slug, type_id: product.type_id })
-        }, { root: true })
-      }
-
       if (isGroupedOrBundle(product) && prefetchGroupProducts && !isServer) {
         context.dispatch('setupAssociated', { product })
       }
     }
   },
-  preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+  async preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
     console.warn('deprecated, will be removed in 1.13')
-    let prod = preConfigureProduct({ product, populateRequestCacheTags })
+    let _product = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
-      const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
-      prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
+      const selectedVariant = await context.dispatch('getProductVariant', { product: _product, configuration })
+      _product = Object.assign({}, _product, selectedVariant)
     }
 
-    return prod
+    return _product
   },
   async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
+    console.warn('deprecated, will be removed in 1.13')
     const configuredProducts = await context.dispatch(
       'category-next/configureProducts',
       {
@@ -351,13 +341,58 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return products
   },
-  async findProducts (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', excludeFields = null, includeFields = null, configuration = null, populateRequestCacheTags = true }) {
-    const isCacheable = canCache({ includeFields, excludeFields })
-    const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
-    const resp = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields: excluded, includeFields: included })
-    const products = await context.dispatch('configureLoadedProducts', { products: resp, isCacheable, cacheByKey, populateRequestCacheTags, configuration })
+  async findProducts (context, {
+    query,
+    start = 0,
+    size = 50,
+    sort = '',
+    excludeFields = null,
+    includeFields = null,
+    configuration = null,
+    populateRequestCacheTags = false,
+    options: {
+      populateRequestCacheTags: populateRequestCacheTagsNew = false,
+      prefetchGroupProducts = !isServer,
+      setProductErrors = false,
+      fallbackToDefaultWhenNoAvailable = true,
+      assignProductConfiguration = false,
+      separateSelectedVariant = false,
+      setConfigurableProductOptions = config.cart.setConfigurableProductOptions,
+      filterUnavailableVariants = config.products.filterUnavailableVariants
+    } = {}
+  }) {
+    const { items } = await ProductService.getProducts({
+      query,
+      start,
+      size,
+      sort,
+      excludeFields,
+      includeFields,
+      configuration,
+      options: {
+        prefetchGroupProducts,
+        fallbackToDefaultWhenNoAvailable,
+        setProductErrors,
+        setConfigurableProductOptions,
+        filterUnavailableVariants,
+        assignProductConfiguration,
+        separateSelectedVariant
+      }
+    })
 
-    return products
+    registerProductsMapping(context, items)
+
+    if (populateRequestCacheTags) {
+      console.warn('deprecated from 1.13, use "options.populateRequestCacheTags" instead')
+    }
+
+    if (populateRequestCacheTags || populateRequestCacheTagsNew) {
+      setRequestCacheTags({ products: items })
+    }
+
+    await context.dispatch('tax/calculateTaxes', { products: items }, { root: true })
+
+    return { items }
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
@@ -371,6 +406,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureBundleAsync (context, product) {
+    console.warn('deprecated, will be removed in 1.13')
     return context.dispatch(
       'setupAssociated', {
         product: product,
@@ -386,6 +422,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureGroupedAsync (context, product) {
+    console.warn('deprecated, will be removed in 1.13')
     return context.dispatch(
       'setupAssociated', {
         product: product,
@@ -398,135 +435,25 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  async single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
+  async single (context, { options, setCurrentProduct = true, key = 'sku', skipCache = false }) {
+    console.warn('deprecated from 1.13, will be used only "loadProduct"')
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
-    const cacheKey = entityKeyName(key, options[key])
-
-    return new Promise((resolve, reject) => {
-      const benchmarkTime = new Date()
-      const cache = StorageManager.get('elasticCache')
-
-      const setupProduct = (prod) => {
-        // set product quantity to 1
-        if (!prod.qty) {
-          prod.qty = 1
-        }
-        // set original product
-        if (setCurrentProduct) {
-          context.dispatch('setOriginal', prod)
-        }
-        // check is prod has configurable children
-        const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
-        if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
-          prod = omit(prod, ['configurable_children', 'configurable_options'])
-        }
-
-        // set current product - configurable or not
-        if (prod.type_id === 'configurable' && hasConfigurableChildren) {
-          // set first available configuration
-          // todo: probably a good idea is to change this [0] to specific id
-          const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
-          if (selectedVariant && assignDefaultVariant) {
-            prod = Object.assign({}, prod, selectedVariant)
-          }
-        } else if (!skipCache || (prod.type_id === 'simple' || prod.type_id === 'downloadable')) {
-          if (setCurrentProduct) context.dispatch('setCurrent', prod)
-        }
-
-        return prod
-      }
-
-      const syncProducts = () => {
-        let searchQuery = new SearchQuery()
-        searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': options[key] } })
-
-        return context.dispatch('list', { // product list syncs the platform price on it's own
-          query: searchQuery,
-          prefetchGroupProducts: false,
-          updateState: false
-        }).then((res) => {
-          if (res && res.items && res.items.length) {
-            let prd = res.items[0]
-            const _returnProductNoCacheHelper = (subresults) => {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
-              resolve(setupProduct(prd))
-            }
-            if (setCurrentProduct || selectDefaultVariant) {
-              const subConfigPromises = []
-              if (prd.type_id === 'bundle') {
-                subConfigPromises.push(context.dispatch('configureBundleAsync', prd))
-              }
-
-              if (prd.type_id === 'grouped') {
-                subConfigPromises.push(context.dispatch('configureGroupedAsync', prd))
-              }
-              context.dispatch('setupVariants', { product: prd })
-              Promise.all(subConfigPromises).then(_returnProductNoCacheHelper)
-            } else {
-              _returnProductNoCacheHelper(null)
-            }
-          } else {
-            reject(new Error('Product query returned empty result'))
-          }
-        })
-      }
-
-      const getProductFromCache = () => {
-        cache.getItem(cacheKey, (err, res) => {
-          // report errors
-          if (!skipCache && err) {
-            Logger.error(err, 'product')()
-          }
-
-          if (res !== null) {
-            Logger.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()), 'product')()
-            const _returnProductFromCacheHelper = (subresults) => {
-              const cachedProduct = setupProduct(res)
-              if (config.products.alwaysSyncPlatformPricesOver) {
-                doPlatformPricesSync([cachedProduct]).then((products) => {
-                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
-                  resolve(products[0])
-                })
-                if (!config.products.waitForPlatformSync) {
-                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-                  resolve(cachedProduct)
-                }
-              } else {
-                EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-                resolve(cachedProduct)
-              }
-            }
-            if (setCurrentProduct || selectDefaultVariant) {
-              const subConfigPromises = []
-              context.dispatch('setupVariants', { product: res })
-              if (res.type_id === 'bundle') {
-                subConfigPromises.push(context.dispatch('configureBundleAsync', res))
-              }
-              if (res.type_id === 'grouped') {
-                subConfigPromises.push(context.dispatch('configureGroupedAsync', res))
-              }
-              Promise.all(subConfigPromises).then(_returnProductFromCacheHelper)
-            } else {
-              _returnProductFromCacheHelper(null)
-            }
-          } else {
-            syncProducts()
-          }
-        })
-      }
-
-      if (!skipCache) {
-        getProductFromCache()
-      } else {
-        if (!isOnline()) {
-          skipCache = false;
-        }
-
-        syncProducts()
-      }
+    const product = await ProductService.getProductByKey({
+      options,
+      key,
+      skipCache
     })
+
+    setRequestCacheTags({ products: [product] })
+
+    await context.dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
+
+    if (setCurrentProduct) await context.dispatch('setCurrent', product)
+    EventBus.$emitFilter('product-after-single', { key, options, product })
+
+    return product
   },
   /**
    * Configure product with given configuration and set it as current
@@ -534,17 +461,21 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
-    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant, fallbackToDefaultWhenNoAvailable: fallbackToDefaultWhenNoAvailable })
+  async configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = false }) {
+    console.warn('deprecated, will be removed in 1.13, use "product/getProductVariant"')
+    const result = await context.dispatch('getProductVariant', { product, configuration })
+    return result
   },
 
   setCurrentOption (context, productOption) {
+    console.warn('deprecated, will be removed in 1.13')
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
+    console.warn('deprecated, will be removed in 1.13')
     if (errors && typeof errors === 'object') {
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { errors: errors }))
     }
@@ -570,18 +501,15 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} context
    * @param {Object} productVariant
    */
-  setCurrent (context, productVariant) {
-    if (productVariant && typeof productVariant === 'object') {
-      // get original product
-      const originalProduct = context.getters.getOriginalProduct
-
-      // check if passed variant is the same as original
-      const productUpdated = Object.assign({}, originalProduct, productVariant)
-      populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
+  setCurrent (context, product) {
+    if (product && typeof product === 'object') {
+      const { configuration, ...restProduct } = product
+      const productUpdated = Object.assign({}, restProduct)
       if (!config.products.gallery.mergeConfigurableChildren) {
         context.dispatch('setProductGallery', { product: productUpdated })
       }
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
+      context.commit(types.PRODUCT_SET_CURRENT_CONFIGURATION, configuration || {})
+      context.commit(types.PRODUCT_SET_CURRENT, productUpdated)
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
@@ -591,6 +519,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
+    console.warn('deprecated, will be removed in 1.13')
     if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
     else Logger.debug('Unable to setup original product.', 'product')()
   },
@@ -601,18 +530,11 @@ const actions: ActionTree<ProductState, RootState> = {
     context.commit(types.PRODUCT_SET_RELATED, { key, items })
   },
 
-  // Deprecated methods, remove in 2.0
-  async fetch () {
-    throw new Error('product/fetch has been moved into product/loadProduct')
-  },
-  async fetchAsync () {
-    throw new Error('product/fetchAsync has been moved into product/loadProduct')
-  },
-
   /**
    * Load product attributes
    */
   async loadProductAttributes ({ dispatch }, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     const productFields = Object.keys(product).filter(fieldName => {
       return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
     })
@@ -624,20 +546,28 @@ const actions: ActionTree<ProductState, RootState> = {
       includeFields: optimize ? attribute.includeFields : null
     }, { root: true })
   },
-
   /**
    * Load the product data and sets current product
    */
-  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
+  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null, skipCache = false }) {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
-    await dispatch('reset')
-    // pass both id and sku to render a product
-    const productSingleOptions = {
-      sku: parentSku,
-      childSku: childSku
-    }
-    const product = await dispatch('single', { options: productSingleOptions })
+
+    const product = await ProductService.getProductByKey({
+      options: {
+        sku: parentSku,
+        childSku: childSku
+      },
+      key: 'sku',
+      skipCache
+    })
+
+    setRequestCacheTags({ products: [product] })
+
+    await dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
+
+    await dispatch('setCurrent', product)
+
     if (product.status >= 2) {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }
@@ -652,10 +582,8 @@ const actions: ActionTree<ProductState, RootState> = {
     }
 
     const syncPromises = []
-    const variantsFilter = dispatch('filterUnavailableVariants', { product })
     const gallerySetup = dispatch('setProductGallery', { product })
     if (isServer) {
-      syncPromises.push(variantsFilter)
       syncPromises.push(gallerySetup)
     }
     if (config.products.preventConfigurableChildrenDirectAccess) {
@@ -680,17 +608,8 @@ const actions: ActionTree<ProductState, RootState> = {
    */
 
   setProductGallery (context, { product }) {
-    if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
-      if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.getters.getCurrentProduct))
-      } else {
-        let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-        context.commit(types.PRODUCT_SET_GALLERY, productGallery)
-      }
-    } else {
-      let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-      context.commit(types.PRODUCT_SET_GALLERY, productGallery)
-    }
+    const productGallery = getProductGallery(product)
+    context.commit(types.PRODUCT_SET_GALLERY, productGallery)
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
@@ -709,6 +628,21 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
+  },
+  async getProductVariant (context, { product, configuration }) {
+    let searchQuery = new SearchQuery()
+    searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'eq': product.parentSku } })
+    const { items: [newProductVariant] } = await context.dispatch('findProducts', {
+      query: searchQuery,
+      size: 1,
+      configuration,
+      fallbackToDefaultWhenNoAvailable: false,
+      setProductErrors: true,
+      separateSelectedVariant: true
+    })
+    const { variant = {}, options, product_option } = newProductVariant
+
+    return { ...variant, options, product_option }
   }
 }
 

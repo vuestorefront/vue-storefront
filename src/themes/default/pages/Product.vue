@@ -222,7 +222,6 @@ import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/help
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
-import { filterChangedProduct } from '@vue-storefront/core/modules/catalog-next/events'
 
 export default {
   components: {
@@ -381,9 +380,6 @@ export default {
     },
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
-      if (config.entities.product.enableProductNext) {
-        await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
-      }
       this.$bus.$emit('filter-changed-product', selectedConfiguration)
       this.getQuantity()
     },

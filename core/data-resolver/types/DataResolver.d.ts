@@ -4,6 +4,8 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import Review from 'core/modules/review/types/Review';
+import { SearchQuery } from 'storefront-query-builder';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 declare namespace DataResolver {
 
@@ -21,6 +23,38 @@ declare namespace DataResolver {
     reloadAll?: boolean
   }
 
+  interface ProductSearchOptions {
+    query: SearchQuery,
+    size?: number,
+    start?: number,
+    sort?: string,
+    includeFields?: string[],
+    excludeFields?: string[],
+    configuration?: { [key: string]: string[] | string },
+    options?: {
+      prefetchGroupProducts?: boolean,
+      fallbackToDefaultWhenNoAvailable?: boolean,
+      setProductErrors?: boolean,
+      setConfigurableProductOptions?: boolean,
+      filterUnavailableVariants?: boolean,
+      assignProductConfiguration?: boolean,
+      separateSelectedVariant?: boolean
+    }
+  }
+
+  interface ProductRenderListSearchOptions {
+    skus: string[],
+    isUserGroupedTaxActive?: boolean,
+    userGroupId?: string,
+    token?: string
+  }
+
+  interface ProductByKeySearchOptions {
+    options: { [key: string]: string },
+    key?: string,
+    skipCache?: boolean
+  }
+
   interface Customer {
     email: string,
     firstname: string,
@@ -31,6 +65,16 @@ declare namespace DataResolver {
   interface PasswordData {
     currentPassword: string,
     newPassword: string
+  }
+
+  interface ProductsListResponse {
+    items: Product[]
+  }
+
+  interface ProductService {
+    getProducts: (searchRequest: ProductSearchOptions) => Promise<ProductsListResponse>,
+    getProductRenderList: (searchRequest: ProductRenderListSearchOptions) => Promise<ProductsListResponse>,
+    getProductByKey: (searchRequest: ProductByKeySearchOptions) => Promise<Product>
   }
 
   interface CategoryService {

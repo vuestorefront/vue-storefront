@@ -7,6 +7,9 @@
 import toString from 'lodash-es/toString'
 
 export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
+  if (!state.attribute.labels) {
+    state.attribute.labels = {}
+  }
   let attrCache = state.labels[attributeKey]
 
   if (attrCache) {

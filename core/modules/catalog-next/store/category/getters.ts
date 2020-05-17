@@ -5,7 +5,7 @@ import CategoryState from './CategoryState'
 import { compareByLabel } from '../../helpers/categoryHelpers'
 import { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
-import { optionLabel } from '../../helpers'
+import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import forEach from 'lodash-es/forEach'
@@ -142,7 +142,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     return totalValue || 0
   },
   getMenuCategories (state, getters, rootState, rootGetters) {
-    return config.entities.product.enableProductNext ? state.menuCategories : rootGetters['category/getCategories']
+    return state.menuCategories || rootGetters['category/getCategories']
   }
 }
 
