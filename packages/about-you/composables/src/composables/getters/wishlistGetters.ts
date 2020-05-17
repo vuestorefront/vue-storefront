@@ -41,7 +41,7 @@ export const getWishlistTotals = (wishlist: WishlistItem): AgnosticTotals => ({ 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistShippingPrice = (wishlist: WishlistResponseData): number => 0;
 
-export const getWishlistTotalItems = (wishlist: WishlistResponseData): number => wishlist?.items.length;
+export const getWishlistTotalItems = (wishlist: WishlistResponseData): number => wishlist?.items.length ?? 0;
 
 const wishlistGetters: WishlistGetters<WishlistResponseData, WishlistItem> = {
   getTotals: getWishlistTotals,

@@ -141,12 +141,12 @@ describe('[about-you-composables] wishlist getters', () => {
 
   it('returns wishlist total price', () => {
     expect(getWishlistTotals(null).total).toEqual(0);
-    expect(getWishlistTotals(wishlist).total).toEqual(136.26);
   });
 
   it('returns wishlist subtotal price', () => {
+    // unavailable
     expect(getWishlistTotals(null).subtotal).toEqual(0);
-    expect(getWishlistTotals(wishlist).subtotal).toEqual(114.5);
+    expect(getWishlistTotals(wishlist).subtotal).toEqual(0);
   });
 
   it('returns wishlist shipping price', () => {
@@ -155,6 +155,7 @@ describe('[about-you-composables] wishlist getters', () => {
   });
 
   it('returns wishlist total items', () => {
+    // unavailable
     expect(getWishlistTotalItems(null)).toEqual(0);
     expect(getWishlistTotalItems(wishlist)).toEqual(1);
   });
@@ -178,14 +179,14 @@ describe('[about-you-composables] wishlist getters', () => {
   });
 
   it('returns wishlist product quantity', () => {
-    expect(getWishlistItemQty(null)).toEqual(0);
+    expect(getWishlistItemQty(null)).toEqual(1);
     expect(getWishlistItemQty(wishlist.items[0])).toEqual(1);
   });
 
   it('returns wishlist product attributes', () => {
     expect(
       getWishlistItemAttributes(null, ['material'])
-    ).toEqual({});
+    ).toEqual([]);
 
     const args = {
       material: {

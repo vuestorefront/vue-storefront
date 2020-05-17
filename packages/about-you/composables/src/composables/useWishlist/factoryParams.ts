@@ -27,7 +27,7 @@ const wishlistWith: WishlistWith = {
 };
 
 const getWishlistItemByProduct = ({ currentWishlist, product }) => {
-  return currentWishlist.items.find(item => item.product.id === product.id);
+  return currentWishlist.items.find((item: WishlistItem) => item.product.id === product.id);
 };
 
 export const params: UseWishlistFactoryParams<WishlistResponseData, WishlistItem, BapiProduct> = {

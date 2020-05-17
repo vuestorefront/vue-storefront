@@ -29,7 +29,7 @@ describe('[about-you-composables] category getters', () => {
       children: [
         {
           name: 'qux',
-          slug: 'quux',
+          slug: 'quat',
           path: '/corge'
         }
       ]
