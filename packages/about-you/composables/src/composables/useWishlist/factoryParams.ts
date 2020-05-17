@@ -44,13 +44,14 @@ export const params: UseWishlistFactoryParams<WishlistResponseData, WishlistItem
       { productId: product.id },
       { with: wishlistWith }
     );
+
     if (addItemToWishlistResponse.type === 'success') {
       return Promise.resolve(addItemToWishlistResponse.wishlist);
     }
-    return Promise.reject();
+    return Promise.reject(null);
   },
   removeFromWishlist: async ({ product }) => {
-    return await deleteItemFromWishlist(null, product?.key, {with: wishlistWith});
+    return await deleteItemFromWishlist(null, product.key, {with: wishlistWith});
   },
   clearWishlist: async ({ currentWishlist }) => {
     return (await Promise.all(currentWishlist.items.map(product => deleteItemFromWishlist(null, product.key)))).pop();

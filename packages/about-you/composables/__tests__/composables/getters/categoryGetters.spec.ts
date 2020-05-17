@@ -41,7 +41,7 @@ describe('[about-you-composables] category getters', () => {
       items: [
         {
           label: 'qux',
-          slug: 'quux',
+          slug: 'quat',
           path: '/corge',
           items: []
         }

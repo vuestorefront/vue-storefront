@@ -16,19 +16,17 @@ jest.mock('@vue-storefront/about-you-api', () => ({
 describe('[about-you-composables] useWishlist factoryParams', () => {
   it('loadWishlist returns wishlist with items', async () => {
     const expectedWishlist = {
-      basket: {
-        items: [
-          {id: 123}
-        ]
-      }
+      items: [
+        {id: 123}
+      ]
     };
 
     (getWishlist as jest.Mock).mockReturnValueOnce(expectedWishlist);
-    expect(await params.loadWishlist()).toEqual(expectedWishlist.basket);
+    expect(await params.loadWishlist()).toEqual(expectedWishlist);
   });
 
   describe('addToWishlist', () => {
-    it('calls addItemToWishlist endpoint and returns updated wishlist given quantity > 0 when product doesn\'t exists in wishlist', async () => {
+    it('calls addItemToWishlist endpoint and returns updated wishlist when product doesn\'t exists in wishlist', async () => {
       const initialWishlist: WishlistResponseData = {
         items: [],
         key: null
@@ -63,13 +61,11 @@ describe('[about-you-composables] useWishlist factoryParams', () => {
         ]
       };
 
-      (addItemToWishlist as jest.Mock).mockReturnValueOnce({ basket: expectedWishlist });
-
+      (addItemToWishlist as jest.Mock).mockReturnValueOnce({ type: 'success', wishlist: expectedWishlist });
       expect(await params.addToWishlist({ currentWishlist: initialWishlist, product })).toEqual(expectedWishlist);
     });
-
-    it('calls deleteItemFromWishlist endpoint and returns updated wishlist given quantity = 0', async () => {
-      const initialWishlist: WishlistResponseData = {
+    it('calls addItemToWishlist endpoint and returns current wishlist when object exists in wishlist', async () => {
+      const mockedWishlist = {
         items: [{
           key: '',
           product: {
@@ -79,8 +75,31 @@ describe('[about-you-composables] useWishlist factoryParams', () => {
         }],
         key: null
       };
-      const expectedWishlist = {
-        items: []
+
+      const product: BapiProduct = {
+        createdAt: '',
+        id: 123,
+        images: [],
+        isActive: false,
+        isNew: false,
+        isSoldOut: false,
+        updatedAt: '',
+        variants: [
+          {
+            id: 1234567,
+            createdAt: null,
+            updatedAt: null,
+            stock: null,
+            price: null
+          }
+        ]
+      };
+      expect(await params.addToWishlist({ currentWishlist: mockedWishlist, product })).toEqual(mockedWishlist);
+    });
+    it('call addItemToWishlist endpoint and returns response type failure and rejects addItemToWishlist', async () => {
+      const initialWishlist: WishlistResponseData = {
+        items: [],
+        key: null
       };
 
       const product: BapiProduct = {
@@ -90,12 +109,20 @@ describe('[about-you-composables] useWishlist factoryParams', () => {
         isActive: false,
         isNew: false,
         isSoldOut: false,
-        updatedAt: ''
+        updatedAt: '',
+        variants: [
+          {
+            id: 1234567,
+            createdAt: null,
+            updatedAt: null,
+            stock: null,
+            price: null
+          }
+        ]
       };
 
-      (deleteItemFromWishlist as jest.Mock).mockReturnValueOnce(expectedWishlist);
-
-      expect(await params.addToWishlist({ currentWishlist: initialWishlist, product })).toEqual(expectedWishlist);
+      (addItemToWishlist as jest.Mock).mockReturnValueOnce({ type: 'failure', wishlist: null });
+      expect(params.addToWishlist({ currentWishlist: initialWishlist, product })).rejects.toEqual(null);
     });
   });
 
