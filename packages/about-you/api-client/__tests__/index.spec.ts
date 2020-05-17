@@ -258,13 +258,13 @@ describe('[about-you-api] index', () => {
       });
 
       it('getWishlist', () => {
-        getWishlist('wishlistKey', {
+        getWishlist('id', {
           with: { items: { product: {}, variant: {} } },
           campaignKey: 'px',
           pricePromotionKey: 'ppkey'
         });
         expect(BapiClientMock.wishlist.get).toHaveBeenCalledWith(
-          'wishlistKey',
+          'id',
           {
             campaignKey: 'px',
             pricePromotionKey: 'ppkey',
@@ -288,7 +288,7 @@ describe('[about-you-api] index', () => {
 
       it('addItemToWishlist', () => {
         addItemToWishlist(
-          'wishlistKey',
+          'id',
           { masterKey: 'masterKey' },
           {
             with: {},
@@ -298,7 +298,7 @@ describe('[about-you-api] index', () => {
           }
         );
         expect(BapiClientMock.wishlist.addItem).toHaveBeenCalledWith(
-          'wishlistKey',
+          'id',
           { masterKey: 'masterKey' },
           {
             campaignKey: 'px',
@@ -330,13 +330,13 @@ describe('[about-you-api] index', () => {
       });
 
       it('deleteItemFromWishlist', () => {
-        deleteItemFromWishlist('wishlistKey', 'itemKey', {
+        deleteItemFromWishlist('id', 'itemKey', {
           with: {},
           campaignKey: 'px',
           pricePromotionKey: 'ppkey'
         });
         expect(BapiClientMock.wishlist.deleteItem).toHaveBeenCalledWith(
-          'wishlistKey',
+          'id',
           'itemKey',
           {
             campaignKey: 'px',

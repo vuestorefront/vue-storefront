@@ -36,9 +36,9 @@ export const getProductsByQuery: typeof BapiClient.prototype.products.query = (.
 export const getSearchSuggestions: typeof BapiClient.prototype.search.suggestions = (...args) => apiClient.search.suggestions(...args);
 export const getSearchMappings: typeof BapiClient.prototype.search.mappings = (...args) => apiClient.search.mappings(...args);
 export const getVariantsByIds: typeof BapiClient.prototype.variants.getByIds = (...args) => apiClient.variants.getByIds(...args);
-export const getWishlist: typeof BapiClient.prototype.wishlist.get = (wishlistKey, ...args) => apiClient.wishlist.get(wishlistKey || getSettings().wishlistToken, ...args);
-export const addItemToWishlist: typeof BapiClient.prototype.wishlist.addItem = (wishlistKey, ...args) => apiClient.wishlist.addItem(wishlistKey || getSettings().wishlistToken, ...args);
-export const deleteItemFromWishlist: typeof BapiClient.prototype.wishlist.deleteItem = (wishlistKey, ...args) => apiClient.wishlist.deleteItem(wishlistKey || getSettings().wishlistToken, ...args);
+export const getWishlist: typeof BapiClient.prototype.wishlist.get = (id, ...args) => apiClient.wishlist.get(id || getSettings().wishlistToken, ...args);
+export const addItemToWishlist: typeof BapiClient.prototype.wishlist.addItem = (id, ...args) => apiClient.wishlist.addItem(id || getSettings().wishlistToken, ...args);
+export const deleteItemFromWishlist: typeof BapiClient.prototype.wishlist.deleteItem = (id, ...args) => apiClient.wishlist.deleteItem(id || getSettings().wishlistToken, ...args);
 
 export {
   getSettings,
