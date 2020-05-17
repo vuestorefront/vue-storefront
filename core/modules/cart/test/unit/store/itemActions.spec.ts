@@ -68,14 +68,18 @@ describe('Cart itemActions', () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product2]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })
@@ -88,14 +92,18 @@ describe('Cart itemActions', () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product1]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })
