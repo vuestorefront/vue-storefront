@@ -30,8 +30,8 @@ const getWishlistItemByProduct = ({ currentWishlist, product }) => {
   return currentWishlist.items.find(item => item.product.id === product.id);
 };
 
-export const params: UseWishlistFactoryParams<WishlistResponseData, BapiProduct, WishlistItem> = {
-  isOnWishlist: ({currentWishlist, product}) => getWishlistItemByProduct({currentWishlist, product}),
+export const params: UseWishlistFactoryParams<WishlistResponseData, WishlistItem, BapiProduct> = {
+  isOnWishlist: ({currentWishlist, product}) => Boolean(getWishlistItemByProduct({currentWishlist, product})),
   loadWishlist: async () => {
     return await getWishlist(null, { with: wishlistWith });
   },
@@ -49,8 +49,8 @@ export const params: UseWishlistFactoryParams<WishlistResponseData, BapiProduct,
     }
     return Promise.reject();
   },
-  removeFromWishlist: async ({ wishlistItem }) => {
-    return await deleteItemFromWishlist(null, wishlistItem?.key, {with: wishlistWith});
+  removeFromWishlist: async ({ product }) => {
+    return await deleteItemFromWishlist(null, product?.key, {with: wishlistWith});
   },
   clearWishlist: async ({ currentWishlist }) => {
     return (await Promise.all(currentWishlist.items.map(product => deleteItemFromWishlist(null, product.key)))).pop();

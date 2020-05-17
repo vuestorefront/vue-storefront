@@ -1,104 +1,99 @@
 import { UseWishlist } from '../types';
 import { Ref, ref, computed } from '@vue/composition-api';
+import { useSSR } from '../utils';
 
-export type UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_ITEM> = {
-  loadWishlist: (params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
+export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
+  loadWishlist: () => Promise<WISHLIST>;
   addToWishlist: (params: {
     currentWishlist: WISHLIST;
     product: PRODUCT;
   }) => Promise<WISHLIST>;
   removeFromWishlist: (params: {
     currentWishlist: WISHLIST;
-    wishlistItem: WISHLIST_ITEM;
+    product: WISHLIST_ITEM;
   }) => Promise<WISHLIST>;
   clearWishlist: (prams: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
-  isOnWishlist: (prams: {
-    currentWishlist: WISHLIST;
-    product: PRODUCT;
-  }) => boolean;
+  isOnWishlist: (params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 };
 
-interface UseWishlistFactory<WISHLIST, PRODUCT, WISHLIST_ITEM> {
-  useWishlist: () => UseWishlist<WISHLIST, PRODUCT, WISHLIST_ITEM>;
-  setWishlist: (newWishlist: WISHLIST) => void;
+interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
+  useWishlist: () => UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT>;
+  setWishlist: (wishlist: WISHLIST) => void;
 }
 
-export const useWishlistFactory = <WISHLIST, PRODUCT, WISHLIST_ITEM>(
-  factoryParams: UseWishlistFactoryParams<WISHLIST, PRODUCT, WISHLIST_ITEM>
-): UseWishlistFactory<WISHLIST, PRODUCT, WISHLIST_ITEM> => {
+export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
+  factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
+): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
   const loading: Ref<boolean> = ref<boolean>(false);
   const wishlist: Ref<WISHLIST> = ref(null);
+  let isInitialized = false;
 
   const setWishlist = (newWishlist: WISHLIST) => {
     wishlist.value = newWishlist;
   };
 
-  const useWishlist = (): UseWishlist<WISHLIST, PRODUCT, WISHLIST_ITEM> => {
+  const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
+    const { initialState, saveToInitialState } = useSSR('vsf-wishlist');
+
+    wishlist.value = isInitialized ? wishlist.value : initialState || null;
+    isInitialized = true;
+
     const addToWishlist = async (product: PRODUCT) => {
-      try {
-        loading.value = true;
-        wishlist.value = await factoryParams.addToWishlist({
-          currentWishlist: wishlist.value,
-          product
-        });
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const removeFromWishlist = async (wishlistItem: WISHLIST_ITEM) => {
-      try {
-        loading.value = true;
-        wishlist.value = await factoryParams.removeFromWishlist({
-          currentWishlist: wishlist.value,
-          wishlistItem
-        });
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const clearWishlist = async () => {
-      try {
-        loading.value = true;
-        await factoryParams.clearWishlist({
-          currentWishlist: wishlist.value
-        });
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const loadWishlist = async () => {
-      try {
-        loading.value = true;
-        wishlist.value = await factoryParams.loadWishlist({
-          currentWishlist: wishlist.value
-        });
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const isOnWishlist = (product) =>
-      factoryParams.isOnWishlist({
+      loading.value = true;
+      const updatedWishlist = await factoryParams.addToWishlist({
         currentWishlist: wishlist.value,
         product
       });
+      wishlist.value = updatedWishlist;
+      loading.value = false;
+    };
+
+    const removeFromWishlist = async (product: WISHLIST_ITEM) => {
+      loading.value = true;
+      const updatedWishlist = await factoryParams.removeFromWishlist({
+        currentWishlist: wishlist.value,
+        product
+      });
+      wishlist.value = updatedWishlist;
+      loading.value = false;
+    };
+
+    const loadWishlist = async () => {
+      if (wishlist.value) return;
+
+      loading.value = true;
+      wishlist.value = await factoryParams.loadWishlist();
+      saveToInitialState(wishlist.value);
+      loading.value = false;
+    };
+
+    const clearWishlist = async () => {
+      loading.value = true;
+      const updatedWishlist = await factoryParams.clearWishlist({
+        currentWishlist: wishlist.value
+      });
+      wishlist.value = updatedWishlist;
+      loading.value = false;
+    };
+
+    const isOnWishlist = (product: PRODUCT) => {
+      return factoryParams.isOnWishlist({
+        currentWishlist: wishlist.value,
+        product
+      });
+    };
 
     return {
       wishlist: computed(() => wishlist.value),
       isOnWishlist,
       addToWishlist,
-      removeFromWishlist,
       loadWishlist,
+      removeFromWishlist,
       clearWishlist,
       loading: computed(() => loading.value)
     };
   };
 
-  return {
-    useWishlist,
-    setWishlist
-  };
+  return { useWishlist, setWishlist };
 };
+

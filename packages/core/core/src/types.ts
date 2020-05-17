@@ -104,17 +104,18 @@ export interface UseCart
 export interface UseWishlist
 <
   WISHLIST,
-  PRODUCT,
   WISHLIST_ITEM,
+  PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
   addToWishlist: (product: PRODUCT) => Promise<void>;
-  removeFromWishlist: (item: WISHLIST_ITEM) => Promise<void>;
-  loadWishlist: () => Promise<void>;
-  clearWishlist: () => Promise<void>;
   isOnWishlist: (product: PRODUCT) => boolean;
+  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
+  clearWishlist: () => Promise<void>;
+  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
