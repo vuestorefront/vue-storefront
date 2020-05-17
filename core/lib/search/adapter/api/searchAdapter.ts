@@ -53,9 +53,7 @@ export class SearchAdapter {
     const httpQuery: HttpQuery = {
       size: Request.size,
       from: Request.from,
-      sort: Request.sort,
-      ...(Request.hasOwnProperty('filters') ? { filters: JSON.stringify(Request.filters) } : {}),
-      ...(Request.hasOwnProperty('options') ? { options: JSON.stringify(Request.options) } : {})
+      sort: Request.sort
     }
 
     if (Request._sourceExclude) {

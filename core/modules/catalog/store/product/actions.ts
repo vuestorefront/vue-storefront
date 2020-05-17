@@ -222,6 +222,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product current variants
    */
   async setupVariants (context, { product }) {
+    console.warn('deprecated, will be removed in 1.13')
     if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
       return
     }
