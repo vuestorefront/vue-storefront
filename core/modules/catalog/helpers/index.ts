@@ -65,7 +65,7 @@ export function setBundleProductOptionsAsync (context, { product, bundleOptions 
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  console.warn('deprecated, will be removed in 1.13')
+  Logger.warn('deprecated, will be removed in 1.13')()
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       let attribute_code
@@ -123,7 +123,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 }
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
-  console.warn('deprecated, will be removed in 1.13')
+  Logger.warn('deprecated, will be removed in 1.13')()
   // use current product if product wasn't passed
   if (product === null) product = context.getters.getCurrentProduct
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)

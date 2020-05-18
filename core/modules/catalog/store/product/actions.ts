@@ -30,7 +30,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Reset current configuration and selected variatnts
    */
   reset (context) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/reset` deprecated, will be removed in 1.13')()
     const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
     context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
@@ -38,7 +38,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product breadcrumbs path
    */
   async setupBreadcrumbs (context, { product }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setupBreadcrumbs` deprecated, will be removed in 1.13')()
     let breadcrumbsName = null
     let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
@@ -95,14 +95,13 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   doPlatformPricesSync (context, { products }) {
-    console.warn('deprecated, will be removed in 1.13')
     return doPlatformPricesSync(products)
   },
   /**
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
   async syncPlatformPricesOver ({ rootGetters }, { skus }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/syncPlatformPricesOver`deprecated, will be removed in 1.13')()
     const result = await ProductService.getProductRenderList({
       skus,
       isUserGroupedTaxActive: rootGetters['tax/getIsUserGroupedTaxActive'],
@@ -115,7 +114,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup associated products
    */
   setupAssociated (context, { product, skipCache = true }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setupAssociated` deprecated, will be removed in 1.13')()
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
@@ -202,7 +201,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   loadConfigurableAttributes (context, { product }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/loadConfigurableAttributes` deprecated, will be removed in 1.13')()
     let attributeKey = 'attribute_id'
     const configurableAttrKeys = product.configurable_options.map(opt => {
       if (opt.attribute_id) {
@@ -222,7 +221,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product current variants
    */
   async setupVariants (context, { product }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setupVariants` deprecated, will be removed in 1.13')()
     if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
       return
     }
@@ -252,7 +251,7 @@ const actions: ActionTree<ProductState, RootState> = {
     populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
   },
   filterUnavailableVariants (context, { product }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/filterUnavailableVariants` deprecated, will be removed in 1.13')()
     return filterOutUnavailableVariants(context, product)
   },
 
@@ -277,7 +276,7 @@ const actions: ActionTree<ProductState, RootState> = {
     updateState = false,
     append = false
   }) {
-    console.warn('deprecated from 1.13, use "findProducts" instead')
+    Logger.warn('`product/list` deprecated from 1.13, will be removed, use "findProducts" instead')()
     const { items } = await context.dispatch('findProducts', {
       query,
       start,
@@ -286,8 +285,10 @@ const actions: ActionTree<ProductState, RootState> = {
       excludeFields,
       includeFields,
       configuration,
-      populateRequestCacheTags,
-      prefetchGroupProducts
+      options: {
+        populateRequestCacheTags,
+        prefetchGroupProducts
+      }
     })
 
     if (updateState) {
@@ -301,7 +302,7 @@ const actions: ActionTree<ProductState, RootState> = {
     return { items }
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/preConfigureAssociated` deprecated, will be removed in 1.13')()
     registerProductsMapping(context, searchResult.items)
     for (let product of searchResult.items) {
       if (isGroupedOrBundle(product) && prefetchGroupProducts && !isServer) {
@@ -310,7 +311,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   async preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/preConfigureProduct` deprecated, will be removed in 1.13')()
     let _product = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
@@ -321,7 +322,7 @@ const actions: ActionTree<ProductState, RootState> = {
     return _product
   },
   async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/configureLoadedProducts` deprecated, will be removed in 1.13')()
     const configuredProducts = await context.dispatch(
       'category-next/configureProducts',
       {
@@ -384,7 +385,7 @@ const actions: ActionTree<ProductState, RootState> = {
     registerProductsMapping(context, items)
 
     if (populateRequestCacheTags) {
-      console.warn('deprecated from 1.13, use "options.populateRequestCacheTags" instead')
+      Logger.warn('deprecated from 1.13, use "options.populateRequestCacheTags" instead')()
     }
 
     if (populateRequestCacheTags || populateRequestCacheTagsNew) {
@@ -407,7 +408,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureBundleAsync (context, product) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/configureBundleAsync` deprecated, will be removed in 1.13')()
     return context.dispatch(
       'setupAssociated', {
         product: product,
@@ -423,7 +424,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureGroupedAsync (context, product) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/configureGroupedAsync` deprecated, will be removed in 1.13')()
     return context.dispatch(
       'setupAssociated', {
         product: product,
@@ -436,8 +437,10 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  async single (context, { options, setCurrentProduct = true, key = 'sku', skipCache = false }) {
-    console.warn('deprecated from 1.13, will be used only "loadProduct"')
+  async single (context, { options, setCurrentProduct = false, key = 'sku', skipCache = false }) {
+    if (setCurrentProduct) {
+      console.warn('option `setCurrentProduct` is deprecated from 1.13')
+    }
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -463,20 +466,20 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Array} configuration
    */
   async configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = false }) {
-    console.warn('deprecated, will be removed in 1.13, use "product/getProductVariant"')
+    Logger.warn('`product/configure` deprecated, will be removed in 1.13, use "product/getProductVariant"')()
     const result = await context.dispatch('getProductVariant', { product, configuration })
     return result
   },
 
   setCurrentOption (context, productOption) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setCurrentOption` deprecated, will be removed in 1.13')()
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setCurrentErrors` deprecated, will be removed in 1.13')()
     if (errors && typeof errors === 'object') {
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { errors: errors }))
     }
@@ -520,7 +523,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/setOriginal` deprecated, will be removed in 1.13')()
     if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
     else Logger.debug('Unable to setup original product.', 'product')()
   },
@@ -535,7 +538,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Load product attributes
    */
   async loadProductAttributes ({ dispatch }, { product }) {
-    console.warn('deprecated, will be removed in 1.13')
+    Logger.warn('`product/loadProductAttributes` deprecated, will be removed in 1.13')()
     const productFields = Object.keys(product).filter(fieldName => {
       return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
     })
@@ -554,7 +557,7 @@ const actions: ActionTree<ProductState, RootState> = {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
 
-    const product = await ProductService.getProductByKey({
+    const product = await dispatch('single', {
       options: {
         sku: parentSku,
         childSku: childSku
@@ -562,10 +565,6 @@ const actions: ActionTree<ProductState, RootState> = {
       key: 'sku',
       skipCache
     })
-
-    setRequestCacheTags({ products: [product] })
-
-    await dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
 
     await dispatch('setCurrent', product)
 
