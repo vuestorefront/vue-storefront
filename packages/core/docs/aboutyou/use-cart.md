@@ -44,11 +44,16 @@ export interface BasketItem<P = BapiProduct, V = Variant> {
 
 ::: slot cart-initialization
 ```javascript
+import { onSSR } from '@vue-storefront/core';
 import { useCart } from '@vue-storefront/about-you';
 
 export default {
   setup() {
-    const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+    const { cart, addToCart, removeFromCart, updateQuantity, loadCart } = useCart();
+
+    onSSR(async () => {
+      await loadCart();
+    });
 
     return {
       cart,
