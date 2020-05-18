@@ -13,8 +13,8 @@ import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import prepareProducts from '@vue-storefront/core/modules/catalog/helpers/prepare';
-import configureProducts from '@vue-storefront/core/modules/catalog/helpers/configure';
+import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
+import { configureProducts } from '@vue-storefront/core/modules/catalog/helpers/configure';
 
 const getProducts = async ({
   query,

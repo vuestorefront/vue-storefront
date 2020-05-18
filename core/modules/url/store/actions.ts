@@ -19,7 +19,7 @@ import isEqual from 'lodash-es/isEqual'
 import * as types from './mutation-types'
 import omit from 'lodash-es/omit'
 import { storeProductToCache } from '@vue-storefront/core/modules/catalog/helpers/search';
-import prepareProducts from '@vue-storefront/core/modules/catalog/helpers/prepare';
+import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
