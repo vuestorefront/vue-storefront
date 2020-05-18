@@ -73,7 +73,7 @@ class Logger {
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ message, tag, context }))
+    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'debug', message, tag, context }))
     if (noDefaultOutput === true) {
       return () => {}
     }
@@ -115,7 +115,7 @@ class Logger {
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ message, tag, context }))
+    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'info', message, tag, context }))
     if (noDefaultOutput === true) {
       return () => {}
     }
@@ -145,7 +145,7 @@ class Logger {
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ message, tag, context }))
+    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'warn', message, tag, context }))
     if (noDefaultOutput === true) {
       return () => {}
     }
@@ -171,7 +171,7 @@ class Logger {
    */
   public error (message: any, tag: string = null, context: any = null): () => void {
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ message, tag, context }))
+    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'error', message, tag, context }))
     if (noDefaultOutput === true) {
       return () => {}
     }
