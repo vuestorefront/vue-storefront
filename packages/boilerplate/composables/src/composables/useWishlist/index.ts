@@ -5,8 +5,6 @@ import { Wishlist, WishlistProduct, Product } from '../../types';
 
 export const wishlist: Ref<Wishlist> = ref(null);
 
-// @todo: implement cart
-
 const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   loadWishlist: async () => {
     return {};

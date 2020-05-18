@@ -7,7 +7,8 @@ type Wishlist = {};
 
 export const wishlist: Ref<Wishlist> = ref(null);
 
-// @todo: implement cart
+// @todo: implement wishlist
+// https://github.com/DivanteLtd/vue-storefront/issues/4420
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   loadWishlist: async () => {
