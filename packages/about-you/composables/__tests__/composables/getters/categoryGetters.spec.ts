@@ -29,7 +29,7 @@ describe('[about-you-composables] category getters', () => {
       children: [
         {
           name: 'qux',
-          slug: 'quat',
+          slug: 'quux',
           path: '/corge'
         }
       ]
@@ -41,7 +41,7 @@ describe('[about-you-composables] category getters', () => {
       items: [
         {
           label: 'qux',
-          slug: 'quat',
+          slug: 'quux',
           path: '/corge',
           items: []
         }
