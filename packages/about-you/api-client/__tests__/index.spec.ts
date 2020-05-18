@@ -73,11 +73,8 @@ const defaultSettings = {
     },
     shopId: 1957
   },
-<<<<<<< HEAD
-  cartToken: '1234-1234-1234-abcd-12312412'
-=======
+  cartToken: '1234-1234-1234-abcd-12312412',
   wishlistToken: 'db4a-2adc-7246-212c-1589494417559'
->>>>>>> fix tests for api client
 };
 
 describe('[about-you-api] index', () => {
