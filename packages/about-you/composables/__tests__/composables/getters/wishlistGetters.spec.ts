@@ -131,80 +131,99 @@ const wishlist = {
 } as any;
 
 describe('[about-you-composables] wishlist getters', () => {
-  it('returns empty array when wishlist doesn\'t exist', () => {
-    expect(getWishlistItems(null)).toEqual([]);
+  describe('getWishlistItems', () => {
+    it('returns empty array when wishlist doesn\'t exist', () => {
+      expect(getWishlistItems(null)).toEqual([]);
+    });
+
+    it('returns products existing in the wishlist', () => {
+      expect(getWishlistItems(wishlist)).toEqual(wishlist.items);
+    });
   });
 
-  it('returns products existing in the wishlist', () => {
-    expect(getWishlistItems(wishlist)).toEqual(wishlist.items);
+  describe('getWishlistTotals', () => {
+    it('returns wishlist total price', () => {
+      expect(getWishlistTotals(null).total).toEqual(0);
+    });
+
+    it('returns wishlist subtotal price', () => {
+      // unavailable
+      expect(getWishlistTotals(null).subtotal).toEqual(0);
+      expect(getWishlistTotals(wishlist).subtotal).toEqual(0);
+    });
   });
 
-  it('returns wishlist total price', () => {
-    expect(getWishlistTotals(null).total).toEqual(0);
+  // unavailable
+  describe('getWishlistShippingPrice', () => {
+    it('returns wishlist shipping price', () => {
+      expect(getWishlistShippingPrice(wishlist)).toEqual(0);
+    });
   });
 
-  it('returns wishlist subtotal price', () => {
-    // unavailable
-    expect(getWishlistTotals(null).subtotal).toEqual(0);
-    expect(getWishlistTotals(wishlist).subtotal).toEqual(0);
+  describe('getWishlistTotalItems', () => {
+    it('returns wishlist total items', () => {
+      expect(getWishlistTotalItems(null)).toEqual(0);
+      expect(getWishlistTotalItems(wishlist)).toEqual(1);
+    });
   });
 
-  it('returns wishlist shipping price', () => {
-    // unavailable
-    expect(getWishlistShippingPrice(wishlist)).toEqual(0);
+  describe('getWishlistItemName', () => {
+    it('returns wishlist product name', () => {
+      expect(getWishlistItemName(null)).toEqual('');
+      (getProductName as jest.Mock).mockReturnValueOnce('T-Shirt Majestic Filatures grau');
+      expect(getWishlistItemName(wishlist.items[0])).toEqual('T-Shirt Majestic Filatures grau');
+    });
   });
 
-  it('returns wishlist total items', () => {
-    // unavailable
-    expect(getWishlistTotalItems(null)).toEqual(0);
-    expect(getWishlistTotalItems(wishlist)).toEqual(1);
+  describe('getWishlistItem', () => {
+    it('returns wishlist product image', () => {
+      expect(getWishlistItemImage(null)).toEqual('');
+      (getProductCoverImage as jest.Mock).mockReturnValueOnce('domain.tld/image.jpg');
+      expect(getWishlistItemImage(wishlist.items[0])).toEqual('domain.tld/image.jpg');
+    });
   });
 
-  it('returns wishlist product name', () => {
-    expect(getWishlistItemName(null)).toEqual('');
-    (getProductName as jest.Mock).mockReturnValueOnce('T-Shirt Majestic Filatures grau');
-    expect(getWishlistItemName(wishlist.items[0])).toEqual('T-Shirt Majestic Filatures grau');
+  describe('getWishlistItemPrice', () => {
+    it('returns wishlist product price', () => {
+      expect(getWishlistItemPrice(null)).toEqual({ regular: 0, special: 0 });
+      (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: 1.11 });
+      expect(getWishlistItemPrice(wishlist.items[0])).toEqual({ regular: 1.11, special: 1.11 });
+    });
   });
 
-  it('returns wishlist product image', () => {
-    expect(getWishlistItemImage(null)).toEqual('');
-    (getProductCoverImage as jest.Mock).mockReturnValueOnce('domain.tld/image.jpg');
-    expect(getWishlistItemImage(wishlist.items[0])).toEqual('domain.tld/image.jpg');
+  describe('getWishlistItemQty', () => {
+    it('returns wishlist product quantity', () => {
+      expect(getWishlistItemQty(null)).toEqual(1);
+      expect(getWishlistItemQty(wishlist.items[0])).toEqual(1);
+    });
   });
 
-  it('returns wishlist product price', () => {
-    expect(getWishlistItemPrice(null)).toEqual({ regular: 0, special: 0 });
-    (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: 1.11 });
-    expect(getWishlistItemPrice(wishlist.items[0])).toEqual({ regular: 1.11, special: 1.11 });
+  describe('getWishlistItemAttributes', () => {
+    it('returns wishlist product attributes', () => {
+      expect(
+        getWishlistItemAttributes(null, ['material'])
+      ).toEqual([]);
+
+      const args = {
+        material: {
+          name: 'material',
+          label: 'Material',
+          value: 'silk'
+        }
+      };
+      (getProductAttributes as jest.Mock).mockReturnValueOnce(args);
+
+      expect(
+        getWishlistItemAttributes(wishlist.items[0], ['material'])
+      ).toEqual(args);
+    });
   });
 
-  it('returns wishlist product quantity', () => {
-    expect(getWishlistItemQty(null)).toEqual(1);
-    expect(getWishlistItemQty(wishlist.items[0])).toEqual(1);
-  });
-
-  it('returns wishlist product attributes', () => {
-    expect(
-      getWishlistItemAttributes(null, ['material'])
-    ).toEqual([]);
-
-    const args = {
-      material: {
-        name: 'material',
-        label: 'Material',
-        value: 'silk'
-      }
-    };
-    (getProductAttributes as jest.Mock).mockReturnValueOnce(args);
-
-    expect(
-      getWishlistItemAttributes(wishlist.items[0], ['material'])
-    ).toEqual(args);
-  });
-
-  it('returns wishlist product sku', () => {
-    expect(getWishlistItemSku(null)).toEqual('');
-    (getProductId as jest.Mock).mockReturnValueOnce('1234');
-    expect(getWishlistItemSku(wishlist.items[0])).toEqual('1234');
+  describe('getWishlistItemSku', () => {
+    it('returns wishlist product sku', () => {
+      expect(getWishlistItemSku(null)).toEqual('');
+      (getProductId as jest.Mock).mockReturnValueOnce('1234');
+      expect(getWishlistItemSku(wishlist.items[0])).toEqual('1234');
+    });
   });
 });
