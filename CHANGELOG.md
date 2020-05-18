@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `vsf-capybara` support as a dependency and extend CLI to support customization - @psmyrek (#4209)
+- Support theme configuration via CLI - @psmyrek (#4395)
 - Allow parent_ids field on product as an alternative to urlpath based breadcrumb navigation (#4219)
 - Pass the original item_id when updating/deleting a cart entry @carlokok (#4218)
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
