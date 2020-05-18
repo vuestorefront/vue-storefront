@@ -362,7 +362,7 @@ const actions: ActionTree<ProductState, RootState> = {
       filterUnavailableVariants = config.products.filterUnavailableVariants
     } = {}
   }) {
-    const { items } = await ProductService.getProducts({
+    const { items, ...restResponseData } = await ProductService.getProducts({
       query,
       start,
       size,
@@ -393,7 +393,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     await context.dispatch('tax/calculateTaxes', { products: items }, { root: true })
 
-    return { items }
+    return { ...restResponseData, items }
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
@@ -637,13 +637,15 @@ const actions: ActionTree<ProductState, RootState> = {
       query: searchQuery,
       size: 1,
       configuration,
-      fallbackToDefaultWhenNoAvailable: false,
-      setProductErrors: true,
-      separateSelectedVariant: true
+      options: {
+        fallbackToDefaultWhenNoAvailable: false,
+        setProductErrors: true,
+        separateSelectedVariant: true
+      }
     })
-    const { variant = {}, options, product_option } = newProductVariant
+    const { selectedVariant = {}, options, product_option } = newProductVariant
 
-    return { ...variant, options, product_option }
+    return { ...selectedVariant, options, product_option }
   }
 }
 

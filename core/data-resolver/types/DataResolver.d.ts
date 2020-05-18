@@ -68,7 +68,12 @@ declare namespace DataResolver {
   }
 
   interface ProductsListResponse {
-    items: Product[]
+    items: Product[],
+    perPage?: number,
+    start?: number,
+    total?: number,
+    aggregations?: any[],
+    attributeMetadata?: any[]
   }
 
   interface ProductService {

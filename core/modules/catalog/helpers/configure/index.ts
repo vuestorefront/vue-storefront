@@ -78,6 +78,7 @@ async function configureProducts ({
 }: any) {
   const productAttributesMetadata = products.map((product) => product.attributes_metadata || [])
   const attribute = transformMetadataToAttributes([attributes_metadata, ...productAttributesMetadata])
+  const attributeStateFormat = { list_by_code: attribute.attrHashByCode, list_by_id: attribute.attrHashById }
 
   let stockItems = []
   if (options.filterUnavailableVariants) {
@@ -88,7 +89,7 @@ async function configureProducts ({
     const configuredProduct = await configureProductAsync({
       product,
       configuration,
-      attribute,
+      attribute: attributeStateFormat,
       options: options,
       stockItems,
       excludeFields,

@@ -36,7 +36,13 @@ const getProducts = async ({
 }: DataResolver.ProductSearchOptions): Promise<DataResolver.ProductsListResponse> => {
   const isCacheable = canCache({ includeFields, excludeFields })
   const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
-  let { items: products = [], attributeMetadata = [] } = await quickSearchByQuery({
+  let {
+    items: products = [],
+    attributeMetadata = [],
+    aggregations = [],
+    total,
+    perPage
+  } = await quickSearchByQuery({
     query,
     start,
     size,
@@ -71,7 +77,14 @@ const getProducts = async ({
     includeFields: included
   })
 
-  return { items: configuredProducts }
+  return {
+    items: configuredProducts,
+    perPage,
+    start,
+    total,
+    aggregations,
+    attributeMetadata
+  }
 }
 
 const getProductRenderList = async ({

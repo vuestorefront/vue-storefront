@@ -35,23 +35,22 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const { items, perPage, start, total, aggregations, attributeMetadata } = await quickSearchByQuery({
+    const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize,
-      filters: searchQuery.filters,
+      configuration: searchQuery.filters,
       options: {
+        populateRequestCacheTags: true,
         prefetchGroupProducts: false,
         setProductErrors: false,
         fallbackToDefaultWhenNoAvailable: true,
         assignProductConfiguration: false,
-        setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
-        filterUnavailableVariants: false,
         separateSelectedVariant: false
       }
-    })
+    }, { root: true })
     await dispatch('loadAvailableFiltersFrom', {
       aggregations,
       attributeMetadata,
@@ -59,8 +58,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
-    commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
+    commit(types.CATEGORY_SET_PRODUCTS, items)
 
     return items
   },
@@ -71,32 +69,30 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
-    const searchResult = await quickSearchByQuery({
+    const searchResult = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
-      filters: searchQuery.filters,
+      configuration: searchQuery.filters,
       options: {
+        populateRequestCacheTags: true,
         prefetchGroupProducts: false,
         setProductErrors: false,
         fallbackToDefaultWhenNoAvailable: true,
         assignProductConfiguration: false,
-        setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
-        filterUnavailableVariants: false,
         separateSelectedVariant: false
       }
-    })
+    }, { root: true })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,
       start: searchResult.start,
       total: searchResult.total
     })
 
-    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
-    commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
+    commit(types.CATEGORY_ADD_PRODUCTS, searchResult.items)
 
     return searchResult.items
   },
@@ -129,11 +125,8 @@ const actions: ActionTree<CategoryState, RootState> = {
    */
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    if (!config.entities.product.enableProductNext) {
-      const configuredProducts = await dispatch('configureProducts', { products, filters })
-      return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
-    }
-    return dispatch('tax/calculateTaxes', { products }, { root: true })
+    const configuredProducts = await dispatch('configureProducts', { products, filters })
+    return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
   },
   /**
    * Configure configurable products to have first available options selected

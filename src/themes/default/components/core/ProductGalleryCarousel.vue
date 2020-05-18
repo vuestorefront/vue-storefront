@@ -83,7 +83,7 @@ export default {
   },
   computed: {},
   beforeMount () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
+    this.$bus.$on('product-after-configure', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   },
   mounted () {
@@ -97,7 +97,7 @@ export default {
     this.$emit('loaded')
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.selectVariant)
+    this.$bus.$off('product-after-configure', this.selectVariant)
     this.$bus.$off('product-after-load', this.selectVariant)
   },
   methods: {

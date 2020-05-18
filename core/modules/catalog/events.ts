@@ -46,6 +46,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
       { configuration, options, product_option }
     )
     await store.dispatch('product/setCurrent', newProductConfiguration)
+    EventBus.$emit('product-after-configure', { product: newProductConfiguration, configuration: configuration, selectedVariant: selectedVariant })
     return selectedVariant
   } else {
     store.dispatch('notification/spawnNotification', {
