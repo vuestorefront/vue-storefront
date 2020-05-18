@@ -540,8 +540,7 @@
         "url_key",
         "url_path",
         "visibility"
-      ],
-      "enableProductNext": false
+      ]
     }
   },
   "cart": {
