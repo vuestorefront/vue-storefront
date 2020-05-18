@@ -71,7 +71,7 @@ describe('[about-you-api] index', () => {
       beforeEach(() => {
         (BapiClient as any).mockImplementation(() => BapiClientMock);
         expect(setup(defaultSettings));
-      }),
+      });
 
       it('getCart', () => {
         getCart('basketKey', {with: {}, campaignKey: 'px', checkoutShopId: 224});
