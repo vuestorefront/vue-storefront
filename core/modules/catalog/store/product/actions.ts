@@ -550,7 +550,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data and sets current product
    */
-  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null, skipCache = false }) {
+  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false }) {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
 

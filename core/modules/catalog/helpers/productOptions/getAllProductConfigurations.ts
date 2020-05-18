@@ -23,8 +23,8 @@ export default function getAllProductConfigurations ({ configurableOptions, conf
     }))
     .filter(({ productOption }) => productOption)
     .map(({ configOption, productOption }) => ({
-      option_id: Number(productOption.attribute_id),
-      option_value: Number(configOption.id),
+      option_id: String(productOption.attribute_id),
+      option_value: String(configOption.id),
       label: productOption.label || configOption.attribute_code,
       value: configOption.label
     }))

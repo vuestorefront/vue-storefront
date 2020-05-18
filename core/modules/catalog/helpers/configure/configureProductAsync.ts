@@ -42,7 +42,7 @@ export default async function configureProductAsync ({
     let _configuration = cloneDeep(configuration)
 
     // find selected variant by configuration
-    const selectedVariant = getSelectedVariant(product, _configuration, { fallbackToDefaultWhenNoAvailable })
+    let selectedVariant = getSelectedVariant(product, _configuration, { fallbackToDefaultWhenNoAvailable })
 
     if (selectedVariant) {
       // if there is selectedVariant we want to get configuration based on that variant
@@ -54,7 +54,7 @@ export default async function configureProductAsync ({
       product.is_configured = true
 
       // remove props from variant that we don't want need to override in base product
-      omitSelectedVariantFields(selectedVariant)
+      selectedVariant = omitSelectedVariantFields(selectedVariant)
     }
     if (!selectedVariant && setProductErrors) { // can not find variant anyway, even the default one
       product.errors.variants = 'No available product variants'
