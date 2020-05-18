@@ -42,8 +42,8 @@ export const getProductSlug = (product: BapiProduct): string => {
 };
 
 export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
-  const productPriceMin = product?.priceRange.min?.withoutTax / 100 || 0;
-  const productPriceMax = product?.priceRange.max?.withoutTax / 100 || 0;
+  const productPriceMin = product?.priceRange?.min?.withoutTax / 100 || 0;
+  const productPriceMax = product?.priceRange?.max?.withoutTax / 100 || 0;
   return {
     regular: productPriceMax,
     special: productPriceMax !== productPriceMin ? productPriceMin : null
@@ -90,7 +90,7 @@ export const getProductAttributes = (products: BapiProduct | BapiProduct[], filt
 
   const reduceByAttributeName = (prev, curr) => ({
     ...prev,
-    [curr.name]: isSingleProduct ? curr.value : [
+    [curr.name]: isSingleProduct ? curr.label : [
       ...(prev[curr.name] || []),
       {
         value: curr.value,

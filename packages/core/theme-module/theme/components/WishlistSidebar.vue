@@ -36,10 +36,10 @@
               >
                <template #configuration>
                   <div class="collected-product__properties">
-                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="attribute.label" :value="attribute"/>
+                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
                   </div>
                 </template>
-                <template #input="{ image, title }">&nbsp;</template>
+                <template #input="{}">&nbsp;</template>
               </SfCollectedProduct>
             </transition-group>
           </div>

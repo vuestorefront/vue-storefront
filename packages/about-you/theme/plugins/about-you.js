@@ -1,6 +1,6 @@
 import { setup } from '@vue-storefront/about-you-api';
 import { getCartToken } from '~/helpers/cart/getCartToken';
-import { getWishlistToken } from '~/helpers/cart/getWishlistToken';
+import { getWishlistToken } from '~/helpers/wishlist/getWishlistToken';
 
 export default async function init(context) {
   const { app } = context;

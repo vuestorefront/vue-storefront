@@ -202,7 +202,7 @@ describe('[about-you-composables] product getters', () => {
       it('returns all products attributes', () => {
         expect(getProductAttributes(product)).toEqual({
           color: 'blue',
-          size: 'XL'
+          size: 'xl'
         });
       });
 
