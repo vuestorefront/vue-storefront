@@ -64,6 +64,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/aboutyou/use-product', 'useProduct'],
+            ['/aboutyou/use-cart', 'useCart'],
           ]
         }
       ],

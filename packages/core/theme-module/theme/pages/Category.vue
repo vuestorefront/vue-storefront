@@ -152,7 +152,9 @@
             :score-rating="3"
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
+            :isAddedToCart="isOnCart(product)"
             @click:wishlist="toggleWishlist(i)"
+            @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
@@ -281,7 +283,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, ref, watch, onMounted } from '@vue/composition-api';
-import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
+import { useCategory, useProduct, useCart, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
@@ -315,6 +317,7 @@ export default {
       loading: productsLoading,
       availableFilters
     } = useProduct('categoryProducts');
+    const { loadCart, addToCart, isOnCart } = useCart();
 
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
@@ -332,6 +335,7 @@ export default {
       await productsSearch(productsSearchParams.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);
       await productsSearch(productsSearchParams.value);
+      await loadCart();
     });
 
     watch([itemsPerPage, filters], () => {
@@ -384,6 +388,8 @@ export default {
       breadcrumbs: computed(() => breadcrumbs),
       applyFilters,
       toggleWishlist,
+      addToCart,
+      isOnCart,
       isGridView
     };
   },

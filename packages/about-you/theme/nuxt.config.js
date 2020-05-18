@@ -50,6 +50,7 @@ export default {
   ],
   modules: [
     'nuxt-i18n',
+    'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
   build: {

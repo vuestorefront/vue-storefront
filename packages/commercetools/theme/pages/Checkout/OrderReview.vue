@@ -197,7 +197,7 @@ export default {
       loadShippingMethods,
       placeOrder,
       loading,
-      loadDetails,
+      loadDetails
     } = useCheckout();
 
     onSSR(async () => {

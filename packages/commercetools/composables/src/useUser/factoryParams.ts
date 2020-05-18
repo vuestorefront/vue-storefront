@@ -27,7 +27,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   logOut: async () => {
     await apiCustomerSignOut();
     const cartResponse = await createCart();
-    setCart(cartResponse.data.cart)
+    setCart(cartResponse.data.cart);
   },
   updateUser: async ({currentUser, updatedUserData}): Promise<Customer> => {
     // Change code below if the apiClient receive userUpdate method
@@ -35,7 +35,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   },
   register: async ({email, password, firstName, lastName}) => {
     const { customer, cart } = await authenticate({email, password, firstName, lastName}, apiCustomerSignMeUp);
-    setCart(cart)
+    setCart(cart);
 
     return customer;
   },

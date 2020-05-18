@@ -50,7 +50,8 @@ const defaultSettings = {
       password: 'Galt'
     },
     shopId: 1957
-  }
+  },
+  cartToken: '1234-1234-1234-abcd-12312412'
 };
 
 describe('[about-you-api] index', () => {
@@ -70,31 +71,46 @@ describe('[about-you-api] index', () => {
       beforeEach(() => {
         (BapiClient as any).mockImplementation(() => BapiClientMock);
         expect(setup(defaultSettings));
-      }),
+      });
 
       it('getCart', () => {
         getCart('basketKey', {with: {}, campaignKey: 'px', checkoutShopId: 224});
-        expect(BapiClientMock.basket.get).toHaveBeenCalled();
+        expect(BapiClientMock.basket.get).toHaveBeenLastCalledWith('basketKey', {campaignKey: 'px', checkoutShopId: 224, with: {}});
+
+        getCart(null, {with: {}, campaignKey: 'px', checkoutShopId: 224});
+        expect(BapiClientMock.basket.get).toHaveBeenLastCalledWith(defaultSettings.cartToken, {campaignKey: 'px', checkoutShopId: 224, with: {}});
       });
 
       it('addItemToCart', () => {
         addItemToCart('basketKey', 1244, 1, {with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'});
-        expect(BapiClientMock.basket.addItem).toHaveBeenCalled();
+        expect(BapiClientMock.basket.addItem).toHaveBeenLastCalledWith('basketKey', 1244, 1, {campaignKey: 'px', customData: {}, displayData: {}, pricePromotionKey: '22x', with: {}});
+
+        addItemToCart(null, 1244, 1, {with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'});
+        expect(BapiClientMock.basket.addItem).toHaveBeenLastCalledWith(defaultSettings.cartToken, 1244, 1, {campaignKey: 'px', customData: {}, displayData: {}, pricePromotionKey: '22x', with: {}});
       });
 
       it('deleteItemFromCart', () => {
         deleteItemFromCart('basketKey', 'itemKey', {with: {}, campaignKey: 'px'});
-        expect(BapiClientMock.basket.deleteItem).toHaveBeenCalled();
+        expect(BapiClientMock.basket.deleteItem).toHaveBeenLastCalledWith('basketKey', 'itemKey', {campaignKey: 'px', with: {}});
+
+        deleteItemFromCart(null, 'itemKey', {with: {}, campaignKey: 'px'});
+        expect(BapiClientMock.basket.deleteItem).toHaveBeenLastCalledWith(defaultSettings.cartToken, 'itemKey', {campaignKey: 'px', with: {}});
       });
 
       it('updateItemInCart', () => {
         updateItemInCart('basketKey', 'itemKey', 1, {with: {}, campaignKey: 'px'});
-        expect(BapiClientMock.basket.updateItem).toHaveBeenCalled();
+        expect(BapiClientMock.basket.updateItem).toHaveBeenLastCalledWith('basketKey', 'itemKey', 1, {campaignKey: 'px', with: {}});
+
+        updateItemInCart(null, 'itemKey', 1, {with: {}, campaignKey: 'px'});
+        expect(BapiClientMock.basket.updateItem).toHaveBeenLastCalledWith(defaultSettings.cartToken, 'itemKey', 1, {campaignKey: 'px', with: {}});
       });
 
       it('bulkUpdateItemsInCart', () => {
         bulkUpdateItemsInCart('basketKey', { variantId: 1244, quantity: 1, params: {childShopId: 2222, with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'} } as any);
-        expect(BapiClientMock.basket.addOrUpdateItems).toHaveBeenCalled();
+        expect(BapiClientMock.basket.addOrUpdateItems).toHaveBeenLastCalledWith('basketKey', {params: {campaignKey: 'px', childShopId: 2222, customData: {}, displayData: {}, pricePromotionKey: '22x', with: {}}, quantity: 1, variantId: 1244});
+
+        bulkUpdateItemsInCart(null, { variantId: 1244, quantity: 1, params: {childShopId: 2222, with: {}, customData: {}, displayData: {}, pricePromotionKey: '22x', campaignKey: 'px'} } as any);
+        expect(BapiClientMock.basket.addOrUpdateItems).toHaveBeenLastCalledWith(defaultSettings.cartToken, {params: {campaignKey: 'px', childShopId: 2222, customData: {}, displayData: {}, pricePromotionKey: '22x', with: {}}, quantity: 1, variantId: 1244});
       });
 
       it('getCategoryById', () => {

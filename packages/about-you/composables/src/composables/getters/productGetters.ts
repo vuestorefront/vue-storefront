@@ -6,8 +6,22 @@ import {
   ProductGetters
 } from '@vue-storefront/core';
 import { getSettings } from '@vue-storefront/about-you-api';
+import { Attributes } from '@aboutyou/backbone/types/BapiProduct';
 
 type ProductVariantFilters = any
+
+const formatAttributeList = (attributes: Attributes): AgnosticAttribute[] => {
+  const result = [];
+  for (const key in attributes) {
+    result.push({
+      name: key,
+      value: attributes[key].values,
+      label: attributes[key].label
+    });
+  }
+
+  return result;
+};
 
 export const getProductMultiAttributeValue = (attributes: any, attributeName: string, attrType = 'fieldSet') => {
   const attributeValues = attributes?.[attributeName]?.values ?? null;
@@ -28,8 +42,8 @@ export const getProductSlug = (product: BapiProduct): string => {
 };
 
 export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
-  const productPriceMin = product?.priceRange.min?.withoutTax ?? 0;
-  const productPriceMax = product?.priceRange.max?.withoutTax ?? 0;
+  const productPriceMin = product?.priceRange.min?.withoutTax / 100 || 0;
+  const productPriceMax = product?.priceRange.max?.withoutTax / 100 || 0;
   return {
     regular: productPriceMax,
     special: productPriceMax !== productPriceMin ? productPriceMin : null
@@ -53,10 +67,43 @@ export const getProductFiltered = (products: BapiProduct[] | BapiProduct, filter
   return Array.isArray(products) ? products : [products];
 };
 
-export const getProductAttributes = (product: BapiProduct, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
-  return Object.assign({}, ...(filterByAttributeName ?? []).map(attrName => {
-    return { [attrName]: product.attributes?.[attrName] || null };
-  }));
+export const getProductAttributes = (products: BapiProduct | BapiProduct[], filterByAttributeName?: string[]): any => {
+  const isSingleProduct = !Array.isArray(products);
+  const productList = (isSingleProduct ? [products] : products) as BapiProduct[];
+
+  if (!products || productList.length === 0) {
+    return {} as any;
+  }
+
+  const formatAttributes = (product: BapiProduct): AgnosticAttribute[] =>
+    formatAttributeList(product.attributes).filter((attribute) => filterByAttributeName ? filterByAttributeName.includes(attribute.name) : attribute);
+
+  const reduceToUniques = (prev, curr) => {
+    const isAttributeExist = prev.some((el) => el.name === curr.name && el.value === curr.value);
+
+    if (!isAttributeExist) {
+      return [...prev, curr];
+    }
+
+    return prev;
+  };
+
+  const reduceByAttributeName = (prev, curr) => ({
+    ...prev,
+    [curr.name]: isSingleProduct ? curr.value : [
+      ...(prev[curr.name] || []),
+      {
+        value: curr.value,
+        label: curr.label
+      }
+    ]
+  });
+
+  return productList
+    .map((product) => formatAttributes(product))
+    .reduce((prev, curr) => [...prev, ...curr], [])
+    .reduce(reduceToUniques, [])
+    .reduce(reduceByAttributeName, {});
 };
 
 export const getProductDescription = (product: BapiProduct): string => {
@@ -71,7 +118,7 @@ export const getProductCategoryIds = (product: BapiProduct) => {
 
 export const getProductId = (product: BapiProduct): string => product.id.toString();
 
-export const getFormattedPrice = (price: number): string => price ? `${price}€` : '';
+export const getFormattedPrice = (price: number): string => price ? `${price.toFixed(2)}€` : '';
 
 const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getName: getProductName,

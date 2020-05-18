@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+
 import { UseWishlist } from '../../types';
 import { useWishlistFactory, UseWishlistFactoryParams } from '../../factories/';
 import { Ref, ref } from '@vue/composition-api';

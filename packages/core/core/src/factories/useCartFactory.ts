@@ -1,6 +1,6 @@
 import { UseCart } from '../types';
 import { Ref, ref, computed } from '@vue/composition-api';
-import { useSSR, onSSR } from '../utils';
+import { useSSR } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   loadCart: () => Promise<CART>;

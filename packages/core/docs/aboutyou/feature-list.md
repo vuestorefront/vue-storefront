@@ -29,10 +29,10 @@
 
 ### Cart
 
-- [ ] I want to open the cart so I can see the current state of my shopping basket.
-- [ ] I can see the totals in the cart so I know the values before I decide on placing an order.
-- [ ] I want to remove the product from the cart As I do not want to buy it any longer.
-- [ ] I want to edit the quantity of the product in a Cart Page.
+- [x] I want to open the cart so I can see the current state of my shopping basket.
+- [x] I can see the totals in the cart so I know the values before I decide on placing an order.
+- [x] I want to remove the product from the cart As I do not want to buy it any longer.
+- [x] I want to edit the quantity of the product in a Cart Page.
 
 ### Checkout
 Checkout is not implemented in this integration. Instead, after clicking the "go to checkout" button in the cart there will be a redirect to AboutYou Checkout.
