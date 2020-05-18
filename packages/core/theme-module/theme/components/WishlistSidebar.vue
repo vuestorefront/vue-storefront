@@ -31,19 +31,15 @@
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                :qty="wishlistGetters.getItemQty(product)"
                 @click:remove="removeFromWishlist(product)"
                 class="collected-product"
               >
                <template #configuration>
-                <div class="collected-product__properties">
-                  <SfProperty name="Size" :value="wishlistGetters.getItemAttributes(product).size"/>
-                  <SfProperty name="Color" :value="wishlistGetters.getItemAttributes(product).color"/>
-                </div>
-              </template>
-              <template #actions>
-                  <SfButton data-cy="wishlist-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
-              </template>
+                  <div class="collected-product__properties">
+                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="attribute.label" :value="attribute"/>
+                  </div>
+                </template>
+                <template #input="{ image, title }">&nbsp;</template>
               </SfCollectedProduct>
             </transition-group>
           </div>
@@ -108,7 +104,6 @@ export default {
     const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
-    console.log(products);
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
