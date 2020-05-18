@@ -122,7 +122,11 @@ describe('[about-you-composables] useWishlist factoryParams', () => {
       };
 
       (addItemToWishlist as jest.Mock).mockReturnValueOnce({ type: 'failure', wishlist: null });
-      expect(params.addToWishlist({ currentWishlist: initialWishlist, product })).rejects.toEqual(null);
+      expect(
+        params.addToWishlist({ currentWishlist: initialWishlist, product })
+      ).rejects.toEqual(
+        Error('AddItemToWishlist response returns type failure')
+      );
     });
   });
 

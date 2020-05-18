@@ -37,7 +37,7 @@ export const params: UseWishlistFactoryParams<WishlistResponseData, WishlistItem
   },
   addToWishlist: async ({ currentWishlist, product }) => {
     if (getWishlistItemByProduct({ currentWishlist, product })) {
-      return Promise.resolve(currentWishlist);
+      return currentWishlist;
     }
     const addItemToWishlistResponse = await addItemToWishlist(
       null,
@@ -48,7 +48,8 @@ export const params: UseWishlistFactoryParams<WishlistResponseData, WishlistItem
     if (addItemToWishlistResponse.type === 'success') {
       return Promise.resolve(addItemToWishlistResponse.wishlist);
     }
-    return Promise.reject(null);
+
+    throw Error('AddItemToWishlist response returns type failure');
   },
   removeFromWishlist: async ({ product }) => {
     return await deleteItemFromWishlist(null, product.key, {with: wishlistWith});
