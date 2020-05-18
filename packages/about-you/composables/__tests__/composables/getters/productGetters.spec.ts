@@ -190,6 +190,10 @@ describe('[about-you-composables] product getters', () => {
         });
       });
 
+      it('returns filtered attributes for single product', () => {
+        expect(getProductAttributes(product, ['color'])).toEqual({color: 'blue'});
+        expect(getProductAttributes(product, ['foo'])).toEqual({});
+      });
       it('returns filtered product attributes', () => {
         expect(getProductAttributes([product], ['color'])).toEqual({
           color: [{ label: 'blue', value: 'blue' }]
