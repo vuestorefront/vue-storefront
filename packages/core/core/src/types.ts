@@ -198,11 +198,9 @@ export interface WishlistGetters<WISHLIST, WISHLIST_ITEM> {
   getItemName: (wishlistItem: WISHLIST_ITEM) => string;
   getItemImage: (wishlistItem: WISHLIST_ITEM) => string;
   getItemPrice: (wishlistItem: WISHLIST_ITEM) => AgnosticPrice;
-  getItemQty: (wishlistItem: WISHLIST_ITEM) => number;
   getItemAttributes: (wishlistItem: WISHLIST_ITEM, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
   getItemSku: (wishlistItem: WISHLIST_ITEM) => string;
   getTotals: (wishlist: WISHLIST) => AgnosticTotals;
-  getShippingPrice: (wishlist: WISHLIST) => number;
   getTotalItems: (wishlist: WISHLIST) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;

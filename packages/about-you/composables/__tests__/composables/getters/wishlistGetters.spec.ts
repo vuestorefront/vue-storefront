@@ -1,13 +1,11 @@
 import {
   getWishlistTotals,
-  getWishlistShippingPrice,
   getWishlistItems,
   getWishlistItemName,
   getWishlistItemImage,
   getWishlistItemPrice,
   getWishlistItemAttributes,
   getWishlistItemSku,
-  getWishlistItemQty,
   getWishlistTotalItems
 } from '../../../src/composables/getters/wishlistGetters';
 
@@ -146,17 +144,10 @@ describe('[about-you-composables] wishlist getters', () => {
       expect(getWishlistTotals(null).total).toEqual(0);
     });
 
+    // unavailable
     it('returns wishlist subtotal price', () => {
-      // unavailable
       expect(getWishlistTotals(null).subtotal).toEqual(0);
       expect(getWishlistTotals(wishlist).subtotal).toEqual(0);
-    });
-  });
-
-  // unavailable
-  describe('getWishlistShippingPrice', () => {
-    it('returns wishlist shipping price', () => {
-      expect(getWishlistShippingPrice(wishlist)).toEqual(0);
     });
   });
 
@@ -188,13 +179,6 @@ describe('[about-you-composables] wishlist getters', () => {
       expect(getWishlistItemPrice(null)).toEqual({ regular: 0, special: 0 });
       (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: 1.11 });
       expect(getWishlistItemPrice(wishlist.items[0])).toEqual({ regular: 1.11, special: 1.11 });
-    });
-  });
-
-  describe('getWishlistItemQty', () => {
-    it('returns wishlist product quantity', () => {
-      expect(getWishlistItemQty(null)).toEqual(1);
-      expect(getWishlistItemQty(wishlist.items[0])).toEqual(1);
     });
   });
 
