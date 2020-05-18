@@ -10,21 +10,30 @@ export const homepageStore = {
     async fetchNewCollection ({ commit, dispatch }) {
       const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
-      const newProductsResult = await dispatch('product/list', {
+      const { items } = await dispatch('product/findProducts', {
         query: newProductsQuery,
         size: 8,
-        sort: 'created_at:desc'
-      }, { root: true })
-      commit('SET_NEW_COLLECTION', newProductsResult.items)
-    },
-    async loadBestsellers ({ commit, dispatch }) {
-      const response = await dispatch('product/list', {
-        query: prepareQuery({ queryConfig: 'bestSellers' }),
-        size: 8,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        options: {
+          populateRequestCacheTags: true,
+          prefetchGroupProducts: false
+        }
       }, { root: true })
 
-      commit('SET_BESTSELLERS', response.items)
+      commit('SET_NEW_COLLECTION', items)
+    },
+    async loadBestsellers ({ commit, dispatch }) {
+      const { items } = await dispatch('product/findProducts', {
+        query: prepareQuery({ queryConfig: 'bestSellers' }),
+        size: 8,
+        sort: 'created_at:desc',
+        options: {
+          populateRequestCacheTags: true,
+          prefetchGroupProducts: false
+        }
+      }, { root: true })
+
+      commit('SET_BESTSELLERS', items)
     }
   },
   mutations: {

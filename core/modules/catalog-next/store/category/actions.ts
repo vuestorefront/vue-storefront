@@ -105,10 +105,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
-    const cachedProductsResponse = await dispatch('product/list', { // configure and calculateTaxes is being executed in the product/list - we don't need another call in here
+    const cachedProductsResponse = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort,
-      updateState: false // not update the product listing - this request is only for caching
+      options: {
+        populateRequestCacheTags: false,
+        prefetchGroupProducts: false
+      }
     }, { root: true })
     if (products.filterUnavailableVariants) { // prefetch the stock items
       const skus = prefetchStockItems(cachedProductsResponse, rootState.stock.cache)
