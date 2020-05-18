@@ -3,6 +3,10 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import transformMetadataToAttributes from '../transformMetadataToAttributes';
 import configureProductAsync from './configureProductAsync';
 
+/**
+ * Prepare all data needed to make product configuration.
+ * After common data is setup this function map through every product and configure it based on 'configuration' object
+ */
 export default async function configureProducts ({
   products,
   attributes_metadata = [],

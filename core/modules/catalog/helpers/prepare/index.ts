@@ -5,7 +5,7 @@ import setCustomAttributesForChild from './setCustomAttributesForChild';
 import setDefaultProductOptions from './setDefaultProductOptions';
 
 /**
- * Take products and apply base modification to it
+ * Apply base modification to product, after those modification we can store product in cache.
  */
 function preConfigureProduct (product) {
   // base product modifications
@@ -19,7 +19,7 @@ function preConfigureProduct (product) {
 }
 
 /**
- * Apply base configuration to product list
+ * Apply base modification to product list, after those modification we can store product in cache.
  */
 function prepareProducts (products) {
   const preparedProducts = products.map(preConfigureProduct)

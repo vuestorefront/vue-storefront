@@ -1,7 +1,10 @@
 import config from 'config'
 import { SearchQuery } from 'storefront-query-builder'
 
-export default function buildQuery (skus: string[]) {
+/**
+ * Creates simple query that will search product by skus list
+ */
+export default function buildQuery (skus: string[]): SearchQuery {
   let productsQuery = new SearchQuery()
   productsQuery = productsQuery.applyFilter({ key: 'sku', value: { 'in': skus } })
   productsQuery = productsQuery

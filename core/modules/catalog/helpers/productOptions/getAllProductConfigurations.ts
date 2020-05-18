@@ -1,3 +1,6 @@
+/**
+ * It returns all available options for configurable product
+ */
 export default function getAllProductConfigurations ({ configurableOptions, configuration }) {
   const product_option = {
     extension_attributes: {

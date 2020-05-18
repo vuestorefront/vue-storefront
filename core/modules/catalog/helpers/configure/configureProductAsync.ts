@@ -5,6 +5,9 @@ import { filterOutUnavailableVariants } from '../stock';
 import { setGroupedProduct, setBundleProducts } from '../associatedProducts';
 import { hasConfigurableChildren } from './..'
 
+/**
+ * This function configure product for 'configurable', 'bundle' or 'group' product.
+ */
 export default async function configureProductAsync ({
   product,
   configuration,
@@ -22,11 +25,12 @@ export default async function configureProductAsync ({
   excludeFields,
   includeFields
 }) {
+  // it not only filter variants but also it apply stock object
   if (filterUnavailableVariants) {
     filterOutUnavailableVariants(product, stockItems)
   }
 
-  // setup bundle or group product
+  // setup bundle or group product. Product is filled with productLinks
   if (prefetchGroupProducts) {
     await setGroupedProduct(product, { includeFields, excludeFields })
     await setBundleProducts(product, { includeFields, excludeFields })
@@ -41,12 +45,15 @@ export default async function configureProductAsync ({
     const selectedVariant = getSelectedVariant(product, _configuration, { fallbackToDefaultWhenNoAvailable })
 
     if (selectedVariant) {
+      // if there is selectedVariant we want to get configuration based on that variant
       _configuration = getProductConfiguration({ product, selectedVariant, attribute })
 
+      // here we add product_options with selected configuration. It only applies to configurable product
       setProductConfigurableOptions({ product, configuration: _configuration, setConfigurableProductOptions }) // set the custom options
 
       product.is_configured = true
 
+      // remove props from variant that we don't want need to override in base product
       omitSelectedVariantFields(selectedVariant)
     }
     if (!selectedVariant && setProductErrors) { // can not find variant anyway, even the default one
@@ -55,11 +62,11 @@ export default async function configureProductAsync ({
 
     const configuredProduct = {
       ...product,
-      ...(assignProductConfiguration ? { configuration: _configuration } : {})
+      ...(assignProductConfiguration ? { configuration: _configuration } : {}) // we can need configuration as separate object
     }
     return {
       ...configuredProduct,
-      ...(separateSelectedVariant ? { selectedVariant } : selectedVariant)
+      ...(separateSelectedVariant ? { selectedVariant } : selectedVariant) // we can need selected variant as separate object
     }
   }
 

@@ -1,3 +1,6 @@
+/**
+ * Returns single option for configurable product based on attribute code
+ */
 export default function getSelectedOption (selectedVariant, attributeCode, option) {
   let selectedOption = (selectedVariant.custom_attributes || []).find((a) => a.attribute_code === attributeCode)
   selectedOption = selectedOption || {

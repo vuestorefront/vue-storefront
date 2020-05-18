@@ -2,6 +2,9 @@ import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers';
 import getAttributeCode from './getAttributeCode'
 import getSelectedOption from './getSelectedOption'
 
+/**
+ * Returns configuration based on selected variant. Only applies to configurable product
+ */
 export default function getProductConfiguration ({ product, selectedVariant, attribute }) {
   const currentProductOption = {}
   const configurableOptions = product.configurable_options || []
