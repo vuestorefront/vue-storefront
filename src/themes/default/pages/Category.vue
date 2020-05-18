@@ -84,6 +84,7 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import config from 'config'
 import Columns from '../components/core/Columns.vue'
@@ -109,7 +110,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     if (isServer) await breadCrumbsLoader
     catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
-    console.error('Problem with setting Category initial data!', e)
+    Logger.error('Problem with setting Category initial data!', 'category', e)()
   }
 }
 
@@ -187,7 +188,7 @@ export default {
       try {
         await this.$store.dispatch('category-next/loadMoreCategoryProducts')
       } catch (e) {
-        console.error('Problem with fetching more products', e)
+        Logger.error('Problem with fetching more products', 'category', e)()
       } finally {
         this.loadingProducts = false
       }
