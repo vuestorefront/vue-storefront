@@ -8,6 +8,8 @@ const fs = require('fs')
 const semverSortDesc = require('semver/functions/rsort')
 const semverSatisfies = require('semver/functions/satisfies')
 const semverCoerce = require('semver/functions/coerce')
+const semverInc = require('semver/functions/inc')
+const merge = require('lodash/merge')
 
 module.exports = function (installationDir) {
   installationDir = installationDir || 'vue-storefront'
@@ -74,23 +76,43 @@ module.exports = function (installationDir) {
     configureTheme: {
       title: 'Configuring Vue Storefront theme',
       task: answers => {
+        const configurationFiles = ['local.config.js', 'local.json']
+        const [themeLocalConfigJsPath, themeLocalJsonPath] = configurationFiles.map(
+          file => `${installationDir}/src/themes/${answers.themeName}/${file}`
+        )
         const vsfLocalJsonPath = `${installationDir}/config/local.json`
-        const themeLocalJsonPath = `${installationDir}/src/themes/${answers.themeName}/local.json`
+        const vsfPackageJsonPath = `${installationDir}/package.json`
 
-        if (fs.existsSync(themeLocalJsonPath)) {
-          try {
-            const vsfLocalJson = fs.existsSync(vsfLocalJsonPath) ? JSON.parse(fs.readFileSync(vsfLocalJsonPath)) : {}
-            const themeLocalJson = JSON.parse(fs.readFileSync(themeLocalJsonPath))
+        try {
+          const isVsfVersionAsBranch = ['master', 'develop'].includes(answers.specificVersion)
+          const vsfVersionFromPackageJson = JSON.parse(fs.readFileSync(vsfPackageJsonPath)).version
+          const vsfVersion = isVsfVersionAsBranch
+            ? semverInc(vsfVersionFromPackageJson, 'minor')
+            : vsfVersionFromPackageJson
 
-            fs.writeFileSync(vsfLocalJsonPath, JSON.stringify(Object.assign(vsfLocalJson, themeLocalJson), null, 2))
-          } catch (e) {
-            console.error('Problem with parsing or merging local.json configurations', e)
+          const vsfLocalJson = fs.existsSync(vsfLocalJsonPath)
+            ? JSON.parse(fs.readFileSync(vsfLocalJsonPath))
+            : {}
+
+          const themeLocalJson = fs.existsSync(themeLocalConfigJsPath)
+            ? require(fs.realpathSync(themeLocalConfigJsPath))(vsfVersion)
+            : fs.existsSync(themeLocalJsonPath)
+              ? JSON.parse(fs.readFileSync(themeLocalJsonPath))
+              : null
+
+          if (themeLocalJson) {
+            fs.writeFileSync(vsfLocalJsonPath, JSON.stringify(merge(vsfLocalJson, themeLocalJson), null, 2))
           }
+        } catch (e) {
+          console.error(`Problem with parsing or merging configurations (${configurationFiles})\n`, e)
         }
       },
       skip: answers => {
-        if (!fs.existsSync(`${installationDir}/src/themes/${answers.themeName}/local.json`)) {
-          return 'Missing local.json in theme'
+        const configurationFiles = ['local.config.js', 'local.json']
+        const themePath = `${installationDir}/src/themes/${answers.themeName}`
+
+        if (configurationFiles.every(file => !fs.existsSync(`${themePath}/${file}`))) {
+          return `Missing configuration file in theme folder (${configurationFiles}) - nothing to configure`
         }
       }
     },
@@ -108,7 +130,7 @@ module.exports = function (installationDir) {
           availableBranches = [...rcBranches, ...availableBranches]
         })
       }).catch(e => {
-        console.error('Problem with checking versions', e)
+        console.error('Problem with checking versions\n', e)
       })
     }
   }
