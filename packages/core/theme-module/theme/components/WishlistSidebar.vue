@@ -52,9 +52,6 @@
               <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
-            <SfButton data-cy="wishlist-sidebar-btn_checkout" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
-          </nuxt-link>
           </div>
         </div>
         <div v-else class="empty-wishlist" key="empty-wishlist">
@@ -66,7 +63,7 @@
               shopping to fill it in.
             </p>
           </div>
-          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Start shopping</SfButton>
         </div>
       </transition>
     </SfSidebar>

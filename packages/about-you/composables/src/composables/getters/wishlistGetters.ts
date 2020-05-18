@@ -29,9 +29,26 @@ export const getWishlistItemAttributes = (product: WishlistItem, filterByAttribu
 
 export const getWishlistItemSku = (product: WishlistItem): string => product?.product ? getProductId(product.product) : '';
 
-// unavailable
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistTotals = (wishlist: WishlistItem): AgnosticTotals => ({ total: 0, subtotal: 0 });
+export const getWishlistTotals = (wishlist: WishlistResponseData): AgnosticTotals => {
+  if (!wishlist) {
+    return {
+      total: 0,
+      subtotal: 0
+    };
+  }
+
+  const getItemPrice = (item: WishlistItem) => {
+    const itemPrice = getWishlistItemPrice(item);
+    return itemPrice.special ?? itemPrice.regular;
+  };
+
+  const itemsPrice = wishlist.items.reduce((totalPrice, currItem) => totalPrice += getItemPrice(currItem), 0);
+
+  return {
+    total: itemsPrice,
+    subtotal: itemsPrice
+  };
+};
 
 export const getWishlistTotalItems = (wishlist: WishlistResponseData): number => wishlist?.items.length ?? 0;
 

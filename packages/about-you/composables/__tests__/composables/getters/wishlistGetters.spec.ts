@@ -32,12 +32,6 @@ const wishlist = {
     {
       key: 'a1bac123ab1b213ab2131b89ba76ad71',
       quantity: 1,
-      price: {
-        total: {
-          withTax: 13626,
-          withoutTax: 11450
-        }
-      },
       variant: {
         id: 38346771,
         referenceKey: '578902-00-0',
@@ -142,12 +136,36 @@ describe('[about-you-composables] wishlist getters', () => {
   describe('getWishlistTotals', () => {
     it('returns wishlist total price', () => {
       expect(getWishlistTotals(null).total).toEqual(0);
+      (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: null });
+      expect(getWishlistTotals(wishlist).total).toEqual(1.11);
     });
 
-    // unavailable
+    it('returns wishlist total special price', () => {
+      (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: 1.10 });
+      expect(getWishlistTotals(wishlist).total).toEqual(1.10);
+    });
+
     it('returns wishlist subtotal price', () => {
       expect(getWishlistTotals(null).subtotal).toEqual(0);
-      expect(getWishlistTotals(wishlist).subtotal).toEqual(0);
+      (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: null });
+      expect(getWishlistTotals(wishlist).total).toEqual(1.11);
+    });
+
+    it('returns wishlist subtotal special price', () => {
+      (getProductPrice as jest.Mock).mockReturnValueOnce({ regular: 1.11, special: 1.10 });
+      expect(getWishlistTotals(wishlist).subtotal).toEqual(1.10);
+    });
+
+    it('returns the total price for several items', () => {
+      const wishlistWithServalProducts = {
+        key: '1',
+        items: [
+          wishlist.items[0],
+          wishlist.items[0]
+        ]
+      };
+      (getProductPrice as jest.Mock).mockReturnValue({ regular: 1.11, special: 1.10 });
+      expect(getWishlistTotals(wishlistWithServalProducts).subtotal).toEqual(2.20);
     });
   });
 
