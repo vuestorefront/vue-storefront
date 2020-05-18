@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed `resultPorcessor` typo - @psmyrek
+- Negative price has doubled minus sign - @psmyrek (#4353)
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
 - Revert init filters in Vue app - @gibkigonzo (#3929)
 - All categories disappearing if you add the child category name to includeFields - @1070rik (#4015)
@@ -72,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
 - Include token in pricing sync -  @carlokok (#4156)
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
+- Homepage, new products query, uses now `new` attribute - @mdanilwoicz
 
 ## [1.11.3] - 2020.04.27
 

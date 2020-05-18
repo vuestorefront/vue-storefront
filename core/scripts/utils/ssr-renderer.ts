@@ -1,3 +1,4 @@
+import { Context } from './types';
 const fs = require('fs')
 const path = require('path')
 const compile = require('lodash.template')
@@ -9,7 +10,7 @@ const get = require('lodash/get')
 const config = require('config')
 const minify = require('html-minifier').minify
 
-function createRenderer (bundle, clientManifest, template) {
+function createRenderer (bundle, clientManifest, template?) {
   let shouldPreload = () => {}
   let shouldPrefetch = () => {}
   try {
@@ -104,7 +105,7 @@ function initTemplatesCache (config, compileOptions) {
   return templatesCache
 }
 
-function initSSRRequestContext (app, req, res, config) {
+function initSSRRequestContext (app, req, res, config): Context {
   return {
     url: decodeURI(req.url),
     output: {
@@ -134,11 +135,11 @@ function clearContext (context) {
   delete context['meta']
 }
 
-module.exports = {
+export {
   createRenderer,
   initTemplatesCache,
   initSSRRequestContext,
   applyAdvancedOutputProcessing,
-  compileTemplate: compile,
+  compile as compileTemplate,
   clearContext
 }
