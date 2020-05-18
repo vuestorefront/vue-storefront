@@ -1,10 +1,10 @@
 /* istanbul ignore file */
-import { useProductFactory } from '@vue-storefront/core';
+import { useProductFactory } from '../../factories';
 import { mapProductSearchByQueryParams, mapProductSearchBySingleProductParams } from '../../helpers';
-import { UseProduct, BapiProduct } from '../../types';
-import { getProductsByQuery, getProductById } from '@vue-storefront/about-you-api';
+import { UseProduct, BapiProduct, BapiProductSearchQuery } from '../../types';
+import {getProductsByQuery, getProductById, getFilters} from '@vue-storefront/about-you-api';
 
-const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProductFactory<BapiProduct, any, any>({
+const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProductFactory<BapiProduct, any, any, BapiProductSearchQuery>({
   productsSearch: async ({id, ...params}) => {
     let products: { entities: Array<BapiProduct>; pagination: any};
 
@@ -19,6 +19,11 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
       data: products.entities,
       total: products.pagination.total
     };
+  },
+  availableFilters: async (initialSearchQuery: BapiProductSearchQuery) => {
+    const filters = await getFilters({ where: initialSearchQuery });
+    const availableFilters = filters.filter(filter => filter.type === 'attributes');
+    return availableFilters;
   }
 });
 
