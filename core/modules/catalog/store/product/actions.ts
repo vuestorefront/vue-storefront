@@ -437,20 +437,23 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  async single (context, { options, setCurrentProduct = false, key = 'sku', skipCache = false }) {
+  async single (context, {
+    options = {},
+    setCurrentProduct = false,
+    key = 'sku',
+    skipCache = false
+  } = {}) {
     if (setCurrentProduct) {
-      console.warn('option `setCurrentProduct` is deprecated from 1.13')
+      Logger.warn('option `setCurrentProduct` is deprecated from 1.13')()
     }
     if (!options[key]) {
-      throw Error('Please provide the search key ' + key + ' for product/single action!')
+      throw new Error('Please provide the search key ' + key + ' for product/single action!')
     }
     const product = await ProductService.getProductByKey({
       options,
       key,
       skipCache
     })
-
-    setRequestCacheTags({ products: [product] })
 
     await context.dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
 
@@ -565,6 +568,8 @@ const actions: ActionTree<ProductState, RootState> = {
       key: 'sku',
       skipCache
     })
+
+    setRequestCacheTags({ products: [product] })
 
     await dispatch('setCurrent', product)
 
