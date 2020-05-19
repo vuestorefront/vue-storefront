@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+
 import { useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant, LineItem } from './../types/GraphQL';
