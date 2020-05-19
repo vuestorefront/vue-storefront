@@ -1,3 +1,4 @@
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { isBundleProduct } from './..';
 import buildQuery from './buildQuery'
 import setProductLink from './setProductLink'
@@ -7,7 +8,7 @@ import { ProductService } from '@vue-storefront/core/data-resolver/ProductServic
  * This function prepare all product_links for bundle products.
  * It fetches products by sku.
  */
-export default async function setBundleProducts (product, { includeFields, excludeFields }) {
+export default async function setBundleProducts (product: Product, { includeFields = null, excludeFields = null } = {}) {
   if (isBundleProduct(product) && product.bundle_options) {
     const skus = product.bundle_options
       .map((bundleOption) => bundleOption.product_links.map((productLink) => productLink.sku))

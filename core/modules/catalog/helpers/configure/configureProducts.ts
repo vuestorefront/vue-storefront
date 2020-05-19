@@ -1,7 +1,25 @@
+import { AttributesMetadata } from './../../types/Attribute';
 import { getStockItems } from '../stock';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import transformMetadataToAttributes from '../transformMetadataToAttributes';
 import configureProductAsync from './configureProductAsync';
+
+interface ConfigureProductsParams {
+  products: Product[],
+  attributes_metadata: AttributesMetadata[],
+  configuration: any,
+  options?: {
+    fallbackToDefaultWhenNoAvailable?: boolean,
+    setProductErrors?: boolean,
+    setConfigurableProductOptions?: boolean,
+    filterUnavailableVariants?: boolean,
+    assignProductConfiguration?: boolean,
+    separateSelectedVariant?: boolean,
+    prefetchGroupProducts?: boolean
+  },
+  excludeFields?: string[],
+  includeFields?: string[]
+}
 
 /**
  * Prepare all data needed to make product configuration.
@@ -14,14 +32,14 @@ export default async function configureProducts ({
   options = {},
   excludeFields = null,
   includeFields = null
-}: any) {
+}: ConfigureProductsParams) {
   const productAttributesMetadata = products.map((product) => product.attributes_metadata || [])
   const attribute = transformMetadataToAttributes([attributes_metadata, ...productAttributesMetadata])
   const attributeStateFormat = { list_by_code: attribute.attrHashByCode, list_by_id: attribute.attrHashById }
 
   let stockItems = []
   if (options.filterUnavailableVariants) {
-    stockItems = await getStockItems(products.map(({ _source }) => _source))
+    stockItems = await getStockItems(products)
   }
 
   const configuredProducts = await Promise.all((products as Product[]).map(async (product) => {

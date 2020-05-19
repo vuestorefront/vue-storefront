@@ -1,8 +1,10 @@
+import { ProductOptions } from '@vue-storefront/core/modules/catalog/types/Product';
+
 /**
  * It returns all available options for configurable product
  */
-export default function getAllProductConfigurations ({ configurableOptions, configuration }) {
-  const product_option = {
+export default function getAllProductConfigurations ({ configurableOptions, configuration }): ProductOptions {
+  const product_option: ProductOptions = {
     extension_attributes: {
       custom_options: [],
       configurable_item_options: [],

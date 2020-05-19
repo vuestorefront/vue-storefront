@@ -1,3 +1,4 @@
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { isGroupedProduct } from './..';
 import buildQuery from './buildQuery'
 import setProductLink from './setProductLink'
@@ -7,7 +8,7 @@ import { ProductService } from '@vue-storefront/core/data-resolver/ProductServic
  * This function prepare all product_links for grouped products.
  * It fetches products by sku.
  */
-export default async function setGroupedProduct (product, { includeFields, excludeFields }) {
+export default async function setGroupedProduct (product: Product, { includeFields = null, excludeFields = null } = {}) {
   if (isGroupedProduct(product) && product.product_links) {
     const productLinks = product.product_links.filter((productLink) => productLink.link_type === 'associated' && productLink.linked_product_type === 'simple')
     const skus = productLinks.map((productLink) => productLink.linked_product_sku)

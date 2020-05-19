@@ -1,19 +1,25 @@
+import { ProductOption } from './ProductConfiguration';
+import { ConfigurableItemOption } from './ConfigurableOption';
+import { BundleOption } from './BundleOption';
 import { AttributesMetadata } from './Attribute';
 import { CustomOption } from './CustomOption';
 
 export default interface Product {
+  attributes_metadata?: AttributesMetadata[],
+  bundle_options?: BundleOption[],
   category: Record<string, any>[],
   category_ids: string[] | number[],
-  color: string,
+  color?: string,
   color_options?: number[] | string[],
-  configurable_children: Record<string, any>[],
-  configurable_options: Record<string, any>[],
+  configurable_children?: Record<string, any>[],
+  configurable_options?: ProductOption[],
   custom_attributes?: any,
+  custom_options?: CustomOption[],
   description: string,
   errors?: Record<string, any>,
-  final_price: number,
-  finalPrice: number,
-  gift_message_available: string,
+  final_price?: number,
+  finalPrice?: number,
+  gift_message_available?: string,
   has_options?: string,
   id?: number | string,
   image: string,
@@ -35,13 +41,13 @@ export default interface Product {
   priceInclTax?: number,
   price_tax?: number,
   priceTax?: number,
-  product_links?: Record<string, any>[],
-  product_option?: Record<string, any>,
+  product_links?: ProductLink[],
+  product_option?: ProductOptions,
   regular_price: number,
   required_options?: string,
   sale?: string,
   sgn?: string,
-  size: string,
+  size?: string,
   size_options?: number[] | string[],
   sku: string,
   slug?: string,
@@ -64,6 +70,26 @@ export default interface Product {
   visibility: number,
   _score?: number,
   qty?: number,
-  custom_options?: CustomOption,
-  attributes_metadata?: AttributesMetadata[]
+  tier_prices?: any[],
+  links?: any
+}
+
+export interface ProductLink {
+  sku: string,
+  link_type: string,
+  linked_product_sku: string,
+  linked_product_type: string,
+  position: number,
+  extension_attributes: {
+    qty: number
+  },
+  product?: Product
+}
+
+export interface ProductOptions {
+  extension_attributes: {
+    custom_options: any[],
+    configurable_item_options: ConfigurableItemOption[],
+    bundle_options: any[]
+  }
 }

@@ -1,9 +1,28 @@
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import cloneDeep from 'lodash/cloneDeep'
 import { getSelectedVariant, omitSelectedVariantFields } from '../variant';
 import { getProductConfiguration, setProductConfigurableOptions } from '../productOptions';
 import { filterOutUnavailableVariants } from '../stock';
 import { setGroupedProduct, setBundleProducts } from '../associatedProducts';
 import { hasConfigurableChildren } from './..'
+
+interface ConfigureProductAsyncParams {
+  product: Product,
+  configuration: any,
+  attribute: any,
+  options?: {
+    fallbackToDefaultWhenNoAvailable?: boolean,
+    setProductErrors?: boolean,
+    setConfigurableProductOptions?: boolean,
+    filterUnavailableVariants?: boolean,
+    assignProductConfiguration?: boolean,
+    separateSelectedVariant?: boolean,
+    prefetchGroupProducts?: boolean
+  },
+  stockItems: any[],
+  excludeFields?: string[],
+  includeFields?: string[]
+}
 
 /**
  * This function configure product for 'configurable', 'bundle' or 'group' product.
@@ -24,7 +43,7 @@ export default async function configureProductAsync ({
   stockItems = [],
   excludeFields,
   includeFields
-}) {
+}: ConfigureProductAsyncParams) {
   // it not only filter variants but also it apply stock object
   if (filterUnavailableVariants) {
     filterOutUnavailableVariants(product, stockItems)
