@@ -23,7 +23,7 @@
             :key="`${filterName}-colors`"
           >
             <SfColor
-              v-for="option in filters[filterName].options"
+              v-for="option in filters[filterName].values"
               :key="`${filterName}-${option.label}`"
               :data-cy="`category-filter_color_${option.value}`"
               :color="option.value"
@@ -33,11 +33,12 @@
             />
           </div>
           <template v-else>
+            {{filters[filterName].values}}
             <SfFilter
-              v-for="option in filters[filterName].options"
-              :key="`${filterName}-${option.label}`"
+              v-for="option in filters[filterName].values"
+              :key="`${filterName}-${option.name}`"
               :data-cy="`category-filter_${filterName}_${option.value}`"
-              :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.label"
+              :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.name"
               :selected="option.selected"
               class="filters__item"
               @change="option.selected = !option.selected"
