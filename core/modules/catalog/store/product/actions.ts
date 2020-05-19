@@ -362,7 +362,7 @@ const actions: ActionTree<ProductState, RootState> = {
       setConfigurableProductOptions = config.cart.setConfigurableProductOptions,
       filterUnavailableVariants = config.products.filterUnavailableVariants
     } = {}
-  }) {
+  } = {}) {
     const { items, ...restResponseData } = await ProductService.getProducts({
       query,
       start,

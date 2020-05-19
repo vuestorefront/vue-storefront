@@ -1,9 +1,10 @@
-import { Category } from 'core/modules/catalog-next/types/Category';
-import { UserProfile } from 'core/modules/user/types/UserProfile'
+import { AttributesMetadata } from '@vue-storefront/core/modules/catalog/types/Attribute';
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
+import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
-import Review from 'core/modules/review/types/Review';
+import Review from '@vue-storefront/core/modules/review/types/Review';
 import { SearchQuery } from 'storefront-query-builder';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
@@ -73,7 +74,7 @@ declare namespace DataResolver {
     start?: number,
     total?: number,
     aggregations?: any[],
-    attributeMetadata?: any[]
+    attributeMetadata?: AttributesMetadata[]
   }
 
   interface ProductService {

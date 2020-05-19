@@ -1,8 +1,9 @@
+import { AttributesMetadata } from './Attribute';
 import { CustomOption } from './CustomOption';
 
 export default interface Product {
   category: Record<string, any>[],
-  category_ids: string[],
+  category_ids: string[] | number[],
   color: string,
   color_options?: number[] | string[],
   configurable_children: Record<string, any>[],
@@ -59,8 +60,10 @@ export default interface Product {
   tsk?: number,
   type_id: string,
   url_key: string,
+  url_path?: string,
   visibility: number,
   _score?: number,
   qty?: number,
-  custom_options?: CustomOption
+  custom_options?: CustomOption,
+  attributes_metadata?: AttributesMetadata[]
 }
