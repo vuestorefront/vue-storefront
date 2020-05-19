@@ -23,7 +23,11 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
   availableFilters: async (initialSearchQuery: BapiProductSearchQuery) => {
     const filters = await getFilters({ where: initialSearchQuery });
     const availableFilters = filters.filter(filter => filter.type === 'attributes');
-    return availableFilters;
+    const reducedFilters = availableFilters.reduce((obj: any, item: any) => {
+      const { slug, ...rest} = item;
+      return { ...obj, [slug]: {...rest} };
+    }, {});
+    return reducedFilters;
   }
 });
 
