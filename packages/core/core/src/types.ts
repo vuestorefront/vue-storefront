@@ -175,6 +175,7 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getCategoryIds: (product: PRODUCT) => string[];
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
+  getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -208,6 +209,7 @@ export interface WishlistGetters<WISHLIST, WISHLIST_ITEM> {
 
 export interface CategoryGetters<CATEGORY> {
   getTree: (category: CATEGORY) => AgnosticCategoryTree | null;
+  getBreadcrumbs?: (category: CATEGORY) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -296,6 +298,11 @@ export interface AgnosticCurrency {
   prefixSign: boolean;
   sign: string;
   [x: string]: unknown;
+}
+
+export interface AgnosticBreadcrumb {
+  text: string;
+  link: string;
 }
 
 // TODO - remove this interface
