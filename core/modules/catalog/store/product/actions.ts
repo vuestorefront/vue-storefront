@@ -275,7 +275,7 @@ const actions: ActionTree<ProductState, RootState> = {
     populateRequestCacheTags = true,
     updateState = false,
     append = false
-  }) {
+  } = {}) {
     Logger.warn('`product/list` deprecated from 1.13, will be removed, use "findProducts" instead')()
     const { items } = await context.dispatch('findProducts', {
       query,
@@ -292,7 +292,7 @@ const actions: ActionTree<ProductState, RootState> = {
     })
 
     if (updateState) {
-      console.warn('updateState and append are deprecated from 1.13')
+      Logger.warn('updateState and append are deprecated from 1.13')()
       if (append) context.commit(types.PRODUCT_ADD_PAGED_PRODUCTS, { items })
       else context.commit(types.PRODUCT_SET_PAGED_PRODUCTS, { items })
     }
