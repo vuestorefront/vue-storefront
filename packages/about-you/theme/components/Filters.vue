@@ -37,7 +37,7 @@
             <SfFilter
               v-for="option in filters[filterName].values"
               :key="`${filterName}-${option.name}`"
-              :data-cy="`category-filter_${filterName}_${option.value}`"
+              :data-cy="`category-filter_${filterName}_${option.name}`"
               :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.name"
               :selected="option.selected"
               class="filters__item"
