@@ -634,9 +634,12 @@ const actions: ActionTree<ProductState, RootState> = {
       await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
   },
-  async getProductVariant (context, { product, configuration }) {
+  async getProductVariant (context, { product, configuration } = {}) {
     let searchQuery = new SearchQuery()
     searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'eq': product.parentSku } })
+    if (!product.parentSku) {
+      throw new Error('Product doesn\'t have parentSku, please check if this is configurable product')
+    }
     const { items: [newProductVariant] } = await context.dispatch('findProducts', {
       query: searchQuery,
       size: 1,
