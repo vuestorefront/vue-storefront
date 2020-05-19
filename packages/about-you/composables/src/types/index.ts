@@ -44,26 +44,16 @@ type BapiShippingMethod = {
 }
 
 type BapiWishlistProduct = {
-
+  key: string;
+  product?: BapiProduct;
+  variant?: any;
 }
 
 type BapiWishlist = {
-
+  key: string;
+  items: BapiWishlistProduct[];
 }
 
-interface UseWishlist
-<
-  WISHLIST,
-  PRODUCT,
-  WISHLIST_ITEM,
-> {
-  wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT, quantity: number) => Promise<void>;
-  removeFromWishlist: (product: WISHLIST_ITEM) => Promise<void>;
-  clearWishlist: () => Promise<void>;
-  refreshWishlist: () => Promise<void>;
-  loading: ComputedProperty<boolean>;
-}
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
@@ -87,6 +77,5 @@ export {
   BapiWishlist,
   BapiWishlistProduct,
   UseCategory,
-  UseProduct,
-  UseWishlist
+  UseProduct
 };

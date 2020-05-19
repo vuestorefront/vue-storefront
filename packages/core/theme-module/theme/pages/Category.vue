@@ -283,7 +283,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, ref, watch, onMounted } from '@vue/composition-api';
-import { useCategory, useProduct, useCart, productGetters, categoryGetters } from '<%= options.composables %>';
+import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
@@ -318,6 +318,7 @@ export default {
       availableFilters
     } = useProduct('categoryProducts');
     const { loadCart, addToCart, isOnCart } = useCart();
+    const { addToWishlist } = useWishlist();
 
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
@@ -359,7 +360,7 @@ export default {
     const isFilterSidebarOpen = ref(false);
 
     function toggleWishlist(index) {
-      products.value[index].isOnWishlist = !this.products.value[index].isOnWishlist;
+      addToWishlist(products.value[index]);
     }
 
     const applyFilters = (updatedFilters) => {

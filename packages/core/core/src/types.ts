@@ -104,17 +104,18 @@ export interface UseCart
 export interface UseWishlist
 <
   WISHLIST,
-  PRODUCT,
   WISHLIST_ITEM,
+  PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT, quantity: number) => Promise<void>;
-  isOnWishlist: (product: PRODUCT) => ComputedProperty<boolean>;
-  removeFromWishlist: (product: WISHLIST_ITEM) => Promise<void>;
+  addToWishlist: (product: PRODUCT) => Promise<void>;
+  isOnWishlist: (product: PRODUCT) => boolean;
+  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
   clearWishlist: () => Promise<void>;
-  refreshWishlist: () => Promise<void>;
+  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
@@ -188,6 +189,19 @@ export interface CartGetters<CART, CART_ITEM> {
   getTotals: (cart: CART) => AgnosticTotals;
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
+  getFormattedPrice: (price: number) => string;
+  [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface WishlistGetters<WISHLIST, WISHLIST_ITEM> {
+  getItems: (wishlist: WISHLIST) => WISHLIST_ITEM[];
+  getItemName: (wishlistItem: WISHLIST_ITEM) => string;
+  getItemImage: (wishlistItem: WISHLIST_ITEM) => string;
+  getItemPrice: (wishlistItem: WISHLIST_ITEM) => AgnosticPrice;
+  getItemAttributes: (wishlistItem: WISHLIST_ITEM, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
+  getItemSku: (wishlistItem: WISHLIST_ITEM) => string;
+  getTotals: (wishlist: WISHLIST) => AgnosticTotals;
+  getTotalItems: (wishlist: WISHLIST) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }

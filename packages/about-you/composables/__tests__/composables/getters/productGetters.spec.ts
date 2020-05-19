@@ -136,7 +136,7 @@ describe('[about-you-composables] product getters', () => {
     });
   });
 
-  it('return formated price', () => {
+  it('return formatted price', () => {
     expect(getFormattedPrice(114.5)).toEqual('114.50€');
   });
 
@@ -190,6 +190,10 @@ describe('[about-you-composables] product getters', () => {
         });
       });
 
+      it('returns filtered attributes for single product', () => {
+        expect(getProductAttributes(product, ['color'])).toEqual({color: 'blue'});
+        expect(getProductAttributes(product, ['foo'])).toEqual({});
+      });
       it('returns filtered product attributes', () => {
         expect(getProductAttributes([product], ['color'])).toEqual({
           color: [{ label: 'blue', value: 'blue' }]
@@ -202,7 +206,7 @@ describe('[about-you-composables] product getters', () => {
       it('returns all products attributes', () => {
         expect(getProductAttributes(product)).toEqual({
           color: 'blue',
-          size: 'XL'
+          size: 'xl'
         });
       });
 
