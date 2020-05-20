@@ -6,6 +6,8 @@ import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
+import { isServer } from '@vue-storefront/core/helpers';
+import { router } from '@vue-storefront/core/app'
 
 // Listeners moved from Product.js
 
@@ -115,18 +117,20 @@ export const onUserPricesRefreshed = async (store, router) => {
   }
 }
 
-export const checkConfigurableParent = (store) => {
-  const parentProduct = store.getters['product/getParentProduct']
-  const currentProduct = store.getters['product/getCurrentProduct']
+export const checkParentRedirection = (currentProduct, parentProduct) => {
   if (parentProduct && parentProduct.id !== currentProduct.id && config.products.preventConfigurableChildrenDirectAccess) {
     Logger.log('Redirecting to parent, configurable product', parentProduct.sku)()
     const parentUrl = formatProductLink(parentProduct, currentStoreView().storeCode)
-    AsyncDataLoader.push({
-      execute: async ({ context }) => {
-        if (context && !context.url.includes(parentUrl)) {
-          context.server.response.redirect(301, parentUrl)
+    if (isServer) {
+      AsyncDataLoader.push({
+        execute: async ({ context }) => {
+          if (context && !context.url.includes(parentUrl)) {
+            context.server.response.redirect(301, parentUrl)
+          }
         }
-      }
-    })
+      })
+    } else {
+      router.replace(parentUrl as string)
+    }
   }
 }

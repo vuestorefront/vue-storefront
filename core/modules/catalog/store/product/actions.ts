@@ -32,6 +32,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { formatProductLink } from 'core/modules/url/helpers'
+import { checkParentRedirection } from '@vue-storefront/core/modules/catalog/events'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -212,6 +213,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.PRODUCT_SET_PARENT, parentProduct)
+          return parentProduct
         }
       }).catch((err) => {
         Logger.error(err)()
@@ -640,7 +642,12 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }
     if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-      throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      if (config.products.preventConfigurableChildrenDirectAccess) {
+        const parentProduct = await dispatch('checkConfigurableParent', { product })
+        checkParentRedirection(product, parentProduct)
+      } else {
+        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      }
     }
 
     await dispatch('loadProductAttributes', { product })
@@ -650,12 +657,6 @@ const actions: ActionTree<ProductState, RootState> = {
     if (isServer) {
       syncPromises.push(variantsFilter)
       syncPromises.push(gallerySetup)
-    }
-    if (config.products.preventConfigurableChildrenDirectAccess) {
-      const parentChecker = dispatch('checkConfigurableParent', { product })
-      if (isServer) {
-        syncPromises.push(parentChecker)
-      }
     }
     await Promise.all(syncPromises)
     await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
