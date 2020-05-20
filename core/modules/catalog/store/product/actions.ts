@@ -213,7 +213,6 @@ const actions: ActionTree<ProductState, RootState> = {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.PRODUCT_SET_PARENT, parentProduct)
-          return parentProduct
         }
       }).catch((err) => {
         Logger.error(err)()
@@ -643,7 +642,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
     if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
       if (config.products.preventConfigurableChildrenDirectAccess) {
-        const parentProduct = await dispatch('checkConfigurableParent', { product })
+        const parentProduct = await dispatch('findConfigurableParent', { product })
         checkParentRedirection(product, parentProduct)
       } else {
         throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
