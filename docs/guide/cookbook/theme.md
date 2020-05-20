@@ -394,7 +394,23 @@ Theme is what customers get first impression from your shop. You will be majorly
 <br />
 <br />
 
-## 2. How to upgrade theme one from another
+
+## 2. How to upgrade theme from 1.11 to 1.12
+Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name _Capybara_. Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
+
+In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since it's not reasonable but we will look around the difference of the both themes so you can figure out the best way to morph the oldies(`1.11`) to the goodies(`1.12`).
+
+### 1. Preparation
+ - You have a [Vue Storefront `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+<br />
+
+
+## 3. How to upgrade theme from 1.10 to 1.11
 When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. 
 
 Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces. 
