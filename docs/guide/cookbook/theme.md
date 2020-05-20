@@ -396,12 +396,14 @@ Theme is what customers get first impression from your shop. You will be majorly
 
 
 ## 2. How to upgrade theme from 1.11 to 1.12
-Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name _Capybara_. Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
+Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/DivanteLtd/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunk. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
 
 In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since it's not reasonable but we will look around the difference of the both themes so you can figure out the best way to morph the oldies(`1.11`) to the goodies(`1.12`).
 
 ### 1. Preparation
- - You have a [Vue Storefront `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
+ - You have a [_Vue Storefront_ `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
+ - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/DivanteLtd/vue-storefront).
+
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
