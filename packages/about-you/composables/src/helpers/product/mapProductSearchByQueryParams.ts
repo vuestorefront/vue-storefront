@@ -20,6 +20,18 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     pagination.perPage = params.perPage;
   }
 
+  console.log('params', params);
+  console.log('searchQuery', searchQuery);
+  // const refinedSearchQuery: ProductSearchQuery = {
+  //   attributes: [
+  //     {
+  //       type: "attributes",
+  //       key: firstAttributeFilter.slug, // "color" (see step 1)
+  //       values: [firstAttributeFilter.values[0].id] // ID of color pink
+  //     }
+  //   ]
+  // };
+
   return {
     with: {
       advancedAttributes: {

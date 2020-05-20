@@ -12,6 +12,7 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
       const product = await getProductById(id, mapProductSearchBySingleProductParams(params));
       products = { entities: [product], pagination: { total: 1 } };
     } else {
+      console.log('params broo', params);
       products = await getProductsByQuery(mapProductSearchByQueryParams(params));
     }
 
@@ -25,7 +26,7 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
     const availableFilters = filters.filter(filter => filter.values.length !== 0 && filter.type === 'attributes');
     const reducedFilters = availableFilters.reduce((obj: any, item: any) => {
       const { slug, values, ...rest} = item;
-      return { ...obj, [slug]: {...rest, values: values.map(value => ({...value, selected: false})) } };
+      return { ...obj, [slug]: {...rest, options: values.map(value => ({...value, selected: false})) } };
     }, {});
     return reducedFilters;
   }

@@ -1,15 +1,7 @@
-<!-- <template>
-  <div>
-    <span>This component should be overriden in in
-    tegration-specific theme.</span>
-    <slot name="categories-mobile"></slot>
-  </div>
-</template>-->
-
 <template>
   <div>
     <div class="filters desktop-only">
-      <template v-for="(label, filterName) in filterSections">
+      <template v-for="(label, filterName) in filtersMap">
         <template v-if="filters[filterName]">
           <SfHeading
             :level="4"
@@ -23,9 +15,9 @@
             :key="`${filterName}-colors`"
           >
             <SfColor
-              v-for="option in filters[filterName].values"
+              v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.label}`"
-              :data-cy="`category-filter_color_${option.value}`"
+              :data-cy="`category-filter_color_${option.name}`"
               :color="option.value"
               :selected="option.selected"
               class="filters__color"
@@ -33,9 +25,8 @@
             />
           </div>
           <template v-else>
-            {{filters[filterName].values}}
             <SfFilter
-              v-for="option in filters[filterName].values"
+              v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.name}`"
               :data-cy="`category-filter_${filterName}_${option.name}`"
               :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.name"
@@ -108,7 +99,7 @@ export default {
   },
   setup(props, { emit }) {
 
-    const filterSections = computed(() => {
+    const filtersMap = computed(() => {
       return Object.keys(props.filters).reduce((obj, item) => {
         return { ...obj, [item]: props.filters[item].name};
       }, {});
@@ -122,10 +113,11 @@ export default {
       });
       emit('click:apply-filters', props.filters);
     };
+
     const applyFilters = () => emit('click:apply-filters', props.filters);
 
     return {
-      filterSections,
+      filtersMap,
       clearFilters,
       applyFilters
     };
