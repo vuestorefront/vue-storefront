@@ -77,7 +77,7 @@ module.exports = {
             'basics/feature-list',
             'basics/recipes',
             'basics/typescript',
-            'basics/graphql',
+            // 'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
             'basics/static-generator',
