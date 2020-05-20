@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { useProductFactory } from '@vue-storefront/core';
 import { mapProductSearchByQueryParams, mapProductSearchBySingleProductParams } from '../../helpers';
 import { UseProduct, BapiProduct } from '../../types';
