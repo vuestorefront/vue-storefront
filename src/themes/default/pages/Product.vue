@@ -225,6 +225,7 @@ import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/mod
 import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
+import { checkConfigurableParent } from '@vue-storefront/core/modules/catalog/events'
 
 export default {
   components: {
@@ -337,6 +338,7 @@ export default {
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
+    checkConfigurableParent(store)
   },
   beforeRouteEnter (to, from, next) {
     if (isServer) {
