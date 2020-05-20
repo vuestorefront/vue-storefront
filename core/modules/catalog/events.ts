@@ -120,6 +120,8 @@ export const onUserPricesRefreshed = async (store, router) => {
 export const checkParentRedirection = (currentProduct, parentProduct) => {
   if (parentProduct && parentProduct.id !== currentProduct.id && config.products.preventConfigurableChildrenDirectAccess) {
     Logger.log('Redirecting to parent, configurable product', parentProduct.sku)()
+    parentProduct.parentSku = parentProduct.sku
+    parentProduct.sku = currentProduct.sku
     const parentUrl = formatProductLink(parentProduct, currentStoreView().storeCode)
     if (isServer) {
       AsyncDataLoader.push({
