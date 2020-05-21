@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 
 - use yarn in cli installer - @gibkigonzo (#4292)
+- disable out of stock notification when config.stock.allowOutOfStockInCart is true - @gibigonzo (#4340)
 
 
 ### Fixed
