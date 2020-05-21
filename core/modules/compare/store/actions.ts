@@ -20,7 +20,7 @@ const actions: ActionTree<CompareState, RootState> = {
       if (config.entities.attribute.loadByAttributeMetadata) {
         dispatch(
           'attribute/loadProductAttributes',
-          { products: getters.getCompareItems },
+          { products: getters.getCompareItems, merge: true },
           { root: true }
         )
       }

@@ -163,8 +163,8 @@
     </section>
     <lazy-hydrate when-idle>
       <reviews
-        :product-name="getOriginalProduct.name"
-        :product-id="getOriginalProduct.id"
+        :product-name="getCurrentProduct.name"
+        :product-id="getCurrentProduct.id"
         v-show="isOnline"
         :product="getCurrentProduct"
       />
@@ -222,6 +222,7 @@ import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/help
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
+import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 
 export default {
   components: {
@@ -268,7 +269,6 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
-      getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
@@ -379,11 +379,9 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    changeFilter (variant) {
-      this.$bus.$emit(
-        'filter-changed-product',
-        Object.assign({ attribute_code: variant.type }, variant)
-      )
+    async changeFilter (variant) {
+      const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
+      await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
       this.getQuantity()
     },
     openSizeGuide () {

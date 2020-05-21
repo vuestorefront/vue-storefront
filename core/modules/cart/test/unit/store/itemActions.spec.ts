@@ -3,6 +3,7 @@ import { configureProductAsync } from '@vue-storefront/core/modules/catalog/help
 import { prepareProductsToAdd, productsEquals, validateProduct } from '@vue-storefront/core/modules/cart/helpers'
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
+import config from 'config';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),
@@ -60,20 +61,25 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   },
   processLocalizedURLAddress: (url) => url
 }));
+jest.mock('config', () => ({}));
 
 describe('Cart itemActions', () => {
   it('configures item and deletes when there is same sku', async () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product2]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })
@@ -86,14 +92,18 @@ describe('Cart itemActions', () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product1]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })

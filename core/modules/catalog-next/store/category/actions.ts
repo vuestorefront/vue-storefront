@@ -22,6 +22,8 @@ import omit from 'lodash-es/omit'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
+import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
+import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
@@ -33,13 +35,22 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const { items, perPage, start, total, aggregations, attributeMetadata } = await quickSearchByQuery({
+    const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
-      size: pageSize
-    })
+      size: pageSize,
+      configuration: searchQuery.filters,
+      options: {
+        populateRequestCacheTags: true,
+        prefetchGroupProducts: false,
+        setProductErrors: false,
+        fallbackToDefaultWhenNoAvailable: true,
+        assignProductConfiguration: false,
+        separateSelectedVariant: false
+      }
+    }, { root: true })
     await dispatch('loadAvailableFiltersFrom', {
       aggregations,
       attributeMetadata,
@@ -47,8 +58,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
-    commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
+    commit(types.CATEGORY_SET_PRODUCTS, items)
 
     return items
   },
@@ -59,21 +69,30 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
-    const searchResult = await quickSearchByQuery({
+    const searchResult = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields
-    })
+      excludeFields: entities.productList.excludeFields,
+      configuration: searchQuery.filters,
+      options: {
+        populateRequestCacheTags: true,
+        prefetchGroupProducts: false,
+        setProductErrors: false,
+        fallbackToDefaultWhenNoAvailable: true,
+        assignProductConfiguration: false,
+        separateSelectedVariant: false
+      }
+    }, { root: true })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,
       start: searchResult.start,
       total: searchResult.total
     })
-    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
-    commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
+
+    commit(types.CATEGORY_ADD_PRODUCTS, searchResult.items)
 
     return searchResult.items
   },
@@ -86,10 +105,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
-    const cachedProductsResponse = await dispatch('product/list', { // configure and calculateTaxes is being executed in the product/list - we don't need another call in here
+    const cachedProductsResponse = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort,
-      updateState: false // not update the product listing - this request is only for caching
+      options: {
+        populateRequestCacheTags: false,
+        prefetchGroupProducts: false
+      }
     }, { root: true })
     if (products.filterUnavailableVariants) { // prefetch the stock items
       const skus = prefetchStockItems(cachedProductsResponse, rootState.stock.cache)
@@ -105,8 +127,8 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Configures products
    */
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
-    const configuredProducts = await dispatch('configureProducts', { products, filters })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
+    const configuredProducts = await dispatch('configureProducts', { products, filters })
     return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
   },
   /**
@@ -127,7 +149,10 @@ const actions: ActionTree<CategoryState, RootState> = {
       return dispatch('url/registerMapping', {
         url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
-          params: { parentSku: product.sku, slug },
+          params: {
+            parentSku: product.parentSku || product.sku,
+            slug
+          },
           'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
         }
       }, { root: true })
@@ -228,6 +253,52 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     await dispatch('breadcrumbs/set', { current: currentRouteName, routes: parseCategoryPath(sorted) }, { root: true })
     return sorted
+  },
+  /**
+   * Load categories within specified parent
+   * @param {Object} commit promise
+   * @param {Object} parent parent category
+   */
+  async fetchMenuCategories ({ commit, getters, dispatch }, {
+    parent = null,
+    key = null,
+    value = null,
+    level = null,
+    onlyActive = true,
+    onlyNotEmpty = false,
+    size = 4000,
+    start = 0,
+    sort = 'position:asc',
+    includeFields = (config.entities.optimize ? config.entities.category.includeFields : null),
+    excludeFields = (config.entities.optimize ? config.entities.category.excludeFields : null),
+    skipCache = false
+  }) {
+    const { searchQuery, isCustomizedQuery } = createCategoryListQuery({ parent, level, key, value, onlyActive, onlyNotEmpty })
+    const shouldLoadCategories = skipCache || isCustomizedQuery
+
+    if (shouldLoadCategories) {
+      const resp = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort, size, start, includeFields, excludeFields })
+
+      await dispatch('registerCategoryMapping', { categories: resp.items })
+
+      commit(types.CATEGORY_UPD_MENU_CATEGORIES, { items: resp.items })
+
+      return resp
+    }
+
+    const list = { items: getters.getMenuCategories, total: getters.getMenuCategories.length }
+
+    return list
+  },
+  async registerCategoryMapping ({ dispatch }, { categories }) {
+    for (let category of categories) {
+      if (category.url_path) {
+        await dispatch('url/registerMapping', {
+          url: localizedDispatcherRoute(category.url_path),
+          routeData: transformCategoryUrl(category)
+        }, { root: true })
+      }
+    }
   }
 }
 

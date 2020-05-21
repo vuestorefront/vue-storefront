@@ -122,7 +122,7 @@ export default {
       if (!config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
         return this.categoryLinks
       } else {
-        return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
+        return this.$store.getters['category-next/getMenuCategories'].filter(c => { return c.parent_id === this.id }) // return my child categories
       }
     },
     hasChildren () {

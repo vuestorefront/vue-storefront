@@ -175,7 +175,7 @@ export default {
   mounted () {
     this.singleOrderItems.forEach(async item => {
       if (!this.itemThumbnail[item.sku]) {
-        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false })
+        const product = await this.getProduct({ options: { sku: item.sku } })
         const thumbnail = productThumbnailPath(product)
         Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(thumbnail, 280, 280))
       }
