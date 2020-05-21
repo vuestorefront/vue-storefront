@@ -20,17 +20,25 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     pagination.perPage = params.perPage;
   }
 
-  console.log('params', params);
-  console.log('searchQuery', searchQuery);
-  // const refinedSearchQuery: ProductSearchQuery = {
-  //   attributes: [
-  //     {
-  //       type: "attributes",
-  //       key: firstAttributeFilter.slug, // "color" (see step 1)
-  //       values: [firstAttributeFilter.values[0].id] // ID of color pink
-  //     }
-  //   ]
-  // };
+  let filters;
+
+  if (params.filters) {
+    filters = Object.keys(params.filters).map(filter => {
+      const options = params.filters[filter].options?.filter(option => option.selected);
+      return {
+        type: 'attributes',
+        key: params.filters[filter].slug,
+        values: options.map(option => option.id)
+      };
+    });
+  }
+
+  const refinedSearchQuery: ProductSearchQuery = {
+    ...searchQuery,
+    attributes: filters
+  };
+
+  console.log(refinedSearchQuery);
 
   return {
     with: {
@@ -39,7 +47,7 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
       },
       priceRange: true
     },
-    where: searchQuery,
+    where: refinedSearchQuery,
     sort: {},
     pagination: pagination
   };
