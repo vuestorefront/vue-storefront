@@ -1,6 +1,7 @@
 <template>
   <div class="product-quantity">
     <base-input-number
+      data-id="dupa"
       :name="name"
       :value="value"
       :min="1"
