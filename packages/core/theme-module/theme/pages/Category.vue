@@ -369,7 +369,7 @@ export default {
       isFilterSidebarOpen.value = false;
     };
 
-    const breadcrumbs = categoryGetters.getBreadcrumbs ? computed(() => categoryGetters.getBreadcrumbs(categories.value[0])) : computed(() => fallbackBreadcrumbs);
+    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs ? categoryGetters.getBreadcrumbs(categories.value[0]) : fallbackBreadcrumbs);
 
     return {
       products,
