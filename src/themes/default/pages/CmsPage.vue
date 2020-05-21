@@ -19,7 +19,13 @@ import CmsPage from '@vue-storefront/core/pages/CmsPage'
 export default {
   computed: {
     cmsPageContent () {
-      return this.$store.state.cmsPage.current
+      if (this.$store.state.cmsPage.current) {
+        return this.$store.state.cmsPage.current
+      }
+
+      Logger.error('Current CMS page could not be loaded from Vuex', '$store.state.cmsPage.current')()
+
+      return {}
     }
   },
   mixins: [CmsPage]
