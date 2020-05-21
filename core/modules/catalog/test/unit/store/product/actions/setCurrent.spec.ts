@@ -1,6 +1,7 @@
 import productActions from '@vue-storefront/core/modules/catalog/store/product/actions';
 import config from 'config';
 import * as mutationTypes from '@vue-storefront/core/modules/catalog/store/product/mutation-types'
+import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
@@ -20,6 +21,9 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('config', () => ({}));
+jest.mock('@vue-storefront/core/modules/catalog/helpers/productOptions', () => ({
+  getProductConfigurationOptions: jest.fn()
+}));
 
 describe('product/setCurrent action', () => {
   let contextMock
@@ -28,7 +32,10 @@ describe('product/setCurrent action', () => {
     jest.clearAllMocks()
     contextMock = {
       dispatch: jest.fn(() => ({})),
-      commit: jest.fn(() => ({}))
+      commit: jest.fn(() => ({})),
+      rootState: {
+        attribute: {}
+      }
     }
     config.products = {
       gallery: {
@@ -47,10 +54,12 @@ describe('product/setCurrent action', () => {
     expect(contextMock.commit).toBeCalledTimes(0)
   })
   it('should commit product data and configuration', async () => {
+    ;(getProductConfigurationOptions as jest.Mock).mockImplementation(() => ({ color: [{ attribute_code: 'color', id: '42', label: 'Green' }] }));
     const wrapper = (actions: any) => actions.setCurrent(contextMock, product)
     await wrapper(productActions)
-    expect(contextMock.commit).toHaveBeenNthCalledWith(1, mutationTypes.PRODUCT_SET_CURRENT_CONFIGURATION, { color: 42 })
-    expect(contextMock.commit).toHaveBeenNthCalledWith(2, mutationTypes.PRODUCT_SET_CURRENT, { sku: 'sku' })
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, mutationTypes.PRODUCT_SET_CURRENT_OPTIONS, { color: [{ attribute_code: 'color', id: '42', label: 'Green' }] })
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, mutationTypes.PRODUCT_SET_CURRENT_CONFIGURATION, { color: 42 })
+    expect(contextMock.commit).toHaveBeenNthCalledWith(3, mutationTypes.PRODUCT_SET_CURRENT, { sku: 'sku' })
   })
   it('should call setProductGallery if mergeConfigurableChildren is set false', async () => {
     const wrapper = (actions: any) => actions.setCurrent(contextMock, product)
