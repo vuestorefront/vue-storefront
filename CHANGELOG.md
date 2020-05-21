@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Blank order details page - @mdanilowicz (#4382)
 - upadate cart hash after sync with backend - @gibkigonzo (#4387)
 - exit from errorHandler after redirection - @gibkigonzo (#4246)
+- add redirection in component for simple product related to configurable product - @gibkigonzo (#4359)
 
 ## [1.11.3] - 2020.04.27
 
