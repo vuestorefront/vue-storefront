@@ -41,5 +41,6 @@ export interface StoreView {
   },
   seo: {
     defaultTitle: string
-  }
+  },
+  websiteId?: number
 }

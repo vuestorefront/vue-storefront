@@ -8,6 +8,7 @@ import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 /** Syncs given task. If user is offline request will be sent to the server after restored connection */
 async function queue (task) {
@@ -39,7 +40,8 @@ async function execute (task): Promise<Task> { // not offline task
     } else {
       const currentUserToken = rootStore.getters['user/getUserToken']
       const currentCartToken = rootStore.getters['cart/getCartToken']
-      taskExecute(task, currentUserToken, currentCartToken).then((result) => {
+      const currentWebsiteId = currentStoreView().websiteId
+      taskExecute(task, currentUserToken, currentCartToken, currentWebsiteId).then((result) => {
         resolve(result)
       }).catch(err => {
         reject(err)

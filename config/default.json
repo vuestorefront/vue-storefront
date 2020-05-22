@@ -626,13 +626,13 @@
   "users": {
     "autoRefreshTokens": true,
     "endpoint": "/api/user",
-    "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
-    "resetPassword_endpoint": "/api/user/reset-password",
-    "changePassword_endpoint": "/api/user/change-password?token={{token}}",
-    "login_endpoint": "/api/user/login",
-    "create_endpoint": "/api/user/create",
-    "me_endpoint": "/api/user/me?token={{token}}",
-    "refresh_endpoint": "/api/user/refresh"
+    "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}&websiteId={{websiteId}}",
+    "resetPassword_endpoint": "/api/user/reset-password&websiteId={{websiteId}}",
+    "changePassword_endpoint": "/api/user/change-password?token={{token}}&websiteId={{websiteId}}",
+    "login_endpoint": "/api/user/login?websiteId={{websiteId}}",
+    "create_endpoint": "/api/user/create?websiteId={{websiteId}}",
+    "me_endpoint": "/api/user/me?token={{token}}&websiteId={{websiteId}}",
+    "refresh_endpoint": "/api/user/refresh&websiteId={{websiteId}}"
   },
   "stock": {
     "synchronize": true,

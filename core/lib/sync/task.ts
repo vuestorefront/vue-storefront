@@ -29,12 +29,12 @@ function _sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
+function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId, currentWebsiteId) {
   if (currentToken && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
     Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for ' + task.url, 'sync')()
     _sleep(1000).then(() => {
       Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
-      _internalExecute(resolve, reject, task, currentToken, currentCartId)
+      _internalExecute(resolve, reject, task, currentToken, currentCartId, currentWebsiteId)
     })
     return // return but not resolve
   } else if (rootStore.state.userTokenInvalidateLock < 0) {
@@ -52,7 +52,10 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     reject('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
     return
   }
-  let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  let url = task.url
+    .replace('{{token}}', (currentToken == null) ? '' : currentToken)
+    .replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+    .replace('{{websiteId}}', (currentWebsiteId == null) ? '' : currentWebsiteId)
   url = processURLAddress(url); // use relative url paths
   if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
@@ -117,7 +120,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 })
               }
             }
-            if (rootStore.state.userTokenInvalidateAttemptsCount <= config.queues.maxNetworkTaskAttempts) _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
+            if (rootStore.state.userTokenInvalidateAttemptsCount <= config.queues.maxNetworkTaskAttempts) _internalExecute(resolve, reject, task, currentToken, currentCartId, currentWebsiteId) // retry
           } else {
             Logger.info('Invalidation process is disabled (autoRefreshTokens is set to false)', 'sync')()
             rootStore.dispatch('user/logout', { silent: true })
@@ -164,11 +167,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
   })
 }
 
-export function execute (task: Task, currentToken = null, currentCartId = null): Promise<Task> {
+export function execute (task: Task, currentToken = null, currentCartId = null, currentWebsiteId = null): Promise<Task> {
   const taskId = task.task_id
 
   return new Promise((resolve, reject) => {
-    _internalExecute(resolve, reject, task, currentToken, currentCartId)
+    _internalExecute(resolve, reject, task, currentToken, currentCartId, currentWebsiteId)
   })
 }
 
@@ -187,6 +190,7 @@ export function registerSyncTaskProcessor () {
       const syncTaskCollection = StorageManager.get('syncTasks')
       const currentUserToken = rootStore.getters['user/getUserToken']
       const currentCartToken = rootStore.getters['cart/getCartToken']
+      const currentWebsiteId = currentStoreView().websiteId
 
       const fetchQueue = []
       Logger.debug('Current User token = ' + currentUserToken)()
@@ -194,7 +198,7 @@ export function registerSyncTaskProcessor () {
       syncTaskCollection.iterate((task, id) => {
         if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
-          fetchQueue.push(execute(task, currentUserToken, currentCartToken).then(executedTask => {
+          fetchQueue.push(execute(task, currentUserToken, currentCartToken, currentWebsiteId).then(executedTask => {
             if (!executedTask.is_result_cacheable) {
               syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
             } else {
