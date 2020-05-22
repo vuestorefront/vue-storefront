@@ -1,5 +1,4 @@
-import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
-import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import {ProductSearchQuery, ProductsSearchEndpointParameters} from '../../types';
 
 const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters => {
   const searchQuery: ProductSearchQuery = {};

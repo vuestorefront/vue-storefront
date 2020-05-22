@@ -3,7 +3,7 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import { WishlistItem, WishlistResponseData } from '@aboutyou/backbone/endpoints/wishlist/getWishlist';
+import { WishlistItem, WishlistResponseData } from '../../types';
 import {
   getProductCoverImage,
   getProductName,
