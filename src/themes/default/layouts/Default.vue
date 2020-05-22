@@ -85,7 +85,12 @@ export default {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
-      return this.$store.dispatch('category/list', { level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0 ? config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: config.entities.optimize && isServer ? config.entities.category.includeFields : null, skipCache: isServer })
+      return this.$store.dispatch('category-next/fetchMenuCategories', {
+        level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
+          ? config.entities.category.categoriesDynamicPrefetchLevel
+          : null,
+        skipCache: isServer
+      })
     }
   },
   serverPrefetch () {

@@ -1,10 +1,12 @@
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { Compare } from '../../../components/Compare'
+import config from 'config'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: jest.fn()
 }));
 jest.mock('@vue-storefront/core/modules/compare/mixins/compareMountedMixin', () => ({}))
+jest.mock('config', () => ({}));
 
 describe('Compare', () => {
   it('Compare dispatches attribute list action on created', () => {
@@ -18,6 +20,12 @@ describe('Compare', () => {
         }
       }
     };
+
+    config.entities = {
+      attribute: {
+        loadByAttributeMetadata: false
+      }
+    }
 
     mountMixinWithStore(Compare, storeMock);
 

@@ -1,6 +1,5 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import {
   prepareProductsToAdd,
   productsEquals,
@@ -13,11 +12,11 @@ import { cartHooksExecutors } from './../../hooks'
 const itemActions = {
   async configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
-    const variant = configureProductAsync(context, {
+    const variant = await dispatch('product/getProductVariant', {
       product,
-      configuration,
-      selectDefaultVariant: false
-    })
+      configuration
+    }, { root: true })
+
     const itemWithSameSku = getters.getCartItems.find(item => item.sku === variant.sku)
 
     if (itemWithSameSku && product.sku !== variant.sku) {

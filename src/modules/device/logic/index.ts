@@ -16,37 +16,36 @@ const testers = {
   isMobile (a) {
     return REGEX_MOBILE1.test(a) || REGEX_MOBILE2.test(a.substr(0, 4))
   },
-  
+
   isMobileOrTablet (a) {
     return REGEX_MOBILE_OR_TABLET1.test(a) || REGEX_MOBILE_OR_TABLET2.test(a.substr(0, 4))
   },
-  
+
   isIos (a) {
     return /iPad|iPhone|iPod/.test(a)
   },
-  
+
   isWindows (a) {
     return /Windows/.test(a)
   },
-  
+
   isMacOS (a) {
     return /Mac OS X/.test(a)
   }
 }
 
 interface DeviceTests {
-  isMobile?: Boolean,
-  isMobileOrTablet?: Boolean,
-  isTablet?: Boolean,
-  isDesktop?: Boolean,
-  isDesktopOrTablet?: Boolean,
-  isIos?: Boolean,
-  isWindows?: Boolean,
-  isMacOS?: Boolean,
+  isMobile?: boolean,
+  isMobileOrTablet?: boolean,
+  isTablet?: boolean,
+  isDesktop?: boolean,
+  isDesktopOrTablet?: boolean,
+  isIos?: boolean,
+  isWindows?: boolean,
+  isMacOS?: boolean
 }
 
-export default (userAgent: string, tests: Array<string>): DeviceTests => {
-
+export default (userAgent: string, tests: string[]): DeviceTests => {
   const deviceTests: DeviceTests = {}
 
   for (let test of tests) {
@@ -68,5 +67,4 @@ export default (userAgent: string, tests: Array<string>): DeviceTests => {
   }
 
   return deviceTests
-
 }

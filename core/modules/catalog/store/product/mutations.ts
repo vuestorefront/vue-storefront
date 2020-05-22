@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from './mutation-types'
 import ProductState, { PagedProductList } from '../../types/ProductState'
+import Vue from 'vue'
 
 const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_PAGED_PRODUCTS] (state, searchResult) {
@@ -48,7 +49,7 @@ const mutations: MutationTree<ProductState> = {
     state.current_options = configuration
   },
   [types.PRODUCT_SET_CURRENT_CONFIGURATION] (state, configuration = {}) {
-    state.current_configuration = configuration
+    Vue.set(state, 'current_configuration', configuration || {})
   },
   [types.PRODUCT_SET_ORIGINAL] (state, product) {
     state.original = product
