@@ -81,10 +81,10 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    console.warn(`
+    Logger.warn(`
       Deprecated action mappingFallback - use mapFallbackUrl instead.
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
-    `)
+    `)()
     const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)

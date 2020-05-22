@@ -1,4 +1,5 @@
 import { MutationTree } from 'vuex'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from './mutation-types'
 import ProductState, { PagedProductList } from '../../types/ProductState'
 import Vue from 'vue'
@@ -92,28 +93,28 @@ const mutations: MutationTree<ProductState> = {
     state.breadcrumbs = payload
   },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
-    console.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')
+    Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()
   },
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
-    console.error('Deprecated mutation CATALOG_UPD_RELATED - use PRODUCT_SET_RELATED instead')
+    Logger.error('Deprecated mutation CATALOG_UPD_RELATED - use PRODUCT_SET_RELATED instead')()
   },
   [types.CATALOG_UPD_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
-    console.error('Deprecated mutation CATALOG_UPD_BUNDLE_OPTION - use PRODUCT_SET_BUNDLE_OPTION instead')
+    Logger.error('Deprecated mutation CATALOG_UPD_BUNDLE_OPTION - use PRODUCT_SET_BUNDLE_OPTION instead')()
   },
   [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
-    console.error('Deprecated mutation CATALOG_UPD_PRODUCTS - use PRODUCT_SET_PAGED_PRODUCTS or PRODUCT_ADD_PAGED_PRODUCTS instead')
+    Logger.error('Deprecated mutation CATALOG_UPD_PRODUCTS - use PRODUCT_SET_PAGED_PRODUCTS or PRODUCT_ADD_PAGED_PRODUCTS instead')()
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
-    console.error('Deprecated mutation CATALOG_SET_PRODUCT_CURRENT - use PRODUCT_SET_CURRENT instead')
+    Logger.error('Deprecated mutation CATALOG_SET_PRODUCT_CURRENT - use PRODUCT_SET_CURRENT instead')()
   },
   [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
-    console.error('Deprecated mutation CATALOG_SET_PRODUCT_ORIGINAL - use PRODUCT_SET_ORIGINAL instead')
+    Logger.error('Deprecated mutation CATALOG_SET_PRODUCT_ORIGINAL - use PRODUCT_SET_ORIGINAL instead')()
   },
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
-    console.error('Deprecated mutation CATALOG_RESET_PRODUCT - use PRODUCT_RESET_CURRENT instead')
+    Logger.error('Deprecated mutation CATALOG_RESET_PRODUCT - use PRODUCT_RESET_CURRENT instead')()
   },
   [types.CATALOG_UPD_GALLERY] (state, productGallery) {
-    console.error('Deprecated mutation CATALOG_UPD_GALLERY - use PRODUCT_SET_GALLERY instead')
+    Logger.error('Deprecated mutation CATALOG_UPD_GALLERY - use PRODUCT_SET_GALLERY instead')()
   }
 }
 

@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
 - Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
 - Added meta info for CMS pages from Magento @mdanilowicz (#4392)
+- Add useful core events to server & logger - @cewald (#4419)
 
 ### Fixed
 
