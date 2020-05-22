@@ -5,9 +5,7 @@ import {
   updateItemInCart
 } from '@vue-storefront/about-you-api';
 import { UseCartFactoryParams} from '@vue-storefront/core';
-import { BasketResponseData } from '@aboutyou/backbone';
-import { BasketItem, BasketWith } from '@aboutyou/backbone/endpoints/basket/getBasket';
-import { BapiProduct } from '../../types';
+import { BasketResponseData, BapiProduct, BasketItem, BasketWith } from '../../types';
 
 const cartParams: BasketWith = {
   items: {

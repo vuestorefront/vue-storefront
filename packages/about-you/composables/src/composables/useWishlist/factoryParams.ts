@@ -3,9 +3,8 @@ import {
   addItemToWishlist,
   deleteItemFromWishlist
 } from '@vue-storefront/about-you-api';
-import { WishlistItem, WishlistWith, WishlistResponseData } from '@aboutyou/backbone/endpoints/wishlist/getWishlist';
-import { BapiProduct } from '@aboutyou/backbone';
 import { UseWishlistFactoryParams } from '@vue-storefront/core';
+import { BapiProduct, WishlistResponseData, WishlistItem, WishlistWith } from '../../types';
 
 const wishlistWith: WishlistWith = {
   items: {

@@ -1,6 +1,5 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
-import { BasketResponseData } from '@aboutyou/backbone';
-import { BasketItem } from '@aboutyou/backbone/endpoints/basket/getBasket';
+import { BasketResponseData, BasketItem } from '../../types';
 import {
   getProductCoverImage,
   getProductName,

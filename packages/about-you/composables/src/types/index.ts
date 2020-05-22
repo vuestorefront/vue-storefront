@@ -1,8 +1,16 @@
-import { BapiCategory } from '@aboutyou/backbone/types/BapiCategory';
-import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
 import { UseCategory } from '@vue-storefront/core';
 import { UseProduct } from '@vue-storefront/core';
 import { ComputedProperty } from '@vue-storefront/core';
+
+// Backbone types
+import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
+import { ProductWith } from '@aboutyou/backbone/types/ProductWith';
+import { BapiCategory } from '@aboutyou/backbone/types/BapiCategory';
+import { BasketItem, BasketWith, BasketResponseData } from '@aboutyou/backbone/endpoints/basket/getBasket';
+import { WishlistItem, WishlistWith, WishlistResponseData } from '@aboutyou/backbone/endpoints/wishlist/getWishlist';
+import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
+import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import { CategoryBySlugEndpointParameters } from '@aboutyou/backbone/endpoints/categories/categoryBySlug';
 
 // @todo: replace with real BapiUser type when AYC publishes that part of api
 type BapiUser = {
@@ -14,14 +22,6 @@ type BapiUserAddress = {
 }
 
 // @todo: replace with real BapiCart types when AYC publishes that part of api
-type BapiCart = {
-
-}
-
-type BapiCartItem = {
-
-}
-
 type BapiCoupon = {
 
 }
@@ -31,27 +31,19 @@ type BapiOrder = {
 
 }
 
+// @todo: replace with real BapiOrder type when AYC publishes that part of api
 type BapiLineItem = {
 
 }
 
+// @todo: replace with real BapiOrder type when AYC publishes that part of api
 type BapiOrderSearchParams = {
 
 }
 
+// @todo: replace with real BapiOrder type when AYC publishes that part of api
 type BapiShippingMethod = {
 
-}
-
-type BapiWishlistProduct = {
-  key: string;
-  product?: BapiProduct;
-  variant?: any;
-}
-
-type BapiWishlist = {
-  key: string;
-  items: BapiWishlistProduct[];
 }
 
 export interface UseCompare<PRODUCT> {
@@ -63,19 +55,29 @@ export interface UseCompare<PRODUCT> {
 }
 
 export {
-  BapiCart,
-  BapiCartItem,
-  BapiCategory,
+  UseCategory,
+  UseProduct,
   BapiCoupon,
+
+  // Mocked Types
   BapiOrder,
   BapiLineItem,
   BapiOrderSearchParams,
-  BapiProduct,
   BapiShippingMethod,
   BapiUser,
   BapiUserAddress,
-  BapiWishlist,
-  BapiWishlistProduct,
-  UseCategory,
-  UseProduct
+
+  // Reexported BapiTypes
+  BapiProduct,
+  ProductWith,
+  BapiCategory,
+  BasketResponseData,
+  BasketItem,
+  BasketWith,
+  WishlistResponseData,
+  WishlistItem,
+  WishlistWith,
+  ProductSearchQuery,
+  ProductsSearchEndpointParameters,
+  CategoryBySlugEndpointParameters
 };
