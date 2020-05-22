@@ -6,7 +6,10 @@ jest.mock('../../src/utils');
 const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 
 const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any, any>({
-  productsSearch: searchParams => Promise.resolve({ data: [{ name: 'product ' + searchParams.slug }], total: 1 })
+  productsSearch: searchParams => Promise.resolve({ data: [{ name: 'product ' + searchParams.slug }], total: 1 }),
+  sortByOptions: [
+    {value: 'price-up', label: 'Price from low to hight'}, {value: 'price-down', label: 'Price from hight to low'}
+  ]
 });
 
 describe('[CORE - factories] useProductFactory', () => {
@@ -74,5 +77,18 @@ describe('[CORE - factories] useProductFactory', () => {
       data: [{name: 'product product-slug' }],
       total: 1
     });
+  });
+
+  it('returns computed product sorting options from params', () => {
+    const saveToInitialState = jest.fn();
+    mockedUtils.useSSR.mockReturnValueOnce({
+      initialState: { data: [{ prod: 1 }], total: 5 },
+      saveToInitialState
+    });
+    const { sortByOptions } = useProduct('test-use-product');
+    expect(sortByOptions.value).toEqual([
+      {value: 'price-up', label: 'Price from low to hight'},
+      {value: 'price-down', label: 'Price from hight to low'}
+    ]);
   });
 });
