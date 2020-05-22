@@ -47,11 +47,7 @@ export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiPr
   addToCart: async ({ currentCart, product, quantity }) => {
     const basketItem = getBasketItemByProduct({ currentCart, product });
     if (basketItem) {
-      if (quantity > 0) {
-        return updateQuantity({product: basketItem, quantity});
-      }
-
-      return removeFromCart(basketItem);
+      return updateQuantity({product: basketItem, quantity: basketItem.quantity + quantity});
     }
 
     const updatedCart = await addItemToCart(null, product.variants[0].id, quantity, { with: cartParams });
