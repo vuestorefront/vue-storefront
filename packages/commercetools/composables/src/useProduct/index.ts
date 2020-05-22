@@ -22,7 +22,13 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
   };
 };
 
+const sortByOptions = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'price-up', label: 'Price from low to high' },
+  { value: 'price-down', label: 'Price from high to low' }
+];
+
 const useProduct: (cacheId: string) => UseProduct<ProductVariant, Record<string, Filter>> =
-  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>>({ productsSearch });
+  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>>({ productsSearch, sortByOptions });
 
 export default useProduct;

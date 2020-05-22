@@ -1,5 +1,5 @@
 import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
-import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import { ProductsSearchEndpointParameters, ProductSortConfig } from '@aboutyou/backbone/endpoints/products/products';
 
 const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters => {
   const searchQuery: ProductSearchQuery = {};
@@ -9,6 +9,13 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   }
   if (params.term) {
     searchQuery.term = params.term;
+  }
+
+  const sortOptions: ProductSortConfig = {};
+  if (params.sort) {
+    const [option, direction] = params.sort.split('-');
+    sortOptions.by = option;
+    sortOptions.direction = direction;
   }
 
   const pagination: { page?: number; perPage?: number} = {};
@@ -31,7 +38,7 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
       priceRange: true
     },
     where: searchQuery,
-    sort: {},
+    sort: sortOptions,
     pagination: pagination
   };
 };

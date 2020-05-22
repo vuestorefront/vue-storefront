@@ -16,6 +16,7 @@ export interface UseProduct<PRODUCT, PRODUCT_FILTERS> {
     filters?: PRODUCT_FILTERS;
     [x: string]: any;
   }) => Promise<void>;
+  sortByOptions: ComputedProperty<AgnosticSearchByOptions[]>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
@@ -303,6 +304,11 @@ export interface AgnosticCurrency {
 export interface AgnosticBreadcrumb {
   text: string;
   link: string;
+}
+
+export interface AgnosticSearchByOptions {
+  label: string;
+  value: string;
 }
 
 // TODO - remove this interface

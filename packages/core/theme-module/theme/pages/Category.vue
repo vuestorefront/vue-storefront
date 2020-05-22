@@ -291,12 +291,6 @@ import Filters from '../components/Filters';
 
 const perPageOptions = [20, 40, 100];
 
-const sortByOptions = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'price-up', label: 'Price from low to high' },
-  { value: 'price-down', label: 'Price from high to low' }
-];
-
 // TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
 const fallbackBreadcrumbs = [
   { text: 'Home', route: { link: '#' } },
@@ -315,20 +309,23 @@ export default {
       totalProducts,
       search: productsSearch,
       loading: productsLoading,
-      availableFilters
+      availableFilters,
+      sortByOptions
     } = useProduct('categoryProducts');
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
 
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
+    const sortBy = ref(query.sort || sortByOptions.value[0].value);
     const filters = ref(null);
 
     const productsSearchParams = computed(() => ({
       catId: (categories.value[0] || {}).id,
       page: currentPage.value,
       perPage: itemsPerPage.value,
-      filters: filters.value
+      filters: filters.value,
+      sort: sortBy.value
     }));
 
     onSSR(async () => {
@@ -339,12 +336,13 @@ export default {
       await loadCart();
     });
 
-    watch([itemsPerPage, filters], () => {
+    watch([itemsPerPage, sortBy, filters], () => {
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           ...context.root.$route.query,
           ...getFiltersForUrl(filters.value),
+          sort: sortBy.value,
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
         }});
       }
@@ -355,7 +353,6 @@ export default {
 
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
-    const sortBy = ref('price-up');
     const isGridView = ref(true);
     const isFilterSidebarOpen = ref(false);
 
@@ -386,7 +383,7 @@ export default {
       perPageOptions: computed(() => perPageOptions),
       sortBy,
       isFilterSidebarOpen,
-      sortByOptions: computed(() => sortByOptions),
+      sortByOptions,
       filters,
       breadcrumbs,
       applyFilters,

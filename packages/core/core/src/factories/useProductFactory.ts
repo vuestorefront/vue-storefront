@@ -10,6 +10,11 @@ type SearchParams = {
   filters?: any;
 }
 
+type SortByOptions = {
+  value: string;
+  label: string;
+}
+
 export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS> {
   data: PRODUCT[];
   total: number;
@@ -18,6 +23,7 @@ export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS> {
 
 export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS> = {
   productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS>>;
+  sortByOptions: SortByOptions[];
 };
 
 export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS>(
@@ -48,9 +54,10 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
 
     return {
       products: computed(() => products.value),
-      totalProducts: computed(() => totalProducts.value),
       availableFilters: computed(() => filters.value),
+      totalProducts: computed(() => totalProducts.value),
       search,
+      sortByOptions: computed(() => factoryParams.sortByOptions),
       loading: computed(() => loading.value)
     };
   };
