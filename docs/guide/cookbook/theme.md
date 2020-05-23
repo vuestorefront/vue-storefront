@@ -405,6 +405,17 @@ In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seam
  - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/DivanteLtd/vue-storefront).
 
 ### 2. Recipe
+1. Pull `1.11.3` tag to the `1.11` VSF app as follows : 
+```bash
+git fetch 
+git checkout tags/v1.11.3 -b recipe # this checkouts to v1.11.3 tag and create a _recipe_ branch for this tutorial.
+```
+As of now, we use `1.11.3` in lieu of `1.12` which also takes _Capybara_ as the default theme. 
+
+2. 
+
+
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
