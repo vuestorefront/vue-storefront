@@ -5,9 +5,7 @@ import {
   updateItemInCart
 } from '@vue-storefront/about-you-api';
 import { UseCartFactoryParams} from '@vue-storefront/core';
-import { BasketResponseData } from '@aboutyou/backbone';
-import { BasketItem, BasketWith } from '@aboutyou/backbone/endpoints/basket/getBasket';
-import { BapiProduct } from '../../types';
+import { BasketResponseData, BapiProduct, BasketItem, BasketWith } from '../../types';
 
 const cartParams: BasketWith = {
   items: {
@@ -40,18 +38,14 @@ const updateQuantity = async ({ product, quantity }) => {
 };
 export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiProduct, any> = {
   loadCart: async () => {
-    const basketRespone = await getCart(null, { with: cartParams });
+    const basketResponse = await getCart(null, { with: cartParams });
 
-    return basketRespone.basket;
+    return basketResponse.basket;
   },
-  addToCart: async ({ currentCart, product, quantity }) => {
+  addToCart: async ({ currentCart, product, quantity = 1 }) => {
     const basketItem = getBasketItemByProduct({ currentCart, product });
     if (basketItem) {
-      if (quantity > 0) {
-        return updateQuantity({product: basketItem, quantity});
-      }
-
-      return removeFromCart(basketItem);
+      return updateQuantity({product: basketItem, quantity: basketItem.quantity + quantity});
     }
 
     const updatedCart = await addItemToCart(null, product.variants[0].id, quantity, { with: cartParams });

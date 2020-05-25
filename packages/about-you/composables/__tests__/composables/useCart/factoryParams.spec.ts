@@ -31,7 +31,7 @@ describe('[about-you-composables] useCart factoryParams', () => {
   });
 
   describe('addToCart', () => {
-    it('calls addItemToCart endpoint and returns updated cart given quantity > 0 when product doesn\'t exists in cart', async () => {
+    it('calls addItemToCart endpoint and returns updated cart when product doesn\'t exists in cart', async () => {
       const initialCart: BasketResponseData = {
         cost: null,
         currencyCode: 'EUR',
@@ -83,7 +83,7 @@ describe('[about-you-composables] useCart factoryParams', () => {
       expect(await params.addToCart({ quantity: 1, currentCart: initialCart, product })).toEqual(expectedCart);
     });
 
-    it('calls updateItemInCart endpoint and returns updated cart given quantity > 0 when product exists in cart', async () => {
+    it('calls updateItemInCart endpoint and returns updated cart when product exists in cart', async () => {
       const initialCart: BasketResponseData = {
         cost: null,
         currencyCode: 'EUR',
@@ -136,46 +136,6 @@ describe('[about-you-composables] useCart factoryParams', () => {
       (updateItemInCart as jest.Mock).mockReturnValueOnce({ basket: expectedCart });
 
       expect(await params.addToCart({quantity: 5, currentCart: initialCart, product })).toEqual(expectedCart);
-    });
-
-    it('calls deleteItemFromCart endpoint and returns updated cart given quantity = 0', async () => {
-      const initialCart: BasketResponseData = {
-        cost: null,
-        currencyCode: 'EUR',
-        items: [{
-          customData: null,
-          displayData: null,
-          key: '',
-          packageId: 0,
-          price: {total: null, unit: null},
-          product: {
-            id: 123
-          } as any,
-          quantity: 1,
-          status: null,
-          variant: null
-        }],
-        key: null,
-        packages: []
-
-      };
-      const expectedCart = {
-        items: []
-      };
-
-      const product: BapiProduct = {
-        createdAt: '',
-        id: 123,
-        images: [],
-        isActive: false,
-        isNew: false,
-        isSoldOut: false,
-        updatedAt: ''
-      };
-
-      (deleteItemFromCart as jest.Mock).mockReturnValueOnce(expectedCart);
-
-      expect(await params.addToCart({quantity: 0, currentCart: initialCart, product })).toEqual(expectedCart);
     });
   });
 
