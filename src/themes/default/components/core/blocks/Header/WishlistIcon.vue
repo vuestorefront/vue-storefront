@@ -3,6 +3,7 @@
     type="button"
     class="inline-flex bg-cl-transparent brdr-none relative"
     @click="toggleWishlistPanel"
+    data-testid="wishlist-icon"
     :aria-label="$t('Open wishlist')"
   >
     <i class="material-icons">favorite_border</i>
