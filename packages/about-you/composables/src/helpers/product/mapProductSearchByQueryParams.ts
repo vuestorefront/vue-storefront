@@ -1,5 +1,4 @@
-import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
-import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import {ProductSearchQuery, ProductsSearchEndpointParameters} from '../../types';
 
 const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters => {
   const searchQuery: ProductSearchQuery = {};
@@ -22,9 +21,12 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
 
   return {
     with: {
-      advancedAttributes: {
-        withKey: ['productName']
-      },
+      attributes: 'all',
+      advancedAttributes: 'all',
+      variants: 'all',
+      images: 'all',
+      siblings: 'all',
+      categories: 'all',
       priceRange: true
     },
     where: searchQuery,

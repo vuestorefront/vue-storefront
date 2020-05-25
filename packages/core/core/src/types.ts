@@ -97,24 +97,25 @@ export interface UseCart
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon: (coupon: string) => Promise<void>;
   removeCoupon: () => Promise<void>;
-  refreshCart: () => Promise<void>;
+  loadCart: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
 export interface UseWishlist
 <
   WISHLIST,
-  PRODUCT,
   WISHLIST_ITEM,
+  PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT, quantity: number) => Promise<void>;
-  isOnWishlist: (product: PRODUCT) => ComputedProperty<boolean>;
-  removeFromWishlist: (product: WISHLIST_ITEM) => Promise<void>;
+  addToWishlist: (product: PRODUCT) => Promise<void>;
+  isOnWishlist: (product: PRODUCT) => boolean;
+  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
   clearWishlist: () => Promise<void>;
-  refreshWishlist: () => Promise<void>;
+  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
@@ -175,7 +176,8 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
   getShortDescription?: (product: PRODUCT) => string;
-  [getterName: string]: (element: any, options?: any) => unknown;
+  getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
+  [getterName: string]: any;
 }
 
 export interface CartGetters<CART, CART_ITEM> {
@@ -193,9 +195,23 @@ export interface CartGetters<CART, CART_ITEM> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
+export interface WishlistGetters<WISHLIST, WISHLIST_ITEM> {
+  getItems: (wishlist: WISHLIST) => WISHLIST_ITEM[];
+  getItemName: (wishlistItem: WISHLIST_ITEM) => string;
+  getItemImage: (wishlistItem: WISHLIST_ITEM) => string;
+  getItemPrice: (wishlistItem: WISHLIST_ITEM) => AgnosticPrice;
+  getItemAttributes: (wishlistItem: WISHLIST_ITEM, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
+  getItemSku: (wishlistItem: WISHLIST_ITEM) => string;
+  getTotals: (wishlist: WISHLIST) => AgnosticTotals;
+  getTotalItems: (wishlist: WISHLIST) => number;
+  getFormattedPrice: (price: number) => string;
+  [getterName: string]: (element: any, options?: any) => unknown;
+}
+
 export interface CategoryGetters<CATEGORY> {
   getTree: (category: CATEGORY) => AgnosticCategoryTree | null;
-  [getterName: string]: (element: any, options?: any) => unknown;
+  getBreadcrumbs?: (category: CATEGORY) => AgnosticBreadcrumb[];
+  [getterName: string]: any;
 }
 
 export interface UserGetters<USER> {
@@ -283,6 +299,11 @@ export interface AgnosticCurrency {
   prefixSign: boolean;
   sign: string;
   [x: string]: unknown;
+}
+
+export interface AgnosticBreadcrumb {
+  text: string;
+  link: string;
 }
 
 // TODO - remove this interface

@@ -152,7 +152,9 @@
             :score-rating="3"
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
+            :isAddedToCart="isOnCart(product)"
             @click:wishlist="toggleWishlist(i)"
+            @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
@@ -281,7 +283,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, ref, watch, onMounted } from '@vue/composition-api';
-import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
+import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
@@ -296,7 +298,7 @@ const sortByOptions = [
 ];
 
 // TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
-const breadcrumbs = [
+const fallbackBreadcrumbs = [
   { text: 'Home', route: { link: '#' } },
   { text: 'Women', route: { link: '#' } }
 ];
@@ -315,6 +317,8 @@ export default {
       loading: productsLoading,
       availableFilters
     } = useProduct('categoryProducts');
+    const { loadCart, addToCart, isOnCart } = useCart();
+    const { addToWishlist } = useWishlist();
 
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
@@ -332,6 +336,7 @@ export default {
       await productsSearch(productsSearchParams.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);
       await productsSearch(productsSearchParams.value);
+      await loadCart();
     });
 
     watch([itemsPerPage, filters], () => {
@@ -355,7 +360,7 @@ export default {
     const isFilterSidebarOpen = ref(false);
 
     function toggleWishlist(index) {
-      products.value[index].isOnWishlist = !this.products.value[index].isOnWishlist;
+      addToWishlist(products.value[index]);
     }
 
     const applyFilters = (updatedFilters) => {
@@ -363,6 +368,8 @@ export default {
       productsSearch(productsSearchParams.value);
       isFilterSidebarOpen.value = false;
     };
+
+    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs ? categoryGetters.getBreadcrumbs(categories.value[0]) : fallbackBreadcrumbs);
 
     return {
       products,
@@ -381,9 +388,11 @@ export default {
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
       filters,
-      breadcrumbs: computed(() => breadcrumbs),
+      breadcrumbs,
       applyFilters,
       toggleWishlist,
+      addToCart,
+      isOnCart,
       isGridView
     };
   },

@@ -230,7 +230,7 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading } = useCart();
+    const { addToCart, loading, loadCart } = useCart();
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
@@ -249,8 +249,10 @@ export default {
         return description;
       }
     });
+    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
     onSSR(async () => {
+      await loadCart();
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
     });
@@ -274,7 +276,8 @@ export default {
       addToCart,
       loading,
       productGetters,
-      shortDescription
+      shortDescription,
+      breadcrumbs
     };
   },
   components: {
@@ -336,7 +339,7 @@ export default {
         }
       ],
       detailsIsActive: false,
-      breadcrumbs: [
+      fallbackBreadcrumbs: [
         {
           text: 'Home',
           route: {
