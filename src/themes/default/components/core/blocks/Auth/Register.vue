@@ -113,7 +113,7 @@
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
           :validations="[{
-            condition: !$v.conditions.required && $v.conditions.$error,
+            condition: !$v.conditions.sameAs && $v.conditions.$error,
             text: $t('You must accept the terms and conditions.')
           }]"
         >
@@ -163,7 +163,7 @@ export default {
       sameAsPassword: sameAs('password')
     },
     conditions: {
-      required
+      sameAs: sameAs(() => true)
     }
   },
   mixins: [Register],
