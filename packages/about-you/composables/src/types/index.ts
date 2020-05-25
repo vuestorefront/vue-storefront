@@ -6,7 +6,7 @@ import {
   AttributeWithBooleanValueFilter,
   AttributeWithValuesFilter
 } from '@aboutyou/backbone/types/AttributeOrAttributeValueFilter';
-
+import {BapiProductSearchQuery} from '@vue-storefront/about-you-api';
 // @todo: replace with real BapiUser type when AYC publishes that part of api
 type BapiUser = {
   firstName?: string;

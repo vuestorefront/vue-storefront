@@ -16,9 +16,9 @@
           >
             <SfColor
               v-for="option in filters[filterName].options"
-              :key="`${filterName}-${option.label}`"
+              :key="`${filterName}-${option.name}`"
               :data-cy="`category-filter_color_${option.name}`"
-              :color="option.value"
+              :color="option.name"
               :selected="option.selected"
               class="filters__color"
               @click="option.selected = !option.selected"
@@ -38,10 +38,6 @@
         </template>
       </template>
       <div class="filters__buttons">
-        <SfButton
-          @click="applyFilters"
-          class="sf-button--full-width"
-        >Apply Filters</SfButton>
         <SfButton
           @click="clearFilters"
           class="sf-button--full-width filters__button-clear"
@@ -100,9 +96,11 @@ export default {
   setup(props, { emit }) {
 
     const filtersMap = computed(() => {
-      return Object.keys(props.filters).reduce((obj, item) => {
-        return { ...obj, [item]: props.filters[item].name};
-      }, {});
+      if (props.filters) {
+        return Object.keys(props.filters).reduce((obj, item) => {
+          return { ...obj, [item]: props.filters[item].name};
+        }, {});
+      }
     });
 
     const clearFilters = () => {

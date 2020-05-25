@@ -21,7 +21,6 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   }
 
   let filters;
-
   if (params.filters) {
     filters = Object.keys(params.filters).map(filter => {
       const options = params.filters[filter].options?.filter(option => option.selected);
@@ -37,8 +36,6 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     ...searchQuery,
     attributes: filters
   };
-
-  console.log(refinedSearchQuery);
 
   return {
     with: {
