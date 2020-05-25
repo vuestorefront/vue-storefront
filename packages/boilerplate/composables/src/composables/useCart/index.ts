@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UseCart, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { Cart, CartItem, Coupon, Product } from '../../types';
 
@@ -9,7 +9,6 @@ export const cart: Ref<Cart> = ref(null);
 // @todo: implement cart
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
-  cart,
   loadCart: async () => {
     return {};
   },
@@ -43,6 +42,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-const useCart: () => UseCart<Cart, CartItem, Product, Coupon> = useCartFactory<Cart, CartItem, Product, Coupon>(params);
+const {setCart, useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
 
-export default useCart;
+export { setCart, useCart};

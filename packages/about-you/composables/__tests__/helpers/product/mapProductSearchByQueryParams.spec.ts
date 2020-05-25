@@ -5,10 +5,13 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
     const params = {};
     const expectedQuery = {
       with: {
-        advancedAttributes: {
-          withKey: ['productName']
-        },
-        priceRange: true
+        advancedAttributes: 'all',
+        attributes: 'all',
+        categories: 'all',
+        images: 'all',
+        priceRange: true,
+        siblings: 'all',
+        variants: 'all'
       },
       where: {},
       sort: {},
@@ -28,10 +31,13 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
     };
     const expectedQuery = {
       with: {
-        advancedAttributes: {
-          withKey: ['productName']
-        },
-        priceRange: true
+        advancedAttributes: 'all',
+        attributes: 'all',
+        categories: 'all',
+        images: 'all',
+        priceRange: true,
+        siblings: 'all',
+        variants: 'all'
       },
       where: {
         categoryId: params.catId,

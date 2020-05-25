@@ -1,52 +1,50 @@
-/* istanbul ignore file */
-
 import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
-import { Cart, LineItem } from '@vue-storefront/boilerplate-api/src/types';
+import { BasketResponseData, BasketItem } from '../../types';
+import {
+  getProductCoverImage,
+  getProductName,
+  getProductPrice,
+  getFormattedPrice,
+  getProductId,
+  getProductAttributes
+} from './productGetters';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItems = (cart: Cart): LineItem[] => [];
+export const getCartItems = (cart: BasketResponseData): BasketItem[] => cart?.items ?? [];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemName = (product: LineItem): string => '';
+export const getCartItemName = (product: BasketItem): string => product?.product ? getProductName(product.product) : '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemImage = (product: LineItem): string => '';
+export const getCartItemImage = (product: BasketItem): string => product?.product ? getProductCoverImage(product.product) : '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemPrice = (product: LineItem): AgnosticPrice => {
-  return {
-    regular: 0,
-    special: 0
+export const getCartItemPrice = (product: BasketItem): AgnosticPrice => product?.product ? getProductPrice(product.product) : {
+  regular: 0,
+  special: 0
+};
+
+export const getCartItemQty = (product: BasketItem): number => product?.quantity ?? 0;
+
+export const getCartItemAttributes = (product: BasketItem, filterByAttributeName?: string[]) => {
+  return product?.product ? getProductAttributes(product.product, filterByAttributeName) : {};
+};
+
+export const getCartItemSku = (product: BasketItem): string => product?.product ? getProductId(product.product) : '';
+
+export const getCartTotals = (cart: BasketResponseData): AgnosticTotals => {
+  return cart?.cost ? {
+    total: cart.cost.withTax / 100,
+    subtotal: cart.cost.withoutTax / 100
+  } : {
+    total: 0,
+    subtotal: 0
   };
 };
 
+// unavailable
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemQty = (product: LineItem): number => 1;
+export const getCartShippingPrice = (cart: BasketResponseData): number => 0;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) => ({ color: 'red' });
+export const getCartTotalItems = (cart: BasketResponseData): number => cart?.items.reduce((previous, current) => previous + current.quantity, 0) ?? 0;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemSku = (product: LineItem): string => '';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartTotals = (cart: Cart): AgnosticTotals => {
-  return {
-    total: 1,
-    subtotal: 1
-  };
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartShippingPrice = (cart: Cart): number => 0;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartTotalItems = (cart: Cart): number => 0;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) => String(price);
-
-const cartGetters: CartGetters<Cart, LineItem> = {
+const cartGetters: CartGetters<BasketResponseData, BasketItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
   getItems: getCartItems,

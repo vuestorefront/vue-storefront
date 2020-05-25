@@ -3,10 +3,12 @@
     data-cy="app-header"
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
+    @click:wishlist="toggleWishlistSidebar"
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
-    >
+    class="sf-header--has-mobile-search"
+  >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
       <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
@@ -30,27 +32,34 @@
         </nuxt-link>
       </SfHeaderNavigationItem>
     </template>
+    <template #aside>
+      <LocaleSelector class="mobile-only" />
+    </template>
   </SfHeader>
 </template>
 
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
-import { useCart, useUser, cartGetters } from '<%= options.composables %>';
+import { useCart, useWishlist, useUser, cartGetters } from '<%= options.composables %>';
 import { computed } from '@vue/composition-api';
-const { toggleCartSidebar, toggleLoginModal } = uiState;
+import { onSSR } from '@vue-storefront/core';
+import LocaleSelector from './LocaleSelector';
+
+const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = uiState;
 
 export default {
   components: {
     SfHeader,
-    SfImage
+    SfImage,
+    LocaleSelector
   },
   setup(props, { root }) {
     const { isAuthenticated } = useUser();
-    const { cart } = useCart();
+    const { cart, loadCart } = useCart();
+    const { loadWishlist } = useWishlist();
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
-      // TODO: remove once resolved by UI team: https://github.com/DivanteLtd/storefront-ui/issues/1061
       return count ? count.toString() : null;
     });
 
@@ -60,12 +69,18 @@ export default {
       isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
     };
 
+    onSSR(async () => {
+      await loadCart();
+      await loadWishlist();
+    });
+
     return {
       accountIcon,
       cartTotalItems,
       toggleLoginModal,
       onAccountClicked,
-      toggleCartSidebar
+      toggleCartSidebar,
+      toggleWishlistSidebar
     };
   }
 };

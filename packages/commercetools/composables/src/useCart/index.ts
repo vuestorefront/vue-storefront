@@ -1,4 +1,3 @@
-import { UseCart } from '@vue-storefront/core';
 import {
   addToCart as apiAddToCart,
   removeFromCart as apiRemoveFromCart,
@@ -8,12 +7,8 @@ import {
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
 import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
-import { ref, Ref } from '@vue/composition-api';
-
-export const cart: Ref<Cart> = ref(null);
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
-  cart,
   loadCart: async () => {
     return await loadCurrentCart();
   },
@@ -47,6 +42,6 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   }
 };
 
-const useCart: () => UseCart<Cart, LineItem, ProductVariant, any> = useCartFactory<Cart, LineItem, ProductVariant, any>(params);
+const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, any>(params);
 
-export default useCart;
+export { useCart, setCart };

@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UseUser, useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
+import { useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
 import { User } from '../../types';
 
 // @todo useUser
@@ -35,6 +35,6 @@ const params: UseUserFactoryParams<User, any, any> = {
   }
 };
 
-const useUser: () => UseUser<User, any> = useUserFactory<User, any, any>(params);
+const {setUser, useUser} = useUserFactory<User, any, any>(params);
 
-export default useUser;
+export {setUser, useUser};
