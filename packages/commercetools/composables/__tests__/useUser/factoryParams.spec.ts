@@ -2,21 +2,22 @@ import { params } from '../../src/useUser/factoryParams';
 import {
   getMe as apiGetMe,
   customerSignOut as apiCustomerSignOut,
-  customerChangeMyPassword as apiCustomerChangeMyPassword
+  customerChangeMyPassword as apiCustomerChangeMyPassword,
+  createCart as apiCreateCart
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
-import useCart from '../../src/useCart';
+import { useCart } from '../../src/useCart';
 
 jest.mock('../../src/useCart', () => ({
-  __esModule: true,
-  cart: { value: null },
-  default: jest.fn()
+  useCart: jest.fn(() => {}),
+  setCart: jest.fn()
 }));
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
   customerSignOut: jest.fn(),
-  customerChangeMyPassword: jest.fn()
+  customerChangeMyPassword: jest.fn(),
+  createCart: jest.fn()
 }));
 
 jest.mock('../../src/useUser/authenticate', () => ({
@@ -41,12 +42,20 @@ describe('[commercetools-composables] factoryParams', () => {
     });
 
     expect(await params.loadUser()).toEqual(null);
+
+    (apiGetMe as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('some error');
+    });
+
+    await expect(params.loadUser()).rejects.toThrowError('some error');
   });
   it('logOut method calls API log out method', async () => {
+    (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
     const refreshCartMock = jest.fn(() => {});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
     await params.logOut();
     expect(apiCustomerSignOut).toHaveBeenCalled();
+    expect(apiCreateCart).toHaveBeenCalled();
   });
   it('updateUser return updated user', async () => {
     // wait until the apiClient receive userUpdate method
@@ -74,6 +83,7 @@ describe('[commercetools-composables] factoryParams', () => {
     });
 
     it('succeed returning logged user', async () => {
+      (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
       const userEmail = {data: {user: {email: 'Test' }}};
 
       const refreshCartMock = jest.fn(() => {});
@@ -93,6 +103,7 @@ describe('[commercetools-composables] factoryParams', () => {
     describe('error is called by a console error', () => {
       const consoleErrorSpy = jest.spyOn(console, 'error');
       it('with first message from graphQL errors array', async () => {
+        (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
         consoleErrorSpy.mockImplementationOnce(() => {});
         const refreshCartMock = jest.fn(() => {});
         (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
@@ -104,6 +115,7 @@ describe('[commercetools-composables] factoryParams', () => {
         expect(consoleErrorSpy).toBeCalledWith('There is an error');
       });
       it('with message from exception', async () => {
+        (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
         consoleErrorSpy.mockImplementationOnce(() => {});
         (apiCustomerChangeMyPassword as jest.Mock).mockReturnValueOnce({data: {user: {email: ''}}});
         (authenticate as jest.Mock).mockImplementationOnce(() => {

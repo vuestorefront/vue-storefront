@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { getCurrentInstance, ref } from '@vue/composition-api';
 
 const useLocale = () => {

@@ -22,12 +22,12 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const themeComponentsDir = path.join(this.options.rootDir, 'pages');
   const themePagesDir = path.join(this.options.rootDir, 'components');
   const themeHelpersDir = path.join(this.options.rootDir, 'helpers');
-  const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes('/static/'));
+  const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
   const compileAgnosticTemplate = (filePath) => {
     return compileTemplate(
       path.join(__dirname, filePath),
-      this.options.buildDir.split('.nuxt').pop() + '.theme/' + filePath.split('theme/').pop(),
+      this.options.buildDir.split('.nuxt').pop() + '.theme' + path.sep + filePath.split('theme' + path.sep).pop(),
       {
         apiClient: moduleOptions.apiClient,
         helpers: moduleOptions.helpers,

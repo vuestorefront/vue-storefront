@@ -1,6 +1,6 @@
 import { getCategoryTree } from '../../../src/composables/getters/categoryGetters';
 
-describe('[about-you-composables] categoryGetters', () => {
+describe('[about-you-composables] category getters', () => {
   it('getCategoryTree returns null given no category', async () => {
     expect(getCategoryTree(null as any)).toEqual(null);
   });

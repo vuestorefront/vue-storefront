@@ -16,7 +16,7 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       lastName: 'Doe',
       country: 'US',
       city: 'New York',
-      phone: '123',
+      contactInfo: { phone: '123' },
       postalCode: '11-111',
       streetName: 'Street 1',
       streetNumber: ''
@@ -30,7 +30,16 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       actions: [
         {
           setShippingAddress: {
-            address: shippingDetails
+            address: {
+              firstName: 'John',
+              lastName: 'Doe',
+              country: 'US',
+              city: 'New York',
+              phone: '123',
+              postalCode: '11-111',
+              streetName: 'Street 1',
+              streetNumber: ''
+            }
           }
         }
       ]

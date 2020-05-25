@@ -620,7 +620,7 @@ describe('[prismic] usePrismic', () => {
       initialState: null,
       saveToInitialState: jest.fn()
     });
-    
+
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(LegalExampleMock));
