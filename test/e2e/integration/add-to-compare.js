@@ -8,7 +8,7 @@ describe('add to compare', () => {
     cy.go('back').wait(1000)
     cy.get('[data-testid="addToCompare"]').eq(2).click()
     cy.scrollTo('top');
-    cy.get('[data-testid="comparelist-icon"]').click();
+    cy.get('[data-testid="compare-list-icon"]').click();
     cy.get('[data-testid="comparedProduct"]').should('have.length', 2)
   });
 });

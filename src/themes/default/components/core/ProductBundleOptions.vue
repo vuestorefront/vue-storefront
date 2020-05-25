@@ -1,5 +1,5 @@
 <template>
-  <form class="custom-options" data-testid="custom-options">
+  <form class="custom-options" data-testid="bundle-options">
     <div v-for="option in product.bundle_options" :key="('bundleOption_' + option.option_id)">
       <product-bundle-option :option="option" @option-changed="optionChanged" :error-messages="errorMessages" />
     </div>

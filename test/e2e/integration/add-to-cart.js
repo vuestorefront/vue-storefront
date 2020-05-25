@@ -23,7 +23,7 @@ describe('add to cart', () => {
     cy.get('input[type=number]').should('have.value', '2');
   });
 
-  it.only('verify that the bundle product is added to cart', () => {
+  it('verify that the bundle product is added to cart', () => {
     cy.visit('/p/24-WG080/sprite-yoga-companion-kit-45');
     cy.get('[data-testid=addToCart]').click();
     cy.get('[data-testid=notificationMessage]', { timeout: 10000 }).contains(
@@ -31,8 +31,8 @@ describe('add to cart', () => {
     );
     cy.get('[data-testid=notificationAction1]').click();
 
-    cy.get('[data-testid=custom-options]').children().as('allOptions')
-    cy.get('@allOptions').first().find('[data-testid=custom-single-option]').its(1).as('ballOptions')
+    cy.get('[data-testid=bundle-options]').children().as('allOptions')
+    cy.get('@allOptions').first().find('[data-testid=bundle-single-option]').its(1).as('ballOptions')
       .find('input[type=radio]').click({ force: true })
     cy.get('#bundleOptionQty_1')
       .clear()
