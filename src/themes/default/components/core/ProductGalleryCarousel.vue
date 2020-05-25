@@ -105,7 +105,8 @@ export default {
     navigate (index) {
       this.currentPage = index
     },
-    selectVariant () {
+    async selectVariant (configuration) {
+      await this.$nextTick()
       if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
           result[attribute] = this.configuration[attribute].id
