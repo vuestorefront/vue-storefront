@@ -76,4 +76,17 @@ describe('Cart createShippingInfoData', () => {
       shippingMethodCode: 'YY'
     });
   });
+
+  it('doesn\t add shippingCarrierCode or shippingMethodCode if missing carrier_code or method_code', async () => {
+    const methodsData = {
+      country: 'UK'
+    };
+    const shippingInfoData = createShippingInfoData(methodsData);
+    expect(shippingInfoData).toEqual({
+      billingAddress: {},
+      shippingAddress: {
+        countryId: 'UK'
+      }
+    });
+  });
 });

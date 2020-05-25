@@ -50,6 +50,10 @@
               {
                 condition: !$v.firstName.minLength,
                 text: $t('Name must have at least 2 letters.')
+              },
+              {
+                condition: !$v.firstName.alpha && $v.firstName.$error,
+                text: $t('Accepts only alphabet characters.')
               }
             ]"
           />
@@ -61,10 +65,16 @@
             v-model="lastName"
             @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
-            :validations="[{
-              condition: !$v.lastName.required && $v.lastName.$error,
-              text: $t('Field is required.')
-            }]"
+            :validations="[
+              {
+                condition: !$v.lastName.required && $v.lastName.$error,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.lastName.alpha && $v.lastName.$error,
+                text: $t('Accepts only alphabet characters.')
+              }
+            ]"
           />
         </div>
         <base-input
@@ -113,7 +123,7 @@
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
           :validations="[{
-            condition: !$v.conditions.required && $v.conditions.$error,
+            condition: !$v.conditions.sameAs && $v.conditions.$error,
             text: $t('You must accept the terms and conditions.')
           }]"
         >
@@ -139,7 +149,7 @@ import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs, alpha } from 'vuelidate/lib/validators'
 
 export default {
   validations: {
@@ -149,10 +159,12 @@ export default {
     },
     firstName: {
       minLength: minLength(2),
-      required
+      required,
+      alpha
     },
     lastName: {
-      required
+      required,
+      alpha
     },
     password: {
       minLength: minLength(8),
@@ -163,7 +175,7 @@ export default {
       sameAsPassword: sameAs('password')
     },
     conditions: {
-      required
+      sameAs: sameAs(() => true)
     }
   },
   mixins: [Register],
