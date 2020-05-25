@@ -11,6 +11,7 @@
       ref="carousel"
       :speed="carouselTransitionSpeed"
       @pageChange="pageChange"
+      :navigate-to="currentPage"
     >
       <slide
         v-for="(images, index) in gallery"
@@ -102,9 +103,7 @@ export default {
   },
   methods: {
     navigate (index) {
-      if (this.$refs.carousel) {
-        this.$refs.carousel.goToPage(index)
-      }
+      this.currentPage = index
     },
     selectVariant () {
       if (config.products.gallery.mergeConfigurableChildren) {
@@ -137,8 +136,6 @@ export default {
     },
     pageChange (index) {
       this.switchCarouselSpeed()
-
-      this.currentPage = index
       this.hideImageAtIndex = null
     },
     onVideoStarted (index) {
