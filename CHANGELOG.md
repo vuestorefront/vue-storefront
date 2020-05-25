@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Include token in pricing sync -  @carlokok (#4156)
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
 - Homepage, new products query, uses now `new` attribute - @mdanilwoicz
-- Refactor product module, more info in upgrade notes- @gibkigonzo (#3952)
+- Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
 
 ## [1.11.3] - 2020.04.27
 
