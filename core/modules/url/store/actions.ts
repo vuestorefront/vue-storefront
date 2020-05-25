@@ -85,30 +85,17 @@ export const actions: ActionTree<UrlState, any> = {
       Deprecated action mappingFallback - use mapFallbackUrl instead.
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
     `)()
-    const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
       const product = products.items[0]
-      return {
-        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
-        params: {
-          slug: product.slug,
-          parentSku: product.sku,
-          childSku: params['childSku'] ? params['childSku'] : product.sku
-        }
-      }
+      return transformProductUrl(product, params)
     } else {
       const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
       if (category !== null) {
-        return {
-          name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
-          params: {
-            slug: category.slug
-          }
-        }
+        return transformCategoryUrl(category)
       }
     }
   },
