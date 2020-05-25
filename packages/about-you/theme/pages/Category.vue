@@ -339,7 +339,7 @@ export default {
     watch([itemsPerPage, filters], () => {
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
-        console.log('Add to router', ...getFiltersForUrl(filters.value));
+        console.log('Add to router', getFiltersForUrl(filters.value));
         context.root.$router.push({ query: {
           ...context.root.$route.query,
           ...getFiltersForUrl(filters.value),

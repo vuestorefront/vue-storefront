@@ -10,7 +10,7 @@ export const getFiltersFromUrl = (context, filters) => {
       values = [values];
     }
     filters[name].options.forEach(option => {
-      if (values.includes(option.value)) {
+      if (values.includes(option.name)) {
         option.selected = true;
       }
     });
