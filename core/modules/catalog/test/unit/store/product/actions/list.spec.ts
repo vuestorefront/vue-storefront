@@ -24,6 +24,9 @@ jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
   $emit: jest.fn()
 }));
 jest.mock('config', () => ({}));
+jest.mock('@vue-storefront/core/modules/catalog/events', () => ({
+  checkParentRedirection: (str) => jest.fn()
+}))
 
 describe('product/list action', () => {
   it('should dispatch findProducts with default values for list', async () => {

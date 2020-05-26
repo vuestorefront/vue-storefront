@@ -24,6 +24,9 @@ jest.mock('config', () => ({}));
 jest.mock('@vue-storefront/core/modules/catalog/helpers/productOptions', () => ({
   getProductConfigurationOptions: jest.fn()
 }));
+jest.mock('@vue-storefront/core/modules/catalog/events', () => ({
+  checkParentRedirection: (str) => jest.fn()
+}))
 
 describe('product/setCurrent action', () => {
   let contextMock

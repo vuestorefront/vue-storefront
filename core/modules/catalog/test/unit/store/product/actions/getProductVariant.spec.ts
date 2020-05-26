@@ -17,6 +17,9 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('config', () => ({}));
+jest.mock('@vue-storefront/core/modules/catalog/events', () => ({
+  checkParentRedirection: (str) => jest.fn()
+}))
 
 describe('product/getProductVariant action', () => {
   let contextMock
