@@ -2,7 +2,7 @@ import { getProduct } from '@vue-storefront/boilerplate-api';
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct, Product } from '../../types';
 
-const availableSortByOptions = [
+const availableSortingOptions = [
   { value: 'price-asc', label: 'Price from low to high' },
   { value: 'price-desc', label: 'Price from high to low' }
 ];
@@ -23,7 +23,7 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
   return {
     data: products,
     total: products.length,
-    availableSortByOptions
+    availableSortingOptions
   };
 };
 

@@ -3,7 +3,7 @@ import { mapProductSearchByQueryParams, mapProductSearchBySingleProductParams } 
 import { UseProduct, BapiProduct } from '../../types';
 import { getProductsByQuery, getProductById } from '@vue-storefront/about-you-api';
 
-const availableSortByOptions = [
+const availableSortingOptions = [
   { value: 'price-asc', label: 'Price from low to high' },
   { value: 'price-desc', label: 'Price from high to low' },
   { value: 'new-asc', label: 'Latest' },
@@ -26,7 +26,7 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any, AgnosticSort
     return {
       data: products.entities,
       total: products.pagination.total,
-      availableSortByOptions
+      availableSortingOptions
     };
   }
 });

@@ -23,7 +23,7 @@ const productResponse = {
       results: [
         product('prod1', 'prod-1', 'sde213')
       ],
-      availableSortByOptions: [
+      availableSortingOptions: [
         { value: 'latest', label: 'Latest' },
         { value: 'price-up', label: 'Price from low to high' },
         { value: 'price-down', label: 'Price from high to low' }
@@ -53,7 +53,7 @@ describe('[commercetools-composables] useProduct', () => {
       data: [product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')],
       total: 54,
       availableFilters: {},
-      availableSortByOptions: [
+      availableSortingOptions: [
         { value: 'latest', label: 'Latest' },
         { value: 'price-up', label: 'Price from low to high' },
         { value: 'price-down', label: 'Price from high to low' }

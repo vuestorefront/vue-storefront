@@ -47,7 +47,7 @@
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
           <SfSelect  v-model="sortBy" data-cy="category-select_sortBy">
             <SfSelectOption
-              v-for="option in availableSortByOptions"
+              v-for="option in availableSortingOptions"
               :key="option.value"
               :value="option.value"
               class="sort__option"
@@ -310,14 +310,14 @@ export default {
       search: productsSearch,
       loading: productsLoading,
       availableFilters,
-      availableSortByOptions
+      availableSortingOptions
     } = useProduct('categoryProducts');
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
 
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
-    const sortBy = ref(query.sort || (availableSortByOptions?.value && availableSortByOptions?.value[0] ? availableSortByOptions.value[0]?.value : null));
+    const sortBy = ref(query.sort || (availableSortingOptions?.value && availableSortingOptions?.value[0] ? availableSortingOptions.value[0]?.value : null));
     const filters = ref(null);
 
     const productsSearchParams = computed(() => ({
@@ -383,7 +383,7 @@ export default {
       perPageOptions: computed(() => perPageOptions),
       sortBy,
       isFilterSidebarOpen,
-      availableSortByOptions,
+      availableSortingOptions,
       filters,
       breadcrumbs,
       applyFilters,

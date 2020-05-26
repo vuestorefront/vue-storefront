@@ -7,7 +7,7 @@ const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 
 const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any, any>({
   productsSearch: searchParams => Promise.resolve({ data: [{ name: 'product ' + searchParams.slug }], total: 1 }),
-  sortByOptions: [
+  sortingOptions: [
     {value: 'price-up', label: 'Price from low to hight'}, {value: 'price-down', label: 'Price from hight to low'}
   ]
 });
@@ -85,8 +85,8 @@ describe('[CORE - factories] useProductFactory', () => {
       initialState: { data: [{ prod: 1 }], total: 5 },
       saveToInitialState
     });
-    const { sortByOptions } = useProduct('test-use-product');
-    expect(sortByOptions.value).toEqual([
+    const { sortingOptions } = useProduct('test-use-product');
+    expect(sortingOptions.value).toEqual([
       {value: 'price-up', label: 'Price from low to hight'},
       {value: 'price-down', label: 'Price from hight to low'}
     ]);

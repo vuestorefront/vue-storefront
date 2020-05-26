@@ -5,7 +5,7 @@ import {useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOptio
 import { ProductsSearchParams } from '../types';
 import { ProductSearch, Filter } from '@vue-storefront/commercetools-api/lib/types/Api';
 
-const availableSortByOptions = [
+const availableSortingOptions = [
   { value: 'latest', label: 'Latest' },
   { value: 'price-up', label: 'Price from low to high' },
   { value: 'price-down', label: 'Price from high to low' }
@@ -25,7 +25,7 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
     data: products,
     total: productResponse.data.products.total,
     availableFilters,
-    availableSortByOptions
+    availableSortingOptions
   };
 };
 

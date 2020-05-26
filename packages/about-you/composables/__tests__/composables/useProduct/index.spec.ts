@@ -21,7 +21,7 @@ describe('[about-you-cloud composables] useProduct', () => {
       expect(await productsSearch({})).toEqual({
         data: [{ id: '331' }, { id: '332' }],
         total: 1,
-        availableSortByOptions: [
+        availableSortingOptions: [
           { value: 'price-asc', label: 'Price from low to high' },
           { value: 'price-desc', label: 'Price from high to low' },
           { value: 'new-asc', label: 'Latest' },
@@ -53,7 +53,7 @@ describe('[about-you-cloud composables] useProduct', () => {
       expect(await productsSearch({ id: '331' })).toEqual({
         data: [{ id: '331' }],
         total: 1,
-        availableSortByOptions: [
+        availableSortingOptions: [
           { value: 'price-asc', label: 'Price from low to high' },
           { value: 'price-desc', label: 'Price from high to low' },
           { value: 'new-asc', label: 'Latest' },

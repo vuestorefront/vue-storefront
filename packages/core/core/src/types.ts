@@ -4,7 +4,7 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORT_BY_OPTIONS> {
+export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   availableFilters: ComputedProperty<PRODUCT_FILTERS>;
@@ -16,7 +16,7 @@ export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORT_BY_OPTIONS> {
     filters?: PRODUCT_FILTERS;
     [x: string]: any;
   }) => Promise<void>;
-  availableSortByOptions: ComputedProperty<SORT_BY_OPTIONS>;
+  availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
