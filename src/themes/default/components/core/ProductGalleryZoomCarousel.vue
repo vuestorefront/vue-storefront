@@ -23,6 +23,7 @@
           class="media-zoom-carousel__carousel"
           :speed="carouselTransitionSpeed"
           @pageChange="pageChange"
+          :navigate-to="currentPage"
         >
           <slide
             v-for="(images, index) in gallery"
@@ -104,18 +105,17 @@ export default {
       }
     }
   },
-  destroyed () {
+  beforeDestroy () {
     clearAllBodyScrollLocks()
   },
   methods: {
-    navigate (key) {
-      this.$refs.zoomCarousel.goToPage(key)
+    navigate (index) {
+      this.currentPage = index
     },
     increaseCarouselTransitionSpeed () {
       this.carouselTransitionSpeed = 500
     },
     pageChange (index) {
-      this.currentPage = index
       this.hideImageAtIndex = null
     },
     onVideoStarted (index) {
