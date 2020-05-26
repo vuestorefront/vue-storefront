@@ -87,6 +87,6 @@ This process doesn't require much additional configuration:
 
 1. You must have the Magento2 API access configures in the `config/local.json` file of `vue-storefront-api`
 2. You must have the "Orders" section marked On within the "Permissions" section of Magento Integration ([see the previous tutorial for the reference on how to set it up](../installation/magento.md)).
-3. After the configuration step You just run `npm run o2m` inside your `vue-storefront-api` directory.
+3. After the configuration step You just run `yarn o2m` inside your `vue-storefront-api` directory.
 
 ![This is the output of o2m after successfull setup](../images/o2m-output.png)

@@ -42,7 +42,7 @@
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
                 :validations="[{
-                  condition: !$v.orderReview.terms.required && $v.orderReview.terms.$error,
+                  condition: !$v.orderReview.terms.sameAs && $v.orderReview.terms.$error,
                   text: $t('Field is required')
                 }]"
               >
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
+import { sameAs } from 'vuelidate/lib/validators'
 import Composite from '@vue-storefront/core/mixins/composite'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
@@ -130,7 +130,7 @@ export default {
   validations: {
     orderReview: {
       terms: {
-        required
+        sameAs: sameAs(() => true)
       }
     }
   },

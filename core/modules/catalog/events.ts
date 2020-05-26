@@ -2,6 +2,12 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { PRODUCT_SET_CURRENT_CONFIGURATION, PRODUCT_SET_CURRENT } from './store/product/mutation-types'
 import omit from 'lodash-es/omit'
 import config from 'config'
+import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import { isServer } from '@vue-storefront/core/helpers';
+import { router } from '@vue-storefront/core/app'
 
 // Listeners moved from Product.js
 
@@ -108,5 +114,25 @@ export const onUserPricesRefreshed = async (store, router) => {
       },
       skipCache: true
     }, { root: true })
+  }
+}
+
+export const checkParentRedirection = (currentProduct, parentProduct) => {
+  if (parentProduct && parentProduct.id !== currentProduct.id && config.products.preventConfigurableChildrenDirectAccess) {
+    Logger.log('Redirecting to parent, configurable product', parentProduct.sku)()
+    parentProduct.parentSku = parentProduct.sku
+    parentProduct.sku = currentProduct.sku
+    const parentUrl = formatProductLink(parentProduct, currentStoreView().storeCode)
+    if (isServer) {
+      AsyncDataLoader.push({
+        execute: async ({ context }) => {
+          if (context && !context.url.includes(parentUrl)) {
+            context.server.response.redirect(301, parentUrl)
+          }
+        }
+      })
+    } else {
+      router.replace(parentUrl as string)
+    }
   }
 }

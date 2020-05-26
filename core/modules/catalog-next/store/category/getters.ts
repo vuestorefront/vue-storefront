@@ -14,7 +14,7 @@ import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
-import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
 
 function mapCategoryProducts (productsFromState, productsData) {
@@ -77,8 +77,8 @@ const getters: GetterTree<CategoryState, RootState> = {
           });
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
         } else { // special case is range filter for prices
-          const storeView = rootState.storeView
-          const currencySign = storeView.i18n.currencySign
+          const currencySign = currentStoreView().i18n.currencySign
+
           if (aggregations['agg_range_' + attrToFilter]) {
             let index = 0
             let count = aggregations['agg_range_' + attrToFilter].buckets.length

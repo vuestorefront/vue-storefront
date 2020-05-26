@@ -11,6 +11,7 @@ import config from 'config'
 import { calculateProductTax } from '@vue-storefront/core/modules/catalog/helpers/taxCalc'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
 import { catalogHooksExecutors } from './../../hooks'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 const actions: ActionTree<TaxState, RootState> = {
   async list ({ state, commit, dispatch }, { entityType = 'taxrule' }) {
@@ -48,6 +49,8 @@ const actions: ActionTree<TaxState, RootState> = {
       return doPlatformPricesSync(mutatedProducts)
     }
 
+    let storeView = currentStoreView()
+
     const tcs = await dispatch('list', {})
     const {
       defaultCountry,
@@ -55,7 +58,7 @@ const actions: ActionTree<TaxState, RootState> = {
       sourcePriceIncludesTax,
       finalPriceIncludesTax,
       deprecatedPriceFieldsSupport
-    } = rootState.storeView.tax
+    } = storeView.tax
 
     const recalculatedProducts = mutatedProducts.map(product =>
       calculateProductTax({

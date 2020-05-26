@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.4] - 2020.05.26
+
+### Added
+
+
+### Changed / Improved
+
+- use yarn in cli installer - @gibkigonzo (#4292)
+- disable out of stock notification when config.stock.allowOutOfStockInCart is true - @gibigonzo (#4340)
+
+
+### Fixed
+
+- Use LRU as object contructor based on newest changes in module - @gibkigonzo (#4242)
+- Fixed ESC button action (minicart, wishlist) - @mdanilowicz (#4393)
+- Fixes problems related to tax calculation and price filter in multistore setup - @juho-jaakkola (#4376)
+- Blank order details page - @mdanilowicz (#4382)
+- upadate cart hash after sync with backend - @gibkigonzo (#4387)
+- exit from errorHandler after redirection - @gibkigonzo (#4246)
+- add redirection in component for simple product related to configurable product - @gibkigonzo (#4359)
+- disable sending carrier_code or method_code for virtual products,
+  adjust vue-carousel and vuelidate to newest versions api,
+  add aplha validators for register fields - @gibkigonzo (#4455, #4461)
+
 ## [1.11.3] - 2020.04.27
 
 ### Changed / Improved
