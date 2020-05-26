@@ -5,11 +5,13 @@ import * as vsfUtils from '../../src/utils';
 jest.mock('../../src/utils');
 const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 
-const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any, any>({
-  productsSearch: searchParams => Promise.resolve({ data: [{ name: 'product ' + searchParams.slug }], total: 1 }),
-  sortingOptions: [
-    {value: 'price-up', label: 'Price from low to hight'}, {value: 'price-down', label: 'Price from hight to low'}
-  ]
+const useProduct: (cacheId: string) => UseProduct<any, any, any> = useProductFactory<any, any, any, any>({
+  productsSearch: searchParams => Promise.resolve({
+    data: [{ name: 'product ' + searchParams.slug }],
+    total: 1,
+    availableFilters: null,
+    availableSortingOptions: null
+  })
 });
 
 describe('[CORE - factories] useProductFactory', () => {
@@ -56,7 +58,9 @@ describe('[CORE - factories] useProductFactory', () => {
     expect(totalProducts.value).toEqual(1);
     expect(saveToInitialState).toBeCalledWith({
       data: [{name: 'product product-slug' }],
-      total: 1
+      total: 1,
+      availableFilters: null,
+      availableSortingOptions: null
     });
   });
 
@@ -75,18 +79,26 @@ describe('[CORE - factories] useProductFactory', () => {
     expect(totalProducts.value).toEqual(1);
     expect(saveToInitialState).toBeCalledWith({
       data: [{name: 'product product-slug' }],
-      total: 1
+      total: 1,
+      availableFilters: null,
+      availableSortingOptions: null
     });
   });
 
   it('returns computed product sorting options from params', () => {
     const saveToInitialState = jest.fn();
     mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: { data: [{ prod: 1 }], total: 5 },
+      initialState: { data: [{ prod: 1 }],
+        total: 5,
+        availableFilters: null,
+        availableSortingOptions: [
+          {value: 'price-up', label: 'Price from low to hight'}, {value: 'price-down', label: 'Price from hight to low'}
+        ]
+      },
       saveToInitialState
     });
-    const { sortingOptions } = useProduct('test-use-product');
-    expect(sortingOptions.value).toEqual([
+    const { availableSortingOptions } = useProduct('test-use-product');
+    expect(availableSortingOptions.value).toEqual([
       {value: 'price-up', label: 'Price from low to hight'},
       {value: 'price-down', label: 'Price from hight to low'}
     ]);
