@@ -129,7 +129,7 @@
         >
           {{ $t('I accept terms and conditions') }} *
         </base-checkbox>
-        <button-full class="mb20" type="submit">
+        <button-full :disabled="$v.$invalid" class="mb20" type="submit">
           {{ $t('Register an account') }}
         </button-full>
         <div class="center-xs">

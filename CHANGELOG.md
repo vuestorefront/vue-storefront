@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add redirection in component for simple product related to configurable product - @gibkigonzo (#4359)
 - disable sending carrier_code or method_code for virtual products,
   adjust vue-carousel and vuelidate to newest versions api,
-  add aplha validators for register fields - @gibkigonzo (#4455)
+  add aplha validators for register fields - @gibkigonzo (#4455, #4461)
 
 ## [1.11.3] - 2020.04.27
 
