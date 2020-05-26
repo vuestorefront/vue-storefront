@@ -217,47 +217,7 @@
       <Filters
         :filters="filters"
         @click:apply-filters="applyFilters"
-      >
-<!--        <template #categories-mobile>-->
-<!--          <SfAccordionItem-->
-<!--            header="Category"-->
-<!--            class="filters__accordion-item"-->
-<!--          >-->
-<!--            <SfAccordion class="categories mobile-only">-->
-<!--              <SfAccordionItem-->
-<!--                v-for="cat in categoryTree && categoryTree.items"-->
-<!--                :key="`category-${cat.slug}`"-->
-<!--                :header="cat.label"-->
-<!--              >-->
-<!--                <SfList class="list">-->
-<!--                  <SfListItem class="list__item">-->
-<!--                    <SfMenuItem-->
-<!--                      :data-cy="`category-link_subcategory_${cat.slug}`"-->
-<!--                      :label="cat.label"-->
-<!--                      icon=""-->
-<!--                    >-->
-<!--                      <template #label>-->
-<!--                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar&#45;&#45;cat-selected' : ''">All</nuxt-link>-->
-<!--                      </template>-->
-<!--                    </SfMenuItem>-->
-<!--                  </SfListItem>-->
-<!--                  <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">-->
-<!--                    <SfMenuItem-->
-<!--                      :data-cy="`category-link_subcategory_${subCat.slug}`"-->
-<!--                      :label="subCat.label"-->
-<!--                      icon=""-->
-<!--                    >-->
-<!--                      <template #label="{ label }">-->
-<!--                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar&#45;&#45;cat-selected' : ''">{{ label }}</nuxt-link>-->
-<!--                      </template>-->
-<!--                    </SfMenuItem>-->
-<!--                  </SfListItem>-->
-<!--                </SfList>-->
-<!--              </SfAccordionItem>-->
-<!--            </SfAccordion>-->
-<!--          </SfAccordionItem>-->
-<!--        </template>-->
-      </Filters>
+      />
     </SfSidebar>
   </div>
 </template>
@@ -339,7 +299,6 @@ export default {
     watch([itemsPerPage, filters], () => {
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
-        console.log('Add to router', getFiltersForUrl(filters.value));
         context.root.$router.push({ query: {
           ...context.root.$route.query,
           ...getFiltersForUrl(filters.value),

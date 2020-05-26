@@ -45,26 +45,26 @@
       </div>
     </div>
 
-<!--    <SfAccordion class="filters mobile-only">-->
-<!--      <slot name="categories-mobile"></slot>-->
-<!--      <template v-for="(label, filterName) in filtersMap">-->
-<!--        <SfAccordionItem-->
-<!--          v-if="filters[filterName]"-->
-<!--          :key="`filter-title-${filterName}`"-->
-<!--          :header="label"-->
-<!--          class="filters__accordion-item"-->
-<!--        >-->
-<!--          <SfFilter-->
-<!--            v-for="option in filters[filterName].options"-->
-<!--            :key="`${filterName}-${option.label}`"-->
-<!--            :label="option.label"-->
-<!--            :selected="option.selected"-->
-<!--            class="filters__item"-->
-<!--            @change="option.selected = !option.selected"-->
-<!--          />-->
-<!--        </SfAccordionItem>-->
-<!--      </template>-->
-<!--    </SfAccordion>-->
+    <SfAccordion class="filters mobile-only">
+      <slot name="categories-mobile"></slot>
+      <template v-for="(label, filterName) in filtersMap">
+        <SfAccordionItem
+          v-if="filters[filterName]"
+          :key="`filter-title-${filterName}`"
+          :header="label"
+          class="filters__accordion-item"
+        >
+          <SfFilter
+            v-for="option in filters[filterName].options"
+            :key="`${filterName}-${option.name}`"
+            :label="option.name"
+            :selected="option.selected"
+            class="filters__item"
+            @change="option.selected = !option.selected"
+          />
+        </SfAccordionItem>
+      </template>
+    </SfAccordion>
   </div>
 </template>
 

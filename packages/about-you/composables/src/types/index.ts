@@ -1,12 +1,9 @@
 import { BapiCategory } from '@aboutyou/backbone/types/BapiCategory';
 import { BapiProduct } from '@aboutyou/backbone/types/BapiProduct';
+import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
 import { UseCategory } from '@vue-storefront/core';
 import { ComputedProperty } from '@vue-storefront/core';
-import {
-  AttributeWithBooleanValueFilter,
-  AttributeWithValuesFilter
-} from '@aboutyou/backbone/types/AttributeOrAttributeValueFilter';
-import {BapiProductSearchQuery} from '@vue-storefront/about-you-api';
+
 // @todo: replace with real BapiUser type when AYC publishes that part of api
 type BapiUser = {
   firstName?: string;
@@ -52,14 +49,6 @@ type BapiWishlistProduct = {
 
 type BapiWishlist = {
 
-}
-
-interface BapiProductSearchQuery {
-  categoryId?: number;
-  term?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  attributes?: Array<AttributeWithValuesFilter | AttributeWithBooleanValueFilter>;
 }
 
 interface UseProduct<PRODUCT, PRODUCT_FILTERS> {
@@ -116,5 +105,5 @@ export {
   UseCategory,
   UseProduct,
   UseWishlist,
-  BapiProductSearchQuery
+  ProductSearchQuery
 };
