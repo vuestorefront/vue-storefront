@@ -20,7 +20,15 @@ describe('[about-you-cloud composables] useProduct', () => {
       const { productsSearch } = useProduct('products');
       expect(await productsSearch({})).toEqual({
         data: [{ id: '331' }, { id: '332' }],
-        total: 1
+        total: 1,
+        availableSortingOptions: [
+          { value: 'price-asc', label: 'Price from low to high' },
+          { value: 'price-desc', label: 'Price from high to low' },
+          { value: 'new-asc', label: 'Latest' },
+          { value: 'reduction-desc', label: 'Discount from high to low' },
+          { value: 'reduction-asc', label: 'Discount from low to hight' },
+          { value: 'new-desc', label: 'Oldest' }
+        ]
       });
       expect(getProductsByQuery).toBeCalledWith({pagination: {},
         sort: {},
@@ -44,7 +52,15 @@ describe('[about-you-cloud composables] useProduct', () => {
       const { productsSearch } = useProduct('products');
       expect(await productsSearch({ id: '331' })).toEqual({
         data: [{ id: '331' }],
-        total: 1
+        total: 1,
+        availableSortingOptions: [
+          { value: 'price-asc', label: 'Price from low to high' },
+          { value: 'price-desc', label: 'Price from high to low' },
+          { value: 'new-asc', label: 'Latest' },
+          { value: 'reduction-desc', label: 'Discount from high to low' },
+          { value: 'reduction-asc', label: 'Discount from low to hight' },
+          { value: 'new-desc', label: 'Oldest' }
+        ]
       });
       expect(getProductById).toBeCalledWith('331', {
         with: {

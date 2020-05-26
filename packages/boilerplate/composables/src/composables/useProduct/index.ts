@@ -1,8 +1,13 @@
 import { getProduct } from '@vue-storefront/boilerplate-api';
-import { useProductFactory, ProductsSearchResult } from '@vue-storefront/core';
+import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct, Product } from '../../types';
 
-const productsSearch = async (params): Promise<ProductsSearchResult<Product, any>> => {
+const availableSortingOptions = [
+  { value: 'price-asc', label: 'Price from low to high' },
+  { value: 'price-desc', label: 'Price from high to low' }
+];
+
+const productsSearch = async (params): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
   const searchParams = {
     ids: params.ids,
     with: params.term,
@@ -17,11 +22,12 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
 
   return {
     data: products,
-    total: products.length
+    total: products.length,
+    availableSortingOptions
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product, any> = useProductFactory<Product, any, any>({
+const useProduct: (cacheId: string) => UseProduct<Product, any, AgnosticSortByOption[]> = useProductFactory<Product, any, any, AgnosticSortByOption[]>({
   productsSearch
 });
 

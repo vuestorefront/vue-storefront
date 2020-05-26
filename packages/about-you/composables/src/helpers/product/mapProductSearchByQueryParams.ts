@@ -1,4 +1,4 @@
-import {ProductSearchQuery, ProductsSearchEndpointParameters} from '../../types';
+import { ProductSearchQuery, ProductsSearchEndpointParameters, ProductSortConfig } from '../../types';
 
 const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters => {
   const searchQuery: ProductSearchQuery = {};
@@ -8,6 +8,13 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   }
   if (params.term) {
     searchQuery.term = params.term;
+  }
+
+  const sortOptions: ProductSortConfig = {};
+  if (params.sort) {
+    const [option, direction] = params.sort.split('-');
+    sortOptions.by = option;
+    sortOptions.direction = direction;
   }
 
   const pagination: { page?: number; perPage?: number} = {};
@@ -30,7 +37,7 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
       priceRange: true
     },
     where: searchQuery,
-    sort: {},
+    sort: sortOptions,
     pagination: pagination
   };
 };

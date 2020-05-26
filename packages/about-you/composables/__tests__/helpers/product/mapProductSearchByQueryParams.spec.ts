@@ -27,7 +27,8 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
       catId: 1337,
       term: 'foo',
       page: 2,
-      perPage: 20
+      perPage: 20,
+      sort: 'price-asc'
     };
     const expectedQuery = {
       with: {
@@ -43,7 +44,10 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
         categoryId: params.catId,
         term: params.term
       },
-      sort: {},
+      sort: {
+        by: 'price',
+        direction: 'asc'
+      },
       pagination: {
         page: params.page,
         perPage: params.perPage
@@ -52,5 +56,11 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
 
     const result = mapProductSearchByQueryParams(params);
     expect(result).toEqual(expectedQuery);
+  });
+
+  it('returns only by sort params if not contains "-"', () => {
+    const params = { sort: 'price' };
+    const result = mapProductSearchByQueryParams(params);
+    expect(result.sort).toEqual({by: 'price'});
   });
 });

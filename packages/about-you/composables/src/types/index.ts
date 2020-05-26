@@ -9,7 +9,7 @@ import { BapiCategory } from '@aboutyou/backbone/types/BapiCategory';
 import { BasketItem, BasketWith, BasketResponseData } from '@aboutyou/backbone/endpoints/basket/getBasket';
 import { WishlistItem, WishlistWith, WishlistResponseData } from '@aboutyou/backbone/endpoints/wishlist/getWishlist';
 import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
-import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import { ProductsSearchEndpointParameters, ProductSortConfig } from '@aboutyou/backbone/endpoints/products/products';
 import { CategoryBySlugEndpointParameters } from '@aboutyou/backbone/endpoints/categories/categoryBySlug';
 
 // @todo: replace with real BapiUser type when AYC publishes that part of api
@@ -79,5 +79,6 @@ export {
   WishlistWith,
   ProductSearchQuery,
   ProductsSearchEndpointParameters,
+  ProductSortConfig,
   CategoryBySlugEndpointParameters
 };
