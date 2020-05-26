@@ -38,11 +38,11 @@ jobs:
           initial_status: in_progress
       - name: Create config file
         run: |
-          if github.ref == 'refs/heads/master'; then
+          if ${{ github.ref }} == 'refs/heads/master'; then
             echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"}}' > config/local-cloud-prod.json
-          else if contains(github.ref, 'hotfix/v'); then
+          else if [[ ${{ github.ref }} == "hotfix/v"* ]]; then
             echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"}}' > config/local-cloud-prod.json
-          else if github.ref == 'refs/heads/develop'; then
+          else if ${{ github.ref }} == 'refs/heads/develop'; then
             echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://test.storefrontcloud.io"}}' > config/local-cloud-prod.json
           fi
       - name: Deploy on demo.storefrontcloud.io
