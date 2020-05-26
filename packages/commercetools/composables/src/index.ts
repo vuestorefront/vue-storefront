@@ -7,7 +7,7 @@ import useCheckout from './useCheckout';
 import { setUser, useUser } from './useUser';
 import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
-import {setWishlist, useWishlist} from './useWishlist';
+import { setWishlist, useWishlist } from './useWishlist';
 import {
   cartGetters,
   categoryGetters,
