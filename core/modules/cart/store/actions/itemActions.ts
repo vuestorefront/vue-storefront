@@ -8,6 +8,7 @@ import {
   notifications
 } from '@vue-storefront/core/modules/cart/helpers'
 import { cartHooksExecutors } from './../../hooks'
+import config from 'config'
 
 const itemActions = {
   async configureItem (context, { product, configuration }) {
@@ -61,7 +62,7 @@ const itemActions = {
       if (errors.length === 0) {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 
-        if (status === 'volatile') {
+        if (status === 'volatile' && !config.stock.allowOutOfStockInCart) {
           diffLog.pushNotification(notifications.unsafeQuantity())
         }
         if (status === 'out_of_stock') {

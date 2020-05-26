@@ -25,6 +25,9 @@ import {
   setRequestCacheTags
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
+import { checkParentRedirection } from '@vue-storefront/core/modules/catalog/events'
+
+const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
   doPlatformPricesSync (context, { products }) {
@@ -243,7 +246,12 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }
     if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-      throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      if (config.products.preventConfigurableChildrenDirectAccess) {
+        const parentProduct = await dispatch('findConfigurableParent', { product })
+        checkParentRedirection(product, parentProduct)
+      } else {
+        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      }
     }
 
     if (config.entities.attribute.loadByAttributeMetadata) {
@@ -256,12 +264,6 @@ const actions: ActionTree<ProductState, RootState> = {
     const gallerySetup = dispatch('setProductGallery', { product })
     if (isServer) {
       syncPromises.push(gallerySetup)
-    }
-    if (config.products.preventConfigurableChildrenDirectAccess) {
-      const parentChecker = dispatch('checkConfigurableParent', { product })
-      if (isServer) {
-        syncPromises.push(parentChecker)
-      }
     }
     await Promise.all(syncPromises)
     await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })

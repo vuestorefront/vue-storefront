@@ -183,17 +183,6 @@ To make it work, you need have Magento 2 OAuth keys configured in your `vue-stor
 
 After this change, you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the quantity) are now synchronized directly with Magento 2 for both guest and logged-in clients.
 
-## How to prevent an error "Can’t build storefront npm"
-
-The error, "Can't build storefront npm", appears because npm can't automatically install required modules. To prevent this error, you should manually install those modules before running the installer. It's easy:
-
-```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront && cd vue-storefront
-npm install
-npm install vue-carousel vue-no-ssr
-npm run build # check if no errors
-npm run installer
-```
 
 ## How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?
 
@@ -240,7 +229,7 @@ If you would like to have a Category filter working with configurable products, 
 There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/441517` available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now you can generate an SEO map redirecting users from the original Magento URLs to Vue Storefront URLs by running:
 
 ```bash
-npm run seo redirects — —oldFormat=true | false
+yarn seo redirects — —oldFormat=true | false
 ```
 
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).

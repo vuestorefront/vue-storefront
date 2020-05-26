@@ -20,7 +20,9 @@ export interface StoreView {
     index: string
   },
   tax: {
-    sourcePriceIncludesTax: boolean,
+    sourcePriceIncludesTax?: boolean,
+    finalPriceIncludesTax?: boolean,
+    deprecatedPriceFieldsSupport?: boolean,
     defaultCountry: string,
     defaultRegion: null | string,
     calculateServerSide: boolean,

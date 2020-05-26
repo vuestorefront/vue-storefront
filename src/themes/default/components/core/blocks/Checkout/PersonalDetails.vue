@@ -139,7 +139,7 @@
               @blur="$v.acceptConditions.$touch()"
               v-model="acceptConditions"
               :validations="[{
-                condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
+                condition: !$v.acceptConditions.sameAs && $v.acceptConditions.$error,
                 text: $t('You must accept the terms and conditions.')
               }]"
             >
@@ -256,7 +256,7 @@ export default {
       sameAsPassword: sameAs('password')
     },
     acceptConditions: {
-      required
+      sameAs: sameAs(() => true)
     }
   }
 }

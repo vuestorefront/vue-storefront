@@ -9,7 +9,7 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-/** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
+/** Syncs given task. If user is offline request will be sent to the server after restored connection */
 async function queue (task) {
   const tasksCollection = StorageManager.get('syncTasks')
   task = _prepareTask(task)
