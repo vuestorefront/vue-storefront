@@ -79,7 +79,11 @@ const buildProductWhere = (search: ProductSearch) => {
     ];
   }
 
-  return predicates.join(' and ') || undefined;
+  if (predicates.length === 0) {
+    return null;
+  }
+
+  return predicates.join(' and ');
 };
 
 const buildCategoryWhere = (search: CategorySearch) => {
@@ -91,7 +95,7 @@ const buildCategoryWhere = (search: CategorySearch) => {
     return `slug(${locale}="${search.slug}")`;
   }
 
-  return undefined;
+  return null;
 };
 
 const buildOrderWhere = (search: OrderSearch): string => {
@@ -99,7 +103,7 @@ const buildOrderWhere = (search: OrderSearch): string => {
     return `id="${search.id}"`;
   }
 
-  return undefined;
+  return null;
 };
 
 export {

@@ -8,15 +8,15 @@ import { locale, currency } from '../../src';
 
 describe('[commercetools-api-client] search', () => {
   it('returns undefined when parameters are not supported', () => {
-    expect(buildProductWhere(null)).toBe(undefined);
+    expect(buildProductWhere(null)).toBe(null);
   });
 
   it('returns undefined string when parameters are not supported', () => {
-    expect(buildCategoryWhere(null)).toBe(undefined);
+    expect(buildCategoryWhere(null)).toBe(null);
   });
 
   it('returns undefined string when parameters are not supported', () => {
-    expect(buildOrderWhere(null)).toBe(undefined);
+    expect(buildOrderWhere(null)).toBe(null);
   });
 
   describe('returns product search query by cat id', () => {
@@ -50,7 +50,7 @@ describe('[commercetools-api-client] search', () => {
 
   describe('using filters', () => {
     it('returns empty string for empty filters', () => {
-      expect(buildProductWhere({ filters: {} })).toEqual(undefined);
+      expect(buildProductWhere({ filters: {} })).toEqual(null);
     });
 
     it('returns empty string when no option is selected', () => {
@@ -65,7 +65,7 @@ describe('[commercetools-api-client] search', () => {
           }
         }
       };
-      expect(buildProductWhere(search)).toEqual(undefined);
+      expect(buildProductWhere(search)).toEqual(null);
     });
 
     it(`returns product search query by ${AttributeType.STRING}`, () => {
