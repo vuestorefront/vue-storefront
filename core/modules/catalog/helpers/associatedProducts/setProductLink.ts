@@ -10,7 +10,7 @@ import { BundleOptionsProductLink } from '@vue-storefront/core/modules/catalog/t
 export default async function setProductLink (productLink: BundleOptionsProductLink | ProductLink, associatedProduct: Product) {
   if (associatedProduct) {
     productLink.product = preConfigureProduct(associatedProduct)
-    productLink.product.qty = (productLink as BundleOptionsProductLink).qty || 1
+    productLink.product.qty = Number((productLink as BundleOptionsProductLink).qty || '1')
   } else {
     Logger.error('Product not found', (productLink as ProductLink).linked_product_sku || productLink.sku)()
   }

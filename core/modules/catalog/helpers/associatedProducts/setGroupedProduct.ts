@@ -3,6 +3,7 @@ import { isGroupedProduct } from './..';
 import buildQuery from './buildQuery'
 import setProductLink from './setProductLink'
 import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import getGroupedProductPrice from './getGroupedProductPrice'
 
 /**
  * This function prepare all product_links for grouped products.
@@ -32,5 +33,10 @@ export default async function setGroupedProduct (product: Product, { includeFiel
       const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.linked_product_sku)
       setProductLink(productLink, associatedProduct)
     }
+
+    const { price, priceInclTax } = getGroupedProductPrice(product)
+    product.price = price
+    product.priceInclTax = priceInclTax
+    product.price_incl_tax = priceInclTax
   }
 }
