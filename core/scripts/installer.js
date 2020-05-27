@@ -59,7 +59,7 @@ class Message {
 
     message([
       ...text
-    ], {color: 'blue', border: false, marginTop: 1})
+    ], { color: 'blue', border: false, marginTop: 1 })
   }
 
   /**
@@ -88,7 +88,7 @@ class Message {
       ...text,
       '',
       logDetailsInfo
-    ], {borderColor: 'red', marginBottom: 1})
+    ], { borderColor: 'red', marginBottom: 1 })
 
     shell.exit(1)
   }
@@ -104,7 +104,7 @@ class Message {
     message([
       'WARNING:',
       ...text
-    ], {color: 'yellow', border: false, marginTop: 1})
+    ], { color: 'yellow', border: false, marginTop: 1 })
   }
 
   /**
@@ -118,7 +118,7 @@ class Message {
 
     message([
       ...text
-    ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
+    ], Object.assign(isLastMessage ? { marginTop: 1 } : {}, { borderColor: 'green', marginBottom: 1 }))
   }
 }
 
@@ -168,16 +168,16 @@ class Backend extends Abstract {
   }
 
   /**
-   * Run 'npm install' in backend directory
+   * Run 'yarn install' in backend directory
    *
    * @returns {Promise}
    */
-  npmInstall () {
+  depInstall () {
     return new Promise((resolve, reject) => {
-      Message.info('Installing backend npm...')
+      Message.info('Installing backend dep...')
 
-      if (shell.exec(`npm i >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t install backend npm.'))
+      if (shell.exec(`yarn >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t install backend dep.'))
       }
 
       resolve()
@@ -270,7 +270,7 @@ class Backend extends Abstract {
         config.magento2.api.accessToken = this.answers.m2_api_access_token || config.magento2.api.accessToken
         config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
 
-        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
         reject(new Error('Can\'t create backend config. Original error: ' + e))
       }
@@ -280,7 +280,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Run 'npm run restore'
+   * Run 'yarn restore'
    *
    * @returns {Promise}
    */
@@ -288,7 +288,7 @@ class Backend extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Restoring data for ElasticSearch...')
 
-      if (shell.exec(`npm run restore >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+      if (shell.exec(`yarn restore >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
         reject(new Error('Can\'t restore data for ElasticSearch.'))
       }
 
@@ -297,7 +297,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Run 'npm run migrate'
+   * Run 'yarn migrate'
    *
    * @returns {Promise}
    */
@@ -305,7 +305,7 @@ class Backend extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Migrating data into ElasticSearch...')
 
-      if (shell.exec(`npm run migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+      if (shell.exec(`yarn migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
         reject(new Error('Can\'t migrate data into ElasticSearch.'))
       }
 
@@ -348,7 +348,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Start 'npm run dev' in background
+   * Start 'yarn dev' in background
    *
    * @returns {Promise}
    */
@@ -357,11 +357,11 @@ class Backend extends Abstract {
       Message.info('Starting backend server...')
 
       if (isWindows()) {
-        if (shell.exec(`start /min npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+        if (shell.exec(`start /min yarn dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
           reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       } else {
-        if (shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+        if (shell.exec(`nohup yarn dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
           reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       }
@@ -513,7 +513,7 @@ class Storefront extends Abstract {
           backend_dir: this.answers.backend_dir || false
         }
 
-        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
         reject(new Error('Can\'t create storefront config.'))
       }
@@ -523,16 +523,16 @@ class Storefront extends Abstract {
   }
 
   /**
-   * Run 'npm run build' on storefront
+   * Run 'yarn build' on storefront
    *
    * @returns {Promise}
    */
-  npmBuild () {
+  depBuild () {
     return new Promise((resolve, reject) => {
-      Message.info('Build storefront npm...')
+      Message.info('Build storefront dep...')
 
-      if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE))
+      if (shell.exec(`yarn build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t build storefront dep.', VUE_STOREFRONT_LOG_FILE))
       }
 
       resolve()
@@ -540,7 +540,7 @@ class Storefront extends Abstract {
   }
 
   /**
-   * Start 'npm run dev' in background
+   * Start 'yarn dev' in background
    *
    * @returns {Promise}
    */
@@ -549,11 +549,11 @@ class Storefront extends Abstract {
       Message.info('Starting storefront server...')
 
       if (isWindows()) {
-        if (shell.exec(`start /min npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+        if (shell.exec(`start /min yarn dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
           reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
         }
       } else {
-        if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+        if (shell.exec(`nohup yarn dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
           reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
         }
       }
@@ -587,7 +587,7 @@ class Manager extends Abstract {
       Message.info('Trying to create log files...')
 
       try {
-        mkdirp.sync(LOG_DIR, {mode: parseInt('0755', 8)})
+        mkdirp.sync(LOG_DIR, { mode: parseInt('0755', 8) })
 
         let logFiles = [
           INSTALL_LOG_FILE,
@@ -625,7 +625,7 @@ class Manager extends Abstract {
         return this.backend.validateM2Integration()
           .then(this.backend.cloneRepository.bind(this.backend))
           .then(this.backend.goToDirectory.bind(this.backend))
-          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.depInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
           .then(this.backend.dockerComposeUp.bind(this.backend))
           .then(this.backend.importElasticSearch.bind(this.backend))
@@ -633,7 +633,7 @@ class Manager extends Abstract {
       } else {
         return this.backend.cloneRepository()
           .then(this.backend.goToDirectory.bind(this.backend))
-          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.depInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
           .then(this.backend.dockerComposeUp.bind(this.backend))
           .then(this.backend.restoreElasticSearch.bind(this.backend))
@@ -654,7 +654,7 @@ class Manager extends Abstract {
   initStorefront () {
     return this.storefront.goToDirectory()
       .then(this.storefront.createConfig.bind(this.storefront))
-      .then(this.storefront.npmBuild.bind(this.storefront))
+      .then(this.storefront.depBuild.bind(this.storefront))
       .then(this.storefront.runDevEnvironment.bind(this.storefront))
   }
 
@@ -732,7 +732,7 @@ let questions = [
     },
     validate: function (value) {
       try {
-        mkdirp.sync(value, {mode: parseInt('0755', 8)})
+        mkdirp.sync(value, { mode: parseInt('0755', 8) })
 
         if (!isEmptyDir.sync(value)) {
           return 'Please provide path to empty directory.'

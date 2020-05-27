@@ -4,6 +4,7 @@ import { currentStoreView, removeStoreCodeFromRoute, localizedDispatcherRouteNam
 import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
 import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
+jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/modules/recently-viewed/index', () => ({
   cacheStorage: {

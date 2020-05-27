@@ -20,7 +20,7 @@ const actions: ActionTree<CompareState, RootState> = {
       if (config.entities.attribute.loadByAttributeMetadata) {
         dispatch(
           'attribute/loadProductAttributes',
-          { products: getters.getCompareItems },
+          { products: getters.getCompareItems, merge: true },
           { root: true }
         )
       }
@@ -36,7 +36,7 @@ const actions: ActionTree<CompareState, RootState> = {
   async removeItem ({ commit }, product) {
     commit(types.COMPARE_DEL_ITEM, { product })
   },
-  async clear ({commit}) {
+  async clear ({ commit }) {
     commit(types.COMPARE_LOAD_COMPARE, [])
   }
 }

@@ -1,5 +1,5 @@
-import { storeProductToCache, configureChildren } from '@vue-storefront/core/modules/catalog/helpers/search';
 import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import { isServer } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
 // you can use this storage if you want to enable offline capabilities
@@ -17,6 +17,9 @@ import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-nex
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
 import isEqual from 'lodash-es/isEqual'
 import * as types from './mutation-types'
+import omit from 'lodash-es/omit'
+import { storeProductToCache } from '@vue-storefront/core/modules/catalog/helpers/search';
+import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -78,35 +81,21 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    console.warn(`
+    Logger.warn(`
       Deprecated action mappingFallback - use mapFallbackUrl instead.
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
-    `)
-    const { storeCode, appendStoreCode } = currentStoreView()
+    `)()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
-    productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
+    productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
-      console.log(url, productQuery)
       const product = products.items[0]
-      return {
-        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
-        params: {
-          slug: product.slug,
-          parentSku: product.sku,
-          childSku: params['childSku'] ? params['childSku'] : product.sku
-        }
-      }
+      return transformProductUrl(product, params)
     } else {
       const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
       if (category !== null) {
-        return {
-          name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
-          params: {
-            slug: category.slug
-          }
-        }
+        return transformCategoryUrl(category)
       }
     }
   },
@@ -118,7 +107,7 @@ export const actions: ActionTree<UrlState, any> = {
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
 
     // search for record in ES based on `url`
-    const fallbackData = await dispatch('getFallbackByUrl', { url })
+    const fallbackData = await dispatch('getFallbackByUrl', { url, params })
 
     // if there is record in ES then map data
     if (fallbackData) {
@@ -139,7 +128,9 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Search for record in ES which contains url value (check which fields it searches in vsf-api config.urlModule.map.searchedFields)
    */
-  async getFallbackByUrl (context, { url }) {
+  async getFallbackByUrl (context, { url, params }) {
+    const groupId = (config.usePriceTiers && context.rootState.user.groupId) || null
+    const groupToken = context.rootState.user.groupToken || null
     try {
       const requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
       let response: any = await fetch(
@@ -154,7 +145,20 @@ export const actions: ActionTree<UrlState, any> = {
           body: JSON.stringify({
             url,
             includeFields: null, // send `includeFields: null || undefined` to fetch all fields
-            excludeFields: []
+            excludeFields: [],
+            options: {
+              prefetchGroupProducts: true,
+              assignProductConfiguration: true,
+              populateRequestCacheTags: false,
+              setProductErrors: false,
+              fallbackToDefaultWhenNoAvailable: true,
+              separateSelectedVariant: false,
+              setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+              filterUnavailableVariants: config.products.filterUnavailableVariants
+            },
+            filters: { sku: params.childSku },
+            groupId,
+            groupToken
           })
         }
       )
@@ -198,7 +202,8 @@ export const actions: ActionTree<UrlState, any> = {
   async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
-        // TODO: find a way to cache simple, configurable, group, bundle or custom_options products
+        const [product] = prepareProducts([_source])
+        storeProductToCache(product, 'sku')
         break
       }
       case 'category': {
@@ -215,9 +220,28 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  setCurrentRoute ({ commit, state }, {to, from} = {}) {
-    commit(types.SET_CURRENT_ROUTE, to)
-    commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
-    commit(types.SET_PREV_ROUTE, from)
+  setCurrentRoute ({ commit, state, rootGetters }, { to, from } = {}) {
+    commit(types.SET_CURRENT_ROUTE, {
+      ...to,
+      scrollPosition: { ...state.prevRoute.scrollPosition },
+      categoryPageSize: state.prevRoute.categoryPageSize
+    })
+
+    const sameAsPrevRoute = isEqual(
+      omit(state.prevRoute, ['scrollPosition', 'categoryPageSize']),
+      omit(state.currentRoute, ['scrollPosition', 'categoryPageSize'])
+    )
+    const hasDifferentPath = (state.currentRoute && state.currentRoute.path) !== (from && from.path)
+    commit(types.IS_BACK_ROUTE, sameAsPrevRoute && hasDifferentPath)
+
+    const scrollPosition = {
+      x: !isServer ? window.pageXOffset : 0,
+      y: !isServer ? window.pageYOffset : 0
+    }
+    commit(types.SET_PREV_ROUTE, {
+      ...from,
+      scrollPosition,
+      categoryPageSize: rootGetters['category-next/getCategoryProducts'].length
+    })
   }
 }

@@ -6,7 +6,7 @@ export const transformProductUrl = (product, urlParams = {}) => {
     name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
     params: {
       slug: product.slug,
-      parentSku: product.sku,
+      parentSku: product.parentSku || product.sku,
       childSku: urlParams['childSku'] ? urlParams['childSku'] : product.sku
     }
   }

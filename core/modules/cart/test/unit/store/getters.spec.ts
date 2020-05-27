@@ -26,21 +26,21 @@ describe('Cart getters', () => {
   it('totals returns platform total segments if they has been saved in store and client is online', () => {
     const stateMock = {
       platformTotalSegments: [
-        {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
-        {'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5},
-        {'code': 'discount', 'title': 'Discount', 'value': -4.8},
-        {'code': 'tax',
+        { 'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36 },
+        { 'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5 },
+        { 'code': 'discount', 'title': 'Discount', 'value': -4.8 },
+        { 'code': 'tax',
           'title': 'Tax',
           'value': 6.26,
           'area': 'taxes',
           'extension_attributes': {
             'tax_grandtotal_details': [{
               'amount': 6.26,
-              'rates': [{'percent': '23', 'title': 'VAT23-PL'}],
+              'rates': [{ 'percent': '23', 'title': 'VAT23-PL' }],
               'group_id': 1
             }]
-          }},
-        {'code': 'grand_total', 'title': 'Grand Total', 'value': 38.46, 'area': 'footer'}
+          } },
+        { 'code': 'grand_total', 'title': 'Grand Total', 'value': 38.46, 'area': 'footer' }
       ]
     };
     const wrapper = (getters: any) => getters.getTotals(stateMock, getters);
@@ -52,8 +52,8 @@ describe('Cart getters', () => {
   nor additional prices`, () => {
     const stateMock = {
       cartItems: [
-        {qty: 1, price_incl_tax: 1},
-        {qty: 2, price_incl_tax: 2}
+        { qty: 1, price_incl_tax: 1 },
+        { qty: 2, price_incl_tax: 2 }
       ]
     };
     const wrapper = (getters: any) => getters.getTotals(stateMock, {
@@ -63,8 +63,8 @@ describe('Cart getters', () => {
     });
 
     expect(wrapper(cartGetters)).toEqual([
-      {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
-      {'code': 'grand_total', 'title': 'Grand total', 'value': 5}
+      { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 5 }
     ]);
   });
 
@@ -72,12 +72,12 @@ describe('Cart getters', () => {
     isOnlineSpy.mockReturnValueOnce(false);
     const stateMock = {
       platformTotalSegments: [
-        {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
-        {'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5}
+        { 'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36 },
+        { 'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5 }
       ],
       cartItems: [
-        {qty: 1, price_incl_tax: 1},
-        {qty: 2, price_incl_tax: 2}
+        { qty: 1, price_incl_tax: 1 },
+        { qty: 2, price_incl_tax: 2 }
       ]
     };
     const wrapper = (getters: any) => getters.getTotals(stateMock, {
@@ -87,8 +87,8 @@ describe('Cart getters', () => {
     });
 
     expect(wrapper(cartGetters)).toEqual([
-      {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
-      {'code': 'grand_total', 'title': 'Grand total', 'value': 5}
+      { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 5 }
     ]);
   });
 
@@ -96,8 +96,8 @@ describe('Cart getters', () => {
   but no platformTotalSegments`, () => {
     const stateMock = {
       cartItems: [
-        {qty: 1, price_incl_tax: 1},
-        {qty: 2, price_incl_tax: 2}
+        { qty: 1, price_incl_tax: 1 },
+        { qty: 2, price_incl_tax: 2 }
       ],
       payment: {
         title: 'payment',
@@ -115,10 +115,10 @@ describe('Cart getters', () => {
     });
 
     expect(wrapper(cartGetters)).toEqual([
-      {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
-      {'code': 'grand_total', 'title': 'Grand total', 'value': 21},
-      {'code': 'payment', 'title': 'payment', 'value': 4},
-      {'code': 'shipping', 'title': 'shipping', 'value': 8}
+      { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 21 },
+      { 'code': 'payment', 'title': 'payment', 'value': 4 },
+      { 'code': 'shipping', 'title': 'shipping', 'value': 8 }
     ]);
   });
 
@@ -126,8 +126,8 @@ describe('Cart getters', () => {
   but no platformTotalSegments`, () => {
     const stateMock = {
       cartItems: [
-        {qty: 1, price_incl_tax: 1},
-        {qty: 2, price_incl_tax: 2}
+        { qty: 1, price_incl_tax: 1 },
+        { qty: 2, price_incl_tax: 2 }
       ],
       payment: [
         {
@@ -157,10 +157,10 @@ describe('Cart getters', () => {
     });
 
     expect(wrapper(cartGetters)).toEqual([
-      {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
-      {'code': 'grand_total', 'title': 'Grand total', 'value': 21},
-      {'code': 'payment', 'title': 'payment', 'value': 4},
-      {'code': 'shipping', 'title': 'shipping', 'value': 8}
+      { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 21 },
+      { 'code': 'payment', 'title': 'payment', 'value': 4 },
+      { 'code': 'shipping', 'title': 'shipping', 'value': 8 }
     ]);
   });
 
@@ -170,8 +170,8 @@ describe('Cart getters', () => {
     }
     const stateMock = {
       cartItems: [
-        {qty: 1},
-        {qty: 2}
+        { qty: 1 },
+        { qty: 2 }
       ]
     };
 
@@ -187,8 +187,8 @@ describe('Cart getters', () => {
 
     const stateMock = {
       cartItems: [
-        {qty: 1},
-        {qty: 2}
+        { qty: 1 },
+        { qty: 2 }
       ]
     };
 
@@ -222,8 +222,8 @@ describe('Cart getters', () => {
   it('isVirtualCart returns true given only virtual items in cart', () => {
     const stateMock = {
       cartItems: [
-        {type_id: 'virtual'},
-        {type_id: 'downloadable'}
+        { type_id: 'virtual' },
+        { type_id: 'downloadable' }
       ]
     };
     const wrapper = (getters: any) => getters.isVirtualCart(stateMock);
@@ -234,8 +234,8 @@ describe('Cart getters', () => {
   it('isVirtualCart returns false given any non virtual items in cart', () => {
     const stateMock = {
       cartItems: [
-        {type_id: 'virtual'},
-        {type_id: 'definitely-not-virtual'}
+        { type_id: 'virtual' },
+        { type_id: 'definitely-not-virtual' }
       ]
     };
     const wrapper = (getters: any) => getters.isVirtualCart(stateMock);

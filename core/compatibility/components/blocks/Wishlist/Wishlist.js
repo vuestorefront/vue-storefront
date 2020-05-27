@@ -13,7 +13,7 @@ export default {
   methods: {
     // theme-specific
     onEscapePress () {
-      this.closeWishlist()
+      this.$store.dispatch('ui/closeWishlist')
     }
   },
   mixins: [ Wishlist, onEscapePress ]

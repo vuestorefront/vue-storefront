@@ -20,6 +20,52 @@ The `amp-renderer` module has been disabled by default to save the bundle size; 
 
 Cart optimization was earlier disabled automatically if entity optimization was disabled. Now they can be used independently from each other. If you don't want to use cart optimization, make sure that the `entities.optimizeShoppingCart` configuration entry is disabled explicitly.
 
+**deprecated actions and helpers**
+Product module has been refactored, but we want to keep compatibility so all of them will stay in 1.12 and will be removed in 1.13.
+
+deprecated actions:
+product/reset
+product/setupBreadcrumbs
+product/syncPlatformPricesOver
+product/setupAssociated
+product/loadConfigurableAttributes
+product/setupVariants
+product/filterUnavailableVariants
+product/list
+product/preConfigureAssociated
+product/preConfigureProduct
+product/configureLoadedProducts
+product/configureBundleAsync
+product/configureGroupedAsync
+product/configure
+product/setCurrentOption
+product/setCurrentErrors
+product/setOriginal
+product/loadProductAttributes
+category/list (new action is category-next/fetchMenuCategories)
+
+deprecated helpers:
+configureProductAsync
+populateProductConfigurationAsync
+setConfigurableProductOptionsAsync
+
+Here is list of actions that will be used in 1.13 in product module:
+product/doPlatformPricesSync
+product/single
+product/checkConfigurableParent
+product/findProducts
+product/findConfigurableParent
+product/setCustomOptions
+product/setBundleOptions
+product/setCurrent
+product/loadProduct
+product/addCustomOptionValidator
+product/setProductGallery
+product/loadProductBreadcrumbs
+product/getProductVariant
+
+All of those actions and helpers that are deprecated, can be removed so you will have smaller bundle.
+
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
@@ -450,7 +496,7 @@ Now it mirrors `core/` folder structure, which is desired behaviour.
 
 We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
 
-**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
+**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `yarn migrate` in the `vue-storefront-api` folder.
 
 ### Default storage of the shopping carts and user data moved to localStorage
 

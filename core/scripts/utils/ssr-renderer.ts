@@ -1,3 +1,4 @@
+import { Context } from './types';
 const fs = require('fs')
 const path = require('path')
 const compile = require('lodash.template')
@@ -9,7 +10,7 @@ const get = require('lodash/get')
 const config = require('config')
 const minify = require('html-minifier').minify
 
-function createRenderer (bundle, clientManifest, template) {
+function createRenderer (bundle, clientManifest, template?) {
   let shouldPreload = () => {}
   let shouldPrefetch = () => {}
   try {
@@ -21,11 +22,12 @@ function createRenderer (bundle, clientManifest, template) {
       console.error(err)
     }
   }
+  const LRU = require('lru-cache')
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
     clientManifest,
     // runInNewContext: false,
-    cache: require('lru-cache')({
+    cache: new LRU({
       max: 1000,
       maxAge: 1000 * 60 * 15
     }),
@@ -104,7 +106,7 @@ function initTemplatesCache (config, compileOptions) {
   return templatesCache
 }
 
-function initSSRRequestContext (app, req, res, config) {
+function initSSRRequestContext (app, req, res, config): Context {
   return {
     url: decodeURI(req.url),
     output: {
@@ -134,11 +136,11 @@ function clearContext (context) {
   delete context['meta']
 }
 
-module.exports = {
+export {
   createRenderer,
   initTemplatesCache,
   initSSRRequestContext,
   applyAdvancedOutputProcessing,
-  compileTemplate: compile,
+  compile as compileTemplate,
   clearContext
 }

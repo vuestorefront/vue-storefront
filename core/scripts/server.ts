@@ -164,18 +164,17 @@ app.get('*', (req, res, next) => {
   const errorHandler = err => {
     if (err && err.code === 404) {
       if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
-        apiStatus(res, 'Vue Storefront: Resource is not found', 404)
         console.error(`Resource is not found : ${req.url}`)
-        next()
+        return apiStatus(res, 'Vue Storefront: Resource is not found', 404)
       } else {
-        res.redirect('/page-not-found')
         console.error(`Redirect for resource not found : ${req.url}`)
+        return res.redirect('/page-not-found')
       }
     } else {
-      res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
       console.error(err)
-      next()
+      serverHooksExecutors.ssrException({ err, req, isProd })
+      return res.redirect('/error')
     }
   }
 
@@ -232,10 +231,10 @@ app.get('*', (req, res, next) => {
         isProd
       })
 
-      if (typeof afterOutputRenderedResponse.output === 'string') {
-        res.end(afterOutputRenderedResponse.output)
-      } else if (typeof afterOutputRenderedResponse === 'string') {
+      if (typeof afterOutputRenderedResponse === 'string') {
         res.end(afterOutputRenderedResponse)
+      } else if (typeof afterOutputRenderedResponse.output === 'string') {
+        res.end(afterOutputRenderedResponse.output)
       } else {
         res.end(output)
       }
@@ -322,20 +321,21 @@ app.get('*', (req, res, next) => {
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
 const start = () => {
-  app.listen(port, host)
-    .on('listening', () => {
-      console.log(`\n\n----------------------------------------------------------`)
-      console.log('|                                                        |')
-      console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
-      console.log('|                                                        |')
-      console.log(`----------------------------------------------------------\n\n`)
-    })
-    .on('error', (e) => {
-      if (e.code === 'EADDRINUSE') {
-        port = parseInt(port) + 1
-        console.log(`The port is already in use, trying ${port}`)
-        start()
-      }
-    })
+  const server = app.listen(port, host)
+  server.on('listening', () => {
+    console.log(`\n\n----------------------------------------------------------`)
+    console.log('|                                                        |')
+    console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
+    console.log('|                                                        |')
+    console.log(`----------------------------------------------------------\n\n`)
+
+    serverHooksExecutors.httpServerIsReady({ server, config: config.server, isProd })
+  }).on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+      port = parseInt(port) + 1
+      console.log(`The port is already in use, trying ${port}`)
+      start()
+    }
+  })
 }
 start()

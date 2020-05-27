@@ -10,7 +10,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const OrderModule: StorefrontModule = function ({store}) {
+export const OrderModule: StorefrontModule = function ({ store }) {
   StorageManager.init('orders')
 
   if (!isServer) {

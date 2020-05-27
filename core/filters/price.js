@@ -34,17 +34,13 @@ export function price (value, storeView) {
 
   const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
 
-  const localePrice = value.toLocaleString(defaultLocale, options);
+  let localePrice = Math.abs(value.toLocaleString(defaultLocale, options));
 
-  let formattedPrice = localePrice;
   if (currencyDecimal !== '' || currencyGroup !== '') {
-    formattedPrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
+    localePrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
   }
-  const valueWithSign = applyCurrencySign(formattedPrice, { currencySign, priceFormat });
 
-  if (value >= 0) {
-    return valueWithSign
-  } else {
-    return '-' + valueWithSign
-  }
+  const valueWithSign = applyCurrencySign(localePrice, { currencySign, priceFormat });
+
+  return value >= 0 ? valueWithSign : '-' + valueWithSign;
 }

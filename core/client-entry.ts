@@ -90,7 +90,7 @@ const invokeClientEntry = async () => {
       const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
         if (globalConfig.storeViews.multistore === true) {
-          const currentRoute = Object.assign({}, to, {host: window.location.host})
+          const currentRoute = Object.assign({}, to, { host: window.location.host })
           const storeCode = storeCodeFromRoute(currentRoute)
           const currentStore = currentStoreView()
           if (storeCode !== '' && storeCode !== null) {
@@ -104,7 +104,7 @@ const invokeClientEntry = async () => {
         return next()
       }
 
-      store.dispatch('url/setCurrentRoute', {to, from})
+      store.dispatch('url/setCurrentRoute', { to, from })
 
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && globalConfig.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []

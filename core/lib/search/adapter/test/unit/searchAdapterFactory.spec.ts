@@ -1,7 +1,7 @@
-import {getSearchAdapter} from '@vue-storefront/core/lib/search/adapter/searchAdapterFactory'
+import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/searchAdapterFactory'
 
 jest.mock('config', () => {
-  return {server: {api: 'api'}};
+  return { server: { api: 'api' } };
 });
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
@@ -40,7 +40,7 @@ describe('Search adapter factory tests', () => {
       () => {
         return {};
       },
-      {virtual: true}
+      { virtual: true }
     )
 
     await expect(getSearchAdapter('virtual')).rejects.toThrowError(new Error('Search adapter class is not provided'))
@@ -60,7 +60,7 @@ describe('Search adapter factory tests', () => {
           })
         }
       },
-      {virtual: true}
+      { virtual: true }
     )
 
     await expect(getSearchAdapter('invalidSearchMethod'))
@@ -83,7 +83,7 @@ describe('Search adapter factory tests', () => {
           })
         }
       },
-      {virtual: true}
+      { virtual: true }
     )
 
     await expect(getSearchAdapter('invalidRegisterEntityTypeMethod'))

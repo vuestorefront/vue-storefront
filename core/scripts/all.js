@@ -23,7 +23,7 @@ class Manager extends installer.Manager {
    */
   initStorefront () {
     return this.storefront.goToDirectory()
-      .then(this.storefront.npmBuild.bind(this.storefront))
+      .then(this.storefront.depBuild.bind(this.storefront))
       .then(this.storefront.runDevEnvironment.bind(this.storefront))
   }
 

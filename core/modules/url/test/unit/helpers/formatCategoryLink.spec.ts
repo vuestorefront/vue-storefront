@@ -20,7 +20,7 @@ describe('formatCategoryLink method', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.mock('config', () => ({}));
-    (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: ''}));
+    (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: '' }));
     category = {
       path: '1/2',
       is_active: true,
@@ -71,7 +71,7 @@ describe('formatCategoryLink method', () => {
 
     describe('with default storeCode set to \'de\'', () => {
       beforeEach(() => {
-        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de'}));
+        (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: 'de' }));
       });
 
       it('should return formatted category url_path', () => {
@@ -115,7 +115,7 @@ describe('formatCategoryLink method', () => {
 
     describe('with default storeCode set to \'de\'', () => {
       beforeEach(() => {
-        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de'}));
+        (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: 'de' }));
       });
 
       it('should return formatted category url_path', () => {
@@ -131,7 +131,7 @@ describe('formatCategoryLink method', () => {
 
     describe('with default storeCode set to \'de\' and appendStoreCode is false', () => {
       beforeEach(() => {
-        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de', appendStoreCode: false}));
+        (currentStoreView as jest.Mock).mockImplementation(() => ({ storeCode: 'de', appendStoreCode: false }));
       });
 
       it('should return formatted category url_path', () => {

@@ -5,7 +5,7 @@ import cmsPersistPlugin from './store/cmsPersistPlugin'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const CmsModule: StorefrontModule = function ({store}) {
+export const CmsModule: StorefrontModule = function ({ store }) {
   StorageManager.init('cms')
   store.registerModule('cmsPage', cmsPageModule)
   store.registerModule('cmsBlock', cmsBlockModule)

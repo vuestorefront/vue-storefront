@@ -3,6 +3,7 @@ import { configureProductAsync } from '@vue-storefront/core/modules/catalog/help
 import { prepareProductsToAdd, productsEquals, validateProduct } from '@vue-storefront/core/modules/cart/helpers'
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
+import config from 'config';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),
@@ -27,7 +28,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
   applyCoupon: async () => ({ result: true }),
   removeCoupon: async () => ({ result: true })
-}}));
+} }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()
@@ -45,7 +46,8 @@ jest.mock('@vue-storefront/core/modules/cart/helpers', () => ({
     createNotifications: jest.fn()
   },
   createDiffLog: () => ({
-    pushNotifications: jest.fn()
+    pushNotifications: jest.fn(),
+    merge: jest.fn()
   })
 }));
 jest.mock('@vue-storefront/core/helpers', () => ({
@@ -59,20 +61,25 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   },
   processLocalizedURLAddress: (url) => url
 }));
+jest.mock('config', () => ({}));
 
 describe('Cart itemActions', () => {
   it('configures item and deletes when there is same sku', async () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product2]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })
@@ -85,14 +92,18 @@ describe('Cart itemActions', () => {
     const product1 = { sku: 1, name: 'product1', server_item_id: 1 }
     const product2 = { sku: 2, name: 'product2', server_item_id: 2 }
 
-    const configureProductAsyncMock = configureProductAsync as jest.Mock
-    configureProductAsyncMock.mockImplementation(() => product2)
-
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true,
         getCartItems: [product1]
-      }
+      },
+      dispatch: jest.fn((actionName) => {
+        switch (actionName) {
+          case 'product/getProductVariant': {
+            return product2
+          }
+        }
+      })
     })
 
     await (cartActions as any).configureItem(contextMock, { product: product1, configuration: {} })
@@ -139,7 +150,12 @@ describe('Cart itemActions', () => {
       }
     })
 
-    contextMock.dispatch.mockImplementationOnce(() => Promise.resolve({ status: 'ok', onlineCheckTaskId: 1 }))
+    // The third 'dispatch' call gets an instance of DiffLog class, which has the isEmpty() method.
+    // The return value of the second 'dispatch' call is not used at all, so it can be left empty.
+    contextMock.dispatch
+      .mockImplementationOnce(() => Promise.resolve({ status: 'ok', onlineCheckTaskId: 1 }))
+      .mockImplementationOnce(() => Promise.resolve({}))
+      .mockImplementationOnce(() => Promise.resolve({ isEmpty: () => { return true } }))
 
     await (cartActions as any).addItems(contextMock, { productsToAdd: [product] })
     expect(contextMock.commit).toBeCalledWith(types.CART_ADD_ITEM, { product: { ...product, onlineStockCheckid: 1 } })

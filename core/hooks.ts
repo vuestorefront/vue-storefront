@@ -25,13 +25,19 @@ const {
   executor: afterProductThumbnailPathGeneratedExecutor
 } = createMutatorHook<{ path: string, pathType: string, sizeX: number, sizeY: number }, { path: string }>()
 
+const {
+  hook: beforeLogRenderedHook,
+  executor: beforeLogRenderedExecutor
+} = createMutatorHook<{ type: string, message: any, tag: any, context: any, noDefaultOutput?: boolean }, { message: any, tag: any, context: any, noDefaultOutput?: boolean }>()
+
 /** Only for internal usage in core */
 const coreHooksExecutors = {
   afterAppInit: afterAppInitExecutor,
   beforeStoreViewChanged: beforeStoreViewChangedExecutor,
   afterStoreViewChanged: afterStoreViewChangedExecutor,
   beforeHydrated: beforeHydratedExecutor,
-  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor,
+  beforeLogRendered: beforeLogRenderedExecutor
 }
 
 const coreHooks = {
@@ -46,7 +52,8 @@ const coreHooks = {
   */
   afterStoreViewChanged: afterStoreViewChangedHook,
   beforeHydrated: beforeHydratedHook,
-  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook,
+  beforeLogRendered: beforeLogRenderedHook
 }
 
 export {

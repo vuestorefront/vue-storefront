@@ -1,6 +1,5 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import {
   prepareProductsToAdd,
   productsEquals,
@@ -9,15 +8,16 @@ import {
   notifications
 } from '@vue-storefront/core/modules/cart/helpers'
 import { cartHooksExecutors } from './../../hooks'
+import config from 'config'
 
 const itemActions = {
   async configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
-    const variant = configureProductAsync(context, {
+    const variant = await dispatch('product/getProductVariant', {
       product,
-      configuration,
-      selectDefaultVariant: false
-    })
+      configuration
+    }, { root: true })
+
     const itemWithSameSku = getters.getCartItems.find(item => item.sku === variant.sku)
 
     if (itemWithSameSku && product.sku !== variant.sku) {
@@ -50,7 +50,7 @@ const itemActions = {
     const record = getters.getCartItems.find(p => productsEquals(p, product))
     const qty = record ? record.qty + 1 : (product.qty ? product.qty : 1)
 
-    return dispatch('stock/queueCheck', { product, qty }, {root: true})
+    return dispatch('stock/queueCheck', { product, qty }, { root: true })
   },
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
@@ -62,7 +62,7 @@ const itemActions = {
       if (errors.length === 0) {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 
-        if (status === 'volatile') {
+        if (status === 'volatile' && !config.stock.allowOutOfStockInCart) {
           diffLog.pushNotification(notifications.unsafeQuantity())
         }
         if (status === 'out_of_stock') {
@@ -80,9 +80,18 @@ const itemActions = {
         productIndex++
       }
     }
-    await dispatch('create')
+
+    let newDiffLog = await dispatch('create')
+    if (newDiffLog !== undefined) {
+      diffLog.merge(newDiffLog)
+    }
+
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      return dispatch('sync', { forceClientState: true })
+      const syncDiffLog = await dispatch('sync', { forceClientState: true })
+
+      if (!syncDiffLog.isEmpty()) {
+        diffLog.merge(syncDiffLog)
+      }
     }
 
     return diffLog
