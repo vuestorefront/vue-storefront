@@ -78,6 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
 - Homepage, new products query, uses now `new` attribute - @mdanilwoicz
 - Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
+- Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
 
 ## [1.11.4] - 2020.05.26
 
