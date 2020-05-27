@@ -34,7 +34,7 @@ export function price (value, storeView) {
 
   const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
 
-  let localePrice = Math.abs(value.toLocaleString(defaultLocale, options));
+  let localePrice = Math.abs(value.toLocaleString(defaultLocale, options)).toFixed(2);
 
   if (currencyDecimal !== '' || currencyGroup !== '') {
     localePrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
