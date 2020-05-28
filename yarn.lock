@@ -14761,10 +14761,9 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-storefront-query-builder@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/storefront-query-builder/-/storefront-query-builder-1.0.0.tgz#8bab0b6bd61a574dfa913cad5c2fdd17858f8b07"
-  integrity sha512-j0JhHOYhcfDcsBUMYWVJ0UApQDOem5zo20XikxJcxfFEcM5Et1Z16674wx3++KrWCbU5raEMgHvqEPxkDFajdw==
+"storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
+  version "1.0.1"
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#3984d3972162d2aa407a7435522066a73959aa21"
   dependencies:
     "@typescript-eslint/parser" "^2.26.0"
     clone-deep "^4.0.1"
@@ -16196,6 +16195,11 @@ vue-offline@^1.0.8:
   version "1.0.204"
   resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.204.tgz#9c9c0e98fc29cb3334b57848dd4c6f6cd9607d6d"
   integrity sha512-4dYUE81k9tLSPbx7qlJDyKw2QNdNL7aJMuBAfrAhtCjZdZsiXoaS56QApZaTh8BV3yG6sbTdbAD6hDaEYHe3EQ==
+
+vue-progressbar@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/vue-progressbar/-/vue-progressbar-0.7.5.tgz#414730892252b1e45582d4979dec93038e007f79"
+  integrity sha512-VeNG/inMsFbvdCTS7lJ1gjDAKSUZdqkhW9gS1tb0we1rqFKxR+BCEiVUgw5C84vODKb14M2GWHTw0WVdpoVg6g==
 
 vue-router@^3.0.1, vue-router@^3.1.3:
   version "3.1.6"

@@ -74,9 +74,7 @@ export default {
       }
 
       // If synchronization is eanbled get shipping and discount values from Magento
-      const shipping = this.platformTotal.filter(segment => {
-        return segment.code === 'shipping'
-      })
+      const shipping = this.platformTotal.filter(segment => segment.code === 'shipping' && segment.value)
       if (shipping.length > 0) {
         bucket.push({
           label: shipping[0].title,
