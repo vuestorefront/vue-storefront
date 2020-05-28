@@ -14,14 +14,16 @@ export const getFiltersFromUrl = (context, filters) => {
 
     filters[name].options.forEach(option => {
       if (filters[name].type === 'range') {
-        if (!Array.isArray(values[0])) {
-          const urlToArray = values[0].split(',');
+        const value = values[0];
+
+        if (!Array.isArray(value)) {
+          const urlToArray = value.split(',');
           option.min = parseInt(urlToArray[0]);
           option.max = parseInt(urlToArray[1]);
-        } else {
-          option.min = values[0][0];
-          option.max = values[0][1];
+          return;
         }
+        option.min = value[0];
+        option.max = value[1];
       }
 
       if (values.includes(option.name)) {

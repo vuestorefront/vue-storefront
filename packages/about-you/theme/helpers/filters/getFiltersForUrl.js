@@ -4,7 +4,6 @@ export const getFiltersForUrl = (filters) => {
       .filter(option => option.selected || filter.type === 'range')
       .map(option => {
         if (filter.type === 'range') {
-          console.log('MAP range', [option.min, option.max]);
           return [option.min, option.max];
         }
         return option.name;

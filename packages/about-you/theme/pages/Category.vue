@@ -292,6 +292,7 @@ export default {
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
       await filter({categoryId: 344491});
+      console.log(availableFilters.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);
       await productsSearch(productsSearchParams.value);
     });
@@ -299,7 +300,6 @@ export default {
     watch([itemsPerPage, filters], () => {
       if (categories.value.length) {
         productsSearch(productsSearchParams.value);
-        console.log('Watch Filters', filters.value);
         context.root.$router.push({ query: {
           ...context.root.$route.query,
           ...getFiltersForUrl(filters.value),

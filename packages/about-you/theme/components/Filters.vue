@@ -35,6 +35,7 @@
                 Min
                 <input id="minPrice" type="number" :value="option.min" @change="option.min = $event.target.valueAsNumber">
               </label>
+              <br>
               <label for="maxPrice">
                 Max
                 <input id="maxPrice" type="number" :value="option.max" @change="option.max = $event.target.valueAsNumber">
@@ -47,7 +48,7 @@
               v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.name}`"
               :data-cy="`category-filter_${filterName}_${option.name}`"
-              :label="filters[filterName].type == 'BooleanAttribute' ? 'yes' : option.name"
+              :label="filters[filterName].type == 'boolean' ? option.name == true ? 'yes' : 'no' : option.name"
               :selected="option.selected"
               class="filters__item"
               @change="option.selected = !option.selected"
