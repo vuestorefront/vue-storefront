@@ -11,7 +11,7 @@ export interface BundleOption {
 }
 
 export interface BundleOptionsProductLink {
-  id: string,
+  id: string | number,
   sku: string,
   option_id: number,
   qty: number,
@@ -21,4 +21,10 @@ export interface BundleOptionsProductLink {
   price_type?: number,
   can_change_quantity: number,
   product?: Product
+}
+
+export interface SelectedBundleOption {
+  option_id: number,
+  option_qty: number,
+  option_selections: number[]
 }

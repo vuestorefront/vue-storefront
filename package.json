@@ -79,7 +79,7 @@
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",
-    "storefront-query-builder": "^1.0.0",
+    "storefront-query-builder": "https://github.com/DivanteLtd/storefront-query-builder.git",
     "ts-node": "^8.6.2",
     "vue": "^2.6.11",
     "vue-analytics": "^5.16.1",
