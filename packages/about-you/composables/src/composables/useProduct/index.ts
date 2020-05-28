@@ -23,10 +23,17 @@ const useProduct: (cacheId: string) => UseProduct<BapiProduct, any> = useProduct
   availableFilters: async (initialSearchQuery: ProductSearchQuery) => {
     const filters = await getFilters({ where: initialSearchQuery });
     const availableFilters = filters.filter(filter => filter.values.length !== 0);
-
     return availableFilters.reduce((obj, item: any) => {
       const { slug, values, ...rest} = item;
-      return { ...obj, [slug]: {...rest, slug, options: values.map(value => ({...value, selected: false})) } };
+      return {
+        ...obj,
+        [slug]: {
+          ...rest,
+          slug,
+          options: values.map(value => ({...value, selected: false})),
+          type: item.type
+        }
+      };
     }, {});
   }
 });

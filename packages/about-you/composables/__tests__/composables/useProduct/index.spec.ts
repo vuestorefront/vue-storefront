@@ -1,4 +1,4 @@
-import { getProductsByQuery } from '@vue-storefront/about-you-api';
+import { getProductsByQuery, getFilters } from '@vue-storefront/about-you-api';
 import useProduct from '../../../src/composables/useProduct';
 import { mapProductSearchByQueryParams } from '../../../src/helpers';
 
@@ -35,5 +35,10 @@ describe.skip('[about-you-composables] useProduct', () => {
       masterKey: '',
       term: searchParams.term
     });
+  });
+
+  it('get available filters', () => {
+    (getFilters as jest.Mock).mockReturnValueOnce({});
+
   });
 });

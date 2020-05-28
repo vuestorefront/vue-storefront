@@ -11,6 +11,12 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     searchQuery.term = params.term;
   }
 
+  if (params.filters) {
+    const { prices } = params.filters;
+    searchQuery.minPrice = prices.options[0].min;
+    searchQuery.maxPrice = prices.options[0].max;
+  }
+
   const pagination: { page?: number; perPage?: number} = {};
 
   if (params.page) {

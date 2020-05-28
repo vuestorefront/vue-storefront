@@ -24,6 +24,24 @@
               @click="option.selected = !option.selected"
             />
           </div>
+
+          <div
+           v-if="filters[filterName].type == 'range'"
+           class="filter__prices"
+           :key="`${filterName}-prices`"
+          >
+            <div v-for="option in filters[filterName].options">
+              <label for="minPrice">
+                Min
+                <input id="minPrice" type="number" :value="option.min" @change="option.min = $event.target.valueAsNumber">
+              </label>
+              <label for="maxPrice">
+                Max
+                <input id="maxPrice" type="number" :value="option.max" @change="option.max = $event.target.valueAsNumber">
+              </label>
+            </div>
+          </div>
+
           <template v-else>
             <SfFilter
               v-for="option in filters[filterName].options"
@@ -33,7 +51,8 @@
               :selected="option.selected"
               class="filters__item"
               @change="option.selected = !option.selected"
-            ></SfFilter>
+            >
+            </SfFilter>
           </template>
         </template>
       </template>
