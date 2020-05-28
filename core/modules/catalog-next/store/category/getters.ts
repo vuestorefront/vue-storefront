@@ -45,7 +45,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
-    return getters.getCategoryByParams(rootState.route.params)
+    return getters.getCategoryByParams({ ...rootGetters['url/getCurrentRoute'].params })
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
