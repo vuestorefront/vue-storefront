@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed possible memory leak in ssr - @resubaka (#4247)
 - Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
 - Bugfix for build exception in Node v13.13+ - @cewald (#4249)
+- Convert option ids to string while comparing them in `getProductConfiguration` - @gibkigonzo (#4484)
 - change value to number in price filter - @gibkigonzo (#4478)
 
 ### Changed / Improved
