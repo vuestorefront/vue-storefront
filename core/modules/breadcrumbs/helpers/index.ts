@@ -5,6 +5,7 @@ import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 export function parseCategoryPath (categoryPath) {
   let routesArray = []
   for (let category of categoryPath) {
+    if (category.url_path == undefined) continue;
     routesArray.push({
       name: category.name,
       route_link: formatCategoryLink(category)
