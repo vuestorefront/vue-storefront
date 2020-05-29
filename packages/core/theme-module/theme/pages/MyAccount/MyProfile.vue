@@ -163,7 +163,7 @@ export default {
     const updatePassword = async () => {
       try {
         await changePassword(form.value.currentPassword, form.value.newPassword);
-      } catch(e) {
+      } catch (e) {
         error.value = e.message;
         return;
       }
