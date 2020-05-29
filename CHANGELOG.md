@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed possible memory leak in ssr - @resubaka (#4247)
 - Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
 - Bugfix for build exception in Node v13.13+ - @cewald (#4249)
+- change value to number in price filter - @gibkigonzo (#4478)
 
 ### Changed / Improved
 
@@ -79,6 +80,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Homepage, new products query, uses now `new` attribute - @mdanilwoicz
 - Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
 - Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
+- add two numbers after dot to price by default, calculate default price for bundle or grouped main product, update typing, add fallback to attribute options - @gibkigonzo (#4476)
+- udpate yarn and filter shipping methods for instant checkout - @gibkigonzo (#4480)
 
 ## [1.11.4] - 2020.05.26
 
