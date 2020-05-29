@@ -64,6 +64,10 @@ product/loadProductBreadcrumbs
 product/getProductVariant
 
 All of those actions and helpers that are deprecated, can be removed so you will have smaller bundle.
+Comment those lines:
+- core/modules/catalog/store/product/actions.ts:318
+- core/modules/catalog/helpers/index.ts:14-18
+- core/modules/catalog-next/store/category/actions.ts:265
 
 ## 1.10 -> 1.11
 
