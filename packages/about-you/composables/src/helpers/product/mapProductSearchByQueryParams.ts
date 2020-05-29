@@ -1,5 +1,4 @@
-import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
-import { ProductsSearchEndpointParameters } from '@aboutyou/backbone/endpoints/products/products';
+import { ProductSearchQuery, ProductsSearchEndpointParameters, ProductSortConfig } from '../../types';
 
 const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters => {
   const searchQuery: ProductSearchQuery = {};
@@ -11,7 +10,14 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     searchQuery.term = params.term;
   }
 
-  if (params.filters) {
+  const sortOptions: ProductSortConfig = {};
+  if (params.sort) {
+    const [option, direction] = params.sort.split('-');
+    sortOptions.by = option;
+    sortOptions.direction = direction;
+  }
+
+  if (params.filters?.prices) {
     const { prices } = params.filters;
     searchQuery.minPrice = prices.options[0].min;
     searchQuery.maxPrice = prices.options[0].max;
@@ -29,7 +35,7 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   let filters;
   if (params.filters) {
     filters = Object.keys(params.filters).map(filter => {
-      const options = params.filters[filter].options?.filter(option => option.selected);
+      const options = params.filters[filter].options.filter(option => option.selected);
       return {
         type: 'attributes',
         key: params.filters[filter].slug,
@@ -45,13 +51,16 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
 
   return {
     with: {
-      advancedAttributes: {
-        withKey: ['productName']
-      },
+      attributes: 'all',
+      advancedAttributes: 'all',
+      variants: 'all',
+      images: 'all',
+      siblings: 'all',
+      categories: 'all',
       priceRange: true
     },
     where: refinedSearchQuery,
-    sort: {},
+    sort: sortOptions,
     pagination: pagination
   };
 };

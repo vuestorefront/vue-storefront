@@ -2,13 +2,13 @@
 
 import useCategory from './composables/useCategory';
 import useProduct from './composables/useProduct';
-import useCart from './composables/useCart';
+import { setCart, useCart } from './composables/useCart';
 import useCheckout from './composables/useCheckout';
-import useUser from './composables/useUser';
+import { setUser, useUser } from './composables/useUser';
 import useLocale from './composables/useLocale';
 import useUserOrders from './composables/useUserOrders';
 import useContent from './composables/useContent';
-import useWishlist from './composables/useWishlist';
+import { useWishlist, setWishlist } from './composables/useWishlist';
 
 import {
   cartGetters,
@@ -16,23 +16,28 @@ import {
   checkoutGetters,
   productGetters,
   userGetters,
-  orderGetters
+  orderGetters,
+  wishlistGetters
 } from './composables/getters';
 
 export {
   useCategory,
   useProduct,
   useCart,
+  setCart,
   useCheckout,
   useUser,
+  setUser,
   useLocale,
   useUserOrders,
   useContent,
   useWishlist,
+  setWishlist,
   cartGetters,
   categoryGetters,
   checkoutGetters,
   productGetters,
   userGetters,
-  orderGetters
+  orderGetters,
+  wishlistGetters
 };

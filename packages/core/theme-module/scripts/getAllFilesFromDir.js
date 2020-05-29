@@ -1,6 +1,6 @@
 const fs = require('fs');
-
-const parentDirectory = __dirname.replace(/(\/\w*)$/g, '');
+const path = require('path');
+const parentDirectory = path.resolve(__dirname, '..');
 
 /**
  *
@@ -11,10 +11,10 @@ const parentDirectory = __dirname.replace(/(\/\w*)$/g, '');
 const getAllFilesFromDir = (dirPath, arrayOfFiles = []) => {
   const files = fs.readdirSync(dirPath);
   files.forEach((file) => {
-    if (fs.statSync(dirPath + '/' + file).isDirectory()) {
-      arrayOfFiles = getAllFilesFromDir(dirPath + '/' + file, arrayOfFiles);
+    if (fs.statSync(dirPath + path.sep + file).isDirectory()) {
+      arrayOfFiles = getAllFilesFromDir(dirPath + path.sep + file, arrayOfFiles);
     } else {
-      arrayOfFiles.push((dirPath + '/' + file).split(parentDirectory + '/').pop());
+      arrayOfFiles.push((dirPath + path.sep + file).split(parentDirectory + path.sep).pop());
     }
   });
 
