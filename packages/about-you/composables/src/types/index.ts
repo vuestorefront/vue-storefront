@@ -1,5 +1,4 @@
 import { UseCategory } from '@vue-storefront/core';
-import { UseProduct } from '@vue-storefront/core';
 import { ComputedProperty } from '@vue-storefront/core';
 
 // Backbone types
@@ -46,6 +45,13 @@ type BapiShippingMethod = {
 
 }
 
+// @todo: fill missing types
+export type Filter = {
+  type: string;
+  key: string;
+  [x: string]: any;
+}
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
@@ -56,7 +62,6 @@ export interface UseCompare<PRODUCT> {
 
 export {
   UseCategory,
-  UseProduct,
   BapiCoupon,
 
   // Mocked Types

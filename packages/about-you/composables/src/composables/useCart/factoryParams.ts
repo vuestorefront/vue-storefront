@@ -42,7 +42,7 @@ export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiPr
 
     return basketResponse.basket;
   },
-  addToCart: async ({ currentCart, product, quantity = 1 }) => {
+  addToCart: async ({ currentCart, product, quantity }) => {
     const basketItem = getBasketItemByProduct({ currentCart, product });
     if (basketItem) {
       return updateQuantity({product: basketItem, quantity: basketItem.quantity + quantity});
