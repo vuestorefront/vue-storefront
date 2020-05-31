@@ -101,6 +101,7 @@ export default {
     top: 100%;
     z-index: 1;
     background: white;
+    border-bottom: 1px solid var(--c-light);
 
     &__categories {
       flex: 0 0 220px;
