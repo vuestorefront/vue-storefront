@@ -5,6 +5,7 @@ import useCategory from './composables/useCategory';
 import useCheckout from './composables/useCheckout';
 import useLocale from './composables/useLocale';
 import useProduct from './composables/useProduct';
+import useSearch from './composables/useSearch';
 import { useUser, setUser } from './composables/useUser';
 import useUserOrders from './composables/useUserOrders';
 import {
@@ -29,6 +30,7 @@ export {
   useCheckout,
   useLocale,
   useProduct,
+  useSearch,
   useUser,
   useUserOrders,
   useWishlist,
