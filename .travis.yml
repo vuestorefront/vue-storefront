@@ -49,6 +49,11 @@ jobs:
       script:
         - yarn build:ayc
 
+    - stage: build
+      name: Lint
+      script:
+        - yarn lint
+
     - stage: unit tests
       script: yarn test:core --coverage
       name: Test core packages

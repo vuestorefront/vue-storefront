@@ -22,7 +22,7 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
     expect(result).toEqual(expectedQuery);
   });
 
-  it('returns mapped products query for given params', async () => {
+  it('returns mapped products query for given search params', async () => {
     const params = {
       catId: 1337,
       term: 'foo',
@@ -52,6 +52,73 @@ describe('[about-you-helpers] mapProductSearchByQueryParams', () => {
         page: params.page,
         perPage: params.perPage
       }
+    };
+
+    const result = mapProductSearchByQueryParams(params);
+    expect(result).toEqual(expectedQuery);
+  });
+
+  it('returns mapped products query for given filters', async () => {
+    const params = {
+      filters: {
+        prices: {
+          id: null,
+          name: 'Prices',
+          options: [
+            {
+              max: 10910,
+              min: 10000,
+              productCount: 4,
+              selected: false
+            }
+          ],
+          slug: 'prices',
+          type: 'range'
+        },
+        country: {
+          id: 1337,
+          name: 'Country',
+          options: [
+            {
+              id: 73349,
+              name: 'Germany',
+              productCount: 1,
+              selected: true
+            }
+          ],
+          slug: 'country',
+          type: 'attributes'
+        }
+      }
+    };
+    const expectedQuery = {
+      with: {
+        advancedAttributes: 'all',
+        attributes: 'all',
+        categories: 'all',
+        images: 'all',
+        priceRange: true,
+        siblings: 'all',
+        variants: 'all'
+      },
+      where: {
+        attributes: [
+          {
+            key: 'prices',
+            type: 'attributes',
+            values: []
+          },
+          {
+            key: 'country',
+            type: 'attributes',
+            values: [73349]
+          }
+        ],
+        maxPrice: 10910,
+        minPrice: 10000
+      },
+      sort: {},
+      pagination: {}
     };
 
     const result = mapProductSearchByQueryParams(params);

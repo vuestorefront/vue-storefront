@@ -17,6 +17,12 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
     sortOptions.direction = direction;
   }
 
+  if (params.filters?.prices) {
+    const { prices } = params.filters;
+    searchQuery.minPrice = prices.options[0].min;
+    searchQuery.maxPrice = prices.options[0].max;
+  }
+
   const pagination: { page?: number; perPage?: number} = {};
 
   if (params.page) {
@@ -25,6 +31,23 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
   if (params.perPage) {
     pagination.perPage = params.perPage;
   }
+
+  let filters;
+  if (params.filters) {
+    filters = Object.keys(params.filters).map(filter => {
+      const options = params.filters[filter].options.filter(option => option.selected);
+      return {
+        type: 'attributes',
+        key: params.filters[filter].slug,
+        values: options.map(option => option.id)
+      };
+    });
+  }
+
+  const refinedSearchQuery: ProductSearchQuery = {
+    ...searchQuery,
+    attributes: filters
+  };
 
   return {
     with: {
@@ -36,7 +59,7 @@ const mapProductSearchByQueryParams = (params): ProductsSearchEndpointParameters
       categories: 'all',
       priceRange: true
     },
-    where: searchQuery,
+    where: refinedSearchQuery,
     sort: sortOptions,
     pagination: pagination
   };
