@@ -1,4 +1,4 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
@@ -7,10 +7,11 @@ import { sha3_224 } from 'js-sha3'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
 
 export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
+  if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
   return url
 }
 
@@ -47,14 +48,14 @@ export function slugify (text) {
  * @returns {string}
  */
 export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
-  if (config.images.useExactUrlsNoProxy) {
-    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }).path // this is exact url mode
-  } else {
-    if (config.images.useSpecificImagePaths) {
-      const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
-      relativeUrl = path + relativeUrl
-    }
+  if (config.images.useSpecificImagePaths) {
+    const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
+    relativeUrl = path + relativeUrl
+  }
 
+  if (config.images.useExactUrlsNoProxy) {
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height, pathType }).path // this is exact url mode
+  } else {
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
     // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
@@ -69,7 +70,7 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
     }
     const path = relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
 
-    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height }).path
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height, pathType }).path
   }
 }
 
@@ -260,4 +261,98 @@ export function extendStore (moduleName: string | string[], module: any) {
 
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
+}
+
+export function reviewJsonLd (reviews, { name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description }, priceCurrency) {
+  return reviews.map(({ title, detail, nickname, created_at }) => (
+    {
+      '@context': 'http://schema.org/',
+      '@type': 'Review',
+      reviewAspect: title,
+      reviewBody: detail,
+      datePublished: created_at,
+      author: nickname,
+      itemReviewed: {
+        '@type': 'Product',
+        name,
+        sku,
+        image,
+        description,
+        offers: {
+          '@type': 'Offer',
+          category: category
+            ? category
+              .map(({ name }) => name || null)
+              .filter(name => name !== null)
+            : null,
+          mpn,
+          url: url_path,
+          priceCurrency,
+          price,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: stock && is_in_stock ? 'InStock' : 'OutOfStock'
+        }
+      }
+    }
+  )
+  )
+}
+
+function getMaterials (material, customAttributes) {
+  const materialsArr = []
+  if (customAttributes && customAttributes.length && customAttributes.length > 0 && material && material.length && material.length > 0) {
+    const materialOptions = customAttributes.find(({ attribute_code }) => attribute_code === 'material').options
+    if (Array.isArray(material)) {
+      for (let key in materialOptions) {
+        material.forEach(el => {
+          if (String(el) === materialOptions[key].value) {
+            materialsArr.push(materialOptions[key].label)
+          }
+        })
+      }
+    } else {
+      for (let key in materialOptions) {
+        if (material === materialOptions[key].value) {
+          materialsArr.push(materialOptions[key].label)
+        }
+      }
+    }
+  }
+  return materialsArr
+}
+
+export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock, material }, color, priceCurrency, customAttributes) {
+  return {
+    '@context': 'http://schema.org',
+    '@type': 'Product',
+    category: category
+      ? category
+        .map(({ name }) => name || null)
+        .filter(name => name !== null)
+      : null,
+    color,
+    description,
+    image,
+    itemCondition: 'http://schema.org/NewCondition',
+    material: getMaterials(material, customAttributes),
+    name,
+    productID: id,
+    sku,
+    mpn,
+    offers: {
+      '@type': 'Offer',
+      category: category
+        ? category
+          .map(({ name }) => name || null)
+          .filter(name => name !== null)
+        : null,
+      mpn,
+      url: url_path,
+      priceCurrency,
+      price,
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: stock && is_in_stock ? 'InStock' : 'OutOfStock',
+      sku
+    }
+  }
 }

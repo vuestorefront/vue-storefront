@@ -5,6 +5,85 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2020.06.01
+
+### Added
+
+- Add `vsf-capybara` support as a dependency and extend CLI to support customization - @psmyrek (#4209)
+- Support theme configuration via CLI - @psmyrek (#4395)
+- Allow parent_ids field on product as an alternative to urlpath based breadcrumb navigation (#4219)
+- Pass the original item_id when updating/deleting a cart entry @carlokok (#4218)
+- Separating endpoints for CSR/SSR - @Fifciu (#2861)
+- Added short hands for version and help flags - @jamesgeorge007 (#3946)
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
+- Add unified fetch in mappingFallback for all searched entities - @gibkigonzo (#3942)
+- add npm-run-all for parallel build - @gibkigonzo (#3819)
+- Add OutputCaching support for x-vs-store-code - @benjick (#3979)
+- The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend - @pkarw - #2167
+- This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70% - @pkarw
+- The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
+- Reset Password confirmation page - @Fifciu (#2576)
+- Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836, #4040)
+- Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
+- New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
+- Add custom currency separators and amount of fraction digits - @EndPositive (#3553)
+- Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
+- Add `/cache-version.json` route to get current cache version
+- Built-in module for detecting device type based on UserAgent with SSR support - @Fifciu
+- Update to `storefront-query-builder` version `1.0.0` - @cewald (#4234)
+- Move generating files from webpack config to script @gibkigonzo (#4236)
+- Add correct type matching to `getConfigurationMatchLevel` - @cewald (#4241)
+- Support `useSpecificImagePaths` with `useExactUrlsNoProxy` - @cewald (#4243)
+- Adds module which handles cache invalidation for Fastly. - @gibkigonzo (#4096)
+- Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
+- Added meta info for CMS pages from Magento @mdanilowicz (#4392)
+- Add useful core events to server & logger - @cewald (#4419)
+
+### Fixed
+
+- Fixed `resultPorcessor` typo - @psmyrek
+- Negative price has doubled minus sign - @psmyrek (#4353)
+- Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
+- Revert init filters in Vue app - @gibkigonzo (#3929)
+- All categories disappearing if you add the child category name to includeFields - @1070rik (#4015)
+- Fix overlapping text in PersonalDetails component - @jakubmakielkowski (#4024)
+- Redirect from checkout to home with a proper store code - @Fifciu
+- Added back error notification when user selects invalid configuration - @1070rik (#4033)
+- findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo, @cewald (#4042, #4216)
+- use storeCode for mappingFallback url - @gibkigonzo (#4050)
+- `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
+- Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
+- Fixed problem with not showing error message when placing an order fails - @qiqqq
+- Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
+- Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
+- Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
+- Use same data format in getConfigurationMatchLevel - @gibkigonzo (#4208)
+- removed possible memory leak in ssr - @resubaka (#4247)
+- Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
+- Bugfix for build exception in Node v13.13+ - @cewald (#4249)
+- Convert option ids to string while comparing them in `getProductConfiguration` - @gibkigonzo (#4484)
+- change value to number in price filter - @gibkigonzo (#4478)
+
+### Changed / Improved
+
+- Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
+- Remove commit register mapping - @gibkigonzo (#3875)
+- Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
+- Removed unused locales in disabled multistore - @gibkigonzo (#4072)
+- Optimized attributes loading - @andrzejewsky (#3948)
+- Cart optimization can now be used regardless if entity optimization is enabled - @juho-jaakkola (#4198)
+- Improve typescript support for test utils - @resubaka (#4067)
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
+- Disable `mapFallback` url by default - @gibkigonzo(#4092)
+- Include token in pricing sync -  @carlokok (#4156)
+- Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
+- Homepage, new products query, uses now `new` attribute - @mdanilwoicz
+- Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
+- Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
+- add two numbers after dot to price by default, calculate default price for bundle or grouped main product, update typing, add fallback to attribute options - @gibkigonzo (#4476)
+- udpate yarn and filter shipping methods for instant checkout - @gibkigonzo (#4480)
+
 ## [1.11.4] - 2020.05.26
 
 ### Added

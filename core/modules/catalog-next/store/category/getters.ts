@@ -5,7 +5,7 @@ import CategoryState from './CategoryState'
 import { compareByLabel } from '../../helpers/categoryHelpers'
 import { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
-import { optionLabel } from '../../helpers/optionLabel'
+import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import forEach from 'lodash-es/forEach'
@@ -16,6 +16,7 @@ import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/help
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
+import config from 'config';
 
 function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {
@@ -44,7 +45,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
-    return getters.getCategoryByParams(rootState.route.params)
+    return getters.getCategoryByParams({ ...rootGetters['url/getCurrentRoute'].params })
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
@@ -139,6 +140,9 @@ const getters: GetterTree<CategoryState, RootState> = {
     const totalValue = typeof total === 'object' ? total.value : total
 
     return totalValue || 0
+  },
+  getMenuCategories (state, getters, rootState, rootGetters) {
+    return state.menuCategories || rootGetters['category/getCategories']
   }
 }
 
