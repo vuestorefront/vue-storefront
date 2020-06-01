@@ -71,7 +71,8 @@ export default interface Product {
   _score?: number,
   qty?: number,
   tier_prices?: any[],
-  links?: any
+  links?: any,
+  parentId?: number | string
 }
 
 export interface ProductLink {
