@@ -5,6 +5,7 @@ import defaultQuery from '../../../src/api/getCart/defaultQuery';
 describe('[commercetools-api-client] getCart', () => {
   it('fetches cart', async () => {
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       cartId: 'cart id'
     };

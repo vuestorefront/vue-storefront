@@ -12,7 +12,7 @@ export const ProductPriceFragment = `
         validFrom
         validUntil
         isActive
-        name(locale: $locale)
+        name(acceptLanguage: $acceptLanguage)
       }
     }
     value {
@@ -59,8 +59,8 @@ export const LineItemFragment = `
   fragment DefaultLineItem on LineItem {
     id
     productId
-    name(locale: $locale)
-    productSlug(locale: $locale)
+    name(acceptLanguage: $acceptLanguage)
+    productSlug(acceptLanguage: $acceptLanguage)
     quantity
     discountedPricePerQuantity {
       quantity
@@ -70,7 +70,7 @@ export const LineItemFragment = `
         }
         includedDiscounts {
           discount {
-            name(locale: $locale)
+            name(acceptLanguage: $acceptLanguage)
             isActive
           }
         }
@@ -94,7 +94,7 @@ export const LineItemFragment = `
           }
           discount {
             isActive
-            name(locale: $locale)
+            name(acceptLanguage: $acceptLanguage)
           }
         }
       }
@@ -156,7 +156,7 @@ export const ShippingMethodFragment = `
     name
     description
     isDefault
-    localizedDescription(locale: $locale)
+    localizedDescription(acceptLanguage: $acceptLanguage)
     zoneRates {
       zone {
         name
@@ -226,14 +226,14 @@ export const CartFragment = `
         isActive
         validFrom
         validUntil
-        name(locale: $locale)
+        name(acceptLanguage: $acceptLanguage)
       }
     }
     refusedGifts {
       isActive
       validFrom
       validUntil
-      name(locale: $locale)
+      name(acceptLanguage: $acceptLanguage)
     }
     cartState
     version

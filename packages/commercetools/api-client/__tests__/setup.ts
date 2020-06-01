@@ -10,6 +10,7 @@ jest.mock('./../src/helpers/createAccessToken', () => jest.fn());
 setup({
   api: {} as any,
   locale: 'en',
+  acceptLanguage: ['en', 'de'],
   currency: 'USD',
   country: 'UK',
   cookies: {

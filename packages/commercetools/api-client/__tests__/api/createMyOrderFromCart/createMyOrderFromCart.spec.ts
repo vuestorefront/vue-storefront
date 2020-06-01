@@ -11,6 +11,7 @@ describe('[commercetools-api-client] createMyOrderFromCart', () => {
         id: '123123',
         version: 2
       },
+      acceptLanguage: ['en', 'de'],
       locale: 'en'
     };
 

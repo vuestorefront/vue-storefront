@@ -11,6 +11,7 @@ describe('[commercetools-api-client] updateCart', () => {
 
   it('updates cart', async () => {
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       id: 'cart id',
       version: 1,

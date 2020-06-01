@@ -14,6 +14,7 @@ describe('[commercetools-api-client] customerSignMeIn', () => {
         email: 'john@doe.com',
         password: 'xxxxx'
       },
+      acceptLanguage: ['en', 'de'],
       locale: 'en'
     };
 
