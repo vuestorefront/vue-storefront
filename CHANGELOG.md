@@ -83,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
 - add two numbers after dot to price by default, calculate default price for bundle or grouped main product, update typing, add fallback to attribute options - @gibkigonzo (#4476)
 - udpate yarn and filter shipping methods for instant checkout - @gibkigonzo (#4480)
+- add attribute metadata search query, add parentId - @gibkigonzo (#4491)
 
 ## [1.11.4] - 2020.05.26
 
