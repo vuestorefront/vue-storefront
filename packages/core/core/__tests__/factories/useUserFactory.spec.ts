@@ -19,7 +19,8 @@ const factoryParams = {
   refreshUser: jest.fn()
 };
 
-const useUserMethods = useUserFactory(factoryParams)();
+const { useUser, setUser } = useUserFactory(factoryParams);
+const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {
   beforeEach(() => {
@@ -27,11 +28,16 @@ describe('[CORE - factories] useUserFactory', () => {
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
-      const {user, loading, isAuthenticated} = useUserMethods;
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user1', saveToInitialState: jest.fn() });
+      const { useUser } = useUserFactory(factoryParams);
+      const { user: user1, isAuthenticated } = useUser();
 
-      expect(user.value).toEqual(null);
-      expect(loading.value).toEqual(false);
-      expect(isAuthenticated.value).toEqual(false);
+      expect(user1.value).toEqual('some-user1');
+      expect(isAuthenticated.value).toEqual(true);
+
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user2', saveToInitialState: jest.fn() });
+      const { user: user2 } = useUser();
+      expect(user2.value).toEqual('some-user1');
     });
 
     it('isAuthenticated returns true for logged in user', async () => {
@@ -42,6 +48,11 @@ describe('[CORE - factories] useUserFactory', () => {
       );
       await useUserMethods.login(userToLogin);
       expect(isAuthenticated.value).toBe(true);
+    });
+
+    it('set given user property', () => {
+      setUser({ username: 'test' });
+      expect(useUserMethods.user.value).toEqual({ username: 'test' });
     });
   });
   describe('methods', () => {

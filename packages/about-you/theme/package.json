@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev:inspect": "node --inspect node_modules/.bin/nuxt",
     "build": "nuxt build -m",
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
@@ -13,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.7.5",
+    "@storefront-ui/vue": "^0.7.15",
     "@vue-storefront/about-you": "^0.0.3",
     "@vue-storefront/about-you-api": "^0.1.0",
     "@vue-storefront/nuxt": "^0.0.3",

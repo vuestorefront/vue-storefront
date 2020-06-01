@@ -43,7 +43,7 @@
             />
             <div class="product-details__sub-rating">
               <SfRating :score="4" :max="5" />
-              <SfButton class="product-details__sub-reviews sf-button--text desktop-only">
+              <SfButton data-cy="product-btn_read-all" class="product-details__sub-reviews sf-button--text desktop-only">
                 Read all reviews
               </SfButton>
               <div class="product-details__sub-reviews mobile-only">
@@ -57,13 +57,14 @@
             favorite brands.
           </p>
           <div class="product-details__action desktop-only">
-            <SfButton class="sf-button--text color-secondary"
+            <SfButton data-cy="product-btn_size-guide" class="sf-button--text color-secondary"
               >Size guide</SfButton
             >
           </div>
           <!-- TODO: add size selector after design is added -->
           <div class="product-details__section desktop-only" >
             <SfSelect
+              data-cy="product-select_size"
               v-if="options.size"
               :selected="configuration.size"
               @change="size => updateFilter({ size })"
@@ -83,6 +84,7 @@
             <p class="product-details__color-label">Color:</p>
             <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
             <SfColor
+              data-cy="product-color_update"
               v-for="(color, i) in options.color"
               :key="i"
               :color="color.value"
@@ -93,6 +95,7 @@
           </div>
           <div class="product-details__section desktop-only">
             <SfAddToCart
+              data-cy="product-cart_add"
               :stock="stock"
               v-model="qty"
               :disabled="loading"
@@ -101,18 +104,18 @@
               class="product-details__add-to-cart"
             />
             <div class="product-details__action">
-              <SfButton class="sf-button--text color-secondary"
+              <SfButton data-cy="product-btn_save-later" class="sf-button--text color-secondary"
                 >Save for later</SfButton
               >
             </div>
             <div class="product-details__action">
-              <SfButton class="sf-button--text color-secondary"
+              <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text color-secondary"
                 >Add to compare</SfButton
               >
             </div>
           </div>
           <SfTabs class="product-details__tabs" :openTab="2">
-            <SfTab title="Description">
+            <SfTab data-cy="product-tab_description" title="Description">
               <div>
                 <p>
                   The Karissa V-Neck Tee features a semi-fitted shape that's
@@ -132,7 +135,7 @@
                 />
               </div>
             </SfTab>
-            <SfTab title="Read reviews">
+            <SfTab data-cy="product-tab_reviews" title="Read reviews">
               <SfReview
                 class="product-details__review"
                 v-for="(review, i) in reviews"
@@ -144,7 +147,7 @@
                 :max-rating="5"
               />
             </SfTab>
-            <SfTab title="Additional Information">
+            <SfTab data-cy="product-tab_additional" title="Additional Information">
               <SfHeading
                 title="Brand"
                 :level="3"
@@ -229,16 +232,18 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading } = useCart();
+    const { addToCart, loading, loadCart } = useCart();
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
     onSSR(async () => {
+      await loadCart();
       await search({ id });
-      await searchRelatedProducts({ catId: [categories.value[0]] });
+      await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
     });
 
     const updateFilter = (filter) => {
@@ -253,13 +258,14 @@ export default {
       updateFilter,
       configuration,
       product,
-      relatedProducts,
+      relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
       options,
       qty,
       addToCart,
       loading,
-      productGetters
+      productGetters,
+      breadcrumbs
     };
   },
   components: {
@@ -321,7 +327,7 @@ export default {
         }
       ],
       detailsIsActive: false,
-      breadcrumbs: [
+      fallbackBreadcrumbs: [
         {
           text: 'Home',
           route: {

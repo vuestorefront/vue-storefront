@@ -1,6 +1,5 @@
 import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
-import { ref } from '@vue/composition-api';
 import * as vsfUtils from '../../src/utils';
 
 jest.mock('../../src/utils');
@@ -8,12 +7,11 @@ const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 mockedUtils.onSSR.mockImplementation((fn) => fn());
 
 let useCart: () => UseCart<any, any, any, any>;
+let setCart = null;
 let params: UseCartFactoryParams<any, any, any, any>;
-let inputCart: any = null;
 
 function createComposable() {
   params = {
-    cart: ref(inputCart),
     loadCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
     addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
     removeFromCart: jest
@@ -33,36 +31,29 @@ function createComposable() {
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };
-  useCart = useCartFactory<any, any, any, any>(params);
+  const factory = useCartFactory<any, any, any, any>(params);
+  useCart = factory.useCart;
+  setCart = factory.setCart;
 }
 
 describe('[CORE - factories] useCartFactory', () => {
   beforeEach(() => {
-    inputCart = null;
     jest.clearAllMocks();
     createComposable();
   });
 
   describe('initial setup', () => {
-    it('should have proper initial properties', () => {
-      mockedUtils.useSSR.mockReturnValueOnce({
-        initialState: null,
-        saveToInitialState: jest.fn()
-      });
-      const { cart, coupon, loading } = useCart();
+    it('should have proper initial properties', async () => {
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-cart1', saveToInitialState: jest.fn() });
+      const { cart: cart1, coupon, loading } = useCart();
 
-      expect(cart.value).toEqual(null);
+      expect(cart1.value).toEqual('some-cart1');
       expect(coupon.value).toEqual(null);
-      expect(loading.value).toEqual(true);
-    });
+      expect(loading.value).toEqual(false);
 
-    it('should load cart if not provided during factory creation', async () => {
-      mockedUtils.useSSR.mockReturnValueOnce({
-        initialState: null,
-        saveToInitialState: jest.fn()
-      });
-      useCart();
-      expect(params.loadCart).toBeCalled();
+      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-cart2', saveToInitialState: jest.fn() });
+      const { cart: cart2 } = useCart();
+      expect(cart2.value).toEqual('some-cart1');
     });
 
     it('should not load cart if is provided during factory creation', () => {
@@ -73,6 +64,16 @@ describe('[CORE - factories] useCartFactory', () => {
       createComposable();
       useCart();
       expect(params.loadCart).not.toBeCalled();
+    });
+    it('set given cart', () => {
+      mockedUtils.useSSR.mockReturnValueOnce({
+        initialState: null,
+        saveToInitialState: jest.fn()
+      });
+      const { cart } = useCart();
+      expect(cart.value).toEqual(null);
+      setCart({ cart: 'test' });
+      expect(cart.value).toEqual({ cart: 'test' });
     });
   });
 
@@ -95,15 +96,17 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('methods', () => {
-    describe('refreshCart', () => {
-      it('should refresh cart', async () => {
+    describe('loadCart', () => {
+      it('load the cart', async () => {
         mockedUtils.useSSR.mockReturnValueOnce({
-          initialState: { id: 'existingCart' },
+          initialState: null,
           saveToInitialState: jest.fn()
         });
         createComposable();
-        const { refreshCart, cart } = useCart();
-        await refreshCart();
+
+        const { loadCart, cart } = useCart();
+        await loadCart();
+        await loadCart();
         expect(params.loadCart).toHaveBeenCalled();
         expect(cart.value).toEqual({ id: 'mocked_cart' });
       });

@@ -10,7 +10,7 @@
       <template #title>
         <div class="heading__wrapper">
           <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
-          <button class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
+          <button data-cy="cart-sidebar-button_toggle-cart" class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
             <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </button>
         </div>
@@ -21,6 +21,7 @@
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
+                data-cy="collected-product-cart-sidebar"
                 v-for="product in products"
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
@@ -37,12 +38,11 @@
               >
                <template #configuration>
                 <div class="collected-product__properties">
-                  <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
-                  <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
+                  <SfProperty v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
                 </div>
               </template>
               <template #actions>
-                  <SfButton class="sf-button--text desktop-only">Save for later</SfButton>
+                  <SfButton data-cy="cart-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
               </template>
               </SfCollectedProduct>
             </transition-group>
@@ -56,8 +56,8 @@
               <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link to="/checkout/personal-details">
-            <SfButton class="sf-button--full-width color-secondary">Go to checkout</SfButton>
+          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <SfButton data-cy="cart-sidebar-btn_checkout" @click="toggleCartSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
           </div>
         </div>
@@ -70,7 +70,7 @@
               shopping to fill it in.
             </p>
           </div>
-          <SfButton class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="cart-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
         </div>
       </transition>
     </SfSidebar>
@@ -87,7 +87,8 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '<%= options.composables %>';
+import { useCart, useUser, cartGetters } from '<%= options.composables %>';
+import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -104,12 +105,18 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { cart, removeFromCart, updateQuantity } = useCart();
+    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
+    const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
+    onSSR(async () => {
+      await loadCart();
+    });
+
     return {
+      isAuthenticated,
       products,
       removeFromCart,
       updateQuantity,

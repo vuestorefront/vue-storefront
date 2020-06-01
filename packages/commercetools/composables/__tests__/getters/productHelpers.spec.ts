@@ -3,6 +3,7 @@ import {
   getProductSlug,
   getProductPrice,
   getProductGallery,
+  getProductCoverImage,
   getProductFiltered,
   getProductAttributes,
   getProductCategoryIds,
@@ -67,6 +68,11 @@ describe('[commercetools-getters] product getters', () => {
         normal: 'imageV12/url.jpg'
       }
     ]);
+  });
+
+  it('returns cover image', () => {
+    expect(getProductCoverImage({ images: [] } as any)).toEqual(null);
+    expect(getProductCoverImage(product)).toEqual('imageV11/url.jpg');
   });
 
   it('returns master variant', () => {

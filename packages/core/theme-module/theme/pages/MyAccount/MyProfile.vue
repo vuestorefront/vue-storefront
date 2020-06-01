@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="Personal data">
+    <SfTab data-cy="my-profile-tab_personal-data" title="Personal data">
       <p class="message">
         Feel free to edit any of your details below so your account is always up
         to date
@@ -10,6 +10,7 @@
           <div class="form__horizontal">
             <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="my-profile-input_firstName"
                 v-model="firstName"
                 name="firstName"
                 label="First Name"
@@ -20,6 +21,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="my-profile-input_lastName"
                 v-model="lastName"
                 name="lastName"
                 label="Last Name"
@@ -31,6 +33,7 @@
           </div>
           <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
             <SfInput
+              data-cy="my-profile-input_email"
               v-model="email"
               type="email"
               name="email"
@@ -40,7 +43,7 @@
               :errorMessage="errors[0]"
             />
           </ValidationProvider>
-          <SfButton class="form__button">Update personal data</SfButton>
+          <SfButton data-cy="my-profile-btn_update" class="form__button">Update personal data</SfButton>
         </form>
       </ValidationObserver>
       <p class="notice">
@@ -50,7 +53,7 @@
         <a href="">Privacy Policy.</a>
       </p>
     </SfTab>
-    <SfTab title="Password change">
+    <SfTab data-cy="my-profile-tab_password-change" title="Password change">
       <p class="message">
         If you want to change the password to access your account, enter the
         following information:<br />Your current email address is
@@ -60,6 +63,7 @@
         <form class="form" @submit.prevent="handleSubmit(updatePassword)">
           <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
             <SfInput
+              data-cy="my-profile-input_currentPassword"
               v-model="form.currentPassword"
               type="password"
               name="currentPassword"
@@ -72,6 +76,7 @@
           <div class="form__horizontal">
             <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
               <SfInput
+                data-cy="my-profile-input_newPassword"
                 v-model="form.newPassword"
                 type="password"
                 name="newPassword"
@@ -83,6 +88,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
               <SfInput
+                data-cy="my-profile-input_repeatPassword"
                 v-model="form.repeatPassword"
                 type="password"
                 name="repeatPassword"
@@ -94,7 +100,7 @@
             </ValidationProvider>
           </div>
           <SfAlert v-if="error" class="alert" type="danger" :message="error" />
-          <SfButton class="form__button">Update password</SfButton>
+          <SfButton data-cy="my-profile-btn_update-password" class="form__button">Update password</SfButton>
         </form>
       </ValidationObserver>
     </SfTab>
@@ -123,7 +129,7 @@ extend('min', {
 });
 
 extend('password', {
-  validate: value => String(value).match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+  validate: value => String(value).length >= 8 && String(value).match(/[A-Za-z]/gi) && String(value).match(/[0-9]/gi),
   message: 'Password must have at least 8 characters including one letter and a number'
 });
 
@@ -155,7 +161,12 @@ export default {
     const form = ref(resetPassForm());
 
     const updatePassword = async () => {
-      await changePassword(form.value.currentPassword, form.value.newPassword);
+      try {
+        await changePassword(form.value.currentPassword, form.value.newPassword);
+      } catch (e) {
+        error.value = e.message;
+        return;
+      }
       form.value = resetPassForm();
     };
 

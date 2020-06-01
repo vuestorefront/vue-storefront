@@ -35,19 +35,19 @@
     <SfSection title-heading="Best Sellers" class="section">
       <SfCarousel class="product-carousel">
         <SfCarouselItem v-for="(product, i) in products" :key="i">
-          <nuxt-link to="/p/philippemodel-sneakers-grey-red">
-            <SfProductCard
-              :title="product.title"
-              :image="product.image"
-              :regular-price="product.price.regular"
-              :max-rating="product.rating.max"
-              :score-rating="product.rating.score"
-              :show-add-to-cart-button="true"
-              :is-on-wishlist="product.isOnWishlist"
-              class="product-card"
-              @click:wishlist="toggleWishlist(i)"
-            />
-          </nuxt-link>
+          <SfProductCard
+            data-cy="home-url_product"
+            :title="product.title"
+            :image="product.image"
+            :regular-price="product.price.regular"
+            :max-rating="product.rating.max"
+            :score-rating="product.rating.score"
+            :show-add-to-cart-button="true"
+            :is-on-wishlist="product.isOnWishlist"
+            link="/"
+            class="product-card"
+            @click:wishlist="toggleWishlist(i)"
+          />
         </SfCarouselItem>
       </SfCarousel>
     </SfSection>

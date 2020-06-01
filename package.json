@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "engines": {
-    "node": "10.x"
+    "node": ">=10.x"
   },
   "scripts": {
     "build:docs": "cd packages/core/docs && yarn build",
@@ -11,7 +11,8 @@
     "build:prismic": "cd packages/prismic && yarn build",
     "build:ayc:api-client": "cd packages/about-you/api-client && yarn build",
     "build:ayc:composables": "cd packages/about-you/composables && yarn build",
-    "build:ayc": "yarn build:core && yarn build:ayc:api-client && yarn build:ayc:composables",
+    "build:ayc:theme": "cd packages/about-you/theme && yarn build",
+    "build:ayc": "yarn build:core && yarn build:ayc:api-client && yarn build:ayc:composables && yarn build:ayc:theme",
     "build:bp:api-client": "cd packages/boilerplate/api-client && yarn build",
     "build:bp:composables": "cd packages/boilerplate/composables && yarn build",
     "build:bp:tools": "yarn build:core && yarn build:bp:api-client && yarn build:bp:composables",

@@ -19,6 +19,18 @@ export interface ProductSearch extends BaseSearch {
   skus?: string[];
   slug?: string;
   id?: string;
+  filters?: Record<string, Filter>;
+}
+
+export interface Filter {
+  options: FilterOption[];
+  type: string;
+}
+
+export interface FilterOption {
+  label: string;
+  value: string | number | boolean | [number, number] | [string, string];
+  selected: boolean;
 }
 
 export interface CategorySearch extends BaseSearch {
@@ -28,6 +40,19 @@ export interface CategorySearch extends BaseSearch {
 
 export interface OrderSearch extends BaseSearch {
   id?: string;
+}
+
+export enum AttributeType {
+  STRING = 'StringAttribute',
+  DATE = 'DateAttribute',
+  DATETIME = 'DateTimeAttribute',
+  TIME = 'TimeAttribute',
+  NUMBER = 'NumberAttribute',
+  ENUM = 'EnumAttribute',
+  LOCALIZED_ENUM = 'LocalizedEnumAttribute',
+  LOCALIZED_STRING = 'LocalizedStringAttribute',
+  MONEY = 'MoneyAttribute',
+  BOOLEAN = 'BooleanAttribute'
 }
 
 export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>

@@ -6,12 +6,18 @@ Vue.use(VueCompositionAPI);
 
 const state = reactive({
   isCartSidebarOpen: false,
+  isWishlistSidebarOpen: false,
   isLoginModalOpen: false
 });
 
 const isCartSidebarOpen = computed(() => state.isCartSidebarOpen);
 const toggleCartSidebar = () => {
   state.isCartSidebarOpen = !state.isCartSidebarOpen;
+};
+
+const isWishlistSidebarOpen = computed(() => state.isWishlistSidebarOpen);
+const toggleWishlistSidebar = () => {
+  state.isWishlistSidebarOpen = !state.isWishlistSidebarOpen;
 };
 
 const isLoginModalOpen = computed(() => state.isLoginModalOpen);
@@ -21,8 +27,10 @@ const toggleLoginModal = () => {
 
 const uiState = {
   isCartSidebarOpen,
+  isWishlistSidebarOpen,
   isLoginModalOpen,
   toggleCartSidebar,
+  toggleWishlistSidebar,
   toggleLoginModal
 };
 

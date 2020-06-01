@@ -1,39 +1,18 @@
-import { getProductsByQuery } from '@vue-storefront/about-you-api';
 import useProduct from '../../../src/composables/useProduct';
-import { mapProductSearchByQueryParams } from '../../../src/helpers';
+import { useProductFactory } from '@vue-storefront/core';
+import { params } from '../../../src/composables/useProduct/factoryParams';
 
-jest.mock('@vue-storefront/about-you-api');
 jest.mock('@vue-storefront/core', () => ({
-  useProductFactory: jest.fn(() => () => ({ foo: 'bar' }))
+  useProductFactory: jest.fn(() => () => ({ products: [] }))
 }));
 
-describe.skip('[about-you-composables] useProduct', () => {
-  it('returns value of factory execution', () => {
-    expect(useProduct('test')).toEqual({ foo: 'bar' });
-  });
+jest.mock('../../../src/composables/useProduct/factoryParams', () => ({
+  params: {}
+}));
 
-  it('mappes searchParams correctly in loadBapiProducts', async () => {
-    const searchParams = {
-      ids: [1, 2],
-      term: '',
-      sort: '',
-      pagination: {
-        page: 1
-      }
-    };
-
-    const mockFn = jest.fn(() => []);
-    (getProductsByQuery as jest.Mock).mockImplementation(mockFn);
-
-    await mapProductSearchByQueryParams(searchParams);
-    expect(mockFn).toHaveBeenLastCalledWith({
-      ids: searchParams.ids,
-      with: searchParams.term,
-      where: searchParams.term,
-      sort: searchParams.sort,
-      page: searchParams.pagination.page,
-      masterKey: '',
-      term: searchParams.term
-    });
+describe('[about-you-composables] useProduct', () => {
+  it('returns useUserFactory functions', () => {
+    expect(useProductFactory).toHaveBeenCalledWith(params);
+    expect(useProduct('products')).toEqual({ products: []});
   });
 });
