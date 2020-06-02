@@ -6,7 +6,7 @@
       class="modal"
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
-        <div v-if="isLogin == 1" key="log-in">
+        <div v-if="loginPage == 'login'" key="log-in">
           <ValidationObserver v-slot="{ handleSubmit }">
             <form class="form" @submit.prevent="handleSubmit(handleLogin)">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
@@ -51,14 +51,14 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary" @click="isLogin = 2">Forgotten password?</SfButton>
+            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary" @click="loginPage = 'forgot'">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = 0">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="loginPage = 'register'">Register today?</SfButton>
           </div>
         </div>
-        <div v-else-if="isLogin == 2" key="forgot">
+        <div v-else-if="loginPage == 'forgot'" key="forgot">
           <ValidationObserver v-slot="{ handleSubmit }">
             <form class="form" @submit.prevent="handleSubmit(handleForgot)">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
@@ -84,24 +84,24 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = 1">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="loginPage = 'login'">login in to your account</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = 0">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="loginPage = 'register'">Register today?</SfButton>
           </div>
           <SfAlert :message="error" type="danger" v-if="error" />
         </div>
-        <div v-else-if="isLogin == 3" key="forgot-done">
+        <div v-else-if="loginPage == 'forgot-done'" key="forgot-done">
           <div>
             We've sent password reset instructions to your email. Check your inbox and follow the link.
           </div>
           <div class="action">
-            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = 1">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="loginPage = 'login'">login in to your account</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = 0">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="loginPage = 'register'">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
@@ -171,7 +171,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = 1">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="loginPage = 'login'">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -212,7 +212,7 @@ export default {
   },
   setup() {
     const form = ref({});
-    const isLogin = ref(1);
+    const loginPage = ref('login');
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const error = ref(null);
@@ -228,8 +228,8 @@ export default {
 
       await fn(form.value);
       // forgot.
-      if (isLogin.value == 2) 
-        isLogin.value = 3;
+      if (loginPage.value == 'forgot') 
+        loginPage.value = 'forgot-done';
       else
         toggleLoginModal();
     };
@@ -243,7 +243,7 @@ export default {
     return {
       form,
       loading,
-      isLogin,
+      loginPage,
       createAccount,
       rememberMe,
       isLoginModalOpen,
