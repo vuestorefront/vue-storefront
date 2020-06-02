@@ -1,10 +1,6 @@
 import {Category} from '../../types';
 import { settings } from '../../index';
 
-export default async function (): Promise<Category[]> {
-  if (settings.overrides.getCategory) {
-    return settings.overrides.getCategory();
-  }
-
+export default settings.overrides.getCategory || async function getCategory(): Promise<Category[]> {
   return new Promise<Category[]>(() => {});
-}
+};
