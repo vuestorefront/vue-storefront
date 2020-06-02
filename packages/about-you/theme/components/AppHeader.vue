@@ -6,7 +6,7 @@
     @click:wishlist="toggleWishlistSidebar"
     @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
-    :accountIcon="accountIcon"
+    :accountIcon="false"
     class="sf-header--has-mobile-search"
     @change:search="onSearchQueryChanged"
     :search-value="searchQuery"
