@@ -20,9 +20,9 @@ jobs:
           node-version: "10.x"
       - name: Create config file
         run: |
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"}}' > config/local-cloud-demo.json
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"}}' > config/local-cloud-next.json
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://test.storefrontcloud.io"}}' > config/local-cloud-test.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-demo.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-next.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://test.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-test.json
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
