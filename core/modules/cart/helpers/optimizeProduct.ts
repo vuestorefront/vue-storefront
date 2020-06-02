@@ -4,7 +4,7 @@ import omit from 'lodash-es/omit'
 import pullAll from 'lodash-es/pullAll'
 
 const optimizeProduct = (product: CartItem): CartItem => {
-  if (!config.entities.optimize || !config.entities.optimizeShoppingCart) {
+  if (!config.entities.optimizeShoppingCart) {
     return product
   }
 

@@ -5,7 +5,7 @@ describe('createSingleBlockLoadQuery should', () => {
     const argsMock = { key: 'test', value: ['test1', 'test2'] }
 
     let mockSingleBlockQuery = createSingleBlockQuery(argsMock)
-    let [ appliedFilter ] = mockSingleBlockQuery._appliedFilters
+    let [ appliedFilter ] = mockSingleBlockQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('attribute', argsMock.key)
     expect(appliedFilter).toHaveProperty('value', { like: argsMock.value })
@@ -15,6 +15,6 @@ describe('createSingleBlockLoadQuery should', () => {
     const argsMock = { key: 'test', value: undefined }
     let mockSingleBlockQuery = createSingleBlockQuery(argsMock)
 
-    expect(mockSingleBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(mockSingleBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })

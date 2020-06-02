@@ -8,7 +8,10 @@ export default {
   name: 'SidebarMenu',
   mixins: [onEscapePress, CompareButton],
   computed: {
-    ...mapGetters('category', ['getCategories']),
+    ...mapGetters('category-next', ['getMenuCategories']),
+    getCategories () {
+      return this.getMenuCategories
+    },
     categories () {
       return this.getCategories.filter((op) => {
         return op.level === (config.entities.category.categoriesDynamicPrefetchLevel >= 0 ? config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default

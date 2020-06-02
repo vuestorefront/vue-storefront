@@ -428,9 +428,11 @@ class Storefront extends Abstract {
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
+        config.users.loginAfterCreatePassword = true
         config.users.endpoint = `${backendPath}/api/user`
         config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}`
         config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`
+        config.users.createPassword_endpoint = `${backendPath}/api/user/create-password`
         config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`
         config.users.login_endpoint = `${backendPath}/api/user/login`
         config.users.create_endpoint = `${backendPath}/api/user/create`
@@ -456,6 +458,55 @@ class Storefront extends Abstract {
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
         config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
+
+        if (this.answers.ssr_endpoints) {
+          if (Abstract.wasLocalBackendInstalled) {
+            graphQlHost = 'localhost'
+            backendPath = 'http://localhost:8080'
+          } else {
+            backendPath = STOREFRONT_REMOTE_BACKEND_URL
+            graphQlHost = backendPath.replace('https://', '').replace('http://', '')
+          }
+
+          // Do we really need protocol_ssr in a different place than GraphQL?
+          config.server.protocol_ssr = 'http'
+          config.api.url_ssr = backendPath
+          config.graphql.host_ssr = graphQlHost
+          config.graphql.port_ssr = graphQlPort
+          config.elasticsearch.host_ssr = `${backendPath}/api/catalog`
+          config.orders.endpoint_ssr = `${backendPath}/api/order`
+          config.products.endpoint_ssr = `${backendPath}/api/product`
+          config.users.endpoint_ssr = `${backendPath}/api/user`
+          config.users.history_endpoint_ssr = `${backendPath}/api/user/order-history?token={{token}}`
+          config.users.resetPassword_endpoint_ssr = `${backendPath}/api/user/reset-password`
+          config.users.changePassword_endpoint_ssr = `${backendPath}/api/user/change-password?token={{token}}`
+          config.users.login_endpoint_ssr = `${backendPath}/api/user/login`
+          config.users.create_endpoint_ssr = `${backendPath}/api/user/create`
+          config.users.me_endpoint_ssr = `${backendPath}/api/user/me?token={{token}}`
+          config.users.refresh_endpoint_ssr = `${backendPath}/api/user/refresh`
+          config.stock.endpoint_ssr = `${backendPath}/api/stock`
+          config.cart.create_endpoint_ssr = `${backendPath}/api/cart/create?token={{token}}`
+          config.cart.updateitem_endpoint_ssr = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
+          config.cart.deleteitem_endpoint_ssr = `${backendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`
+          config.cart.pull_endpoint_ssr = `${backendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`
+          config.cart.totals_endpoint_ssr = `${backendPath}/api/cart/totals?token={{token}}&cartId={{cartId}}`
+          config.cart.paymentmethods_endpoint_ssr = `${backendPath}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}`
+          config.cart.shippingmethods_endpoint_ssr = `${backendPath}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}`
+          config.cart.shippinginfo_endpoint_ssr = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
+          config.cart.collecttotals_endpoint_ssr = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`
+          config.cart.deletecoupon_endpoint_ssr = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
+          config.cart.applycoupon_endpoint_ssr = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
+          config.reviews.create_endpoint_ssr = `${backendPath}/api/review/create?token={{token}}`
+
+          // Probably pointless (only CS)
+          // config.newsletter.endpoint_ssr = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+          config.mailer.endpoint.send_ssr = `${backendPath}/api/ext/mail-service/send-email`
+          config.mailer.endpoint.token_ssr = `${backendPath}/api/ext/mail-service/get-token`
+          // Probably pointless (only CS)
+          // config.images.baseUrl_ssr = this.answers.images_endpoint
+          config.cms.endpoint_ssr = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
+          config.cms.endpointIdentifier_ssr = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
+        }
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
@@ -806,6 +857,12 @@ let questions = [
     when: function (answers) {
       return answers.m2_api_oauth2 === true
     }
+  },
+  {
+    type: 'confirm',
+    name: 'ssr_endpoints',
+    message: `Would You like to create fields for SSR endpoints?`,
+    default: false
   }
 ]
 

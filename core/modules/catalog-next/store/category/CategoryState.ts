@@ -6,5 +6,6 @@ export default interface CategoryState {
   notFoundCategoryIds: string[],
   filtersMap: { [id: string]: any },
   products: Product[],
-  searchProductsStats: any
+  searchProductsStats: any,
+  menuCategories: Category[]
 }
