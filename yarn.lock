@@ -2089,10 +2089,10 @@
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
 
-"@storefront-ui/shared@0.7.13":
-  version "0.7.13"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.13.tgz#9e2af1f0058e4d8cbd3f29e1ca17db1ddf143402"
-  integrity sha512-+ZKBzIR41MvKA13/75qk0duCV3WWfgN3XEE5epB5CgDJQE3Rjt8fykgF/HVu2CZBAxHwndY6DnqL1udDNWg7GA==
+"@storefront-ui/shared@0.7.16":
+  version "0.7.16"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.16.tgz#7229bd8b020899bc1a4c34fd34a32d9f59be3fe7"
+  integrity sha512-cYsEk63K1guTEwRPh1xQGZpCHq5370/p4T8cGvublDlQUMo0CXYhTLprB4d8FLeRUkM9wxl0sFpp5Eas8R/xUw==
 
 "@storefront-ui/shared@^0.7.10":
   version "0.7.10"
@@ -2128,13 +2128,13 @@
     vue2-leaflet "^2.5.2"
     webpack-dev-middleware "3.7.2"
 
-"@storefront-ui/vue@^0.7.15":
-  version "0.7.15"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.15.tgz#a9f1b996a64bfc2be977bb562482c773b157a07f"
-  integrity sha512-hf78rnTBrnznE8o7PwXvLDfpY6vRg97oH3KMTHnTh88ofBfJc9TjgPsxjfiJqzZaGNNF3kprR6Jx4MbuBEMs4g==
+"@storefront-ui/vue@^0.7.17":
+  version "0.7.17"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.17.tgz#a8f87a4bdd167a67617cb1ea13a53972c9f7cd6f"
+  integrity sha512-33kHzxGF/t+gESJ8oFAfI5mghrhlyIG+jeJ/ZGKahZUnRUUjUb3tctdAQ/00XMmD99RNMy7nd2CVtlAF61OlHw==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "0.7.13"
+    "@storefront-ui/shared" "0.7.16"
     body-scroll-lock "^3.0.1"
     core-js "^3.6.5"
     hammerjs "^2.0.8"

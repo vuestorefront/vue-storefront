@@ -4,9 +4,8 @@
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
-    @click:account="onAccountClicked"
     :cartItemsQty="cartTotalItems"
-    :accountIcon="accountIcon"
+    :accountIcon="false"
     class="sf-header--has-mobile-search"
     @change:search="onSearchQueryChanged"
     :search-value="searchQuery"
@@ -44,7 +43,7 @@
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
-import { useCart, useWishlist, useUser, cartGetters, useSearch } from '@vue-storefront/about-you';
+import { useCart, useWishlist, cartGetters, useSearch } from '@vue-storefront/about-you';
 import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import LocaleSelector from './LocaleSelector';
@@ -59,8 +58,7 @@ export default {
     SearchResults,
     LocaleSelector
   },
-  setup(props, { root }) {
-    const { isAuthenticated } = useUser();
+  setup() {
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const { search, searchResults } = useSearch();
@@ -75,12 +73,6 @@ export default {
     });
     const productsFound = computed(() => searchResults.value?.products);
     const suggestionsFound = computed(() => searchResults.value?.suggestions);
-
-    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
-
-    const onAccountClicked = () => {
-      isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
-    };
 
     const onSearchQueryChanged = value => {
       searchQuery.value = value;
@@ -98,7 +90,6 @@ export default {
     });
 
     return {
-      accountIcon,
       cartTotalItems,
       categoriesFound,
       productsFound,
@@ -109,7 +100,6 @@ export default {
       toggleCartSidebar,
       toggleLoginModal,
       toggleWishlistSidebar,
-      onAccountClicked,
       onSearchQueryChanged
     };
   }
