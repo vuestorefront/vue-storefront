@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 ### Fixed
 
-- use `config.i18n.defaultLocale` as fallback locale instead of `'es-US'` - @gibkigonzo (#4489)
+- use `config.i18n.defaultLocale` as fallback locale instead of `'en-US'` - @gibkigonzo (#4489)
 
 ### Changed / Improved
 
