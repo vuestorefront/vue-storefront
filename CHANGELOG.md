@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0] - 2020.06.01
 
 ### Added
+### Fixed
+
+- use `config.i18n.defaultLocale` as fallback locale instead of `'es-US'` - @gibkigonzo (#4489)
+
+### Changed / Improved
+
+## [1.12.0] - 2020.06.01
+
+### Added
 
 - Add `vsf-capybara` support as a dependency and extend CLI to support customization - @psmyrek (#4209)
 - Support theme configuration via CLI - @psmyrek (#4395)
