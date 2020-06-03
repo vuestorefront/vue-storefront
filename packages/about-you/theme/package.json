@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.7.15",
+    "@storefront-ui/vue": "^0.7.17",
     "@vue-storefront/about-you": "^0.0.3",
     "@vue-storefront/about-you-api": "^0.1.0",
     "@vue-storefront/nuxt": "^0.0.3",
