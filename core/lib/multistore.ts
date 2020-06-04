@@ -55,7 +55,6 @@ export function currentStoreView (): StoreView {
 
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = buildBaseStoreView() // current, default store
-
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
   } else {
@@ -83,6 +82,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     initializeSyncTaskStorage()
     StorageManager.currentStoreCode = storeView.storeCode
   }
+
   coreHooksExecutors.afterStoreViewChanged(storeView)
 
   return storeView
@@ -128,7 +128,7 @@ export function adjustMultistoreApiUrl (url: string): string {
   return url
 }
 
-export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode?: string): LocalizedRoute | string {
   const { storeCode: currentStoreCode, appendStoreCode } = currentStoreView()
   if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreCode

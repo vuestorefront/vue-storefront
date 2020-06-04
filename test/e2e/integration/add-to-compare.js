@@ -1,14 +1,14 @@
+/* eslint no-undef: 0 */
 describe('add to compare', () => {
   it('Two products should be added to comparison table', () => {
-    cy.visit('/c/jackets-23')
-    cy.get(':nth-child(1) > .product > .no-underline > .product-image > img').click()
-    cy.get('.py40 > :nth-child(2) > .p0').click()
-    cy.go('back')
-    cy.get('[data-testid="productImage"]').eq(1).click()
-    cy.get('[data-testid="addToCompare"]').click()
-    cy.scrollTo(0, 0)
-    cy.get('.compare-icon').click()
-    cy.get('[data-testid="comparedProduct"]').eq(0)
-    cy.get('[data-testid="comparedProduct"]').eq(1)
-  })
-})
+    cy.visit('/c/jackets-23');
+    cy.get('[data-testid="productLink"]').eq(1).as('firstProduct')
+    cy.get('@firstProduct').click().should('have.attr', 'href').and('include', 'olivia-14-zip-light-jacket')
+    cy.get('[data-testid="addToCompare"]').click();
+    cy.go('back').wait(1000)
+    cy.get('[data-testid="addToCompare"]').eq(2).click()
+    cy.scrollTo('top');
+    cy.get('[data-testid="compare-list-icon"]').click();
+    cy.get('[data-testid="comparedProduct"]').should('have.length', 2)
+  });
+});

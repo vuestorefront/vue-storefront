@@ -36,7 +36,6 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn(() => ({ applyFilter: jest.fn() })));
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   configureProductAsync: jest.fn()
 }));
@@ -77,7 +76,7 @@ describe('Cart productActions', () => {
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => ({ items: [serverItem] }));
     const result = await (cartActions as any).findProductOption(contextMock, { serverItem });
-    expect(contextMock.dispatch).toBeCalledWith('product/list', { start: 0, size: 1, updateState: false }, { root: true })
+    expect(contextMock.dispatch).toBeCalledWith('product/findProducts', { query: { _appliedFilters: [{ attribute: 'configurable_children.sku', options: Object, scope: 'default', value: { eq: 1 } }], _availableFilters: [], _appliedSort: [], _searchText: '' }, size: 1, start: 0, options: { populateRequestCacheTags: false, prefetchGroupProducts: false } }, { root: true })
     expect(result).toEqual({ childSku: 1, sku: 1 })
   });
 
@@ -90,7 +89,7 @@ describe('Cart productActions', () => {
 
     const result = await (cartActions as any).getProductVariant(contextMock, { serverItem });
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'findProductOption', { serverItem })
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'product/single', { options: {}, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'product/single', { options: {} }, { root: true })
     expect(result).toEqual({
       name: 'product1',
       opt1: 1,

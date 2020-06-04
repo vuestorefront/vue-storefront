@@ -60,7 +60,7 @@ export const getCustomOptionValues = (selectedCustomOptions: SelectedCustomOptio
   })
   .reduce((allCustomOptionValues, customOptionValue) => allCustomOptionValues.concat(customOptionValue), []) // merge all values in one array
 
-export const getCustomOptionPriceDelta = (customOptionValues: OptionValue[], { price, priceInclTax }: Pick<Product, 'price' | 'priceInclTax'>) => customOptionValues
+export const getCustomOptionPriceDelta = (customOptionValues: OptionValue[], { price, priceInclTax, price_incl_tax }: Pick<Product, 'price' | 'priceInclTax' | 'price_incl_tax'>) => customOptionValues
   .reduce((delta, customOptionValue) => {
     if (customOptionValue.price_type === 'fixed' && customOptionValue.price !== 0) {
       delta.price += customOptionValue.price
@@ -68,7 +68,7 @@ export const getCustomOptionPriceDelta = (customOptionValues: OptionValue[], { p
     }
     if (customOptionValue.price_type === 'percent' && customOptionValue.price !== 0) {
       delta.price += ((customOptionValue.price / 100) * price)
-      delta.priceInclTax += ((customOptionValue.price / 100) * priceInclTax)
+      delta.priceInclTax += ((customOptionValue.price / 100) * (priceInclTax || price_incl_tax))
     }
     return delta
   }, {

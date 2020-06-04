@@ -42,40 +42,58 @@ export const Search = {
       let searchQuery = prepareQuickSearchQuery(queryText)
       return searchQuery
     },
-    makeSearch () {
+    async makeSearch () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
         let startValue = 0;
         this.start = startValue
         this.readMore = true
-        this.$store.dispatch('product/list', { query, start: this.start, configuration: {}, size: this.size, updateState: false }).then(resp => {
-          this.products = resp.items
+        try {
+          const { items } = await this.$store.dispatch('product/findProducts', {
+            query,
+            start: this.start,
+            size: this.size,
+            options: {
+              populateRequestCacheTags: false,
+              prefetchGroupProducts: false
+            }
+          })
+          this.products = items
           this.start = startValue + this.size
-          this.emptyResults = resp.items.length < 1
-        }).catch((err) => {
+          this.emptyResults = items.length < 1
+        } catch (err) {
           Logger.error(err, 'components-search')()
-        })
+        }
       } else {
         this.products = []
         this.emptyResults = 0
       }
     },
-    seeMore () {
+    async seeMore () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
         let startValue = this.start;
-        this.$store.dispatch('product/list', { query, start: startValue, size: this.size, updateState: false }).then((resp) => {
-          let page = Math.floor(resp.total / this.size)
-          let exceeed = resp.total - this.size * page
-          if (resp.start === resp.total - exceeed) {
+        try {
+          const { items, total, start } = await this.$store.dispatch('product/findProducts', {
+            query,
+            start: startValue,
+            size: this.size,
+            options: {
+              populateRequestCacheTags: false,
+              prefetchGroupProducts: false
+            }
+          })
+          let page = Math.floor(total / this.size)
+          let exceeed = total - this.size * page
+          if (start === total - exceeed) {
             this.readMore = false
           }
-          this.products = this.products.concat(resp.items)
+          this.products = this.products.concat(items)
           this.start = startValue + this.size
           this.emptyResults = this.products.length < 1
-        }).catch((err) => {
+        } catch (err) {
           Logger.error(err, 'components-search')()
-        })
+        }
       } else {
         this.products = []
         this.emptyResults = 0

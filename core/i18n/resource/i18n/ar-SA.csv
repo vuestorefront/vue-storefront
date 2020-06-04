@@ -1,0 +1,77 @@
+Registering the account ...,جاري تسجيل الحساب
+No products synchronized for this category. Please come back while online!,.لا يوجد منتجات تمت مزامنتها لهذا التصنيف. يرجى العودة مرة أخرى إذا تم الاتصال بالإنترنت
+Shopping cart is empty. Please add some products before entering Checkout,سلة التسوق فارغة. يرجى إضافة بعض المنتجات للانتقال إلى صفحة إتمام الطلب
+Out of stock!,غير متوفر!
+ is out of the stock!,غير متوفر بالمخزون!
+Some of the ordered products are not available!,بعض المنتجات المطلوبة غير متاحة
+Please wait ...,انتظر من فضلك…
+"Stock check in progress, please wait while available stock quantities are checked",جاري فحص المخزون، يرجى الانتظار حتى يتم التأكد من التوفر
+There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.,لا يوجد اتصال بالإنترنت. مازال بإمكانك إتمام الطلب. وسنقوم بإخطارك إذا كان أي من المنتجات المطلوبة غير متوفر، لايمكننا التحقق الآن.
+No such configuration for the product. Please do choose another combination of attributes.,لا يوجد خيارات منطبقة لهذا المنتج من فضلك قم بتعديل الخيارات.
+The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.,الكمية غير مؤكدة (volatile). تمت إضافة المنتج للسلة للحجز المسبق.
+This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!,This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!
+The product is out of stock and cannot be added to the cart!,المنتج غير متوفر بالمخزون ولا يمكن إضافته للسلة
+Product has been added to the cart!,تمت إضافة المنتج للسلة!
+Product quantity has been updated!,تم تحديث الكمية!
+Internal validation error. Please check if all required fields are filled in. Please contact us on {email},خطأ تحقق داخلي. يرجى التأكد من تعبئة جميع الحقول المطلوبة. فضلاً تواصل معنا على {email}
+Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.,العنوان المسجل في إنهاء الطلب يحتوي معلومات غير صالحة. يرجى التأكد من تعبئة جميع الحقول المطلوبة أيضاً يمكنك التواص معنا عبر {email} للمساعدة. تم إلغاء الطلب.
+Product {productName} has been added to the compare!,تمت إضافة المنتج {productName} إلى المقارنة!
+Product {productName} has been removed from compare!,تمت إزالة المنتج {productName} من المقارنة!
+Product {productName} has been added to wishlist!,تمت إضافة المنتج {productName} إلى قائمة الأمنيات بنجاح!
+Product {productName} has been removed from wishlit!,تمت إزالة المنتج {productName} من قائمة الأمنيات بنجاح!
+Account data has successfully been updated,تم تحديث الحساب بنجاح
+Newsletter preferences have successfully been updated,تم تحديث تفضيلات النشرة البريدية
+Reset password feature does not work while offline!,لا يمكن إستعادة كلمة المرور بدون اتصال بالشبكة!
+You are logged in!,تم تسجيل دخولك!
+Please fix the validation errors,يرجى إصلاح خطأ التحقق
+"Product price is unknown, product cannot be added to the cart!",سعر المنتج غير معلوم، لايمكن إضافته للسلة.
+My Account,حسابي
+Type what you are looking for...,اكتب ما تبحث عنه…
+Home Page,الصفحة الرئيسية
+Checkout,إتمام الطلب
+Subtotal incl. tax,المجموع متضمن الضريبة
+Grand total,المجموع النهائي
+Field is required,حقل مطلوب
+Field is required.,حقل مطلوب.
+You're logged out,تم تسجيل خروجك
+Compare Products,مقارنة المنتجات
+404 Page Not Found,404 الصفحة غير متوفرة
+Error with response - bad content-type!,خطأ بالرد - محتوى غير صالح!
+"Unhandled error, wrong response format!","Unhandled error, wrong response format!"
+not authorized,غير مصرح
+Internal Application error while refreshing the tokens. Please clear the storage and refresh page.,Internal Application error while refreshing the tokens. Please clear the storage and refresh page.
+Proceed to checkout,إتمام الطلب
+OK,موافق
+Out of the stock!,غير متوفر بالمخزون!
+In stock!,متوفر!
+Please configure product custom options and fix the validation errors,من فضلك حدد خيارات المنتج لإصلاح خطأ التحقق
+Error refreshing user token. User is not authorized to access the resource,خطأ في تحديث التشفير. المستخدم غير مصرح له بالدخول
+Must be greater than 0,يجب أن يكون أكثر من 0
+Please select the field which You like to sort by,اختر حقل للترتيب به
+No available product variants,لا يوجد منتجات متوفرة
+email,البريد الإلكتروني
+password,كلمة المرور
+Confirm your order,أكّد طلبك
+Please confirm order you placed when you was offline,فضلاً أكد الطلب الذي أنشأته بدون اتصال إنترنت
+Payment Information,معلومات الدفع
+You are to pay for this order upon delivery.,ستقوم بالدفع لهذا الطلب عند الاستلام.
+Allow notification about the order,السماح بتنبيهات الطلب
+Extension developers would like to thank you for placing an order!,Extension developers would like to thank you for placing an order!
+most you may purchase,most you may purchase
+have as many,have as many
+Compare products,مقارنة المنتجات
+Reviews,مراجعات
+Review,مراجعة
+Add review,أضف مراجعة
+Summary,ملخص
+login,تسجيل الدخول
+to account,إلى الحساب
+Are you sure you would like to remove this item from the shopping cart?,هل أنت متأكد من إزالة هذا المنتج من سلة التسوق
+"The product, category or CMS page is not available in Offline mode. Redirecting to Home.",المنتج أو التصنيف أو الصفحة غير متوفرة بدون اتصال إنترنت. جاري التحويل للصفحة الرئيسية.
+Please configure product bundle options and fix the validation errors,يرجى تحديد الخيارات وإصلاح خطأ التحقق
+Processing order...,جاري معالجة الطلب…
+You need to be logged in to see this page,يجب تسجيل الدخول لعرض الصفحة
+Quantity must be above 0,يجب أن تكون الكمية أكثر من 0
+Error: Error while adding products,خطأ: خطأ أثناء إضافة المنتجات
+Unexpected authorization error. Check your Network conection.,خطأ تحقق غير متوقع. تحقق من اتصالك بالشبكة.
+Columns,أعمدة
