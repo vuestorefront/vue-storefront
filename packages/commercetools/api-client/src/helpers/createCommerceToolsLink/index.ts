@@ -30,7 +30,7 @@ const createCommerceToolsLink = (): ApolloLink => {
     }
 
     if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
+      console.error(`[Network error]: ${networkError}`);
     }
   });
 
