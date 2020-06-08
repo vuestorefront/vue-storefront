@@ -25,12 +25,12 @@ const createCommerceToolsLink = (): ApolloLink => {
       graphQLErrors.map(({ message, locations, path }) => {
         const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
 
-        console.log(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+        console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
       });
     }
 
     if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
+      console.error(`[Network error]: ${networkError}`);
     }
   });
 
