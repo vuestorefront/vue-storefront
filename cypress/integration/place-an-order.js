@@ -5,7 +5,7 @@ describe('shopping path', () => {
     cy.visit('/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white').wait(2000);
     cy.url().should('include', '/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white');
     cy.get('[data-cy=product-cart_add]').click().wait(500);
-    cy.get('[aria-label="cart"]').click();
+    cy.get('.sf-header__action').eq(2).click();
     cy.get('[data-cy=cart-sidebar-btn_checkout]').click({ force: true });
     cy.scrollTo('top');
   });
@@ -34,8 +34,10 @@ describe('shopping path', () => {
     cy.get('[data-cy=shipping-details-input_phone]').type('666-666-666');
     cy.get('[data-cy=shipping-details-select_country]').click().wait(500);
     cy.get('.sf-select__options > :nth-child(2)').click();
-    cy.get('ul.sf-select__options').children().should('have.length', 4);
-    cy.wrap(['United States', 'United Kingdom', 'Italy', 'Poland']).its(0).should('eq', 'United States');
+    cy.get('ul.sf-select__options').children().should((countryFormOptions) => {
+      expect(countryFormOptions).to.have.length(4)
+      expect(countryFormOptions.eq(0)).to.contain('United States')
+    })
     cy.get('.form__radio-group').find('[name="shippingMethod"]').first().check({ force: true }).should('be.checked');
     cy.get('[data-cy=shipping-btn_continue]').click({ force: true });
 
