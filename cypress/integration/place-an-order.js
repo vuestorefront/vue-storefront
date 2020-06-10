@@ -35,9 +35,9 @@ describe('shopping path', () => {
     cy.get('[data-cy=shipping-details-select_country]').click().wait(500);
     cy.get('.sf-select__options > :nth-child(2)').click();
     cy.get('ul.sf-select__options').children().should((countryFormOptions) => {
-      expect(countryFormOptions).to.have.length(4)
-      expect(countryFormOptions.eq(0)).to.contain('United States')
-    })
+      expect(countryFormOptions).to.have.length(4);
+      expect(countryFormOptions.eq(0)).to.contain('United States');
+    });
     cy.get('.form__radio-group').find('[name="shippingMethod"]').first().check({ force: true }).should('be.checked');
     cy.get('[data-cy=shipping-btn_continue]').click({ force: true });
 

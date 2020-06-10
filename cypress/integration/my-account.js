@@ -68,3 +68,4 @@ context('My account', () => {
       cy.get($el).click();
   });
 });
+});

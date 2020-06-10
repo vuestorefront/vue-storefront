@@ -14,12 +14,12 @@ describe('product page', () => {
     );
     cy.get('[data-cy=product-color_update]').should('have.css', 'background-color', 'rgb(255, 192, 203)');
     cy.get('[data-cy=product-select_size]').first().contains('XXS');
-       cy.get('.sf-select__options').children().should(($sizesFormOptions) => {
-      expect($sizesFormOptions).to.have.length(8)
-      expect($sizesFormOptions.eq(1)).to.contain('XS')
-      expect($sizesFormOptions.eq(4)).to.contain('L')
-      expect($sizesFormOptions.eq(7)).to.contain('XXXL')
-    })
+    cy.get('.sf-select__options').children().should(($sizesFormOptions) => {
+      expect($sizesFormOptions).to.have.length(8);
+      expect($sizesFormOptions.eq(1)).to.contain('XS');
+      expect($sizesFormOptions.eq(4)).to.contain('L');
+      expect($sizesFormOptions.eq(7)).to.contain('XXXL');
+    });
 
     cy.get('[data-cy=related-products-carousel]').should('exist');
     cy.get('.sf-product-card__title').eq(4).contains('Sweater Kaos blue');

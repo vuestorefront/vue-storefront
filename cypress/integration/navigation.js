@@ -2,7 +2,7 @@
 context('Navigation', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('.sf-header__navigation').children().should('have.length', 3)
+    cy.get('.sf-header__navigation').children().should('have.length', 3);
     cy.get('[aria-label="Search"]').should('be.visible');
   });
   it('go back or forward in the browser\'s history', () => {
@@ -29,7 +29,7 @@ context('Navigation', () => {
     cy.get('.sf-list [aria-label="German"]').first().click();
     cy.location('pathname').should('include', 'de');
     cy.get('#footer').children().contains('Über uns').wait(1000);
-    //cy.go('back'); //problem with navigation when changing language /issues/4428
+    // cy.go('back'); //problem with navigation when changing language /issues/4428
     // cy.url().should('eq', 'https://lovecrafts-demo.storefrontcloud.io/');
     // footer.contains('About us');
   });

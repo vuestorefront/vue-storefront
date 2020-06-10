@@ -2,7 +2,7 @@
 describe('register path', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('.sf-header__action').eq(0).click({force:true});
+    cy.get('.sf-header__action').eq(0).click({ force: true });
   });
   it('user should not be registered', () => {
     cy.get('[data-cy=login-input_firstName]').clear().type('Firstname');

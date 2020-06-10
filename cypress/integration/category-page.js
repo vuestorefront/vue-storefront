@@ -16,13 +16,13 @@ describe('Category page', () => {
         cy.get('.sf-accordion-item__content > .sf-list').children().should('have.length', '11');
         cy.get('[data-cy=category-icon_list-view]').click().wait(500).should('have.attr', 'aria-pressed', 'true');
         cy.get('[data-cy=category-btn_filters]').click();
-        cy.get('.sf-overlay').should('exist')
+        cy.get('.sf-overlay').should('exist');
         cy.get('[data-cy=category-filter_color_black]').click().wait(1000);
-        //cy.get('[data-cy=category-btn_done]').click();
+        // cy.get('[data-cy=category-btn_done]').click();
         cy.get('[data-cy=category-btn_filters]').click();
         cy.get('.filters__button-clear').click();
         cy.get('.filters__colors').children().should('have.attr', 'aria-pressed', 'false');
-        //cy.get('[aria-label="Close sidebar"]').click();
+        // cy.get('[aria-label="Close sidebar"]').click();
         cy.get('.sf-sidebar__aside').should('not.exist');
       });
   });

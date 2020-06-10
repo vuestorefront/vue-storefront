@@ -18,7 +18,7 @@ context('Login path', () => {
     cy.get('[data-cy=login-input_password]').type('Pass123');
     cy.get('[data-cy=login-btn_submit]').click();
     cy.get('.sf-header__action').eq(0).click();
-    cy.get('[data-cy="my-account_content-pages"]').should('contain', 'My Account')
+    cy.get('[data-cy="my-account_content-pages"]').should('contain', 'My Account');
     // cy.get(`[data-testid=notificationMessage]`).should('exist').contains(
     // 'You are logged in!')
   });
