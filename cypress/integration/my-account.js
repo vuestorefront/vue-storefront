@@ -19,22 +19,22 @@ context('My account', () => {
     cy.get('[data-cy=my-profile-btn_update]').should('be.visible').and('contain', 'Update personal data');
   });
   it('switching between tabs', () => {
-    cy.get('[data-cy="my-account_content-pages"]').contains('Shipping details').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('Shipping details').click();
     cy.location('pathname').should('include', '/shipping-details').wait(500);
     cy.get('[data-cy=shipping-details-btn_add]').should('be.visible').and('contain', 'Add new address');
-    cy.get('[data-cy="my-account_content-pages"]').contains('Loyalty card').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('Loyalty card').click();
     cy.location('pathname').should('include', '/loyalty-card').wait(1000);
     cy.get('.sf-tabs').should('be.visible').and('contain', 'Loyalty Card');
-    cy.get('[data-cy="my-account_content-pages"]').contains('My newsletter').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('My newsletter').click();
     cy.location('pathname').should('include', '/my-newsletter').wait(500);
     cy.get('[data-cy=newsletter-btn_join]').should('be.visible').and('contain', 'Join Newsletter');
-    cy.get('[data-cy="my-account_content-pages"]').contains('Order history').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('Order history').click();
     cy.location('pathname').should('include', '/order-history').wait(500);
     cy.get('[data-cy=order-history-btn_start]').should('be.visible').and('contain', 'Start shopping');
-    cy.get('[data-cy="my-account_content-pages"]').contains('My reviews').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('My reviews').click();
     cy.location('pathname').should('include', '/my-reviews').wait(500);
     cy.get('.sf-tabs').should('be.visible').and('contain', 'My reviews');
-    cy.get('[data-cy="my-account_content-pages"]').contains('Log out').click()
+    cy.get('[data-cy="my-account_content-pages"]').contains('Log out').click();
     cy.url().should('eq', 'https://lovecrafts-demo.storefrontcloud.io/');
   });
   it('add and delele new address', () => {
@@ -64,8 +64,8 @@ context('My account', () => {
     cy.get('[data-cy="my-account_content-pages"]').contains('Order history').click().wait(500);
     cy.get('.sf-tabs').should('contain', 'Returns');
     cy.get('[data-cy=order-history-btn_start]').then(($el) => {
-      Cypress.dom.isVisible($el)
-      cy.get($el).click();
+      Cypress.dom.isVisible($el);
+    cy.get($el).click();
+    });
   });
-});
 });
