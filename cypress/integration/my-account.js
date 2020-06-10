@@ -65,7 +65,7 @@ context('My account', () => {
     cy.get('.sf-tabs').should('contain', 'Returns');
     cy.get('[data-cy=order-history-btn_start]').then(($el) => {
       Cypress.dom.isVisible($el);
-    cy.get($el).click();
+      cy.get($el).click();
     });
   });
 });
