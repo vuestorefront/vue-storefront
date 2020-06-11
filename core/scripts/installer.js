@@ -583,10 +583,10 @@ class Storefront extends Abstract {
       const skipAnswer = skip ? await skip(this.answers) : ''
 
       if (skipAnswer) {
-        throw new Error(skipAnswer)
+        Message.warning(skipAnswer)
+      } else {
+        await task(this.answers)
       }
-
-      await task(this.answers)
     }
   }
 }
