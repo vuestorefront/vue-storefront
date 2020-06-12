@@ -10,7 +10,7 @@ switch (command) {
     require('./scripts/generateModule.js')(process.argv[3])
     break;
   case 'init:theme':
-    require('./scripts/installTheme.js')(process.argv[3])
+    require('./scripts/installTheme.js')()
     break;
   case '-h':
   case '--help':

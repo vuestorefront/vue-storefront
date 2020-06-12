@@ -6,7 +6,7 @@ const semverSatisfies = require('semver/functions/satisfies')
 const semverCoerce = require('semver/functions/coerce')
 const merge = require('lodash/merge')
 const { themes } = require('./consts')
-const { getVersion } = require('./helpers')
+const { getVsfPackageJSON } = require('./helpers')
 
 const createThemeTasks = (installationDir = 'vue-storefront') => ({
   installDeps: {
@@ -16,28 +16,29 @@ const createThemeTasks = (installationDir = 'vue-storefront') => ({
   cloneTheme: {
     title: 'Copying Vue Storefront theme',
     task: answers => execa.shell([
-      `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${installationDir}/src/themes/${answers.themeName}`,
+      `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${answers.vsf_dir || installationDir}/src/themes/${answers.themeName}`,
       `cd ${installationDir}/src/themes/${answers.themeName}`,
       `git remote rm origin`
     ].join(' && ')),
     skip: answers => {
       if (fs.existsSync(`${installationDir}/src/themes/${answers.themeName}`)) {
-        return `Chosen theme already exists in Vue Storefront installation directory ./${installationDir}/src/themes/`
+        return `Chosen theme already exists in Vue Storefront installation directory ${installationDir}/src/themes/`
       }
     }
   },
   configureTheme: {
     title: 'Configuring Vue Storefront theme',
     task: answers => {
+      const _installationDir = answers.vsf_dir || installationDir
       const configurationFiles = ['local.config.js', 'local.json']
       const [themeLocalConfigJsPath, themeLocalJsonPath] = configurationFiles.map(
-        file => `${installationDir}/src/themes/${answers.themeName}/${file}`
+        file => `${_installationDir}/src/themes/${answers.themeName}/${file}`
       )
-      const vsfLocalJsonPath = path.join(installationDir, '/config/local.json')
-      const vsfPackageJsonPath = path.join(installationDir, '/package.json')
+      const vsfLocalJsonPath = path.join(_installationDir, '/config/local.json')
+      const vsfPackageJsonPath = path.join(_installationDir, '/package.json')
 
       try {
-        const isVsfVersionAsBranch = ['master', 'develop'].includes(answers.specificVersion || getVersion(installationDir))
+        const isVsfVersionAsBranch = ['master', 'develop'].includes(answers.specificVersion || getVsfPackageJSON(_installationDir).version)
         const vsfVersionFromPackageJson = JSON.parse(fs.readFileSync(vsfPackageJsonPath)).version
         const vsfVersion = isVsfVersionAsBranch
           ? semverInc(vsfVersionFromPackageJson, 'minor')
@@ -61,8 +62,9 @@ const createThemeTasks = (installationDir = 'vue-storefront') => ({
       }
     },
     skip: answers => {
+      const _installationDir = answers.vsf_dir || installationDir
       const configurationFiles = ['local.config.js', 'local.json', 'local.config']
-      const themePath = `${installationDir}/src/themes/${answers.themeName}`
+      const themePath = `${_installationDir}/src/themes/${answers.themeName}`
 
       if (configurationFiles.every(file => !fs.existsSync(`${themePath}/${file}`))) {
         return `
@@ -81,8 +83,9 @@ const createThemePrompt = (installationDir = 'vue-storefront') => [
     name: 'themeName',
     message: 'Select theme for Vue Storefront',
     choices: answers => {
-      const isVsfVersionAsBranch = ['master', 'develop'].includes(answers.specificVersion || getVersion(installationDir))
-      const selectedVsfVersion = semverCoerce(answers.specificVersion || getVersion(installationDir))
+      const _installationDir = answers.vsf_dir || installationDir
+      const isVsfVersionAsBranch = ['master', 'develop'].includes(answers.specificVersion || getVsfPackageJSON(_installationDir).version)
+      const selectedVsfVersion = semverCoerce(answers.specificVersion || getVsfPackageJSON(_installationDir).version)
 
       return Object.entries(themes)
         .filter(([, themeConfig]) => isVsfVersionAsBranch || semverSatisfies(selectedVsfVersion, themeConfig.minVsfVersion, { includePrerelease: true }))
