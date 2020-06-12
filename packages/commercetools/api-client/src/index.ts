@@ -43,10 +43,7 @@ let cookies = {
   countryCookieName: 'vsf-country',
   localeCookieName: 'vsf-locale'
 };
-const languageMap = {
-  en: ['en', 'de'],
-  de: ['de', 'en']
-};
+let languageMap = {};
 
 const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
   api = setupConfig.api || api;
@@ -60,7 +57,8 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
   auth = setupConfig.auth || auth;
   currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
 
-  acceptLanguage = languageMap[locale] || acceptLanguage;
+  languageMap = setupConfig.languageMap || languageMap;
+  acceptLanguage = languageMap[locale] || setupConfig.acceptLanguage || acceptLanguage;
 
   if (setupConfig.api) {
     apolloClient = new ApolloClient({

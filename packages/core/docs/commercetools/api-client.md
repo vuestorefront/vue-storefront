@@ -46,6 +46,8 @@ export interface ApiConfig {
 - `customOptions?: ApolloClientOptions<TCacheShape>`
 - `currency?: string`
 - `locale?: string`
+- `languageMap?: object`
+- `acceptLanguage?: string[]`
 - `country?: string`
 - `countries?: LocaleItem[]`
 ```js
@@ -113,6 +115,21 @@ const serverMiddleware = async ({ app }) => {
 };
 
 export default serverMiddleware;
+```
+
+### Localisation
+
+Commercetools supports querying localised fields via an array of accepted languages - `acceptLanguage`.
+```js
+acceptLanguage: ['en-gb', 'en-us']
+```
+
+If you supply a `languageMap` during setup this will be used to map a locale to the accepted languages.
+```js
+languageMap: {
+  'en-gb': ['en-gb', 'en-us'],
+  'en-us': ['en-us', 'en-gb'],
+}
 ```
 
 :::
