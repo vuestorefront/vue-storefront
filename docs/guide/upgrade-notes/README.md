@@ -2,6 +2,73 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.11 -> 1.12
+
+Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
+
+**Remove bodybuilder and compact API responses**
+
+The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend.
+
+This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70%.
+
+**Re-enable amp-renderer**
+
+The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
+
+**Check entity optimization settings**
+
+Cart optimization was earlier disabled automatically if entity optimization was disabled. Now they can be used independently from each other. If you don't want to use cart optimization, make sure that the `entities.optimizeShoppingCart` configuration entry is disabled explicitly.
+
+**deprecated actions and helpers**
+Product module has been refactored, here is list of actions that are not used anymore and you can remove them to reduce bundle.
+deprecated actions:
+product/reset
+product/setupBreadcrumbs
+product/syncPlatformPricesOver
+product/setupAssociated
+product/loadConfigurableAttributes
+product/setupVariants
+product/filterUnavailableVariants
+product/list
+product/preConfigureAssociated
+product/preConfigureProduct
+product/configureLoadedProducts
+product/configureBundleAsync
+product/configureGroupedAsync
+product/configure
+product/setCurrentOption
+product/setCurrentErrors
+product/setOriginal
+product/loadProductAttributes
+category/list (new action is category-next/fetchMenuCategories)
+
+deprecated helpers:
+configureProductAsync
+populateProductConfigurationAsync
+setConfigurableProductOptionsAsync
+
+Here is list of actions that are used from 1.12 in product module:
+product/doPlatformPricesSync
+product/single
+product/checkConfigurableParent
+product/findProducts
+product/findConfigurableParent
+product/setCustomOptions
+product/setBundleOptions
+product/setCurrent
+product/loadProduct
+product/addCustomOptionValidator
+product/setProductGallery
+product/loadProductBreadcrumbs
+product/getProductVariant
+
+All of those actions and helpers that are deprecated, can be removed so you will have smaller bundle.
+Comment those lines:
+- core/modules/catalog/store/product/actions.ts:318
+- core/modules/catalog/helpers/index.ts:14-18
+- core/modules/catalog-next/store/category/actions.ts:265
+
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
@@ -432,7 +499,7 @@ Now it mirrors `core/` folder structure, which is desired behaviour.
 
 We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
 
-**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
+**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `yarn migrate` in the `vue-storefront-api` folder.
 
 ### Default storage of the shopping carts and user data moved to localStorage
 

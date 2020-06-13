@@ -41,7 +41,6 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn(() => ({ applyFilter: jest.fn() })));
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   configureProductAsync: jest.fn()
 }));
@@ -224,7 +223,11 @@ describe('Cart synchronizeActions', () => {
     config.cart = {
       synchronize: false
     }
-    const contextMock = createContextMock();
+    const contextMock = createContextMock({
+      getters: {
+        getCurrentCartHash: 'zyx'
+      }
+    });
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => product)
 

@@ -71,7 +71,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
         return
       }
     } catch (err) {
-      console.error('Cannot read cache for ' + cacheKey + ', ' + err)
+      Logger.error('Cannot read cache for ' + cacheKey + ', ' + err)()
     }
 
     /* use only for cache */
@@ -91,7 +91,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       const res = searchAdapter.entities[Request.type].resultProcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
-        cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { Logger.error('Cannot store cache for ' + cacheKey + ', ' + err)() })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           Logger.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
           res.cache = false

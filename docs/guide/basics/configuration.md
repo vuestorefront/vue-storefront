@@ -6,6 +6,10 @@ The Vue Storefront application uses the [node-config](https://github.com/lorenwe
 
 - `local.json` is the second configuration file which is .gitignore'd from the repository. This is the place where you should store all instance-specific configuration variables.
 
+:::tip NOTE
+Please not that the `config` is bundled into JavaScript files that are returned to the user's browser. Please **NEVER PUT ANY SENSITIVE INFORMATION** into the config file of `vue-storefront`. If your application requires some authorization / tokens /etc - please store them and access via dedicated [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) or [`storefront-api`](https://github.com/DivanteLtd/storefront-api) extension that will prevent these sensitive information from being returned to the users.
+:::
+
 The structure of these files is exactly the same! Vue Storefront does kind of  `Object.assign(default, local)` (but with the deep-merge). This means that the `local.json` overrides the `default.json` properties.
 
 :::tip NOTE
@@ -13,7 +17,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload`is set to true. However, in that case, the config is added to `window.**INITIAL_STATE**` with the responses.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload`is set to true. However, in that case, the config is added to `window.INITIAL_STATE` with the responses.
 
 When you using the `config.server.dynamicConfigReload` plase remember about `config.server.dynamicConfigExclude` and `config.server.dynamicConfigInclude`.
 :::
@@ -466,6 +470,12 @@ This is related to `alwaysSyncPlatformPricesOver` and when it's set to true, the
 ```
 
 This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will wait for dynamic prices before rendering the page. Otherwise, the product and category pages will be rendered using the default (Elasticsearch-based) prices and then asynchronously override them with current ones.
+
+```json
+  "alwaysSyncPricesClientSide": false,
+```
+
+This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will force a refresh of the prices on the client side, including the token from the current logged in user, so customer specific pricing can be applied. 
 
 
 ```json
