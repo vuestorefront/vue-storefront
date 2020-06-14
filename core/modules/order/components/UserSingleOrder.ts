@@ -36,7 +36,7 @@ export const UserSingleOrder = {
       this.$bus.$emit('notification-progress-start', this.$t('Please wait ...'))
       const productsToAdd = []
       for (const item of products) {
-        const product = await this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false })
+        const product = await this.$store.dispatch('product/single', { options: { sku: item.sku } })
         product.qty = item.qty_ordered
         productsToAdd.push(product)
       }

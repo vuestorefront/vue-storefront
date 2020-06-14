@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 describe('Search results', () => {
   it('verification of the search results', () => {
     cy.visit('/')
@@ -8,11 +9,11 @@ describe('Search results', () => {
     cy.get('[data-testid=searchPanel] [data-testid=productLink]').first().as('firstResult')
     cy.get('@firstResult')
       .should('be.visible')
-      .find('[data-testid=productImage]')
+      .find('.product-image__thumb').eq(1)
       .should(
         'have.attr',
         'src',
-        'https://demo.vuestorefront.io/img/310/300/resize/w/g/wg02-bk-0.jpg'
+        'https://next.storefrontcloud.io/img/310/300/resize/w/g/wg02-bk-0.jpg'
       )
     cy.get('@firstResult').contains('Didi Sport Watch')
     cy.get('#search').clear()
@@ -28,11 +29,11 @@ describe('Search results', () => {
     cy.get('[data-testid=searchPanel] [data-testid=productLink]').first().as('firstResult')
     cy.get('@firstResult')
       .should('be.visible')
-      .find('[data-testid=productImage]')
+      .find('.product-image__thumb').eq(1)
       .should(
         'have.attr',
         'src',
-        'https://demo.vuestorefront.io/img/310/300/resize/w/g/wg02-bk-0.jpg'
+        'https://next.storefrontcloud.io/img/310/300/resize/w/g/wg02-bk-0.jpg'
       )
     cy.get('@firstResult').contains('Didi Sport Watch')
     cy.get('[data-testid=closeSearchPanel]').click()

@@ -75,9 +75,10 @@ const synchronizeActions = {
 
     Logger.error(result, 'cart')
     cartHooksExecutors.afterSync(result)
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
     return createDiffLog()
   },
-  async stockSync ({ dispatch, commit }, stockTask) {
+  async stockSync ({ dispatch, commit, getters }, stockTask) {
     const product = { sku: stockTask.product_sku }
 
     const cartItem = await dispatch('getItem', { product })
@@ -102,6 +103,7 @@ const synchronizeActions = {
       product: { info: { stock: i18n.t('In stock!') }, sku: stockTask.product_sku, is_in_stock: true }
     })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   }
 }
 

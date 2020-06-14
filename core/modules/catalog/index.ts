@@ -23,9 +23,11 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
 
-  await store.dispatch('attribute/list', { // loading attributes for application use
-    filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
-  })
+  if (!config.entities.attribute.loadByAttributeMetadata) {
+    await store.dispatch('attribute/list', { // loading attributes for application use
+      filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
+    })
+  }
 
   if (!isServer) {
     // Things moved from Product.js
