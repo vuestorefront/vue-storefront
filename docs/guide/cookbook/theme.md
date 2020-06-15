@@ -384,39 +384,78 @@ In this chapter, we are going to cover :
 ## 0. Introduction
 Theme is what customers get first impression from your shop. You will be majorly discouraged if your customers underestimate your shop by looks and feels of the first impression due to poorly designed theme when you had pearls and golds in value for your customers on your shop. Great products, meticulously calibrated technology backing your store, are abysmally depreciated which impact your sales in result. We are here to help you get away with such disasters by guiding you in wrapping your head around how to deal with `theme` in _Vue Storefront_ context. Are you ready? a _Picaso_?
 
-
+<!-- 
 ## 1. Start building your own theme
+You've seen a lot of examples here and there of exquisite online shops with aesthetics. Now you want to transform your shops just the same way with much more splendor of luxuries fully filled with higher taste. But how? Ask _Vue Storefront_ core team how to do it because they did it many times before with tons of hours of reflection. What if they are busy? they certainly are. OK, then shortcut. You can inherit the base `capybara` theme and override the parts only where you want it. 
+
+This recipe talks about how to do it.
+
 ### 1. Preparation
+ - You have a [_Vue Storefront_ `1.12` App installed](/guide/cookbook/setup.html#_1-install-with-docker) on your machine.
+
+
 ### 2. Recipe
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
 <br />
 <br />
-
+ -->
 
 ## 2. How to upgrade theme from 1.11 to 1.12
-Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/DivanteLtd/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunk. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
+Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/DivanteLtd/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunks. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
 
-In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since it's not reasonable but we will look around the difference of the both themes so you can figure out the best way to morph the oldies(`1.11`) to the goodies(`1.12`).
+In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since we will not use `default` theme but `capybara` for this recipe.
 
 ### 1. Preparation
  - You have a [_Vue Storefront_ `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
  - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/DivanteLtd/vue-storefront).
 
 ### 2. Recipe
-1. Pull `1.11.3` tag to the `1.11` VSF app as follows : 
+1. Pull `v1.12.0` tag to the `1.11` VSF app as follows : 
 ```bash
 git fetch 
-git checkout tags/v1.11.3 -b recipe # this checkouts to v1.11.3 tag and create a _recipe_ branch for this tutorial.
+git checkout tags/v1.12.0 -b recipe # this checkouts to v1.12.0 tag and create a [recipe] branch for this tutorial.
 ```
-As of now, we use `1.11.3` in lieu of `1.12` which also takes _Capybara_ as the default theme. 
 
-2. 
 
+2. Change directory to `src/themes` as follows : 
+```bash
+cd src
+mkdir themes && cd themes
+```
+
+
+3. Add `git` `submodule` into `themes` folder as follows : 
+```bash
+git submodule add https://github.com/DivanteLtd/vsf-capybara capybara
+```
+
+Now files are ready.
+
+:::tip
+If you go to root `./config` folder and open `local.json`, then you will notice `theme` node is set to `capybara` by default as follows : 
+```json
+  "theme": "@vue-storefront/theme-capybara",
+```
+:::
+
+4. Run the app then you will see the screen as below : 
+```bash
+docker-compose up -d 
+```
+
+![vs_home_intro_borderline](../images/home_capybara.png)
 
 
 ### 3. Peep into the kitchen (what happens internally)
+In this recipe, we have checked out to `v1.12.0` and install `vsf-capybara` theme as a submodule to `themes` folder. And that's all it takes, it's that simple to adapt your application to new theme eco-system.
+
+_Capybara_ theme is based on [_Storefront UI_](https://www.storefrontui.io/) and it's completely different approach from other plain themes since it's kinda an eCommerce version of _Bootstrap_ in CSS framework. All the frequently used components have been divided into their chunks in the smallest meaningful size so that users can compose those components whatever way they want it to please their purposes. Easier, Organized, Planned, all the brighter sides of modular system have been implemented into it. You can follow the best practices made by core teams by looking at how _Capybara_ is structured. 
+
+That said, you had to say good-bye to your old `1.11` theme. [_Start building your own theme_ recipe](#_1-start-building-your-own-theme) may help you achieve complete migration of theme's customized parts in that _say good-bye_.
+
 ### 4. Chef's secret (protip)
 <br />
 <br />
@@ -493,7 +532,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - [Related](#_27-product-related-is-ready-to-transform)
     - Reviews
       - [Reviews](#_28-reviews-is-fixed-too)
-    - SearchPanel
+    - SearchPanel 
       - [SearchPanel](#_29-searchpanel-has-parts-to-update)
     - [SidebarMenu](#_30-sidebarmenu-wants-to-update-too)
       - SidebarMenu

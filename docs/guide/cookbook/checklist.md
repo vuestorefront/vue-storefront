@@ -846,3 +846,58 @@ Vue Storefront contains some pretty useful config variables that are sometimes m
 
 <br />
 <br />
+
+## 16. Quite handy features in config file properties
+
+Vue Storefront contains some pretty useful config variables that are sometimes missed but can be pretty useful (worth mentioning two times!) :
+
+- `dynamicConfigReload` - by default the config files are processed by [`node-config`](https://github.com/lorenwest/node-config) only during the build process; whenever you modify the config file, it must be then re-compiled and bundled into `app.js`. However, with this mode on, the [`core/scripts/server.ts`](https://github.com/DivanteLtd/vue-storefront/blob/77efcdc40a1a69191f8d96c381535517e801820d/core/scripts/server.ts#L271) reloads the config file with each request. This might be very useful for the scalability purposes and to pass some dynamic information during the build process. By modifying the `dynamicConfigExclude` and `dynamicConfigInclude` arrays you may change which particular sections of the config file are provided to the user browser and which are not. The config is passed via `window.__INITIAL_STATE__`.
+
+- `useExactUrlsNoProxy` - when set to `true`, the strings set in the product properties: `thumbnail`, `image` ... are used for the `<img ` tags without the `/api/img` middleware - as a raw strings.
+
+
+
+<br />
+<br />
+
+## 17. Cloudflare Autopurge
+You might use CDN not only to serve dist & assets directory but also SSR Output. In this case, you would want to dynamicly purge cache in Cloudflare when it is being purged in Varnish. 
+There is a 3rd party module just for that! Install the module at [here](https://github.com/new-fantastic/vsf-cloudflare)
+
+
+<br />
+<br />
+
+## 18. VSF Cache Varnish
+By default VSF is able to cache SSR Output in the Redis Cache. This module will Cache Redis Output in the Varnish. So Node.js server is not being used even to load output from Redis. It makes our app's first load even faster! Follow the instruction [here](https://github.com/new-fantastic/vsf-cache-varnish)
+
+
+<br />
+<br />
+
+
+## 19. VSF Cache NGINX
+By default VSF is able to cache SSR Output in the Redis Cache. This module will Cache Redis Output in the NGINX. So Node.js server is not being used even to load output from Redis. It makes our app's first load even faster! Follow the instruction [here](https://github.com/new-fantastic/vsf-cache-nginx)
+
+
+<br />
+<br />
+
+## 20. Vue Storefront 1 config validator for Magento 1 and Magento 2
+
+There is a simple PHP CLI tool to check whether your Vue Storefront PWA configuration matches the structure of your Magento site. You can rest assured whether your VSF works seamlessly with Magento 1 or Magento 2. Please follow the install [here](https://github.com/yireo/vsf-config-validator)
+
+
+<br />
+<br />
+
+## 21. A sample theme to start with
+
+This [sample theme](https://github.com/yireo-training/vsf-yireo-theme) can help you start with a Webpack configuration to allow for simple parent/child theming.
+
+
+<br />
+<br />
+
+## 22. Optimized Webpack configuration for Vue Storefront 1 development
+The default Webpack configuration of Vue Storefront 1 allows for fully testing all features. However, because of various reasons, this leads to a slow transpilation time and therefore a bad developer experience. This [repository](https://github.com/yireo-training/vsf1-local-webpack) contains a separate Webpack

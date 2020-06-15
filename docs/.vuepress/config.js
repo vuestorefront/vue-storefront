@@ -156,7 +156,9 @@ module.exports = {
             'archives/modules',
             'archives/extensions',
             'archives/components',
-            'archives/vuex'
+            'archives/vuex',
+            'archives/cookbook',
+            'archives/graphql'
           ],
         },
       ],
