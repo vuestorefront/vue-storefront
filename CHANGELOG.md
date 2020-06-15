@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed possible memory leak in ssr - @resubaka (#4247)
 - Bugfix for reactivity of `current_configuration` in `populateProductConfigurationAsync` - @cewald (#4258)
 - Bugfix for build exception in Node v13.13+ - @cewald (#4249)
+- Add `attributeMetadata` to response object of `api-search-query` search adapter to support `loadByAttributeMetadata` feature - @cewald (#4544)
 
 ### Changed / Improved
 
