@@ -27,7 +27,7 @@ export function price (value, storeView) {
   }
   const _storeView = storeView || currentStoreView();
   if (!_storeView.i18n) {
-    return value
+    return Number(value).toFixed(2)
   }
 
   const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
