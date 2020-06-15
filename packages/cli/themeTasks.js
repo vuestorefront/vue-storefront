@@ -11,7 +11,10 @@ const { getVsfPackageJSON } = require('./helpers')
 const createThemeTasks = (installationDir = 'vue-storefront') => ({
   installDeps: {
     title: 'Installing dependencies',
-    task: () => execa.shell('cd ' + installationDir + ' && yarn')
+    task: (answers) => {
+      const _installationDir = answers.vsf_dir || installationDir
+      return execa.shell('cd ' + _installationDir + ' && yarn')
+    }
   },
   cloneTheme: {
     title: 'Copying Vue Storefront theme',
