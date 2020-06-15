@@ -15,14 +15,18 @@ const createThemeTasks = (installationDir = 'vue-storefront') => ({
   },
   cloneTheme: {
     title: 'Copying Vue Storefront theme',
-    task: answers => execa.shell([
-      `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${answers.vsf_dir || installationDir}/src/themes/${answers.themeName}`,
-      `cd ${installationDir}/src/themes/${answers.themeName}`,
-      `git remote rm origin`
-    ].join(' && ')),
+    task: answers => {
+      const _installationDir = answers.vsf_dir || installationDir
+      return execa.shell([
+        `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${_installationDir}/src/themes/${answers.themeName}`,
+        `cd ${_installationDir}/src/themes/${answers.themeName}`,
+        `git remote rm origin`
+      ].join(' && '))
+    },
     skip: answers => {
-      if (fs.existsSync(`${installationDir}/src/themes/${answers.themeName}`)) {
-        return `Chosen theme already exists in Vue Storefront installation directory ${installationDir}/src/themes/`
+      const _installationDir = answers.vsf_dir || installationDir
+      if (fs.existsSync(`${_installationDir}/src/themes/${answers.themeName}`)) {
+        return `Chosen theme already exists in Vue Storefront installation directory ${_installationDir}/src/themes/`
       }
     }
   },
