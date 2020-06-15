@@ -5,8 +5,6 @@ const { createThemeTasks, createThemePrompt } = require('./../themeTasks')
 const { getVsfPackageJSON } = require('./../helpers')
 
 module.exports = function () {
-  const { cloneTheme, installDeps, configureTheme } = createThemeTasks()
-
   inquirer
     .prompt([
       {
@@ -26,6 +24,8 @@ module.exports = function () {
       ...createThemePrompt()
     ])
     .then(answers => {
+      const { cloneTheme, installDeps, configureTheme } = createThemeTasks(answers.vsf_dir)
+
       new Listr([
         cloneTheme,
         installDeps,
