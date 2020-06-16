@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
+- Load attributes data of attribute-meta for bundled and grouped products - @cewald (#4551)
 
 ### Fixed
 
@@ -51,7 +52,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add vsf-cache-nginx and vsf-cache-varnish modules - @gibkigonzo (#4096)
 - Added meta info for CMS pages from Magento @mdanilowicz (#4392)
 - Add useful core events to server & logger - @cewald (#4419)
-- Load attributes data of attribute-meta for bundled and grouped products - @cewald (#4548)
 
 ### Fixed
 
