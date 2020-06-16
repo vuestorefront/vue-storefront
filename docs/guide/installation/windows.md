@@ -77,24 +77,6 @@ yarn install
 ```
 
 5. Copy `config/default.json` to `config/local.json`
-6. Images: because `vue-storefront-api` uses `imagemagick` and some nodejs command line bindings, it can be difficult to run the image proxy on a localhost/Windows machine. Please point out the `vue-storefront` to image proxy provided by changing `config/local.json` `images.baseUrl`:
-
-```js
-export default {
-  elasticsearch: {
-    httpAuth: '',
-    host: 'localhost:8080/api/catalog',
-    index: 'vue_storefront_catalog',
-  },
-  // we have vue-storefront-api (https://github.com/DivanteLtd/vue-storefront-api) endpoints below:
-  orders: {
-    endpoint: 'localhost:8080/api/order/create',
-  },
-  images: {
-    baseUrl: 'https://demo.vuestorefront.io/img/',
-  },
-};
-```
 
 :::tip NOTE
 We're using the powerful node.js library for config files. Check the docs to learn more about it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config)

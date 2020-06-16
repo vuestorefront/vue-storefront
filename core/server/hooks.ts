@@ -1,5 +1,6 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
-import { Express, Request } from 'express';
+import { Express, Request } from 'express'
+import http from 'http'
 
 // To add like tracing which needs to be done as early as possible
 
@@ -13,6 +14,11 @@ interface BeforeCacheInvalidatedParamter {
   req: Request
 }
 
+interface AfterCacheInvalidatedParamter {
+  tags: string[],
+  req: Request
+}
+
 const {
   hook: beforeCacheInvalidatedHook,
   executor: beforeCacheInvalidatedExecutor
@@ -21,7 +27,7 @@ const {
 const {
   hook: afterCacheInvalidatedHook,
   executor: afterCacheInvalidatedExecutor
-} = createListenerHook<any>()
+} = createListenerHook<AfterCacheInvalidatedParamter>()
 
 // beforeStartApp
 interface Extend {
@@ -29,10 +35,33 @@ interface Extend {
   config: any,
   isProd: boolean
 }
+
 const {
   hook: afterApplicationInitializedHook,
   executor: afterApplicationInitializedExecutor
 } = createListenerHook<Extend>()
+
+interface Server {
+  server: http.Server,
+  config: any,
+  isProd: boolean
+}
+
+const {
+  hook: httpServerIsReadyHook,
+  executor: httpServerIsReadyExecutor
+} = createListenerHook<Server>()
+
+interface Exception {
+  err: Exception,
+  req: Request,
+  isProd: boolean
+}
+
+const {
+  hook: ssrExceptionHook,
+  executor: ssrExceptionExecutor
+} = createListenerHook<Exception>()
 
 const {
   hook: beforeOutputRenderedResponseHook,
@@ -48,6 +77,8 @@ const {
 const serverHooksExecutors = {
   afterProcessStarted: afterProcessStartedExecutor,
   afterApplicationInitialized: afterApplicationInitializedExecutor,
+  httpServerIsReady: httpServerIsReadyExecutor,
+  ssrException: ssrExceptionExecutor,
   beforeOutputRenderedResponse: beforeOutputRenderedResponseExecutor,
   afterOutputRenderedResponse: afterOutputRenderedResponseExecutor,
   beforeCacheInvalidated: beforeCacheInvalidatedExecutor,
@@ -63,6 +94,8 @@ const serverHooks = {
    *
    */
   afterApplicationInitialized: afterApplicationInitializedHook,
+  httpServerIsReady: httpServerIsReadyHook,
+  ssrException: ssrExceptionHook,
   beforeOutputRenderedResponse: beforeOutputRenderedResponseHook,
   afterOutputRenderedResponse: afterOutputRenderedResponseHook,
   beforeCacheInvalidated: beforeCacheInvalidatedHook,
