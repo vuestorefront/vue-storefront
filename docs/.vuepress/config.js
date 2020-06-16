@@ -62,6 +62,7 @@ module.exports = {
           children: [
             'installation/linux-mac',
             'installation/windows',
+            'installation/theme',
             'installation/magento',
             'installation/production-setup',
           ],
