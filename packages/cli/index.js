@@ -9,6 +9,9 @@ switch (command) {
   case 'init:module':
     require('./scripts/generateModule.js')(process.argv[3])
     break;
+  case 'init:theme':
+    require('./scripts/installTheme.js')()
+    break;
   case '-h':
   case '--help':
     require('./scripts/manual.js')()
