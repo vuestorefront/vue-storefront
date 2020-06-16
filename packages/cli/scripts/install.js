@@ -20,7 +20,7 @@ module.exports = function (installationDir) {
   const tasks = {
     installDeps: {
       title: 'Installing dependencies',
-      task: () => execa.command('cd ' + installationDir + ' && yarn', { shell: true })
+      task: () => execa.command('cd ' + installationDir + ' && yarn cache clean && yarn', { shell: true })
     },
     cloneVersion: {
       title: 'Copying Vue Storefront files',
