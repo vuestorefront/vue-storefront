@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.1] - UNRELEASED
+
+### Added
+
+- Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
+- Separate theme installation and add it as yarn init:theme or as a step in yarn installer. - @gibkigonzo (4534, #4552)
+
+### Fixed
+
+- use `config.i18n.defaultLocale` as fallback locale instead of `'en-US'` - @gibkigonzo (#4489)
+- use Math.abs on raw price - @gibkigonzo (#4521)
+
+### Changed / Improved
+
 ## [1.12.0] - 2020.06.01
 
 ### Added
