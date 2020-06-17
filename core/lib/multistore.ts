@@ -66,7 +66,10 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   if (storeView.storeCode && config.storeViews.multistore === true && config.storeViews[storeView.storeCode]) {
     storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
   }
-  rootStore.state.user.current_storecode = storeView.storeCode
+
+  if (rootStore.state.user) {
+    rootStore.state.user.current_storecode = storeView.storeCode
+  }
 
   if (storeViewHasChanged) {
     storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)

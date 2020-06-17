@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - use `config.i18n.defaultLocale` as fallback locale instead of `'en-US'` - @gibkigonzo (#4489)
 - use Math.abs on raw price - @gibkigonzo (#4521)
+- Clears vuex warnings about overriding state by module - @gibkigonzo (#4541)
 
 ### Changed / Improved
 
