@@ -12,6 +12,11 @@ In this chapter, we will cover :
 
 [[toc]]
 
+:::tip SECURITY BEST PRACTICE
+There is a separate site dedicated to PWA security and you can get a handful of advices to apply for your business from industry gurus. 
+[Headless Security Best Practices](https://headless-security.org/vsf-best-practices.html)
+:::
+
 ## 0. Introduction
 
 Vue Storefront is getting tremendous attention from the market and gain traction from developers with more than 20 sites running on production. In the mean time, Vue Storefront framework evolves with each new release and the docs can hardly catch up with it! 
