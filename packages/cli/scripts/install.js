@@ -20,12 +20,12 @@ module.exports = function (installationDir) {
   const tasks = {
     installDeps: {
       title: 'Installing dependencies',
-      task: () => execa.shell('cd ' + installationDir + ' && yarn')
+      task: () => execa.command('cd ' + installationDir + ' && yarn cache clean && yarn', { shell: true })
     },
     cloneVersion: {
       title: 'Copying Vue Storefront files',
       task: answers => {
-        return execa.shell(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin`)
+        return execa.command(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin`, { shell: true })
       }
     },
     ...createThemeTasks(installationDir),
@@ -35,11 +35,11 @@ module.exports = function (installationDir) {
     },
     getStorefrontVersions: {
       title: 'Check available versions',
-      task: () => execa.stdout('git', ['ls-remote', '--tags', 'https://github.com/DivanteLtd/vue-storefront.git']).then(result => {
-        allTags = result.match(/refs\/tags\/v1.([0-9.]+)(-rc.[0-9])?/gm).map(tag => tag.replace('refs/tags/', ''))
+      task: () => execa('git', ['ls-remote', '--tags', 'https://github.com/DivanteLtd/vue-storefront.git']).then(({ stdout }) => {
+        allTags = stdout.match(/refs\/tags\/v1.([0-9.]+)(-rc.[0-9])?/gm).map(tag => tag.replace('refs/tags/', ''))
         allTags = semverSortDesc(allTags)
-        execa.stdout('git', ['ls-remote', '--heads', 'https://github.com/DivanteLtd/vue-storefront.git']).then(branches => {
-          let rcBranches = branches.match(/refs\/heads\/release\/v1.([0-9.x]+)/gm).map(tag => tag.replace('refs/heads/', ''))
+        execa('git', ['ls-remote', '--heads', 'https://github.com/DivanteLtd/vue-storefront.git']).then(({ stdout }) => {
+          let rcBranches = stdout.match(/refs\/heads\/release\/v1.([0-9.x]+)/gm).map(tag => tag.replace('refs/heads/', ''))
           availableBranches = [...rcBranches, ...availableBranches]
         })
       }).catch(e => {
