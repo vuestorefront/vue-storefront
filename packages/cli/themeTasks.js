@@ -13,18 +13,18 @@ const createThemeTasks = (installationDir = 'vue-storefront') => ({
     title: 'Installing dependencies',
     task: (answers) => {
       const _installationDir = answers.vsf_dir || installationDir
-      return execa.shell('cd ' + _installationDir + ' && yarn')
+      return execa.command('cd ' + _installationDir + ' && yarn cache clean && yarn', { shell: true })
     }
   },
   cloneTheme: {
     title: 'Copying Vue Storefront theme',
     task: answers => {
       const _installationDir = answers.vsf_dir || installationDir
-      return execa.shell([
+      return execa.command([
         `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${_installationDir}/src/themes/${answers.themeName}`,
         `cd ${_installationDir}/src/themes/${answers.themeName}`,
         `git remote rm origin`
-      ].join(' && '))
+      ].join(' && '), { shell: true })
     },
     skip: answers => {
       const _installationDir = answers.vsf_dir || installationDir
@@ -100,7 +100,8 @@ const createThemePrompt = (installationDir = 'vue-storefront') => [
           name: themeConfig.label,
           value: themeName
         }))
-    }
+    },
+    default: 'default'
   },
   {
     type: 'list',
@@ -110,7 +111,8 @@ const createThemePrompt = (installationDir = 'vue-storefront') => [
       .map(([branchName, branchLabel]) => ({
         name: branchLabel,
         value: branchName
-      }))
+      })),
+    default: 'master'
   }
 ]
 
