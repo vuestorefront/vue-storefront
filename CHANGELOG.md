@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
+- Load attributes data of attribute-meta for bundled and grouped products - @cewald (#4551)
 - Separate theme installation and add it as yarn init:theme or as a step in yarn installer. - @gibkigonzo (4534, #4552)
 
 ### Fixed

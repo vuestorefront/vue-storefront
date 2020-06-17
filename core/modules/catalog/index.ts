@@ -4,6 +4,8 @@ import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
 import { taxModule } from './store/tax'
 import { categoryModule } from './store/category'
+import { catalogHooks } from './hooks'
+import { getAttributesFromMetadata } from './helpers/associatedProducts'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import config from 'config'
@@ -22,6 +24,9 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
+
+  catalogHooks.afterSetBundleProducts(products => getAttributesFromMetadata(store, products))
+  catalogHooks.afterSetGroupedProduct(products => getAttributesFromMetadata(store, products))
 
   if (!config.entities.attribute.loadByAttributeMetadata) {
     await store.dispatch('attribute/list', { // loading attributes for application use
