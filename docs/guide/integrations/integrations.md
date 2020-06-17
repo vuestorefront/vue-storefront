@@ -8,3 +8,4 @@ Here is a short list of existing Vue Storefront integrations with links to their
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 - [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - This is the API you should implement to integrate a third-party platform.
+- [Vue Storefront + Fresh Relevance](https://github.com/TriggeredMessaging/vsf-freshrelevance)
