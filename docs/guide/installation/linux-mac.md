@@ -200,7 +200,7 @@ nano config/local.json
 
 The default config file should work perfectly fine for default purposes.
 
-Next [install theme](/guide/installation/theme.html)
+Next [install theme](theme.md)
 
 Finally, you have to choose between two modes of running the application (similarly as in the case of vue-storefront-api).
 

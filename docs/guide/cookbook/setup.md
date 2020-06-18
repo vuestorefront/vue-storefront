@@ -145,7 +145,7 @@ In `local.json`, you may change values for information of backend family. But if
 
 6. Install theme
 
-From version 1.12 you need to add theme into your project. [Here is more information](/guide/installation/theme.html.)
+From version 1.12 you need to add theme into your project. [Here is more information](https://docs.vuestorefront.io/guide/installation/theme.html.)
 
 7. Finally run the following Docker command :
 ```bash
