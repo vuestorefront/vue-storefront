@@ -82,7 +82,9 @@ yarn install
 We're using the powerful node.js library for config files. Check the docs to learn more about it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config)
 :::
 
-6. Run Vue Storefront Server:
+6. Next [install theme](theme.md)
+
+7. Run Vue Storefront Server:
 
 ```bash
 yarn dev
