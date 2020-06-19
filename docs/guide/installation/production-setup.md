@@ -1,6 +1,6 @@
 # Production setup
 
-If you’d like to start developing sites using Vue Storefront, you should start with the [Installation guide](linux-mac.md). For development purposes, you'll likely use the `yarn install` / `npm run installer` sequence, which will set up Vue Storefront locally using the automated installer and prepared Docker images for having Elasticsearch and Redis support.
+If you’d like to start developing sites using Vue Storefront, you should start with the [Installation guide](linux-mac.md). For development purposes, you'll likely use the `yarn install` sequence, which will set up Vue Storefront locally using the automated installer and prepared Docker images for having Elasticsearch and Redis support.
 
 Development mode means you're using a node.js-based server as HTTP service and running the app on the `3000` TCP port. As it's great for local testing, it's not recommended to use the installer and direct-user access to node.js in production configurations.
 
@@ -412,7 +412,7 @@ You can easily dump your current VS index using the following command (your loca
 ```bash
 cd vue-storefront-api
 rm var/catalog.json
-npm run dump
+yarn dump
 ```
 
 Now in the `var/catalog.json` you have your current database dump. Please transfer this file to the server—for example, using the following ssh command:
@@ -426,9 +426,9 @@ Then, after logging in to your `prod.vuestorefront.io` server as a `vuestorefron
 
 ```bash
 cd vue-storefront-api
-npm run db new
-npm run restore2main
-npm run db rebuild
+yarn db new
+yarn restore2main
+yarn db rebuild
 ```
 
 #### Running the Vue Storefront and Vue Storefront API

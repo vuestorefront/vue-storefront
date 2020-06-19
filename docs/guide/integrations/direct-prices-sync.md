@@ -28,4 +28,4 @@ To use this feature, you should also modify `config/local.json` within your `vue
 	  },
 ```
 
-_Important note_: To use the dynamic Magento 2 prices sync, you should restore the database using `npm run restore` within the `vue-storefront-api` or re-run the `mage2vuestorefront` product sync, because an "ID" field has been added to the `configurable_children` products and it's required for the prices sync.
+_Important note_: To use the dynamic Magento 2 prices sync, you should restore the database using `yarn restore` within the `vue-storefront-api` or re-run the `mage2vuestorefront` product sync, because an "ID" field has been added to the `configurable_children` products and it's required for the prices sync.

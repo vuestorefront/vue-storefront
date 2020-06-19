@@ -38,7 +38,7 @@ searchAdapter.registerEntityTypeByQuery('testentity', {
         throw new Error(JSON.stringify(resp.error));
       } else {
         throw new Error(
-          "Unknown error with graphQl result in resultPorcessor for entity type 'category'",
+          "Unknown error with graphQl result in resultProcessor for entity type 'category'",
         );
       }
     }

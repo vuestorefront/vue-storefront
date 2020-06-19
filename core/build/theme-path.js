@@ -12,7 +12,15 @@ if (detectInstalled.sync(config.theme, { local: true })) {
 else {
   themeName = themeName.replace('@vue-storefront/theme-', '')
   themePath = path.resolve(__dirname, '../../src/themes/' + themeName)
-  if(!fs.existsSync(themePath)) themePath = path.resolve(__dirname, '../../packages/theme-' + themeName)
+  if(!fs.existsSync(themePath)) {
+    console.error(`
+      The theme you want to use does not exist.
+      Please use 'vsf init' or install manualy one of our official themes:
+      - https://github.com/DivanteLtd/vsf-capybara#--installation
+      - https://github.com/DivanteLtd/vsf-default#--installation
+    `)
+    process.exit(1)
+  }
 }
 
 module.exports = themePath

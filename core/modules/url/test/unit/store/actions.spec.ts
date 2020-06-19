@@ -1,17 +1,10 @@
-import * as types from '@vue-storefront/core/modules/url/store/mutation-types';
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
 import { actions as urlActions } from '../../../store/actions';
-import { currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, removeStoreCodeFromRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
 import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
-
-const SearchQuery = {
-  applyFilter: jest.fn()
-};
+import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => () =>
-  SearchQuery
-);
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/modules/recently-viewed/index', () => ({
   cacheStorage: {
@@ -61,6 +54,11 @@ jest.mock('@vue-storefront/core/app', () => ({
     addRoutes: jest.fn()
   }
 }));
+jest.mock('@vue-storefront/core/modules/url/helpers/transformUrl', () => ({
+  transformProductUrl: jest.fn(),
+  transformCategoryUrl: jest.fn(),
+  transformCmsPageUrl: jest.fn()
+}));
 
 let url: string;
 let routeData: any;
@@ -76,17 +74,15 @@ describe('Url actions', () => {
   describe('registerMapping action', () => {
     it('should call register mapping mutation', async () => {
       const contextMock = {
-        commit: jest.fn()
+        state: {
+          dispatcherMap: {}
+        }
       };
       const result = await (urlActions as any).registerMapping(contextMock, {
         url,
         routeData
       });
 
-      expect(contextMock.commit).toHaveBeenCalledWith(types.REGISTER_MAPPING, {
-        url,
-        routeData
-      });
       expect(result).toEqual(routeData);
     });
   });
@@ -183,7 +179,7 @@ describe('Url actions', () => {
     });
   });
 
-  describe('mappingFallBack action', () => {
+  describe('mapFallbackUrl action', () => {
     beforeEach(() => {
       (currentStoreView as jest.Mock).mockImplementation(() => ({
         storeCode: '',
@@ -191,54 +187,70 @@ describe('Url actions', () => {
       }));
     });
 
-    it('should return the proper URL from API for products', async () => {
-      url = '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
-      (localizedDispatcherRouteName as jest.Mock).mockImplementation(() => url);
+    it('should trigger fetch from url module', async () => {
+      url = 'men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
+      (removeStoreCodeFromRoute as jest.Mock).mockImplementation(() => url);
 
       const contextMock = {
         dispatch: jest.fn()
       };
-      const params = {
-        slug: 'slug',
-        sku: 'parentsku2',
-        childSku: 'childSku'
-      };
 
-      contextMock.dispatch.mockImplementation(() => Promise.resolve({ items: [ { name: 'name1', qty: 2, slug: 'slug1', sku: 'parentsku2' } ] }))
+      const wrapper = (actions: any) => actions.mapFallbackUrl(contextMock, { url });
 
-      const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
+      await wrapper(urlActions);
 
-      expect(result).toEqual({
-        name: '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html',
-        params: {
-          slug: 'slug1',
-          parentSku: 'parentsku2',
-          childSku: 'childSku'
-        }
-      });
+      expect(contextMock.dispatch).toBeCalledWith('getFallbackByUrl', { url })
     });
 
-    it('should return return the proper URL from API for category', async () => {
-      url = '/men/bottoms-men/shorts-men/shorts-19';
-      (localizedDispatcherRouteName as jest.Mock).mockImplementation(() => url);
+    it('should return page-not-found if missing record from ES', async () => {
+      url = 'men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
+      (removeStoreCodeFromRoute as jest.Mock).mockImplementation(() => url);
 
       const contextMock = {
         dispatch: jest.fn()
       };
-      const params = {
-        slug: 'shorts-19'
-      };
 
-      contextMock.dispatch.mockImplementation(() => Promise.resolve({ slug: 'shorts-19' }))
+      const wrapper = (actions: any) => actions.mapFallbackUrl(contextMock, { url });
 
-      const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
+      const result = await wrapper(urlActions);
 
       expect(result).toEqual({
-        name: '/men/bottoms-men/shorts-men/shorts-19',
+        name: 'page-not-found',
         params: {
-          slug: 'shorts-19'
+          slug: 'page-not-found'
         }
-      });
-    })
+      })
+    });
+  });
+
+  describe('transformFallback action', () => {
+    it('should call transformation function based on _type', async () => {
+      const contextMock = {
+        dispatch: jest.fn()
+      };
+
+      const wrapper = (actions: any) => actions.transformFallback(contextMock, { _type: 'product' });
+
+      await wrapper(urlActions);
+
+      expect(transformProductUrl).toBeCalled()
+    });
+
+    it('should return by default page-not-found', async () => {
+      const contextMock = {
+        dispatch: jest.fn()
+      };
+
+      const wrapper = (actions: any) => actions.transformFallback(contextMock, { _type: 'xyz' });
+
+      const result = await wrapper(urlActions);
+
+      expect(result).toEqual({
+        name: 'page-not-found',
+        params: {
+          slug: 'page-not-found'
+        }
+      })
+    });
   });
 });
