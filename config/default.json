@@ -881,6 +881,7 @@
     "expireHeaders",
     "fastly",
     "nginx",
-    "varnish"
+    "varnish",
+    "cloudflare"
   ]
 }
