@@ -4,19 +4,17 @@ import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
+import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
-import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
 import { products, entities } from 'config'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
-import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import chunk from 'lodash-es/chunk'
 import omit from 'lodash-es/omit'
 import cloneDeep from 'lodash-es/cloneDeep'
@@ -120,43 +118,6 @@ const actions: ActionTree<CategoryState, RootState> = {
         dispatch('stock/list', { skus: chunkItem }, { root: true }) // store it in the cache
       }
     }
-  },
-  /**
-   * Calculates products taxes
-   * Registers URLs
-   * Configures products
-   */
-  async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
-    dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    const configuredProducts = await dispatch('configureProducts', { products, filters })
-    return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
-  },
-  /**
-   * Configure configurable products to have first available options selected
-   * so they can be added to cart/wishlist/compare without manual configuring
-   */
-  async configureProducts ({ rootState }, { products = [], filters = {}, populateRequestCacheTags = config.server.useOutputCacheTagging } = {}) {
-    return products.map(product => {
-      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags }))
-      const configuredProductVariant = configureProductAsync({ rootState, state: { current_configuration: {} } }, { product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false })
-      return Object.assign(product, omit(configuredProductVariant, ['visibility']))
-    })
-  },
-  async registerCategoryProductsMapping ({ dispatch }, products = []) {
-    const { storeCode, appendStoreCode } = currentStoreView()
-    await Promise.all(products.map(product => {
-      const { url_path, sku, slug, type_id } = product
-      return dispatch('url/registerMapping', {
-        url: localizedDispatcherRoute(url_path, storeCode),
-        routeData: {
-          params: {
-            parentSku: product.parentSku || product.sku,
-            slug
-          },
-          'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
-        }
-      }, { root: true })
-    }))
   },
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
@@ -299,7 +260,9 @@ const actions: ActionTree<CategoryState, RootState> = {
         }, { root: true })
       }
     }
-  }
+  },
+  /** Below actions are not used from 1.12 and can be removed to reduce bundle */
+  ...require('./deprecatedActions').default
 }
 
 export default actions

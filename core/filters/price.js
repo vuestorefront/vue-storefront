@@ -27,14 +27,14 @@ export function price (value, storeView) {
   }
   const _storeView = storeView || currentStoreView();
   if (!_storeView.i18n) {
-    return value;
+    return Number(value).toFixed(2)
   }
 
   const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
 
   const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
 
-  let localePrice = Math.abs(value.toLocaleString(defaultLocale, options));
+  let localePrice = Math.abs(value).toLocaleString(defaultLocale, options);
 
   if (currencyDecimal !== '' || currencyGroup !== '') {
     localePrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));

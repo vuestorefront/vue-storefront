@@ -10,7 +10,7 @@ const transformMetadataToAttributes = (attributeMetadata) => attributeMetadata
         if (attr.attribute_id === curr.attribute_id) {
           return {
             ...attr,
-            options: uniqBy([...attr.options, ...curr.options], (obj) => `${obj.label}_${obj.value}`)
+            options: uniqBy([...(attr.options || []), ...(curr.options || [])], (obj) => `${obj.label}_${obj.value}`)
           }
         }
 

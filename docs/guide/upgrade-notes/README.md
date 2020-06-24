@@ -21,8 +21,7 @@ The `amp-renderer` module has been disabled by default to save the bundle size; 
 Cart optimization was earlier disabled automatically if entity optimization was disabled. Now they can be used independently from each other. If you don't want to use cart optimization, make sure that the `entities.optimizeShoppingCart` configuration entry is disabled explicitly.
 
 **deprecated actions and helpers**
-Product module has been refactored, but we want to keep compatibility so all of them will stay in 1.12 and will be removed in 1.13.
-
+Product module has been refactored, here is list of actions that are not used anymore and you can remove them to reduce bundle.
 deprecated actions:
 product/reset
 product/setupBreadcrumbs
@@ -49,7 +48,7 @@ configureProductAsync
 populateProductConfigurationAsync
 setConfigurableProductOptionsAsync
 
-Here is list of actions that will be used in 1.13 in product module:
+Here is list of actions that are used from 1.12 in product module:
 product/doPlatformPricesSync
 product/single
 product/checkConfigurableParent
@@ -65,6 +64,10 @@ product/loadProductBreadcrumbs
 product/getProductVariant
 
 All of those actions and helpers that are deprecated, can be removed so you will have smaller bundle.
+Comment those lines:
+- core/modules/catalog/store/product/actions.ts:318
+- core/modules/catalog/helpers/index.ts:14-18
+- core/modules/catalog-next/store/category/actions.ts:265
 
 ## 1.10 -> 1.11
 

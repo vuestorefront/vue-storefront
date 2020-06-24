@@ -1,6 +1,6 @@
 import { ProductOption } from './ProductConfiguration';
 import { ConfigurableItemOption } from './ConfigurableOption';
-import { BundleOption } from './BundleOption';
+import { BundleOption, SelectedBundleOption } from './BundleOption';
 import { AttributesMetadata } from './Attribute';
 import { CustomOption } from './CustomOption';
 
@@ -71,7 +71,8 @@ export default interface Product {
   _score?: number,
   qty?: number,
   tier_prices?: any[],
-  links?: any
+  links?: any,
+  parentId?: number | string
 }
 
 export interface ProductLink {
@@ -90,6 +91,6 @@ export interface ProductOptions {
   extension_attributes: {
     custom_options: any[],
     configurable_item_options: ConfigurableItemOption[],
-    bundle_options: any[]
+    bundle_options: SelectedBundleOption[]
   }
 }

@@ -76,7 +76,7 @@ export const actions: ActionTree<UrlState, any> = {
     })
   },
   /**
-   * @deprecated from 1.13
+   * @deprecated from 1.12
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */

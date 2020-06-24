@@ -76,8 +76,8 @@ export const productAfterCustomoptions = async (payload, store) => {
         priceDeltaInclTax += optionValue.price
       }
       if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
-        priceDelta += ((optionValue.price / 100) * store.getters['product/getCurrentProduct'].original_price)
-        priceDeltaInclTax += ((optionValue.price / 100) * store.getters['product/getCurrentProduct'].original_price_incl_tax)
+        priceDelta += ((optionValue.price / 100) * store.getters['product/getCurrentProduct'].price)
+        priceDeltaInclTax += ((optionValue.price / 100) * store.getters['product/getCurrentProduct'].price_incl_tax)
       }
     }
   })
@@ -86,8 +86,8 @@ export const productAfterCustomoptions = async (payload, store) => {
     {},
     store.getters['product/getCurrentProduct'],
     {
-      price: store.getters['product/getCurrentProduct'].original_price + priceDelta,
-      price_incl_tax: store.getters['product/getCurrentProduct'].original_price_incl_tax + priceDeltaInclTax
+      price: store.getters['product/getCurrentProduct'].price + priceDelta,
+      price_incl_tax: store.getters['product/getCurrentProduct'].price_incl_tax + priceDeltaInclTax
     }
   ), { root: true })
 }

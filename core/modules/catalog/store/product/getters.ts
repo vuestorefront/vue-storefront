@@ -7,9 +7,12 @@ const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
   getCurrentProductConfiguration: state => state.current_configuration,
   getCurrentProductOptions: state => state.current_options,
-  getOriginalProduct: state => {
-    Logger.warn('`product/getOriginalProduct` deprecated, will be removed in 1.13')()
-    return state.original
+  getOriginalProduct: (state, getters) => {
+    if (!getters.getCurrentProduct) return null
+    return state.original || {
+      ...getters.getCurrentProduct,
+      id: getters.getCurrentProduct.parentId || getters.getCurrentProduct.id
+    }
   },
   getParentProduct: state => state.parent,
   getProductsSearchResult: state => state.list,

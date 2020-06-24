@@ -143,7 +143,11 @@ cp config/default.json config/local.json
 Then fix the value as you need it in the `local.json` file.
 In `local.json`, you may change values for information of backend family. But if you followed this recipe verbatim, you don't have to, because it's already there with the default value. Should you study the contents, please see to [Chef's secret](#secret-1-study-in-local-json)
 
-6. Finally run the following Docker command :
+6. Install theme
+
+From version 1.12 you need to add theme into your project. [Here is more information](https://docs.vuestorefront.io/guide/installation/theme.html.)
+
+7. Finally run the following Docker command :
 ```bash
 docker-compose up -d
 ```
@@ -190,7 +194,7 @@ info fsevents@1.2.4: The platform "linux" is incompatible with this module.
 
 :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/JZYI9ZE6DHeC7N2keBNoFUWjQ)
 
-7. In order to verify, run `docker ps`, there should be another container added to the list.
+8. In order to verify, run `docker ps`, there should be another container added to the list.
 ```bash
 CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                                            NAMES
 88d758bc24d0        vuestorefront_app         "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        0.0.0.0:3000->3000/tcp                           vuestorefront_app_1
@@ -200,7 +204,7 @@ de560221fdaf        vuestorefrontapi_kibana   "/bin/bash /usr/loca…"   8 hours
 d46c1e0a22af        redis:4-alpine            "docker-entrypoint.s…"   8 hours ago         Up 24 minutes       0.0.0.0:6379->6379/tcp                           vuestorefrontapi_redis_1
 
 ```
-8. Open your browser and visit [http://localhost:3000/](http://localhost:3000/)
+9. Open your browser and visit [http://localhost:3000/](http://localhost:3000/)
 
 After compiling, *Voila!*
 
@@ -1370,7 +1374,7 @@ We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@
 ### 2. Recipe
 1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows :
 ```bash
-npm install -g  @vue-storefront/cli@0.0.15
+npm install -g  @vue-storefront/cli
 ```
 :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/ZK0BVF7cQ8OaHHRcsaZgcOCfN)
 
@@ -1402,7 +1406,23 @@ Select an option based on which you are to install.
 ```
 Choose a version of your target.
 
-5. Next question is about how you install it between `installer`/`manual` like below :
+5. Next question is about theme installation.
+
+```
+? Select theme for Vue Storefront (Use arrow keys)
+❯ Capybara - based on Storefront UI 
+  Default 
+```
+
+You will also get question about theme version.
+
+```
+? Select theme version (Use arrow keys)
+❯ Stable version (recommended for production) 
+  In development branch (could be unstable!) 
+```
+
+6. Next question is about how you install it between `installer`/`manual` like below :
 ```bash
 ? Would you like to use friendly installer or install Vue Storefront manually?
 ❯ Installer (MacOS/Linux only)
@@ -1418,7 +1438,7 @@ Then you will see the machine start working on installation :
     Running installer
 ```
 
-6. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows :
+7. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows :
 ```bash
 yarn run v1.17.3
 $ node ./core/scripts/installer
@@ -1433,7 +1453,7 @@ $ node ./core/scripts/installer
 From this on, the questions would be the same as installation through `installer`.
 You can follow it further at [Install using installer](#_2-using-installer)
 
-7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+8. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
 ```bash
 ? Please provide path for images endpoint https://demo.vuestorefront.io/img/
 
@@ -1462,7 +1482,7 @@ You can follow it further at [Install using installer](#_2-using-installer)
   ✔ Running installer
 ```
 
-8. Now visit the address on your browser as printed in the screen, then Voila! :
+9. Now visit the address on your browser as printed in the screen, then Voila! :
 
 ![home_borderline](../images/home-vuestorefront.png)
 

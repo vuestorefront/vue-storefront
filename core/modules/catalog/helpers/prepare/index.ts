@@ -1,6 +1,7 @@
 import setDefaultQty from './setDefaultQty';
 import setDefaultObjects from './setDefaultObjects';
 import setParentSku from './setParentSku';
+import setParentId from './setParentId';
 import setCustomAttributesForChild from './setCustomAttributesForChild';
 import setDefaultProductOptions from './setDefaultProductOptions';
 
@@ -12,6 +13,7 @@ function preConfigureProduct (product) {
   setDefaultQty(product)
   setDefaultObjects(product)
   setParentSku(product)
+  setParentId(product)
   setCustomAttributesForChild(product)
   setDefaultProductOptions(product)
 

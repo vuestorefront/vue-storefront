@@ -11,15 +11,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
+      - name: Add theme
+        run: |
+          git clone --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
       - name: Create config file
         run: |
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"}}' > config/local-cloud-demo.json
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"}}' > config/local-cloud-next.json
-          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://test.storefrontcloud.io"}}' > config/local-cloud-test.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-demo.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://demo.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-next.json
+          echo '{"server":{"useOutputCacheTagging":true,"useOutputCache":true,"dynamicConfigReload":true},"api":{"url":"https://test.storefrontcloud.io"},"elasticsearch":{"index":"vue_storefront_magento_1"},"entities":{"attribute":{"loadByAttributeMetadata":true}},"urlModule":{"enableMapFallbackUrl":true}}' > config/local-cloud-test.json
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:

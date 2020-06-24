@@ -21,8 +21,8 @@ module.exports = {
         link: 'https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg',
       },
       {
-        text: 'Medium',
-        link: 'https://medium.com/the-vue-storefront-journal',
+        text: 'Blog',
+        link: 'https://blog.vuestorefront.io/',
       },
     ],
     sidebar: {
@@ -62,6 +62,7 @@ module.exports = {
           children: [
             'installation/linux-mac',
             'installation/windows',
+            'installation/theme',
             'installation/magento',
             'installation/production-setup',
           ],
@@ -77,7 +78,7 @@ module.exports = {
             'basics/feature-list',
             'basics/recipes',
             'basics/typescript',
-            'basics/graphql',
+            // 'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
             'basics/static-generator',
@@ -114,18 +115,18 @@ module.exports = {
             'data/data-loader'
           ],
         },
-        {
-          title: 'Working with Vuex',
-          collapsable: false,
-          children: [
-            'vuex/introduction',
-            'vuex/vuex-conventions',
-            'vuex/product-store',
-            'vuex/category-store',
-            'vuex/stock-store',
-            'vuex/attribute-store',
-          ],
-        },
+        // {
+        //   title: 'Working with Vuex',
+        //   collapsable: false,
+        //   children: [
+        //     'vuex/introduction',
+        //     'vuex/vuex-conventions',
+        //     'vuex/product-store',
+        //     'vuex/category-store',
+        //     'vuex/stock-store',
+        //     'vuex/attribute-store',
+        //   ],
+        // },
         {
           title: 'Integrations',
           collapsable: false,
@@ -155,7 +156,8 @@ module.exports = {
           children: [
             'archives/modules',
             'archives/extensions',
-            'archives/components'
+            'archives/components',
+            'archives/vuex'
           ],
         },
       ],
