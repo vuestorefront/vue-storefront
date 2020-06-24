@@ -883,5 +883,8 @@
     "nginx",
     "varnish",
     "cloudflare"
-  ]
+  ],
+  "compare": {
+    "enabled":true
+  }
 }
