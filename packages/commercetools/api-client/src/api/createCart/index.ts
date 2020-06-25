@@ -1,5 +1,5 @@
 import { CartDraft } from './../../types/GraphQL';
-import { apolloClient, locale, currency } from './../../index';
+import { apolloClient, locale, acceptLanguage, currency } from './../../index';
 import CreateCartMutation from './defaultMutation';
 import { CartMutationResponse } from './../../types/Api';
 
@@ -11,6 +11,7 @@ const createCart = async (cartDraft: CartData = {}): Promise<CartMutationRespons
   return await apolloClient.mutate({
     mutation: CreateCartMutation,
     variables: {
+      acceptLanguage,
       locale,
       draft: {
         currency,

@@ -16,6 +16,7 @@ export const config = {
     ]
   },
   locale: 'en',
+  acceptLanguage: ['en', 'de'],
   currency: 'USD',
   country: 'US',
   countries: [

@@ -6,7 +6,7 @@ import {
   FilterOption,
   AttributeType
 } from './../../types/Api';
-import { locale, currency } from './../../index';
+import { locale, currency, acceptLanguage } from './../../index';
 
 const buildAttributePredicate = (attrName: string, attrType: string) => (option: FilterOption): string => {
   if (!option.selected) {
@@ -65,7 +65,8 @@ const buildProductWhere = (search: ProductSearch) => {
   }
 
   if (search?.slug) {
-    predicates.push(`masterData(current(slug(${locale}="${search.slug}")))`);
+    const predicate = acceptLanguage.map(locale => `${locale}="${search.slug}"`).join(' or ');
+    predicates.push(`masterData(current(slug(${predicate})))`);
   }
 
   if (search?.id) {
@@ -88,7 +89,8 @@ const buildCategoryWhere = (search: CategorySearch) => {
   }
 
   if (search?.slug) {
-    return `slug(${locale}="${search.slug}")`;
+    const predicate = acceptLanguage.map(locale => `${locale}="${search.slug}"`).join(' or ');
+    return `slug(${predicate})`;
   }
 
   return '';

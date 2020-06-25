@@ -5,6 +5,7 @@ import { basicProfile } from '../../../src/api/getMe/defaultQuery';
 describe('[commercetools-api-client] getMe', () => {
   it('fetches current user data', async () => {
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en'
     };
 
