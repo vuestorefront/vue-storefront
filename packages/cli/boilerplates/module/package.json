@@ -12,13 +12,13 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@vue-storefront/core": "^1.12.0",
+    "@vue-storefront/core": "^1.12.1",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.11"
   },
   "peerDependencies": {
-    "@vue-storefront/core": "^1.12.0"
+    "@vue-storefront/core": "^1.12.1"
   }
 }
