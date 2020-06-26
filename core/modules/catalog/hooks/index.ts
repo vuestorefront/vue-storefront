@@ -1,4 +1,4 @@
-import { createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import { createMutatorHook, createListenerHook } from '@vue-storefront/core/lib/hooks'
 import Product from '../types/Product';
 
 const {
@@ -6,12 +6,26 @@ const {
   executor: beforeTaxesCalculatedExecutor
 } = createMutatorHook<Product[], Product[]>()
 
+const {
+  hook: afterSetBundleProductsHook,
+  executor: afterSetBundleProductsExecutor
+} = createListenerHook<Product[]>()
+
+const {
+  hook: afterSetGroupedProductHook,
+  executor: afterSetGroupedProductExecutor
+} = createListenerHook<Product[]>()
+
 const catalogHooksExecutors = {
-  beforeTaxesCalculated: beforeTaxesCalculatedExecutor
+  beforeTaxesCalculated: beforeTaxesCalculatedExecutor,
+  afterSetBundleProducts: afterSetBundleProductsExecutor,
+  afterSetGroupedProduct: afterSetGroupedProductExecutor
 }
 
 const catalogHooks = {
-  beforeTaxesCalculated: beforeTaxesCalculatedHook
+  beforeTaxesCalculated: beforeTaxesCalculatedHook,
+  afterSetBundleProducts: afterSetBundleProductsHook,
+  afterSetGroupedProduct: afterSetGroupedProductHook
 }
 
 export {
