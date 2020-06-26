@@ -156,6 +156,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [Starter pack for install](https://docs.vuestorefront.io/guide/cookbook/setup.html)
 - [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
 - [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
+- [Installing theme](https://docs.vuestorefront.io/guide/installation/theme.html)
 - [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
 - [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
 
