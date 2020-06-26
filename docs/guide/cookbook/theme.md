@@ -463,6 +463,12 @@ That said, you had to say good-bye to your old `1.11` theme. [_Start building yo
 
 
 ## 3. How to upgrade theme from 1.10 to 1.11
+:::warning REMINDER
+This recipe assumes you will use [`default` theme](https://github.com/DivanteLtd/vsf-default) for your store which is natural because `1.11` has only one _default_ theme whose name is `default`. 
+
+From `1.12` on, however, `default` theme becomes optional while `capybara` is _default_. 
+:::
+
 When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. 
 
 Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces. 
