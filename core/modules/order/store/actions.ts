@@ -44,7 +44,7 @@ const actions: ActionTree<OrderState, RootState> = {
     EventBus.$emit('notification-progress-start', i18n.t('Processing order...'))
 
     try {
-      return dispatch('processOrder', { newOrder: order, currentOrderHash })
+      return await dispatch('processOrder', { newOrder: order, currentOrderHash })
     } catch (error) {
       dispatch('handlePlacingOrderFailed', { newOrder: order, currentOrderHash })
       throw error

@@ -17,7 +17,7 @@ function convertToObject (array) {
 
 module.exports = function (csvDirectories, config = null) {
   const currentLocales = currentBuildLocales()
-  const fallbackLocale = 'en-US'
+  const fallbackLocale = config.i18n.defaultLocale || 'en-US'
   let messages = {}
   let languages = []
 
@@ -28,20 +28,22 @@ module.exports = function (csvDirectories, config = null) {
       const extName = path.extname(fullFileName)
       const baseName = path.posix.basename(file, extName)
 
-      if (extName === '.csv') {
-        const fileContent = fs.readFileSync(fullFileName, 'utf8')
-        if (languages.indexOf(baseName) === -1) {
-          languages.push(baseName)
+      if (currentLocales.indexOf(baseName) !== -1) {
+        if (extName === '.csv') {
+          const fileContent = fs.readFileSync(fullFileName, 'utf8')
+          if (languages.indexOf(baseName) === -1) {
+            languages.push(baseName)
+          }
+          console.debug(`Processing translation file: ${fullFileName}`)
+          messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
         }
-        console.debug(`Processing translation file: ${fullFileName}`)
-        messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
       }
     })
   })
 
   // create fallback
   console.debug(`Writing JSON file fallback: ${fallbackLocale}.json`)
-  fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`), JSON.stringify(messages[fallbackLocale]))
+  fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`), JSON.stringify(messages[fallbackLocale] || {}))
 
   // bundle all messages in one file
   if (config && config.i18n.bundleAllStoreviewLanguages) {

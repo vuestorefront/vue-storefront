@@ -1,39 +1,35 @@
+import { getProductLinkPrice } from './associatedProducts/getProductLinkPrice';
 import get from 'lodash-es/get'
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
+import { BundleOption, BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 
-const calculateBundleOptionProductPrice = ({ price = 1, priceInclTax = 1, qty = '1' }) => {
-  const product = {
-    price: 0,
-    priceInclTax: 0
-  }
-  if (parseInt(qty) >= 0) {
-    product.price += price * parseInt(qty)
-    product.priceInclTax += priceInclTax * parseInt(qty)
-  }
-  return product
-}
+export const getBundleOptionPrice = (bundleOptionValues: BundleOptionsProductLink[]) => getProductLinkPrice(bundleOptionValues)
 
-export const getBundleOptionPrice = (bundleOptionValues) => bundleOptionValues
-  .map(bundleOptionValue => {
-    const product = get(bundleOptionValue, 'product', {})
-    return calculateBundleOptionProductPrice({
-      price: product.price,
-      priceInclTax: product.price_incl_tax || product.priceInclTax,
-      qty: bundleOptionValue.qty
-    })
-  })
-  .reduce(
-    (priceDelta, currentPriceDelta) => ({
-      price: currentPriceDelta.price + priceDelta.price,
-      priceInclTax: currentPriceDelta.priceInclTax + priceDelta.priceInclTax
-    }),
-    { price: 0, priceInclTax: 0 }
-  )
-
-export const getBundleOptionsValues = (selectedBundleOptions, allBundeOptions) => selectedBundleOptions
+export const getBundleOptionsValues = (selectedBundleOptions: SelectedBundleOption[], allBundeOptions: BundleOption[]): BundleOptionsProductLink[] => selectedBundleOptions
   .map(selectedBundleOption => {
     const {
       product_links: productLinks = []
     } = allBundeOptions.find(bundleOption => bundleOption.option_id === selectedBundleOption.option_id) || {}
-    const value = productLinks.find(productLink => String(productLink.id) === String(selectedBundleOption.option_selections[0])) || {}
+    const value = productLinks.find(productLink => String(productLink.id) === String(selectedBundleOption.option_selections[0]))
     return { ...value, qty: selectedBundleOption.option_qty }
   })
+
+export const getSelectedBundleOptions = (product: Product): SelectedBundleOption[] => {
+  const selectedBundleOptions = Object.values(get(product, 'product_option.extension_attributes.bundle_options', {}))
+  if (selectedBundleOptions.length) {
+    return selectedBundleOptions as any as SelectedBundleOption[]
+  }
+
+  // get default options
+  const allBundeOptions = product.bundle_options || []
+  return allBundeOptions.map((bundleOption) => {
+    const productLinks = bundleOption.product_links || []
+    const defaultLink = productLinks.find((productLink) => productLink.is_default) || productLinks[0]
+    const qty = (typeof defaultLink.qty === 'string' ? parseInt(defaultLink.qty) : defaultLink.qty) || 1
+    return {
+      option_id: bundleOption.option_id,
+      option_qty: qty,
+      option_selections: [Number(defaultLink.id)]
+    }
+  })
+}

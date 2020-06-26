@@ -623,7 +623,14 @@ module.exports = function (restClient) {
 }
 
  ````
-This library file only deals with _GET_ API to get a list of offline stores from Magento 2. 
+This library file only deals with _GET_ API to get a list of offline stores from Magento 2.
+
+:::tip NOTE
+```js
+var endpointUrl = util.format('/offline-stores');
+```
+ This line is particularly important, since `'/offline-stores'` is where the API url endpoint is determined. It should match the API url endpoint of Magento 2 side.
+:::
 
  5. Now we need to include this library in `index.js` : 
  ```bash
@@ -713,7 +720,7 @@ debug: Response received.
 2020-03-10T09:22:32.140Z - info: No tasks to process. All records processed!
 2020-03-10T09:22:32.140Z - info: Task done! Exiting in 30s...
  ```
-:::tip NOTE
+:::warning NOTE
 You should tell the machine the environment variable like this before running the command : 
 ```bash
 export MAGENTO_URL=http://localhost/rest
@@ -855,16 +862,16 @@ Now you are all set to use custom entity you just created. The next step lets yo
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'; // Import the method to fetch data from ES
 
 const storeView = currentStoreView()
 
 // ... abridged
 
   methods: {
-    async showPayment () {
-      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' });
-      alert("Your item will be sent from the shop at " + offlineStores.items[0].address);
+    async showPayment () { // the method should be done with async/await
+      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' }); 
+      alert("Your item will be sent from the shop at " + offlineStores.items[0].address); 
       const payment = new PaymentRequest(this.paymentMethods, this.paymentDetails , this.paymentOptions)
 
       // abridged ...
@@ -875,18 +882,7 @@ Now go to your online shop, put an item to cart and open it, click __Instant Che
 ![instant_checkout_store_borderline](../images/stores.png)
 
 
-### 2-1. Recipe B (with GraphQL)
 
- 1. First off, we need to create an `graphql` folder under `src/search/adapter/` as follows :
- ```bash
-cd src/search/adapter
-mkdir graphql 
- ```
-
- 2. Copy `searchAdapter` file from `core` folder :
- ```bash
-cp ../../../core/lib/search/adapter/graphql/searchAdapter.ts graphql/
- ```
 
 ### 3. Peep into the kitchen (what happens internally)
 In this recipe, we iterated a whole journey of building custom entities on your online shop (it was Magento 2 for this time) for whatever reason to deal with various information for enhancing your customer experience.
@@ -898,7 +894,7 @@ Second, as an appetizer, we had to import data from shop using _mage2vuestorefro
 Third, main dish, we extended core adapters in `src` folder so we are safe for future updates :).
  It was actually very easy! you just need to `registerEntityType` for your custom entity! We also looked at how to implement it in real example though it was simplified version, you better follow `vuex` best practice. 
 
-We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has pretty good advantage over its competitors. 
+We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has [pretty good advantage](https://www.altexsoft.com/blog/engineering/graphql-core-features-architecture-pros-and-cons/) over its competitors. 
 
 Now we can extend our shop as good as it gets to handle more versatile information on your shop. Congratulation!
 

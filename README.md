@@ -8,6 +8,7 @@
 <a href="https://github.com/DivanteLtd/vue-storefront"><img src="https://img.shields.io/badge/stable%20branch-master-blue.svg" alt="Branch stable"></a>
 <a href="https://github.com/DivanteLtd/vue-storefront/tree/develop"><img src="https://img.shields.io/badge/dev%20branch-develop-blue.svg" alt="Branch Develop"></a>
 <a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>, [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront), Prestashop or Shopware) through the API.
 
@@ -32,6 +33,18 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
 
 PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
+## Vue Storefront Next
+
+We're developing a next version of Vue Storefront on the [`next` branch](https://github.com/DivanteLtd/vue-storefront/tree/next). 
+
+We're building the following integrations within Next architecture:
+- Shopware 6 (developer preview)
+- Commercetools (developer preview)
+- AboutYou Cloud
+- Shopify
+- Salesforce Commerce Cloud
+
+You can learn more about Vue Storefront Next from the README on the `next` branch and [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s) video
 
 ## See it in action
 
@@ -143,6 +156,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [Starter pack for install](https://docs.vuestorefront.io/guide/cookbook/setup.html)
 - [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
 - [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
+- [Installing theme](https://docs.vuestorefront.io/guide/installation/theme.html)
 - [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
 - [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
 
@@ -964,28 +978,28 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
             <tr>
       <td align="center" valign="middle">
-<a href="">
+<a href="https://www.2hatslogic.com/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/03/2hatslogic-logo.png"
+            alt="2hatslogic"
             height="40"
           >
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="">
+<a href="https://beecommerce.pl/en/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/beecommerce_color_horizontal.png"
+            alt="BeeCommerce"
             height="40"
           >
         </a>
 </td>
      <td align="center" valign="middle">
-<a href="">
+<a href="https://www.gpmd.co.uk/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/04/gpmd-logo-dark@2x.png"
+            alt="GPMD"
             height="40"
           >
         </a>

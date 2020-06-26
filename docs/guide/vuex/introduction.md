@@ -1,6 +1,6 @@
 # Introduction
 
-All data processing and remote requests should be managed by Vuex data stores. The core module contains more than [10 default data stores](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules) and can be easily extended by [store extensions](../extensions/extensions.md).
+All data processing and remote requests should be managed by Vuex data stores. The core modules generally contain `store` folder inside. 
 You can modify the existing store actions by responding to events. Events are specified in the docs below and can be found in the [core module](https://github.com/DivanteLtd/vue-storefront/tree/master/core), where `EventBus.$emit` has been mostly used for Vuex Actions.
 
 **You should put all the REST calls, Elasticsearch data queries inside the Vuex Actions.** This is our default design pattern for managing the data.

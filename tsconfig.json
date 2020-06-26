@@ -4,7 +4,7 @@
     "module": "esnext",
     "strict": false,
     "allowJs": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

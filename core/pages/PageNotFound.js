@@ -14,13 +14,17 @@ export default {
       context.server.response.statusCode = 404
     }
     let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
-    const response = await store.dispatch('product/list', {
+    const { items } = await store.dispatch('product/findProducts', {
       query: ourBestsellersQuery,
       size: 8,
-      sort: 'created_at:desc'
+      sort: 'created_at:desc',
+      options: {
+        populateRequestCacheTags: false,
+        prefetchGroupProducts: false
+      }
     })
-    if (response) {
-      store.state.homepage.bestsellers = response.items
+    if (items.length) {
+      store.state.homepage.bestsellers = items
     }
   },
   metaInfo () {
