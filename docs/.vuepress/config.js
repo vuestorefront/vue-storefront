@@ -35,6 +35,7 @@ module.exports = {
           ]
 	      },
         'upgrade-notes/',
+        'security/',
         {
           title: 'Cookbook',
           collapsable: false,
