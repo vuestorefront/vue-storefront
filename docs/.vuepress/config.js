@@ -60,10 +60,10 @@ module.exports = {
           title: 'Installation',
           collapsable: false,
           children: [
-            'installation/linux-mac',
-            'installation/windows',
+            // 'installation/linux-mac',
+            // 'installation/windows',
             'installation/theme',
-            'installation/magento',
+            // 'installation/magento',
             'installation/production-setup',
           ],
         },
