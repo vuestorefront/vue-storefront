@@ -12,7 +12,13 @@ if (detectInstalled.sync(config.theme, { local: true })) {
 else {
   themeName = themeName.replace('@vue-storefront/theme-', '')
   themePath = path.resolve(__dirname, '../../src/themes/' + themeName)
-  if(!fs.existsSync(themePath)) themePath = path.resolve(__dirname, '../../packages/theme-' + themeName)
+  if(!fs.existsSync(themePath)) {
+    console.error(`
+      The theme you want to use does not exist.
+      Please check theme installation: https://docs.vuestorefront.io/guide/installation/theme.html
+    `)
+    process.exit(1)
+  }
 }
 
 module.exports = themePath

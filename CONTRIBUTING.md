@@ -3,6 +3,10 @@
 Already a JavaScript/Vue.js developer? Pick an issue, push a pull request (PR) and instantly become a member of the vue-storefront contributors community.
 We've marked some issues as "Easy first pick" to make it easier for newcomers to begin!
 
+You can start a ready-to-code development environment in your browser, by clicking the button below:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+
 Thank you for your interest in, and engagement!
 
 Before you type an issue please read about out [release lifecycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html).

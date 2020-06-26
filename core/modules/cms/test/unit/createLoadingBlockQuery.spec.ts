@@ -5,7 +5,7 @@ describe('createLoadingBlockQuery', () => {
     const filter = { filterField: 'test', filterValues: ['test1', 'test2'] }
 
     let loadingBlockQuery = createLoadingBlockQuery(filter)
-    let [ appliedFilter ] = loadingBlockQuery._appliedFilters
+    let [ appliedFilter ] = loadingBlockQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('attribute', filter.filterField)
     expect(appliedFilter).toHaveProperty('value', { like: filter.filterValues })
@@ -15,6 +15,6 @@ describe('createLoadingBlockQuery', () => {
     const filter = { filterField: 'test', filterValues: undefined }
     let loadingBlockQuery = createLoadingBlockQuery(filter)
 
-    expect(loadingBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _searchText: '' })
+    expect(loadingBlockQuery).toEqual({ _availableFilters: [], _appliedFilters: [], _appliedSort: [], _searchText: '' })
   })
 })

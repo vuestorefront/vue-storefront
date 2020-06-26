@@ -5,7 +5,9 @@ const Listr = require('listr')
 const execa = require('execa')
 const spawn = require('child_process')
 const fs = require('fs')
-const semverSort = require('semver-sort')
+const semverSortDesc = require('semver/functions/rsort')
+const { options } = require('./../consts')
+const { createThemeTasks, createThemePrompt } = require('./../themeTasks')
 
 module.exports = function (installationDir) {
   installationDir = installationDir || 'vue-storefront'
@@ -15,46 +17,35 @@ module.exports = function (installationDir) {
     'master'
   ]
 
-  const options = {
-    version: {
-      stable: 'Stable versions (recommended for production)',
-      rc: 'Release Candidates',
-      nightly: 'In development branches (could be unstable!)'
-    },
-    installation: {
-      installer: 'Installer (MacOS/Linux only)',
-      manual: 'Manual installation'
-    }
-  }
-
   const tasks = {
     installDeps: {
       title: 'Installing dependencies',
-      task: () => execa.shell('cd ' + installationDir + ' && yarn')
+      task: () => execa.command('cd ' + installationDir + ' && yarn cache clean && yarn', { shell: true })
     },
     cloneVersion: {
       title: 'Copying Vue Storefront files',
       task: answers => {
-        return execa.shell(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin`)
+        return execa.command(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin`, { shell: true })
       }
     },
+    ...createThemeTasks(installationDir),
     runInstaller: {
       title: 'Running installer',
-      task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: installationDir})
+      task: () => spawn.execFileSync('yarn', ['installer'], { stdio: 'inherit', cwd: installationDir })
     },
     getStorefrontVersions: {
-      title: 'Check avalilable versions',
-      task: () => execa.stdout('git', ['ls-remote', '--tags', 'https://github.com/DivanteLtd/vue-storefront.git']).then(result => {
-          allTags = result.match(/refs\/tags\/v1.([0-9.]+)(-rc.[0-9])?/gm).map(tag => tag.replace('refs/tags/', ''))
-          allTags = semverSort.desc(allTags)
-          execa.stdout('git', ['ls-remote', '--heads', 'https://github.com/DivanteLtd/vue-storefront.git']).then(branches => {
-            let rcBranches = branches.match(/refs\/heads\/release\/v1.([0-9.]+)/gm).map(tag => tag.replace('refs/heads/', ''))
-            availableBranches = [...rcBranches, ...availableBranches]
-          })
+      title: 'Check available versions',
+      task: () => execa('git', ['ls-remote', '--tags', 'https://github.com/DivanteLtd/vue-storefront.git']).then(({ stdout }) => {
+        allTags = stdout.match(/refs\/tags\/v1.([0-9.]+)(-rc.[0-9])?/gm).map(tag => tag.replace('refs/tags/', ''))
+        allTags = semverSortDesc(allTags)
+        execa('git', ['ls-remote', '--heads', 'https://github.com/DivanteLtd/vue-storefront.git']).then(({ stdout }) => {
+          let rcBranches = stdout.match(/refs\/heads\/release\/v1.([0-9.x]+)/gm).map(tag => tag.replace('refs/heads/', ''))
+          availableBranches = [...rcBranches, ...availableBranches]
+        })
       }).catch(e => {
-        console.error('Problem with checking versions', e)
+        console.error('Problem with checking versions\n', e)
       })
-    },
+    }
   }
 
   if (fs.existsSync(installationDir)) {
@@ -81,10 +72,11 @@ module.exports = function (installationDir) {
             message: 'Select specific version',
             choices: function (answers) {
               if (answers.version === options.version.stable) return allTags.filter(tag => !tag.includes('rc')).slice(0, 10)
-              if (answers.version === options.version.rc) return allTags.filter(tag => tag.includes('rc')).slice(0,5)
+              if (answers.version === options.version.rc) return allTags.filter(tag => tag.includes('rc')).slice(0, 5)
               return availableBranches
             }
           },
+          ...createThemePrompt(),
           {
             type: 'list',
             name: 'installation',
@@ -98,8 +90,10 @@ module.exports = function (installationDir) {
         .then(answers => {
           const taskQueue = []
           taskQueue.push(tasks.cloneVersion)
+          taskQueue.push(tasks.cloneTheme)
+          taskQueue.push(tasks.installDeps) // we need to install deps for theme
+          taskQueue.push(tasks.configureTheme)
           if (answers.installation === options.installation.installer) {
-            taskQueue.push(tasks.installDeps)
             taskQueue.push(tasks.runInstaller)
           }
           new Listr(taskQueue).run(answers)

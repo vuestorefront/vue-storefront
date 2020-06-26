@@ -49,10 +49,10 @@ Below you can find the list of files that are essential for your theme to work:
   - `index.js` you can extend core service worker here (see [Working with Service Workers](service-workers.md)
 - `webpack.config.js` - you can extend core webpack build in this file (extends `core/build/`, see [Working with webpack](webpack.md))
 
-## Official Vue Storefront themes included with the template:
+## Official Vue Storefront themes:
 
-- `default` - Default VS theme always with the newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
-- `catalog` - VS catalog theme - currently in alpha
+- [Capybara](https://github.com/DivanteLtd/vsf-capybara) - Capybara is a Storefront UI based theme for Vue Storefront.
+- [Default](https://github.com/DivanteLtd/vsf-default) - Default VS theme always with the newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
 
 ## Related
 

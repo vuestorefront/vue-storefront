@@ -68,6 +68,20 @@
       "config": {}
     }
   },
+  "initialResources": [
+    {
+      "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
+      "type": "script",
+      "onload": true,
+      "rel": "prefetch"
+    },
+    {
+      "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
+      "type": "script",
+      "onload": true,
+      "rel": "prefetch"
+    }
+  ],
   "staticPages": {
     "updateOnRequest": true,
     "destPath": "static"
@@ -91,7 +105,8 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080"
+    "url": "http://localhost:8080",
+    "saveBandwidthOverCache": true
   },
   "elasticsearch": {
     "httpAuth": "",
@@ -284,12 +299,14 @@
         "is_comparable",
         "options",
         "tier_prices"
-      ]
+      ],
+      "loadByAttributeMetadata": false
     },
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
         "activity",
+        "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.final_price",
         "configurable_children.color",
@@ -328,18 +345,37 @@
         "*small_image"
       ],
       "excludeFields": [
+        "attribute_set_id",
         "configurable_options",
         "description",
         "sgn",
         "*.sgn",
         "msrp_display_actual_price_type",
         "*.msrp_display_actual_price_type",
-        "required_options"
+        "required_options",
+        "media_gallery",
+        "stock.use_config_min_qty",
+        "stock.use_config_notify_stock_qty",
+        "stock.stock_id",
+        "stock.use_config_backorders",
+        "stock.use_config_enable_qty_inc",
+        "stock.enable_qty_increments",
+        "stock.use_config_manage_stock",
+        "stock.use_config_min_sale_qty",
+        "stock.notify_stock_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.qty_increments",
+        "stock.stock_status_changed_auto",
+        "stock.show_default_notification_message",
+        "stock.use_config_qty_increments",
+        "stock.is_decimal_divided"
       ]
     },
     "productListWithChildren": {
       "includeFields": [
         "activity",
+        "configurable_children.attributes",
         "configurable_children.image",
         "configurable_children.sku",
         "configurable_children.price",
@@ -380,12 +416,30 @@
         "url_key"
       ],
       "excludeFields": [
+        "attribute_set_id",
         "description",
         "sgn",
         "*.sgn",
         "msrp_display_actual_price_type",
         "*.msrp_display_actual_price_type",
-        "required_options"
+        "required_options",
+        "media_gallery",
+        "stock.use_config_min_qty",
+        "stock.use_config_notify_stock_qty",
+        "stock.stock_id",
+        "stock.use_config_backorders",
+        "stock.use_config_enable_qty_inc",
+        "stock.enable_qty_increments",
+        "stock.use_config_manage_stock",
+        "stock.use_config_min_sale_qty",
+        "stock.notify_stock_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.qty_increments",
+        "stock.stock_status_changed_auto",
+        "stock.show_default_notification_message",
+        "stock.use_config_qty_increments",
+        "stock.is_decimal_divided"
       ]
     },
     "review": {
@@ -519,6 +573,34 @@
     "disablePersistentAttributesCache": false
   },
   "products": {
+    "fieldsToCompact": {
+      "minimal_price": "mp",
+      "has_options": "ho",
+      "url_key": "u",
+      "status": "s",
+      "required_options": "ro",
+      "name": "nm",
+      "tax_class_id": "tci",
+      "description": "desc",
+      "minimal_regular_price": "mrp",
+      "final_price": "fp",
+      "price": "p",
+      "special_price": "sp",
+      "original_final_price": "ofp",
+      "original_price": "op",
+      "original_special_price": "osp",
+      "final_price_incl_tax": "fpit",
+      "original_price_incl_tax": "opit",
+      "price_incl_tax": "pit",
+      "special_price_incl_tax": "spit",
+      "final_price_tax": "fpt",
+      "price_tax": "pt",
+      "special_price_tax": "spt",
+      "original_price_tax": "opt",
+      "image": "i",
+      "small_image": "si",
+      "thumbnail": "t"
+    },
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
@@ -529,6 +611,7 @@
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
     "alwaysSyncPlatformPricesOver": false,
+    "alwaysSyncPricesClientSide": false,
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
@@ -625,9 +708,11 @@
   },
   "users": {
     "autoRefreshTokens": true,
+    "loginAfterCreatePassword": true,
     "endpoint": "/api/user",
     "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
+    "createPassword_endpoint": "http://localhost:8080/api/user/create-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
@@ -688,6 +773,9 @@
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
+    "currencyDecimal": "",
+    "currencyGroup": "",
+    "fractionDigits": 2,
     "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
@@ -756,8 +844,8 @@
     "newProducts": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Tees" }
+          "key": "new",
+          "value": { "eq": 1 }
         }
       ]
     },
@@ -769,5 +857,31 @@
         }
       ]
     }
-  }
+  },
+  "urlModule": {
+    "enableMapFallbackUrl": false,
+    "endpoint": "/api/url",
+    "map_endpoint": "/api/url/map"
+  },
+  "fastly": {
+    "enabled":false
+  },
+  "nginx": {
+    "enabled":false
+  },
+  "varnish": {
+    "enabled":false
+  },
+  "purgeConfig": [
+    "server.invalidateCacheKey",
+    "server.invalidateCacheForwardUrl",
+    "server.trace",
+    "redis",
+    "install",
+    "expireHeaders",
+    "fastly",
+    "nginx",
+    "varnish",
+    "cloudflare"
+  ]
 }
