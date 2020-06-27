@@ -49,3 +49,19 @@ then run the app
 ```sh
 yarn dev:ct
 ```
+
+## Shopify
+Build full package
+```sh
+yarn build:sp
+```
+
+Start app in development mode:
+```sh
+yarn dev:sp
+```
+
+Start app in production mode:
+```sh
+yarn start:sp
+```
