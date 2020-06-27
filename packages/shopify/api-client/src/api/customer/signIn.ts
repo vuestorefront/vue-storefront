@@ -6,7 +6,7 @@ const signIn = async (email, password): Promise<void> => {
   /**
      * Create customer access token.
      *
-     * const email = 'yogesh.suhagiya@aureatelabs.com';
+     * const email = 'hello@aureatelabs.com';
      * const password = '5AernyH5LQDmZEe6';
      */
   const data = {

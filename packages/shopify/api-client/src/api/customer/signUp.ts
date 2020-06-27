@@ -7,11 +7,11 @@ const signUp = async (fields): Promise<void> => {
      * Create a new customer account.
      *
      * const fields = {
-     *    email: 'yogesh.suhagiya@aureatelabs.com',
-     *    firstName: 'Yogesh',
-     *    lastName: 'Suhagiya',
+     *    email: 'hello@aureatelabs.com',
+     *    firstName: 'Web',
+     *    lastName: 'Developer',
      *    password: '5AernyH5LQDmZEe6',
-     *    phone: '+919724909821'
+     *    phone: '+91987456321'
      *  };
      */
   const data = {

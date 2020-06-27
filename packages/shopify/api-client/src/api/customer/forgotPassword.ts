@@ -6,7 +6,7 @@ const forgotPassword = async (customer): Promise<void> => {
   /**
      * Reset customer password.
      *
-     * const email = 'yogesh.suhagiya@aureatelabs.com';
+     * const email = 'hello@aureatelabs.com';
      */
   const data = {
     email: customer.email
