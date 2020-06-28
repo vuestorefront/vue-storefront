@@ -854,7 +854,7 @@ If you want to add more entities, you can clone the example as many times as you
 The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
 :::
 
-Now you are all set to use custom entity you just created. The next step lets you give you a simple idea how to confirm it. (optional)
+Now you are all set to use custom entity you just created. The next step lets you have a simple idea how to confirm it. (optional)
 
  4. Go to `src/modules/instant-checkout/components` and open `InstantCheckout.vue`. Fix it as follows : 
  ```js{5,12-14}
