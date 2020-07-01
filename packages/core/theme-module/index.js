@@ -19,10 +19,19 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
 
   const baseThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
-  const themeComponentsDir = path.join(this.options.rootDir, 'components');
-  const themePagesDir = path.join(this.options.rootDir, 'pages');
-  const themeHelpersDir = path.join(this.options.rootDir, 'helpers');
-  const languageDir = path.join(this.options.rootDir, 'lang');
+
+  const getDirectoriesList = directoryPath => fs.readdirSync(directoryPath).filter(
+    file => fs.statSync(path.join(directoryPath, file)
+    ).isDirectory()
+  );
+
+  const omittedDirectories = [
+    '.theme',
+    '.nuxt',
+    'node_modules',
+    'test'
+  ];
+
   const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
   const compileAgnosticTemplate = (filePath) => {
@@ -37,14 +46,20 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   };
 
   log.info('Adding theme files...');
+  const themeDirectoriesPaths = [];
+  const copyThemeDirectoriesPromises = [];
+
+  for (const directory of getDirectoriesList(this.options.rootDir)) {
+    if (!omittedDirectories.includes(directory)) {
+      const absolutePath = path.join(this.options.rootDir, directory);
+      themeDirectoriesPaths.push(absolutePath);
+      copyThemeDirectoriesPromises.push(copyThemeFiles(absolutePath));
+    }
+  }
+  console.log(themeDirectoriesPaths);
 
   await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
-  await Promise.all([
-    copyThemeFiles(themeComponentsDir),
-    copyThemeFiles(themePagesDir),
-    copyThemeFiles(themeHelpersDir),
-    copyThemeFiles(languageDir)
-  ]);
+  await Promise.all(copyThemeDirectoriesPromises);
 
   log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
@@ -141,7 +156,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       }
     });
 
-    chokidar.watch([themeComponentsDir, themePagesDir, themeHelpersDir], { ignoreInitial: true })
+    chokidar.watch(themeDirectoriesPaths, { ignoreInitial: true })
       .on('all', (event, filePath) => {
         if (event === 'unlink') {
           const baseFilePath = filePath.replace(this.options.rootDir, baseThemeDir);
