@@ -21,8 +21,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
 
   const getDirectoriesList = directoryPath => fs.readdirSync(directoryPath).filter(
-    file => fs.statSync(path.join(directoryPath, file)
-    ).isDirectory()
+    file => fs.statSync(path.join(directoryPath, file)).isDirectory()
   );
 
   const omittedDirectories = [
@@ -56,7 +55,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       copyThemeDirectoriesPromises.push(copyThemeFiles(absolutePath));
     }
   }
-  console.log(themeDirectoriesPaths);
 
   await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
   await Promise.all(copyThemeDirectoriesPromises);
