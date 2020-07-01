@@ -19,6 +19,7 @@
     "build:bp:theme": "cd packages/boilerplate/theme && yarn build",
     "build:bp": "yarn build:core && yarn build:bp:tools && yarn build:bp:theme",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
+    "build:checkout-com": "cd packages/checkout-com && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
@@ -78,6 +79,8 @@
   "workspaces": {
     "packages": [
       "packages/commercetools/*",
+      "packages/checkout-com",
+      "packages/checkout-com/nuxt",
       "packages/boilerplate/*",
       "packages/core/*",
       "packages/prismic",

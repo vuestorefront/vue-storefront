@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib",
+    "esModuleInterop": true,
+    "target": "es5",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": ["es6", "es7"],
+    "strict": false,
+  },
+  "include": [
+    "src", "test"
+  ],
+  "exclude": ["node_modules", "lib", "**/*.spec.ts"]
+}

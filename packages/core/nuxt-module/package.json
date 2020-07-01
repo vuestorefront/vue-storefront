@@ -16,6 +16,10 @@
     "consola": "^2.10.1",
     "lodash": "^4.17.15"
   },
+  "devDependencies": {
+    "@nuxt/types": "^0.7.9",
+    "@nuxt/typescript-build": "^0.3.1"
+  },
   "publishConfig": {
     "access": "public"
   }
