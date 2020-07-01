@@ -1,4 +1,4 @@
-import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput } from './../../types/GraphQL';
+import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput, AddressInput } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
@@ -22,18 +22,31 @@ export const createChangeLineItemQuantityAction = (product: LineItem) => ({
   }
 });
 
-export const setShippingAddressAction = (shippingDetails: Address) => ({
+export const setShippingAddressAction = (shippingDetails: Address): { setShippingAddress: { address: AddressInput } } => ({
   setShippingAddress: {
     address: {
+      title: shippingDetails.title,
+      salutation: shippingDetails.salutation,
       firstName: shippingDetails.firstName,
       lastName: shippingDetails.lastName,
       streetName: shippingDetails.streetName,
       streetNumber: shippingDetails.streetNumber,
-      city: shippingDetails.city,
-      // state: shippingDetails.state,
+      additionalStreetInfo: shippingDetails.additionalStreetInfo,
       postalCode: shippingDetails.postalCode,
+      city: shippingDetails.city,
+      region: shippingDetails.region,
+      state: shippingDetails.state,
       country: shippingDetails.country,
-      phone: shippingDetails?.contactInfo?.phone
+      company: shippingDetails.company,
+      department: shippingDetails.department,
+      building: shippingDetails.building,
+      apartment: shippingDetails.apartment,
+      pOBox: shippingDetails.pOBox,
+      phone: shippingDetails.contactInfo?.phone,
+      mobile: shippingDetails.contactInfo?.mobile,
+      email: shippingDetails.contactInfo?.email,
+      fax: shippingDetails.contactInfo?.fax,
+      additionalAddressInfo: shippingDetails.additionalAddressInfo
     }
   }
 });
@@ -48,18 +61,31 @@ export const addPayment = (payment: ResourceIdentifierInput) => ({
   addPayment: { payment }
 });
 
-export const setBillingAddressAction = (billingDetails: Address) => ({
+export const setBillingAddressAction = (billingDetails: Address): { setBillingAddress: { address: AddressInput } } => ({
   setBillingAddress: {
     address: {
+      title: billingDetails.title,
+      salutation: billingDetails.salutation,
       firstName: billingDetails.firstName,
       lastName: billingDetails.lastName,
       streetName: billingDetails.streetName,
       streetNumber: billingDetails.streetNumber,
-      city: billingDetails.city,
-      // state: billingDetails.state,
+      additionalStreetInfo: billingDetails.additionalStreetInfo,
       postalCode: billingDetails.postalCode,
+      city: billingDetails.city,
+      region: billingDetails.region,
+      state: billingDetails.state,
       country: billingDetails.country,
-      phone: billingDetails.contactInfo.phone
+      company: billingDetails.company,
+      department: billingDetails.department,
+      building: billingDetails.building,
+      apartment: billingDetails.apartment,
+      pOBox: billingDetails.pOBox,
+      phone: billingDetails.contactInfo?.phone,
+      mobile: billingDetails.contactInfo?.mobile,
+      email: billingDetails.contactInfo?.email,
+      fax: billingDetails.contactInfo?.fax,
+      additionalAddressInfo: billingDetails.additionalAddressInfo
     }
   }
 });

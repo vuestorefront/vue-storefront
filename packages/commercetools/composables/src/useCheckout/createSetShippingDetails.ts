@@ -7,9 +7,21 @@ import initFields from './initFields';
 const initialDetails = { contactInfo: {} };
 
 const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}) => {
-  shippingDetails.value = { ...initialDetails, ...shippingDetails.value, ...data };
+  shippingDetails.value = {
+    ...initialDetails,
+    ...shippingDetails.value,
+    ...data,
+    contactInfo: {
+      ...initialDetails.contactInfo,
+      ...shippingDetails.value.contactInfo,
+      ...data.contactInfo
+    }
+  };
 
-  if (!options.save) return;
+  if (!options.save) {
+    return;
+  }
+
   loading.value.shippingAddress = true;
 
   const cartResponse = await updateCart({
