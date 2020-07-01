@@ -25,7 +25,9 @@ const createCommerceToolsLink = (): ApolloLink => {
       graphQLErrors.map(({ message, locations, path }) => {
         const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
 
-        console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+        if (!message.includes('Resource Owner Password Credentials Grant')) {
+          console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+        }
       });
     }
 
