@@ -93,10 +93,8 @@ module.exports = {
           children: [
             'data/data',
             'data/elasticsearch',
-            'data/data-migrations',
             'data/elastic-queries',
             'data/database-tool',
-            'data/entity-types',
             'data/static-data',
             'data/data-loader'
           ],
@@ -133,7 +131,11 @@ module.exports = {
             'archives/components',
             'archives/vuex',
             'archives/cookbook',
-            'archives/graphql'
+            'archives/graphql',
+            'archives/amp',
+            'archives/typescript',
+            'archives/migration',
+            'archives/entity_type'
           ],
         },
       ],
