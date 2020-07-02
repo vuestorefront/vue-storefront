@@ -41,7 +41,8 @@
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
     "link-packages": "lerna link --force-local",
-    "lint": "eslint . --ext .js,.ts,.vue"
+    "lint": "eslint . --ext .js,.ts,.vue",
+    "test-cli": "cd packages/core/cli/src/scripts && ts-node createProject.ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
@@ -78,7 +79,6 @@
     "packages": [
       "packages/commercetools/*",
       "packages/boilerplate/*",
-      "packages/core/cli",
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*"

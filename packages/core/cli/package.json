@@ -2,9 +2,13 @@
   "name": "@vue-storefront/cli",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/scripts/createProject.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@vue-storefront/commercetools-theme": "^0.0.3",
+    "@vue-storefront/nuxt-theme": "^0.0.1"
   },
   "author": "Filip Jędrasik",
   "license": "ISC"
