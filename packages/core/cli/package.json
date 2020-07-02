@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@vue-storefront/commercetools-theme": "^0.0.3",
+    "@vue-storefront/about-you-theme": "^0.0.1",
+    "@vue-storefront/boilerplate-theme": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1"
   },
   "author": "Filip Jędrasik",

@@ -55,6 +55,7 @@ async function createProject(integration: string, targetPath: string): Promise<v
   log.info(`Coppying agnostic theme to ${targetPath}`);
   await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
 
+  log.info('Updating Nuxt config');
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   const nuxtConfig = fs.readFileSync(nuxtConfigPath, { encoding: 'utf8' });
   fs.writeFileSync(
@@ -65,4 +66,4 @@ async function createProject(integration: string, targetPath: string): Promise<v
 }
 
 module.exports = compileTemplate;
-createProject('commercetools', 'testbuild');
+createProject('boilerplate', 'testbuild3');
