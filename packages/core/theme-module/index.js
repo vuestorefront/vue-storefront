@@ -21,13 +21,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const baseThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
 
-  const omittedDirectories = [
-    '.theme',
-    '.nuxt',
-    'node_modules',
-    'test'
-  ];
-
   const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
   const compileAgnosticTemplate = (filePath) => {
@@ -42,16 +35,13 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   };
 
   log.info('Adding theme files...');
-  const themeDirectoriesPaths = [];
-  const copyThemeDirectoriesPromises = [];
 
-  for (const directory of getAllSubDirs(this.options.rootDir)) {
-    if (!omittedDirectories.includes(directory)) {
-      const absolutePath = path.join(this.options.rootDir, directory);
-      themeDirectoriesPaths.push(absolutePath);
-      copyThemeDirectoriesPromises.push(copyThemeFiles(absolutePath));
-    }
-  }
+  const getArrayOfDirPaths = () => {
+    return getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test']).map(directory => path.join(this.options.rootDir, directory));
+  };
+
+  const themeDirectoriesPaths = getArrayOfDirPaths();
+  const copyThemeDirectoriesPromises = themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath));
 
   await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
   await Promise.all(copyThemeDirectoriesPromises);
