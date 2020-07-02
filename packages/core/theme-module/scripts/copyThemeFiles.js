@@ -21,6 +21,7 @@ function copyThemeFiles(filesDir) {
 }
 
 module.exports = {
+  copyFile,
   copyThemeFile,
   copyThemeFiles
 };
