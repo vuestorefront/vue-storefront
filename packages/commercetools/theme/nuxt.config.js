@@ -48,10 +48,12 @@ export default {
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/commercetools-api',
       composables: '@vue-storefront/commercetools'
     }]
+    // @core-development-only-end
   ],
   modules: [
     'nuxt-i18n',
