@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const compileTemplate = require('./scripts/compileTemplate');
 const { copyThemeFile, copyThemeFiles } = require('./scripts/copyThemeFiles');
 const getAllFilesFromDir = require('./scripts/getAllFilesFromDir');
+const getAllSubDirs = require('./scripts/getAllSubDirs');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -19,10 +20,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
 
   const baseThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
-
-  const getDirectoriesList = directoryPath => fs.readdirSync(directoryPath).filter(
-    file => fs.statSync(path.join(directoryPath, file)).isDirectory()
-  );
 
   const omittedDirectories = [
     '.theme',
@@ -48,7 +45,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const themeDirectoriesPaths = [];
   const copyThemeDirectoriesPromises = [];
 
-  for (const directory of getDirectoriesList(this.options.rootDir)) {
+  for (const directory of getAllSubDirs(this.options.rootDir)) {
     if (!omittedDirectories.includes(directory)) {
       const absolutePath = path.join(this.options.rootDir, directory);
       themeDirectoriesPaths.push(absolutePath);
