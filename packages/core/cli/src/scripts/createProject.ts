@@ -17,10 +17,7 @@ const log = {
 function copyThemeFile(file, targetPath, chopPhrase, ifNotExist = false) {
   const finalPath = targetPath + (file.replace(chopPhrase, ''));
   if (ifNotExist) {
-    // Check if file exist
-    // if so -> return
     if (fs.existsSync(finalPath)) {
-      // console.log(finalPath, 'already exists')
       return;
     }
   }
@@ -49,21 +46,38 @@ async function createProject(integration: string, targetPath: string): Promise<v
   await Promise.all(integrationThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, integrationThemePath)));
 
   const agnosticThemePath = '../../node_modules/@vue-storefront/nuxt-theme/theme';
-  const agnosticThemeFiles = fs.readdirSync(agnosticThemePath).filter(fileName => !omitFiles.includes(fileName))
-    .map(directory => path.join(agnosticThemePath, directory));
+  const agnosticThemeCompilableFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
+
+  const compileAgnosticTemplate = (filePath, targetPath, chopPhrase, ifNotExist = false) => {
+    const finalPath = targetPath + (filePath.replace(chopPhrase, ''));
+    if (ifNotExist) {
+      if (fs.existsSync(finalPath)) {
+        return;
+      }
+    }
+    return compileTemplate(
+      path.join(__dirname, filePath),
+      finalPath,
+      {
+        apiClient: `@vue-storefront/${integration}-api`,
+        // helpers: moduleOptions.helpers,
+        composables: `@vue-storefront/${integration}`
+      });
+  };
 
   log.info(`Coppying agnostic theme to ${targetPath}`);
-  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
+  await Promise.all(agnosticThemeCompilableFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
 
   log.info('Updating Nuxt config');
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   const nuxtConfig = fs.readFileSync(nuxtConfigPath, { encoding: 'utf8' });
   fs.writeFileSync(
     nuxtConfigPath,
-    nuxtConfig.replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '')
+    nuxtConfig
+      .replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '')
       .replace(/coreDevelopment:(\s)*?true[,]?/, '')
   );
 }
 
-module.exports = compileTemplate;
+module.exports = createProject;
 createProject('boilerplate', 'testbuild3');
