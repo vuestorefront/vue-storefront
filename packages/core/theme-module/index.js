@@ -36,12 +36,11 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
 
   log.info('Adding theme files...');
 
-  const getArrayOfDirPaths = () => {
-    return getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test']).map(directory => path.join(this.options.rootDir, directory));
-  };
+  const themeDirectoriesPaths = getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test'])
+    .map(directory => path.join(this.options.rootDir, directory));
 
-  const themeDirectoriesPaths = getArrayOfDirPaths();
-  const copyThemeDirectoriesPromises = themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath));
+  const copyThemeDirectoriesPromises = themeDirectoriesPaths
+    .map(absolutePath => copyThemeFiles(absolutePath));
 
   await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
   await Promise.all(copyThemeDirectoriesPromises);
