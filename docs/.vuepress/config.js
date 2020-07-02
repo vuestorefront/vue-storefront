@@ -67,7 +67,6 @@ module.exports = {
             'basics/feature-list',
             'basics/recipes',
             'basics/ssr-cache',
-            'basics/amp',
             'basics/static-generator',
             'basics/e2e',
             'basics/url'
