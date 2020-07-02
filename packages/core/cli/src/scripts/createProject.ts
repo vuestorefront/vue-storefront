@@ -1,6 +1,5 @@
 const compileTemplate = require('@vue-storefront/nuxt-theme/scripts/compileTemplate');
 const getAllFilesFromDir = require('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js');
-const getAllSubDirs = require('@vue-storefront/nuxt-theme/scripts/getAllSubDirs.js');
 const { copyFile } = require('@vue-storefront/nuxt-theme/scripts/copyThemeFiles');
 const consola = require('consola');
 const chalk = require('chalk');
@@ -29,27 +28,32 @@ function copyThemeFile(file, targetPath, chopPhrase, ifNotExist = false) {
 }
 
 function copyThemeFiles(filesDir, targetPath, chopPhrase, ifNotExist = false) {
-  return Promise.all(getAllFilesFromDir(filesDir).map(
-    file => copyThemeFile(file, targetPath, chopPhrase, ifNotExist)
-  ));
+  if (fs.statSync(filesDir).isDirectory()) {
+    return Promise.all(getAllFilesFromDir(filesDir).map(
+      file => copyThemeFile(file, targetPath, chopPhrase, ifNotExist)
+    ));
+  } else {
+    return copyThemeFile(filesDir, targetPath, chopPhrase, ifNotExist);
+  }
 }
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
   const integrationThemePath = `../../node_modules/@vue-storefront/${integration}-theme`;
   const absoluteTargetPath = path.join(__dirname, targetPath);
 
-  const integrationThemeDirectoriesPaths = getAllSubDirs(integrationThemePath, ['.theme', '.nuxt', 'node_modules'])
+  const omitFiles = ['.theme', '.nuxt', 'node_modules'];
+  const integrationThemeFiles = fs.readdirSync(integrationThemePath).filter(fileName => !omitFiles.includes(fileName))
     .map(directory => path.join(integrationThemePath, directory));
 
   log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await Promise.all(integrationThemeDirectoriesPaths.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, integrationThemePath)));
+  await Promise.all(integrationThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, integrationThemePath)));
 
   const agnosticThemePath = '../../node_modules/@vue-storefront/nuxt-theme/theme';
-  const agnosticThemeDirectoriesPaths = getAllSubDirs(agnosticThemePath)
+  const agnosticThemeFiles = fs.readdirSync(agnosticThemePath).filter(fileName => !omitFiles.includes(fileName))
     .map(directory => path.join(agnosticThemePath, directory));
 
   log.info(`Coppying agnostic theme to ${targetPath}`);
-  await Promise.all(agnosticThemeDirectoriesPaths.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
+  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
 
 }
 
