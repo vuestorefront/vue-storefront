@@ -1496,18 +1496,6 @@ Your project should contain 2 folders at this moment: `vue-storefront` and `vue-
 ![Storefront screenshot](../images/storefront.png)
 
 
-
-## 3. Manual Installation
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-
-<br />
-<br />
-<br />
-
 ## 4. Storefront CLI at your service
 Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all-time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there.
 
@@ -1646,22 +1634,3 @@ _Vue Storefront_ people prepared the `CLI` way of installing the whole infrastru
 <br />
 <br />
 <br />
-
-## 5. How to debug *Anything*
-When it comes to developing a software, there is one thing you really need to know. Knowing the blocker. Fixing a problem means you already know what's going on before what went wrong, and most of the time your pains are from yourself failing at that, which is, you don't know the problem and that is the problem.
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-
-<br />
-<br />
-<br />
-
-## 6. Install Tool Chains
-**Vue Storefront** family is huge, and it's only ever growing. From helpers to bridges, we are going to take a github tour of the entire tool chains.
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-

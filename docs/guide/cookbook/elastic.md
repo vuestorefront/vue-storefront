@@ -915,29 +915,7 @@ If you want to use _GraphQL_ adapter for your search, you need to change the val
     "htmlMinifierOptions": {
 ```
 
-#### Secret 2. How to make a custom import using `magento2-vsbridge-indexer` 
 
-
-<br />
-<br />
-
-
-## 5. VSF Configuration pertaining to Elasticsearch
-There is a handful of configuration you can tweak in `local.json` in order to modify how _Vue Storefront_ behaves in conjunction with _Elasticsearch_. 
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-
-## 6. Peripheral Tools available for Elasticsearch
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
