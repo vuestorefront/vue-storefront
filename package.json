@@ -78,6 +78,7 @@
     "packages": [
       "packages/commercetools/*",
       "packages/boilerplate/*",
+      "packages/core/cli",
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*"
