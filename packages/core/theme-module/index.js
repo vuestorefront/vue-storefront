@@ -18,10 +18,10 @@ const log = {
 module.exports = async function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
 
-  const baseThemeDir = path.join(__dirname, 'theme');
+  const agnosticThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
 
-  const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
+  const agnosticThemeFiles = getAllFilesFromDir(agnosticThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
   const compileAgnosticTemplate = (filePath) => {
     return compileTemplate(
@@ -39,13 +39,10 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   const themeDirectoriesPaths = getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test'])
     .map(directory => path.join(this.options.rootDir, directory));
 
-  const copyThemeDirectoriesPromises = themeDirectoriesPaths
-    .map(absolutePath => copyThemeFiles(absolutePath));
+  await Promise.all(agnosticThemeFiles.map(path => compileAgnosticTemplate(path)));
+  await Promise.all(themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath)));
 
-  await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
-  await Promise.all(copyThemeDirectoriesPromises);
-
-  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
+  log.success(`Added ${agnosticThemeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
   this.options.dir = {
     ...this.options.dir,
@@ -126,8 +123,8 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   if (global.coreDev) {
     log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
 
-    chokidar.watch(baseThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
-      const overwriteFilePath = baseFilePath.replace(baseThemeDir, this.options.rootDir);
+    chokidar.watch(agnosticThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
+      const overwriteFilePath = baseFilePath.replace(agnosticThemeDir, this.options.rootDir);
 
       if (event === 'add' || event === 'change') {
         if (!fs.existsSync(overwriteFilePath)) {
@@ -135,7 +132,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
         }
       } else if (event === 'unlink') {
         if (!fs.existsSync(overwriteFilePath)) {
-          fs.unlinkSync(baseFilePath.replace(baseThemeDir, projectLocalThemeDir));
+          fs.unlinkSync(baseFilePath.replace(agnosticThemeDir, projectLocalThemeDir));
         }
       }
     });
@@ -143,7 +140,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
     chokidar.watch(themeDirectoriesPaths, { ignoreInitial: true })
       .on('all', (event, filePath) => {
         if (event === 'unlink') {
-          const baseFilePath = filePath.replace(this.options.rootDir, baseThemeDir);
+          const baseFilePath = filePath.replace(this.options.rootDir, agnosticThemeDir);
           if (fs.existsSync(baseFilePath)) {
             compileAgnosticTemplate(baseFilePath.replace(__dirname, ''));
           } else {
