@@ -27,7 +27,6 @@ const copyThemeFiles = (filesDir: string | Array<string>, targetPath: string, ch
 };
 
 const removeDevMagicComment = (source: string): string => source.replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '');
-const removeCoreDevelopmentMode = (source: string): string => source.replace(/coreDevelopment:(\s)*?true[,]?/, '');
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
   const integrationThemePath = `../../node_modules/@vue-storefront/${integration}-theme`;
@@ -69,9 +68,7 @@ async function createProject(integration: string, targetPath: string): Promise<v
   const nuxtConfig = fs.readFileSync(nuxtConfigPath, { encoding: 'utf8' });
   fs.writeFileSync(
     nuxtConfigPath,
-    removeCoreDevelopmentMode(
-      removeDevMagicComment(nuxtConfig)
-    )
+    removeDevMagicComment(nuxtConfig)
   );
 }
 
