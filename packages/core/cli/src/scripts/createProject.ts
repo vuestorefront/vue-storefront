@@ -14,25 +14,20 @@ const log = {
   error: (message) => consola.error(chalk.bold('VSF'), message)
 };
 
-function copyThemeFile(file, targetPath, chopPhrase, ifNotExist = false) {
-  const finalPath = targetPath + (file.replace(chopPhrase, ''));
-  if (ifNotExist) {
-    if (fs.existsSync(finalPath)) {
-      return;
-    }
-  }
-  return copyFile(file, finalPath);
-}
+const buildFileTargetPath = (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, ''));
 
-function copyThemeFiles(filesDir, targetPath, chopPhrase, ifNotExist = false) {
+const copyThemeFiles = (filesDir: string | Array<string>, targetPath: string, chopPhrase: string) => {
   if (fs.statSync(filesDir).isDirectory()) {
-    return Promise.all(getAllFilesFromDir(filesDir).map(
-      file => copyThemeFile(file, targetPath, chopPhrase, ifNotExist)
+    return Promise.all(getAllFilesFromDir(filesDir as Array<string>).map(
+      file => copyFile(file, buildFileTargetPath(file, targetPath, chopPhrase))
     ));
   } else {
-    return copyThemeFile(filesDir, targetPath, chopPhrase, ifNotExist);
+    return copyFile(filesDir, buildFileTargetPath(filesDir as string, targetPath, chopPhrase));
   }
-}
+};
+
+const removeDevMagicComment = (source: string): string => source.replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '');
+const removeCoreDevelopmentMode = (source: string): string => source.replace(/coreDevelopment:(\s)*?true[,]?/, '');
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
   const integrationThemePath = `../../node_modules/@vue-storefront/${integration}-theme`;
@@ -43,41 +38,42 @@ async function createProject(integration: string, targetPath: string): Promise<v
     .map(directory => path.join(integrationThemePath, directory));
 
   log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await Promise.all(integrationThemeFiles.map(absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, integrationThemePath)));
+  await Promise.all(
+    integrationThemeFiles.map(
+      absoluteDirectoryPath => copyThemeFiles(absoluteDirectoryPath, absoluteTargetPath, integrationThemePath)
+    )
+  );
 
   const agnosticThemePath = '../../node_modules/@vue-storefront/nuxt-theme/theme';
-  const agnosticThemeCompilableFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
+  const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
-  const compileAgnosticTemplate = (filePath, targetPath, chopPhrase, ifNotExist = false) => {
-    const finalPath = targetPath + (filePath.replace(chopPhrase, ''));
-    if (ifNotExist) {
-      if (fs.existsSync(finalPath)) {
-        return;
-      }
+  const compileAgnosticTemplate = (filePath: string, targetPath: string, chopPhrase: string) => {
+    const finalPath = buildFileTargetPath(filePath, targetPath, chopPhrase);
+    if (fs.existsSync(finalPath)) {
+      return;
     }
     return compileTemplate(
       path.join(__dirname, filePath),
       finalPath,
       {
         apiClient: `@vue-storefront/${integration}-api`,
-        // helpers: moduleOptions.helpers,
         composables: `@vue-storefront/${integration}`
       });
   };
 
   log.info(`Coppying agnostic theme to ${targetPath}`);
-  await Promise.all(agnosticThemeCompilableFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath, true)));
+  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath)));
 
   log.info('Updating Nuxt config');
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   const nuxtConfig = fs.readFileSync(nuxtConfigPath, { encoding: 'utf8' });
   fs.writeFileSync(
     nuxtConfigPath,
-    nuxtConfig
-      .replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '')
-      .replace(/coreDevelopment:(\s)*?true[,]?/, '')
+    removeCoreDevelopmentMode(
+      removeDevMagicComment(nuxtConfig)
+    )
   );
 }
 
 module.exports = createProject;
-createProject('boilerplate', 'testbuild3');
+createProject('commercetools', 'testbuild4');
