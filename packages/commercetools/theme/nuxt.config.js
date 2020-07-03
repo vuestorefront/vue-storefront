@@ -36,7 +36,9 @@ export default {
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
+      // @core-development-only-start
       coreDevelopment: true,
+      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
