@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **IMPORTANT** for security reasons we added new config `users.allowModification`.
   This can help to dissallow modifying fields that shouldn't be changed by user.
+- Add helmet - enabled by default, you can pass configuration by adding `config.server.helmet.config`.
+  More info about helmet configuration https://helmetjs.github.io/docs/
 
 ### Changed / Improved
 
