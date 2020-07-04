@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **IMPORTANT** for security reasons we added new config `users.allowModification`.
+  This can help to dissallow modifying fields that shouldn't be changed by user.
+
 ### Changed / Improved
 
 ## [1.12.1] - 2020.06.22
