@@ -1,4 +1,6 @@
 import toString from 'lodash-es/toString'
+import pick from 'lodash-es/pick'
+import config from 'config'
 const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
@@ -86,7 +88,7 @@ export const UserAccount = {
         !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
         (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        updatedProfile = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), [...config.users.allowModification, 'default_billing'])
         updatedProfile.firstname = this.currentUser.firstname
         updatedProfile.lastname = this.currentUser.lastname
         updatedProfile.email = this.currentUser.email
