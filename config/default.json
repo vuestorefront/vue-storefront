@@ -66,6 +66,9 @@
     "trace": {
       "enabled": false,
       "config": {}
+    },
+    "helmet": {
+      "enabled": true
     }
   },
   "initialResources": [
