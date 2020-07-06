@@ -5,7 +5,7 @@
   "main": "src/scripts/createProject.ts",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env APP_ENV=test jest --rootDir ."
   },
   "dependencies": {
     "@vue-storefront/commercetools-theme": "^0.0.3",
