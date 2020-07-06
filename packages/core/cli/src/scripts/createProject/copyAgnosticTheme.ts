@@ -1,5 +1,4 @@
-import getThemePath from '@vue-storefront/cli/src/scripts/createProject/getThemePath';
-import buildFileTargetPath from '@vue-storefront/cli/src/scripts/createProject/buildFileTargetPath';
+import { getThemePath, buildFileTargetPath } from '@vue-storefront/cli/src/utils/helpers';
 import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
 import compileTemplate from '@vue-storefront/nuxt-theme/scripts/compileTemplate';
 import * as path from 'path';
