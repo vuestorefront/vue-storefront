@@ -37,7 +37,7 @@ async function createProject(integration: string, targetPath: string): Promise<v
   const agnosticThemePath = getThemePath('nuxt-theme/theme');
   const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
-  const compileAgnosticTemplate = (filePath: string, targetPath: string, chopPhrase: string) => {
+  const compileAgnosticTemplate = (filePath: string, targetPath: string, chopPhrase: string): Promise<void> => {
     const finalPath = buildFileTargetPath(filePath, targetPath, chopPhrase);
     if (fs.existsSync(finalPath)) {
       return;
