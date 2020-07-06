@@ -1,6 +1,6 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-module.exports = async (absoluteFilePath: string): Promise<void> => {
+export default async (absoluteFilePath: string): Promise<void> => {
   const removeDevMagicComment = (source: string): string => source.replace(/\s+(\/\/ @core-development-only-start)(.*?)(\/\/ @core-development-only-end)/sg, '');
   const fileContent = fs.readFileSync(absoluteFilePath, { encoding: 'utf8' });
 

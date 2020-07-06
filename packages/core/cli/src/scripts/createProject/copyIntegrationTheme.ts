@@ -1,14 +1,14 @@
-const path = require('path');
-const getThemePath = require('@vue-storefront/cli/src/scripts/createProject/getThemePath');
-const buildFileTargetPath = require('@vue-storefront/cli/src/scripts/createProject/buildFileTargetPath');
-const fs = require('fs');
-const { copyFile } = require('@vue-storefront/nuxt-theme/scripts/copyThemeFiles');
-const getAllFilesFromDir = require('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js');
+import * as path from 'path';
+import getThemePath from '@vue-storefront/cli/src/scripts/createProject/getThemePath';
+import buildFileTargetPath from '@vue-storefront/cli/src/scripts/createProject/buildFileTargetPath';
+import * as fs from 'fs';
+import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
+import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
 
-module.exports = async (integration: string, targetPath: string, omitFiles: Array<string> = ['.theme', '.nuxt', 'node_modules']): Promise<void> => {
+export default async (integration: string, targetPath: string, omitFiles: Array<string> = ['.theme', '.nuxt', 'node_modules']): Promise<void> => {
   const copyThemeFiles = (filesDir: string | Array<string>, targetPath: string, chopPhrase: string) => {
-    if (fs.statSync(filesDir).isDirectory()) {
-      return Promise.all(getAllFilesFromDir(filesDir as Array<string>).map(
+    if (typeof filesDir === 'string' && fs.statSync(filesDir).isDirectory()) {
+      return Promise.all(getAllFilesFromDir(filesDir as string).map(
         file => copyFile(file, buildFileTargetPath(file, targetPath, chopPhrase))
       ));
     }

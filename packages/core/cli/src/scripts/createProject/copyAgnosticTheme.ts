@@ -1,11 +1,11 @@
-const getThemePath = require('@vue-storefront/cli/src/scripts/createProject/getThemePath');
-const buildFileTargetPath = require('@vue-storefront/cli/src/scripts/createProject/buildFileTargetPath');
-const getAllFilesFromDir = require('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js');
-const compileTemplate = require('@vue-storefront/nuxt-theme/scripts/compileTemplate');
-const path = require('path');
-const fs = require('fs');
+import getThemePath from '@vue-storefront/cli/src/scripts/createProject/getThemePath';
+import buildFileTargetPath from '@vue-storefront/cli/src/scripts/createProject/buildFileTargetPath';
+import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
+import compileTemplate from '@vue-storefront/nuxt-theme/scripts/compileTemplate';
+import * as path from 'path';
+import * as fs from 'fs';
 
-module.exports = async (integration: string, targetPath: string): Promise<void> => {
+export default async (integration: string, targetPath: string): Promise<void> => {
   const agnosticThemePath = getThemePath('nuxt-theme/theme');
   const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
   const absoluteTargetPath = path.join(__dirname, targetPath);

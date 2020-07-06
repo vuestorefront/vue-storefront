@@ -1,8 +1,8 @@
-const path = require('path');
-const log = require('@vue-storefront/cli/src/utils/log');
-const copyIntegrationTheme = require('@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme');
-const copyAgnosticTheme = require('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme');
-const removeMagicCommentsFromFile = require('@vue-storefront/cli/src/scripts/createProject/removeMagicCommentsFromFile');
+import * as path from 'path';
+import log from '../../utils/log';
+import copyIntegrationTheme from './copyIntegrationTheme';
+import copyAgnosticTheme from './copyAgnosticTheme';
+import removeMagicCommentsFromFile from './removeMagicCommentsFromFile';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
@@ -18,5 +18,5 @@ async function createProject(integration: string, targetPath: string): Promise<v
   await removeMagicCommentsFromFile(nuxtConfigPath);
 }
 
-module.exports = createProject;
+export default createProject;
 createProject('commercetools', 'testbuild4');

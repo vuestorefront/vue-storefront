@@ -1,1 +1,1 @@
-module.exports = (themeName: string): string => `../../../node_modules/@vue-storefront/${themeName}`;
+export default (themeName: string): string => `../../../node_modules/@vue-storefront/${themeName}`;
