@@ -35,8 +35,9 @@ const actions: ActionTree<CmsBlockState, RootState> = {
       })
 
       if (blockResponse.items.length > 0) {
-        commit(types.CMS_BLOCK_ADD_CMS_BLOCK, blockResponse.items[0])
-        return blockResponse.items[0]
+        const items = blockResponse.items.filter(item => item[key] === value)
+        commit(types.CMS_BLOCK_ADD_CMS_BLOCK, items)
+        return items
       }
     }
 
