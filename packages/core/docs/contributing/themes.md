@@ -10,27 +10,17 @@ Default theme is located in `packages/core/theme-module` folder and recognized a
 
 ## Configuration
 
-Run VSF CLI create project command with 2 arguments. The first is name of the integration, e.g. `commercetools`, `about-you` or just `boilerplate`. Latter is the target path where your project will be created.
+To inherit from the default theme in your integration theme you need to install private `@vue-storefront/nuxt-theme` package. from this repo.
 
-## How CLI create project works
+In `nuxt.config.js` of your integration theme set `apiClient/composables/helpers `options to be named as your integration packages. For example under composables you can put `@vue-storefront/comemrcetools-composables`. It will be used in lodash templates inside `@vue-storefront/nuxt-theme` as a replacement for variables (like here `import { useProduct, useCart } from '<%= options.composables %>` - `options.composables` is a palceholder for value passed to composables option in `nuxt.config.js`)
 
-Under the hood what this command does is:
-
-1. Copying integration theme to the target path
-2. Copying & compiling files from abstract theme to the target path without overriding files
-3. Removing parts marked by magic comments from nuxt.config.js
-
-## How module works
+## How it works
 
 Under the hood what this module does is:
 
 1. Compiling lodash templates from `@vue-storefront/nuxt-theme` to `.theme` folder of your integration.
 2. Aliasing components, layouts and pages to `.theme` folder
 3. Watching changes in ``@vue-storefront/nuxt-theme` package and rebuilding `theme` folder on each change.
-
-## Compiling process
-
-By compiling process we mean replacing template placeholders with value based on your integration. In the abstract theme we have parts like `import { useProduct, useCart } from '<%= options.composables %>` - options.composables is a placeholder for value passed to composables option in nuxt.config.js). This value will be autoconfigured by our CLI.
 
 ## Magic comments
 
