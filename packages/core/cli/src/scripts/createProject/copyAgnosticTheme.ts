@@ -1,5 +1,5 @@
 import { getThemePath, buildFileTargetPath } from '@vue-storefront/cli/src/utils/helpers';
-import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
+import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir';
 import compileTemplate from '@vue-storefront/nuxt-theme/scripts/compileTemplate';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -14,13 +14,15 @@ export default async (integration: string, targetPath: string): Promise<void> =>
     if (fs.existsSync(finalPath)) {
       return;
     }
+
     return compileTemplate(
       path.join(__dirname, filePath),
       finalPath,
       {
         apiClient: `@vue-storefront/${integration}-api`,
         composables: `@vue-storefront/${integration}`
-      });
+      }
+    );
   };
 
   await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath)));
