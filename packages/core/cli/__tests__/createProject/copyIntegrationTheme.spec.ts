@@ -1,8 +1,5 @@
 import copyIntegrationTheme from '../../src/scripts/createProject/copyIntegrationTheme';
 
-const path = require('path');
-const themePath = '/home/somepath';
-
 const themeFiles = {
   pages: [
     'pages/Home.vue'
@@ -25,16 +22,19 @@ const themeFiles = {
   'package.json': null
 };
 
+const integration = 'magento-2';
+const targetPath = '../../my-new-super-project/';
+
 const flatArray = (arr) => arr.reduce((flat, next) => flat.concat(Array.isArray(next) ? flatArray(next) : next), []);
 
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
-  getThemePath: () => themePath,
+  getThemePath: () => '',
   buildFileTargetPath: (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, ''))
 }));
 
 jest.mock('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir', () => (dir) => {
-  const correspondingKey = Object.keys(themeFiles).find(directory => dir.endsWith(`/${directory}`));
-  return correspondingKey ? themeFiles[correspondingKey].map(file => `${themePath}/${file}`) : [];
+  const correspondingKey = Object.keys(themeFiles).find(directory => dir.endsWith(directory));
+  return correspondingKey ? themeFiles[correspondingKey].map(file => file) : [];
 });
 
 jest.mock('fs', () => ({
@@ -45,6 +45,10 @@ jest.mock('fs', () => ({
   })
 }));
 
+jest.mock('path', () => ({
+  join: (a, b) => b
+}));
+
 const { copyFile } = require('@vue-storefront/nuxt-theme/scripts/copyThemeFiles');
 jest.mock('@vue-storefront/nuxt-theme/scripts/copyThemeFiles', () => ({
   copyFile: jest.fn()
@@ -52,27 +56,20 @@ jest.mock('@vue-storefront/nuxt-theme/scripts/copyThemeFiles', () => ({
 
 describe('[vsf-next-cli] copyIntegrationTheme', () => {
   it('copies files from integration theme', async () => {
-
-    const integration = 'magento-2';
-    const targetPath = '../../my-new-super-project';
+    // jest.clearAllMocks();
 
     await copyIntegrationTheme(integration, targetPath);
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
     const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
     for (const file of [...filesInDirs, ...filesInRoot]) {
-      expect(copyFile).toHaveBeenCalledWith(
-        path.join(themePath, file),
-        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
-      );
+      expect(copyFile).toHaveBeenCalledWith(file, targetPath);
     }
   });
 
   it('omits not wanted directories from root of integration theme', async () => {
 
-    jest.clearAllMocks();
+    // jest.clearAllMocks();
 
-    const integration = 'magento-2';
-    const targetPath = '../../my-new-super-project';
     const omitFiles = ['pages', 'package.json'];
     await copyIntegrationTheme(integration, targetPath, omitFiles);
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(themeFile => Boolean(themeFile));
@@ -84,16 +81,10 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
     const ommitedFiles = allFiles.filter(themeFile => omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
 
     for (const file of filteredFilesInDirs) {
-      expect(copyFile).toHaveBeenCalledWith(
-        path.join(themePath, file),
-        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
-      );
+      expect(copyFile).toHaveBeenCalledWith(file, targetPath);
     }
     for (const file of ommitedFiles) {
-      expect(copyFile).not.toHaveBeenCalledWith(
-        path.join(themePath, file),
-        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
-      );
+      expect(copyFile).not.toHaveBeenCalledWith(file, targetPath);
     }
   });
 });

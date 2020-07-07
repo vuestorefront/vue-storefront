@@ -1,6 +1,6 @@
-import * as path from 'path';
+import path from 'path';
 import { getThemePath, buildFileTargetPath } from '@vue-storefront/cli/src/utils/helpers';
-import * as fs from 'fs';
+import fs from 'fs';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
 
@@ -11,6 +11,7 @@ export default async (integration: string, targetPath: string, omitFiles: Array<
         file => copyFile(file, buildFileTargetPath(file, targetPath, chopPhrase))
       ));
     }
+
     return copyFile(filesDir, buildFileTargetPath(filesDir, targetPath, chopPhrase));
   };
 

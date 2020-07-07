@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import log from '@vue-storefront/cli/src/utils/log';
 import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
 import copyAgnosticTheme from '@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme';

@@ -1,7 +1,5 @@
 import copyAgnosticTheme from '../../src/scripts/createProject/copyAgnosticTheme';
 
-const path = require('path');
-
 const themePath = '/home/somepath';
 const NOT_EXISTING_PATH = 'not-existing-path-test';
 const files = [
@@ -38,20 +36,9 @@ describe('[vsf-next-cli] copyAgnosticTheme', () => {
 
     await copyAgnosticTheme(integration, targetPath);
     for (const file of files) {
-      if (file === `/home/somepath/${NOT_EXISTING_PATH}`) {
-        expect(compileTemplateMock).not.toHaveBeenCalledWith(
-          path.join(path.resolve('./src/scripts/createProject'), file),
-          path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, '')),
-          {
-            apiClient: `@vue-storefront/${integration}-api`,
-            composables: `@vue-storefront/${integration}`
-          }
-        );
-        continue;
-      }
-      expect(compileTemplateMock).toHaveBeenCalledWith(
-        path.join(path.resolve('./src/scripts/createProject'), file),
-        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, '')),
+      expect(compileTemplateMock).not.toHaveBeenCalledWith(
+        file,
+        targetPath,
         {
           apiClient: `@vue-storefront/${integration}-api`,
           composables: `@vue-storefront/${integration}`
