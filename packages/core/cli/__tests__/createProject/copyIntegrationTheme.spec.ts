@@ -25,7 +25,7 @@ const themeFiles = {
   'package.json': null
 };
 
-const flatArray = arr => arr.reduce((flat, toFlatten) => flat.concat(Array.isArray(toFlatten) ? flatArray(toFlatten) : toFlatten));
+const flatArray = (arr) => arr.reduce((flat, next) => flat.concat(Array.isArray(next) ? flatArray(next) : next), []);
 
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
   getThemePath: () => themePath,
@@ -58,8 +58,39 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
 
     await copyIntegrationTheme(integration, targetPath, []);
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
-    for (const file of filesInDirs) {
+    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
+    for (const file of [...filesInDirs, ...filesInRoot]) {
       expect(copyFile).toHaveBeenCalledWith(
+        path.join(themePath, file),
+        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
+      );
+    }
+  });
+
+  it('omits not wanted directories from root of integration theme', async () => {
+
+    jest.clearAllMocks();
+
+    const integration = 'magento-2';
+    const targetPath = '../../my-new-super-project';
+    const omitFiles = ['pages', 'package.json'];
+    await copyIntegrationTheme(integration, targetPath, omitFiles);
+    const filesInDirs = flatArray(Object.values(themeFiles)).filter(themeFile => Boolean(themeFile));
+    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
+
+    const allFiles = [...filesInDirs, ...filesInRoot];
+
+    const filteredFilesInDirs = allFiles.filter(themeFile => !omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
+    const ommitedFiles = allFiles.filter(themeFile => omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
+
+    for (const file of filteredFilesInDirs) {
+      expect(copyFile).toHaveBeenCalledWith(
+        path.join(themePath, file),
+        path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
+      );
+    }
+    for (const file of ommitedFiles) {
+      expect(copyFile).not.toHaveBeenCalledWith(
         path.join(themePath, file),
         path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, ''))
       );
