@@ -7,7 +7,6 @@ import * as fs from 'fs';
 export default async (integration: string, targetPath: string): Promise<void> => {
   const agnosticThemePath = getThemePath('nuxt-theme/theme');
   const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath).filter(file => !file.includes(path.sep + 'static' + path.sep));
-  const absoluteTargetPath = path.join(__dirname, targetPath);
 
   const compileAgnosticTemplate = (filePath: string, targetPath: string, chopPhrase: string): Promise<void> => {
     const finalPath = buildFileTargetPath(filePath, targetPath, chopPhrase);
@@ -25,5 +24,5 @@ export default async (integration: string, targetPath: string): Promise<void> =>
     );
   };
 
-  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, absoluteTargetPath, agnosticThemePath)));
+  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, path.join(__dirname, targetPath), agnosticThemePath)));
 };
