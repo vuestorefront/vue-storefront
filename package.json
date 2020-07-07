@@ -31,6 +31,7 @@
     "test:prismic": "cd packages/prismic && yarn test",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
     "test:e2e":"./node_modules/.bin/cypress open",
+    "test:cli": "cd packages/core/cli && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "dev:ayc:api-client": "cd packages/about-you/api-client && yarn dev",

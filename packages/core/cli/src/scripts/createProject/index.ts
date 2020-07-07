@@ -1,8 +1,8 @@
 import * as path from 'path';
-import log from '../../utils/log';
-import copyIntegrationTheme from './copyIntegrationTheme';
-import copyAgnosticTheme from './copyAgnosticTheme';
-import removeMagicCommentsFromFile from './removeMagicCommentsFromFile';
+import log from '@vue-storefront/cli/src/utils/log';
+import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
+import copyAgnosticTheme from '@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme';
+import removeMagicCommentsFromFile from '@vue-storefront/cli/src/scripts/createProject/removeMagicCommentsFromFile';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
@@ -19,4 +19,3 @@ async function createProject(integration: string, targetPath: string): Promise<v
 }
 
 export default createProject;
-createProject('commercetools', 'testbuild4');

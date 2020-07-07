@@ -3,6 +3,7 @@ import copyAgnosticTheme from '../../src/scripts/createProject/copyAgnosticTheme
 const path = require('path');
 
 const themePath = '/home/somepath';
+const NOT_EXISTING_PATH = 'not-existing-path-test';
 const files = [
   '/home/somepath/nuxt.config.js',
   '/home/somepath/package.json',
@@ -11,7 +12,8 @@ const files = [
   '/home/somepath/assets',
   '/home/somepath/helpers',
   '/home/somepath/plugins',
-  '/home/somepath/middleware'
+  '/home/somepath/middleware',
+  `/home/somepath/${NOT_EXISTING_PATH}`
 ];
 
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
@@ -25,7 +27,7 @@ const compileTemplateMock = require('@vue-storefront/nuxt-theme/scripts/compileT
 jest.mock('@vue-storefront/nuxt-theme/scripts/compileTemplate', () => jest.fn());
 
 jest.mock('fs', () => ({
-  existsSync: () => false
+  existsSync: (finalPath) => finalPath.endsWith(NOT_EXISTING_PATH)
 }));
 
 describe('[vsf-next-cli] copyAgnosticTheme', () => {
@@ -36,6 +38,17 @@ describe('[vsf-next-cli] copyAgnosticTheme', () => {
 
     await copyAgnosticTheme(integration, targetPath);
     for (const file of files) {
+      if (file === `/home/somepath/${NOT_EXISTING_PATH}`) {
+        expect(compileTemplateMock).not.toHaveBeenCalledWith(
+          path.join(path.resolve('./src/scripts/createProject'), file),
+          path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, '')),
+          {
+            apiClient: `@vue-storefront/${integration}-api`,
+            composables: `@vue-storefront/${integration}`
+          }
+        );
+        continue;
+      }
       expect(compileTemplateMock).toHaveBeenCalledWith(
         path.join(path.resolve('./src/scripts/createProject'), file),
         path.join(path.resolve('./src/scripts/createProject'), targetPath, file.replace(themePath, '')),

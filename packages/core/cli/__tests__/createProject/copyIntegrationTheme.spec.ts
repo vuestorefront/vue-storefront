@@ -56,7 +56,7 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
     const integration = 'magento-2';
     const targetPath = '../../my-new-super-project';
 
-    await copyIntegrationTheme(integration, targetPath, []);
+    await copyIntegrationTheme(integration, targetPath);
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
     const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
     for (const file of [...filesInDirs, ...filesInRoot]) {

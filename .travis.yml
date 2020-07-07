@@ -23,6 +23,7 @@ cache:
     - packages/core/core/lib
     - packages/prismic/node_modules
     - packages/prismic/lib
+    - packages/core/cli
 
 env:
   global:
@@ -89,6 +90,12 @@ jobs:
       name: Test Prismic
       after_script:
         - cat ./packages/prismic/coverage/lcov.info | coveralls
+
+    - stage: unit tests
+      script: yarn test:cli --coverage
+      name: Test CLI
+      after_script:
+        - cat ./packages/core/cli/coverage/lcov.info | coveralls
 
     # - stage: lighthouse
     #   name: commercetools

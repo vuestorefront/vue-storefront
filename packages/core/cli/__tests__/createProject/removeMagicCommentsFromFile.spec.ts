@@ -105,7 +105,7 @@ jest.mock('fs', () => ({
 import { writeFileSync } from 'fs';
 
 describe('[vsf-next-cli] removeMagicCommentsFromFile', () => {
-  it('removes magic comments from the file', async () => {
+  it('removes magic comments from the file', () => {
 
     const absoluteFilePath = 'nuxt.config.js';
 

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import consola from 'consola';
 import chalk from 'chalk';
 

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';
 
-export default async (integration: string, targetPath: string, omitFiles: Array<string> = ['.theme', '.nuxt', 'node_modules']): Promise<void> => {
+export default async (integration: string, targetPath: string, omitFiles: Array<string> = []): Promise<void> => {
   const copyThemeFiles = (filesDir: string, targetPath: string, chopPhrase: string) => {
     if (fs.statSync(filesDir).isDirectory()) {
       return Promise.all(getAllFilesFromDir(filesDir).map(

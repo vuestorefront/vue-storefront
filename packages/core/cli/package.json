@@ -2,7 +2,7 @@
   "name": "@vue-storefront/cli",
   "version": "2.0.0",
   "description": "",
-  "main": "src/scripts/createProject.ts",
+  "main": "src/scripts/createProject/index.ts",
   "private": true,
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir ."
