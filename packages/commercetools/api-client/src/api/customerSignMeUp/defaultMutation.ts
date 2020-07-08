@@ -5,7 +5,7 @@ export default gql`
   ${CustomerFragment}
   ${CartFragment}
 
-  mutation customerSignMeUp($draft: CustomerSignMeUpDraft!, $locale: Locale!, $storeKey: KeyReferenceInput) {
+  mutation customerSignMeUp($draft: CustomerSignMeUpDraft!, $locale: Locale!, $acceptLanguage: [Locale!], $storeKey: KeyReferenceInput) {
     user: customerSignMeUp(draft: $draft, storeKey: $storeKey) {
       customer {
         ...DefaultCustomer

@@ -118,7 +118,7 @@ function getCategory (params: GetCategoryParams): GetCategory {
   return products
 }
 
-export default getCategory || settings.overrides.getCategory
+export default settings.overrides.getCategory || getCategory
 
 ```
 Okay. So what happened here?

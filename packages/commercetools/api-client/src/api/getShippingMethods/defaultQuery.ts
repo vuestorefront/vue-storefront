@@ -4,11 +4,9 @@ import { ShippingMethodFragment } from '../../fragments';
 export default gql`
   ${ShippingMethodFragment}
 
-  query shippingMethods {
-    shippingMethods {
-      results {
-        ...DefaultShippingMethod
-      }
+  query shippingMethods($acceptLanguage: [Locale!], $cartId: String!) {
+    shippingMethods: shippingMethodsByCart(id: $cartId) {
+      ...DefaultShippingMethod
     }
   }
 `;

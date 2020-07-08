@@ -3,15 +3,15 @@ import gql from 'graphql-tag';
 export default gql`
   fragment Children on Category {
     id
-    slug(locale: $locale)
-    name(locale: $locale)
+    slug(acceptLanguage: $acceptLanguage)
+    name(acceptLanguage: $acceptLanguage)
     childCount
   }
 
   fragment DefaultCategory on Category {
     id
-    slug(locale: $locale)
-    name(locale: $locale)
+    slug(acceptLanguage: $acceptLanguage)
+    name(acceptLanguage: $acceptLanguage)
     childCount
     children {
       ...Children
@@ -24,16 +24,16 @@ export default gql`
     }
   }
 
-  query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $locale: Locale) {
+  query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $acceptLanguage: [Locale!]) {
     categories(where: $where, sort: $sort, limit: $limit, offset: $offset) {
       offset
       count
       total
       results {
         id
-        slug(locale: $locale)
-        name(locale: $locale)
-        description(locale: $locale)
+        slug(acceptLanguage: $acceptLanguage)
+        name(acceptLanguage: $acceptLanguage)
+        description(acceptLanguage: $acceptLanguage)
         childCount
         parent {
           ...DefaultCategory

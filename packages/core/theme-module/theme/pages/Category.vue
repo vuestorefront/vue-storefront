@@ -47,7 +47,7 @@
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
           <SfSelect  v-model="sortBy" data-cy="category-select_sortBy">
             <SfSelectOption
-              v-for="option in sortByOptions"
+              v-for="option in availableSortingOptions"
               :key="option.value"
               :value="option.value"
               class="sort__option"
@@ -111,24 +111,22 @@
               :key="i"
               :header="cat.label"
             >
-              <template>
-                <SfList class="list">
-                  <SfListItem class="list__item">
-                    <SfMenuItem :label="cat.label">
-                      <template #label>
-                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                    <SfMenuItem :label="subCat.label">
-                      <template #label="{ label }">
-                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </template>
+              <SfList class="list">
+                <SfListItem class="list__item">
+                  <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
+                    <template #label>
+                      <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                    </template>
+                  </SfMenuItem>
+                </SfListItem>
+                <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
+                  <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
+                    <template #label="{ label }">
+                      <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                    </template>
+                  </SfMenuItem>
+                </SfListItem>
+              </SfList>
             </SfAccordionItem>
           </SfAccordion>
         </SfLoader>
@@ -154,7 +152,9 @@
             :score-rating="3"
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
+            :isAddedToCart="isOnCart(product)"
             @click:wishlist="toggleWishlist(i)"
+            @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
@@ -189,7 +189,6 @@
           v-show="totalPages > 1"
           class="products__pagination"
           :current="currentPage"
-          @click="goToPage"
           :total="totalPages"
           :visible="5"
         />
@@ -217,150 +216,50 @@
       title="Filters"
       @close="isFilterSidebarOpen = false"
     >
-      <div class="filters desktop-only">
-        <SfHeading
-          :level="4"
-          title="Collection"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.collection"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-        <SfHeading
-          :level="4"
-          title="Color"
-          class="filters__title sf-heading--left"
-        />
-        <div class="filters__colors">
-          <SfColor
-            data-cy="category-color_change"
-            v-for="filter in filters.color"
-            :key="filter.value"
-            :color="filter.color"
-            :selected="filter.selected"
-            class="filters__color"
-            @click="filter.selected = !filter.selected"
-          />
-        </div>
-        <SfHeading
-          :level="4"
-          title="Size"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.size"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-        <SfHeading
-          :level="4"
-          title="Price"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.price"
-          :key="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-       <SfHeading
-          :level="4"
-          title="Material"
-          class="filters__title sf-heading--left"
-        />
-        <SfFilter
-          v-for="filter in filters.material"
-          :key="filter.value"
-          :value="filter.value"
-          :label="filter.label"
-          :selected="filter.selected"
-          class="filters__item"
-          @change="filter.selected = !filter.selected"
-        />
-
-        <div class="filters__buttons">
-          <SfButton data-cy="category-btn_done"
-            @click="isFilterSidebarOpen = false"
-            class="sf-button--full-width"
-            >Done</SfButton
+      <Filters
+        :filters="filters"
+        @click:apply-filters="applyFilters"
+      >
+        <template #categories-mobile>
+          <SfAccordionItem
+            header="Category"
+            class="filters__accordion-item"
           >
-          <SfButton data-cy="category-btn_clear-all"
-            @click="clearAllFilters"
-            class="sf-button--full-width filters__button-clear"
-            >Clear all</SfButton
-          >
-        </div>
-      </div>
-       <SfAccordion class="filters mobile-only">
-        <SfAccordionItem header="Collection" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.collection"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Color" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.color"
-            :key="filter.value"
-            :label="filter.label"
-            :color="filter.color"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Size" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.size"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Price" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.price"
-            :key="filter.value"
-            :label="filter.label"
-            :count="filter.count"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-        <SfAccordionItem header="Material" class="filters__accordion-item">
-          <SfFilter
-            v-for="filter in filters.material"
-            :key="filter.value"
-            :value="filter.value"
-            :label="filter.label"
-            :selected="filter.selected"
-            class="filters__item"
-            @change="filter.selected = !filter.selected"
-          />
-        </SfAccordionItem>
-      </SfAccordion>
+            <SfAccordion class="categories mobile-only">
+              <SfAccordionItem
+                v-for="cat in categoryTree && categoryTree.items"
+                :key="`category-${cat.slug}`"
+                :header="cat.label"
+              >
+                <SfList class="list">
+                  <SfListItem class="list__item">
+                    <SfMenuItem
+                      :data-cy="`category-link_subcategory_${cat.slug}`"
+                      :label="cat.label"
+                      icon=""
+                    >
+                      <template #label>
+                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
+                    <SfMenuItem
+                      :data-cy="`category-link_subcategory_${subCat.slug}`"
+                      :label="subCat.label"
+                      icon=""
+                    >
+                      <template #label="{ label }">
+                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </SfAccordionItem>
+            </SfAccordion>
+          </SfAccordionItem>
+        </template>
+      </Filters>
     </SfSidebar>
   </div>
 </template>
@@ -383,119 +282,91 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@vue/composition-api';
-import { useCategory, useProduct, productGetters, categoryGetters } from '<%= options.composables %>';
+import { computed, ref, watch, onMounted } from '@vue/composition-api';
+import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
+import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
+import Filters from '../components/Filters';
 
 const perPageOptions = [20, 40, 100];
 
-const sortByOptions = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'price-up', label: 'Price from low to high' },
-  { value: 'price-down', label: 'Price from high to low' }
-];
-
-// TODO: to be implemented in https://github.com/DivanteLtd/next/issues/200
-const filters = {
-  collection: [
-    { label: 'Summer fly', value: 'summer-fly', count: '10', selected: false },
-    { label: 'Best 2018', value: 'best-2018', count: '23', selected: false },
-    { label: 'Your choice', value: 'your-choice', count: '54', selected: false }
-  ],
-  color: [
-    { label: 'Red', value: 'red', color: '#990611', selected: false },
-    { label: 'Black', value: 'black', color: '#000000', selected: false },
-    { label: 'Yellow', value: 'yellow', color: '#DCA742', selected: false },
-    { label: 'Blue', value: 'blue', color: '#004F97', selected: false },
-    { label: 'Navy', value: 'navy', color: '#656466', selected: false }
-  ],
-  size: [
-    { label: 'Size 2 (XXS)', value: 'xxs', count: '10', selected: false },
-    { label: 'Size 4-6 (XS)', value: 'xs', count: '23', selected: false },
-    { label: 'Size 8-10 (S)', value: 's', count: '54', selected: false },
-    { label: 'Size 12-14 (M)', value: 'm', count: '109', selected: false },
-    { label: 'Size 16-18 (L)', value: 'l', count: '23', selected: false },
-    { label: 'Size 20-22(XL)', value: 'xl', count: '12', selected: false },
-    { label: 'Size 24-26 (XXL)', value: 'xxl', count: '2', selected: false }
-  ],
-  price: [
-    { label: 'Under $200', value: 'under-200', count: '23', selected: false },
-    { label: 'Under $300', value: 'under-300', count: '54', selected: false }
-  ],
-  material: [
-    { label: 'Cotton', value: 'coton', count: '33', selected: false },
-    { label: 'Silk', value: 'silk', count: '73', selected: false }
-  ]
-};
-
 // TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
-const breadcrumbs = [
+const fallbackBreadcrumbs = [
   { text: 'Home', route: { link: '#' } },
   { text: 'Women', route: { link: '#' } }
 ];
-
-function updateFilter() {}
-
-function clearAllFilters() {
-  const filtersNames = Object.keys(filters);
-  filtersNames.forEach((name) => {
-    filters[name].forEach((value) => {
-      value.selected = false;
-    });
-  });
-}
 
 export default {
   transition: 'fade',
   setup(props, context) {
     const { query } = context.root.$route;
+    onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
 
     const { categories, search, loading } = useCategory('categories');
-    const { products: categoryProducts, totalProducts, search: productsSearch, loading: productsLoading } = useProduct('categoryProducts');
+    const {
+      products: categoryProducts,
+      totalProducts,
+      search: productsSearch,
+      loading: productsLoading,
+      availableFilters,
+      availableSortingOptions
+    } = useProduct('categoryProducts');
+    const { loadCart, addToCart, isOnCart } = useCart();
+    const { addToWishlist } = useWishlist();
+
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
+    const sortBy = ref(query.sort || (availableSortingOptions?.value && availableSortingOptions?.value[0] ? availableSortingOptions.value[0]?.value : null));
+    const filters = ref(null);
+
+    const productsSearchParams = computed(() => ({
+      catId: (categories.value[0] || {}).id,
+      page: currentPage.value,
+      perPage: itemsPerPage.value,
+      filters: filters.value,
+      sort: sortBy.value
+    }));
 
     onSSR(async () => {
       await search(getCategorySearchParameters(context));
-      await productsSearch({
-        catId: (categories.value[0] || {}).id,
-        page: currentPage.value,
-        perPage: itemsPerPage.value
-      });
+      await productsSearch(productsSearchParams.value);
+      filters.value = getFiltersFromUrl(context, availableFilters.value);
+      await productsSearch(productsSearchParams.value);
+      await loadCart();
     });
 
-    watch([currentPage, itemsPerPage], () => {
+    watch([itemsPerPage, sortBy, filters], () => {
       if (categories.value.length) {
-        productsSearch({
-          catId: categories.value[0].id,
-          page: currentPage.value,
-          perPage: itemsPerPage.value
-        });
+        productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
-          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
-          page: currentPage.value !== 1 ? currentPage.value : undefined
+          ...context.root.$route.query,
+          ...getFiltersForUrl(filters.value),
+          sort: sortBy.value,
+          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
         }});
       }
-    });
+    }, { deep: true });
 
     const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true }));
     const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
 
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
-    const sortBy = ref('price-up');
     const isGridView = ref(true);
     const isFilterSidebarOpen = ref(false);
 
     function toggleWishlist(index) {
-      products.value[index].isOnWishlist = !this.products.value[index].isOnWishlist;
+      addToWishlist(products.value[index]);
     }
 
-    const goToPage = (pageNumber) => {
-      currentPage.value = pageNumber;
-      context.root.$scrollTo(context.root.$el, 2000);
+    const applyFilters = (updatedFilters) => {
+      filters.value = updatedFilters;
+      productsSearch(productsSearchParams.value);
+      isFilterSidebarOpen.value = false;
     };
+
+    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs ? categoryGetters.getBreadcrumbs(categories.value[0]) : fallbackBreadcrumbs);
 
     return {
       products,
@@ -512,14 +383,14 @@ export default {
       perPageOptions: computed(() => perPageOptions),
       sortBy,
       isFilterSidebarOpen,
-      sortByOptions: computed(() => sortByOptions),
-      filters: ref(filters),
-      breadcrumbs: computed(() => breadcrumbs),
-      updateFilter,
-      clearAllFilters,
+      availableSortingOptions,
+      filters,
+      breadcrumbs,
+      applyFilters,
       toggleWishlist,
-      isGridView,
-      goToPage
+      addToCart,
+      isOnCart,
+      isGridView
     };
   },
   components: {
@@ -537,7 +408,8 @@ export default {
     SfBreadcrumbs,
     SfLoader,
     SfColor,
-    SfHeading
+    SfHeading,
+    Filters
   }
 };
 </script>
@@ -780,6 +652,12 @@ export default {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
     margin: var(--spacer-xs) 0 0 0;
+  }
+  .categories {
+    padding-left: var(--spacer-sm);
+    .sf-accordion-item__content {
+      padding-left: var(--spacer-sm);
+    }
   }
 }
 </style>

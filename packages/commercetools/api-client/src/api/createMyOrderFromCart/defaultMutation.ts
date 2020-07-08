@@ -4,7 +4,7 @@ import { OrderFragment } from '../../fragments';
 export default gql`
   ${OrderFragment}
 
-  mutation createMyOrderFromCart($draft: OrderMyCartCommand!, $locale: Locale!, $storeKey: KeyReferenceInput) {
+  mutation createMyOrderFromCart($draft: OrderMyCartCommand!, $locale: Locale!, $acceptLanguage: [Locale!], $storeKey: KeyReferenceInput) {
     order: createMyOrderFromCart(draft: $draft, storeKey: $storeKey) {
       ...DefaultOrder
     }

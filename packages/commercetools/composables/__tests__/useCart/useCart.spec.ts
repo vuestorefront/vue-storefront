@@ -1,4 +1,4 @@
-import useCart from './../../src/useCart';
+import { useCart } from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
 import {
   addToCart as apiAddToCart,
@@ -15,7 +15,9 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 }));
 
 jest.mock('@vue-storefront/core', () => ({
-  useCartFactory: (params) => () => params
+  useCartFactory: (params) => ({
+    useCart: () => params
+  })
 }));
 
 describe('[commercetools-composables] useCart', () => {

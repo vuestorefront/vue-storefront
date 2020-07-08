@@ -6,9 +6,10 @@ import {
   customerSignMeIn as apiCustomerSignMeIn,
   customerSignOut as apiCustomerSignOut,
   getMe as apiGetMe,
+  createCart,
   customerChangeMyPassword as apiCustomerChangeMyPassword
 } from '@vue-storefront/commercetools-api';
-import { cart as defaultCart } from '../useCart';
+import { setCart } from '../useCart';
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async () => {
@@ -16,7 +17,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
       const profile = await apiGetMe({ customer: true });
       return profile.data.me.customer;
     } catch (err) {
-      const error = err.graphQLErrors ? err.graphQLErrors[0].message : err;
+      const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
       if (error.includes('Resource Owner Password Credentials Grant')) {
         return null;
       }
@@ -25,6 +26,8 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   },
   logOut: async () => {
     await apiCustomerSignOut();
+    const cartResponse = await createCart();
+    setCart(cartResponse.data.cart);
   },
   updateUser: async ({currentUser, updatedUserData}): Promise<Customer> => {
     // Change code below if the apiClient receive userUpdate method
@@ -32,14 +35,14 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   },
   register: async ({email, password, firstName, lastName}) => {
     const { customer, cart } = await authenticate({email, password, firstName, lastName}, apiCustomerSignMeUp);
-    defaultCart.value = cart;
+    setCart(cart);
 
     return customer;
   },
   logIn: async ({ username, password }) => {
     const customerLogin = { email: username, password };
     const { customer, cart } = await authenticate(customerLogin, apiCustomerSignMeIn);
-    defaultCart.value = cart;
+    setCart(cart);
 
     return customer;
   },

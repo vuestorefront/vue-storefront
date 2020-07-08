@@ -22,6 +22,6 @@ Under the hood what this module does is:
 2. Aliasing components, layouts and pages to `.theme` folder
 3. Watching changes in ``@vue-storefront/nuxt-theme` package and rebuilding `theme` folder on each change.
 
-## TODO:
+## Magic comments
 
-- Allow overriding theme files
+To find code lines to remove easily - we use magic comments. We cut everything from `// @core-development-only-start` to `// @core-development-only-end`.

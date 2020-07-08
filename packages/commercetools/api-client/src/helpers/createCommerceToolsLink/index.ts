@@ -4,19 +4,13 @@ import { ApolloLink } from 'apollo-link';
 import fetch from 'isomorphic-fetch';
 import createAccessToken from './../createAccessToken';
 import { api, currentToken, auth } from './../../index';
-import { Token, CustomerCredentials } from '../../types/setup';
-
-const refreshToken = async (customerCredentials?: CustomerCredentials): Promise<Token> => {
-  const token = await createAccessToken({ currentToken, customerCredentials });
-  auth.onTokenChange(token);
-
-  return token;
-};
+import { onError } from 'apollo-link-error';
 
 const createCommerceToolsLink = (): ApolloLink => {
   const httpLink = createHttpLink({ uri: api.uri, fetch });
   const authLink = setContext(async (_, { headers }) => {
-    const token = await refreshToken();
+    const token = await createAccessToken({ currentToken });
+    auth.onTokenChange(token);
 
     return {
       headers: {
@@ -25,19 +19,24 @@ const createCommerceToolsLink = (): ApolloLink => {
       }
     };
   });
-  const customerLink = new ApolloLink((operation, forward) =>
-    forward(operation).map((response) => {
-      const { operationName, variables } = operation;
 
-      if (!response.errors && ['customerSignMeUp', 'customerSignMeIn'].includes(operationName)) {
-        const { email, password } = variables.draft;
-        refreshToken({ username: email, password });
-      }
+  const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message, locations, path }) => {
+        const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
 
-      return response;
-    }));
+        if (!message.includes('Resource Owner Password Credentials Grant')) {
+          console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+        }
+      });
+    }
 
-  return ApolloLink.from([authLink, customerLink, httpLink]);
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`);
+    }
+  });
+
+  return ApolloLink.from([onErrorLink, authLink, httpLink]);
 };
 
 export default createCommerceToolsLink;

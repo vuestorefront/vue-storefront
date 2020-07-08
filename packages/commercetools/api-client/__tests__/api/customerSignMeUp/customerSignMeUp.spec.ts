@@ -1,8 +1,10 @@
 import customerSignMeUp from '../../../src/api/customerSignMeUp';
-import { apolloClient } from '../../../src/index';
+import { apolloClient, auth } from '../../../src/index';
 import defaultMutation from '../../../src/api/customerSignMeUp/defaultMutation';
+import createAccessToken from '../../../src/helpers/createAccessToken';
 
 describe('[commercetools-api-client] customerSignMeUp', () => {
+
   it('creates user account', async () => {
     const givenVariables = {
       draft: {
@@ -11,6 +13,7 @@ describe('[commercetools-api-client] customerSignMeUp', () => {
         email: 'john@doe.com',
         password: 'xxxxx'
       },
+      acceptLanguage: ['en', 'de'],
       locale: 'en'
     };
 
@@ -23,6 +26,8 @@ describe('[commercetools-api-client] customerSignMeUp', () => {
 
     const { data } = await customerSignMeUp(givenVariables.draft);
 
+    expect(createAccessToken).toBeCalled();
+    expect(auth.onTokenChange).toBeCalled();
     expect(data).toBe('user response');
   });
 });

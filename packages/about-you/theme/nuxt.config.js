@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import localeConfig from './lang/config';
 
 export default {
   mode: 'universal',
@@ -30,27 +31,30 @@ export default {
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
+      // @core-development-only-start
       coreDevelopment: true,
+      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/about-you',
-          '@vue-storefront/core',
           '@vue-storefront/core'
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/about-you-api',
       composables: '@vue-storefront/about-you'
     }]
+    // @core-development-only-end
   ],
   modules: [
     'nuxt-i18n',
+    'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
   build: {
@@ -67,17 +71,5 @@ export default {
       })
     ]
   },
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-    lazy: true,
-    langDir: 'lang/',
-    vueI18n: {
-      fallbackLocale: 'en'
-    },
-    detectBrowserLanguage: {
-      cookieKey: 'vsf-lang',
-      alwaysRedirect: true
-    }
-  }
+  i18n: localeConfig
 };

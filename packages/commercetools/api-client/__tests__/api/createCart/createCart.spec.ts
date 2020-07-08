@@ -5,6 +5,7 @@ import defaultMutation from '../../../src/api/createCart/defaultMutation';
 describe('[commercetools-api-client] createCart', () => {
   it('creates a new cart with draft', async () => {
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       draft: {
         currency: 'USD',
@@ -38,6 +39,7 @@ describe('[commercetools-api-client] createCart', () => {
 
   it('creates a new cart without draft', async () => {
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       draft: {
         currency: 'USD'

@@ -30,7 +30,9 @@ export default {
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
+      // @core-development-only-start
       coreDevelopment: true,
+      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/boilerplate',
@@ -42,10 +44,12 @@ export default {
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/boilerplate-api',
       composables: '@vue-storefront/boilerplate'
     }]
+    // @core-development-only-end
   ],
   modules: [
     'nuxt-i18n',

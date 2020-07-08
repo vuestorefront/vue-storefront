@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const compileTemplate = require('./scripts/compileTemplate');
 const { copyThemeFile, copyThemeFiles } = require('./scripts/copyThemeFiles');
 const getAllFilesFromDir = require('./scripts/getAllFilesFromDir');
+const getAllSubDirs = require('./scripts/getAllSubDirs');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -17,17 +18,15 @@ const log = {
 module.exports = async function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
 
-  const baseThemeDir = path.join(__dirname, 'theme');
+  const agnosticThemeDir = path.join(__dirname, 'theme');
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
-  const themeComponentsDir = path.join(this.options.rootDir, 'pages');
-  const themePagesDir = path.join(this.options.rootDir, 'components');
-  const themeHelpersDir = path.join(this.options.rootDir, 'helpers');
-  const themeFiles = getAllFilesFromDir(baseThemeDir).filter(file => !file.includes('/static/'));
+
+  const agnosticThemeFiles = getAllFilesFromDir(agnosticThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
   const compileAgnosticTemplate = (filePath) => {
     return compileTemplate(
       path.join(__dirname, filePath),
-      this.options.buildDir.split('.nuxt').pop() + '.theme/' + filePath.split('theme/').pop(),
+      this.options.buildDir.split('.nuxt').pop() + '.theme' + path.sep + filePath.split('theme' + path.sep).pop(),
       {
         apiClient: moduleOptions.apiClient,
         helpers: moduleOptions.helpers,
@@ -37,14 +36,13 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
 
   log.info('Adding theme files...');
 
-  await Promise.all(themeFiles.map(path => compileAgnosticTemplate(path)));
-  await Promise.all([
-    copyThemeFiles(themeComponentsDir),
-    copyThemeFiles(themePagesDir),
-    copyThemeFiles(themeHelpersDir)
-  ]);
+  const themeDirectoriesPaths = getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test'])
+    .map(directory => path.join(this.options.rootDir, directory));
 
-  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
+  await Promise.all(agnosticThemeFiles.map(path => compileAgnosticTemplate(path)));
+  await Promise.all(themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath)));
+
+  log.success(`Added ${agnosticThemeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
   this.options.dir = {
     ...this.options.dir,
@@ -125,8 +123,8 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   if (global.coreDev) {
     log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
 
-    chokidar.watch(baseThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
-      const overwriteFilePath = baseFilePath.replace(baseThemeDir, this.options.rootDir);
+    chokidar.watch(agnosticThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
+      const overwriteFilePath = baseFilePath.replace(agnosticThemeDir, this.options.rootDir);
 
       if (event === 'add' || event === 'change') {
         if (!fs.existsSync(overwriteFilePath)) {
@@ -134,15 +132,15 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
         }
       } else if (event === 'unlink') {
         if (!fs.existsSync(overwriteFilePath)) {
-          fs.unlinkSync(baseFilePath.replace(baseThemeDir, projectLocalThemeDir));
+          fs.unlinkSync(baseFilePath.replace(agnosticThemeDir, projectLocalThemeDir));
         }
       }
     });
 
-    chokidar.watch([themeComponentsDir, themePagesDir, themeHelpersDir], { ignoreInitial: true })
+    chokidar.watch(themeDirectoriesPaths, { ignoreInitial: true })
       .on('all', (event, filePath) => {
         if (event === 'unlink') {
-          const baseFilePath = filePath.replace(this.options.rootDir, baseThemeDir);
+          const baseFilePath = filePath.replace(this.options.rootDir, agnosticThemeDir);
           if (fs.existsSync(baseFilePath)) {
             compileAgnosticTemplate(baseFilePath.replace(__dirname, ''));
           } else {

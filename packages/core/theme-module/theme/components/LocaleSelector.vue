@@ -2,25 +2,45 @@
   <div class="container">
     <SfButton
       data-cy="locale-select_change-langauge"
-      v-for="lang in availableLocales"
-      :key="lang.name"
-      :class="['container__lang', { 'container__lang--selected': lang.name === locale}]"
-      @click="handleChangeLang(lang)"
+      class="container__lang container__lang--selected"
+      @click="isLangModalOpen = !isLangModalOpen"
     >
-      <SfImage :src="`/icons/langs/${lang.name}.png`" width="20" />
+      <SfImage :src="`/icons/langs/${locale}.png`" width="20" />
     </SfButton>
-    <!-- TODO: replace with SfDropdown or dedicated component -->
-    <!-- <SfSelect v-model="currency" class="container__select">
-      <SfSelectOption v-for="currentCurrency in availableCurrencies" :key="currentCurrency.name" :value="currentCurrency.name">
-        <div>{{ currentCurrency.name }}</div>
-      </SfSelectOption>
-    </SfSelect> -->
+    <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
+      <SfList>
+        <SfListItem v-for="lang in availableLocales" :key="lang.name">
+          <SfButton
+            class="sf-button--full-width"
+            :aria-label="lang.label"
+            @click="handleChangeLang(lang)"
+          >
+            <SfCharacteristic>
+              <template #title>
+                <span>{{ lang.label }}</span>
+              </template>
+              <template #icon>
+                <SfImage :src="`/icons/langs/${lang.name}.png`" />
+              </template>
+            </SfCharacteristic>
+          </SfButton>
+        </SfListItem>
+      </SfList>
+    </SfBottomModal>
   </div>
 </template>
 
 <script>
-import { SfImage, SfSelect, SfButton } from '@storefront-ui/vue';
+import {
+  SfImage,
+  SfSelect,
+  SfButton,
+  SfList,
+  SfBottomModal,
+  SfCharacteristic
+} from '@storefront-ui/vue';
 import { useLocale } from '<%= options.composables %>';
+import { ref } from '@vue/composition-api';
 
 /*
   This is the old version of that component.
@@ -31,27 +51,31 @@ export default {
   components: {
     SfImage,
     SfSelect,
-    SfButton
+    SfButton,
+    SfList,
+    SfBottomModal,
+    SfCharacteristic
   },
   setup(props, context) {
     const { $router, $route } = context.root;
     const { locale, ...fields } = useLocale();
     const setCookie = context.root.$i18n.setLocaleCookie;
+    const isLangModalOpen = ref(false);
 
     const handleChangeLang = ({ name }) => {
+      if (name === locale.value) {
+        isLangModalOpen.value = false;
+        return;
+      }
       locale.value = name;
       setCookie(name);
       $router.go({ path: $route.fullPath, force: true });
     };
 
-    const handleSelectChange = () => {
-      $router.go({ path: $route.fullPath, force: true });
-    };
-
     return {
       handleChangeLang,
-      handleSelectChange,
       locale,
+      isLangModalOpen,
       ...fields
     };
   }
@@ -60,27 +84,41 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
 .container {
   margin: 0 -5px;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  &::v-deep .sf-select {
-    --select-font-size: var(--font-sm);
-  }
-  &__select {
-    padding: 0 5px;
-    margin: 0;
-    cursor: pointer;
-    &::v-deep .sf-select__dropdown {
-      min-width: 150px;
+  position: relative;
+
+  .sf-bottom-modal {
+    z-index: 1;
+    left: 0;
+    @include for-desktop {
+      --bottom-modal-height: 100vh;
     }
-    &::v-deep .sf-select__selected {
-      padding: 0;
+  }
+
+  .sf-list {
+    @include for-desktop {
       display: flex;
-      align-items: center;
+    }
+
+    .sf-button {
+      background: transparent;
+      color: var(--c-text-muted);
+      --button-box-shadow: none;
+    }
+
+    .sf-image {
+      --image-width: 20px;
+      margin-right: 1rem;
+      border: 1px solid var(--c-light);
+      border-radius: 50%;
     }
   }
+
   &__lang {
     --image-width: 20px;
     --button-box-shadow: none;

@@ -16,6 +16,7 @@ export const config = {
     ]
   },
   locale: 'en',
+  acceptLanguage: ['en', 'de'],
   currency: 'USD',
   country: 'US',
   countries: [
@@ -44,4 +45,5 @@ export const config = {
     currencyCookieName: 'vsf-currency',
     countryCookieName: 'vsf-country',
     localeCookieName: 'vsf-locale'
-  }};
+  }
+};

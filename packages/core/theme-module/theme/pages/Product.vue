@@ -115,7 +115,7 @@
             </div>
           </div>
           <SfTabs class="product-details__tabs" :openTab="2">
-            <SfTab title="Description">
+            <SfTab data-cy="product-tab_description" title="Description">
               <div>
                 <p>
                   The Karissa V-Neck Tee features a semi-fitted shape that's
@@ -135,7 +135,7 @@
                 />
               </div>
             </SfTab>
-            <SfTab title="Read reviews">
+            <SfTab data-cy="product-tab_reviews" title="Read reviews">
               <SfReview
                 class="product-details__review"
                 v-for="(review, i) in reviews"
@@ -147,7 +147,7 @@
                 :max-rating="5"
               />
             </SfTab>
-            <SfTab title="Additional Information">
+            <SfTab data-cy="product-tab_additional" title="Additional Information">
               <SfHeading
                 title="Brand"
                 :level="3"
@@ -232,16 +232,18 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading } = useCart();
+    const { addToCart, loading, loadCart } = useCart();
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
     onSSR(async () => {
+      await loadCart();
       await search({ id });
-      await searchRelatedProducts({ catId: [categories.value[0]] });
+      await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
     });
 
     const updateFilter = (filter) => {
@@ -256,13 +258,14 @@ export default {
       updateFilter,
       configuration,
       product,
-      relatedProducts,
+      relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
       options,
       qty,
       addToCart,
       loading,
-      productGetters
+      productGetters,
+      breadcrumbs
     };
   },
   components: {
@@ -324,7 +327,7 @@ export default {
         }
       ],
       detailsIsActive: false,
-      breadcrumbs: [
+      fallbackBreadcrumbs: [
         {
           text: 'Home',
           route: {

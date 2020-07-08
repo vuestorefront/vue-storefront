@@ -11,6 +11,7 @@ describe('[commercetools-api-client] getMyOrders', () => {
       offset: 0
     };
     const givenVariables = {
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       where: 'id="fvdrt8gaw4r"',
       limit: 10,

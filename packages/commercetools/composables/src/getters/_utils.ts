@@ -1,9 +1,9 @@
 import { AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } from './../types/GraphQL';
-import { locale, currency, country } from '@vue-storefront/commercetools-api';
+import { locale, currency } from '@vue-storefront/commercetools-api';
 import { DiscountedLineItemPrice } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 
-const getAttributeValue = (attribute) => {
+export const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
     case 'StringAttribute':
       return attribute.stringValue;
@@ -16,9 +16,8 @@ const getAttributeValue = (attribute) => {
     case 'NumberAttribute':
       return attribute.numberValue;
     case 'EnumAttribute':
-      return attribute.label;
     case 'LocalizedEnumAttribute':
-      return attribute.localizedLabel;
+      return attribute.key;
     case 'LocalizedStringAttribute':
       return attribute.localizedString;
     case 'MoneyAttribute':
@@ -26,8 +25,7 @@ const getAttributeValue = (attribute) => {
     case 'BooleanAttribute':
       return attribute.booleanValue;
     case 'ReferenceAttribute':
-      return { typeId: attribute.typeId,
-        id: attribute.id };
+      return { typeId: attribute.typeId, id: attribute.id };
     default:
       return null;
   }
@@ -39,7 +37,7 @@ export const formatAttributeList = (attributes: Array<any>): AgnosticAttribute[]
     return {
       name: attr.name,
       value: attrValue,
-      label: attr.label ? attr.label : (typeof attrValue === 'string') ? attrValue : null
+      label: attr.label || attr.localizedLabel || ((typeof attrValue === 'string') ? attrValue : null)
     };
   });
 
@@ -101,5 +99,5 @@ export const createFormatPrice = (price: number) => {
     return null;
   }
 
-  return new Intl.NumberFormat(`${locale}-${country}`, { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
 };

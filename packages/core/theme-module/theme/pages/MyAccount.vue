@@ -12,34 +12,34 @@
       @click:change="changeActivePage"
     >
       <SfContentCategory title="Personal Details">
-        <SfContentPage title="My profile">
+        <SfContentPage data-cy="my-account-page_my-profile" title="My profile">
           <MyProfile
             :account="account"
             @update:personal="account = { ...account, ...$event }"
           />
         </SfContentPage>
-        <SfContentPage title="Shipping details">
+        <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
           <ShippingDetails
             :account="account"
             @update:shipping="account = { ...account, ...$event }"
           />
         </SfContentPage>
-        <SfContentPage title="Loyalty card">
+        <SfContentPage data-cy="my-account-page_loyalty-card" title="Loyalty card">
           <LoyaltyCard />
         </SfContentPage>
-        <SfContentPage title="My newsletter">
+        <SfContentPage data-cy="my-account-page_my-newsletter" title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
       </SfContentCategory>
       <SfContentCategory title="Order details">
-        <SfContentPage title="Order history">
+        <SfContentPage data-cy="my-account-page_order-history" title="Order history">
           <OrderHistory />
         </SfContentPage>
-        <SfContentPage title="My reviews">
+        <SfContentPage data-cy="my-account-page_my-reviews" title="My reviews">
           <MyReviews />
         </SfContentPage>
       </SfContentCategory>
-      <SfContentPage title="Log out" />
+      <SfContentPage data-cy="my-account-page_log-out" title="Log out" />
     </SfContentPages>
   </div>
 </template>
@@ -88,7 +88,7 @@ export default {
         return;
       }
 
-      $router.push(`/my-account/${title.toLowerCase().replace(' ', '-')}`);
+      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
     };
 
     return { changeActivePage, activePage };

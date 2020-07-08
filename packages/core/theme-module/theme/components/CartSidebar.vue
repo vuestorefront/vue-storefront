@@ -38,8 +38,7 @@
               >
                <template #configuration>
                 <div class="collected-product__properties">
-                  <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
-                  <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
+                  <SfProperty v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
                 </div>
               </template>
               <template #actions>
@@ -57,8 +56,8 @@
               <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link to="/checkout/personal-details">
-            <SfButton data-cy="cart-sidebar-btn_checkout" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
+          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <SfButton data-cy="cart-sidebar-btn_checkout" @click="toggleCartSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
           </nuxt-link>
           </div>
         </div>
@@ -88,7 +87,8 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '<%= options.composables %>';
+import { useCart, useUser, cartGetters } from '<%= options.composables %>';
+import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -105,12 +105,18 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { cart, removeFromCart, updateQuantity } = useCart();
+    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
+    const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
+    onSSR(async () => {
+      await loadCart();
+    });
+
     return {
+      isAuthenticated,
       products,
       removeFromCart,
       updateQuantity,

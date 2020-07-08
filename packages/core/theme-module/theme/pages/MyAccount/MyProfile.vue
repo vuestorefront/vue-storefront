@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="Personal data">
+    <SfTab data-cy="my-profile-tab_personal-data" title="Personal data">
       <p class="message">
         Feel free to edit any of your details below so your account is always up
         to date
@@ -53,7 +53,7 @@
         <a href="">Privacy Policy.</a>
       </p>
     </SfTab>
-    <SfTab title="Password change">
+    <SfTab data-cy="my-profile-tab_password-change" title="Password change">
       <p class="message">
         If you want to change the password to access your account, enter the
         following information:<br />Your current email address is
@@ -129,7 +129,7 @@ extend('min', {
 });
 
 extend('password', {
-  validate: value => String(value).match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+  validate: value => String(value).length >= 8 && String(value).match(/[A-Za-z]/gi) && String(value).match(/[0-9]/gi),
   message: 'Password must have at least 8 characters including one letter and a number'
 });
 
@@ -161,7 +161,12 @@ export default {
     const form = ref(resetPassForm());
 
     const updatePassword = async () => {
-      await changePassword(form.value.currentPassword, form.value.newPassword);
+      try {
+        await changePassword(form.value.currentPassword, form.value.newPassword);
+      } catch (e) {
+        error.value = e.message;
+        return;
+      }
       form.value = resetPassForm();
     };
 

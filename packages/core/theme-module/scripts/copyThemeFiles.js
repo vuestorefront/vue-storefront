@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const getAllFilesFromDir = require('./getAllFilesFromDir.js');
 const ensureDirectoryExists = require('./ensureDirectoryExists');
 
@@ -9,8 +10,8 @@ async function copyFile(fileDir, outDir) {
   return fs.writeFileSync(outDir, data);
 }
 
-function copyThemeFile(path) {
-  return copyFile(path, path.replace('/theme/', '/theme/.theme/'));
+function copyThemeFile(themePath) {
+  return copyFile(themePath, themePath.replace(path.sep + 'theme' + path.sep, path.sep + 'theme' + path.sep + '.theme' + path.sep));
 }
 
 function copyThemeFiles(filesDir) {
@@ -20,6 +21,7 @@ function copyThemeFiles(filesDir) {
 }
 
 module.exports = {
+  copyFile,
   copyThemeFile,
   copyThemeFiles
 };

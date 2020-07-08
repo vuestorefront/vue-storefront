@@ -2,26 +2,37 @@ import { ref, Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
 import { useSSR, onSSR } from '../../src/utils';
 
-export type UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> = {
+export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
   logOut: (params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (params: REGISTER_USER_PARAMS) => Promise<USER>;
   logIn: (params: { username: string; password: string }) => Promise<USER>;
   changePassword: (params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
-};
+}
 
-export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
+interface UseUserFactory<USER, UPDATE_USER_PARAMS> {
+  useUser: () => UseUser<USER, UPDATE_USER_PARAMS>;
+  setUser: (user: USER) => void;
+}
+
+export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
-) {
+): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
+  let isInitialized = false;
   const user: Ref<USER> = ref(null);
   const loading: Ref<boolean> = ref(false);
   const isAuthenticated = computed(() => Boolean(user.value));
 
-  return function useUser(): UseUser<USER, UPDATE_USER_PARAMS> {
+  const setUser = (newUser: USER) => {
+    user.value = newUser;
+  };
+
+  const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
     const { initialState, saveToInitialState } = useSSR('vsf-user');
 
-    user.value = initialState || null;
+    user.value = isInitialized ? user.value : initialState || null;
+    isInitialized = true;
 
     const updateUser = async (params: UPDATE_USER_PARAMS) => {
       loading.value = true;
@@ -110,4 +121,6 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading: computed(() => loading.value)
     };
   };
-}
+
+  return { useUser, setUser };
+};

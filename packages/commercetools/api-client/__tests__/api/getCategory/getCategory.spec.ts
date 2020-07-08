@@ -6,7 +6,7 @@ import defaultQuery from '../../../src/api/getCategory/defaultQuery';
 describe('[commercetools-api-client] getCategory', () => {
   it('fetches categories without search parameters', async () => {
     const givenVariables = {
-      locale: 'en'
+      acceptLanguage: ['en', 'de']
     };
 
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
@@ -24,7 +24,7 @@ describe('[commercetools-api-client] getCategory', () => {
   it('fetches categories with default query', async () => {
     const givenVariables = {
       where: 'id="724b250d-9805-4657-ae73-3c02a63a9a13"',
-      locale: 'en'
+      acceptLanguage: ['en', 'de']
     };
 
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
@@ -42,18 +42,18 @@ describe('[commercetools-api-client] getCategory', () => {
   it('fetches categories with customized query', async () => {
     const givenVariables = {
       where: 'test',
-      locale: 'de'
+      acceptLanguage: ['de', 'en']
     };
 
     const givenQuery = `
-      query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $locale: Locale) {
+      query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $acceptLanguage: [Locale!]) {
         categories(where: $where, sort: $sort, limit: $limit, offset: $offset) {
           offset
           count
           total
           results {
             id
-            name(locale: $locale)
+            name(acceptLanguage: $acceptLanguage)
           }
         }
       }
