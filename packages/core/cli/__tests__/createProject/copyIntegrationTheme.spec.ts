@@ -55,36 +55,38 @@ jest.mock('@vue-storefront/nuxt-theme/scripts/copyThemeFiles', () => ({
 }));
 
 describe('[vsf-next-cli] copyIntegrationTheme', () => {
-  it('copies files from integration theme', async () => {
-    // jest.clearAllMocks();
 
-    await copyIntegrationTheme(integration, targetPath);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('copies files from integration theme', async () => {
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
     const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
+
+    await copyIntegrationTheme(integration, targetPath);
+
     for (const file of [...filesInDirs, ...filesInRoot]) {
-      expect(copyFile).toHaveBeenCalledWith(file, targetPath);
+      expect(copyFile).toHaveBeenCalledWith(file, targetPath + file);
     }
   });
 
   it('omits not wanted directories from root of integration theme', async () => {
 
-    // jest.clearAllMocks();
-
     const omitFiles = ['pages', 'package.json'];
-    await copyIntegrationTheme(integration, targetPath, omitFiles);
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(themeFile => Boolean(themeFile));
     const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
-
     const allFiles = [...filesInDirs, ...filesInRoot];
-
     const filteredFilesInDirs = allFiles.filter(themeFile => !omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
     const ommitedFiles = allFiles.filter(themeFile => omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
 
+    await copyIntegrationTheme(integration, targetPath, omitFiles);
+
     for (const file of filteredFilesInDirs) {
-      expect(copyFile).toHaveBeenCalledWith(file, targetPath);
+      expect(copyFile).toHaveBeenCalledWith(file, targetPath + file);
     }
     for (const file of ommitedFiles) {
-      expect(copyFile).not.toHaveBeenCalledWith(file, targetPath);
+      expect(copyFile).not.toHaveBeenCalledWith(file, targetPath + file);
     }
   });
 });
