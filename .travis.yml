@@ -23,7 +23,7 @@ cache:
     - packages/core/core/lib
     - packages/prismic/node_modules
     - packages/prismic/lib
-    - packages/core/cli
+    - packages/core/cli/node_modules
 
 env:
   global:
