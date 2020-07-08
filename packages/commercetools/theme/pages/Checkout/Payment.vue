@@ -180,7 +180,7 @@ import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
-import { useCko } from '@vue-storefront/checkout-com';
+import { useCkoCard } from '@vue-storefront/checkout-com';
 
 const COUNTRIES = [
   { key: 'US',
@@ -228,7 +228,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { submitForm, submitDisabled } = useCko();
+    const { submitForm, submitDisabled } = useCkoCard();
     const sameAsShipping = ref(false);
     let oldBilling = null;
 

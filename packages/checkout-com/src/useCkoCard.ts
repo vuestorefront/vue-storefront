@@ -10,7 +10,7 @@ const cardToken = ref(null);
 const submitDisabled = ref(true);
 const error = ref(null);
 
-const useCko = () => {
+const useCkoCard = () => {
   const makePayment = async ({ cartId }) => {
     try {
       const context = await createContext({ reference: cartId });
@@ -64,4 +64,4 @@ const useCko = () => {
   };
 };
 
-export default useCko;
+export default useCkoCard;

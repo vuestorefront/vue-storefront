@@ -171,7 +171,7 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { useCko } from '@vue-storefront/checkout-com';
+import { useCkoCard } from '@vue-storefront/checkout-com';
 
 export default {
   name: 'ReviewOrder',
@@ -205,7 +205,7 @@ export default {
       loading,
       loadDetails
     } = useCheckout();
-    const { makePayment, submitDisabled, error: paymentError } = useCko();
+    const { makePayment, submitDisabled, error: paymentError } = useCkoCard();
 
     onSSR(async () => {
       await loadDetails();

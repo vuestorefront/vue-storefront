@@ -1,5 +1,5 @@
 import { setup, getPublicKey, getCkoWebhookUrl, getStyles } from './configuration';
-import useCko from './useCko';
+import useCkoCard from './useCkoCard';
 
-export { setup, getPublicKey, getCkoWebhookUrl, getStyles, useCko };
+export { setup, getPublicKey, getCkoWebhookUrl, getStyles, useCkoCard };
 
