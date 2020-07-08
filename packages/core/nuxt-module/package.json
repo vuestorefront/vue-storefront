@@ -9,7 +9,7 @@
   "author": "Vue Storefront",
   "license": "ISC",
   "dependencies": {
-    "@nuxt/typescript-build": "^0.3.1",
+    "@nuxt/typescript-build": "^2.0.0",
     "@vue/composition-api": "^0.3.4",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
