@@ -31,7 +31,9 @@ export default {
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
+      // @core-development-only-start
       coreDevelopment: true,
+      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/about-you',
@@ -43,10 +45,12 @@ export default {
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/about-you-api',
       composables: '@vue-storefront/about-you'
     }]
+    // @core-development-only-end
   ],
   modules: [
     'nuxt-i18n',

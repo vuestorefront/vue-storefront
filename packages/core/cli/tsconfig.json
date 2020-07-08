@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019"],
+    "strict": false,
+    "preserveSymlinks": true,
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
