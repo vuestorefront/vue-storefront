@@ -36,7 +36,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   },
   removeCoupon: async ({ currentCart, coupon }) => {
     const updatedCart = await apiRemoveCartCoupon(currentCart, coupon);
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: null };
+    return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart }) => {
     console.log('Mocked isOnCart', currentCart);

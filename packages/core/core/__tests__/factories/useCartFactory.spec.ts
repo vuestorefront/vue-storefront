@@ -26,8 +26,7 @@ function createComposable() {
       updatedCoupon: 'appliedCouponMock'
     }),
     removeCoupon: jest.fn().mockResolvedValueOnce({
-      updatedCart: { id: 'mocked_removed_coupon_cart' },
-      updatedCoupon: null
+      updatedCart: { id: 'mocked_removed_coupon_cart' }
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };

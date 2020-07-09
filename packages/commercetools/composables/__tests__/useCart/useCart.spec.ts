@@ -79,7 +79,7 @@ describe('[commercetools-composables] useCart', () => {
     const { removeCoupon } = useCart() as any;
     const response = await removeCoupon({ currentCart: 'current cart' });
 
-    expect(response).toEqual({ updatedCart: 'current cart', updatedCoupon: null });
+    expect(response).toEqual({ updatedCart: 'current cart' });
   });
 
   it('checks if you are on cart', () => {
