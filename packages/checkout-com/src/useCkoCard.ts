@@ -24,16 +24,17 @@ const useCkoCard = () => {
         failure_url: `${window.location.origin}/cko/payment-error`
       });
 
+      localStorage.removeItem(getCardTokenKey());
+
       if (![200, 202].includes(payment.status)) {
         error.value = payment.data.error_type;
         return null;
       }
 
-      localStorage.removeItem(getCardTokenKey());
       return payment;
     } catch (e) {
-      error.value = e;
       localStorage.removeItem(getCardTokenKey());
+      error.value = e;
       return null;
     }
   };
