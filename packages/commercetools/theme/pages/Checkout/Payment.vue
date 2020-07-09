@@ -175,7 +175,7 @@ import {
   SfImage,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref, onMounted } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
@@ -237,7 +237,7 @@ export default {
       await loadPaymentMethods();
     });
 
-    onMounted(initForm);
+    initForm();
 
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });

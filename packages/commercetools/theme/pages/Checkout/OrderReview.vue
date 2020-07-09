@@ -168,7 +168,7 @@ import {
   SfProperty,
   SfAccordion
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { useCkoCard } from '@vue-storefront/checkout-com';
@@ -205,14 +205,12 @@ export default {
       loading,
       loadDetails
     } = useCheckout();
-    const { loadCardFromStorage, makePayment, submitDisabled, error: paymentError } = useCkoCard();
+    const { makePayment, submitDisabled, error: paymentError } = useCkoCard();
 
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
-
-    onMounted(loadCardFromStorage);
 
     const handleSubmit = async () => {
       isPaymentProcessing.value = true;
