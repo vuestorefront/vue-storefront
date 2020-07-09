@@ -1,13 +1,15 @@
 const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
-  styles: {}
+  styles: {},
+  tokenizedCardKey: 'temporary-tokenized-card'
 };
 
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
   styles?: any;
+  tokenizedCardKey?: string;
 }
 
 const defaultStyles = {
@@ -34,11 +36,12 @@ const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
   config.styles = params.styles || defaultStyles;
-
+  config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
 };
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getStyles = () => config.styles;
+const getCardTokenKey = () => config.tokenizedCardKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getStyles };
+export { setup, getPublicKey, getCkoWebhookUrl, getStyles, getCardTokenKey };

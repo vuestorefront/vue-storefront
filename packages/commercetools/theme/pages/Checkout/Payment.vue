@@ -175,7 +175,7 @@ import {
   SfImage,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, onMounted } from '@vue/composition-api';
 import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
@@ -228,7 +228,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { submitForm, submitDisabled } = useCkoCard();
+    const { submitForm, submitDisabled, initForm } = useCkoCard();
     const sameAsShipping = ref(false);
     let oldBilling = null;
 
@@ -236,6 +236,8 @@ export default {
       await loadDetails();
       await loadPaymentMethods();
     });
+
+    onMounted(initForm);
 
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });

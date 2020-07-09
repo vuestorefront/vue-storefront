@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
-    "lib": ["es6", "es7"],
+    "lib": ["es6", "es7", "dom"],
     "strict": false,
   },
   "include": [
