@@ -220,7 +220,8 @@ describe('[CORE - factories] useCartFactory', () => {
         const { removeCoupon, cart, coupon } = useCart();
         await removeCoupon();
         expect(params.removeCoupon).toHaveBeenCalledWith({
-          currentCart: null
+          currentCart: null,
+          coupon: null
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
         expect(coupon.value).toBeNull();

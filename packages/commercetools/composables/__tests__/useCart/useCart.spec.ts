@@ -11,7 +11,8 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
   removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
   updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } }))
+  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
+  removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } }))
 }));
 
 jest.mock('@vue-storefront/core', () => ({
