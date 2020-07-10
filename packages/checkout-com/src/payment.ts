@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 import axios from 'axios';
-import { getPublicKey, getCkoWebhookUrl } from './configuration';
+import { getPublicKey, getCkoWebhookUrl } from '@vue-storefront/checkout-com/src/configuration';
 
 declare const Frames: any;
 

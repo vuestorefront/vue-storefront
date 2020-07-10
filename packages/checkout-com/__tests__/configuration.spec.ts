@@ -2,7 +2,7 @@ import { setup, getPublicKey, getCkoWebhookUrl, getStyles, getCardTokenKey } fro
 
 describe('[checkout-com] configuration', () => {
 
-  it('buildFileTargetPath - ', () => {
+  it('appends configuration properly', () => {
 
     const config = {
       publicKey: 'some-public-key',
