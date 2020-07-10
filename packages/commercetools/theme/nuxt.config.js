@@ -102,7 +102,7 @@ export default {
       composables: '@vue-storefront/commercetools'
     }],
     // @core-development-only-end
-    ['@vue-storefront/commercetools-nuxt', integrationConfig]
+    ['@vue-storefront/commercetools/nuxt', integrationConfig]
   ],
   modules: [
     'nuxt-i18n',
