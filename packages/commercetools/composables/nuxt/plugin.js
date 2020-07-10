@@ -5,7 +5,7 @@ import Middleware from './middleware'
 const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
-const mapConfigToSetupObject = (moduleOptions, additionalProperties = {}) => {
+const mapConfigToSetupObject = ({ moduleOptions, app, additionalProperties = {} }) => {
   return {
       ...moduleOptions,
       ...additionalProperties,
@@ -38,7 +38,7 @@ Middleware.commercetools = async ({ app }) => {
 
   app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
 
-  setup(mapConfigToSetupObject(moduleOptions))
+  setup(mapConfigToSetupObject({ moduleOptions, app }))
 }
 
 export default ({ app }) => {
@@ -61,11 +61,15 @@ export default ({ app }) => {
   };
 
   setup(
-    mapConfigToSetupObject(moduleOptions, {
-      currentToken,
-      auth: {
-        onTokenChange,
-        onTokenRemove
+    mapConfigToSetupObject({
+      moduleOptions,
+      app,
+      additionalProperties: {
+        currentToken,
+        auth: {
+          onTokenChange,
+          onTokenRemove
+        }
       }
     })
   )
