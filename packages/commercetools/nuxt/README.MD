@@ -1,3 +1,5 @@
+# Example config
+```js
 export const config = {
   api: {
     uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
@@ -47,3 +49,4 @@ export const config = {
     localeCookieName: 'vsf-locale'
   }
 };
+```
