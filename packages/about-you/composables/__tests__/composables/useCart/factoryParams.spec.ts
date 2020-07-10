@@ -273,7 +273,7 @@ describe('[about-you-composables] useCart factoryParams', () => {
       packages: []
     };
 
-    expect(params.removeCoupon({ currentCart })).rejects.toThrow();
+    expect(params.removeCoupon({ currentCart, coupon: null })).rejects.toThrow();
   });
 
   describe('isOnCart', () => {
