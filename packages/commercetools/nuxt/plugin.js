@@ -3,7 +3,7 @@ import { setup, createAccessToken } from '@vue-storefront/commercetools-api';
 import Middleware from './middleware'
 
 const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
-// const moduleOptions = <%= JSON.stringify(options) %>;
+const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
 Middleware.commercetools = async ({ app }) => {
   if (!process.server) return;
@@ -40,8 +40,10 @@ export default ({ app }) => {
     setup({ currentToken: null, forceToken: true });
   };
 
+  const opt = 
+
   setup({
-    // ...<%= JSON.stringify(options) %>,
+    ...moduleOptions,
     api: {
       uri: '<%= options.api.uri %>',
       authHost: '<%= options.api.authHost %>',
