@@ -22,6 +22,6 @@ jobs:
           yarn build:prismic
       - name: Publish canary version
         run: |
-          yarn lerna publish --canary --yes --preid prealpha --dist-tag canary
+          yarn lerna publish --canary --force-publish --yes --preid prealpha --dist-tag canary
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
