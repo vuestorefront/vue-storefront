@@ -2,8 +2,7 @@ import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '
 import { isServer } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
-// you can use this storage if you want to enable offline capabilities
-import { cacheStorage } from '../'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import queryString from 'query-string'
 import config from 'config'
 import { SearchQuery } from 'storefront-query-builder'
@@ -25,6 +24,7 @@ import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/pr
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
   async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any}) {
+    const cacheStorage = StorageManager.get('url')
     if (!state.dispatcherMap[url]) {
       state.dispatcherMap[url] = routeData
     }
@@ -54,6 +54,7 @@ export const actions: ActionTree<UrlState, any> = {
     await Promise.all(registrationRoutePromises)
   },
   mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
+    const cacheStorage = StorageManager.get('url')
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
