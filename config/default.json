@@ -721,7 +721,8 @@
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
-    "allowModification": ["firstname", "lastname", "email", "addresses"]
+    "allowModification": ["firstname", "lastname", "email", "addresses"],
+    "tokenInHeader": false
   },
   "stock": {
     "synchronize": true,
