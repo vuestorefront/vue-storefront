@@ -2,7 +2,8 @@ import {
   addToCart as apiAddToCart,
   removeFromCart as apiRemoveFromCart,
   updateCartQuantity as apiUpdateCartQuantity,
-  applyCartCoupon as apiApplyCartCoupon
+  applyCartCoupon as apiApplyCartCoupon,
+  removeCartCoupon as apiRemoveCartCoupon
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
@@ -33,8 +34,9 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     const updatedCart = await apiApplyCartCoupon(currentCart, coupon);
     return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
   },
-  removeCoupon: async ({ currentCart }) => {
-    return { updatedCart: currentCart, updatedCoupon: null };
+  removeCoupon: async ({ currentCart, coupon }) => {
+    const updatedCart = await apiRemoveCartCoupon(currentCart, coupon);
+    return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart }) => {
     console.log('Mocked isOnCart', currentCart);
