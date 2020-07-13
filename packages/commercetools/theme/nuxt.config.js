@@ -66,37 +66,6 @@ export default {
           'view_products:vsf-ct-dev',
           'view_published_products:vsf-ct-dev'
         ]
-      },
-      locale: 'en',
-      acceptLanguage: ['en', 'de'],
-      currency: 'USD',
-      country: 'US',
-      countries: [
-        { name: 'US',
-          label: 'United States' },
-        { name: 'AT',
-          label: 'Austria' },
-        { name: 'DE',
-          label: 'Germany' },
-        { name: 'NL',
-          label: 'Netherlands' }
-      ],
-      currencies: [
-        { name: 'EUR',
-          label: 'Euro' },
-        { name: 'USD',
-          label: 'Dollar' }
-      ],
-      locales: [
-        { name: 'en',
-          label: 'English' },
-        { name: 'de',
-          label: 'German' }
-      ],
-      cookies: {
-        currencyCookieName: 'vsf-currency',
-        countryCookieName: 'vsf-country',
-        localeCookieName: 'vsf-locale'
       }
     }]
   ],
@@ -118,5 +87,31 @@ export default {
         })
       })
     ]
+  },
+
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
+    lazy: true,
+    seo: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: 'vsf-locale',
+      alwaysRedirect: true
+    }
   }
 };
