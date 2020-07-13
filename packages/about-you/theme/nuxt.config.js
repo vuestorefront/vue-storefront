@@ -1,5 +1,7 @@
 import webpack from 'webpack';
 import localeConfig from './lang/config';
+import { getCartToken } from '@vue-storefront/about-you-theme/helpers/cart/getCartToken';
+import { getWishlistToken } from '@vue-storefront/about-you-theme/helpers/wishlist/getWishlistToken';
 
 export default {
   mode: 'universal',
@@ -56,7 +58,9 @@ export default {
           password: 'OmNErAb96Y5Qn75SFhXr'
         }
       },
-      imgUrl: 'https://mt1.dam.demo.aboutyou.cloud/boston'
+      imgUrl: 'https://mt1.dam.demo.aboutyou.cloud/boston',
+      getCartToken,
+      getWishlistToken
     }]
   ],
   modules: [

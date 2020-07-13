@@ -2,3 +2,4 @@
 **/lib/*
 **/GraphQL.ts
 !**/.vuepress/**/*
+packages/about-you/composables/nuxt/plugin.js
