@@ -1,10 +1,6 @@
 
-import { createAccessToken } from '@vue-storefront/commercetools-api';
-import { setup } from '@vue-storefront/commercetools-api';
-import moduleOptions from '../integration.config.js';
-import { mapConfigToSetupObject } from '@vue-storefront/commercetools/nuxt/helpers';
-
-const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
+import { createAccessToken, setup, cookies } from '@vue-storefront/commercetools-api';
+import { CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers';
 
 export default async ({ app }) => {
   if (!process.server) return;
@@ -13,16 +9,10 @@ export default async ({ app }) => {
 
   app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
 
-  const config = mapConfigToSetupObject({
-    app,
-    moduleOptions
-  });
-
   setup({
-    ...config,
     currentToken: newToken,
-    locale: app.$cookies.get(config.cookies.localeCookieName),
-    currency: app.$cookies.get(config.cookies.currencyCookieName),
-    country: app.$cookies.get(config.cookies.countryCookieName)
+    locale: app.$cookies.get(cookies.localeCookieName),
+    currency: app.$cookies.get(cookies.currencyCookieName),
+    country: app.$cookies.get(cookies.countryCookieName)
   });
 };
