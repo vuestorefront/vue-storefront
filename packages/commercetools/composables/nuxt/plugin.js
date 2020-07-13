@@ -1,12 +1,8 @@
 /* eslint-disable */
 import { setup } from '@vue-storefront/commercetools-api';
-import Middleware from './middleware'
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
-import ctMiddleware from '@vue-storefront/commercetools/nuxt/middleware'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
-
-Middleware.commercetools = ctMiddleware(moduleOptions);
 
 export default ({ app }) => {
   const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
