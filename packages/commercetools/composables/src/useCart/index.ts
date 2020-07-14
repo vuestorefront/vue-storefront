@@ -9,6 +9,10 @@ import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
 import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
 
+const getBasketItemByProduct = ({ currentCart, product }) => {
+  return currentCart.lineItems.find(item => item.productId === product._id);
+};
+
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   loadCart: async () => {
     return await loadCurrentCart();
@@ -38,9 +42,8 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     const updatedCart = await apiRemoveCartCoupon(currentCart, coupon);
     return { updatedCart: updatedCart.data.cart };
   },
-  isOnCart: ({ currentCart }) => {
-    console.log('Mocked isOnCart', currentCart);
-    return true;
+  isOnCart: ({ currentCart, product }) => {
+    return Boolean(getBasketItemByProduct({ currentCart, product }));
   }
 };
 
