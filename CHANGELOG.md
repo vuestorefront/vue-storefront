@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - remove deprecated value from attributesListQuery query - @gibkigonzo (#4572)
+- Fixed dutch translations - @1070rik (#4587)
 
 ### Changed / Improved
 
