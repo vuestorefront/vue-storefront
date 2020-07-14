@@ -6,8 +6,8 @@ const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
 <% if (!options.disableMiddleware) { %>
 import Middleware from './middleware'
-import ctMiddleware from '@vue-storefront/commercetools/nuxt/middleware'
-Middleware.commercetools = ctMiddleware(moduleOptions);
+import ctTokenMiddleware from '@vue-storefront/commercetools/nuxt/token-middleware'
+Middleware.commercetools = ctTokenMiddleware(moduleOptions);
 <% } %>
 
 export default ({ app }) => {

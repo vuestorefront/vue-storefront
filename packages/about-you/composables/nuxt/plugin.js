@@ -1,9 +1,10 @@
 import { setup } from '@vue-storefront/about-you-api';
+import { getCartToken } from '@vue-storefront/about-you/nuxt/helpers/cart/getCartToken'
+import { getWishlistToken } from '@vue-storefront/about-you/nuxt/helpers/wishlist/getWishlistToken'
 
 export default function init({ app }) {
   const { locales: availableLocales, locale: defaultLocale } = app.i18n;
   const selectedLocale = availableLocales.find((locale) => locale.code === defaultLocale);
-  const options = <%= serialize(options) %>;
   
   setup({
     api: {
@@ -15,7 +16,7 @@ export default function init({ app }) {
       shopId: selectedLocale.shopId
     },
     imgUrl: '<%= options.imgUrl %>',
-    cartToken: options.getCartToken(app),
-    wishlistToken: options.getWishlistToken(app)
+    cartToken: getCartToken(app),
+    wishlistToken: getWishlistToken(app)
   });
 }

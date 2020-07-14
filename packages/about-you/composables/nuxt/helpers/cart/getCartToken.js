@@ -1,7 +1,6 @@
+import { generateToken, AYC_CART_TOKEN } from '@vue-storefront/about-you/nuxt/helpers/utils/generateToken';
+
 export const getCartToken = context => {
-  // eslint-disable-next-line
-  const { generateToken } = require('@vue-storefront/about-you-theme/helpers/utils/generateToken');
-  const AYC_CART_TOKEN = 'vsf-ayc-cart-token';
   let token = context.$cookies.get(AYC_CART_TOKEN);
 
   if (token) {
