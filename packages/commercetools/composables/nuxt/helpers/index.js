@@ -11,15 +11,7 @@ export const mapConfigToSetupObject = ({ moduleOptions, app, additionalPropertie
       projectKey: moduleOptions.api.projectKey,
       clientId: moduleOptions.api.clientId,
       clientSecret: moduleOptions.api.clientSecret,
-      scopes: moduleOptions.api.scopes || [
-        'create_anonymous_token:vsf-ct-dev',
-        'manage_my_orders:vsf-ct-dev',
-        'manage_my_profile:vsf-ct-dev',
-        'manage_my_shopping_lists:vsf-ct-dev',
-        'manage_my_payments:vsf-ct-dev',
-        'view_products:vsf-ct-dev',
-        'view_published_products:vsf-ct-dev'
-      ]
+      scopes: moduleOptions.api.scopes || defaultConfig.api.scopes
     },
     locale: (moduleOptions.cookies && app.$cookies.get(moduleOptions.cookies.localeCookieName)) || moduleOptions.locale || defaultConfig.locale,
     currency: (moduleOptions.cookies && app.$cookies.get(moduleOptions.cookies.currencyCookieName)) || moduleOptions.currency || defaultConfig.currency,

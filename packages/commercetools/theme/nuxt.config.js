@@ -24,7 +24,7 @@ export default {
   },
   loading: { color: '#fff' },
   router: {
-    middleware: ['checkout', 'commercetools']
+    middleware: ['checkout']
   },
   buildModules: [
     // to core
@@ -51,6 +51,7 @@ export default {
     }],
     // @core-development-only-end
     ['@vue-storefront/commercetools/nuxt', {
+      disableMiddleware: false,
       api: {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',

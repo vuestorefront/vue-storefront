@@ -4,6 +4,12 @@ import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/co
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
+<% if (!options.disableMiddleware) { %>
+import Middleware from './middleware'
+import ctMiddleware from '@vue-storefront/commercetools/nuxt/middleware'
+Middleware.commercetools = ctMiddleware(moduleOptions);
+<% } %>
+
 export default ({ app }) => {
   const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
 

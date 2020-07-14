@@ -1,6 +1,7 @@
 # Example config
 ```js
 export const config = {
+  disableMiddleware: false,
   api: {
     uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
     authHost: 'https://auth.sphere.io',
