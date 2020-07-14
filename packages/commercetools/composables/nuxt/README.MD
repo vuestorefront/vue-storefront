@@ -1,7 +1,6 @@
 # Example config
 ```js
 export const config = {
-  disableMiddleware: false,
   api: {
     uri: 'https://mysite.com/vsf-ct-dev/graphql',
     authHost: 'https://auth.com',

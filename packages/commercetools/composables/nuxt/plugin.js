@@ -4,10 +4,11 @@ import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/co
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
-<% if (!options.disableMiddleware) { %>
+<% if (!options.disableGenerateTokenMiddleware) { %>
 import Middleware from './middleware'
 import ctTokenMiddleware from '@vue-storefront/commercetools/nuxt/token-middleware'
-Middleware.commercetools = ctTokenMiddleware(moduleOptions);
+import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/helpers'
+Middleware[CT_TOKEN_MIDDLEWARE_SLUG] = ctTokenMiddleware(moduleOptions);
 <% } %>
 
 export default ({ app }) => {
