@@ -14,7 +14,7 @@ export default function filterAttributes ({
   codesList: any
 }) {
   return filterValues.filter(fv => {
-    if (fv.indexOf('.') >= 0) {
+    if (fv.toString().indexOf('.') >= 0) {
       return false
     }
     if (blacklist !== null && blacklist.includes(fv)) {
