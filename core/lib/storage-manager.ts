@@ -37,10 +37,7 @@ const StorageManager = {
    * @param item UniversalStorage driver
    */
   set: function (collectionName: string, collectionInstance: UniversalStorage): UniversalStorage {
-    try {
-      this.storageMap[collectionName] = collectionInstance
-    } catch (e) {
-    }
+    this.storageMap[collectionName] = collectionInstance
     return collectionInstance
   },
   /**
