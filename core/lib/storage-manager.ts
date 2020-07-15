@@ -60,7 +60,7 @@ const StorageManager = {
       return this.storageMap[collectionName]
     }
   },
-  clear ({ keep }): any {
+  clear ({ keep = [] }): any {
     const promiseArray = Object.keys(this.storageMap).map((collectionName) => {
       return keep.every(itemToKeep => collectionName !== itemToKeep) && this.storageMap[collectionName].clear().then(() => {
         Logger.warn(`storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`)()

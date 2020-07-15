@@ -2,6 +2,7 @@ import * as localForage from 'localforage'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import cloneDeep from 'lodash-es/cloneDeep'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
@@ -339,7 +340,12 @@ class LocalForageCacheDriver {
             callback(null, result)
           }
           isResolved = true
-        }).catch(err => {
+        }).catch(async err => {
+          if (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+            await StorageManager.clear({
+              keep: ['user', 'cart']
+            })
+          }
           isResolved = true
           this._lastError = err
           throw err
