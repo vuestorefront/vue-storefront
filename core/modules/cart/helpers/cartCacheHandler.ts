@@ -15,14 +15,14 @@ export function cartCacheHandlerFactory (Vue) {
       type.endsWith(types.CART_DEL_NON_CONFIRMED_ITEM) ||
       type.endsWith(types.CART_UPD_ITEM_PROPS)
     ) {
-      const cacheHandler = () => StorageManager.get('cart').setItem('current-cart', state.cart.cartItems).catch(async (reason) => {
+      const cacheHandler = () => StorageManager.get('cart').setItem('current-cart', state.cart.cartItems)
+      return cacheHandler().catch(async (reason) => {
         await StorageManager.clear({
           keep: ['user', 'cart']
         })
         cacheHandler()
         Logger.error(reason)() // it doesn't work on SSR
       }) // populate cache
-      return cacheHandler()
     } else if (
       type.endsWith(types.CART_LOAD_CART_SERVER_TOKEN)
     ) {
