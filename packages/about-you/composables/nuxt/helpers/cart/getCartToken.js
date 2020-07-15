@@ -1,6 +1,4 @@
-import { generateToken } from '~/helpers/utils/generateToken';
-
-const AYC_CART_TOKEN = 'vsf-ayc-cart-token';
+import { generateToken, AYC_CART_TOKEN } from '@vue-storefront/about-you/nuxt/helpers/utils/generateToken';
 
 export const getCartToken = context => {
   let token = context.$cookies.get(AYC_CART_TOKEN);

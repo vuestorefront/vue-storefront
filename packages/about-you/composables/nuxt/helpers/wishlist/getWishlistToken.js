@@ -1,6 +1,4 @@
-import { generateToken } from '~/helpers/utils/generateToken';
-
-const AYC_WISHLIST_TOKEN = 'vsf-ayc-wishlist-token';
+import { generateToken, AYC_WISHLIST_TOKEN } from '@vue-storefront/about-you/nuxt/helpers/utils/generateToken';
 
 export const getWishlistToken = context => {
   let token = context.$cookies.get(AYC_WISHLIST_TOKEN);

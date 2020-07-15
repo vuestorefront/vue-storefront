@@ -48,8 +48,9 @@ export default {
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/boilerplate-api',
       composables: '@vue-storefront/boilerplate'
-    }]
+    }],
     // @core-development-only-end
+    ['@vue-storefront/boilerplate/nuxt', {}]
   ],
   modules: [
     'nuxt-i18n',

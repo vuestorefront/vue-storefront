@@ -9,3 +9,6 @@ function generateUUID() {
 export function generateToken() {
   return `${generateUUID()}-${(new Date()).getTime()}`;
 }
+
+export const AYC_CART_TOKEN = 'vsf-ayc-cart-token';
+export const AYC_WISHLIST_TOKEN = 'vsf-ayc-wishlist-token';
