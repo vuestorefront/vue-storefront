@@ -69,8 +69,8 @@ const useCkoCard = () => {
 
   return {
     error,
-    submitForm,
     submitDisabled,
+    submitForm,
     makePayment,
     initForm
   };
