@@ -37,7 +37,10 @@ const StorageManager = {
    * @param item UniversalStorage driver
    */
   set: function (collectionName: string, collectionInstance: UniversalStorage): UniversalStorage {
-    this.storageMap[collectionName] = collectionInstance
+    try {
+      this.storageMap[collectionName] = collectionInstance
+    } catch (e) {
+    }
     return collectionInstance
   },
   /**
@@ -59,6 +62,14 @@ const StorageManager = {
     } else {
       return this.storageMap[collectionName]
     }
+  },
+  clear ({ keep }): any {
+    const promiseArray = Object.keys(this.storageMap).map((collectionName) => {
+      return keep.every(itemToKeep => collectionName !== itemToKeep) && this.storageMap[collectionName].clear().then(() => {
+        Logger.warn(`storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`)()
+      })
+    })
+    return Promise.all(promiseArray)
   }
 }
 
