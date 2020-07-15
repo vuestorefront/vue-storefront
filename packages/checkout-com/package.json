@@ -7,7 +7,7 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rimraf lib && rollup -c && cd nuxt && yarn build",
+    "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest"
   },
