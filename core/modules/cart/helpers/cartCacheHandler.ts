@@ -15,10 +15,8 @@ export function cartCacheHandlerFactory (Vue) {
       type.endsWith(types.CART_DEL_NON_CONFIRMED_ITEM) ||
       type.endsWith(types.CART_UPD_ITEM_PROPS)
     ) {
-      const cacheHandler = () => StorageManager.get('cart').setItem('current-cart', state.cart.cartItems)
-      return cacheHandler().catch(async (reason) => {
+      return StorageManager.get('cart').setItem('current-cart', state.cart.cartItems).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR
-        cacheHandler()
       }) // populate cache
     } else if (
       type.endsWith(types.CART_LOAD_CART_SERVER_TOKEN)
