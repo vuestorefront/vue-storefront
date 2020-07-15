@@ -60,7 +60,7 @@ const StorageManager = {
       return this.storageMap[collectionName]
     }
   },
-  clear (): any {
+  clear (): Promise<void[]> {
     const promiseArray = Object.keys(this.storageMap).map((collectionName) => {
       return (config.localForage.preserveDrivers || []).every(itemToKeep => collectionName !== itemToKeep) && this.storageMap[collectionName].clear().then(() => {
         Logger.warn(`storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`)()
