@@ -81,7 +81,6 @@
     "packages": [
       "packages/commercetools/*",
       "packages/checkout-com",
-      "packages/checkout-com/nuxt",
       "packages/boilerplate/*",
       "packages/core/*",
       "packages/prismic",
