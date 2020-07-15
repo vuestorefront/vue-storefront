@@ -11,7 +11,7 @@ const StorageManager = {
   get (key) {
     return this[key]
   },
-  clear ({ keep }) {
+  clear () {
     return new Promise((resolve, reject) => {
       resolve()
     })
