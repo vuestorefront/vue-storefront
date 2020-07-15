@@ -16,7 +16,6 @@
     "@storefront-ui/vue": "^0.7.10",
     "@vue-storefront/commercetools": "^0.0.3",
     "@vue-storefront/checkout-com": "^0.0.3",
-    "@vue-storefront/checkout-com-nuxt": "^0.0.3",
     "@vue-storefront/commercetools-api": "^0.0.3",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
