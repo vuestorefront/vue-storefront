@@ -1,5 +1,4 @@
 const inquirer = require('inquirer')
-const mkdirp = require('mkdirp')
 const Listr = require('listr')
 const { createThemeTasks, createThemePrompt } = require('./../themeTasks')
 const { getVsfPackageJSON } = require('./../helpers')
