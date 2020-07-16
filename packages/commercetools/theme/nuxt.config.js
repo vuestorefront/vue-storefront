@@ -81,6 +81,10 @@ export default {
     }]
   ],
   modules: [
+    ['@vue-storefront/checkout-com/nuxt', {
+      publicKey: 'pk_test_8638c4e2-e44a-407f-a5f3-594a8503bcd0',
+      secretKey: 'sk_test_99323ae8-d688-4005-a98d-1567cca0f9d8'
+    }],
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
