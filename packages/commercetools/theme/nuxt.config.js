@@ -40,12 +40,10 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ]
       }
