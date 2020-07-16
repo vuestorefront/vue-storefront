@@ -139,16 +139,12 @@
             </div>
           </template>
         </SfCheckbox>
-
-        <div v-if="paymentError">There was an error during processsing your payment, reason: "{{ paymentError }}"</div>
-
-        <div class="summary__action">
+          <div class="summary__action">
           <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">Go back</nuxt-link>
-          <SfButton class="summary__action-button" @click.prevent="handleSubmit" :disabled="loading.order || submitDisabled || isPaymentProcessing">
-              Make an order
+          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading.order">
+            Make an order
           </SfButton>
         </div>
-
       </div>
     </div>
 
@@ -171,8 +167,6 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { useCkoCard } from '@vue-storefront/checkout-com';
-
 export default {
   name: 'ReviewOrder',
   components: {
@@ -189,7 +183,6 @@ export default {
   },
   setup(props, context) {
     const billingSameAsShipping = ref(false);
-    const isPaymentProcessing = ref(false);
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -205,36 +198,15 @@ export default {
       loading,
       loadDetails
     } = useCheckout();
-    const { makePayment, submitDisabled, error: paymentError } = useCkoCard();
-
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
-
-    const handleSubmit = async () => {
-      isPaymentProcessing.value = true;
-      const payment = await makePayment({ cartId: cart.value.id });
-
-      if (!payment) return;
-
+    const processOrder = async () => {
       const order = await placeOrder();
-
-      if (payment.data.redirect_url) {
-        window.location.href = payment.data.redirect_url;
-        return;
-      }
-
       context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
-      isPaymentProcessing.value = false;
     };
-
     return {
-      paymentError,
-      isPaymentProcessing,
-      handleSubmit,
-      submitDisabled,
-      cart,
       loading,
       products,
       personalDetails,
@@ -246,18 +218,17 @@ export default {
       terms,
       totals,
       removeFromCart,
+      processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
       checkoutGetters
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
-
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   @include for-desktop {
@@ -343,7 +314,6 @@ export default {
     }
   }
 }
-
 .product-sku {
   color: var(--c-text-muted);
   font-size: var(--font-xs);
@@ -381,7 +351,6 @@ export default {
     margin: var(--spacer-2xl) 0 0 0;
     }
   }
-
   &__action-button {
     &--secondary {
       @include for-desktop {
@@ -392,7 +361,6 @@ export default {
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
     color:  white;
-
     &:hover {
       color:  white;
     }

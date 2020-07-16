@@ -80,7 +80,6 @@
 
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
-
 export default {
   components: {
     SfHeading,
@@ -222,11 +221,9 @@ export default {
 .back-button {
   --button-width: calc(100% - (var(--spacer-sm) * 2));
   margin: 0 auto var(--spacer-sm) auto;
-
   &:hover {
     color:white;
   }
-
   @include for-desktop {
     --button-background: var(--c-secondary);
     margin: var(--spacer-xl) auto;
