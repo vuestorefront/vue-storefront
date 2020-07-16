@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 import axios from 'axios';
-import { getPublicKey, getCkoWebhookUrl } from '@vue-storefront/checkout-com/src/configuration';
+import { getPublicKey, getCkoWebhookUrl, getCkoProxyUrl } from '@vue-storefront/checkout-com/src/configuration';
 
 const createOptions = () => ({
   crossDomain: true,
@@ -33,4 +33,17 @@ export const createPayment = async ({
       '3ds': secure3d
     },
     createOptions()
+  );
+
+export const getCustomerCards = async ({ customer_id }) =>
+  axios.post(
+    `${getCkoProxyUrl()}/payment-instruments`,
+    {
+      customer_id
+    }
+  );
+
+export const removeSavedCard = async ({ customer_id, payment_instrument_id }) =>
+  axios.delete(
+    `${getCkoProxyUrl()}/payment-instruments/${customer_id}/${payment_instrument_id}`
   );

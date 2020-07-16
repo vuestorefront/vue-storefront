@@ -55,8 +55,9 @@ const setup = (params: Configuration) => {
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
+const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
 const getFramesStyles = () => config.frames.styles;
 const getFramesCardTokenKey = () => config.frames.tokenizedCardKey;
 const getFramesLocalization = () => config.frames.localization;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesCardTokenKey, getFramesLocalization, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesCardTokenKey, getFramesLocalization, getCkoProxyUrl, Configuration };
