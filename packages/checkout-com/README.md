@@ -42,7 +42,7 @@ const {
 ```
 
 `error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
-`makePayment` - it creates context, then payment, then removes card token. Returns Promise<Payment> if succeed, or Promise<null> if failed.
+`makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
 
 2. You should `makePayment` at first (remember to check if everything went ok):
 ```js
