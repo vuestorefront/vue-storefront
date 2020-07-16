@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **IMPORTANT** for security reasons we added new config `users.allowModification`.
+  This can help to dissallow modifying fields that shouldn't be changed by user.
+- Add helmet - enabled by default, you can pass configuration by adding `config.server.helmet.config`.
+  More info about helmet configuration https://helmetjs.github.io/docs/
+- Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
+
 ### Fixed
 
 - remove deprecated value from attributesListQuery query - @gibkigonzo (#4572)
