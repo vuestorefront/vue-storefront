@@ -570,6 +570,69 @@ app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 /
 app_1  | This is one way to use moduleConfig
 ```
 
+
+### 2-7. Recipe G (Setting up server module)
+
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+
+This is a recommended way.
+
+#### 1. Advanced Output Processing
+
+However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+
+#### 2. `Express.js` middleware
+
+The other option is to create a `Express.js` middleware. Our `core/scripts/server.ts` is a classical Node.js application so it should be easy. To do so you might want to create a [server module](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts).
+
+Server modules are located in `src/modules` and always have the `server.ts` entry point which responds to one of the few server entry points:
+
+- `afterProcessStarted` - executed just [after the server started](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L13).
+- `afterApplicationInitialized` - executed just [after Express app got initialized](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L34). It's a good entry point to bind new request handlers (`app.get(...)`, `app.use(...)`). Read more on [Express.js request handlers and routing](https://expressjs.com/en/guide/routing.html).
+- `beforeOutputRenderedResponse` - executed [after the SSR rendering has been done](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L189) but before sending it out to the browser; It lets you override the rendered SSR content with your own.
+- `afterOutputRenderedResponse` - executed [after advanced output processing pipeline](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L212) executed.
+- `beforeCacheInvalidated`, `afterCacheInvalidated` - executed [before and after cache has been invalidated](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L76)
+
+Here is an [example how to bind](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/google-cloud-trace/server.ts) tracing module just after server process started:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterProcessStarted((config) => {
+  let trace = require('@google-cloud/trace-agent')
+  if (config.has('trace') && config.get('trace.enabled')) {
+    trace.start(config.get('trace.config'))
+  }
+})
+```
+
+[Another example](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts) - pretty common case - binding new Express middleware to process all user requests BEFORE they're processed by SSR rendering pipeline (including custom URL addresses):
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+const compression = require('compression')
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  if (isProd) {
+    console.log('Output Compression is enabled')
+    app.use(compression({ enabled: isProd }))
+  }
+})
+```
+
+If you'd like to bind custom URL address this example can be modified like this:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  app.get('/custom-url-address', (req, res) => {
+    res.end('Custom response')
+  })
+})
+```
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
@@ -768,52 +831,3 @@ Inside `check` we tell the filter to just be applied if the attribute is named e
 Inside `filter` we extend the Elasticsearch query-chain by our desired filters, using the `bodybuilder` library syntax.
 
 That's it, now we are able to filter by a complex query in only one line inside VSF.
-
-## 7. Anti-patterns & Common pitfalls
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-
-## Sidedish - Ideation
-
-When you have an idea to build a great module, it means you have a brilliant idea in the first place to start with. How does it come anyway? Is it a spontaneous process or can we work elaborately on it to train ideation from its conception to delivery? I want to say _Yes_ to both, please follow me to see what I have to offer in this _sidedish_ talk session. 
-
-_[INSERT VIDEO HERE]_
-<br />
-<br />
-
-## 8. Building a module from A to Z in an iteration
-
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-## 9. Deprecated legacy of Modules
-In this recipe, we will take a review of how to deal with modules in an old fashioned way , just in case you really need it. 
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-
-## 10. Converting old modules to new modules 
-There are useful modules out there already developed in the old way.
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
