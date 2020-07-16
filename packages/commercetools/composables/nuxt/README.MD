@@ -25,7 +25,7 @@
 ```
 
 ## Generate token middleware 
-Commercetools nuxt module injects middleware that is responsible for createing/refreshing token if needed - when user refreshes page. In some rare case, you might want to disable this middleware. If so, add `disableGenerateTokenMiddleware` to the `@vue-storefront/commercetools/nuxt`'s options module in `buildModules`:
+Commercetools nuxt module injects [middleware](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/commercetools/composables/nuxt/token-middleware.js) that is responsible for createing/refreshing token if needed - when user refreshes page. In some rare case, you might want to disable [this middleware](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/commercetools/composables/nuxt/token-middleware.js). If so, add `disableGenerateTokenMiddleware` to the `@vue-storefront/commercetools/nuxt`'s options module in `buildModules`:
 ```js
 ['@vue-storefront/commercetools/nuxt', {
   // ...
