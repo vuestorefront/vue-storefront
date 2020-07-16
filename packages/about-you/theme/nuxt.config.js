@@ -24,9 +24,6 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/about-you.js'
-  ],
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -49,8 +46,18 @@ export default {
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/about-you-api',
       composables: '@vue-storefront/about-you'
-    }]
+    }],
     // @core-development-only-end
+    ['@vue-storefront/about-you/nuxt', {
+      api: {
+        host: 'https://boston.backbone-api.demo.aboutyou.cloud/v1/',
+        auth: {
+          username: 'aboutyou',
+          password: 'OmNErAb96Y5Qn75SFhXr'
+        }
+      },
+      imgUrl: 'https://mt1.dam.demo.aboutyou.cloud/boston'
+    }]
   ],
   modules: [
     'nuxt-i18n',

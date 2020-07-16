@@ -1,8 +1,8 @@
 {
-  "name": "@vue-storefront/about-you",
+  "name": "@vue-storefront/checkout-com",
   "version": "0.0.3",
-  "private": true,
   "sideEffects": false,
+  "private": true,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -12,19 +12,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/about-you-api": "^0.1.0",
-    "@vue-storefront/core": "^2.0.0",
     "@vue/composition-api": "^0.3.4",
+    "axios": "^0.19.2",
     "vue": "^2.6.x"
-  },
-  "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.30",
-    "vue-template-compiler": "^2.6.x"
-  },
-  "peerDependencies": {
-    "@aboutyou/backbone": "^7.0.0"
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

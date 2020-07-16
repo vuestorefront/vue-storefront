@@ -20,13 +20,14 @@
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "cookie-universal-nuxt": "^2.1.3",
     "core-js": "^2.6.5",
-    "nuxt": "^2.10.2",
+    "nuxt": "^2.12.2",
     "nuxt-i18n": "^6.5.0",
     "vee-validate": "^3.2.3",
     "vue-scrollto": "^2.17.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^2.0.0",
+    "@nuxt/types": "^0.7.9",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",

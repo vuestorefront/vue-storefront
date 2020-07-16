@@ -1,7 +1,4 @@
 import webpack from 'webpack';
-import { config } from './plugins/commercetools-config.js';
-
-const localeNames = config.locales.map(l => ({ code: l.name, file: `${l.name}.js`, iso: l.name }));
 
 export default {
   mode: 'universal',
@@ -23,14 +20,15 @@ export default {
       { rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico' }
+    ],
+    script: [
+      { src: 'https://cdn.checkout.com/js/framesv2.min.js' }
+      // { src: 'https://x.klarnacdn.net/kp/lib/v1/api.js' }
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/commercetools.js'
-  ],
   router: {
-    middleware: ['commercetools', 'checkout']
+    middleware: ['checkout']
   },
   buildModules: [
     // to core
@@ -42,10 +40,12 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
+          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/commercetools',
+          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ]
       }
@@ -54,10 +54,30 @@ export default {
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/commercetools-api',
       composables: '@vue-storefront/commercetools'
-    }]
+    }],
     // @core-development-only-end
+    ['@vue-storefront/commercetools/nuxt', {
+      disableGenerateTokenMiddleware: false,
+      api: {
+        uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
+        authHost: 'https://auth.sphere.io',
+        projectKey: 'vsf-ct-dev',
+        clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
+        clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+        scopes: [
+          'create_anonymous_token:vsf-ct-dev',
+          'manage_my_orders:vsf-ct-dev',
+          'manage_my_profile:vsf-ct-dev',
+          'manage_my_shopping_lists:vsf-ct-dev',
+          'manage_my_payments:vsf-ct-dev',
+          'view_products:vsf-ct-dev',
+          'view_published_products:vsf-ct-dev'
+        ]
+      }
+    }]
   ],
   modules: [
+    ['@vue-storefront/checkout-com/nuxt', { publicKey: 'pk_test_8638c4e2-e44a-407f-a5f3-594a8503bcd0' }],
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
@@ -76,17 +96,29 @@ export default {
       })
     ]
   },
+
   i18n: {
-    locales: localeNames,
-    defaultLocale: localeNames[0].code,
+    locales: [
+      {
+        code: 'en',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
     lazy: true,
     seo: true,
     langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: localeNames[0].code
+      fallbackLocale: 'en'
     },
     detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName,
+      cookieKey: 'vsf-locale',
       alwaysRedirect: true
     }
   }
