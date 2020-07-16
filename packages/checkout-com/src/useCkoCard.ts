@@ -3,15 +3,21 @@
 import { createContext, createPayment } from './payment';
 import { ref } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getFramesCardTokenKey, Configuration, getFramesLocalization } from './configuration';
+import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropetiesWithOptionalToken } from './helpers';
 
 declare const Frames: any;
 
 const submitDisabled = ref(false);
 const error = ref(null);
+const paymentMethod = ref(0);
 
 const getCardToken = () => localStorage.getItem(getFramesCardTokenKey());
 const setCardToken = (token) => localStorage.setItem(getFramesCardTokenKey(), token);
 const removeCardToken = () => localStorage.removeItem(getFramesCardTokenKey());
+
+const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => paymentMethod.value = newPaymentMethod;
+const getCurrentPaymentMethod = () => paymentMethod.value;
+const getCurrentPaymentMethodPayload = (payload: PaymentPropetiesWithOptionalToken) => buildPaymentPayloadStrategies[getCurrentPaymentMethod()](payload);
 
 const useCkoCard = () => {
   const makePayment = async ({ cartId, contextDataId = null }) => {
@@ -65,6 +71,7 @@ const useCkoCard = () => {
         submitDisabled.value = !Frames.isCardValid();
       },
       cardTokenized: async ({ token }) => {
+        setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD);
         setCardToken(token);
       },
       cardTokenizationFailed: (data) => {
@@ -79,6 +86,8 @@ const useCkoCard = () => {
     submitDisabled,
     submitForm,
     makePayment,
+    setCurrentPaymentMethod,
+    getCurrentPaymentMethod,
     initCardForm
   };
 };
