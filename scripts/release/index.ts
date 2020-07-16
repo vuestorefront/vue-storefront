@@ -31,20 +31,27 @@ const getDirectories = (source: string) =>
 enum PACKAGE_TYPES {
     NotPackage = 0,
     Wrapper,
-    Subpackage
+    Package
 }
-const isSubpackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
+enum PACKAGE_SUBTYPE {
+    INDEPENDENT = 0,
+    API,
+    COMPOSABLE,
+    THEME,
+    CLI
+}
+const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
 const isWrapper = (pckg: string) => {
   try {
     const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
-    return directories.some(directory => isSubpackage(`${pckg}/${directory}`));
+    return directories.some(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
   }
 };
 const getPackageType = (pckg: string): PACKAGE_TYPES => {
-  if (isSubpackage(pckg)) {
-    return PACKAGE_TYPES.Subpackage;
+  if (isPackage(pckg)) {
+    return PACKAGE_TYPES.Package;
   }
   if (isWrapper(pckg)) {
     return PACKAGE_TYPES.Wrapper;
@@ -59,7 +66,42 @@ const RELEASE_GRADATIONS = {
 };
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).includes(gradation);
 
-const readArgs = () => {
+// At first I will prepare it only for ecommerce integrations
+
+// CLI          depends on THEME
+// THEME        depends on COMPOSABLE
+// COMPOSABLE   depends on API
+
+const getPackageSubtype = (pckg: string): PACKAGE_SUBTYPE => {
+  switch (pckg.split('/').pop()) {
+    case 'api-client':
+      return PACKAGE_SUBTYPE.API;
+    case 'composables':
+      return PACKAGE_SUBTYPE.COMPOSABLE;
+    case 'theme':
+      return PACKAGE_SUBTYPE.THEME;
+    case 'cli':
+      return PACKAGE_SUBTYPE.CLI;
+    default:
+      return PACKAGE_SUBTYPE.INDEPENDENT;
+  }
+};
+const buildPackageDependencyList = (packageSubtype: PACKAGE_SUBTYPE): PACKAGE_SUBTYPE[] => {
+  const list: PACKAGE_SUBTYPE[] = [];
+  if (packageSubtype === PACKAGE_SUBTYPE.INDEPENDENT) {
+    return list;
+  }
+
+  const enumKeys = Object.keys(PACKAGE_SUBTYPE).filter(key => isNaN(Number(key)));
+  for (let i = packageSubtype + 1; i < enumKeys.length; i++) {
+    list.push(i);
+  }
+
+  return list;
+};
+
+const program = () => {
+  // Step 1
   const [pckg, , gradation] = process.argv.slice(2);
   if (!pckg || !gradation) {
     console.log('Provide package and gradation. Pattern is: {package} - {gradation}');
@@ -71,7 +113,15 @@ const readArgs = () => {
   }
 
   const packageType = getPackageType(pckg);
-  console.log(packageType);
+  if (!packageType) {
+    console.log('Bad package\'s type');
+    return;
+  }
+
+  if (packageType === 2) {
+    const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(getPackageSubtype(pckg));
+    console.log(dependencyList);
+  }
 };
 
-readArgs();
+program();
