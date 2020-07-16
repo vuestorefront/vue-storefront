@@ -175,22 +175,18 @@ import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
-
 extend('required', {
   ...required,
   message: 'This field is required'
 });
-
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
-
 extend('digits', {
   ...digits,
   message: 'Please provide a valid phone number'
 });
-
 export default {
   name: 'PersonalDetails',
   components: {
@@ -215,23 +211,19 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
-
     const handleShippingAddressSubmit = (reset) => async () => {
       await setShippingDetails(shippingDetails.value, { save: true });
       await loadShippingMethods();
       reset();
     };
-
     const handleShippingMethodSubmit = (reset) => async () => {
       reset();
       context.root.$router.push('/checkout/payment');
     };
-
     return {
       loading,
       handleShippingAddressSubmit,
@@ -248,7 +240,6 @@ export default {
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -302,7 +293,6 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
-
     &:hover {
       color:  white;
     }
