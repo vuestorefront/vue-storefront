@@ -704,7 +704,11 @@
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
       "checkout": "LOCALSTORAGE"
-    }
+    },
+    "preserveCollections": [
+      "cart",
+      "user"
+    ]
   },
   "reviews": {
     "create_endpoint": "/api/review/create"

@@ -17,10 +17,10 @@ const createAttributesListQuery = ({
     searchQuery = searchQuery.applyFilter({ key: filterField, value: { 'in': filterValues } })
   }
   if (onlyDefinedByUser) {
-    searchQuery = searchQuery.applyFilter({ key: 'is_user_defined', value: { 'in': [true, '1'] } })
+    searchQuery = searchQuery.applyFilter({ key: 'is_user_defined', value: { 'in': [true] } })
   }
   if (onlyVisible) {
-    searchQuery = searchQuery.applyFilter({ key: 'is_visible', value: { 'in': [true, '1'] } })
+    searchQuery = searchQuery.applyFilter({ key: 'is_visible', value: { 'in': [true] } })
   }
 
   return searchQuery
