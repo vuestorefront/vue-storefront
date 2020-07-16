@@ -45,25 +45,34 @@ const getStoredMethods = async ({ publicKey, secretKey, customerId }) => {
   }
 };
 
-// const removeStoredMethod = async ({ publicKey, secretKey, customerId, paymentInstrumentId }) => {
-//     try {
-//         let { data } = await axios.delete(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}`, {
-//             headers: apiRequestHeaders(secretKey)
-//         })
-//         return data
-//     } catch (err) {
-//         console.log(err)
-//         return null
-//     }
-// }
+const removeStoredMethod = async ({ publicKey, secretKey, customerId, paymentInstrumentId }) => {
+  try {
+    const response = await axios.delete(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`, {
+      headers: apiRequestHeaders(secretKey)
+    });
+    return response;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+/**
+ * POST /cko-api/payment-instruments
+ *  Method: getStoredMethods
+ *  Body:
+ *    customer_id: Required
+ *
+ * DELETE /cko-api/payment-instruments/{customerId}/{paymentInstrumentId}
+ *  Method: removeStoredMethod
+ */
 
 export default ({ publicKey, secretKey }) => async (req, res, next) => {
-  if (req.url !== '/') {
-    return notFound(next);
-  }
-
   switch (req.method) {
     case 'POST':
+      if (req.url !== '/') {
+        return notFound(next);
+      }
       const body = await Promise.race([
         processPost(req),
         wait(5000)
@@ -76,8 +85,21 @@ export default ({ publicKey, secretKey }) => async (req, res, next) => {
         return sendJsonResponse(res, JSON.stringify(data));
       }
       return badRequest(next);
-      // case 'DELETE':
-      //     return await removeStoredMethod({ publicKey, secretKey })
+    case 'DELETE':
+      const urlParams = req.url.substr(1).split('/');
+      if (urlParams.length > 2) {
+        return badRequest(next);
+      }
+      const response = await removeStoredMethod({
+        publicKey,
+        secretKey,
+        customerId: urlParams[0],
+        paymentInstrumentId: urlParams[1]
+      });
+      if (response) {
+        next({ statusCode: 200 });
+      }
+      return badRequest(next);
     default:
       return notFound(next);
   }
