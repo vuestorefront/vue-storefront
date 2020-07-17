@@ -28,6 +28,15 @@ export class SearchAdapter {
     return item
   }
 
+  protected decompressItem (item, parent, fieldsToCompress) {
+    fieldsToCompress.forEach(key => {
+      if (typeof item[key] === 'undefined') {
+        item[key] = parent[key]
+      }
+    })
+    return item
+  }
+
   public async search (Request) {
     const rawQueryObject = Request.searchQuery
     if (!this.entities[Request.type]) {
@@ -107,7 +116,8 @@ export class SearchAdapter {
             hit = this.decompactItem(hit, config.products.fieldsToCompact)
             if (hit.configurable_children) {
               hit.configurable_children = hit.configurable_children.map(childItem => {
-                return this.decompactItem(childItem, config.products.fieldsToCompact)
+                childItem = this.decompactItem(childItem, config.products.fieldsToCompact)
+                return this.decompressItem(childItem, hit, config.products.fieldsToCompress)
               })
             }
           }
