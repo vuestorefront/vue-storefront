@@ -19,52 +19,14 @@
 
 // 4. Behaviour if it failed
 
-import { OperationsData, RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES } from './types';
-import path from 'path';
 import fs from 'fs';
+import getPackageType from './getPackageType';
+import updatePackageVersion from './updatePackageVersion';
 import { execSync } from 'child_process';
+import { registry } from './const';
+import { RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES } from './types';
 
-const base = '../../packages/';
-const getDirectories = (source: string) =>
-  fs.readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-
-const integrationWrapperPackages = [
-  'api-client',
-  'composables',
-  'theme'
-];
-const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
-const isIntegrationWrapper = (pckg: string) => {
-  try {
-    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`)).filter(dir => integrationWrapperPackages.includes(dir));
-    return integrationWrapperPackages.length === directories.length && directories.every(directory => isPackage(`${pckg}/${directory}`));
-  } catch (err) {
-    return false;
-  }
-};
-const isWrapper = (pckg: string) => {
-  try {
-    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
-    return directories.some(directory => isPackage(`${pckg}/${directory}`));
-  } catch (err) {
-    return false;
-  }
-};
-const getPackageType = (pckg: string): PACKAGE_TYPES => {
-  if (isPackage(pckg)) {
-    return PACKAGE_TYPES.Package;
-  }
-  if (isIntegrationWrapper(pckg)) {
-    return PACKAGE_TYPES.IntegrationWrapper;
-  }
-  if (isWrapper(pckg)) {
-    return PACKAGE_TYPES.Wrapper;
-  }
-  return PACKAGE_TYPES.NotPackage;
-};
-
+const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
 
 // CLI          depends on THEME
@@ -124,69 +86,6 @@ const buildPackageDependencyList = (pckg: string): PACKAGE_SUBTYPE[] => {
 
   return list;
 };
-
-const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string => {
-  return version.replace(/([\^~]?)(\d+)\.(\d+)\.(\d+)$/, (_, special, major, minor, path) => {
-    switch (gradation) {
-      case RELEASE_GRADATIONS.path:
-        path++;
-        break;
-      case RELEASE_GRADATIONS.minor:
-        minor++;
-        break;
-      case RELEASE_GRADATIONS.major:
-        major++;
-        break;
-    }
-    return `${special}${major}.${minor}.${path}`;
-  });
-};
-
-const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, operationsData: OperationsData = {
-  pathsToRun: [],
-  freshVersions: {},
-  oldFiles: {}
-}): OperationsData => {
-  const filePath = path.join(__dirname, base, pckg, 'package.json');
-  const packageJson = require(filePath);
-  if (!packageJson) {
-    return operationsData;
-  }
-
-  const modifiedFile = {
-    ...packageJson,
-    version: updateVersion(packageJson.version, gradation)
-  };
-
-  for (const [dependency, version] of Object.entries(operationsData.freshVersions)) {
-    if (modifiedFile.dependencies[dependency]) {
-      modifiedFile.dependencies[dependency] = modifiedFile.dependencies[dependency].replace(/([\^~]?)(.*)/, (_, specialChar) => {
-        return `${specialChar}${version}`;
-      });
-    }
-  }
-
-  fs.writeFileSync(filePath, JSON.stringify(modifiedFile, null, 2));
-
-  return {
-    freshVersions: {
-      ...operationsData.freshVersions,
-      [packageJson.name]: modifiedFile.version
-    },
-    pathsToRun: [
-      ...operationsData.pathsToRun,
-      filePath.replace('/package.json', '')
-    ],
-    oldFiles: {
-      ...operationsData.oldFiles,
-      [filePath]: packageJson
-    }
-  };
-};
-
-const registry = 'http://localhost:4873';
-// npm publish --registry http://localhost:4873
-const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
 
 const program = () => {
   const args = process.argv.slice(2);
