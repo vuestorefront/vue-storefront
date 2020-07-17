@@ -28,6 +28,7 @@ import { RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES } from './types';
 
 const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
+const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
 
 // CLI          depends on THEME
 // THEME        depends on COMPOSABLE
@@ -116,6 +117,7 @@ const program = () => {
 
   if (packageType === PACKAGE_TYPES.Package || packageType === PACKAGE_TYPES.IntegrationWrapper) {
     if (packageType === PACKAGE_TYPES.IntegrationWrapper) {
+      // PACKAGE_TYPES.IntegrationWrapper === PACKAGE_TYPES.Package api-client
       pckg = `${pckg}/api-client`;
     }
     const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
@@ -128,32 +130,32 @@ const program = () => {
       console.log(err);
     }
 
-    const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
-    const finalStatus = [];
+    const statusLog = [];
 
     try {
       while (operationList.pathsToRun.length) {
         publishPackage(operationList.pathsToRun[0]);
-        finalStatus.push('Succesfully published ' + sliceAbsolutePathPart(operationList.pathsToRun[0]) + ` new ${gradation} version`);
+        statusLog.push('Succesfully published ' + sliceAbsolutePathPart(operationList.pathsToRun[0]) + ` new ${gradation} version`);
         operationList.pathsToRun.shift();
       }
     } catch (err) {
       for (const pathToRun of operationList.pathsToRun) {
-        finalStatus.push('Failed publishing ' + sliceAbsolutePathPart(pathToRun));
+        statusLog.push('Failed publishing ' + sliceAbsolutePathPart(pathToRun));
         const pathWithFile = `${pathToRun}/package.json`;
         fs.writeFileSync(pathWithFile, JSON.stringify(operationList.oldFiles[pathWithFile], null, 2));
-        finalStatus.push('Rolled back to old version');
+        statusLog.push('Rolled back to old version');
       }
     }
 
     console.log('\n');
-    for (const log of finalStatus) {
+    for (const log of statusLog) {
       console.log(log);
     }
-  } else if (packageType === PACKAGE_TYPES.Wrapper && pckg === 'core') {
-    // It's core
-    console.log('Pick specific core\'s package');
 
+  } else if (packageType === PACKAGE_TYPES.Wrapper && pckg === 'core') {
+    console.log('Pick specific core\'s package');
+  } else {
+    console.log('Bad package\'s type');
   }
 };
 
