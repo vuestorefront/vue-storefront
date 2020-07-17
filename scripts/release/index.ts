@@ -146,7 +146,7 @@ const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string =
 const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, register: Record<string, any> = {}): Record<string, any> => {
   const packageJson = require(path.join(__dirname, base, pckg, 'package.json'));
   if (!packageJson) {
-    return false;
+    return register;
   }
 
   const modifiedFile = {
