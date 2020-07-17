@@ -219,6 +219,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
+    commit(types.USER_ORDERS_HISTORY_LOADED, null)
     dispatch('wishlist/clear', null, { root: true })
     dispatch('compare/clear', null, { root: true })
     dispatch('checkout/savePersonalDetails', {}, { root: true })
@@ -257,12 +258,20 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+  async refreshOrdersHistory ({ commit, getters }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
     const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
-      commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-      EventBus.$emit('user-after-loaded-orders', resp.result)
+      let oldOrders = getters.getOrdersHistory;
+      let orders = resp.result;
+      if (oldOrders && orders.items) {
+        orders.items = [
+          ...oldOrders,
+          ...resp.result.items
+        ]
+      }
+      commit(types.USER_ORDERS_HISTORY_LOADED, orders) // this also stores the current user to localForage
+      EventBus.$emit('user-after-loaded-orders', orders)
     }
 
     if (!resolvedFromCache) {
@@ -283,7 +292,6 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (useCache) {
       const ordersHistory = await dispatch('loadOrdersFromCache')
-
       if (ordersHistory) {
         resolvedFromCache = true
         Logger.log('Current user order history served from cache', 'user')()

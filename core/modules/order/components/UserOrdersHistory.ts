@@ -28,9 +28,8 @@ export default {
     onBottomScroll () {
       ++this.pagination.current
       let total_count = this.$store.state.user.orders_history.total_count ? this.$store.state.user.orders_history.total_count : 0
-      let viewSize = (this.pagination.perPage + 1) * this.pagination.current
-      if (total_count > viewSize) {
-        this.getHistory({ currentPage: this.pagination.current, useCache: false })
+      if (Math.ceil(total_count / this.pagination.perPage) >= this.pagination.current) {
+        this.getHistory({ currentPage: this.pagination.current, refresh: true })
       }
     },
     ...mapActions({
