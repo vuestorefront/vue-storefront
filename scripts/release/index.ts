@@ -256,22 +256,27 @@ const program = () => {
     }
 
     const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
+    const finalStatus = [];
 
     try {
       while (operationList.pathsToRun.length) {
         publishPackage(operationList.pathsToRun[0]);
         const pathWithFile = `${operationList.pathsToRun[0]}/package.json`;
-        console.log('\nSuccesfully published ', sliceAbsolutePathPart(operationList.pathsToRun[0]), `v${operationList.oldFiles[pathWithFile].version}`);
+        finalStatus.push('Succesfully published ' + sliceAbsolutePathPart(operationList.pathsToRun[0]) + `v${operationList.oldFiles[pathWithFile].version}`);
         operationList.pathsToRun.shift();
       }
     } catch (err) {
       for (const pathToRun of operationList.pathsToRun) {
-        console.log('\nFailed publishing ', sliceAbsolutePathPart(pathToRun));
+        finalStatus.push('Failed publishing ' + sliceAbsolutePathPart(pathToRun));
         const pathWithFile = `${pathToRun}/package.json`;
         fs.writeFileSync(pathWithFile, JSON.stringify(operationList.oldFiles[pathWithFile], null, 2));
-        console.log('Rolled back to old version');
+        finalStatus.push('Rolled back to old version');
       }
-      // Show not runned
+    }
+
+    console.log('\n');
+    for (const log of finalStatus) {
+      console.log(log);
     }
   } else if (packageType === PACKAGE_TYPES.Wrapper && pckg === 'core') {
     // It's core
