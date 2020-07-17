@@ -159,6 +159,7 @@ const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string =
     return `${special}${major}.${minor}.${path}`;
   });
 };
+const pathsToRun = [];
 
 const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, register: Record<string, any> = {}): Record<string, any> => {
   const filePath = path.join(__dirname, base, pckg, 'package.json');
@@ -182,11 +183,18 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, regis
 
   fs.writeFileSync(filePath, JSON.stringify(modifiedFile, null, 2));
 
+  pathsToRun.push(filePath.replace('/package.json', ''));
   return {
     ...register,
     [packageJson.name]: modifiedFile.version
   };
 };
+
+// npm publish --registry http://localhost:4873
+const registry = 'http://localhost:4873';
+const { execSync } = require('child_process');
+
+const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
 
 const program = () => {
   // Step 1
@@ -217,14 +225,23 @@ const program = () => {
       pckg = `${pckg}/api-client`;
     }
     const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
-    console.log(dependencyList);
-
-    // First itself
-    runtimeRegister = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
-    for (const subtype of dependencyList) {
-      runtimeRegister = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], runtimeRegister);
+    try {
+      runtimeRegister = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
+      for (const subtype of dependencyList) {
+        runtimeRegister = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], runtimeRegister);
+      }
+    } catch (err) {
+      console.log(err);
     }
+
+    console.log(pathsToRun);
     console.log(runtimeRegister);
+    for (const pathToPublish of pathsToRun) {
+      publishPackage(pathToPublish);
+    }
+  } else if (packageType === PACKAGE_TYPES.Wrapper && pckg === 'core') {
+    // It's core
+
   }
 };
 
