@@ -31,6 +31,7 @@ const getDirectories = (source: string) =>
 enum PACKAGE_TYPES {
     NotPackage = 0,
     Wrapper,
+    IntegrationWrapper,
     Package
 }
 enum PACKAGE_SUBTYPE {
@@ -40,7 +41,20 @@ enum PACKAGE_SUBTYPE {
     THEME,
     CLI
 }
+const integrationWrapperPackages = [
+  'api-client',
+  'composables',
+  'theme'
+];
 const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
+const isIntegrationWrapper = (pckg: string) => {
+  try {
+    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`)).filter(dir => integrationWrapperPackages.includes(dir));
+    return integrationWrapperPackages.length === directories.length && directories.every(directory => isPackage(`${pckg}/${directory}`));
+  } catch (err) {
+    return false;
+  }
+};
 const isWrapper = (pckg: string) => {
   try {
     const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
@@ -52,6 +66,9 @@ const isWrapper = (pckg: string) => {
 const getPackageType = (pckg: string): PACKAGE_TYPES => {
   if (isPackage(pckg)) {
     return PACKAGE_TYPES.Package;
+  }
+  if (isIntegrationWrapper(pckg)) {
+    return PACKAGE_TYPES.IntegrationWrapper;
   }
   if (isWrapper(pckg)) {
     return PACKAGE_TYPES.Wrapper;
@@ -173,7 +190,11 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, regis
 
 const program = () => {
   // Step 1
-  const [pckg, , gradation] = process.argv.slice(2);
+  const args = process.argv.slice(2);
+  let pckg = args[0];
+  // args[1] === '-'
+  const gradation = args[2];
+
   if (!pckg || !gradation) {
     console.log('Provide package and gradation. Pattern is: {package} - {gradation}');
     return;
@@ -191,7 +212,10 @@ const program = () => {
 
   let runtimeRegister = {};
 
-  if (packageType === PACKAGE_TYPES.Package) {
+  if (packageType === PACKAGE_TYPES.Package || packageType === PACKAGE_TYPES.IntegrationWrapper) {
+    if (packageType === PACKAGE_TYPES.IntegrationWrapper) {
+      pckg = `${pckg}/api-client`;
+    }
     const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
     console.log(dependencyList);
 
