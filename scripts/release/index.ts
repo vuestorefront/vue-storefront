@@ -261,8 +261,7 @@ const program = () => {
     try {
       while (operationList.pathsToRun.length) {
         publishPackage(operationList.pathsToRun[0]);
-        const pathWithFile = `${operationList.pathsToRun[0]}/package.json`;
-        finalStatus.push('Succesfully published ' + sliceAbsolutePathPart(operationList.pathsToRun[0]) + `v${operationList.oldFiles[pathWithFile].version}`);
+        finalStatus.push('Succesfully published ' + sliceAbsolutePathPart(operationList.pathsToRun[0]) + ` new ${gradation} version`);
         operationList.pathsToRun.shift();
       }
     } catch (err) {
