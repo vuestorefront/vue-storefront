@@ -24,7 +24,13 @@ const mutations: MutationTree<UserState> = {
     state.current = currentUser
   },
   [types.USER_ORDERS_HISTORY_LOADED] (state, ordersHistory) {
-    state.orders_history = ordersHistory
+    if (state.orders_history) {
+      ordersHistory.items.forEach(item => {
+        state.orders_history.items.push(item)
+      })
+    } else {
+      state.orders_history = ordersHistory
+    }
   },
   [types.USER_END_SESSION] (state) {
     state.token = ''
