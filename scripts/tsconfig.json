@@ -1,0 +1,8 @@
+{
+  "extends": "../packages/tsconfig.base.json",
+  "include": ["./release"],
+  "exclude": ["node_modules", "lib"],
+  "compilerOptions": {
+    "noEmitHelpers": false,
+  },
+}

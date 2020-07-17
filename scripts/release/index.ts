@@ -14,7 +14,7 @@
 // 3. Process for full package
 // A. Go to each directory
 // B. Update version basing on 1.D. & store in variable version of each package
-// C. Update version of each package in dependencuies
+// C. Update version of each package in dependencies:
 // D. Run npm publish (order: API, Composables, Theme)
 
 // 4. Behaviour if it failed
@@ -59,12 +59,12 @@ const getPackageType = (pckg: string): PACKAGE_TYPES => {
   return PACKAGE_TYPES.NotPackage;
 };
 
-const RELEASE_GRADATIONS = {
-  path: 1,
-  minor: 2,
-  major: 3
-};
-const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).includes(gradation);
+enum RELEASE_GRADATIONS {
+  path = 1,
+  minor,
+  major
+}
+const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
 
 // At first I will prepare it only for ecommerce integrations
 
@@ -86,7 +86,33 @@ const getPackageSubtype = (pckg: string): PACKAGE_SUBTYPE => {
       return PACKAGE_SUBTYPE.INDEPENDENT;
   }
 };
-const buildPackageDependencyList = (packageSubtype: PACKAGE_SUBTYPE): PACKAGE_SUBTYPE[] => {
+
+const getSubtypeName = (subtype: PACKAGE_SUBTYPE): string => {
+  switch (subtype) {
+    case PACKAGE_SUBTYPE.API:
+      return 'api-client';
+    case PACKAGE_SUBTYPE.COMPOSABLE:
+      return 'composables';
+    case PACKAGE_SUBTYPE.THEME:
+      return 'theme';
+    case PACKAGE_SUBTYPE.CLI:
+      return 'cli';
+    default:
+
+  }
+};
+
+const pckgSubtypeToPath = (pckg: string, subtype: PACKAGE_SUBTYPE): string => {
+  if (subtype === PACKAGE_SUBTYPE.CLI) {
+    return 'core/cli';
+  }
+  const base = pckg.split('/');
+  base[base.length - 1] = getSubtypeName(subtype);
+  return base.join('/');
+};
+
+const buildPackageDependencyList = (pckg: string): PACKAGE_SUBTYPE[] => {
+  const packageSubtype = getPackageSubtype(pckg);
   const list: PACKAGE_SUBTYPE[] = [];
   if (packageSubtype === PACKAGE_SUBTYPE.INDEPENDENT) {
     return list;
@@ -98,6 +124,53 @@ const buildPackageDependencyList = (packageSubtype: PACKAGE_SUBTYPE): PACKAGE_SU
   }
 
   return list;
+};
+
+const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string => {
+  return version.replace(/([\^~]?)(\d+)\.(\d+)\.(\d+)$/, (_, special, major, minor, path) => {
+    switch (gradation) {
+      case RELEASE_GRADATIONS.path:
+        path++;
+        break;
+      case RELEASE_GRADATIONS.minor:
+        minor++;
+        break;
+      case RELEASE_GRADATIONS.major:
+        major++;
+        break;
+    }
+    return `${special}${major}.${minor}.${path}`;
+  });
+};
+
+const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, register: Record<string, any> = {}): Record<string, any> => {
+  const packageJson = require(path.join(__dirname, base, pckg, 'package.json'));
+  if (!packageJson) {
+    return false;
+  }
+
+  const modifiedFile = {
+    ...packageJson,
+    version: updateVersion(packageJson.version, gradation)
+  };
+
+  for (const [dependency, version] of Object.entries(register)) {
+    if (modifiedFile.dependencies[dependency]) {
+      modifiedFile.dependencies[dependency] = modifiedFile.dependencies[dependency].replace(/([\^~]?)(.*)/, (_, specialChar) => {
+        return `${specialChar}${version}`;
+      });
+    }
+  }
+
+  // Register job
+  console.log(modifiedFile);
+
+  // SAVE IT NOW
+
+  return {
+    ...register,
+    [packageJson.name]: modifiedFile.version
+  };
 };
 
 const program = () => {
@@ -118,9 +191,18 @@ const program = () => {
     return;
   }
 
-  if (packageType === 2) {
-    const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(getPackageSubtype(pckg));
+  let runtimeRegister = {};
+
+  if (packageType === PACKAGE_TYPES.Package) {
+    const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
     console.log(dependencyList);
+
+    // First itself
+    runtimeRegister = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
+    for (const subtype of dependencyList) {
+      runtimeRegister = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], runtimeRegister);
+    }
+    console.log(runtimeRegister);
   }
 };
 
