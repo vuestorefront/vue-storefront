@@ -159,13 +159,21 @@ const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string =
     return `${special}${major}.${minor}.${path}`;
   });
 };
-const pathsToRun = [];
+interface OperationsData {
+  pathsToRun: Array<string>;
+  freshVersions: Record<string, any>;
+  oldFiles: Record<string, any>;
+}
 
-const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, register: Record<string, any> = {}): Record<string, any> => {
+const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, operationsData: OperationsData = {
+  pathsToRun: [],
+  freshVersions: {},
+  oldFiles: {}
+}): OperationsData => {
   const filePath = path.join(__dirname, base, pckg, 'package.json');
   const packageJson = require(filePath);
   if (!packageJson) {
-    return register;
+    return operationsData;
   }
 
   const modifiedFile = {
@@ -173,7 +181,7 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, regis
     version: updateVersion(packageJson.version, gradation)
   };
 
-  for (const [dependency, version] of Object.entries(register)) {
+  for (const [dependency, version] of Object.entries(operationsData.freshVersions)) {
     if (modifiedFile.dependencies[dependency]) {
       modifiedFile.dependencies[dependency] = modifiedFile.dependencies[dependency].replace(/([\^~]?)(.*)/, (_, specialChar) => {
         return `${specialChar}${version}`;
@@ -183,10 +191,19 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, regis
 
   fs.writeFileSync(filePath, JSON.stringify(modifiedFile, null, 2));
 
-  pathsToRun.push(filePath.replace('/package.json', ''));
   return {
-    ...register,
-    [packageJson.name]: modifiedFile.version
+    freshVersions: {
+      ...operationsData.freshVersions,
+      [packageJson.name]: modifiedFile.version
+    },
+    pathsToRun: [
+      ...operationsData.pathsToRun,
+      filePath.replace('/package.json', '')
+    ],
+    oldFiles: {
+      ...operationsData.oldFiles,
+      [filePath]: packageJson
+    }
   };
 };
 
@@ -218,7 +235,11 @@ const program = () => {
     return;
   }
 
-  let runtimeRegister = {};
+  let operationList = {
+    pathsToRun: [],
+    freshVersions: {},
+    oldFiles: {}
+  };
 
   if (packageType === PACKAGE_TYPES.Package || packageType === PACKAGE_TYPES.IntegrationWrapper) {
     if (packageType === PACKAGE_TYPES.IntegrationWrapper) {
@@ -226,21 +247,35 @@ const program = () => {
     }
     const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
     try {
-      runtimeRegister = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
+      operationList = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
       for (const subtype of dependencyList) {
-        runtimeRegister = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], runtimeRegister);
+        operationList = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], operationList);
       }
     } catch (err) {
       console.log(err);
     }
 
-    console.log(pathsToRun);
-    console.log(runtimeRegister);
-    for (const pathToPublish of pathsToRun) {
-      publishPackage(pathToPublish);
+    const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
+
+    try {
+      while (operationList.pathsToRun.length) {
+        publishPackage(operationList.pathsToRun[0]);
+        const pathWithFile = `${operationList.pathsToRun[0]}/package.json`;
+        console.log('\nSuccesfully published ', sliceAbsolutePathPart(operationList.pathsToRun[0]), `v${operationList.oldFiles[pathWithFile].version}`);
+        operationList.pathsToRun.shift();
+      }
+    } catch (err) {
+      for (const pathToRun of operationList.pathsToRun) {
+        console.log('\nFailed publishing ', sliceAbsolutePathPart(pathToRun));
+        const pathWithFile = `${pathToRun}/package.json`;
+        fs.writeFileSync(pathWithFile, JSON.stringify(operationList.oldFiles[pathWithFile], null, 2));
+        console.log('Rolled back to old version');
+      }
+      // Show not runned
     }
   } else if (packageType === PACKAGE_TYPES.Wrapper && pckg === 'core') {
     // It's core
+    console.log('Pick specific core\'s package');
 
   }
 };
