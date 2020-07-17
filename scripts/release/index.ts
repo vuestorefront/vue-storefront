@@ -144,7 +144,8 @@ const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string =
 };
 
 const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, register: Record<string, any> = {}): Record<string, any> => {
-  const packageJson = require(path.join(__dirname, base, pckg, 'package.json'));
+  const filePath = path.join(__dirname, base, pckg, 'package.json');
+  const packageJson = require(filePath);
   if (!packageJson) {
     return register;
   }
@@ -162,10 +163,7 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, regis
     }
   }
 
-  // Register job
-  console.log(modifiedFile);
-
-  // SAVE IT NOW
+  fs.writeFileSync(filePath, JSON.stringify(modifiedFile, null, 2));
 
   return {
     ...register,
