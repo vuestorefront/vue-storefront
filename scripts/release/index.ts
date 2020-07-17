@@ -19,28 +19,17 @@
 
 // 4. Behaviour if it failed
 
-const path = require('path');
-const fs = require('fs');
-const base = '../../packages/';
+import { OperationsData, RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES } from './types';
+import path from 'path';
+import fs from 'fs';
+import { execSync } from 'child_process';
 
+const base = '../../packages/';
 const getDirectories = (source: string) =>
   fs.readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-enum PACKAGE_TYPES {
-    NotPackage = 0,
-    Wrapper,
-    IntegrationWrapper,
-    Package
-}
-enum PACKAGE_SUBTYPE {
-    INDEPENDENT = 0,
-    API,
-    COMPOSABLE,
-    THEME,
-    CLI
-}
 const integrationWrapperPackages = [
   'api-client',
   'composables',
@@ -76,14 +65,7 @@ const getPackageType = (pckg: string): PACKAGE_TYPES => {
   return PACKAGE_TYPES.NotPackage;
 };
 
-enum RELEASE_GRADATIONS {
-  path = 1,
-  minor,
-  major
-}
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
-
-// At first I will prepare it only for ecommerce integrations
 
 // CLI          depends on THEME
 // THEME        depends on COMPOSABLE
@@ -159,11 +141,6 @@ const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string =
     return `${special}${major}.${minor}.${path}`;
   });
 };
-interface OperationsData {
-  pathsToRun: Array<string>;
-  freshVersions: Record<string, any>;
-  oldFiles: Record<string, any>;
-}
 
 const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, operationsData: OperationsData = {
   pathsToRun: [],
@@ -207,14 +184,11 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, opera
   };
 };
 
-// npm publish --registry http://localhost:4873
 const registry = 'http://localhost:4873';
-const { execSync } = require('child_process');
-
+// npm publish --registry http://localhost:4873
 const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
 
 const program = () => {
-  // Step 1
   const args = process.argv.slice(2);
   let pckg = args[0];
   // args[1] === '-'
