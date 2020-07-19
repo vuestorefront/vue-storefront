@@ -66,6 +66,9 @@
     "trace": {
       "enabled": false,
       "config": {}
+    },
+    "helmet": {
+      "enabled": true
     }
   },
   "initialResources": [
@@ -701,7 +704,11 @@
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
       "checkout": "LOCALSTORAGE"
-    }
+    },
+    "preserveCollections": [
+      "cart",
+      "user"
+    ]
   },
   "reviews": {
     "create_endpoint": "/api/review/create"
@@ -717,7 +724,9 @@
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
-    "refresh_endpoint": "/api/user/refresh"
+    "refresh_endpoint": "/api/user/refresh",
+    "allowModification": ["firstname", "lastname", "email", "addresses"],
+    "tokenInHeader": false
   },
   "stock": {
     "synchronize": true,

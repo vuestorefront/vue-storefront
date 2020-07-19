@@ -12,6 +12,7 @@
     "compression": "^1.7.4",
     "config": "^1.30.0",
     "express": "^4.14.0",
+    "helmet": "^3.23.3",
     "html-minifier": "^4.0.0",
     "lean-he": "^2.0.0",
     "localforage": "^1.7.2",

@@ -10,6 +10,11 @@ const StorageManager = {
   },
   get (key) {
     return this[key]
+  },
+  clear () {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
   }
 };
 const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory

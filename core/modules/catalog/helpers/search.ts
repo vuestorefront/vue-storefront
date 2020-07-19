@@ -45,15 +45,7 @@ export const storeProductToCache = (product, cacheByKey) => {
   const cacheKey = getCacheKey(product, cacheByKey);
   const cache = StorageManager.get('elasticCache');
 
-  cache
-    .setItem(cacheKey, product, null, config.products.disablePersistentProductsCache)
-    .catch(err => {
-      Logger.error('Cannot store cache for ' + cacheKey, err)();
-      if (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
-        // quota exceeded error
-        cache.clear(); // clear products cache if quota exceeded
-      }
-    });
+  cache.setItem(cacheKey, product, null, config.products.disablePersistentProductsCache)
 };
 
 export const preConfigureProduct = ({ product, populateRequestCacheTags }) => {
