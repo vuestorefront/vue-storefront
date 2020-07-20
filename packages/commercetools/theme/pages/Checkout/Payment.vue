@@ -251,7 +251,8 @@ export default {
       setSavePaymentInstrument,
       savePaymentInstrument,
       paymentMethod,
-      CKO_PAYMENT_TYPE
+      CKO_PAYMENT_TYPE,
+      removeMinePaymentInstrument
     };
   }
 };

@@ -97,7 +97,7 @@ export default ({ publicKey, secretKey }) => async (req, res, next) => {
         paymentInstrumentId: urlParams[1]
       });
       if (response) {
-        next({ statusCode: 200 });
+        return sendJsonResponse(res, JSON.stringify({}));
       }
       return badRequest(next);
     default:
