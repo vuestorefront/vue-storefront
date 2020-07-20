@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove deprecated value from attributesListQuery query - @gibkigonzo (#4572)
 - Fixed dutch translations - @1070rik (#4587)
 - localForage memory overload fixed. `localForage.preserveCollections` keeps names of collections to be preserved from being cleared. - @prakowski
+- Separate variant in findProductOption to get parent sku - @gibkigonzo (#4641)
 
 ### Changed / Improved
 
