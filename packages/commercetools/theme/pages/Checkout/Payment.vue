@@ -247,7 +247,9 @@ export default {
       handleCheckSameAddress,
       storedPaymentInstruments,
       setPaymentInstrument,
-      isAuthenticated
+      setCurrentPaymentMethod,
+      paymentMethod,
+      CKO_PAYMENT_TYPE
     };
   }
 };
