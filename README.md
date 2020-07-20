@@ -27,7 +27,7 @@ The project is in the **production ready** phase.
 -   👥  Slack Community:  [slack.vuestorefront.io](https://slack.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
 -   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
--   🌟  [Live Projects List](https://awesome.nuxtjs.org/)
+-   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## How to start?
 
