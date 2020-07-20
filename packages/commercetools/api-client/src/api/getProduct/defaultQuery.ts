@@ -75,6 +75,7 @@ export default gql`
     $offset: Int
     $skus: [String!]
     $locale: Locale!
+    $acceptLanguage: [Locale!]
     $currency: Currency!
     $country: Country!
   ) {
@@ -92,12 +93,12 @@ export default gql`
         id
         masterData {
           current {
-            slug(locale: $locale)
-            name(locale: $locale)
-            metaTitle(locale: $locale)
-            metaKeywords(locale: $locale)
-            metaDescription(locale: $locale)
-            description(locale: $locale)
+            slug(acceptLanguage: $acceptLanguage)
+            name(acceptLanguage: $acceptLanguage)
+            metaTitle(acceptLanguage: $acceptLanguage)
+            metaKeywords(acceptLanguage: $acceptLanguage)
+            metaDescription(acceptLanguage: $acceptLanguage)
+            description(acceptLanguage: $acceptLanguage)
             categoriesRef {
               id
             }

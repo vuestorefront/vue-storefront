@@ -33,8 +33,8 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     return {updatedCart: {}, updatedCoupon: {}};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async ({ currentCart }) => {
-    return {updatedCart: {}, updatedCoupon: {}};
+  removeCoupon: async ({ currentCart, coupon }) => {
+    return {updatedCart: {}};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isOnCart: ({ currentCart }) => {

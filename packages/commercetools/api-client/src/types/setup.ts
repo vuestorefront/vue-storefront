@@ -45,6 +45,8 @@ export interface SetupConfig<TCacheShape> {
   countries?: LocaleItem[];
   currencies?: LocaleItem[];
   locales?: LocaleItem[];
+  languageMap?: object;
+  acceptLanguage?: string[];
   cookies?: CookiesConfig;
   auth?: Auth;
   forceToken?: boolean;

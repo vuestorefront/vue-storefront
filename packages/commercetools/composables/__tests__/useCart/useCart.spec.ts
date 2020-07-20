@@ -11,7 +11,8 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
   removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
   updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } }))
+  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
+  removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } }))
 }));
 
 jest.mock('@vue-storefront/core', () => ({
@@ -79,13 +80,37 @@ describe('[commercetools-composables] useCart', () => {
     const { removeCoupon } = useCart() as any;
     const response = await removeCoupon({ currentCart: 'current cart' });
 
-    expect(response).toEqual({ updatedCart: 'current cart', updatedCoupon: null });
+    expect(response).toEqual({ updatedCart: 'current cart' });
   });
 
-  it('checks if you are on cart', () => {
+  describe('isOnCart', () => {
     const { isOnCart } = useCart() as any;
-    const response = isOnCart({ currentCart: 'current cart' });
 
-    expect(response).toBeTruthy();
+    it('returns false if product does not exists in cart', () => {
+      const currentCart: any = {
+        lineItems: []
+      };
+
+      const product: any = {
+        _id: 123
+      };
+
+      expect(isOnCart({ currentCart, product })).toEqual(false);
+    });
+
+    it('returns true if product exists in cart', () => {
+      const currentCart: any = {
+        lineItems: [{
+          productId: 123
+        }]
+      };
+
+      const product: any = {
+        _id: 123
+      };
+
+      expect(isOnCart({ currentCart, product })).toEqual(true);
+    });
   });
+
 });

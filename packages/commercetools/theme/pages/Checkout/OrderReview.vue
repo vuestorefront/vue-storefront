@@ -167,7 +167,6 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-
 export default {
   name: 'ReviewOrder',
   components: {
@@ -199,17 +198,14 @@ export default {
       loading,
       loadDetails
     } = useCheckout();
-
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
-
     const processOrder = async () => {
       const order = await placeOrder();
       context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
     };
-
     return {
       loading,
       products,
@@ -229,12 +225,10 @@ export default {
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
-
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   @include for-desktop {
@@ -320,7 +314,6 @@ export default {
     }
   }
 }
-
 .product-sku {
   color: var(--c-text-muted);
   font-size: var(--font-xs);
@@ -358,7 +351,6 @@ export default {
     margin: var(--spacer-2xl) 0 0 0;
     }
   }
-
   &__action-button {
     &--secondary {
       @include for-desktop {
@@ -369,7 +361,6 @@ export default {
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
     color:  white;
-
     &:hover {
       color:  white;
     }

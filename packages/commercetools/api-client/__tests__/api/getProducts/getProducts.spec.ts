@@ -7,6 +7,7 @@ describe('[commercetools-api-client] getProduct', () => {
   it('fetches product with default query', async () => {
     const givenVariables = {
       where: 'masterData(current(categories(id in ("724b250d-9805-4657-ae73-3c02a63a9a13"))))',
+      acceptLanguage: ['en', 'de'],
       locale: 'en',
       currency: 'USD',
       country: 'UK'
@@ -27,7 +28,7 @@ describe('[commercetools-api-client] getProduct', () => {
   it('fetches product with customized query', async () => {
     const givenVariables = {
       where: 'test',
-      locale: 'de',
+      acceptLanguage: ['de', 'en'],
       currency: 'eur'
     };
 
@@ -38,7 +39,7 @@ describe('[commercetools-api-client] getProduct', () => {
         $limit: Int
         $offset: Int
         $skus: [String!]
-        $locale: Locale
+        $acceptLanguage: [Locale!]
         $currency: Currency!
       ) {
         products(where: $where, sort: $sort, limit: $limit, offset: $offset, skus: $skus) {

@@ -1,5 +1,5 @@
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
-import { apolloClient, locale } from '../../index';
+import { apolloClient, locale, acceptLanguage } from '../../index';
 import CreateCartMutation from './defaultMutation';
 import { CartMutationResponse } from './../../types/Api';
 
@@ -14,6 +14,7 @@ const updateCart = async (cartData: UpdateCart): Promise<CartMutationResponse> =
     mutation: CreateCartMutation,
     variables: {
       locale,
+      acceptLanguage,
       ...cartData
     },
     fetchPolicy: 'no-cache'

@@ -31,6 +31,7 @@ let country = '';
 let countries = [];
 let currencies = [];
 let locales = [];
+let acceptLanguage = ['en'];
 let currentToken: Token = null;
 let api: ApiConfig = null;
 let auth: Auth = {
@@ -42,6 +43,7 @@ let cookies = {
   countryCookieName: 'vsf-country',
   localeCookieName: 'vsf-locale'
 };
+let languageMap = {};
 
 const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
   api = setupConfig.api || api;
@@ -54,6 +56,9 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
   cookies = setupConfig.cookies || cookies;
   auth = setupConfig.auth || auth;
   currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
+
+  languageMap = setupConfig.languageMap || languageMap;
+  acceptLanguage = languageMap[locale] || setupConfig.acceptLanguage || acceptLanguage;
 
   if (setupConfig.api) {
     apolloClient = new ApolloClient({
@@ -76,6 +81,7 @@ export {
   cookies,
   locale,
   locales,
+  acceptLanguage,
   country,
   currency,
   countries,

@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, locale, currency, country } from './../../index';
+import { apolloClient, currency, country, locale, acceptLanguage } from './../../index';
 import { ProductSearch } from './../../types/Api';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
@@ -28,6 +28,7 @@ const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<Prod
       limit: search.limit,
       offset: search.offset,
       locale,
+      acceptLanguage,
       currency,
       country
     },

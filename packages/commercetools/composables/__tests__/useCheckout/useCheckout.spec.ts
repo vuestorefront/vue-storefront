@@ -109,6 +109,15 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
     expect(shippingDetails.value).toEqual({ ...shippingAddress, contactInfo: {} });
   });
 
+  it('overwrites contactInfo properly', async () => {
+    (shippingDetails.value as any).contactInfo = { email: 'test@test.com' };
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {}, cartFields, setCart });
+    const shippingAddress = { firstName: 'John', lastName: 'Doe', contactInfo: { phone: '123456789' } };
+    await setShippingDetails(shippingAddress);
+
+    expect(shippingDetails.value).toEqual({ ...shippingAddress, contactInfo: { phone: '123456789', email: 'test@test.com' } });
+  });
+
   it('send shipping details to the api', async () => {
     const setShippingDetails = createSetShippingDetails({ factoryParams: {}, cartFields, setCart });
     const shippingAddress = { firstName: 'John', lastName: 'Doe' };

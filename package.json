@@ -19,6 +19,7 @@
     "build:bp:theme": "cd packages/boilerplate/theme && yarn build",
     "build:bp": "yarn build:core && yarn build:bp:tools && yarn build:bp:theme",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
+    "build:checkout-com": "cd packages/checkout-com && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
@@ -30,6 +31,9 @@
     "test:core": "jest -c ./packages/core/jest.config.js",
     "test:prismic": "cd packages/prismic && yarn test",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
+    "test:e2e":"./node_modules/.bin/cypress open",
+    "test:cli": "cd packages/core/cli && yarn test",
+    "test:cko": "cd packages/checkout-com && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "dev:ayc:api-client": "cd packages/about-you/api-client && yarn dev",
@@ -50,6 +54,7 @@
     "@vue/eslint-config-typescript": "^5.0.1",
     "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
+    "cypress": "^4.4.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
@@ -75,6 +80,7 @@
   "workspaces": {
     "packages": [
       "packages/commercetools/*",
+      "packages/checkout-com",
       "packages/boilerplate/*",
       "packages/core/*",
       "packages/prismic",

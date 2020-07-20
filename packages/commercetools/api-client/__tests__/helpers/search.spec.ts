@@ -33,11 +33,11 @@ describe('[commercetools-api-client] search', () => {
   });
 
   it('returns category search query by slug', () => {
-    expect(buildCategoryWhere({ slug: 'cat slug' })).toBe('slug(en="cat slug")');
+    expect(buildCategoryWhere({ slug: 'cat slug' })).toBe('slug(en="cat slug" or de="cat slug")');
   });
 
   it('returns product search query by slug', () => {
-    expect(buildProductWhere({ slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug")))');
+    expect(buildProductWhere({ slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug" or de="product-slug")))');
   });
 
   it('returns product search query by id', () => {
