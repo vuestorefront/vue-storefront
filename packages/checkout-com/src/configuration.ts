@@ -2,6 +2,7 @@ const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
   tokenizedCardKey: 'temporary-tokenized-card',
+  saveInstrumentKey: 'save-instrument',
   frames: {
     styles: {},
     localization: null
@@ -12,6 +13,7 @@ interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
   tokenizedCardKey?: string;
+  saveInstrumentKey?: string;
   frames?: {
     styles?: any;
     localization?: string | CustomLocalization;
@@ -59,5 +61,6 @@ const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
 const getFramesStyles = () => config.frames.styles;
 const getFramesLocalization = () => config.frames.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
+const getSaveInstrumentKey = () => config.saveInstrumentKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration };

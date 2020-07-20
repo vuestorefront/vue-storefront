@@ -248,6 +248,8 @@ export default {
       storedPaymentInstruments,
       setPaymentInstrument,
       setCurrentPaymentMethod,
+      setSavePaymentInstrument,
+      savePaymentInstrument,
       paymentMethod,
       CKO_PAYMENT_TYPE
     };
