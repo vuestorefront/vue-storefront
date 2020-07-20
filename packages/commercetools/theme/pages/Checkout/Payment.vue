@@ -165,7 +165,7 @@ import {
   SfCheckbox
 } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import { useCheckout } from '@vue-storefront/commercetools';
+import { useCheckout, useCart, useUser } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
@@ -217,6 +217,9 @@ export default {
     onSSR(async () => {
       await loadDetails();
       await loadPaymentMethods();
+      if (isAuthenticated.value) {
+        await loadStoredPaymentInstruments(cart.value.customerId);
+      }
     });
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });
@@ -241,7 +244,8 @@ export default {
       setBillingDetails,
       setPaymentMethod,
       handleFormSubmit,
-      handleCheckSameAddress
+      handleCheckSameAddress,
+      storedPaymentInstruments
     };
   }
 };

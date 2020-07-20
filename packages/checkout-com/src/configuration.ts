@@ -1,9 +1,9 @@
 const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
+  tokenizedCardKey: 'temporary-tokenized-card',
   frames: {
     styles: {},
-    tokenizedCardKey: 'temporary-tokenized-card',
     localization: null
   }
 };
@@ -11,9 +11,9 @@ const config = {
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
+  tokenizedCardKey?: string;
   frames?: {
     styles?: any;
-    tokenizedCardKey?: string;
     localization?: string | CustomLocalization;
   };
 }
@@ -49,15 +49,15 @@ const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
   config.frames.styles = params.frames?.styles || defaultStyles;
-  config.frames.tokenizedCardKey = params.frames?.tokenizedCardKey || config.frames.tokenizedCardKey;
   config.frames.localization = params.frames?.localization || null;
+  config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
 };
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
 const getFramesStyles = () => config.frames.styles;
-const getFramesCardTokenKey = () => config.frames.tokenizedCardKey;
 const getFramesLocalization = () => config.frames.localization;
+const getTransactionTokenKey = () => config.tokenizedCardKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesCardTokenKey, getFramesLocalization, getCkoProxyUrl, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, Configuration };
