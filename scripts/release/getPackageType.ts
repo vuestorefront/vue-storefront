@@ -18,8 +18,8 @@ const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${bas
 
 const isIntegrationWrapper = (pckg: string) => {
   try {
-    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`)).filter(dir => integrationWrapperPackages.includes(dir));
-    return integrationWrapperPackages.length === directories.length && directories.every(directory => isPackage(`${pckg}/${directory}`));
+    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
+    return integrationWrapperPackages.length <= directories.length && integrationWrapperPackages.every(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
   }
