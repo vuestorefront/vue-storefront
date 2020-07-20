@@ -33,7 +33,7 @@ We're introducing TypeScript to Vue Storefront core, so you can use it where it'
 Here’s how to submit a pull request. **Pull requests that don't meet these requirements will not be merged.**
 
 ::: warning
-**ALWAYS** use [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md), it's automatically added to each PR.
+**ALWAYS** use [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/.github/PULL_REQUEST_TEMPLATE.md), it's automatically added to each PR.
 :::
 
 1. Fork the repository and clone it locally on the 'develop' branch.
