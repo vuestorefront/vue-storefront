@@ -35,6 +35,7 @@ module.exports = {
           ]
 	      },
         'upgrade-notes/',
+        'security/',
         {
           title: 'Cookbook',
           collapsable: false,
@@ -42,17 +43,8 @@ module.exports = {
             'cookbook/data-import',
             'cookbook/elastic',
             'cookbook/setup',
-//            'cookbook/integration',
             'cookbook/module',
             'cookbook/theme',
-//            'cookbook/common-pitfall',
-//            'cookbook/devops',
-//            'cookbook/tdd',
-//            'cookbook/internals',
-//            'cookbook/vue',
-//            'cookbook/multistores',
-//            'cookbook/migration',
-//            'cookbook/history',
             'cookbook/checklist'
           ],
         },
@@ -60,10 +52,7 @@ module.exports = {
           title: 'Installation',
           collapsable: false,
           children: [
-            'installation/linux-mac',
-            'installation/windows',
             'installation/theme',
-            'installation/magento',
             'installation/production-setup',
           ],
         },
@@ -77,10 +66,7 @@ module.exports = {
             'basics/contributing',
             'basics/feature-list',
             'basics/recipes',
-            'basics/typescript',
-            // 'basics/graphql',
             'basics/ssr-cache',
-            'basics/amp',
             'basics/static-generator',
             'basics/e2e',
             'basics/url'
@@ -107,26 +93,12 @@ module.exports = {
           children: [
             'data/data',
             'data/elasticsearch',
-            'data/data-migrations',
             'data/elastic-queries',
             'data/database-tool',
-            'data/entity-types',
             'data/static-data',
             'data/data-loader'
           ],
         },
-        // {
-        //   title: 'Working with Vuex',
-        //   collapsable: false,
-        //   children: [
-        //     'vuex/introduction',
-        //     'vuex/vuex-conventions',
-        //     'vuex/product-store',
-        //     'vuex/category-store',
-        //     'vuex/stock-store',
-        //     'vuex/attribute-store',
-        //   ],
-        // },
         {
           title: 'Integrations',
           collapsable: false,
@@ -157,7 +129,13 @@ module.exports = {
             'archives/modules',
             'archives/extensions',
             'archives/components',
-            'archives/vuex'
+            'archives/vuex',
+            'archives/cookbook',
+            'archives/graphql',
+            'archives/amp',
+            'archives/typescript',
+            'archives/migration',
+            'archives/entity_type'
           ],
         },
       ],

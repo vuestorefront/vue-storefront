@@ -22,28 +22,8 @@ Without much further ado, let's see what's served as an appetizer :)
 <br />
 <br />
 
-## Appetizer. Where Elasticsearch fits in VSF
 
-<br />
-<br />
-
-## 1. Set Elasticsearch up and running for VSF
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-## 2. _Elastic_ and _Search_ in VSF
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-## 3. Now ES7 is also supported in VSF
+## 1. Now ES7 is also supported in VSF
 _Elasticsearch_ has been under massive upgrade with interval so intense as only two weeks exist between release of `6.7` and `7.0`. Can you feel the heat of the community? While we can enjoy the improvement and enhancement of the _Elastic Stack_, there is a list to check before smooth upgrade. And it also works just the same way as you need to fix _Vue Storefront_ stack for compatibility with _Elasticsearch 7.x_. 
 
 As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue Storefront API_, you should fix files for _Vue Storefront API_ along with a few callers for it from _Vue Storefront_. However, most changes take place in core parts of the platform on purpose so your labor will have been minimized for your inner peace. Still, _configs_ and/or _migration_ need fixes where it's necessary. This recipe walks you through how to do it one by one. 
@@ -507,7 +487,7 @@ Now you are all set :)
 <br />
 <br />
 
-## 4. Extend Elasticsearch entities for VSF
+## 2. Extend Elasticsearch entities for VSF
 Online shops normally have certain types of models and scenarios in common. (Because shops are shops in the end! What do you expect from shops? ;)) They are well known to the community and most of e-commerce software already implemented them into their frameworks as expected which is good for your new business. Those are represented as entities, namely, _Catalog_, _Products_, _Attributes_, _Tax rule_ and more. Since _Vue Storefront_ functions as the gorgeous gateway to those e-commerce backend, it also needs to mirror those entities as smooth as possible.  
 
  The large part of main entities are already implemented in VSF `core` as expected but you might still need to add or remove additional entities as you want it to fulfill your mission. This recipe will give you an idea of how to do it. 
@@ -854,7 +834,7 @@ If you want to add more entities, you can clone the example as many times as you
 The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
 :::
 
-Now you are all set to use custom entity you just created. The next step lets you give you a simple idea how to confirm it. (optional)
+Now you are all set to use custom entity you just created. The next step lets you have a simple idea how to confirm it. (optional)
 
  4. Go to `src/modules/instant-checkout/components` and open `InstantCheckout.vue`. Fix it as follows : 
  ```js{5,12-14}
@@ -915,29 +895,7 @@ If you want to use _GraphQL_ adapter for your search, you need to change the val
     "htmlMinifierOptions": {
 ```
 
-#### Secret 2. How to make a custom import using `magento2-vsbridge-indexer` 
 
-
-<br />
-<br />
-
-
-## 5. VSF Configuration pertaining to Elasticsearch
-There is a handful of configuration you can tweak in `local.json` in order to modify how _Vue Storefront_ behaves in conjunction with _Elasticsearch_. 
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-
-## 6. Peripheral Tools available for Elasticsearch
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
