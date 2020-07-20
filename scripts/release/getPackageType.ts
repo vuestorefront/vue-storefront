@@ -13,7 +13,9 @@ const getDirectories = (source: string) =>
   fs.readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
+
 const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
+
 const isIntegrationWrapper = (pckg: string) => {
   try {
     const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`)).filter(dir => integrationWrapperPackages.includes(dir));
@@ -22,6 +24,7 @@ const isIntegrationWrapper = (pckg: string) => {
     return false;
   }
 };
+
 const isWrapper = (pckg: string) => {
   try {
     const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
@@ -30,6 +33,7 @@ const isWrapper = (pckg: string) => {
     return false;
   }
 };
+
 const getPackageType = (pckg: string): PACKAGE_TYPES => {
   if (isPackage(pckg)) {
     return PACKAGE_TYPES.Package;

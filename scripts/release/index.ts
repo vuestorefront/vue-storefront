@@ -1,24 +1,3 @@
-// 1. Before Process
-// A. Read args and throw(?)
-// B. Check if we have full package or only subpackage
-// - Full packages: core, prismic, checkout-com, about-you, boilerplate, commerctools
-// - Subpackages: core/cli, core/core, core/theme-module, core/nuxt-module, core/docs(or not?), commerctools/*, about-you/*, boilerplate/*
-// C. Check if directory exists
-// D. Check if gradation of release is proper (or try default value if not provided?)
-
-// 2. Process for subpackage
-// A. Go to directory
-// B. Update version basing on 1.D.
-// C. Run npm publish somehow
-
-// 3. Process for full package
-// A. Go to each directory
-// B. Update version basing on 1.D. & store in variable version of each package
-// C. Update version of each package in dependencies:
-// D. Run npm publish (order: API, Composables, Theme)
-
-// 4. Behaviour if it failed
-
 import fs from 'fs';
 import getPackageType from './getPackageType';
 import updatePackageVersion from './updatePackageVersion';
