@@ -16,7 +16,12 @@ const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey())
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
 const removeTransactionToken = () => localStorage.removeItem(getTransactionTokenKey());
 
-const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => paymentMethod.value = newPaymentMethod;
+const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => {
+  paymentMethod.value = newPaymentMethod;
+  if (newPaymentMethod === CKO_PAYMENT_TYPE.SAVED_CARD) {
+    submitDisabled.value = false;
+  }
+};
 const getCurrentPaymentMethod = () => paymentMethod.value;
 const getCurrentPaymentMethodPayload = (payload: PaymentPropetiesWithOptionalToken) => buildPaymentPayloadStrategies[getCurrentPaymentMethod()](payload);
 
@@ -87,7 +92,6 @@ const useCkoCard = () => {
     try {
       const { data } = await getCustomerCards({ customer_id: customerId });
       storedPaymentInstruments.value = data.payment_instruments;
-      console.log(storedPaymentInstruments);
     } catch (e) {
       error.value = e;
     }
@@ -102,6 +106,7 @@ const useCkoCard = () => {
     setCurrentPaymentMethod,
     getCurrentPaymentMethod,
     loadStoredPaymentInstruments,
+    setTransactionToken,
     storedPaymentInstruments
   };
 };

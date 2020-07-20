@@ -131,7 +131,7 @@
           :selected="chosenPaymentMethod.value"
           :label="item.label"
           :value="item.value"
-          @input="setPaymentMethod(item, { save: true })"
+          @input="setPaymentMethod(item, { save: true }); setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD)"
           name="paymentMethod"
           :description="item.description"
           class="form__radio payment-method"
@@ -217,7 +217,7 @@ export default {
     onSSR(async () => {
       await loadDetails();
       await loadPaymentMethods();
-      if (isAuthenticated.value) {
+      if (isAuthenticated.value && cart.value && cart.value.customerId) {
         await loadStoredPaymentInstruments(cart.value.customerId);
       }
     });
@@ -245,7 +245,9 @@ export default {
       setPaymentMethod,
       handleFormSubmit,
       handleCheckSameAddress,
-      storedPaymentInstruments
+      storedPaymentInstruments,
+      setPaymentInstrument,
+      isAuthenticated
     };
   }
 };
