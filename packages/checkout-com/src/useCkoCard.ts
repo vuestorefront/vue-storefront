@@ -23,11 +23,13 @@ const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey())
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
 const removeTransactionToken = () => localStorage.removeItem(getTransactionTokenKey());
 
-const setSavePaymentInstrument = (newSavePaymentInstrument: string | boolean) => {
+const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
   savePaymentInstrument.value = Boolean(newSavePaymentInstrument);
-  localStorage.setItem(getSaveInstrumentKey(), Number(newSavePaymentInstrument).toString());
+  localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
 };
-const loadSavePaymentInstrument = () => savePaymentInstrument.value = Boolean(Number(localStorage.getItem(getSaveInstrumentKey())));
+const loadSavePaymentInstrument = () => savePaymentInstrument.value = localStorage.getItem(getSaveInstrumentKey())
+  ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
+  : false;
 
 const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => paymentMethod.value = newPaymentMethod;
 const getCurrentPaymentMethodPayload = (payload: PaymentPropetiesWithOptionalToken) => buildPaymentPayloadStrategies[paymentMethod.value](payload);
@@ -51,7 +53,7 @@ const useCkoCard = () => {
         getCurrentPaymentMethodPayload({
           token,
           context_id: context.data.id,
-          save_payment_instrument: savePaymentInstrument.value,
+          save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument.value,
           secure3d: true,
           success_url: `${window.location.origin}/cko/payment-success`,
           failure_url: `${window.location.origin}/cko/payment-error`
