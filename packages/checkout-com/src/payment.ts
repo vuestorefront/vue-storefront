@@ -10,8 +10,11 @@ const createOptions = () => ({
   }
 });
 
-export const createContext = async ({ reference }) =>
-  axios.post(`${getCkoWebhookUrl()}/contexts`, { reference }, createOptions());
+export const createContext = async ({ reference, email = null }) =>
+  axios.post(`${getCkoWebhookUrl()}/contexts`, {
+    reference,
+    ...(email ? { customer_email: email } : {})
+  }, createOptions());
 
 export const createPayment = async (payload: PaymentMethodPayload) =>
   axios.post(

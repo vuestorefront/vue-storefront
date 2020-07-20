@@ -20,7 +20,7 @@ const getCurrentPaymentMethod = () => paymentMethod.value;
 const getCurrentPaymentMethodPayload = (payload: PaymentPropetiesWithOptionalToken) => buildPaymentPayloadStrategies[getCurrentPaymentMethod()](payload);
 
 const useCkoCard = () => {
-  const makePayment = async ({ cartId, contextDataId = null }) => {
+  const makePayment = async ({ cartId, email, contextDataId = null }) => {
     try {
 
       const token = getCardToken();
@@ -31,18 +31,19 @@ const useCkoCard = () => {
 
       let context;
       if (!contextDataId) {
-        context = await createContext({ reference: cartId });
+        context = await createContext({ reference: cartId, email });
       }
 
-      const payment = await createPayment({
-        type: 'token',
-        token,
-        context_id: contextDataId || context.data.id,
-        save_payment_instrument: true,
-        secure3d: true,
-        success_url: `${window.location.origin}/cko/payment-success`,
-        failure_url: `${window.location.origin}/cko/payment-error`
-      });
+      const payment = await createPayment(
+        getCurrentPaymentMethodPayload({
+          token,
+          context_id: context.data.id,
+          save_payment_instrument: true,
+          secure3d: true,
+          success_url: `${window.location.origin}/cko/payment-success`,
+          failure_url: `${window.location.origin}/cko/payment-error`
+        })
+      );
 
       removeCardToken();
       if (![200, 202].includes(payment.status)) {
