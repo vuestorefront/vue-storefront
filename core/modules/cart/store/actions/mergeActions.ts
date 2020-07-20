@@ -43,8 +43,8 @@ const mergeActions = {
       return diffLog
     }
 
-    if (!wasUpdatedSuccessfully && clientItem.item_id) {
-      await dispatch('restoreQuantity', { cartItem, clientItem })
+    if (!wasUpdatedSuccessfully && clientItem.server_item_id) {
+      await dispatch('restoreQuantity', { product: clientItem })
       return diffLog
     }
 
