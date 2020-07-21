@@ -107,9 +107,12 @@ const useCkoCard = () => {
 
   const removePaymentInstrument = async (customerId: string, paymentInstrument: string) => {
     try {
-      const response = await removeSavedCard({ customer_id: customerId, payment_instrument_id: paymentInstrument });
+      await removeSavedCard({ customer_id: customerId, payment_instrument_id: paymentInstrument });
       storedPaymentInstruments.value = storedPaymentInstruments.value.filter(instrument => instrument.payment_instrument_id !== paymentInstrument);
-      console.log(response);
+      if (paymentInstrument === getTransactionToken()) {
+        setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD);
+        removeTransactionToken();
+      }
     } catch (e) {
       error.value = e;
     }
