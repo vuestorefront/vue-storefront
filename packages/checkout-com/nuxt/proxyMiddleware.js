@@ -60,10 +60,6 @@ app.post('/', async (req, res) => {
 });
 
 app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
-  if (!req.params.customerId || !req.params.paymentInstrumentId) {
-    console.log('even??');
-    return sendError(res, 400, 'Bad request');
-  }
   const response = await removeStoredMethod({
     ckoPublicKey,
     ckoSecretKey,
