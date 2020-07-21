@@ -8,7 +8,7 @@ const integrationWrapperPackages = [
 ];
 
 const getDirectories = (source: string) =>
-  fs.readdirSync(source, { withFileTypes: true })
+  fs.readdirSync(`${BASE}/${source}`, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
@@ -16,7 +16,7 @@ const isPackage = (pckg: string) => fs.existsSync(`${BASE}/${pckg}/package.json`
 
 const isIntegrationWrapper = (pckg: string) => {
   try {
-    const directories = getDirectories(`${BASE}/${pckg}`);
+    const directories = getDirectories(pckg);
     return integrationWrapperPackages.length <= directories.length && integrationWrapperPackages.every(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
@@ -25,8 +25,7 @@ const isIntegrationWrapper = (pckg: string) => {
 
 const isWrapper = (pckg: string) => {
   try {
-    const directories = getDirectories(`${BASE}/${pckg}`);
-    return directories.some(directory => isPackage(`${pckg}/${directory}`));
+    return getDirectories(pckg).some(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
   }
@@ -46,7 +45,7 @@ const getPackageType = (pckg: string): PACKAGE_TYPES => {
 };
 
 const getCustomPackagesInIntegrationWrapper = (integration: string): string[] => {
-  const directories = getDirectories(`${BASE}/${integration}`);
+  const directories = getDirectories(integration);
   return directories.filter(directory => !integrationWrapperPackages.includes(directory));
 };
 
