@@ -29,15 +29,15 @@ const notFound = next => next({ statusCode: 404, message: 'Not found' });
 const badRequest = next => next({ statusCode: 400, message: 'Bad request or server error' });
 
 const apiRequestHeaders = (secretKey) => ({
-  authorization: secretKey,
-  'Content-Type': 'application/json'
+  headers: {
+    authorization: secretKey,
+    'Content-Type': 'application/json'
+  }
 });
 
 const getStoredMethods = async ({ publicKey, secretKey, customerId }) => {
   try {
-    const { data } = await axios.get(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}`, {
-      headers: apiRequestHeaders(secretKey)
-    });
+    const { data } = await axios.get(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}`, apiRequestHeaders(secretKey));
     return data;
   } catch (err) {
     console.log(err);
@@ -47,9 +47,7 @@ const getStoredMethods = async ({ publicKey, secretKey, customerId }) => {
 
 const removeStoredMethod = async ({ publicKey, secretKey, customerId, paymentInstrumentId }) => {
   try {
-    const response = await axios.delete(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`, {
-      headers: apiRequestHeaders(secretKey)
-    });
+    const response = await axios.delete(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`, apiRequestHeaders(secretKey));
     return response;
   } catch (err) {
     console.log(err);
