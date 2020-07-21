@@ -1,7 +1,5 @@
-import path from 'path';
 import fs from 'fs';
-import { base } from './const';
-import { OperationsData, RELEASE_GRADATIONS } from './types';
+import { OperationsData, RELEASE_GRADATIONS, BASE } from './constants';
 
 const updateVersion = (version: string, gradation: RELEASE_GRADATIONS): string => {
   return version.replace(/([\^~]?)(\d+)\.(\d+)\.(\d+)$/, (_, special, major, minor, path) => {
@@ -25,7 +23,7 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, opera
   freshVersions: {},
   oldFiles: {}
 }): OperationsData => {
-  const filePath = path.join(__dirname, base, pckg, 'package.json');
+  const filePath = `${BASE}/${pckg}/package.json`;
   const packageJson = require(filePath);
   if (!packageJson) {
     return operationsData;

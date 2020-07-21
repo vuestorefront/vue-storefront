@@ -1,7 +1,5 @@
-import { PACKAGE_TYPES } from './types';
-import path from 'path';
 import fs from 'fs';
-import { base } from './const';
+import { BASE, PACKAGE_TYPES } from './constants';
 
 const integrationWrapperPackages = [
   'api-client',
@@ -14,11 +12,11 @@ const getDirectories = (source: string) =>
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-const isPackage = (pckg: string) => fs.existsSync(path.resolve(__dirname, `${base}${pckg}/package.json`));
+const isPackage = (pckg: string) => fs.existsSync(`${BASE}/${pckg}/package.json`);
 
 const isIntegrationWrapper = (pckg: string) => {
   try {
-    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
+    const directories = getDirectories(`${BASE}/${pckg}`);
     return integrationWrapperPackages.length <= directories.length && integrationWrapperPackages.every(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
@@ -27,7 +25,7 @@ const isIntegrationWrapper = (pckg: string) => {
 
 const isWrapper = (pckg: string) => {
   try {
-    const directories = getDirectories(path.resolve(__dirname, `${base}${pckg}`));
+    const directories = getDirectories(`${BASE}/${pckg}`);
     return directories.some(directory => isPackage(`${pckg}/${directory}`));
   } catch (err) {
     return false;
@@ -48,7 +46,7 @@ const getPackageType = (pckg: string): PACKAGE_TYPES => {
 };
 
 const getCustomPackagesInIntegrationWrapper = (integration: string): string[] => {
-  const directories = getDirectories(path.resolve(__dirname, `${base}${integration}`));
+  const directories = getDirectories(`${BASE}/${integration}`);
   return directories.filter(directory => !integrationWrapperPackages.includes(directory));
 };
 

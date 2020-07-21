@@ -2,10 +2,9 @@ import fs from 'fs';
 import { getPackageType, getCustomPackagesInIntegrationWrapper } from './packageTypes';
 import updatePackageVersion from './updatePackageVersion';
 import { execSync } from 'child_process';
-import { registry } from './const';
-import { RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES } from './types';
+import { RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES, REGISTRY } from './constants';
 
-const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${registry}`);
+const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${REGISTRY}`);
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
 const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
 
