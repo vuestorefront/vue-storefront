@@ -51,7 +51,7 @@ const buildPaymentPayloadStrategies = {
     [CKO_PAYMENT_TYPE.KLARNA]: (properties: PaymentPropetiesWithToken): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'klarna',
-        authorization_token: properties.token
+        token: properties.token
     }),
     [CKO_PAYMENT_TYPE.PAYPAL]: (properties: PaymentPropetiesWithoutToken): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
