@@ -1,3 +1,4 @@
+import config from 'config'
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import buildQuery from './buildQuery'
 import setProductLink from './setProductLink'
@@ -40,9 +41,11 @@ export default async function setBundleProducts (product: Product, { includeFiel
       }
     }
 
-    const { price, priceInclTax } = getBundleProductPrice(product)
-    product.price = price
-    product.priceInclTax = priceInclTax
-    product.price_incl_tax = priceInclTax
+    if (config.products.calculateBundlePriceByOptions) {
+      const { price, priceInclTax } = getBundleProductPrice(product)
+      product.price = price
+      product.priceInclTax = priceInclTax
+      product.price_incl_tax = priceInclTax
+    }
   }
 }

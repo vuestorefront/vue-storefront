@@ -618,6 +618,7 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
+    "calculateBundlePriceByOptions": true,
     "endpoint": "/api/product",
     "defaultFilters": [
       "color",
