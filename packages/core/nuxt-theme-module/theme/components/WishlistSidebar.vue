@@ -1,76 +1,69 @@
 <template>
-  <div id="cart">
+  <div id="wishlist">
     <SfSidebar
-      :visible="isCartSidebarOpen"
+      :visible="isWishlistSidebarOpen"
       :button="false"
-      title="My Cart"
-      @close="toggleCartSidebar"
+      title="My Wishlist"
+      @close="toggleWishlistSidebar"
       class="sidebar sf-sidebar--right"
     >
       <template #title>
         <div class="heading__wrapper">
-          <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
-          <button data-cy="cart-sidebar-button_toggle-cart" class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
+          <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
+          <button data-cy="wishlist-sidebar-button_toggle-wishlist" class="heading__close-button" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
             <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </button>
         </div>
       </template>
       <transition name="fade" mode="out-in">
-        <div v-if="totalItems" class="my-cart" key="my-cart">
-          <div class="my-cart__total-items">Total items: <strong>{{ totalItems }}</strong></div>
+        <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
+          <div class="my-wishlist__total-items">Total items: <strong>{{ totalItems }}</strong></div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
-                data-cy="collected-product-cart-sidebar"
+                data-cy="collected-product-wishlist-sidebar"
                 v-for="product in products"
-                :key="cartGetters.getItemSku(product)"
-                :image="cartGetters.getItemImage(product)"
-                :title="cartGetters.getItemName(product)"
-                :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-                :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+                :key="wishlistGetters.getItemSku(product)"
+                :image="wishlistGetters.getItemImage(product)"
+                :title="wishlistGetters.getItemName(product)"
+                :regular-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).regular)"
+                :special-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).special)"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                :qty="cartGetters.getItemQty(product)"
-                @input="updateQuantity(product, $event)"
-                @click:remove="removeFromCart(product)"
+                @click:remove="removeFromWishlist(product)"
                 class="collected-product"
               >
                <template #configuration>
-                <div class="collected-product__properties">
-                  <SfProperty v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
-                </div>
-              </template>
-              <template #actions>
-                  <SfButton data-cy="cart-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
-              </template>
+                  <div class="collected-product__properties">
+                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
+                  </div>
+                </template>
+                <template #input="{}">&nbsp;</template>
               </SfCollectedProduct>
             </transition-group>
           </div>
           <div class="sidebar-bottom">
-          <SfProperty class="sf-property--full-width my-cart__total-price">
+          <SfProperty class="sf-property--full-width my-wishlist__total-price">
             <template #name>
-              <span class="my-cart__total-price-label">Total price:</span>
+              <span class="my-wishlist__total-price-label">Total price:</span>
             </template>
             <template #value>
-              <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
+              <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
             </template>
           </SfProperty>
-          <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
-            <SfButton data-cy="cart-sidebar-btn_checkout" @click="toggleCartSidebar" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
-          </nuxt-link>
           </div>
         </div>
-        <div v-else class="empty-cart" key="empty-cart">
-          <div class="empty-cart__banner">
-            <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-cart__icon" />
-            <h3 class="empty-cart__label">Your bag is empty</h3>
-            <p class="empty-cart__description">
+        <div v-else class="empty-wishlist" key="empty-wishlist">
+          <div class="empty-wishlist__banner">
+            <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-wishlist__icon" />
+            <h3 class="empty-wishlist__label">Your bag is empty</h3>
+            <p class="empty-wishlist__description">
               Looks like you haven’t added any items to the bag yet. Start
               shopping to fill it in.
             </p>
           </div>
-          <SfButton data-cy="cart-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Start shopping</SfButton>
         </div>
       </transition>
     </SfSidebar>
@@ -87,14 +80,14 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, useUser, cartGetters } from '<%= options.composables %>';
+import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
 
-const { isCartSidebarOpen, toggleCartSidebar } = uiState;
+const { isWishlistSidebarOpen, toggleWishlistSidebar } = uiState;
 
 export default {
-  name: 'Cart',
+  name: 'Wishlist',
   components: {
     SfSidebar,
     SfButton,
@@ -105,26 +98,25 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
+    const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
-    const products = computed(() => cartGetters.getItems(cart.value));
-    const totals = computed(() => cartGetters.getTotals(cart.value));
-    const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+    const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
+    const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
     onSSR(async () => {
-      await loadCart();
+      await loadWishlist();
     });
 
     return {
       isAuthenticated,
       products,
-      removeFromCart,
-      updateQuantity,
-      isCartSidebarOpen,
-      toggleCartSidebar,
+      removeFromWishlist,
+      isWishlistSidebarOpen,
+      toggleWishlistSidebar,
       totals,
       totalItems,
-      cartGetters
+      wishlistGetters
     };
   }
 };
@@ -138,7 +130,7 @@ export default {
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }
 
-.my-cart {
+.my-wishlist {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -158,7 +150,7 @@ export default {
     }
   }
 }
-.empty-cart {
+.empty-wishlist {
   display: flex;
   flex: 1;
   flex-direction: column;

@@ -251,7 +251,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, ref, watch, onMounted } from '@vue/composition-api';
-import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.composables %>';
+import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.generate.replace.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';

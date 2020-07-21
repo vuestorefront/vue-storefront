@@ -26,7 +26,7 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 
-import { productGetters } from '<%= options.composables %>';
+import { productGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'RelatedProducts',

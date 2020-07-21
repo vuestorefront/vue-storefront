@@ -16,7 +16,7 @@
 <script>
 import { SfButton, SfTopBar } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
-import { useUser, userGetters } from '<%= options.composables %>';
+import { useUser, userGetters } from '<%= options.generate.replace.composables %>';
 import LocaleSelector from './LocaleSelector';
 
 const { toggleLoginModal } = uiState;

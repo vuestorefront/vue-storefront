@@ -141,7 +141,7 @@ import {
   SfSelect,
   SfRadio
 } from '@storefront-ui/vue';
-import { useCheckout, checkoutGetters } from '<%= options.composables %>';
+import { useCheckout, checkoutGetters } from '<%= options.generate.replace.composables %>';
 
 const COUNTRIES = [
   { key: 'US',

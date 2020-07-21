@@ -137,7 +137,7 @@ import { ref, watch } from '@vue/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser } from '<%= options.composables %>';
+import { useUser } from '<%= options.generate.replace.composables %>';
 import uiState from '~/assets/ui-state';
 
 const { isLoginModalOpen, toggleLoginModal } = uiState;

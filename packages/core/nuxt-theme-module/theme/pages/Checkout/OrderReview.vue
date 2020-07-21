@@ -170,7 +170,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.composables %>';
+import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'ReviewOrder',

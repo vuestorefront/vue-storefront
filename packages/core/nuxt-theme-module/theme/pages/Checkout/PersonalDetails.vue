@@ -86,7 +86,7 @@ import {
   SfCharacteristic
 } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import { useCheckout } from '<%= options.composables %>';
+import { useCheckout } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'PersonalDetails',

@@ -111,7 +111,7 @@ import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
 import { SfTabs, SfInput, SfButton, SfAlert } from '@storefront-ui/vue';
-import { useUser } from '<%= options.composables %>';
+import { useUser } from '<%= options.generate.replace.composables %>';
 
 extend('email', {
   ...email,
