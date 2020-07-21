@@ -46,7 +46,7 @@ const buildPaymentPayloadStrategies = {
     [CKO_PAYMENT_TYPE.SAVED_CARD]: (properties: PaymentPropetiesWithToken): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'id',
-        id: properties.token
+        token: properties.token
     }),
     [CKO_PAYMENT_TYPE.KLARNA]: (properties: PaymentPropetiesWithToken): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
