@@ -154,11 +154,11 @@ describe('Cart mergeActions', () => {
 
     await (cartActions as any).updateServerItem(contextMock, { clientItem, serverItem });
     expect(contextMock.commit).not.toBeCalledWith(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-    expect(contextMock.dispatch).toBeCalledWith('restoreQuantity', { cartItem: clientItem, clientItem })
+    expect(contextMock.dispatch).toBeCalledWith('restoreQuantity', { product: clientItem })
   })
 
   it('updates server item - deletes non confirmed item', async () => {
-    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2 };
     const serverItem = {
       sku: '1',
       name: 'product1',
@@ -181,7 +181,7 @@ describe('Cart mergeActions', () => {
 
     await (cartActions as any).updateServerItem(contextMock, { clientItem, serverItem });
     expect(contextMock.commit).not.toBeCalledWith(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-    expect(contextMock.dispatch).not.toBeCalledWith('restoreQuantity', { cartItem: clientItem, clientItem })
+    expect(contextMock.dispatch).not.toBeCalledWith('restoreQuantity', { product: clientItem })
     expect(contextMock.commit).toBeCalledWith(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
   })
 
@@ -212,7 +212,7 @@ describe('Cart mergeActions', () => {
 
     await (cartActions as any).updateServerItem(contextMock, { clientItem, serverItem });
     expect(contextMock.commit).not.toBeCalledWith(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-    expect(contextMock.dispatch).not.toBeCalledWith('restoreQuantity', { cartItem: clientItem, clientItem })
+    expect(contextMock.dispatch).not.toBeCalledWith('restoreQuantity', { product: clientItem })
     expect(contextMock.commit).not.toBeCalledWith(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
     expect(contextMock.dispatch).toBeCalledWith('updateClientItem', { clientItem, serverItem: serverItem })
   })

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove deprecated value from attributesListQuery query - @gibkigonzo (#4572)
 - Fixed dutch translations - @1070rik (#4587)
 - localForage memory overload fixed. `localForage.preserveCollections` keeps names of collections to be preserved from being cleared. - @prakowski
+- Fixed bug in `restoreQuantity` - getItem never returns cart item - @gibkigonzo (#4619)
 
 ### Changed / Improved
 
