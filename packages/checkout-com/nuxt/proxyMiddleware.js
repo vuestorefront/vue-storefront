@@ -47,7 +47,14 @@ const removeStoredMethod = async ({ ckoPublicKey, ckoSecretKey, customerId, paym
 app.post('/', async (req, res) => {
   const data = await getStoredMethods({ ckoPublicKey, ckoSecretKey, customerId: req.body.customer_id });
   if (data) {
-    return sendJsonResponse(res, JSON.stringify(data));
+    return sendJsonResponse(res, JSON.stringify({
+      // eslint-disable-next-line
+      payment_instruments: [
+        ...data.payment_instruments.filter((value, index, self) => {
+          return self.findIndex(el => el.id === value.id) === index;
+        })
+      ]
+    }));
   }
   return sendError(res, 400, 'Could not load customer\'s stored payment instruments');
 });
