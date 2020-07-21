@@ -14,3 +14,4 @@ RUN yarn install && yarn build:ct
 COPY dev/docker/vue-storefront.sh /usr/local/bin/
 
 ENTRYPOINT ["vue-storefront.sh"]
+
