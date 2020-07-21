@@ -1,104 +1,76 @@
-import axios from 'axios';
+const axios = require('axios');
+const express = require('express');
+const app = express();
 
-const processPost = (req) => {
-  return new Promise(resolve => {
-    let jsonString = '';
-    if (req.method === 'POST') {
-      req.on('data', data => {
-        jsonString += data;
-      });
+let ckoPublicKey = null;
+let ckoSecretKey = null;
 
-      req.on('end', () => {
-        resolve(JSON.parse(jsonString));
-      });
-    }
-  });
-};
-
-const wait = (time) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, time);
-  });
-};
+app.use(express.json());
 
 const sendJsonResponse = (res, json) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(json);
 };
-const notFound = next => next({ statusCode: 404, message: 'Not found' });
-const badRequest = next => next({ statusCode: 400, message: 'Bad request or server error' });
 
-const apiRequestHeaders = (secretKey) => ({
+const sendError = (res, errorCode, errorMessage) => res.status(errorCode).send(errorMessage);
+
+const apiRequestHeaders = (ckoSecretKey) => ({
   headers: {
-    authorization: secretKey,
+    authorization: ckoSecretKey,
     'Content-Type': 'application/json'
   }
 });
-
-const getStoredMethods = async ({ publicKey, secretKey, customerId }) => {
+const getStoredMethods = async ({ ckoPublicKey, ckoSecretKey, customerId }) => {
   try {
-    const { data } = await axios.get(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}`, apiRequestHeaders(secretKey));
+    const { data } = await axios.get(
+      `https://play-commercetools.cko-playground.ckotech.co/merchants/${ckoPublicKey}/customers/${customerId}`,
+      apiRequestHeaders(ckoSecretKey)
+    );
     return data;
   } catch (err) {
     console.log(err);
     return null;
   }
 };
-
-const removeStoredMethod = async ({ publicKey, secretKey, customerId, paymentInstrumentId }) => {
+const removeStoredMethod = async ({ ckoPublicKey, ckoSecretKey, customerId, paymentInstrumentId }) => {
   try {
-    const response = await axios.delete(`https://play-commercetools.cko-playground.ckotech.co/merchants/${publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`, apiRequestHeaders(secretKey));
-    return response;
+    return await axios.delete(
+      `https://play-commercetools.cko-playground.ckotech.co/merchants/${ckoPublicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
+      apiRequestHeaders(ckoSecretKey)
+    );
   } catch (err) {
     console.log(err);
     return null;
   }
 };
 
-/**
- * POST /cko-api/payment-instruments
- *  Method: getStoredMethods
- *  Body:
- *    customer_id: Required
- *
- * DELETE /cko-api/payment-instruments/{customerId}/{paymentInstrumentId}
- *  Method: removeStoredMethod
- */
-
-export default ({ publicKey, secretKey }) => async (req, res, next) => {
-  switch (req.method) {
-    case 'POST':
-      if (req.url !== '/') {
-        return notFound(next);
-      }
-      const body = await Promise.race([
-        processPost(req),
-        wait(5000)
-      ]);
-      if (!body || !body.customer_id) {
-        return badRequest(next);
-      }
-      const data = await getStoredMethods({ publicKey, secretKey, customerId: body.customer_id });
-      if (data) {
-        return sendJsonResponse(res, JSON.stringify(data));
-      }
-      return badRequest(next);
-    case 'DELETE':
-      const urlParams = req.url.substr(1).split('/');
-      if (urlParams.length > 2) {
-        return badRequest(next);
-      }
-      const response = await removeStoredMethod({
-        publicKey,
-        secretKey,
-        customerId: urlParams[0],
-        paymentInstrumentId: urlParams[1]
-      });
-      if (response) {
-        return sendJsonResponse(res, JSON.stringify({}));
-      }
-      return badRequest(next);
-    default:
-      return notFound(next);
+app.post('/', async (req, res) => {
+  const data = await getStoredMethods({ ckoPublicKey, ckoSecretKey, customerId: req.body.customer_id });
+  if (data) {
+    return sendJsonResponse(res, JSON.stringify(data));
   }
+  return sendError(res, 400, 'Could not load customer\'s stored payment instruments');
+});
+
+app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
+  if (!req.params.customerId || !req.params.paymentInstrumentId) {
+    console.log('even??');
+    return sendError(res, 400, 'Bad request');
+  }
+  const response = await removeStoredMethod({
+    ckoPublicKey,
+    ckoSecretKey,
+    customerId: req.params.customerId,
+    paymentInstrumentId: req.params.paymentInstrumentId
+  });
+  if (response) {
+    return sendJsonResponse(res, JSON.stringify({}));
+  }
+  return sendError(res, 400, 'Could not remove stored payment instrument');
+});
+
+export default ({ publicKey, secretKey }) => {
+  ckoPublicKey = publicKey;
+  ckoSecretKey = secretKey;
+  return app;
 };
