@@ -1,5 +1,5 @@
 import fs from 'fs';
-import getPackageType from './getPackageType';
+import { getPackageType, getCustomPackagesInIntegrationWrapper } from './packageTypes';
 import updatePackageVersion from './updatePackageVersion';
 import { execSync } from 'child_process';
 import { registry } from './const';
@@ -52,6 +52,12 @@ const pckgSubtypeToPath = (pckg: string, subtype: PACKAGE_SUBTYPE): string => {
   return base.join('/');
 };
 
+const pckgCustomSubpackageToPath = (pckg: string, subpackage: string): string => {
+  const base = pckg.split('/');
+  base[base.length - 1] = subpackage;
+  return base.join('/');
+};
+
 const buildPackageDependencyList = (pckg: string): PACKAGE_SUBTYPE[] => {
   const packageSubtype = getPackageSubtype(pckg);
   const list: PACKAGE_SUBTYPE[] = [];
@@ -93,10 +99,11 @@ const program = () => {
     freshVersions: {},
     oldFiles: {}
   };
+  let customPackagesInIntegrationWrapper = [];
 
   if (packageType === PACKAGE_TYPES.Package || packageType === PACKAGE_TYPES.IntegrationWrapper) {
     if (packageType === PACKAGE_TYPES.IntegrationWrapper) {
-      // PACKAGE_TYPES.IntegrationWrapper === PACKAGE_TYPES.Package api-client
+      customPackagesInIntegrationWrapper = getCustomPackagesInIntegrationWrapper(pckg);
       pckg = `${pckg}/api-client`;
     }
     const dependencyList: PACKAGE_SUBTYPE[] = buildPackageDependencyList(pckg);
@@ -104,6 +111,9 @@ const program = () => {
       operationList = updatePackageVersion(pckg, RELEASE_GRADATIONS[gradation]);
       for (const subtype of dependencyList) {
         operationList = updatePackageVersion(pckgSubtypeToPath(pckg, subtype), RELEASE_GRADATIONS[gradation], operationList);
+      }
+      for (const customPackage of customPackagesInIntegrationWrapper) {
+        operationList = updatePackageVersion(pckgCustomSubpackageToPath(pckg, customPackage), RELEASE_GRADATIONS[gradation], operationList);
       }
     } catch (err) {
       console.log(err);

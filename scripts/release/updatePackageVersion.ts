@@ -37,7 +37,7 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, opera
   };
 
   for (const [dependency, version] of Object.entries(operationsData.freshVersions)) {
-    if (modifiedFile.dependencies[dependency]) {
+    if (modifiedFile.dependencies && modifiedFile.dependencies[dependency]) {
       modifiedFile.dependencies[dependency] = modifiedFile.dependencies[dependency].replace(/([\^~]?)(.*)/, (_, specialChar) => {
         return `${specialChar}${version}`;
       });

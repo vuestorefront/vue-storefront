@@ -47,4 +47,9 @@ const getPackageType = (pckg: string): PACKAGE_TYPES => {
   return PACKAGE_TYPES.NotPackage;
 };
 
-export default getPackageType;
+const getCustomPackagesInIntegrationWrapper = (integration: string): string[] => {
+  const directories = getDirectories(path.resolve(__dirname, `${base}${integration}`));
+  return directories.filter(directory => !integrationWrapperPackages.includes(directory));
+};
+
+export { getPackageType, getCustomPackagesInIntegrationWrapper };
