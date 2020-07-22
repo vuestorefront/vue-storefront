@@ -35,9 +35,7 @@ export default {
     '@nuxt/typescript-build',
     'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
-      // @core-development-only-start
       coreDevelopment: true,
-      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
@@ -56,11 +54,12 @@ export default {
         replace: {
           apiClient: '@vue-storefront/commercetools-api',
           composables: '@vue-storefront/commercetools'
-        }
+        },
+        path: '.theme'
       }
     }],
     // @core-development-only-end
-    // ['@vue-storefront/nuxt-theme'],
+    ['@vue-storefront/nuxt-theme'],
     ['@vue-storefront/commercetools/nuxt', {
       disableGenerateTokenMiddleware: false,
       api: {
