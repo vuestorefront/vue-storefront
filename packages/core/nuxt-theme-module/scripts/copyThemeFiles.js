@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const isImage = require('./isImage');
 const getAllFilesFromDir = require('./getAllFilesFromDir.js');
 const ensureDirectoryExists = require('./ensureDirectoryExists');
 
 async function copyFile(fileDir, outDir) {
-  const data = fs.readFileSync(fileDir, 'utf8');
-
+  const data = fs.readFileSync(fileDir, !isImage(fileDir) ? 'utf8' : undefined);
   ensureDirectoryExists(outDir);
   return fs.writeFileSync(outDir, data);
 }
