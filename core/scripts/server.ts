@@ -294,12 +294,11 @@ app.get('*', (req, res, next) => {
       delete cachedConfigModule.parent.children
       delete require.cache[require.resolve('config')]
     }
-    config = require('config') // reload config
     if (configProviders.length > 0) {
       configProviders.forEach(configProvider => {
         if (typeof configProvider === 'function') {
           configProvider(req).then(loadedConfig => {
-            config = config.util.extendDeep(config, loadedConfig)
+            config = config.util.extendDeep({}, require('config'), loadedConfig)
             dynamicCacheHandler()
           }).catch(error => {
             if (config.server.dynamicConfigContinueOnError) {
@@ -315,7 +314,6 @@ app.get('*', (req, res, next) => {
         }
       })
     } else {
-      config = require('config') // reload config
       dynamicCacheHandler()
     }
   } else {
