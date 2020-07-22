@@ -19,58 +19,78 @@ const log = {
 module.exports = async function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
 
-  const agnosticThemeDir = path.join(__dirname, 'theme');
-  const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
+  if (typeof moduleOptions.routes === 'undefined') {
+    moduleOptions.routes = true;
+  }
 
-  const agnosticThemeFiles = getAllFilesFromDir(agnosticThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
+  const agnosticThemeDir = path.join(__dirname, 'theme');
+  const targetDirectory = moduleOptions.generate && moduleOptions.generate.path
+    ? moduleOptions.generate.path
+    : '.theme';
 
   const compileAgnosticTemplate = (filePath) => {
     return compileTemplate(
       path.join(__dirname, filePath),
-      this.options.buildDir.split('.nuxt').pop() + '.theme' + path.sep + filePath.split('theme' + path.sep).pop(),
+      this.options.buildDir.split('.nuxt').pop() + targetDirectory + path.sep + filePath.split('theme' + path.sep).pop(),
       {
-        apiClient: moduleOptions.apiClient,
-        helpers: moduleOptions.helpers,
-        composables: moduleOptions.composables
+        generate: {
+          replace: {
+            apiClient: moduleOptions.apiClient,
+            composables: moduleOptions.composables
+          }
+        }
       });
   };
+  let projectLocalThemeDir;
+  let themeDirectoriesPaths;
 
-  log.info('Adding theme files...');
+  if (moduleOptions.generate) {
+    projectLocalThemeDir = this.options.buildDir.replace('.nuxt', moduleOptions.generate.path);
+    const agnosticThemeFiles = getAllFilesFromDir(agnosticThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
-  const themeDirectoriesPaths = getAllSubDirs(this.options.rootDir, ['.theme', '.nuxt', 'node_modules', 'test'])
-    .map(directory => path.join(this.options.rootDir, directory));
+    log.info('Adding theme files...');
 
-  await Promise.all(agnosticThemeFiles.map(path => compileAgnosticTemplate(path)));
-  await Promise.all(themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath)));
+    themeDirectoriesPaths = getAllSubDirs(this.options.rootDir, [targetDirectory, '.nuxt', 'node_modules', 'test'])
+      .map(directory => path.join(this.options.rootDir, directory));
 
-  log.success(`Added ${agnosticThemeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
+    await Promise.all(agnosticThemeFiles.map(path => compileAgnosticTemplate(path)));
+    await Promise.all(themeDirectoriesPaths.map(absolutePath => copyThemeFiles(absolutePath)));
 
-  this.options.dir = {
-    ...this.options.dir,
-    ...{
-      layouts: '.theme/layouts',
-      assets: '.theme/assets',
-      pages: '.theme/pages'
-    }};
+    log.success(`Added ${agnosticThemeFiles.length} theme file(s) to ${chalk.bold(targetDirectory)} folder`);
+
+    this.options.dir = {
+      ...this.options.dir,
+      ...{
+        layouts: '.theme/layouts',
+        assets: '.theme/assets',
+        pages: '.theme/pages'
+      }};
+
+    this.extendBuild(config => {
+      delete config.resolve.alias['~'];
+      config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');
+      config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
+      config.resolve.alias['~'] = path.join(projectLocalThemeDir);
+    });
+
+  }
 
   this.options.css = [
     ...this.options.css,
     // CSS reset stylesheet
-    '.theme/assets/css/reset.scss'
+    moduleOptions.generate
+      ? `${projectLocalThemeDir}/assets/css/reset.scss`
+      : 'assets/css/reset.scss'
   ];
 
-  this.extendBuild(config => {
-    delete config.resolve.alias['~'];
-    config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');
-    config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
-    config.resolve.alias['~'] = path.join(projectLocalThemeDir);
-  });
+  if (moduleOptions && moduleOptions.routes) {
+    // routes default = true
+    this.extendRoutes((routes) => {
+      getRoutes(moduleOptions.generate ? projectLocalThemeDir : this.options.rootDir).forEach(route => routes.unshift(route));
+    });
+  }
 
-  this.extendRoutes((routes) => {
-    getRoutes(projectLocalThemeDir).forEach(route => routes.unshift(route));
-  });
-
-  if (global.coreDev) {
+  if (moduleOptions.generate) {
     log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
 
     chokidar.watch(agnosticThemeDir, { ignoreInitial: true }).on('all', (event, baseFilePath) => {
