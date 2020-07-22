@@ -131,7 +131,7 @@ const serve = (path, cache, options?) => express.static(resolve(path), Object.as
     if (config.expireHeaders.hasOwnProperty(mimeType)) {
       maxAge = config.expireHeaders.get(mimeType);
     }
-    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge));
+    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000);
   } : null
 }, options))
 
