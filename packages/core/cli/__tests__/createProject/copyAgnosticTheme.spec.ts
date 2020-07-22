@@ -52,8 +52,12 @@ describe('[vsf-next-cli] copyAgnosticTheme', () => {
         file,
         targetPath + (file.replace(themePath, '')),
         {
-          apiClient: `@vue-storefront/${integration}-api`,
-          composables: `@vue-storefront/${integration}`
+          generate: {
+            replace: {
+              apiClient: `@vue-storefront/${integration}-api`,
+              composables: `@vue-storefront/${integration}`
+            }
+          }
         }
       );
 
@@ -73,8 +77,12 @@ describe('[vsf-next-cli] copyAgnosticTheme', () => {
       file,
       targetPath + (file.replace(themePath, '')),
       {
-        apiClient: `@vue-storefront/${integration}-api`,
-        composables: `@vue-storefront/${integration}`
+        generate: {
+          replace: {
+            apiClient: `@vue-storefront/${integration}-api`,
+            composables: `@vue-storefront/${integration}`
+          }
+        }
       }
     );
 
