@@ -59,7 +59,7 @@ export default {
     // @core-development-only-end
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
-       project-only-end */
+    project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
       disableGenerateTokenMiddleware: false,
       api: {
