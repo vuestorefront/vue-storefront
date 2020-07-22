@@ -45,7 +45,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   let themeDirectoriesPaths;
 
   if (moduleOptions.generate) {
-    projectLocalThemeDir = this.options.buildDir.replace('.nuxt', moduleOptions.generate.path);
+    projectLocalThemeDir = this.options.buildDir.replace('.nuxt', targetDirectory);
     const agnosticThemeFiles = getAllFilesFromDir(agnosticThemeDir).filter(file => !file.includes(path.sep + 'static' + path.sep));
 
     log.info('Adding theme files...');
@@ -61,9 +61,9 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
     this.options.dir = {
       ...this.options.dir,
       ...{
-        layouts: '.theme/layouts',
-        assets: '.theme/assets',
-        pages: '.theme/pages'
+        layouts: `${targetDirectory}/layouts`,
+        assets: `${targetDirectory}/assets`,
+        pages: `${targetDirectory}/pages`
       }};
 
     this.extendBuild(config => {
@@ -71,6 +71,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');
       config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
       config.resolve.alias['~'] = path.join(projectLocalThemeDir);
+      console.log(config);
     });
 
   }

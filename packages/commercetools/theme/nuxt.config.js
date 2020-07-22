@@ -49,17 +49,15 @@ export default {
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      routes: true,
       generate: {
         replace: {
           apiClient: '@vue-storefront/commercetools-api',
           composables: '@vue-storefront/commercetools'
-        },
-        path: '.theme'
+        }
       }
     }],
     // @core-development-only-end
-    ['@vue-storefront/nuxt-theme'],
+    // ['@vue-storefront/nuxt-theme'],
     ['@vue-storefront/commercetools/nuxt', {
       disableGenerateTokenMiddleware: false,
       api: {
