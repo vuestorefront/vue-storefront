@@ -35,8 +35,8 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       {
         generate: {
           replace: {
-            apiClient: moduleOptions.apiClient,
-            composables: moduleOptions.composables
+            apiClient: moduleOptions.generate.replace.apiClient,
+            composables: moduleOptions.generate.replace.composables
           }
         }
       });
@@ -71,7 +71,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');
       config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
       config.resolve.alias['~'] = path.join(projectLocalThemeDir);
-      console.log(config);
     });
 
   }
