@@ -3,6 +3,7 @@ import log from '@vue-storefront/cli/src/utils/log';
 import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
 import copyAgnosticTheme from '@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme';
 import removeMagicCommentsFromFile from '@vue-storefront/cli/src/scripts/createProject/removeMagicCommentsFromFile';
+import uncommentProjectOnly from '@vue-storefront/cli/src/scripts/createProject/uncommentProjectOnly';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
@@ -16,6 +17,7 @@ async function createProject(integration: string, targetPath: string): Promise<v
   const absoluteTargetPath = path.join(__dirname, targetPath);
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   await removeMagicCommentsFromFile(nuxtConfigPath);
+  await uncommentProjectOnly(nuxtConfigPath);
 }
 
 export default createProject;

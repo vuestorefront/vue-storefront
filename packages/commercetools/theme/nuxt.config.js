@@ -57,7 +57,9 @@ export default {
       }
     }],
     // @core-development-only-end
-    // ['@vue-storefront/nuxt-theme'],
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+       project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
       disableGenerateTokenMiddleware: false,
       api: {
