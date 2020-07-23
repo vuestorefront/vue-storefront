@@ -12,7 +12,7 @@ type ProductVariantFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => product.name;
+export const getProductName = (product: ProductVariant): string => product?.name || 'Product\'s name';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductSlug = (product: ProductVariant): string => product.sku;
@@ -20,13 +20,24 @@ export const getProductSlug = (product: ProductVariant): string => product.sku;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
   return {
-    regular: product.price.original,
-    special: product.price.current
+    regular: product?.price?.original || 0,
+    special: product?.price?.current || 0
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
+export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [
+  {
+    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+  },
+  {
+    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+  }
+];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductCoverImage = (product: ProductVariant): string => 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg';
