@@ -4,7 +4,6 @@ export type ProductVariant = {
   _id: number;
   _description: string;
   _categoriesRef: string[];
-  categories: number[];
   name: string;
   sku: string;
   images: string[];
