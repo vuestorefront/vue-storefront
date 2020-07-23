@@ -1,7 +1,16 @@
 export type Cart = {}
 export type Wishlist = {}
-export type ProductVariant = {}
-export type Category = {}
+export type ProductVariant = {
+  id: number;
+  name: string;
+  slug: string;
+}
+export type Category = {
+  id: number;
+  name: string;
+  slug: string;
+  items: Category[];
+}
 export type CategoryFilter = {}
 export type ShippingMethod = {}
 export type LineItem = {};
