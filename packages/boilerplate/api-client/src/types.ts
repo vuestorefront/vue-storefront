@@ -1,9 +1,17 @@
 export type Cart = {}
 export type Wishlist = {}
 export type ProductVariant = {
-  id: number;
+  _id: number;
+  _description: string;
+  _categoriesRef: string[];
+  categories: number[];
   name: string;
-  slug: string;
+  sku: string;
+  images: string[];
+  price: {
+    original: number;
+    current: number;
+  };
 }
 export type Category = {
   id: number;

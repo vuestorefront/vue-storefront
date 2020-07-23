@@ -12,16 +12,16 @@ type ProductVariantFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => 'product name';
+export const getProductName = (product: ProductVariant): string => product.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: ProductVariant): string => 'product-slug';
+export const getProductSlug = (product: ProductVariant): string => product.sku;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
   return {
-    regular: 0,
-    special: 0
+    regular: product.price.original,
+    special: product.price.current
   };
 };
 
@@ -29,7 +29,7 @@ export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
 export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: ProductVariant): string => '';
+export const getProductCoverImage = (product: ProductVariant): string => 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
