@@ -13,7 +13,7 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
     with: params.term,
     where: params.term,
     sort: params.sort,
-    page: params.pagination.page,
+    page: params.page,
     masterKey: '',
     term: params.term
   };
