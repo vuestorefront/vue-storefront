@@ -6,7 +6,7 @@ import { Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
 export const initialDetails = { contactInfo: {} };
 export const paymentMethods: Ref<any[]> = ref([]);
 export const shippingMethods: Ref<any[]> = ref([]);
-export const personalDetails: Ref<Customer> = ref({});
+export const personalDetails: Ref<Customer> = ref<Customer>({} as Customer);
 export const chosenPaymentMethod: Ref<any> = ref({});
 export const chosenShippingMethod: Ref<any> = ref({});
 export const isPersonalDetailsCompleted: Ref<boolean> = ref(false);

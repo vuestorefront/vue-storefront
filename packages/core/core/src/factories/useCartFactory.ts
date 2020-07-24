@@ -1,5 +1,6 @@
 import { UseCart } from '../types';
 import { Ref, ref, computed } from '@vue/composition-api';
+import { ssrRef } from 'nuxt-composition-api';
 import { useSSR } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
@@ -41,6 +42,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   const appliedCoupon: Ref<COUPON | null> = ref(null);
   const loading: Ref<boolean> = ref<boolean>(false);
   const cart: Ref<CART> = ref(null);
+  const test = ssrRef('test');
   let isInitialized = false;
 
   const setCart = (newCart: CART) => {
@@ -94,6 +96,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       cart.value = await factoryParams.loadCart();
       saveToInitialState(cart.value);
       loading.value = false;
+      test.value = 'cart loaded';
     };
 
     const clearCart = async () => {
@@ -140,6 +143,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         loading.value = false;
       }
     };
+
+    console.log(test);
 
     return {
       cart: computed(() => cart.value),

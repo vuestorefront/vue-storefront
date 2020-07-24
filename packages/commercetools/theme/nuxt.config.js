@@ -33,6 +33,7 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
