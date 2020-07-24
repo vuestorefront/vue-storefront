@@ -15,12 +15,17 @@ labels: feature request
 
 - [ ] ...
 
+## Version of Vue Storefront
+<!-- Is it next or current VSF -->
+- [ ] Vue Storefront
+- [ ] Vue Storefront Next
+
 ## Can you complete this feature request by yourself?
 
 - [ ] YES
 - [ ] NO
 
-## Which [Release Cycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html) state this refers to? Info for developer.
+## Which [Release Cycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html) state this refers to? Info for developer. (doesn't apply to Next)
 Pick one option.
 
 - [x] This is a normal feature request. This should be available on https://test.storefrontcloud.io and then after tests this can be added to next Vue Storefront version. In this case Developer should create branch from `develop` branch and create Pull Request `2. Feature / Improvement` back to `develop`.
