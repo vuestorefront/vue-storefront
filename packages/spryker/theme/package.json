@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/boilerplate-theme",
+  "name": "@vue-storefront/spryker-theme",
   "description": "My breathtaking Nuxt.js project",
   "author": "Filip Rakowski",
   "version": "0.0.3",
@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.7.10",
-    "@vue-storefront/boilerplate-api": "^0.0.1",
-    "@vue-storefront/boilerplate": "^0.0.1",
+    "@vue-storefront/spryker-api": "^0.0.1",
+    "@vue-storefront/spryker": "^0.0.1",
     "@vue-storefront/nuxt": "^0.0.3",
     "@vue-storefront/nuxt-theme": "^0.0.1",
     "cookie-universal-nuxt": "^2.1.3",

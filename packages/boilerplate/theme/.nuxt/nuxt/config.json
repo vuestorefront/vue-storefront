@@ -1,0 +1,5 @@
+{
+  "isFullStatic": false,
+  "ssr": true,
+  "target": "server"
+}

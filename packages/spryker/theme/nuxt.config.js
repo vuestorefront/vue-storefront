@@ -35,22 +35,22 @@ export default {
       // @core-development-only-end
       useRawSource: {
         dev: [
-          '@vue-storefront/boilerplate',
+          '@vue-storefront/spryker',
           '@vue-storefront/core'
         ],
         prod: [
-          '@vue-storefront/boilerplate',
+          '@vue-storefront/spryker',
           '@vue-storefront/core'
         ]
       }
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/boilerplate-api',
-      composables: '@vue-storefront/boilerplate'
+      apiClient: '@vue-storefront/spryker-api',
+      composables: '@vue-storefront/spryker'
     }],
     // @core-development-only-end
-    ['@vue-storefront/boilerplate/nuxt', {}]
+    ['@vue-storefront/spryker/nuxt', {}]
   ],
   modules: [
     'nuxt-i18n',
