@@ -19,6 +19,8 @@
     "build:spr:theme": "cd packages/spryker/theme && yarn build",
     "build:spr": "yarn build:spr:tools && yarn build:spr:theme",
     "dev:spr": "cd packages/spryker/theme && yarn dev",
+    "dev:spr:api-client": "cd packages/spryker/api-client && yarn dev",
+    "dev:spr:composables": "cd packages/spryker/composables && yarn dev",
     "build:bp:api-client": "cd packages/boilerplate/api-client && yarn build",
     "build:bp:composables": "cd packages/boilerplate/composables && yarn build",
     "build:bp:tools": "yarn build:core && yarn build:bp:api-client && yarn build:bp:composables",
