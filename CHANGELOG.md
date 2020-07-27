@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.2] - UNRELEASED
+
+### Added
+
+- **IMPORTANT** for security reasons we added new config `users.allowModification`.
+  This can help to dissallow modifying fields that shouldn't be changed by user.
+- Add helmet - enabled by default, you can pass configuration by adding `config.server.helmet.config`.
+  More info about helmet configuration https://helmetjs.github.io/docs/
+- Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
+- Make calculation of bundled products price by options optional - @cewald (#4556)
+
+### Fixed
+
+- remove deprecated value from attributesListQuery query - @gibkigonzo (#4572)
+- Fixed dutch translations - @1070rik (#4587)
+- localForage memory overload fixed. `localForage.preserveCollections` keeps names of collections to be preserved from being cleared. - @prakowski
+- Fixed bug in `restoreQuantity` - getItem never returns cart item - @gibkigonzo (#4619)
+- Separate variant in findProductOption to get parent sku - @gibkigonzo (#4641)
+
+### Changed / Improved
+
 ## [1.12.1] - 2020.06.22
 
 ### Added
