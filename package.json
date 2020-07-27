@@ -17,7 +17,7 @@
     "build:bp:composables": "cd packages/boilerplate/composables && yarn build",
     "build:bp:tools": "yarn build:core && yarn build:bp:api-client && yarn build:bp:composables",
     "build:bp:theme": "cd packages/boilerplate/theme && yarn build",
-    "build:bp": "yarn build:core && yarn build:bp:tools && yarn build:bp:theme",
+    "build:bp": "yarn build:bp:tools && yarn build:bp:theme",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
     "build:checkout-com": "cd packages/checkout-com && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",

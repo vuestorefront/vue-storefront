@@ -52,31 +52,6 @@
       </SfCarousel>
     </SfSection>
     <InstagramFeed />
-    <SfBanner
-      image="/homepage/bannerD.png"
-      subtitle="Fashion to Take Away"
-      title="Download our application to your mobile"
-      class="sf-banner--left desktop-only banner-app"
-    >
-      <template #call-to-action>
-        <div class="banner-app__call-to-action">
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/google.png"
-            :width="191"
-            :height="51"
-            alt="Google Play"
-          />
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/apple.png"
-            :width="174"
-            :height="57"
-            alt="App Store"
-          />
-        </div>
-      </template>
-    </SfBanner>
   </div>
 </template>
 <script>
@@ -301,27 +276,6 @@ export default {
       @include for-desktop {
         margin: 0 0 0 var(--spacer-xl);
       }
-    }
-  }
-}
-.banner-app {
-  --banner-title-margin: var(--spacer-xl) 0 0 0;
-  --banner-title-font-size: var(--h1-font-size);
-  --banner-title-font-weight: var(--h1-font-weight);
-  --banner-subtitle-font-size: var(--font-size-extra-big);
-  min-height: 26.25rem;
-  max-width: 65rem;
-  margin: 0 auto;
-  padding-right: calc(25% + 5rem);
-  padding-left: 2.5rem;
-  &__call-to-action {
-    display: flex;
-    margin: var(--space-big) 0 0 0;
-  }
-  &__image {
-    width: 22%;
-    & + & {
-      margin: 0 0 0 var(--spacer-xl);
     }
   }
 }

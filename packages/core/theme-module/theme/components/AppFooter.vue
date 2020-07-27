@@ -92,7 +92,13 @@ export default {
     @content;
   }
 }
-
+.sf-footer {
+  --footer-width: 100%;
+  &__container {
+    --footer-margin: var(--spacer-sm);
+    width: 100%;
+  }
+}
 .footer {
   &__socials {
     padding: var(--spacer-base) var(--spacer-xl);
