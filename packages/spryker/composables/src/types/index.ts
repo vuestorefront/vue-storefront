@@ -1,18 +1,18 @@
 import { UseCategory, UseProduct } from '@vue-storefront/core';
 
-type Product = {}
-type Category = {}
-type User = {}
-type UserAddress = {}
-type Cart = {}
-type CartItem = {}
-type Coupon = {}
-type Order = {}
-type OrderItem = {}
-type OrderSearchParams = {}
-type ShippingMethod = {}
-type WishlistProduct = {}
-type Wishlist = {}
+type Product = any;
+type Category = any;
+type User = any;
+type UserAddress = any;
+type Cart = any;
+type CartItem = any;
+type Coupon = any;
+type Order = any;
+type OrderItem = any;
+type OrderSearchParams = any;
+type ShippingMethod = any;
+type WishlistProduct = any;
+type Wishlist = any;
 
 export {
   Cart,
