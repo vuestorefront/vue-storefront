@@ -1,5 +1,5 @@
-import {isRef, ref, Ref} from '@vue/composition-api';
+import { isRef, ref, Ref, UnwrapRef } from '@vue/composition-api';
 
-export default function wrap<T>(element: Ref<T> | T): Ref<T> {
-  return isRef(element) ? element : ref(element);
+export default function wrap<T>(element: Ref<UnwrapRef<T>> | T): Ref<UnwrapRef<T>> {
+  return isRef(element) ? element : ref<T>(element as T);
 }

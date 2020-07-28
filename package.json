@@ -40,7 +40,7 @@
     "test:core": "jest -c ./packages/core/jest.config.js",
     "test:prismic": "cd packages/prismic && yarn test",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
-    "test:e2e":"./node_modules/.bin/cypress open",
+    "test:e2e": "./node_modules/.bin/cypress open",
     "test:cli": "cd packages/core/cli && yarn test",
     "test:cko": "cd packages/checkout-com && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
@@ -55,6 +55,8 @@
     "lint": "eslint . --ext .js,.ts,.vue"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@rollup/plugin-babel": "^5.1.0",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
