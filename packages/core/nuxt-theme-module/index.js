@@ -3,6 +3,8 @@ const fs = require('fs');
 const consola = require('consola');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
+const merge = require('lodash.merge');
+const defaultConfig = require('./defaultConfig').default;
 const compileTemplate = require('./scripts/compileTemplate');
 const { copyThemeFile, copyThemeFiles } = require('./scripts/copyThemeFiles');
 const getAllFilesFromDir = require('./scripts/getAllFilesFromDir');
@@ -19,9 +21,7 @@ const log = {
 module.exports = async function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
 
-  if (typeof moduleOptions.routes === 'undefined') {
-    moduleOptions.routes = true;
-  }
+  moduleOptions = merge(defaultConfig, moduleOptions);
 
   const agnosticThemeDir = path.join(__dirname, 'theme');
   const targetDirectory = moduleOptions.generate && moduleOptions.generate.path
