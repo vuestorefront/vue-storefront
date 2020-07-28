@@ -170,7 +170,7 @@ describe('[about-you-composables] product getters', () => {
       },
       {
         mobile: {
-          url: 'ayc.com/images/99c1'
+          url: 'ayc.com/images/99c2'
         },
         desktop: {
           url: ''
