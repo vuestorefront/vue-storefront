@@ -2,7 +2,7 @@
 
 import { createContext, createPayment } from './payment';
 import { ref, onMounted } from '@vue/composition-api';
-import { getPublicKey, getStyles, getCardTokenKey } from './configuration';
+import { getPublicKey, getStyles, getCardTokenKey, Configuration, getLocalization } from './configuration';
 
 declare const Frames: any;
 
@@ -49,11 +49,14 @@ const useCkoCard = () => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initForm = () => {
+  const initForm = (params?: Omit<Configuration, 'publicKey'>) => {
+    const localization = params?.localization || getLocalization();
     submitDisabled.value = true;
+
     onMounted(() => Frames.init({
       publicKey: getPublicKey(),
-      style: getStyles(),
+      style: params?.styles || getStyles(),
+      ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         submitDisabled.value = !Frames.isCardValid();
       },

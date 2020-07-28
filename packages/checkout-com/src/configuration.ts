@@ -2,7 +2,8 @@ const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
   styles: {},
-  tokenizedCardKey: 'temporary-tokenized-card'
+  tokenizedCardKey: 'temporary-tokenized-card',
+  localization: null
 };
 
 interface Configuration {
@@ -10,6 +11,14 @@ interface Configuration {
   ckoWebHookUrl?: string;
   styles?: any;
   tokenizedCardKey?: string;
+  localization?: string | CustomLocalization;
+}
+
+interface CustomLocalization {
+  cardNumberPlaceholder: string;
+  expiryMonthPlaceholder: string;
+  expiryYearPlaceholder: string;
+  cvvPlaceholder: string;
 }
 
 const defaultStyles = {
@@ -37,11 +46,13 @@ const setup = (params: Configuration) => {
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
   config.styles = params.styles || defaultStyles;
   config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
+  config.localization = params.localization || null;
 };
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getStyles = () => config.styles;
 const getCardTokenKey = () => config.tokenizedCardKey;
+const getLocalization = () => config.localization;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getStyles, getCardTokenKey };
+export { setup, getPublicKey, getCkoWebhookUrl, getStyles, getCardTokenKey, getLocalization, Configuration };
