@@ -17,11 +17,8 @@ jest.mock('@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme', 
 const copyAgnosticThemeMock = require('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme');
 jest.mock('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme', () => jest.fn());
 
-const removeMagicCommentsFromFileMock = require('@vue-storefront/cli/src/scripts/createProject/removeMagicCommentsFromFile');
-jest.mock('@vue-storefront/cli/src/scripts/createProject/removeMagicCommentsFromFile', () => jest.fn());
-
-const uncommentProjectOnlyMock = require('@vue-storefront/cli/src/scripts/createProject/uncommentProjectOnly');
-jest.mock('@vue-storefront/cli/src/scripts/createProject/uncommentProjectOnly', () => jest.fn());
+const processMagicCommentsMock = require('@vue-storefront/cli/src/scripts/createProject/processMagicComments');
+jest.mock('@vue-storefront/cli/src/scripts/createProject/processMagicComments', () => jest.fn());
 
 describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments', async () => {
@@ -30,7 +27,6 @@ describe('[vsf-next-cli] createProject', () => {
 
     expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['.theme', '.nuxt', 'node_modules']);
     expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
-    expect(removeMagicCommentsFromFileMock).toHaveBeenCalledWith(targetPath);
-    expect(uncommentProjectOnlyMock).toHaveBeenCalledWith(targetPath);
+    expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
   });
 });

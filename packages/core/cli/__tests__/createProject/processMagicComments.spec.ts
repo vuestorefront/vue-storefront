@@ -1,6 +1,6 @@
-import removeMagicCommentsFromFile from '../../src/scripts/createProject/removeMagicCommentsFromFile';
+import processMagicComments from '../../src/scripts/createProject/processMagicComments';
 
-const fileContent = `
+const magicCommentsFile = `
 import webpack from 'webpack';
 import { config } from './plugins/commercetools-config.js';
 
@@ -97,15 +97,20 @@ export default {
 
 `;
 
+const projectOnlyCommmentsFile = `
+/* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */`;
+
+import { writeFileSync, readFileSync } from 'fs';
+
 jest.mock('fs', () => ({
-  readFileSync: () => fileContent,
+  readFileSync: jest.fn(() => magicCommentsFile),
   writeFileSync: jest.fn()
 }));
 
-import { writeFileSync } from 'fs';
-
-describe('[vsf-next-cli] removeMagicCommentsFromFile', () => {
-  it('removes magic comments from the file', () => {
+describe('[vsf-next-cli] processMagicComments', () => {
+  it('removes magic comments from the file', async () => {
 
     const absoluteFilePath = 'nuxt.config.js';
 
@@ -197,7 +202,22 @@ export default {
 };
 
 `;
-    removeMagicCommentsFromFile(absoluteFilePath);
+    await processMagicComments(absoluteFilePath);
+    expect(writeFileSync).toHaveBeenCalledWith(absoluteFilePath, expectedFileContent);
+
+  });
+
+  it('uncomments parts inside "project only" comments', async () => {
+
+    const absoluteFilePath = 'nuxt.config.js';
+    (readFileSync as jest.Mock).mockClear();
+    (readFileSync as jest.Mock).mockImplementation(() => projectOnlyCommmentsFile);
+
+    // I removed magic comments in the const below
+    const expectedFileContent = `
+    ['@vue-storefront/nuxt-theme'],`;
+
+    await processMagicComments(absoluteFilePath);
 
     expect(writeFileSync).toHaveBeenCalledWith(absoluteFilePath, expectedFileContent);
 
