@@ -143,19 +143,9 @@
           </template>
         </SfRadio>
       </div>
-
-    <form id="payment-form">
-      <div class="card-frame">
-        <!-- form will be added here -->
-      </div>
-      <!-- <button id="pay-button" :disabled="submitDisabled" @click="handleSubmit">
-        PAY GBP 24.99
-      </button> -->
-    </form>
-
       <div class="form__action">
         <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress || submitDisabled">
+        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress">
           Review my order
         </SfButton>
       </div>
@@ -165,7 +155,6 @@
 </template>
 
 <script>
-
 import {
   SfHeading,
   SfInput,
@@ -180,8 +169,6 @@ import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
-import { useCkoCard } from '@vue-storefront/checkout-com';
-
 const COUNTRIES = [
   { key: 'US',
     label: 'United States' },
@@ -192,17 +179,14 @@ const COUNTRIES = [
   { key: 'PL',
     label: 'Poland' }
 ];
-
 extend('required', {
   ...required,
   message: 'This field is required'
 });
-
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
-
 export default {
   name: 'Payment',
   components: {
@@ -228,37 +212,26 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { submitForm, submitDisabled, initForm } = useCkoCard();
     const sameAsShipping = ref(false);
     let oldBilling = null;
-
     onSSR(async () => {
       await loadDetails();
       await loadPaymentMethods();
     });
-
-    initForm();
-
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });
-      await submitForm();
       context.root.$router.push('/checkout/order-review');
     };
-
     const handleCheckSameAddress = () => {
       sameAsShipping.value = !sameAsShipping.value;
-
       if (sameAsShipping.value) {
         oldBilling = billingDetails.value;
         setBillingDetails(shippingDetails.value);
         return;
       }
-
       setBillingDetails(oldBilling);
     };
-
     return {
-      submitDisabled,
       loading,
       billingDetails,
       paymentMethods,
@@ -272,7 +245,6 @@ export default {
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -326,7 +298,6 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
-
     &:hover {
       color:  white;
     }

@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const compileTemplate = require('./scripts/compileTemplate');
 const { copyThemeFile, copyThemeFiles } = require('./scripts/copyThemeFiles');
 const getAllFilesFromDir = require('./scripts/getAllFilesFromDir');
+const getRoutes = require('./routes');
 const getAllSubDirs = require('./scripts/getAllSubDirs');
 
 const log = {
@@ -65,59 +66,8 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
     config.resolve.alias['~'] = path.join(projectLocalThemeDir);
   });
 
-  this.extendRoutes((routes, resolve) => {
-    routes.unshift({
-      name: 'home',
-      path: '/',
-      component: resolve(projectLocalThemeDir, 'pages/Home.vue')
-    });
-    routes.push({
-      name: 'product',
-      path: '/p/:id/:slug/',
-      component: resolve(projectLocalThemeDir, 'pages/Product.vue')
-    });
-    routes.push({
-      name: 'category',
-      path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
-      component: resolve(projectLocalThemeDir, 'pages/Category.vue')
-    });
-    routes.push({
-      name: 'my-account',
-      path: '/my-account/:pageName?',
-      component: resolve(projectLocalThemeDir, 'pages/MyAccount.vue')
-    });
-    routes.push({
-      name: 'checkout',
-      path: '/checkout',
-      component: resolve(projectLocalThemeDir, 'pages/Checkout.vue'),
-      children: [
-        {
-          path: 'personal-details',
-          name: 'personal-details',
-          component: resolve(projectLocalThemeDir, 'pages/Checkout/PersonalDetails.vue')
-        },
-        {
-          path: 'shipping',
-          name: 'shipping',
-          component: resolve(projectLocalThemeDir, 'pages/Checkout/Shipping.vue')
-        },
-        {
-          path: 'payment',
-          name: 'payment',
-          component: resolve(projectLocalThemeDir, 'pages/Checkout/Payment.vue')
-        },
-        {
-          path: 'order-review',
-          name: 'order-review',
-          component: resolve(projectLocalThemeDir, 'pages/Checkout/OrderReview.vue')
-        },
-        {
-          path: 'thank-you',
-          name: 'thank-you',
-          component: resolve(projectLocalThemeDir, 'pages/Checkout/ThankYou.vue')
-        }
-      ]
-    });
+  this.extendRoutes((routes) => {
+    getRoutes(projectLocalThemeDir).forEach(route => routes.unshift(route));
   });
 
   if (global.coreDev) {

@@ -12,12 +12,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.3.4",
+    "@vue/composition-api": "^0.6.7",
     "axios": "^0.19.2",
     "vue": "^2.6.x"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "nuxt/**/*"
   ],
   "publishConfig": {
     "access": "public"

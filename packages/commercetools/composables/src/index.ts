@@ -8,6 +8,8 @@ import { setUser, useUser } from './useUser';
 import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
+import { track } from '@vue-storefront/core';
+
 import {
   cartGetters,
   categoryGetters,
@@ -17,6 +19,8 @@ import {
   orderGetters,
   wishlistGetters
 } from './getters';
+
+track('VSFCommercetools');
 
 export {
   useCategory,

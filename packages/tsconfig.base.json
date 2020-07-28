@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
-    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019"],
+    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
     "strict": false,
     "preserveSymlinks": true,
     "paths": {
