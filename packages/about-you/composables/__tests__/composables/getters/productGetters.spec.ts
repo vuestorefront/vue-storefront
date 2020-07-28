@@ -158,14 +158,26 @@ describe('[about-you-composables] product getters', () => {
   it('returns gallery', () => {
     expect(getProductGallery(product)).toEqual([
       {
-        big: 'ayc.com/images/99c1',
-        normal: '',
-        small: ''
+        mobile: {
+          url: 'ayc.com/images/99c1'
+        },
+        desktop: {
+          url: ''
+        },
+        zoom: {
+          url: ''
+        }
       },
       {
-        big: 'ayc.com/images/99c2',
-        normal: '',
-        small: ''
+        mobile: {
+          url: 'ayc.com/images/99c1'
+        },
+        desktop: {
+          url: ''
+        },
+        zoom: {
+          url: ''
+        }
       }
     ]);
   });

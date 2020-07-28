@@ -58,14 +58,26 @@ describe('[commercetools-getters] product getters', () => {
   it('returns gallery', () => {
     expect(getProductGallery(product)).toEqual([
       {
-        small: 'imageV11/url.jpg',
-        big: 'imageV11/url.jpg',
-        normal: 'imageV11/url.jpg'
+        mobile: {
+          url: 'imageV11/url.jpg'
+        },
+        desktop: {
+          url: 'imageV11/url.jpg'
+        },
+        zoom: {
+          url: 'imageV11/url.jpg'
+        }
       },
       {
-        small: 'imageV12/url.jpg',
-        big: 'imageV12/url.jpg',
-        normal: 'imageV12/url.jpg'
+        mobile: {
+          url: 'imageV12/url.jpg'
+        },
+        desktop: {
+          url: 'imageV12/url.jpg'
+        },
+        zoom: {
+          url: 'imageV12/url.jpg'
+        }
       }
     ]);
   });

@@ -52,9 +52,15 @@ export const getProductPrice = (product: BapiProduct): AgnosticPrice => {
 
 export const getProductGallery = (product: BapiProduct): AgnosticMediaGalleryItem[] => {
   return (product ? product.images : []).map(imgObj => ({
-    big: `${getSettings().imgUrl}/${imgObj.hash}`,
-    normal: '',
-    small: ''
+    mobile: {
+      url: `${getSettings().imgUrl}/${imgObj.hash}`
+    },
+    desktop: {
+      url: ''
+    },
+    zoom: {
+      url: ''
+    }
   }));
 };
 

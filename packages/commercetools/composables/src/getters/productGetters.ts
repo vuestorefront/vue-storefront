@@ -16,9 +16,15 @@ export const getProductPrice = (product: ProductVariant | Readonly<ProductVarian
 export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] =>
   (product ? product.images : [])
     .map((image: Image) => ({
-      small: image.url,
-      big: image.url,
-      normal: image.url
+      mobile: {
+        url: image.url
+      },
+      desktop: {
+        url: image.url
+      },
+      zoom: {
+        url: image.url
+      }
     }));
 
 export const getProductCoverImage = (product: ProductVariant): string =>

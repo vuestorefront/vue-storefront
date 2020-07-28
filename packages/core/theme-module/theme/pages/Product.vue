@@ -1,45 +1,27 @@
 <template>
   <div id="product">
     <SfBreadcrumbs
-      class="breadcrumbs desktop-only"
-      :breadcrumbs="breadcrumbs"
+        class="breadcrumbs desktop-only"
+        :breadcrumbs="breadcrumbs"
     />
     <div class="product">
       <div class="product__gallery">
-        <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
-        <!-- <SfGallery
-          class="gallery-mobile mobile-only"
-          :images="[
-            {
-              mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' },
-              big: { url: '/productpage/productM.jpg' }
-            },
-            {
-              mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' },
-              big: { url: '/productpage/productM.jpg' }
-            }
-          ]"
-        /> -->
-        <SfImage
-          v-for="(image, i) in productGetters.getGallery(product).splice(0, 2)" :key="i"
-          :src="image.big"
-          :width="590"
-          :height="700"
+        <SfGallery
+            :images="productGallery"
+            :image-height="550"
         />
       </div>
       <div class="product__description">
         <SfSticky class="product-details">
           <SfHeading
-            :title="productGetters.getName(product)"
-            :level="1"
-            class="sf-heading--no-underline sf-heading--left product-details__heading"
+              :title="productGetters.getName(product)"
+              :level="1"
+              class="sf-heading--no-underline sf-heading--left product-details__heading"
           />
           <div class="product-details__sub">
             <SfPrice
-              :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-              :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+                :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+                :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
             />
             <div class="product-details__sub-rating">
               <SfRating :score="4" :max="5" />
@@ -58,59 +40,59 @@
           </p>
           <div class="product-details__action desktop-only">
             <SfButton data-cy="product-btn_size-guide" class="sf-button--text color-secondary"
-              >Size guide</SfButton
+            >Size guide</SfButton
             >
           </div>
           <!-- TODO: add size selector after design is added -->
           <div class="product-details__section desktop-only" >
             <SfSelect
-              data-cy="product-select_size"
-              v-if="options.size"
-              :selected="configuration.size"
-              @change="size => updateFilter({ size })"
-              label="Size"
-              class="sf-select--underlined product-details__attribute"
+                data-cy="product-select_size"
+                v-if="options.size"
+                :selected="configuration.size"
+                @change="size => updateFilter({ size })"
+                label="Size"
+                class="sf-select--underlined product-details__attribute"
             >
               <SfSelectOption
-                v-for="size in options.size"
-                :key="size.value"
-                :value="size.value"
+                  v-for="size in options.size"
+                  :key="size.value"
+                  :value="size.value"
               >
                 <SfProductOption :label="size.label" />
               </SfSelectOption>
             </SfSelect>
             <!-- TODO: add color picker after PR done by SFUI team -->
             <div v-if="options.color" class="product-details__colors desktop-only">
-            <p class="product-details__color-label">Color:</p>
-            <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
-            <SfColor
-              data-cy="product-color_update"
-              v-for="(color, i) in options.color"
-              :key="i"
-              :color="color.value"
-              class="product-details__color"
-              @click="updateFilter({color})"
-            />
-          </div>
+              <p class="product-details__color-label">Color:</p>
+              <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
+              <SfColor
+                  data-cy="product-color_update"
+                  v-for="(color, i) in options.color"
+                  :key="i"
+                  :color="color.value"
+                  class="product-details__color"
+                  @click="updateFilter({color})"
+              />
+            </div>
           </div>
           <div class="product-details__section desktop-only">
             <SfAddToCart
-              data-cy="product-cart_add"
-              :stock="stock"
-              v-model="qty"
-              :disabled="loading"
-              :canAddToCart="stock > 0"
-              @click="addToCart(product, parseInt(qty))"
-              class="product-details__add-to-cart"
+                data-cy="product-cart_add"
+                :stock="stock"
+                v-model="qty"
+                :disabled="loading"
+                :canAddToCart="stock > 0"
+                @click="addToCart(product, parseInt(qty))"
+                class="product-details__add-to-cart"
             />
             <div class="product-details__action">
               <SfButton data-cy="product-btn_save-later" class="sf-button--text color-secondary"
-                >Save for later</SfButton
+              >Save for later</SfButton
               >
             </div>
             <div class="product-details__action">
               <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text color-secondary"
-                >Add to compare</SfButton
+              >Add to compare</SfButton
               >
             </div>
           </div>
@@ -127,31 +109,31 @@
               </div>
               <div class="product-details__properties">
                 <SfProperty
-                  v-for="(property, i) in properties"
-                  :key="i"
-                  :name="property.name"
-                  :value="property.value"
-                  class="product-property"
+                    v-for="(property, i) in properties"
+                    :key="i"
+                    :name="property.name"
+                    :value="property.value"
+                    class="product-property"
                 />
               </div>
             </SfTab>
             <SfTab data-cy="product-tab_reviews" title="Read reviews">
               <SfReview
-                class="product-details__review"
-                v-for="(review, i) in reviews"
-                :key="i"
-                :author="review.author"
-                :date="review.date"
-                :message="review.message"
-                :rating="review.rating"
-                :max-rating="5"
+                  class="product-details__review"
+                  v-for="(review, i) in reviews"
+                  :key="i"
+                  :author="review.author"
+                  :date="review.date"
+                  :message="review.message"
+                  :rating="review.rating"
+                  :max-rating="5"
               />
             </SfTab>
             <SfTab data-cy="product-tab_additional" title="Additional Information">
               <SfHeading
-                title="Brand"
-                :level="3"
-                class="sf-heading--no-underline sf-heading--left"
+                  title="Brand"
+                  :level="3"
+                  class="sf-heading--no-underline sf-heading--left"
               />
               <p>
                 <u>Brand name</u> is the perfect pairing of quality and design.
@@ -165,32 +147,32 @@
       </div>
     </div>
     <RelatedProducts
-      :products="relatedProducts"
-      :loading="relatedLoading"
-      title="Match it with"
+        :products="relatedProducts"
+        :loading="relatedLoading"
+        title="Match it with"
     />
     <InstagramFeed />
     <SfBanner
-      image="/homepage/bannerD.png"
-      subtitle="Fashion to Take Away"
-      title="Download our application to your mobile"
-      class="sf-banner--left desktop-only banner-app"
+        image="/homepage/bannerD.png"
+        subtitle="Fashion to Take Away"
+        title="Download our application to your mobile"
+        class="sf-banner--left desktop-only banner-app"
     >
       <template #call-to-action>
         <div class="banner-app__call-to-action">
           <SfImage
-            class="banner-app__image"
-            src="/homepage/google.png"
-            :width="191"
-            :height="51"
-            alt="Google Play"
+              class="banner-app__image"
+              src="/homepage/google.png"
+              :width="191"
+              :height="51"
+              alt="Google Play"
           />
           <SfImage
-            class="banner-app__image"
-            src="/homepage/apple.png"
-            :width="174"
-            :height="57"
-            alt="App Store"
+              class="banner-app__image"
+              src="/homepage/apple.png"
+              :width="174"
+              :height="57"
+              alt="App Store"
           />
         </div>
       </template>
@@ -239,6 +221,7 @@ export default {
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
+    const productGallery = computed(() => productGetters.getGallery(product.value));
 
     onSSR(async () => {
       await loadCart();
@@ -265,7 +248,8 @@ export default {
       addToCart,
       loading,
       productGetters,
-      breadcrumbs
+      breadcrumbs,
+      productGallery
     };
   },
   components: {
@@ -315,14 +299,14 @@ export default {
           author: 'Jane D.Smith',
           date: 'April 2019',
           message:
-            'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
+              'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
           rating: 4
         },
         {
           author: 'Mari',
           date: 'Jan 2018',
           message:
-            'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
+              'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
           rating: 5
         }
       ],
@@ -413,13 +397,13 @@ export default {
       margin: 0;
     }
   }
-    &__colors {
+  &__colors {
     @include font(
-      --product-color-font,
-      var(--font-normal),
-      var(--font-lg),
-      1.6,
-      var(--font-family-secondary)
+            --product-color-font,
+            var(--font-normal),
+            var(--font-lg),
+            1.6,
+            var(--font-family-secondary)
     );
     display: flex;
     align-items: center;
