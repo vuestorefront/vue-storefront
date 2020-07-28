@@ -1,7 +1,5 @@
 import { setup } from '@vue-storefront/checkout-com';
 
 export default () => {
-  setup({
-    publicKey: '<%= options.publicKey %>'
-  });
+  setup(JSON.parse('<%= JSON.stringify(options) %>'));
 };

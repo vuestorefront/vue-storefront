@@ -3,9 +3,7 @@ import path from 'path';
 export default function CheckoutComModule(moduleOptions) {
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
-    options: {
-      publicKey: moduleOptions.publicKey
-    }
+    options: moduleOptions
   });
 
   const { successComponent, errorComponent } = moduleOptions;
