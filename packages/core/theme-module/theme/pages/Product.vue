@@ -1,27 +1,27 @@
 <template>
   <div id="product">
     <SfBreadcrumbs
-        class="breadcrumbs desktop-only"
-        :breadcrumbs="breadcrumbs"
+      class="breadcrumbs desktop-only"
+      :breadcrumbs="breadcrumbs"
     />
     <div class="product">
       <div class="product__gallery">
         <SfGallery
-            :images="productGallery"
-            :image-height="550"
+          :images="productGallery"
+          :image-height="550"
         />
       </div>
       <div class="product__description">
         <SfSticky class="product-details">
           <SfHeading
-              :title="productGetters.getName(product)"
-              :level="1"
-              class="sf-heading--no-underline sf-heading--left product-details__heading"
+            :title="productGetters.getName(product)"
+            :level="1"
+            class="sf-heading--no-underline sf-heading--left product-details__heading"
           />
           <div class="product-details__sub">
             <SfPrice
-                :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-                :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
             />
             <div class="product-details__sub-rating">
               <SfRating :score="4" :max="5" />
@@ -46,17 +46,17 @@
           <!-- TODO: add size selector after design is added -->
           <div class="product-details__section desktop-only" >
             <SfSelect
-                data-cy="product-select_size"
-                v-if="options.size"
-                :selected="configuration.size"
-                @change="size => updateFilter({ size })"
-                label="Size"
-                class="sf-select--underlined product-details__attribute"
+              data-cy="product-select_size"
+              v-if="options.size"
+              :selected="configuration.size"
+              @change="size => updateFilter({ size })"
+              label="Size"
+              class="sf-select--underlined product-details__attribute"
             >
               <SfSelectOption
-                  v-for="size in options.size"
-                  :key="size.value"
-                  :value="size.value"
+                v-for="size in options.size"
+                :key="size.value"
+                :value="size.value"
               >
                 <SfProductOption :label="size.label" />
               </SfSelectOption>
@@ -66,24 +66,24 @@
               <p class="product-details__color-label">Color:</p>
               <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
               <SfColor
-                  data-cy="product-color_update"
-                  v-for="(color, i) in options.color"
-                  :key="i"
-                  :color="color.value"
-                  class="product-details__color"
-                  @click="updateFilter({color})"
+                data-cy="product-color_update"
+                v-for="(color, i) in options.color"
+                :key="i"
+                :color="color.value"
+                class="product-details__color"
+                @click="updateFilter({color})"
               />
             </div>
           </div>
           <div class="product-details__section desktop-only">
             <SfAddToCart
-                data-cy="product-cart_add"
-                :stock="stock"
-                v-model="qty"
-                :disabled="loading"
-                :canAddToCart="stock > 0"
-                @click="addToCart(product, parseInt(qty))"
-                class="product-details__add-to-cart"
+              data-cy="product-cart_add"
+              :stock="stock"
+              v-model="qty"
+              :disabled="loading"
+              :canAddToCart="stock > 0"
+              @click="addToCart(product, parseInt(qty))"
+              class="product-details__add-to-cart"
             />
             <div class="product-details__action">
               <SfButton data-cy="product-btn_save-later" class="sf-button--text color-secondary"
@@ -109,31 +109,31 @@
               </div>
               <div class="product-details__properties">
                 <SfProperty
-                    v-for="(property, i) in properties"
-                    :key="i"
-                    :name="property.name"
-                    :value="property.value"
-                    class="product-property"
+                  v-for="(property, i) in properties"
+                  :key="i"
+                  :name="property.name"
+                  :value="property.value"
+                  class="product-property"
                 />
               </div>
             </SfTab>
             <SfTab data-cy="product-tab_reviews" title="Read reviews">
               <SfReview
-                  class="product-details__review"
-                  v-for="(review, i) in reviews"
-                  :key="i"
-                  :author="review.author"
-                  :date="review.date"
-                  :message="review.message"
-                  :rating="review.rating"
-                  :max-rating="5"
+                class="product-details__review"
+                v-for="(review, i) in reviews"
+                :key="i"
+                :author="review.author"
+                :date="review.date"
+                :message="review.message"
+                :rating="review.rating"
+                :max-rating="5"
               />
             </SfTab>
             <SfTab data-cy="product-tab_additional" title="Additional Information">
               <SfHeading
-                  title="Brand"
-                  :level="3"
-                  class="sf-heading--no-underline sf-heading--left"
+                title="Brand"
+                :level="3"
+                class="sf-heading--no-underline sf-heading--left"
               />
               <p>
                 <u>Brand name</u> is the perfect pairing of quality and design.
@@ -147,32 +147,32 @@
       </div>
     </div>
     <RelatedProducts
-        :products="relatedProducts"
-        :loading="relatedLoading"
-        title="Match it with"
+      :products="relatedProducts"
+      :loading="relatedLoading"
+      title="Match it with"
     />
     <InstagramFeed />
     <SfBanner
-        image="/homepage/bannerD.png"
-        subtitle="Fashion to Take Away"
-        title="Download our application to your mobile"
-        class="sf-banner--left desktop-only banner-app"
+      image="/homepage/bannerD.png"
+      subtitle="Fashion to Take Away"
+      title="Download our application to your mobile"
+      class="sf-banner--left desktop-only banner-app"
     >
       <template #call-to-action>
         <div class="banner-app__call-to-action">
           <SfImage
-              class="banner-app__image"
-              src="/homepage/google.png"
-              :width="191"
-              :height="51"
-              alt="Google Play"
+            class="banner-app__image"
+            src="/homepage/google.png"
+            :width="191"
+            :height="51"
+            alt="Google Play"
           />
           <SfImage
-              class="banner-app__image"
-              src="/homepage/apple.png"
-              :width="174"
-              :height="57"
-              alt="App Store"
+            class="banner-app__image"
+            src="/homepage/apple.png"
+            :width="174"
+            :height="57"
+            alt="App Store"
           />
         </div>
       </template>

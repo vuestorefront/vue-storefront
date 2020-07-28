@@ -23,9 +23,9 @@ export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
 
 export interface UseUser
 <
-    USER,
-    UPDATE_USER_PARAMS
-    > {
+  USER,
+  UPDATE_USER_PARAMS
+  > {
   user: ComputedProperty<USER>;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
   register: (user: {
@@ -42,8 +42,8 @@ export interface UseUser
   }) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (
-      currentPassword: string,
-      newPassword: string) => Promise<void>;
+    currentPassword: string,
+    newPassword: string) => Promise<void>;
   refreshUser: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
@@ -73,8 +73,8 @@ export interface UseUserAddress<ADDRESS> {
 
 export interface UseCategory
 <
-    CATEGORY
-    > {
+  CATEGORY
+  > {
   categories: ComputedProperty<CATEGORY[]>;
   search: (params: {
     [x: string]: any;
@@ -84,11 +84,11 @@ export interface UseCategory
 
 export interface UseCart
 <
-    CART,
-    CART_ITEM,
-    PRODUCT,
-    COUPON
-    > {
+  CART,
+  CART_ITEM,
+  PRODUCT,
+  COUPON
+  > {
   cart: ComputedProperty<CART>;
   addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
@@ -104,10 +104,10 @@ export interface UseCart
 
 export interface UseWishlist
 <
-    WISHLIST,
-    WISHLIST_ITEM,
-    PRODUCT,
-    > {
+  WISHLIST,
+  WISHLIST_ITEM,
+  PRODUCT,
+  > {
   wishlist: ComputedProperty<WISHLIST>;
   addToWishlist: (product: PRODUCT) => Promise<void>;
   isOnWishlist: (product: PRODUCT) => boolean;
@@ -127,15 +127,15 @@ export interface UseCompare<PRODUCT> {
 
 export interface UseCheckout
 <
-    PAYMENT_METHODS,
-    SHIPPING_METHODS,
-    PERSONAL_DETAILS,
-    SHIPPING_DETAILS,
-    BILLING_DETAILS,
-    CHOOSEN_PAYMENT_METHOD,
-    CHOOSEN_SHIPPING_METHOD,
-    PLACE_ORDER,
-    > {
+  PAYMENT_METHODS,
+  SHIPPING_METHODS,
+  PERSONAL_DETAILS,
+  SHIPPING_DETAILS,
+  BILLING_DETAILS,
+  CHOOSEN_PAYMENT_METHOD,
+  CHOOSEN_SHIPPING_METHOD,
+  PLACE_ORDER,
+  > {
   paymentMethods: Ref<PAYMENT_METHODS>;
   shippingMethods: Ref<SHIPPING_METHODS>;
   personalDetails: PERSONAL_DETAILS;
@@ -170,7 +170,7 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getGallery: (product: PRODUCT) => AgnosticMediaGalleryItem[];
   getCoverImage: (product: PRODUCT) => string;
   getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) =>
-      PRODUCT[];
+    PRODUCT[];
   getAttributes: (products: PRODUCT[] | PRODUCT, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
   getDescription: (product: PRODUCT) => string;
   getCategoryIds: (product: PRODUCT) => string[];
