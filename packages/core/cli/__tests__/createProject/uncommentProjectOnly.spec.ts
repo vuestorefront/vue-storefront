@@ -13,7 +13,7 @@ jest.mock('fs', () => ({
 import { writeFileSync } from 'fs';
 
 describe('[vsf-next-cli] uncommentProjectOnly', () => {
-  it('removes comments from project on', () => {
+  it('uncomments from "project only"', () => {
 
     const absoluteFilePath = 'nuxt.config.js';
 
