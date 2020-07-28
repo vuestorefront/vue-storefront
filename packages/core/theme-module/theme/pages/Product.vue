@@ -206,6 +206,27 @@ import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '<%= options.composables %>';
 import { onSSR } from '@vue-storefront/core';
 
+const fallbackBreadcrumbs = [
+  {
+    text: 'Home',
+    route: {
+      link: '#'
+    }
+  },
+  {
+    text: 'Category',
+    route: {
+      link: '#'
+    }
+  },
+  {
+    text: 'Pants',
+    route: {
+      link: '#'
+    }
+  }
+];
+
 export default {
   name: 'Product',
   transition: 'fade',
@@ -220,7 +241,7 @@ export default {
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
-    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
+    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : fallbackBreadcrumbs);
     const productGallery = computed(() => productGetters.getGallery(product.value));
 
     onSSR(async () => {
@@ -310,27 +331,7 @@ export default {
           rating: 5
         }
       ],
-      detailsIsActive: false,
-      fallbackBreadcrumbs: [
-        {
-          text: 'Home',
-          route: {
-            link: '#'
-          }
-        },
-        {
-          text: 'Category',
-          route: {
-            link: '#'
-          }
-        },
-        {
-          text: 'Pants',
-          route: {
-            link: '#'
-          }
-        }
-      ]
+      detailsIsActive: false
     };
   }
 };
