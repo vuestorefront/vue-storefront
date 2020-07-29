@@ -13,11 +13,12 @@ const getDirectories = (source: string) =>
     .map(dirent => dirent.name);
 
 const isPackage = (pckg: string) => fs.existsSync(`${BASE}/${pckg}/package.json`);
+const hasIntegrationWrapperPackages = (pckg: string): boolean => integrationWrapperPackages.every(directory => isPackage(`${pckg}/${directory}`));
 
 const isIntegrationWrapper = (pckg: string) => {
   try {
     const directories = getDirectories(pckg);
-    return integrationWrapperPackages.length <= directories.length && integrationWrapperPackages.every(directory => isPackage(`${pckg}/${directory}`));
+    return integrationWrapperPackages.length <= directories.length && hasIntegrationWrapperPackages(pckg);
   } catch (err) {
     return false;
   }
