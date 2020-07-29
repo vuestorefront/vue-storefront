@@ -59,17 +59,15 @@ const pckgCustomSubpackageToPath = (pckg: string, subpackage: string): string =>
 
 const buildPackageDependencyList = (pckg: string): PACKAGE_SUBTYPE[] => {
   const packageSubtype = getPackageSubtype(pckg);
-  const list: PACKAGE_SUBTYPE[] = [];
   if (packageSubtype === PACKAGE_SUBTYPE.INDEPENDENT) {
-    return list;
+    return [];
   }
 
-  const enumKeys = Object.keys(PACKAGE_SUBTYPE).filter(key => isNaN(Number(key)));
-  for (let i = packageSubtype + 1; i < enumKeys.length; i++) {
-    list.push(i);
-  }
+  const enumKeys = Object.keys(PACKAGE_SUBTYPE)
+    .filter(key => isNaN(Number(key)))
+    .keys();
 
-  return list;
+  return Array.from(enumKeys).slice(packageSubtype + 1);
 };
 
 const program = () => {
