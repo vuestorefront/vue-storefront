@@ -29,7 +29,5 @@ interface OperationsData {
 
 const BASE = path.resolve('../packages/');
 const REGISTRY = 'https://registry.npmjs.org';
-// const REGISTRY = 'http://localhost:4873';
-// npm publish --registry ${registry}
 
 export { BASE, REGISTRY, PACKAGE_TYPES, PACKAGE_SUBTYPE, RELEASE_GRADATIONS, OperationsData };
