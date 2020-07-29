@@ -14,7 +14,15 @@ const setCardToken = (token) => localStorage.setItem(getCardTokenKey(), token);
 const removeCardToken = () => localStorage.removeItem(getCardTokenKey());
 
 const useCkoCard = () => {
-  const makePayment = async ({ cartId }) => {
+  const fetchAvailableMethods = async (reference) => {
+    try {
+      return await createContext({ reference });
+    } catch (e) {
+      error.value = e;
+      return null;
+    }
+  };
+  const makePayment = async ({ cartId, contextDataId = null }) => {
     try {
 
       const token = getCardToken();
@@ -23,11 +31,15 @@ const useCkoCard = () => {
         throw new Error('There is no payment token');
       }
 
-      const context = await createContext({ reference: cartId });
+      let context;
+      if (!contextDataId) {
+        context = await createContext({ reference: cartId });
+      }
+
       const payment = await createPayment({
         type: 'token',
         token,
-        context_id: context.data.id,
+        context_id: contextDataId || context.data.id,
         save_payment_instrument: true,
         secure3d: true,
         success_url: `${window.location.origin}/cko/payment-success`,
@@ -75,7 +87,8 @@ const useCkoCard = () => {
     submitDisabled,
     submitForm,
     makePayment,
-    initForm
+    initForm,
+    fetchAvailableMethods
   };
 };
 export default useCkoCard;
