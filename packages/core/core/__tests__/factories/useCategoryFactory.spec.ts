@@ -1,9 +1,7 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../../src/factories';
 import { UseCategory } from '../../src/types';
-import * as vsfUtils from '../../src/utils';
 
 jest.mock('../../src/utils');
-const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
 
 let useCategory: (cacheId?: string) => UseCategory<any>;
 let params: UseCategoryFactoryParams<any, any>;
@@ -25,10 +23,6 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties when no persisted state set', () => {
-      mockedUtils.useSSR.mockReturnValueOnce({
-        initialState: null,
-        saveToInitialState: jest.fn()
-      });
       const { loading, categories } = useCategory();
 
       expect(categories.value).toEqual([]);
@@ -36,40 +30,11 @@ describe('[CORE - factories] useCategoryFactory', () => {
     });
   });
 
-  describe('computes', () => {
-    describe('categories', () => {
-      it('should return categories from state', () => {
-        mockedUtils.useSSR.mockReturnValueOnce({
-          initialState: [{ id: 'mockedCategory' }],
-          saveToInitialState: jest.fn()
-        });
-        const { categories } = useCategory();
-        expect(categories.value).toEqual([{ id: 'mockedCategory' }]);
-      });
-    });
-  });
-
   describe('methods', () => {
     describe('search', () => {
-      it('should invoke persistedResource on search', async () => {
-        mockedUtils.useSSR.mockReturnValueOnce({
-          initialState: null,
-          saveToInitialState: jest.fn()
-        });
+      it('should invoke search', async () => {
         const { categories, search } = useCategory();
         expect(categories.value).toEqual([]);
-        await search({ someparam: 'qwerty' });
-        expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
-        expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
-      });
-
-      it('should invoke persistedResource on search with ssr', async () => {
-        mockedUtils.useSSR.mockReturnValueOnce({
-          initialState: [{ id: 'category-ssr' }],
-          saveToInitialState: jest.fn()
-        });
-        const { categories, search } = useCategory();
-        expect(categories.value).toEqual([{ id: 'category-ssr' }]);
         await search({ someparam: 'qwerty' });
         expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
