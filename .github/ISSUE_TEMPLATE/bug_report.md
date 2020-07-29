@@ -23,9 +23,10 @@ https://stackblitz.com or with a screenshot if it's more accurate.
 
 
 
-## Repository
-<!-- If possible, share a repository link where this problem occurs -->
-
+## Version of Vue Storefront
+<!-- Is it next or current VSF -->
+- [ ] Vue Storefront
+- [ ] Vue Storefront Next
 
 
 ## Can you handle fixing this bug by yourself?
@@ -33,7 +34,7 @@ https://stackblitz.com or with a screenshot if it's more accurate.
 - [ ] YES
 - [ ] NO
 
-## Which [Release Cycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html) state this refers to? Info for developer.
+## Which [Release Cycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html) state this refers to? Info for developer. (doesn't apply to Next)
 Pick one option.
 
 - [ ] This is a bug report for test version on https://test.storefrontcloud.io - In this case Developer should create branch from `develop` branch and create Pull Request `2. Feature / Improvement` back to `develop`.
