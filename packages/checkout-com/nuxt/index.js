@@ -1,10 +1,22 @@
 import path from 'path';
 
+const isScriptInArray = (headEntries, scriptUrl) => headEntries.some(entry => entry.src === scriptUrl);
+const framesSdk = 'https://cdn.checkout.com/js/framesv2.min.js';
+
 export default function CheckoutComModule(moduleOptions) {
+  const scripts = this.options.head.script;
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
     options: moduleOptions
   });
+
+  if (moduleOptions.publicKey) {
+    if (!isScriptInArray(scripts)) {
+      scripts.push({
+        src: framesSdk
+      });
+    }
+  }
 
   const { successComponent, errorComponent } = moduleOptions;
 
