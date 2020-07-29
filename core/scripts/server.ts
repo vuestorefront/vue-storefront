@@ -20,6 +20,7 @@ serverHooksExecutors.afterProcessStarted(config.server)
 const express = require('express')
 const ms = require('ms')
 const request = require('request');
+const helmet = require('helmet')
 
 const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
@@ -131,11 +132,15 @@ const serve = (path, cache, options?) => express.static(resolve(path), Object.as
     if (config.expireHeaders.hasOwnProperty(mimeType)) {
       maxAge = config.expireHeaders.get(mimeType);
     }
-    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge));
+    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000);
   } : null
 }, options))
 
 const themeRoot = require('../build/theme-path')
+
+if (config.server.helmet && config.server.helmet.enabled && isProd) {
+  app.use(helmet(config.server.helmet.config))
+}
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
