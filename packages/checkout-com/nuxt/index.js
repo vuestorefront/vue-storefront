@@ -1,7 +1,18 @@
 import path from 'path';
 
 const isScriptInArray = (headEntries, scriptUrl) => headEntries.some(entry => entry.src === scriptUrl);
-const framesSdk = 'https://cdn.checkout.com/js/framesv2.min.js';
+
+const defaultPaymentMethods = {
+  cc: true,
+  paypal: true,
+  klarna: false
+};
+
+const paymentMethodSdk = {
+  cc: 'https://cdn.checkout.com/js/framesv2.min.js',
+  paypal: null,
+  klarna: 'https://x.klarnacdn.net/kp/lib/v1/api.js'
+};
 
 export default function CheckoutComModule(moduleOptions) {
   const scripts = this.options.head.script;
@@ -10,10 +21,15 @@ export default function CheckoutComModule(moduleOptions) {
     options: moduleOptions
   });
 
-  if (moduleOptions.publicKey) {
-    if (!isScriptInArray(scripts)) {
+  const paymentMethods = {
+    ...defaultPaymentMethods,
+    ...(moduleOptions.paymentMethods ? moduleOptions.paymentMethods : {})
+  };
+
+  for (const [paymentMethod, enabled] of Object.entries(paymentMethods)) {
+    if (enabled && paymentMethodSdk[paymentMethod] && !isScriptInArray(scripts, paymentMethodSdk[paymentMethod])) {
       scripts.push({
-        src: framesSdk
+        src: paymentMethodSdk[paymentMethod]
       });
     }
   }
