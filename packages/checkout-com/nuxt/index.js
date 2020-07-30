@@ -29,7 +29,8 @@ export default function CheckoutComModule(moduleOptions) {
   for (const [paymentMethod, enabled] of Object.entries(paymentMethods)) {
     if (enabled && paymentMethodSdk[paymentMethod] && !isScriptInArray(scripts, paymentMethodSdk[paymentMethod])) {
       scripts.push({
-        src: paymentMethodSdk[paymentMethod]
+        src: paymentMethodSdk[paymentMethod],
+        async: true
       });
     }
   }
