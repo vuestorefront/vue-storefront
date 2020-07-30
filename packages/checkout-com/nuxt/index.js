@@ -23,7 +23,7 @@ export default function CheckoutComModule(moduleOptions) {
 
   const paymentMethods = {
     ...defaultPaymentMethods,
-    ...(moduleOptions.paymentMethods ? moduleOptions.paymentMethods : {})
+    ...moduleOptions.paymentMethods
   };
 
   for (const [paymentMethod, enabled] of Object.entries(paymentMethods)) {
