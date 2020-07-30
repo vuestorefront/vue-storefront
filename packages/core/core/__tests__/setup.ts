@@ -7,5 +7,5 @@ Vue.use(VueCompositionApi);
 
 jest.mock('nuxt-composition-api', () => ({
   ...NuxtApi,
-  ssrRef: (arg) => NuxtApi.ssrRef(arg, String(Math.random()).slice(2))
+  ssrRef: jest.fn((arg) => NuxtApi.ssrRef(arg, String(Math.random()).slice(2)))
 }));

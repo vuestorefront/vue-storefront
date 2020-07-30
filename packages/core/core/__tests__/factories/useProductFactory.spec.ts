@@ -1,8 +1,6 @@
 import { useProductFactory } from '../../src/factories';
 import { UseProduct } from '../../src/types';
 
-jest.mock('../../src/utils');
-
 const useProduct: (cacheId: string) => UseProduct<any, any, any> = useProductFactory<any, any, any, any>({
   productsSearch: searchParams => Promise.resolve({
     data: [{ name: 'product ' + searchParams.slug }],

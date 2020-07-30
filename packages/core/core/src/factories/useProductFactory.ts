@@ -1,6 +1,6 @@
 import { UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { ssrRef } from 'nuxt-composition-api';
+import { vsfRef } from './../utils';
 
 type SearchParams = {
   perPage?: number;
@@ -25,11 +25,11 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
   factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
 ) {
   return function useProduct(): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
-    const products: Ref<PRODUCT[]> = ssrRef([]);
-    const totalProducts: Ref<number> = ssrRef(0);
-    const filters: Ref<PRODUCT_FILTERS> = ssrRef(null);
-    const sortingOptions: Ref<SORTING_OPTIONS> = ssrRef(null);
-    const loading = ssrRef(false);
+    const products: Ref<PRODUCT[]> = vsfRef([]);
+    const totalProducts: Ref<number> = vsfRef(0);
+    const filters: Ref<PRODUCT_FILTERS> = vsfRef(null);
+    const sortingOptions: Ref<SORTING_OPTIONS> = vsfRef(null);
+    const loading = vsfRef(false);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS) => {
       loading.value = true;
