@@ -1,5 +1,10 @@
 # Themes in Vue Storefront
 
+:::tip REMINDER
+This guide is based on `default` theme before `1.12` version release. General idea and structure addressed here were created based on the pre-`1.12` `default` theme. 
+:::
+
+
 Vue Storefront allows you to quickly develop your own themes and use our core business logic. All e-commerce features are implemented in core, so you can easily develop fully working online shop only by writing HTML and CSS and inheriting the business logic from the core. Of course, you can easily modify and extend the core logic in your theme.
 
 You can read more about Vue Storefront core components and how to make use of them [here](core-components.md)

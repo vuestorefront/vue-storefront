@@ -4,15 +4,20 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 
 const quantityActions = {
-  async restoreQuantity ({ dispatch }, { cartItem, clientItem }) {
-    const currentCartItem = await dispatch('getItem', clientItem)
+  async restoreQuantity ({ dispatch }, { product }) {
+    const currentCartItem = await dispatch('getItem', { product })
     if (currentCartItem) {
-      Logger.log('Restoring qty after error' + clientItem.sku + currentCartItem.prev_qty, 'cart')()
-      if (cartItem.prev_qty > 0) {
-        dispatch('updateItem', { product: { qty: currentCartItem.prev_qty } })
+      Logger.log('Restoring qty after error' + product.sku + currentCartItem.prev_qty, 'cart')()
+      if (currentCartItem.prev_qty > 0) {
+        await dispatch('updateItem', {
+          product: {
+            ...product,
+            qty: currentCartItem.prev_qty
+          }
+        })
         EventBus.$emit('cart-after-itemchanged', { item: currentCartItem })
       } else {
-        dispatch('removeItem', { product: currentCartItem, removeByParentSku: false })
+        await dispatch('removeItem', { product: currentCartItem, removeByParentSku: false })
       }
     }
   },
