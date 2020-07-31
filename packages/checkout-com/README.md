@@ -6,35 +6,77 @@
 ['@vue-storefront/checkout-com/nuxt', { publicKey: 'pk_test_your-public-key' }],
 ```
 
-## Credit card component
-1. Import `useCkoCard`:
+## Render payment handlers
+1. Import `useCko` and `useCkoCard`:
 ```js
-import { useCkoCard } from '@vue-storefront/checkout-com';
+import { useCko, useCkoCard } from '@vue-storefront/checkout-com';
 ```
 
-2. `useCkoCard` returns:
+2. `useCko` returns:
+```ts
+interface {
+    availableMethods: { name: string, [key: string]: any },
+    error: Error | null,
+    loadAvailableMethods: (): { id, apms },
+    initForm: (): void
+}
+```
+`useCkoCard` returns:
 ```ts
 interface {
     error: Error | null,
     submitDisabled: Boolean,
     submitForm: async(),
     makePayment: async({ cartId }),
-    initForm: (): void,
-    fetchAvailableMethods: async(cartId): { id, apms } | null
+    initCardForm: (): void
 }
 ```
 
 In this step you need:
 ```js
-const { submitForm, submitDisabled, initForm } = useCkoCard();
+const { cart } = useCart();
+const { setBillingDetails } = useCheckout();
+const { submitForm, submitDisabled } = useCkoCard();
+const { initForm, loadAvailableMethods, availableMethods } = useCko();
 ```
 
-3. Execute `initForm` in `setup`. It will set `submitDisabled` to true and create Card Component in `onMounted` hook. It will be mounted with DOM element with class `card-frame`.
+3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
+4. Run `loadAvailableMethods` - it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). 
+
+```ts
+interface PaymentMethods {
+  card?: boolean;
+  klarna?: boolean;
+  paypal?: boolean;
+}
+
+interface PaymentMethodsConfig {
+  card?: Omit<Configuration, 'publicKey'>;
+  klarna?: any;
+  paypal?: any;
+}
+
+const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConfig = {}): void
+```
+
+`initMethods` - if it is `null` - method will try to mount handler for each supported payment method
+- if it is `{}` - nothing will be mounted
+- in object, you can specify which method you want to mount, e.g: `{ card: true }` but it will still check whether it is supported or not
+
+`config` allows to specify configuration for some payment handler, e.g. for card Frames we could use:
+```js
+{
+    card: {
+        localization: 'es-ES'
+    }
+}
+```
+Card's Frames will be mounted with DOM element with class `card-frame`.
 4. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
 5. Call `submitForm` function on form submit. You might add it to `handleFormSubmit` like:
 ```js
 const handleFormSubmit = async () => {
-    await setBillingDetails(billingDetails.value, { save: true });
     await submitForm();
     context.root.$router.push('/checkout/order-review');
 };
@@ -76,6 +118,41 @@ success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
 
+## Rendering Card Component
+Payments with cards will be probably always supported. So you might want to render Credit Card component without saving billing address & asking backend about available ones. Follow these steps to do that:
+1. Import `useCkoCard`:
+```js
+import { useCkoCard } from '@vue-storefront/checkout-com';
+```
+
+2. `useCkoCard` returns:
+```ts
+interface {
+    error: Error | null,
+    submitDisabled: Boolean,
+    submitForm: async(),
+    makePayment: async({ cartId }),
+    initForm: (): void,
+    fetchAvailableMethods: async(cartId): { id, apms } | null
+}
+```
+
+In this step you need:
+```js
+const { submitForm, submitDisabled, initCardForm } = useCkoCard();
+```
+
+3. Execute `initCardForm` in `setup`. It will set `submitDisabled` to true and create Card Component in `onMounted` hook. It will be mounted with DOM element with class `card-frame`.
+4. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
+5. Call `submitForm` function on form submit. You might add it to `handleFormSubmit` like:
+```js
+const handleFormSubmit = async () => {
+    await setBillingDetails(billingDetails.value, { save: true });
+    await submitForm();
+    context.root.$router.push('/checkout/order-review');
+};
+```
+
 ## Autoloading SDK
 Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By default, module fetches SDK only for Credit Card (Frames). You can customize it with module's config `paymentMethods` attribute. E.g:
 ```js
@@ -94,23 +171,25 @@ In `nuxt.config.js` module's config you can use each attribute from [this page](
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
     publicKey: 'pk_test_XXXX',
-    localization: 'KO-KR',
-    styles: {
-        'card-number': {
-            color: 'red'
-        },
-        base: {
-            color: '#72757e',
-            fontSize: '19px',
-            minWidth: '60px'
-        },
-        invalid: {
-            color: 'red'
-        },
-        placeholder: {
+    frames: {
+        localization: 'KO-KR',
+        styles: {
+            'card-number': {
+                color: 'red'
+            },
             base: {
-                color: 'cyan',
-                fontSize: '50px'
+                color: '#72757e',
+                fontSize: '19px',
+                minWidth: '60px'
+            },
+            invalid: {
+                color: 'red'
+            },
+            placeholder: {
+                base: {
+                    color: 'cyan',
+                    fontSize: '50px'
+                }
             }
         }
     }
@@ -133,17 +212,18 @@ You can also send Frames configuration as argument to `initForm` function. This 
 ```
 
 ## Fetching available payment methods
-At first, you have to save billing address in your backend to do that. You can do it just after `setBillingDetails` call from `Creadit card component` step. Then you can easily use `fetchAvailableMethods` method. It requires reference as the first argument - which is cartId. E.g:
+At first, you have to save billing address in your backend to do that. You can do it just after `setBillingDetails` call from `Creadit card component` step. Then you can easily use `loadAvailableMethods` method. It requires reference as the first argument - which is cartId. E.g:
 ```js
 // Somewhere inside Vue3's setup method
 const { cart } = useCart();
-const { fetchAvailableMethods } = useCkoCard();
+const { loadAvailableMethods, availableMethods } = useCko();
 const { setBillingDetails } = useCheckout();
 
 const handleFormSubmit = async () => {
     await setBillingDetails(billingDetails.value, { save: true });
-    const response = await fetchAvailableMethods(cart.value.id);
+    const response = await loadAvailableMethods(cart.value.id);
     console.log('Server respond with ', response)
+    console.log('Array of available payment methods ', availableMethods)
 };
 ```
 
@@ -159,4 +239,13 @@ Response might look like:
         }
     ]
 }
+```
+
+`availableMethods` might look like:
+```json
+[
+    "card",
+    "klarna",
+    "paypal"
+]
 ```
