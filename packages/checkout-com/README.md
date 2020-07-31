@@ -72,7 +72,12 @@ const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConf
     }
 }
 ```
+This configuration will have bigger priority than one from `nuxt.config.js`. The thing is you cannot overwrite `publicKey` there. Signature for Frames looks like that:
+```ts
+(params?: Omit<Configuration, 'publicKey'>): void
+```
 Card's Frames will be mounted with DOM element with class `card-frame`.
+
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
 7. Call `submitForm` function on card form submit.
 
@@ -165,11 +170,6 @@ interface CustomLocalization {
   expiryYearPlaceholder: string;
   cvvPlaceholder: string;
 }
-```
-
-You can also send Frames configuration as argument to `initForm` function. This configuration will have bigger priority than one from `nuxt.config.js`. The thing is you cannot overwrite `publicKey` there. Signature looks like that:
-```ts
-(params?: Omit<Configuration, 'publicKey'>): void
 ```
 
 ## Fetching available payment methods
