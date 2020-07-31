@@ -37,7 +37,6 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn(() => ({ applyFilter: jest.fn() })));
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   configureProductAsync: jest.fn()
 }));
@@ -79,8 +78,9 @@ describe('Cart quantityActions', () => {
     const contextMock = createContextMock();
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => cartItem);
-    await (cartActions as any).restoreQuantity(contextMock, { cartItem, clientItem })
-    expect(contextMock.dispatch).toBeCalledWith('updateItem', { product: { qty: 2 } })
+    await (cartActions as any).restoreQuantity(contextMock, { product: clientItem })
+    expect(contextMock.dispatch).toBeCalledWith('getItem', { product: clientItem })
+    expect(contextMock.dispatch).toBeCalledWith('updateItem', { product: { ...clientItem, qty: 2 } })
   });
 
   it('removes item that has not quantity', async () => {
@@ -90,7 +90,8 @@ describe('Cart quantityActions', () => {
     const contextMock = createContextMock();
 
     (contextMock.dispatch as jest.Mock).mockImplementationOnce(() => cartItem);
-    await (cartActions as any).restoreQuantity(contextMock, { cartItem, clientItem });
+    await (cartActions as any).restoreQuantity(contextMock, { product: clientItem });
+    expect(contextMock.dispatch).toBeCalledWith('getItem', { product: clientItem })
     expect(contextMock.dispatch).toBeCalledWith('removeItem', { product: cartItem, removeByParentSku: false })
   });
 

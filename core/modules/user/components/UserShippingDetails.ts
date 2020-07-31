@@ -1,4 +1,6 @@
 import toString from 'lodash-es/toString'
+import pick from 'lodash-es/pick'
+import config from 'config'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
@@ -80,7 +82,7 @@ export const UserShippingDetails = {
     updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-        updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        updatedShippingDetails = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), config.users.allowModification)
         let updatedShippingDetailsAddress = {
           firstname: this.shippingDetails.firstName,
           lastname: this.shippingDetails.lastName,
@@ -97,7 +99,7 @@ export const UserShippingDetails = {
           } else {
             updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
               toString(address.id) === toString(this.currentUser.default_shipping)
-                ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
+                ? { ...address, ...updatedShippingDetailsAddress } // update default address if already exist
                 : address
             )
           }

@@ -10,7 +10,7 @@ const ampRendererStore = {
   }
 }
 
-export const AmpRendererModule: StorefrontModule = function ({store, router}) {
+export const AmpRendererModule: StorefrontModule = function ({ store, router }) {
   store.registerModule('amp-renderer', ampRendererStore)
   setupMultistoreRoutes(config, router, moduleRoutes, 10)
 }

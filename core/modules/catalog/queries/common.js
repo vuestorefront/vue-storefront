@@ -1,7 +1,7 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
-export function prepareQuery ({queryText = '', filters = [], queryConfig = ''}) {
+export function prepareQuery ({ queryText = '', filters = [], queryConfig = '' }) {
   let query = new SearchQuery()
   // prepare filters and searchText
   if (filters.length === 0 && queryConfig !== '') {
@@ -21,7 +21,7 @@ export function prepareQuery ({queryText = '', filters = [], queryConfig = ''}) 
   // Process filters and searchText if exists
   if (filters.length > 0) {
     filters.forEach(filter => {
-      query = query.applyFilter({key: filter.key, value: filter.value}) // Tees category
+      query = query.applyFilter({ key: filter.key, value: filter.value }) // Tees category
     })
   }
 
@@ -31,8 +31,8 @@ export function prepareQuery ({queryText = '', filters = [], queryConfig = ''}) 
 
   // Add basic filters
   query = query
-    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
-    .applyFilter({key: 'status', value: {'in': [0, 1]}})
+    .applyFilter({ key: 'visibility', value: { 'in': [2, 3, 4] } })
+    .applyFilter({ key: 'status', value: { 'in': [0, 1] } })
 
   return query
 }

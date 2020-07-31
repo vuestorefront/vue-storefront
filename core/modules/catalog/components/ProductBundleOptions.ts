@@ -61,11 +61,11 @@ export const ProductBundleOptions = {
         }
       }
     },
-    optionChanged ({fieldName, option, qty, value}) {
+    optionChanged ({ fieldName, option, qty, value }) {
       if (!fieldName) return
       this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(qty), optionSelections: [parseInt(value.id)] })
       this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
-      this.selectedOptions[fieldName] = {qty, value}
+      this.selectedOptions[fieldName] = { qty, value }
       const valueId = value ? value.id : null
       if (this.validateField(option, qty, valueId)) {
         this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })

@@ -22,28 +22,8 @@ Without much further ado, let's see what's served as an appetizer :)
 <br />
 <br />
 
-## Appetizer. Where Elasticsearch fits in VSF
 
-<br />
-<br />
-
-## 1. Set Elasticsearch up and running for VSF
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-## 2. _Elastic_ and _Search_ in VSF
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-## 3. Now ES7 is also supported in VSF
+## 1. Now ES7 is also supported in VSF
 _Elasticsearch_ has been under massive upgrade with interval so intense as only two weeks exist between release of `6.7` and `7.0`. Can you feel the heat of the community? While we can enjoy the improvement and enhancement of the _Elastic Stack_, there is a list to check before smooth upgrade. And it also works just the same way as you need to fix _Vue Storefront_ stack for compatibility with _Elasticsearch 7.x_. 
 
 As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue Storefront API_, you should fix files for _Vue Storefront API_ along with a few callers for it from _Vue Storefront_. However, most changes take place in core parts of the platform on purpose so your labor will have been minimized for your inner peace. Still, _configs_ and/or _migration_ need fixes where it's necessary. This recipe walks you through how to do it one by one. 
@@ -507,7 +487,7 @@ Now you are all set :)
 <br />
 <br />
 
-## 4. Extend Elasticsearch entities for VSF
+## 2. Extend Elasticsearch entities for VSF
 Online shops normally have certain types of models and scenarios in common. (Because shops are shops in the end! What do you expect from shops? ;)) They are well known to the community and most of e-commerce software already implemented them into their frameworks as expected which is good for your new business. Those are represented as entities, namely, _Catalog_, _Products_, _Attributes_, _Tax rule_ and more. Since _Vue Storefront_ functions as the gorgeous gateway to those e-commerce backend, it also needs to mirror those entities as smooth as possible.  
 
  The large part of main entities are already implemented in VSF `core` as expected but you might still need to add or remove additional entities as you want it to fulfill your mission. This recipe will give you an idea of how to do it. 
@@ -623,7 +603,14 @@ module.exports = function (restClient) {
 }
 
  ````
-This library file only deals with _GET_ API to get a list of offline stores from Magento 2. 
+This library file only deals with _GET_ API to get a list of offline stores from Magento 2.
+
+:::tip NOTE
+```js
+var endpointUrl = util.format('/offline-stores');
+```
+ This line is particularly important, since `'/offline-stores'` is where the API url endpoint is determined. It should match the API url endpoint of Magento 2 side.
+:::
 
  5. Now we need to include this library in `index.js` : 
  ```bash
@@ -713,7 +700,7 @@ debug: Response received.
 2020-03-10T09:22:32.140Z - info: No tasks to process. All records processed!
 2020-03-10T09:22:32.140Z - info: Task done! Exiting in 30s...
  ```
-:::tip NOTE
+:::warning NOTE
 You should tell the machine the environment variable like this before running the command : 
 ```bash
 export MAGENTO_URL=http://localhost/rest
@@ -847,7 +834,7 @@ If you want to add more entities, you can clone the example as many times as you
 The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
 :::
 
-Now you are all set to use custom entity you just created. The next step lets you give you a simple idea how to confirm it. (optional)
+Now you are all set to use custom entity you just created. The next step lets you have a simple idea how to confirm it. (optional)
 
  4. Go to `src/modules/instant-checkout/components` and open `InstantCheckout.vue`. Fix it as follows : 
  ```js{5,12-14}
@@ -855,16 +842,16 @@ Now you are all set to use custom entity you just created. The next step lets yo
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'; // Import the method to fetch data from ES
 
 const storeView = currentStoreView()
 
 // ... abridged
 
   methods: {
-    async showPayment () {
-      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' });
-      alert("Your item will be sent from the shop at " + offlineStores.items[0].address);
+    async showPayment () { // the method should be done with async/await
+      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' }); 
+      alert("Your item will be sent from the shop at " + offlineStores.items[0].address); 
       const payment = new PaymentRequest(this.paymentMethods, this.paymentDetails , this.paymentOptions)
 
       // abridged ...
@@ -875,18 +862,7 @@ Now go to your online shop, put an item to cart and open it, click __Instant Che
 ![instant_checkout_store_borderline](../images/stores.png)
 
 
-### 2-1. Recipe B (with GraphQL)
 
- 1. First off, we need to create an `graphql` folder under `src/search/adapter/` as follows :
- ```bash
-cd src/search/adapter
-mkdir graphql 
- ```
-
- 2. Copy `searchAdapter` file from `core` folder :
- ```bash
-cp ../../../core/lib/search/adapter/graphql/searchAdapter.ts graphql/
- ```
 
 ### 3. Peep into the kitchen (what happens internally)
 In this recipe, we iterated a whole journey of building custom entities on your online shop (it was Magento 2 for this time) for whatever reason to deal with various information for enhancing your customer experience.
@@ -898,7 +874,7 @@ Second, as an appetizer, we had to import data from shop using _mage2vuestorefro
 Third, main dish, we extended core adapters in `src` folder so we are safe for future updates :).
  It was actually very easy! you just need to `registerEntityType` for your custom entity! We also looked at how to implement it in real example though it was simplified version, you better follow `vuex` best practice. 
 
-We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has pretty good advantage over its competitors. 
+We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has [pretty good advantage](https://www.altexsoft.com/blog/engineering/graphql-core-features-architecture-pros-and-cons/) over its competitors. 
 
 Now we can extend our shop as good as it gets to handle more versatile information on your shop. Congratulation!
 
@@ -919,29 +895,7 @@ If you want to use _GraphQL_ adapter for your search, you need to change the val
     "htmlMinifierOptions": {
 ```
 
-#### Secret 2. How to make a custom import using `magento2-vsbridge-indexer` 
 
-
-<br />
-<br />
-
-
-## 5. VSF Configuration pertaining to Elasticsearch
-There is a handful of configuration you can tweak in `local.json` in order to modify how _Vue Storefront_ behaves in conjunction with _Elasticsearch_. 
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-
-
-## 6. Peripheral Tools available for Elasticsearch
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 

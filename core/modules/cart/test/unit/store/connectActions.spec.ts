@@ -27,14 +27,13 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
   getCartToken: jest.fn()
-}}));
+} }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn());
 jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {
     return true
@@ -168,14 +167,14 @@ describe('Cart connectActions', () => {
     const contextMock = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: { getCartItems: [{id: 1}], getCartToken: '' }
+      getters: { getCartItems: [{ id: 1 }], getCartToken: '' }
     };
 
     const wrapper = (actions: any) => actions.create(contextMock);
 
     await wrapper(cartActions);
 
-    expect(contextMock.dispatch).toBeCalledWith('connect', {guestCart: false});
+    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: false });
   })
   it('doesn\'t create cart token when there are NO products in cart', async () => {
     const contextMock = {
@@ -194,7 +193,7 @@ describe('Cart connectActions', () => {
     const contextMock = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: { getCartItems: [{id: 1}], getCartToken: 'xyz' }
+      getters: { getCartItems: [{ id: 1 }], getCartToken: 'xyz' }
     };
 
     const wrapper = (actions: any) => actions.create(contextMock);

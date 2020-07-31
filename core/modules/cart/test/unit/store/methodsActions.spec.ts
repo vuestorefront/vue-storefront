@@ -39,7 +39,7 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn());
+jest.mock('storefront-query-builder', () => jest.fn());
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   configureProductAsync: jest.fn()
 }));
@@ -158,5 +158,11 @@ describe('Cart methodsActions', () => {
     const contextMock = createContextMock()
     await (cartActions as any).updateShippingMethods(contextMock, { shippingMethods: [{ method: 1 }] });
     expect(contextMock.dispatch).toBeCalledWith('checkout/replaceShippingMethods', [{ is_server_method: true, method: 1 }], { root: true })
+  })
+
+  it('doesn\'t add not available method', async () => {
+    const contextMock = createContextMock()
+    await (cartActions as any).updateShippingMethods(contextMock, { shippingMethods: [{ method: 1, available: false }] });
+    expect(contextMock.dispatch).toBeCalledWith('checkout/replaceShippingMethods', [], { root: true })
   })
 });

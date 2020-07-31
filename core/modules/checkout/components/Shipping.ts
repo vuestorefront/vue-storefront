@@ -121,7 +121,7 @@ export const Shipping = {
     },
     useMyAddress () {
       if (this.shipToMyAddress) {
-        this.shipping = {
+        this.$set(this, 'shipping', {
           firstName: this.myAddressDetails.firstname,
           lastName: this.myAddressDetails.lastname,
           country: this.myAddressDetails.country_id,
@@ -133,9 +133,9 @@ export const Shipping = {
           phoneNumber: this.myAddressDetails.telephone,
           shippingMethod: this.checkoutShippingDetails.shippingMethod,
           shippingCarrier: this.checkoutShippingDetails.shippingCarrier
-        }
+        })
       } else {
-        this.shipping = this.checkoutShippingDetails
+        this.$set(this, 'shipping', this.checkoutShippingDetails)
       }
       this.changeCountry()
     },
@@ -172,7 +172,7 @@ export const Shipping = {
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
       if (currentShippingMethod) {
-        this.shipping = Object.assign(this.shipping, {shippingCarrier: currentShippingMethod.carrier_code})
+        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
         this.$bus.$emit('checkout-after-shippingMethodChanged', {
           country: this.shipping.country,
           method_code: currentShippingMethod.method_code,

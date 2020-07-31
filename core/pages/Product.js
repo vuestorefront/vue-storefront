@@ -182,7 +182,7 @@ export default {
     onAfterFilterChanged (filterOption) {
       this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
-      let changedConfig = Object.assign({}, this.configuration, {[filterOption.attribute_code]: filterOption})
+      let changedConfig = Object.assign({}, this.configuration, { [filterOption.attribute_code]: filterOption })
       this.$forceUpdate() // this is to update the available options regarding current selection
       this.$store.dispatch('product/configure', {
         product: this.product,
@@ -192,7 +192,7 @@ export default {
         setProductErorrs: true
       }).then((selectedVariant) => {
         if (config.products.setFirstVarianAsDefaultInURL) {
-          this.$router.push({params: { childSku: selectedVariant.sku }})
+          this.$router.push({ params: { childSku: selectedVariant.sku } })
         }
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
@@ -227,7 +227,7 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     return {
-      link: [
+      /* link: [
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
             name: this.product.type_id + '-product-amp',
@@ -238,7 +238,7 @@ export default {
             }
           }, storeView.storeCode)).href
         }
-      ],
+      ], */
       title: htmlDecode(this.product.meta_title || this.productName),
       meta: this.product.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.product.meta_description) }] : []
     }

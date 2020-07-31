@@ -5,7 +5,7 @@ import CategoryState from './CategoryState'
 import { compareByLabel } from '../../helpers/categoryHelpers'
 import { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
-import { optionLabel } from '../../helpers/optionLabel'
+import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import forEach from 'lodash-es/forEach'
@@ -14,8 +14,9 @@ import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
-import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
+import config from 'config';
 
 function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {
@@ -44,7 +45,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
-    return getters.getCategoryByParams(rootState.route.params)
+    return getters.getCategoryByParams({ ...rootGetters['url/getCurrentRoute'].params })
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
@@ -77,8 +78,8 @@ const getters: GetterTree<CategoryState, RootState> = {
           });
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
         } else { // special case is range filter for prices
-          const storeView = rootState.storeView
-          const currencySign = storeView.i18n.currencySign
+          const currencySign = currentStoreView().i18n.currencySign
+
           if (aggregations['agg_range_' + attrToFilter]) {
             let index = 0
             let count = aggregations['agg_range_' + attrToFilter].buckets.length
@@ -118,7 +119,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentFiltersFrom: (state, getters, rootState) => (filters, categoryFilters) => {
     const currentQuery = filters || rootState.route[products.routerFiltersSource]
     const availableFilters = categoryFilters || getters.getAvailableFilters
-    return getFiltersFromQuery({availableFilters, filtersQuery: currentQuery})
+    return getFiltersFromQuery({ availableFilters, filtersQuery: currentQuery })
   },
   getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
@@ -139,6 +140,9 @@ const getters: GetterTree<CategoryState, RootState> = {
     const totalValue = typeof total === 'object' ? total.value : total
 
     return totalValue || 0
+  },
+  getMenuCategories (state, getters, rootState, rootGetters) {
+    return state.menuCategories || rootGetters['category/getCategories']
   }
 }
 

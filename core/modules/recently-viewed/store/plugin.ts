@@ -7,7 +7,7 @@ export function plugin (mutation, state) {
 
   if (type.startsWith(types.SN_RECENTLY_VIEWED)) { // check if this mutation is recently-viewed related
     cacheStorage.setItem('recently-viewed', state['recently-viewed'].items).catch((reason) => {
-      console.error(reason) // it doesn't work on SSR
+      Logger.error(reason)() // it doesn't work on SSR
     })
   }
 }

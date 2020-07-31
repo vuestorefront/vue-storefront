@@ -11,7 +11,6 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -20,6 +19,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { formatCategoryLink } from 'core/modules/url/helpers'
+import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -68,12 +68,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (category.url_path) {
         await dispatch('url/registerMapping', {
           url: localizedDispatcherRoute(category.url_path, storeCode),
-          routeData: {
-            params: {
-              'slug': category.slug
-            },
-            'name': localizedDispatcherRouteName('category', storeCode, appendStoreCode)
-          }
+          routeData: transformCategoryUrl(category)
         }, { root: true })
       }
     }
@@ -353,8 +348,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
-  addAvailableFilter ({commit}, {key, options} = {}) {
-    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
+  addAvailableFilter ({ commit }, { key, options } = {}) {
+    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, { key, options })
   },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
@@ -362,10 +357,10 @@ const actions: ActionTree<CategoryState, RootState> = {
   searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   },
-  setSearchOptions ({commit}, searchOptions) {
+  setSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_SET_SEARCH_OPTIONS, searchOptions)
   },
-  mergeSearchOptions ({commit}, searchOptions) {
+  mergeSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_MERGE_SEARCH_OPTIONS, searchOptions)
   }
 }

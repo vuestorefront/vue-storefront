@@ -43,6 +43,20 @@ In this case you don't need to run Docker and you will be asked one additional q
 
 You can simply proceed and as a result you will have a `vue-storefront` folder inside your project root and Storefront application running on `http://localhost:3000`. All images will be also hosted at `https://demo.vuestorefront.io/img/`.
 
+### Theme
+
+You will get question about official theme installation and its version.
+```
+? Select theme for Vue Storefront (Use arrow keys)
+❯ Capybara - based on Storefront UI 
+  Default
+```
+```
+? Select theme version (Use arrow keys)
+❯ Stable version (recommended for production) 
+  In development branch (could be unstable!) 
+```
+
 ### Installing the vue-storefront-api locally
 
 If you answer `No` on the previous question, please be sure the Docker is running, otherwise you might get an error. You will be asked some more questions immediately:
@@ -185,6 +199,8 @@ nano config/local.json
 ```
 
 The default config file should work perfectly fine for default purposes.
+
+Next [install theme](theme.md)
 
 Finally, you have to choose between two modes of running the application (similarly as in the case of vue-storefront-api).
 

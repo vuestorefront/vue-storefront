@@ -14,7 +14,7 @@ describe('Hierarchy actions', () => {
 
   it('should list hierarchy', async () => {
     const contextMock = {};
-    const filter = {id: 1, entityType: 'cms_hierarchy', excludeFields: null, includeFields: null}
+    const filter = { id: 1, entityType: 'cms_hierarchy', excludeFields: null, includeFields: null }
 
     const wrapper = (actions: any) => actions.list(contextMock, filter);
     const listAction = await wrapper(hierarchyActions)

@@ -570,6 +570,69 @@ app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 /
 app_1  | This is one way to use moduleConfig
 ```
 
+
+### 2-7. Recipe G (Setting up server module)
+
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+
+This is a recommended way.
+
+#### 1. Advanced Output Processing
+
+However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+
+#### 2. `Express.js` middleware
+
+The other option is to create a `Express.js` middleware. Our `core/scripts/server.ts` is a classical Node.js application so it should be easy. To do so you might want to create a [server module](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts).
+
+Server modules are located in `src/modules` and always have the `server.ts` entry point which responds to one of the few server entry points:
+
+- `afterProcessStarted` - executed just [after the server started](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L13).
+- `afterApplicationInitialized` - executed just [after Express app got initialized](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L34). It's a good entry point to bind new request handlers (`app.get(...)`, `app.use(...)`). Read more on [Express.js request handlers and routing](https://expressjs.com/en/guide/routing.html).
+- `beforeOutputRenderedResponse` - executed [after the SSR rendering has been done](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L189) but before sending it out to the browser; It lets you override the rendered SSR content with your own.
+- `afterOutputRenderedResponse` - executed [after advanced output processing pipeline](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L212) executed.
+- `beforeCacheInvalidated`, `afterCacheInvalidated` - executed [before and after cache has been invalidated](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L76)
+
+Here is an [example how to bind](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/google-cloud-trace/server.ts) tracing module just after server process started:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterProcessStarted((config) => {
+  let trace = require('@google-cloud/trace-agent')
+  if (config.has('trace') && config.get('trace.enabled')) {
+    trace.start(config.get('trace.config'))
+  }
+})
+```
+
+[Another example](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts) - pretty common case - binding new Express middleware to process all user requests BEFORE they're processed by SSR rendering pipeline (including custom URL addresses):
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+const compression = require('compression')
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  if (isProd) {
+    console.log('Output Compression is enabled')
+    app.use(compression({ enabled: isProd }))
+  }
+})
+```
+
+If you'd like to bind custom URL address this example can be modified like this:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  app.get('/custom-url-address', (req, res) => {
+    res.end('Custom response')
+  })
+})
+```
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
@@ -678,54 +741,93 @@ It's hands down no-brainer to bootstrap a module _manually_ because the skeleton
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
-<br />
-<br />
 
-## 6. Anti-patterns & Common pitfalls
+## 6. Extend Elasticsearch request body using `storefront-query-builder`
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
+If you're using the new [`storefront-query-builder`](https://github.com/DivanteLtd/storefront-query-builder) and the `api-search-query` search-adapter ([introduced with v1.1.12](/guide/upgrade-notes/#_1-11-1-12)) it is now possible to extend it by new filters, or even overwrite a existing filter, to customize your Elasticsearch request-bodies.
 
+So, this way you can add custom Elasticsearch queries to the query-chain and still use the notation of `SearchQuery` in the Vue Storefront.
 
-## Sidedish - Ideation
+> **Note:** This will only work from `storefront-query-builder` version `1.0.0` and `vue-storefront` version `1.12.2`.
 
-When you have an idea to build a great module, it means you have a brilliant idea in the first place to start with. How does it come anyway? Is it a spontaneous process or can we work elaborately on it to train ideation from its conception to delivery? I want to say _Yes_ to both, please follow me to see what I have to offer in this _sidedish_ talk session. 
+### Usecases
 
-_[INSERT VIDEO HERE]_
-<br />
-<br />
+One usecases where this feature would come in handy is for example if you like to add complex queries on multiple points in your source code. Using the following technique you can just add a custom filter to your `SearchQuery` in a single line inside your VSF source-code using the `query.applyFilter(...)` method and then add the complex logic into your custom-filter inside the API.
 
-## 7. Building a module from A to Z in an iteration
+### Registering a new filter
 
+The `vue-storefront-api` will only try to load filters that are registered in the configs. The extension/module, that contains the filter, must be enabled and the new filter module-classes needs to be registered in its extension config inside the `catalogFilter` array. The filter files must be located inside `filter/catalog/` of your module folder.
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
+For example: If you have a module called `extend-catalog` with a filter called `StockFilter`, the file path to filter would be `src/api/extensions/extend-catalog/filter/catalog/StockFilter.ts` and the config would look like:
+```
+{
+  "registeredExtensions": [ "extend-catalog" ],
+  "extensions": {
+    "extend-catalog": {
+      "catalogFilter": [ "StockFilter" ]
+    }
+  }
+}
+```
 
-## 8. Deprecated legacy of Modules
-In this recipe, we will take a review of how to deal with modules in an old fashioned way , just in case you really need it. 
+### Filter module-class properties
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
+The filter can contain four different properties. Followed a short explaination, what they are doing.
 
+* `check` – This method checks the condition that be must matched to execute the filter. The first valid filter is executed – all afterwards are ignored.
+* `priority` – This is the priority in which the filters are going to be called. The sort is lower to higher.
+* `mutator` – The mutator method is in charge of prehandling the filter value, to e.g. set defaults or check and change the type.
+* `filter` – This method contains the query logic we wan't to add and mutates the `bodybuilder` query-chain.
 
-## 9. Converting old modules to new modules 
-There are useful modules out there already developed in the old way.
+### Example
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
+Lets assume we like to add a possibility to add a default set of product-attribute filters we can apply to each `SearchQuery` without repeating ourselfs in source-code. So, for example, it should filter for two `color`'s and a specific `cut` to supply a filter for spring-coloured short's we implement at several places in our VSF.
+
+#### Changes in `vue-storefront` repository
+
+The query in the VSF code would look like this (that's it on the VSF side):
+```js
+import { SearchQuery } from 'storefront-query-builder'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+
+//...
+
+const query = new SearchQuery()
+query.applyFilter({ key: 'spring-shorts', value: 'male', scope: 'default' })
+const products = await dispatch('product/list', { query, size: 5 })
+```
+
+#### Changes in `vue-storefront-api` repository
+
+In the `vue-storefront-api` we are going to add the real filter/query magic.
+There is already an example module called `example-custom-filter` which we are going to use for our filter.
+
+As you look inside its module folder `src/api/extensions/example-custom-filter/`, you will find a child folder `filter/catalog/` with all existing custom filters for this module. Inside this folder we are going to duplicate the existing `SampleFilter.ts` into another one called `SpringShorts.ts` – this is our new custom filter module-class.
+
+This file needs to be registered in the config JSON to let the API know that there is a new custom filter inside our extension.  
+Therefore you open your `default.json` or specific config JSON file and add our new filename `SpringShorts` to the config node `extensions.example-custom-filter.catalogFilter` array.
+
+Our `SpringShorts.ts` contains an object that contains [four properties](#filter-module-class-properties): `priority`, `check`, `filter`, `mutator`. We don't need a `mutator` nor `priority`, so we can remove these lines. `check` and `filter` needs to be changed to fulfill our needs. So, this is how our filter finally looks like:
+
+```js
+import { FilterInterface } from 'storefront-query-builder'
+
+const filter: FilterInterface = {
+  check: ({ attribute }) => attribute === 'spring-shorts',
+  filter ({ value, attribute, operator, queryChain }) {
+    return queryChain
+      .filter('terms', 'pants', [ 'shorts' ])
+      .filter('terms', 'cut', [ 1, 2 ])
+      .filter('terms', 'color', [ 3, 4 ])
+      .filter('terms', 'gender', [ value ])
+  }
+}
+
+export default filter
+```
+
+Inside `check` we tell the filter to just be applied if the attribute is named exactly `spring-shorts`.
+
+Inside `filter` we extend the Elasticsearch query-chain by our desired filters, using the `bodybuilder` library syntax.
+
+That's it, now we are able to filter by a complex query in only one line inside VSF.
