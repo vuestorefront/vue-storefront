@@ -11,7 +11,7 @@ const config = {
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
-  frames: {
+  frames?: {
     styles?: any;
     tokenizedCardKey?: string;
     localization?: string | CustomLocalization;
@@ -48,9 +48,9 @@ const defaultStyles = {
 const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
-  config.frames.styles = params.frames.styles || defaultStyles;
-  config.frames.tokenizedCardKey = params.frames.tokenizedCardKey || config.frames.tokenizedCardKey;
-  config.frames.localization = params.frames.localization || null;
+  config.frames.styles = params.frames?.styles || defaultStyles;
+  config.frames.tokenizedCardKey = params.frames?.tokenizedCardKey || config.frames.tokenizedCardKey;
+  config.frames.localization = params.frames?.localization || null;
 };
 
 const getPublicKey = () => config.publicKey;
