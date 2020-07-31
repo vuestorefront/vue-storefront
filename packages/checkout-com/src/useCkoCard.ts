@@ -53,7 +53,7 @@ const useCkoCard = () => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initForm = (params?: Omit<Configuration, 'publicKey'>) => {
+  const initCardForm = (params?: Omit<Configuration, 'publicKey'>) => {
     const localization = params?.localization || getLocalization();
     submitDisabled.value = true;
 
@@ -79,7 +79,7 @@ const useCkoCard = () => {
     submitDisabled,
     submitForm,
     makePayment,
-    initForm
+    initCardForm
   };
 };
 export default useCkoCard;
