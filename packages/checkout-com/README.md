@@ -118,41 +118,6 @@ success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
 
-## Rendering Card Component
-Payments with cards will be probably always supported. So you might want to render Credit Card component without saving billing address & asking backend about available ones. Follow these steps to do that:
-1. Import `useCkoCard`:
-```js
-import { useCkoCard } from '@vue-storefront/checkout-com';
-```
-
-2. `useCkoCard` returns:
-```ts
-interface {
-    error: Error | null,
-    submitDisabled: Boolean,
-    submitForm: async(),
-    makePayment: async({ cartId }),
-    initForm: (): void,
-    fetchAvailableMethods: async(cartId): { id, apms } | null
-}
-```
-
-In this step you need:
-```js
-const { submitForm, submitDisabled, initCardForm } = useCkoCard();
-```
-
-3. Execute `initCardForm` in `setup`. It will set `submitDisabled` to true and create Card Component in `onMounted` hook. It will be mounted with DOM element with class `card-frame`.
-4. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
-5. Call `submitForm` function on form submit. You might add it to `handleFormSubmit` like:
-```js
-const handleFormSubmit = async () => {
-    await setBillingDetails(billingDetails.value, { save: true });
-    await submitForm();
-    context.root.$router.push('/checkout/order-review');
-};
-```
-
 ## Autoloading SDK
 Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By default, module fetches SDK only for Credit Card (Frames). You can customize it with module's config `paymentMethods` attribute. E.g:
 ```js
