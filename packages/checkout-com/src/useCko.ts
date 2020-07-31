@@ -25,8 +25,8 @@ const useCko = () => {
     try {
       const response = await createContext({ reference });
       availableMethods.value = [
-        ...response.data.apms.map(apm => apm.name),
-        'card'
+        ...response.data.apms,
+        { name: 'card' }
       ];
       return response.data;
     } catch (e) {
@@ -42,10 +42,10 @@ const useCko = () => {
     const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
     const { initCardForm } = useCkoCard();
 
-    for (const method of availableMethods.value) {
-      if (!hasSpecifiedMethods || initMethods[method]) {
-        const methodConfig = config[method];
-        switch (method) {
+    for (const { name } of availableMethods.value) {
+      if (!hasSpecifiedMethods || initMethods[name]) {
+        const methodConfig = config[name];
+        switch (name) {
           case 'card':
             initCardForm(methodConfig);
             break;
@@ -61,9 +61,9 @@ const useCko = () => {
   };
 
   return {
-    loadAvailableMethods,
     availableMethods,
     error,
+    loadAvailableMethods,
     initForm
   };
 };
