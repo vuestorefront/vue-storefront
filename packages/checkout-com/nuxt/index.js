@@ -1,7 +1,5 @@
 import path from 'path';
 
-const isScriptInArray = (headEntries, scriptUrl) => headEntries.some(entry => entry.src === scriptUrl);
-
 const defaultPaymentMethods = {
   cc: true,
   paypal: true,
@@ -13,6 +11,11 @@ const paymentMethodSdk = {
   paypal: null,
   klarna: 'https://x.klarnacdn.net/kp/lib/v1/api.js'
 };
+
+const isScriptInArray = (headEntries, scriptUrl) => headEntries.some(entry => entry.src === scriptUrl);
+const canAddScript = (scripts, enabled, paymentMethod) => enabled &&
+  paymentMethodSdk[paymentMethod] &&
+  !isScriptInArray(scripts, paymentMethodSdk[paymentMethod]);
 
 export default function CheckoutComModule(moduleOptions) {
   const scripts = this.options.head.script;
@@ -27,7 +30,7 @@ export default function CheckoutComModule(moduleOptions) {
   };
 
   for (const [paymentMethod, enabled] of Object.entries(paymentMethods)) {
-    if (enabled && paymentMethodSdk[paymentMethod] && !isScriptInArray(scripts, paymentMethodSdk[paymentMethod])) {
+    if (canAddScript(scripts, enabled, paymentMethod)) {
       scripts.push({
         src: paymentMethodSdk[paymentMethod],
         async: true
