@@ -20,6 +20,16 @@ interface PaymentMethodsConfig {
   paypal?: any;
 }
 
+enum PaymentMethod {
+  NOT_SELECTED = 0,
+  CARD,
+  SAVED_CARD,
+  KLARNA,
+  PAYPAL
+}
+
+const selectedPaymentMethod = ref(PaymentMethod.NOT_SELECTED);
+
 const useCko = () => {
   const loadAvailableMethods = async (reference) => {
     try {
@@ -40,13 +50,13 @@ const useCko = () => {
       return;
     }
     const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
-    const { initCardForm } = useCkoCard();
 
     for (const { name } of availableMethods.value) {
       if (!hasSpecifiedMethods || initMethods[name]) {
         const methodConfig = config[name];
         switch (name) {
           case 'card':
+            const { initCardForm } = useCkoCard();
             initCardForm(methodConfig);
             break;
           case 'klarna':
@@ -60,11 +70,59 @@ const useCko = () => {
     }
   };
 
+  const selectPaymentMethod = (paymentMethod: PaymentMethod) => {
+    selectedPaymentMethod.value = paymentMethod;
+  };
+
+  const makePayment = async (cartId) => {
+    if (!selectedPaymentMethod.value) {
+      error.value = 'Payment method not selected';
+      return;
+    }
+
+    let finalizeTransactionFunction;
+    let localError;
+
+    switch (selectedPaymentMethod.value) {
+      case PaymentMethod.CARD:
+        const { makePayment: makeCardPayment, error: cardError } = useCkoCard();
+        finalizeTransactionFunction = makeCardPayment;
+        localError = cardError;
+        break;
+      case PaymentMethod.SAVED_CARD:
+        finalizeTransactionFunction = () => {
+          console.log('Making transaction with saved card...');
+        };
+        break;
+      case PaymentMethod.KLARNA:
+        finalizeTransactionFunction = () => {
+          console.log('Making transaction with Klarna...');
+        };
+        break;
+      case PaymentMethod.PAYPAL:
+        finalizeTransactionFunction = () => {
+          console.log('Making transaction with PayPal...');
+        };
+        break;
+      default:
+        error.value = 'Not supported payment method';
+        return;
+    }
+
+    await finalizeTransactionFunction({ cartId });
+    if (localError.value) {
+      error.value = localError.value;
+    }
+  };
+
   return {
     availableMethods,
     error,
+    selectedPaymentMethod,
     loadAvailableMethods,
-    initForm
+    initForm,
+    selectPaymentMethod,
+    makePayment
   };
 };
 export default useCko;
