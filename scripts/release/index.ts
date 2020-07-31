@@ -73,7 +73,6 @@ const buildPackageDependencyList = (pckg: string): PACKAGE_SUBTYPE[] => {
 const program = () => {
   const args = process.argv.slice(2);
   let pckg = args[0];
-  // args[1] === '-'
   const gradation = args[2];
 
   if (!pckg || !gradation) {
