@@ -35,8 +35,11 @@ const useCko = () => {
     }
   };
 
-  const initForm = (initMethods: PaymentMethods = {}, config: PaymentMethodsConfig = {}) => {
-    const hasSpecifiedMethods = Object.keys(initMethods).length > 0;
+  const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConfig = {}) => {
+    if (initMethods && Object.keys(initMethods).length === 0) {
+      return;
+    }
+    const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
     const { initCardForm } = useCkoCard();
 
     for (const method of availableMethods.value) {
