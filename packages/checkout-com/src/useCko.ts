@@ -9,15 +9,15 @@ const error = ref(null);
 const availableMethods = ref([]);
 
 interface PaymentMethods {
-  card: boolean;
-  klarna: boolean;
-  paypal: boolean;
+  card?: boolean;
+  klarna?: boolean;
+  paypal?: boolean;
 }
 
 interface PaymentMethodsConfig {
-  card: Omit<Configuration, 'publicKey'>;
-  klarna: any;
-  paypal: any;
+  card?: Omit<Configuration, 'publicKey'>;
+  klarna?: any;
+  paypal?: any;
 }
 
 const useCko = () => {
@@ -35,7 +35,7 @@ const useCko = () => {
     }
   };
 
-  const initForm = (initMethods: PaymentMethods | any = {}, config: PaymentMethodsConfig | any = {}) => {
+  const initForm = (initMethods: PaymentMethods = {}, config: PaymentMethodsConfig = {}) => {
     const hasSpecifiedMethods = Object.keys(initMethods).length > 0;
     const { initCardForm } = useCkoCard();
 
