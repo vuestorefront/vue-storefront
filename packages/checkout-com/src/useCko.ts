@@ -1,6 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext } from './payment';
+import { Configuration } from './configuration';
 import { ref } from '@vue/composition-api';
 import useCkoCard from './useCkoCard';
 
@@ -14,9 +15,9 @@ interface PaymentMethods {
 }
 
 interface PaymentMethodsConfig {
-  card: object;
-  klarna: object;
-  paypal: object;
+  card: Omit<Configuration, 'publicKey'>;
+  klarna: any;
+  paypal: any;
 }
 
 const useCko = () => {
@@ -34,7 +35,7 @@ const useCko = () => {
     }
   };
 
-  const initForm = (initMethods: PaymentMethods | object = {}, config: PaymentMethodsConfig | object = {}) => {
+  const initForm = (initMethods: PaymentMethods | any = {}, config: PaymentMethodsConfig | any = {}) => {
     const hasSpecifiedMethods = Object.keys(initMethods).length > 0;
     const { initCardForm } = useCkoCard();
 
