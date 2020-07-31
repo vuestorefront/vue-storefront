@@ -36,13 +36,13 @@ In this step you need:
 ```js
 const { cart } = useCart();
 const { setBillingDetails } = useCheckout();
-const { submitForm, submitDisabled } = useCkoCard();
+const { submitDisabled } = useCkoCard();
 const { initForm, loadAvailableMethods, availableMethods } = useCko();
 ```
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
 4. Run `loadAvailableMethods` - it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). 
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it will be mounted already exists**.
 
 ```ts
 interface PaymentMethods {
@@ -73,14 +73,8 @@ const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConf
 }
 ```
 Card's Frames will be mounted with DOM element with class `card-frame`.
-4. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
-5. Call `submitForm` function on form submit. You might add it to `handleFormSubmit` like:
-```js
-const handleFormSubmit = async () => {
-    await submitForm();
-    context.root.$router.push('/checkout/order-review');
-};
-```
+6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
+7. Call `submitForm` function on card form submit.
 
 ## Finalizing payment
 1. In this step you need:
@@ -95,11 +89,13 @@ const { placeOrder } = useCheckout();
 
 2. You should `makePayment` at first (remember to check if everything went ok):
 ```js
-const payment = await makePayment({ cartId: cart.value.id });
+const payment = await makePayment(cart.value.id);
 if (!payment) return;
 ```
 
-3. If so, place an order:
+3. If there is any error, you can access it via `paymentError.value`. Otherwise, it will be nullish
+
+4. If no errors, place an order:
 ```js
 const order = await placeOrder();
 ```

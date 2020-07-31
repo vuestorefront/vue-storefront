@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext, createPayment } from './payment';
-import { ref, onMounted } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getFramesCardTokenKey, Configuration, getFramesLocalization } from './configuration';
 
 declare const Frames: any;
@@ -57,7 +57,7 @@ const useCkoCard = () => {
     const localization = params?.frames?.localization || getFramesLocalization();
     submitDisabled.value = true;
 
-    onMounted(() => Frames.init({
+    Frames.init({
       publicKey: getPublicKey(),
       style: params?.frames?.styles || getFramesStyles(),
       ...(localization ? { localization } : {}),
@@ -71,7 +71,7 @@ const useCkoCard = () => {
         error.value = data;
         submitDisabled.value = false;
       }
-    }));
+    });
   };
 
   return {
