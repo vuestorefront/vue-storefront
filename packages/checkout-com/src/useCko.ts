@@ -109,10 +109,11 @@ const useCko = () => {
         return;
     }
 
-    await finalizeTransactionFunction({ cartId });
+    const response = await finalizeTransactionFunction({ cartId });
     if (localError.value) {
       error.value = localError.value;
     }
+    return response;
   };
 
   return {
