@@ -14,14 +14,6 @@ const setCardToken = (token) => localStorage.setItem(getCardTokenKey(), token);
 const removeCardToken = () => localStorage.removeItem(getCardTokenKey());
 
 const useCkoCard = () => {
-  const fetchAvailableMethods = async (reference) => {
-    try {
-      return await createContext({ reference });
-    } catch (e) {
-      error.value = e;
-      return null;
-    }
-  };
   const makePayment = async ({ cartId, contextDataId = null }) => {
     try {
 
@@ -87,8 +79,7 @@ const useCkoCard = () => {
     submitDisabled,
     submitForm,
     makePayment,
-    initForm,
-    fetchAvailableMethods
+    initForm
   };
 };
 export default useCkoCard;
