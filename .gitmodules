@@ -1,0 +1,3 @@
+[submodule "docs/vsf-next"]
+	path = docs/vsf-next
+	url = git@github.com:kkdg/vsf-next.git
