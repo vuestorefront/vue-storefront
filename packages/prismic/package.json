@@ -9,7 +9,7 @@
   "sideEffect": false,
   "dependencies": {
     "@vue-storefront/core": "^2.0.1-prealpha.429",
-    "@vue/composition-api": "^0.3.4",
+    "@vue/composition-api": "^0.6.7",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "^2.1.5",
     "prismic-vue": "^2.0.0"

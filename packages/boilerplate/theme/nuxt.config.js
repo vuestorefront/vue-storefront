@@ -7,7 +7,7 @@ export default {
     host: '0.0.0.0'
   },
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Vue Storefront',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport',
@@ -29,6 +29,7 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
