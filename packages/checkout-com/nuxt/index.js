@@ -29,7 +29,8 @@ export default function CheckoutComModule(moduleOptions) {
     path: '/cko-api/payment-instruments',
     handler: proxyMiddleware({
       publicKey: moduleOptions.publicKey,
-      secretKey: moduleOptions.secretKey
+      secretKey: moduleOptions.secretKey,
+      ctApiUrl: moduleOptions.ctApiUrl
     })
   });
 

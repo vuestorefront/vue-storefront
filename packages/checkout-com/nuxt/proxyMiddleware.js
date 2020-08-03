@@ -4,6 +4,7 @@ const app = express();
 
 let ckoPublicKey = null;
 let ckoSecretKey = null;
+let ckoCtApiUrl = null;
 
 app.use(express.json());
 
@@ -23,7 +24,7 @@ const apiRequestHeaders = (ckoSecretKey) => ({
 const getStoredMethods = async ({ ckoPublicKey, ckoSecretKey, customerId }) => {
   try {
     const { data } = await axios.get(
-      `https://play-commercetools.cko-playground.ckotech.co/merchants/${ckoPublicKey}/customers/${customerId}`,
+      `${ckoCtApiUrl}/merchants/${ckoPublicKey}/customers/${customerId}`,
       apiRequestHeaders(ckoSecretKey)
     );
     return data;
@@ -35,7 +36,7 @@ const getStoredMethods = async ({ ckoPublicKey, ckoSecretKey, customerId }) => {
 const removeStoredMethod = async ({ ckoPublicKey, ckoSecretKey, customerId, paymentInstrumentId }) => {
   try {
     return await axios.delete(
-      `https://play-commercetools.cko-playground.ckotech.co/merchants/${ckoPublicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
+      `${ckoCtApiUrl}/merchants/${ckoPublicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
       apiRequestHeaders(ckoSecretKey)
     );
   } catch (err) {
@@ -72,8 +73,9 @@ app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
   return sendError(res, 400, 'Could not remove stored payment instrument');
 });
 
-export default ({ publicKey, secretKey }) => {
+export default ({ publicKey, secretKey, ctApiUrl }) => {
   ckoPublicKey = publicKey;
   ckoSecretKey = secretKey;
+  ckoCtApiUrl = ctApiUrl;
   return app;
 };
