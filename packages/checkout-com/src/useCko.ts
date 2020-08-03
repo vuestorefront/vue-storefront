@@ -31,6 +31,8 @@ enum PaymentMethod {
 const selectedPaymentMethod = ref(PaymentMethod.NOT_SELECTED);
 
 const useCko = () => {
+  const { initCardForm, makePayment: makeCardPayment, error: cardError } = useCkoCard();
+
   const loadAvailableMethods = async (reference) => {
     try {
       const response = await createContext({ reference });
@@ -56,7 +58,6 @@ const useCko = () => {
         const methodConfig = config[name];
         switch (name) {
           case 'card':
-            const { initCardForm } = useCkoCard();
             initCardForm(methodConfig);
             break;
           case 'klarna':
@@ -85,7 +86,6 @@ const useCko = () => {
 
     switch (selectedPaymentMethod.value) {
       case PaymentMethod.CARD:
-        const { makePayment: makeCardPayment, error: cardError } = useCkoCard();
         finalizeTransactionFunction = makeCardPayment;
         localError = cardError;
         break;
