@@ -1,9 +1,8 @@
 # Nuxt Theme Module
 
-This module is basically our default theme on steroids. It contains additional utilities that make it easier to work with the theme (in projects and as core developers) and allows to disable parts of its features.
-This module:
+This module is basically our default theme on steroids. It contains additional utilities that make it easier to work with the theme (in projects and as core developers) and allows to disable parts of its features:
 - By default, it adds eCommerce [routes](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/core/nuxt-theme-module/routes.js) to your app.
-- If you set `generate` in the config, it will copy, merge & watch for changes in Agnostic and Integration theme. 
+- If you set `generate` in the config, it will copy, merge & watch for changes in agnostic and integration theme. 
 
 ## How to install
 Add dependency:
@@ -16,12 +15,14 @@ Add it to `buildModules` in your `nuxt.config.js`:
 ```
 
 ## Configuration details
+### `routes`
 If you want to disable autoadding routes you can do it:
 ```js
 ['@vue-storefront/nuxt-theme', {
     routes: false
 }],
 ```
+### `generate`
 To properly configure `generate` property you have to provide data that will be replaced in EJS templates. This property applies only to the core development:
 ```js
 ['@vue-storefront/nuxt-theme', {
