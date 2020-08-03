@@ -1,12 +1,42 @@
 import path from 'path';
 
+const defaultPaymentMethods = {
+  cc: true,
+  paypal: true,
+  klarna: false
+};
+
+const paymentMethodSdk = {
+  cc: 'https://cdn.checkout.com/js/framesv2.min.js',
+  paypal: null,
+  klarna: 'https://x.klarnacdn.net/kp/lib/v1/api.js'
+};
+
+const isScriptInArray = (headEntries, scriptUrl) => headEntries.some(entry => entry.src === scriptUrl);
+const canAddScript = (scripts, enabled, paymentMethod) => enabled &&
+  paymentMethodSdk[paymentMethod] &&
+  !isScriptInArray(scripts, paymentMethodSdk[paymentMethod]);
+
 export default function CheckoutComModule(moduleOptions) {
+  const scripts = this.options.head.script;
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
-    options: {
-      publicKey: moduleOptions.publicKey
-    }
+    options: moduleOptions
   });
+
+  const paymentMethods = {
+    ...defaultPaymentMethods,
+    ...moduleOptions.paymentMethods
+  };
+
+  for (const [paymentMethod, enabled] of Object.entries(paymentMethods)) {
+    if (canAddScript(scripts, enabled, paymentMethod)) {
+      scripts.push({
+        src: paymentMethodSdk[paymentMethod],
+        async: true
+      });
+    }
+  }
 
   const { successComponent, errorComponent } = moduleOptions;
 
