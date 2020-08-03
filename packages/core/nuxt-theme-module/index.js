@@ -36,7 +36,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   }
 
   if (moduleOptions.generate) {
-    log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
+    log.info('Watching changes in @vue-storefront/nuxt-theme-module and used platform theme directory');
     const generate = require('./generate').default;
 
     generate.call(this, {
