@@ -95,6 +95,7 @@
   },
   "workspaces": {
     "packages": [
+      "packages/virtocommerce/*",
       "packages/commercetools/*",
       "packages/spryker/*",
       "packages/checkout-com",
@@ -106,11 +107,6 @@
     "nohoist": [
       "**/**/**"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"

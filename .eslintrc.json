@@ -97,7 +97,6 @@
       }
     ],
     "line-comment-position": 2,
-    "linebreak-style": 2,
     "lines-around-comment": 2,
     "max-statements-per-line": 2,
     "no-lonely-if": 2,
