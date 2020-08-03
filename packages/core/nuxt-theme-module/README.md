@@ -1,8 +1,6 @@
 # Nuxt Theme Module
 This module:
-- Changes `.nuxt` buildDir to name you set in the config or `.theme` 
-- Adds `reset.scss` transpiled to CSS to the head (it removes default stylings applied by browser, e.g. blue links)
-- By default, it adds eCommerce routes to your app.
+- By default, it adds eCommerce [routes](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/core/nuxt-theme-module/routes.js) to your app.
 - If you set `generate` in the config, it will copy, merge & watch for changes in Agnostic and Integration theme. 
 
 ## How to install?
@@ -22,7 +20,7 @@ If you want to disable autoadding routes you can do it:
     routes: false
 }],
 ```
-To properly configure `generate` property you have to provide data that will be replaced in EJS templates:
+To properly configure `generate` property you have to provide data that will be replaced in EJS templates. This property applies only to the core development:
 ```js
 ['@vue-storefront/nuxt-theme', {
     generate: {
@@ -33,7 +31,12 @@ To properly configure `generate` property you have to provide data that will be 
     }
 }],
 ```
-Changing `buildDir` to other than `.theme`:
+Example EJS template where it will be pasted:
+```js
+import { useCategory } from '<%= options.generate.replace.composables %>';
+```
+
+Changing `projectLocalThemeDir` to other than `.theme`:
 ```js
 ['@vue-storefront/nuxt-theme', {
     generate: {
