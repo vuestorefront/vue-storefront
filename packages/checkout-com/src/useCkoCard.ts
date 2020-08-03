@@ -3,7 +3,7 @@
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { ref, computed } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization, getSaveInstrumentKey } from './configuration';
-import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropetiesWithOptionalToken } from './helpers';
+import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties } from './helpers';
 
 declare const Frames: any;
 
@@ -12,12 +12,7 @@ const isCardValid = ref(false);
 const error = ref(null);
 const paymentMethod = ref(0);
 const storedPaymentInstruments = ref([]);
-const submitDisabled = computed(() => {
-  if (paymentMethod.value === CKO_PAYMENT_TYPE.SAVED_CARD) {
-    return false;
-  }
-  return !isCardValid.value;
-});
+const submitDisabled = computed(() => paymentMethod.value !== CKO_PAYMENT_TYPE.SAVED_CARD || isCardValid.value);
 
 const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
@@ -32,7 +27,7 @@ const loadSavePaymentInstrument = () => savePaymentInstrument.value = localStora
   : false;
 
 const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => paymentMethod.value = newPaymentMethod;
-const getCurrentPaymentMethodPayload = (payload: PaymentPropetiesWithOptionalToken) => buildPaymentPayloadStrategies[paymentMethod.value](payload);
+const getCurrentPaymentMethodPayload = (payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod.value](payload);
 
 const useCkoCard = () => {
   const makePayment = async ({ cartId, email, contextDataId = null }) => {

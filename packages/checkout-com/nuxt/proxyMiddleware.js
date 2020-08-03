@@ -2,9 +2,11 @@ const axios = require('axios');
 const express = require('express');
 const app = express();
 
-let ckoPublicKey = null;
-let ckoSecretKey = null;
-let ckoCtApiUrl = null;
+const config = {
+  publicKey: null,
+  secretKey: null,
+  ctApiUrl: null
+};
 
 app.use(express.json());
 
@@ -15,17 +17,18 @@ const sendJsonResponse = (res, json) => {
 
 const sendError = (res, errorCode, errorMessage) => res.status(errorCode).send(errorMessage);
 
-const apiRequestHeaders = (ckoSecretKey) => ({
+const apiRequestHeaders = () => ({
   headers: {
-    authorization: ckoSecretKey,
+    authorization: config.secretKey,
     'Content-Type': 'application/json'
   }
 });
-const getStoredMethods = async ({ ckoPublicKey, ckoSecretKey, customerId }) => {
+
+const getStoredMethods = async ({ customerId }) => {
   try {
     const { data } = await axios.get(
-      `${ckoCtApiUrl}/merchants/${ckoPublicKey}/customers/${customerId}`,
-      apiRequestHeaders(ckoSecretKey)
+      `${config.ctApiUrl}/merchants/${config.publicKey}/customers/${customerId}`,
+      apiRequestHeaders()
     );
     return data;
   } catch (err) {
@@ -33,11 +36,11 @@ const getStoredMethods = async ({ ckoPublicKey, ckoSecretKey, customerId }) => {
     return null;
   }
 };
-const removeStoredMethod = async ({ ckoPublicKey, ckoSecretKey, customerId, paymentInstrumentId }) => {
+const removeStoredMethod = async ({ customerId, paymentInstrumentId }) => {
   try {
     return await axios.delete(
-      `${ckoCtApiUrl}/merchants/${ckoPublicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
-      apiRequestHeaders(ckoSecretKey)
+      `${config.ctApiUrl}/merchants/${config.publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
+      apiRequestHeaders()
     );
   } catch (err) {
     console.log(err);
@@ -46,7 +49,7 @@ const removeStoredMethod = async ({ ckoPublicKey, ckoSecretKey, customerId, paym
 };
 
 app.post('/', async (req, res) => {
-  const data = await getStoredMethods({ ckoPublicKey, ckoSecretKey, customerId: req.body.customer_id });
+  const data = await getStoredMethods({ customerId: req.body.customer_id });
   if (data) {
     return sendJsonResponse(res, JSON.stringify({
       // eslint-disable-next-line
@@ -62,8 +65,6 @@ app.post('/', async (req, res) => {
 
 app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
   const response = await removeStoredMethod({
-    ckoPublicKey,
-    ckoSecretKey,
     customerId: req.params.customerId,
     paymentInstrumentId: req.params.paymentInstrumentId
   });
@@ -74,8 +75,8 @@ app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
 });
 
 export default ({ publicKey, secretKey, ctApiUrl }) => {
-  ckoPublicKey = publicKey;
-  ckoSecretKey = secretKey;
-  ckoCtApiUrl = ctApiUrl;
+  config.publicKey = publicKey;
+  config.secretKey = secretKey;
+  config.ctApiUrl = ctApiUrl;
   return app;
 };
