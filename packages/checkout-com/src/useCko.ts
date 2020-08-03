@@ -33,9 +33,9 @@ const selectedPaymentMethod = ref(PaymentMethod.NOT_SELECTED);
 const useCko = () => {
   const { initCardForm, makePayment: makeCardPayment, error: cardError } = useCkoCard();
 
-  const loadAvailableMethods = async (reference) => {
+  const loadAvailableMethods = async (reference, email?) => {
     try {
-      const response = await createContext({ reference });
+      const response = await createContext({ reference, email });
       availableMethods.value = [
         ...response.data.apms,
         { name: 'card' }
