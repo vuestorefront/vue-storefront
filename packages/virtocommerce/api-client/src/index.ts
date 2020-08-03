@@ -3,10 +3,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import createVirtoCommerceLink from './helpers/create-virtocommerce-link';
 import { ApiConfig, SetupConfig } from './types';
 
+import getMe from './api/getMe';
+
 let apolloClient: ApolloClient<any> = null;
 let api: ApiConfig = null;
 
 const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
+  console.warn('setup started');
+  console.warn(`api: ${JSON.stringify(setupConfig)}`);
   api = setupConfig.api || api;
 
   if (setupConfig.api) {
@@ -23,5 +27,6 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
 export {
   api,
   apolloClient,
-  setup
+  setup,
+  getMe
 };

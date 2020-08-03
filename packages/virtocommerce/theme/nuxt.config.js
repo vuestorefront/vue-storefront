@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
   server: {
     port: 3000,
     host: '0.0.0.0'

@@ -1,6 +1,7 @@
 ﻿import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
+import fetch from 'isomorphic-fetch';
 import { api } from './../index';
 
 const createVirtoCommerceLink = (): ApolloLink => {
