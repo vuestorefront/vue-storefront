@@ -1,0 +1,1 @@
+# VirtoCommerce integration theme
