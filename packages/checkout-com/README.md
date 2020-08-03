@@ -42,7 +42,7 @@ const { initForm, loadAvailableMethods, availableMethods } = useCko();
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
 4. Run `loadAvailableMethods` - it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it will be mounted already exists**.
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it will be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
 
 ```ts
 interface PaymentMethods {
@@ -76,7 +76,6 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 ```ts
 (params?: Omit<Configuration, 'publicKey'>): void
 ```
-Card's Frames will be mounted with DOM element with class `card-frame`.
 
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
 7. Call `submitForm` function on card form submit.
@@ -132,7 +131,7 @@ Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By defau
 }]
 ```
 
-## Customization Frames
+## Customizing Frames
 In `nuxt.config.js` module's config you can use each attribute from [this page](https://docs.checkout.com/quickstart/integrate/frames/frames-customization-guide), e.g:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
