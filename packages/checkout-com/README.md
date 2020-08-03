@@ -205,8 +205,16 @@ Response might look like:
 `availableMethods` might look like:
 ```json
 [
-    "card",
-    "klarna",
-    "paypal"
+    {
+        "name": "card"
+    },
+    {
+        "name": "klarna",
+        "some_key": "123"
+    },
+    {
+        "name": "paypal",
+        "some_key": "456"
+    }
 ]
 ```
