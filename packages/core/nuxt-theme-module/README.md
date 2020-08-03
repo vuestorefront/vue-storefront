@@ -3,12 +3,12 @@ This module:
 - By default, it adds eCommerce [routes](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/core/nuxt-theme-module/routes.js) to your app.
 - If you set `generate` in the config, it will copy, merge & watch for changes in Agnostic and Integration theme. 
 
-## How to install?
-Install module:
+## How to install
+Add dependency:
 ```sh
 yarn add @vue-storefront/nuxt-theme
 ```
-Add it to build modules in your `nuxt.config.js`:
+Add it to `buildModules` in your `nuxt.config.js`:
 ```js
 ['@vue-storefront/nuxt-theme'],
 ```
@@ -36,7 +36,7 @@ Example EJS template where it will be pasted:
 import { useCategory } from '<%= options.generate.replace.composables %>';
 ```
 
-Changing `projectLocalThemeDir` to other than `.theme`:
+Changing target directory where Agnostic and Integration themes will be merged and copied in Core Development Mode (default: `.theme`):
 ```js
 ['@vue-storefront/nuxt-theme', {
     generate: {
