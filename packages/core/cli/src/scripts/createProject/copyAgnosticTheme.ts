@@ -18,12 +18,8 @@ export default async (integration: string, targetPath: string): Promise<void> =>
       path.join(__dirname, filePath),
       finalPath,
       {
-        generate: {
-          replace: {
-            apiClient: `@vue-storefront/${integration}-api`,
-            composables: `@vue-storefront/${integration}`
-          }
-        }
+        apiClient: `@vue-storefront/${integration}-api`,
+        composables: `@vue-storefront/${integration}`
       }
     );
   };

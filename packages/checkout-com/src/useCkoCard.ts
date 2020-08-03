@@ -1,20 +1,20 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext, createPayment } from './payment';
-import { ref } from '@vue/composition-api';
-import { getPublicKey, getFramesStyles, getFramesCardTokenKey, Configuration, getFramesLocalization } from './configuration';
+import { ref, onMounted } from '@vue/composition-api';
+import { getPublicKey, getStyles, getCardTokenKey } from './configuration';
 
 declare const Frames: any;
 
 const submitDisabled = ref(false);
 const error = ref(null);
 
-const getCardToken = () => localStorage.getItem(getFramesCardTokenKey());
-const setCardToken = (token) => localStorage.setItem(getFramesCardTokenKey(), token);
-const removeCardToken = () => localStorage.removeItem(getFramesCardTokenKey());
+const getCardToken = () => localStorage.getItem(getCardTokenKey());
+const setCardToken = (token) => localStorage.setItem(getCardTokenKey(), token);
+const removeCardToken = () => localStorage.removeItem(getCardTokenKey());
 
 const useCkoCard = () => {
-  const makePayment = async ({ cartId, contextDataId = null }) => {
+  const makePayment = async ({ cartId }) => {
     try {
 
       const token = getCardToken();
@@ -23,15 +23,11 @@ const useCkoCard = () => {
         throw new Error('There is no payment token');
       }
 
-      let context;
-      if (!contextDataId) {
-        context = await createContext({ reference: cartId });
-      }
-
+      const context = await createContext({ reference: cartId });
       const payment = await createPayment({
         type: 'token',
         token,
-        context_id: contextDataId || context.data.id,
+        context_id: context.data.id,
         save_payment_instrument: true,
         secure3d: true,
         success_url: `${window.location.origin}/cko/payment-success`,
@@ -53,14 +49,11 @@ const useCkoCard = () => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initCardForm = (params?: Omit<Configuration, 'publicKey'>) => {
-    const localization = params?.frames?.localization || getFramesLocalization();
+  const initForm = () => {
     submitDisabled.value = true;
-
-    Frames.init({
+    onMounted(() => Frames.init({
       publicKey: getPublicKey(),
-      style: params?.frames?.styles || getFramesStyles(),
-      ...(localization ? { localization } : {}),
+      style: getStyles(),
       cardValidationChanged: () => {
         submitDisabled.value = !Frames.isCardValid();
       },
@@ -71,7 +64,7 @@ const useCkoCard = () => {
         error.value = data;
         submitDisabled.value = false;
       }
-    });
+    }));
   };
 
   return {
@@ -79,7 +72,7 @@ const useCkoCard = () => {
     submitDisabled,
     submitForm,
     makePayment,
-    initCardForm
+    initForm
   };
 };
 export default useCkoCard;

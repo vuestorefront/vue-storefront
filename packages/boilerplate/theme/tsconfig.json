@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
