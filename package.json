@@ -52,7 +52,8 @@
     "dev:ayc": "cd packages/about-you/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
     "link-packages": "lerna link --force-local",
-    "lint": "eslint . --ext .js,.ts,.vue"
+    "lint": "eslint . --ext .js,.ts,.vue",
+    "release": "cd scripts && yarn release"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

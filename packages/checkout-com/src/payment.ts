@@ -2,8 +2,6 @@
 import axios from 'axios';
 import { getPublicKey, getCkoWebhookUrl } from '@vue-storefront/checkout-com/src/configuration';
 
-declare const Frames: any;
-
 const createOptions = () => ({
   crossDomain: true,
   headers: {
