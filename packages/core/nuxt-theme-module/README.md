@@ -1,4 +1,6 @@
 # Nuxt Theme Module
+
+This module is basically our default theme on steroids. It contains additional utilities that make it easier to work with the theme (in projects and as core developers) and allows to disable parts of its features.
 This module:
 - By default, it adds eCommerce [routes](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/core/nuxt-theme-module/routes.js) to your app.
 - If you set `generate` in the config, it will copy, merge & watch for changes in Agnostic and Integration theme. 
