@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext } from './payment';
-import { Configuration } from './configuration';
-import { ref } from '@vue/composition-api';
+import { Configuration, getSaveInstrumentKey } from './configuration';
+import { ref, onMounted } from '@vue/composition-api';
 import { CKO_PAYMENT_TYPE } from './helpers';
 import useCkoCard from './useCkoCard';
 
@@ -23,9 +23,19 @@ interface PaymentMethodsConfig {
 }
 
 const selectedPaymentMethod = ref(CKO_PAYMENT_TYPE.NOT_SELECTED);
+const savePaymentInstrument = ref(false);
+
+const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
+  savePaymentInstrument.value = Boolean(newSavePaymentInstrument);
+  localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
+};
+const loadSavePaymentInstrument = () => savePaymentInstrument.value = (localStorage.getItem(getSaveInstrumentKey())
+  ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
+  : false);
 
 const useCko = () => {
   const { initCardForm, makePayment: makeCardPayment, error: cardError, submitForm: submitCardForm, setPaymentInstrument } = useCkoCard(selectedPaymentMethod);
+  onMounted(loadSavePaymentInstrument);
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -106,7 +116,8 @@ const useCko = () => {
     const response = await finalizeTransactionFunction({
       cartId,
       email,
-      contextDataId: contextDataId || contextId.value
+      contextDataId: contextDataId || contextId.value,
+      savePaymentInstrument: savePaymentInstrument.value
     });
     if (localError.value) {
       error.value = localError.value;
@@ -123,7 +134,9 @@ const useCko = () => {
     submitCardForm,
     selectPaymentMethod,
     makePayment,
-    setPaymentInstrument
+    setPaymentInstrument,
+    setSavePaymentInstrument,
+    savePaymentInstrument
   };
 };
 export default useCko;

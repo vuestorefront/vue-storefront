@@ -2,12 +2,11 @@
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { Ref, ref, computed } from '@vue/composition-api';
-import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization, getSaveInstrumentKey } from './configuration';
+import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization } from './configuration';
 import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties } from './helpers';
 
 declare const Frames: any;
 
-const savePaymentInstrument = ref(false);
 const isCardValid = ref(false);
 const error = ref(null);
 const paymentMethod = ref(0);
@@ -18,18 +17,10 @@ const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey())
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
 const removeTransactionToken = () => localStorage.removeItem(getTransactionTokenKey());
 
-const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
-  savePaymentInstrument.value = Boolean(newSavePaymentInstrument);
-  localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
-};
-const loadSavePaymentInstrument = () => savePaymentInstrument.value = localStorage.getItem(getSaveInstrumentKey())
-  ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
-  : false;
-
 const getCurrentPaymentMethodPayload = (paymentMethod: CKO_PAYMENT_TYPE, payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod](payload);
 
 const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
-  const makePayment = async ({ cartId, email, contextDataId = null }) => {
+  const makePayment = async ({ cartId, email, contextDataId = null, savePaymentInstrument = false }) => {
     try {
 
       const token = getTransactionToken();
@@ -43,12 +34,11 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
         context = await createContext({ reference: cartId, email });
       }
 
-      console.log(paymentMethod.value, CKO_PAYMENT_TYPE.CREDIT_CARD, savePaymentInstrument.value);
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
           token,
           context_id: contextDataId || context.data.id,
-          save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument.value,
+          save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument,
           secure3d: true,
           success_url: `${window.location.origin}/cko/payment-success`,
           failure_url: `${window.location.origin}/cko/payment-error`
@@ -72,13 +62,13 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
 
   const initCardForm = (params?: Omit<Configuration, 'publicKey'>) => {
     const localization = params?.frames?.localization || getFramesLocalization();
-    loadSavePaymentInstrument();
     Frames.init({
       publicKey: getPublicKey(),
       style: params?.frames?.styles || getFramesStyles(),
       ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         isCardValid.value = Frames.isCardValid();
+        selectedPaymentMethod.value = CKO_PAYMENT_TYPE.CREDIT_CARD;
       },
       cardTokenized: async ({ token }) => {
         setTransactionToken(token);
@@ -128,8 +118,6 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
     loadStoredPaymentInstruments,
     setTransactionToken,
     storedPaymentInstruments,
-    setSavePaymentInstrument,
-    savePaymentInstrument,
     removePaymentInstrument,
     setPaymentInstrument
   };
