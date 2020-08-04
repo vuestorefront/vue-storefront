@@ -1,7 +1,3 @@
-import { useUserFactory } from '@vue-storefront/core';
-import { params } from '../../src/useUser/factoryParams';
-import { useUser } from '../../src/useUser';
-
 jest.mock('@vue-storefront/core', () => ({
   useUserFactory: jest.fn(() => ({ useUser: () => ({ user: 'api'}) }))
 }));
@@ -10,7 +6,11 @@ jest.mock('../../src/useUser/factoryParams', () => ({
   params: {}
 }));
 
-describe('[commercetools-composables] useUser', () => {
+import { useUserFactory } from '@vue-storefront/core';
+import { params } from '../../src/useUser/factoryParams';
+import { useUser } from '../../src/useUser';
+
+describe('[virtocommerce-composables] useUser', () => {
   it('returns useUserFactory functions', () => {
     expect(useUserFactory).toHaveBeenCalledWith(params);
     expect(useUser()).toEqual({user: 'api'});
