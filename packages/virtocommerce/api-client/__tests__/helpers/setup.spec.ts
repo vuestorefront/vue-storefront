@@ -1,4 +1,3 @@
-/* eslint-disable camelcase, @typescript-eslint/camelcase */
 import { setup } from '../../src';
 import createVirtoCommerceLink from './../../src/helpers/create-virtocommerce-link';
 

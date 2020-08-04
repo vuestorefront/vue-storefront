@@ -9,8 +9,6 @@ let apolloClient: ApolloClient<any> = null;
 let api: ApiConfig = null;
 
 const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
-  console.warn('setup started');
-  console.warn(`api: ${JSON.stringify(setupConfig)}`);
   api = setupConfig.api || api;
 
   if (setupConfig.api) {

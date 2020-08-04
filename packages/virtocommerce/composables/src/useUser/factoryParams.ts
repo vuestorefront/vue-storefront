@@ -6,15 +6,12 @@ import {
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async (): Promise<Customer> => {
-    console.warn('loadUser started');
     try {
       const profile = await apiGetMe();
       return profile.data.me.customer;
     } catch (err) {
       const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
       throw new Error(error);
-    } finally {
-      console.warn('loadUser finished');
     }
   },
   logOut: async () => {
