@@ -42,7 +42,15 @@ In this step you need:
 const { cart } = useCart();
 const { setBillingDetails } = useCheckout();
 const { isAuthenticated, user } = useUser();
-const { initForm, loadAvailableMethods, availableMethods, submitDisabled, storedPaymentInstruments, loadStoredPaymentInstruments, error } = useCko();
+const { 
+    initForm, 
+    loadAvailableMethods, 
+    availableMethods, 
+    submitDisabled, 
+    storedPaymentInstruments, 
+    loadStoredPaymentInstruments, 
+    error 
+} = useCko();
 ```
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
@@ -52,8 +60,13 @@ if (isAuthenticated.value && cart.value && cart.value.customerId) {
     await loadStoredPaymentInstruments(cart.value.customerId);
 }
 ```
-4. Run `loadAvailableMethods` - first argument is cartId (access it via `cart.value.id`) - second for authenticated customer is an email (access it via `user.value.email`). Then it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it will be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
+4. Run `loadAvailableMethods` - first argument is cartId (access it via `cart.value.id`) - second for authenticated customer is an email (access it via `user.value.email`). Then it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`. E.g:
+```js
+onMounted(async () => {
+    await loadAvailableMethods(cart.value.id, user.value && user.value.email);
+})
+```
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
 
 ```ts
 interface PaymentMethods {
@@ -129,6 +142,52 @@ success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
 
+## Changing payment methods
+It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
+```js
+import { useCko, CKO_PAYMENT_TYPE } from '@vue-storefront/checkout-com'
+
+// ...
+
+const {
+    initForm,
+    loadAvailableMethods,
+    submitCardForm,
+    makePayment,
+    selectPaymentMethod, // Here
+    setPaymentInstrument,
+    setSavePaymentInstrument,
+    loadSavePaymentInstrument,
+    selectedPaymentMethod,
+    loadStoredPaymentInstruments,
+    removePaymentInstrument,
+    storedPaymentInstruments,
+    submitDisabled,
+    error
+} = useCko();
+```
+
+Currently, these are available payment methods:
+```ts
+enum CKO_PAYMENT_TYPE {
+    NOT_SELECTED = 0,
+    CREDIT_CARD = 1,
+    SAVED_CARD,
+    KLARNA, // Not supported yet
+    PAYPAL // Not supported yet
+}
+```
+
+By default, `selectPaymentMethod` equals `CKO_PAYMENT_TYPE.NOT_SELECTED`.
+If user uses stored payment method use:
+```js
+selectPaymentMethod.value = CKO_PAYMENT_TYPE.SAVED_CARD
+```
+If user uses credit card use:
+```js
+selectPaymentMethod.value = CKO_PAYMENT_TYPE.CREDIT_CARD
+```
+
 ## Allowing user to decide whether save payment instrument or not
 `useCko` composable shares `savePaymentInstrument` ref and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage and autoloaded in `onMounted` hook. Remember to always use `setSavePaymentInstrument` after `savePaymentInstrument` update state in localStorage. E.g:
 ```js
@@ -148,7 +207,7 @@ const {
       submitDisabled,
       error
     } = useCko();
-    const savePaymentInstrument = ref(loadSavePaymentInstrument());
+const savePaymentInstrument = ref(loadSavePaymentInstrument());
 ```
 ```vue
 <SfCheckbox
