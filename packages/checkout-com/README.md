@@ -1,7 +1,29 @@
 # Checkout.com Nuxt module
 ## How to install
-1. Open your `nuxt.config.js`
-2. At the bottom of `modules` add:
+1. Open your theme directory and run:
+```
+yarn add @vue-storefront/checkout-com
+```
+If you are Developing Core of Vue Storefront Next you might need to add `@vue-storefront/checkout-com` to `useRawSource` attribute in one of `buildModules`:
+```js
+['@vue-storefront/nuxt', {
+    coreDevelopment: true,
+    useRawSource: {
+        dev: [
+          '@vue-storefront/commercetools',
+          '@vue-storefront/core',
+          '@vue-storefront/checkout-com'
+        ],
+        prod: [
+          '@vue-storefront/commercetools',
+          '@vue-storefront/core',
+          '@vue-storefront/checkout-com'
+        ]
+    }
+}],
+```
+2. Open your `nuxt.config.js`
+3. At the bottom of `modules` add:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
     publicKey: 'pk_test_your-public-key',
@@ -54,8 +76,30 @@ const {
 ```
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
-4. Run `loadStoredPaymentInstruments` for logged in user to load stored payment instruments:
-```js
+4. Run `loadStoredPaymentInstruments` for logged in user to load stored payment instruments. They will be loaded to `storedPaymentInstruments` array of `PaymentInstrument`. Caution: This interface is being used for storing credit cards currently. It might has different shape for stored different payment methods. Example of usage:
+```ts
+interface PaymentInstrument {
+    id: string;
+    type: string;
+    expiry_month: number;
+    expiry_year: number;
+    scheme: string;
+    last4: string;
+    fingerprint: string;
+    bin: string;
+    card_type: string;
+    card_category: string;
+    issuer: string;
+    issuer_country: string;
+    product_id: string;
+    product_type: string;
+    avs_check: string;
+    cvv_check: string;
+    payouts: string;
+    fast_funds: string;
+    payment_instrument_id: string;
+}
+
 if (isAuthenticated.value && cart.value && cart.value.customerId) {
     await loadStoredPaymentInstruments(cart.value.customerId);
 }
@@ -317,4 +361,21 @@ Response might look like:
         "some_key": "456"
     }
 ]
+```
+
+## Removing Stored Payment Instrument
+`useCko` composable shares `removePaymentInstrument` method for that purpose. Use it like:
+```ts
+const {
+    removePaymentInstrument,
+    // ...
+} = useCko();
+const { isAuthenticated } = useUser();
+const { cart } = useCart();
+
+const removeMinePaymentInstrument = (paymentInstrument: string): Promise<void> => {
+    if (isAuthenticated.value && cart.value && cart.value.customerId) {
+        await removePaymentInstrument(cart.value.customerId, paymentInstrument);
+    }
+}
 ```
