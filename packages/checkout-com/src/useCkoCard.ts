@@ -67,7 +67,6 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
       ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         isCardValid.value = Frames.isCardValid();
-        selectedPaymentMethod.value = CKO_PAYMENT_TYPE.CREDIT_CARD;
       },
       cardTokenized: async ({ token }) => {
         setTransactionToken(token);
