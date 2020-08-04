@@ -9,7 +9,6 @@ declare const Frames: any;
 
 const isCardValid = ref(false);
 const error = ref(null);
-const paymentMethod = ref(0);
 const storedPaymentInstruments = ref([]);
 
 const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
@@ -38,7 +37,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
         getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
           token,
           context_id: contextDataId || context.data.id,
-          save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument,
+          save_payment_instrument: selectedPaymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument,
           secure3d: true,
           success_url: `${window.location.origin}/cko/payment-success`,
           failure_url: `${window.location.origin}/cko/payment-error`

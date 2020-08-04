@@ -2,7 +2,7 @@
 
 import { createContext } from './payment';
 import { Configuration, getSaveInstrumentKey } from './configuration';
-import { ref, onMounted } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { CKO_PAYMENT_TYPE } from './helpers';
 import useCkoCard from './useCkoCard';
 
@@ -23,13 +23,11 @@ interface PaymentMethodsConfig {
 }
 
 const selectedPaymentMethod = ref(CKO_PAYMENT_TYPE.NOT_SELECTED);
-const savePaymentInstrument = ref(false);
 
 const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
-  savePaymentInstrument.value = Boolean(newSavePaymentInstrument);
   localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
 };
-const loadSavePaymentInstrument = () => savePaymentInstrument.value = (localStorage.getItem(getSaveInstrumentKey())
+const loadSavePaymentInstrument = () => (localStorage.getItem(getSaveInstrumentKey())
   ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
   : false);
 
@@ -45,7 +43,6 @@ const useCko = () => {
     storedPaymentInstruments,
     submitDisabled
   } = useCkoCard(selectedPaymentMethod);
-  onMounted(loadSavePaymentInstrument);
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -86,11 +83,7 @@ const useCko = () => {
     }
   };
 
-  const selectPaymentMethod = (paymentMethod: CKO_PAYMENT_TYPE) => {
-    selectedPaymentMethod.value = paymentMethod;
-  };
-
-  const makePayment = async ({ cartId, email, contextDataId }) => {
+  const makePayment = async ({ cartId = null, email = null, contextDataId = null } = {}) => {
     if (!selectedPaymentMethod.value) {
       error.value = 'Payment method not selected';
       return;
@@ -119,7 +112,7 @@ const useCko = () => {
       cartId,
       email,
       contextDataId: contextDataId || contextId.value,
-      savePaymentInstrument: savePaymentInstrument.value
+      savePaymentInstrument: loadSavePaymentInstrument()
     });
     if (localError.value) {
       error.value = localError.value;
@@ -131,16 +124,15 @@ const useCko = () => {
     availableMethods,
     error,
     selectedPaymentMethod,
-    savePaymentInstrument,
     storedPaymentInstruments,
     submitDisabled,
     loadAvailableMethods,
     initForm,
     submitCardForm,
-    selectPaymentMethod,
     makePayment,
     setPaymentInstrument,
     setSavePaymentInstrument,
+    loadSavePaymentInstrument,
     removePaymentInstrument,
     loadStoredPaymentInstruments
   };
