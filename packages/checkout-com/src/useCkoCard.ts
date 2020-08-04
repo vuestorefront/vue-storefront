@@ -11,7 +11,6 @@ const isCardValid = ref(false);
 const error = ref(null);
 const paymentMethod = ref(0);
 const storedPaymentInstruments = ref([]);
-const submitDisabled = computed(() => paymentMethod.value !== CKO_PAYMENT_TYPE.SAVED_CARD || isCardValid.value);
 
 const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
@@ -20,6 +19,7 @@ const removeTransactionToken = () => localStorage.removeItem(getTransactionToken
 const getCurrentPaymentMethodPayload = (paymentMethod: CKO_PAYMENT_TYPE, payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod](payload);
 
 const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
+  const submitDisabled = computed(() => selectedPaymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && !isCardValid.value);
   const makePayment = async ({ cartId, email, contextDataId = null, savePaymentInstrument = false }) => {
     try {
 
@@ -111,13 +111,12 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
   return {
     error,
     submitDisabled,
+    storedPaymentInstruments,
     submitForm,
     makePayment,
     initCardForm,
-    paymentMethod,
     loadStoredPaymentInstruments,
     setTransactionToken,
-    storedPaymentInstruments,
     removePaymentInstrument,
     setPaymentInstrument
   };
