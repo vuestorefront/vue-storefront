@@ -14,6 +14,28 @@ interface PaymentMethodPayload extends PaymentPropeties {
     authorization_token?: string
 }
 
+interface PaymentInstrument {
+    id: string;
+    type: string;
+    expiry_month: number;
+    expiry_year: number;
+    scheme: string;
+    last4: string;
+    fingerprint: string;
+    bin: string;
+    card_type: string;
+    card_category: string;
+    issuer: string;
+    issuer_country: string;
+    product_id: string;
+    product_type: string;
+    avs_check: string;
+    cvv_check: string;
+    payouts: string;
+    fast_funds: string;
+    payment_instrument_id: string;
+}
+
 enum CKO_PAYMENT_TYPE {
     NOT_SELECTED = 0,
     CREDIT_CARD = 1,
@@ -52,4 +74,4 @@ const buildPaymentPayloadStrategies = {
     })
 };
 
-export { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties, PaymentMethodPayload };
+export { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };

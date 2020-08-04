@@ -3,13 +3,13 @@
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { Ref, ref, computed } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization } from './configuration';
-import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties } from './helpers';
+import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties, PaymentInstrument } from './helpers';
 
 declare const Frames: any;
 
 const isCardValid = ref(false);
 const error = ref(null);
-const storedPaymentInstruments = ref([]);
+const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
 
 const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
 const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
