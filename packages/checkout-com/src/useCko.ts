@@ -7,6 +7,7 @@ import useCkoCard from './useCkoCard';
 
 const error = ref(null);
 const availableMethods = ref([]);
+const contextId = ref(null);
 
 interface PaymentMethods {
   card?: boolean;
@@ -31,7 +32,7 @@ enum PaymentMethod {
 const selectedPaymentMethod = ref(PaymentMethod.NOT_SELECTED);
 
 const useCko = () => {
-  const { initCardForm, makePayment: makeCardPayment, error: cardError } = useCkoCard();
+  const { initCardForm, makePayment: makeCardPayment, error: cardError, submitForm: submitCardForm } = useCkoCard();
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -40,6 +41,7 @@ const useCko = () => {
         ...response.data.apms,
         { name: 'card' }
       ];
+      contextId.value = response.data.id;
       return response.data;
     } catch (e) {
       error.value = e;
@@ -75,7 +77,7 @@ const useCko = () => {
     selectedPaymentMethod.value = paymentMethod;
   };
 
-  const makePayment = async (cartId) => {
+  const makePayment = async ({ cartId, email, contextDataId }) => {
     if (!selectedPaymentMethod.value) {
       error.value = 'Payment method not selected';
       return;
@@ -84,6 +86,7 @@ const useCko = () => {
     let finalizeTransactionFunction;
     let localError;
 
+    console.log('XDD', selectedPaymentMethod.value);
     switch (selectedPaymentMethod.value) {
       case PaymentMethod.CARD:
         finalizeTransactionFunction = makeCardPayment;
@@ -109,7 +112,11 @@ const useCko = () => {
         return;
     }
 
-    const response = await finalizeTransactionFunction({ cartId });
+    const response = await finalizeTransactionFunction({
+      cartId,
+      email,
+      contextDataId: contextDataId || contextId.value
+    });
     if (localError.value) {
       error.value = localError.value;
     }
@@ -122,6 +129,7 @@ const useCko = () => {
     selectedPaymentMethod,
     loadAvailableMethods,
     initForm,
+    submitCardForm,
     selectPaymentMethod,
     makePayment
   };

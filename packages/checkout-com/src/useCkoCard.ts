@@ -47,7 +47,7 @@ const useCkoCard = () => {
       const payment = await createPayment(
         getCurrentPaymentMethodPayload({
           token,
-          context_id: context.data.id,
+          context_id: contextDataId || context.data.id,
           save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument.value,
           secure3d: true,
           success_url: `${window.location.origin}/cko/payment-success`,
