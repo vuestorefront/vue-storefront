@@ -6,10 +6,10 @@
 ['@vue-storefront/checkout-com/nuxt', { publicKey: 'pk_test_your-public-key' }],
 ```
 
-## Render payment handlers
-1. Import `useCko` and `useCkoCard`:
+## Render payment handlers & finalize payment
+1. Import `useCko`:
 ```js
-import { useCko, useCkoCard } from '@vue-storefront/checkout-com';
+import { useCko } from '@vue-storefront/checkout-com';
 ```
 
 2. `useCko` returns:
@@ -17,18 +17,18 @@ import { useCko, useCkoCard } from '@vue-storefront/checkout-com';
 interface {
     availableMethods: { name: string, [key: string]: any },
     error: Error | null,
-    loadAvailableMethods: (): { id, apms },
-    initForm: (): void
-}
-```
-`useCkoCard` returns:
-```ts
-interface {
-    error: Error | null,
-    submitDisabled: Boolean,
-    submitForm: async(),
-    makePayment: async({ cartId }),
-    initCardForm: (): void
+    selectedPaymentMethod: CKO_PAYMENT_TYPE,
+    savePaymentInstrument: boolean,
+    storedPaymentInstruments: any[],
+    submitDisabled: boolean,
+    loadAvailableMethods: (cartId: string, email?: string): { id, apms },
+    initForm: (): void,
+    submitCardForm: (): void,
+    makePayment: ({ cartId, email, contextDataId }): Promise<Response | void>,
+    setPaymentInstrument: (token: string): void,
+    setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
+    removePaymentInstrument: (customerId: string, paymentInstrument: string): Promise<void>,
+    loadStoredPaymentInstruments: (customerId: string): Promise<void>
 }
 ```
 
@@ -36,12 +36,18 @@ In this step you need:
 ```js
 const { cart } = useCart();
 const { setBillingDetails } = useCheckout();
-const { submitDisabled } = useCkoCard();
-const { initForm, loadAvailableMethods, availableMethods } = useCko();
+const { isAuthenticated, user } = useUser();
+const { initForm, loadAvailableMethods, availableMethods, submitDisabled, storedPaymentInstruments, loadStoredPaymentInstruments, error } = useCko();
 ```
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
-4. Run `loadAvailableMethods` - it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
+4. Run `loadStoredPaymentInstruments` for logged in user to load stored payment instruments:
+```js
+if (isAuthenticated.value && cart.value && cart.value.customerId) {
+    await loadStoredPaymentInstruments(cart.value.customerId);
+}
+```
+4. Run `loadAvailableMethods` - first argument is cartId (access it via `cart.value.id`) - second for authenticated customer is an email (access it via `user.value.email`). Then it will return `interface { id, apms: Array<any> }` and set `apms` inside `availableMethods`
 5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it will be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
 
 ```ts
@@ -77,34 +83,34 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 (params?: Omit<Configuration, 'publicKey'>): void
 ```
 
+Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
+
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
-7. Call `submitForm` function on card form submit.
-
-## Finalizing payment
-1. In this step you need:
-```js
-const { makePayment, error: paymentError } = useCkoCard();
-const { cart } = useCart();
-const { placeOrder } = useCheckout();
-```
-
+7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Saved Card).
+8. Then you need to make Payment
 `error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
 
-2. You should `makePayment` at first (remember to check if everything went ok):
+9. You should `makePayment` at first (remember to check if everything went ok):
 ```js
-const payment = await makePayment(cart.value.id);
+// If it is guest
+const payment = await makePayment({ cartId: cart.value.id });
+// If it is customer
+const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email });
+// If you've already loaded available payment methods with same useCko composable instance
+const payment = await makePayment();
+
 if (!payment) return;
 ```
 
-3. If there is any error, you can access it via `paymentError.value`. Otherwise, it will be nullish
+10. If there is any error, you can access it via `error.value`. Otherwise, it will be nullish
 
-4. If no errors, place an order:
+11. If no errors, place an order:
 ```js
 const order = await placeOrder();
 ```
 
-4. `payment.data.redirect_url` contains 3DS Auth redirect url if it is required by bank. You have to support it:
+12. `payment.data.redirect_url` contains 3DS Auth redirect url if it is required by bank. You have to support it:
 ```js
 if (payment.data.redirect_url) {
     window.location.href = payment.data.redirect_url;
@@ -112,10 +118,41 @@ if (payment.data.redirect_url) {
 }
 ```
 
-5. After 3DS Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
+13. After 3DS Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
 ```js
 success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
+```
+
+## Allowing user to decide whether save payment instrument or not
+`useCko` composable shares `savePaymentInstrument` ref and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage and autoloaded in `onMounted` hook. Remember to always use `setSavePaymentInstrument` after `savePaymentInstrument` update state in localStorage. E.g:
+```js
+const {
+      initForm,
+      loadAvailableMethods,
+      submitCardForm,
+      makePayment,
+      selectPaymentMethod,
+      setPaymentInstrument,
+      setSavePaymentInstrument, // Save
+      loadSavePaymentInstrument, // Load
+      selectedPaymentMethod,
+      loadStoredPaymentInstruments,
+      removePaymentInstrument,
+      storedPaymentInstruments,
+      submitDisabled,
+      error
+    } = useCko();
+    const savePaymentInstrument = ref(loadSavePaymentInstrument());
+```
+```vue
+<SfCheckbox
+    @change="setSavePaymentInstrument(savePaymentInstrument)"
+    v-model="savePaymentInstrument"
+    label="Save payment instrument"
+    name="savePaymentInstrument"
+    class="form__element"
+/>
 ```
 
 ## Autoloading SDK
