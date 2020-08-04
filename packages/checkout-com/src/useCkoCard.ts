@@ -113,8 +113,8 @@ const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
     submitForm,
     makePayment,
     initCardForm,
-    loadStoredPaymentInstruments,
     setTransactionToken,
+    loadStoredPaymentInstruments,
     removePaymentInstrument,
     setPaymentInstrument
   };

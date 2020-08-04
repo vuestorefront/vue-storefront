@@ -76,7 +76,7 @@ const {
 ```
 
 3. `setBillingDetails` to save billing address. So you will be able to fetch `availableMethods` which base on your billing address (server-side)
-4. Run `loadStoredPaymentInstruments` for logged in user to load stored payment instruments. They will be loaded to `storedPaymentInstruments` array of `PaymentInstrument`. Caution: This interface is being used for storing credit cards currently. It might has different shape for stored different payment methods. Example of usage:
+4. Run `loadStoredPaymentInstruments` for logged in user to load stored payment instruments. They will be loaded to `storedPaymentInstruments` array of `PaymentInstrument`s. Caution: This interface is being used for storing credit cards currently. It might have different shape for stored different payment methods in the future. Interface:
 ```ts
 interface PaymentInstrument {
     id: string;
@@ -99,7 +99,9 @@ interface PaymentInstrument {
     fast_funds: string;
     payment_instrument_id: string;
 }
-
+```
+Example of usage:
+```ts
 if (isAuthenticated.value && cart.value && cart.value.customerId) {
     await loadStoredPaymentInstruments(cart.value.customerId);
 }
@@ -148,12 +150,12 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access an array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
-7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method).
+7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood.
 8. Then you need to make Payment
 `error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
 
-9. You should `makePayment` at first (remember to check if everything went ok):
+9. You should call `makePayment` at first (remember to check if everything went ok):
 ```js
 // If it is guest
 const payment = await makePayment({ cartId: cart.value.id });
@@ -280,7 +282,7 @@ Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By defau
 In `nuxt.config.js` module's config you can use each attribute from [this page](https://docs.checkout.com/quickstart/integrate/frames/frames-customization-guide), e.g:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
-    publicKey: 'pk_test_XXXX',
+    // ...
     frames: {
         localization: 'KO-KR',
         styles: {
@@ -321,12 +323,16 @@ At first, you have to save billing address in your backend to do that. You can d
 ```js
 // Somewhere inside Vue3's setup method
 const { cart } = useCart();
+const { user } = useUser();
 const { loadAvailableMethods, availableMethods } = useCko();
 const { setBillingDetails } = useCheckout();
 
 const handleFormSubmit = async () => {
     await setBillingDetails(billingDetails.value, { save: true });
+    // If it is Guest
     const response = await loadAvailableMethods(cart.value.id);
+    // If it is Customer
+    const response = await loadAvailableMethods(cart.value.id, user.value.email);
     console.log('Server respond with ', response)
     console.log('Array of available payment methods ', availableMethods)
 };
@@ -335,12 +341,12 @@ const handleFormSubmit = async () => {
 Response might look like:
 ```json
 {
-    "id":"cid_XXX",
-    "apms":[
+    "id": "cid_XXX",
+    "apms": [
         {
-            "name":"paypal",
-            "schema":"https://somewebsite.com/apms/paypal.json",
-            "show":true
+            "name": "paypal",
+            "schema": "https://somewebsite.com/apms/paypal.json",
+            "show": true
         }
     ]
 }
@@ -373,7 +379,7 @@ const {
 const { isAuthenticated } = useUser();
 const { cart } = useCart();
 
-const removeMinePaymentInstrument = (paymentInstrument: string): Promise<void> => {
+const removeMinePaymentInstrument = async (paymentInstrument: string): Promise<void> => {
     if (isAuthenticated.value && cart.value && cart.value.customerId) {
         await removePaymentInstrument(cart.value.customerId, paymentInstrument);
     }
