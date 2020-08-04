@@ -15,6 +15,7 @@ interface PaymentMethodPayload extends PaymentPropeties {
 }
 
 enum CKO_PAYMENT_TYPE {
+    NOT_SELECTED = 0,
     CREDIT_CARD = 1,
     SAVED_CARD,
     KLARNA,

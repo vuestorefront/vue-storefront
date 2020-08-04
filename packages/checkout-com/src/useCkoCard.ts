@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
-import { ref, computed } from '@vue/composition-api';
+import { Ref, ref, computed } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization, getSaveInstrumentKey } from './configuration';
 import { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties } from './helpers';
 
@@ -26,10 +26,9 @@ const loadSavePaymentInstrument = () => savePaymentInstrument.value = localStora
   ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
   : false;
 
-const setCurrentPaymentMethod = (newPaymentMethod: CKO_PAYMENT_TYPE) => paymentMethod.value = newPaymentMethod;
-const getCurrentPaymentMethodPayload = (payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod.value](payload);
+const getCurrentPaymentMethodPayload = (paymentMethod: CKO_PAYMENT_TYPE, payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod](payload);
 
-const useCkoCard = () => {
+const useCkoCard = (selectedPaymentMethod: Ref<CKO_PAYMENT_TYPE>) => {
   const makePayment = async ({ cartId, email, contextDataId = null }) => {
     try {
 
@@ -44,8 +43,9 @@ const useCkoCard = () => {
         context = await createContext({ reference: cartId, email });
       }
 
+      console.log(paymentMethod.value, CKO_PAYMENT_TYPE.CREDIT_CARD, savePaymentInstrument.value);
       const payment = await createPayment(
-        getCurrentPaymentMethodPayload({
+        getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
           token,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: paymentMethod.value === CKO_PAYMENT_TYPE.CREDIT_CARD && savePaymentInstrument.value,
@@ -81,7 +81,6 @@ const useCkoCard = () => {
         isCardValid.value = Frames.isCardValid();
       },
       cardTokenized: async ({ token }) => {
-        setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD);
         setTransactionToken(token);
       },
       cardTokenizationFailed: (data) => {
@@ -106,12 +105,17 @@ const useCkoCard = () => {
       const { id: cardSrcId } = storedPaymentInstruments.value.find(card => card.payment_instrument_id === paymentInstrument);
       storedPaymentInstruments.value = storedPaymentInstruments.value.filter(instrument => instrument.payment_instrument_id !== paymentInstrument);
       if (cardSrcId === getTransactionToken()) {
-        setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD);
+        selectedPaymentMethod.value = CKO_PAYMENT_TYPE.CREDIT_CARD;
         removeTransactionToken();
       }
     } catch (e) {
       error.value = e;
     }
+  };
+
+  const setPaymentInstrument = (token: string) => {
+    setTransactionToken(token);
+    selectedPaymentMethod.value = CKO_PAYMENT_TYPE.SAVED_CARD;
   };
 
   return {
@@ -120,14 +124,14 @@ const useCkoCard = () => {
     submitForm,
     makePayment,
     initCardForm,
-    setCurrentPaymentMethod,
     paymentMethod,
     loadStoredPaymentInstruments,
     setTransactionToken,
     storedPaymentInstruments,
     setSavePaymentInstrument,
     savePaymentInstrument,
-    removePaymentInstrument
+    removePaymentInstrument,
+    setPaymentInstrument
   };
 };
 export default useCkoCard;

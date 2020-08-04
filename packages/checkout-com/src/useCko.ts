@@ -3,6 +3,7 @@
 import { createContext } from './payment';
 import { Configuration } from './configuration';
 import { ref } from '@vue/composition-api';
+import { CKO_PAYMENT_TYPE } from './helpers';
 import useCkoCard from './useCkoCard';
 
 const error = ref(null);
@@ -21,18 +22,10 @@ interface PaymentMethodsConfig {
   paypal?: any;
 }
 
-enum PaymentMethod {
-  NOT_SELECTED = 0,
-  CARD,
-  SAVED_CARD,
-  KLARNA,
-  PAYPAL
-}
-
-const selectedPaymentMethod = ref(PaymentMethod.NOT_SELECTED);
+const selectedPaymentMethod = ref(CKO_PAYMENT_TYPE.NOT_SELECTED);
 
 const useCko = () => {
-  const { initCardForm, makePayment: makeCardPayment, error: cardError, submitForm: submitCardForm } = useCkoCard();
+  const { initCardForm, makePayment: makeCardPayment, error: cardError, submitForm: submitCardForm, setPaymentInstrument } = useCkoCard(selectedPaymentMethod);
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -73,7 +66,7 @@ const useCko = () => {
     }
   };
 
-  const selectPaymentMethod = (paymentMethod: PaymentMethod) => {
+  const selectPaymentMethod = (paymentMethod: CKO_PAYMENT_TYPE) => {
     selectedPaymentMethod.value = paymentMethod;
   };
 
@@ -86,23 +79,21 @@ const useCko = () => {
     let finalizeTransactionFunction;
     let localError;
 
-    console.log('XDD', selectedPaymentMethod.value);
     switch (selectedPaymentMethod.value) {
-      case PaymentMethod.CARD:
+      case CKO_PAYMENT_TYPE.CREDIT_CARD:
         finalizeTransactionFunction = makeCardPayment;
         localError = cardError;
         break;
-      case PaymentMethod.SAVED_CARD:
-        finalizeTransactionFunction = () => {
-          console.log('Making transaction with saved card...');
-        };
+      case CKO_PAYMENT_TYPE.SAVED_CARD:
+        finalizeTransactionFunction = makeCardPayment;
+        localError = cardError;
         break;
-      case PaymentMethod.KLARNA:
+      case CKO_PAYMENT_TYPE.KLARNA:
         finalizeTransactionFunction = () => {
           console.log('Making transaction with Klarna...');
         };
         break;
-      case PaymentMethod.PAYPAL:
+      case CKO_PAYMENT_TYPE.PAYPAL:
         finalizeTransactionFunction = () => {
           console.log('Making transaction with PayPal...');
         };
@@ -131,7 +122,8 @@ const useCko = () => {
     initForm,
     submitCardForm,
     selectPaymentMethod,
-    makePayment
+    makePayment,
+    setPaymentInstrument
   };
 };
 export default useCko;
