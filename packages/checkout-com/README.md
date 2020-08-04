@@ -140,12 +140,12 @@ const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConf
     }
 }
 ```
-This configuration will have bigger priority than one from `nuxt.config.js`. The thing is you cannot overwrite `publicKey` there. Signature for Frames looks like that:
+This configuration will have bigger priority than one from `nuxt.config.js`. The thing is you cannot overwrite is `publicKey` there. Signature for Frames looks like that:
 ```ts
 (params?: Omit<Configuration, 'publicKey'>): void
 ```
 
-Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
+Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access an array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
 7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method).
@@ -364,7 +364,7 @@ Response might look like:
 ```
 
 ## Removing Stored Payment Instrument
-`useCko` composable shares `removePaymentInstrument` method for that purpose. Use it like:
+`useCko` composable shares `removePaymentInstrument` method for that purpose. Keep in mind you use `storedPaymentMethods[i].id` for payment but `storedPaymentMethods[i].payment_instrument` for removing it from the vault. Use it like:
 ```ts
 const {
     removePaymentInstrument,
