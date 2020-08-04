@@ -283,7 +283,7 @@ In `nuxt.config.js` module's config you can use each attribute from [this page](
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
     // ...
-    frames: {
+    card: {
         localization: 'KO-KR',
         styles: {
             'card-number': {
