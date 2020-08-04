@@ -104,7 +104,7 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
-7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Saved Card).
+7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method).
 8. Then you need to make Payment
 `error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
@@ -179,9 +179,9 @@ enum CKO_PAYMENT_TYPE {
 ```
 
 By default, `selectPaymentMethod` equals `CKO_PAYMENT_TYPE.NOT_SELECTED`.
-If user uses stored payment method use:
+If user uses stored payment call `setSavePaymentInstrument` and it will set `selectPaymentMethod.value = CKO_PAYMENT_TYPE.SAVED_CARD`
 ```js
-selectPaymentMethod.value = CKO_PAYMENT_TYPE.SAVED_CARD
+setPaymentInstrument(item.id);
 ```
 If user uses credit card use:
 ```js
