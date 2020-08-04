@@ -34,7 +34,17 @@ const loadSavePaymentInstrument = () => savePaymentInstrument.value = (localStor
   : false);
 
 const useCko = () => {
-  const { initCardForm, makePayment: makeCardPayment, error: cardError, submitForm: submitCardForm, setPaymentInstrument } = useCkoCard(selectedPaymentMethod);
+  const {
+    initCardForm, makePayment:
+    makeCardPayment,
+    error: cardError,
+    submitForm: submitCardForm,
+    setPaymentInstrument,
+    removePaymentInstrument,
+    loadStoredPaymentInstruments,
+    storedPaymentInstruments,
+    submitDisabled
+  } = useCkoCard(selectedPaymentMethod);
   onMounted(loadSavePaymentInstrument);
 
   const loadAvailableMethods = async (reference, email?) => {
@@ -89,28 +99,20 @@ const useCko = () => {
     let finalizeTransactionFunction;
     let localError;
 
-    switch (selectedPaymentMethod.value) {
-      case CKO_PAYMENT_TYPE.CREDIT_CARD:
-        finalizeTransactionFunction = makeCardPayment;
-        localError = cardError;
-        break;
-      case CKO_PAYMENT_TYPE.SAVED_CARD:
-        finalizeTransactionFunction = makeCardPayment;
-        localError = cardError;
-        break;
-      case CKO_PAYMENT_TYPE.KLARNA:
-        finalizeTransactionFunction = () => {
-          console.log('Making transaction with Klarna...');
-        };
-        break;
-      case CKO_PAYMENT_TYPE.PAYPAL:
-        finalizeTransactionFunction = () => {
-          console.log('Making transaction with PayPal...');
-        };
-        break;
-      default:
-        error.value = 'Not supported payment method';
-        return;
+    if ([CKO_PAYMENT_TYPE.CREDIT_CARD, CKO_PAYMENT_TYPE.SAVED_CARD].includes(selectedPaymentMethod.value)) {
+      finalizeTransactionFunction = makeCardPayment;
+      localError = cardError;
+    } else if (selectedPaymentMethod.value === CKO_PAYMENT_TYPE.KLARNA) {
+      finalizeTransactionFunction = () => {
+        console.log('Making transaction with Klarna...');
+      };
+    } else if (selectedPaymentMethod.value === CKO_PAYMENT_TYPE.PAYPAL) {
+      finalizeTransactionFunction = () => {
+        console.log('Making transaction with PayPal...');
+      };
+    } else {
+      error.value = 'Not supported payment method';
+      return;
     }
 
     const response = await finalizeTransactionFunction({
@@ -129,6 +131,9 @@ const useCko = () => {
     availableMethods,
     error,
     selectedPaymentMethod,
+    savePaymentInstrument,
+    storedPaymentInstruments,
+    submitDisabled,
     loadAvailableMethods,
     initForm,
     submitCardForm,
@@ -136,7 +141,8 @@ const useCko = () => {
     makePayment,
     setPaymentInstrument,
     setSavePaymentInstrument,
-    savePaymentInstrument
+    removePaymentInstrument,
+    loadStoredPaymentInstruments
   };
 };
 export default useCko;
