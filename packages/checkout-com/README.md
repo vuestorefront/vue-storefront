@@ -188,7 +188,7 @@ success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
 
-## Changing payment methods
+## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
 ```js
 import { useCko, CKO_PAYMENT_TYPE } from '@vue-storefront/checkout-com'
@@ -269,7 +269,7 @@ const savePaymentInstrument = ref(loadSavePaymentInstrument());
 Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By default, module fetches SDK only for Credit Card (Frames). You can customize it with module's config `paymentMethods` attribute. E.g:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
-    publicKey: 'pk_test_XXX',
+    // ...
     paymentMethods: {
         cc: true,
         paypal: false,
