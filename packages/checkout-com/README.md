@@ -3,7 +3,11 @@
 1. Open your `nuxt.config.js`
 2. At the bottom of `modules` add:
 ```js
-['@vue-storefront/checkout-com/nuxt', { publicKey: 'pk_test_your-public-key' }],
+['@vue-storefront/checkout-com/nuxt', {
+    publicKey: 'pk_test_your-public-key',
+    secretKey: 'sk_test_your-secret-key',
+    ctApiUrl: 'https://your-commerctools-instance.com'
+}],
 ```
 
 ## Render payment handlers & finalize payment
@@ -27,6 +31,7 @@ interface {
     makePayment: ({ cartId, email, contextDataId }): Promise<Response | void>,
     setPaymentInstrument: (token: string): void,
     setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
+    loadSavePaymentInstrument: (): boolean,
     removePaymentInstrument: (customerId: string, paymentInstrument: string): Promise<void>,
     loadStoredPaymentInstruments: (customerId: string): Promise<void>
 }
