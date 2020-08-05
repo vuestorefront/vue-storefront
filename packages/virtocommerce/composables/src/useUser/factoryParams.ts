@@ -8,7 +8,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async (): Promise<Customer> => {
     try {
       const profile = await apiGetMe();
-      return profile.data.me.customer;
+      return profile.data.me.user;
     } catch (err) {
       const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
       throw new Error(error);

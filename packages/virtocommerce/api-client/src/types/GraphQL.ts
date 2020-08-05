@@ -97,7 +97,7 @@ export type Address = {
 };
 
 /** A customer is a person purchasing products. Carts, Orders and Reviews can be associated to a customer. */
-export type Customer = Versioned & {
+export type User = Versioned & {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];
@@ -142,6 +142,6 @@ export type Store = Versioned & {
 };
 
 export type Me = {
-  __typename?: "Me";
-  customer?: Maybe<Customer>;
+  __typename?: "UserType";
+  user?: Maybe<User>;
 };

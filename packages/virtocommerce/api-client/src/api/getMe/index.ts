@@ -1,5 +1,5 @@
 ﻿import { apolloClient } from '../../index';
-import { ProfileResponse } from '../../types/Api';
+import { ProfileResponse } from '../../types/api';
 import { basicProfile } from './defaultQuery';
 
 const getMe = async (): Promise<ProfileResponse> => {
