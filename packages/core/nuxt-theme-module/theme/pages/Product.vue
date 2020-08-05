@@ -1,33 +1,33 @@
 <template>
   <div id="product">
     <SfBreadcrumbs
-        class="breadcrumbs desktop-only"
-        :breadcrumbs="fallbackBreadcrumbs"
+      class="breadcrumbs desktop-only"
+      :breadcrumbs="breadcrumbs"
     />
     <div class="product">
       <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
       <SfGallery
-          class="product__gallery"
-          :images="productGallery"
+        class="product__gallery"
+        :images="productGallery"
       />
       <div class="product__info">
         <div class="product__header">
           <SfHeading
-              :title="productGetters.getName(product)"
-              :level="3"
-              class="sf-heading--no-underline sf-heading--left"
+            :title="productGetters.getName(product)"
+            :level="3"
+            class="sf-heading--no-underline sf-heading--left"
           />
           <SfIcon
-              icon="drag"
-              size="xl"
-              color="gray-secondary"
-              class="product__drag-icon mobile-only"
+            icon="drag"
+            size="xl"
+            color="gray-secondary"
+            class="product__drag-icon mobile-only"
           />
         </div>
         <div class="product__price-and-rating">
           <SfPrice
-              :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-              :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
           />
           <div>
             <div class="product__rating">
@@ -50,18 +50,18 @@
           </SfButton>
           <!-- TODO: add size selector after design is added -->
           <SfSelect
-              data-cy="product-select_size"
-              v-if="options.size"
-              :selected="configuration.size"
-              @change="size => updateFilter({ size })"
-              label="Size"
-              class="sf-select--underlined product__select-size"
-              :required="true"
+            data-cy="product-select_size"
+            v-if="options.size"
+            :selected="configuration.size"
+            @change="size => updateFilter({ size })"
+            label="Size"
+            class="sf-select--underlined product__select-size"
+            :required="true"
           >
             <SfSelectOption
-                v-for="size in options.size"
-                :key="size.value"
-                :value="size.value"
+              v-for="size in options.size"
+              :key="size.value"
+              :value="size.value"
             >
               <SfProductOption :label="size.label" />
             </SfSelectOption>
@@ -72,23 +72,23 @@
             <div v-if="options.color">
               <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
               <SfColor
-                  data-cy="product-color_update"
-                  v-for="(color, i) in options.color"
-                  :key="i"
-                  :color="color.value"
-                  class="product__color"
-                  @click="updateFilter({color})"
+                data-cy="product-color_update"
+                v-for="(color, i) in options.color"
+                :key="i"
+                :color="color.value"
+                class="product__color"
+                @click="updateFilter({color})"
               />
             </div>
           </div>
           <SfAddToCart
-              data-cy="product-cart_add"
-              :stock="stock"
-              v-model="qty"
-              :disabled="loading"
-              :canAddToCart="stock > 0"
-              @click="addToCart(product, parseInt(qty))"
-              class="product__add-to-cart"
+            data-cy="product-cart_add"
+            :stock="stock"
+            v-model="qty"
+            :disabled="loading"
+            :canAddToCart="stock > 0"
+            @click="addToCart(product, parseInt(qty))"
+            class="product__add-to-cart"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
             Save for later
@@ -98,47 +98,49 @@
           </SfButton>
         </div>
         <SfTabs :openTab="1" class="product__tabs">
-          <SfTab
-              data-cy="product-tab_description"
-              v-for="tab in tabs"
-              :key="tab.title"
-              :title="tab.title"
-          >
-            {{ tab.content }}
-            <div v-if="tab.title === 'Description'">
-              <SfProperty
-                  v-for="(property, i) in properties"
-                  :key="i"
-                  :name="property.name"
-                  :value="property.value"
-                  class="product__property"
-              >
-                <template v-if="property.name === 'Category'" #value>
-                  <SfButton class="sf-button--text">
-                    {{ property.value }}
-                  </SfButton>
-                </template>
-              </SfProperty>
+          <SfTab data-cy="product-tab_description" title="Description">
+            <div>
+              <p>
+                The Karissa V-Neck Tee features a semi-fitted shape that's
+                flattering for every figure. You can hit the gym with
+                confidence while it hugs curves and hides common "problem"
+                areas. Find stunning women's cocktail dresses and party
+                dresses.
+              </p>
             </div>
-            <div v-else-if="tab.title === 'Read reviews'" data-cy="product-tab_reviews">
-              <SfReview
-                  v-for="(review, i) in reviews"
-                  :key="i"
-                  :author="review.author"
-                  :date="review.date"
-                  :message="review.message"
-                  :max-rating="5"
-                  :rating="review.rating"
-                  :char-limit="250"
-                  read-more-text="Read more"
-                  hide-full-text="Read less"
-                  class="product__review"
-              />
-            </div>
-            <div
-                v-else-if="tab.title === 'Additional Information'"
-                data-cy="product-tab_additional"
-                class="product__additional-info"
+            <SfProperty
+              v-for="(property, i) in properties"
+              :key="i"
+              :name="property.name"
+              :value="property.value"
+              class="product__property"
+            >
+              <template v-if="property.name === 'Category'" #value>
+                <SfButton class="sf-button--text">
+                  {{ property.value }}
+                </SfButton>
+              </template>
+            </SfProperty>
+          </SfTab>
+          <SfTab title="Read review" data-cy="product-tab_reviews">
+            <SfReview
+              v-for="(review, i) in reviews"
+              :key="i"
+              :author="review.author"
+              :date="review.date"
+              :message="review.message"
+              :max-rating="5"
+              :rating="review.rating"
+              :char-limit="250"
+              read-more-text="Read more"
+              hide-full-text="Read less"
+              class="product__review"
+            />
+          </SfTab>
+            <SfTab
+              title="Additional Information"
+              data-cy="product-tab_additional"
+              class="product__additional-info"
             >
               <p class="product__additional-info__title">Brand</p>
               <p>{{ brand }}</p>
@@ -150,38 +152,38 @@
                 Yeah, we thought so
               </p>
               <p>{{ careInstructions }}</p>
-            </div>
+            </SfTab>
           </SfTab>
         </SfTabs>
       </div>
     </div>
     <RelatedProducts
-        :products="relatedProducts"
-        :loading="relatedLoading"
-        title="Match it with"
+      :products="relatedProducts"
+      :loading="relatedLoading"
+      title="Match it with"
     />
     <InstagramFeed />
     <SfBanner
-        image="/homepage/bannerD.png"
-        subtitle="Fashion to Take Away"
-        title="Download our application to your mobile"
-        class="sf-banner--left desktop-only banner-app"
+      image="/homepage/bannerD.png"
+      subtitle="Fashion to Take Away"
+      title="Download our application to your mobile"
+      class="sf-banner--left desktop-only banner-app"
     >
       <template #call-to-action>
         <div class="banner-app__call-to-action">
           <SfImage
-              class="banner-app__image"
-              src="/homepage/google.png"
-              :width="191"
-              :height="51"
-              alt="Google Play"
+            class="banner-app__image"
+            src="/homepage/google.png"
+            :width="191"
+            :height="51"
+            alt="Google Play"
           />
           <SfImage
-              class="banner-app__image"
-              src="/homepage/apple.png"
-              :width="174"
-              :height="57"
-              alt="App Store"
+            class="banner-app__image"
+            src="/homepage/apple.png"
+            :width="174"
+            :height="57"
+            alt="App Store"
           />
         </div>
       </template>
@@ -230,7 +232,8 @@ export default {
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
-    const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
+    // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
+    // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
     const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
       mobile: { url: img.small },
       desktop: { url: img.normal },
@@ -262,8 +265,7 @@ export default {
       addToCart,
       loading,
       productGetters,
-      productGallery,
-      breadcrumbs
+      productGallery
     };
   },
   components: {
@@ -327,24 +329,10 @@ export default {
       ],
       description: 'Find stunning women cocktail and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.',
       detailsIsActive: false,
-      tabs: [
-        {
-          title: 'Description',
-          content: 'The Karissa V-Neck Tee features a semi-fitted shape that\'s flattering for every figure. You can hit the gym with confidence while it hugs curves and hides common \'problem\' areas. Find stunning women\'s cocktail dresses and party dresses.'
-        },
-        {
-          title: 'Read reviews',
-          content: ''
-        },
-        {
-          title: 'Additional Information',
-          content: ''
-        }
-      ],
       brand:
           'Brand name is the perfect pairing of quality and design. This label creates major everyday vibes with its collection of modern brooches, silver and gold jewellery, or clips it back with hair accessories in geo styles.',
       careInstructions: 'Do not wash!',
-      fallbackBreadcrumbs: [
+      breadcrumbs: [
         {
           text: 'Home',
           route: {
