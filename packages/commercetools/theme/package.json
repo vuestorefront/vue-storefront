@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build -m",
+    "build": "nuxt build",
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
