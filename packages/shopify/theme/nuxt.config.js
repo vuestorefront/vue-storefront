@@ -51,8 +51,8 @@ export default {
     ['@vue-storefront/nuxt-theme', {
       generate: {
         replace: {
-          apiClient: '@vue-storefront/commercetools-api',
-          composables: '@vue-storefront/commercetools'
+          apiClient: '@vue-storefront/shopify-api',
+          composables: '@vue-storefront/shopify'
         }
       }
     }]
