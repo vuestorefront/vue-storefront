@@ -15,3 +15,12 @@ $ yarn build:vc:tools
 # serve solution
 $ yarn dev:vc
 ```
+
+## How to work
+* Update VirtoCommerce GraphQL uri in configuration file `theme\nuxt.config.js`
+```javascript
+api: {
+  uri: 'https://dev-xapi-admin.azurewebsites.net/graphql'
+}
+```
+* CORS on VirtoCommerce admin side should allow external connections   

@@ -1,11 +1,23 @@
 ﻿import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import fetch from 'isomorphic-fetch';
+import { fetch as isomorphicFetch } from 'isomorphic-fetch';
 import { api } from './../index';
 
 const createVirtoCommerceLink = (): ApolloLink => {
-  const httpLink = createHttpLink({ uri: api.uri, fetch });
+  const httpLink = createHttpLink({
+    uri: api.uri,
+    fetch: isomorphicFetch
+  });
+
+  const authLink = setContext(async (_, { headers }) => {
+    return {
+      headers: {
+        ...headers
+      }
+    };
+  });
 
   const onErrorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
@@ -23,7 +35,7 @@ const createVirtoCommerceLink = (): ApolloLink => {
     }
   });
 
-  return ApolloLink.from([onErrorLink, httpLink]);
+  return ApolloLink.from([onErrorLink, authLink, httpLink]);
 };
 
 export default createVirtoCommerceLink;
