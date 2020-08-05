@@ -25,7 +25,7 @@ describe('[vsf-next-cli] createProject', () => {
 
     await createProject(integration, targetPath);
 
-    expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['.theme', '.nuxt', 'node_modules']);
+    expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
     expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
     expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
   });

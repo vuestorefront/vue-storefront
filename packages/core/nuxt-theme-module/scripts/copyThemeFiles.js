@@ -11,7 +11,7 @@ async function copyFile(fileDir, outDir) {
 }
 
 function copyThemeFile(themePath) {
-  return copyFile(themePath, themePath.replace(path.sep + 'theme' + path.sep, path.sep + 'theme' + path.sep + '.theme' + path.sep));
+  return copyFile(themePath, themePath.replace(path.sep + 'theme' + path.sep, path.sep + 'theme' + path.sep + '_theme' + path.sep));
 }
 
 function copyThemeFiles(filesDir) {

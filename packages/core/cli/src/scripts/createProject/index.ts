@@ -7,7 +7,7 @@ import processMagicComments from '@vue-storefront/cli/src/scripts/createProject/
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
   log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['.theme', '.nuxt', 'node_modules']);
+  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
 
   log.info(`Coppying agnostic theme to ${targetPath}`);
   await copyAgnosticTheme(integration, targetPath);

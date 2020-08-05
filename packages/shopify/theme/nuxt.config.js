@@ -6,7 +6,7 @@ import localeConfig from './lang/config';
 export default {
   mode: 'universal',
   server: {
-    port: 3000,
+    port: 3003,
     host: '0.0.0.0'
   },
   head: {

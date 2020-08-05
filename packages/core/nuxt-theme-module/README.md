@@ -39,7 +39,7 @@ Example EJS template where it will be pasted:
 import { useCategory } from '<%= options.generate.replace.composables %>';
 ```
 
-If you want to change the target directory where agnostic and integration themes will be merged and copied during core development change the `generate.path` property (default: `.theme`):
+If you want to change the target directory where agnostic and integration themes will be merged and copied during core development change the `generate.path` property (default: `_theme`):
 ```js
 ['@vue-storefront/nuxt-theme', {
     generate: {

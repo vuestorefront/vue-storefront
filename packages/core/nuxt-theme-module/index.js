@@ -18,7 +18,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   moduleOptions = merge(defaultConfig, moduleOptions);
   const targetDirectory = moduleOptions.generate && moduleOptions.generate.path
     ? moduleOptions.generate.path
-    : '.theme';
+    : '_theme';
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', targetDirectory);
 
   this.options.css = [
