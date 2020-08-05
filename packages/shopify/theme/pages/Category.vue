@@ -391,287 +391,287 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "~@storefront-ui/vue/styles";
-  #category {
-    box-sizing: border-box;
+@import "~@storefront-ui/vue/styles";
+#category {
+  box-sizing: border-box;
+  @include for-desktop {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+}
+.main {
+  &.section {
+    padding: var(--spacer-xs);
     @include for-desktop {
-      max-width: 1240px;
-      margin: 0 auto;
-    }
-  }
-  .main {
-    &.section {
-      padding: var(--spacer-xs);
-      @include for-desktop {
-        padding: 0;
-      }
-    }
-  }
-  .breadcrumbs {
-    padding: var(--spacer-base) 0 var(--spacer-base)
-    var(--spacer-xs);
-  }
-  .navbar {
-    position: relative;
-    display: flex;
-    border: 1px solid var(--c-light);
-    border-width: 0 0 1px 0;
-    @include for-desktop {
-      border-width: 1px 0 1px 0;
-    }
-    &.section {
-      padding: var(--spacer-sm);
-      @include for-desktop {
-        padding: 0;
-      }
-    }
-    &__aside,
-    &__main {
-      display: flex;
-      align-items: center;
-      padding: var(--spacer-sm) 0;
-    }
-    &__aside {
-      flex: 0 0 15%;
-      padding: var(--spacer-sm) var(--spacer-sm);
-      border: 1px solid var(--c-light);
-      border-width: 0 1px 0 0;
-    }
-    &__main {
-      flex: 1;
       padding: 0;
-      @include for-desktop {
-        padding: var(--spacer-xs) var(--spacer-xl);
-      }
-    }
-    &__title {
-      --heading-title-font-weight: var(--font-light);
-      --heading-title-font-size: var(--font-xl);
-    }
-    &__filters-icon {
-      margin: 0 var(--spacer-sm) 0 0;
-    }
-    &__filters-button {
-      display: flex;
-      align-items: center;
-      @include for-mobile {
-        order: 1;
-      }
-      svg {
-        fill: var(--c-text-muted);
-        transition: fill 150ms ease;
-      }
-      &:hover {
-        svg {
-          fill: var(--c-primary);
-        }
-      }
-    }
-    &__label {
-      font-family: var(--font-family-secondary);
-      font-weight: var(--font-normal);
-      color: var(--c-text-muted);
-      margin: 0 var(--spacer-2xs) 0 0;
-    }
-    &__select {
-      --select-width: 220px;
-      --select-padding: 0;
-      --select-selected-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
-      --select-margin: 0;
-      --select-error-message-height: 0;
-    }
-    &__sort {
-      display: flex;
-      align-items: center;
-      margin: 0 auto 0 var(--spacer-2xl);
-    }
-    &__counter {
-      font-family: var(--font-family-secondary);
-      margin: auto;
-      @include for-desktop {
-        margin: auto 0 auto auto;
-      }
-    }
-    &__view {
-      display: flex;
-      align-items: center;
-      @include for-desktop {
-        margin: 0 0 0 var(--spacer-2xl);
-      }
-      @include for-mobile {
-        order: -1;
-      }
-      &-icon {
-        cursor: pointer;
-        margin: 0 var(--spacer-base) 0 0;
-        &:last-child {
-          margin: 0;
-        }
-      }
-      &-label {
-        margin: 0 var(--spacer-sm) 0 0;
-        font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
-        text-decoration: underline;
-      }
     }
   }
-  .sort-by {
-    --select-dropdown-z-index: 1;
-    flex: unset;
-    width: 11.875rem;
+}
+.breadcrumbs {
+  padding: var(--spacer-base) 0 var(--spacer-base)
+  var(--spacer-xs);
+}
+.navbar {
+  position: relative;
+  display: flex;
+  border: 1px solid var(--c-light);
+  border-width: 0 0 1px 0;
+  @include for-desktop {
+    border-width: 1px 0 1px 0;
   }
-  .main {
-    display: flex;
-  }
-  .sidebar {
-    flex: 0 0 15%;
+  &.section {
     padding: var(--spacer-sm);
+    @include for-desktop {
+      padding: 0;
+    }
+  }
+  &__aside,
+  &__main {
+    display: flex;
+    align-items: center;
+    padding: var(--spacer-sm) 0;
+  }
+  &__aside {
+    flex: 0 0 15%;
+    padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
-  .sidebar-filters {
-    --sidebar-title-display: none;
-    --sidebar-top-padding: 0;
-    @include for-desktop {
-      --sidebar-content-padding: 0 var(--spacer-xl);
-      --sidebar-bottom-padding: 0 var(--spacer-xl);
-    }
-  }
-  .list {
-    --menu-item-font-size: var(--font-sm);
-    &__item {
-      &:not(:last-of-type) {
-        --list-item-margin: 0 0 var(--spacer-sm) 0;
-      }
-    }
-  }
-  .products {
-    box-sizing: border-box;
+  &__main {
     flex: 1;
-    margin: 0;
-    &__grid,
-    &__list {
-      display: flex;
-      flex-wrap: wrap;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
     }
-    &__grid {
-      justify-content: space-between;
+  }
+  &__title {
+    --heading-title-font-weight: var(--font-light);
+    --heading-title-font-size: var(--font-xl);
+  }
+  &__filters-icon {
+    margin: 0 var(--spacer-sm) 0 0;
+  }
+  &__filters-button {
+    display: flex;
+    align-items: center;
+    @include for-mobile {
+      order: 1;
     }
-    &__grid,
-    &__list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      @include for-desktop {
-        justify-content: flex-start;
+    svg {
+      fill: var(--c-text-muted);
+      transition: fill 150ms ease;
+    }
+    &:hover {
+      svg {
+        fill: var(--c-primary);
       }
+    }
+  }
+  &__label {
+    font-family: var(--font-family-secondary);
+    font-weight: var(--font-normal);
+    color: var(--c-text-muted);
+    margin: 0 var(--spacer-2xs) 0 0;
+  }
+  &__select {
+    --select-width: 220px;
+    --select-padding: 0;
+    --select-selected-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
+    --select-margin: 0;
+    --select-error-message-height: 0;
+  }
+  &__sort {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 0 var(--spacer-2xl);
+  }
+  &__counter {
+    font-family: var(--font-family-secondary);
+    margin: auto;
+    @include for-desktop {
+      margin: auto 0 auto auto;
+    }
+  }
+  &__view {
+    display: flex;
+    align-items: center;
+    @include for-desktop {
+      margin: 0 0 0 var(--spacer-2xl);
+    }
+    @include for-mobile {
+      order: -1;
+    }
+    &-icon {
+      cursor: pointer;
+      margin: 0 var(--spacer-base) 0 0;
+      &:last-child {
+        margin: 0;
+      }
+    }
+    &-label {
+      margin: 0 var(--spacer-sm) 0 0;
+      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
+      text-decoration: underline;
+    }
+  }
+}
+.sort-by {
+  --select-dropdown-z-index: 1;
+  flex: unset;
+  width: 11.875rem;
+}
+.main {
+  display: flex;
+}
+.sidebar {
+  flex: 0 0 15%;
+  padding: var(--spacer-sm);
+  border: 1px solid var(--c-light);
+  border-width: 0 1px 0 0;
+}
+.sidebar-filters {
+  --sidebar-title-display: none;
+  --sidebar-top-padding: 0;
+  @include for-desktop {
+    --sidebar-content-padding: 0 var(--spacer-xl);
+    --sidebar-bottom-padding: 0 var(--spacer-xl);
+  }
+}
+.list {
+  --menu-item-font-size: var(--font-sm);
+  &__item {
+    &:not(:last-of-type) {
+      --list-item-margin: 0 0 var(--spacer-sm) 0;
+    }
+  }
+}
+.products {
+  box-sizing: border-box;
+  flex: 1;
+  margin: 0;
+  &__grid,
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__grid {
+    justify-content: space-between;
+  }
+  &__grid,
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
+  }
+  &__product-card {
+    --product-card-padding: var(--spacer);
+    flex: 1 1 50%;
+    @include for-desktop {
+      --product-card-padding: var(--spacer);
+      flex: 1 1 20%;
+    }
+  }
+  // TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941, https://github.com/DivanteLtd/storefront-ui/issues/1001
+  &__pagination__options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    .items-per-page {
+      min-width: 3rem;
+    }
+  }
+
+  &__pagination__label {
+    color: var(--c-text-muted);
+  }
+  // end of TODO
+  &__product-card-horizontal {
+    --product-card-horizontal-padding: var(--spacer-xs);
+    flex: 0 0 100%;
+    @include for-desktop {
+      --product-card-horizontal-padding: var(--spacer-sm);
+    }
+  }
+  &__slide-enter {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  &__slide-enter-active {
+    transition: all 0.2s ease;
+    transition-delay: calc(0.1s * var(--index));
+  }
+  @include for-desktop {
+    margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    &__pagination {
+      display: flex;
+      justify-content: center;
+      margin: var(--spacer-xl) 0 0 0;
+    }
+    &__product-card-horizontal {
+      margin: var(--spacer-lg) 0;
     }
     &__product-card {
-      --product-card-padding: var(--spacer);
-      flex: 1 1 50%;
-      @include for-desktop {
-        --product-card-padding: var(--spacer);
-        flex: 1 1 20%;
-      }
+      flex: 1 1 20%;
     }
-    // TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941, https://github.com/DivanteLtd/storefront-ui/issues/1001
-    &__pagination__options {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-
-      .items-per-page {
-        min-width: 3rem;
-      }
+    &__list {
+      margin: 0 0 0 var(--spacer-sm);
     }
-
-    &__pagination__label {
-      color: var(--c-text-muted);
+  }
+}
+.filters {
+  &__title {
+    --heading-title-font-size: var(--font-xl);
+    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+    &:first-child {
+      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
     }
-    // end of TODO
-    &__product-card-horizontal {
-      --product-card-horizontal-padding: var(--spacer-xs);
-      flex: 0 0 100%;
-      @include for-desktop {
-        --product-card-horizontal-padding: var(--spacer-sm);
-      }
-    }
-    &__slide-enter {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-    &__slide-enter-active {
-      transition: all 0.2s ease;
-      transition-delay: calc(0.1s * var(--index));
+  }
+  &__color {
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
+  }
+  &__item {
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
     }
     @include for-desktop {
-      margin: var(--spacer-sm) 0 0 var(--spacer-sm);
-      &__pagination {
-        display: flex;
-        justify-content: center;
-        margin: var(--spacer-xl) 0 0 0;
-      }
-      &__product-card-horizontal {
-        margin: var(--spacer-lg) 0;
-      }
-      &__product-card {
-        flex: 1 1 20%;
-      }
-      &__list {
-        margin: 0 0 0 var(--spacer-sm);
-      }
-    }
-  }
-  .filters {
-    &__title {
-      --heading-title-font-size: var(--font-xl);
-      margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-      &:first-child {
-        margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-      }
-    }
-    &__color {
-      margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
-    }
-    &__item {
-      --filter-label-color: var(--c-secondary-variant);
-      --filter-count-color: var(--c-secondary-variant);
-      --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-      padding: var(--spacer-sm) 0;
-      border-bottom: 1px solid var(--c-light);
-      &:last-child {
-        border-bottom: 0;
-      }
-      @include for-desktop {
-        --checkbox-padding: 0;
-        margin: var(--spacer-sm) 0;
-        border: 0;
-        padding: 0;
-      }
-    }
-    &__accordion-item {
-      --accordion-item-content-padding: 0;
-      position: relative;
-      left: 50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-      width: 100vw;
-    }
-    &__buttons {
+      --checkbox-padding: 0;
       margin: var(--spacer-sm) 0;
-    }
-    &__button-clear {
-      --button-background: var(--c-light);
-      --button-color: var(--c-dark-variant);
-      margin: var(--spacer-xs) 0 0 0;
-    }
-    .categories {
-      padding-left: var(--spacer-sm);
-      .sf-accordion-item__content {
-        padding-left: var(--spacer-sm);
-      }
+      border: 0;
+      padding: 0;
     }
   }
+  &__accordion-item {
+    --accordion-item-content-padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+  }
+  &__buttons {
+    margin: var(--spacer-sm) 0;
+  }
+  &__button-clear {
+    --button-background: var(--c-light);
+    --button-color: var(--c-dark-variant);
+    margin: var(--spacer-xs) 0 0 0;
+  }
+  .categories {
+    padding-left: var(--spacer-sm);
+    .sf-accordion-item__content {
+      padding-left: var(--spacer-sm);
+    }
+  }
+}
 </style>
