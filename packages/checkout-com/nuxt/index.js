@@ -1,4 +1,5 @@
 import path from 'path';
+import proxyMiddleware from '@vue-storefront/checkout-com/nuxt/proxyMiddleware';
 
 const defaultPaymentMethods = {
   cc: true,
@@ -22,6 +23,15 @@ export default function CheckoutComModule(moduleOptions) {
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
     options: moduleOptions
+  });
+
+  this.addServerMiddleware({
+    path: '/cko-api/payment-instruments',
+    handler: proxyMiddleware({
+      publicKey: moduleOptions.publicKey,
+      secretKey: moduleOptions.secretKey,
+      ctApiUrl: moduleOptions.ctApiUrl
+    })
   });
 
   const paymentMethods = {

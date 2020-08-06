@@ -1,9 +1,10 @@
 const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
-  frames: {
+  tokenizedCardKey: 'temporary-tokenized-card',
+  saveInstrumentKey: 'save-instrument',
+  card: {
     styles: {},
-    tokenizedCardKey: 'temporary-tokenized-card',
     localization: null
   }
 };
@@ -11,9 +12,10 @@ const config = {
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
-  frames?: {
+  tokenizedCardKey?: string;
+  saveInstrumentKey?: string;
+  card?: {
     styles?: any;
-    tokenizedCardKey?: string;
     localization?: string | CustomLocalization;
   };
 }
@@ -48,15 +50,17 @@ const defaultStyles = {
 const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
-  config.frames.styles = params.frames?.styles || defaultStyles;
-  config.frames.tokenizedCardKey = params.frames?.tokenizedCardKey || config.frames.tokenizedCardKey;
-  config.frames.localization = params.frames?.localization || null;
+  config.card.styles = params.card?.styles || defaultStyles;
+  config.card.localization = params.card?.localization || null;
+  config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
 };
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
-const getFramesStyles = () => config.frames.styles;
-const getFramesCardTokenKey = () => config.frames.tokenizedCardKey;
-const getFramesLocalization = () => config.frames.localization;
+const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
+const getFramesStyles = () => config.card.styles;
+const getFramesLocalization = () => config.card.localization;
+const getTransactionTokenKey = () => config.tokenizedCardKey;
+const getSaveInstrumentKey = () => config.saveInstrumentKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesCardTokenKey, getFramesLocalization, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration };
