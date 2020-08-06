@@ -2,6 +2,13 @@
 platform: Shopify
 ---
 
+::: warning Developer Preview 
+The integration is currently on developer Preview phase and could be unstable. We recommend checking it out on our repository. 
+Simply copy the [repo](https://github.com/DivanteLtd/vue-storefront) and run
+```bash
+yarn && yarn build:sp && yarn dev:sp
+```
+:::
 
 <IncludeContent content-key="getting-started" />
 
@@ -23,10 +30,3 @@ setup({
 })
 :::
 
-::: warning Developer Preview 
-The integration is currently on developer Preview phase and could be unstable. We recommend checking it out on our repository. 
-Simply copy the [repo](https://github.com/DivanteLtd/vue-storefront) and run
-```bash
-yarn && yarn build:sp && yarn dev:sp
-```
-:::
