@@ -8,9 +8,9 @@ platform: Shopify
 <!-- Installation command -->
 ::: slot installation
 ```bash
-npm install --save @vue-storefront/commercetools @vue-storefront/shopify-api
+npm install --save @vue-storefront/shopify @vue-storefront/shopify-api
 # OR
-yarn add @vue-storefront/commercetools @vue-storefront/shopify-api
+yarn add @vue-storefront/shopify @vue-storefront/shopify-api
 ```
 :::
 
@@ -21,4 +21,12 @@ import { setup } from '@vue-storefront/shopify-api'
 setup({
   // configuration of your eCommerce integration
 })
+:::
+
+::: warning Developer Preview 
+The integration is currently on developer Preview phase and could be unstable. We recommend checking it out on our repository. 
+Simply copy the [repo](https://github.com/DivanteLtd/vue-storefront) and run
+```bash
+yarn && yarn build:sp && yarn dev:sp
+```
 :::
