@@ -6,6 +6,7 @@ module.exports = {
       { text: 'General information', link: '/' },
       { text: 'Commercetools', link: '/commercetools/' },
       { text: 'About You Cloud', link: '/aboutyou/' },
+      { text: 'Shopify', link: '/shopify/' },
       { text: 'Shopware', items: [
         { text: 'Documentation' , link: 'https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa'},
         { text: 'Demo' , link: 'https://shopware-pwa.storefrontcloud.io/'},
@@ -67,6 +68,38 @@ module.exports = {
             ['/aboutyou/use-product', 'useProduct'],
             ['/aboutyou/use-wishlist', 'useWishlist'],
           ]
+        }
+      ],
+      '/shopify/': [
+        {
+          title: 'Essentials',
+          collapsable: false,
+          children: [
+            ['/shopify/', 'Introduction'],
+            ['/shopify/getting-started', 'Getting Started'],
+            ['/shopify/api-client', 'API Client'],
+            ['/shopify/composables', 'Composables'],
+            ['/shopify/feature-list', 'Feature list']
+          ]
+        },
+        {
+          title: 'Composables',
+          collapsable: false,
+          children: [
+            ['/shopify/use-cart', 'useCart'],
+            ['/shopify/use-category', 'useCategory'],
+            ['/shopify/use-content', 'useContent'],
+            ['/shopify/use-product', 'useProduct'],
+            ['/shopify/use-search', 'useSearch'],
+            ['/shopify/use-user', 'useUser'],
+            ['/shopify/use-user-orders', 'useUserOrders'],
+          ]
+        }, {
+          title: 'Other',
+          collapsable: false,
+          children: [
+            ['/shopify/checkout', 'Checkout']
+          ],
         }
       ],
       '/integration/': [

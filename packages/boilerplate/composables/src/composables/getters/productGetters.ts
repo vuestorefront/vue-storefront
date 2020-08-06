@@ -12,28 +12,75 @@ type ProductVariantFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => 'product name';
+export const getProductName = (product: ProductVariant): string => product?.name || 'Product\'s name';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: ProductVariant): string => 'product-slug';
+export const getProductSlug = (product: ProductVariant): string => product.sku;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
   return {
-    regular: 0,
-    special: 0
+    regular: product?.price?.original || 0,
+    special: product?.price?.current || 0
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
+export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [
+  {
+    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+  },
+  {
+    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
+    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+  }
+];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: ProductVariant): string => '';
+export const getProductCoverImage = (product: ProductVariant): string => 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
-  return products;
+  return [
+    {
+      _id: 1,
+      _description: 'Some description',
+      _categoriesRef: [
+        '1',
+        '2'
+      ],
+      name: 'Black jacket',
+      sku: 'black-jacket',
+      images: [
+        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+      ],
+      price: {
+        original: 12.34,
+        current: 10.00
+      }
+    },
+    {
+      _id: 2,
+      _description: 'Some different description',
+      _categoriesRef: [
+        '1',
+        '2',
+        '3'
+      ],
+      name: 'White shirt',
+      sku: 'white-shirt',
+      images: [
+        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+      ],
+      price: {
+        original: 15.11,
+        current: 11.00
+      }
+    }
+  ];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

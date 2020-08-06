@@ -33,29 +33,33 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
-      // @core-development-only-start
       coreDevelopment: true,
-      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/checkout-com',
           '@vue-storefront/core'
         ]
       }
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/commercetools-api',
-      composables: '@vue-storefront/commercetools'
+      generate: {
+        replace: {
+          apiClient: '@vue-storefront/commercetools-api',
+          composables: '@vue-storefront/commercetools'
+        }
+      }
     }],
     // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
       disableGenerateTokenMiddleware: false,
       api: {
@@ -77,7 +81,6 @@ export default {
     }]
   ],
   modules: [
-    ['@vue-storefront/checkout-com/nuxt', { publicKey: 'pk_test_8638c4e2-e44a-407f-a5f3-594a8503bcd0' }],
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'

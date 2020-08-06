@@ -105,24 +105,19 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import uiState from '~/assets/ui-state';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-
 const { toggleLoginModal } = uiState;
-
 extend('required', {
   ...required,
   message: 'This field is required'
 });
-
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
-
 extend('email', {
   ...email,
   message: 'Invalid email'
 });
-
 export default {
   name: 'PersonalDetails',
   components: {
@@ -140,28 +135,23 @@ export default {
     const { loadDetails, personalDetails, setPersonalDetails, loading } = useCheckout();
     const accountBenefits = ref(false);
     const createAccount = ref(false);
-
     onSSR(async () => {
       await loadDetails();
     });
-
     const handleFormSubmit = async () => {
       if (createAccount.value) {
         await register(personalDetails.value);
         context.root.$router.push('/checkout/shipping');
         return;
       }
-
       await setPersonalDetails(personalDetails.value, { save: true });
       context.root.$router.push('/checkout/shipping');
     };
-
     watch(isAuthenticated, () => {
       if (isAuthenticated.value) {
         context.root.$router.push('/checkout/shipping');
       }
     });
-
     return {
       loading,
       personalDetails,
@@ -183,7 +173,6 @@ export default {
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -274,7 +263,6 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
-
     &:hover {
       color: white;
     }

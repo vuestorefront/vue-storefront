@@ -11,8 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.3.4",
+    "@vue/composition-api": "^0.6.7",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
     "vue": "^2.6.x"
   },
   "files": [
