@@ -131,7 +131,7 @@
           :selected="chosenPaymentMethod.value"
           :label="item.label"
           :value="item.value"
-          @input="setPaymentMethod(item, { save: true }); setCurrentPaymentMethod(CKO_PAYMENT_TYPE.CREDIT_CARD)"
+          @input="setPaymentMethod(item, { save: true })"
           name="paymentMethod"
           :description="item.description"
           class="form__radio payment-method"
@@ -165,7 +165,7 @@ import {
   SfCheckbox
 } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import { useCheckout, useCart, useUser } from '@vue-storefront/commercetools';
+import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
@@ -217,9 +217,6 @@ export default {
     onSSR(async () => {
       await loadDetails();
       await loadPaymentMethods();
-      if (isAuthenticated.value && cart.value && cart.value.customerId) {
-        await loadStoredPaymentInstruments(cart.value.customerId);
-      }
     });
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });
@@ -244,15 +241,7 @@ export default {
       setBillingDetails,
       setPaymentMethod,
       handleFormSubmit,
-      handleCheckSameAddress,
-      storedPaymentInstruments,
-      setPaymentInstrument,
-      setCurrentPaymentMethod,
-      setSavePaymentInstrument,
-      savePaymentInstrument,
-      paymentMethod,
-      CKO_PAYMENT_TYPE,
-      removeMinePaymentInstrument
+      handleCheckSameAddress
     };
   }
 };

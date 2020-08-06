@@ -165,7 +165,7 @@ import {
   SfAccordion
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useUser, useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 export default {
   name: 'ReviewOrder',
