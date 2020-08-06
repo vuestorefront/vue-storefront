@@ -4,7 +4,6 @@
 2. At the bottom of `buildModules` add:
 ```js
 ['@vue-storefront/commercetools/nuxt', {
-  disableGenerateTokenMiddleware: false,
   api: {
     uri: 'https://yourshop.com/vsf-ct-dev/graphql',
     authHost: 'https://auth.sphere.io',

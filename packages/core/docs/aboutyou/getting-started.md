@@ -22,3 +22,18 @@ setup({
   // configuration of your eCommerce integration
 })
 :::
+
+::: slot nuxt-setup-module
+```js
+['@vue-storefront/about-you/nuxt', {
+  api: {
+    host: 'https://yourwebsite.com/v1/',
+    auth: {
+      username: 'yourusername',
+      password: 'yourpassword'
+    }
+  },
+  imgUrl: 'https://yourwebsite/saintlouis',
+}]
+```
+:::

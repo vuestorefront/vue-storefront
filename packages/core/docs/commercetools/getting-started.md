@@ -26,7 +26,6 @@ setup({
 ::: slot nuxt-setup-module
 ```js
 ['@vue-storefront/commercetools/nuxt', {
-  disableGenerateTokenMiddleware: false,
   api: {
     uri: 'https://yourshop.com/vsf-ct-dev/graphql',
     authHost: 'https://auth.sphere.io',
