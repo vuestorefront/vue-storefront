@@ -45,7 +45,7 @@ interface {
     error: Error | null,
     selectedPaymentMethod: CKO_PAYMENT_TYPE,
     savePaymentInstrument: boolean,
-    storedPaymentInstruments: any[],
+    storedPaymentInstruments: PaymentInstrument[],
     submitDisabled: ComputedRef<boolean>,
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
