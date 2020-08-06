@@ -42,10 +42,6 @@ Once packages are installed you need to add integration Nuxt Module in `nuxt.con
 
 ### Non-Nuxt project installation
 
-::: tip Best for already existing non-Nuxt projects
-If you want to incorporate certain Vue Storefront features into already existing Vue.js application or for some reason doesn't want to use Nuxt this is the right option for you.
-:::
-
 First, install the packages:
 
 <Content slot-key="installation" />
