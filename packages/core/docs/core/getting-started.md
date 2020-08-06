@@ -32,7 +32,7 @@ Based on provided answers Vue Storefront CLI will generate a project already int
 
 ### Manual installation
 
-::: tip Best for already existing or non-Nuxt projects
+::: tip Best for already existing non-Nuxt projects
 If you want to incorporate certain Vue Storefront features into already existing Vue.js application or for some reason doesn't want to use Nuxt this is the right option for you.
 :::
 
@@ -45,3 +45,13 @@ Once packages are installed you need to invoke the `setup` method that will conf
 <Content slot-key="setup" />
 
 In the next chapters, you will learn in-depth about {{ $frontmatter.platform }} API Client and Composition API functions.
+
+### Nuxt installation
+
+First, install the packages:
+
+<Content slot-key="installation" />
+
+Once packages are installed you need to add integration Nuxt Module in `nuxt.config.js` to the `buildModules` section:
+
+<Content slot-key="nuxt-setup-module" />

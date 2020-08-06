@@ -9,7 +9,7 @@
     uri: 'https://yourshop.com/vsf-ct-dev/graphql',
     authHost: 'https://auth.sphere.io',
     projectKey: 'vsf-ct-dev',
-    clientId: '<your_client_id>',respon
+    clientId: '<your_client_id>',
     clientSecret: '<your_client_secret>',
     scopes: [
       'create_anonymous_token:vsf-ct-dev',
