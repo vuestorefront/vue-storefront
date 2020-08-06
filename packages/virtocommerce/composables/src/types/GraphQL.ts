@@ -151,6 +151,11 @@ export type ProductVariant = {
   price?: Maybe<ProductPrice>;
   images: Array<Image>;
   assets: Array<Asset>;
+  attributeList: Array<Attribute>;
+};
+
+export type Attribute = {
+  name: Scalars["String"];
 };
 
 export type ProductPrice = {
@@ -241,3 +246,35 @@ export type Money = BaseMoney & {
   fractionDigits: Scalars["Int"];
 };
 
+export type Category = Versioned & {
+  __typename?: "Category";
+  id: Scalars["String"];
+  key?: Maybe<Scalars["String"]>;
+  version: Scalars["Long"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales: Array<LocalizedString>;
+  ancestorsRef: Array<Reference>;
+  ancestors: Array<Category>;
+  parentRef?: Maybe<Reference>;
+  parent?: Maybe<Category>;
+  orderHint: Scalars["String"];
+  externalId?: Maybe<Scalars["String"]>;
+  metaTitle?: Maybe<Scalars["String"]>;
+  metaKeywords?: Maybe<Scalars["String"]>;
+  metaDescription?: Maybe<Scalars["String"]>;
+  /** Number of a products in the category subtree. */
+  productCount: Scalars["Int"];
+  /** Number of staged products in the category subtree. */
+  stagedProductCount: Scalars["Int"];
+  /** Number of direct child categories. */
+  childCount: Scalars["Int"];
+  /** Direct child categories. */
+  children?: Maybe<Array<Category>>;
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  assets: Array<Asset>;
+};

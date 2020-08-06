@@ -2,9 +2,11 @@
 
 import useLocale from './useLocale';
 import { setCart, useCart } from './useCart';
+import useCategory from './useCategory';
+import useProduct from './useProduct';
 import { setUser, useUser } from './useUser';
 import { setWishlist, useWishlist} from './useWishlist';
-import { userGetters, cartGetters, wishlistGetters } from './getters';
+import { cartGetters, categoryGetters, productGetters, userGetters, wishlistGetters } from './getters';
 
 track('VSFVirtoCommerce');
 
@@ -14,6 +16,10 @@ export {
   useCart,
   setCart,
 
+  useCategory,
+
+  useProduct,
+
   useUser,
   setUser,
 
@@ -21,6 +27,8 @@ export {
   setWishlist,
 
   cartGetters,
+  categoryGetters,
+  productGetters,
   userGetters,
   wishlistGetters
 };
