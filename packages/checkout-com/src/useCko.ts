@@ -8,7 +8,7 @@ import useCkoCard from './useCkoCard';
 
 const error = ref(null);
 const availableMethods = ref([]);
-const contextId = ref(null);
+const contextId = ref<string>(null);
 
 interface PaymentMethods {
   card?: boolean;
@@ -27,9 +27,10 @@ const selectedPaymentMethod = ref(CKO_PAYMENT_TYPE.NOT_SELECTED);
 const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
   localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
 };
-const loadSavePaymentInstrument = () => (localStorage.getItem(getSaveInstrumentKey())
-  ? JSON.parse(localStorage.getItem(getSaveInstrumentKey()))
-  : false);
+const loadSavePaymentInstrument = (): boolean => {
+  const stringifiedValue = localStorage.getItem(getSaveInstrumentKey());
+  return stringifiedValue ? JSON.parse(stringifiedValue) : false;
+};
 
 const useCko = () => {
   const {
