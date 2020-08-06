@@ -46,7 +46,7 @@ interface {
     selectedPaymentMethod: CKO_PAYMENT_TYPE,
     savePaymentInstrument: boolean,
     storedPaymentInstruments: any[],
-    submitDisabled: boolean,
+    submitDisabled: ComputedRef<boolean>,
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
