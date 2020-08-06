@@ -192,7 +192,7 @@ failure_url: `${window.location.origin}/cko/payment-error`
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
 ```js
 import { useCko, CkoPaymentType } from '@vue-storefront/checkout-com'
-
+ 
 // ...
 
 const {
