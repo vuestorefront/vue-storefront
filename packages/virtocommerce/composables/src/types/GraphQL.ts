@@ -140,3 +140,104 @@ export type Store = Versioned & {
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
 };
+
+export type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  /** Returns a single price based on the price selection rules. */
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+};
+
+export type ProductPrice = {
+  __typename?: "ProductPrice";
+  id?: Maybe<Scalars["String"]>;
+  value: BaseMoney;
+  country?: Maybe<Scalars["Country"]>;
+  customerGroup?: Maybe<Reference>;
+  channel?: Maybe<Reference>;
+  validFrom?: Maybe<Scalars["DateTime"]>;
+  validUntil?: Maybe<Scalars["DateTime"]>;
+};
+
+export type BaseMoney = {
+  type: Scalars["String"];
+  currencyCode: Scalars["Currency"];
+  centAmount: Scalars["Long"];
+  fractionDigits: Scalars["Int"];
+};
+
+export type Asset = {
+  __typename?: "Asset";
+  id: Scalars["String"];
+  key?: Maybe<Scalars["String"]>;
+  sources: Array<AssetSource>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  tags: Array<Scalars["String"]>;
+};
+
+export type LocalizedString = {
+  __typename?: "LocalizedString";
+  locale: Scalars["Locale"];
+  value: Scalars["String"];
+};
+
+export type AssetSource = {
+  __typename?: "AssetSource";
+  uri: Scalars["String"];
+  key?: Maybe<Scalars["String"]>;
+  contentType?: Maybe<Scalars["String"]>;
+};
+
+export type Image = {
+  __typename?: "Image";
+  url: Scalars["String"];
+  label?: Maybe<Scalars["String"]>;
+};
+
+export type Cart = Versioned & {
+  __typename?: "Cart";
+  customerId?: Maybe<Scalars["String"]>;
+  customer?: Maybe<Customer>;
+  customerEmail?: Maybe<Scalars["String"]>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<LineItem>;
+  totalPrice: Money;
+  shippingAddress?: Maybe<Address>;
+  billingAddress?: Maybe<Address>;
+  country?: Maybe<Scalars["Country"]>;
+  locale?: Maybe<Scalars["Locale"]>;
+  storeRef?: Maybe<KeyReference>;
+  store?: Maybe<Store>;
+  itemShippingAddresses: Array<Address>;
+  id: Scalars["String"];
+};
+
+export type LineItem = {
+  __typename?: "LineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  variant?: Maybe<ProductVariant>;
+  price: ProductPrice;
+  totalPrice?: Maybe<Money>;
+  quantity: Scalars["Long"];
+};
+
+export type Money = BaseMoney & {
+  __typename?: "Money";
+  type: Scalars["String"];
+  currencyCode: Scalars["Currency"];
+  centAmount: Scalars["Long"];
+  /** For the `Money` it equals to the default number of fraction digits used with the currency. */
+  fractionDigits: Scalars["Int"];
+};
+

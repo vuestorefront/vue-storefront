@@ -1,4 +1,5 @@
 ﻿import { UseUserFactoryParams } from '@vue-storefront/core';
+import { ProfileResponse } from '../../../api-client/src/types/api';
 import { Customer } from '../types/GraphQL';
 import {
   getMe as apiGetMe
@@ -7,7 +8,8 @@ import {
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async (): Promise<Customer> => {
     try {
-      const profile = await apiGetMe();
+      const profile: ProfileResponse = await apiGetMe();
+      console.info('loadUser: ', profile);
       return profile.data.me.user;
     } catch (err) {
       const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
