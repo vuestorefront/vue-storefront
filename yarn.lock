@@ -3058,9 +3058,9 @@
     "@types/node" ">= 8"
 
 "@octokit/types@^5.0.0", "@octokit/types@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.0.1.tgz#5459e9a5e9df8565dcc62c17a34491904d71971e"
-  integrity sha512-GorvORVwp244fGKEt3cgt/P+M0MGy4xEDbckw+K5ojEezxyMDgCaYPKVct+/eWQfZXOT7uq0xRpmrl/+hliabA==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.1.0.tgz#4377a3f39edad3e60753fb5c3c310756f1ded57f"
+  integrity sha512-OFxUBgrEllAbdEmWp/wNmKIu5EuumKHG4sgy56vjZ8lXPgMhF05c76hmulfOdFHHYRpPj49ygOZJ8wgVsPecuA==
   dependencies:
     "@types/node" ">= 8"
 
@@ -3581,6 +3581,22 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
+"@vue-storefront/commercetools-api@0.0.4-prealpha.662":
+  version "0.0.4-prealpha.662"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.4-prealpha.662.tgz#d1eac3ea271f194de13c18ecb4ad2a5ec22c6aaf"
+  integrity sha512-8drk6MoU8yFScs8tSSB4fhRKK3+jp3ZgZwbG0Dosl7Iq3/24m7b9GO7eUAX0xPuyuQXJP3I2aLr7WZv3eR4Xcg==
+  dependencies:
+    "@commercetools/sdk-auth" "^3.0.1"
+    apollo-cache-inmemory "^1.6.3"
+    apollo-client "^2.6.4"
+    apollo-link "^1.2.13"
+    apollo-link-context "^1.0.19"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.16"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
@@ -3590,9 +3606,9 @@
     vue "^2.6.11"
 
 "@vue-storefront/core@^2.0.1-prealpha.429":
-  version "2.0.1-prealpha.681"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.681.tgz#8b65b01d8faa467cb64ea29166fc8aedb4937542"
-  integrity sha512-9kUX0lk05/g1a7rqaeVu5WnLbBwZ/VwLi7z9/w+noAwUljVSE2KFQXL2i4fClfGH7BPt1D6tqxMe2e4Adee1jw==
+  version "2.0.1-prealpha.697"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.697.tgz#1658e92451477057f26161f05bc3b5c638f52726"
+  integrity sha512-HhqLjOik5m9ur92AnXUpbB+XLQz4RadwWXBKa+z/cDkUU4GiNuDdT9O64of5dU4L9AlKdbgwCasukHhqXMffdA==
   dependencies:
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"
@@ -4294,7 +4310,7 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apollo-cache-inmemory@^1.6.6:
+apollo-cache-inmemory@^1.6.3, apollo-cache-inmemory@^1.6.6:
   version "1.6.6"
   resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.6.6.tgz#56d1f2a463a6b9db32e9fa990af16d2a008206fd"
   integrity sha512-L8pToTW/+Xru2FFAhkZ1OA9q4V4nuvfoPecBM34DecAugUZEBhI2Hmpgnzq2hTKZ60LAMrlqiASm0aqAY6F8/A==
@@ -4313,7 +4329,7 @@ apollo-cache@1.3.5, apollo-cache@^1.3.5:
     apollo-utilities "^1.3.4"
     tslib "^1.10.0"
 
-apollo-client@^2.6.10:
+apollo-client@^2.6.10, apollo-client@^2.6.4:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.6.10.tgz#86637047b51d940c8eaa771a4ce1b02df16bea6a"
   integrity sha512-jiPlMTN6/5CjZpJOkGeUV0mb4zxx33uXWdj/xQCfAMkuNAC3HN7CvYDyMHHEzmcQ5GV12LszWoQ/VlxET24CtA==
@@ -4327,7 +4343,7 @@ apollo-client@^2.6.10:
     tslib "^1.10.0"
     zen-observable "^0.8.0"
 
-apollo-link-context@^1.0.20:
+apollo-link-context@^1.0.19, apollo-link-context@^1.0.20:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.20.tgz#1939ac5dc65d6dff0c855ee53521150053c24676"
   integrity sha512-MLLPYvhzNb8AglNsk2NcL9AvhO/Vc9hn2ZZuegbhRHGet3oGr0YH9s30NS9+ieoM0sGT11p7oZ6oAILM/kiRBA==
@@ -4353,7 +4369,7 @@ apollo-link-http-common@^0.2.16:
     ts-invariant "^0.4.0"
     tslib "^1.9.3"
 
-apollo-link-http@^1.5.17:
+apollo-link-http@^1.5.16, apollo-link-http@^1.5.17:
   version "1.5.17"
   resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.5.17.tgz#499e9f1711bf694497f02c51af12d82de5d8d8ba"
   integrity sha512-uWcqAotbwDEU/9+Dm9e1/clO7hTB2kQ/94JYcGouBVLjoKmTeJTUPQKcJGpPwUjZcSqgYicbFqQSoJIW0yrFvg==
@@ -4370,7 +4386,7 @@ apollo-link-schema@^1.2.5:
     apollo-link "^1.2.14"
     tslib "^1.9.3"
 
-apollo-link@^1.0.0, apollo-link@^1.2.14:
+apollo-link@^1.0.0, apollo-link@^1.2.13, apollo-link@^1.2.14:
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
   integrity sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
@@ -5419,9 +5435,9 @@ chokidar@^3.3.0, chokidar@^3.4.1:
     fsevents "~2.1.2"
 
 chokidar@^3.3.1, chokidar@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
-  integrity sha512-aXAaho2VJtisB/1fg1+3nlLJqGOuewTzQpd/Tz0yTg2R0e4IGtshYvtjowyEumcBv2z+y4+kc75Mz7j5xJskcQ==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.1.tgz#e905bdecf10eaa0a0b1db0c664481cc4cbc22ba1"
+  integrity sha512-TQTJyr2stihpC4Sya9hs2Xh+O2wf+igjL36Y75xx2WdHuiICcn/XJza46Jwt0eT5hVpQOzo3FpY3cj3RVYLX0g==
   dependencies:
     anymatch "~3.1.1"
     braces "~3.0.2"
