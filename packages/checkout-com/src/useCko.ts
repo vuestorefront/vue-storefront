@@ -3,7 +3,7 @@
 import { createContext } from './payment';
 import { Configuration, getSaveInstrumentKey } from './configuration';
 import { ref } from '@vue/composition-api';
-import { CKO_PAYMENT_TYPE } from './helpers';
+import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
 
 const error = ref(null);
@@ -22,7 +22,7 @@ interface PaymentMethodsConfig {
   paypal?: any;
 }
 
-const selectedPaymentMethod = ref(CKO_PAYMENT_TYPE.NOT_SELECTED);
+const selectedPaymentMethod = ref(CkoPaymentType.NOT_SELECTED);
 
 const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
   localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
@@ -93,14 +93,14 @@ const useCko = () => {
     let finalizeTransactionFunction;
     let localError;
 
-    if ([CKO_PAYMENT_TYPE.CREDIT_CARD, CKO_PAYMENT_TYPE.SAVED_CARD].includes(selectedPaymentMethod.value)) {
+    if ([CkoPaymentType.CREDIT_CARD, CkoPaymentType.SAVED_CARD].includes(selectedPaymentMethod.value)) {
       finalizeTransactionFunction = makeCardPayment;
       localError = cardError;
-    } else if (selectedPaymentMethod.value === CKO_PAYMENT_TYPE.KLARNA) {
+    } else if (selectedPaymentMethod.value === CkoPaymentType.KLARNA) {
       finalizeTransactionFunction = () => {
         console.log('Making transaction with Klarna...');
       };
-    } else if (selectedPaymentMethod.value === CKO_PAYMENT_TYPE.PAYPAL) {
+    } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
       finalizeTransactionFunction = () => {
         console.log('Making transaction with PayPal...');
       };

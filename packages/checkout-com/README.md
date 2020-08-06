@@ -43,7 +43,7 @@ import { useCko } from '@vue-storefront/checkout-com';
 interface {
     availableMethods: { name: string, [key: string]: any },
     error: Error | null,
-    selectedPaymentMethod: CKO_PAYMENT_TYPE,
+    selectedPaymentMethod: CkoPaymentType,
     savePaymentInstrument: boolean,
     storedPaymentInstruments: PaymentInstrument[],
     submitDisabled: ComputedRef<boolean>,
@@ -191,7 +191,7 @@ failure_url: `${window.location.origin}/cko/payment-error`
 ## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
 ```js
-import { useCko, CKO_PAYMENT_TYPE } from '@vue-storefront/checkout-com'
+import { useCko, CkoPaymentType } from '@vue-storefront/checkout-com'
 
 // ...
 
@@ -215,7 +215,7 @@ const {
 
 Currently, these are available payment methods:
 ```ts
-enum CKO_PAYMENT_TYPE {
+enum CkoPaymentType {
     NOT_SELECTED = 0,
     CREDIT_CARD = 1,
     SAVED_CARD,
@@ -224,14 +224,14 @@ enum CKO_PAYMENT_TYPE {
 }
 ```
 
-By default, `selectPaymentMethod` equals `CKO_PAYMENT_TYPE.NOT_SELECTED`.
-If user uses stored payment call `setSavePaymentInstrument` and it will set `selectPaymentMethod.value = CKO_PAYMENT_TYPE.SAVED_CARD`
+By default, `selectPaymentMethod` equals `CkoPaymentType.NOT_SELECTED`.
+If user uses stored payment call `setSavePaymentInstrument` and it will set `selectPaymentMethod.value = CkoPaymentType.SAVED_CARD`
 ```js
 setPaymentInstrument(item.id);
 ```
 If user uses credit card use:
 ```js
-selectPaymentMethod.value = CKO_PAYMENT_TYPE.CREDIT_CARD
+selectPaymentMethod.value = CkoPaymentType.CREDIT_CARD
 ```
 
 ## Allowing user to decide whether save payment instrument or not

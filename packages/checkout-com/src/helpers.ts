@@ -36,7 +36,7 @@ interface PaymentInstrument {
     payment_instrument_id: string;
 }
 
-enum CKO_PAYMENT_TYPE {
+enum CkoPaymentType {
     NOT_SELECTED = 0,
     CREDIT_CARD = 1,
     SAVED_CARD,
@@ -53,25 +53,25 @@ const buildBasePaymentMethodPayload = ({ context_id, save_payment_instrument, se
 })
 
 const buildPaymentPayloadStrategies = {
-    [CKO_PAYMENT_TYPE.CREDIT_CARD]: (properties: PaymentPropeties): PaymentMethodPayload => ({
+    [CkoPaymentType.CREDIT_CARD]: (properties: PaymentPropeties): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'token',
         token: properties.token
     }),
-    [CKO_PAYMENT_TYPE.SAVED_CARD]: (properties: PaymentPropeties): PaymentMethodPayload => ({
+    [CkoPaymentType.SAVED_CARD]: (properties: PaymentPropeties): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'id',
         token: properties.token
     }),
-    [CKO_PAYMENT_TYPE.KLARNA]: (properties: PaymentPropeties): PaymentMethodPayload => ({
+    [CkoPaymentType.KLARNA]: (properties: PaymentPropeties): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'klarna',
         token: properties.token
     }),
-    [CKO_PAYMENT_TYPE.PAYPAL]: (properties: PaymentPropeties): PaymentMethodPayload => ({
+    [CkoPaymentType.PAYPAL]: (properties: PaymentPropeties): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'paypal'
     })
 };
 
-export { CKO_PAYMENT_TYPE, buildPaymentPayloadStrategies, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };
+export { CkoPaymentType, buildPaymentPayloadStrategies, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };

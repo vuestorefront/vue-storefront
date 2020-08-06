@@ -1,7 +1,7 @@
 import { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles } from './configuration';
 import useCkoCard from './useCkoCard';
 import useCko from './useCko';
-import { CKO_PAYMENT_TYPE } from './helpers';
+import { CkoPaymentType } from './helpers';
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, useCkoCard, useCko, CKO_PAYMENT_TYPE };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, useCkoCard, useCko, CkoPaymentType };
 
