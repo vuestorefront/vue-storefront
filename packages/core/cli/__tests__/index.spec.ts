@@ -4,7 +4,9 @@ jest.mock('@vue-storefront/cli/src/utils/log', () => ({
   error: jest.fn()
 }));
 import init from '../src/commands/init';
-jest.mock('../src/commands/init.ts', () => jest.fn());
+jest.mock('../src/commands/init.ts', () => ({
+  default: jest.fn()
+}));
 
 describe('CLI', () => {
   it('stops if not command provided', () => {
@@ -22,6 +24,6 @@ describe('CLI', () => {
     const commandArgs = [1, 51];
 
     cli(['', '', commandName, ...commandArgs]);
-    expect(init).toHaveBeenCalledWith(commandArgs);
+    expect((init as any).default).toHaveBeenCalledWith(commandArgs);
   });
 });
