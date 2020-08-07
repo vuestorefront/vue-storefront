@@ -25,17 +25,20 @@ export const getProductCoverImage = (product: ProductVariant): string =>
   product.images.length > 0 ? product.images[0].url : null;
 
 export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
+  console.warn(`getProductFiltered: products:${JSON.stringify(products)}`);
+  console.warn(`getProductFiltered: filters:${JSON.stringify(filters)}`);
   if (!products) {
     return [];
   }
 
-  if (filters.attributes && Object.keys(filters.attributes).length > 0) {
-    return [getVariantByAttributes(products, filters.attributes)];
-  }
-
-  if (filters.master) {
-    return products.filter((product) => (product as any)._master);
-  }
+  // TODO: now product filters disabled
+  // if (filters.attributes && Object.keys(filters.attributes).length > 0) {
+  //   return [getVariantByAttributes(products, filters.attributes)];
+  // }
+  //
+  // if (filters.master) {
+  //   return products.filter((product) => (product as any)._master);
+  // }
 
   return products;
 };

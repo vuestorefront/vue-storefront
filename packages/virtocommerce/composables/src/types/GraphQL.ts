@@ -141,8 +141,55 @@ export type Store = Versioned & {
   lastModifiedBy?: Maybe<Initiator>;
 };
 
+export type Product = Versioned & {
+  __typename?: "Product";
+  id: Scalars["String"];
+  key?: Maybe<Scalars["String"]>;
+  version: Scalars["Long"];
+  productTypeRef: Reference;
+  skus: Array<Scalars["String"]>;
+  masterData: ProductCatalogData;
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  stateRef?: Maybe<Reference>;
+  taxCategoryRef?: Maybe<Reference>;
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+};
+
+export type ProductCatalogData = {
+  __typename?: "ProductCatalogData";
+  current?: Maybe<ProductData>;
+  staged?: Maybe<ProductData>;
+  published: Scalars["Boolean"];
+  hasStagedChanges: Scalars["Boolean"];
+};
+
+export type ProductData = {
+  __typename?: "ProductData";
+  name?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  categoryOrderHint?: Maybe<Scalars["String"]>;
+  categoriesRef: Array<Reference>;
+  categories: Array<Category>;
+  metaTitle?: Maybe<Scalars["String"]>;
+  metaKeywords?: Maybe<Scalars["String"]>;
+  metaDescription?: Maybe<Scalars["String"]>;
+  masterVariant: ProductVariant;
+  variants: Array<ProductVariant>;
+  allVariants: Array<ProductVariant>;
+  variant?: Maybe<ProductVariant>;
+  skus: Array<Scalars["String"]>;
+};
+
 export type ProductVariant = {
   __typename?: "ProductVariant";
+  _id?: Maybe<Scalars["Int"]>; // I can't understand, why this property used by theme, but not implemented in commercetools
+  _name?: Maybe<Scalars["String"]> // I can't understand, why this property used by theme, but not implemented in commercetools
+  _slug?: Maybe<Scalars["String"]> // I can't understand, why this property used by theme, but not implemented in commercetools
   id: Scalars["Int"];
   key?: Maybe<Scalars["String"]>;
   sku?: Maybe<Scalars["String"]>;
