@@ -28,11 +28,13 @@ module.exports = {
     sidebar: {
       '/guide/': [
         {
-          title : 'General Information',
+          title : 'Essentials',
           collapsable: false,
           children: [
             'general/introduction',
-            'general/architecture'
+            'general/architecture',
+            'general/extendibility',
+            'general/agnosticism'
           ]
         },
         {
