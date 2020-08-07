@@ -9,7 +9,7 @@ export const cli = async (args) => {
 
   try {
     const commandFn = require(`./commands/${command}.ts`);
-    return commandFn.default(args.slice(3));
+    return commandFn(args.slice(3));
   } catch (err) {
     log.error('Bad command');
   }
