@@ -45,8 +45,10 @@ jest.mock('fs', () => ({
   })
 }));
 
+import path from 'path';
 jest.mock('path', () => ({
-  join: (a, b) => b
+  join: (_, file) => file,
+  isAbsolute: jest.fn(() => false)
 }));
 
 const { copyFile } = require('@vue-storefront/nuxt-theme/scripts/copyThemeFiles');
@@ -60,7 +62,7 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
     jest.clearAllMocks();
   });
 
-  it('copies files from integration theme', async () => {
+  it('copies files from integration theme to relative path', async () => {
     const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
     const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
 
@@ -68,6 +70,20 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
 
     for (const file of [...filesInDirs, ...filesInRoot]) {
       expect(copyFile).toHaveBeenCalledWith(file, targetPath + file);
+    }
+  });
+
+  it('copies files from integration theme to absolute path', async () => {
+    const absoluteTargetPath = '/home/thecreator/abs';
+    const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
+    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
+
+    (path.isAbsolute as jest.Mock).mockImplementation(() => true);
+
+    await copyIntegrationTheme(integration, absoluteTargetPath);
+
+    for (const file of [...filesInDirs, ...filesInRoot]) {
+      expect(copyFile).toHaveBeenCalledWith(file, absoluteTargetPath + file);
     }
   });
 

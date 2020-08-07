@@ -13,7 +13,9 @@ async function createProject(integration: string, targetPath: string): Promise<v
   await copyAgnosticTheme(integration, targetPath);
 
   log.info('Updating Nuxt config');
-  const absoluteTargetPath = path.join(__dirname, targetPath);
+  const absoluteTargetPath = path.isAbsolute(targetPath)
+    ? targetPath
+    : path.join(__dirname, targetPath);
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   await processMagicComments(nuxtConfigPath);
 }

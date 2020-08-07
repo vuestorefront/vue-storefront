@@ -21,7 +21,7 @@ const program = async () => {
       }
     ]);
 
-  return createProject(chosenIntegration, path.resolve(__dirname, 'projectName'));
+  return createProject(chosenIntegration, path.resolve(process.cwd(), projectName));
 };
 
 program();
