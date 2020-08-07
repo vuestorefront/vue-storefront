@@ -5,7 +5,6 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "private": true,
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
