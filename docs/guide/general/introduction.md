@@ -21,7 +21,7 @@ Give me 7 minutes and you will grab :
 
 ## Problems and naturally, solutions
 
-### In a meeting room
+### In a meeting room..
 
 I heard a lot of conversation go like this quite often over the last few years :
 
@@ -30,7 +30,7 @@ _Client_ : I don't get it, why so many cart abandonment during checkout?
 
 _Agency_ : It seems like mobile phones that customers use bit more than it could chew, so slow. As you know, powerful features come with price. 
 
-_Client_ : Even myself can't take this heavy load time only to see a couple of product photos, let alone multiple products in any category page. How do I fix this fundamentally?
+_Client_ : What good is feature when no one reaches it. Even myself can't take this heavy load time only to see a couple of product photos, let alone multiple products in any category page. How do I fix this fundamentally?
 
 _Agency_ : How _bad_ do you want it?
 
