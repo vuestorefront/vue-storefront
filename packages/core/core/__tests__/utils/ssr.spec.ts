@@ -1,8 +1,10 @@
-import { getCurrentInstance, onServerPrefetch } from '@vue/composition-api';
+import { getCurrentInstance, onServerPrefetch, ref } from '@vue/composition-api';
 import { emit, on } from '../../src/utils/ssr/default/eventBus';
-import { useSSR, onSSR } from '../../src/utils/ssr';
+import { useSSR, onSSR, vsfRef } from '../../src/utils/ssr';
+import { ssrRef } from 'nuxt-composition-api';
 
 jest.mock('@vue/composition-api');
+
 jest.mock('../../src/utils/ssr/default/eventBus', () => ({
   on: jest.fn(),
   emit: jest.fn()
@@ -143,5 +145,26 @@ describe('[CORE - utils] ssr', () => {
     expect(mockedFunc).not.toBeCalled();
 
     windowSpy.mockRestore();
+  });
+
+  it('uses ssrRef from nuxt', () => {
+    const product = { prod: 1 };
+    (ssrRef as any).mockImplementation((arg) => {
+      expect(arg).toEqual(product);
+    });
+
+    vsfRef(product);
+  });
+
+  it('uses pure ref', () => {
+    const product = { prod: 1 };
+    (ssrRef as any).mockImplementation(() => {
+      throw new Error();
+    });
+    (ref as any).mockImplementation((arg) => {
+      expect(arg).toEqual(product);
+    });
+
+    vsfRef(product);
   });
 });
