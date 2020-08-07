@@ -69,7 +69,7 @@ typings/
 .nuxt
 
 # theme
-.theme
+_theme
 
 # Nuxt generate
 dist

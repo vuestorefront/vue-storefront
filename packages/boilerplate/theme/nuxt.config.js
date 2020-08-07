@@ -47,10 +47,17 @@ export default {
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/boilerplate-api',
-      composables: '@vue-storefront/boilerplate'
+      generate: {
+        replace: {
+          apiClient: '@vue-storefront/boilerplate-api',
+          composables: '@vue-storefront/boilerplate'
+        }
+      }
     }],
     // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
     ['@vue-storefront/boilerplate/nuxt', {}]
   ],
   modules: [

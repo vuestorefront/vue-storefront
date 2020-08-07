@@ -12,6 +12,9 @@ To start working with Vue Storefront for {{ $frontmatter.platform }} you have to
 
 ## Installation
 ### With Vue Storefront CLI (recommended)
+::: danger 
+Work in progress
+:::
 
 ::: tip Best for new projects
 If you're starting a new Vue Storefront project and you're ok with using Nuxt using CLI its the best option for you.

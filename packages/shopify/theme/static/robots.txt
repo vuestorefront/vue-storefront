@@ -1,0 +1,7 @@
+# Crawlers Setup
+User-agent: *
+Crawl-delay: 10
+
+# Google Image Crawler Setup
+User-agent: Googlebot-Image
+Disallow:

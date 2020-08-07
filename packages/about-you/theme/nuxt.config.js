@@ -45,10 +45,17 @@ export default {
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/about-you-api',
-      composables: '@vue-storefront/about-you'
+      generate: {
+        replace: {
+          apiClient: '@vue-storefront/about-you-api',
+          composables: '@vue-storefront/about-you'
+        }
+      }
     }],
     // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
     ['@vue-storefront/about-you/nuxt', {
       api: {
         host: 'https://boston.backbone-api.demo.aboutyou.cloud/v1/',
