@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir .",
-    "cli:init": "ts-node ./src/commands/init.ts"
+    "cli": "ts-node ./src/index.ts"
   },
   "dependencies": {
     "@vue-storefront/about-you-theme": "^0.0.1",

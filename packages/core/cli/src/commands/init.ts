@@ -1,13 +1,13 @@
 import log from '../utils/log';
-import getIntegrationsFromPackage from '../utils/getIntegrationsFromPackage';
+import getIntegrationsFromPackage from '@vue-storefront/cli/src/utils/getIntegrationsFromPackage';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
 import path from 'path';
 
-const program = async () => {
-  const [projectName] = process.argv.slice(2);
+export default async ([projectName]) => {
   if (!projectName) {
     log.error('Provide projectName: yarn cli:init <projectName>');
+    return;
   }
 
   const integrations = getIntegrationsFromPackage();
@@ -23,5 +23,3 @@ const program = async () => {
 
   return createProject(chosenIntegration, path.resolve(process.cwd(), projectName));
 };
-
-program();
