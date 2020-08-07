@@ -6,7 +6,7 @@ _Vue Storefront_ is a ___headless e-commerce frontend framework___ that may work
 
 We mean by 
  - __headless__ : Your e-commerce platform as a whole system can be built on top of a set of different technologies. No mandatory combination for the platform is required. Manifestation of _low coupling and high cohesion_ is here and will stay with us until the end. 
- - __e-commerce__ : Essentially _Vue Storefront_ was born as the e-commerce framework. By the nature of headless and microservice, however, you might connect it to whatever you set it to, say, a helper service for ERP, or versatile search features for PIM, and portable checkout for 3rd party payment kiosk, and so on. 
+ - __e-commerce__ : Essentially _Vue Storefront_ was born as the e-commerce framework. By the nature of headless and microservice, however, you might connect it to whatever you set it to, say, a helper service for ERP, or versatile search features for PIM, and portable checkout for 3rd party payment kiosk, and so on. Limit is your imagination. 
  - __frontend__ : When it's _headless_, The framework should be either _frontend_ or _backend_, and _Vue Storefront_ is undoubtedly _frontend_ as the name suggests. The _frontend_ deals with everything related to process of facing customers and handling them gracefully; From displaying products they want to buy without delay, to receiving orders in seamless checkout without any hiccup.
  - __framework__ : Even though _Vue Storefront_ is a set of atomic features, they should be guided as one by the conductor. We do so by gluing them through _interfaces_ and _factories_. We will dig this further later, but one thing to take away, they are quite flexible glues. 
 
