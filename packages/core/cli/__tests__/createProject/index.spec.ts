@@ -2,7 +2,7 @@ import createProject from '../../src/scripts/createProject';
 
 const integration = 'commercetools';
 const targetPath = 'vsf-new-project';
-const absoluteTargetPath = '/home/abc/vsf-new-project';
+const absoluteTargetPath = `/home/abc/${targetPath}`;
 
 jest.mock('@vue-storefront/cli/src/utils/log', () => ({
   info: jest.fn()
@@ -23,6 +23,9 @@ jest.mock('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme', () 
 const processMagicCommentsMock = require('@vue-storefront/cli/src/scripts/createProject/processMagicComments');
 jest.mock('@vue-storefront/cli/src/scripts/createProject/processMagicComments', () => jest.fn());
 
+const updatePackageNameMock = require('@vue-storefront/cli/src/scripts/createProject/updatePackageName');
+jest.mock('@vue-storefront/cli/src/scripts/createProject/updatePackageName', () => jest.fn());
+
 describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments for relative path', async () => {
 
@@ -31,6 +34,7 @@ describe('[vsf-next-cli] createProject', () => {
     expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
     expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
     expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
+    expect(updatePackageNameMock).toHaveBeenCalledWith(targetPath, targetPath);
   });
 
   it('runs subprograms with proper arguments for absolute path', async () => {
@@ -43,5 +47,6 @@ describe('[vsf-next-cli] createProject', () => {
     expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath, ['_theme', '.nuxt', 'node_modules']);
     expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath);
     expect(processMagicCommentsMock).toHaveBeenCalledWith(absoluteTargetPath);
+    expect(updatePackageNameMock).toHaveBeenCalledWith(targetPath, targetPath);
   });
 });
