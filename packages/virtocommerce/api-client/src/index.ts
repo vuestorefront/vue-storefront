@@ -4,6 +4,7 @@ import createVirtoCommerceLink from './helpers/create-virtocommerce-link';
 import { ApiConfig, LocaleItem, SetupConfig } from './types';
 
 import getMe from './api/getMe';
+import getProduct from './api/getProduct';
 
 let apolloClient: ApolloClient<any> = null;
 let api: ApiConfig = null;
@@ -58,5 +59,6 @@ export {
   cookies,
 
   setup,
-  getMe
+  getMe,
+  getProduct
 };

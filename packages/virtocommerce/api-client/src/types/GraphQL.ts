@@ -145,3 +145,19 @@ export type Me = {
   __typename?: "UserType";
   user?: Maybe<User>;
 };
+
+
+export type ProductQueryResult = {
+  __typename?: "ProductQueryResult";
+  totalCount: Scalars["Long"];
+  items: Array<Product>;
+};
+
+export type Product = {
+  __typename?: "Product";
+  id: Scalars["Int"];
+  code?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  slug?: Maybe<Scalars["String"]>
+  imgSrc: Scalars["String"]
+};
