@@ -92,6 +92,7 @@
   "seo": {
     "useUrlDispatcher": true,
     "disableUrlRoutesPersistentCache": true,
+    "urlTrailingSlash": false,
     "defaultTitle": "Vue Storefront"
   },
   "console": {
