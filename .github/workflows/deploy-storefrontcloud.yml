@@ -20,6 +20,7 @@ jobs:
           yarn build:core
           yarn build:ct
           yarn build:prismic
+          yarn build:checkout-com
       - name: Publish canary version
         run: |
           yarn lerna publish --canary --force-publish --yes --preid prealpha --dist-tag canary
