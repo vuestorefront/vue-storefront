@@ -1,16 +1,11 @@
 import { useUserFactory } from '../../src/factories';
-// import * as vsfUtils from '../../src/utils';
 
-// jest.mock('../../src/utils');
-// const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
-// mockedUtils.onSSR.mockImplementation((fn) => fn());
-// mockedUtils.useSSR.mockReturnValueOnce({
-//   initialState: null,
-//   saveToInitialState: jest.fn()
-// });
-
-jest.mock('nuxt-composition-api', () => ({
-  useAsync: async (a) => await a()
+jest.mock('../../src/utils', () => ({
+  onSSR: () => ({
+    initialState: null,
+    saveToInitialState: jest.fn()
+  }),
+  vsfRef: jest.requireActual('../../src/utils').vsfRef
 }));
 
 const factoryParams = {
@@ -45,6 +40,7 @@ describe('[CORE - factories] useUserFactory', () => {
       setUser({ username: 'test' });
       expect(useUserMethods.user.value).toEqual({ username: 'test' });
     });
+
   });
   describe('methods', () => {
     describe('updateUser', () => {
