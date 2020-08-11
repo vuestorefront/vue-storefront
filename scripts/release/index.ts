@@ -4,7 +4,7 @@ import updatePackageVersion from './updatePackageVersion';
 import { execSync } from 'child_process';
 import { RELEASE_GRADATIONS, PACKAGE_SUBTYPE, PACKAGE_TYPES, REGISTRY } from './constants';
 
-const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${REGISTRY}`);
+const publishPackage = (path: string) => execSync(`cd ${path} && npm publish --registry ${REGISTRY} --tag next`);
 const isProperGradation = (gradation: string) => Object.keys(RELEASE_GRADATIONS).filter(key => isNaN(Number(key))).includes(gradation);
 const sliceAbsolutePathPart = (path: string) => path.replace(/(.*?)packages/, 'packages');
 

@@ -64,8 +64,6 @@
     "release": "cd scripts && yarn release"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@rollup/plugin-babel": "^5.1.0",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
@@ -73,7 +71,6 @@
     "@vue/eslint-config-typescript": "^5.0.1",
     "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
-    "cypress": "^4.4.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",

@@ -18,8 +18,8 @@ In `nuxt.config.js` of your integration theme set `apiClient/composables/helpers
 
 Under the hood what this module does is:
 
-1. Compiling lodash templates from `@vue-storefront/nuxt-theme` to `.theme` folder of your integration.
-2. Aliasing components, layouts and pages to `.theme` folder
+1. Compiling lodash templates from `@vue-storefront/nuxt-theme` to `_theme` folder of your integration.
+2. Aliasing components, layouts and pages to `_theme` folder
 3. Watching changes in ``@vue-storefront/nuxt-theme` package and rebuilding `theme` folder on each change.
 
 ## Magic comments

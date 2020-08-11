@@ -10,7 +10,7 @@ export default {
     host: '0.0.0.0'
   },
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Vue Storefront for Shopify',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport',
@@ -31,6 +31,7 @@ export default {
   ],
   buildModules: [
     // to core
+    'nuxt-composition-api',
     '@nuxt/typescript-build',
     '@nuxtjs/dotenv',
     ['@nuxtjs/pwa', { icon: false }],
@@ -47,10 +48,19 @@ export default {
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/shopify-api',
-      composables: '@vue-storefront/shopify'
+      generate: {
+        replace: {
+          apiClient: '@vue-storefront/shopify-api',
+          composables: '@vue-storefront/shopify'
+        }
+      }
     }]
+    // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
   ],
   modules: [
     'nuxt-i18n',

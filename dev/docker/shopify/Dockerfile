@@ -9,8 +9,8 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install && yarn build:ct && yarn cache clean --all
+RUN yarn install && yarn build:sp && yarn cache clean --all
 
-COPY dev/docker/vue-storefront.sh /usr/local/bin/
+COPY dev/docker/shopify/vue-storefront.sh /usr/local/bin/
 
 ENTRYPOINT ["vue-storefront.sh"]
