@@ -358,6 +358,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
 #product {
   box-sizing: border-box;
   @include for-desktop {
