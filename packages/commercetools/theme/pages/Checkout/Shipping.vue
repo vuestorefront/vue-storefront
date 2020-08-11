@@ -174,7 +174,7 @@ import { countries } from '@vue-storefront/commercetools-api';
 import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -211,7 +211,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    onSSR(async () => {
+    useAsync(async () => {
       await loadDetails();
       await loadShippingMethods();
     });

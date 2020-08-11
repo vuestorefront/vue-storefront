@@ -113,7 +113,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
 import { SfTabs, SfInput, SfButton, SfAlert } from '@storefront-ui/vue';
 import { useUser } from '@vue-storefront/shopify';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 
 extend('email', {
   ...email,
@@ -163,7 +163,7 @@ export default {
     const success = ref(null);
     const error = ref(null);
 
-    onSSR(async () => {
+    useAsync(async () => {
       await refreshUser();
       form.value = {
         firstName: user.value.firstName,

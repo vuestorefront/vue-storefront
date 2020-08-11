@@ -96,7 +96,7 @@ import { computed, ref } from '@vue/composition-api';
 
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 
 export default {
   name: 'PersonalDetails',
@@ -111,7 +111,7 @@ export default {
     const { orders, searchOrders } = useUserOrders();
     const currentOrder = ref(null);
 
-    onSSR(async () => {
+    useAsync(async () => {
       await searchOrders();
     });
 

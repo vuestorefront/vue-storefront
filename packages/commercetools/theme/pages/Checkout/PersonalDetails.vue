@@ -104,7 +104,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
 import uiState from '~/assets/ui-state';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 const { toggleLoginModal } = uiState;
 extend('required', {
   ...required,
@@ -135,7 +135,7 @@ export default {
     const { loadDetails, personalDetails, setPersonalDetails, loading } = useCheckout();
     const accountBenefits = ref(false);
     const createAccount = ref(false);
-    onSSR(async () => {
+    useAsync(async () => {
       await loadDetails();
     });
     const handleFormSubmit = async () => {

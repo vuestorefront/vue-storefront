@@ -81,7 +81,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import uiState from '~/assets/ui-state';
 
 const { isWishlistSidebarOpen, toggleWishlistSidebar } = uiState;
@@ -104,7 +104,7 @@ export default {
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
-    onSSR(async () => {
+    useAsync(async () => {
       await loadWishlist();
     });
 

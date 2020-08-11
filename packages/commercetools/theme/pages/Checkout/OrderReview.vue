@@ -166,7 +166,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 export default {
   name: 'ReviewOrder',
   components: {
@@ -198,7 +198,7 @@ export default {
       loading,
       loadDetails
     } = useCheckout();
-    onSSR(async () => {
+    useAsync(async () => {
       await loadDetails();
       await loadShippingMethods();
     });

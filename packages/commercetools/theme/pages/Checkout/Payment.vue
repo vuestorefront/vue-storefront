@@ -168,7 +168,7 @@ import { ref } from '@vue/composition-api';
 import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 const COUNTRIES = [
   { key: 'US',
     label: 'United States' },
@@ -214,7 +214,7 @@ export default {
     } = useCheckout();
     const sameAsShipping = ref(false);
     let oldBilling = null;
-    onSSR(async () => {
+    useAsync(async () => {
       await loadDetails();
       await loadPaymentMethods();
     });
