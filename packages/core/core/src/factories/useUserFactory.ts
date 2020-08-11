@@ -1,7 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { vsfRef } from '../../src/utils';
-import { useAsync } from 'nuxt-composition-api';
+import { vsfRef, onSSR } from '../../src/utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
@@ -97,7 +96,8 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     };
 
     // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    useAsync(async () => {
+    // TODO: Remove onSSR from this factory and force developer to invoke it in the theme
+    onSSR(async () => {
       if (!user.value) {
         await refreshUser();
       }
