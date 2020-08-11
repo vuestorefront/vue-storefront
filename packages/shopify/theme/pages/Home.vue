@@ -83,7 +83,7 @@ import {
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import ProductTile from '~/components/ProductTile';
 
 export default {
@@ -104,7 +104,7 @@ export default {
       }
     };
 
-    onSSR(async () => {
+    useAsync(async () => {
       await productsSearch(productsSearchParams);
       await loadCart();
     });

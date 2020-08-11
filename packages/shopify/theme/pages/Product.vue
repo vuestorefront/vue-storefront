@@ -231,7 +231,7 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 
 export default {
   name: 'Product',
@@ -251,7 +251,7 @@ export default {
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
-    onSSR(async () => {
+    useAsync(async () => {
       await loadCart();
       await search({ slug });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });

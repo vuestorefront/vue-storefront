@@ -45,7 +45,7 @@ import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
 import { useCart, useWishlist, cartGetters, useSearch } from '@vue-storefront/about-you';
 import { computed, ref } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from './SearchResults';
 
@@ -84,7 +84,7 @@ export default {
       }
     };
 
-    onSSR(async () => {
+    useAsync(async () => {
       await loadCart();
       await loadWishlist();
     });

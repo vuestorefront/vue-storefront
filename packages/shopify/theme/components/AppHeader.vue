@@ -65,7 +65,7 @@ import {
   cartGetters
 } from '@vue-storefront/shopify';
 import { computed, ref } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import SearchResults from './SearchResults';
 import LocaleSelector from './LocaleSelector';
 
@@ -120,7 +120,7 @@ export default {
       showSearchResults.value = false;
     };
 
-    onSSR(async () => {
+    useAsync(async () => {
       await search({ slug: '' });
       await loadCart();
       await loadWishlist();

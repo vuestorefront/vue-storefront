@@ -90,7 +90,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '@vue-storefront/shopify';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import uiState from '~/assets/ui-state';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -114,7 +114,7 @@ export default {
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const checkoutUrl = computed(() => cartGetters.getCheckoutUrl(cart.value));
 
-    onSSR(async () => {
+    useAsync(async () => {
       await loadCart();
     });
 

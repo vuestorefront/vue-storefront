@@ -256,7 +256,7 @@ import { computed, ref, watch, onMounted } from '@vue/composition-api';
 import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '@vue-storefront/shopify';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
-import { onSSR } from '@vue-storefront/core';
+import { useAsync } from 'nuxt-composition-api';
 import Filters from '../components/Filters';
 import ProductTile from '~/components/ProductTile';
 
@@ -298,7 +298,7 @@ export default {
     const sortBy = ref(query.sort || 'createdAt');
     const filters = ref(null);
 
-    onSSR(async () => {
+    useAsync(async () => {
       await search(getCategorySearchParameters(context));
       filters.value = getFiltersFromUrl(context, availableFilters.value);
       await loadCart();
