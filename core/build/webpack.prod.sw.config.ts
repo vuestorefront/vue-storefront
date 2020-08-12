@@ -1,7 +1,8 @@
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import base from './webpack.base.config';
-import SWPrecachePlugin from 'sw-precache-webpack-plugin';
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import base from './webpack.base.config'
+
+import { GenerateSW } from 'workbox-webpack-plugin'
 
 module.exports = merge(base, {
   mode: 'production',
@@ -14,90 +15,68 @@ module.exports = merge(base, {
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
     }),
-    // auto generate service worker
-    new SWPrecachePlugin({
+    new GenerateSW({
       cacheId: 'vue-sfr',
-      filename: 'service-worker.js',
-      staticFileGlobsIgnorePatterns: [/\.map$/],
-      staticFileGlobs: [
-        'dist/**.*.js',
-        'dist/**.*.json',
-        'dist/**.*.css',
-        'assets/**.*',
-        'assets/ig/**.*',
-        'index.html',
-        '/'
+      swDest: 'service-worker.js',
+      inlineWorkboxRuntime: true,
+      include: [
+        // /\/dist\/.*\.js$/,
+        // /\/dist\/.*\.json$/,
+        // /\/dist\/.*\.css$/,
+        // /\/assets\/.*/,
+        // /\/pwa.html/,
+        // /\//,
+      ],
+      exclude: [
+        /\.map$/
       ],
       runtimeCaching: [
         {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://fonts\.googleapis\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+          handler: 'CacheFirst'
         },
         {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://fonts\.gstatic\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
+          handler: 'CacheFirst'
         },
         {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://unpkg\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
+          urlPattern: /^https:\/\/unpkg\.com\//,
+          handler: 'CacheFirst'
         },
         {
-          urlPattern: '/pwa.html', /** cache the html stub  */
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/', /** cache the html stub for homepage  */
-          handler: 'networkFirst'
+          urlPattern: '/',
+          handler: 'NetworkFirst'
         },
         {
-          urlPattern: '/p/*', /** cache the html stub  */
-          handler: 'networkFirst'
+          urlPattern: /^\/c\/.*/,
+          handler: 'NetworkFirst'
         },
         {
-          urlPattern: '/c/*', /** cache the html stub  */
-          handler: 'networkFirst'
+          urlPattern: /^\/p\/.*/,
+          handler: 'NetworkFirst'
         },
         {
-          urlPattern: '/img/(.*)',
-          handler: 'fastest'
+          urlPattern: /\.html$/,
+          handler: 'NetworkFirst'
         },
         {
-          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
-          handler: 'networkFirst'
+          urlPattern: /^\/img\//,
+          handler: 'CacheFirst'
         },
         {
-          urlPattern: '/api/*',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/assets/logo.svg',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/index.html',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/assets/*',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/assets/ig/(.*)',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/dist/(.*)',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/*/*', /** this is new product URL format  */
-          handler: 'networkFirst'
+          urlPattern: /^\/assets\//,
+          handler: 'CacheFirst'
         },
         {
-          urlPattern: '/*/*/*', /** this is new product URL format  */
-          handler: 'networkFirst'
+          urlPattern: /^\/dist\//,
+          handler: 'CacheFirst'
         },
         {
-          urlPattern: '/*', /** this is new category URL format  */
-          handler: 'networkFirst'
-        }],
-      'importScripts': ['/dist/core-service-worker.js'] /* custom logic */
+          urlPattern: /^\/api\//,
+          handler: 'CacheFirst'
+        }
+      ],
+      importScripts: ['/dist/core-service-worker.js']
     })
   ]
 })

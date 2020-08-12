@@ -145,9 +145,15 @@ if (config.server.helmet && config.server.helmet.enabled && isProd) {
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
+
 app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   setHeaders: function (res, path, stat) {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
+  }
+}))
+app.use('/service-worker.js.map', serve('dist/service-worker.js.map', false, {
+  setHeaders: function (res, path, stat) {
+    res.set('Content-Type', 'application/json; charset=UTF-8')
   }
 }))
 
