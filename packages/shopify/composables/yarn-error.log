@@ -1,0 +1,56 @@
+Arguments: 
+  /home/al-40/.nvm/versions/node/v11.2.0/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /home/al-40/.rbenv/shims:/home/al-40/.rbenv/bin:/home/al-40/.nvm/versions/node/v11.2.0/bin:/home/al-40/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  11.2.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /var/www/html/vsf-projects/vsf-next/packages/shopify/composables/package.json: Unexpected token } in JSON at position 470
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@vue-storefront/shopify",
+    "version": "0.0.1",
+    "private": true,
+    "sideEffects": false,
+    "main": "lib/index.cjs.js",
+    "module": "lib/index.es.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+      "build": "rimraf lib && rollup -c",
+      "dev": "rollup -c -w",
+      "test": "jest"
+    },
+    "dependencies": {
+      "@vue-storefront/shopify-api": "^0.0.1",
+      "@vue-storefront/core": "^2.0.0",
+      "@vue/composition-api": "^0.3.4",
+      "js-cookie": "^2.2.1",
+    },
+    "files": [
+      "lib/**/*"
+    ],
+    "publishConfig": {
+      "access": "public"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

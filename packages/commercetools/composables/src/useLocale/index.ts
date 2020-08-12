@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { ref, Ref, computed, watch } from '@vue/composition-api';
+import { ref, Ref, computed, watch, watchEffect } from '@vue/composition-api';
 import {
   countries,
   currencies,
@@ -38,7 +38,7 @@ export default function useLocale() {
   const availableCountries: AvailableCountries = computed<LocaleItem[]>(() => countries);
   const availableCurrencies: AvailableCurrencies = computed<LocaleItem[]>(() => currencies);
 
-  watch(() => {
+  watchEffect(() => {
     if (!country.value || !currency.value || !locale.value) {
       country.value = Cookies.get(cookies.countryCookieName) || defaultCountry;
       currency.value = Cookies.get(cookies.currencyCookieName) || defaultCurrency;

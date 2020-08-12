@@ -1,7 +1,4 @@
 import webpack from 'webpack';
-import { config } from './plugins/commercetools-config.js';
-
-const localeNames = config.locales.map(l => ({ code: l.name, file: `${l.name}.js`, iso: l.name }));
 
 export default {
   mode: 'universal',
@@ -23,22 +20,19 @@ export default {
       { rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico' }
-    ]
+    ],
+    script: []
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/commercetools.js'
-  ],
   router: {
-    middleware: ['commercetools', 'checkout']
+    middleware: ['checkout']
   },
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
-      // @core-development-only-start
       coreDevelopment: true,
-      // @core-development-only-end
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
@@ -52,10 +46,36 @@ export default {
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@vue-storefront/commercetools-api',
-      composables: '@vue-storefront/commercetools'
-    }]
+      generate: {
+        replace: {
+          apiClient: '@vue-storefront/commercetools-api',
+          composables: '@vue-storefront/commercetools'
+        }
+      }
+    }],
     // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
+    ['@vue-storefront/commercetools/nuxt', {
+      disableGenerateTokenMiddleware: false,
+      api: {
+        uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
+        authHost: 'https://auth.sphere.io',
+        projectKey: 'vsf-ct-dev',
+        clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
+        clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+        scopes: [
+          'create_anonymous_token:vsf-ct-dev',
+          'manage_my_orders:vsf-ct-dev',
+          'manage_my_profile:vsf-ct-dev',
+          'manage_my_shopping_lists:vsf-ct-dev',
+          'manage_my_payments:vsf-ct-dev',
+          'view_products:vsf-ct-dev',
+          'view_published_products:vsf-ct-dev'
+        ]
+      }
+    }]
   ],
   modules: [
     'nuxt-i18n',
@@ -76,17 +96,29 @@ export default {
       })
     ]
   },
+
   i18n: {
-    locales: localeNames,
-    defaultLocale: localeNames[0].code,
+    locales: [
+      {
+        code: 'en',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
     lazy: true,
     seo: true,
     langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: localeNames[0].code
+      fallbackLocale: 'en'
     },
     detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName,
+      cookieKey: 'vsf-locale',
       alwaysRedirect: true
     }
   }

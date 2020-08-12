@@ -9,7 +9,7 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install && yarn build:ct
+RUN yarn install && yarn build:ct && yarn cache clean --all
 
 COPY dev/docker/vue-storefront.sh /usr/local/bin/
 

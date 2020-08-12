@@ -155,7 +155,6 @@
 </template>
 
 <script>
-
 import {
   SfHeading,
   SfInput,
@@ -170,7 +169,6 @@ import { useCheckout } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
-
 const COUNTRIES = [
   { key: 'US',
     label: 'United States' },
@@ -181,17 +179,14 @@ const COUNTRIES = [
   { key: 'PL',
     label: 'Poland' }
 ];
-
 extend('required', {
   ...required,
   message: 'This field is required'
 });
-
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
-
 export default {
   name: 'Payment',
   components: {
@@ -219,29 +214,23 @@ export default {
     } = useCheckout();
     const sameAsShipping = ref(false);
     let oldBilling = null;
-
     onSSR(async () => {
       await loadDetails();
       await loadPaymentMethods();
     });
-
     const handleFormSubmit = async () => {
       await setBillingDetails(billingDetails.value, { save: true });
       context.root.$router.push('/checkout/order-review');
     };
-
     const handleCheckSameAddress = () => {
       sameAsShipping.value = !sameAsShipping.value;
-
       if (sameAsShipping.value) {
         oldBilling = billingDetails.value;
         setBillingDetails(shippingDetails.value);
         return;
       }
-
       setBillingDetails(oldBilling);
     };
-
     return {
       loading,
       billingDetails,
@@ -256,7 +245,6 @@ export default {
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -310,7 +298,6 @@ export default {
   }
   &__back-button {
     margin: 0 var(--spacer-xl) 0 0;
-
     &:hover {
       color:  white;
     }
