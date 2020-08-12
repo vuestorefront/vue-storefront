@@ -252,8 +252,18 @@ export const OrderFragment = `
     }
     orderState
     id
+    orderNumber
     version
     createdAt
+    customerEmail
+    shipmentState
+    paymentState
+    shippingAddress {
+      ...DefaultAddress
+    }
+    billingAddress {
+      ...DefaultAddress
+    }
   }
 `;
 
