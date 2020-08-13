@@ -2,12 +2,10 @@ name: Deploy to Storefrontcloud
 on:
   push:
     branches:
-      - next
-      - release/next
+      - lc-pkg
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/next'
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -24,3 +22,7 @@ jobs:
           yarn build:prismic
           yarn build:checkout-com
       - name: Publish canary version
+        run: |
+          yarn lerna publish --canary --force-publish --yes --preid prealpha --dist-tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
