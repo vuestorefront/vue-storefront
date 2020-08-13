@@ -246,9 +246,20 @@ You need to clone the `vue-storefront` and the `vue-storefront-api` repos accord
 
 ```bash
 su vuestorefront
-cd /home/www/vuestorefront
-git clone https://github.com/DivanteLtd/vue-storefront.git
-git clone https://github.com/DivanteLtd/vue-storefront-api.git
+cd /home/www/vuestorefront;
+git clone https://github.com/DivanteLtd/vue-storefront.git;
+git clone https://github.com/DivanteLtd/vue-storefront-api.git;
+```
+
+Currently, theme is not part of PWA's repository anymore - you have to create `src/themes` and clone your theme inside:
+```bash
+cd /home/www/vuestorefront/src;
+mkdir themes;
+cd themes;
+# Clone one of these 2, default:
+git clone https://github.com/DivanteLtd/vsf-default.git;
+# or capybara theme
+git clone https://github.com/DivanteLtd/vsf-capybara.git;
 ```
 
 Then, you will need to install the required node packages:
