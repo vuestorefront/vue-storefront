@@ -35,30 +35,30 @@ For the purpose of this tutorial, we will use default packages distributed along
 First, let's create the user (as root user):
 
 ```bash
-mkdir /home/www
-useradd -m -d /home/www/vuestorefront vuestorefront
+mkdir /home/www;
+useradd -m -d /home/www/vuestorefront vuestorefront;
 ```
 
-Then install the Elasticsearch and Redis (as root user):
+Then install the Elasticsearch 5.6 and Redis (as root user):
 
 ```bash
-apt-get update
-apt-get install curl
-apt-get install git
+apt-get update;
+apt-get install curl;
+apt-get install git;
 
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
-apt-get install -y nodejs
-npm install -g yarn
+curl -sL https://deb.nodesource.com/setup_10.x | bash -;
+apt-get install -y nodejs;
+npm install -g yarn;
 
-apt-get install redis-server
+apt-get install redis-server;
 
-apt-get install openjdk-8-jre
-curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.deb
-dpkg -i elasticsearch-5.6.16.deb
-/etc/init.d/elasticsearch start
+apt-get install openjdk-8-jre;
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.deb;
+dpkg -i elasticsearch-5.6.16.deb;
+/etc/init.d/elasticsearch start;
 
-apt-get install imagemagick
-apt-get install nginx
+apt-get install imagemagick;
+apt-get install nginx;
 ```
 
 ### Nginx
@@ -286,7 +286,7 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
 ```json
 "elasticsearch": {
     "httpAuth": "",
-    "host": "https://prod.vuestorefront.io/api/catalog",
+    "host": "/api/catalog",
     "index": "vue_storefront_catalog"
 },
 "storeViews": {
@@ -298,47 +298,47 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     "de": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "https://prod.vuestorefront.io/api/catalog",
+            "host": "/api/catalog",
             "index": "vue_storefront_catalog_de"
         }
     },
     "it": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "https://prod.vuestorefront.io/api/catalog",
+            "host": "/api/catalog",
             "index": "vue_storefront_catalog_it"
         }
     }
 },
 ```
 
-We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
+We're setting up the product's endpoint to /api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
 
 ```json
 "cart": {
       "synchronize": true,
       "synchronize_totals": true,
-      "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+      "create_endpoint": "/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
 ```
 
-There are 27 more instances of `prod.vuestorefront.io` to be replaced with your production URL address in this file. Please just do so :)
+There are many more instances of `/api/*` to be replaced with your production URL address in this file. Please just do so :)
 
 If you want to see how the local.json should look like after your modifications, the configs we prepared for `prod.vuestorefront.io` are available under: 
 
-[vue-storefront local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json)
+[vue-storefront local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json)
 
-[vue-storefront-api local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json)
+[vue-storefront-api local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json)
 
 #### Vue Storefront API configuration
 
