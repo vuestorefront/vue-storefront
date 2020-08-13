@@ -6,6 +6,14 @@ platform: Commercetools
 <IncludeContent content-key="getting-started" />
 
 <!-- Installation command -->
+::: slot installation-nuxt
+```bash
+npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+# OR
+yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+```
+:::
+
 ::: slot installation
 ```bash
 npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api
@@ -25,6 +33,21 @@ setup({
 
 ::: slot nuxt-setup-module
 ```js
+'nuxt-composition-api',
+['@vue-storefront/nuxt-theme'],
+['@vue-storefront/nuxt', {
+  coreDevelopment: true,
+  useRawSource: {
+    dev: [
+      '@vue-storefront/commercetools',
+      '@vue-storefront/core'
+    ],
+    prod: [
+      '@vue-storefront/commercetools',
+      '@vue-storefront/core'
+    ]
+  }
+}],
 ['@vue-storefront/commercetools/nuxt', {
   api: {
     uri: 'https://yourshop.com/vsf-ct-dev/graphql',
