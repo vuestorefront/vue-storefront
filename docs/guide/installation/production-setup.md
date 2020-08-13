@@ -405,7 +405,9 @@ yarn build
 
 #### Data import
 
-Vue Storefront needs to have some data in the Elasticsearch to properly display products and categories. Of course, you can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the Elasticsearch index whenever data is being changed in Magento. For the purpose of this tutorial, we'll just restore the data from the JSON file.
+Vue Storefront needs to have some data in the Elasticsearch to properly display products and categories. Of course, you can install [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and configure the data pump to synchronize and update the Elasticsearch index whenever data is being changed in Magento. For the purpose of this tutorial, we'll just restore the data from the JSON file.
+
+Caution! If you are using `magento2-vsbridge-indexer` - do not run `yarn dump`. It might create different mappings for attributes than M2 VSBridge. If you already did it, you could try to purge Elasticsearch with `curl -XDELETE http://localhost:9200/_all` then make full reindex from Magento's machine.
 
 You can easily dump your current VS index using the following command (your local installation):
 
