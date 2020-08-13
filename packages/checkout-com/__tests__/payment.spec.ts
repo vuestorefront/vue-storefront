@@ -45,18 +45,17 @@ describe('[checkout-com] payment', () => {
     const paymentPayload = {
       type: 'token',
       token: '123',
-      context_id: 12,
+      context_id: '12',
       success_url: 'https://example.com/success',
       failure_url: 'https://example.com/failure',
       save_payment_instrument: true,
-      secure3d: true,
-      someFakeAttribute: '12312312321'
+      '3ds': true
     }
 
     const expectedRequestPayload = {
       type: 'token',
       token: '123',
-      context_id: 12,
+      context_id: '12',
       success_url: 'https://example.com/success',
       failure_url: 'https://example.com/failure',
       save_payment_instrument: true,

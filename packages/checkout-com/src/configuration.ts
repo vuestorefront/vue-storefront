@@ -9,15 +9,17 @@ const config = {
   }
 };
 
+interface CardConfiguration {
+  styles?: any;
+  localization?: string | CustomLocalization;
+}
+
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
   tokenizedCardKey?: string;
   saveInstrumentKey?: string;
-  card?: {
-    styles?: any;
-    localization?: string | CustomLocalization;
-  };
+  card?: CardConfiguration;
 }
 
 interface CustomLocalization {
@@ -63,4 +65,4 @@ const getFramesLocalization = () => config.card.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
