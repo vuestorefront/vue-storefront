@@ -59,11 +59,11 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initCardForm = (params?: CardConfiguration) => {
-    const localization = params?.localization || getFramesLocalization();
+  const initCardForm = (cardParams?: CardConfiguration) => {
+    const localization = cardParams?.localization || getFramesLocalization();
     Frames.init({
       publicKey: getPublicKey(),
-      style: params?.styles || getFramesStyles(),
+      style: cardParams?.styles || getFramesStyles(),
       ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         isCardValid.value = Frames.isCardValid();
