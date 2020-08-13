@@ -32,17 +32,11 @@ describe('Command: init <projectName>', () => {
     await initCommand([null]);
     expect(inquirer.prompt).toHaveBeenCalledWith(
       [
-        {
+        expect.objectContaining({
           type: 'input',
           name: 'typedProjectName',
-          message: 'What\'s your project name?',
-          validate (value) {
-            if (value.trim().length > 0) {
-              return true;
-            }
-            return 'Please provide longer name';
-          }
-        }
+          message: 'What\'s your project name?'
+        })
       ]
     );
 
