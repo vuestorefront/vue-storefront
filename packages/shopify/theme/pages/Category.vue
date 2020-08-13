@@ -359,7 +359,7 @@ export default {
       addToCart,
       isOnCart,
       isGridView,
-      category: categories.value[0]
+      category: computed(() => categories.value && categories.value.length > 0 ? categories.value[0] : null)
     };
   },
   components: {
