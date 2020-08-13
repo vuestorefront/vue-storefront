@@ -2,6 +2,7 @@
   "name": "@vue-storefront/checkout-com",
   "version": "0.0.3",
   "sideEffects": false,
+  "private": true,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
