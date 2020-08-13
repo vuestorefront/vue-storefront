@@ -1,13 +1,19 @@
-import log from '../utils/log';
 import getIntegrationsFromPackage from '@vue-storefront/cli/src/utils/getIntegrationsFromPackage';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
 import path from 'path';
 
-export default async ([projectName]) => {
+export default async (args: string[]) => {
+  let projectName = args[0];
   if (!projectName) {
-    log.error('Provide projectName: yarn cli:init <projectName>');
-    return;
+    const { typedProjectName } = await inquirer.prompt([
+      expect.objectContaining({
+        type: 'input',
+        name: 'typedProjectName',
+        message: 'What\'s your project name?'
+      })
+    ]);
+    projectName = typedProjectName;
   }
 
   const integrations = getIntegrationsFromPackage();
