@@ -2888,12 +2888,37 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
+"@vue-storefront/commercetools-api@0.0.4-prealpha.938":
+  version "0.0.4-prealpha.938"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.4-prealpha.938.tgz#24d885d9a7b7a5b4870b410b9fa0619f277e5903"
+  integrity sha512-T79umlCc1aSodkE7oQDQM2HvbvOlIUXWkrna7Gg4Rjw6E2zSUTK2cNbuIkdx2ZTCO4iv8B1TevJc/UvEJFRmQQ==
+  dependencies:
+    "@commercetools/sdk-auth" "^3.0.1"
+    apollo-cache-inmemory "^1.6.6"
+    apollo-client "^2.6.10"
+    apollo-link "^1.2.14"
+    apollo-link-context "^1.0.20"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.17"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.300.tgz#29ef1afa90dd1efb92ecc155b0e77f0899ec411a"
   integrity sha512-kXvPfJGEnak2FuO7LYbYYyxvVDWmKQl6lGxnxvQu8Dm8Kme+pPQ2zHtLeMQYVKAE1fmPoiq/gYPjFl3GMaTejg==
   dependencies:
     "@vue/composition-api" "^0.4.0"
+    vue "^2.6.11"
+
+"@vue-storefront/core@2.0.1-prealpha.938":
+  version "2.0.1-prealpha.938"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.1-prealpha.938.tgz#8335f20e9dd982f0e075909a3c980f9b7cd2ca64"
+  integrity sha512-ZdeM6sbuG/gsLi5fcR785JhFA7bEMDB6WL+sglHBLwWgszRprFrWOh0L2jTFWUYxzfubATdip+ETUbRukfeJiA==
+  dependencies:
+    "@vue/composition-api" "^0.6.7"
+    nuxt-composition-api "^0.10.6"
     vue "^2.6.11"
 
 "@vue-storefront/core@^2.0.1-prealpha.429":
