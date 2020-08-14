@@ -12,7 +12,7 @@ const prodClientConfig = merge(baseClientConfig, {
   ]
 })
 
-module.exports = extendedConfig(prodClientConfig, {
+export default extendedConfig(prodClientConfig, {
   isClient: true,
   isDev: false
 })
