@@ -1,12 +1,14 @@
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import base from './webpack.prod.client.config'
+import glob from 'glob'
 
 import { GenerateSW } from 'workbox-webpack-plugin'
 
+var additionalManifestEntries = glob.sync('{dist,assets}/**/*.{woff,woff2,eot,ttf,svg,png,jpg,jpeg,json}')
+
 module.exports = merge(base, {
   entry: {
-    'app': [],
     'core-service-worker': ['@babel/polyfill', './core/service-worker/index.js']
   },
   output: {
@@ -17,15 +19,17 @@ module.exports = merge(base, {
       'process.env.VUE_ENV': '"client"'
     }),
     new GenerateSW({
-      mode: 'develop',
+      mode: 'debug',
       cacheId: 'vsf-precache',
       swDest: 'service-worker.js',
       importScriptsViaChunks: ['core-service-worker'],
+      additionalManifestEntries,
       inlineWorkboxRuntime: true,
       skipWaiting: true,
       cleanupOutdatedCaches: true,
+      navigationPreload: true,
       include: [
-        /\/(dist|assets)\/.+\.(woff|woff2|eot|ttf|json|svg|png|jpg|jpeg|js)$/
+        /\/(dist|assets)\/.+\.(woff|woff2|eot|ttf|json|svg|png|jpg|jpeg)$/
       ],
       runtimeCaching: [
         {

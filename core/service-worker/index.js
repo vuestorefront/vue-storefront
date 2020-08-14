@@ -1,11 +1,8 @@
-import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { CacheFirst } from 'workbox-strategies'
 
 import '../modules/offline-order/extends/service-worker.js'
 import 'theme/service-worker/index.js'
-
-precacheAndRoute(self.__precacheManifest || self.__WB_MANIFEST || [])
 
 const assetCache = new CacheFirst({
   cacheName: 'vue-sfr-asset'
