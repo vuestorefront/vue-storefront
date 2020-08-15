@@ -241,6 +241,7 @@ export const CartFragment = `
 `;
 
 export const OrderFragment = `
+  ${AddressFragment}
   ${LineItemFragment}
 
   fragment DefaultOrder on Order {
