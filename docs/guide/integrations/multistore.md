@@ -1,5 +1,12 @@
 # Multistore Magento 2 support
 
+:::danger
+
+Using node indexer to enable _multistore_ feature for _Vue Storefront_ has been deprecated. 
+You can use _Bridge Indexer_ for the better performance and maintainability. For Magento 2, you can find it [here](https://github.com/DivanteLtd/magento2-vsbridge-indexer)
+:::
+
+
 Vue Storefront supports Magento Multistore installations
 
 ## Multiwebsite indexing
