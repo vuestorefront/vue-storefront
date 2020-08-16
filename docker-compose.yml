@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3.0'
 services:
   app:
     # image: divante/vue-storefront:latest
@@ -8,7 +8,6 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
-    network_mode: host
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
