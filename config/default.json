@@ -618,6 +618,10 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
+    "omitVariantFields": [
+      "name",
+      "visibility"
+    ],
     "calculateBundlePriceByOptions": true,
     "endpoint": "/api/product",
     "defaultFilters": [
