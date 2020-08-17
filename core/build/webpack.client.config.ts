@@ -1,10 +1,11 @@
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import base from './webpack.base.config'
+import serviceWorker from './webpack.prod.sw.config'
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const config = merge(base, {
+let config = merge(base, {
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -36,5 +37,7 @@ const config = merge(base, {
     new VueSSRClientPlugin()
   ]
 })
+
+config = merge(config, serviceWorker)
 
 export default config;
