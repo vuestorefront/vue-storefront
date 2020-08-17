@@ -297,6 +297,7 @@ export default {
     }));
 
     useAsync(async () => {
+      // TODO: simplify
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);
