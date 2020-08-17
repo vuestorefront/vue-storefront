@@ -14,12 +14,12 @@ registerRoute(
 )
 
 registerRoute(
-  /^\/c\/.*/,
+  /\/c\/.*$/,
   new NetworkFirst()
 )
 
 registerRoute(
-  /^\/p\/.*/,
+  /\/p\/.*$/,
   new NetworkFirst()
 )
 
