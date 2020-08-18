@@ -50,7 +50,7 @@ interface {
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
-    makePayment: ({ cartId, email, contextDataId }): Promise<Response | void>,
+    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d }): Promise<Response | void>,
     setPaymentInstrument: (token: string): void,
     setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
     loadSavePaymentInstrument: (): boolean,
@@ -187,6 +187,7 @@ if (payment.data.redirect_url) {
 success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
+You can override them while calling `makePayment` with `success_url` and `failure_url` attributes.
 
 ## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
@@ -200,11 +201,10 @@ const {
     loadAvailableMethods,
     submitCardForm,
     makePayment,
-    selectPaymentMethod, // Here
     setPaymentInstrument,
     setSavePaymentInstrument,
     loadSavePaymentInstrument,
-    selectedPaymentMethod,
+    selectedPaymentMethod, // Here
     loadStoredPaymentInstruments,
     removePaymentInstrument,
     storedPaymentInstruments,
@@ -224,14 +224,14 @@ enum CkoPaymentType {
 }
 ```
 
-By default, `selectPaymentMethod` equals `CkoPaymentType.NOT_SELECTED`.
-If user uses stored payment call `setSavePaymentInstrument` and it will set `selectPaymentMethod.value = CkoPaymentType.SAVED_CARD`
+By default, `selectedPaymentMethod` equals `CkoPaymentType.NOT_SELECTED`.
+If user uses stored payment call `setSavePaymentInstrument` and it will set `selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD`
 ```js
 setPaymentInstrument(item.id);
 ```
 If user uses credit card use:
 ```js
-selectPaymentMethod.value = CkoPaymentType.CREDIT_CARD
+selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD
 ```
 
 ## Allowing user to decide whether save payment instrument or not
@@ -242,7 +242,6 @@ const {
       loadAvailableMethods,
       submitCardForm,
       makePayment,
-      selectPaymentMethod,
       setPaymentInstrument,
       setSavePaymentInstrument, // Save
       loadSavePaymentInstrument, // Load
