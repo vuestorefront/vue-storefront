@@ -17,7 +17,7 @@ jest.mock('inquirer', () => ({
   }))
 }));
 
-jest.mock('@vue-storefront/cli/src/utils/getIntegrationsFromPackage', () => () => integrations);
+jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => () => integrations);
 
 import createProject from '@vue-storefront/cli/src/scripts/createProject';
 jest.mock('@vue-storefront/cli/src/scripts/createProject', () => jest.fn());

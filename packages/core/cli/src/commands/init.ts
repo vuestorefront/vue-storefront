@@ -1,4 +1,4 @@
-import getIntegrationsFromPackage from '@vue-storefront/cli/src/utils/getIntegrationsFromPackage';
+import getIntegrations from '@vue-storefront/cli/src/utils/getIntegrations';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
 import path from 'path';
@@ -22,7 +22,7 @@ export default async (args: string[]) => {
     projectName = typedProjectName;
   }
 
-  const integrations = getIntegrationsFromPackage();
+  const integrations = getIntegrations();
   const { chosenIntegration } = await inquirer
     .prompt([
       {
