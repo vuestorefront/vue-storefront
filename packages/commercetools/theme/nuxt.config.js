@@ -74,7 +74,33 @@ export default {
           'view_products:vsf-ct-dev',
           'view_published_products:vsf-ct-dev'
         ]
-      }
+      },
+      locale: 'en',
+      currency: 'USD',
+      country: 'US',
+      acceptLanguage: ['en', 'de'],
+      countries: [
+        { name: 'US',
+          label: 'United States' },
+        { name: 'AT',
+          label: 'Austria' },
+        { name: 'DE',
+          label: 'Germany' },
+        { name: 'NL',
+          label: 'Netherlands' }
+      ],
+      currencies: [
+        { name: 'EUR',
+          label: 'Euro' },
+        { name: 'USD',
+          label: 'Dollar' }
+      ],
+      locales: [
+        { name: 'en',
+          label: 'English' },
+        { name: 'de',
+          label: 'German' }
+      ]
     }]
   ],
   modules: [
