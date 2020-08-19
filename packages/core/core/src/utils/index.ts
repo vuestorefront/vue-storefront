@@ -1,12 +1,15 @@
 /* istanbul ignore file */
 
-import { useSSR, onSSR, configureSSR, vsfRef } from './ssr';
+import { onSSR, ssrRef, configureSSR } from './ssr';
+import { shared, getShared } from './shared';
+
 import wrap from './wrap';
 
 export {
-  vsfRef,
   wrap,
-  useSSR,
   onSSR,
-  configureSSR
+  ssrRef,
+  configureSSR,
+  shared,
+  getShared
 };

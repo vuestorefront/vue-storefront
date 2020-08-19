@@ -1,6 +1,6 @@
 import { UseWishlist } from '../types';
-import { Ref, ref, computed } from '@vue/composition-api';
-import { useSSR } from '../utils';
+import { Ref, computed } from '@vue/composition-api';
+import { ssrRef } from '../utils';
 
 export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
   loadWishlist: () => Promise<WISHLIST>;
@@ -24,19 +24,14 @@ interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
 ): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-  const loading: Ref<boolean> = ref<boolean>(false);
-  const wishlist: Ref<WISHLIST> = ref(null);
-  let isInitialized = false;
+  const loading: Ref<boolean> = ssrRef<boolean>(false);
+  const wishlist: Ref<WISHLIST> = ssrRef(null);
 
   const setWishlist = (newWishlist: WISHLIST) => {
     wishlist.value = newWishlist;
   };
 
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-    const { initialState, saveToInitialState } = useSSR('vsf-wishlist');
-
-    wishlist.value = isInitialized ? wishlist.value : initialState || null;
-    isInitialized = true;
 
     const addToWishlist = async (product: PRODUCT) => {
       loading.value = true;
@@ -63,7 +58,6 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       loading.value = true;
       wishlist.value = await factoryParams.loadWishlist();
-      saveToInitialState(wishlist.value);
       loading.value = false;
     };
 

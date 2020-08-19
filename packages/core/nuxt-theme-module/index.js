@@ -4,6 +4,7 @@ const merge = require('lodash.merge');
 const defaultConfig = require('./defaultConfig').default;
 const getRoutes = require('./routes');
 const chalk = require('chalk');
+const path = require('path');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -34,6 +35,10 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
       getRoutes(moduleOptions.generate ? projectLocalThemeDir : this.options.rootDir).forEach(route => routes.unshift(route));
     });
   }
+
+  this.extendBuild(config => {
+    config.resolve.alias['@vue/composition-api'] = path.resolve('node_modules/@vue/composition-api');
+  });
 
   if (moduleOptions.generate) {
     log.info('Watching changes in @vue-storefront/nuxt-theme-module and used platform theme directory');

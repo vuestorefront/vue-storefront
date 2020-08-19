@@ -1,6 +1,6 @@
-import { ref, Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { useSSR, onSSR } from '../../src/utils';
+import { ssrRef, onSSR, shared, getShared } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
@@ -19,20 +19,15 @@ interface UseUserFactory<USER, UPDATE_USER_PARAMS> {
 export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
 ): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
-  let isInitialized = false;
-  const user: Ref<USER> = ref(null);
-  const loading: Ref<boolean> = ref(false);
-  const isAuthenticated = computed(() => Boolean(user.value));
 
   const setUser = (newUser: USER) => {
-    user.value = newUser;
+    getShared('useUser-user').value = newUser;
   };
 
   const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
-    const { initialState, saveToInitialState } = useSSR('vsf-user');
-
-    user.value = isInitialized ? user.value : initialState || null;
-    isInitialized = true;
+    const user: Ref<USER> = shared(ssrRef(null), 'useUser-user');
+    const loading: Ref<boolean> = shared(ssrRef(false), 'useUser-loading');
+    const isAuthenticated = computed(() => Boolean(user.value));
 
     const updateUser = async (params: UPDATE_USER_PARAMS) => {
       loading.value = true;
@@ -94,7 +89,6 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading.value = true;
       try {
         user.value = await factoryParams.loadUser();
-        saveToInitialState(user.value);
       } catch (err) {
         throw new Error(err);
       } finally {

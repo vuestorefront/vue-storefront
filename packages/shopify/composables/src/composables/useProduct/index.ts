@@ -27,7 +27,7 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
   const products = await getProduct(searchParams);
 
   return {
-    data: products,
+    data: JSON.parse(JSON.stringify(products)),
     total: products.length,
     availableSortingOptions
   };

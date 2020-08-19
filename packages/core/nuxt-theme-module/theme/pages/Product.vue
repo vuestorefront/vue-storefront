@@ -216,7 +216,7 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '<%= options.generate.replace.composables %>';
-import { useAsync } from 'nuxt-composition-api';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Product',
@@ -240,7 +240,7 @@ export default {
       big: { url: img.big }
     })));
 
-    useAsync(async () => {
+    onSSR(async () => {
       await loadCart();
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });

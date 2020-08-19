@@ -1,5 +1,6 @@
 import { computed, Ref, ref } from '@vue/composition-api';
 import { AgnosticCountry, AgnosticCurrency, AgnosticLocale, UseLocale } from '../types';
+import { ssrRef } from '../utils';
 
 export type UseLocaleFactoryParams = {
   setLocale: (locale: AgnosticLocale) => Promise<AgnosticLocale>;
@@ -12,12 +13,12 @@ export type UseLocaleFactoryParams = {
 
 export function useLocaleFactory(factoryParams: UseLocaleFactoryParams) {
   const loading: Ref<boolean> = ref(false);
-  const currentLocale: Ref<AgnosticLocale> = ref(null);
-  const currentCountry: Ref<AgnosticCountry> = ref(null);
-  const currentCurrency: Ref<AgnosticCurrency> = ref(null);
-  const availableLocalesState: Ref<AgnosticLocale[]> = ref([]);
-  const availableCountriesState: Ref<AgnosticCountry[]> = ref([]);
-  const availableCurrenciesState: Ref<AgnosticCurrency[]> = ref([]);
+  const currentLocale: Ref<AgnosticLocale> = ssrRef(null);
+  const currentCountry: Ref<AgnosticCountry> = ssrRef(null);
+  const currentCurrency: Ref<AgnosticCurrency> = ssrRef(null);
+  const availableLocalesState: Ref<AgnosticLocale[]> = ssrRef([]);
+  const availableCountriesState: Ref<AgnosticCountry[]> = ssrRef([]);
+  const availableCurrenciesState: Ref<AgnosticCurrency[]> = ssrRef([]);
 
   const setLocale = async (locale: AgnosticLocale) => {
     loading.value = true;

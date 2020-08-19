@@ -1,36 +1,22 @@
-import { Ref, ref } from '@vue/composition-api';
-import { useSSR as defaultUseSSR, onSSR } from './default';
+import { onServerPrefetch, ref, Ref } from '@vue/composition-api';
 
-interface UseSSRValues {
-  initialState: any;
-  saveToInitialState: (value: any) => void;
-}
-
-type UseSSR = (key: string) => UseSSRValues;
+type SsrRef = <T>(data?: T, key?: string) => Ref<T>;
 
 interface SSRConfiguration {
-  useSSR: UseSSR;
+  onSSR: (fn: () => void) => void;
+  ssrRef: SsrRef;
 }
 
-let useSSR = defaultUseSSR;
+let onSSR = onServerPrefetch;
+let ssrRef: SsrRef = ref;
 
 const configureSSR = (config: SSRConfiguration) => {
-  useSSR = config.useSSR;
-};
-
-const vsfRef = <T = any>(param: T): Ref<T> => {
-  try {
-    const { ssrRef } = require('nuxt-composition-api');
-
-    return ssrRef(param) as Ref<T>;
-  } catch (e) {
-    return ref(param) as Ref<T>;
-  }
+  onSSR = config.onSSR || onSSR;
+  ssrRef = config.ssrRef || ssrRef as any;
 };
 
 export {
-  vsfRef,
   onSSR,
-  configureSSR,
-  useSSR
+  ssrRef,
+  configureSSR
 };

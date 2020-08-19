@@ -31,7 +31,6 @@ export default {
   ],
   buildModules: [
     // to core
-    'nuxt-composition-api',
     '@nuxt/typescript-build',
     '@nuxtjs/dotenv',
     ['@nuxtjs/pwa', { icon: false }],

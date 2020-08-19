@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
-    "@vue/composition-api": "^0.6.7",
+    "@vue/composition-api": "^1.0.0-beta.8",
+    "@nuxtjs/composition-api": "^0.12.0",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
