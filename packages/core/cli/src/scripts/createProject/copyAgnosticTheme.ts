@@ -28,5 +28,10 @@ export default async (integration: string, targetPath: string): Promise<void> =>
     );
   };
 
-  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(absoluteDirectoryPath, path.join(__dirname, targetPath), agnosticThemePath)));
+  await Promise.all(agnosticThemeFiles.map(absoluteDirectoryPath => compileAgnosticTemplate(
+    absoluteDirectoryPath,
+    path.isAbsolute(targetPath)
+      ? targetPath
+      : path.join(__dirname, targetPath),
+    agnosticThemePath)));
 };

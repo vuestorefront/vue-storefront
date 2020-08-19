@@ -21,14 +21,6 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
     : '_theme';
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', targetDirectory);
 
-  this.options.css = [
-    ...this.options.css,
-    // CSS reset stylesheet
-    moduleOptions.generate
-      ? `${projectLocalThemeDir}/assets/css/reset.scss`
-      : 'assets/css/reset.scss'
-  ];
-
   if (moduleOptions.routes) {
     this.extendRoutes((routes) => {
       getRoutes(moduleOptions.generate ? projectLocalThemeDir : this.options.rootDir).forEach(route => routes.unshift(route));
