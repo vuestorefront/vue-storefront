@@ -8,7 +8,7 @@ describe('createSinglePageLoadQuery should', () => {
     let [ appliedFilter ] = singlePageMockQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('attribute', filter.key)
-    expect(appliedFilter).toHaveProperty('value', { like: filter.value })
+    expect(appliedFilter).toHaveProperty('value', { eq: filter.value })
   })
 
   it('return page loading query with base hierarchy if value is not provided', () => {

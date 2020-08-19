@@ -8,7 +8,7 @@ describe('createSingleBlockLoadQuery should', () => {
     let [ appliedFilter ] = mockSingleBlockQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('attribute', argsMock.key)
-    expect(appliedFilter).toHaveProperty('value', { like: argsMock.value })
+    expect(appliedFilter).toHaveProperty('value', { eq: argsMock.value })
   })
 
   it('return create single block load query with base hierarchy if value is not provided', () => {

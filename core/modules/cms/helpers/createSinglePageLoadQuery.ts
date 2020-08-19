@@ -4,7 +4,7 @@ const createSinglePageLoadQuery = ({ key, value }): SearchQuery => {
   let query = new SearchQuery()
 
   if (value) {
-    query = query.applyFilter({ key, value: { like: value } })
+    query = query.applyFilter({ key, value: { eq: value } })
   }
 
   return query
