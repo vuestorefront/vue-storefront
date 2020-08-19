@@ -1,13 +1,5 @@
 import { useUserFactory } from '../../src/factories';
-import * as vsfUtils from '../../src/utils';
-
-jest.mock('../../src/utils');
-const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
-mockedUtils.onSSR.mockImplementation((fn) => fn());
-mockedUtils.useSSR.mockReturnValueOnce({
-  initialState: null,
-  saveToInitialState: jest.fn()
-});
+import { getShared } from './../../src/utils';
 
 const factoryParams = {
   loadUser: jest.fn(() => null),
@@ -28,16 +20,11 @@ describe('[CORE - factories] useUserFactory', () => {
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
-      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user1', saveToInitialState: jest.fn() });
       const { useUser } = useUserFactory(factoryParams);
-      const { user: user1, isAuthenticated } = useUser();
+      const { user, isAuthenticated } = useUser();
 
-      expect(user1.value).toEqual('some-user1');
-      expect(isAuthenticated.value).toEqual(true);
-
-      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user2', saveToInitialState: jest.fn() });
-      const { user: user2 } = useUser();
-      expect(user2.value).toEqual('some-user1');
+      expect(user.value).toEqual(null);
+      expect(isAuthenticated.value).toEqual(false);
     });
 
     it('isAuthenticated returns true for logged in user', async () => {
@@ -52,7 +39,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
     it('set given user property', () => {
       setUser({ username: 'test' });
-      expect(useUserMethods.user.value).toEqual({ username: 'test' });
+      expect(getShared).toHaveBeenCalled();
     });
   });
   describe('methods', () => {
