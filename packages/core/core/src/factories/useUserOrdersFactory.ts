@@ -13,9 +13,9 @@ export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
   return function useUserOrders(): UseUserOrders<ORDER> {
-    const orders: Ref<ORDER[]> = sharedRef([], 'seUserOrders-orders');
-    const totalOrders: Ref<number> = sharedRef(0, 'seUserOrders-totalOrders');
-    const loading: Ref<boolean> = sharedRef(false, 'seUserOrders-loading');
+    const orders: Ref<ORDER[]> = sharedRef([], 'useUserOrders-orders');
+    const totalOrders: Ref<number> = sharedRef(0, 'useUserOrders-totalOrders');
+    const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
 
     const searchOrders = async (params?: ORDER_SEARCH_PARAMS): Promise<void> => {
       loading.value = true;
