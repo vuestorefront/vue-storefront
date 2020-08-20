@@ -32,7 +32,6 @@ setup({
 
 ::: slot nuxt-setup-module
 ```js
-'nuxt-composition-api',
 ['@vue-storefront/nuxt-theme'],
 ['@vue-storefront/nuxt', {
   coreDevelopment: true,
