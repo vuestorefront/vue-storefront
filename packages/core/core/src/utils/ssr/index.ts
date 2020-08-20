@@ -1,22 +1,22 @@
 import { onServerPrefetch, ref, Ref } from '@vue/composition-api';
 
-type SsrRef = <T>(data?: T, key?: string) => Ref<T>;
+type VsfRef = <T>(data?: T, key?: string) => Ref<T>;
 
 interface SSRConfiguration {
   onSSR: (fn: () => void) => void;
-  ssrRef: SsrRef;
+  vsfRef: VsfRef;
 }
 
 let onSSR = onServerPrefetch;
-let ssrRef: SsrRef = ref;
+let vsfRef: VsfRef = ref;
 
 const configureSSR = (config: SSRConfiguration) => {
   onSSR = config.onSSR || onSSR;
-  ssrRef = config.ssrRef || ssrRef as any;
+  vsfRef = config.vsfRef || vsfRef as any;
 };
 
 export {
   onSSR,
-  ssrRef,
+  vsfRef,
   configureSSR
 };

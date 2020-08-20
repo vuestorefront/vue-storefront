@@ -1,6 +1,6 @@
 import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
-import { getShared } from './../../src/utils';
+import { sharedRef } from './../../src/utils';
 
 let useCart: () => UseCart<any, any, any, any>;
 let setCart = null;
@@ -55,7 +55,7 @@ describe('[CORE - factories] useCartFactory', () => {
       const { cart } = useCart();
       expect(cart.value).toEqual(null);
       setCart({ cart: 'test' });
-      expect(getShared).toHaveBeenCalled();
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
 

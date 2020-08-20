@@ -1,18 +1,23 @@
 
 import { Ref } from '@vue/composition-api';
+import { vsfRef } from '../../utils';
 
 const sharedMap = new Map();
 
-const getShared = (key: string) => sharedMap.get(key);
+function sharedRef<T>(value: T, key: string): Ref;
+function sharedRef<T>(key: string, _?): Ref;
 
-const shared = (el: Ref, key: string) => {
-  if (sharedMap.has(key)) {
-    return getShared(key);
+function sharedRef<T>(value: T, key: string): Ref {
+  const givenKey = key || value;
+
+  if (sharedMap.has(givenKey)) {
+    return sharedMap.get(givenKey);
   }
 
-  sharedMap.set(key, el);
+  const newRef = vsfRef(value, key);
+  sharedMap.set(key, newRef);
 
-  return el;
-};
+  return newRef;
+}
 
-export { shared, getShared };
+export { sharedRef };

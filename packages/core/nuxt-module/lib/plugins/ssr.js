@@ -6,7 +6,7 @@ const ssrPlugin = () => {
   let previousRoute = '';
 
   configureSSR({
-    ssrRef,
+    vsfRef: ssrRef,
     onSSR: (fn) => {
       onServerPrefetch(fn);
       if (typeof window !== 'undefined') {

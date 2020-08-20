@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { ssrRef, onSSR, shared, getShared } from '../utils';
+import { sharedRef, onSSR } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
@@ -21,12 +21,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 ): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
 
   const setUser = (newUser: USER) => {
-    getShared('useUser-user').value = newUser;
+    sharedRef('useUser-user').value = newUser;
   };
 
   const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
-    const user: Ref<USER> = shared(ssrRef(null), 'useUser-user');
-    const loading: Ref<boolean> = shared(ssrRef(false), 'useUser-loading');
+    const user: Ref<USER> = sharedRef(null, 'useUser-user');
+    const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
 
     const updateUser = async (params: UPDATE_USER_PARAMS) => {

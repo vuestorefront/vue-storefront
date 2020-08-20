@@ -1,6 +1,6 @@
 import { UseWishlist } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { ssrRef } from '../utils';
+import { sharedRef } from '../utils';
 
 export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
   loadWishlist: () => Promise<WISHLIST>;
@@ -24,8 +24,8 @@ interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
 ): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-  const loading: Ref<boolean> = ssrRef<boolean>(false);
-  const wishlist: Ref<WISHLIST> = ssrRef(null);
+  const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
+  const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
 
   const setWishlist = (newWishlist: WISHLIST) => {
     wishlist.value = newWishlist;

@@ -1,6 +1,6 @@
 import { UseCart } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { ssrRef, shared, getShared } from '../utils';
+import { sharedRef } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   loadCart: () => Promise<CART>;
@@ -40,13 +40,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 ): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
 
   const setCart = (newCart: CART) => {
-    getShared('useCart-cart').value = newCart;
+    sharedRef('useCart-cart').value = newCart;
   };
 
   const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
-    const appliedCoupon: Ref<COUPON | null> = shared(ssrRef(null), 'useCart-appliedCoupon');
-    const loading: Ref<boolean> = shared(ssrRef<boolean>(false), 'useCart-loading');
-    const cart: Ref<CART> = shared(ssrRef(null), 'useCart-cart');
+    const appliedCoupon: Ref<COUPON | null> = sharedRef(null, 'useCart-appliedCoupon');
+    const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
+    const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;

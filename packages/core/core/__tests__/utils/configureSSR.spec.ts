@@ -1,5 +1,5 @@
 
-import { ssrRef, onSSR, configureSSR } from '../../src/utils/ssr';
+import { vsfRef, onSSR, configureSSR } from '../../src/utils/ssr';
 import { ref, onServerPrefetch } from '@vue/composition-api';
 
 describe('[CORE - utils] configureSSR', () => {
@@ -8,17 +8,17 @@ describe('[CORE - utils] configureSSR', () => {
   });
 
   it('returns default implementation', () => {
-    expect(ssrRef).toEqual(ref);
+    expect(vsfRef).toEqual(ref);
     expect(onSSR).toEqual(onServerPrefetch);
   });
 
   it('returns configured implementation', () => {
     configureSSR({
-      ssrRef: 'new-ref',
+      vsfRef: 'new-ref',
       onSSR: 'new-on-ssr'
     } as any);
 
-    expect(ssrRef).toEqual('new-ref');
+    expect(vsfRef).toEqual('new-ref');
     expect(onSSR).toEqual('new-on-ssr');
   });
 
@@ -27,16 +27,16 @@ describe('[CORE - utils] configureSSR', () => {
       onSSR: 'new-on-ssr-2'
     } as any);
 
-    expect(ssrRef).toEqual('new-ref');
+    expect(vsfRef).toEqual('new-ref');
     expect(onSSR).toEqual('new-on-ssr-2');
   });
 
-  it('returns configured implementation for ssrRef', () => {
+  it('returns configured implementation for vsfRef', () => {
     configureSSR({
-      ssrRef: 'new-ref-2'
+      vsfRef: 'new-ref-2'
     } as any);
 
-    expect(ssrRef).toEqual('new-ref-2');
+    expect(vsfRef).toEqual('new-ref-2');
     expect(onSSR).toEqual('new-on-ssr-2');
   });
 });

@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUserOrders } from '../types';
-import { ssrRef } from '../utils';
+import { sharedRef } from '../utils';
 
 export interface OrdersSearchResult<ORDER> {
   data: ORDER[];
@@ -13,9 +13,9 @@ export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
   return function useUserOrders(): UseUserOrders<ORDER> {
-    const orders: Ref<ORDER[]> = ssrRef([]);
-    const totalOrders: Ref<number> = ssrRef(0);
-    const loading: Ref<boolean> = ssrRef(false);
+    const orders: Ref<ORDER[]> = sharedRef([], 'seUserOrders-orders');
+    const totalOrders: Ref<number> = sharedRef(0, 'seUserOrders-totalOrders');
+    const loading: Ref<boolean> = sharedRef(false, 'seUserOrders-loading');
 
     const searchOrders = async (params?: ORDER_SEARCH_PARAMS): Promise<void> => {
       loading.value = true;

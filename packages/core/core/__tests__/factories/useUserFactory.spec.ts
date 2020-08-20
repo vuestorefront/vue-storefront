@@ -1,5 +1,5 @@
 import { useUserFactory } from '../../src/factories';
-import { getShared } from './../../src/utils';
+import { sharedRef } from './../../src/utils';
 
 const factoryParams = {
   loadUser: jest.fn(() => null),
@@ -39,7 +39,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
     it('set given user property', () => {
       setUser({ username: 'test' });
-      expect(getShared).toHaveBeenCalled();
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
   describe('methods', () => {

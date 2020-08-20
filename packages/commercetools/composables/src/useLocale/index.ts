@@ -13,7 +13,7 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { LocaleItem } from '@vue-storefront/commercetools-api/lib/types/setup';
 import Cookies from 'js-cookie';
-import { onSSR, ssrRef } from '@vue-storefront/core';
+import { onSSR, sharedRef } from '@vue-storefront/core';
 
 /*
   This is the old version of that component.
@@ -28,11 +28,11 @@ type AvailableCountries = Ref<Readonly<LocaleItem[]>>
 type AvailableCurrencies = Ref<Readonly<LocaleItem[]>>
 
 export default function useLocale() {
-  const loading = ssrRef(false);
-  const error = ssrRef(null);
-  const locale: Locale = ssrRef('');
-  const country: Country = ssrRef('');
-  const currency: Currency = ssrRef('');
+  const loading = sharedRef(false, 'useLocale-loading');
+  const error = sharedRef(null, 'useLocale-error');
+  const locale: Locale = sharedRef('', 'useLocale-locale');
+  const country: Country = sharedRef('', 'useLocale-country');
+  const currency: Currency = sharedRef('', 'useLocale-currency');
   const availableLocales: AvailableLocales = computed<LocaleItem[]>(() => locales);
   const availableCountries: AvailableCountries = computed<LocaleItem[]>(() => countries);
   const availableCurrencies: AvailableCurrencies = computed<LocaleItem[]>(() => currencies);

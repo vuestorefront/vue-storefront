@@ -2,20 +2,20 @@
 
 import { Ref, computed } from '@vue/composition-api';
 import { Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
-import { ssrRef, shared } from '@vue-storefront/core';
+import { sharedRef } from '@vue-storefront/core';
 
 export const initialDetails = { contactInfo: {} };
-export const paymentMethods: Ref<any[]> = shared(ssrRef([]), 'useCheckout-paymentMethods');
-export const shippingMethods: Ref<any[]> = shared(ssrRef([]), 'useCheckout-shippingMethods');
-export const personalDetails: Ref<Customer> = shared(ssrRef<Customer>({} as Customer), 'useCheckout-personalDetails');
-export const chosenPaymentMethod: Ref<any> = shared(ssrRef({}), 'useCheckout-chosenPaymentMethod');
-export const chosenShippingMethod: Ref<any> = shared(ssrRef({}), 'useCheckout-chosenShippingMethod');
-export const isPersonalDetailsCompleted: Ref<boolean> = shared(ssrRef(false), 'useCheckout-isPersonalDetailsCompleted');
-export const isShippingAddressCompleted: Ref<boolean> = shared(ssrRef(false), 'useCheckout-isShippingAddressCompleted');
-export const isBillingAddressCompleted: Ref<boolean> = shared(ssrRef(false), 'useCheckout-isBillingAddressCompleted');
-export const billingDetails: Ref<any> = shared(ssrRef(initialDetails), 'useCheckout-billingDetails');
-export const shippingDetails: Ref<any> = shared(ssrRef(initialDetails), 'useCheckout-shippingDetails');
-export const loading = shared(ssrRef({
+export const paymentMethods: Ref<any[]> = sharedRef([], 'useCheckout-paymentMethods');
+export const shippingMethods: Ref<any[]> = sharedRef([], 'useCheckout-shippingMethods');
+export const personalDetails: Ref<Customer> = sharedRef({}, 'useCheckout-personalDetails');
+export const chosenPaymentMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenPaymentMethod');
+export const chosenShippingMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenShippingMethod');
+export const isPersonalDetailsCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isPersonalDetailsCompleted');
+export const isShippingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isShippingAddressCompleted');
+export const isBillingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isBillingAddressCompleted');
+export const billingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-billingDetails');
+export const shippingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-shippingDetails');
+export const loading = sharedRef({
   personalDetails: false,
   paymentMethods: false,
   shippingMethods: false,
@@ -23,7 +23,7 @@ export const loading = shared(ssrRef({
   billingAddress: false,
   shippingMethod: false,
   order: false
-}), 'useCheckout-loading');
+}, 'useCheckout-loading');
 
 export const checkoutComputed = {
   loading: computed(() => loading.value),

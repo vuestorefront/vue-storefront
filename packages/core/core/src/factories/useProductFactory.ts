@@ -1,6 +1,6 @@
 import { UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { ssrRef } from '../utils';
+import { sharedRef } from '../utils';
 
 type SearchParams = {
   perPage?: number;
@@ -25,11 +25,11 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
   factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
 ) {
   return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
-    const products: Ref<PRODUCT[]> = ssrRef([], `useProduct-products-${id}`);
-    const totalProducts: Ref<number> = ssrRef(0, `useProduct-totalProducts-${id}`);
-    const filters: Ref<PRODUCT_FILTERS> = ssrRef(null, `useProduct-filters-${id}`);
-    const sortingOptions: Ref<SORTING_OPTIONS> = ssrRef(null, `useProduct-sortingOptions-${id}`);
-    const loading = ssrRef(false, `useProduct-loading-${id}`);
+    const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
+    const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
+    const filters: Ref<PRODUCT_FILTERS> = sharedRef(null, `useProduct-filters-${id}`);
+    const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
+    const loading = sharedRef(false, `useProduct-loading-${id}`);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS) => {
       loading.value = true;
