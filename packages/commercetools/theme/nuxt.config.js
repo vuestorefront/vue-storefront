@@ -58,7 +58,6 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      disableGenerateTokenMiddleware: false,
       api: {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',

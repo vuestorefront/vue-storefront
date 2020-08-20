@@ -4,23 +4,49 @@
 2. At the bottom of `buildModules` add:
 ```js
 ['@vue-storefront/commercetools/nuxt', {
-  disableGenerateTokenMiddleware: false,
-  api: {
-    uri: 'https://yourshop.com/vsf-ct-dev/graphql',
-    authHost: 'https://auth.sphere.io',
-    projectKey: 'vsf-ct-dev',
-    clientId: '<your_client_id>',respon
-    clientSecret: '<your_client_secret>',
-    scopes: [
-      'create_anonymous_token:vsf-ct-dev',
-      'manage_my_orders:vsf-ct-dev',
-      'manage_my_profile:vsf-ct-dev',
-      'manage_my_shopping_lists:vsf-ct-dev',
-      'manage_my_payments:vsf-ct-dev',
-      'view_products:vsf-ct-dev',
-      'view_published_products:vsf-ct-dev'
-    ]
-  }
+    api: {
+        uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
+        authHost: 'https://auth.sphere.io',
+        projectKey: 'vsf-ct-dev',
+        clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
+        clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+        scopes: [
+          'create_anonymous_token:vsf-ct-dev',
+          'manage_my_orders:vsf-ct-dev',
+          'manage_my_profile:vsf-ct-dev',
+          'manage_my_shopping_lists:vsf-ct-dev',
+          'manage_my_payments:vsf-ct-dev',
+          'view_products:vsf-ct-dev',
+          'view_published_products:vsf-ct-dev'
+        ]
+      },
+      locale: 'en',
+      currency: 'USD',
+      country: 'US',
+      acceptLanguage: ['en', 'de'],
+      countries: [
+        { name: 'US',
+          label: 'United States' },
+        { name: 'AT',
+          label: 'Austria' },
+        { name: 'DE',
+          label: 'Germany' },
+        { name: 'NL',
+          label: 'Netherlands' }
+      ],
+      currencies: [
+        { name: 'EUR',
+          label: 'Euro' },
+        { name: 'USD',
+          label: 'Dollar' }
+      ],
+      locales: [
+        { name: 'en',
+          label: 'English' },
+        { name: 'de',
+          label: 'German' }
+      ]
+    }]
 }]
 ```
 
