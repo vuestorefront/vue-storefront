@@ -5,13 +5,15 @@
   "main": "src/scripts/createProject/index.ts",
   "private": true,
   "scripts": {
-    "test": "cross-env APP_ENV=test jest --rootDir ."
+    "test": "cross-env APP_ENV=test jest --rootDir .",
+    "cli": "ts-node ./src/index.ts"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-theme": "^0.0.3",
     "@vue-storefront/about-you-theme": "^0.0.1",
     "@vue-storefront/boilerplate-theme": "^0.0.3",
-    "@vue-storefront/nuxt-theme": "^0.0.1"
+    "@vue-storefront/commercetools-theme": "^0.0.3",
+    "@vue-storefront/nuxt-theme": "^0.0.1",
+    "inquirer": "^7.3.3"
   },
   "author": "Filip Jędrasik",
   "license": "ISC"

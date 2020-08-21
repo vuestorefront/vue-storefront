@@ -34,17 +34,44 @@ jest.mock('fs', () => ({
   existsSync: (finalPath) => finalPath.endsWith(NOT_EXISTING_PATH)
 }));
 
+import path from 'path';
 jest.mock('path', () => ({
-  join: (_, file) => file
+  join: (_, file) => file,
+  isAbsolute: jest.fn(() => false)
 }));
 
 describe('[vsf-next-cli] copyAgnosticTheme', () => {
-  it('compiles & copies template with proper arguments', async () => {
+  it('compiles & copies template with proper arguments to relative path', async () => {
 
     const integration = 'magento-2';
     const targetPath = '../../my-new-super-project';
 
     getAllFilesFromDir.mockImplementation(() => files);
+
+    await copyAgnosticTheme(integration, targetPath);
+    for (const file of files) {
+      expect(compileTemplateMock).toHaveBeenCalledWith(
+        file,
+        targetPath + (file.replace(themePath, '')),
+        {
+          generate: {
+            replace: {
+              apiClient: `@vue-storefront/${integration}-api`,
+              composables: `@vue-storefront/${integration}`
+            }
+          }
+        }
+      );
+
+    }
+  });
+
+  it('compiles & copies template with proper arguments to absolute path', async () => {
+
+    const integration = 'magento-2';
+    const targetPath = '/home/thecreator/my-new-super-project';
+
+    (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
     await copyAgnosticTheme(integration, targetPath);
     for (const file of files) {
