@@ -13,7 +13,6 @@
   "dependencies": {
     "@vue-storefront/shopify-api": "^0.0.1",
     "@vue-storefront/core": "^2.0.0",
-    "@vue/composition-api": "^1.0.0-beta.8",
     "js-cookie": "^2.2.1"
   },
   "files": [
