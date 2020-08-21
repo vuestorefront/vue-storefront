@@ -254,7 +254,7 @@ import { computed, ref, watch, onMounted } from '@vue/composition-api';
 import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.generate.replace.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
-import { useAsync } from 'nuxt-composition-api';
+import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
 const perPageOptions = [20, 40, 100];
@@ -296,8 +296,7 @@ export default {
       sort: sortBy.value
     }));
 
-    useAsync(async () => {
-      // TODO: simplify
+    onSSR(async () => {
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);

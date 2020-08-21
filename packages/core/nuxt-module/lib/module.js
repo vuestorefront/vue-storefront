@@ -37,12 +37,12 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     }
   })
 
-
   log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
-  this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
   log.success('Installed Composition API plugin for Vue 2')
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'))
-  log.success('Installed SSR plugin for composables');
+  log.success('Installed VSF SSR plugin');
+  this.addModule('@nuxtjs/composition-api')
+  log.success('Installed nuxt composition api module');
 
   //-------------------------------------
 

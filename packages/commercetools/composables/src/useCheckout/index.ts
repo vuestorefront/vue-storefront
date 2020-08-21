@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-import { useSSR } from '@vue-storefront/core';
 import createSetShippingDetails from './createSetShippingDetails';
 import createSetBillingDetails from './createSetBillingDetails';
 import createSetShippingMethod from './createSetShippingMethod';
@@ -16,8 +15,7 @@ import { useCart, setCart } from './../useCart';
 const useCheckoutFactory = (factoryParams) => {
   const useCheckout = () => {
     const cartFields = useCart();
-    const { saveToInitialState } = useSSR('vsf-cart');
-    const methodsParams = { factoryParams, saveToInitialState, cartFields, setCart };
+    const methodsParams = { factoryParams, cartFields, setCart };
     const setShippingMethod = createSetShippingMethod(methodsParams);
     const setShippingDetails = createSetShippingDetails(methodsParams);
     const setBillingDetails = createSetBillingDetails(methodsParams);

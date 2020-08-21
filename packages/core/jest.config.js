@@ -7,13 +7,11 @@ module.exports = {
     './**/*.ts',
     '!./**/*.d.ts',
     '!**/__tests__/**/*.ts',
-    // TODO add tests after factories
-    '!theme-module/**/*'
+    '!nuxt-theme-module/**/*'
   ],
   watchPathIgnorePatterns: ['/node_modules/'],
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: {
-    'nuxt-composition-api': 'nuxt-composition-api/lib/cjs/entrypoint.js',
     '^@vue-storefront/cli/(.*?)$': '<rootDir>/cli/$1',
     '^@vue-storefront/nuxt-theme/(.*?)$': '<rootDir>/nuxt-theme-module/$1',
     '^@vue-storefront/(.*?)$': '<rootDir>/$1'

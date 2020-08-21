@@ -1,5 +1,6 @@
-import { computed, Ref, ref } from '@vue/composition-api';
+import { computed, Ref } from '@vue/composition-api';
 import { AgnosticCountry, AgnosticCurrency, AgnosticLocale, UseLocale } from '../types';
+import { sharedRef } from '../utils';
 
 export type UseLocaleFactoryParams = {
   setLocale: (locale: AgnosticLocale) => Promise<AgnosticLocale>;
@@ -11,13 +12,13 @@ export type UseLocaleFactoryParams = {
 };
 
 export function useLocaleFactory(factoryParams: UseLocaleFactoryParams) {
-  const loading: Ref<boolean> = ref(false);
-  const currentLocale: Ref<AgnosticLocale> = ref(null);
-  const currentCountry: Ref<AgnosticCountry> = ref(null);
-  const currentCurrency: Ref<AgnosticCurrency> = ref(null);
-  const availableLocalesState: Ref<AgnosticLocale[]> = ref([]);
-  const availableCountriesState: Ref<AgnosticCountry[]> = ref([]);
-  const availableCurrenciesState: Ref<AgnosticCurrency[]> = ref([]);
+  const loading: Ref<boolean> = sharedRef(false, 'useLocale-loading');
+  const currentLocale: Ref<AgnosticLocale> = sharedRef(null, 'useLocale-currentLocale');
+  const currentCountry: Ref<AgnosticCountry> = sharedRef(null, 'useLocale-currentCountry');
+  const currentCurrency: Ref<AgnosticCurrency> = sharedRef(null, 'useLocale-currentCurrency');
+  const availableLocalesState: Ref<AgnosticLocale[]> = sharedRef([], 'useLocale-availableLocalesState');
+  const availableCountriesState: Ref<AgnosticCountry[]> = sharedRef([], 'useLocale-availableCountriesState');
+  const availableCurrenciesState: Ref<AgnosticCurrency[]> = sharedRef([], 'useLocale-availableCurrenciesState');
 
   const setLocale = async (locale: AgnosticLocale) => {
     loading.value = true;
