@@ -50,7 +50,7 @@ export default {
 
 ## Your own SSR implementation
 
-It's possible to create your own implementation of shared-state (we provide it too). In that case you have to provide implementation of the `useSSR` and `vsfRef`.
+It's possible to create your own implementation of shared-state (we provide it too). In that case you have to provide implementation of the `onSSR` and `vsfRef`.
 
 ```js
 import { configureSSR } from '@vue-storefront/core';
