@@ -241,6 +241,7 @@ export const CartFragment = `
 `;
 
 export const OrderFragment = `
+  ${AddressFragment}
   ${LineItemFragment}
 
   fragment DefaultOrder on Order {
@@ -252,8 +253,18 @@ export const OrderFragment = `
     }
     orderState
     id
+    orderNumber
     version
     createdAt
+    customerEmail
+    shipmentState
+    paymentState
+    shippingAddress {
+      ...DefaultAddress
+    }
+    billingAddress {
+      ...DefaultAddress
+    }
   }
 `;
 
