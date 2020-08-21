@@ -1,4 +1,4 @@
-import { setup, getPublicKey, getCkoWebhookUrl, getStyles, getCardTokenKey } from '../src/configuration';
+import { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getTransactionTokenKey } from '../src/configuration';
 
 describe('[checkout-com] configuration', () => {
 
@@ -7,7 +7,10 @@ describe('[checkout-com] configuration', () => {
     const config = {
       publicKey: 'some-public-key',
       ckoWebHookUrl: 'https://pwebhook.com/api/a',
-      styles: {ab: '12'},
+      card: {
+        styles: {ab: '12'},
+        localization: 'en-US'
+      },
       tokenizedCardKey: 'temporary-tokenized-value-key'
     };
 
@@ -15,8 +18,9 @@ describe('[checkout-com] configuration', () => {
 
     expect(getPublicKey()).toBe(config.publicKey);
     expect(getCkoWebhookUrl()).toBe(config.ckoWebHookUrl);
-    expect(getStyles()).toEqual(config.styles);
-    expect(getCardTokenKey()).toBe(config.tokenizedCardKey);
+    expect(getFramesStyles()).toEqual(config.card.styles);
+    expect(getFramesLocalization()).toEqual(config.card.localization);
+    expect(getTransactionTokenKey()).toBe(config.tokenizedCardKey);
 
   });
 
