@@ -284,7 +284,7 @@ In `nuxt.config.js` module's config you can use each attribute from [this page](
     // ...
     card: {
         localization: 'KO-KR',
-        styles: {
+        style: {
             'card-number': {
                 color: 'red'
             },
