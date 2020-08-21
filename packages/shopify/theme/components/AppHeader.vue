@@ -113,7 +113,7 @@ export default {
         showSearchResults.value = false;
       }
     };
-    const { categories, search } = useCategory('categories');
+    const { categories, search } = useCategory('menuCategories');
 
     const hideSearchContainer = () => {
       searchQuery.value = '';
