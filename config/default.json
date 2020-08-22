@@ -31,6 +31,7 @@
     "invalidateCacheForwarding": false,
     "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
+    "dynamicConfigReloadWithEachRequest": false,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
       "entities",
