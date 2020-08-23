@@ -4,7 +4,7 @@
 _Vue Storefront_ is a ___headless e-commerce PWA frontend framework___ that may work with __any__ backend that you are already using via its API regardless of the platform, be it e-commerce, CMS, ERP, PIM, or anything else. 
 
 
-![f_b](images/f_b.png)
+![f_b](./images/f_b.png)
 
 We mean by 
  - __headless__ : Your e-commerce platform as a whole system can be built on top of a set of different technologies. No mandatory combination for the platform is required. Manifestation of _low coupling and high cohesion_ is here and will stay with us until the end. 
@@ -44,7 +44,7 @@ Now, solution comes with _Vue Storefront_.
 ## In a nutshell, technically 
 _Vue Storefront_ is made up of 4 layers as follows : 
 
-![templates_d](../images/templates.png)
+![templates_d](./images/templates.png)
 
 _Data Layer_ : __API Client__ - This provides a friendly abstraction layer for your e-commerce backend over network. 
 
