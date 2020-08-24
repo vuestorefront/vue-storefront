@@ -532,6 +532,13 @@ yarn start
 
 Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
+#### Disabling Vue Storefront and Vue Storefront API
+
+To properly disable both Node.js processes inside directory with VSF or VSF-API use:
+```
+node_modules/pm2/bin/pm2 kill
+```
+
 ## Cache Strategies 
 
 ### Varnish cache for VSF
