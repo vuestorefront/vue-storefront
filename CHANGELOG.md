@@ -17,8 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
 
-## [1.12.3]
-
 ### Added
 
 - Added states.json in core/i18n/resource (#4680)
