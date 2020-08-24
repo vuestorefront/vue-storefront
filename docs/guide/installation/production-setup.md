@@ -524,10 +524,10 @@ yarn db rebuild;
 After everything set, you can just start the `vue-storefront` and `vue-storefront-api`:
 
 ```bash
-cd vue-storefront-api
-yarn start
-cd vue-storefront
-yarn start
+cd vue-storefront-api;
+yarn start;
+cd ../vue-storefront;
+yarn start;
 ```
 
 Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
@@ -536,7 +536,7 @@ Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usa
 
 To properly disable both Node.js processes inside directory with VSF or VSF-API use:
 ```
-node_modules/pm2/bin/pm2 kill
+node_modules/pm2/bin/pm2 kill;
 ```
 
 ## Cache Strategies 
