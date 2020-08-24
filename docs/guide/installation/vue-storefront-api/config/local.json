@@ -1,72 +1,380 @@
 {
-    "port": 8080,
-    "objHashSecret": "__SECRET_CHANGE_ME__",
-    "bodyLimit": "100kb",
-    "corsHeaders": [
-        "Link"
-    ],
-    "kue": {},
-    "tax": {
-        "defaultCountry": "PL",
-        "defaultRegion": "",
-        "calculateServerSide": true
+    "server": {
+      "host": "localhost",
+      "port": 8080,
+      "searchEngine": "elasticsearch",
+      "useOutputCacheTagging": false,
+      "useOutputCache": false,
+      "outputCacheDefaultTtl": 86400,
+      "availableCacheTags": ["P", "C", "T", "A", "product", "category", "attribute", "taxrule"],
+      "invalidateCacheKey": "aeSu7aip",
+      "invalidateCacheForwarding": false,
+      "invalidateCacheForwardUrl": "http://localhost:3000/invalidate?key=aeSu7aip&tag=",
+      "showErrorStack": false
     },
-    "platform": "magento2",
-    "registeredExtensions": [
-        "mailchimp-subscribe"
-    ],
-    "extensions": {
-        "mailchimp": {
-            "listId": "e06875a7e1",
-            "apiKey": "a9a3318ea7d30f5c5596bd4a78ae0985-us3",
-            "apiUrl": "https://us3.api.mailchimp.com/3.0"
-        }
+    "users": {
+      "tokenInHeader": false
     },
-    "magento2": {
-        "url": "http://demo-magento2.vuestorefront.io/",
-        "imgUrl": "http://demo-magento2.vuestorefront.io/media/catalog/product",
-        "magentoUserName": "",
-        "magentoUserPassword": "",
-        "httpUserName": "",
-        "httpUserPassword": "",
-        "api": {
-            "url": "http://demo-magento2.vuestorefront.io/rest",
-            "consumerKey": "byv3730rhoulpopcq64don8ukb8lf2gq",
-            "consumerSecret": "u9q4fcobv7vfx9td80oupa6uhexc27rb",
-            "accessToken": "040xx3qy7s0j28o3q0exrfop579cy20m",
-            "accessTokenSecret": "7qunl3p505rubmr7u1ijt7odyialnih9"
-        }
+    "orders": {
+      "useServerQueue": false
     },
-    "imageable": {
-        "namespace": "",
-        "maxListeners": 512,
-        "imageSizeLimit": 1024,
-        "timeouts": {
-            "convert": 5000,
-            "identify": 100,
-            "download": 1000
-        },
-        "whitelist": {
-            "allowedHosts": [
-                ".*divante.pl",
-                ".*vuestorefront.io"
-            ],
-            "trustedHosts": [
-                ".*divante.pl",
-                ".*vuestorefront.io"
-            ]
-        },
-        "keepDownloads": true,
-        "maxDownloadCacheSize": 1000,
-        "tmpPathRoot": "/tmp"
+    "catalog": {
+      "excludeDisabledProducts": false
     },
     "elasticsearch": {
-        "host": "localhost",
-        "port": "9200",
-        "indices": [
-            "vue_storefront_catalog",
-            "vue_storefront_catalog_it",
-            "vue_storefront_catalog_de"
+      "host": "localhost",
+      "index": "vue_storefront_catalog",
+      "port": 9200,
+      "protocol": "http",
+      "requestTimeout": 5000,
+      "min_score": 0.01,
+      "indices": [
+        "vue_storefront_catalog",
+        "vue_storefront_catalog_de",
+        "vue_storefront_catalog_it"
+      ],
+      "indexTypes": [
+        "product",
+        "category",
+        "cms_block",
+        "cms_page",
+        "attribute",
+        "taxrule",
+        "review"
+      ],
+      "apiVersion": "5.6",
+      "useRequestFilter": false,
+      "overwriteRequestSourceParams": false,
+      "requestParamsBlacklist": [],
+      "cacheRequest": false,
+      "searchScoring": {
+        "attributes": {
+          "attribute_code": {
+            "scoreValues": { "attribute_value": { "weight": 1 } }
+          }
+        },
+        "fuzziness": 2,
+        "cutoff_frequency":  0.01,
+        "max_expansions": 3,
+        "minimum_should_match": "75%",
+        "prefix_length": 2,
+        "boost_mode": "multiply",
+        "score_mode": "multiply",
+        "max_boost": 100,
+        "function_min_score": 1
+      },
+      "searchableAttributes": {
+        "name": {
+          "boost": 4
+        },
+        "sku": {
+          "boost": 2
+        },
+        "category.name": {
+          "boost": 1
+        }
+      }
+    },
+    "products": {
+      "fieldsToCompress": ["max_regular_price", "max_price", "max_regular_price", "minimal_regular_price", "final_price", "price", "special_price", "original_final_price", "original_price", "original_special_price", "final_price_incl_tax", "price_incl_tax", "special_price_incl_tax", "final_price_tax", "price_tax", "special_price_tax", "image", "small_image", "thumbnail"],
+      "fieldsToCompact": {
+        "minimal_price": "mp",
+        "has_options": "ho",
+        "url_key": "u",
+        "status": "s",
+        "required_options": "ro",
+        "name": "nm",
+        "tax_class_id": "tci",
+        "description": "desc",
+        "minimal_regular_price": "mrp",
+        "final_price": "fp",
+        "price": "p",
+        "special_price": "sp",
+        "original_final_price": "ofp",
+        "original_price": "op",
+        "original_special_price": "osp",
+        "final_price_incl_tax": "fpit",
+        "original_price_incl_tax": "opit",
+        "price_incl_tax": "pit",
+        "special_price_incl_tax": "spit",
+        "final_price_tax": "fpt",
+        "price_tax": "pt",
+        "special_price_tax": "spt",
+        "original_price_tax": "opt",
+        "image": "i",
+        "small_image": "si",
+        "thumbnail": "t"
+      },
+      "filterFieldMapping": {
+        "category.name": "category.name.keyword"
+      },
+      "filterAggregationSize": {
+        "default": 10,
+        "size": 10,
+        "color": 10
+      },
+      "priceFilterKey": "final_price",
+      "priceFilters": {
+        "ranges": [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
         ]
+      }
+    },
+    "varnish": {
+      "host": "localhost",
+      "port": 80,
+      "method": "BAN",
+      "enabled": false
+    },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "db": 0,
+      "auth": false
+    },
+    "kue": {},
+    "availableStores": [
+      "de",
+      "it"
+    ],
+    "msi": {
+      "enabled": false,
+      "defaultStockId": 1
+    },
+    "storeViews": {
+      "multistore": true,
+      "mapStoreUrlsFor": [
+        "de",
+        "it"
+      ],
+      "de": {
+        "storeCode": "de",
+        "disabled": false,
+        "storeId": 3,
+        "websiteId": 1,
+        "name": "German Store",
+        "url": "/de",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_de"
+        },
+        "msi": {
+          "stockId": 2
+        },
+        "tax": {
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "deprecatedPriceFieldsSupport": false,
+          "calculateServerSide": true,
+          "sourcePriceIncludesTax": false,
+          "finalPriceIncludesTax": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false
+        },
+        "i18n": {
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",
+          "defaultLanguage": "DE",
+          "defaultCountry": "DE",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      },
+      "it": {
+        "storeCode": "it",
+        "disabled": false,
+        "storeId": 4,
+        "websiteId": 1,
+        "name": "Italian Store",
+        "url": "/it",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_it"
+        },
+        "msi": {
+          "stockId": 2
+        },
+        "tax": {
+          "defaultCountry": "IT",
+          "defaultRegion": "",
+          "calculateServerSide": true,
+          "sourcePriceIncludesTax": false,
+          "deprecatedPriceFieldsSupport": false,
+          "finalPriceIncludesTax": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false
+        },
+        "i18n": {
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "defaultCountry": "IT",
+          "defaultLanguage": "IT",
+          "defaultLocale": "it-IT",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }
+    },
+    "authHashSecret": "__SECRET_CHANGE_ME__",
+    "objHashSecret": "__SECRET_CHANGE_ME__",
+    "cart": {
+      "setConfigurableProductOptions": false
+    },
+    "tax": {
+      "defaultCountry": "PL",
+      "defaultRegion": "",
+      "calculateServerSide": true,
+      "alwaysSyncPlatformPricesOver": false,
+      "usePlatformTotals": true,
+      "setConfigurableProductOptions": true,
+      "sourcePriceIncludesTax": false,
+      "deprecatedPriceFieldsSupport": false,
+      "finalPriceIncludesTax": false,
+      "userGroupId": null,
+      "useOnlyDefaultUserGroupId": false
+    },
+    "review": {
+      "defaultReviewStatus": 2
+    },
+    "bodyLimit": "100kb",
+    "corsHeaders": [
+      "Link"
+    ],
+    "platform": "magento2",
+    "registeredExtensions": [
+      "mailchimp-subscribe",
+      "example-magento-api",
+      "cms-data",
+      "mail-service",
+      "example-processor",
+      "example-custom-filter",
+      "elastic-stock"
+    ],
+    "extensions": {
+      "mailchimp": {
+        "listId": "e06875a7e1",
+        "apiKey": "a9a3318ea7d30f5c5596bd4a78ae0985-us3",
+        "apiUrl": "https://us3.api.mailchimp.com/3.0",
+        "userStatus": "subscribed"
+      },
+      "mailService": {
+        "transport": {
+          "host": "smtp.gmail.com",
+          "port": 465,
+          "secure": true,
+          "user": "vuestorefront",
+          "pass": "vuestorefront.io"
+        },
+        "targetAddressWhitelist": ["contributors@vuestorefront.io"],
+        "secretString": "__THIS_IS_SO_SECRET__"
+      },
+      "example-processor": {
+        "resultProcessors": {
+          "product": "my-product-processor"
+        }
+      },
+      "example-custom-filter": {
+        "catalogFilter": [ "SampleFilter" ]
+      }
+    },
+    "magento2": {
+      "imgUrl": "http://demo-magento2.vuestorefront.io/media/catalog/product",
+      "assetPath": "/../var/magento2-sample-data/pub/media",
+      "api": {
+        "url": "http://demo-magento2.vuestorefront.io/rest",
+        "consumerKey": "byv3730rhoulpopcq64don8ukb8lf2gq",
+        "consumerSecret": "u9q4fcobv7vfx9td80oupa6uhexc27rb",
+        "accessToken": "040xx3qy7s0j28o3q0exrfop579cy20m",
+        "accessTokenSecret": "7qunl3p505rubmr7u1ijt7odyialnih9"
+      }
+    },
+    "magento1": {
+      "imgUrl": "http://magento-demo.local/media/catalog/product",
+      "assetPath": "",
+      "magentoUserName": "",
+      "magentoUserPassword": "",
+      "httpUserName": "",
+      "httpUserPassword": "",
+      "api": {
+        "url": "http://magento-demo.local/vsbridge",
+        "consumerKey": "",
+        "consumerSecret": "",
+        "accessToken": "",
+        "accessTokenSecret": ""
+      }
+    },
+    "imageable": {
+      "maxListeners": 512,
+      "imageSizeLimit": 1024,
+      "whitelist": {
+        "allowedHosts": [
+          ".*divante.pl",
+          ".*vuestorefront.io"
+        ]
+      },
+      "cache": {
+        "memory": 50,
+        "files": 20,
+        "items": 100
+      },
+      "concurrency": 0,
+      "counters": {
+        "queue": 2,
+        "process": 4
+      },
+      "simd": true,
+      "caching": {
+        "active": false,
+        "type": "file",
+        "file": {
+          "path": "/tmp/vue-storefront-api"
+        },
+        "google-cloud-storage": {
+          "libraryOptions": {},
+          "bucket": "",
+          "prefix": "vue-storefront-api/image-cache"
+        }
+      },
+      "action": {
+        "type": "local"
+      }
+    },
+    "entities": {
+        "category": {
+          "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key" ]
+        },
+        "attribute": {
+          "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ],
+          "loadByAttributeMetadata": false
+        },
+        "product": {
+          "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "status", "visibility", "tier_prices", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
+          "includeFields": null,
+          "filterFieldMapping": {
+            "category.name": "category.name.keyword"
+          }
+        }
+      },
+    "usePriceTiers": false,
+    "boost": {
+      "name": 3,
+      "category.name": 1,
+      "short_description": 1,
+      "description": 1,
+      "sku": 1,
+      "configurable_children.sku": 1
+    },
+    "urlModule": {
+      "map": {
+        "includeFields": ["url_path", "identifier", "id", "slug", "sku", "type_id"],
+        "searchedFields": ["url_path", "identifier"],
+        "searchedEntities": ["product", "category", "cms_page"]
+      }
     }
-}
+  }

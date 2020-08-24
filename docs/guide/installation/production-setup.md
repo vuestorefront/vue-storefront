@@ -367,41 +367,107 @@ The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vu
 The only lines you need to alter are:
 
 ```json
-"imageable": {
-    "namespace": "",
-    "maxListeners": 512,
-    "imageSizeLimit": 1024,
-    "timeouts": {
-        "convert": 5000,
-        "identify": 100,
-        "download": 1000
-    },
-    "whitelist": {
-        "allowedHosts": [
-            ".*divante.pl",
-            ".*vuestorefront.io"
-        ]
-    },
-    "keepDownloads": true,
-    "maxDownloadCacheSize": 1000,
-    "tmpPathRoot": "/tmp"
-},
 "elasticsearch": {
-    "host": "localhost",
-    "port": "9200",
-    "indices": [
-        "vue_storefront_catalog",
-        "vue_storefront_catalog_it",
-        "vue_storefront_catalog_de"
-    ]
-}
-```
+  "host": "localhost",
+  "index": "vue_storefront_catalog",
+  "port": 9200,
+  "protocol": "http",
+  "requestTimeout": 5000,
+  "min_score": 0.01,
+  "indices": [
+    "vue_storefront_catalog",
+    "vue_storefront_catalog_de",
+    "vue_storefront_catalog_it"
+  ],
+  "indexTypes": [
+    "product",
+    "category",
+    "cms_block",
+    "cms_page",
+    "attribute",
+    "taxrule",
+    "review"
+  ],
+  "apiVersion": "5.6",
+  "useRequestFilter": false,
+  "overwriteRequestSourceParams": false,
+  "requestParamsBlacklist": [],
+  "cacheRequest": false,
+  "searchScoring": {
+    "attributes": {
+      "attribute_code": {
+        "scoreValues": { "attribute_value": { "weight": 1 } }
+      }
+    },
+    "fuzziness": 2,
+    "cutoff_frequency":  0.01,
+    "max_expansions": 3,
+    "minimum_should_match": "75%",
+    "prefix_length": 2,
+    "boost_mode": "multiply",
+    "score_mode": "multiply",
+    "max_boost": 100,
+    "function_min_score": 1
+  },
+  "searchableAttributes": {
+    "name": {
+      "boost": 4
+    },
+    "sku": {
+      "boost": 2
+    },
+    "category.name": {
+      "boost": 1
+    }
+  }
+},
 
-You should put here the `allowedHosts` for the _imageable_ node to download the product images. The domain name points to the Magento 2 instance where images are sourced. In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
+// ...
+
+"imageable": {
+  "maxListeners": 512,
+  "imageSizeLimit": 1024,
+  "whitelist": {
+    "allowedHosts": [
+      ".*divante.pl",
+      ".*vuestorefront.io"
+    ]
+  },
+  "cache": {
+    "memory": 50,
+    "files": 20,
+    "items": 100
+  },
+  "concurrency": 0,
+  "counters": {
+    "queue": 2,
+    "process": 4
+  },
+  "simd": true,
+  "caching": {
+    "active": false,
+    "type": "file",
+    "file": {
+      "path": "/tmp/vue-storefront-api"
+    },
+    "google-cloud-storage": {
+      "libraryOptions": {},
+      "bucket": "",
+      "prefix": "vue-storefront-api/image-cache"
+    }
+  },
+  "action": {
+    "type": "local"
+  }
+},
+```
+Make sure you properly configured Elasticsearch part for store or multistore.
+
+You should also put here the `allowedHosts` for the _imageable_ node to download the product images. The domain name points to the Magento 2 instance where images are sourced. In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
 
  #### Using your own Magento 2 instance
  
- In this case, you'll have to update `magento2` config node with the correct hostname in the vue-storefront-api config file. To get all necessary Magento 2 API data for the `api` node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
+ In this case, you'll have to update `magento2` config node with the correct hostname in the **vue-storefront-api** config file. To get all necessary Magento 2 API data for the `api` node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
 node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
 
 - Click Add New Integration
@@ -414,13 +480,13 @@ node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
 Before we can run Vue Storefront and Vue Storefront API, we should build it in production mode. To do so, please execute the following commands:
 
 ```bash
-cd /home/www/vuestorefront/vue-storefront/
-yarn build
+cd /home/www/vuestorefront/vue-storefront/;
+yarn build;
 ```
 
 ```bash
-cd /home/www/vuestorefront/vue-storefront-api/
-yarn build
+cd /home/www/vuestorefront/vue-storefront-api/;
+yarn build;
 ```
 
 #### Data import
@@ -432,25 +498,25 @@ Caution! If you are using `magento2-vsbridge-indexer` - do not run `yarn dump`. 
 You can easily dump your current VS index using the following command (your local installation):
 
 ```bash
-cd vue-storefront-api
-rm var/catalog.json
-yarn dump
+cd vue-storefront-api;
+rm var/catalog.json;
+yarn dump;
 ```
 
 Now in the `var/catalog.json` you have your current database dump. Please transfer this file to the server—for example, using the following ssh command:
 
 ```bash
-ssh vuestorefront@prod.vuestorefront.io rm ~/vue-storefront-api/var/catalog.json
-scp vue-storefront-api/var/catalog.json vuestorefront@prod.vuestorefront.io:~/vue-storefront-api/var/catalog.json
+ssh vuestorefront@prod.vuestorefront.io rm ~/vue-storefront-api/var/catalog.json;
+scp vue-storefront-api/var/catalog.json vuestorefront@prod.vuestorefront.io:~/vue-storefront-api/var/catalog.json;
 ```
 
 Then, after logging in to your `prod.vuestorefront.io` server as a `vuestorefront`, you can run the following command to import the data:
 
 ```bash
-cd vue-storefront-api
-yarn db new
-yarn restore2main
-yarn db rebuild
+cd vue-storefront-api;
+yarn db new;
+yarn restore2main;
+yarn db rebuild;
 ```
 
 #### Running the Vue Storefront and Vue Storefront API
