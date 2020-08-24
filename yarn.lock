@@ -15549,7 +15549,7 @@ stealthy-require@^1.1.1:
 
 "storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
   version "1.0.1"
-  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#3984d3972162d2aa407a7435522066a73959aa21"
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#0ef1f9760eb44edce5b9464a9145ce0a7517a419"
   dependencies:
     "@typescript-eslint/parser" "^2.26.0"
     clone-deep "^4.0.1"

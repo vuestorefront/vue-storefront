@@ -15,6 +15,7 @@ import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import { hasResponseError, getResponseMessage } from '@vue-storefront/core/lib/sync/helpers'
+import queryString from 'query-string'
 
 export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
@@ -27,6 +28,36 @@ export function _prepareTask (task) {
 
 function _sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+function getUrl (task, currentToken, currentCartId) {
+  let url = task.url
+    .replace('{{token}}', (currentToken == null) ? '' : currentToken)
+    .replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+
+  url = processURLAddress(url); // use relative url paths
+  if (config.storeViews.multistore) {
+    url = adjustMultistoreApiUrl(url)
+  }
+
+  if (config.users.tokenInHeader) {
+    const parsedUrl = queryString.parseUrl(url)
+    delete parsedUrl['query']['token']
+    url = queryString.stringifyUrl(parsedUrl)
+  }
+
+  return url
+}
+
+function getPayload (task, currentToken) {
+  const payload = {
+    ...task.payload,
+    headers: {
+      ...task.payload.headers,
+      ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {})
+    }
+  }
+  return payload
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
@@ -52,14 +83,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     reject('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
     return
   }
-  let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
-  url = processURLAddress(url); // use relative url paths
-  if (config.storeViews.multistore) {
-    url = adjustMultistoreApiUrl(url)
-  }
+  const url = getUrl(task, currentToken, currentCartId)
+  const payload = getPayload(task, currentToken)
   let silentMode = false
   Logger.info('Executing sync task ' + url, 'sync', task)()
-  return fetch(url, task.payload).then((response) => {
+  return fetch(url, payload).then((response) => {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {
       return response.json()
