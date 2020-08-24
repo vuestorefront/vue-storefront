@@ -8,9 +8,9 @@ platform: Commercetools
 <!-- Installation command -->
 ::: slot installation-nuxt
 ```bash
-npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt
 # OR
-yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt
 ```
 :::
 
