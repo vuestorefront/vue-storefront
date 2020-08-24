@@ -343,7 +343,7 @@ We're setting up the product's endpoint to https://prod.vuestorefront.io/api/cat
   },
 ```
 
-There are many more instances of `https://prod.vuestorefront.io/api/*` to be replaced with your production URL address in this file. Please just do so :)
+There are many more instances of `https://prod.vuestorefront.io/api/*` to be replaced with your production URL address in this file. Please just do so :)   
 If you want to use different URL for some native endpoint or elasticsearch host - just add `_ssr` at the end of attribute's name. It might be extra useful for Kubernetes architecture. Also, we often do not use SSL in LAN network to get better performance. E.g:
 ```js
 "elasticsearch": {
