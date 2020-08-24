@@ -265,15 +265,15 @@ git clone https://github.com/DivanteLtd/vsf-capybara.git;
 Then, you will need to install the required node packages:
 
 ```bash
-cd /home/www/vuestorefront/vue-storefront-api
-yarn install
+cd /home/www/vuestorefront/vue-storefront-api;
+yarn install;
 ```
 
 ... and ...
 
 ```bash
-cd /home/www/vuestorefront/vue-storefront
-yarn install
+cd /home/www/vuestorefront/vue-storefront;
+yarn install;
 ```
 
 It may take a few minutes. The phantomjs dependency requires bzip2 to be installed. Once the modules are installed, we can set configuration files for both services.
