@@ -280,16 +280,16 @@ It may take a few minutes. The phantomjs dependency requires bzip2 to be install
 
 #### Vue Storefront configuration
 
-The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
+The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json).
 
 Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly by copying default.json into local.json by using `cp` command:
 ```bash
-cp /home/www/vuestorefront/vue-storefront-api/config/default.json /home/www/vuestorefront/vue-storefront-api/config/local.json
+cp /home/www/vuestorefront/vue-storefront-api/config/default.json /home/www/vuestorefront/vue-storefront-api/config/local.json;
 ```
 
 ...and ...
 ```bash
-cp /home/www/vuestorefront/vue-storefront/config/default.json /home/www/vuestorefront/vue-storefront/config/local.json
+cp /home/www/vuestorefront/vue-storefront/config/default.json /home/www/vuestorefront/vue-storefront/config/local.json;
 ```
 
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
@@ -297,7 +297,7 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
 ```json
 "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
+    "host": "https://prod.vuestorefront.io/api/catalog",
     "index": "vue_storefront_catalog"
 },
 "storeViews": {
@@ -309,46 +309,46 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     "de": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "/api/catalog",
+            "host": "https://prod.vuestorefront.io/api/catalog",
             "index": "vue_storefront_catalog_de"
         }
     },
     "it": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "/api/catalog",
+            "host": "https://prod.vuestorefront.io/api/catalog",
             "index": "vue_storefront_catalog_it"
         }
     }
 },
 ```
 
-We're setting up the product's endpoint to /api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
+We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `https://prod.vuestorefront.io/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
 
 ```json
 "cart": {
       "synchronize": true,
       "synchronize_totals": true,
-      "create_endpoint": "/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+      "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
 ```
 
-There are many more instances of `/api/*` to be replaced with your production URL address in this file. Please just do so :)
+There are many more instances of `https://prod.vuestorefront.io/api/*` to be replaced with your production URL address in this file. Please just do so :)
 If you want to use different URL for some native endpoint or elasticsearch host - just add `_ssr` at the end of attribute's name. It might be extra useful for Kubernetes architecture. Also, we often do not use SSL in LAN network to get better performance. E.g:
 ```js
 "elasticsearch": {
     "httpAuth": "",
-    "host": "https://mysite.com/api/catalog",
+    "host": "https://prod.vuestorefront.io/api/catalog",
     "host_ssr": "http://localhost:8080/api/catalog"
     // ...
 }
