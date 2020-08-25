@@ -36,12 +36,10 @@ First, install the packages:
 
 <Content slot-key="installation-nuxt" />
 
-Once packages are installed you need to add Nuxt Composition API, VSF Nuxt Theme module, VSF Nuxt module, and integration Nuxt Module in `nuxt.config.js` to the `buildModules` section:
+Once packages are installed you need to add VSF Nuxt module, and integration Nuxt Module in `nuxt.config.js` to the `buildModules` section:
 
 <Content slot-key="nuxt-setup-module" />
 
-`nuxt-composition-api` - adds [nuxt-composition-api](https://composition-api.nuxtjs.org/)   
-`@vue-storefront/nuxt-theme` - adds routes with default configuration   
 `@vue-storefront/nuxt` - allows to use raw source for listed packages and adds dedicated plugins   
 `@vue-storefront/<backend_name>/nuxt` - installs integration with eCommerce backend
 
