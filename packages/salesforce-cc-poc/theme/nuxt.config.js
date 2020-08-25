@@ -57,7 +57,11 @@ export default {
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/salesforce-cc-poc/nuxt', {}]
+    ['@vue-storefront/salesforce-cc-poc/nuxt', {
+      api: {
+        uri: 'http://localhost:3000/api'
+      }
+    }]
   ],
   modules: [
     'nuxt-i18n',

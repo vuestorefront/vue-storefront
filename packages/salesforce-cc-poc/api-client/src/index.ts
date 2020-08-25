@@ -12,9 +12,11 @@ const { setup, override, getSettings } = apiClientFactory<ApiClientMethods, ApiC
   defaultSettings: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSetup: (config: any) => {
+    console.log('setup');
+    console.log(config);
     if (config.api) {
       apolloClient = new ApolloClient({
-        link: createSFCCGraphQLLink(),
+        link: createSFCCGraphQLLink(config.api.uri),
         cache: new InMemoryCache(),
         ...config.customOptions
       });
@@ -31,5 +33,6 @@ export {
   getCategory,
   override,
   setup,
-  settings
+  settings,
+  apolloClient
 };
