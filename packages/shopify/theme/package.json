@@ -22,7 +22,6 @@
     "@vue-storefront/shopify": "^0.0.1",
     "@vue-storefront/shopify-api": "^0.0.1",
     "cookie-universal-nuxt": "^2.1.3",
-    "nuxt-composition-api": "^0.10.6",
     "core-js": "^2.6.5",
     "nuxt": "^2.14.1",
     "nuxt-i18n": "^6.5.0",
