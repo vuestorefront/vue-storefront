@@ -1,5 +1,5 @@
 import path from 'path';
-import { getThemePath, buildFileTargetPath } from '@vue-storefront/cli/src/utils/helpers';
+import { getThemePath, buildFileTargetPath } from '../../utils/helpers';
 import fs from 'fs';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js';

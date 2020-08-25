@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import log from './utils/log';
 
 export const cli = async (args) => {
@@ -8,7 +9,7 @@ export const cli = async (args) => {
   }
 
   try {
-    const commandFn = require(`./commands/${command}.ts`);
+    const commandFn = require(`./commands/${command}.js`);
     return commandFn.default(args.slice(3));
   } catch (err) {
     log.error('Bad command');

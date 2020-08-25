@@ -1,9 +1,9 @@
-import getIntegrations from '@vue-storefront/cli/src/utils/getIntegrations';
+import getIntegrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
-import createProject from '../scripts/createProject';
+import createProject from '../scripts/createProject/index.js';
 import path from 'path';
 
-export default async (args: string[]) => {
+export default async (args) => {
   let projectName = args[0];
   if (!projectName) {
     const { typedProjectName } = await inquirer.prompt([

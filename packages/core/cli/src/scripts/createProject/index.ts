@@ -1,9 +1,9 @@
 import path from 'path';
-import log from '@vue-storefront/cli/src/utils/log';
-import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
-import copyAgnosticTheme from '@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme';
-import processMagicComments from '@vue-storefront/cli/src/scripts/createProject/processMagicComments';
-import updatePackageName from '@vue-storefront/cli/src/scripts/createProject/updatePackageName';
+import log from '../../utils/log';
+import copyIntegrationTheme from './copyIntegrationTheme';
+import copyAgnosticTheme from './copyAgnosticTheme';
+import processMagicComments from './processMagicComments';
+import updatePackageName from './updatePackageName';
 
 const getProjectDirectoryName = (targetPath: string): string => targetPath.split('/').pop();
 
