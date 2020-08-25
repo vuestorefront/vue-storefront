@@ -8,9 +8,9 @@ platform: Commercetools
 <!-- Installation command -->
 ::: slot installation-nuxt
 ```bash
-npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt
+npm install --save @vue-storefront/commercetools @vue-storefront/nuxt
 # OR
-yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api @vue-storefront/nuxt-theme @vue-storefront/nuxt
+yarn add @vue-storefront/commercetools @vue-storefront/nuxt
 ```
 :::
 
@@ -33,9 +33,7 @@ setup({
 
 ::: slot nuxt-setup-module
 ```js
-['@vue-storefront/nuxt-theme'],
 ['@vue-storefront/nuxt', {
-  coreDevelopment: true,
   useRawSource: {
     dev: [
       '@vue-storefront/commercetools',
