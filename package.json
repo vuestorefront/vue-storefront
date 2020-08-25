@@ -26,7 +26,12 @@
     "build:bp:tools": "yarn build:core && yarn build:bp:api-client && yarn build:bp:composables",
     "build:bp:theme": "cd packages/boilerplate/theme && yarn build",
     "build:bp": "yarn build:bp:tools && yarn build:bp:theme",
-    "dev:bp": "cd packages/boilerplate/theme && yarn dev",
+    "build:sfcc:api-client": "cd packages/salesforce-cc-poc/api-client && yarn build",
+    "build:sfcc:composables": "cd packages/salesforce-cc-poc/composables && yarn build",
+    "build:sfcc:tools": "yarn build:core && yarn build:sfcc:api-client && yarn build:sfcc:composables",
+    "build:sfcc:theme": "cd packages/salesforce-cc-poc/theme && yarn build",
+    "build:sfcc": "yarn build:sfcc:tools && yarn build:sfcc:theme",
+    "dev:sfcc": "cd packages/salesforce-cc-poc/theme && yarn dev",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
     "build:checkout-com": "cd packages/checkout-com && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",
@@ -105,7 +110,8 @@
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*",
-      "packages/shopify/*"
+      "packages/shopify/*",
+      "packages/salesforce-cc-poc/*"
     ],
     "nohoist": [
       "**/**/**"
