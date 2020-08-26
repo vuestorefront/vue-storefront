@@ -4,8 +4,8 @@ import { Category } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 const itemToTree = (category: Category): AgnosticCategoryTree => {
   return {
     label: category.name,
-    slug: category.slug,
-    items: category.items.map(itemToTree)
+    slug: category.id,
+    items: category.categories.map(itemToTree)
   };
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

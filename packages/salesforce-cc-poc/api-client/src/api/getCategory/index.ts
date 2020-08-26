@@ -1,77 +1,28 @@
 import { Category } from '../../types';
 
-export default async function getCategory(): Promise<Category[]> {
-  return Promise.resolve([
-    {
-      id: 1,
-      name: 'Women',
-      slug: 'women',
-      items: [
-        {
-          id: 4,
-          name: 'Women jackets',
-          slug: 'women-jackets',
-          items: [
-            {
-              id: 9,
-              name: 'Winter jackets',
-              slug: 'winter-jackets',
-              items: []
-            },
-            {
-              id: 10,
-              name: 'Autumn jackets',
-              slug: 'autmun-jackets',
-              items: []
-            }
-          ]
-        },
-        {
-          id: 5,
-          name: 'Skirts',
-          slug: 'skirts',
-          items: []
-        }
-      ]
+import { ApolloQueryResult } from 'apollo-client';
+import { apolloClient } from '../../index';
+import defaultCategoriesQuery from './defaultCategoriesQuery';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getCategory = async (searchParams: any): Promise<Category[]> => {
+  if (!searchParams) {
+    searchParams = { ids: 'root', levels: '1' };
+  }
+  // TODO: add support for product details
+  const result: ApolloQueryResult<Category[]> = await apolloClient.query<any>({
+    query: defaultCategoriesQuery,
+    variables: {
+      ids: searchParams.ids,
+      levels: searchParams.levels
     },
-    {
-      id: 2,
-      name: 'Men',
-      slug: 'men',
-      items: [
-        {
-          id: 6,
-          name: 'Men T-shirts',
-          slug: 'men-tshirts',
-          items: []
-        }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Kids',
-      slug: 'kids',
-      items: [
-        {
-          id: 7,
-          name: 'Toys',
-          slug: 'toys',
-          items: [
-            {
-              id: 8,
-              name: 'Toy Cars',
-              slug: 'toy-cars',
-              items: []
-            },
-            {
-              id: 8,
-              name: 'Dolls',
-              slug: 'dolls',
-              items: []
-            }
-          ]
-        }
-      ]
-    }
-  ]);
-}
+    // temporary, seems like bug in apollo:
+    // @link: https://github.com/apollographql/apollo-client/issues/3234
+    fetchPolicy: 'no-cache'
+  });
+
+  return result.data;
+};
+
+export default getCategory;
+

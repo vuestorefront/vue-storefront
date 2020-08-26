@@ -53,10 +53,11 @@ export type Product = ProductHit & {
 }
 
 export type Category = {
-  id: number;
+  id: string;
   name: string;
-  slug: string;
-  items: Category[];
+  pageTitle: string;
+  thumbnail: string;
+  categories: Category[];
 }
 export type CategoryFilter = {}
 export type ShippingMethod = {}
