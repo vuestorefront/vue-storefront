@@ -59,7 +59,7 @@ export default {
     project-only-end */
     ['@vue-storefront/salesforce-cc-poc/nuxt', {
       api: {
-        uri: 'http://localhost:3000/api'
+        uri: 'http://localhost:3001/api'
       }
     }]
   ],
