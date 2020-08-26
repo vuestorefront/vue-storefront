@@ -5,7 +5,7 @@ const itemToTree = (category: Category): AgnosticCategoryTree => {
   return {
     label: category.name,
     slug: category.id,
-    items: category.categories.map(itemToTree)
+    items: category.categories ? category.categories.map(itemToTree) : []
   };
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

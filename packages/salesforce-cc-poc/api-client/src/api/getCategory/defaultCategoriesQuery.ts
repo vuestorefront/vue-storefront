@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-    { 
-        categories ($ids: String!, $levels: String!) {
+    query($ids: String, $levels: String) {
+        categories(ids: $ids, levels: $levels) {
             data {
                 id,
                 name,
@@ -17,6 +17,6 @@ export default gql`
                   thumbnail
               }
             }
-            }
         }
+    }
 `;
