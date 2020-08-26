@@ -115,6 +115,14 @@ module.exports = {
       ],
       '/': [
         {
+          title: 'Architecture',
+          collapsable: false,
+          children: [
+            ['/', 'What is Vue Storefront'],
+            ['/architecture/architecture', 'Architecture']
+          ]
+        },
+        {
           title: 'Contributing',
           collapsable: false,
           children: [
