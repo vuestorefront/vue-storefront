@@ -1,15 +1,16 @@
 import { getThemePath, buildFileTargetPath } from '../../src/utils/helpers';
+import path from 'path';
 
 describe('[vsf-next-cli] getThemePath', () => {
   it('getThemePath - creates a proper path', () => {
     const tests = [
       {
         input: 'commercetools',
-        output: '../../../node_modules/@vue-storefront/commercetools'
+        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
       },
       {
         input: 'nuxt-theme/theme',
-        output: '../../../node_modules/@vue-storefront/nuxt-theme/theme'
+        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme/theme')
       }
     ];
 
