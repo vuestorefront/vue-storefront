@@ -1,6 +1,7 @@
 import { UseCategory, UseProduct } from '@vue-storefront/core';
 
-type Product = {}
+import { Product } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+
 type Category = {}
 type User = {}
 type UserAddress = {}

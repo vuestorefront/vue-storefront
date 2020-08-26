@@ -49,18 +49,9 @@ export type ColorSwatch = {
   style: string;
 }
 
-export type ProductVariant = {
-  _id: number;
-  _description: string;
-  _categoriesRef: string[];
-  name: string;
-  sku: string;
-  images: string[];
-  price: {
-    original: number;
-    current: number;
-  };
+export type Product = ProductHit & {
 }
+
 export type Category = {
   id: number;
   name: string;
@@ -73,12 +64,12 @@ export type LineItem = {};
 
 export interface ApiClientMethods {
   getCategory(params: {}): Promise<Category[]>;
-  getProduct(params: {}): Promise<ProductVariant[]>;
+  getProduct(params: {}): Promise<Product[]>;
 }
 
 export interface ApiClientSettings {
   overrides: {
     getCategory?(): Promise<Category[]>;
-    getProduct?(params: {}): Promise<ProductVariant[]>;
+    getProduct?(params: {}): Promise<Product[]>;
   };
 }

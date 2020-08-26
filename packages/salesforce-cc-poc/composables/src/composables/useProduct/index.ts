@@ -1,9 +1,9 @@
 import { getProduct } from '@vue-storefront/salesforce-cc-poc-api';
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct } from '../../types';
-import { ProductVariant } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+import { Product } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 
-const productsSearch = async (...params): Promise<ProductsSearchResult<ProductVariant, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (...params): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
   console.log(params);
   // const searchParams = {
   //   ids: params.ids,
@@ -20,32 +20,16 @@ const productsSearch = async (...params): Promise<ProductsSearchResult<ProductVa
   const availableSortingOptions = productSearch.sortingOptions.map(f => {
     return { label: f.label, value: f.id };
   });
-  console.log(productSearch.productHits);
-  const mappedProducts: ProductVariant[] = productSearch.productHits.map(orgPr => {
-    return {
-      _id: parseInt(orgPr.productId),
-      _description: orgPr.productName,
-      _categoriesRef: [],
-      name: orgPr.productName,
-      sku: orgPr.productId,
-      images: [
-        orgPr.image.link
-      ],
-      price: {
-        original: orgPr.prices.sale ? orgPr.prices.sale : orgPr.prices.list,
-        current: orgPr.prices.sale ? orgPr.prices.sale : orgPr.prices.list
-      }
-    };
-  });
-  console.log(mappedProducts);
+  const mappedProducts: Product[] = productSearch.productHits;
   return {
     data: mappedProducts,
+    // TODO: add the pagination info to graphql
     total: mappedProducts.length,
     availableSortingOptions
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<ProductVariant, any, AgnosticSortByOption[]> = useProductFactory<ProductVariant, any, any, AgnosticSortByOption[]>({
+const useProduct: (cacheId: string) => UseProduct<Product, any, AgnosticSortByOption[]> = useProductFactory<Product, any, any, AgnosticSortByOption[]>({
   productsSearch
 });
 

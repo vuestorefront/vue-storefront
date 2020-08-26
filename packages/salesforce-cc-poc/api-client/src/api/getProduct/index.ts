@@ -1,11 +1,13 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { apolloClient } from '../../index';
-import defaultQuery from './defaultQuery';
+import defaultProductSearchQuery from './defaultProductSearchQuery';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getProduct = async (search: any): Promise<ApolloQueryResult<any>> => {
+  console.log(search);
+  // TODO: add support for product details
   return await apolloClient.query<any>({
-    query: defaultQuery,
+    query: defaultProductSearchQuery,
     variables: {
       filters: [],
       query: 'Ties'
