@@ -3,7 +3,7 @@ import log from '../../utils/log';
 import copyIntegrationTheme from './copyIntegrationTheme';
 import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
-import updatePackageName from './updatePackageName';
+import updatePackageJson from './updatePackageJson';
 
 const getProjectDirectoryName = (targetPath: string): string => targetPath.split('/').pop();
 
@@ -23,7 +23,7 @@ async function createProject(integration: string, targetPath: string): Promise<v
   await processMagicComments(nuxtConfigPath);
 
   const packageJsonPath = path.join(absoluteTargetPath, 'package.json');
-  await updatePackageName(packageJsonPath, getProjectDirectoryName(targetPath));
+  await updatePackageJson(packageJsonPath, getProjectDirectoryName(targetPath));
 }
 
 export default createProject;
