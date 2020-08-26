@@ -15,8 +15,8 @@ export default async (integration: string, targetPath: string): Promise<void> =>
     }
 
     return compileTemplate(
-      path.join(__dirname, filePath),
-      finalPath,
+      path.join(agnosticThemePath.replace(/\/theme$/, ''), filePath),
+      finalPath.replace('theme', ''),
       {
         generate: {
           replace: {

@@ -2,15 +2,19 @@
   "name": "@vue-storefront/cli",
   "version": "2.0.0",
   "description": "",
-  "main": "src/scripts/createProject/index.ts",
-  "private": true,
+  "main": "./lib/index.js",
+  "bin": {
+    "vsf": "./lib/index.js"
+  },
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir .",
     "cli": "ts-node ./src/index.ts"
   },
   "dependencies": {
     "@vue-storefront/nuxt-theme": "^0.0.2",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "chokidar": "^3.3.1",
+    "consola": "^2.10.1"
   },
   "author": "Filip Jędrasik",
   "license": "ISC"
