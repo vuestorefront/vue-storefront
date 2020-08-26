@@ -16,7 +16,7 @@ export const cli = async (args) => {
       const commandFn = require(`./commands/${command}.js`);
       return commandFn.default(args.slice(3));
     } catch (err) {
-      log.error('Bad command' + err);
+      log.error('Bad command');
     }
   }
 };
