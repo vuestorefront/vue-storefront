@@ -8,9 +8,9 @@ platform: AboutYouCloud
 <!-- Installation command -->
 ::: slot installation-nuxt
 ```bash
-npm install --save @vue-storefront/about-you @vue-storefront/about-you-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+npm install --save @vue-storefront/about-you @vue-storefront/nuxt
 # OR
-yarn add @vue-storefront/about-you @vue-storefront/about-you-api @vue-storefront/nuxt-theme @vue-storefront/nuxt nuxt-composition-api
+yarn add @vue-storefront/about-you @vue-storefront/nuxt
 ```
 :::
 ::: slot installation
@@ -32,9 +32,7 @@ setup({
 
 ::: slot nuxt-setup-module
 ```js
-['@vue-storefront/nuxt-theme'],
 ['@vue-storefront/nuxt', {
-  coreDevelopment: true,
   useRawSource: {
     dev: [
       '@vue-storefront/about-you',

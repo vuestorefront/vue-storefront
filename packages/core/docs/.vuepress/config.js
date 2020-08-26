@@ -32,6 +32,7 @@ module.exports = {
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
             ['/commercetools/feature-list', 'Feature list']
+            ['/commercetools/changelog', 'Changelog']
           ]
         },
         {

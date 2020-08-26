@@ -62,21 +62,21 @@ _Vue Storefront_ packages are standalone which allows you to use them in __any__
 
 ## Backend Integration
 _Vue Storefront_ is a frontend framework undoubtedly. It needs an e-commerce backend to fully function in its glory.
-Here is the list of backend e-commerce integration already out in the field.
+Here is the list of e-commerce platform integrations already out in the field.
 
-- about-you
-- commercetools
-- shopify
+- Commercetools (Stable beta)
+- Shopify (Developers Preview)
+- About You Cloud (Developers Preview)
 
 We will walk you with details of each integration in its dedicated guide. 
 
 
 ## Benefits you take
-- Blazingly fast
-- Works with any backend, CMS, ERP, PIM, and anything else that has API
-- Server Side Rendered
-- Progressive Web App
-- Huge flexibility in changing third-party services
+- Blazingly fast frontend
+- Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
+- Server Side Rendereing
+- Progressive Web App features
+- Huge flexibility in changing third-party services thanks to agnostic data formats
 
 ## Tech stack 
 - [Vue.js](https://vuejs.org/v2/guide/)
