@@ -1,6 +1,6 @@
 import getIntegrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
-import createProject from '../scripts/createProject/index.js';
+import createProject from '../scripts/createProject';
 import path from 'path';
 
 export default async (args) => {
