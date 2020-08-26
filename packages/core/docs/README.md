@@ -72,11 +72,11 @@ We will walk you with details of each integration in its dedicated guide.
 
 
 ## Benefits you take
-- Blazingly fast
-- Works with any backend, CMS, ERP, PIM, and anything else that has API
-- Server Side Rendered
-- Progressive Web App
-- Huge flexibility in changing third-party services
+- Blazingly fast frontend
+- Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
+- Server Side Rendereing
+- Progressive Web App features
+- Huge flexibility in changing third-party services thanks to agnostic data formats
 
 ## Tech stack 
 - [Vue.js](https://vuejs.org/v2/guide/)
