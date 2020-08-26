@@ -73,8 +73,8 @@ We will walk you with details of each integration in its dedicated guide.
 
 ## Benefits you take
 - Blazingly fast frontend
-- Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
-- Server Side Rendereing
+- Ability to work with any eCommerce platform, CMS, ERP, and PIM **under common and agnostic API**
+- Server Side Rendering
 - Progressive Web App features
 - Huge flexibility in changing third-party services thanks to agnostic data formats
 
