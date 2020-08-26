@@ -7,10 +7,10 @@ const getProduct = async (search: any): Promise<ApolloQueryResult<any>> => {
   const searchParams = search && search.length ? search[0] : {};
   const filterParams = [];
   if (searchParams.sort) {
-    filterParams.push({ id: 'sort', value: search.sort });
+    filterParams.push({ id: 'sort', value: searchParams.sort });
   }
   if (searchParams.catId) {
-    filterParams.push({ id: 'cgid', value: search.catId });
+    filterParams.push({ id: 'cgid', value: searchParams.catId });
   }
 
   // TODO: add support for product details
