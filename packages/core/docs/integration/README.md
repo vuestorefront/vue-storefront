@@ -72,6 +72,8 @@ Vue Storefront will require **at least** the following features from your eComme
 
 **Checkout**
 
+- get shipping methods
+- get payment methods
 - place order
 
 **i18n**
