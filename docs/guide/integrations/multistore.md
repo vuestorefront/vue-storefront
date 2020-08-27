@@ -1,10 +1,5 @@
 # Multistore Magento 2 support
 
-:::danger
-
-Using node indexer to enable _multistore_ feature for _Vue Storefront_ has been deprecated. 
-You can use _Bridge Indexer_ for the better performance and maintainability. For Magento 2, you can find it [here](https://github.com/DivanteLtd/magento2-vsbridge-indexer)
-:::
 
 
 Vue Storefront supports Magento Multistore installations
@@ -12,6 +7,13 @@ Vue Storefront supports Magento Multistore installations
 ## Multiwebsite indexing
 
 Multiwebsite support starts with the Elasticsearch indexing. Basically, each store has its own Elasticsearch index and should be populated separately using the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) tool.
+
+:::warning
+
+Using node indexer to enable _multistore_ feature for _Vue Storefront_ has been deprecated. 
+You can use _Bridge Indexer_ for the better performance and maintainability. For Magento 2, you can find it [here](https://github.com/DivanteLtd/magento2-vsbridge-indexer)
+:::
+
 
 The simplest script to index multi site:
 
