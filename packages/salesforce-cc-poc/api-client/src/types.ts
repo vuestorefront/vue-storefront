@@ -74,3 +74,15 @@ export interface ApiClientSettings {
     getProduct?(params: {}): Promise<Product[]>;
   };
 }
+
+export interface ProductsSearchParams {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: Record<string, any>;
+  catId?: string | string[];
+  skus?: string[];
+  slug?: string;
+  id?: string;
+}

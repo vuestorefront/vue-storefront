@@ -1,4 +1,4 @@
-import getProduct from './api/getProduct';
+import { getProductDetails, getProductList } from './api/getProduct';
 import getCategory from './api/getCategory';
 import { apiClientFactory } from '@vue-storefront/core';
 import { ApiClientMethods, ApiClientSettings } from './types';
@@ -12,15 +12,13 @@ const { setup, override, getSettings } = apiClientFactory<ApiClientMethods, ApiC
   defaultSettings: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSetup: (config: any) => {
-    console.log('setup');
-    console.log(config);
     if (config.api) {
       apolloClient = new ApolloClient({
         link: createSFCCGraphQLLink(config.api.uri),
         cache: new InMemoryCache(),
         ...config.customOptions
       });
-    }
+    } else throw new Error('No valid config.api URL set for the sfcc-graphql-bridge instance');
 
     return apolloClient;
   }
@@ -29,7 +27,8 @@ const { setup, override, getSettings } = apiClientFactory<ApiClientMethods, ApiC
 const settings = getSettings();
 
 export {
-  getProduct,
+  getProductList,
+  getProductDetails,
   getCategory,
   override,
   setup,

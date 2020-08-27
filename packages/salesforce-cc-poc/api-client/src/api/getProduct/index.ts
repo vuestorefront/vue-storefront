@@ -1,10 +1,10 @@
-import { ApolloQueryResult } from 'apollo-client';
 import { apolloClient } from '../../index';
 import defaultProductSearchQuery from './defaultProductSearchQuery';
+import defaultProductDetailsQuery from './defaultProductDetailsQuery';
+import { SearchResult, Product, ProductsSearchParams} from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getProduct = async (search: any): Promise<ApolloQueryResult<any>> => {
-  const searchParams = search && search.length ? search[0] : {};
+export const getProductList = async (searchParams: ProductsSearchParams): Promise<SearchResult> => {
   const filterParams = [];
   if (searchParams.sort) {
     filterParams.push({ id: 'sort', value: searchParams.sort });
@@ -12,9 +12,7 @@ const getProduct = async (search: any): Promise<ApolloQueryResult<any>> => {
   if (searchParams.catId) {
     filterParams.push({ id: 'cgid', value: searchParams.catId });
   }
-
-  // TODO: add support for product details
-  return await apolloClient.query<any>({
+  const gqlSearchResult = await apolloClient.query<any>({
     query: defaultProductSearchQuery,
     variables: {
       filters: filterParams,
@@ -24,7 +22,20 @@ const getProduct = async (search: any): Promise<ApolloQueryResult<any>> => {
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-
+  return (gqlSearchResult.data.productSearch as SearchResult);
 };
 
-export default getProduct;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductDetails = async (searchParams: ProductsSearchParams): Promise<Product> => {
+  const gqlProductDetails = await apolloClient.query<Product>({
+    query: defaultProductDetailsQuery,
+    variables: {
+      productId: searchParams.id,
+      selectedColor: ''
+    },
+    // temporary, seems like bug in apollo:
+    // @link: https://github.com/apollographql/apollo-client/issues/3234
+    fetchPolicy: 'no-cache'
+  });
+  return gqlProductDetails.data;
+};
