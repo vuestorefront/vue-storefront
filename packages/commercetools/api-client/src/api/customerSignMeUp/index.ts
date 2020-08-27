@@ -1,10 +1,11 @@
 import { CustomerSignMeUpDraft } from './../../types/GraphQL';
-import { apolloClient, locale, acceptLanguage, currentToken, auth } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import CustomerSignMeUpMutation from './defaultMutation';
 import { SignInResponse } from './../../types/Api';
 import createAccessToken from './../../helpers/createAccessToken';
 
 const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
+  const { locale, acceptLanguage, currentToken, auth } = getSettings();
   const registerResponse = await apolloClient.mutate({
     mutation: CustomerSignMeUpMutation,
     variables: { draft, locale, acceptLanguage },

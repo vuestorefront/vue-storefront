@@ -1,17 +1,3 @@
-export interface ApiClientMethods {
-  getCategory(params: {}): Promise<Category[]>;
-  getProduct(params: {}): Promise<ProductVariant[]>;
-  getShop(params: {}): Promise<Shop[]>;
-}
-
-export interface ApiClientSettings {
-  overrides: {
-    getCategory?(): Promise<Category[]>;
-    getProduct?(params: {}): Promise<ProductVariant[]>;
-    getShop?(): Promise<Shop[]>;
-  };
-}
-
 export type Maybe<T> = T | null;
 
 export type Scalars = {

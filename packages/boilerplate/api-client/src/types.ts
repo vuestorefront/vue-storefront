@@ -26,10 +26,3 @@ export interface ApiClientMethods {
   getCategory(params: {}): Promise<Category[]>;
   getProduct(params: {}): Promise<ProductVariant[]>;
 }
-
-export interface ApiClientSettings {
-  overrides: {
-    getCategory?(): Promise<Category[]>;
-    getProduct?(params: {}): Promise<ProductVariant[]>;
-  };
-}

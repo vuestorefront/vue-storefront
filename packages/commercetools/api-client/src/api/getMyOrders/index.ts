@@ -1,9 +1,10 @@
-import { apolloClient, locale, acceptLanguage } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import defaultQuery from './defaultQuery';
 import { buildOrderWhere } from './../../helpers/search';
 import { OrderSearch, ProfileResponse } from './../../types/Api';
 
 export default async (search: OrderSearch): Promise<ProfileResponse> => {
+  const { locale, acceptLanguage } = getSettings();
   return await apolloClient.query({
     query: defaultQuery,
     variables: {
