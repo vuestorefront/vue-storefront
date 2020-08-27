@@ -41,24 +41,6 @@ Now, solution comes with _Vue Storefront_.
  For the best experience when it comes to maintaining the framework, we divided the system into the smallest chunks until it's not meaningful to do so. ___Technically all parts are wrapped in as individual `npm` packages so switching from one version to another should be as easy as any `npm` command.___ In short, it has been built on the firm ground of _Mircroservice_ architecture. It also means you can swap a part in the system with other equivalent app or service with a simple command. (or with a few changes in configuration)
 
 
-## In a nutshell, technically 
-_Vue Storefront_ is made up of 4 layers as follows : 
-
-![templates_d](./images/templates.png)
-
-_Data Layer_ : __API Client__ - This provides a friendly abstraction layer for your e-commerce backend over network. 
-
-_Service Layer_ : __Composables__ - This contains business logic in _Vue.js_ framework
-
-_Presentation Layer_ : __UI Components__ - _Vue Storefront_ has already launched its sister project [Storefront UI](https://www.storefrontui.io/) helping you build your UI and theme hands down.
-
-_Framework Layer_ : __Nuxt__ - _Nuxt_ works as a glue for all the framework components even though it's not a must-use. 
-
-_Vue Storefront_ is a set of independent `npm` packages taking various roles of the framework. It's really up to you _how much_ of the framework you will use in your project. You can cherry-pick any combination to your advantage. 
-
-:::tip
-_Vue Storefront_ packages are standalone which allows you to use them in __any__ Vue.js enviroment so it's not a must to use Nuxt. You can use _Vue Storefront_ packages with Vue CLI or even within your custom Vue.js codebase. All you need is know how to communicate with _Vue Storefront_, which is done via interfaces over API.
-:::
 
 ## Backend Integration
 _Vue Storefront_ is a frontend framework undoubtedly. It needs an e-commerce backend to fully function in its glory.
