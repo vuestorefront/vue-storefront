@@ -1,7 +1,8 @@
 import { apolloClient } from '../../index';
+import normalizeCategoryId from '../../helpers/normalizeCategoryId';
 import defaultProductSearchQuery from './defaultProductSearchQuery';
 import defaultProductDetailsQuery from './defaultProductDetailsQuery';
-import { SearchResult, Product, ProductsSearchParams} from '../../types';
+import { SearchResult, Product, ProductsSearchParams, GqlProductDetailsResponse, GqlProductSearchResponse } from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductList = async (searchParams: ProductsSearchParams): Promise<SearchResult> => {
@@ -10,9 +11,23 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
     filterParams.push({ id: 'sort', value: searchParams.sort });
   }
   if (searchParams.catId) {
-    filterParams.push({ id: 'cgid', value: (searchParams.catId?.length) ? searchParams.catId[0] : searchParams.catId });
+    const normalizedCategoryId = normalizeCategoryId(((searchParams.catId as string).toLowerCase) ? searchParams.catId as string : searchParams.catId[0]);
+    console.log(normalizedCategoryId);
+    filterParams.push({ id: 'cgid', value: normalizedCategoryId });
   }
-  const gqlSearchResult = await apolloClient.query<any>({
+  if (searchParams.filters) {
+    console.log(searchParams.filters);
+    searchParams.filters.map(filter => {
+      if (filter.values) {
+        filter.values.map(filterValue => {
+          if (filterValue.selected) {
+            filterParams.push({ id: filter.attributeId, value: filterValue.value });
+          }
+        });
+      }
+    });
+  }
+  const gqlSearchResult = await apolloClient.query<GqlProductSearchResponse>({
     query: defaultProductSearchQuery,
     variables: {
       filters: filterParams,
@@ -22,12 +37,12 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-  return (gqlSearchResult.data.productSearch as SearchResult);
+  return gqlSearchResult.data.productSearch;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductDetails = async (searchParams: ProductsSearchParams): Promise<Product> => {
-  const gqlProductDetails = await apolloClient.query<any>({
+  const gqlProductDetails = await apolloClient.query<GqlProductDetailsResponse>({
     query: defaultProductDetailsQuery,
     variables: {
       productId: searchParams.id,
@@ -37,5 +52,5 @@ export const getProductDetails = async (searchParams: ProductsSearchParams): Pro
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-  return (gqlProductDetails.data.product as Product);
+  return gqlProductDetails.data.product;
 };

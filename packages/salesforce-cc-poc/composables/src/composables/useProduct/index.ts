@@ -1,10 +1,10 @@
 import { getProductList, getProductDetails } from '@vue-storefront/salesforce-cc-poc-api';
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct } from '../../types';
-import { Product, ProductHit } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+import { Product, ProductHit, Refinement } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 import { ProductsSearchParams } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
 
-const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product | ProductHit, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product | ProductHit, Refinement[], AgnosticSortByOption[]>> => {
   console.log(params);
   // const searchParams = {
   //   ids: params.ids,
@@ -32,17 +32,21 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
       return { label: f.label, value: f.id };
     });
     return {
-      data: (searchResult.productHits.map(ph => {
-        return { ...ph, id: ph.productId, name: ph.productName };
-      })),
+      data: searchResult.productHits,
       // TODO: add the pagination info to graphql
       total: searchResult.productHits.length,
-      availableSortingOptions
+      availableSortingOptions,
+      availableFilters: searchResult.refinements.map(rf => {
+        if (rf.values) {
+          rf.values.map(rfv => rfv.selected = false);
+          return rf;
+        }
+      })
     };
   }
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product | ProductHit, any, AgnosticSortByOption[]> = useProductFactory<Product | ProductHit, any, any, AgnosticSortByOption[]>({
+const useProduct: (cacheId: string) => UseProduct<Product | ProductHit, any, AgnosticSortByOption[]> = useProductFactory<Product | ProductHit, ProductsSearchParams, Refinement[], AgnosticSortByOption[]>({
   productsSearch
 });
 

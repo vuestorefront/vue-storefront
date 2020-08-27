@@ -54,7 +54,7 @@ export const getProductAttributes = (products: Product[] | Product, filterByAttr
 export const getProductDescription = (product: Product): any => product.longDescription;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCategoryIds = (product: Product): string[] => [product.primaryCategoryId];
+export const getProductCategoryIds = (product: Product): string[] => [product?.primaryCategoryId];
 
 export const getProductId = (product: Product): string => (product as any).productId;
 

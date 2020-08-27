@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export declare type Cart = {};
 export declare type Wishlist = {};
 export declare type ProductHit = {
@@ -9,10 +11,10 @@ export declare type ProductHit = {
 };
 export declare type SearchResult = {
     limit: number;
-    productHits: [ProductHit];
-    currentFilters: [CurrentFilter];
-    refinements: [Refinement];
-    sortingOptions: [SortOption];
+    productHits: ProductHit[];
+    currentFilters: CurrentFilter[];
+    refinements: Refinement[];
+    sortingOptions: SortOption[];
 };
 export declare type SortOption = {
     id: string;
@@ -27,6 +29,7 @@ export declare type RefinementValue = {
     label: string;
     value: string;
     hitCount: number;
+    selected: boolean;
     values: RefinementValue[];
 };
 export declare type CurrentFilter = {
@@ -52,12 +55,12 @@ export declare type Product = {
     longDescription: string;
     shortDescription: string;
     image: string;
-    images: [Image];
-    variants: [Variant];
-    variationAttributes: [VariationAttribute];
+    images: Image[];
+    variants: Variant[];
+    variationAttributes: VariationAttribute[];
     type: ProductType;
     inventory: Inventory;
-    productPromotions: [ProductPromotion];
+    productPromotions: ProductPromotion[];
 }
 
 export declare type Prices = {
@@ -99,7 +102,7 @@ export declare type Inventory = {
 
 export declare type Variant = {
     id: string;
-    variationValues: [VariationValue];
+    variationValues: VariationValue[];
 }
 
 export declare type VariationValue = {
@@ -109,7 +112,7 @@ export declare type VariationValue = {
 
 export declare type VariationAttribute = {
     variationAttributeType: VariationAttributeType;
-    variationAttributeValues: [VariationAttributeValues];
+    variationAttributeValues: VariationAttributeValues[];
 }
 
 export declare type VariationAttributeType = {
@@ -149,9 +152,21 @@ export interface ProductsSearchParams {
     page?: number;
     sort?: any;
     term?: any;
-    filters?: Record<string, any>;
+    filters?: Refinement[];
     catId?: string | string[];
     skus?: string[];
     slug?: string;
     id?: string;
+}
+
+export type GqlProductDetailsResponse = {
+    product: Product;
+}
+
+export type GqlProductSearchResponse = {
+    productSearch: SearchResult;
+}
+
+export type GqlCategoriesSearchResponse = {
+    categories: { data: Category[] };
 }
