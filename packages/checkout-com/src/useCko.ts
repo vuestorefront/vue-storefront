@@ -5,6 +5,7 @@ import { Configuration, getSaveInstrumentKey } from './configuration';
 import { ref } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
+import useCkoPaypal from './useCkoPaypal';
 
 const error = ref(null);
 const availableMethods = ref([]);
@@ -34,8 +35,8 @@ const loadSavePaymentInstrument = (): boolean => {
 
 const useCko = () => {
   const {
-    initCardForm, makePayment:
-    makeCardPayment,
+    initCardForm,
+    makePayment: makeCardPayment,
     error: cardError,
     submitForm: submitCardForm,
     setPaymentInstrument,
@@ -44,6 +45,11 @@ const useCko = () => {
     storedPaymentInstruments,
     submitDisabled
   } = useCkoCard(selectedPaymentMethod);
+
+  const {
+    makePayment: makePaypalPayment,
+    error: paypalError
+  } = useCkoPaypal();
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -76,8 +82,8 @@ const useCko = () => {
           case 'klarna':
             console.log('Rendering klarna...');
             break;
-          case 'paypal':
-            console.log('Rendering paypal...');
+          default:
+            console.log('Bad option or one which has nothing to render');
             break;
         }
       }
@@ -108,9 +114,8 @@ const useCko = () => {
         console.log('Making transaction with Klarna...');
       };
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
-      finalizeTransactionFunction = () => {
-        console.log('Making transaction with PayPal...');
-      };
+      finalizeTransactionFunction = makePaypalPayment;
+      localError = paypalError;
     } else {
       error.value = 'Not supported payment method';
       return;
