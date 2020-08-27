@@ -60,7 +60,9 @@ Vue Storefront will require **at least** the following features from your eComme
 - register
 - forgot password
 - add/remove shipping address
+- set default shipping address
 - add/remove billing address
+- set default billing address
 - see past orders
 
 **Wishlist**
@@ -78,6 +80,9 @@ Vue Storefront will require **at least** the following features from your eComme
 - change locale
 - change language
 
+**Additional features (optional)**
+- facet filtering
+- order notifications
 
 ## How to start?
 

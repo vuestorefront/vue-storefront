@@ -31,7 +31,7 @@ module.exports = {
             ['/commercetools/getting-started', 'Getting Started'],
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
-            ['/commercetools/feature-list', 'Feature list']
+            ['/commercetools/feature-list', 'Feature list'],
             ['/commercetools/changelog', 'Changelog']
           ]
         },
@@ -108,7 +108,7 @@ module.exports = {
           title: 'Integration tutorial',
           collapsable: false,
           children: [
-            ['/integration/', 'Introduction'],
+            ['/integration/', 'Introduction']
           ],
         },
       ],
