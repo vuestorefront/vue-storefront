@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
     "@types/shopify-buy": "^1.11.1",
-    "@vue-storefront/core": "^2.0.0",
+    "@vue-storefront/core": "^2.0.3",
     "node-fetch": "^2.6.0",
     "shopify-buy": "^2.9.3"
   },
