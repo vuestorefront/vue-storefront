@@ -111,17 +111,30 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
         "tax": {
           "defaultCountry": "DE",
           "defaultRegion": "",
-          "calculateServerSide": true
+          "sourcePriceIncludesTax": false,
+          "calculateServerSide": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false,
+          "deprecatedPriceFieldsSupport": true,
+          "finalPriceIncludesTax": false
         },
         "i18n": {
-          "fullCountryName": "Germany",
-          "fullLanguageName": "German",
-          "defaultLanguage": "DE",
           "defaultCountry": "DE",
+          "defaultLanguage": "DE",
+          "availableLocale": [
+            "de-DE"
+          ],
           "defaultLocale": "de-DE",
           "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
+          "currencySign": "€",
+          "currencyDecimal": "",
+          "currencyGroup": "",
+          "fractionDigits": 2,
+          "priceFormat": "{sign}{amount}",
+          "dateFormat": "HH:mm D/M/YYYY",
+          "fullCountryName": "Deutschland",
+          "fullLanguageName": "German",
+          "bundleAllStoreviewLanguages": false
         }
       },
       "it": {
