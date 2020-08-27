@@ -305,7 +305,7 @@ export default {
     });
 
     watch([itemsPerPage, sortBy, filters], () => {
-      if (categories.value.length) {
+      if (!loading.value && categories.value.length) {
         productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           ...context.root.$route.query,
