@@ -244,3 +244,119 @@ or
   "
 ></router-link>
 ```
+
+
+## Useful _Helpers_
+
+### How to get current store view?
+
+Here is a helper method to get the value of current store view.
+
+You just need to import `currentStoreView` function from `core/lib/multistore` as example follows : 
+
+```js
+
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
+// ... abridged 
+
+
+  return amount: {
+                currency: currentStoreView().i18n.currencyCode,
+                value: method.price_incl_tax
+              }
+
+```
+
+`currentStoreView()` will return the object value you set in `local.json`
+
+
+### How to remove store code from route
+
+When you need to remove `storeCode` from route in such a case you want to route to default store by mapping fallback, use `removeStoreCodeFromRoute` as following example : 
+ 
+```js
+
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+
+// ... abridged 
+
+    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+
+``` 
+
+
+
+### Fix your URL with correct store code
+
+1. When the URL with `storeCode` is compromised by any mean, or 
+2. When you need to append `storeCode` to your URL
+
+You can fix it by calling `adjustMultistoreApiUrl` function as following example : 
+
+```js
+
+import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+
+// ... abridged 
+
+export const processURLAddress = (url: string = '') => {
+  if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
+  return url
+}
+
+export const processLocalizedURLAddress = (url: string = '') => {
+  if (config.storeViews.multistore) {
+    return processURLAddress(adjustMultistoreApiUrl(url))
+  }
+
+  return processURLAddress(url)
+}
+``` 
+
+Your URL `https://example.com?a=b` or `https://example.com?a=b&storeCode=it`
+
+will be transformed by `adjustMultistoreApiUrl` to 
+
+`https://example.com?a=b&storeCode=de` when `storeCode` is `de`
+
+
+### Fix your URL with correct store code in localized route
+
+Same logic with `adjustMultistoreApiUrl` but with localized route. 
+
+:::tip
+Localized Route means denoting store code by convention without a parameter.
+
+e.g. It's `de` in `https://example.com/de?a=b` 
+::: 
+
+```js
+import { localizedRoute } from '@vue-storefront/core/lib/multistore';
+
+// ... abridged
+
+breadcrumbs: [
+        {
+          text: this.$t('Home'),
+          route: {
+            link: localizedRoute('/')
+          }
+        },
+```
+
+`appendStoreCode` option of the store view configuration should be set to `true` to display store code as tip above
+
+### How to extract store code from route
+
+You can extract store code from route as follows : 
+
+```js
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+
+// abridged
+
+ const storeCode = storeCodeFromRoute(currentRoute)
+```
+
+You should get store code `gb` from route `https://example.com/gb/foo`
