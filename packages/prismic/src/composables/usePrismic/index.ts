@@ -14,11 +14,11 @@ interface UsePrismic {
   search: Search;
 }
 
-export default function usePrismic(): UsePrismic {
-  const loading = sharedRef(false, 'usePrismic-loading');
-  const error = sharedRef(null, 'usePrismic-error');
-  const doc: Ref<Document | Document[]> = sharedRef({}, 'usePrismic-doc');
-  const meta: Ref<PrismicMeta | null> = sharedRef(null, 'usePrismic-meta');
+export default function usePrismic(cacheId: string): UsePrismic {
+  const loading = sharedRef(false, `usePrismic-loading-${cacheId}`);
+  const error = sharedRef(null, `usePrismic-error-${cacheId}`);
+  const doc: Ref<Document | Document[]> = sharedRef({}, `usePrismic-doc-${cacheId}`);
+  const meta: Ref<PrismicMeta | null> = sharedRef(null, `usePrismic-meta-${cacheId}`);
 
   const search: Search = async (query: PrismicQuery | PrismicQuery[], options: PrismicOptions = {}) => {
     loading.value = true;
