@@ -27,7 +27,7 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductDetails = async (searchParams: ProductsSearchParams): Promise<Product> => {
-  const gqlProductDetails = await apolloClient.query<Product>({
+  const gqlProductDetails = await apolloClient.query<any>({
     query: defaultProductDetailsQuery,
     variables: {
       productId: searchParams.id,
@@ -37,5 +37,5 @@ export const getProductDetails = async (searchParams: ProductsSearchParams): Pro
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-  return gqlProductDetails.data;
+  return (gqlProductDetails.data.product as Product);
 };

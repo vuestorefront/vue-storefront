@@ -28,13 +28,13 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
   } else {
     // product search
     const searchResult = await getProductList(params);
-    console.log(searchResult);
-
     const availableSortingOptions = searchResult.sortingOptions.map(f => {
       return { label: f.label, value: f.id };
     });
     return {
-      data: searchResult.productHits,
+      data: (searchResult.productHits.map(ph => {
+        return { ...ph, id: ph.productId, name: ph.productName };
+      }) as any as Product[]),
       // TODO: add the pagination info to graphql
       total: searchResult.productHits.length,
       availableSortingOptions

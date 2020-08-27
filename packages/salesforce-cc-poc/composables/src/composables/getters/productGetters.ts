@@ -12,7 +12,7 @@ type ProductFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: Product): string => product?.productName || 'Product\'s name';
+export const getProductName = (product: Product): string => product?.productName || product?.name || 'Product\'s name';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductSlug = (product: Product): string => product.productId;
@@ -26,18 +26,15 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => [
-  {
-    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
-  },
-  {
-    small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-    normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-    big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
-  }
-];
+export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {
+  return product.images.map(pi => {
+    return {
+      big: pi.link,
+      small: pi.link,
+      normal: pi.link
+    };
+  }) as AgnosticMediaGalleryItem[];
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductCoverImage = (product: Product): string => product.image ? product.image.link : '';
@@ -49,14 +46,15 @@ export const getProductFiltered = (products: Product[], filters: ProductFilters 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+  // TODO: (products as Product).variationAttributes
   return {};
 };
 
 // TODO: add description to graphql
-export const getProductDescription = (product: Product): any => (product as any)._description;
+export const getProductDescription = (product: Product): any => product.longDescription;
 
-// TODO: add catrefs to graphql
-export const getProductCategoryIds = (product: Product): string[] => (product as any)._categoriesRef;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductCategoryIds = (product: Product): string[] => [];
 
 export const getProductId = (product: Product): string => (product as any).productId;
 
