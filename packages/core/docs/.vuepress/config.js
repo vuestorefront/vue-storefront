@@ -109,8 +109,6 @@ module.exports = {
           collapsable: false,
           children: [
             ['/integration/', 'Introduction'],
-            ['/integration/api-client', 'API Client'],
-            ['/integration/composables', 'Composables'],
           ],
         },
       ],
