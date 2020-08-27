@@ -147,23 +147,41 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
-          "defaultCountry": "DE",
+          "defaultCountry": "IT",
           "defaultRegion": "",
-          "calculateServerSide": true
+          "sourcePriceIncludesTax": false,
+          "calculateServerSide": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false,
+          "deprecatedPriceFieldsSupport": true,
+          "finalPriceIncludesTax": false
         },
         "i18n": {
-          "fullCountryName": "Italy",
-          "fullLanguageName": "Italian",
           "defaultCountry": "IT",
           "defaultLanguage": "IT",
+          "availableLocale": [
+            "it-IT"
+          ],
           "defaultLocale": "it-IT",
           "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
+          "currencySign": "€",
+          "currencyDecimal": "",
+          "currencyGroup": "",
+          "fractionDigits": 2,
+          "priceFormat": "{sign}{amount}",
+          "dateFormat": "HH:mm D/M/YYYY",
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "bundleAllStoreviewLanguages": false
         }
       }
     },
 ```
+
+:::tip
+You can find more options available to _multistore_ features in [store view](/guide/basics/configuration.html#store-views) section of _Configuration File Explained_. 
+
+:::
 
 After these changes, you'll have a `LanguageSwitcher` component visible on the bottom.
 
