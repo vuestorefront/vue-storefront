@@ -4,7 +4,7 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import { Product } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+import { Product, ProductHit } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 
 type ProductFilters = any
 
@@ -12,10 +12,10 @@ type ProductFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: Product): string => product?.productName || product?.name || 'Product\'s name';
+export const getProductName = (product: Product | ProductHit): string => (product as ProductHit)?.productName || (product as Product)?.name || 'Product\'s name';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: Product): string => product.productId;
+export const getProductSlug = (product: Product | ProductHit): string => (product as ProductHit).productId || (product as Product).id;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
@@ -37,7 +37,7 @@ export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] 
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: Product): string => product.image ? product.image.link : '';
+export const getProductCoverImage = (product: ProductHit): string => product.image ? product.image.link : '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
@@ -54,13 +54,13 @@ export const getProductAttributes = (products: Product[] | Product, filterByAttr
 export const getProductDescription = (product: Product): any => product.longDescription;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCategoryIds = (product: Product): string[] => [];
+export const getProductCategoryIds = (product: Product): string[] => [product.primaryCategoryId];
 
 export const getProductId = (product: Product): string => (product as any).productId;
 
 export const getFormattedPrice = (price: number) => String(price);
 
-const productGetters: ProductGetters<Product, ProductFilters> = {
+const productGetters: ProductGetters<Product | ProductHit, ProductFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

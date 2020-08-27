@@ -41,12 +41,13 @@ export declare type ColorSwatch = {
     alt: string;
     style: string;
 };
-export declare type Product = ProductHit & {
+export declare type Product = {
     id: string;
     name: string;
     masterId: string;
     price: number;
     prices: Prices;
+    primaryCategoryId: string;
     currency: string;
     longDescription: string;
     shortDescription: string;

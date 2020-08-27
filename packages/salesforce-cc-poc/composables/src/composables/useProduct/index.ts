@@ -1,10 +1,10 @@
 import { getProductList, getProductDetails } from '@vue-storefront/salesforce-cc-poc-api';
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct } from '../../types';
-import { Product } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+import { Product, ProductHit } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 import { ProductsSearchParams } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
 
-const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product | ProductHit, any, AgnosticSortByOption[]>> => {
   console.log(params);
   // const searchParams = {
   //   ids: params.ids,
@@ -34,7 +34,7 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
     return {
       data: (searchResult.productHits.map(ph => {
         return { ...ph, id: ph.productId, name: ph.productName };
-      }) as any as Product[]),
+      })),
       // TODO: add the pagination info to graphql
       total: searchResult.productHits.length,
       availableSortingOptions
@@ -42,7 +42,7 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
   }
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product, any, AgnosticSortByOption[]> = useProductFactory<Product, any, any, AgnosticSortByOption[]>({
+const useProduct: (cacheId: string) => UseProduct<Product | ProductHit, any, AgnosticSortByOption[]> = useProductFactory<Product | ProductHit, any, any, AgnosticSortByOption[]>({
   productsSearch
 });
 

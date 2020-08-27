@@ -10,7 +10,7 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
     filterParams.push({ id: 'sort', value: searchParams.sort });
   }
   if (searchParams.catId) {
-    filterParams.push({ id: 'cgid', value: searchParams.catId });
+    filterParams.push({ id: 'cgid', value: (searchParams.catId?.length) ? searchParams.catId[0] : searchParams.catId });
   }
   const gqlSearchResult = await apolloClient.query<any>({
     query: defaultProductSearchQuery,

@@ -15,6 +15,7 @@ query($productId: String!, $selectedColor: String) {
             list
         }
         image
+        primaryCategoryId
         images(allImages: true, size: "large") {
             title
             alt
