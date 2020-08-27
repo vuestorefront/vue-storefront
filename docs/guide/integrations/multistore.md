@@ -326,7 +326,7 @@ will be transformed by `adjustMultistoreApiUrl` to
 Same logic with `adjustMultistoreApiUrl` but with localized route. 
 
 :::tip
-Localized Route means denoting store code by convention without a parameter.
+Localized Route means denoting store code in URL by convention without a parameter.
 
 e.g. It's `de` in `https://example.com/de?a=b` 
 ::: 
