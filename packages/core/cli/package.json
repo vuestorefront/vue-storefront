@@ -9,7 +9,7 @@
     "cli": "ts-node ./src/index.ts"
   },
   "dependencies": {
-    "@vue-storefront/nuxt-theme": "^0.0.1",
+    "@vue-storefront/nuxt-theme": "^0.0.2",
     "inquirer": "^7.3.3"
   },
   "author": "Filip Jędrasik",
