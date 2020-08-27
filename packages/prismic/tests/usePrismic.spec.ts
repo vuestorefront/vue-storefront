@@ -107,7 +107,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should have correct initial values', () => {
-    const { doc, error, loading } = usePrismic();
+    const { doc, error, loading } = usePrismic('1');
 
     expect(loading.value).toBeFalsy();
     expect(Object.keys(doc.value).length).toBe(0);
@@ -115,7 +115,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return document', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('2');
 
     createMock(prismicResponseMock);
 
@@ -132,7 +132,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return correct values for document getters', async () => {
-    const { doc, meta, search } = usePrismic();
+    const { doc, meta, search } = usePrismic('3');
 
     createMock(prismicResponseMock);
 
@@ -151,7 +151,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return correct values for page getters', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('4');
 
     createMock(prismicResponseMock);
 
@@ -173,7 +173,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return rendered blocks', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('5');
 
     createMock(prismicResponseMock);
 
@@ -187,7 +187,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should find block to render', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('6');
 
     createMock(prismicResponseMock);
 
@@ -202,7 +202,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should find many blocks to render', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('7');
 
     createMock(prismicResponseMock);
 
@@ -230,7 +230,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render paragraph block', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('8');
 
     const responseMock = JSON.parse(JSON.stringify(prismicResponseMock)) as ApiSearchResponse;
 
@@ -264,7 +264,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should override getBlocks rendering function', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('9');
 
     createMock(prismicResponseMock);
 
@@ -283,7 +283,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render collection of slices items', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('10');
 
     createMock(prismicResponseMock);
 
@@ -312,7 +312,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render correctly collection of selected slice items', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('11');
 
     createMock(prismicResponseMock);
 
@@ -333,7 +333,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should filter correctly selected slices', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('12');
 
     createMock(prismicResponseMock);
 
@@ -352,7 +352,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should use filtering function when provided', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('13');
 
     createMock(prismicResponseMock);
 
@@ -370,7 +370,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return empty collection if slice not found', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('14');
 
     createMock(prismicResponseMock);
 
@@ -388,7 +388,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should pass when multiple queries', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('15');
 
     createMock(prismicResponseMock);
 
@@ -399,7 +399,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return first document but not as an array', async () => {
-    const { doc, meta, search } = usePrismic();
+    const { doc, meta, search } = usePrismic('16');
 
     createMock(prismicResponseMock);
 
@@ -413,7 +413,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse ArticleExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('17');
 
     createMock(mockDocument(ArticleExampleMock));
 
@@ -435,7 +435,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse blocks for ArticleExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('18');
 
     createMock(mockDocument(ArticleExampleMock));
 
@@ -451,7 +451,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse slices for ArticleExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('19');
 
     createMock(mockDocument(ArticleExampleMock));
 
@@ -469,7 +469,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse LegalExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('20');
 
     createMock(mockDocument(LegalExampleMock));
 
@@ -491,7 +491,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse blocks for LegalExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('21');
 
     createMock(mockDocument(LegalExampleMock));
 
@@ -507,7 +507,7 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse slices for LegalExampleMock', async () => {
-    const { doc, search } = usePrismic();
+    const { doc, search } = usePrismic('22');
 
     createMock(mockDocument(LegalExampleMock));
 
