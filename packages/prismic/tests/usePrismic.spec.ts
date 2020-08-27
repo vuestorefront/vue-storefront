@@ -11,11 +11,6 @@ import { PrismicSlice } from '../src/types';
 import ArticleExampleMock from './mocks/ArticleExampleMock';
 import LegalExampleMock from './mocks/LegalExampleMock';
 
-import * as vsfUtils from '@vue-storefront/core';
-
-jest.mock('@vue-storefront/core');
-const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
-
 const mockDocument = (doc: Document): ApiSearchResponse => ({
   page: 1,
   prev_page: 'prev-page',
@@ -112,10 +107,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should have correct initial values', () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
     const { doc, error, loading } = usePrismic();
 
     expect(loading.value).toBeFalsy();
@@ -124,11 +115,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return document', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -146,11 +132,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return correct values for document getters', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, meta, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -170,11 +151,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return correct values for page getters', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -197,11 +173,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return rendered blocks', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -216,11 +187,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should find block to render', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -236,11 +202,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should find many blocks to render', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -269,11 +230,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render paragraph block', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     const responseMock = JSON.parse(JSON.stringify(prismicResponseMock)) as ApiSearchResponse;
@@ -308,11 +264,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should override getBlocks rendering function', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -332,11 +283,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render collection of slices items', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -366,11 +312,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should render correctly collection of selected slice items', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -392,11 +333,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should filter correctly selected slices', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -416,11 +352,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should use filtering function when provided', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -439,11 +370,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return empty collection if slice not found', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -462,11 +388,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should pass when multiple queries', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -478,11 +399,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should return first document but not as an array', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, meta, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -497,11 +413,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse ArticleExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(ArticleExampleMock));
@@ -524,11 +435,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse blocks for ArticleExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(ArticleExampleMock));
@@ -545,11 +451,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse slices for ArticleExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(ArticleExampleMock));
@@ -568,11 +469,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse LegalExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(LegalExampleMock));
@@ -595,11 +491,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse blocks for LegalExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(LegalExampleMock));
@@ -616,11 +507,6 @@ describe('[prismic] usePrismic', () => {
   });
 
   it('should parse slices for LegalExampleMock', async () => {
-    mockedUtils.useSSR.mockReturnValueOnce({
-      initialState: null,
-      saveToInitialState: jest.fn()
-    });
-
     const { doc, search } = usePrismic();
 
     createMock(mockDocument(LegalExampleMock));

@@ -1,5 +1,5 @@
-import { ref, Ref } from '@vue/composition-api';
-import { useSSR } from '@vue-storefront/core';
+import { Ref } from '@vue/composition-api';
+import { sharedRef } from '@vue-storefront/core';
 import { PrismicQuery, PrismicMeta, PrismicOptions } from '../../types';
 import { Document } from 'prismic-javascript/d.ts/documents';
 import loadDocuments from './loadDocuments';
@@ -14,23 +14,18 @@ interface UsePrismic {
   search: Search;
 }
 
-export default function usePrismic(cacheId?: string): UsePrismic {
-  const { initialState, saveToInitialState } = useSSR(cacheId);
-  const loading = ref(false);
-  const error = ref(null);
-  const doc: Ref<Document | Document[]> = ref(initialState || {});
-  const meta: Ref<PrismicMeta | null> = ref(null);
+export default function usePrismic(): UsePrismic {
+  const loading = sharedRef(false, 'usePrismic-loading');
+  const error = sharedRef(null, 'usePrismic-error');
+  const doc: Ref<Document | Document[]> = sharedRef({}, 'usePrismic-doc');
+  const meta: Ref<PrismicMeta | null> = sharedRef(null, 'usePrismic-meta');
 
   const search: Search = async (query: PrismicQuery | PrismicQuery[], options: PrismicOptions = {}) => {
-    if (!initialState) {
-      loading.value = true;
-    }
-
+    loading.value = true;
     const { results, metadata } = await loadDocuments(query, options);
 
     meta.value = metadata;
     doc.value = results;
-    saveToInitialState(doc.value);
     loading.value = false;
   };
 
