@@ -4,8 +4,7 @@ import copyIntegrationTheme from './copyIntegrationTheme';
 import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
 import updatePackageJson from './updatePackageJson';
-
-const getProjectDirectoryName = (targetPath: string): string => targetPath.split('/').pop();
+import { getProjectDirectoryName } from '../../utils/helpers';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
