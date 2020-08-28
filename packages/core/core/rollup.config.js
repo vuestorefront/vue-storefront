@@ -1,5 +1,6 @@
 import pkg from './package.json';
 import typescript from 'rollup-plugin-typescript2';
+import replace from '@rollup/plugin-replace';
 
 export function generateBaseConfig(pkg) {
   return {
@@ -23,6 +24,10 @@ export function generateBaseConfig(pkg) {
       typescript({
         // eslint-disable-next-line global-require
         typescript: require('typescript')
+      }),
+      replace({
+        __DEV__: process.env.NODE_ENV === 'development',
+        delimiters: ['', '']
       })
     ]
   };

@@ -22,4 +22,4 @@ setup({
     onTokenChange: jest.fn(),
     onTokenRemove: jest.fn()
   }
-});
+} as any);

@@ -1,5 +1,5 @@
 import customerSignMeIn from '../../../src/api/customerSignMeIn';
-import { apolloClient, auth } from '../../../src/index';
+import { apolloClient, getSettings } from '../../../src/index';
 import defaultMutation from '../../../src/api/customerSignMeIn/defaultMutation';
 import createAccessToken from '../../../src/helpers/createAccessToken';
 
@@ -25,7 +25,7 @@ describe('[commercetools-api-client] customerSignMeIn', () => {
     });
 
     const { data } = await customerSignMeIn(givenVariables.draft);
-
+    const { auth } = getSettings();
     expect(createAccessToken).toBeCalled();
     expect(auth.onTokenChange).toBeCalled();
     expect(data).toBe('user response');

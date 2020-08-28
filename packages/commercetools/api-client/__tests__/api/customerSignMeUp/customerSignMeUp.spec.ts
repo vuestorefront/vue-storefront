@@ -1,5 +1,5 @@
 import customerSignMeUp from '../../../src/api/customerSignMeUp';
-import { apolloClient, auth } from '../../../src/index';
+import { apolloClient, getSettings } from '../../../src/index';
 import defaultMutation from '../../../src/api/customerSignMeUp/defaultMutation';
 import createAccessToken from '../../../src/helpers/createAccessToken';
 
@@ -25,7 +25,7 @@ describe('[commercetools-api-client] customerSignMeUp', () => {
     });
 
     const { data } = await customerSignMeUp(givenVariables.draft);
-
+    const { auth } = getSettings();
     expect(createAccessToken).toBeCalled();
     expect(auth.onTokenChange).toBeCalled();
     expect(data).toBe('user response');

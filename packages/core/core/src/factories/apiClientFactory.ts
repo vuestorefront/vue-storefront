@@ -14,11 +14,9 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
       factoryParams.onSetup(settings);
       setupCalled = true;
 
-      if (setupCalled) {
-        console.warn(`
-          [VSF core] commercetools-api/setup function is being called multiple times.
-          If you want to update config, please use commercetools-api/update instead.
-        `);
+      // @ts-ignore
+      if (setupCalled && __DEV__) {
+        console.warn('[VSF core] "setup" function is being called multiple times. If you want to update config, please use "update" instead.');
       }
     },
     update (config: CONFIGURABLE_SETTINGS) {
