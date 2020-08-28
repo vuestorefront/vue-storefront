@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-api",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -28,9 +28,6 @@
     "jest-transform-graphql": "^2.1.0",
     "rollup-plugin-graphql": "^0.1.0"
   },
-  "files": [
-    "lib/**/*"
-  ],
   "publishConfig": {
     "access": "public"
   }
