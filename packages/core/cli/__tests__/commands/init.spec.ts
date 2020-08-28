@@ -28,6 +28,7 @@ jest.mock('path', () => ({
 const projectName = 'AwesomeShop';
 
 describe('Command: init <projectName>', () => {
+
   it('calls inquirer.prompt for projectName if no <projectName> and goes further', async () => {
     await initCommand([null]);
     expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -42,6 +43,7 @@ describe('Command: init <projectName>', () => {
 
     expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
   });
+
   it('calls inquirer.prompt & copyProject with proper arguments', async () => {
     await initCommand([projectName]);
 
@@ -58,4 +60,27 @@ describe('Command: init <projectName>', () => {
 
     expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
   });
+
+  it('proper validator', async () => {
+    let validatorForEmptyString = null;
+    let validatorForNotEmptyString = null;
+
+    inquirer.prompt.mockImplementation(jest.fn((arg) => {
+      if (arg[0].validate) {
+        validatorForEmptyString = arg[0].validate('');
+        validatorForNotEmptyString = arg[0].validate('abc');
+      }
+
+      return Promise.resolve({
+        chosenIntegration,
+        typedProjectName
+      });
+    }));
+
+    await initCommand([null]);
+
+    expect(typeof validatorForEmptyString).toBe('string');
+    expect(validatorForNotEmptyString).toBe(true);
+  });
+
 });

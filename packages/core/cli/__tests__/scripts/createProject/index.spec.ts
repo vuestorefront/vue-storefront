@@ -1,4 +1,4 @@
-import createProject from '../../src/scripts/createProject';
+import createProject from '../../../src/scripts/createProject';
 
 const integration = 'commercetools';
 const targetPath = 'vsf-new-project';

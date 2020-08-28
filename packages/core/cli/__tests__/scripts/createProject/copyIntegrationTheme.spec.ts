@@ -1,4 +1,4 @@
-import copyIntegrationTheme from '../../src/scripts/createProject/copyIntegrationTheme';
+import copyIntegrationTheme from '../../../src/scripts/createProject/copyIntegrationTheme';
 
 const themeFiles = {
   pages: [

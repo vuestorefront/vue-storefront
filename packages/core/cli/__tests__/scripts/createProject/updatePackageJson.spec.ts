@@ -1,4 +1,4 @@
-import updatePackageJson from '../../src/scripts/createProject/updatePackageJson';
+import updatePackageJson from '../../../src/scripts/createProject/updatePackageJson';
 
 const defaultFile = `{
   "someParam": "someValue",
