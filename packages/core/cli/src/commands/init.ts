@@ -1,6 +1,6 @@
 import getIntegrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
-import createProject from '../scripts/createProject';
+import copyProject from '../scripts/copyProject';
 import path from 'path';
 
 export default async (args) => {
@@ -33,5 +33,5 @@ export default async (args) => {
       }
     ]);
 
-  return createProject(chosenIntegration, path.resolve(process.cwd(), projectName));
+  return copyProject(chosenIntegration, path.resolve(process.cwd(), projectName));
 };
