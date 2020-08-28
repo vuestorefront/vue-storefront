@@ -9,3 +9,4 @@ const generateTemplatesScript = async () => {
 };
 
 generateTemplatesScript();
+export default generateTemplatesScript;
