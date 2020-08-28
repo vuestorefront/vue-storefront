@@ -8,7 +8,7 @@
   "version": "0.1.0",
   "sideEffect": false,
   "dependencies": {
-    "@vue-storefront/core": "^2.0.1-prealpha.429",
+    "@vue-storefront/core": "^2.0.3",
     "@vue/composition-api": "^1.0.0-beta.9",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "^2.1.5",
