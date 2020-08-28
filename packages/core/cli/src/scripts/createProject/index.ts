@@ -3,8 +3,6 @@ import log from '../../utils/log';
 import copyIntegrationTheme from './copyIntegrationTheme';
 import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
-import updatePackageJson from './updatePackageJson';
-import { getProjectDirectoryName } from '../../utils/helpers';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
@@ -20,9 +18,6 @@ async function createProject(integration: string, targetPath: string): Promise<v
     : path.join(__dirname, targetPath);
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   await processMagicComments(nuxtConfigPath);
-
-  const packageJsonPath = path.join(absoluteTargetPath, 'package.json');
-  await updatePackageJson(packageJsonPath, getProjectDirectoryName(targetPath));
 }
 
 export default createProject;

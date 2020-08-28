@@ -9,7 +9,7 @@ const absoluteTargetPath = `/home/abc/${targetPath}`;
 import path from 'path';
 
 const resolvedTargetPath = 'a';
-const projectDirectoryName = 'some-name';
+const projectName = 'coolProject';
 
 jest.mock('path', () => ({
   join: jest.fn(() => targetPath),
@@ -20,17 +20,16 @@ jest.mock('path', () => ({
 jest.mock('@vue-storefront/cli/src/scripts/createProject/updatePackageJson', () => jest.fn());
 
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
-  getProjectDirectoryName: () => projectDirectoryName,
   copyThemeFiles: jest.fn()
 }));
 
 describe('[vsf-next-cli] copyProject', () => {
   it('runs with proper arguments for relative path', async () => {
 
-    await copyProject(integration, targetPath);
+    await copyProject(integration, targetPath, projectName);
 
     expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
-    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectDirectoryName);
+    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
   });
 
   it('runs with proper arguments for absolute path', async () => {
@@ -38,9 +37,9 @@ describe('[vsf-next-cli] copyProject', () => {
     (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
-    await copyProject(integration, absoluteTargetPath);
+    await copyProject(integration, absoluteTargetPath, projectName);
 
     expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
-    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectDirectoryName);
+    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
   });
 });

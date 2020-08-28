@@ -1,4 +1,4 @@
-import { getThemePath, buildFileTargetPath, getProjectDirectoryName, copyThemeFiles } from '../../src/utils/helpers';
+import { getThemePath, buildFileTargetPath, copyThemeFiles } from '../../src/utils/helpers';
 import path from 'path';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 
@@ -68,13 +68,6 @@ describe('[vsf-next-cli] getThemePath', () => {
       expect(testOutput).toBe(test.output);
     }
 
-  });
-
-  it('getProjectDirectoryName', () => {
-    const projectName = 'johnys-shop';
-    const fullPath = `/home/johny/projects/${projectName}`;
-
-    expect(getProjectDirectoryName(fullPath)).toBe(projectName);
   });
 
   it('copyThemeFiles for directory', async () => {

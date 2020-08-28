@@ -41,10 +41,11 @@ describe('Command: init <projectName>', () => {
       ]
     );
 
-    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
+    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName, typedProjectName);
   });
 
   it('calls inquirer.prompt & copyProject with proper arguments', async () => {
+    jest.clearAllMocks();
     await initCommand([projectName]);
 
     expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -58,7 +59,7 @@ describe('Command: init <projectName>', () => {
       ]
     );
 
-    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
+    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName, projectName);
   });
 
   it('proper validator', async () => {

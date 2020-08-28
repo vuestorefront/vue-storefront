@@ -33,5 +33,5 @@ export default async (args) => {
       }
     ]);
 
-  return copyProject(chosenIntegration, path.resolve(process.cwd(), projectName));
+  return copyProject(chosenIntegration, path.resolve(process.cwd(), projectName), projectName);
 };
