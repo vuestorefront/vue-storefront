@@ -41,9 +41,14 @@ install:
 jobs:
   include:
     - stage: build
+      name: Build prismic
+      script:
+        - yarn build:prismic
+
+    - stage: build
       name: Build commercetools
       script:
-        - yarn build:prismic && yarn build:ct
+        - yarn build:ct
 
     - stage: build
       name: Build about you
