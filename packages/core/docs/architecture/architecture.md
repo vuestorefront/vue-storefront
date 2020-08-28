@@ -90,18 +90,21 @@ Then you will see a screen like below :
 ℹ Preparing project for development                                                                               15:00:57
 ℹ Initial build may take a while              
 ```
+Do you notice packages loaded in the log above? They are _Nuxt Module_, _Storefront UI_, _commercetools for VSF_, and _Core_.  
 
 Simple as that.
 
 Now open the browser and go to the listening port; `http://192.168.157.129:3000/` in above example, you will see your shop is up and running, ready to sell anything. 
 
-During the process, we have learned we only need to build `core`, `api-client`, `composables` and launch a `theme` wrapped in _Nuxt_ gluing the 3 parts just built a moment before.
+During the process, we have learned we only need to build `core`, `api-client`, and `composables`, then launch a `theme` wrapped in _Nuxt_ gluing the 3 parts just built a moment before.
 
 To sum it up in one shot;
 
 ![birdeye_view](../images/arch2.png)
 
 This picture describes more information than we just played along. 
+
+_Vue Storefront_ is a bundle holding a set of `npm` packages as shown in a rounded rectangle in the picture. However, e-commerce platform may expand its features and communicate with 3rd party payment, analytics, or more. _Composables_ dealing with business logics for such 3rd party services can be independently created and run on its own within the package, in this case; _Nuxt_.
 
 ## API
 API client is a data layer of your eCommerce integration. It provides a friendly abstraction layer over network calls to your e-commerce platform.
