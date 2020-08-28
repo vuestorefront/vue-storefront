@@ -26,6 +26,10 @@ jest.mock('@vue-storefront/cli/src/scripts/createProject/processMagicComments', 
 const updatePackageJsonMock = require('@vue-storefront/cli/src/scripts/createProject/updatePackageJson');
 jest.mock('@vue-storefront/cli/src/scripts/createProject/updatePackageJson', () => jest.fn());
 
+jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
+  getProjectDirectoryName: (targetPath) => targetPath.split('/').pop()
+}));
+
 describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments for relative path', async () => {
 

@@ -25,11 +25,11 @@ const themeFiles = {
 const integration = 'magento-2';
 const targetPath = '../../my-new-super-project/';
 
-const flatArray = (arr) => arr.reduce((flat, next) => flat.concat(Array.isArray(next) ? flatArray(next) : next), []);
-
+import { copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
   getThemePath: () => '',
-  buildFileTargetPath: (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, ''))
+  buildFileTargetPath: (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, '')),
+  copyThemeFiles: jest.fn()
 }));
 
 jest.mock('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir', () => (dir) => {
@@ -51,10 +51,7 @@ jest.mock('path', () => ({
   isAbsolute: jest.fn(() => false)
 }));
 
-const { copyFile } = require('@vue-storefront/nuxt-theme/scripts/copyThemeFiles');
-jest.mock('@vue-storefront/nuxt-theme/scripts/copyThemeFiles', () => ({
-  copyFile: jest.fn()
-}));
+const absoluteTargetPath = '/home/thecreator/abs';
 
 describe('[vsf-next-cli] copyIntegrationTheme', () => {
 
@@ -63,46 +60,20 @@ describe('[vsf-next-cli] copyIntegrationTheme', () => {
   });
 
   it('copies files from integration theme to relative path', async () => {
-    const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
-    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
-
     await copyIntegrationTheme(integration, targetPath);
 
-    for (const file of [...filesInDirs, ...filesInRoot]) {
-      expect(copyFile).toHaveBeenCalledWith(file, targetPath + file);
+    for (const file of Object.keys(themeFiles)) {
+      expect(copyThemeFiles).toHaveBeenCalledWith(file, targetPath, '');
     }
   });
 
   it('copies files from integration theme to absolute path', async () => {
-    const absoluteTargetPath = '/home/thecreator/abs';
-    const filesInDirs = flatArray(Object.values(themeFiles)).filter(v => Boolean(v));
-    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
-
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
     await copyIntegrationTheme(integration, absoluteTargetPath);
 
-    for (const file of [...filesInDirs, ...filesInRoot]) {
-      expect(copyFile).toHaveBeenCalledWith(file, absoluteTargetPath + file);
-    }
-  });
-
-  it('omits not wanted directories from root of integration theme', async () => {
-
-    const omitFiles = ['pages', 'package.json'];
-    const filesInDirs = flatArray(Object.values(themeFiles)).filter(themeFile => Boolean(themeFile));
-    const filesInRoot = Object.entries(themeFiles).filter(([, value]) => !value).map(([key]) => key);
-    const allFiles = [...filesInDirs, ...filesInRoot];
-    const filteredFilesInDirs = allFiles.filter(themeFile => !omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
-    const ommitedFiles = allFiles.filter(themeFile => omitFiles.some(omitFile => themeFile.startsWith(omitFile)));
-
-    await copyIntegrationTheme(integration, targetPath, omitFiles);
-
-    for (const file of filteredFilesInDirs) {
-      expect(copyFile).toHaveBeenCalledWith(file, targetPath + file);
-    }
-    for (const file of ommitedFiles) {
-      expect(copyFile).not.toHaveBeenCalledWith(file, targetPath + file);
+    for (const file of Object.keys(themeFiles)) {
+      expect(copyThemeFiles).toHaveBeenCalledWith(file, absoluteTargetPath, '');
     }
   });
 });

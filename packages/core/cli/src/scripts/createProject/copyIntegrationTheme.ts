@@ -10,8 +10,8 @@ export default async (integration: string, targetPath: string, omitFiles: Array<
 
   await Promise.all(
     integrationThemeFiles.map(
-      absoluteDirectoryPath => copyThemeFiles(
-        absoluteDirectoryPath,
+      integrationThemeFile => copyThemeFiles(
+        integrationThemeFile,
         path.isAbsolute(targetPath)
           ? targetPath
           : path.join(__dirname, targetPath),
