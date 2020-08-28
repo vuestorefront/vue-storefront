@@ -9,9 +9,8 @@
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir .",
     "cli": "ts-node ./src/index.ts",
-    "build:templates": "ts-node ./src/scripts/prepublish/index.ts",
-    "prepublish": "yarn build:templates",
-    "cpy": "ts-node ./src/scripts/copyProject/index.ts"
+    "generate:templates": "ts-node ./src/scripts/generateTemplates/index.ts",
+    "prepublish": "yarn generate:templates"
   },
   "dependencies": {
     "@vue-storefront/nuxt-theme": "^0.0.2",
