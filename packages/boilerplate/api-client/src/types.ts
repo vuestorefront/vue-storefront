@@ -21,8 +21,3 @@ export type Category = {
 export type CategoryFilter = {}
 export type ShippingMethod = {}
 export type LineItem = {};
-
-export interface ApiClientMethods {
-  getCategory(params: {}): Promise<Category[]>;
-  getProduct(params: {}): Promise<ProductVariant[]>;
-}
