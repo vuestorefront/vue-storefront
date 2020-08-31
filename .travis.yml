@@ -57,36 +57,42 @@ jobs:
       script: yarn test:ct:api-client --coverage
       name: Test CT api-client
       after_script:
+        - yarn build:core
         - cat ./packages/commercetools/api-client/coverage/lcov.info | coveralls
 
     - stage: unit tests
       script: yarn test:ct:composables --coverage
       name: Test CT composables
       after_script:
+        - yarn build:core
         - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
     - stage: unit tests
       script: yarn test:ayc:api-client --coverage
       name: Test AY api-client
       after_script:
+        - yarn build:core
         - cat ./packages/about-you/api-client/coverage/lcov.info | coveralls
 
     - stage: unit tests
       script: yarn build:ayc:api-client && yarn test:ayc:composables --coverage
       name: Test AY composables
       after_script:
+        - yarn build:core
         - cat ./packages/about-you/composables/coverage/lcov.info | coveralls
 
     - stage: unit tests
       script: yarn test:prismic --coverage
       name: Test Prismic
       after_script:
+        - yarn build:core
         - cat ./packages/prismic/coverage/lcov.info | coveralls
 
     - stage: unit tests
       script: yarn test:cli --coverage
       name: Test CLI
       after_script:
+        - yarn build:core
         - cat ./packages/core/cli/coverage/lcov.info | coveralls
 
     # - stage: lighthouse
