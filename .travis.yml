@@ -4,26 +4,7 @@ node_js: "10"
 addons:
   chrome: stable
 
-cache:
-  yarn: true
-  directories:
-    - packages/commercetools/api-client/node_modules
-    - packages/commercetools/api-client/lib
-    - packages/commercetools/helpers/node_modules
-    - packages/commercetools/helpers/lib
-    - packages/commercetools/composables/node_modules
-    - packages/commercetools/composables/lib
-    - packages/commercetools/theme/.nuxt
-    - packages/commercetools/theme/node_modules
-    - packages/about-you/api-client/node_modules
-    - packages/about-you/api-client/lib
-    - packages/about-you/composables/node_modules
-    - packages/about-you/composables/lib
-    - packages/core/core/node_modules
-    - packages/core/core/lib
-    - packages/prismic/node_modules
-    - packages/prismic/lib
-    - packages/core/cli/node_modules
+cache: yarn
 
 env:
   global:
@@ -40,6 +21,10 @@ install:
 
 jobs:
   include:
+    - stage: build
+      name: Build core
+      script:
+        - yarn build:core
     - stage: build
       name: Build prismic
       script:
