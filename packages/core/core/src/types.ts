@@ -15,7 +15,7 @@ export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QU
     term?: any;
     filters?: PRODUCT_FILTERS;
     [x: string]: any;
-  }, customQuery: CUSTOM_QUERY) => Promise<void>;
+  }, customQuery?: CUSTOM_QUERY) => Promise<void>;
   availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
