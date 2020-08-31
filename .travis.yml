@@ -60,7 +60,7 @@ jobs:
       script:
         - yarn build:core
         - yarn build:ct:api-client
-        - yarn test:ct:composables --coverage
+        - yarn build:ct:composables --coverage
       name: Test CT composables
       after_script:
         - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
