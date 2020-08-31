@@ -2,7 +2,7 @@
 
 import { Ref } from '@vue/composition-api';
 
-export type CustomQuery = (query, variables) => Promise<void>
+export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
