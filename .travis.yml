@@ -25,9 +25,11 @@ jobs:
       name: Build core
       script:
         - yarn build:core
+
     - stage: build
       name: Build prismic
       script:
+        - yarn build:core
         - yarn build:prismic
 
     - stage: build
