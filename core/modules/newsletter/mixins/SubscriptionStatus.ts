@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async onLoggedIn () {
-      this.email = this.$store.state.user.current.email
+      this.email = encodeURIComponent(this.$store.state.user.current.email)
       this.user.isSubscribed = await this.$store.dispatch('newsletter/status', this.email)
     }
   },
