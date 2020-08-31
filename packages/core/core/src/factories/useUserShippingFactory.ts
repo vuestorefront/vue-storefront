@@ -3,11 +3,11 @@ import { UseUserShipping } from '../types';
 import { sharedRef } from '../utils';
 
 export interface UseUserShippingFactoryParams<ADDRESS> {
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
-  load: () => Promise<void>;
-  setDefault (address: ADDRESS);
+  addAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
+  deleteAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
+  updateAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
+  load: () => Promise<ADDRESS[]>;
+  setDefault: (address: ADDRESS) => Promise<void>;
 }
 
 interface UseUserShippingFactory<ADDRESS> {
@@ -19,14 +19,14 @@ export const useUserShippingFactory = <ADDRESS>(
 ): UseUserShippingFactory<ADDRESS> => {
 
   const useUserShipping = (): UseUserShipping<ADDRESS> => {
-    const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserShipping-addresses');
     const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserShipping-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
+    const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserShipping-addresses');
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.addAddress(address);
+        addresses.value = await factoryParams.addAddress(address);
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -37,7 +37,7 @@ export const useUserShippingFactory = <ADDRESS>(
     const deleteAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.deleteAddress(address);
+        addresses.value = await factoryParams.deleteAddress(address);
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -48,7 +48,7 @@ export const useUserShippingFactory = <ADDRESS>(
     const updateAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.updateAddress(address);
+        addresses.value = await factoryParams.updateAddress(address);
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -59,7 +59,7 @@ export const useUserShippingFactory = <ADDRESS>(
     const load = async () => {
       loading.value = true;
       try {
-        await factoryParams.load();
+        addresses.value = await factoryParams.load();
       } catch (err) {
         throw new Error(err);
       } finally {
