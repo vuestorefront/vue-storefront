@@ -78,6 +78,30 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseUserShipping<ADDRESS> {
+  addresses: ComputedProperty<ADDRESS[]>;
+  totalAddresses: ComputedProperty<number>;
+  addAddress: (address: ADDRESS) => Promise<void>;
+  deleteAddress: (address: ADDRESS) => Promise<void>;
+  updateAddress: (address: ADDRESS) => Promise<void>;
+  load: () => Promise<void>;
+  defaultAddress: ComputedProperty<ADDRESS>;
+  setDefault (address: ADDRESS);
+  loading: ComputedProperty<boolean>;
+}
+
+export interface UseUserBilling<ADDRESS> {
+  addresses: ComputedProperty<ADDRESS[]>;
+  totalAddresses: ComputedProperty<number>;
+  addAddress: (address: ADDRESS) => Promise<void>;
+  deleteAddress: (address: ADDRESS) => Promise<void>;
+  updateAddress: (address: ADDRESS) => Promise<void>;
+  load: () => Promise<void>;
+  defaultAddress: ComputedProperty<ADDRESS>;
+  setDefault (address: ADDRESS);
+  loading: ComputedProperty<boolean>;
+}
+
 export interface UseCategory
 <
   CATEGORY
