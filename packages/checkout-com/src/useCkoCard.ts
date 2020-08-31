@@ -2,7 +2,7 @@
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { Ref, ref, computed } from '@vue/composition-api';
-import { getPublicKey, getFramesStyles, getTransactionTokenKey, Configuration, getFramesLocalization } from './configuration';
+import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
 import { CkoPaymentType, buildPaymentPayloadStrategies, PaymentPropeties, PaymentInstrument } from './helpers';
 
 declare const Frames: any;
@@ -67,11 +67,11 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initCardForm = (params?: Omit<Configuration, 'publicKey'>) => {
-    const localization = params?.card?.localization || getFramesLocalization();
+  const initCardForm = (cardParams?: Omit<CardConfiguration, 'publicKey'>) => {
+    const localization = cardParams?.localization || getFramesLocalization();
     Frames.init({
       publicKey: getPublicKey(),
-      style: params?.card?.style || getFramesStyles(),
+      style: cardParams?.style || getFramesStyles(),
       ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         isCardValid.value = Frames.isCardValid();
