@@ -25,6 +25,7 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
       }
     });
   }
+  console.log(searchParams);
   if (searchParams.page) {
     filterParams.push({ id: 'offset', value: `${(searchParams.page - 1) * searchParams.perPage}` });
   }

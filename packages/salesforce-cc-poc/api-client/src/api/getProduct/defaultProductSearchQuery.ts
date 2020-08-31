@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 export default gql`
 query($query: String!, $filters: [Filter]) {
   productSearch(query: $query, filterParams: $filters) {
+      limit,
+      total,
+      offset
       productHits {
           productId
           productName
