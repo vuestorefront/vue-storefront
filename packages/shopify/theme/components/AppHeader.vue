@@ -100,10 +100,10 @@ export default {
     const searchQuery = ref('');
     const showSearchResults = ref(false);
     const categoriesFound = computed(() => {
-      return searchResults.value?.categories;
+      return searchResults.value ? searchResults.value.categories : [];
     });
-    const productsFound = computed(() => searchResults.value?.products);
-    const suggestionsFound = computed(() => searchResults.value?.suggestions);
+    const productsFound = computed(() => searchResults.value ? searchResults.value.products : []);
+    const suggestionsFound = computed(() => searchResults.value ? searchResults.value.suggestions : []);
     const onSearchQueryChanged = value => {
       searchQuery.value = value;
       if (value.length > 2) {

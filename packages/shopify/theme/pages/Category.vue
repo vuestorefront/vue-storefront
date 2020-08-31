@@ -316,8 +316,9 @@ export default {
       }
     }, { deep: true });
 
-    const products = computed(() => productGetters.getFiltered(categories?.value[0]?.products, { master: true }));
-    const totalProducts = computed(() => (categories?.value[0]?.products)?.length);
+
+    const products = computed(() => productGetters.getFiltered(categories ? (categories.value[0] ? categories.value[0].products : {}) : {}, { master: true }));
+    const totalProducts = computed(() => categories ? (categories.value[0] ? (categories.value[0].products ? categories.value[0].products.length : 0) : 0) : 0);
     const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
 
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
@@ -384,7 +385,7 @@ export default {
   },
   head () {
     return {
-      title: this?.category?.title + ' : Shopify PWA'
+      title: ( this.category ? this.category.title : '') + ' : Shopify PWA'
     };
   }
 };
