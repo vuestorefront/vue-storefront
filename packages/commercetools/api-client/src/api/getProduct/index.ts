@@ -9,24 +9,28 @@ interface ProductData {
 }
 
 const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
-  return await apolloClient.query<ProductData>({
+  const resolvedVariables = resolveCustomQueryVariables({
+    where: buildProductWhere(params),
+    skus: params.skus,
+    limit: params.limit,
+    offset: params.offset,
+    locale,
+    acceptLanguage,
+    currency,
+    country
+  }, variables);
+  const request = await apolloClient.query<ProductData>({
     query: gql`${query}`,
-    variables: {
-      ...resolveCustomQueryVariables({
-        where: buildProductWhere(params),
-        skus: params.skus,
-        limit: params.limit,
-        offset: params.offset,
-        locale,
-        acceptLanguage,
-        currency,
-        country
-      }, variables)
-    },
+    variables: resolvedVariables,
     // temporary, seems like bug in apollo:
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
+  return {
+    query,
+    variables: resolvedVariables,
+    ...request
+  };
 }) => {
   return customQuery();
 };
