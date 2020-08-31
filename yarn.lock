@@ -2940,29 +2940,21 @@
     graphql-tag "^2.10.1"
     isomorphic-fetch "^2.2.1"
 
-"@vue-storefront/commercetools-theme@^0.0.3":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-theme/-/commercetools-theme-0.0.6.tgz#6e2656c84528966590067570673f95b32c2d2e9e"
-  integrity sha512-cSunPsZ+WtZbpgjI3qP3oA3yhddqOFTmylliZ+3aWOiDw6Q3wqA6rY7fdtY8A32Qz2/Voso0scuhZw39W8v1Gw==
+"@vue-storefront/commercetools-api@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.5.tgz#d9d93c196ff8bcce754992d2747797d84c1f8b7e"
+  integrity sha512-/Sp6wf6HhSM274exo/XtcZ6veis6vbRCWMwS+ipasXsaOHPnBDXDYZkb5Y0ynSrxbTkz86W1cpamUGkF9HeZ1A==
   dependencies:
-    "@storefront-ui/vue" "^0.7.10"
-    "@vue-storefront/commercetools" "^0.0.6"
-    "@vue-storefront/commercetools-api" "^0.0.5"
-    "@vue-storefront/nuxt" "^0.0.4"
-    "@vue-storefront/nuxt-theme" "^0.0.2"
-    cookie-universal-nuxt "^2.1.3"
-    core-js "^2.6.5"
-    nuxt "^2.13.3"
-    nuxt-i18n "^6.5.0"
-    vee-validate "^3.2.3"
-    vue-scrollto "^2.17.1"
-
-"@vue-storefront/core@2.0.0":
-  version "2.0.3"
-  dependencies:
-    "@vue/composition-api" "^1.0.0-beta.8"
-    lodash-es "^4.17.15"
-    vue "^2.6.11"
+    "@commercetools/sdk-auth" "^3.0.1"
+    apollo-cache-inmemory "^1.6.6"
+    apollo-client "^2.6.10"
+    apollo-link "^1.2.14"
+    apollo-link-context "^1.0.20"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.17"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
 
 "@vue-storefront/core@2.0.1-prealpha.300":
   version "2.0.1-prealpha.300"
@@ -2971,11 +2963,6 @@
   dependencies:
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"
-
-"@vue-storefront/nuxt-theme@^0.0.1":
-  version "0.0.2"
-  dependencies:
-    lodash.merge "^4.6.2"
 
 "@vue-storefront/nuxt@^0.0.3":
   version "0.0.3"
@@ -3104,7 +3091,7 @@
   dependencies:
     tslib "^1.9.3"
 
-"@vue/composition-api@^1.0.0-beta.11", "@vue/composition-api@^1.0.0-beta.8", "@vue/composition-api@^1.0.0-beta.9":
+"@vue/composition-api@^1.0.0-beta.11", "@vue/composition-api@^1.0.0-beta.8":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.11.tgz#260e9d23d59078d7a6358fec53c77a9adc0cd5b5"
   integrity sha512-WHwX8e1V2NxQtFn7DsgET3QKAfA8kIm13hT4lCdGMAtxbM1dZ/lczF4wdhmkKtKrZiv657aanXV+cgGFF71krg==
