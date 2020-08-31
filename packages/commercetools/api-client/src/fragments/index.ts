@@ -159,9 +159,12 @@ export const ShippingMethodFragment = `
     localizedDescription(acceptLanguage: $acceptLanguage)
     zoneRates {
       zone {
+        id
         name
       }
       shippingRates {
+        freeAbove
+        isMatching
         price {
           centAmount
         }
