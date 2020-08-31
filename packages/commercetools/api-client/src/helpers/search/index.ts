@@ -107,8 +107,11 @@ const buildOrderWhere = (search: OrderSearch): string => {
 const resolveCustomQueryVariables = (defaultVariables: {}, customVariables: {}) => {
   const variables = {};
   for (const [key, value] of Object.entries(defaultVariables)) {
-    if (key === 'where' && customVariables[key]) buildProductWhere(value);
-    variables[key] = customVariables[key] ? customVariables[key] : value;
+    if (key === 'where' && customVariables[key]) {
+      variables[key] = buildProductWhere(value);
+    } else {
+      variables[key] = customVariables[key] ? customVariables[key] : value;
+    }
   }
   return variables;
 };
