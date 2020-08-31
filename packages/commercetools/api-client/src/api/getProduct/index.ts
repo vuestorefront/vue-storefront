@@ -8,7 +8,7 @@ interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (params, resolveQuery = async (query = defaultQuery, variables = {}) => {
+const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
   return await apolloClient.query<ProductData>({
     query: gql`${query}`,
     variables: {
@@ -27,7 +27,7 @@ const getProduct = async (params, resolveQuery = async (query = defaultQuery, va
     fetchPolicy: 'no-cache'
   });
 }) => {
-  return resolveQuery();
+  return customQuery();
 };
 
 export default getProduct;
