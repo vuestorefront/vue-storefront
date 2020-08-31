@@ -1,4 +1,5 @@
 import { Filter } from '@vue-storefront/commercetools-api/lib/types/Api';
+import { ApolloQueryResult } from 'apollo-client';
 
 export type OrderSearchParams = {
   id?: string;
@@ -17,3 +18,5 @@ export interface ProductsSearchParams {
   slug?: string;
   id?: string;
 }
+
+export type CustomQuery = (query, variables) => Promise<ApolloQueryResult<any>>

@@ -17,25 +17,25 @@ export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>
   availableSortingOptions?: SORTING_OPTIONS;
 }
 
-export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
+export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY> = {
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery: CUSTOM_QUERY) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
 };
 
-export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>(
-  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
+export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY>(
+  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY> {
     const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
     const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
     const filters: Ref<PRODUCT_FILTERS> = sharedRef(null, `useProduct-filters-${id}`);
     const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
-    const search = async (params: PRODUCT_SEARCH_PARAMS) => {
+    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery: CUSTOM_QUERY) => {
       loading.value = true;
       filters.value = null;
       try {
-        const { data, total, availableFilters, availableSortingOptions } = await factoryParams.productsSearch(params);
+        const { data, total, availableFilters, availableSortingOptions } = await factoryParams.productsSearch(params, customQuery);
         products.value = data;
         totalProducts.value = total;
         filters.value = availableFilters || null;
