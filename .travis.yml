@@ -59,6 +59,7 @@ jobs:
     - stage: unit tests
       script:
         - yarn build:core
+        - yarn build:ct:api-client
         - yarn test:ct:composables --coverage
       name: Test CT composables
       after_script:
