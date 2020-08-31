@@ -10,11 +10,25 @@ query($productId: String!, $selectedColor: String) {
         shortDescription
         currency
         price
+        priceMax
         prices {
             sale
             list
         }
         image
+        manufacturerName
+        brand
+        options {
+            description
+            id
+            name
+            values {
+                default
+                id
+                name
+                price
+            }
+        }
         primaryCategoryId
         images(allImages: true, size: "large") {
             title

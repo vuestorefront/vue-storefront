@@ -2,7 +2,8 @@ import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
   AgnosticPrice,
-  ProductGetters
+  ProductGetters,
+  AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import { Product, ProductHit } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 
@@ -20,20 +21,24 @@ export const getProductSlug = (product: Product | ProductHit): string => (produc
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
   return {
-    regular: product?.prices?.list || 0,
-    special: product?.prices?.sale || 0
+    regular: product.priceMax || product.price,
+    special: product.price
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {
-  return product.images.map(pi => {
-    return {
-      big: pi.link,
-      small: pi.link,
-      normal: pi.link
-    };
-  }) as AgnosticMediaGalleryItem[];
+  if (product && product.images) {
+    return product.images.map(pi => {
+      return {
+        big: pi.link,
+        small: pi.link,
+        normal: pi.link
+      };
+    }) as AgnosticMediaGalleryItem[];
+  } else {
+    return [];
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,13 +46,67 @@ export const getProductCoverImage = (product: ProductHit): string => product.ima
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
+  const filterValues = filters.attributes;
+  if (filterValues && (filterValues.color || filterValues.size)) {
+    console.log(filterValues);
+    products.map(product => {
+      if (product && product.variationAttributes) {
+        product.variationAttributes.map(va => {
+          if (va && va.variationAttributeValues) {
+            va.variationAttributeValues.map(vav => {
+              console.log('selected', filterValues[va.variationAttributeType.id] === vav.value);
+              vav.selected = filterValues[va.variationAttributeType.id] === vav.value;
+            });
+          }
+        });
+      }
+    });
+  }
   return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
-  // TODO: (products as Product).variationAttributes
-  return {};
+  // if there is only single product passed - aggregate the configuration
+  const aggregateConfiguration = (products as Product).name;
+  const product = ((products as Product[]).length) ? products[0] : (products as Product);
+  const productAttributes = {};
+  if (filterByAttributeName && filterByAttributeName.length > 0) {
+    product.variationAttributes.map(va => {
+      if (va && va.variationAttributeValues) {
+        va.variationAttributeValues.map(vav => {
+          if (aggregateConfiguration) {
+            if (vav.selected) {
+              productAttributes[va.variationAttributeType.id] = vav.value;
+            }
+          } else {
+            if (!productAttributes[va.variationAttributeType.id]) {
+              productAttributes[va.variationAttributeType.id] = [];
+            }
+            productAttributes[va.variationAttributeType.id].push({
+              label: vav.name,
+              value: vav.value,
+              name: vav.name,
+              selected: vav.selected || false
+            });
+          }
+        });
+
+      }
+    });
+    console.log('configuration', productAttributes);
+    return productAttributes;
+  } else {
+    productAttributes.category = {
+      label: 'Category',
+      value: product.primaryCategoryId
+    };
+    productAttributes.productId = {
+      label: 'Product Code',
+      value: product.masterId
+    };
+  }
+  return productAttributes;
 };
 
 // TODO: add description to graphql
@@ -60,6 +119,26 @@ export const getProductId = (product: Product): string => (product as any).produ
 
 export const getFormattedPrice = (price: number) => String(price);
 
+export const getBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
+  {
+    // TODO: add the current category info for the product
+    return [
+      {
+        text: 'Home',
+        link: '/'
+      },
+      {
+        text: 'Category',
+        link: '/c/' + product.primaryCategoryId
+      },
+      {
+        text: product.name,
+        link: '#'
+      }
+    ];
+  }
+};
+
 const productGetters: ProductGetters<Product | ProductHit, ProductFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -71,7 +150,8 @@ const productGetters: ProductGetters<Product | ProductHit, ProductFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
-  getFormattedPrice: getFormattedPrice
+  getFormattedPrice: getFormattedPrice,
+  getBreadcrumbs: getBreadcrumbs
 };
 
 export default productGetters;

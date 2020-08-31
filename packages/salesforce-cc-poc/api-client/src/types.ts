@@ -11,6 +11,8 @@ export declare type ProductHit = {
 };
 export declare type SearchResult = {
     limit: number;
+    total: number;
+    offset: number;
     productHits: ProductHit[];
     currentFilters: CurrentFilter[];
     refinements: Refinement[];
@@ -49,6 +51,7 @@ export declare type Product = {
     name: string;
     masterId: string;
     price: number;
+    priceMax: number;
     prices: Prices;
     primaryCategoryId: string;
     currency: string;
@@ -61,6 +64,22 @@ export declare type Product = {
     type: ProductType;
     inventory: Inventory;
     productPromotions: ProductPromotion[];
+    options: Option[];
+}
+
+export declare type OptionValue = {
+    default: boolean;
+    id: string;
+    name: string;
+    price: number;
+  }
+
+export declare type Option = {
+    description: string;
+    id: string;
+    image: string;
+    name: string;
+    values: OptionValue[];
 }
 
 export declare type Prices = {
@@ -125,6 +144,7 @@ export declare type VariationAttributeValues = {
     value: string;
     orderable: boolean;
     swatchImage: Image;
+    selected: boolean;
 }
 
 export declare type Category = {
@@ -157,6 +177,13 @@ export interface ProductsSearchParams {
     skus?: string[];
     slug?: string;
     id?: string;
+}
+
+export type Breadcrumb = {
+    text: string;
+    route: {
+      link: string;
+    };
 }
 
 export type GqlProductDetailsResponse = {

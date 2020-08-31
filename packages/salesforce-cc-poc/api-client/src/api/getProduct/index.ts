@@ -12,13 +12,11 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
   }
   if (searchParams.catId) {
     const normalizedCategoryId = normalizeCategoryId(((searchParams.catId as string).toLowerCase) ? searchParams.catId as string : searchParams.catId[0]);
-    console.log(normalizedCategoryId);
     filterParams.push({ id: 'cgid', value: normalizedCategoryId });
   }
   if (searchParams.filters) {
-    console.log(searchParams.filters);
     searchParams.filters.map(filter => {
-      if (filter.values) {
+      if (filter && filter.values) {
         filter.values.map(filterValue => {
           if (filterValue.selected) {
             filterParams.push({ id: filter.attributeId, value: filterValue.value });
@@ -27,6 +25,13 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
       }
     });
   }
+  if (searchParams.page) {
+    filterParams.push({ id: 'offset', value: `${(searchParams.page - 1) * searchParams.perPage}` });
+  }
+  if (searchParams.perPage) {
+    filterParams.push({ id: 'limit', value: `${searchParams.perPage}` });
+  }
+
   const gqlSearchResult = await apolloClient.query<GqlProductSearchResponse>({
     query: defaultProductSearchQuery,
     variables: {

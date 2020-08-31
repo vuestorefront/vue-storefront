@@ -34,10 +34,10 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
     return {
       data: searchResult.productHits,
       // TODO: add the pagination info to graphql
-      total: searchResult.productHits.length,
+      total: searchResult.total,
       availableSortingOptions,
       availableFilters: searchResult.refinements.map(rf => {
-        if (rf.values) {
+        if (rf && rf.values) {
           rf.values.map(rfv => rfv.selected = false);
           return rf;
         }

@@ -6,6 +6,8 @@ query($query: String!, $filters: [Filter]) {
       productHits {
           productId
           productName
+          price
+          priceMax          
           prices {
               sale
               list

@@ -10,8 +10,6 @@ const getCategory = async (searchParams: any): Promise<Category[]> => {
   if (!searchParams) {
     searchParams = { ids: 'root', levels: '1' };
   }
-  console.log(searchParams);
-  // TODO: add support for product details
   const result: ApolloQueryResult<GqlCategoriesSearchResponse> = await apolloClient.query<any>({
     query: defaultCategoriesQuery,
     variables: {
