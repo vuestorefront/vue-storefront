@@ -5,7 +5,6 @@ import { Product, ProductHit, Refinement } from '@vue-storefront/salesforce-cc-p
 import { ProductsSearchParams } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
 
 const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product | ProductHit, Refinement[], AgnosticSortByOption[]>> => {
-  console.log(params);
   // const searchParams = {
   //   ids: params.ids,
   //   with: params.term,
