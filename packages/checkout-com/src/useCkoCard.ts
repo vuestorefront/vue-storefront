@@ -19,7 +19,15 @@ const getCurrentPaymentMethodPayload = (paymentMethod: CkoPaymentType, payload: 
 
 const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);
-  const makePayment = async ({ cartId, email, contextDataId = null, savePaymentInstrument = false }) => {
+  const makePayment = async ({
+    cartId,
+    email,
+    secure3d,
+    contextDataId = null,
+    savePaymentInstrument = false,
+    success_url = null,
+    failure_url = null
+  }) => {
     try {
 
       const token = getTransactionToken();
@@ -36,11 +44,11 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
           token,
+          secure3d,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && savePaymentInstrument,
-          secure3d: true,
-          success_url: `${window.location.origin}/cko/payment-success`,
-          failure_url: `${window.location.origin}/cko/payment-error`
+          success_url: success_url || `${window.location.origin}/cko/payment-success`,
+          failure_url: failure_url || `${window.location.origin}/cko/payment-error`
         })
       );
 
