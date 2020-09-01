@@ -42,9 +42,7 @@
           </div>
         </div>
         <div>
-          <p class="product__description desktop-only">
-            {{ productGetters.getDescription(product) }}
-          </p>
+          <p class="product__description desktop-only" v-html="productGetters.getDescription(product)"></p>
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
             Size guide
           </SfButton>
@@ -84,7 +82,7 @@
             data-cy="product-cart_add"
             :stock="product.inventory.ats"
             v-model="qty"
-            :disabled="loading"
+            :disabled="true"
             :canAddToCart="product.inventory.ats > 0"
             @click="addToCart(product, parseInt(qty))"
             class="product__add-to-cart"
@@ -99,8 +97,7 @@
         <SfTabs :openTab="1" class="product__tabs">
           <SfTab data-cy="product-tab_description" title="Description">
             <div>
-              <p>
-                {{ productGetters.getDescription(product) }}
+              <p v-html="productGetters.getDescription(product)">
               </p>
             </div>
             <SfProperty

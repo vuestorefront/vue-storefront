@@ -120,7 +120,7 @@ export const getProductId = (product: Product): string => (product as any).produ
 export const getFormattedPrice = (price: number) => String(price);
 
 export const getBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
-  {
+  if (product) {
     // TODO: add the current category info for the product
     return [
       {
@@ -136,6 +136,12 @@ export const getBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
         link: '#'
       }
     ];
+  } else {
+    return [
+      {
+        text: 'Home',
+        link: '/'
+      }];
   }
 };
 
