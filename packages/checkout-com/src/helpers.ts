@@ -76,4 +76,4 @@ const buildPaymentPayloadStrategies = {
 
 const getCurrentPaymentMethodPayload = (paymentMethod: CkoPaymentType, payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod](payload);
 
-export { CkoPaymentType, getCurrentPaymentMethodPayload, buildPaymentPayloadStrategies, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };
+export { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };
