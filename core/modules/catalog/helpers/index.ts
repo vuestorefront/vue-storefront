@@ -126,7 +126,7 @@ export function configurableChildrenImages (product) {
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
         'src': getThumbnailPath((!hasImage(child) ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
-        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        'loading': getThumbnailPath((!hasImage(child) ? product.image : child.image), config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
           return result
