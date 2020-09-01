@@ -29,7 +29,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
         primaryCategoryId: product.primaryCategoryId,
         qty: quantity,
         name: product.name,
-        image: product.images[0].link,
+        image: product.images ? product.images[0].link : product.image,
         attributes: {}
       };
       cart.value.items.push(existingCartItem);
