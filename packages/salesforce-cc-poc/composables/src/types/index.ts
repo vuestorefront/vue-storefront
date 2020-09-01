@@ -1,12 +1,11 @@
 import { UseCategory, UseProduct } from '@vue-storefront/core';
 
 import { Product } from '@vue-storefront/salesforce-cc-poc-api/src/types';
+import { Cart, CartItem } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
 
 type Category = {}
 type User = {}
 type UserAddress = {}
-type Cart = {}
-type CartItem = {}
 type Coupon = {}
 type Order = {}
 type OrderItem = {}

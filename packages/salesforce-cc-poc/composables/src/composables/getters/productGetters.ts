@@ -94,7 +94,6 @@ export const getProductAttributes = (products: Product[] | Product, filterByAttr
 
       }
     });
-    console.log('configuration', productAttributes);
     return productAttributes;
   } else {
     productAttributes.category = {

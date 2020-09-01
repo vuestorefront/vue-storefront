@@ -1,6 +1,21 @@
 import { type } from 'os';
 
-export declare type Cart = {};
+export declare type Cart = {
+    items: CartItem[];
+};
+export declare type CartItem = {
+    id: string;
+    description: string;
+    primaryCategoryId: string;
+    name: string;
+    image: string;
+    attributes: Record<string, any>;
+    price: {
+        original: number;
+        current: number;
+    };
+    qty: number;
+};
 export declare type Wishlist = {};
 export declare type ProductHit = {
     productId: string;
@@ -156,7 +171,6 @@ export declare type Category = {
 };
 export declare type CategoryFilter = {};
 export declare type ShippingMethod = {};
-export declare type LineItem = {};
 export interface ApiClientMethods {
     getCategory(params: {}): Promise<Category[]>;
     getProduct(params: {}): Promise<Product[]>;

@@ -82,7 +82,7 @@
             data-cy="product-cart_add"
             :stock="product.inventory.ats"
             v-model="qty"
-            :disabled="true"
+            :disabled="loading"
             :canAddToCart="product.inventory.ats > 0"
             @click="addToCart(product, parseInt(qty))"
             class="product__add-to-cart"
