@@ -97,6 +97,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     try {
       await removeSavedCard({ customer_id: customerId, payment_instrument_id: paymentInstrument });
       const { id: cardSrcId } = storedPaymentInstruments.value.find(card => card.payment_instrument_id === paymentInstrument);
+
       storedPaymentInstruments.value = storedPaymentInstruments.value.filter(instrument => instrument.payment_instrument_id !== paymentInstrument);
       if (cardSrcId === getTransactionToken()) {
         selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD;
@@ -116,6 +117,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     error,
     submitDisabled,
     storedPaymentInstruments,
+    selectedCardPaymentMethod: computed(() => selectedPaymentMethod.value),
     submitForm,
     makePayment,
     initCardForm,
