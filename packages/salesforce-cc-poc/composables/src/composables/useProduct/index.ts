@@ -19,7 +19,6 @@ const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSea
   if (params.id) {
     // product details
     const productDetails = await getProductDetails(params);
-    console.log(productDetails);
     return {
       data: [productDetails],
       total: 1,

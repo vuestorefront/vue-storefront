@@ -15,10 +15,7 @@ const getCategory = async (searchParams: any): Promise<Category[]> => {
     variables: {
       ids: searchParams.slug ? normalizeCategoryId(searchParams.slug) : 'root',
       levels: searchParams.levels ? searchParams.levels : '1'
-    },
-    // temporary, seems like bug in apollo:
-    // @link: https://github.com/apollographql/apollo-client/issues/3234
-    fetchPolicy: 'no-cache'
+    }
   });
   return result.data.categories.data;
 };

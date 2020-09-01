@@ -25,7 +25,6 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
       }
     });
   }
-  console.log(searchParams);
   if (searchParams.page) {
     filterParams.push({ id: 'offset', value: `${(searchParams.page - 1) * searchParams.perPage}` });
   }
@@ -38,10 +37,7 @@ export const getProductList = async (searchParams: ProductsSearchParams): Promis
     variables: {
       filters: filterParams,
       query: ''
-    },
-    // temporary, seems like bug in apollo:
-    // @link: https://github.com/apollographql/apollo-client/issues/3234
-    fetchPolicy: 'no-cache'
+    }
   });
   return gqlSearchResult.data.productSearch;
 };
@@ -53,10 +49,7 @@ export const getProductDetails = async (searchParams: ProductsSearchParams): Pro
     variables: {
       productId: searchParams.id,
       selectedColor: ''
-    },
-    // temporary, seems like bug in apollo:
-    // @link: https://github.com/apollographql/apollo-client/issues/3234
-    fetchPolicy: 'no-cache'
+    }
   });
   return gqlProductDetails.data.product;
 };
