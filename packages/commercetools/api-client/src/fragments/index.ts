@@ -163,7 +163,10 @@ export const ShippingMethodFragment = `
         name
       }
       shippingRates {
-        freeAbove
+        freeAbove {
+          type
+          centAmount
+        }
         isMatching
         price {
           centAmount
