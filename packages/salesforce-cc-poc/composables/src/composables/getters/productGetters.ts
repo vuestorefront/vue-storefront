@@ -74,7 +74,7 @@ export const getProductFiltered = (products: Product[], filters: ProductFilters 
 export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   // if there is only single product passed - aggregate the configuration
   const product = ((products as Product[])?.length) ? products[0] : (products as Product);
-  const productAttributes = {};
+  const productAttributes: { category?: any; productId?: any} = {};
 
   if (product && product.variationAttributes) {
     const aggregateConfiguration = (products as Product).name;
