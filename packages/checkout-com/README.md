@@ -112,7 +112,7 @@ onMounted(async () => {
     await loadAvailableMethods(cart.value.id, user.value && user.value.email);
 })
 ```
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`. Caution: PayPal does not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
 
 ```ts
 interface PaymentMethods {
@@ -164,7 +164,10 @@ const payment = await makePayment({ cartId: cart.value.id, email: user.value && 
 // If you've already loaded available payment methods with same useCko composable instance
 const payment = await makePayment();
 
-if (!payment) return;
+if (error.value) {
+    console.log(error.value);
+    return;
+}
 ```
 
 10. If there is any error, you can access it via `error.value`. Otherwise, it will be nullish
@@ -174,7 +177,7 @@ if (!payment) return;
 const order = await placeOrder();
 ```
 
-12. `payment.data.redirect_url` contains 3DS Auth redirect url if it is required by bank. You have to support it:
+12. `payment.data.redirect_url` contains 3DS Auth redirect url for Credit Card if it requires it and it always contain redirect url for the PayPal. You have to support it:
 ```js
 if (payment.data.redirect_url) {
     window.location.href = payment.data.redirect_url;
@@ -182,12 +185,25 @@ if (payment.data.redirect_url) {
 }
 ```
 
-13. After 3DS Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
+13. After 3DS Auth/PayPal Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
 ```js
 success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
 ```
 You can override them while calling `makePayment` with `success_url` and `failure_url` attributes.
+E.g:
+```js
+await makePayment({
+    // ...
+    success_url: 'https://example.com/success',
+    failure_url: 'https://example.com/failure',
+})
+```
+Would redirect after process to the:
+```js
+success_url: 'https://example.com/success',
+failure_url: 'https://example.com/failure'
+```
 
 ## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
@@ -284,7 +300,7 @@ In `nuxt.config.js` module's config you can use each attribute from [this page](
     // ...
     card: {
         localization: 'KO-KR',
-        styles: {
+        style: {
             'card-number': {
                 color: 'red'
             },
