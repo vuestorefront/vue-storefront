@@ -20,10 +20,17 @@ export const getProductSlug = (product: Product | ProductHit): string => (produc
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
-  return {
-    regular: product.priceMax || product.price,
-    special: product.price
-  };
+  if (product) {
+    return {
+      regular: product.priceMax || product.price,
+      special: product.price
+    };
+  } else {
+    return {
+      regular: 0,
+      special: 0
+    };
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
