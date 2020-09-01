@@ -6,20 +6,30 @@ export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; v
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
+export interface Params {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: any;
+  [x: string]: any;
+}
+
+export function Search(params: Params): Promise<void>;
+export function Search(params: Params, customQuery: {}): Promise<void>
+// Overloaded function type need declaration, as bellow
+// https://www.typescriptlang.org/docs/handbook/functions.html#overloads
+export function Search(params: Params, customQuery?: {}): any {
+  return { params, customQuery };
+}
+
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   availableFilters: ComputedProperty<PRODUCT_FILTERS>;
-  search: (params: {
-    perPage?: number;
-    page?: number;
-    sort?: any;
-    term?: any;
-    filters?: PRODUCT_FILTERS;
-    [x: string]: any;
-  }, customQuery?: CustomQuery) => Promise<void>;
   availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
+  search: typeof Search;
   [x: string]: any;
 }
 

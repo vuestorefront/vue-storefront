@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { acceptLanguage, apolloClient, country, currency, locale } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 import { buildProductWhere, resolveCustomQueryVariables } from './../../helpers/search';
@@ -9,6 +9,7 @@ interface ProductData {
 }
 
 const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
+  const { locale, acceptLanguage, currency, country } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     where: buildProductWhere(params),
     skus: params.skus,

@@ -32,7 +32,7 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
     const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
-    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery: CustomQuery) => {
+    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => {
       loading.value = true;
       filters.value = null;
       try {
