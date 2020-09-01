@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, acceptLanguage } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import { CategorySearch } from './../../types/Api';
 import { CategoryQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
@@ -11,6 +11,7 @@ interface CategoryData {
 }
 
 const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
+  const { acceptLanguage } = getSettings();
   if (!search) {
     return await apolloClient.query<CategoryData>({
       query: defaultQuery,

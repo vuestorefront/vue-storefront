@@ -5,7 +5,6 @@ import getShop from './api/shop';
 import getCustomer from './api/customer';
 import getContent from './api/content';
 import { apiClientFactory } from '@vue-storefront/core';
-import { ApiClientMethods, ApiClientSettings } from './types';
 import Client from 'shopify-buy';
 
 const CustomClient = require('shopify-buy/index.unoptimized.umd');
@@ -15,7 +14,7 @@ let cookies = {
   cartCookieName: 'vsf-cart'
 };
 
-const { setup, override, getSettings } = apiClientFactory<ApiClientMethods, ApiClientSettings>({
+const { setup, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {
     domain: 'vsf-next-pwa.myshopify.com',
     storefrontAccessToken: '03f21475b97c18fa05c0ab452c368af4'
@@ -44,7 +43,6 @@ export {
   getContent,
   _shopifyClient,
   _shopifyCustomClient,
-  override,
   setup,
   settings
 };

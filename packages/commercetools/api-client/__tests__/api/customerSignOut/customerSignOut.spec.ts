@@ -1,5 +1,5 @@
 import customerSignOut from './../../../src/api/customerSignOut';
-import { auth } from './../../../src/index';
+import { getSettings } from './../../../src/index';
 
 describe('[commercetools-api-client] customerSignOut', () => {
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe('[commercetools-api-client] customerSignOut', () => {
 
   it('clears user session', async () => {
     await customerSignOut();
-
+    const { auth } = getSettings();
     expect(auth.onTokenRemove).toBeCalled();
   });
 });

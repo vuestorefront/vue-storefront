@@ -1,6 +1,6 @@
 import {
   Customer
-} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
+} from '../types/GraphQL';
 
 import { params } from './factoryParams';
 import { useUserFactory } from '@vue-storefront/core';

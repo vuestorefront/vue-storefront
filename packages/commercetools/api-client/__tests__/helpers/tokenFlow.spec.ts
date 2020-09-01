@@ -38,7 +38,7 @@ const config = {
     clientSecret: 'secret-id',
     scopes: []
   }
-};
+} as any;
 
 describe('[commercetools-api-client] tokenFlow', () => {
   beforeEach(() => {

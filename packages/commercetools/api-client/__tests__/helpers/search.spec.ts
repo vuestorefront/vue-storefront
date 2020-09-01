@@ -4,7 +4,7 @@ import {
   buildOrderWhere
 } from './../../src/helpers/search';
 import { AttributeType, ProductSearch } from '../../src/types/Api';
-import { locale, currency } from '../../src';
+import { getSettings } from '../../src';
 
 describe('[commercetools-api-client] search', () => {
   it('returns undefined when parameters are not supported', () => {
@@ -167,6 +167,7 @@ describe('[commercetools-api-client] search', () => {
           }
         }
       };
+      const { locale } = getSettings();
       expect(buildProductWhere(search)).toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(${locale} = "locStringValue"))))))`);
     });
 
@@ -182,6 +183,8 @@ describe('[commercetools-api-client] search', () => {
             }
           }
         };
+        const { currency } = getSettings();
+
         expect(buildProductWhere(search)).toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}"))))))`);
       });
       it('when pair of values', () => {
@@ -195,6 +198,7 @@ describe('[commercetools-api-client] search', () => {
             }
           }
         };
+        const { currency } = getSettings();
         expect(buildProductWhere(search))
           .toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(centAmount >= 10000 and centAmount <= 20000 and currencyCode = "${currency.toUpperCase()}"))))))`);
       });

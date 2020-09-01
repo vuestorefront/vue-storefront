@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref, computed } from '@vue/composition-api';
-import { Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { Customer } from '../types/GraphQL';
 import { sharedRef } from '@vue-storefront/core';
 
 export const initialDetails = { contactInfo: {} };

@@ -1,4 +1,4 @@
-import {CustomerSignMeInDraft, CustomerSignMeUpDraft} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
+import {CustomerSignMeInDraft, CustomerSignMeUpDraft} from '../types/GraphQL';
 
 type UserData = CustomerSignMeUpDraft | CustomerSignMeInDraft;
 
