@@ -4,13 +4,13 @@ const config = {
   tokenizedCardKey: 'temporary-tokenized-card',
   saveInstrumentKey: 'save-instrument',
   card: {
-    styles: {},
+    style: {},
     localization: null
   }
 };
 
 interface CardConfiguration {
-  styles?: any;
+  style?: any;
   localization?: string | CustomLocalization;
 }
 
@@ -52,7 +52,7 @@ const defaultStyles = {
 const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
-  config.card.styles = params.card?.styles || defaultStyles;
+  config.card.style = params.card?.style || defaultStyles;
   config.card.localization = params.card?.localization || null;
   config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
 };
@@ -60,7 +60,7 @@ const setup = (params: Configuration) => {
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
-const getFramesStyles = () => config.card.styles;
+const getFramesStyles = () => config.card.style;
 const getFramesLocalization = () => config.card.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;

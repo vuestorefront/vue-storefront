@@ -69,7 +69,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     const localization = cardParams?.localization || getFramesLocalization();
     Frames.init({
       publicKey: getPublicKey(),
-      style: cardParams?.styles || getFramesStyles(),
+      style: cardParams?.style || getFramesStyles(),
       ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
         isCardValid.value = Frames.isCardValid();
