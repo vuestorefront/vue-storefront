@@ -1,4 +1,4 @@
-import { Filter } from '@vue-storefront/commercetools-api/lib/types/Api';
+import { Filter } from '@vue-storefront/commercetools-api';
 
 export type OrderSearchParams = {
   id?: string;

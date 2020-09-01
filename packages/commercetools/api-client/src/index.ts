@@ -1,6 +1,5 @@
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { SetupConfig, Auth, ApiConfig, Token } from './types/setup';
 import createCommerceToolsLink from './helpers/createCommerceToolsLink';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
@@ -22,71 +21,43 @@ import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import createAccessToken from './helpers/createAccessToken';
-import * as cartActions from './helpers/cart/actions';
+import { apiClientFactory } from '@vue-storefront/core';
+import { Config, ConfigurableConfig } from './types/setup';
+export * from './types/Api';
+export * from './types/setup';
+export * as cartActions from './helpers/cart/actions';
 
 let apolloClient: ApolloClient<any> = null;
-let locale = 'en';
-let currency = '';
-let country = '';
-let countries = [];
-let currencies = [];
-let locales = [];
-let acceptLanguage = ['en'];
-let currentToken: Token = null;
-let api: ApiConfig = null;
-let auth: Auth = {
-  onTokenChange: () => {},
-  onTokenRemove: () => {}
+
+const onSetup = (config: Config) => {
+  config.languageMap = config.languageMap || {};
+  config.acceptLanguage = config.languageMap[config.locale] || config.acceptLanguage;
+  apolloClient = new ApolloClient({
+    link: createCommerceToolsLink(),
+    cache: new InMemoryCache(),
+    ...config.customOptions
+  });
 };
-let cookies = {
-  currencyCookieName: 'vsf-currency',
-  countryCookieName: 'vsf-country',
-  localeCookieName: 'vsf-locale'
-};
-let languageMap = {};
 
-const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
-  api = setupConfig.api || api;
-  locale = setupConfig.locale || locale;
-  currency = setupConfig.currency || currency;
-  country = setupConfig.country || country;
-  countries = setupConfig.countries || countries;
-  currencies = setupConfig.currencies || currencies;
-  locales = setupConfig.locales || locales;
-  cookies = setupConfig.cookies || cookies;
-  auth = setupConfig.auth || auth;
-  currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
-
-  languageMap = setupConfig.languageMap || languageMap;
-  acceptLanguage = languageMap[locale] || setupConfig.acceptLanguage || acceptLanguage;
-
-  if (setupConfig.api) {
-    apolloClient = new ApolloClient({
-      link: createCommerceToolsLink(),
-      cache: new InMemoryCache(),
-      ...setupConfig.customOptions
-    });
+const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
+  onSetup,
+  defaultSettings: {
+    locale: 'en',
+    acceptLanguage: ['en'],
+    cookies: {
+      currencyCookieName: 'vsf-currency',
+      countryCookieName: 'vsf-country',
+      localeCookieName: 'vsf-locale'
+    }
   }
-
-  return apolloClient;
-};
+});
 
 export {
-  api,
-  currentToken,
+  getSettings,
   createAccessToken,
-  auth,
   apolloClient,
   setup,
-  cookies,
-  locale,
-  locales,
-  acceptLanguage,
-  country,
-  currency,
-  countries,
-  currencies,
-  cartActions,
+  update,
   getProduct,
   getCategory,
   createCart,

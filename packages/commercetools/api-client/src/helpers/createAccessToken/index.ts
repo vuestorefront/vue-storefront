@@ -1,6 +1,6 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import { Token, ApiConfig, CustomerCredentials } from '../../types/setup';
-import { api, currentToken } from './../../index';
+import { getSettings } from './../../index';
 
 interface FlowOptions {
   currentToken?: Token;
@@ -20,6 +20,8 @@ const createAuthClient = (config: ApiConfig): SdkAuth =>
   });
 
 const getCurrentToken = (options: FlowOptions = {}) => {
+  const { currentToken } = getSettings();
+
   if (currentToken) {
     return currentToken;
   }
@@ -52,6 +54,7 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
 };
 
 const createAccessToken = async (options: FlowOptions = {}): Promise<Token> => {
+  const { api } = getSettings();
   const sdkAuth = createAuthClient(api);
   const tokenInfo = await getTokenFlow(sdkAuth, options);
   const tokenProvider = new TokenProvider({ sdkAuth }, tokenInfo);

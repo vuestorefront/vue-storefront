@@ -5,13 +5,8 @@ import fetch from './fetch';
 import fetchWithProducts from './fetchWithProducts';
 import fetchByHandle from './fetchByHandle';
 import fetchQuery from './fetchQuery';
-import { settings } from '../../index';
 
 async function getCategory(options: CategorySearchParams): Promise<Category[]> {
-  if (settings.overrides.getCategory) {
-    return settings.overrides.getCategory();
-  }
-
   if (options.slug === '/') {
     delete options.slug;
   }

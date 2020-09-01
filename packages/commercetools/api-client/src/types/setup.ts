@@ -56,3 +56,37 @@ export interface CustomerCredentials {
   username: string;
   password: string;
 }
+
+// --
+
+export interface Config {
+  api: ApiConfig;
+  currentToken?: Token;
+  customOptions?: ApolloClientOptions<any>;
+  currency: string;
+  locale: string;
+  country: string;
+  countries: LocaleItem[];
+  currencies: LocaleItem[];
+  locales: LocaleItem[];
+  languageMap: object;
+  acceptLanguage: string[];
+  cookies: CookiesConfig;
+  auth?: Auth;
+  forceToken?: boolean;
+}
+
+export interface ConfigurableConfig {
+  api?: ApiConfig;
+  currentToken?: Token;
+  customOptions?: ApolloClientOptions<any>;
+  currency?: string;
+  locale?: string;
+  country?: string;
+  countries?: LocaleItem[];
+  currencies?: LocaleItem[];
+  locales?: LocaleItem[];
+  languageMap?: object;
+  acceptLanguage?: string[];
+  forceToken?: boolean;
+}
