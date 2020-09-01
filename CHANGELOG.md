@@ -4,8 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.12.2] - 2020.??.??
 
-## [1.12.2] - UNRELEASED
+### Fixed
+
+- configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem
+
+
+## [1.12.3]
+
+### Changed / Improved
+
+- Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
+
+### Added
+
+- Added states.json in core/i18n/resource (#4531)
+
+### Fixed
+- Fix user/register call by adding storeId - @haelbichalex (#4697)
+
+## [1.12.2] - 2020.07.28
 
 ### Added
 
@@ -23,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - localForage memory overload fixed. `localForage.preserveCollections` keeps names of collections to be preserved from being cleared. - @prakowski
 - Fixed bug in `restoreQuantity` - getItem never returns cart item - @gibkigonzo (#4619)
 - Separate variant in findProductOption to get parent sku - @gibkigonzo (#4641)
+- Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
 
 ### Changed / Improved
 
