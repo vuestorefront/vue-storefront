@@ -73,55 +73,57 @@ export const getProductFiltered = (products: Product[], filters: ProductFilters 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   // if there is only single product passed - aggregate the configuration
-  const aggregateConfiguration = (products as Product).name;
-  const product = ((products as Product[]).length) ? products[0] : (products as Product);
+  const product = ((products as Product[])?.length) ? products[0] : (products as Product);
   const productAttributes = {};
-  if (filterByAttributeName && filterByAttributeName.length > 0) {
-    product.variationAttributes.map(va => {
-      if (va && va.variationAttributeValues) {
-        va.variationAttributeValues.map(vav => {
-          if (aggregateConfiguration) {
-            if (vav.selected) {
-              productAttributes[va.variationAttributeType.id] = vav.value;
-            }
-          } else {
-            if (!productAttributes[va.variationAttributeType.id]) {
-              productAttributes[va.variationAttributeType.id] = [];
-            }
-            productAttributes[va.variationAttributeType.id].push({
-              label: vav.name,
-              value: vav.value,
-              name: vav.name,
-              selected: vav.selected || false
-            });
-          }
-        });
 
-      }
-    });
-    return productAttributes;
-  } else {
-    productAttributes.category = {
-      label: 'Category',
-      value: product.primaryCategoryId
-    };
-    productAttributes.productId = {
-      label: 'Product Code',
-      value: product.masterId
-    };
+  if (product && product.variationAttributes) {
+    const aggregateConfiguration = (products as Product).name;
+    if (filterByAttributeName && filterByAttributeName.length > 0) {
+      product.variationAttributes.map(va => {
+        if (va && va.variationAttributeValues) {
+          va.variationAttributeValues.map(vav => {
+            if (aggregateConfiguration) {
+              if (vav.selected) {
+                productAttributes[va.variationAttributeType.id] = vav.value;
+              }
+            } else {
+              if (!productAttributes[va.variationAttributeType.id]) {
+                productAttributes[va.variationAttributeType.id] = [];
+              }
+              productAttributes[va.variationAttributeType.id].push({
+                label: vav.name,
+                value: vav.value,
+                name: vav.name,
+                selected: vav.selected || false
+              });
+            }
+          });
+
+        }
+      });
+    } else {
+      productAttributes.category = {
+        label: 'Category',
+        value: product?.primaryCategoryId
+      };
+      productAttributes.productId = {
+        label: 'Product Code',
+        value: product?.masterId
+      };
+    }
   }
   return productAttributes;
 };
 
 // TODO: add description to graphql
-export const getProductDescription = (product: Product): any => product.longDescription;
+export const getProductDescription = (product: Product): any => product?.longDescription;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductCategoryIds = (product: Product): string[] => [product?.primaryCategoryId];
 
-export const getProductId = (product: Product): string => (product as any).productId;
+export const getProductId = (product: Product | ProductHit): string => ((product as ProductHit)?.productId) || ((product as Product)?.id);
 
-export const getFormattedPrice = (price: number) => String(price);
+export const getFormattedPrice = (price: number) => `${price} USD`;
 
 export const getBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
   if (product) {
@@ -133,10 +135,10 @@ export const getBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
       },
       {
         text: 'Category',
-        link: '/c/' + product.primaryCategoryId
+        link: '/c/' + product?.primaryCategoryId
       },
       {
-        text: product.name,
+        text: product?.name,
         link: '#'
       }
     ];

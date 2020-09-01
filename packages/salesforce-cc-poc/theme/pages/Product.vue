@@ -1,161 +1,166 @@
 <template>
   <div id="product">
     <SfBreadcrumbs
+      v-if="!productLoading"
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
-    <div class="product">
-      <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
-      <SfGallery
-        class="product__gallery"
-        :images="productGallery"
-      />
-      <div class="product__info">
-        <div class="product__header">
-          <SfHeading
-            :title="productGetters.getName(product)"
-            :level="3"
-            class="sf-heading--no-underline sf-heading--left"
-          />
-          <SfIcon
-            icon="drag"
-            size="xl"
-            color="gray-secondary"
-            class="product__drag-icon mobile-only"
-          />
-        </div>
-        <div class="product__price-and-rating">
-          <SfPrice
-            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-          />
-          <div>
-            <div class="product__rating">
-              <SfRating :score="4" :max="5" />
-              <a v-if="!!reviews" href="#" class="product__count">
-                ({{ reviews.length }})
-              </a>
+    <SfLoader :loading="productLoading">
+      <div class="product">
+        <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
+        <SfGallery
+          class="product__gallery"
+          :images="productGallery"
+        />
+        <div class="product__info">
+          <div class="product__header">
+            <SfHeading
+              :title="productGetters.getName(product)"
+              :level="3"
+              class="sf-heading--no-underline sf-heading--left"
+            />
+            <SfIcon
+              icon="drag"
+              size="xl"
+              color="gray-secondary"
+              class="product__drag-icon mobile-only"
+            />
+          </div>
+          <div class="product__price-and-rating">
+            <SfPrice
+              :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special="productGetters.getPrice(product).special === productGetters.getPrice(product).regular ? null : productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            />
+            <div>
+              <div class="product__rating">
+                <SfRating :score="4" :max="5" />
+                <a v-if="!!reviews" href="#" class="product__count">
+                  ({{ reviews.length }})
+                </a>
+              </div>
+              <SfButton data-cy="product-btn_read-all" class="sf-button--text desktop-only">
+                Read all reviews
+              </SfButton>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text desktop-only">
-              Read all reviews
+          </div>
+          <div>
+            <p class="product__description desktop-only" v-html="productGetters.getDescription(product)"></p>
+            <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
+              Size guide
+            </SfButton>
+            <!-- TODO: add size selector after design is added -->
+            <SfSelect
+              data-cy="product-select_size"
+              v-if="options.size"
+              :selected="configuration.size"
+              @change="size => updateFilter({ size })"
+              label="Size"
+              class="sf-select--underlined product__select-size"
+              :required="true"
+            >
+              <SfSelectOption
+                v-for="size in options.size"
+                :key="size.value"
+                :value="size.value"
+              >
+                <SfProductOption :label="size.label" />
+              </SfSelectOption>
+            </SfSelect>
+            <!-- TODO: add color picker after PR done by SFUI team
+            <div v-if="options.color" class="product__colors desktop-only">
+              <p class="product__color-label">Color:</p>
+              <div v-if="options.color">
+                <SfColor
+                  data-cy="product-color_update"
+                  v-for="(color, i) in options.color"
+                  :key="i"
+                  :color="color.value"
+                  class="product__color"
+                  @click="updateFilter({color})"
+                />
+              </div>
+            </div> -->
+            <SfAddToCart
+              data-cy="product-cart_add"
+              :stock="product ? product.inventory.ats : 0"
+              v-model="qty"
+              :disabled="cartLoading"
+              :canAddToCart="product ? product.inventory.ats > 0 : false"
+              @click="addToCart(product, parseInt(qty))"
+              class="product__add-to-cart"
+            />
+            <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
+              Save for later
+            </SfButton>
+            <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
+              Add to compare
             </SfButton>
           </div>
-        </div>
-        <div>
-          <p class="product__description desktop-only" v-html="productGetters.getDescription(product)"></p>
-          <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
-            Size guide
-          </SfButton>
-          <!-- TODO: add size selector after design is added -->
-          <SfSelect
-            data-cy="product-select_size"
-            v-if="options.size"
-            :selected="configuration.size"
-            @change="size => updateFilter({ size })"
-            label="Size"
-            class="sf-select--underlined product__select-size"
-            :required="true"
-          >
-            <SfSelectOption
-              v-for="size in options.size"
-              :key="size.value"
-              :value="size.value"
-            >
-              <SfProductOption :label="size.label" />
-            </SfSelectOption>
-          </SfSelect>
-          <!-- TODO: add color picker after PR done by SFUI team
-          <div v-if="options.color" class="product__colors desktop-only">
-            <p class="product__color-label">Color:</p>
-            <div v-if="options.color">
-              <SfColor
-                data-cy="product-color_update"
-                v-for="(color, i) in options.color"
+          <SfTabs :openTab="1" class="product__tabs">
+            <SfTab data-cy="product-tab_description" title="Description">
+              <div>
+                <p v-html="productGetters.getDescription(product)">
+                </p>
+              </div>
+              <SfProperty
+                v-for="(property, i) in productGetters.getAttributes(product)"
                 :key="i"
-                :color="color.value"
-                class="product__color"
-                @click="updateFilter({color})"
-              />
-            </div>
-          </div> -->
-          <SfAddToCart
-            data-cy="product-cart_add"
-            :stock="product.inventory.ats"
-            v-model="qty"
-            :disabled="loading"
-            :canAddToCart="product.inventory.ats > 0"
-            @click="addToCart(product, parseInt(qty))"
-            class="product__add-to-cart"
-          />
-          <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            Save for later
-          </SfButton>
-          <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            Add to compare
-          </SfButton>
-        </div>
-        <SfTabs :openTab="1" class="product__tabs">
-          <SfTab data-cy="product-tab_description" title="Description">
-            <div>
-              <p v-html="productGetters.getDescription(product)">
-              </p>
-            </div>
-            <SfProperty
-              v-for="(property, i) in productGetters.getAttributes(product)"
-              :key="i"
-              :name="property.label"
-              :value="property.value"
-              class="product__property"
-            >
-              <template v-if="property.label === 'Category'" #value>
-                <SfButton class="sf-button--text">
-                  {{ property.value }}
-                </SfButton>
-              </template>
-            </SfProperty>
-          </SfTab>
-          <SfTab title="Read review" data-cy="product-tab_reviews">
-            <SfReview
-              v-for="(review, i) in reviews"
-              :key="i"
-              :author="review.author"
-              :date="review.date"
-              :message="review.message"
-              :max-rating="5"
-              :rating="review.rating"
-              :char-limit="250"
-              read-more-text="Read more"
-              hide-full-text="Read less"
-              class="product__review"
-            />
-          </SfTab>
-            <SfTab
-              title="Additional Information"
-              data-cy="product-tab_additional"
-              class="product__additional-info"
-            >
-              <p class="product__additional-info__title">Brand</p>
-              <p>{{ brand }}</p>
-              <p class="product__additional-info__title">Take care of me</p>
-              <p class="product__additional-info__paragraph">
-                Just here for the care instructions?
-              </p>
-              <p class="product__additional-info__paragraph">
-                Yeah, we thought so
-              </p>
-              <p>{{ careInstructions }}</p>
+                :name="property.label"
+                :value="property.value"
+                class="product__property"
+              >
+                <template v-if="property.label === 'Category'" #value>
+                  <SfButton class="sf-button--text">
+                    {{ property.value }}
+                  </SfButton>
+                </template>
+              </SfProperty>
             </SfTab>
-          </SfTab>
-        </SfTabs>
+            <SfTab title="Read review" data-cy="product-tab_reviews">
+              <SfReview
+                v-for="(review, i) in reviews"
+                :key="i"
+                :author="review.author"
+                :date="review.date"
+                :message="review.message"
+                :max-rating="5"
+                :rating="review.rating"
+                :char-limit="250"
+                read-more-text="Read more"
+                hide-full-text="Read less"
+                class="product__review"
+              />
+            </SfTab>
+              <SfTab
+                title="Additional Information"
+                data-cy="product-tab_additional"
+                class="product__additional-info"
+              >
+                <p class="product__additional-info__title">Brand</p>
+                <p>{{ brand }}</p>
+                <p class="product__additional-info__title">Take care of me</p>
+                <p class="product__additional-info__paragraph">
+                  Just here for the care instructions?
+                </p>
+                <p class="product__additional-info__paragraph">
+                  Yeah, we thought so
+                </p>
+                <p>{{ careInstructions }}</p>
+              </SfTab>
+            </SfTab>
+          </SfTabs>
+        </div>
       </div>
-    </div>
+    </SfLoader>
     <RelatedProducts
+      v-if="!productLoading"
       :products="relatedProducts"
       :loading="relatedLoading"
       title="Match it with"
     />
-    <InstagramFeed />
+    <InstagramFeed v-if="!productLoading" />
     <SfBanner
+      v-if="!productLoading"
       image="/homepage/bannerD.png"
       subtitle="Fashion to Take Away"
       title="Download our application to your mobile"
@@ -201,7 +206,8 @@ import {
   SfReview,
   SfBreadcrumbs,
   SfButton,
-  SfColor
+  SfColor,
+  SfLoader
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -216,9 +222,9 @@ export default {
   setup(props, context) {
     const qty = ref(1);
     const { id } = context.root.$route.params;
-    const { products, search } = useProduct('products');
+    const { products, search, loading: productLoading } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading, loadCart } = useCart();
+    const { addToCart, loading: cartLoading, loadCart } = useCart();
     // const { categories: productCategories, categorySearch } = useCategory('categories');
     // TODO: use categorySearch to find the product root category
     // await categorySearch({ ids: product.value.primaryCategoryId, levels: '1' })
@@ -255,10 +261,11 @@ export default {
       product,
       relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
+      productLoading,
       options,
       qty,
       addToCart,
-      loading,
+      cartLoading,
       productGetters,
       productGallery,
       breadcrumbs
@@ -284,6 +291,7 @@ export default {
     SfBreadcrumbs,
     SfButton,
     InstagramFeed,
+    SfLoader,
     RelatedProducts
   },
   data() {

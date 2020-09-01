@@ -2,7 +2,7 @@ import { getProductList, getProductDetails } from '@vue-storefront/salesforce-cc
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
 import { UseProduct } from '../../types';
 import { Product, ProductHit, Refinement } from '@vue-storefront/salesforce-cc-poc-api/src/types';
-import { ProductsSearchParams } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
+import { ProductsSearchParams } from '@vue-storefront/salesforce-cc-poc-api/src/types';
 
 const productsSearch = async (params: ProductsSearchParams): Promise<ProductsSearchResult<Product | ProductHit, Refinement[], AgnosticSortByOption[]>> => {
   // const searchParams = {
