@@ -2,9 +2,9 @@
 
 import { Ref } from '@vue/composition-api';
 
-export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
-
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
+
+export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
 
 export interface SearchParams {
   perPage?: number;

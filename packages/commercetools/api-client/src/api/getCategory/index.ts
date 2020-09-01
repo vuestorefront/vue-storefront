@@ -1,42 +1,34 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 import { apolloClient, getSettings } from './../../index';
-import { CategorySearch } from './../../types/Api';
 import { CategoryQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
-import { buildCategoryWhere } from './../../helpers/search';
+import { buildCategoryWhere, resolveCustomQueryVariables } from './../../helpers/search';
 
 interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
+const getCategory = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
   const { acceptLanguage } = getSettings();
-  if (!search) {
-    return await apolloClient.query<CategoryData>({
-      query: defaultQuery,
-      variables: { acceptLanguage }
-    });
-  }
-
-  if (search.customQuery) {
-    const { query, variables } = search.customQuery;
-
-    return await apolloClient.query<CategoryData>({
-      query: gql`${query}`,
-      variables
-    });
-  }
-
-  return await apolloClient.query<CategoryData>({
-    query: defaultQuery,
-    variables: {
-      where: buildCategoryWhere(search),
-      limit: search.limit,
-      offset: search.offset,
-      acceptLanguage
-    }
+  const resolvedVariables = resolveCustomQueryVariables({
+    where: buildCategoryWhere(params),
+    limit: params.limit,
+    offset: params.offset,
+    acceptLanguage
+  }, variables);
+  const request = await apolloClient.query<ApolloQueryResult<CategoryData>>({
+    query: gql`${query}`,
+    variables: resolvedVariables,
+    fetchPolicy: 'no-cache'
   });
+  return {
+    query,
+    variables: resolvedVariables,
+    ...request
+  };
+}) => {
+  return customQuery();
 };
 
 export default getCategory;

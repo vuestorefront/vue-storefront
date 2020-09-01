@@ -3,6 +3,7 @@ import { apolloClient, getSettings } from './../../index';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 import { buildProductWhere, resolveCustomQueryVariables } from './../../helpers/search';
+import {ApolloQueryResult} from 'apollo-client';
 
 interface ProductData {
   products: ProductQueryResult;
@@ -20,7 +21,7 @@ const getProduct = async (params, customQuery = async (query = defaultQuery, var
     currency,
     country
   }, variables);
-  const request = await apolloClient.query<ProductData>({
+  const request = await apolloClient.query<ApolloQueryResult<ProductData>>({
     query: gql`${query}`,
     variables: resolvedVariables,
     // temporary, seems like bug in apollo:

@@ -1,25 +1,34 @@
 import { CartDraft } from './../../types/GraphQL';
-import { getSettings, apolloClient } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import CreateCartMutation from './defaultMutation';
-import { CartMutationResponse } from './../../types/Api';
+import { resolveCustomQueryVariables } from '../../helpers/search';
 
 interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
-const createCart = async (cartDraft: CartData = {}): Promise<CartMutationResponse> => {
+const createCart = async (cartDraft: CartData = {}, customQuery = async (query = CreateCartMutation, variables = {}) => {
   const { locale, acceptLanguage, currency } = getSettings();
-  return await apolloClient.mutate({
-    mutation: CreateCartMutation,
-    variables: {
-      acceptLanguage,
-      locale,
-      draft: {
-        currency,
-        ...cartDraft
-      }
+  const resolvedVariables = resolveCustomQueryVariables({
+    acceptLanguage,
+    locale,
+    draft: {
+      currency,
+      ...cartDraft
     }
+  }, variables);
+  const request = await apolloClient.mutate({
+    mutation: query,
+    variables: resolvedVariables,
+    fetchPolicy: 'no-cache'
   });
+  return {
+    query,
+    variables: resolvedVariables,
+    ...request
+  };
+}) => {
+  return customQuery();
 };
 
 export default createCart;

@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUserOrders } from '../types';
+import {CustomQuery, UseUserOrders} from '../types';
 import { sharedRef } from '../utils';
 
 export interface OrdersSearchResult<ORDER> {
@@ -8,7 +8,7 @@ export interface OrdersSearchResult<ORDER> {
 }
 
 export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
-  searchOrders: (params: ORDER_SEARCH_PARAMS) => Promise<OrdersSearchResult<ORDER>>;
+  searchOrders: (params: ORDER_SEARCH_PARAMS, customQuery: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
 };
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
@@ -17,10 +17,10 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
     const totalOrders: Ref<number> = sharedRef(0, 'useUserOrders-totalOrders');
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
 
-    const searchOrders = async (params?: ORDER_SEARCH_PARAMS): Promise<void> => {
+    const searchOrders = async (params?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
       loading.value = true;
       try {
-        const { data, total } = await factoryParams.searchOrders(params);
+        const { data, total } = await factoryParams.searchOrders(params, customQuery);
         orders.value = data;
         totalOrders.value = total;
       } finally {
