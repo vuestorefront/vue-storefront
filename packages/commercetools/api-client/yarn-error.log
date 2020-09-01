@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/lukasborawski/.nvm/versions/node/v12.9.1/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js install --force
+  /Users/lukasborawski/.nvm/versions/node/v12.9.1/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js
 
 PATH: 
   /usr/local/opt/mysql@5.7/bin:/usr/local/opt/php@7.2/sbin:/usr/local/opt/php@7.2/bin:/Users/lukasborawski/Library/Android/sdk/tools:/Users/lukasborawski/Library/Android/sdk/platform-tools:/Users/lukasborawski/.nvm/versions/node/v12.9.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin

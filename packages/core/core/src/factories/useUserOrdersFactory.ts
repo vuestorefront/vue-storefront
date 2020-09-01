@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import {CustomQuery, UseUserOrders} from '../types';
+import { CustomQuery, UseUserOrders } from '../types';
 import { sharedRef } from '../utils';
 
 export interface OrdersSearchResult<ORDER> {

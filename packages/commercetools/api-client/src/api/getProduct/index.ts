@@ -3,13 +3,14 @@ import { apolloClient, getSettings } from './../../index';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 import { buildProductWhere, resolveCustomQueryVariables } from './../../helpers/search';
-import {ApolloQueryResult} from 'apollo-client';
+import { ApolloQueryResult } from 'apollo-client';
 
 interface ProductData {
   products: ProductQueryResult;
 }
 
 const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
+  console.log('test')
   const { locale, acceptLanguage, currency, country } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     where: buildProductWhere(params),

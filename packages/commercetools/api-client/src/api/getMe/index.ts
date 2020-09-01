@@ -1,21 +1,20 @@
 import { apolloClient, getSettings } from './../../index';
 import { ProfileResponse } from './../../types/Api';
-import defaultQuery from '../getProduct/defaultQuery';
+import { basicProfile, fullProfile } from './defaultQuery';
 import { resolveCustomQueryVariables } from '../../helpers/search';
 import { ApolloQueryResult } from 'apollo-client';
-import gql from 'graphql-tag';
 
 interface Options {
   customer?: boolean;
 }
 
-const getMe = async (customQuery = async (query = defaultQuery, variables = {}) => {
+const getMe = async (params: Options = {}, customQuery = async (query = basicProfile, variables = {}) => {
   const { locale, acceptLanguage } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     locale, acceptLanguage
   }, variables);
   const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
-    query: gql`${query}`,
+    query: params.customer ? fullProfile : basicProfile,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
