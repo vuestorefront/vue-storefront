@@ -1,5 +1,6 @@
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export const Register = {
   name: 'Register',
@@ -25,7 +26,13 @@ export const Register = {
     callRegister () {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
+      this.$store.dispatch('user/register', {
+        email: this.email,
+        password: this.password,
+        firstname: this.firstName,
+        lastname: this.lastName,
+        storeId: currentStoreView().storeId
+      }).then((result) => {
         Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')

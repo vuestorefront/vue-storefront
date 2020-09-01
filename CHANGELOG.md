@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem
 
 
-## [1.12.3] 
+## [1.12.3]
 
 ### Changed / Improved
 
@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added states.json in core/i18n/resource (#4531)
+
+### Fixed
+- Fix user/register call by adding storeId - @haelbichalex (#4697)
 
 ## [1.12.2] - 2020.07.28
 
