@@ -48,13 +48,11 @@ export const getProductCoverImage = (product: ProductHit): string => product.ima
 export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
   const filterValues = filters.attributes;
   if (filterValues && (filterValues.color || filterValues.size)) {
-    console.log(filterValues);
     products.map(product => {
       if (product && product.variationAttributes) {
         product.variationAttributes.map(va => {
           if (va && va.variationAttributeValues) {
             va.variationAttributeValues.map(vav => {
-              console.log('selected', filterValues[va.variationAttributeType.id] === vav.value);
               vav.selected = filterValues[va.variationAttributeType.id] === vav.value;
             });
           }
