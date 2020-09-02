@@ -7,7 +7,7 @@ interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
-const createCart = async (cartDraft: CartData = {}, customQuery = async (query = CreateCartMutation, variables = {}) => {
+const createCart = async (cartDraft: CartData = {}) => {
   const { locale, acceptLanguage, currency } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     acceptLanguage,
@@ -16,19 +16,16 @@ const createCart = async (cartDraft: CartData = {}, customQuery = async (query =
       currency,
       ...cartDraft
     }
-  }, variables);
+  }, {});
   const request = await apolloClient.mutate({
-    mutation: query,
+    mutation: CreateCartMutation,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
   return {
-    query,
     variables: resolvedVariables,
     ...request
   };
-}) => {
-  return customQuery();
 };
 
 export default createCart;
