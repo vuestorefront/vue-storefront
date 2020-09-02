@@ -165,7 +165,7 @@ const payment = await makePayment({ cartId: cart.value.id, email: user.value && 
 const payment = await makePayment();
 
 if (error.value) {
-    console.log(error.value);
+    console.error(error.value.message);
     return;
 }
 ```

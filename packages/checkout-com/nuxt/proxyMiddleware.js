@@ -34,7 +34,7 @@ const getStoredMethods = async ({ customerId }) => {
   } catch (err) {
     console.log(err);
     if (err.response) {
-      console.log(err.response.data);
+      console.error(err.response.data);
     }
     return null;
   }
