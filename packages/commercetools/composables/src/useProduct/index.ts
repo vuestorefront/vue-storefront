@@ -11,7 +11,7 @@ const availableSortingOptions = [
   { value: 'price-down', label: 'Price from high to low' }
 ];
 
-const productsSearch = async (params: ProductsSearchParams, customQuery: CustomQuery): Promise<ProductsSearchResult<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]>> => {
+const productsSearch = async (params: ProductsSearchParams, customQuery?: CustomQuery): Promise<ProductsSearchResult<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]>> => {
   const apiSearchParams: ProductSearch = {
     ...params,
     ...mapPaginationParams(params)

@@ -4,7 +4,7 @@ import { Category } from './../types/GraphQL';
 import { useCategoryFactory, UseCategoryFactoryParams } from '@vue-storefront/core';
 
 const params: UseCategoryFactoryParams<Category, any> = {
-  categorySearch: async (params, customQuery: CustomQuery) => {
+  categorySearch: async (params, customQuery?: CustomQuery) => {
     const categoryResponse = await getCategory(params, customQuery);
     return categoryResponse.data.categories.results;
   }
