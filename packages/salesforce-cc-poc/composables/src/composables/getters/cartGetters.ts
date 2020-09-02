@@ -13,8 +13,8 @@ export const getCartItemImage = (product: CartItem | Product): string => product
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartItem): AgnosticPrice => {
   return {
-    regular: product?.price?.original || 12,
-    special: product?.price?.current || 10
+    regular: product?.price?.original,
+    special: product?.price?.current
   };
 };
 
