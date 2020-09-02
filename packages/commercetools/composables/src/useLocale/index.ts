@@ -1,17 +1,8 @@
 /* istanbul ignore file */
 
 import { Ref, computed, watch, watchEffect } from '@vue/composition-api';
-import {
-  countries,
-  currencies,
-  locales,
-  currency as defaultCurrency,
-  country as defaultCountry,
-  locale as defaultLocale,
-  cookies,
-  setup
-} from '@vue-storefront/commercetools-api';
-import { LocaleItem } from '@vue-storefront/commercetools-api/lib/types/setup';
+import { setup, getSettings } from '@vue-storefront/commercetools-api';
+import { LocaleItem } from '@vue-storefront/commercetools-api';
 import Cookies from 'js-cookie';
 import { onSSR, sharedRef } from '@vue-storefront/core';
 
@@ -28,6 +19,15 @@ type AvailableCountries = Ref<Readonly<LocaleItem[]>>
 type AvailableCurrencies = Ref<Readonly<LocaleItem[]>>
 
 export default function useLocale() {
+  const {
+    countries,
+    currencies,
+    locales,
+    currency: defaultCurrency,
+    country: defaultCountry,
+    locale: defaultLocale,
+    cookies
+  } = getSettings();
   const loading = sharedRef(false, 'useLocale-loading');
   const error = sharedRef(null, 'useLocale-error');
   const locale: Locale = sharedRef('', 'useLocale-locale');

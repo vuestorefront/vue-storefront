@@ -1,5 +1,5 @@
 import {UseUserFactoryParams} from '@vue-storefront/core';
-import {Customer} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
+import {Customer} from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import {
   customerSignMeUp as apiCustomerSignMeUp,

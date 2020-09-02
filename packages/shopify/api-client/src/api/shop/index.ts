@@ -1,4 +1,4 @@
-import { _shopifyClient, settings } from '../../index';
+import { _shopifyClient } from '../../index';
 import { Shop, ShopSearchParams } from '../../types';
 
 /**
@@ -26,10 +26,6 @@ async function fetchPolicies(): Promise<Shop[]> {
 }
 
 async function getShop(options: ShopSearchParams): Promise<Shop[]> {
-  if (settings.overrides.getShop) {
-    return settings.overrides.getShop();
-  }
-
   if (options.withPolicy) {
     return fetchPolicies();
   } else {

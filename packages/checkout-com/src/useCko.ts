@@ -84,7 +84,14 @@ const useCko = () => {
     }
   };
 
-  const makePayment = async ({ cartId = null, email = null, contextDataId = null } = {}) => {
+  const makePayment = async ({
+    cartId = null,
+    email = null,
+    contextDataId = null,
+    success_url = null,
+    failure_url = null,
+    secure3d = true
+  } = {}) => {
     if (!selectedPaymentMethod.value) {
       error.value = 'Payment method not selected';
       return;
@@ -112,6 +119,9 @@ const useCko = () => {
     const response = await finalizeTransactionFunction({
       cartId,
       email,
+      success_url,
+      failure_url,
+      secure3d,
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });
