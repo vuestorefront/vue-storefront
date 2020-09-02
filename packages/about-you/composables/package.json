@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vue-storefront/about-you-api": "^0.1.0",
-    "@vue-storefront/core": "^2.0.3",
+    "@vue-storefront/core": "^2.0.4",
     "vue": "^2.6.x"
   },
   "devDependencies": {
