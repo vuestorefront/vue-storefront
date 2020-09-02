@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EEXIST: file already exists, symlink '../../../../core/core' -> '/Users/lukasborawski/Dev/VSF/vue-storefront/packages/boilerplate/composables/node_modules/@vue-storefront/core'
+  Error: EEXIST: file already exists, symlink '../../../../../../../core/core' -> '/Users/lukasborawski/Dev/VSF/vue-storefront/packages/boilerplate/theme/node_modules/@vue-storefront/boilerplate/node_modules/@vue-storefront/core'
 
 npm manifest: 
   {

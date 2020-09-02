@@ -14,7 +14,7 @@ const getOrders = async (params, customQuery = async (query = defaultQuery, vari
     offset: params.offset,
     acceptLanguage,
     locale
-  }, variables);
+  }, variables, 'order');
   const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
     query: gql`${query}`,
     variables: resolvedVariables,

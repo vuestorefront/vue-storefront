@@ -10,11 +10,12 @@ interface Options {
 
 const getMe = async (params: Options = {}, customQuery = async (query = basicProfile, variables = {}) => {
   const { locale, acceptLanguage } = getSettings();
+  const { customer }: Options = params;
   const resolvedVariables = resolveCustomQueryVariables({
     locale, acceptLanguage
   }, variables);
   const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
-    query: params.customer ? fullProfile : basicProfile,
+    query: customer ? fullProfile : basicProfile,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });

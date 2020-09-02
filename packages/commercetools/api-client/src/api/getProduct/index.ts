@@ -10,7 +10,6 @@ interface ProductData {
 }
 
 const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
-  console.log('test')
   const { locale, acceptLanguage, currency, country } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     where: buildProductWhere(params),
@@ -21,7 +20,7 @@ const getProduct = async (params, customQuery = async (query = defaultQuery, var
     acceptLanguage,
     currency,
     country
-  }, variables);
+  }, variables, 'product');
   const request = await apolloClient.query<ApolloQueryResult<ProductData>>({
     query: gql`${query}`,
     variables: resolvedVariables,

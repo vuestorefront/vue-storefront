@@ -16,7 +16,7 @@ const getCategory = async (params, customQuery = async (query = defaultQuery, va
     limit: params.limit,
     offset: params.offset,
     acceptLanguage
-  }, variables);
+  }, variables, 'category');
   const request = await apolloClient.query<ApolloQueryResult<CategoryData>>({
     query: gql`${query}`,
     variables: resolvedVariables,
