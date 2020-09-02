@@ -73,6 +73,10 @@
   },
   "initialResources": [
     {
+      "filters": ["lang-.*"],
+      "onload": false
+    },
+    {
       "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
       "type": "script",
       "onload": true,
