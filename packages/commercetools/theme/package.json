@@ -2,7 +2,7 @@
   "name": "@vue-storefront/commercetools-theme",
   "description": "My breathtaking Nuxt.js project",
   "author": "Filip Rakowski",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publishConfig": {
     "access": "public"
   },
