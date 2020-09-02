@@ -13,8 +13,7 @@ export const getCartItemImage = (product: CartItem | Product): string => product
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartItem): AgnosticPrice => {
   return {
-    regular: product?.price?.original,
-    special: product?.price?.current
+    regular: product?.price?.current
   };
 };
 
@@ -45,7 +44,7 @@ export const getCartShippingPrice = (cart: Cart): number => 0;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartTotalItems = (cart: Cart): number => cart.items.length;
 
-export const getFormattedPrice = (price: number) => String(price);
+export const getFormattedPrice = (price: number) => `${price} USD`;
 
 const cartGetters: CartGetters<Cart, CartItem> = {
   getTotals: getCartTotals,

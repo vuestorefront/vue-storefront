@@ -27,7 +27,7 @@
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"
                 :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-                :special-price="cartGetters.getItemPrice(product).special !== cartGetters.getItemPrice(product).regular ? cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special) : null"
+                :special-price="cartGetters.getItemPrice(product).special && cartGetters.getItemPrice(product).special !== cartGetters.getItemPrice(product).regular ? cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special) : null"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
