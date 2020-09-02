@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/shopify-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
     "@types/shopify-buy": "^1.11.1",
-    "@vue-storefront/core": "^2.0.3",
+    "@vue-storefront/core": "^2.0.4",
     "node-fetch": "^2.6.0",
     "shopify-buy": "^2.9.3"
   },

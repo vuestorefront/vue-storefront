@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/about-you",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vue-storefront/about-you-api": "^0.1.0",
-    "@vue-storefront/core": "^2.0.3",
+    "@vue-storefront/core": "^2.0.4",
     "vue": "^2.6.x"
   },
   "devDependencies": {
