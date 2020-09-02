@@ -3,6 +3,7 @@
 import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { Cart, CartItem, Coupon, Product } from '../../types';
+import { ProductHit } from '@vue-storefront/salesforce-cc-poc-api/lib/types';
 
 export const cart: Ref<Cart> = ref({
   items: []
@@ -10,26 +11,26 @@ export const cart: Ref<Cart> = ref({
 
 // @todo: implement cart
 
-const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product | ProductHit, Coupon> = {
   loadCart: async () => {
     return cart.value;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addToCart: async ({ currentCart, product, quantity }) => {
     let existingCartItem: CartItem = cart.value.items.find((item) => {
-      if (item.id === product.id) return item;
+      if (item.id === (product as Product).id || (item.id === (product as ProductHit).productId)) return item;
     });
     if (existingCartItem) {
       existingCartItem.qty += quantity;
     } else {
       existingCartItem = {
-        description: product.longDescription,
-        id: product.id,
-        price: { current: product.price, original: product.priceMax },
-        primaryCategoryId: product.primaryCategoryId,
+        description: (product as Product).longDescription || '',
+        id: (product as Product).id || (product as ProductHit).productId,
+        price: { current: product.prices.sale, original: product.prices.list },
+        primaryCategoryId: (product as Product).primaryCategoryId || null,
         qty: quantity,
-        name: product.name,
-        image: product.images ? product.images[0].link : product.image,
+        name: (product as Product).name || (product as ProductHit).productName,
+        image: (product as Product).images && (product as Product).images.length > 0 ? (product as Product).images[0].link : (product as ProductHit).image.link,
         attributes: {}
       };
       cart.value.items.push(existingCartItem);
@@ -71,6 +72,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-const { setCart, useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
+const { setCart, useCart } = useCartFactory<Cart, CartItem, Product | ProductHit, Coupon>(params);
 
 export { setCart, useCart };

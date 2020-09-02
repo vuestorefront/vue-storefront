@@ -20,7 +20,7 @@ export declare type Wishlist = {};
 export declare type ProductHit = {
     productId: string;
     productName: string;
-    prices: any;
+    prices: Prices;
     image: any;
     colorSwatches: ColorSwatch[];
 };
