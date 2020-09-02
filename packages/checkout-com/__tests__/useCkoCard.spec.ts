@@ -100,6 +100,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('creates context if not provided', async () => {
 
+      localStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -124,6 +125,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('calls createPayment & returns proper success response', async () => {
 
+      localStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -206,6 +208,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('throws an error if receives diff. code than 200 and 202 from createPayment request', async () => {
 
+      localStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -364,15 +367,23 @@ describe('[checkout-com] useCkoCard', () => {
     })
 
     it('removes stored payment instrument', async () => {
-      const customerId = '1'
+      const customerId = '1';
+      (getCustomerCards as jest.Mock).mockImplementation(() => Promise.resolve({
+        data: {
+          /*eslint-disable */
+          payment_instruments
+        }
+      }));
+      await loadStoredPaymentInstruments(customerId)
       const instrument = payment_instruments[1];
       localStorageMock.getItem.mockImplementation(() => 'targetly-bad-value')
       const paymentInstrumentsWithoutRemoved = payment_instruments.filter(ins => ins.payment_instrument_id != instrument.payment_instrument_id);
-  
-      (removeSavedCard as jest.Mock).mockImplementation(() => Promise.resolve())
-  
-      await removePaymentInstrument(customerId, instrument.payment_instrument_id)
-  
+      /* eslint-enable */
+
+      (removeSavedCard as jest.Mock).mockImplementation(() => Promise.resolve());
+
+      await removePaymentInstrument(customerId, instrument.payment_instrument_id);
+
       expect(removeSavedCard).toHaveBeenCalledWith({
         /*eslint-disable */
         customer_id: customerId,
@@ -381,6 +392,7 @@ describe('[checkout-com] useCkoCard', () => {
       });
       expect(storedPaymentInstruments.value).toEqual(paymentInstrumentsWithoutRemoved);
     });
+
     it('removes stored payment instrument and updates current pick and removes transaction token', async () => {
       (getCustomerCards as jest.Mock).mockImplementation(() => Promise.resolve({
         data: {

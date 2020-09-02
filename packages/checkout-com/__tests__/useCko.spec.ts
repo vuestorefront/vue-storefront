@@ -145,6 +145,7 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     expect(useCkoCardMock.initCardForm).toHaveBeenCalled();
   });
+
   it('inits card form in initForm if available and requested', async () => {
     await loadAvailableMethods('1');
     initForm({
@@ -153,6 +154,7 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     expect(useCkoCardMock.initCardForm).toHaveBeenCalled();
   });
+
   it('inits card form in initForm if available without params', async () => {
     await loadAvailableMethods('1');
     initForm();
