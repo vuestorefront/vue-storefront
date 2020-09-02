@@ -2948,6 +2948,14 @@
     "@vue/composition-api" "^0.4.0"
     vue "^2.6.11"
 
+"@vue-storefront/core@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.3.tgz#087a55eabcfa9cc396379914e3769db847ea9f2a"
+  integrity sha512-chcDP5SXDLkdhB9Ef7B3E8WJ7euiTnfSD2kTYakVb8dziAq2sG/u7Sd0+y+TTUUi0TS7wgGB8DFLFWKX2hULcQ==
+  dependencies:
+    "@vue/composition-api" "^1.0.0-beta.8"
+    vue "^2.6.11"
+
 "@vue-storefront/nuxt@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.3.tgz#88dbb9be175464500f7934315532fcb4618272b6"
