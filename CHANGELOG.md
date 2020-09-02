@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem
+- Check module registration for wishlist and compare list - gibkigonzo (#4764)
 
 
 ## [1.12.3] 
