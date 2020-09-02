@@ -22,10 +22,15 @@ const contextData = {
 };
 
 const finalizeTransactionResponse = 'abc';
+const saveInstrumentKey = 'save-instrument-super-key';
 
 const useCkoPaypalMock = {
   makePayment: jest.fn(() => finalizeTransactionResponse),
-  error: jest.fn()
+  error: {
+    value: {
+      message: 'some-paypal-weird-error'
+    }
+  }
 };
 const useCkoCardMock = {
   initCardForm: jest.fn(),
@@ -45,7 +50,7 @@ jest.mock('../src/helpers', () => ({
   CkoPaymentType: jest.requireActual('../src/helpers').CkoPaymentType
 }));
 jest.mock('../src/configuration', () => ({
-  getSaveInstrumentKey: jest.fn(),
+  getSaveInstrumentKey: jest.fn(() => saveInstrumentKey),
   Configuration: jest.requireActual('../src/configuration').Configuration
 }));
 jest.mock('../src/payment', () => ({
@@ -74,7 +79,9 @@ const {
   selectedPaymentMethod,
   loadAvailableMethods,
   initForm,
-  makePayment
+  makePayment,
+  setSavePaymentInstrument,
+  loadSavePaymentInstrument
 } = useCko();
 
 describe('[checkout-com] useCkoPaypal', () => {
@@ -138,6 +145,20 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     expect(useCkoCardMock.initCardForm).toHaveBeenCalled();
   });
+  it('inits card form in initForm if available and requested', async () => {
+    await loadAvailableMethods('1');
+    initForm({
+      card: true
+    }, {});
+
+    expect(useCkoCardMock.initCardForm).toHaveBeenCalled();
+  });
+  it('inits card form in initForm if available without params', async () => {
+    await loadAvailableMethods('1');
+    initForm();
+
+    expect(useCkoCardMock.initCardForm).toHaveBeenCalled();
+  });
 
   it('inits card form in initForm if available with custom config', async () => {
     const customConfig = {
@@ -154,6 +175,12 @@ describe('[checkout-com] useCkoPaypal', () => {
 
   it('does not make payment if payment method not selected', async () => {
     await makePayment({});
+
+    expect(error.value.message).toBe('Payment method not selected');
+  });
+
+  it('does not make payment if payment method not selected without params', async () => {
+    await makePayment();
 
     expect(error.value.message).toBe('Payment method not selected');
   });
@@ -261,14 +288,29 @@ describe('[checkout-com] useCkoPaypal', () => {
     expect(error.value.message).toBe('Not supported payment method');
   });
 
-  it.only('inherits error from payment methods makePayment', async () => {
+  it('inherits error from payment methods makePayment', async () => {
     selectedPaymentMethod.value = CkoPaymentType.PAYPAL;
-    const errorMessage = 'xsdasdas';
-    (useCkoPaypalMock.error as jest.Mock).mockImplementation(() => errorMessage);
 
     await makePayment({});
+    expect(error.value.message).toBe(useCkoPaypalMock.error.value.message);
+  });
 
-    expect(error.value.message).toBe(errorMessage);
+  it('sets savePaymentInstrument', () => {
+    const someValue = true;
+
+    setSavePaymentInstrument(someValue);
+
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(saveInstrumentKey, JSON.stringify(someValue));
+  });
+
+  it('loadSavePaymentInstrument works', () => {
+    localStorageMock.getItem.mockImplementation(() => undefined);
+    const defaultValue = loadSavePaymentInstrument();
+    localStorageMock.getItem.mockImplementation(() => 'true');
+    const storedValue = loadSavePaymentInstrument();
+
+    expect(defaultValue).toBeFalsy();
+    expect(storedValue).toBeTruthy();
   });
 
 });

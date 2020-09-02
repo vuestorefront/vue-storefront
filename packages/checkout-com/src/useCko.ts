@@ -119,12 +119,10 @@ const useCko = () => {
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });
-    console.log('aaa', localError);
 
     if (localError.value) {
       error.value = localError.value;
     }
-    console.log('bbb', response);
 
     return response;
   };
