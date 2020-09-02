@@ -42,6 +42,22 @@ export default {
           '@vue-storefront/boilerplate',
           '@vue-storefront/core'
         ]
+      },
+      i18n: {
+        locales: ['en'],
+        defaultLocale: 'en',
+        strategy: 'no_prefix',
+        vueI18n: {
+          fallbackLocale: 'en',
+          messages: {
+            en: {
+              welcome: 'Welcome 1'
+            },
+            de: {
+              welcome: 'Welcome 2'
+            }
+          }
+        }
       }
     }],
     // @core-development-only-start
@@ -60,7 +76,6 @@ export default {
     ['@vue-storefront/boilerplate/nuxt', {}]
   ],
   modules: [
-    'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
@@ -77,21 +92,5 @@ export default {
         })
       })
     ]
-  },
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-    strategy: 'no_prefix',
-    vueI18n: {
-      fallbackLocale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome 1'
-        },
-        de: {
-          welcome: 'Welcome 2'
-        }
-      }
-    }
   }
 };

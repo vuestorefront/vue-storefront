@@ -3,7 +3,6 @@ import { useCart, setCart } from './composables/useCart';
 import { useWishlist, setWishlist } from './composables/useWishlist';
 import useCategory from './composables/useCategory';
 import useCheckout from './composables/useCheckout';
-import useLocale from './composables/useLocale';
 import useProduct from './composables/useProduct';
 import useSearch from './composables/useSearch';
 import { useUser, setUser } from './composables/useUser';
@@ -28,7 +27,6 @@ export {
   useCart,
   useCategory,
   useCheckout,
-  useLocale,
   useProduct,
   useSearch,
   useUser,

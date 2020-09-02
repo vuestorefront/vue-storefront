@@ -39,10 +39,16 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
   log.success('Installed Composition API plugin for Vue 2')
+
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'))
   log.success('Installed VSF SSR plugin');
+
   this.addModule('@nuxtjs/composition-api')
   log.success('Installed nuxt composition api module');
+
+  this.options.i18n = moduleOptions.i18n;
+  this.options.modules.push('nuxt-i18n');
+  log.success('Installed nuxt-i18n module');
 
   //-------------------------------------
 
@@ -74,7 +80,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
     useRawSource(package)
   })
-
 }
 
 module.exports.meta = require('../package.json')
