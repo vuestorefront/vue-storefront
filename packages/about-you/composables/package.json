@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/about-you",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
