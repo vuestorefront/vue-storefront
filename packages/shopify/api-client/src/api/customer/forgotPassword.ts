@@ -12,9 +12,7 @@ const forgotPassword = async (customer): Promise<void> => {
     email: customer.email
   };
 
-  return await _shopifyCustomClient.graphQLClient.send(mutation, data).then(({model}) => {
-    return model;
-  });
+  return await _shopifyCustomClient.graphQLClient.send(mutation, data);
 };
 
 export default forgotPassword;

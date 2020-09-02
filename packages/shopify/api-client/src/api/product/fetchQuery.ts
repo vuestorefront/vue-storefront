@@ -17,65 +17,8 @@ import { Product, ProductSearchParams } from '../../types';
  *   @param {Boolean} [args.reverse] Whether or not to reverse the sort order of the results
  * @return {Promise|Product} A promise resolving with a `Product` type.
  */
-// async function fetchByHandle(options): Promise<Content> {
-
-//   const pagesQuery = _shopifyCustomClient.graphQLClient.query((root) => {
-//       root.addConnection('pages', {args: {first: 1, query: "handle:'"+options.slug+"'"}}, (page) => {
-//           page.add('title');
-//           page.add('body');
-//           page.add('handle');
-//       });
-//   });
-
-//   const page = await _shopifyCustomClient.graphQLClient.send(pagesQuery).then(({model, data}) => {
-//       return data.pages.edges[0].node;
-//   });
-
-//   return page;
-// }
-// const customQuery = '{
-//   collectionByHandle(handle: "apparels") {
-//     description(truncateAt: 70)
-//     descriptionHtml
-//     handle
-//     id
-//     image {
-//       id
-//       src
-//       originalSrc
-//       altText
-//     }
-//     productsCount
-//     title
-//     updatedAt
-//     products(first: 10) {
-//       edges {
-//         node {
-//           createdAt
-//           handle
-//           id
-//           productType
-//           vendor
-//           title
-//           tags
-//           seo {
-//             title
-//             description
-//           }
-//         }
-//         cursor
-//       }
-//     }
-//   }
-// }';
-
 async function fetchQuery(options: ProductSearchParams): Promise<Product[]> {
-  const products = await _shopifyClient.product
-    .fetchQuery(options.customQuery)
-    .then((products) => {
-      return products;
-    });
-  return products;
+  return await _shopifyClient.product.fetchQuery(options.customQuery);
 }
 
 export default fetchQuery;

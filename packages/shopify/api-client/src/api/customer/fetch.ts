@@ -3,12 +3,7 @@ import { customerQuery as query } from './buildQueries';
 import { Customer } from '../../types';
 
 const fetch = async (token): Promise<Customer> => {
-  const customer = await _shopifyCustomClient.graphQLClient
-    .send(query(token))
-    .then(({model}) => {
-      return model;
-    });
-  return customer;
+  return await _shopifyCustomClient.graphQLClient.send(query(token));
 };
 
 export default fetch;
