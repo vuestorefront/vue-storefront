@@ -22,19 +22,15 @@ export interface UseUserBillingFactoryParams<ADDRESS> {
   }) => Promise<ADDRESS>;
 }
 
-interface UseUserShippingFactory<ADDRESS> {
-  useUserBilling: () => UseUserBilling<ADDRESS>;
-}
-
 export const useUserBillingFactory = <ADDRESS>(
   factoryParams: UseUserBillingFactoryParams<ADDRESS>
-): UseUserShippingFactory<ADDRESS> => {
+) => {
 
   const useUserBilling = (): UseUserBilling<ADDRESS> => {
     const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserBilling-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserBilling-addresses');
-    const readonlyAddresses = computed(() => addresses.value);
+    const readonlyAddresses: ComputedRef<ADDRESS[]> = computed(() => addresses.value);
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
@@ -92,11 +88,10 @@ export const useUserBillingFactory = <ADDRESS>(
     const setDefault = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.setDefault({
+        defaultAddress.value = await factoryParams.setDefault({
           address,
           addresses: readonlyAddresses
         });
-        defaultAddress.value = address;
       } catch (err) {
         throw new Error(err);
       } finally {
