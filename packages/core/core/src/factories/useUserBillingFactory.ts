@@ -15,7 +15,9 @@ export interface UseUserBillingFactoryParams<ADDRESS> {
     address: ADDRESS;
     addresses: ComputedRef<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
-  load: () => Promise<ADDRESS[]>;
+  load: (params: {
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
   setDefault: (params: {
     address: ADDRESS;
     addresses: ComputedRef<ADDRESS[]>;
@@ -77,7 +79,9 @@ export const useUserBillingFactory = <ADDRESS>(
     const load = async () => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.load();
+        addresses.value = await factoryParams.load({
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {

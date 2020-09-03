@@ -1,4 +1,4 @@
-import { useUserShippingFactory } from '../../src/factories';
+import { useUserBillingFactory } from '../../src/factories';
 
 const factoryParams = {
   addAddress: jest.fn(() => null),
@@ -8,23 +8,23 @@ const factoryParams = {
   setDefault: jest.fn()
 };
 
-const { useUserShipping } = useUserShippingFactory(factoryParams);
-const useUserShippingMethods = useUserShipping();
+const { useUserBilling } = useUserBillingFactory(factoryParams);
+const useUserBillingMethods = useUserBilling();
 
-describe('[CORE - factories] useUserShippingFactory', () => {
+describe('[CORE - factories] useUserBillingFactory', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should have proper initial properties', () => {
-    const { useUserShipping } = useUserShippingFactory(factoryParams);
+    const { useUserBilling } = useUserBillingFactory(factoryParams);
     const {
       addresses,
       totalAddresses,
       defaultAddress,
       loading
-    } = useUserShipping();
+    } = useUserBilling();
 
     expect(addresses.value).toEqual([]);
     expect(totalAddresses.value).toEqual(0);
@@ -37,19 +37,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.addAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        await useUserBillingMethods.addAddress(paramsToUpdate);
+        expect(useUserBillingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
         factoryParams.addAddress.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserShippingMethods.addAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.addAddress('' as any)).rejects.toThrow('Error');
       });
 
       it('finally loading go to false', () => {
-        expect(useUserShippingMethods.loading.value).toBe(false);
+        expect(useUserBillingMethods.loading.value).toBe(false);
       });
     });
 
@@ -57,19 +57,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.deleteAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        await useUserBillingMethods.deleteAddress(paramsToUpdate);
+        expect(useUserBillingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
         factoryParams.deleteAddress.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserShippingMethods.deleteAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.deleteAddress('' as any)).rejects.toThrow('Error');
       });
 
       it('finally loading go to false', () => {
-        expect(useUserShippingMethods.loading.value).toBe(false);
+        expect(useUserBillingMethods.loading.value).toBe(false);
       });
     });
 
@@ -77,19 +77,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.updateAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        await useUserBillingMethods.updateAddress(paramsToUpdate);
+        expect(useUserBillingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
         factoryParams.updateAddress.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserShippingMethods.updateAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.updateAddress('' as any)).rejects.toThrow('Error');
       });
 
       it('finally loading go to false', () => {
-        expect(useUserShippingMethods.loading.value).toBe(false);
+        expect(useUserBillingMethods.loading.value).toBe(false);
       });
     });
 
@@ -97,19 +97,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.load.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.load();
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        await useUserBillingMethods.load();
+        expect(useUserBillingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
         factoryParams.load.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserShippingMethods.load()).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.load()).rejects.toThrow('Error');
       });
 
       it('finally loading go to false', () => {
-        expect(useUserShippingMethods.loading.value).toBe(false);
+        expect(useUserBillingMethods.loading.value).toBe(false);
       });
     });
 
@@ -117,19 +117,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.setDefault(paramsToUpdate);
-        expect(useUserShippingMethods.defaultAddress.value).toEqual(paramsToUpdate);
+        await useUserBillingMethods.setDefault(paramsToUpdate);
+        expect(useUserBillingMethods.defaultAddress.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
         factoryParams.setDefault.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserShippingMethods.setDefault('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.setDefault('' as any)).rejects.toThrow('Error');
       });
 
       it('finally loading go to false', () => {
-        expect(useUserShippingMethods.loading.value).toBe(false);
+        expect(useUserBillingMethods.loading.value).toBe(false);
       });
     });
   });
