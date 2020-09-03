@@ -2,7 +2,10 @@ import { UseCategory, UseProduct } from '@vue-storefront/core';
 
 type Product = {}
 type Category = {}
-type User = {}
+type User = {
+  firstName?: string;
+  lastName?: string;
+}
 type UserAddress = {}
 type Cart = {}
 type CartItem = {}
