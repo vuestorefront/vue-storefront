@@ -1,4 +1,4 @@
-import copyAgnosticTheme from '../../src/scripts/createProject/copyAgnosticTheme';
+import copyAgnosticTheme from '../../../src/scripts/createProject/copyAgnosticTheme';
 
 const themePath = '/home/somepath';
 const NOT_EXISTING_PATH = 'not-existing-path-test';
