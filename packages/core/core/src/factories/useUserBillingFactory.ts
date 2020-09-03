@@ -1,13 +1,25 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, ComputedRef, computed } from '@vue/composition-api';
 import { UseUserBilling } from '../types';
 import { sharedRef } from '../utils';
 
 export interface UseUserBillingFactoryParams<ADDRESS> {
-  addAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
-  deleteAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
-  updateAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
+  addAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
+  deleteAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
+  updateAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
   load: () => Promise<ADDRESS[]>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS>;
 }
 
 interface UseUserShippingFactory<ADDRESS> {
@@ -22,11 +34,15 @@ export const useUserBillingFactory = <ADDRESS>(
     const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserBilling-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserBilling-addresses');
+    const readonlyAddresses = computed(() => addresses.value);
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.addAddress(address);
+        addresses.value = await factoryParams.addAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -37,7 +53,10 @@ export const useUserBillingFactory = <ADDRESS>(
     const deleteAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.deleteAddress(address);
+        addresses.value = await factoryParams.deleteAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -48,7 +67,10 @@ export const useUserBillingFactory = <ADDRESS>(
     const updateAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.updateAddress(address);
+        addresses.value = await factoryParams.updateAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -70,7 +92,10 @@ export const useUserBillingFactory = <ADDRESS>(
     const setDefault = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.setDefault(address);
+        await factoryParams.setDefault({
+          address,
+          addresses: readonlyAddresses
+        });
         defaultAddress.value = address;
       } catch (err) {
         throw new Error(err);
