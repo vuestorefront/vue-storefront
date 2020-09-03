@@ -5,11 +5,12 @@ import defaultQuery from './defaultQuery';
 import { buildProductWhere, resolveCustomQueryVariables } from './../../helpers/search';
 import { ApolloQueryResult } from 'apollo-client';
 
-interface ProductData {
+export interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
+const getProduct = async (params, customQuery = (query: any = defaultQuery, variables = {}) => ({ query, variables })) => {
+  const { query, variables } = customQuery();
   const { locale, acceptLanguage, currency, country } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     where: buildProductWhere(params),
@@ -29,12 +30,10 @@ const getProduct = async (params, customQuery = async (query = defaultQuery, var
     fetchPolicy: 'no-cache'
   });
   return {
+    ...request,
     query,
-    variables: resolvedVariables,
-    ...request
+    variables: resolvedVariables
   };
-}) => {
-  return customQuery();
 };
 
 export default getProduct;

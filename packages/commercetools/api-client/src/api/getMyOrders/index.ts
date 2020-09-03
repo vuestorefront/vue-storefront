@@ -5,7 +5,8 @@ import { ProfileResponse } from './../../types/Api';
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 
-const getOrders = async (params, customQuery = async (query = defaultQuery, variables = {}) => {
+const getOrders = async (params, customQuery = (query = defaultQuery, variables = {}) => ({ query, variables })) => {
+  const { query, variables } = customQuery();
   const { locale, acceptLanguage } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
     where: buildOrderWhere(params),
@@ -21,12 +22,10 @@ const getOrders = async (params, customQuery = async (query = defaultQuery, vari
     fetchPolicy: 'no-cache'
   });
   return {
+    ...request,
     query,
-    variables: resolvedVariables,
-    ...request
+    variables: resolvedVariables
   };
-}) => {
-  return customQuery();
 };
 
 export default getOrders;

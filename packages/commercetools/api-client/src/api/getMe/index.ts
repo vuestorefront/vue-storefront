@@ -8,7 +8,8 @@ interface Options {
   customer?: boolean;
 }
 
-const getMe = async (params: Options = {}, customQuery = async (query = basicProfile, variables = {}) => {
+const getMe = async (params: Options = {}, customQuery = (query = basicProfile, variables = {}) => ({ query, variables })) => {
+  const { query, variables } = customQuery();
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
   const resolvedVariables = resolveCustomQueryVariables({
@@ -20,12 +21,10 @@ const getMe = async (params: Options = {}, customQuery = async (query = basicPro
     fetchPolicy: 'no-cache'
   });
   return {
+    ...request,
     query,
-    variables: resolvedVariables,
-    ...request
+    variables: resolvedVariables
   };
-}) => {
-  return customQuery();
 };
 
 export default getMe;
