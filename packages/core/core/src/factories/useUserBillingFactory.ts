@@ -100,7 +100,7 @@ export const useUserBillingFactory = <ADDRESS>(
     };
 
     return {
-      addresses: computed(() => addresses.value),
+      addresses: readonlyAddresses,
       totalAddresses: computed(() => addresses.value.length),
       defaultAddress: computed(() => defaultAddress.value),
       loading: computed(() => loading.value),

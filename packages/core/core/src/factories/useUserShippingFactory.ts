@@ -1,32 +1,44 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, ComputedRef, computed } from '@vue/composition-api';
 import { UseUserShipping } from '../types';
 import { sharedRef } from '../utils';
 
 export interface UseUserShippingFactoryParams<ADDRESS> {
-  addAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
-  deleteAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
-  updateAddress: (address: ADDRESS) => Promise<ADDRESS[]>;
+  addAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
+  deleteAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
+  updateAddress: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS[]>;
   load: () => Promise<ADDRESS[]>;
-  setDefault: (address: ADDRESS) => Promise<void>;
-}
-
-interface UseUserShippingFactory<ADDRESS> {
-  useUserShipping: () => UseUserShipping<ADDRESS>;
+  setDefault: (params: {
+    address: ADDRESS;
+    addresses: ComputedRef<ADDRESS[]>;
+  }) => Promise<ADDRESS>;
 }
 
 export const useUserShippingFactory = <ADDRESS>(
   factoryParams: UseUserShippingFactoryParams<ADDRESS>
-): UseUserShippingFactory<ADDRESS> => {
+) => {
 
   const useUserShipping = (): UseUserShipping<ADDRESS> => {
     const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserShipping-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserShipping-addresses');
+    const readonlyAddresses: ComputedRef<ADDRESS[]> = computed(() => addresses.value);
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.addAddress(address);
+        addresses.value = await factoryParams.addAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -37,7 +49,10 @@ export const useUserShippingFactory = <ADDRESS>(
     const deleteAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.deleteAddress(address);
+        addresses.value = await factoryParams.deleteAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -48,7 +63,10 @@ export const useUserShippingFactory = <ADDRESS>(
     const updateAddress = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        addresses.value = await factoryParams.updateAddress(address);
+        addresses.value = await factoryParams.updateAddress({
+          address,
+          addresses: readonlyAddresses
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -70,7 +88,10 @@ export const useUserShippingFactory = <ADDRESS>(
     const setDefault = async (address: ADDRESS) => {
       loading.value = true;
       try {
-        await factoryParams.setDefault(address);
+        await factoryParams.setDefault({
+          address,
+          addresses: readonlyAddresses
+        });
         defaultAddress.value = address;
       } catch (err) {
         throw new Error(err);
@@ -80,7 +101,7 @@ export const useUserShippingFactory = <ADDRESS>(
     };
 
     return {
-      addresses: computed(() => addresses.value),
+      addresses: readonlyAddresses,
       totalAddresses: computed(() => addresses.value.length),
       defaultAddress: computed(() => defaultAddress.value),
       loading: computed(() => loading.value),
