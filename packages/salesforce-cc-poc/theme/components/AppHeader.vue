@@ -18,12 +18,12 @@
     <template #navigation>
       <SfHeaderNavigationItem>
         <nuxt-link data-cy="app-header-url_women" :to="localePath('/c/mens')">
-          Mens
+          Men
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
         <nuxt-link data-cy="app-header-url_men" :to="localePath('/c/womens')">
-          Womens
+          Women
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
