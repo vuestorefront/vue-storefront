@@ -1,20 +1,10 @@
 import { useReviewsFactory } from '../../src/factories';
 import { UseReviews } from '../../src/types';
 
-const reviewsData = [
-  {
-    id: '123',
-    author: 'First Last',
-    date: new Date(),
-    message: 'Review Message',
-    rating: 5
-  }
-];
-
 const useReviews: (cacheId: string) => UseReviews = useReviewsFactory<any>({
   searchReviews: jest.fn().mockResolvedValueOnce({
-    data: reviewsData,
-    total: reviewsData.length
+    data: [{ id: '123' }],
+    total: 1
   })
 });
 
@@ -39,8 +29,8 @@ describe('[CORE - factories] useReviews', () => {
 
     await search();
 
-    expect(reviews.value).toEqual(reviewsData);
-    expect(totalReviews.value).toEqual(reviewsData.length);
+    expect(reviews.value).toEqual([{ id: '123' }]);
+    expect(totalReviews.value).toEqual(1);
     expect(error.value).toEqual(null);
   });
 
