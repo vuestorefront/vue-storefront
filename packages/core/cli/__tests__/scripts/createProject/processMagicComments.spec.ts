@@ -1,4 +1,4 @@
-import processMagicComments from '../../src/scripts/createProject/processMagicComments';
+import processMagicComments from '../../../src/scripts/createProject/processMagicComments';
 
 const magicCommentsFile = `
 import webpack from 'webpack';

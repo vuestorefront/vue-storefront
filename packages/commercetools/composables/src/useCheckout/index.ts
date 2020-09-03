@@ -10,6 +10,7 @@ import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
 import { useCart, setCart } from './../useCart';
+import initFields from './initFields';
 
 // TODO: Move to core
 const useCheckoutFactory = (factoryParams) => {
@@ -25,6 +26,8 @@ const useCheckoutFactory = (factoryParams) => {
     const setPersonalDetails = createSetPersonalDetails({ ...methodsParams, setShippingDetails });
     const setPaymentMethod = createSetPaymentMethod(methodsParams);
     const placeOrder = createPlaceOrder(methodsParams);
+
+    initFields(cartFields.cart.value);
 
     return {
       ...checkoutComputed,
