@@ -20,7 +20,7 @@ const getProduct = async (params, customQuery = async (query = defaultQuery, var
     acceptLanguage,
     currency,
     country
-  }, variables, 'product');
+  }, variables);
   const request = await apolloClient.query<ApolloQueryResult<ProductData>>({
     query: gql`${query}`,
     variables: resolvedVariables,
