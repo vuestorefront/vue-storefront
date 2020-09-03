@@ -46,10 +46,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   this.addModule('@nuxtjs/composition-api')
   log.success('Installed nuxt composition api module');
 
-  this.options.i18n = moduleOptions.i18n;
-  this.options.modules.push('nuxt-i18n');
-  log.success('Installed nuxt-i18n module');
-
   //-------------------------------------
 
   // Using symlinks in lerna somehow breaks composition API behavior as a singleton.

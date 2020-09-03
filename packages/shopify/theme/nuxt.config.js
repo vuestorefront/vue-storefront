@@ -45,8 +45,7 @@ export default {
           '@vue-storefront/shopify',
           '@vue-storefront/core'
         ]
-      },
-      i18n: localeConfig
+      }
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
@@ -63,10 +62,12 @@ export default {
     project-only-end */
   ],
   modules: [
+    'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@nuxtjs/robots'
   ],
+  i18n: localeConfig,
   build: {
     transpile: [
       'vee-validate/dist/rules'

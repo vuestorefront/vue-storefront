@@ -40,8 +40,7 @@ export default {
           '@vue-storefront/about-you',
           '@vue-storefront/core'
         ]
-      },
-      i18n: localeConfig
+      }
     }],
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
@@ -68,9 +67,11 @@ export default {
     }]
   ],
   modules: [
+    'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
+  i18n: localeConfig,
   build: {
     transpile: [
       'vee-validate/dist/rules'
