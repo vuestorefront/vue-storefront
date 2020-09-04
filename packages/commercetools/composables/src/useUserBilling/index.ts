@@ -6,39 +6,39 @@ const params: UseUserBillingFactoryParams<Address> = {
     address,
     addresses
   }) => {
-    console.log('Adding address...', address);
-    console.log('Addresses', addresses);
+    console.log('Adding billing address...', address);
+    console.log('Billing addresses', addresses);
     return Promise.resolve([]);
   },
   deleteAddress: async ({
     address,
     addresses
   }) => {
-    console.log('Deleting address...', address);
-    console.log('Addresses', addresses);
+    console.log('Deleting billing address...', address);
+    console.log('Billing addresses', addresses);
     return Promise.resolve([]);
   },
   updateAddress: async ({
     address,
     addresses
   }) => {
-    console.log('Updating address...', address);
-    console.log('Addresses', addresses);
+    console.log('Updating billing address...', address);
+    console.log('Billing addresses', addresses);
     return Promise.resolve([]);
   },
   load: async ({
     addresses
   }) => {
-    console.log('Loading addresses...');
-    console.log('Addresses', addresses);
+    console.log('Loading billing addresses...');
+    console.log('Billing addresses', addresses);
     return Promise.resolve([]);
   },
   setDefault: async ({
     address,
     addresses
   }) => {
-    console.log('Seting default address', address);
-    console.log('Addresses', addresses);
+    console.log('Seting default billing address', address);
+    console.log('Billing addresses', addresses);
     return Promise.resolve({
       country: 'PL',
       contactInfo: {}

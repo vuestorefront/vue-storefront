@@ -6,39 +6,39 @@ const params: UseUserShippingFactoryParams<Address> = {
     address,
     addresses
   }) => {
-    console.log('Adding address...', address);
-    console.log('Addresses', addresses);
+    console.log('Adding shipping address...', address);
+    console.log('Shipping addresses', addresses);
     return Promise.resolve([]);
   },
   deleteAddress: async ({
     address,
     addresses
   }) => {
-    console.log('Deleting address...', address);
-    console.log('Addresses', addresses);
+    console.log('Deleting shipping address...', address);
+    console.log('Shipping addresses', addresses);
     return Promise.resolve([]);
   },
   updateAddress: async ({
     address,
     addresses
   }) => {
-    console.log('Updating address...', address);
-    console.log('Addresses', addresses);
+    console.log('Updating shipping address...', address);
+    console.log('Shipping addresses', addresses);
     return Promise.resolve([]);
   },
   load: async ({
     addresses
   }) => {
-    console.log('Loading addresses...');
-    console.log('Addresses', addresses);
+    console.log('Loading shipping addresses...');
+    console.log('Shipping addresses', addresses);
     return Promise.resolve([]);
   },
   setDefault: async ({
     address,
     addresses
   }) => {
-    console.log('Seting default address', address);
-    console.log('Addresses', addresses);
+    console.log('Seting default shipping address', address);
+    console.log('Shipping addresses', addresses);
     return Promise.resolve({
       country: 'PL',
       contactInfo: {}
