@@ -1,6 +1,6 @@
 # Maintainers and support
 
-The Commercetools integration is developed and maintained by the core partner **Aureate Labs** and **Vue Storefront core team**.
+The Shopify integration is developed and maintained by the core partner **Aureate Labs** and **Vue Storefront core team**.
 
 <img src="https://aureatelabs.com/wp-content/uploads/aureate-logo.png" style="margin-top: 20px;margin-right: 20px;" height="50px" /><img src="https://miro.medium.com/max/9286/1*QU9F6hQlFyHsJIbsdmt6FA.png" style="margin-top: 20px;" height="50px"/>
 
