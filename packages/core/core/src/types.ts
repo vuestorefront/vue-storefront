@@ -163,12 +163,14 @@ export interface UseLocale {
   setCurrency: (currency: AgnosticCurrency) => Promise<void>;
 }
 
-export interface UseReviews {
-  search: (params?: { [x: string]: any }) => Promise<void>;
-  reviews: ComputedProperty<AgnosticProductReview[]>;
+export interface UseReviews<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEWS_ADD_PARAMS> {
+  search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
+  add: (params: REVIEWS_ADD_PARAMS) => Promise<void>;
+  reviews: ComputedProperty<REVIEW[]>;
   totalReviews: ComputedProperty<number>;
+  averageRating: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<Error | null>;
+  error: ComputedProperty<string | null>;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
