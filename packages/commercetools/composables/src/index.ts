@@ -6,8 +6,6 @@ import { setCart, useCart } from './useCart';
 import useCheckout from './useCheckout';
 import { setUser, useUser } from './useUser';
 import useUserOrders from './useUserOrders';
-import useUserShipping from './useUserShipping';
-import useUserBilling from './useUserBilling';
 import { setWishlist, useWishlist } from './useWishlist';
 import { track } from '@vue-storefront/core';
 
@@ -34,8 +32,6 @@ export {
   useUserOrders,
   useWishlist,
   setWishlist,
-  useUserShipping,
-  useUserBilling,
   cartGetters,
   categoryGetters,
   checkoutGetters,
