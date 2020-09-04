@@ -9,9 +9,10 @@
 
 <script>
 export default {
-  props: ['name', 'company', 'slack', 'photo', 'role']
+  props: ['name', 'company', 'slack', 'photo']
 }
 </script>
+
 <style scoped>
 .person-tile {
   width: 200px;
