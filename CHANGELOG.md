@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem (#4575)
 - Fix user/register call by adding storeId - @haelbichalex (#4697)
 - refresh categoryMappedFilters after loading attributes in PLP - @gibkigonzo (#4695)
+- Check module registration for wishlist and compare list - gibkigonzo (#4764)
 
 ### Changed / Improved
 
