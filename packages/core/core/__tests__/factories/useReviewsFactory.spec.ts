@@ -46,13 +46,13 @@ describe('[CORE - factories] useReviews', () => {
   });
 
   it('can submit new review', async () => {
-    const { search, add, totalReviews } = useReviews('test-reviews');
+    const { search, addReview, totalReviews } = useReviews('test-reviews');
 
     await search();
 
     expect(totalReviews.value).toEqual(1);
 
-    await add({});
+    await addReview({});
 
     expect(totalReviews.value).toEqual(2);
   });
@@ -69,9 +69,9 @@ describe('[CORE - factories] useReviews', () => {
   });
 
   it('returns error when submit fails', async () => {
-    const { add, reviews, totalReviews, loading, error } = useReviesError('test-reviews');
+    const { addReview, reviews, totalReviews, loading, error } = useReviesError('test-reviews');
 
-    await add({});
+    await addReview({});
 
     expect(reviews.value).toEqual([]);
     expect(totalReviews.value).toEqual(0);

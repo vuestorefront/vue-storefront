@@ -165,7 +165,7 @@ export interface UseLocale {
 
 export interface UseReviews<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
-  add: (params: REVIEW_ADD_PARAMS) => Promise<void>;
+  addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
   reviews: ComputedProperty<REVIEW[]>;
   totalReviews: ComputedProperty<number>;
   averageRating: ComputedProperty<number>;

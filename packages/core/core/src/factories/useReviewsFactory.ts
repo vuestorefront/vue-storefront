@@ -37,7 +37,7 @@ export function useReviewsFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARA
       }
     };
 
-    const add = async (params: REVIEW_ADD_PARAMS): Promise<void> => {
+    const addReview = async (params: REVIEW_ADD_PARAMS): Promise<void> => {
       try {
         loading.value = true;
         const { data, total, averageRating: average } = await factoryParams.addReview(params);
@@ -53,7 +53,7 @@ export function useReviewsFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARA
 
     return {
       search,
-      add,
+      addReview,
       reviews: computed(() => reviews.value),
       totalReviews: computed(() => totalReviews.value),
       averageRating: computed(() => averageRating.value),
