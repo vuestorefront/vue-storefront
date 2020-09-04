@@ -9,10 +9,12 @@ export interface UseUserBillingFactoryParams<ADDRESS> {
   }) => Promise<ADDRESS[]>;
   deleteAddress: (params: {
     address: ADDRESS;
+    defaultAddress: ComputedRef<ADDRESS>;
     addresses: ComputedRef<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   updateAddress: (params: {
     address: ADDRESS;
+    defaultAddress: ComputedRef<ADDRESS>;
     addresses: ComputedRef<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   load: (params: {
@@ -20,6 +22,7 @@ export interface UseUserBillingFactoryParams<ADDRESS> {
   }) => Promise<ADDRESS[]>;
   setDefault: (params: {
     address: ADDRESS;
+    defaultAddress: ComputedRef<ADDRESS>;
     addresses: ComputedRef<ADDRESS[]>;
   }) => Promise<ADDRESS>;
 }
@@ -32,7 +35,9 @@ export const useUserBillingFactory = <ADDRESS>(
     const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserBilling-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserBilling-addresses');
+
     const readonlyAddresses: ComputedRef<ADDRESS[]> = computed(() => addresses.value);
+    const readonlyDefaultAddress: ComputedRef<ADDRESS> = computed(() => defaultAddress.value);
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
@@ -53,6 +58,7 @@ export const useUserBillingFactory = <ADDRESS>(
       try {
         addresses.value = await factoryParams.deleteAddress({
           address,
+          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
@@ -67,6 +73,7 @@ export const useUserBillingFactory = <ADDRESS>(
       try {
         addresses.value = await factoryParams.updateAddress({
           address,
+          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
@@ -94,6 +101,7 @@ export const useUserBillingFactory = <ADDRESS>(
       try {
         defaultAddress.value = await factoryParams.setDefault({
           address,
+          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
