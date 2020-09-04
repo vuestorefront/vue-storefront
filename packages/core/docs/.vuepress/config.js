@@ -121,7 +121,7 @@ module.exports = {
           children: [
             ['/contributing/api-design-philosophy', 'API Design Philosophy'],
             ['/contributing/themes', 'Working with themes'],
-            ['/contributing/chalngelog', 'Core changelog'],
+            ['/contributing/changelog', 'Core changelog'],
           ],
         },
       ],
