@@ -21,7 +21,7 @@ export function useReviewsFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARA
     const totalReviews: Ref<number> = sharedRef(0, `useReviews-totalReviews-${id}`);
     const averageRating: Ref<number> = sharedRef(0, `useReviews-averageRating-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
-    const error: Ref<any> = sharedRef(null, `useReviews-error-${id}`);
+    const error: Ref<string | null> = sharedRef(null, `useReviews-error-${id}`);
 
     const search = async (params?: REVIEWS_SEARCH_PARAMS): Promise<void> => {
       try {
