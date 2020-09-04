@@ -19,8 +19,8 @@ jest.mock('inquirer', () => ({
 
 jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => () => integrations);
 
-import createProject from '@vue-storefront/cli/src/scripts/createProject';
-jest.mock('@vue-storefront/cli/src/scripts/createProject', () => jest.fn());
+import copyProject from '@vue-storefront/cli/src/scripts/copyProject';
+jest.mock('@vue-storefront/cli/src/scripts/copyProject', () => jest.fn());
 jest.mock('path', () => ({
   resolve: () => resolvedPathWithProjectName
 }));
@@ -28,6 +28,7 @@ jest.mock('path', () => ({
 const projectName = 'AwesomeShop';
 
 describe('Command: init <projectName>', () => {
+
   it('calls inquirer.prompt for projectName if no <projectName> and goes further', async () => {
     await initCommand([null]);
     expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -40,9 +41,11 @@ describe('Command: init <projectName>', () => {
       ]
     );
 
-    expect(createProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
+    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName, typedProjectName);
   });
-  it('calls inquirer.prompt & createProject with proper arguments', async () => {
+
+  it('calls inquirer.prompt & copyProject with proper arguments', async () => {
+    jest.clearAllMocks();
     await initCommand([projectName]);
 
     expect(inquirer.prompt).toHaveBeenCalledWith(
@@ -56,6 +59,29 @@ describe('Command: init <projectName>', () => {
       ]
     );
 
-    expect(createProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName);
+    expect(copyProject).toHaveBeenCalledWith(chosenIntegration, resolvedPathWithProjectName, projectName);
   });
+
+  it('proper validator', async () => {
+    let validatorForEmptyString = null;
+    let validatorForNotEmptyString = null;
+
+    inquirer.prompt.mockImplementation(jest.fn((arg) => {
+      if (arg[0].validate) {
+        validatorForEmptyString = arg[0].validate('');
+        validatorForNotEmptyString = arg[0].validate('abc');
+      }
+
+      return Promise.resolve({
+        chosenIntegration,
+        typedProjectName
+      });
+    }));
+
+    await initCommand([null]);
+
+    expect(typeof validatorForEmptyString).toBe('string');
+    expect(validatorForNotEmptyString).toBe(true);
+  });
+
 });

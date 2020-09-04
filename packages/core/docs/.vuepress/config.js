@@ -32,6 +32,7 @@ module.exports = {
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
             ['/commercetools/feature-list', 'Feature list'],
+            ['/commercetools/maintainers', 'Maintainers and support'],
             ['/commercetools/changelog', 'Changelog']
           ]
         },
@@ -80,7 +81,8 @@ module.exports = {
             ['/shopify/getting-started', 'Getting Started'],
             ['/shopify/api-client', 'API Client'],
             ['/shopify/composables', 'Composables'],
-            ['/shopify/feature-list', 'Feature list']
+            ['/shopify/feature-list', 'Feature list'],
+            ['/shopify/maintainers', 'Maintainers and support']
           ]
         },
         {
@@ -119,6 +121,7 @@ module.exports = {
           children: [
             ['/contributing/api-design-philosophy', 'API Design Philosophy'],
             ['/contributing/themes', 'Working with themes'],
+            ['/contributing/changelog', 'Core changelog'],
           ],
         },
       ],

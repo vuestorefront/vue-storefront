@@ -1,10 +1,11 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext } from './payment';
-import { Configuration, getSaveInstrumentKey } from './configuration';
-import { ref } from '@vue/composition-api';
+import { getSaveInstrumentKey, CardConfiguration } from './configuration';
+import { ref, computed } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
+import useCkoPaypal from './useCkoPaypal';
 
 const error = ref(null);
 const availableMethods = ref([]);
@@ -17,7 +18,7 @@ interface PaymentMethods {
 }
 
 interface PaymentMethodsConfig {
-  card?: Omit<Configuration, 'publicKey'>;
+  card?: CardConfiguration;
   klarna?: any;
   paypal?: any;
 }
@@ -34,8 +35,8 @@ const loadSavePaymentInstrument = (): boolean => {
 
 const useCko = () => {
   const {
-    initCardForm, makePayment:
-    makeCardPayment,
+    initCardForm,
+    makePayment: makeCardPayment,
     error: cardError,
     submitForm: submitCardForm,
     setPaymentInstrument,
@@ -44,6 +45,11 @@ const useCko = () => {
     storedPaymentInstruments,
     submitDisabled
   } = useCkoCard(selectedPaymentMethod);
+
+  const {
+    makePayment: makePaypalPayment,
+    error: paypalError
+  } = useCkoPaypal();
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -65,19 +71,12 @@ const useCko = () => {
       return;
     }
     const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
-
     for (const { name } of availableMethods.value) {
       if (!hasSpecifiedMethods || initMethods[name]) {
         const methodConfig = config[name];
         switch (name) {
           case 'card':
             initCardForm(methodConfig);
-            break;
-          case 'klarna':
-            console.log('Rendering klarna...');
-            break;
-          case 'paypal':
-            console.log('Rendering paypal...');
             break;
         }
       }
@@ -93,7 +92,7 @@ const useCko = () => {
     secure3d = true
   } = {}) => {
     if (!selectedPaymentMethod.value) {
-      error.value = 'Payment method not selected';
+      error.value = new Error('Payment method not selected');
       return;
     }
 
@@ -103,16 +102,11 @@ const useCko = () => {
     if ([CkoPaymentType.CREDIT_CARD, CkoPaymentType.SAVED_CARD].includes(selectedPaymentMethod.value)) {
       finalizeTransactionFunction = makeCardPayment;
       localError = cardError;
-    } else if (selectedPaymentMethod.value === CkoPaymentType.KLARNA) {
-      finalizeTransactionFunction = () => {
-        console.log('Making transaction with Klarna...');
-      };
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
-      finalizeTransactionFunction = () => {
-        console.log('Making transaction with PayPal...');
-      };
+      finalizeTransactionFunction = makePaypalPayment;
+      localError = paypalError;
     } else {
-      error.value = 'Not supported payment method';
+      error.value = new Error('Not supported payment method');
       return;
     }
 
@@ -125,9 +119,11 @@ const useCko = () => {
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });
+
     if (localError.value) {
       error.value = localError.value;
     }
+
     return response;
   };
 
@@ -137,6 +133,7 @@ const useCko = () => {
     selectedPaymentMethod,
     storedPaymentInstruments,
     submitDisabled,
+    storedContextId: computed(() => contextId.value),
     loadAvailableMethods,
     initForm,
     submitCardForm,

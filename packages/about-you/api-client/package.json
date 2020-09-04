@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@aboutyou/backbone": "^7.0.0",
-    "@vue-storefront/core": "^2.0.3"
+    "@vue-storefront/core": "^2.0.4"
   },
   "files": [
     "lib/**/*"

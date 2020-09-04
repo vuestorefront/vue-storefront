@@ -12,9 +12,6 @@ To start working with Vue Storefront for {{ $frontmatter.platform }} you have to
 
 ## Installation
 ### With Vue Storefront CLI (recommended)
-::: danger 
-Work in progress
-:::
 
 ::: tip Best for new projects
 If you're starting a new Vue Storefront project and you're ok with using Nuxt using CLI its the best option for you.
@@ -22,13 +19,13 @@ If you're starting a new Vue Storefront project and you're ok with using Nuxt us
 
 This is the easiest and fastest way of bootstrapping new Vue Storefront project. With Vue Storefront CLI you can generate preconfigured, working boilerplate shop in one minute! 
 
-During the installation process you will be asked questions about:
+```bash
+npm i -g @vue-storefront/cli@next
+```
 
-- eCommerce platform you want to use
-- CMS platform
-- Whether you want or doesn't want to generate a working UI layer based on Storefront UI
-
-Based on provided answers Vue Storefront CLI will generate a project already integrated with the services that you have chosen.
+```bash
+vsf init <project-name>
+```
 
 ### Nuxt project installation
 

@@ -12,12 +12,12 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
     setup (config: ALL_SETTINGS) {
       settings = merge(factoryParams.defaultSettings, config);
       factoryParams.onSetup(settings);
-      setupCalled = true;
 
       // @ts-ignore
       if (setupCalled && __DEV__) {
         console.warn('[VSF core] "setup" function is being called multiple times. If you want to update config, please use "update" instead.');
       }
+      setupCalled = true;
     },
     update (config: CONFIGURABLE_SETTINGS) {
       settings = merge(settings, config);
