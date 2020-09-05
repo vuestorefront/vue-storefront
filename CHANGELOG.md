@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - UNRELEASED
+
+### Added
+- Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
@@ -15,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   More info about helmet configuration https://helmetjs.github.io/docs/
 - Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
 - Make calculation of bundled products price by options optional - @cewald (#4556)
-- Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 
 ### Fixed
 
