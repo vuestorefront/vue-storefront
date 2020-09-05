@@ -13,12 +13,12 @@
     "prepublish": "yarn generate:templates"
   },
   "dependencies": {
-    "@vue-storefront/nuxt-theme": "^0.0.2",
     "inquirer": "^7.3.3",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1"
   },
   "devDependencies": {
+    "@vue-storefront/nuxt-theme": "^0.0.2",
     "@vue-storefront/commercetools-theme": "^0.0.6"
   },
   "author": "Filip Jędrasik",
