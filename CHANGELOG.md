@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.13.0] - UNRELEASED
 
+### Added
+- Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
+- Documentation examples of how to translate strings that contain variables or HTML tags - @weaves81 (#4991)
+
 ### Fixed
 - Fixed some typo in docs (#5071)
 
@@ -20,7 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   More info about helmet configuration https://helmetjs.github.io/docs/
 - Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
 - Make calculation of bundled products price by options optional - @cewald (#4556)
-- Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 
 ### Fixed
 
