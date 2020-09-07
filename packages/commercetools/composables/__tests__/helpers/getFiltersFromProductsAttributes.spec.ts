@@ -1,5 +1,5 @@
 import getFiltersFromProductsAttributes from '../../src/helpers/internals/getFiltersFromProductsAttributes';
-import { ProductVariant, Attribute } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { ProductVariant, Attribute } from '../../src/types/GraphQL';
 
 describe('[commercetools-composables] getFiltersFromProductsAttributes', () => {
   describe('returns epmty object in case of', () => {

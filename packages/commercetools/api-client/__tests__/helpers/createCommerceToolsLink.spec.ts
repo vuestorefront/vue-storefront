@@ -3,6 +3,7 @@ import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import createCommerceToolsLink from './../../src/helpers/createCommerceToolsLink';
 import createAccessToken from './../../src/helpers/createAccessToken';
+import { onError } from 'apollo-link-error';
 
 jest.unmock('./../../src/helpers/createCommerceToolsLink');
 // eslint-disable-next-line
@@ -10,6 +11,7 @@ jest.unmock('./../../src/helpers/createCommerceToolsLink');
 jest.mock('apollo-link-http');
 jest.mock('apollo-link-context');
 jest.mock('apollo-link');
+jest.mock('apollo-link-error');
 
 describe('[commercetools-api-client] createCommerceToolsLink', () => {
   beforeEach(() => {
@@ -40,5 +42,57 @@ describe('[commercetools-api-client] createCommerceToolsLink', () => {
     expect(createHttpLink).toBeCalled();
     expect(setContext).toBeCalled();
     expect(createAccessToken).toBeCalledTimes(1);
+  });
+
+  it('raises graphql error', () => {
+    const graphQLErrors = [{ message: 'some error', locations: [], path: '' }];
+    const networkError = false;
+
+    console.error = jest.fn();
+    // @ts-ignore
+    onError.mockImplementation((fn) => fn({ graphQLErrors, networkError }));
+
+    createCommerceToolsLink();
+
+    expect(console.error).toBeCalledWith('[GraphQL error]: Message: some error, Location: , Path: ');
+  });
+
+  it('skips graphql error when related to the user credentials', () => {
+    const graphQLErrors = [{ message: 'Resource Owner Password Credentials Grant', locations: [], path: '' }];
+    const networkError = false;
+
+    console.error = jest.fn();
+    // @ts-ignore
+    onError.mockImplementation((fn) => fn({ graphQLErrors, networkError }));
+
+    createCommerceToolsLink();
+
+    expect(console.error).not.toBeCalled();
+  });
+
+  it('raises error when it is related to the network', () => {
+    const graphQLErrors = [];
+    const networkError = 'some network error';
+
+    console.error = jest.fn();
+    // @ts-ignore
+    onError.mockImplementation((fn) => fn({ graphQLErrors, networkError }));
+
+    createCommerceToolsLink();
+
+    expect(console.error).toBeCalledWith('[Network error]: some network error');
+  });
+
+  it('handles no errors', () => {
+    const graphQLErrors = false;
+    const networkError = '';
+
+    console.error = jest.fn();
+    // @ts-ignore
+    onError.mockImplementation((fn) => fn({ graphQLErrors, networkError }));
+
+    createCommerceToolsLink();
+
+    expect(console.error).not.toBeCalled();
   });
 });

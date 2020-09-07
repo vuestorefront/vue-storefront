@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, currency, country, locale, acceptLanguage } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import { ProductSearch } from './../../types/Api';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
@@ -11,6 +11,7 @@ interface ProductData {
 }
 
 const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<ProductData>> => {
+  const { currency, country, locale, acceptLanguage } = getSettings();
   if (search.customQuery) {
     const { query, variables } = search.customQuery;
 
