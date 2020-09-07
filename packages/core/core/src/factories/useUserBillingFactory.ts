@@ -4,26 +4,26 @@ import { sharedRef } from '../utils';
 
 export interface UseUserBillingFactoryParams<ADDRESS> {
   addAddress: (params: {
-    address: ADDRESS;
-    addresses: ComputedRef<ADDRESS[]>;
+    address: Readonly<ADDRESS>;
+    addresses: Readonly<ComputedRef<ADDRESS[]>>;
   }) => Promise<ADDRESS[]>;
   deleteAddress: (params: {
-    address: ADDRESS;
-    defaultAddress: ComputedRef<ADDRESS>;
-    addresses: ComputedRef<ADDRESS[]>;
+    address: Readonly<ADDRESS>;
+    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
+    addresses: Readonly<ComputedRef<ADDRESS[]>>;
   }) => Promise<ADDRESS[]>;
   updateAddress: (params: {
-    address: ADDRESS;
-    defaultAddress: ComputedRef<ADDRESS>;
-    addresses: ComputedRef<ADDRESS[]>;
+    address: Readonly<ADDRESS>;
+    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
+    addresses: Readonly<ComputedRef<ADDRESS[]>>;
   }) => Promise<ADDRESS[]>;
   load: (params: {
-    addresses: ComputedRef<ADDRESS[]>;
+    addresses: Readonly<ComputedRef<ADDRESS[]>>;
   }) => Promise<ADDRESS[]>;
   setDefault: (params: {
-    address: ADDRESS;
-    defaultAddress: ComputedRef<ADDRESS>;
-    addresses: ComputedRef<ADDRESS[]>;
+    address: Readonly<ADDRESS>;
+    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
+    addresses: Readonly<ComputedRef<ADDRESS[]>>;
   }) => Promise<ADDRESS>;
 }
 
