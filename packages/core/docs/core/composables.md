@@ -41,3 +41,16 @@ In many cases using getters can save you time and contribute to cleaner code but
 
 Because interfaces for composables and getters are the same for every platform the above code from above example will work exactly the each one of them. Because of that you can use getters to keep your frontend code agnostic regarding eCommerce platform. This approach can be really useful when you're considering a migration to different platform in the near future
 :::
+
+## Custom GraphQL Query and Variables 
+
+There's an option to use your own GraphQL query and variables wile searching.   
+
+<Content slot-key="example-product-search-custom-query" />
+
+At the same time you can have access to the default query or variables and overwrite them. 
+
+<Content slot-key="example-product-search-custom-query-with-values" />
+
+Use it for: `useProduct`, `useCategory`, `useUser`, `useUserOrders` methods.
+

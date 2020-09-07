@@ -4,7 +4,7 @@ import { OrderSearchParams } from '../types';
 import { getOrders } from '@vue-storefront/commercetools-api';
 
 const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
-  searchOrders: async (params: OrderSearchParams = {}, customQuery: CustomQuery): Promise<OrdersSearchResult<Order>> => {
+  searchOrders: async (params: OrderSearchParams = {}, customQuery?: CustomQuery): Promise<OrdersSearchResult<Order>> => {
     const result = await getOrders(params, customQuery);
     const { results: data, total } = result.data?.me.orders || { results: [], total: 0 };
     return { data, total };

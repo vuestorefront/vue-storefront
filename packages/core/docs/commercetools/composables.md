@@ -27,3 +27,19 @@ search({ id: '12345' })
 const attributes = computed(() => productGetters.getAttributes(product.value[0]))
 ```
 :::
+
+::: slot example-product-search-custom-query
+```js
+import { useProduct } from '@vue-storefront/commercetools'
+
+const { search } = useProduct()
+
+search({ id: '12345' }, (query, variables) => ({ query, variables }))
+```
+:::
+
+::: slot example-product-search-custom-query-with-values
+```js
+search({ id: '12345' }, (query = `customQuery`, variables: { ...customVariables }) => ({ query, variables }))
+```
+:::
