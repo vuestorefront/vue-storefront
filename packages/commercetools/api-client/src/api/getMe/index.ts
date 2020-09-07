@@ -8,8 +8,8 @@ interface Options {
   customer?: boolean;
 }
 
-const getMe = async (params: Options = {}, customQuery = (query = basicProfile, variables = {}) => ({ query, variables })) => {
-  const { query, variables } = customQuery();
+const getMe = async (params: Options = {}, customQuery = (query: any = basicProfile, variables = {}) => ({ query, variables })) => {
+  const { variables } = customQuery();
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
   const resolvedVariables = resolveCustomQueryVariables({
@@ -22,7 +22,7 @@ const getMe = async (params: Options = {}, customQuery = (query = basicProfile, 
   });
   return {
     ...request,
-    query,
+    query: customer ? fullProfile : basicProfile,
     variables: resolvedVariables
   };
 };

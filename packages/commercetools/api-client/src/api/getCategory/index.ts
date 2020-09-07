@@ -9,7 +9,7 @@ interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (params, customQuery = (query = defaultQuery, variables = {}) => ({ query, variables })) => {
+const getCategory = async (params, customQuery = (query: any = defaultQuery, variables = {}) => ({ query, variables })) => {
   const { query, variables } = customQuery();
   const { acceptLanguage } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables(params ? {

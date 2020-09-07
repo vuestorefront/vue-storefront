@@ -8,7 +8,7 @@ export interface OrdersSearchResult<ORDER> {
 }
 
 export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
-  searchOrders: (params: ORDER_SEARCH_PARAMS, customQuery: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
+  searchOrders: (params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
 };
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {

@@ -5,7 +5,7 @@ import { ProfileResponse } from './../../types/Api';
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 
-const getOrders = async (params, customQuery = (query = defaultQuery, variables = {}) => ({ query, variables })) => {
+const getOrders = async (params, customQuery = (query: any = defaultQuery, variables = {}) => ({ query, variables })) => {
   const { query, variables } = customQuery();
   const { locale, acceptLanguage } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables({
