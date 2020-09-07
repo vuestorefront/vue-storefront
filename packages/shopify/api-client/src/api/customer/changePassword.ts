@@ -16,9 +16,7 @@ const changePassword = async (token, password): Promise<void> => {
     }
   };
 
-  return await _shopifyCustomClient.graphQLClient.send(mutation, data).then(({model}) => {
-    return model;
-  });
+  return await _shopifyCustomClient.graphQLClient.send(mutation, data);
 };
 
 export default changePassword;

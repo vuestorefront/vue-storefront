@@ -12,12 +12,7 @@ import { Product } from '../../types';
  * @return {Promise|Product} A promise resolving with a `Product` type.
  */
 async function fetchAll(): Promise<Product[]> {
-  const products = await _shopifyClient.product
-    .fetchAll()
-    .then((products) => {
-      return products;
-    });
-  return products;
+  return await _shopifyClient.product.fetchAll();
 }
 
 export default fetchAll;

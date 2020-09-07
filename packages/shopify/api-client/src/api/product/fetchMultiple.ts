@@ -14,12 +14,7 @@ import { Product, ProductSearchParams } from '../../types';
  * @return {Promise|Product} A promise resolving with a `Product` type.
  */
 async function fetchMultiple(options: ProductSearchParams): Promise<Product[]> {
-  const products = await _shopifyClient.product
-    .fetch(options.ids)
-    .then((products) => {
-      return products;
-    });
-  return products;
+  return await _shopifyClient.product.fetch(options.ids);
 }
 
 export default fetchMultiple;

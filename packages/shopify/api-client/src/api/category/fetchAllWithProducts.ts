@@ -12,12 +12,7 @@ import { Category } from '../../types';
  * @return {Promise|Category[]} A promise resolving with an array of `Category`s with products.
  */
 async function fetchAllWithProducts(): Promise<Category[]> {
-  const collections = await _shopifyClient.collection
-    .fetchAllWithProducts()
-    .then((collections) => {
-      return collections;
-    });
-  return collections;
+  return await _shopifyClient.collection.fetchAllWithProducts();
 }
 
 export default fetchAllWithProducts;
