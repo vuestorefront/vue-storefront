@@ -14,7 +14,7 @@ import { Category, CategorySearchParams } from '../../types';
  * @return {Promise|Category} A promise resolving with an single `Category`.
  */
 async function fetch(options: CategorySearchParams): Promise<Category[]> {
-    return await _shopifyClient.collection.fetch(options.id);
+  return await _shopifyClient.collection.fetch(options.id);
 }
 
 export default fetch;

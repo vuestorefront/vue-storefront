@@ -14,7 +14,7 @@ async function fetchByHandle(options): Promise<Content> {
     );
   });
 
-  return await _shopifyCustomClient.graphQLClient.send(pagesQuery);;
+  return await _shopifyCustomClient.graphQLClient.send(pagesQuery);
 }
 
 export default fetchByHandle;
