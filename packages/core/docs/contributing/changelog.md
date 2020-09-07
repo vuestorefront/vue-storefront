@@ -1,9 +1,9 @@
-# Changelog 
+# Changelog
 
+## 2.1.0 (not released)
 
-# 2.1.0 (not released)
+### Breaking changes
 
-- **Breaking changes**
+### Features
 
-
-- **Changes**
+* **factories**: added useReviews factory ([#4775](https://github.com/DivanteLtd/vue-storefront/issues/4775))
