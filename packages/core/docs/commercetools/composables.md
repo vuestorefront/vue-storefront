@@ -29,6 +29,10 @@ const attributes = computed(() => productGetters.getAttributes(product.value[0])
 :::
 
 ::: slot example-product-search-custom-query
+## Custom Query 
+
+There's an option to use your own Graphql query and variables while searching.   
+
 ```js
 import { useProduct } from '@vue-storefront/commercetools'
 
@@ -36,10 +40,23 @@ const { search } = useProduct()
 
 search({ id: '12345' }, (query, variables) => ({ query, variables }))
 ```
-:::
 
-::: slot example-product-search-custom-query-with-values
+At the same time you can have access to the default query or variables and overwrite them. 
+
 ```js
-search({ id: '12345' }, (query = `customQuery`, variables: { ...customVariables }) => ({ query, variables }))
+const customQuery = (query, variables) => {
+  // import a custom Graphql query
+  const newQuery = require('./queries/customQuery.gql')
+  // override "locale" variable and leave other ones untouched
+  const newVariables = { ...variabes, locale: 'en' }
+  
+  return {
+    query: newQuery,
+    variables: newVariables
+  }
+}
+search({ id: '12345' }, customQuery)
 ```
+
+Use it for: `useProduct`, `useCategory`, `useUser`, `useUserOrders` methods.
 :::
