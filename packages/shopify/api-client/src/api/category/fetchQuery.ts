@@ -18,12 +18,7 @@ import { Category, CategorySearchParams } from '../../types';
  * @return {Promise|Category[]} A promise resolving with an array of `Category`s.
  */
 async function fetchQuery(options: CategorySearchParams): Promise<Category[]> {
-  const collections = await _shopifyClient.collection
-    .fetchQuery(options.customQuery)
-    .then((collections) => {
-      return collections;
-    });
-  return collections;
+  return await _shopifyClient.collection.fetchQuery(options.customQuery);
 }
 
 export default fetchQuery;
