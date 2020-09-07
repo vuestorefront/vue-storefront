@@ -1,8 +1,8 @@
 # useProduct composable
 
-`useProduct` composition API function is responsible, as it's name suggests for interactions with products from your eCommerce. This function returns following values:
+`useProduct` composition API function is responsible, as its name suggests for interactions with products from your e-commerce. This function returns following values:
 
-- `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+- `search` - a main querying function that is used to query products from e-commerce platform and populate the `products` object with the result. Every time you invoke this function, API request is made. This method accepts a single `params` object.
 
 <Content slot-key="search-params" />
 

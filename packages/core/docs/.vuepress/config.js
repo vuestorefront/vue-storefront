@@ -31,7 +31,7 @@ module.exports = {
             ['/commercetools/getting-started', 'Getting Started'],
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
-            ['/commercetools/feature-list', 'Feature list']
+            ['/commercetools/feature-list', 'Feature list'],
             ['/commercetools/changelog', 'Changelog']
           ]
         },
@@ -40,6 +40,13 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/use-product', 'useProduct'],
+            ['/commercetools/use-user', 'useUser'],
+            ['/commercetools/use-user-orders', 'useUserOrders'],
+            ['/commercetools/use-wishlist', 'useWishlist'],
+            ['/commercetools/use-cart', 'useCart'],
+            ['/commercetools/use-category', 'useCategory'],
+            ['/commercetools/use-checkout', 'useCheckout'],
+            ['/commercetools/use-locale', 'useLocale']
           ]
         }, {
           title: 'Theme',
@@ -67,7 +74,7 @@ module.exports = {
           children: [
             ['/aboutyou/use-cart', 'useCart'],
             ['/aboutyou/use-product', 'useProduct'],
-            ['/aboutyou/use-wishlist', 'useWishlist'],
+            ['/aboutyou/use-wishlist', 'useWishlist']
           ]
         }
       ],
