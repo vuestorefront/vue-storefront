@@ -7,9 +7,9 @@ export interface CustomQuery<T> {
   variables: T;
 }
 
-type CustomQueryFn<T = any> = (query: any, variables?: T) => CustomQuery<T>
+type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>
 
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => customQueryFn ? customQueryFn(defaultQuery) : { query: defaultQuery, variables: {} };
+export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
 
 export interface BaseSearch {
   limit?: number;
