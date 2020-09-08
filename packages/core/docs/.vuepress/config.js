@@ -116,6 +116,13 @@ module.exports = {
       ],
       '/': [
         {
+          title: 'i18n',
+          collapsable: false,
+          children: [
+            ['/i18n/overview', 'overview'],
+          ],
+        },
+        {
           title: 'Contributing',
           collapsable: false,
           children: [

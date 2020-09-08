@@ -71,6 +71,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
+  i18n: localeConfig,
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -84,6 +85,5 @@ export default {
         })
       })
     ]
-  },
-  i18n: localeConfig
+  }
 };

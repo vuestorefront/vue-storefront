@@ -73,32 +73,9 @@ export default {
           'view_published_products:vsf-ct-dev'
         ]
       },
-      locale: 'en',
-      currency: 'USD',
-      country: 'US',
-      acceptLanguage: ['en', 'de'],
-      countries: [
-        { name: 'US',
-          label: 'United States' },
-        { name: 'AT',
-          label: 'Austria' },
-        { name: 'DE',
-          label: 'Germany' },
-        { name: 'NL',
-          label: 'Netherlands' }
-      ],
-      currencies: [
-        { name: 'EUR',
-          label: 'Euro' },
-        { name: 'USD',
-          label: 'Dollar' }
-      ],
-      locales: [
-        { name: 'en',
-          label: 'English' },
-        { name: 'de',
-          label: 'German' }
-      ]
+      i18n: {
+        useNuxtI18nConfig: true
+      }
     }]
   ],
   modules: [
@@ -106,6 +83,50 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
+  i18n: {
+    currency: 'USD',
+    country: 'US',
+    countries: [
+      { name: 'US',
+        label: 'United States' },
+      { name: 'AT',
+        label: 'Austria' },
+      { name: 'DE',
+        label: 'Germany' },
+      { name: 'NL',
+        label: 'Netherlands' }
+    ],
+    currencies: [
+      { name: 'EUR',
+        label: 'Euro' },
+      { name: 'USD',
+        label: 'Dollar' }
+    ],
+    locales: [
+      {
+        code: 'en',
+        label: 'English',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        label: 'German',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
+    lazy: true,
+    seo: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: 'vsf-locale'
+    }
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -119,31 +140,5 @@ export default {
         })
       })
     ]
-  },
-
-  i18n: {
-    locales: [
-      {
-        code: 'en',
-        file: 'en.js',
-        iso: 'en'
-      },
-      {
-        code: 'de',
-        file: 'de.js',
-        iso: 'de'
-      }
-    ],
-    defaultLocale: 'en',
-    lazy: true,
-    seo: true,
-    langDir: 'lang/',
-    vueI18n: {
-      fallbackLocale: 'en'
-    },
-    detectBrowserLanguage: {
-      cookieKey: 'vsf-locale',
-      alwaysRedirect: true
-    }
   }
 };

@@ -147,22 +147,6 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseLocale {
-  availableLocales: ComputedProperty<AgnosticLocale[]>;
-  availableCountries: ComputedProperty<AgnosticCountry[]>;
-  availableCurrencies: ComputedProperty<AgnosticCurrency[]>;
-  country: ComputedProperty<AgnosticCountry>;
-  currency: ComputedProperty<AgnosticCurrency>;
-  loadAvailableLocales: () => Promise<void>;
-  loadAvailableCountries: () => Promise<void>;
-  loadAvailableCurrencies: () => Promise<void>;
-  loading: ComputedProperty<boolean>;
-  locale: ComputedProperty<AgnosticLocale>;
-  setLocale: (locale: AgnosticLocale) => Promise<void>;
-  setCountry: (country: AgnosticCountry) => Promise<void>;
-  setCurrency: (currency: AgnosticCurrency) => Promise<void>;
-}
-
 export interface UseReviews<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
   addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
