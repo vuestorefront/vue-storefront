@@ -24,6 +24,6 @@ describe('[about-you-composables] useCategory factoryParams', () => {
     (mapCategorySearchByPathParams as jest.Mock).mockReturnValueOnce(categorySearchParams);
     (getCategoryByPath as jest.Mock).mockReturnValueOnce(expectedCategories[0]);
 
-    expect(await params.categorySearch(categorySearchParams)).toEqual(expectedCategories);
+    expect(await params.categorySearch(categorySearchParams, null)).toEqual(expectedCategories);
   });
 });

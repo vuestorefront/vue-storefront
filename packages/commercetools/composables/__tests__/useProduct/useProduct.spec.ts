@@ -59,7 +59,7 @@ describe('[commercetools-composables] useProduct', () => {
         { value: 'price-down', label: 'Price from high to low' }
       ]
     });
-    expect(getProduct).toBeCalledWith({ id: 'product-id' });
+    expect(getProduct).toBeCalledWith({ id: 'product-id' }, undefined);
     expect(enhanceProducts).toBeCalledWith(productResponse);
   });
 });

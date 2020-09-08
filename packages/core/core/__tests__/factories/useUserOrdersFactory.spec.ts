@@ -31,7 +31,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
     describe('search', () => {
       it('should set search results', async () => {
         const { searchOrders, orders, totalOrders } = useUserOrders();
-        await searchOrders();
+        await searchOrders({});
         expect(orders.value).toEqual(['first', 'second']);
         expect(totalOrders.value).toEqual(10);
       });
@@ -41,7 +41,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
           throw new Error();
         });
         const { searchOrders, loading } = useUserOrders();
-        await expect(searchOrders()).rejects.toThrow(Error);
+        await expect(searchOrders({})).rejects.toThrow(Error);
         expect(loading.value).toEqual(false);
       });
     });

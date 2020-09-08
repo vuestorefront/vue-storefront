@@ -4,20 +4,32 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
+export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
+
+export interface SearchParams {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: any;
+  [x: string]: any;
+}
+
+export function Search(params: SearchParams): Promise<void>;
+export function Search(params: SearchParams, customQuery: {}): Promise<void>
+// Overloaded function type need declaration, as bellow
+// https://www.typescriptlang.org/docs/handbook/functions.html#overloads
+export function Search(params: SearchParams, customQuery?: {}): any {
+  return { params, customQuery };
+}
+
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   availableFilters: ComputedProperty<PRODUCT_FILTERS>;
-  search: (params: {
-    perPage?: number;
-    page?: number;
-    sort?: any;
-    term?: any;
-    filters?: PRODUCT_FILTERS;
-    [x: string]: any;
-  }) => Promise<void>;
   availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
+  search: typeof Search;
   [x: string]: any;
 }
 
@@ -52,12 +64,7 @@ export interface UseUser
 export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders: (params?: {
-    id?: any;
-    page?: number;
-    perPage?: number;
-    [x: string]: any;
-  }) => Promise<void>;
+  searchOrders: typeof Search;
   loading: ComputedProperty<boolean>;
 }
 
@@ -76,9 +83,7 @@ export interface UseCategory
   CATEGORY
 > {
   categories: ComputedProperty<CATEGORY[]>;
-  search: (params: {
-    [x: string]: any;
-  }) => Promise<void>;
+  search: typeof Search;
   loading: ComputedProperty<boolean>;
 }
 

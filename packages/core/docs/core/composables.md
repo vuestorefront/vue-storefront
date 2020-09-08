@@ -39,3 +39,6 @@ In many cases using getters can save you time and contribute to cleaner code but
 
 Because interfaces for composables and getters are the same for every platform the above code from above example will work exactly the each one of them. Because of that you can use getters to keep your frontend code agnostic regarding eCommerce platform. This approach can be really useful when you're considering a migration to different platform in the near future
 :::
+
+<Content slot-key="example-product-search-custom-query" />
+

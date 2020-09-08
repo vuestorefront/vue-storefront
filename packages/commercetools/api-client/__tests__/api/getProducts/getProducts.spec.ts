@@ -26,12 +26,6 @@ describe('[commercetools-api-client] getProduct', () => {
   });
 
   it('fetches product with customized query', async () => {
-    const givenVariables = {
-      where: 'test',
-      acceptLanguage: ['de', 'en'],
-      currency: 'eur'
-    };
-
     const givenQuery = `
       query products(
         $where: String
@@ -50,16 +44,14 @@ describe('[commercetools-api-client] getProduct', () => {
       }
     `;
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
+    (apolloClient.query as any).mockImplementation(({ query }) => {
       expect(query).not.toEqual(defaultQuery);
       expect(query).toEqual(gql`${givenQuery}`);
 
       return { data: 'product response' };
     });
 
-    const { data } = await getProduct({ customQuery: { query: givenQuery,
-      variables: givenVariables} });
+    const { data } = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, (query = givenQuery, variables = { offset: 2 }): any => ({ query, variables }));
 
     expect(data).toBe('product response');
   });
