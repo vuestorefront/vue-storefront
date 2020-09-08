@@ -16,9 +16,9 @@ yarn add @vue-storefront/commercetools @vue-storefront/nuxt
 
 ::: slot installation
 ```bash
-npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api
+npm install --save @vue-storefront/commercetools
 # OR
-yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api
+yarn add @vue-storefront/commercetools
 ```
 :::
 

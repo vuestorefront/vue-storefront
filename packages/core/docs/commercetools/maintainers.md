@@ -1,6 +1,6 @@
 # Maintainers and support
 
-The Commercetools integration is developer and maintained by **Vue Storefront core team**.
+The Commercetools integration is developed and maintained by **Vue Storefront core team**.
 <img src="https://miro.medium.com/max/9286/1*QU9F6hQlFyHsJIbsdmt6FA.png" style="margin-top: 20px;" height="50px"/>
 
 ## Support
