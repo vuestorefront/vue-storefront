@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, getSettings } from './../../index';
+import {apolloClient, getCustomQuery, getSettings} from './../../index';
 import { CategoryQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 import { buildCategoryWhere, resolveCustomQueryVariables } from './../../helpers/search';
@@ -9,8 +9,8 @@ interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (params, customQuery = (query: any = defaultQuery, variables = {}) => ({ query, variables })) => {
-  const { query, variables } = customQuery();
+const getCategory = async (params, customQueryFn?) => {
+  const { query, variables } = getCustomQuery(customQueryFn, defaultQuery);
   const { acceptLanguage } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables(params ? {
     where: buildCategoryWhere(params),

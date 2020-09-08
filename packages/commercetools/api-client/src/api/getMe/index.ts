@@ -1,15 +1,16 @@
-import { apolloClient, getSettings } from './../../index';
+import {apolloClient, getCustomQuery, getSettings} from './../../index';
 import { ProfileResponse } from './../../types/Api';
 import { basicProfile, fullProfile } from './defaultQuery';
 import { resolveCustomQueryVariables } from '../../helpers/search';
 import { ApolloQueryResult } from 'apollo-client';
+import defaultQuery from '../getMyOrders/defaultQuery';
 
 interface Options {
   customer?: boolean;
 }
 
-const getMe = async (params: Options = {}, customQuery = (query: any = basicProfile, variables = {}) => ({ query, variables })) => {
-  const { variables } = customQuery();
+const getMe = async (params: Options = {}, customQueryFn?) => {
+  const { variables } = getCustomQuery(customQueryFn, defaultQuery);
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
   const resolvedVariables = resolveCustomQueryVariables({
