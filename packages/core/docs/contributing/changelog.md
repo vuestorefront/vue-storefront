@@ -6,4 +6,4 @@
 
 ### Features
 
-* **factories**: added useReviews factory ([#4775](https://github.com/DivanteLtd/vue-storefront/issues/4775))
+* **factories**: added useReview factory ([#4775](https://github.com/DivanteLtd/vue-storefront/issues/4775))
