@@ -47,7 +47,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
   },
   removeCoupon: async ({ currentCart, coupon }) => {
-    const updatedCart = await apiRemoveCartCoupon(currentCart, coupon);
+    const updatedCart = await apiRemoveCartCoupon(currentCart, { id: coupon.discountCode.id, typeId: coupon.discountCode.__typename });
     return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
