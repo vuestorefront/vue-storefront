@@ -295,24 +295,18 @@ export default {
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
 
-    const sortBy = ref(query.sort || 'createdAt');
+    const sortBy = ref('createdAt');
     const filters = ref(null);
 
     onSSR(async () => {
-      await search(getCategorySearchParameters(context));
+      await search(getCategorySearchParameters(context, sortBy.value));
       filters.value = getFiltersFromUrl(context, availableFilters.value);
       await loadCart();
     });
 
     watch([itemsPerPage, sortBy, filters], () => {
       if (categories.value.length) {
-        search(getCategorySearchParameters(context));
-        context.root.$router.push({ query: {
-          ...context.root.$route.query,
-          ...getFiltersForUrl(filters.value),
-          sort: sortBy.value,
-          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
-        }});
+        search(getCategorySearchParameters(context, sortBy.value));
       }
     }, { deep: true });
 
