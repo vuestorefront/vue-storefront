@@ -3,7 +3,7 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
-  loadCart: () => Promise<CART>;
+  loadCart: () => Promise<{ currentCart: CART; currentCoupon: COUPON }>;
   addToCart: (params: {
     currentCart: CART;
     product: PRODUCT;
@@ -86,7 +86,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       if (cart.value) return;
 
       loading.value = true;
-      cart.value = await factoryParams.loadCart();
+      const { currentCart, currentCoupon } = await factoryParams.loadCart();
+      cart.value = currentCart;
+      appliedCoupon.value = currentCoupon;
       loading.value = false;
     };
 

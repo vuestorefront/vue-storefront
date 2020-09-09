@@ -15,7 +15,15 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   loadCart: async () => {
-    return await loadCurrentCart();
+    const currentCart = await loadCurrentCart();
+    const currentCoupon = currentCart && Array.isArray(currentCart.discountCodes) && currentCart.discountCodes.length
+      ? currentCart.discountCodes[0]
+      : null;
+
+    return {
+      currentCart,
+      currentCoupon
+    };
   },
   addToCart: async ({ currentCart, product, quantity }) => {
     const updatedCart = await apiAddToCart(currentCart, product, quantity);

@@ -12,7 +12,10 @@ const loadCurrentCart = async (cartParams: CartParams) => {
     Cookies.set('cart_id', cartResponse.id);
     Cookies.set('cart', cartResponse);
   }
-  return cartResponse;
+  return {
+    currentCart: cartResponse,
+    currentCoupon: null
+  };
 };
 
 export default loadCurrentCart;

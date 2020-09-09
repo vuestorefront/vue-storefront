@@ -11,7 +11,10 @@ export const cart: Ref<Cart> = ref(null);
 const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   loadCart: async () => {
     console.log('Mocked: loadCart');
-    return {};
+    return {
+      currentCart: null,
+      currentCoupon: null
+    };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addToCart: async ({ currentCart, product, quantity }) => {

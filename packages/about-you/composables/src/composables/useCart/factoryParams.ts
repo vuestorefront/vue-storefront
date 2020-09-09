@@ -38,9 +38,12 @@ const updateQuantity = async ({ product, quantity }) => {
 };
 export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiProduct, any> = {
   loadCart: async () => {
-    const basketResponse = await getCart(null, { with: cartParams });
+    const { basket: currentCart } = await getCart(null, { with: cartParams });
 
-    return basketResponse.basket;
+    return {
+      currentCart,
+      currentCoupon: null
+    };
   },
   addToCart: async ({ currentCart, product, quantity }) => {
     const basketItem = getBasketItemByProduct({ currentCart, product });
