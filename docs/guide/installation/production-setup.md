@@ -456,10 +456,45 @@ _Vue Storefront_ can be set up with [OpenResty](http://openresty.org/en/) based 
 
 The `/kubernetes/*.yaml` files in the project are only useful for local development and can't be used as templates for production because they assume that most of the folders exist on the host, which they probably won't in production.
 
-We document here how they can be translated to production configs. We haven't given you actual configs because how you run your Kubernetes cluster is determined by your use-case and we don't think it would be healthy to provide a one-size fits all solution.
+We document here how they can be translated to production configs. We haven't given you actual configs because how you run your Kubernetes cluster is determined by your use-case and we don't think it would be healthy to provide a one-size-fits-all solution.
 
-In our example we will assume that nothing needs to be persisted beyond the lifetime of the pod and therefore we assume that dist and var are emptyDir volumes and that we don't actually need any extra persistence volumes.
+In our example we will assume that nothing needs to be persisted beyond the lifetime of the pod and therefore we assume that `dist` and `var` are emptyDir volumes and that we don't actually need any extra persistence volumes.
 
-Finally in horizontal scaling, when running yarn migrate and yarn dump, you can `kubectl exec -it <podname> /bin/sh` to one pod - it is irrelevant that other pods exist because Elasticstore is the persistence and the json files in var are just ephemeral and therefore other pods & containers don't need to know about them...
+Finally in horizontal scaling, when running `yarn migrate` and `yarn dump`, you can `kubectl exec -it <podname> /bin/sh` to one pod - it is irrelevant that other pods exist because Elasticstore is the persistence and the json files in `var` are just ephemeral and therefore other pods & containers don't need to know about them...
 
-Finally we recommend that you produce your own Dockerfile for each project which base on our existing dockerfiles which we use to copy  folders into the image. This will be cheaper to host than running read only volumes. I will document here how the Dockerfile should be written.
+Finally we recommend that you produce your own Dockerfile for each project image which you base on our existing Dockerfiles which you use to copy folders into the image. This will be cheaper to host than running read only volumes. I will document here how the Dockerfile should be written.
+
+### Nginx Ingress
+#### Configmap
+#### Deployment
+#### Service
+---
+### vue-storefront
+#### Configmap
+#### Deployment
+#### Service
+---
+### vue-storefront-api
+#### Configmap
+#### Deployment
+#### Service
+---
+### Api Connectors (bridges)
+#### Configmap
+#### Deployment
+#### Service
+---
+### Elasticsearch
+#### Configmap
+#### Deployment
+#### Service
+---
+### Redis
+#### Configmap
+#### Deployment
+#### Service
+---
+### Varnish
+#### Configmap
+#### Deployment
+#### Service
