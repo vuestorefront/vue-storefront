@@ -462,7 +462,14 @@ In our example we will assume that nothing needs to be persisted beyond the life
 
 Finally in horizontal scaling, when running `yarn migrate` and `yarn dump`, you can `kubectl exec -it <podname> /bin/sh` to one pod - it is irrelevant that other pods exist because Elasticstore is the persistence and the json files in `var` are just ephemeral and therefore other pods & containers don't need to know about them...
 
-Finally we recommend that you produce your own Dockerfile for each project image which you base on our existing Dockerfiles which you use to copy folders into the image. This will be cheaper to host than running read only volumes. I will document here how the Dockerfile should be written.
+Finally we recommend that you produce your own Dockerfile for each project image. You should base these on our existing Dockerfiles and use them to copy folders into the image. This will be cheaper to host than running read only volumes. We will document here how the Dockerfile should be written.
+
+### New to Kubernetes?
+Here are a few places to learn to get started with the general usage of kubernetes.
+1. [Kubernetes Official Getting Started Guide](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+1. [kubernetes Official documentation](https://kubernetes.io/docs/home/)
+2. [Digital Ocean Introduction](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
+3. [Digital Ocean Tutorials](https://www.digitalocean.com/community/tutorials?q=kubernetes)
 
 ### Nginx Ingress
 #### Configmap
