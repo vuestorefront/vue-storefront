@@ -464,6 +464,11 @@ Finally in horizontal scaling, when running `yarn migrate` and `yarn dump`, you 
 
 Finally we recommend that you produce your own Dockerfile for each project image. You should base these on our existing Dockerfiles and use them to copy folders into the image. This will be cheaper to host than running read only volumes. We will document here how the Dockerfile should be written.
 
+### New to Docker Containers
+Here are a couple of places to learn about docker.
+1. [Docker Official documentation](https://docs.docker.com/)
+2. [Getting Started Guide](https://docker-curriculum.com/)
+
 ### New to Kubernetes?
 Here are a few places to learn to get started with the general usage of kubernetes.
 1. [Kubernetes Official Getting Started Guide](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
@@ -471,7 +476,29 @@ Here are a few places to learn to get started with the general usage of kubernet
 2. [Digital Ocean Introduction](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
 3. [Digital Ocean Tutorials](https://www.digitalocean.com/community/tutorials?q=kubernetes)
 
+### Prerequisites
+Vue Storefront requires Elasticsearch and the Redis server.
+
+Often it is considered advisable to keep data out of Kubernetes. it is important to remember that pods (the database application containers) are transient and have to expect application restarts and failovers as the risk of these happening is higher. Also, how you perform backups, scaling, tuning, etc. is different because of the abstraction of containerization. You therefore may prefer to use managed solution or to host Elasticsearch and/or Redis on bare metal or VM.
+
+However it is perfectly possible to use Kubernetes without too much trouble - Redis is ephemeral data, and the Elasticsearch index can be easily rebuilt. So with that all having been said lets begin.
+
+#### Elasticsearch
+##### Configmap
+##### Deployment
+##### Service
+---
+#### Redis
+##### Configmap
+##### Deployment
+##### Service
+---
+
 ### Nginx Ingress
+In Kubernetes, an Ingress is an object that allows access to your Kubernetes services from outside the Kubernetes cluster. You configure access by creating a collection of rules that define which inbound connections reach which services.
+
+Again we decided to use NGINX because as we said before it gives you a lot of flexibility regarding the SSL, gzip compression, URL routing, and other techniques to be configured without additional hassle.
+
 #### Configmap
 #### Deployment
 #### Service
@@ -491,17 +518,9 @@ Here are a few places to learn to get started with the general usage of kubernet
 #### Deployment
 #### Service
 ---
-### Elasticsearch
-#### Configmap
-#### Deployment
-#### Service
----
-### Redis
-#### Configmap
-#### Deployment
-#### Service
----
-### Varnish
-#### Configmap
-#### Deployment
-#### Service
+#### Varnish cache for VSF
+Vue Storefront has multiple layers of cache, and the forefront cache is Varnish which serves a request just as fast as a static HTML page once it's hit. You can install it from here.
+
+##### Configmap
+##### Deployment
+##### Service
