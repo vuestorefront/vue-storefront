@@ -13,7 +13,7 @@ const getLocaleSettings = (moduleOptions, app) => {
   }
 
   return {
-    locale: localeSettings.locale || moduleOptions.locale || defaultConfig.locale,
+    locale: app.i18n.locale || (localeSettings.locale || moduleOptions.locale || defaultConfig.locale),
     country: localeSettings.country || moduleOptions.country || defaultConfig.country,
     currency: localeSettings.currency || moduleOptions.currency || defaultConfig.currency
   };

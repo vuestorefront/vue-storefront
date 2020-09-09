@@ -20,4 +20,21 @@ describe('[commercetools-api-client] getMe', () => {
 
     expect(data).toBe('me response');
   });
+
+  it('fetches current user with custom variables', async () => {
+    const givenVariables = {
+      acceptLanguage: ['en', 'de'],
+      locale: 'de'
+    };
+
+    (apolloClient.query as any).mockImplementation(({ variables }) => {
+      expect(variables).toEqual(givenVariables);
+
+      return { data: 'me response' };
+    });
+
+    const { data } = await getMe({ customer: false }, (query = {}, variables = givenVariables) => ({ query, variables }));
+
+    expect(data).toBe('me response');
+  });
 });

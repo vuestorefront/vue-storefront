@@ -32,6 +32,6 @@ describe('[commercetools-composables] useCategory', () => {
     const response = await categorySearch({ catId: 'xxx1' });
 
     expect(response).toEqual(categoriesResult);
-    expect(getCategory).toBeCalledWith({ catId: 'xxx1' });
+    expect(getCategory).toBeCalledWith({ catId: 'xxx1' }, undefined);
   });
 });

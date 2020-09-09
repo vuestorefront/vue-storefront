@@ -5,7 +5,6 @@ import useProduct from './useProduct';
 import { setCart, useCart } from './useCart';
 import useCheckout from './useCheckout';
 import { setUser, useUser } from './useUser';
-import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
 import useReview from './useReview';
@@ -32,7 +31,6 @@ export {
   useCheckout,
   useUser,
   setUser,
-  useLocale,
   useUserOrders,
   useWishlist,
   setWishlist,

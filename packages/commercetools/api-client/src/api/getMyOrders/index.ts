@@ -1,20 +1,31 @@
-import { apolloClient, getSettings } from './../../index';
+import {apolloClient, getCustomQuery, getSettings} from './../../index';
 import defaultQuery from './defaultQuery';
-import { buildOrderWhere } from './../../helpers/search';
-import { OrderSearch, ProfileResponse } from './../../types/Api';
+import { buildOrderWhere, resolveCustomQueryVariables } from './../../helpers/search';
+import { ProfileResponse } from './../../types/Api';
+import { ApolloQueryResult } from 'apollo-client';
+import gql from 'graphql-tag';
 
-export default async (search: OrderSearch): Promise<ProfileResponse> => {
+const getOrders = async (params, customQueryFn?) => {
+  const { query, variables } = getCustomQuery(customQueryFn, defaultQuery);
   const { locale, acceptLanguage } = getSettings();
-  return await apolloClient.query({
-    query: defaultQuery,
-    variables: {
-      where: buildOrderWhere(search),
-      sort: search.sort,
-      limit: search.limit,
-      offset: search.offset,
-      acceptLanguage,
-      locale
-    },
+  const resolvedVariables = resolveCustomQueryVariables({
+    where: buildOrderWhere(params),
+    sort: params.sort,
+    limit: params.limit,
+    offset: params.offset,
+    acceptLanguage,
+    locale
+  }, variables, 'order');
+  const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
+    query: gql`${query}`,
+    variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
+  return {
+    ...request,
+    query,
+    variables: resolvedVariables
+  };
 };
+
+export default getOrders;

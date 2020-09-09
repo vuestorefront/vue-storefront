@@ -1,7 +1,7 @@
 ---
 platform: Commercetools
 ---
- 
+
 
 <IncludeContent content-key="getting-started" />
 
@@ -16,9 +16,9 @@ yarn add @vue-storefront/commercetools @vue-storefront/nuxt
 
 ::: slot installation
 ```bash
-npm install --save @vue-storefront/commercetools @vue-storefront/commercetools-api
+npm install --save @vue-storefront/commercetools
 # OR
-yarn add @vue-storefront/commercetools @vue-storefront/commercetools-api
+yarn add @vue-storefront/commercetools
 ```
 :::
 
@@ -61,7 +61,52 @@ setup({
       'view_products:vsf-ct-dev',
       'view_published_products:vsf-ct-dev'
     ]
+  },
+  i18n: {
+    useNuxtI18nModule: false,
+    currency: 'USD',
+    country: 'US',
+    countries: [
+      { name: 'US',
+        label: 'United States' },
+      { name: 'AT',
+        label: 'Austria' },
+      { name: 'DE',
+        label: 'Germany' },
+      { name: 'NL',
+        label: 'Netherlands' }
+    ],
+    currencies: [
+      { name: 'EUR',
+        label: 'Euro' },
+      { name: 'USD',
+        label: 'Dollar' }
+    ],
+    locales: [
+      {
+        code: 'en',
+        label: 'English',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        label: 'German',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
+    lazy: true,
+    seo: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: 'vsf-locale'
+    }
   }
-}]
+}],
 ```
 :::
