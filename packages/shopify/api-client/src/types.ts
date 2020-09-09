@@ -184,6 +184,9 @@ export type CategorySearchParams = {
   id: Maybe<Scalars['String']>;
   slug: Maybe<Scalars['String']>;
   handle: Maybe<Scalars['String']>;
+  sort?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['String']>;
   customQuery: Maybe<Scalars['String']>;
   withProducts: Maybe<Scalars['Boolean']>;
 }
