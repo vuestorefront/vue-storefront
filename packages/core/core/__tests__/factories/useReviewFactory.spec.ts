@@ -1,7 +1,7 @@
-import { useReviewsFactory } from '../../src/factories';
-import { UseReviews } from '../../src/types';
+import { useReviewFactory } from '../../src/factories';
+import { UseReview } from '../../src/types';
 
-const useReviews: (cacheId: string) => UseReviews<any, any, any> = useReviewsFactory<any, any, any>({
+const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
   searchReviews: jest.fn().mockResolvedValue({
     data: [{ id: '123' }],
     total: 1,
@@ -14,7 +14,7 @@ const useReviews: (cacheId: string) => UseReviews<any, any, any> = useReviewsFac
   })
 });
 
-const useReviesError: (cacheId: string) => UseReviews<any, any, any> = useReviewsFactory<any, any, any>({
+const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
   searchReviews: jest.fn().mockImplementation(() => {
     throw new Error('Couldn\'t retrieve reviews');
   }),

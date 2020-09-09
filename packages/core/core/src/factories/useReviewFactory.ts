@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseReviews } from '../types';
+import { UseReview } from '../types';
 import { sharedRef } from '../utils';
 
 export interface ReviewsResult<REVIEW> {
@@ -8,15 +8,15 @@ export interface ReviewsResult<REVIEW> {
   averageRating: number;
 }
 
-export declare type UseReviewsFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> = {
+export declare type UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> = {
   searchReviews: (params: REVIEWS_SEARCH_PARAMS) => Promise<ReviewsResult<REVIEW>>;
   addReview: (params: REVIEW_ADD_PARAMS) => Promise<ReviewsResult<REVIEW>>;
 };
 
-export function useReviewsFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
-  factoryParams: UseReviewsFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>
+export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
+  factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>
 ) {
-  return function useReviews(id: string): UseReviews<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+  return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW[]> = sharedRef([], `useReviews-reviews-${id}`);
     const totalReviews: Ref<number> = sharedRef(0, `useReviews-totalReviews-${id}`);
     const averageRating: Ref<number> = sharedRef(0, `useReviews-averageRating-${id}`);

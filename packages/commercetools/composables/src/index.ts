@@ -8,6 +8,7 @@ import { setUser, useUser } from './useUser';
 import useLocale from './useLocale';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
+import useReview from './useReview';
 import { track } from '@vue-storefront/core';
 
 import {
@@ -15,6 +16,7 @@ import {
   categoryGetters,
   checkoutGetters,
   productGetters,
+  reviewGetters,
   userGetters,
   orderGetters,
   wishlistGetters
@@ -34,10 +36,12 @@ export {
   useUserOrders,
   useWishlist,
   setWishlist,
+  useReview,
   cartGetters,
   categoryGetters,
   checkoutGetters,
   productGetters,
+  reviewGetters,
   userGetters,
   orderGetters,
   wishlistGetters

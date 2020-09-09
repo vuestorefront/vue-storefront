@@ -163,7 +163,7 @@ export interface UseLocale {
   setCurrency: (currency: AgnosticCurrency) => Promise<void>;
 }
 
-export interface UseReviews<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
   addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
   reviews: ComputedProperty<REVIEW[]>;
@@ -251,6 +251,14 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemQty: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface ReviewGetters<REVIEW> {
+  getReviewId: (review: REVIEW) => string;
+  getReviewAuthor: (review: REVIEW) => string;
+  getReviewMessage: (review: REVIEW) => string;
+  getReviewRating: (review: REVIEW) => number;
+  getReviewDate: (review: REVIEW) => string;
 }
 
 export interface AgnosticMediaGalleryItem {
