@@ -2,34 +2,23 @@ import { Ref, computed } from '@vue/composition-api';
 import { UseReview } from '../types';
 import { sharedRef } from '../utils';
 
-export interface ReviewsResult<REVIEW> {
-  data: REVIEW[];
-  total: number;
-  averageRating: number;
-}
-
 export declare type UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> = {
-  searchReviews: (params: REVIEWS_SEARCH_PARAMS) => Promise<ReviewsResult<REVIEW>>;
-  addReview: (params: REVIEW_ADD_PARAMS) => Promise<ReviewsResult<REVIEW>>;
+  searchReviews: (params: REVIEWS_SEARCH_PARAMS) => Promise<REVIEW>;
+  addReview: (params: REVIEW_ADD_PARAMS) => Promise<REVIEW>;
 };
 
 export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
   factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>
 ) {
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
-    const reviews: Ref<REVIEW[]> = sharedRef([], `useReviews-reviews-${id}`);
-    const totalReviews: Ref<number> = sharedRef(0, `useReviews-totalReviews-${id}`);
-    const averageRating: Ref<number> = sharedRef(0, `useReviews-averageRating-${id}`);
+    const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
     const error: Ref<string | null> = sharedRef(null, `useReviews-error-${id}`);
 
     const search = async (params?: REVIEWS_SEARCH_PARAMS): Promise<void> => {
       try {
         loading.value = true;
-        const { data, total, averageRating: average } = await factoryParams.searchReviews(params);
-        reviews.value = data;
-        totalReviews.value = total;
-        averageRating.value = average;
+        reviews.value = await factoryParams.searchReviews(params);
       } catch (searchError) {
         error.value = searchError.toString();
       } finally {
@@ -40,10 +29,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     const addReview = async (params: REVIEW_ADD_PARAMS): Promise<void> => {
       try {
         loading.value = true;
-        const { data, total, averageRating: average } = await factoryParams.addReview(params);
-        reviews.value = data;
-        totalReviews.value = total;
-        averageRating.value = average;
+        reviews.value = await factoryParams.addReview(params);
       } catch (addError) {
         error.value = addError.toString();
       } finally {
@@ -55,8 +41,6 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       search,
       addReview,
       reviews: computed(() => reviews.value),
-      totalReviews: computed(() => totalReviews.value),
-      averageRating: computed(() => averageRating.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };

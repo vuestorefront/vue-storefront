@@ -1,9 +1,14 @@
 import {
+  getItems,
   getReviewId,
   getReviewAuthor,
   getReviewMessage,
   getReviewRating,
-  getReviewDate
+  getReviewDate,
+  getTotalReviews,
+  getAverageRating,
+  getRatesCount,
+  getReviewsPage
 } from './../../src/getters/reviewGetters';
 
 const review = {
@@ -16,32 +21,98 @@ const review = {
   rating: 4
 };
 
+const reviews = {
+  offset: 0,
+  limit: 5,
+  count: 1,
+  total: 1,
+  averageRating: 4,
+  ratingsDistribution: {
+    /* eslint-disable quote-props */
+    '1': 0,
+    '2': 0,
+    '3': 0,
+    '4': 1,
+    '5': 0
+    /* eslint-enable quote-props */
+  },
+  results: [
+    review
+  ]
+} as any;
+
 describe('[commercetools-getters] review getters', () => {
   it('returns default values', () => {
-    expect(getReviewId(null)).toBe('');
-    expect(getReviewAuthor(null)).toBe('');
-    expect(getReviewMessage(null)).toBe('');
-    expect(getReviewRating(null)).toBe(0);
-    expect(getReviewDate(null)).toBe('');
+    expect(getItems(null)).toEqual([]);
+    expect(getReviewId(null)).toEqual('');
+    expect(getReviewAuthor(null)).toEqual('');
+    expect(getReviewMessage(null)).toEqual('');
+    expect(getReviewRating(null)).toEqual(0);
+    expect(getReviewDate(null)).toEqual('');
+    expect(getTotalReviews(null)).toEqual(0);
+    expect(getAverageRating(null)).toEqual(0);
+    expect(getRatesCount(null)).toEqual([]);
+    expect(getReviewsPage(null)).toEqual(1);
+  });
+
+  it('returns a list', () => {
+    expect(getItems(reviews)).toEqual([review]);
   });
 
   it('returns id', () => {
-    expect(getReviewId(review)).toBe(review.id);
+    expect(getReviewId(review)).toEqual(review.id);
   });
 
   it('returns author', () => {
-    expect(getReviewAuthor(review)).toBe(review.authorName);
+    expect(getReviewAuthor(review)).toEqual(review.authorName);
   });
 
   it('returns message', () => {
-    expect(getReviewMessage(review)).toBe(review.text);
+    expect(getReviewMessage(review)).toEqual(review.text);
   });
 
   it('returns rating', () => {
-    expect(getReviewRating(review)).toBe(review.rating);
+    expect(getReviewRating(review)).toEqual(review.rating);
   });
 
   it('returns date', () => {
-    expect(getReviewDate(review)).toBe(review.createdAt);
+    expect(getReviewDate(review)).toEqual(review.createdAt);
+  });
+
+  it('returns total number of reviews', () => {
+    expect(getTotalReviews(reviews)).toEqual(reviews.total);
+  });
+
+  it('returns average rating', () => {
+    expect(getAverageRating(reviews)).toEqual(reviews.averageRating);
+  });
+
+  it('returns number of reviews per rate', () => {
+    expect(getRatesCount(reviews)).toEqual([
+      {
+        rate: 1,
+        count: 0
+      },
+      {
+        rate: 2,
+        count: 0
+      },
+      {
+        rate: 3,
+        count: 0
+      },
+      {
+        rate: 4,
+        count: 1
+      },
+      {
+        rate: 5,
+        count: 0
+      }
+    ]);
+  });
+
+  it('returns reviews page number', () => {
+    expect(getReviewsPage(reviews)).toEqual(1);
   });
 });

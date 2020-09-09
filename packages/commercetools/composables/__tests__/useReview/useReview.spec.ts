@@ -2,7 +2,20 @@ import useReview from './../../src/useReview';
 import { getReview } from '@vue-storefront/commercetools-api';
 
 const reviewResponse = {
-  data: [
+  offset: 0,
+  count: 2,
+  total: 2,
+  averageRating: 3,
+  ratingsDistribution: {
+    /* eslint-disable quote-props */
+    '1': 0,
+    '2': 0,
+    '3': 0,
+    '4': 1,
+    '5': 1
+    /* eslint-enable quote-props */
+  },
+  results: [
     {
       id: '1',
       text: 'This product is great!',
@@ -13,9 +26,7 @@ const reviewResponse = {
       text: 'This product is meh.',
       rating: 1
     }
-  ],
-  averageRating: 3,
-  total: 2
+  ]
 };
 
 jest.mock('@vue-storefront/commercetools-api', () => ({

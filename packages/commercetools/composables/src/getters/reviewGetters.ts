@@ -1,22 +1,63 @@
-import { Review } from '../types/GraphQL';
-import { ReviewGetters } from '@vue-storefront/core';
+import { Versioned, Scalars } from '../types/GraphQL';
+import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
 
-export const getReviewId = (review: Review): string => review?.id || '';
+// TODO: Replace types below with GraphQL types when they get updated
+type Review = {
+  offset: number;
+  limit: number;
+  count: number;
+  total: number;
+  averageRating: number;
+  ratingsDistribution: {
+    [rating: string]: number;
+  };
+  results: ReviewItem[];
+};
 
-export const getReviewAuthor = (review: Review): string => review?.authorName || '';
+type ReviewItem = Versioned & {
+  authorName: Scalars['String'];
+  text: Scalars['String'];
+  rating: Scalars['Int'];
+};
 
-export const getReviewMessage = (review: Review): string => review?.text || '';
+export const getItems = (review: Review): ReviewItem[] => review?.results || [];
 
-export const getReviewRating = (review: Review): number => review?.rating || 0;
+export const getReviewId = (item: ReviewItem): string => item?.id || '';
 
-export const getReviewDate = (review: Review): string => review?.createdAt || '';
+export const getReviewAuthor = (item: ReviewItem): string => item?.authorName || '';
 
-const reviewGetters: ReviewGetters<Review> = {
+export const getReviewMessage = (item: ReviewItem): string => item?.text || '';
+
+export const getReviewRating = (item: ReviewItem): number => item?.rating || 0;
+
+export const getReviewDate = (item: ReviewItem): string => item?.createdAt || '';
+
+export const getTotalReviews = (review: Review): number => review?.total || 0;
+
+export const getAverageRating = (review: Review): number => review?.averageRating || 0;
+
+export const getRatesCount = (review: Review): AgnosticRateCount[] => {
+  const rates = review?.ratingsDistribution || [];
+
+  return Object.entries(rates).map(([rate, count]): AgnosticRateCount => ({
+    rate: Number(rate),
+    count
+  }));
+};
+
+export const getReviewsPage = (review: Review): number => review ? (review.offset / review.limit) + 1 : 1;
+
+const reviewGetters: ReviewGetters<Review, ReviewItem> = {
+  getItems,
   getReviewId,
   getReviewAuthor,
   getReviewMessage,
   getReviewRating,
-  getReviewDate
+  getReviewDate,
+  getTotalReviews,
+  getAverageRating,
+  getRatesCount,
+  getReviewsPage
 };
 
 export default reviewGetters;

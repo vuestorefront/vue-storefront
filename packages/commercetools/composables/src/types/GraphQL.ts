@@ -4873,12 +4873,6 @@ export enum PublishScope {
   Prices = "Prices"
 }
 
-export type Review = Versioned & {
-  authorName: Scalars["String"];
-  text: Scalars["String"];
-  rating: Scalars["Int"];
-};
-
 export type Query = CartQueryInterface &
   CustomerActiveCartInterface &
   OrderQueryInterface &

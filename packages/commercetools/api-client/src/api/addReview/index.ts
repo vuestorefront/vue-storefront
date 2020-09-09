@@ -1,6 +1,20 @@
 const addReview = () => {
   return {
-    data: [
+    offset: 0,
+    limit: 5,
+    count: 2,
+    total: 2,
+    averageRating: 4.5,
+    ratingsDistribution: {
+      /* eslint-disable quote-props */
+      '1': 0,
+      '2': 0,
+      '3': 0,
+      '4': 1,
+      '5': 1
+      /* eslint-enable quote-props */
+    },
+    results: [
       {
         id: '1',
         version: 1,
@@ -19,9 +33,7 @@ const addReview = () => {
         text: 'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
         rating: 5
       }
-    ],
-    averageRating: 4.5,
-    total: 2
+    ]
   };
 };
 
