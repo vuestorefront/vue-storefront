@@ -1,29 +1,29 @@
-import { Ref, ComputedRef, computed } from '@vue/composition-api';
+import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserBilling } from '../types';
 import { sharedRef } from '../utils';
 
 export interface UseUserBillingFactoryParams<ADDRESS> {
   addAddress: (params: {
     address: Readonly<ADDRESS>;
-    addresses: Readonly<ComputedRef<ADDRESS[]>>;
+    addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   deleteAddress: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
-    addresses: Readonly<ComputedRef<ADDRESS[]>>;
+    defaultAddress: Readonly<ADDRESS>;
+    addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   updateAddress: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
-    addresses: Readonly<ComputedRef<ADDRESS[]>>;
+    defaultAddress: Readonly<ADDRESS>;
+    addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   load: (params: {
-    addresses: Readonly<ComputedRef<ADDRESS[]>>;
+    addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   setDefault: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ComputedRef<ADDRESS>>;
-    addresses: Readonly<ComputedRef<ADDRESS[]>>;
+    defaultAddress: Readonly<ADDRESS>;
+    addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS>;
 }
 
@@ -36,8 +36,8 @@ export const useUserBillingFactory = <ADDRESS>(
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserBilling-addresses');
 
-    const readonlyAddresses: ComputedRef<ADDRESS[]> = computed(() => addresses.value);
-    const readonlyDefaultAddress: ComputedRef<ADDRESS> = computed(() => defaultAddress.value);
+    const readonlyAddresses: Readonly<ADDRESS[]> = unref(addresses);
+    const readonlyDefaultAddress: Readonly<ADDRESS> = unref(defaultAddress);
 
     const addAddress = async (address: ADDRESS) => {
       loading.value = true;
@@ -112,7 +112,7 @@ export const useUserBillingFactory = <ADDRESS>(
     };
 
     return {
-      addresses: readonlyAddresses,
+      addresses: computed(() => addresses.value),
       totalAddresses: computed(() => addresses.value.length),
       defaultAddress: computed(() => defaultAddress.value),
       loading: computed(() => loading.value),
