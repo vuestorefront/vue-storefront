@@ -27,7 +27,10 @@ describe('[about-you-composables] useCart factoryParams', () => {
 
     (getCart as jest.Mock).mockReturnValueOnce(expectedCart);
 
-    expect(await params.loadCart()).toEqual(expectedCart.basket);
+    expect(await params.loadCart()).toEqual({
+      currentCart: expectedCart.basket,
+      currentCoupon: null
+    });
   });
 
   describe('addToCart', () => {
