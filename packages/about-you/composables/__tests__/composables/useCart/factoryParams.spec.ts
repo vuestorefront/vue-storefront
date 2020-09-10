@@ -264,7 +264,7 @@ describe('[about-you-composables] useCart factoryParams', () => {
       packages: []
     };
 
-    expect(params.applyCoupon({ currentCart, coupon: 'foo' })).rejects.toThrow();
+    expect(params.applyCoupon({ currentCart, currentCoupon: 'foo' })).rejects.toThrow();
   });
 
   it('removeCoupon throws error that it\'s not supported', () => {
@@ -276,7 +276,7 @@ describe('[about-you-composables] useCart factoryParams', () => {
       packages: []
     };
 
-    expect(params.removeCoupon({ currentCart, coupon: null })).rejects.toThrow();
+    expect(params.removeCoupon({ currentCart, currentCoupon: null })).rejects.toThrow();
   });
 
   describe('isOnCart', () => {
