@@ -2,7 +2,7 @@
   "name": "@vue-storefront/about-you-theme",
   "description": "My breathtaking Nuxt.js project",
   "author": "Łukasz Romanowicz",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.7.17",
-    "@vue-storefront/about-you": "^0.0.3",
-    "@vue-storefront/about-you-api": "^0.1.0",
+    "@vue-storefront/about-you": "^0.0.4",
+    "@vue-storefront/about-you-api": "^0.1.1",
     "@vue-storefront/nuxt": "^0.0.4",
     "@vue-storefront/nuxt-theme": "^0.0.2",
     "cookie-universal-nuxt": "^2.1.3",
