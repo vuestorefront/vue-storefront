@@ -2,7 +2,7 @@ import { UseCart } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
-export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
+export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT> = {
   loadCart: () => Promise<CART>;
   addToCart: (params: {
     currentCart: CART;
@@ -22,29 +22,27 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   applyCoupon: (params: {
     currentCart: CART;
     coupon: string;
-  }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
+  }) => Promise<{ updatedCart: CART }>;
   removeCoupon: (params: {
     currentCart: CART;
-    coupon: COUPON;
   }) => Promise<{ updatedCart: CART }>;
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
-interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
-  useCart: () => UseCart<CART, CART_ITEM, PRODUCT, COUPON>;
+interface UseCartFactory<CART, CART_ITEM, PRODUCT> {
+  useCart: () => UseCart<CART, CART_ITEM, PRODUCT>;
   setCart: (cart: CART) => void;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
-): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
+export const useCartFactory = <CART, CART_ITEM, PRODUCT>(
+  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT>
+): UseCartFactory<CART, CART_ITEM, PRODUCT> => {
 
   const setCart = (newCart: CART) => {
     sharedRef('useCart-cart').value = newCart;
   };
 
-  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
-    const appliedCoupon: Ref<COUPON | null> = sharedRef(null, 'useCart-appliedCoupon');
+  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT> => {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
@@ -109,12 +107,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const applyCoupon = async (coupon: string) => {
       try {
         loading.value = true;
-        const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
+        const { updatedCart } = await factoryParams.applyCoupon({
           currentCart: cart.value,
           coupon
         });
         cart.value = updatedCart;
-        appliedCoupon.value = updatedCoupon;
       } finally {
         loading.value = false;
       }
@@ -124,11 +121,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       try {
         loading.value = true;
         const { updatedCart } = await factoryParams.removeCoupon({
-          currentCart: cart.value,
-          coupon: appliedCoupon.value
+          currentCart: cart.value
         });
         cart.value = updatedCart;
-        appliedCoupon.value = null;
         loading.value = false;
       } finally {
         loading.value = false;
@@ -143,7 +138,6 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       removeFromCart,
       clearCart,
       updateQuantity,
-      coupon: computed(() => appliedCoupon.value),
       applyCoupon,
       removeCoupon,
       loading: computed(() => loading.value)
