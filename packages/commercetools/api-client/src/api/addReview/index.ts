@@ -6,13 +6,11 @@ const addReview = () => {
     total: 2,
     averageRating: 4.5,
     ratingsDistribution: {
-      /* eslint-disable quote-props */
-      '1': 0,
-      '2': 0,
-      '3': 0,
-      '4': 1,
-      '5': 1
-      /* eslint-enable quote-props */
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 1,
+      5: 1
     },
     results: [
       {

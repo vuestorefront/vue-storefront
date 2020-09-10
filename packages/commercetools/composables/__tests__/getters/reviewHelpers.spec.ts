@@ -28,13 +28,11 @@ const reviews = {
   total: 1,
   averageRating: 4,
   ratingsDistribution: {
-    /* eslint-disable quote-props */
-    '1': 0,
-    '2': 0,
-    '3': 0,
-    '4': 1,
-    '5': 0
-    /* eslint-enable quote-props */
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 1,
+    5: 0
   },
   results: [
     review
