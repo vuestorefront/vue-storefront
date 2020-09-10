@@ -154,7 +154,7 @@ describe('[CORE - factories] useCartFactory', () => {
         await applyCoupon('qwerty');
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: 'qwerty'
+          currentCoupon: 'qwerty'
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
         expect(coupon.value).toEqual('appliedCouponMock');
@@ -167,7 +167,7 @@ describe('[CORE - factories] useCartFactory', () => {
         await removeCoupon();
         expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: null
+          currentCoupon: null
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
         expect(coupon.value).toBeNull();
