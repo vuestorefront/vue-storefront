@@ -479,11 +479,39 @@ Here are a few places to learn to get started with the general usage of kubernet
 ### Prerequisites
 Vue Storefront requires Elasticsearch and the Redis server.
 
-Often it is considered advisable to keep data out of Kubernetes. it is important to remember that pods (the database application containers) are transient and have to expect application restarts and failovers as the risk of these happening is higher. Also, how you perform backups, scaling, tuning, etc. is different because of the abstraction of containerization. You therefore may prefer to use managed solution or to host Elasticsearch and/or Redis on bare metal or VM.
+Often it is considered advisable to keep data out of Kubernetes. it is important to remember that pods (the database application containers) are transient and have to expect application restarts and failovers as the risk of these happening is higher. Also, how you perform backups, scaling, tuning, etc. is different because of the abstraction of containerization. You therefore may prefer to use managed solutions or to host Elasticsearch and/or Redis on bare metal or VM.
 
 However it is perfectly possible to use Kubernetes without too much trouble - Redis is ephemeral data, and the Elasticsearch index can be easily rebuilt. So with that all having been said lets begin.
 
 #### Elasticsearch
+For our Elasticsearch cluster we will need to persist data, and in an ideal world we would have the `accessmode` set to `ReadWriteMany`. An NFS server at first glance seems a tempting solution for this use-case. However, the [official documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/tune-for-indexing-speed.html#_use_faster_hardware) of elasticsearch says:
+
+> Always use local storage, remote filesystems such as NFS or SMB should be avoided.
+
+Another route would be to use `ReadWriteOnce` and `nodeaffinity` to keep each instance of the elasticsearch cluster on its own node and `Taints` to discourage other pods using the node and stealing resources.
+
+Many cloud service providers back their ReadWriteOnce Persistent Storage with virtualized solutions.
+However, this time the documentation tells us:
+
+>  Also beware of virtualized storage such as Amazon’s Elastic Block Storage.
+
+Therefore Elasticsearch seems to suggest that we don't naively store data into a persistent volume where we would be held hostage by latency.
+
+We could instead snapshot our data into our persistent storage whilst allowing elastic search to use local storage for minute by minute working and we would be safe to do this because Elasticsearch isn't our source of truth, our backend application is.
+
+But, the good news is that with the release of [Elastic Cloud on Kubernetes](https://www.elastic.co/cloud/?ultron=EL-B-Stack-Trials-EMEA-UK-Exact&gambit=Elasticsearch-Cloud&blade=adwords-s&thor=elastic%20cloud%20on%20kubernetes) our architecture has become much easier than it was previously. ECK is now Kubernetes aware which takes away most of the above problems.
+
+ECK can be either run as SaaS or you can install in Kubernetes yourself as we do here.
+
+#### Elastic Cloud on Kubernetes
+
+
+
+
+
+
+### ReadWriteOnce
+
 ##### Configmap
 ##### Deployment
 ##### Service
