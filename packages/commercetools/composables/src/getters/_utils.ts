@@ -102,3 +102,17 @@ export const createFormatPrice = (price: number) => {
 
   return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
 };
+
+const buildBreadcrumbsList = (rootCat, bc) => {
+  const newBc = [...bc, { text: rootCat.name, link: rootCat.slug }];
+  return rootCat.parent ? buildBreadcrumbsList(rootCat.parent, newBc) : newBc;
+};
+
+export const buildBreadcrumbs = (rootCat) =>
+  buildBreadcrumbsList(rootCat, [])
+    .reverse()
+    .reduce((prev, curr, index) => ([
+      ...prev,
+      { ...curr, link: `${prev[index - 1]?.link || '' }/${curr.link}` }]),
+    []);
+

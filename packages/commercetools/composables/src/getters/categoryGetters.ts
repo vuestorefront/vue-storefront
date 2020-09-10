@@ -6,6 +6,8 @@ export const getCategoryTree = (category: Category): AgnosticCategoryTree | null
   const buildTree = (rootCategory: Category) => ({
     label: rootCategory.name,
     slug: rootCategory.slug,
+    id: rootCategory.id,
+    isSelected: rootCategory.id === category.id,
     items: rootCategory.children.map(buildTree)
   });
 

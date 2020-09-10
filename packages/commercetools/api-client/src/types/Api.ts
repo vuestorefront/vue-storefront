@@ -22,12 +22,13 @@ export interface ProductSearch extends BaseSearch {
   skus?: string[];
   slug?: string;
   id?: string;
-  filters?: Record<string, Filter>;
+  filters?: Filter[];
 }
 
 export interface Filter {
-  options: FilterOption[];
-  type: string;
+  type: AttributeType;
+  name: string;
+  value: string;
 }
 
 export interface FilterOption {
