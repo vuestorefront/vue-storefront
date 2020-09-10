@@ -1,16 +1,67 @@
 import { useReviewFactory } from '../../src/factories';
 import { UseReview } from '../../src/types';
 
+const searchReviewResponse = {
+  offset: 0,
+  limit: 5,
+  count: 1,
+  total: 1,
+  averageRating: 4,
+  ratingsDistribution: {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 1,
+    5: 0
+  },
+  results: [
+    {
+      id: '1',
+      version: 1,
+      createdAt: (new Date()).toDateString(),
+      lastModifiedAt: (new Date()).toDateString(),
+      authorName: 'Jane D.Smith',
+      text: 'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
+      rating: 4
+    }
+  ]
+};
+
 const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
-  searchReviews: jest.fn().mockResolvedValue({
-    data: [{ id: '123' }],
-    total: 1,
-    averageRating: 4.7
-  }),
+  searchReviews: jest.fn().mockResolvedValue(searchReviewResponse),
   addReview: jest.fn().mockResolvedValue({
-    data: [{ id: '123' }, { id: '456' }],
+    offset: 0,
+    limit: 5,
+    count: 2,
     total: 2,
-    averageRating: 4.8
+    averageRating: 4.5,
+    ratingsDistribution: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 1,
+      5: 1
+    },
+    results: [
+      {
+        id: '1',
+        version: 1,
+        createdAt: (new Date()).toDateString(),
+        lastModifiedAt: (new Date()).toDateString(),
+        authorName: 'Jane D.Smith',
+        text: 'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
+        rating: 4
+      },
+      {
+        id: '2',
+        version: 1,
+        createdAt: (new Date()).toDateString(),
+        lastModifiedAt: (new Date()).toDateString(),
+        authorName: 'Mari',
+        text: 'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
+        rating: 5
+      }
+    ]
   })
 });
 
@@ -25,56 +76,38 @@ const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewF
 
 describe('[CORE - factories] useReviews', () => {
   it('returns proper initial values', () => {
-    const { reviews, totalReviews, averageRating, loading, error } = useReviews('test-reviews');
+    const { reviews, loading, error } = useReviews('test-reviews');
 
     expect(reviews.value).toEqual([]);
-    expect(totalReviews.value).toEqual(0);
     expect(loading.value).toEqual(false);
-    expect(averageRating.value).toEqual(0);
     expect(error.value).toEqual(null);
   });
 
   it('returns reviews response', async () => {
-    const { search, reviews, totalReviews, averageRating, error } = useReviews('test-reviews');
+    const { search, reviews, error } = useReviews('test-reviews');
 
     await search();
 
-    expect(reviews.value).toEqual([{ id: '123' }]);
-    expect(totalReviews.value).toEqual(1);
-    expect(averageRating.value).toEqual(4.7);
+    expect(reviews.value).toEqual(searchReviewResponse);
     expect(error.value).toEqual(null);
   });
 
-  it('can submit new review', async () => {
-    const { search, addReview, totalReviews } = useReviews('test-reviews');
-
-    await search();
-
-    expect(totalReviews.value).toEqual(1);
-
-    await addReview({});
-
-    expect(totalReviews.value).toEqual(2);
-  });
-
   it('returns error when search fails', async () => {
-    const { search, reviews, totalReviews, loading, error } = useReviesError('test-reviews');
+    const { search, reviews, loading, error } = useReviesError('test-reviews');
 
     await search();
 
     expect(reviews.value).toEqual([]);
-    expect(totalReviews.value).toEqual(0);
     expect(loading.value).toEqual(false);
     expect(error.value).toEqual('Error: Couldn\'t retrieve reviews');
   });
 
   it('returns error when submit fails', async () => {
-    const { addReview, reviews, totalReviews, loading, error } = useReviesError('test-reviews');
+    const { addReview, reviews, loading, error } = useReviesError('test-reviews');
 
     await addReview({});
 
     expect(reviews.value).toEqual([]);
-    expect(totalReviews.value).toEqual(0);
     expect(loading.value).toEqual(false);
     expect(error.value).toEqual('Error: Couldn\'t submit review');
   });
