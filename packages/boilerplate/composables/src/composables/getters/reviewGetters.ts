@@ -19,14 +19,7 @@ export const getTotalReviews = (review: Review): number => review?.total || 0;
 
 export const getAverageRating = (review: Review): number => review?.averageRating || 0;
 
-export const getRatesCount = (review: Review): AgnosticRateCount[] => {
-  const rates = review?.ratingsDistribution || [];
-
-  return Object.entries(rates).map(([rate, count]: any): AgnosticRateCount => ({
-    rate: Number(rate),
-    count
-  }));
-};
+export const getRatesCount = (review: Review): AgnosticRateCount[] => review?.ratingsDistribution || [];
 
 export const getReviewsPage = (review: Review): number => review ? (review.offset / review.limit) + 1 : 1;
 

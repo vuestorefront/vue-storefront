@@ -7,13 +7,28 @@ export default async function addReview(): Promise<Review> {
     count: 2,
     total: 2,
     averageRating: 4,
-    ratingsDistribution: {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 1,
-      5: 0
-    },
+    ratingsDistribution: [
+      {
+        rate: 1,
+        count: 0
+      },
+      {
+        rate: 2,
+        count: 0
+      },
+      {
+        rate: 3,
+        count: 0
+      },
+      {
+        rate: 4,
+        count: 1
+      },
+      {
+        rate: 5,
+        count: 0
+      }
+    ],
     results: [
       {
         id: '1',

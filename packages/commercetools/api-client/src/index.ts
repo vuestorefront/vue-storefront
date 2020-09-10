@@ -20,8 +20,6 @@ import getOrders from './api/getMyOrders';
 import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
-import addReview from './api/addReview';
-import getReview from './api/getReview';
 import createAccessToken from './helpers/createAccessToken';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config, ConfigurableConfig } from './types/setup';
@@ -78,7 +76,5 @@ export {
   customerSignOut,
   applyCartCoupon,
   removeCartCoupon,
-  customerChangeMyPassword,
-  addReview,
-  getReview
+  customerChangeMyPassword
 };
