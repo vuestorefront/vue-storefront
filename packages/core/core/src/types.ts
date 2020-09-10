@@ -188,10 +188,6 @@ export interface UseFacet<SEARCH_DATA, SEARCH_INPUT> {
   searchData: ComputedProperty<FacetSearchData<SEARCH_DATA, SEARCH_INPUT>>;
   loading: ComputedProperty<boolean>;
   search: (params?: SEARCH_INPUT) => Promise<void>;
-  // sort: (sortBy: string) => Promise<void>;
-  // goPage: (page: number) => Promise<void>;
-  // setItemsPerPage: (itemsPerPage: number) => Promise<void>;
-  // applyFacet: (facet: AgnosticFacet) => Promise<void>;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -382,13 +378,6 @@ export enum AgnosticOrderStatus {
   Complete = 'Complete',
   Cancelled = 'Cancelled',
   Refunded = 'Refunded'
-}
-
-export enum FacetType {
-  SORT,
-  SEARCH_TERM,
-  ATTRIBUTE,
-  CATEGORY
 }
 
 export interface AgnosticFacet {
