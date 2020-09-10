@@ -21,5 +21,3 @@ export type Category = {
 export type CategoryFilter = {}
 export type ShippingMethod = {}
 export type LineItem = {};
-export type Review = {};
-export type ReviewItem = {};

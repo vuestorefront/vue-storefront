@@ -1,5 +1,8 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
-import { Review, ReviewItem } from '@vue-storefront/boilerplate-api/src/types';
+
+// TODO: Replace with GraphQL types when they get updated
+type Review = any;
+type ReviewItem = any;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (review: Review): ReviewItem[] => [];
