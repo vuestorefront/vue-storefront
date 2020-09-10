@@ -8,7 +8,10 @@ let params: UseCartFactoryParams<any, any, any, any>;
 
 function createComposable() {
   params = {
-    loadCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
+    loadCart: jest.fn().mockResolvedValueOnce({
+      currentCart: { id: 'mocked_cart' },
+      currenCoupon: null
+    }),
     addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
     removeFromCart: jest
       .fn()

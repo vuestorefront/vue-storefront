@@ -3,7 +3,8 @@ import loadCurrentCart from './../../src/useCart/currentCart';
 import {
   addToCart as apiAddToCart,
   removeFromCart as apiRemoveFromCart,
-  updateCartQuantity as apiUpdateCartQuantity
+  updateCartQuantity as apiUpdateCartQuantity,
+  applyCartCoupon as apiApplyCartCoupon
 } from '@vue-storefront/commercetools-api';
 
 jest.mock('./../../src/useCart/currentCart');
@@ -70,15 +71,26 @@ describe('[commercetools-composables] useCart', () => {
   });
 
   it('applies coupon', async () => {
+    const cart = {
+      discountCodes: [
+        'abc'
+      ]
+    };
+
+    apiApplyCartCoupon.mockImplementation(() => ({
+      data: {
+        cart
+      }
+    }));
     const { applyCoupon } = useCart() as any;
     const response = await applyCoupon({ currentCart: 'current cart', coupon: 'X123' });
 
-    expect(response).toEqual({ updatedCart: 'some cart', updatedCoupon: 'X123' });
+    expect(response).toEqual({ updatedCart: cart, updatedCoupon: cart.discountCodes[0] });
   });
 
   it('removes coupon', async () => {
     const { removeCoupon } = useCart() as any;
-    const response = await removeCoupon({ currentCart: 'current cart' });
+    const response = await removeCoupon({ currentCart: 'current cart', coupon: { discountCode: '12' } });
 
     expect(response).toEqual({ updatedCart: 'current cart' });
   });

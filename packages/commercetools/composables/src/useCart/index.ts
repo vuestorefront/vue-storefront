@@ -44,7 +44,10 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   },
   applyCoupon: async ({ currentCart, coupon }) => {
     const updatedCart = await apiApplyCartCoupon(currentCart, coupon);
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: updatedCart.data.cart.discountCodes[0] };
+    const updatedCoupon = updatedCart && updatedCart.data && updatedCart.data.cart && Array.isArray(updatedCart.data.cart.discountCodes) && updatedCart.data.cart.discountCodes.length
+      ? updatedCart.data.cart.discountCodes[0]
+      : null;
+    return { updatedCart: updatedCart.data.cart, updatedCoupon };
   },
   removeCoupon: async ({ currentCart, coupon }) => {
     const updatedCart = await apiRemoveCartCoupon(currentCart, { id: coupon.discountCode.id, typeId: 'discount-code' });
