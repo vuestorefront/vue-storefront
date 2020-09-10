@@ -42,15 +42,15 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, coupon }) => {
-    const updatedCart = await apiApplyCartCoupon(currentCart, coupon);
+  applyCoupon: async ({ currentCart, currentCoupon }) => {
+    const updatedCart = await apiApplyCartCoupon(currentCart, currentCoupon);
     const updatedCoupon = updatedCart && updatedCart.data && updatedCart.data.cart && Array.isArray(updatedCart.data.cart.discountCodes) && updatedCart.data.cart.discountCodes.length
       ? updatedCart.data.cart.discountCodes[0]
       : null;
     return { updatedCart: updatedCart.data.cart, updatedCoupon };
   },
-  removeCoupon: async ({ currentCart, coupon }) => {
-    const updatedCart = await apiRemoveCartCoupon(currentCart, { id: coupon.discountCode.id, typeId: 'discount-code' });
+  removeCoupon: async ({ currentCart, currentCoupon }) => {
+    const updatedCart = await apiRemoveCartCoupon(currentCart, { id: currentCoupon.discountCode.id, typeId: 'discount-code' });
     return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
