@@ -31,9 +31,14 @@
           />
           <div>
             <div class="product__rating">
-              <SfRating :score="4" :max="5" />
-              <a v-if="!!reviews" href="#" class="product__count">
-                ({{ reviews.length }})
+              <SfRating
+                :score="averageRating"
+                :max="5" />
+              <a
+                v-if="!!totalReviews"
+                href="#"
+                class="product__count">
+                ({{ totalReviews }})
               </a>
             </div>
             <SfButton data-cy="product-btn_read-all" class="sf-button--text desktop-only">
@@ -124,35 +129,34 @@
           </SfTab>
           <SfTab title="Read review" data-cy="product-tab_reviews">
             <SfReview
-              v-for="(review, i) in reviews"
-              :key="i"
-              :author="review.author"
-              :date="review.date"
-              :message="review.message"
+              v-for="review in reviews"
+              :key="reviewGetters.getReviewId(review)"
+              :author="reviewGetters.getReviewAuthor(review)"
+              :date="reviewGetters.getReviewDate(review)"
+              :message="reviewGetters.getReviewMessage(review)"
               :max-rating="5"
-              :rating="review.rating"
+              :rating="reviewGetters.getReviewRating(review)"
               :char-limit="250"
               read-more-text="Read more"
               hide-full-text="Read less"
               class="product__review"
             />
           </SfTab>
-            <SfTab
-              title="Additional Information"
-              data-cy="product-tab_additional"
-              class="product__additional-info"
-            >
-              <p class="product__additional-info__title">Brand</p>
-              <p>{{ brand }}</p>
-              <p class="product__additional-info__title">Take care of me</p>
-              <p class="product__additional-info__paragraph">
-                Just here for the care instructions?
-              </p>
-              <p class="product__additional-info__paragraph">
-                Yeah, we thought so
-              </p>
-              <p>{{ careInstructions }}</p>
-            </SfTab>
+          <SfTab
+            title="Additional Information"
+            data-cy="product-tab_additional"
+            class="product__additional-info"
+          >
+            <p class="product__additional-info__title">Brand</p>
+            <p>{{ brand }}</p>
+            <p class="product__additional-info__title">Take care of me</p>
+            <p class="product__additional-info__paragraph">
+              Just here for the care instructions?
+            </p>
+            <p class="product__additional-info__paragraph">
+              Yeah, we thought so
+            </p>
+            <p>{{ careInstructions }}</p>
           </SfTab>
         </SfTabs>
       </div>
@@ -215,7 +219,7 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-import { useProduct, useCart, productGetters } from '<%= options.generate.replace.composables %>';
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -227,11 +231,14 @@ export default {
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading, loadCart } = useCart();
+    const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const reviews = computed(() => reviewGetters.getItems(productReviews.value));
+
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
     const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
@@ -244,13 +251,16 @@ export default {
       await loadCart();
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
+      await searchReviews({ id });
     });
 
     const updateFilter = (filter) => {
       context.root.$router.push({
         path: context.root.$route.path,
-        query: { ...configuration.value,
-          ...filter }
+        query: {
+          ...configuration.value,
+          ...filter
+        }
       });
     };
 
@@ -258,6 +268,10 @@ export default {
       updateFilter,
       configuration,
       product,
+      reviews,
+      reviewGetters,
+      averageRating: computed(() => reviewGetters.getAverageRating(productReviews.value)),
+      totalReviews: computed(() => reviewGetters.getTotalReviews(productReviews.value)),
       relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
       options,
@@ -309,22 +323,6 @@ export default {
         {
           name: 'Country',
           value: 'Germany'
-        }
-      ],
-      reviews: [
-        {
-          author: 'Jane D.Smith',
-          date: 'April 2019',
-          message:
-              'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
-          rating: 4
-        },
-        {
-          author: 'Mari',
-          date: 'Jan 2018',
-          message:
-              'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
-          rating: 5
         }
       ],
       description: 'Find stunning women cocktail and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.',
