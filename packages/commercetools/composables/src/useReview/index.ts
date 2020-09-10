@@ -4,6 +4,7 @@ import { useReviewFactory, UseReview, UseReviewFactoryParams } from '@vue-storef
 
 type Review = {
   offset: number;
+  limit: number;
   count: number;
   total: number;
   averageRating: number;
@@ -20,14 +21,10 @@ type ReviewItem = Versioned & {
 };
 
 const params: UseReviewFactoryParams<any, any, any> = {
-  searchReviews: (params) => {
-    return getReview(params);
-  },
-  addReview: (params) => {
-    return addReview(params);
-  }
+  searchReviews: (params) => getReview(params),
+  addReview: (params) => addReview(params)
 };
 
-const useReview: (id: string) => UseReview<ReviewItem, any, any> = useReviewFactory<ReviewItem, any, any>(params);
+const useReview: (id: string) => UseReview<Review, any, any> = useReviewFactory<Review, any, any>(params);
 
 export default useReview;
