@@ -5,62 +5,18 @@ import {
   AgnosticPagination,
   AgnosticSort,
   AgnosticBreadcrumb,
-  AgnosticFacet,
-  FacetSearchData
+  AgnosticFacet
 } from '@vue-storefront/core';
 import { ProductVariant } from './../types/GraphQL';
 import { getProductFiltered } from './productGetters';
 import { getCategoryTree as buildCategoryTree } from './categoryGetters';
-import { buildBreadcrumbs } from './_utils';
-import { FacetSearchInput, FacetResultsData } from './../types';
+import { buildBreadcrumbs, buildFacets, reduceForGroupedFacets, reduceForFacets } from './_utils';
+import { FacetSearchInput, FacetResultsData, SearchData } from './../types';
 
-type SearchData = FacetSearchData<FacetResultsData, FacetSearchInput>
+const getFacets = (searchData: SearchData, criteria?: string[]): AgnosticFacet[] => buildFacets(searchData, reduceForFacets, criteria);
 
-const filterFacets = criteria => f => criteria ? criteria.includes(f) : true;
-
-const createFacetsFromOptions = (options, selectedList) => options
-  .map(({ label, value }) => ({
-    type: 'attribute',
-    id: label,
-    value,
-    selected: selectedList?.includes(value),
-    count: null
-  }));
-
-const getFacets = (searchData: SearchData, criteria?: string[]): AgnosticFacet[] => {
-  if (!searchData.data) {
-    return [];
-  }
-
-  const filters = searchData.data.availableFilters;
-
-  return Object.keys(filters)
-    .filter(filterFacets(criteria))
-    .reduce((prev, curr) => ([
-      ...prev,
-      ...createFacetsFromOptions(filters[curr]?.options || [], searchData.input.filters[curr])
-    ]), []);
-};
-
-const getGroupedFacets = (searchData: SearchData, criteria?: string[]): AgnosticGroupedFacet[] => {
-  if (!searchData.data) {
-    return [];
-  }
-
-  const filters = searchData.data.availableFilters;
-
-  return Object.keys(filters)
-    .filter(filterFacets(criteria))
-    .reduce((prev, curr) => ([
-      ...prev,
-      {
-        id: curr,
-        label: curr,
-        options: createFacetsFromOptions(filters[curr].options, searchData.input.filters[curr]),
-        count: null
-      }
-    ]), []);
-};
+const getGroupedFacets = (searchData: SearchData, criteria?: string[]): AgnosticGroupedFacet[] =>
+  buildFacets(searchData, reduceForGroupedFacets, criteria);
 
 const getSortOptions = (searchData: SearchData): AgnosticSort => {
   const options = [
@@ -107,8 +63,8 @@ const getBreadcrumbs = (searchData: SearchData): AgnosticBreadcrumb[] => {
 
   return [
     { text: 'Home', link: '/' },
-    ...buildBreadcrumbs(searchData.data.categories[0])
-  ].map(b => ({ ...b, link: `/c${b.link}` }));
+    ...buildBreadcrumbs(searchData.data.categories[0]).map(b => ({ ...b, link: `/c${b.link}` }))
+  ];
 };
 
 const facetGetters: FacetsGetters<FacetResultsData, FacetSearchInput, ProductVariant[]> = {

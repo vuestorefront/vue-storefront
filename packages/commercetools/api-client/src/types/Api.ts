@@ -28,7 +28,7 @@ export interface ProductSearch extends BaseSearch {
 export interface Filter {
   type: AttributeType;
   name: string;
-  value: string;
+  value: any;
 }
 
 export interface FilterOption {

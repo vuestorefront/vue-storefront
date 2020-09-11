@@ -2,6 +2,7 @@ import { AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } from './../types/GraphQL';
 import { getSettings } from '@vue-storefront/commercetools-api';
 import { DiscountedLineItemPrice } from '../types/GraphQL';
+import { SearchData } from './../types';
 
 export const getAttributeValue = (attribute) => {
   switch (attribute.__typename) {
@@ -116,3 +117,49 @@ export const buildBreadcrumbs = (rootCat) =>
       { ...curr, link: `${prev[index - 1]?.link || '' }/${curr.link}` }]),
     []);
 
+const filterFacets = criteria => f => criteria ? criteria.includes(f) : true;
+
+const createFacetsFromOptions = (availableFilters, filters, filterKey) => {
+  const options = availableFilters[filterKey]?.options || [];
+  const selectedList = filters && filters[filterKey] ? filters[filterKey] : [];
+
+  return options
+    .map(({ label, value }) => ({
+      type: 'attribute',
+      id: label,
+      attrName: filterKey,
+      value,
+      selected: selectedList.includes(value),
+      count: null
+    }));
+};
+
+export const reduceForFacets = (availableFilters, filters) => (prev, curr) => ([
+  ...prev,
+  ...createFacetsFromOptions(availableFilters, filters, curr)
+]);
+
+export const reduceForGroupedFacets = (availableFilters, filters) => (prev, curr) => ([
+  ...prev,
+  {
+    id: curr,
+    label: curr,
+    options: createFacetsFromOptions(availableFilters, filters, curr),
+    count: null
+  }
+]);
+
+export const buildFacets = (searchData: SearchData, reduceFn, criteria?: string[]) => {
+  if (!searchData.data) {
+    return [];
+  }
+
+  const {
+    data: { availableFilters },
+    input: { filters }
+  } = searchData;
+
+  return Object.keys(availableFilters)
+    .filter(filterFacets(criteria))
+    .reduce(reduceFn(availableFilters, filters), []);
+};

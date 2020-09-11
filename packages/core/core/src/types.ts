@@ -26,8 +26,6 @@ export function Search(params: SearchParams, customQuery?: {}): any {
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
-  availableFilters: ComputedProperty<PRODUCT_FILTERS>;
-  availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
   search: typeof Search;
   [x: string]: any;
@@ -284,8 +282,8 @@ export interface ReviewGetters<REVIEW, REVIEW_ITEM> {
 }
 
 export interface FacetsGetters<SEARCH_DATA, SEARCH_INPUT, RESULTS, CRITERIA = any> {
-  getFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria: CRITERIA) => AgnosticFacet[];
-  getGroupedFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria: CRITERIA) => AgnosticGroupedFacet[];
+  getFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria?: CRITERIA) => AgnosticFacet[];
+  getGroupedFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
   getCategoryTree: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticCategoryTree;
   getSortOptions: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticSort;
   getResults: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => RESULTS;
@@ -384,6 +382,7 @@ export interface AgnosticFacet {
   type: string;
   id: string;
   value: any;
+  attrName?: string;
   count?: number;
   selected?: boolean;
   metadata?: any;

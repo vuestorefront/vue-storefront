@@ -22,6 +22,7 @@ const factoryParams = {
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,
       filters
+      // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4857
       // sort: params.sort
     });
     const enhancedProductResponse = enhanceProduct(productResponse);
