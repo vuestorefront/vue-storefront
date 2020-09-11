@@ -36,7 +36,7 @@ const updateQuantity = async ({ product, quantity }) => {
   const updatedCart = await updateItemInCart(null, product.key, quantity, { with: cartParams });
   return updatedCart.basket;
 };
-export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiProduct, any> = {
+export const params: UseCartFactoryParams<BasketResponseData, BasketItem, BapiProduct> = {
   loadCart: async () => {
     const basketResponse = await getCart(null, { with: cartParams });
 
