@@ -499,12 +499,24 @@ Therefore Elasticsearch seems to suggest that we don't naively store data into a
 
 We could instead snapshot our data into our persistent storage whilst allowing elastic search to use local storage for minute by minute working and we would be safe to do this because Elasticsearch isn't our source of truth, our backend application is.
 
-But, the good news is that with the release of [Elastic Cloud on Kubernetes](https://www.elastic.co/cloud/?ultron=EL-B-Stack-Trials-EMEA-UK-Exact&gambit=Elasticsearch-Cloud&blade=adwords-s&thor=elastic%20cloud%20on%20kubernetes) our architecture has become much easier than it was previously. ECK is now Kubernetes aware which takes away most of the above problems.
+Whilst enabling TLS on the HTTP layer is not required, it would be mad not to. I have observed a ransomware attack on an unsecured Elasticsearch cluster within 1 month of it going up. It was a dev instance so not a problem but it demonstrates the dangers of not installing end-to-end security to protect the data, in particular to protect username/password information from being eavesdropped, leading to a compromised cluster.
 
-ECK can be either run as SaaS or you can install in Kubernetes yourself as we do here.
+But, the good news is that with the release of the [Elastic Cloud on Kubernetes](https://www.elastic.co/elastic-cloud-kubernetes) operator our architecture has become much easier than it was previously. ECK is now Kubernetes aware which takes away most of the above problems.
+
+An Operator extends Kubernetes to automate the management of the entire life cycle of a particular application. They package for distributing applications on Kubernetes, and they monitor, maintain, recover, and upgrade the software they deploy.
+
+ECK can be either [run as SaaS](https://www.elastic.co/cloud/?ultron=EL-B-Stack-Trials-EMEA-UK-Exact&gambit=Elasticsearch-Cloud&blade=adwords-s&thor=elastic%20cloud%20on%20kubernetes) or you can install in Kubernetes yourself as we do as according to the official [getting started](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-quickstart.html) guide.
 
 #### Elastic Cloud on Kubernetes
 
+Custom resources are extensions of the Kubernetes API that are not necessarily available in a default Kubernetes installation. They represents a customization of a particular Kubernetes installation. 
+
+First we install custom resource definitions and the operator with its RBAC rules (Role Based Access Control):
+
+Run:
+```
+kubectl apply -f https://download.elastic.co/downloads/eck/1.2.1/all-in-one.yaml
+```
 
 
 
