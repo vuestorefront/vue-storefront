@@ -4,7 +4,6 @@ import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { addToCart, removeCart, updateCart } from '@vue-storefront/shopify-api';
 import { Cart, CartItem, Product } from '@vue-storefront/shopify-api/src/types';
-import { Coupon } from '../../types';
 import loadCurrentCart from './loadCurrentCart';
 import Cookies from 'js-cookie';
 
@@ -16,7 +15,7 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find(item => item.productId === product._id);
 };
 
-const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   loadCart: async () => {
     const cartParams = {
       checkoutId: Cookies.get('cart_id') || '',
@@ -73,6 +72,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-const {setCart, useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
+const {setCart, useCart } = useCartFactory<Cart, CartItem, Product>(params);
 
 export { setCart, useCart};

@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
 import { Cart, LineItem } from '@vue-storefront/shopify-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,6 +97,9 @@ export const getCartCheckoutUrl = (cart: Cart): string => {
   return '#';
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getCoupon = (cart: Cart): AgnosticCoupon => null;
+
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
@@ -110,7 +113,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getFormattedPrice: getFormattedPrice,
   getTotalItems: getCartTotalItems,
   getCheckoutUrl: getCartCheckoutUrl,
-  hasItemAttributes: hasItemAttributes
+  hasItemAttributes: hasItemAttributes,
+  getCoupon
   // getItemAttributes: getCartItemAttributes
 };
 
