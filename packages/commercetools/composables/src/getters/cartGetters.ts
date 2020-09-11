@@ -60,7 +60,8 @@ export const getCoupon = (cart: Cart): AgnosticCoupon => {
   return {
     id: coupon.discountCode.id,
     name: coupon.discountCode.name,
-    code: coupon.discountCode.code
+    code: coupon.discountCode.code,
+    value: null
   };
 };
 
