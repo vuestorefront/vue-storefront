@@ -476,6 +476,8 @@ Here are a few places to learn to get started with the general usage of kubernet
 2. [Digital Ocean Introduction](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
 3. [Digital Ocean Tutorials](https://www.digitalocean.com/community/tutorials?q=kubernetes)
 
+For the remainder of this documentation we assume that are familiar with kubectl. That you have a Kubernetes cluster set up and that you know how to connect and authenticate yourself.
+
 ### Prerequisites
 Vue Storefront requires Elasticsearch and the Redis server.
 
@@ -499,7 +501,7 @@ Therefore Elasticsearch seems to suggest that we don't naively store data into a
 
 We could instead snapshot our data into our persistent storage whilst allowing elastic search to use local storage for minute by minute working and we would be safe to do this because Elasticsearch isn't our source of truth, our backend application is.
 
-Whilst enabling TLS on the HTTP layer is not required, it would be mad not to. I have observed a ransomware attack on an unsecured Elasticsearch cluster within 1 month of it going up. It was a dev instance so not a problem but it demonstrates the dangers of not installing end-to-end security to protect the data, in particular to protect username/password information from being eavesdropped, leading to a compromised cluster.
+Whilst enabling TLS on the HTTP layer is not required, it would be mad not to. I have observed a ransomware attack on an unsecured Elasticsearch cluster within 1 month of it going up. It was a dev instance so not a problem but it demonstrates the dangers of not installing end-to-end security to protect the data, in particular to protect username/password information from being eavesdropped, and compromising the cluster.
 
 But, the good news is that with the release of the [Elastic Cloud on Kubernetes](https://www.elastic.co/elastic-cloud-kubernetes) operator our architecture has become much easier than it was previously. ECK is now Kubernetes aware which takes away most of the above problems.
 
@@ -509,29 +511,274 @@ ECK can be either [run as SaaS](https://www.elastic.co/cloud/?ultron=EL-B-Stack-
 
 #### Elastic Cloud on Kubernetes
 
-Custom resources are extensions of the Kubernetes API that are not necessarily available in a default Kubernetes installation. They represents a customization of a particular Kubernetes installation. 
+Custom resources are extensions of the Kubernetes API that are not necessarily available in a default Kubernetes installation. They represents a customization of a particular Kubernetes installation.
 
 First we install custom resource definitions and the operator with its RBAC rules (Role Based Access Control):
 
-Run:
+#### Deploy ECK in your Kubernetes cluster:
 ```
 kubectl apply -f https://download.elastic.co/downloads/eck/1.2.1/all-in-one.yaml
 ```
+Check it's health by looking at the Operator's logs:
+```
+kubectl -n elastic-system logs -f statefulset.apps/elastic-operator
+```
+#### Depoy an Elasticsearch Cluster
+Read the quickstart instructions [found here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-elasticsearch.html#k8s-deploy-elasticsearch).
 
+When you understand what you are doing run:
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 7.9.1
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.master: true
+      node.data: true
+      node.ingest: true
+      node.store.allow_mmap: false
+EOF
+```
+As per the guide run:
+```
+kubectl get elasticsearch
+```
+And wait for the `health` to be green and the `phase` to be ready.
 
+A default user named elastic is automatically created with the password stored in a Kubernetes secret:
 
+```
+PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
+```
+From your local workstation, use the following command in a separate terminal:
 
+```
+kubectl port-forward service/quickstart-es-http 9200
+```
+Then from your original terminal
+```
+curl -u "elastic:$PASSWORD" -k "https://localhost:9200"curl -u "elastic:$PASSWORD" -k "https://localhost:9200"
+```
+You should see:
+```
+{
+  "name" : "quickstart-es-default-0",
+  "cluster_name" : "quickstart",
+  "cluster_uuid" : "XqWg0xIiRmmEBg4NMhnYPg",
+  "version" : {...},
+  "tagline" : "You Know, for Search"
+}
+```
+Note:
+Disabling certificate verification using the -k flag is not recommended and should be used for testing purposes only. See: [Setup your own certificate](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-tls-certificates.html#k8s-setting-up-your-own-certificate)
 
-### ReadWriteOnce
+Optionally you can deploy an kibana instance to interact with the cluster by following [these instructions.](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-kibana.html)
 
-##### Configmap
-##### Deployment
-##### Service
+#### Installing a Certificate
+By default ECK is installed with a self-signed certificate. However, it would be advisable to install a trusted cert on the http layer. Instructions can be [found here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-tls-certificates.html#k8s-setting-up-your-own-certificate). Or use an ingress and a certmanager as [detailed here](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes).
+
 ---
-#### Redis
-##### Configmap
-##### Deployment
-##### Service
+### Redis
+With redis there are two possible patterns that we could employ.
+
+1. The `sidecar` pattern to package and deploy each nodejs container alongside a redis container as a single unit inside a pod, enabling them to scale as a&nbsp;unit.
+1. The Redis `Master/Slave` pattern where we horizontally and vertically scale the Redis architecture separately to the nodejs containers.
+
+
+#### Sidecar
+I am discounting the sidecar pattern as inappropriate for most VSF use-cases. My thinking is that a cache should be available to all containers not just the container that created&nbsp;it.
+
+#### Redis Master and Slave
+
+In the [Kubernetes documentation](https://kubernetes.io/docs/tutorials/stateless-application/guestbook/) There is a useful example which includes the following components (alongside a PHP guestbook which we will ignore):
+
+* A single-instance Redis master to store writes
+* Multiple replicated Redis instances to serve reads
+
+[application/guestbook/redis-master-deployment.yaml](application/guestbook/redis-master-deployment.yaml )
+
+```
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: redis-master
+  labels:
+    app: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: master
+        image: k8s.gcr.io/redis:e2e  # or just image: redis
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
+```
+To apply the above run:
+```
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-master-deployment.yaml
+```
+To check the health of the deployment run:
+```
+kubectl get pods
+```
+One of the pods should resemble:
+```
+NAME                            READY     STATUS    RESTARTS   AGE
+...
+redis-master-1068406935-3lswp   1/1       Running   0          28s
+...
+```
+#### Creating the Redis Master Service
+The application needs to communicate to the Redis master to write its data. You need to apply a Service to proxy the traffic to the Redis master Pod. A Service defines a policy to access the Pods.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+  labels:
+    app: redis
+    role: master
+    tier: backend
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
+    role: master
+    tier: backend
+```
+Apply the Redis Master Service from the following redis-master-service.yaml file:
+```
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-master-service.yaml
+```
+#### Start up the Redis Slaves
+Although the Redis master is a single pod, you can make it highly available to meet traffic demands by adding replica Redis slaves.
+```
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: redis-slave
+  labels:
+    app: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      role: slave
+      tier: backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: slave
+        tier: backend
+    spec:
+      containers:
+      - name: slave
+        image: gcr.io/google_samples/gb-redisslave:v3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+          # Using `GET_HOSTS_FROM=dns` requires your cluster to
+          # provide a dns service. As of Kubernetes 1.3, DNS is a built-in
+          # service launched automatically. However, if the cluster you are using
+          # does not have a built-in DNS service, you can instead
+          # access an environment variable to find the master
+          # service's host. To do so, comment out the 'value: dns' line above, and
+          # uncomment the line below:
+          # value: env
+        ports:
+        - containerPort: 6379
+```
+Apply the Redis Slave Deployment from the redis-slave-deployment.yaml file:
+```
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-slave-deployment.yaml
+```
+Again check the pods' health:
+```
+kubectl get pods
+```
+The response should be similar to this:
+```
+NAME                            READY     STATUS              RESTARTS   AGE
+...
+redis-master-1068406935-3lswp   1/1       Running             0          1m
+redis-slave-2005841000-fpvqc    0/1       ContainerCreating   0          6s
+redis-slave-2005841000-phfv9    0/1       ContainerCreating   0          6s
+...
+```
+#### Creating the Redis Slave Service
+The application needs to communicate to Redis slaves to read data. To make the Redis slaves discoverable, you need to set up a Service. A Service provides transparent load balancing to a set of Pods.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-slave
+  labels:
+    app: redis
+    role: slave
+    tier: backend
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: redis
+    role: slave
+    tier: backend
+```
+Apply the Redis Slave Service from the following redis-slave-service.yaml file:
+
+```
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-slave-service.yaml
+```
+Query the list of Services to verify that the Redis slave service is running:
+
+```
+kubectl get services
+```
+The response should be similar to this:
+```
+NAME           TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
+...
+kubernetes     ClusterIP   10.0.0.1     <none>        443/TCP    2m
+redis-master   ClusterIP   10.0.0.151   <none>        6379/TCP   1m
+redis-slave    ClusterIP   10.0.0.223   <none>        6379/TCP   6s
+...
+```
+
+
+
+
+
+
+
 ---
 
 ### Nginx Ingress
@@ -544,6 +791,65 @@ Again we decided to use NGINX because as we said before it gives you a lot of fl
 #### Service
 ---
 ### vue-storefront
+As I mentioned earlier, we recommend that you base your own Dockerfile on ours in order to copy the relevant directories into kubernetes rather than mounting them as volumes.
+
+```
+mkdir docker/production && cp docker/vue-storefront/* docker/production/
+```
+Edit the file to copy the needed folders into the image.
+```
+FROM node:10-alpine
+
+ENV VS_ENV prod
+
+WORKDIR /var/www
+
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
+  && apk add --no-cache git \
+  && yarn install --no-cache \
+  && apk del .build-deps
+
+COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
+
+COPY babel.config.js /var/www/babel.config.js
+COPY config /var/www/config
+COPY core /var/www/core'
+COPY ecosystem.json /var/www/ecosystem.json'
+COPY .eslintignore /var/www/.eslintignore'
+COPY .eslintrc.js /var/www/.eslintrc.js'
+COPY lerna.json /var/www/lerna.json'
+COPY tsconfig.json /var/www/tsconfig.json'
+COPY tsconfig-build.json /var/www/tsconfig-build.json'
+COPY shims.d.ts /var/www/shims.d.ts'
+COPY package.json /var/www/package.json'
+COPY src /var/www/src'
+COPY var /var/www/var'
+COPY packages /var/www/packages'
+
+CMD ["vue-storefront.sh"]
+```
+
+Notice that I haven't based the image on `divante/vue-storefront`. To guarantee a base image that will work with your project you should base your Dockerfile on the one source controlled within the project, not an image from hub that may be stale.
+
+#### Creating an image kubernetes can pull&nbsp;from.
+
+You will need repository to host your image.  [hub.docker.com](https://hub.docker.com) is perhaps the best known (documentation can be found [here](https://docs.docker.com/docker-hub/builds/)).
+
+However, I would advise that the most convenient registry is [Github Packages](https://github.com/features/packages). Therefore, I use it in the examples below.
+
+#### Using GitHub actions.
+GitHub Actions makes it easy to automate your software workflow. You can Build, test and push the image to packages; finally deploying your docker image to Kubernetes right from GitHub.
+
+#### Kubernetes Config
+Now create a directory where you can store production kubernetes config.
+
+```
+mkdir kubernetes/production
+```
+
 #### Configmap
 #### Deployment
 #### Service
