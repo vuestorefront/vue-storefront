@@ -2,9 +2,9 @@ import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
-let useCart: () => UseCart<any, any, any, any>;
+let useCart: () => UseCart<any, any, any>;
 let setCart = null;
-let params: UseCartFactoryParams<any, any, any, any>;
+let params: UseCartFactoryParams<any, any, any>;
 
 function createComposable() {
   params = {
@@ -26,7 +26,7 @@ function createComposable() {
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };
-  const factory = useCartFactory<any, any, any, any>(params);
+  const factory = useCartFactory<any, any, any>(params);
   useCart = factory.useCart;
   setCart = factory.setCart;
 }
@@ -39,10 +39,9 @@ describe('[CORE - factories] useCartFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties', async () => {
-      const { cart, coupon, loading } = useCart();
+      const { cart, loading } = useCart();
 
       expect(cart.value).toEqual(null);
-      expect(coupon.value).toEqual(null);
       expect(loading.value).toEqual(false);
     });
 
@@ -147,27 +146,24 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('applyCoupon', () => {
       it('should apply provided coupon', async () => {
-        const { applyCoupon, cart, coupon } = useCart();
+        const { applyCoupon, cart } = useCart();
         await applyCoupon('qwerty');
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
           coupon: 'qwerty'
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
-        expect(coupon.value).toEqual('appliedCouponMock');
       });
     });
 
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
-        const { removeCoupon, cart, coupon } = useCart();
+        const { removeCoupon, cart } = useCart();
         await removeCoupon();
         expect(params.removeCoupon).toHaveBeenCalledWith({
-          currentCart: null,
-          coupon: null
+          currentCart: null
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
-        expect(coupon.value).toBeNull();
       });
 
       // TODO
