@@ -1,7 +1,7 @@
 # Changelog
 
 
-# 0.1.0 (not released)
+## 0.1.0 (not released)
 
 ### Breaking changes
 

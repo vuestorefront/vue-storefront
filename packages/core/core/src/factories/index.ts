@@ -7,4 +7,4 @@ export * from './useUserShippingFactory';
 export * from './useUserBillingFactory';
 export * from './useUserOrdersFactory';
 export * from './apiClientFactory';
-export * from './useReviewsFactory';
+export * from './useReviewFactory';
