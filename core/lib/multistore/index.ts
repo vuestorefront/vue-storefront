@@ -13,6 +13,7 @@ import storeCodeFromRoute from './storeCodeFromRoute'
 import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
+import { getNormalizedPath } from './helpers'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -131,8 +132,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
       const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : ''
       const qrStr = queryString.stringify(routeObj.params);
 
-      const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
-      return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
+      return `${routeCodePrefix}${getNormalizedPath(routeObj.path)}${qrStr ? `?${qrStr}` : ''}`
     }
   }
 
