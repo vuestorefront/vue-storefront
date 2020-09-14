@@ -19,9 +19,9 @@ jest.mock('@vue-storefront/core/app', () => ({
     addRoutes: jest.fn()
   }
 }))
-jest.mock('../../../store', () => ({}))
+jest.mock('@vue-storefront/core/store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({ loadLanguageAsync: jest.fn() }))
-jest.mock('../../sync/task', () => ({ initializeSyncTaskStorage: jest.fn() }))
+jest.mock('@vue-storefront/core/lib/sync/task', () => ({ initializeSyncTaskStorage: jest.fn() }))
 jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
   beforeStoreViewChanged: jest.fn(args => args),
   afterStoreViewChanged: jest.fn(args => args)
