@@ -39,7 +39,7 @@ export function prepareRelatedQuery(key, sku) {
 let relatedProductsQuery = prepareRelatedQuery(key, sku);
 
 this.$store
-  .dispatch('product/list', {
+  .dispatch('product/findProducts', {
     query: relatedProductsQuery,
     size: 8,
     prefetchGroupProducts: false,

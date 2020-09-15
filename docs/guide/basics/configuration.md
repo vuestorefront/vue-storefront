@@ -63,7 +63,7 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 `http://localhost:3000/women/frauen-20`
 `http://localhost:3000/de/women/frauen-20`
 
-For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/findProducts` the ServiceWorker cache SHOULD populate url mappings anyway)
 
 For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
