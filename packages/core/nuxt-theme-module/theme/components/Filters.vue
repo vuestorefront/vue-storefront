@@ -72,6 +72,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, onMounted } from '@vue/composition-api';
 import createThemeHelpers from '~/helpers/ui';
+import uiState from '~/assets/ui-state';
 import Vue from 'vue';
 
 export default {
@@ -117,11 +118,13 @@ export default {
     };
 
     const clearFilters = () => {
+      uiState.toggleFilterSidebar();
       selectedFilters.value = {};
       switchFilters(selectedFilters.value);
     };
 
     const applyFilters = () => {
+      uiState.toggleFilterSidebar();
       switchFilters(selectedFilters.value);
     };
 

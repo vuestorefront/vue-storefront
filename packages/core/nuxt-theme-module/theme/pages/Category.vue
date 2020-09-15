@@ -13,7 +13,7 @@
         <SfButton data-cy="category-btn_filters"
           class="sf-button--text navbar__filters-button"
           aria-label="Filters"
-          @click="isFilterSidebarOpen = true"
+          @click="toggleFilterSidebar"
         >
           <SfIcon
             size="18px"
@@ -46,25 +46,25 @@
           <SfIcon
             data-cy="category-icon_grid-view"
             class="navbar__view-icon"
-            :color="isGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
             icon="tiles"
             size="12px"
             role="button"
             aria-label="Change to grid view"
-            :aria-pressed="isGridView"
-            @click="isGridView = true"
+            :aria-pressed="isCategoryGridView"
+            @click="toggleCategoryGridView"
           >
           </SfIcon>
           <SfIcon
             data-cy="category-icon_list-view"
             class="navbar__view-icon"
-            :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="!isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
             icon="list"
             size="12px"
             role="button"
             aria-label="Change to list view"
-            :aria-pressed="!isGridView"
-            @click="isGridView = false"
+            :aria-pressed="!isCategoryGridView"
+            @click="toggleCategoryGridView"
           />
         </div>
       </div>
@@ -101,7 +101,7 @@
       </div>
       <div class="products" v-if="!loading">
         <transition-group
-          v-if="isGridView"
+          v-if="isCategoryGridView"
           appear
           name="products__slide"
           tag="div"
@@ -184,7 +184,7 @@
     <SfSidebar
       :visible="isFilterSidebarOpen"
       title="Filters"
-      @close="isFilterSidebarOpen = false"
+      @close="toggleFilterSidebar"
     >
       <Filters :facets="facets">
         <template #categories-mobile>
@@ -249,9 +249,10 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, ref, onMounted } from '@vue/composition-api';
+import { computed, onMounted } from '@vue/composition-api';
 import { useFacet, useCart, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
 import createThemeHelpers from '~/helpers/ui';
+import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
@@ -260,9 +261,6 @@ export default {
   setup(props, context) {
     const th = createThemeHelpers();
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
-    const isGridView = ref(true);
-    const isFilterSidebarOpen = ref(false);
-
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
@@ -284,6 +282,7 @@ export default {
     };
 
     return {
+      ...uiState,
       th,
       products,
       categoryTree,
@@ -291,13 +290,11 @@ export default {
       productGetters,
       pagination,
       sortBy,
-      isFilterSidebarOpen,
       facets,
       breadcrumbs,
       toggleWishlist,
       addToCart,
-      isOnCart,
-      isGridView
+      isOnCart
     };
   },
   components: {
