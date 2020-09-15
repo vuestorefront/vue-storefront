@@ -56,12 +56,12 @@ describe('[commercetools-getters] facet getters', () => {
   });
 
   it('returns grouped facets', () => {
-    expect(facetGetters.getGroupedFacets({} as any)).toEqual([]);
+    expect(facetGetters.getGrouped({} as any)).toEqual([]);
 
     const searchData = {
       input: {},
       data: {
-        availableFilters: {
+        facets: {
           color: {
             type: 'LocalizedEnumAttribute',
             options: [
@@ -80,7 +80,7 @@ describe('[commercetools-getters] facet getters', () => {
       }
     } as any;
 
-    const facets = facetGetters.getGroupedFacets(searchData);
+    const facets = facetGetters.getGrouped(searchData);
 
     expect(facets).toEqual([
       {
@@ -105,12 +105,12 @@ describe('[commercetools-getters] facet getters', () => {
   });
 
   it('returns facets', () => {
-    expect(facetGetters.getGroupedFacets({} as any)).toEqual([]);
+    expect(facetGetters.getGrouped({} as any)).toEqual([]);
 
     const searchData = {
       input: {},
       data: {
-        availableFilters: {
+        facets: {
           color: {
             type: 'LocalizedEnumAttribute',
             options: [
@@ -129,7 +129,7 @@ describe('[commercetools-getters] facet getters', () => {
       }
     } as any;
 
-    const facets = facetGetters.getFacets(searchData);
+    const facets = facetGetters.getAll(searchData);
 
     expect(facets).toEqual([
       { attrName: 'color', id: 'white', value: 'white', count: null, selected: false, type: 'attribute' },
@@ -147,7 +147,7 @@ describe('[commercetools-getters] facet getters', () => {
       }
     } as any;
 
-    facetGetters.getResults(searchData);
+    facetGetters.getProducts(searchData);
 
     expect(getProductFiltered).toBeCalled();
   });
@@ -200,7 +200,7 @@ describe('[commercetools-getters] facet getters', () => {
   });
 
   it('returns pagination info', () => {
-    expect(facetGetters.getPaginationInfo({ data: null } as any)).toEqual({});
+    expect(facetGetters.getPagination({ data: null } as any)).toEqual({});
 
     const searchData = {
       input: {
@@ -208,13 +208,13 @@ describe('[commercetools-getters] facet getters', () => {
         itemsPerPage: 10
       },
       data: {
-        totalHits: 120,
+        total: 120,
         itemsPerPage: 10,
         perPageOptions: [10, 20, 50]
       }
     } as any;
 
-    const paginationInfo = facetGetters.getPaginationInfo(searchData);
+    const paginationInfo = facetGetters.getPagination(searchData);
 
     expect(paginationInfo).toEqual({
       currentPage: 2,

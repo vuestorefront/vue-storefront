@@ -182,10 +182,10 @@ export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   [x: string]: any;
 }
 
-export interface UseFacet<SEARCH_DATA, SEARCH_INPUT> {
-  searchData: ComputedProperty<FacetSearchData<SEARCH_DATA, SEARCH_INPUT>>;
+export interface UseFacet<SEARCH_DATA> {
+  result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
   loading: ComputedProperty<boolean>;
-  search: (params?: SEARCH_INPUT) => Promise<void>;
+  search: (params?: AgnosticFacetSearchParams) => Promise<void>;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -281,14 +281,14 @@ export interface ReviewGetters<REVIEW, REVIEW_ITEM> {
   getReviewsPage: (review: REVIEW) => number;
 }
 
-export interface FacetsGetters<SEARCH_DATA, SEARCH_INPUT, RESULTS, CRITERIA = any> {
-  getFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria?: CRITERIA) => AgnosticFacet[];
-  getGroupedFacets: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
-  getCategoryTree: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticCategoryTree;
-  getSortOptions: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticSort;
-  getResults: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => RESULTS;
-  getPaginationInfo: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticPagination;
-  getBreadcrumbs: (searchData: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => AgnosticBreadcrumb[];
+export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
+  getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
+  getGrouped: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
+  getCategoryTree: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticCategoryTree;
+  getSortOptions: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticSort;
+  getProducts: (searchData: FacetSearchResult<SEARCH_DATA>) => RESULTS;
+  getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
+  getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -302,7 +302,7 @@ export interface AgnosticCategoryTree {
   label: string;
   slug?: string;
   items: AgnosticCategoryTree[];
-  isSelected: boolean;
+  isCurrent: boolean;
   [x: string]: unknown;
 }
 
@@ -408,7 +408,17 @@ export interface AgnosticPagination {
   pageOptions: number[];
 }
 
-export interface FacetSearchData<S, I> {
+export interface FacetSearchResult<S> {
   data: S;
-  input: I;
+  input: AgnosticFacetSearchParams;
+}
+
+export interface AgnosticFacetSearchParams {
+  categorySlug?: string;
+  page?: number;
+  itemsPerPage?: number;
+  sort?: string;
+  filters?: Record<string, string[]>;
+  metadata?: any;
+  [x: string]: any;
 }

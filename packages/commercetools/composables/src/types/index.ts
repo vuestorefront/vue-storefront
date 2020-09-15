@@ -1,5 +1,5 @@
 import { Filter, ProductVariant, Category } from '@vue-storefront/commercetools-api';
-import { FacetSearchData } from '@vue-storefront/core';
+import { FacetSearchResult } from '@vue-storefront/core';
 
 export type OrderSearchParams = {
   id?: string;
@@ -19,22 +19,13 @@ export interface ProductsSearchParams {
   id?: string;
 }
 
-export interface FacetSearchInput {
-  categorySlug: string;
-  page: number;
-  itemsPerPage: number;
-  sort: string;
-  filters: Record<string, string[]>;
-  metadata?: any;
-}
-
 export interface FacetResultsData {
   products: ProductVariant[];
   categories: Category[];
-  availableFilters: Record<string, Filter>;
-  totalHits: number;
+  facets: Record<string, Filter>;
+  total: number;
   perPageOptions: number[];
   itemsPerPage: number;
 }
 
-export type SearchData = FacetSearchData<FacetResultsData, FacetSearchInput>
+export type SearchData = FacetSearchResult<FacetResultsData>

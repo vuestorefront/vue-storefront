@@ -83,14 +83,14 @@
                 <SfListItem class="list__item">
                   <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
                     <template #label>
-                      <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isSelected ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                      <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
                 <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
                   <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
                     <template #label="{ label }">
-                      <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isSelected ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                      <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
@@ -206,7 +206,7 @@
                       icon=""
                     >
                       <template #label>
-                        <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isSelected ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -217,7 +217,7 @@
                       icon=""
                     >
                       <template #label="{ label }">
-                        <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isSelected ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -265,17 +265,17 @@ export default {
 
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
-    const { searchData, search, loading } = useFacet();
+    const { result, search, loading } = useFacet();
 
-    const products = computed(() => facetGetters.getResults(searchData.value));
-    const categoryTree = computed(() => facetGetters.getCategoryTree(searchData.value));
-    const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(searchData.value));
-    const sortBy = computed(() => facetGetters.getSortOptions(searchData.value));
-    const facets = computed(() => facetGetters.getGroupedFacets(searchData.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPaginationInfo(searchData.value));
+    const products = computed(() => facetGetters.getProducts(result.value));
+    const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
+    const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
+    const sortBy = computed(() => facetGetters.getSortOptions(result.value));
+    const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
+    const pagination = computed(() => facetGetters.getPagination(result.value));
 
     onSSR(async () => {
-      await search(th.getFacets());
+      await search(th.getFacetsFromURL());
       await loadCart();
     });
 

@@ -1,26 +1,27 @@
 import { Ref, computed } from '@vue/composition-api';
 import { vsfRef } from '../utils';
-import { UseFacet, FacetSearchData } from '../types';
+import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams } from '../types';
 
-interface UseFacetFactoryParams<SEARCH_DATA, SEARCH_INPUT> {
-  search: (params?: FacetSearchData<SEARCH_DATA, SEARCH_INPUT>) => Promise<SEARCH_DATA>;
+interface UseFacetFactoryParams<SEARCH_DATA> {
+  search: (params?: FacetSearchResult<SEARCH_DATA>) => Promise<SEARCH_DATA>;
 }
 
-const useFacetFactory = <SEARCH_DATA, SEARCH_INPUT>(factoryParams: UseFacetFactoryParams<SEARCH_DATA, SEARCH_INPUT>) => {
+const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARCH_DATA>) => {
 
-  const useFacet = (): UseFacet<SEARCH_DATA, SEARCH_INPUT> => {
-    const loading: Ref<boolean> = vsfRef(false, 'useFacet-loading');
-    const searchData: Ref<FacetSearchData<SEARCH_DATA, SEARCH_INPUT>> = vsfRef({ data: null, input: null }, 'useFacet-facets');
+  const useFacet = (id?: string): UseFacet<SEARCH_DATA> => {
+    const ssrKey = id || 'useFacet';
+    const loading: Ref<boolean> = vsfRef(false, `${ssrKey}-loading`);
+    const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
 
-    const search = async (params?: SEARCH_INPUT) => {
-      searchData.value.input = params;
+    const search = async (params?: AgnosticFacetSearchParams) => {
+      result.value.input = params;
       loading.value = true;
-      searchData.value.data = await factoryParams.search(searchData.value);
+      result.value.data = await factoryParams.search(result.value);
       loading.value = false;
     };
 
     return {
-      searchData: computed(() => searchData.value),
+      result: computed(() => result.value),
       loading: computed(() => loading.value),
       search
     };

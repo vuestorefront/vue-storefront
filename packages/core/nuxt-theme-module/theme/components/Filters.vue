@@ -18,7 +18,7 @@
               :key="`${facet.id}-${option.value}`"
               :data-cy="`category-filter_color_${option.value}`"
               :color="option.value"
-              :selected="isSelected(facet, option)"
+              :selected="isFilterSelected(facet, option)"
               class="filters__color"
               @click="() => selectFilter(facet, option)"
             />
@@ -29,7 +29,7 @@
               :key="`${facet.id}-${option.value}`"
               :data-cy="`category-filter_${facet.id}_${option.value}`"
               :label="option.id"
-              :selected="isSelected(facet, option)"
+              :selected="isFilterSelected(facet, option)"
               class="filters__item"
               @change="() => selectFilter(facet, option)"
             />
@@ -52,7 +52,7 @@
             v-for="option in facet.options"
             :key="`${facet.id}-${option.id}`"
             :label="option.id"
-            :selected="isSelected(facet, option)"
+            :selected="isFilterSelected(facet, option)"
             class="filters__item"
             @change="option.selected = !option.selected"
           />
@@ -93,7 +93,6 @@ export default {
     const selectedFilters = ref({});
 
     onMounted(() => {
-      console.log(props.facets);
       selectedFilters.value = props.facets.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
@@ -102,7 +101,7 @@ export default {
       }), {});
     });
 
-    const isSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
+    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
 
     const selectFilter = (facet, option) => {
       if (!selectedFilters.value[facet.id]) {
@@ -129,7 +128,7 @@ export default {
     return {
       isFacetColor,
       selectFilter,
-      isSelected,
+      isFilterSelected,
       selectedFilters,
       clearFilters,
       applyFilters

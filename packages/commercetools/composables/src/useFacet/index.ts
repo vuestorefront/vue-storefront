@@ -1,12 +1,14 @@
-import { useFacetFactory, FacetSearchData } from '@vue-storefront/core';
+import { useFacetFactory, FacetSearchResult } from '@vue-storefront/core';
 import { getProduct, getCategory, AttributeType } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, getFiltersFromProductsAttributes } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
-import { FacetSearchInput, FacetResultsData } from './../types';
+import { FacetResultsData } from './../types';
+
+// TODO: move to the config file
+const ITEMS_PER_PAGE = [20, 40, 100];
 
 const factoryParams = {
-  search: async (params: FacetSearchData<FacetResultsData, FacetSearchInput>): Promise<FacetResultsData> => {
-    const perPageOptions = [20, 40, 100];
+  search: async (params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
 
     const categoryResponse = await getCategory({ slug: params.input.categorySlug });
@@ -27,17 +29,17 @@ const factoryParams = {
     });
     const enhancedProductResponse = enhanceProduct(productResponse);
     const products = (enhancedProductResponse.data as any)._variants as ProductVariant[];
-    const availableFilters = getFiltersFromProductsAttributes(products);
+    const facets = getFiltersFromProductsAttributes(products);
 
     return {
       products,
       categories,
-      availableFilters,
-      totalHits: productResponse.data.products.total,
-      perPageOptions,
+      facets,
+      total: productResponse.data.products.total,
+      perPageOptions: ITEMS_PER_PAGE,
       itemsPerPage
     };
   }
 };
 
-export default useFacetFactory<FacetResultsData, FacetSearchInput>(factoryParams);
+export default useFacetFactory<FacetResultsData>(factoryParams);

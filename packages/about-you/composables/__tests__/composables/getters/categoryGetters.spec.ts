@@ -15,7 +15,7 @@ describe('[about-you-composables] category getters', () => {
       label: category.name,
       slug: category.slug,
       path: category.path,
-      isSelected: false,
+      isCurrent: false,
       items: []
     };
 
@@ -29,7 +29,7 @@ describe('[about-you-composables] category getters', () => {
       path: '/baz',
       children: [
         {
-          isSelected: false,
+          isCurrent: false,
           name: 'qux',
           slug: 'quux',
           path: '/corge'
@@ -40,10 +40,10 @@ describe('[about-you-composables] category getters', () => {
       label: category.name,
       slug: category.slug,
       path: category.path,
-      isSelected: false,
+      isCurrent: false,
       items: [
         {
-          isSelected: false,
+          isCurrent: false,
           label: 'qux',
           slug: 'quux',
           path: '/corge',

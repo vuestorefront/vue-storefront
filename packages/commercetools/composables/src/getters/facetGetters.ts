@@ -10,12 +10,12 @@ import {
 import { ProductVariant } from './../types/GraphQL';
 import { getProductFiltered } from './productGetters';
 import { getCategoryTree as buildCategoryTree } from './categoryGetters';
-import { buildBreadcrumbs, buildFacets, reduceForGroupedFacets, reduceForFacets } from './_utils';
-import { FacetSearchInput, FacetResultsData, SearchData } from './../types';
+import { buildBreadcrumbs, buildFacets, reduceForGroupedFacets, reduceForFacets } from './../useFacet/_utils';
+import { FacetResultsData, SearchData } from './../types';
 
-const getFacets = (searchData: SearchData, criteria?: string[]): AgnosticFacet[] => buildFacets(searchData, reduceForFacets, criteria);
+const getAll = (searchData: SearchData, criteria?: string[]): AgnosticFacet[] => buildFacets(searchData, reduceForFacets, criteria);
 
-const getGroupedFacets = (searchData: SearchData, criteria?: string[]): AgnosticGroupedFacet[] =>
+const getGrouped = (searchData: SearchData, criteria?: string[]): AgnosticGroupedFacet[] =>
   buildFacets(searchData, reduceForGroupedFacets, criteria);
 
 const getSortOptions = (searchData: SearchData): AgnosticSort => {
@@ -38,19 +38,19 @@ const getCategoryTree = (searchData: SearchData): AgnosticCategoryTree => {
   return buildCategoryTree(searchData.data.categories[0]);
 };
 
-const getResults = (searchData: SearchData): ProductVariant[] => {
+const getProducts = (searchData: SearchData): ProductVariant[] => {
   return getProductFiltered(searchData.data.products, { master: true });
 };
 
-const getPaginationInfo = (searchData: SearchData): AgnosticPagination => {
+const getPagination = (searchData: SearchData): AgnosticPagination => {
   if (!searchData.data) {
     return {} as any;
   }
 
   return {
     currentPage: searchData.input.page,
-    totalPages: Math.ceil(searchData.data.totalHits / searchData.data.itemsPerPage),
-    totalItems: searchData.data.totalHits,
+    totalPages: Math.ceil(searchData.data.total / searchData.data.itemsPerPage),
+    totalItems: searchData.data.total,
     itemsPerPage: searchData.input.itemsPerPage,
     pageOptions: searchData.data.perPageOptions
   };
@@ -67,14 +67,14 @@ const getBreadcrumbs = (searchData: SearchData): AgnosticBreadcrumb[] => {
   ];
 };
 
-const facetGetters: FacetsGetters<FacetResultsData, FacetSearchInput, ProductVariant[]> = {
+const facetGetters: FacetsGetters<FacetResultsData, ProductVariant[]> = {
   getSortOptions,
-  getGroupedFacets,
-  getFacets,
-  getResults,
+  getGrouped,
+  getAll,
+  getProducts,
   getCategoryTree,
   getBreadcrumbs,
-  getPaginationInfo
+  getPagination
 };
 
 export default facetGetters;

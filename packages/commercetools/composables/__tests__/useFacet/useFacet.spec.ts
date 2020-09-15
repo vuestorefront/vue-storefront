@@ -1,7 +1,5 @@
 import useFacet from '../../src/useFacet';
-// import enhanceProducts from './../../src/helpers/internals/enhanceProduct';
 import { getProduct, getCategory } from '@vue-storefront/commercetools-api';
-// import { useFacetFactory, FacetSearchData } from '@vue-storefront/core';
 import { enhanceProduct, getFiltersFromProductsAttributes } from './../../src/helpers/internals';
 
 jest.mock('./../../src/helpers/internals', () => ({

@@ -1,5 +1,4 @@
 import { getCurrentInstance } from '@vue/composition-api';
-import { ThemeHelpers } from '@vue-storefront/nuxt-theme/theme/helpers/ui';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 import { FacetSearchInput } from '@vue-storefront/commercetools';
@@ -28,10 +27,10 @@ const getDataFromUrl = (context, onlyFilters) => {
     .reduce(reduceFilters(query), {});
 };
 
-const createThemeHelpers = (): ThemeHelpers<Category, any, string, FacetSearchInput, AgnosticFacet, number> => {
+const createThemeHelpers = () => {
   const context = getContext();
 
-  const getFacets = (): FacetSearchInput => {
+  const getFacetsFromURL = (): FacetSearchInput => {
     const { query, params } = context.$router.history.current;
 
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
@@ -64,7 +63,6 @@ const createThemeHelpers = (): ThemeHelpers<Category, any, string, FacetSearchIn
   };
 
   const switchItemsPerPage = (itemsPerPage: number) => {
-    console.log('switchItemsPerPage', itemsPerPage);
     context.$router.push({
       query: {
         ...getDataFromUrl(context, false),
@@ -78,7 +76,7 @@ const createThemeHelpers = (): ThemeHelpers<Category, any, string, FacetSearchIn
   const isFacetCheckbox = (): boolean => false;
 
   return {
-    getFacets,
+    getFacetsFromURL,
     getCatLink,
     switchSorting,
     switchFilters,

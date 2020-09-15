@@ -11,7 +11,7 @@ export const getCategoryTree = (category: BapiCategory): AgnosticCategoryTree | 
     slug: category.slug,
     path: category.path,
     items: category.children ? category.children.map(getCategoryTree) : [],
-    isSelected: false
+    isCurrent: false
   };
 };
 
