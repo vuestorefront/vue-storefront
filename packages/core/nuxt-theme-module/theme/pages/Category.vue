@@ -259,8 +259,8 @@ import Filters from '../components/Filters';
 export default {
   transition: 'fade',
   setup(props, context) {
-    const th = createThemeHelpers();
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
+    const th = createThemeHelpers();
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
