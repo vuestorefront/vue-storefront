@@ -121,7 +121,7 @@
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
             :isAddedToCart="isOnCart(product)"
-            @click:wishlist="toggleWishlist(i)"
+            @click:wishlist="addToWishlist(product)"
             @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
@@ -148,7 +148,7 @@
             :score-rating="3"
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
-            @click:wishlist="toggleWishlist(i)"
+            @click:wishlist="addToWishlist(product)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </transition-group>
@@ -277,10 +277,6 @@ export default {
       await loadCart();
     });
 
-    const toggleWishlist = (index) => {
-      addToWishlist(products.value[index]);
-    };
-
     return {
       ...uiState,
       th,
@@ -292,7 +288,7 @@ export default {
       sortBy,
       facets,
       breadcrumbs,
-      toggleWishlist,
+      addToWishlist,
       addToCart,
       isOnCart
     };
