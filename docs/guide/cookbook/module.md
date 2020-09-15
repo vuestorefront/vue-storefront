@@ -794,7 +794,7 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 
 const query = new SearchQuery()
 query.applyFilter({ key: 'spring-shorts', value: 'male', scope: 'default' })
-const products = await dispatch('product/list', { query, size: 5 })
+const products = await dispatch('product/findProducts', { query, size: 5 })
 ```
 
 #### Changes in `vue-storefront-api` repository

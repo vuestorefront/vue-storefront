@@ -22,7 +22,7 @@ No props
 
 ## Methods
 
-- `fetchData ({ store, route })` - Prepares query for fetching a list of products of the current category and dispatches `product/list` action that extracts that list.
+- `fetchData ({ store, route })` - Prepares query for fetching a list of products of the current category and dispatches `product/findProducts` action that extracts that list.
 
   - `{ store, route }` - An object consisting of the Vuex store and global router references.
 
