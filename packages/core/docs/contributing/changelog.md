@@ -19,3 +19,4 @@
 * **factories**: added useReviews factory ([#4775](https://github.com/DivanteLtd/vue-storefront/issues/4775))
 * **factories**: refactored apiClientFactory (#4777)
 * **types**: removed useLocale types (#4777)
+* **factories**: created useFacet factory and types (#4853)

@@ -8,3 +8,5 @@
 ### Changes
 
 - refactored setup using apiClientFactory (#4777)
+- implemented faceting using useFacet factory (#4853)
+
