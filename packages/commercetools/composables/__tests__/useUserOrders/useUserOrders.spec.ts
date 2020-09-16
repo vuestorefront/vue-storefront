@@ -1,8 +1,8 @@
 import useUserOrders from '../../src/useUserOrders';
-import { getMyOrders } from '@vue-storefront/commercetools-api';
+import { getOrders } from '@vue-storefront/commercetools-api';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
-  getMyOrders: jest.fn(async () => ({
+  getOrders: jest.fn(async () => ({
     data: {
       me: {
         orders: { results: ['order1', 'order2', 'order3'], total: 3 }
@@ -29,7 +29,7 @@ describe('[commercetools-composables] useUserOrders', () => {
       data: ['order1', 'order2', 'order3'],
       total: 3
     });
-    expect(getMyOrders).toBeCalledWith({ param: 'param1' });
+    expect(getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 
   it('loads user all orders', async () => {
@@ -41,11 +41,11 @@ describe('[commercetools-composables] useUserOrders', () => {
       data: ['order1', 'order2', 'order3'],
       total: 3
     });
-    expect(getMyOrders).toBeCalled();
+    expect(getOrders).toBeCalled();
   });
 
   it('loads user orders with empty response', async () => {
-    (getMyOrders as any).mockReturnValue({ data: null });
+    getOrders.mockReturnValue({ data: null });
 
     const { searchOrders } = useUserOrders() as any;
 
@@ -55,7 +55,7 @@ describe('[commercetools-composables] useUserOrders', () => {
       data: [],
       total: 0
     });
-    expect(getMyOrders).toBeCalledWith({ param: 'param1' });
+    expect(getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 });
 

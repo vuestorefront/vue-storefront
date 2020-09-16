@@ -29,7 +29,6 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
-    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -65,20 +64,6 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
-  build: {
-    transpile: [
-      'vee-validate/dist/rules'
-    ],
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.VERSION': JSON.stringify({
-          // eslint-disable-next-line global-require
-          version: require('./package.json').version,
-          lastCommit: process.env.LAST_COMMIT || ''
-        })
-      })
-    ]
-  },
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -94,5 +79,19 @@ export default {
         }
       }
     }
+  },
+  build: {
+    transpile: [
+      'vee-validate/dist/rules'
+    ],
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.VERSION': JSON.stringify({
+          // eslint-disable-next-line global-require
+          version: require('./package.json').version,
+          lastCommit: process.env.LAST_COMMIT || ''
+        })
+      })
+    ]
   }
 };

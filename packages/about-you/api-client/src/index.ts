@@ -4,7 +4,7 @@ import { BapiClient } from '@aboutyou/backbone';
 
 let apiClient: BapiClient | null = null;
 
-const { setup, override, update, getSettings } = apiClientFactory<any, any>({
+const { setup, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {},
   onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
@@ -42,7 +42,6 @@ export const deleteItemFromWishlist: typeof BapiClient.prototype.wishlist.delete
 
 export {
   getSettings,
-  override,
   setup,
   update
 };

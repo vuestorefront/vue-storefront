@@ -4,20 +4,32 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
+export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
+
+export interface SearchParams {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: any;
+  [x: string]: any;
+}
+
+export function Search(params: SearchParams): Promise<void>;
+export function Search(params: SearchParams, customQuery: {}): Promise<void>
+// Overloaded function type need declaration, as bellow
+// https://www.typescriptlang.org/docs/handbook/functions.html#overloads
+export function Search(params: SearchParams, customQuery?: {}): any {
+  return { params, customQuery };
+}
+
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   availableFilters: ComputedProperty<PRODUCT_FILTERS>;
-  search: (params: {
-    perPage?: number;
-    page?: number;
-    sort?: any;
-    term?: any;
-    filters?: PRODUCT_FILTERS;
-    [x: string]: any;
-  }) => Promise<void>;
   availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
+  search: typeof Search;
   [x: string]: any;
 }
 
@@ -52,12 +64,7 @@ export interface UseUser
 export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders: (params?: {
-    id?: any;
-    page?: number;
-    perPage?: number;
-    [x: string]: any;
-  }) => Promise<void>;
+  searchOrders: typeof Search;
   loading: ComputedProperty<boolean>;
 }
 
@@ -71,14 +78,36 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseUserShipping<ADDRESS> {
+  addresses: ComputedProperty<ADDRESS[]>;
+  totalAddresses: ComputedProperty<number>;
+  addAddress: (address: ADDRESS) => Promise<void>;
+  deleteAddress: (address: ADDRESS) => Promise<void>;
+  updateAddress: (address: ADDRESS) => Promise<void>;
+  load: () => Promise<void>;
+  defaultAddress: ComputedProperty<ADDRESS>;
+  setDefault: (address: ADDRESS) => Promise<void>;
+  loading: ComputedProperty<boolean>;
+}
+
+export interface UseUserBilling<ADDRESS> {
+  addresses: ComputedProperty<ADDRESS[]>;
+  totalAddresses: ComputedProperty<number>;
+  addAddress: (address: ADDRESS) => Promise<void>;
+  deleteAddress: (address: ADDRESS) => Promise<void>;
+  updateAddress: (address: ADDRESS) => Promise<void>;
+  load: () => Promise<void>;
+  defaultAddress: ComputedProperty<ADDRESS>;
+  setDefault: (address: ADDRESS) => Promise<void>;
+  loading: ComputedProperty<boolean>;
+}
+
 export interface UseCategory
 <
   CATEGORY
 > {
   categories: ComputedProperty<CATEGORY[]>;
-  search: (params: {
-    [x: string]: any;
-  }) => Promise<void>;
+  search: typeof Search;
   loading: ComputedProperty<boolean>;
 }
 
@@ -147,20 +176,12 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseLocale {
-  availableLocales: ComputedProperty<AgnosticLocale[]>;
-  availableCountries: ComputedProperty<AgnosticCountry[]>;
-  availableCurrencies: ComputedProperty<AgnosticCurrency[]>;
-  country: ComputedProperty<AgnosticCountry>;
-  currency: ComputedProperty<AgnosticCurrency>;
-  loadAvailableLocales: () => Promise<void>;
-  loadAvailableCountries: () => Promise<void>;
-  loadAvailableCurrencies: () => Promise<void>;
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+  search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
+  addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
+  reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
-  locale: ComputedProperty<AgnosticLocale>;
-  setLocale: (locale: AgnosticLocale) => Promise<void>;
-  setCountry: (country: AgnosticCountry) => Promise<void>;
-  setCurrency: (currency: AgnosticCurrency) => Promise<void>;
+  error: ComputedProperty<string | null>;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -243,6 +264,19 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
+export interface ReviewGetters<REVIEW, REVIEW_ITEM> {
+  getItems: (review: REVIEW) => REVIEW_ITEM[];
+  getReviewId: (item: REVIEW_ITEM) => string;
+  getReviewAuthor: (item: REVIEW_ITEM) => string;
+  getReviewMessage: (item: REVIEW_ITEM) => string;
+  getReviewRating: (item: REVIEW_ITEM) => number;
+  getReviewDate: (item: REVIEW_ITEM) => string;
+  getTotalReviews: (review: REVIEW) => number;
+  getAverageRating: (review: REVIEW) => number;
+  getRatesCount: (review: REVIEW) => AgnosticRateCount[];
+  getReviewsPage: (review: REVIEW) => number;
+}
+
 export interface AgnosticMediaGalleryItem {
   small: string;
   normal: string;
@@ -310,6 +344,11 @@ export interface AgnosticSortByOption {
   label: string;
   value: string;
   [x: string]: unknown;
+}
+
+export interface AgnosticRateCount {
+  rate: number;
+  count: number;
 }
 
 // TODO - remove this interface

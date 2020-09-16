@@ -6,9 +6,11 @@ import {
   FilterOption,
   AttributeType
 } from './../../types/Api';
-import { locale, currency, acceptLanguage } from './../../index';
+import { getSettings } from './../../index';
 
 const buildAttributePredicate = (attrName: string, attrType: string) => (option: FilterOption): string => {
+  const { locale, currency } = getSettings();
+
   if (!option.selected) {
     return '';
   }
@@ -58,6 +60,8 @@ const mapFilterToPredicates = ([name, filter]: [string, Filter]): string => {
 };
 
 const buildProductWhere = (search: ProductSearch) => {
+  const { acceptLanguage } = getSettings();
+
   let predicates: string[] = [];
   if (search?.catId) {
     const catIds = (Array.isArray(search.catId) ? search.catId : [search.catId]).join('","');
@@ -84,6 +88,8 @@ const buildProductWhere = (search: ProductSearch) => {
 };
 
 const buildCategoryWhere = (search: CategorySearch) => {
+  const { acceptLanguage } = getSettings();
+
   if (search?.catId) {
     return `id="${search.catId}"`;
   }
@@ -104,8 +110,30 @@ const buildOrderWhere = (search: OrderSearch): string => {
   return null;
 };
 
+const resolveCustomQueryVariables = (defaultVariables: {}, customVariables: {}, type?: 'category' | 'order') => {
+  const variables = {};
+  for (const [key, value] of Object.entries(defaultVariables)) {
+    if (customVariables[key] && key === 'where') {
+      switch (type) {
+        case 'category':
+          variables[key] = buildCategoryWhere(value);
+          break;
+        case 'order':
+          variables[key] = buildOrderWhere(value);
+          break;
+        default:
+          variables[key] = buildProductWhere(value);
+      }
+    } else {
+      variables[key] = customVariables[key] ? customVariables[key] : value;
+    }
+  }
+  return variables;
+};
+
 export {
   buildProductWhere,
   buildCategoryWhere,
-  buildOrderWhere
+  buildOrderWhere,
+  resolveCustomQueryVariables
 };

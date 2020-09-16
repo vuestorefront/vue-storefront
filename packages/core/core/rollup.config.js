@@ -1,7 +1,6 @@
 import pkg from './package.json';
 import typescript from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
-import { getBabelOutputPlugin } from '@rollup/plugin-babel';
+import replace from '@rollup/plugin-replace';
 
 export function generateBaseConfig(pkg) {
   return {
@@ -26,10 +25,10 @@ export function generateBaseConfig(pkg) {
         // eslint-disable-next-line global-require
         typescript: require('typescript')
       }),
-      getBabelOutputPlugin({
-        plugins: ['./node_modules/nuxt-composition-api/lib/babel']
-      }),
-      terser()
+      replace({
+        __DEV__: process.env.NODE_ENV === 'development',
+        delimiters: ['', '']
+      })
     ]
   };
 }

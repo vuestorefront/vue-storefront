@@ -4,13 +4,8 @@ import fetchByHandle from './fetchByHandle';
 import fetch from './fetch';
 import fetchMultiple from './fetchMultiple';
 import fetchQuery from './fetchQuery';
-import { settings } from '../../index';
 
 async function getProduct(options: ProductSearchParams): Promise<Product[]> {
-  if (settings.overrides.getProduct) {
-    return settings.overrides.getProduct(options);
-  }
-
   // Replace sort by keys with shopify keys
   const shopifySortKeys = {
     vendor: 'VENDOR',

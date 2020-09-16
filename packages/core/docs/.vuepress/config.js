@@ -31,7 +31,9 @@ module.exports = {
             ['/commercetools/getting-started', 'Getting Started'],
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
-            ['/commercetools/feature-list', 'Feature list']
+            ['/commercetools/feature-list', 'Feature list'],
+            ['/commercetools/maintainers', 'Maintainers and support'],
+            ['/commercetools/changelog', 'Changelog']
           ]
         },
         {
@@ -79,7 +81,8 @@ module.exports = {
             ['/shopify/getting-started', 'Getting Started'],
             ['/shopify/api-client', 'API Client'],
             ['/shopify/composables', 'Composables'],
-            ['/shopify/feature-list', 'Feature list']
+            ['/shopify/feature-list', 'Feature list'],
+            ['/shopify/maintainers', 'Maintainers and support']
           ]
         },
         {
@@ -107,20 +110,25 @@ module.exports = {
           title: 'Integration tutorial',
           collapsable: false,
           children: [
-            ['/integration/', 'Introduction'],
-            ['/integration/api-client', 'API Client'],
-            ['/integration/composables', 'Composables'],
+            ['/integration/', 'Introduction']
           ],
         },
       ],
       '/': [
         {
+          title: 'i18n',
+          collapsable: false,
+          children: [
+            ['/i18n/overview', 'overview'],
+          ],
+        },
+        {
           title: 'Contributing',
           collapsable: false,
           children: [
-            ['/contributing/workflow', 'Development workflow'],
             ['/contributing/api-design-philosophy', 'API Design Philosophy'],
             ['/contributing/themes', 'Working with themes'],
+            ['/contributing/changelog', 'Core changelog'],
           ],
         },
       ],

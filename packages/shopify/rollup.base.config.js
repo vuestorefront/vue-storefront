@@ -1,5 +1,4 @@
 import typescript from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
 
 export function generateBaseConfig(pkg) {
   return {
@@ -21,8 +20,7 @@ export function generateBaseConfig(pkg) {
       typescript({
         // eslint-disable-next-line global-require
         typescript: require('typescript')
-      }),
-      terser()
+      })
     ]
   };
 }

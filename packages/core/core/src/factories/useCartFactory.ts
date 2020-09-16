@@ -1,6 +1,6 @@
 import { UseCart } from '../types';
-import { Ref, ref, computed } from '@vue/composition-api';
-import { useSSR } from '../utils';
+import { Ref, computed } from '@vue/composition-api';
+import { sharedRef } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   loadCart: () => Promise<CART>;
@@ -38,20 +38,15 @@ interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
 ): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
-  const appliedCoupon: Ref<COUPON | null> = ref(null);
-  const loading: Ref<boolean> = ref<boolean>(false);
-  const cart: Ref<CART> = ref(null);
-  let isInitialized = false;
 
   const setCart = (newCart: CART) => {
-    cart.value = newCart;
+    sharedRef('useCart-cart').value = newCart;
   };
 
   const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
-    const { initialState, saveToInitialState } = useSSR('vsf-cart');
-
-    cart.value = isInitialized ? cart.value : initialState || null;
-    isInitialized = true;
+    const appliedCoupon: Ref<COUPON | null> = sharedRef(null, 'useCart-appliedCoupon');
+    const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
+    const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
     const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;
@@ -92,7 +87,6 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       loading.value = true;
       cart.value = await factoryParams.loadCart();
-      saveToInitialState(cart.value);
       loading.value = false;
     };
 

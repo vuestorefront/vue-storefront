@@ -99,7 +99,7 @@
           </SfAccordion>
         </SfLoader>
       </div>
-      <div class="products">
+      <div class="products" v-if="!loading">
         <transition-group
           v-if="isGridView"
           appear
@@ -254,7 +254,7 @@ import { computed, ref, watch, onMounted } from '@vue/composition-api';
 import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.generate.replace.composables %>';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
 import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
-import { useAsync } from 'nuxt-composition-api';
+import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
 const perPageOptions = [20, 40, 100];
@@ -271,7 +271,7 @@ export default {
     const { query } = context.root.$route;
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
 
-    const { categories, search, loading } = useCategory('categories');
+    const { categories, search, loading: categoriesLoading } = useCategory('categories');
     const {
       products: categoryProducts,
       totalProducts,
@@ -287,7 +287,7 @@ export default {
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
     const sortBy = ref(query.sort || (availableSortingOptions?.value && availableSortingOptions?.value[0] ? availableSortingOptions.value[0]?.value : null));
     const filters = ref(null);
-
+    const loading = computed(() => categoriesLoading.value || productsLoading.value);
     const productsSearchParams = computed(() => ({
       catId: (categories.value[0] || {}).id,
       page: currentPage.value,
@@ -296,7 +296,7 @@ export default {
       sort: sortBy.value
     }));
 
-    useAsync(async () => {
+    onSSR(async () => {
       await search(getCategorySearchParameters(context));
       await productsSearch(productsSearchParams.value);
       filters.value = getFiltersFromUrl(context, availableFilters.value);
@@ -305,7 +305,7 @@ export default {
     });
 
     watch([itemsPerPage, sortBy, filters], () => {
-      if (categories.value.length) {
+      if (!loading.value && categories.value.length) {
         productsSearch(productsSearchParams.value);
         context.root.$router.push({ query: {
           ...context.root.$route.query,

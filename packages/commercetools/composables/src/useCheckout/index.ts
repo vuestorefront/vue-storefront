@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-import { useSSR } from '@vue-storefront/core';
 import createSetShippingDetails from './createSetShippingDetails';
 import createSetBillingDetails from './createSetBillingDetails';
 import createSetShippingMethod from './createSetShippingMethod';
@@ -11,13 +10,13 @@ import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { checkoutComputed } from './shared';
 import { useCart, setCart } from './../useCart';
+import initFields from './initFields';
 
 // TODO: Move to core
 const useCheckoutFactory = (factoryParams) => {
   const useCheckout = () => {
     const cartFields = useCart();
-    const { saveToInitialState } = useSSR('vsf-cart');
-    const methodsParams = { factoryParams, saveToInitialState, cartFields, setCart };
+    const methodsParams = { factoryParams, cartFields, setCart };
     const setShippingMethod = createSetShippingMethod(methodsParams);
     const setShippingDetails = createSetShippingDetails(methodsParams);
     const setBillingDetails = createSetBillingDetails(methodsParams);
@@ -27,6 +26,8 @@ const useCheckoutFactory = (factoryParams) => {
     const setPersonalDetails = createSetPersonalDetails({ ...methodsParams, setShippingDetails });
     const setPaymentMethod = createSetPaymentMethod(methodsParams);
     const placeOrder = createPlaceOrder(methodsParams);
+
+    initFields(cartFields.cart.value);
 
     return {
       ...checkoutComputed,

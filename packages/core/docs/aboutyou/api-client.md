@@ -64,24 +64,5 @@ export const getCartToken = context => {
 
 :::
 
-::: slot methods
-
+## Methods
 You can find detailed information about all API Client methods [here](./api-client/index.html)
-:::
-
-::: slot override
-
-```js
-import { override } from '@vue-storefront/about-you-api'
-
-override({
-  getProduct(params) {
-    // new getProduct
-  },
-  getCategory (params) {
-    // new getCategory
-  }
-  // ...
-})
-```
-:::
