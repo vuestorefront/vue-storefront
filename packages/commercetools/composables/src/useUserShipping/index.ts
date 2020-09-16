@@ -2,6 +2,7 @@ import { useUserShippingFactory, UseUserShippingFactoryParams } from '@vue-store
 
 const addresses: any[] = [
   {
+    id: 1,
     firstName: 'Sviatlana',
     lastName: 'Havaka',
     streetName: 'Zielinskiego',
@@ -13,6 +14,7 @@ const addresses: any[] = [
     phoneNumber: '(00)560 123 456'
   },
   {
+    id: 2,
     firstName: 'Sviatlana',
     lastName: 'Havaka',
     streetName: 'Zielinskiego',
@@ -25,16 +27,31 @@ const addresses: any[] = [
   }
 ];
 
+const findBiggestId = () => addresses.reduce((biggest, curr) => {
+  if (curr.id > biggest) {
+    biggest = curr.id;
+  }
+  return biggest;
+}, 0);
+
 const params: UseUserShippingFactoryParams<any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addAddress: async (params?) => {
     console.log('Mocked: addAddress', params.address);
-    addresses.push(params.address);
+    addresses.push({
+      ...params.address,
+      id: findBiggestId() + 1
+    });
     return Promise.resolve(addresses);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deleteAddress: async (params?) => {
     console.log('Mocked: deleteAddress');
+    const indexToRemove = addresses.find(address => address.id === params.address.id);
+    if (indexToRemove < 0) {
+      return Promise.reject('This address does not exist');
+    }
+    addresses.splice(indexToRemove, 1);
     return Promise.resolve(addresses);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

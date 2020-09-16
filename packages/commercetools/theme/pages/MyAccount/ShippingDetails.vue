@@ -168,12 +168,12 @@
                 size="14px"
                 role="button"
                 class="mobile-only"
-                @click="deleteAddress(key)"
+                @click="removeAddress(key)"
               />
               <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
               <SfButton data-cy="shipping-details-btn_delete"
                 class="shipping__button-delete desktop-only"
-                @click="deleteAddress(key)"
+                @click="removeAddress(key)"
                 >Delete</SfButton
               >
             </div>
@@ -244,7 +244,7 @@ export default {
     const country = ref('');
     const phoneNumber = ref('');
 
-    const { addAddress } = useUserShipping();
+    const { addAddress, deleteAddress } = useUserShipping();
 
     const changeAddress = async (index) => {
       const shipping = account.shipping[index];
@@ -265,12 +265,13 @@ export default {
     };
 
     const updateAddress = () => {
-      this.$emit('update:shipping');
+      // this.$emit('update:shipping');
     };
 
     // eslint-disable-next-line
-    const deleteAddress = (index) => {
-      this.$emit('update:shipping');
+    const removeAddress = async (index) => {
+      // this.$emit('update:shipping');
+      await deleteAddress(account.shipping[index]);
     };
 
     const processAddress = async () => {
@@ -297,7 +298,7 @@ export default {
     return {
       changeAddress,
       updateAddress,
-      deleteAddress,
+      removeAddress,
       processAddress,
 
       editAddress,
