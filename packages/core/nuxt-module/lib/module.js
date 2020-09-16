@@ -65,7 +65,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
     if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.module)
+        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.tsModule || pkg.module)
       })
     }
     this.options.build.transpile.push(package)

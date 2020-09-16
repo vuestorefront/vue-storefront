@@ -4,6 +4,7 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
+  "tsModule": "src/index.ts",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
@@ -12,7 +13,7 @@
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "0.1.0",
-    "@vue-storefront/core": "2.0.4",
+    "@vue-storefront/core": "2.0.5",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
