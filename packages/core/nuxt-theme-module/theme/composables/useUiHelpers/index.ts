@@ -1,5 +1,5 @@
 
-const createThemeHelpers = ()=> {
+const useUiHelpers = () => {
   const getFacetsFromURL = () => {
     console.warn('[VSF] please implement createThemeHelpers.getFacets.');
 
@@ -58,4 +58,4 @@ const createThemeHelpers = ()=> {
   };
 };
 
-export default createThemeHelpers;
+export default useUiHelpers;

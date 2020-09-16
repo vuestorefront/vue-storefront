@@ -71,7 +71,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { ref, onMounted } from '@vue/composition-api';
-import createThemeHelpers from '~/helpers/ui';
+import { useUiHelpers } from '~/composables';
 import uiState from '~/assets/ui-state';
 import Vue from 'vue';
 
@@ -90,7 +90,7 @@ export default {
     }
   },
   setup(props) {
-    const { switchFilters, isFacetColor } = createThemeHelpers();
+    const { switchFilters, isFacetColor } = useUiHelpers();
     const selectedFilters = ref({});
 
     onMounted(() => {

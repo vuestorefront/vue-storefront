@@ -12,6 +12,7 @@ const state = reactive({
   isFilterSidebarOpen: false
 });
 
+// TODO: https://github.com/DivanteLtd/vue-storefront/issues/4876
 const isCartSidebarOpen = computed(() => state.isCartSidebarOpen);
 const toggleCartSidebar = () => {
   state.isCartSidebarOpen = !state.isCartSidebarOpen;

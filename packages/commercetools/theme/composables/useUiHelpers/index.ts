@@ -19,7 +19,7 @@ const reduceFilters = (query) => (prev, curr) => {
   };
 };
 
-const getDataFromUrl = (context, onlyFilters) => {
+const getFiltersDataFromUrl = (context, onlyFilters) => {
   const { query } = context.$router.history.current;
 
   return Object.keys(query)
@@ -27,7 +27,7 @@ const getDataFromUrl = (context, onlyFilters) => {
     .reduce(reduceFilters(query), {});
 };
 
-const createThemeHelpers = () => {
+const useUiHelpers = () => {
   const context = getContext();
 
   const getFacetsFromURL = (): FacetSearchInput => {
@@ -39,7 +39,7 @@ const createThemeHelpers = () => {
       categorySlug,
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
-      filters: getDataFromUrl(context, true),
+      filters: getFiltersDataFromUrl(context, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20
     };
   };
@@ -56,7 +56,7 @@ const createThemeHelpers = () => {
   const switchFilters = (filters: any) => {
     context.$router.push({
       query: {
-        ...getDataFromUrl(context, false),
+        ...getFiltersDataFromUrl(context, false),
         ...filters
       }
     });
@@ -65,7 +65,7 @@ const createThemeHelpers = () => {
   const switchItemsPerPage = (itemsPerPage: number) => {
     context.$router.push({
       query: {
-        ...getDataFromUrl(context, false),
+        ...getFiltersDataFromUrl(context, false),
         itemsPerPage
       }
     });
@@ -86,4 +86,4 @@ const createThemeHelpers = () => {
   };
 };
 
-export default createThemeHelpers;
+export default useUiHelpers;
