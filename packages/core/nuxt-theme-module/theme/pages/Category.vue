@@ -13,7 +13,7 @@
         <SfButton data-cy="category-btn_filters"
           class="sf-button--text navbar__filters-button"
           aria-label="Filters"
-          @click="isFilterSidebarOpen = true"
+          @click="toggleFilterSidebar"
         >
           <SfIcon
             size="18px"
@@ -26,45 +26,45 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" v-model="sortBy" data-cy="category-select_sortBy">
+          <SfSelect class="navbar__select" :selected="sortBy.selected" @change="th.switchSorting" data-cy="category-select_sortBy">
             <SfSelectOption
-              v-for="option in availableSortingOptions"
-              :key="option.value"
-              :value="option.value"
+              v-for="option in sortBy.options"
+              :key="option.id"
+              :value="option.id"
               class="sort-by__option"
-              >{{ option.label }}</SfSelectOption
+              >{{ option.value }}</SfSelectOption
             >
           </SfSelect>
         </div>
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
-          <span class="desktop-only">{{ totalProducts }}</span>
-          <span class="navbar__label mobile-only">{{ totalProducts }} Items</span>
+          <span class="desktop-only">{{ pagination.totalItems }}</span>
+          <span class="navbar__label mobile-only">{{ pagination.totalItems }} Items</span>
         </div>
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
             data-cy="category-icon_grid-view"
             class="navbar__view-icon"
-            :color="isGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
             icon="tiles"
             size="12px"
             role="button"
             aria-label="Change to grid view"
-            :aria-pressed="isGridView"
-            @click="isGridView = true"
+            :aria-pressed="isCategoryGridView"
+            @click="toggleCategoryGridView"
           >
           </SfIcon>
           <SfIcon
             data-cy="category-icon_list-view"
             class="navbar__view-icon"
-            :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="!isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
             icon="list"
             size="12px"
             role="button"
             aria-label="Change to list view"
-            :aria-pressed="!isGridView"
-            @click="isGridView = false"
+            :aria-pressed="!isCategoryGridView"
+            @click="toggleCategoryGridView"
           />
         </div>
       </div>
@@ -83,14 +83,14 @@
                 <SfListItem class="list__item">
                   <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
                     <template #label>
-                      <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                      <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
                 <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
                   <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
                     <template #label="{ label }">
-                      <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                      <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
@@ -101,7 +101,7 @@
       </div>
       <div class="products" v-if="!loading">
         <transition-group
-          v-if="isGridView"
+          v-if="isCategoryGridView"
           appear
           name="products__slide"
           tag="div"
@@ -121,7 +121,7 @@
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
             :isAddedToCart="isOnCart(product)"
-            @click:wishlist="toggleWishlist(i)"
+            @click:wishlist="addToWishlist(product)"
             @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
@@ -148,32 +148,34 @@
             :score-rating="3"
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
-            @click:wishlist="toggleWishlist(i)"
+            @click:wishlist="addToWishlist(product)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </transition-group>
         <SfPagination
+          v-if="!loading"
           data-cy="category-pagination"
-          v-show="totalPages > 1"
+          v-show="pagination.totalPages > 1"
           class="products__pagination"
-          :current="currentPage"
-          :total="totalPages"
+          :current="pagination.currentPage"
+          :total="pagination.totalPages"
           :visible="5"
         />
         <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
         <div
-          v-show="totalPages > 1"
+          v-show="pagination.totalPages > 1"
           class="products__pagination__options"
         >
           <span class="products__pagination__label">Items per page:</span>
-          <SfSelect class="items-per-page" v-model="itemsPerPage">
+          <SfSelect class="items-per-page" :selected="pagination.itemsPerPage" @change="th.switchItemsPerPage">
             <SfSelectOption
-              v-for="option in perPageOptions"
+              v-for="option in pagination.pageOptions"
               :key="option"
               :value="option"
               class="items-per-page__option"
-              >{{ option }}</SfSelectOption
             >
+              {{ option }}
+            </SfSelectOption>
           </SfSelect>
         </div>
         <!-- end of TODO -->
@@ -182,12 +184,9 @@
     <SfSidebar
       :visible="isFilterSidebarOpen"
       title="Filters"
-      @close="isFilterSidebarOpen = false"
+      @close="toggleFilterSidebar"
     >
-      <Filters
-        :filters="filters"
-        @click:apply-filters="applyFilters"
-      >
+      <Filters :facets="facets">
         <template #categories-mobile>
           <SfAccordionItem
             header="Category"
@@ -207,7 +206,7 @@
                       icon=""
                     >
                       <template #label>
-                        <nuxt-link :to="localePath(getCategoryPath(cat))" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -218,7 +217,7 @@
                       icon=""
                     >
                       <template #label="{ label }">
-                        <nuxt-link :to="localePath(getCategoryPath(subCat))" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
@@ -250,115 +249,48 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed, ref, watch, onMounted } from '@vue/composition-api';
-import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '<%= options.generate.replace.composables %>';
-import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
-import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
+import { computed, onMounted } from '@vue/composition-api';
+import { useFacet, useCart, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers } from '~/composables';
+import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
-
-const perPageOptions = [20, 40, 100];
-
-// TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
-const fallbackBreadcrumbs = [
-  { text: 'Home', route: { link: '#' } },
-  { text: 'Women', route: { link: '#' } }
-];
 
 export default {
   transition: 'fade',
   setup(props, context) {
-    const { query } = context.root.$route;
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
-
-    const { categories, search, loading: categoriesLoading } = useCategory('categories');
-    const {
-      products: categoryProducts,
-      totalProducts,
-      search: productsSearch,
-      loading: productsLoading,
-      availableFilters,
-      availableSortingOptions
-    } = useProduct('categoryProducts');
+    const th = useUiHelpers();
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
+    const { result, search, loading } = useFacet();
 
-    const currentPage = ref(parseInt(query.page, 10) || 1);
-    const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
-    const sortBy = ref(query.sort || (availableSortingOptions?.value && availableSortingOptions?.value[0] ? availableSortingOptions.value[0]?.value : null));
-    const filters = ref(null);
-    const loading = computed(() => categoriesLoading.value || productsLoading.value);
-    const productsSearchParams = computed(() => ({
-      catId: (categories.value[0] || {}).id,
-      page: currentPage.value,
-      perPage: itemsPerPage.value,
-      filters: filters.value,
-      sort: sortBy.value
-    }));
+    const products = computed(() => facetGetters.getProducts(result.value));
+    const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
+    const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
+    const sortBy = computed(() => facetGetters.getSortOptions(result.value));
+    const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
+    const pagination = computed(() => facetGetters.getPagination(result.value));
 
     onSSR(async () => {
-      await search(getCategorySearchParameters(context));
-      await productsSearch(productsSearchParams.value);
-      filters.value = getFiltersFromUrl(context, availableFilters.value);
-      await productsSearch(productsSearchParams.value);
+      await search(th.getFacetsFromURL());
       await loadCart();
     });
 
-    watch([itemsPerPage, sortBy, filters], () => {
-      if (!loading.value && categories.value.length) {
-        productsSearch(productsSearchParams.value);
-        context.root.$router.push({ query: {
-          ...context.root.$route.query,
-          ...getFiltersForUrl(filters.value),
-          sort: sortBy.value,
-          items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined
-        }});
-      }
-    }, { deep: true });
-
-    const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true }));
-    const categoryTree = computed(() => categoryGetters.getTree(categories.value[0]));
-
-    const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
-
-    const isGridView = ref(true);
-    const isFilterSidebarOpen = ref(false);
-
-    function toggleWishlist(index) {
-      addToWishlist(products.value[index]);
-    }
-
-    const applyFilters = (updatedFilters) => {
-      filters.value = updatedFilters;
-      productsSearch(productsSearchParams.value);
-      isFilterSidebarOpen.value = false;
-    };
-
-    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs ? categoryGetters.getBreadcrumbs(categories.value[0]) : fallbackBreadcrumbs);
-
     return {
+      ...uiState,
+      th,
       products,
-      productsLoading,
       categoryTree,
-      getCategoryPath,
-      isCategorySelected,
       loading,
       productGetters,
-      totalProducts,
-      totalPages: computed(() => Math.ceil(totalProducts.value / itemsPerPage.value)),
-      currentPage,
-      itemsPerPage,
-      perPageOptions: computed(() => perPageOptions),
+      pagination,
       sortBy,
-      isFilterSidebarOpen,
-      availableSortingOptions,
-      filters,
+      facets,
       breadcrumbs,
-      applyFilters,
-      toggleWishlist,
+      addToWishlist,
       addToCart,
-      isOnCart,
-      isGridView
+      isOnCart
     };
   },
   components: {

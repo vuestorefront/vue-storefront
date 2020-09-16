@@ -24,6 +24,7 @@ const productsSearch = async (params: ProductsSearchParams, customQuery?: Custom
   return {
     data: products,
     total: productResponse.data.products.total,
+    // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4856
     availableFilters,
     availableSortingOptions
   };
