@@ -18,29 +18,29 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     return await loadCurrentCart();
   },
   addToCart: async ({ currentCart, product, quantity }) => {
-    const updatedCart = await apiAddToCart(currentCart, product, quantity);
-    return updatedCart.data.cart;
+    const { data } = await apiAddToCart(currentCart, product, quantity);
+    return data.cart;
   },
   removeFromCart: async ({ currentCart, product }) => {
-    const updateResponse = await apiRemoveFromCart(currentCart, product);
-    return updateResponse.data.cart;
+    const { data } = await apiRemoveFromCart(currentCart, product);
+    return data.cart;
   },
   updateQuantity: async ({ currentCart, product, quantity }) => {
-    const updatedCart = await apiUpdateCartQuantity(
+    const { data } = await apiUpdateCartQuantity(
       currentCart, { ...product, quantity }
     );
-    return updatedCart.data.cart;
+    return data.cart;
   },
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
   applyCoupon: async ({ currentCart, coupon }) => {
-    const updatedCart = await apiApplyCartCoupon(currentCart, coupon);
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
+    const { data } = await apiApplyCartCoupon(currentCart, coupon);
+    return { updatedCart: data.cart, updatedCoupon: coupon };
   },
   removeCoupon: async ({ currentCart, coupon }) => {
-    const updatedCart = await apiRemoveCartCoupon(currentCart, coupon);
-    return { updatedCart: updatedCart.data.cart };
+    const { data } = await apiRemoveCartCoupon(currentCart, coupon);
+    return { updatedCart: data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
     return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
