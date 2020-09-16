@@ -1,11 +1,12 @@
 import getConfigurationMatchLevel from './getConfigurationMatchLevel'
 import getVariantWithLowestPrice from './getVariantWithLowestPrice'
+import checkFullConfigurationMatch from './checkFullConfigurationMatch'
 import config from 'config'
 
 /**
  * This function responsiblity is to find best matching variant for configurable product based on configuration object or stock availability.
  */
-export default function findConfigurableVariant ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+export default function findConfigurableVariant ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true, fullMatch = false }) {
   const selectedVariant = product.configurable_children.reduce((prevVariant, nextVariant) => {
     if (availabilityCheck) {
       if (nextVariant.stock && !config.products.listOutOfStockProducts) {
@@ -26,17 +27,24 @@ export default function findConfigurableVariant ({ product, configuration = null
     ) { // by sku or first one
       return nextVariant
     } else {
-      // get match level for each variant
-      const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
-      const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
+      if (!fullMatch) {
+        // get match level for each variant
+        const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
+        const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
 
-      // if we have draw between prev variant and current variant then return one that has lowest price
-      if (prevVariantMatch === nextVariantMatch) {
-        return getVariantWithLowestPrice(prevVariant, nextVariant)
+        // if we have draw between prev variant and current variant then return one that has lowest price
+        if (prevVariantMatch === nextVariantMatch) {
+          return getVariantWithLowestPrice(prevVariant, nextVariant)
+        }
+
+        // return variant with best matching level
+        return nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
+      } else {
+        // get match level for each variant
+        const nextVariantMatch = checkFullConfigurationMatch(configuration, nextVariant)
+
+        return nextVariantMatch ? nextVariant : prevVariant
       }
-
-      // return variant with best matching level
-      return nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
     }
   }, undefined)
   return selectedVariant
