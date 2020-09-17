@@ -8,7 +8,7 @@ export default function getSelectedOption (selectedVariant, attributeCode, optio
     value: selectedVariant[attributeCode]
   }
   if (option.values && option.values.length) {
-    const selectedOptionMeta = option.values.find(ov => ov.value_index.toString() === selectedOption.value.toString())
+    const selectedOptionMeta = option.values.find(ov => String(ov.value_index) === String(selectedOption.value)).toString()
     if (selectedOptionMeta) {
       selectedOption.label = selectedOptionMeta.label
         ? selectedOptionMeta.label
