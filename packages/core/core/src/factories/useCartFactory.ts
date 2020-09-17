@@ -19,7 +19,10 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   ) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
   applyCoupon: (params: { currentCart: CART; coupon: string }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
-  removeCoupon: (params: { currentCart: CART; coupon: COUPON }) => Promise<{ updatedCart: CART }>;
+  removeCoupon: (
+    params: { currentCart: CART; coupon: COUPON },
+    customQuery?: CustomQuery
+  ) => Promise<{ updatedCart: CART }>;
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
@@ -119,13 +122,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const removeCoupon = async () => {
+    const removeCoupon = async (customQuery?: CustomQuery) => {
       try {
         loading.value = true;
-        const { updatedCart } = await factoryParams.removeCoupon({
-          currentCart: cart.value,
-          coupon: appliedCoupon.value
-        });
+        const { updatedCart } = await factoryParams.removeCoupon(
+          {
+            currentCart: cart.value,
+            coupon: appliedCoupon.value
+          },
+          customQuery
+        );
         cart.value = updatedCart;
         appliedCoupon.value = null;
         loading.value = false;

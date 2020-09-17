@@ -142,7 +142,7 @@ export interface UseCart
   clearCart: () => Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon: (coupon: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
+  removeCoupon: typeof LoadCart;
   loadCart: typeof LoadCart;
   loading: ComputedProperty<boolean>;
 }
