@@ -62,7 +62,7 @@ const getters: GetterTree<CategoryState, RootState> = {
             }
 
             for (let option of buckets) {
-              uniqueFilterValues.add(toString(option.key))
+              uniqueFilterValues.add(toString(option.key_as_string || option.key))
             }
           }
 
