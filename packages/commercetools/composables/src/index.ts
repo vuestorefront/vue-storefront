@@ -8,6 +8,7 @@ import { setUser, useUser } from './useUser';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
 import { useReview, reviewGetters } from './useReview';
+import useFacet from './useFacet';
 import { track } from '@vue-storefront/core';
 
 import {
@@ -17,7 +18,8 @@ import {
   productGetters,
   userGetters,
   orderGetters,
-  wishlistGetters
+  wishlistGetters,
+  facetGetters
 } from './getters';
 
 track('VSFCommercetools');
@@ -34,6 +36,7 @@ export {
   useWishlist,
   setWishlist,
   useReview,
+  useFacet,
   cartGetters,
   categoryGetters,
   checkoutGetters,
@@ -41,6 +44,7 @@ export {
   reviewGetters,
   userGetters,
   orderGetters,
-  wishlistGetters
+  wishlistGetters,
+  facetGetters
 };
 
