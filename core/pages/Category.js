@@ -29,7 +29,7 @@ export default {
     ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
     ...mapGetters('tax', ['getIsUserGroupedTaxActive']),
     products () {
-      return this.$store.getters['product/findProducts']
+      return this.$store.getters['product/list']
     },
     productsCounter () {
       return this.products ? this.products.length : 0
