@@ -93,7 +93,7 @@ export default gql`
         id
         reviewRatingStatistics {
           averageRating,
-  		    ratingsDistribution
+          ratingsDistribution
         }
         masterData {
           current {
