@@ -18,7 +18,7 @@
     "consola": "^2.10.1"
   },
   "devDependencies": {
-    "@vue-storefront/nuxt-theme": "^0.0.2",
+    "@vue-storefront/nuxt-theme": "^0.0.3",
     "@vue-storefront/commercetools-theme": "^0.0.6"
   },
   "author": "Filip Jędrasik",
