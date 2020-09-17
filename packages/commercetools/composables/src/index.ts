@@ -10,10 +10,6 @@ import { setWishlist, useWishlist } from './useWishlist';
 import { useReview, reviewGetters } from './useReview';
 import { track } from '@vue-storefront/core';
 
-const { addToCart, loadCart } = useCart();
-loadCart();
-addToCart();
-
 import {
   cartGetters,
   categoryGetters,
