@@ -13,7 +13,10 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
     customQuery?: CustomQuery
   ) => Promise<CART>;
   removeFromCart: (params: { currentCart: CART; product: CART_ITEM }, customQuery?: CustomQuery) => Promise<CART>;
-  updateQuantity: (params: { currentCart: CART; product: CART_ITEM; quantity: number }) => Promise<CART>;
+  updateQuantity: (
+    params: { currentCart: CART; product: CART_ITEM; quantity: number },
+    customQuery?: CustomQuery
+  ) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
   applyCoupon: (params: { currentCart: CART; coupon: string }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
   removeCoupon: (params: { currentCart: CART; coupon: COUPON }) => Promise<{ updatedCart: CART }>;
@@ -39,33 +42,42 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
     const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
       loading.value = true;
-      const updatedCart = await factoryParams.addToCart({
-        currentCart: cart.value,
-        product,
-        quantity
-      }, customQuery);
+      const updatedCart = await factoryParams.addToCart(
+        {
+          currentCart: cart.value,
+          product,
+          quantity
+        },
+        customQuery
+      );
       cart.value = updatedCart;
       loading.value = false;
     };
 
     const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
       loading.value = true;
-      const updatedCart = await factoryParams.removeFromCart({
-        currentCart: cart.value,
-        product
-      }, customQuery);
+      const updatedCart = await factoryParams.removeFromCart(
+        {
+          currentCart: cart.value,
+          product
+        },
+        customQuery
+      );
       cart.value = updatedCart;
       loading.value = false;
     };
 
-    const updateQuantity = async (product: CART_ITEM, quantity?: number) => {
+    const updateQuantity = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
       if (quantity && quantity > 0) {
         loading.value = true;
-        const updatedCart = await factoryParams.updateQuantity({
-          currentCart: cart.value,
-          product,
-          quantity
-        });
+        const updatedCart = await factoryParams.updateQuantity(
+          {
+            currentCart: cart.value,
+            product,
+            quantity
+          },
+          customQuery
+        );
         cart.value = updatedCart;
         loading.value = false;
       }

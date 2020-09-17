@@ -113,7 +113,7 @@ export interface UseCategory
 
 export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number): Promise<void>;
 export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery?: {}): any {
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number, customQuery?: {}): any {
   return { product, quantity, customQuery };
 }
 export function RemoveFromCart<CART_ITEM>(product: CART_ITEM): Promise<void>
@@ -138,7 +138,7 @@ export interface UseCart
   isOnCart: (product: PRODUCT) => boolean;
   // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   removeFromCart: typeof RemoveFromCart;
-  updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
+  updateQuantity: typeof AddToCart;
   clearCart: () => Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon: (coupon: string) => Promise<void>;
