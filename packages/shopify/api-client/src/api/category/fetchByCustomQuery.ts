@@ -31,14 +31,14 @@ const defaultResolver = (path) => {
  * Fetch collection by handle with products on the shop.
  *
  * @example
- * collectionByHandleQuery(options).then((collection) => {
+ * clientDocument(options).then((collection) => {
  *   // Do something with the collection
  * });
  *
- * @param {collectionByHandleQuery} options contains { handle, products filter query data: first, last, after, etc.. }
- * @return {collectionByHandleQuery} A Query for collection by handle.
+ * @param {clientDocument} options contains { handle, products filter query data: first, last, after, etc.. }
+ * @return {clientDocument} A Query for collection by handle.
  */
-const collectionByHandleQuery = (client) => {
+const clientDocument = (client) => {
   const document = client.document();
   const spreads: any = {};
   const variables: any = {};
@@ -241,7 +241,7 @@ async function fetchByCustomQuery(options: ProductsByCollectionSearchParams): Pr
   if (options.products?.sortKey) queryParams.sortKey = options.products?.sortKey;
   if (options.products?.reverse) queryParams.reverse = options.products?.reverse;
 
-  const collection = await _shopifyCustomClient.graphQLClient.send(collectionByHandleQuery, { ...queryParams })
+  const collection = await _shopifyCustomClient.graphQLClient.send(clientDocument, { ...queryParams })
     .then((response) => {
       let cursor = null;
       const totalFetchProducts = (response?.data?.collectionByHandle?.products?.edges.length - 1);
