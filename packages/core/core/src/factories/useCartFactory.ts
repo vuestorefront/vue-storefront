@@ -1,32 +1,22 @@
-import {CustomQuery, UseCart} from '../types';
+import { CustomQuery, UseCart } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   loadCart: (customQuery?: CustomQuery) => Promise<CART>;
-  addToCart: (params: {
-    currentCart: CART;
-    product: PRODUCT;
-    quantity: any;
-  }) => Promise<CART>;
-  removeFromCart: (params: {
-    currentCart: CART;
-    product: CART_ITEM;
-  }) => Promise<CART>;
-  updateQuantity: (params: {
-    currentCart: CART;
-    product: CART_ITEM;
-    quantity: number;
-  }) => Promise<CART>;
+  addToCart: (
+    params: {
+      currentCart: CART;
+      product: PRODUCT;
+      quantity: any;
+    },
+    customQuery?: CustomQuery
+  ) => Promise<CART>;
+  removeFromCart: (params: { currentCart: CART; product: CART_ITEM }) => Promise<CART>;
+  updateQuantity: (params: { currentCart: CART; product: CART_ITEM; quantity: number }) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (params: {
-    currentCart: CART;
-    coupon: string;
-  }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
-  removeCoupon: (params: {
-    currentCart: CART;
-    coupon: COUPON;
-  }) => Promise<{ updatedCart: CART }>;
+  applyCoupon: (params: { currentCart: CART; coupon: string }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
+  removeCoupon: (params: { currentCart: CART; coupon: COUPON }) => Promise<{ updatedCart: CART }>;
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
@@ -38,7 +28,6 @@ interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
 ): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
-
   const setCart = (newCart: CART) => {
     sharedRef('useCart-cart').value = newCart;
   };
@@ -92,9 +81,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
     const clearCart = async () => {
       loading.value = true;
-      const updatedCart = await factoryParams.clearCart({
-        currentCart: cart.value
-      });
+      const updatedCart = await factoryParams.clearCart({ currentCart: cart.value });
       cart.value = updatedCart;
       loading.value = false;
     };

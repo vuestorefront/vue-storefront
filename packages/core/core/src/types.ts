@@ -111,6 +111,16 @@ export interface UseCategory
   loading: ComputedProperty<boolean>;
 }
 
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number): Promise<void>;
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery?: {}): any {
+  return { product, quantity, customQuery };
+}
+export function LoadCart(customQuery?: {}): Promise<void>
+export function LoadCart(customQuery?: {}): any {
+  return { customQuery };
+}
+
 export interface UseCart
 <
   CART,
@@ -119,7 +129,7 @@ export interface UseCart
   COUPON
 > {
   cart: ComputedProperty<CART>;
-  addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
+  addToCart: typeof AddToCart;<PRODUCT>();
   isOnCart: (product: PRODUCT) => boolean;
   removeFromCart: (product: CART_ITEM,) => Promise<void>;
   updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
@@ -127,7 +137,7 @@ export interface UseCart
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon: (coupon: string) => Promise<void>;
   removeCoupon: () => Promise<void>;
-  loadCart: () => Promise<void>;
+  loadCart: typeof LoadCart;
   loading: ComputedProperty<boolean>;
 }
 

@@ -7,8 +7,8 @@ export interface CustomQuery<T> {
   variables: T;
 }
 
-type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
-type CartCustomQueryFn<T> = (
+export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
+export type CartCustomQueryFn<T> = (
   cart?: CustomQuery<T>,
   user?: CustomQuery<T>
 ) => { cart: CustomQuery<T>; user: CustomQuery<T> };
