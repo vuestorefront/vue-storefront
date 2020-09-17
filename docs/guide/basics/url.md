@@ -16,11 +16,11 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 
 The `url` module contains the Vuex Store actions that are responsible for proper mapping the content with URLs.
 
-By default, the [`url/mappingFallback`](https://github.com/pkarw/vue-storefront/blob/9847f0695df0b54774dceb3c381e64770fd5cfda/core/modules/url/store/actions.ts#L65) action queries first: `product/list` then `category/list` actions to check if provided `url_path` is related to product either category.
+By default, the [`url/mappingFallback`](https://github.com/pkarw/vue-storefront/blob/9847f0695df0b54774dceb3c381e64770fd5cfda/core/modules/url/store/actions.ts#L65) action queries first: `product/findProducts` then `category/list` actions to check if provided `url_path` is related to product either category.
 
 Because it's a Vuex action - You might want to override it from Your custom module to customize the mapping logic (for example for: by using the [Magento2 URL dispatching mechanism](https://devdocs.magento.com/guides/v2.3/graphql/reference/url-resolver.html)).
 
-With all `product/list` Vuex action calls the `url/registerMapping` action is being called for registering the mappings for every particular product or category. Mappings are cached in `localStorage` so they work in the Offline mode as well + don't require any additional network calls once product/category list has been retrieved.
+With all `product/findProducts` Vuex action calls the `url/registerMapping` action is being called for registering the mappings for every particular product or category. Mappings are cached in `localStorage` so they work in the Offline mode as well + don't require any additional network calls once product/category list has been retrieved.
 
 ## Custom URLs for CMS pages and other content types
 

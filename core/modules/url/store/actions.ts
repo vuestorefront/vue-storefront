@@ -89,7 +89,7 @@ export const actions: ActionTree<UrlState, any> = {
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
-    const products = await dispatch('product/list', { query: productQuery }, { root: true })
+    const products = await dispatch('product/findProducts', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
       const product = products.items[0]
       return transformProductUrl(product, params)
