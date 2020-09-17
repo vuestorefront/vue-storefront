@@ -28,9 +28,15 @@ If you are Developing Core of Vue Storefront Next you might need to add `@vue-st
 ['@vue-storefront/checkout-com/nuxt', {
     publicKey: 'pk_test_your-public-key',
     secretKey: 'sk_test_your-secret-key',
-    ctApiUrl: 'https://your-commerctools-instance.com'
+    ctApiUrl: 'https://your-commerctools-instance.com/api',
+    ckoWebHookUrl: 'https://your-commerctools-instance.com/api'
 }],
 ```
+
+`publicKey` and `secretKey` comes from Checkout COM
+`ctApiUrl` is URL to the API endpoints which needs `secretKey` & `publicKey` it will be proxied by Express API create inside CKO Nuxt's module
+`ckoWebHookUrl` is URL to the API endpoints which needs only `publicKey` it will be used in frontend calls to the API
+We are still waiting for the confirmation if we could merge these 2 to one field.
 
 ## Render payment handlers & finalize payment
 1. Import `useCko`:
@@ -44,9 +50,9 @@ interface {
     availableMethods: { name: string, [key: string]: any },
     error: Error | null,
     selectedPaymentMethod: CkoPaymentType,
-    savePaymentInstrument: boolean,
     storedPaymentInstruments: PaymentInstrument[],
     submitDisabled: ComputedRef<boolean>,
+    storedContextId: ComputedRef<string>,
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
@@ -149,6 +155,8 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 
 Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access an array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
+`setPaymentInstrument` will set transaction token in your localStorage for a moment to make it work even after the refresh. Then it will set `selectedPaymentMethod` to `CkoPaymentType.SAVED_CARD`.
+
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
 7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood.
 8. Then you need to make Payment
@@ -236,7 +244,7 @@ enum CkoPaymentType {
     CREDIT_CARD = 1,
     SAVED_CARD,
     KLARNA, // Not supported yet
-    PAYPAL // Not supported yet
+    PAYPAL
 }
 ```
 
@@ -251,7 +259,7 @@ selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD
 ```
 
 ## Allowing user to decide whether save payment instrument or not
-`useCko` composable shares `savePaymentInstrument` ref and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage and autoloaded in `onMounted` hook. Remember to always use `setSavePaymentInstrument` after `savePaymentInstrument` update state in localStorage. E.g:
+`useCko` composable shares `loadSavePaymentInstrument` method and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage. E.g:
 ```js
 const {
       initForm,
