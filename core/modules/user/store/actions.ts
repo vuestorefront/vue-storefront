@@ -226,6 +226,13 @@ const actions: ActionTree<UserState, RootState> = {
     dispatch('checkout/savePersonalDetails', {}, { root: true })
     dispatch('checkout/saveShippingDetails', {}, { root: true })
     dispatch('checkout/savePaymentDetails', {}, { root: true })
+    commit(types.USER_ORDERS_HISTORY_LOADED, {})
+    StorageManager
+      .get('user')
+      .setItem('current-refresh-token', null)
+      .catch((reason) => {
+        Logger.error(reason)()
+      })
   },
   /**
    * Logout user
