@@ -1,9 +1,9 @@
-import { UseCart } from '../types';
+import {CustomQuery, UseCart} from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
-  loadCart: () => Promise<CART>;
+  loadCart: (customQuery?: CustomQuery) => Promise<CART>;
   addToCart: (params: {
     currentCart: CART;
     product: PRODUCT;
@@ -82,11 +82,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const loadCart = async () => {
+    const loadCart = async (customQuery?: CustomQuery) => {
       if (cart.value) return;
 
       loading.value = true;
-      cart.value = await factoryParams.loadCart();
+      cart.value = await factoryParams.loadCart(customQuery);
       loading.value = false;
     };
 

@@ -7,15 +7,15 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
+import { CustomQuery, useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find(item => item.productId === product._id);
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
-  loadCart: async () => {
-    return await loadCurrentCart();
+  loadCart: async (customQuery?: CustomQuery) => {
+    return await loadCurrentCart(customQuery);
   },
   addToCart: async ({ currentCart, product, quantity }) => {
     const { data } = await apiAddToCart(currentCart, product, quantity);

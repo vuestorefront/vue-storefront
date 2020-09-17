@@ -8,8 +8,13 @@ export interface CustomQuery<T> {
 }
 
 type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>
+type CartCustomQueryFn<T> = (cart?: CustomQuery<T>, user?: CustomQuery<T>) => { cart: CustomQuery<T>; user: CustomQuery<T> }
 
 export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
+export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, customQueries) =>
+  customQueryFn
+    ? customQueryFn()
+    : { cart: customQueries.cart ? { query: customQueries.cart.query, variables: {} } : null, user: customQueries.user ? { query: customQueries.user.query, variables: {} } : null };
 
 export interface BaseSearch {
   limit?: number;
