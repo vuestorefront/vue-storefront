@@ -7,10 +7,10 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { CustomQuery, useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
+import { CustomQuery, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
-  return currentCart.lineItems.find(item => item.productId === product._id);
+  return currentCart.lineItems.find((item) => item.productId === product._id);
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
@@ -26,9 +26,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     return data.cart;
   },
   updateQuantity: async ({ currentCart, product, quantity }) => {
-    const { data } = await apiUpdateCartQuantity(
-      currentCart, { ...product, quantity }
-    );
+    const { data } = await apiUpdateCartQuantity(currentCart, { ...product, quantity });
     return data.cart;
   },
   clearCart: async ({ currentCart }) => {

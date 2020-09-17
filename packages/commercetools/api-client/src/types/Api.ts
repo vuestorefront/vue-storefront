@@ -7,14 +7,21 @@ export interface CustomQuery<T> {
   variables: T;
 }
 
-type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>
-type CartCustomQueryFn<T> = (cart?: CustomQuery<T>, user?: CustomQuery<T>) => { cart: CustomQuery<T>; user: CustomQuery<T> }
+type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
+type CartCustomQueryFn<T> = (
+  cart?: CustomQuery<T>,
+  user?: CustomQuery<T>
+) => { cart: CustomQuery<T>; user: CustomQuery<T> };
 
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
+export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) =>
+  customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
 export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, customQueries) =>
   customQueryFn
     ? customQueryFn()
-    : { cart: customQueries.cart ? { query: customQueries.cart.query, variables: {} } : null, user: customQueries.user ? { query: customQueries.user.query, variables: {} } : null };
+    : {
+      cart: customQueries.cart ? { query: customQueries.cart.query, variables: {} } : null,
+      user: customQueries.user ? { query: customQueries.user.query, variables: {} } : null
+    };
 
 export interface BaseSearch {
   limit?: number;
@@ -63,15 +70,15 @@ export enum AttributeType {
   BOOLEAN = 'BooleanAttribute'
 }
 
-export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>
-export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
-export type ProfileResponse = QueryResponse<'me', Me>
-export type CartQueryResponse = QueryResponse<'cart', Cart>
-export type OrderQueryResponse = QueryResponse<'order', Order>
-export type CartMutationResponse = MutationResponse<'cart', Cart>
-export type CartResponse = CartQueryResponse | CartMutationResponse
-export type OrderMutationResponse = MutationResponse<'order', Order>
-export type OrderResponse = OrderQueryResponse | OrderMutationResponse
-export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>
-export type SignInResponse = QueryResponse<'user', CustomerSignInResult>
-export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>
+export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
+export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
+export type ProfileResponse = QueryResponse<'me', Me>;
+export type CartQueryResponse = QueryResponse<'cart', Cart>;
+export type OrderQueryResponse = QueryResponse<'order', Order>;
+export type CartMutationResponse = MutationResponse<'cart', Cart>;
+export type CartResponse = CartQueryResponse | CartMutationResponse;
+export type OrderMutationResponse = MutationResponse<'order', Order>;
+export type OrderResponse = OrderQueryResponse | OrderMutationResponse;
+export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>;
+export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
+export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;

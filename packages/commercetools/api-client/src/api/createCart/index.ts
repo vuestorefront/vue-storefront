@@ -12,16 +12,21 @@ const createCart = async (cartDraft: CartData = {}, customQueryFn?) => {
   const { cart } = getCartCustomQuery(customQueryFn, { cart: { query: CreateCartMutation } });
   const { query, variables } = cart;
   const { locale, acceptLanguage, currency } = getSettings();
-  const resolvedVariables = resolveCustomQueryVariables({
-    acceptLanguage,
-    locale,
-    draft: {
-      currency,
-      ...cartDraft
-    }
-  }, variables);
+  const resolvedVariables = resolveCustomQueryVariables(
+    {
+      acceptLanguage,
+      locale,
+      draft: {
+        currency,
+        ...cartDraft
+      }
+    },
+    variables
+  );
   const request = await apolloClient.mutate({
-    mutation: gql`${query}`,
+    mutation: gql`
+      ${query}
+    `,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
