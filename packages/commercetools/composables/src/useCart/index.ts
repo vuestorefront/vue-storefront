@@ -21,8 +21,8 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     const { data } = await apiAddToCart(currentCart, product, quantity, customQuery);
     return data.cart;
   },
-  removeFromCart: async ({ currentCart, product }) => {
-    const { data } = await apiRemoveFromCart(currentCart, product);
+  removeFromCart: async ({ currentCart, product }, customQuery?: CustomQuery) => {
+    const { data } = await apiRemoveFromCart(currentCart, product, customQuery);
     return data.cart;
   },
   updateQuantity: async ({ currentCart, product, quantity }) => {

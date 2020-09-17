@@ -12,7 +12,7 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
     },
     customQuery?: CustomQuery
   ) => Promise<CART>;
-  removeFromCart: (params: { currentCart: CART; product: CART_ITEM }) => Promise<CART>;
+  removeFromCart: (params: { currentCart: CART; product: CART_ITEM }, customQuery?: CustomQuery) => Promise<CART>;
   updateQuantity: (params: { currentCart: CART; product: CART_ITEM; quantity: number }) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
   applyCoupon: (params: { currentCart: CART; coupon: string }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
@@ -37,23 +37,23 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
-    const addToCart = async (product: PRODUCT, quantity: number) => {
+    const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
       loading.value = true;
       const updatedCart = await factoryParams.addToCart({
         currentCart: cart.value,
         product,
         quantity
-      });
+      }, customQuery);
       cart.value = updatedCart;
       loading.value = false;
     };
 
-    const removeFromCart = async (product: CART_ITEM) => {
+    const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
       loading.value = true;
       const updatedCart = await factoryParams.removeFromCart({
         currentCart: cart.value,
         product
-      });
+      }, customQuery);
       cart.value = updatedCart;
       loading.value = false;
     };

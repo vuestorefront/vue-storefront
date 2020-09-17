@@ -116,6 +116,11 @@ export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQue
 export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery?: {}): any {
   return { product, quantity, customQuery };
 }
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM): Promise<void>
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): Promise<void>
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
+  return { product, customQuery };
+}
 export function LoadCart(customQuery?: {}): Promise<void>
 export function LoadCart(customQuery?: {}): any {
   return { customQuery };
@@ -127,11 +132,12 @@ export interface UseCart
   CART_ITEM,
   PRODUCT,
   COUPON
-> {
+  > {
   cart: ComputedProperty<CART>;
-  addToCart: typeof AddToCart;<PRODUCT>();
+  addToCart: typeof AddToCart;
   isOnCart: (product: PRODUCT) => boolean;
-  removeFromCart: (product: CART_ITEM,) => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  removeFromCart: typeof RemoveFromCart;
   updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
   clearCart: () => Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
