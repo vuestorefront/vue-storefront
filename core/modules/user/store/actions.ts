@@ -58,12 +58,13 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
+    await dispatch('resetUserInvalidation', {}, { root: true })
+
     const resp = await UserService.login(username, password)
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
       try {
-        await dispatch('resetUserInvalidateLock', {}, { root: true })
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
       } catch (err) {
