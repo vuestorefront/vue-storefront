@@ -6,7 +6,9 @@ const defaultConfig = {
   card: {
     style: {},
     localization: null
-  }
+  },
+  channels: {},
+  currentChannel: null
 };
 
 const config = {
@@ -21,9 +23,17 @@ interface CardConfiguration {
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
+  ctApiUrl?: string;
   tokenizedCardKey?: string;
   saveInstrumentKey?: string;
   card?: CardConfiguration;
+}
+
+interface MultichannelConfiguration {
+  channels: {
+    [channelKey: string]: Configuration;
+  };
+  defaultChannel: string;
 }
 
 interface CustomLocalization {
@@ -53,13 +63,28 @@ const defaultStyles = {
   }
 };
 
-const setup = (params: Configuration) => {
-  config.publicKey = params.publicKey;
-  config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
-  config.card.style = params.card?.style || defaultStyles;
-  config.card.localization = params.card?.localization || null;
-  config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
-  config.saveInstrumentKey = params.saveInstrumentKey || config.saveInstrumentKey;
+const setChannel = (channel: string) => {
+  if (!config.channels[channel]) {
+    console.error('[CKO] Requested channel does not exist in the config');
+    return;
+  }
+  const pickedChannel = config.channels[channel];
+  config.publicKey = pickedChannel.publicKey;
+  config.ckoWebHookUrl = pickedChannel.ckoWebHookUrl || config.ckoWebHookUrl;
+  config.card.style = pickedChannel.card?.style || defaultStyles;
+  config.card.localization = pickedChannel.card?.localization || null;
+  config.tokenizedCardKey = pickedChannel.tokenizedCardKey || config.tokenizedCardKey;
+  config.saveInstrumentKey = pickedChannel.saveInstrumentKey || config.saveInstrumentKey;
+  config.currentChannel = channel;
+};
+
+const setup = ({ channels, defaultChannel }: MultichannelConfiguration) => {
+  if (!channels[defaultChannel]) {
+    console.error('[CKO] Bad config provided');
+    return;
+  }
+  config.channels = channels;
+  setChannel(defaultChannel);
 };
 
 const getPublicKey = () => config.publicKey;
@@ -69,5 +94,6 @@ const getFramesStyles = () => config.card.style;
 const getFramesLocalization = () => config.card.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
+const getCurrentChannel = () => config.currentChannel;
 
-export { defaultConfig, setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
+export { defaultConfig, setChannel, setup, getPublicKey, getCurrentChannel, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
