@@ -8,12 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.13.0] - UNRELEASED
 
 ### Added
+
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Replaced deprecated action product/list call with product/findProducts (#4769)
 - Documentation examples of how to translate strings that contain variables or HTML tags - @weaves81 (#4991)
 
 ### Fixed
 - Fixed some typo in docs (#5071)
+
+### Fixed
+
+- Add support for boolean filter aggregations in ES7 - @cewald (#4887)
 
 ## [1.12.2] - 2020.07.28
 
