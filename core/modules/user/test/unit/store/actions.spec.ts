@@ -183,7 +183,7 @@ describe('User actions', () => {
       const password = data.password;
       const result = await (userActions as any).login(contextMock, { username, password });
 
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'resetUserInvalidateLock', {}, { root: rootValue })
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'resetUserInvalidation', {}, { root: rootValue })
       expect(contextMock.commit).toHaveBeenCalledWith(types.USER_TOKEN_CHANGED, {
         newToken: data.responseOb.result,
         meta: data.responseOb.meta
@@ -390,6 +390,9 @@ describe('User actions', () => {
         commit: jest.fn(),
         dispatch: jest.fn()
       };
+      (StorageManager.get as jest.Mock).mockImplementation(() => ({
+        setItem: async () => {}
+      }));
 
       (userActions as any).clearCurrentUser(contextMock)
 
