@@ -25,19 +25,19 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     const { data } = await apiRemoveFromCart(currentCart, product, customQuery);
     return data.cart;
   },
-  updateQuantity: async ({ currentCart, product, quantity }) => {
-    const { data } = await apiUpdateCartQuantity(currentCart, { ...product, quantity });
+  updateQuantity: async ({ currentCart, product, quantity }, customQuery?: CustomQuery) => {
+    const { data } = await apiUpdateCartQuantity(currentCart, { ...product, quantity }, customQuery);
     return data.cart;
   },
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, coupon }) => {
-    const { data } = await apiApplyCartCoupon(currentCart, coupon);
+  applyCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
+    const { data } = await apiApplyCartCoupon(currentCart, coupon, customQuery);
     return { updatedCart: data.cart, updatedCoupon: coupon };
   },
-  removeCoupon: async ({ currentCart, coupon }) => {
-    const { data } = await apiRemoveCartCoupon(currentCart, coupon);
+  removeCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
+    const { data } = await apiRemoveCartCoupon(currentCart, coupon, customQuery);
     return { updatedCart: data.cart };
   },
   isOnCart: ({ currentCart, product }) => {

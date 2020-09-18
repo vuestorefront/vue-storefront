@@ -9,7 +9,6 @@ const addToCart = async (
   quantity: number,
   customQuery?: CustomQueryFn
 ): Promise<CartResponse> => {
-  console.log(id);
   return await updateCart(
     {
       id,

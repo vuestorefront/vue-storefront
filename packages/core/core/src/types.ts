@@ -121,6 +121,11 @@ export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): 
 export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
   return { product, customQuery };
 }
+export function ApplyCoupon(coupon): Promise<void>
+export function ApplyCoupon(coupon, customQuery: {}): Promise<void>
+export function ApplyCoupon(coupon, customQuery?: {}): any {
+  return { coupon, customQuery };
+}
 export function LoadCart(customQuery?: {}): Promise<void>
 export function LoadCart(customQuery?: {}): any {
   return { customQuery };
@@ -141,7 +146,7 @@ export interface UseCart
   updateQuantity: typeof AddToCart;
   clearCart: () => Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
-  applyCoupon: (coupon: string) => Promise<void>;
+  applyCoupon: typeof ApplyCoupon;
   removeCoupon: typeof LoadCart;
   loadCart: typeof LoadCart;
   loading: ComputedProperty<boolean>;
