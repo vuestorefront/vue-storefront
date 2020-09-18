@@ -170,7 +170,7 @@ import {
   SfSelect,
   SfRadio
 } from '@storefront-ui/vue';
-import { countries } from '@vue-storefront/commercetools-api';
+import { getSettings } from '@vue-storefront/commercetools-api';
 import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
@@ -236,7 +236,7 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      countries
+      countries: getSettings().countries
     };
   }
 };

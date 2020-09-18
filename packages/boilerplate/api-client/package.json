@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/core": "2.0.1-prealpha.300"
+    "@vue-storefront/core": "^2.0.6"
   },
   "files": [
     "lib/**/*"

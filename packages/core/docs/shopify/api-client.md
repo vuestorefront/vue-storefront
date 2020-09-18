@@ -15,4 +15,3 @@ setup({
   storefrontAccessToken: '28d86b7cb13a0b128fb61e48c6358845'
 })
 ```
-**`setup`** accepts following properties:

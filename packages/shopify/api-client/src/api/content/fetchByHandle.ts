@@ -14,13 +14,7 @@ async function fetchByHandle(options): Promise<Content> {
     );
   });
 
-  const page = await _shopifyCustomClient.graphQLClient
-    .send(pagesQuery)
-    .then(({ data }) => {
-      return data.pages.edges[0].node;
-    });
-
-  return page;
+  return await _shopifyCustomClient.graphQLClient.send(pagesQuery);
 }
 
 export default fetchByHandle;

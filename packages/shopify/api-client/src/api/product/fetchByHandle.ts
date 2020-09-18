@@ -13,12 +13,7 @@ import { Product, ProductSearchParams } from '../../types';
  * @return {Promise|Product} A promise resolving with a `Product` type.
  */
 async function fetchByHandle(options: ProductSearchParams): Promise<Product[]> {
-  const products = await _shopifyClient.product
-    .fetchByHandle(options.slug)
-    .then((products) => {
-      return products;
-    });
-  return products;
+  return await _shopifyClient.product.fetchByHandle(options.slug);
 }
 
 export default fetchByHandle;

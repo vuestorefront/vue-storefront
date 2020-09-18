@@ -47,7 +47,7 @@ describe('[about-you-cloud composables] useProduct factoryParams', () => {
         }
       ]);
 
-      expect(await params.productsSearch({})).toEqual({
+      expect(await params.productsSearch({}, null)).toEqual({
         data: [{ id: '331' }, { id: '332' }],
         total: 1,
         availableSortingOptions: [
@@ -110,7 +110,7 @@ describe('[about-you-cloud composables] useProduct factoryParams', () => {
         id: '331'
       });
 
-      expect(await params.productsSearch({ id: '331' })).toEqual({
+      expect(await params.productsSearch({ id: '331' }, null)).toEqual({
         data: [{ id: '331' }],
         total: 1,
         availableSortingOptions: [

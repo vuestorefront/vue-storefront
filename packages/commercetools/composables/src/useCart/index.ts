@@ -43,7 +43,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
     return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
-    return Boolean(getBasketItemByProduct({ currentCart, product }));
+    return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
   }
 };
 

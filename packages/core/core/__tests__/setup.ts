@@ -1,11 +1,17 @@
 import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
+import VueCompositionApi, { ref } from '@vue/composition-api';
 
-const NuxtApi = jest.requireActual('nuxt-composition-api');
+const utils = jest.requireActual('../src/utils');
 
 Vue.use(VueCompositionApi);
+jest.mock('lodash-es/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
 
-jest.mock('nuxt-composition-api', () => ({
-  ...NuxtApi,
-  ssrRef: jest.fn((arg) => NuxtApi.ssrRef(arg, String(Math.random()).slice(2)))
+jest.mock('../src/utils', () => ({
+  ...utils,
+  onSSR: jest.fn(fn => fn()),
+  sharedRef: jest.fn(ref),
+  vsfRef: jest.fn(ref)
 }));
+
+// @ts-ignore
+global.__DEV__ = false;

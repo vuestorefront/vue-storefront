@@ -1,7 +1,6 @@
-import { ProductVariant } from '../../types/GraphQL';
+import { ProductVariant, Attribute } from '../../types/GraphQL';
 import { getAttributeValue } from '../../getters/_utils';
-import { Filter, FilterOption } from '@vue-storefront/commercetools-api/lib/types/Api';
-import { Attribute } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { Filter, FilterOption } from '@vue-storefront/commercetools-api';
 
 const extractAttributes = (product: ProductVariant): Attribute[] => product.attributeList;
 

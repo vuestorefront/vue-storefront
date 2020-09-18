@@ -45,4 +45,38 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       ]
     });
   });
+
+  it('updates cart shipping details without contact info', async () => {
+    const shippingDetails = {
+      firstName: 'John',
+      lastName: 'Doe',
+      country: 'US',
+      city: 'New York',
+      postalCode: '11-111',
+      streetName: 'Street 1',
+      streetNumber: ''
+    } as any;
+
+    const response = await updateShippingDetails(cart, shippingDetails);
+
+    expect(response).toEqual({
+      id: 1,
+      version: 1,
+      actions: [
+        {
+          setShippingAddress: {
+            address: {
+              firstName: 'John',
+              lastName: 'Doe',
+              country: 'US',
+              city: 'New York',
+              postalCode: '11-111',
+              streetName: 'Street 1',
+              streetNumber: ''
+            }
+          }
+        }
+      ]
+    });
+  });
 });

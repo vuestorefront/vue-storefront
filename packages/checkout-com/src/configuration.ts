@@ -1,23 +1,29 @@
-const config = {
+const defaultConfig = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
   tokenizedCardKey: 'temporary-tokenized-card',
   saveInstrumentKey: 'save-instrument',
   card: {
-    styles: {},
+    style: {},
     localization: null
   }
 };
+
+const config = {
+  ...defaultConfig
+};
+
+interface CardConfiguration {
+  style?: any;
+  localization?: string | CustomLocalization;
+}
 
 interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
   tokenizedCardKey?: string;
   saveInstrumentKey?: string;
-  card?: {
-    styles?: any;
-    localization?: string | CustomLocalization;
-  };
+  card?: CardConfiguration;
 }
 
 interface CustomLocalization {
@@ -50,17 +56,18 @@ const defaultStyles = {
 const setup = (params: Configuration) => {
   config.publicKey = params.publicKey;
   config.ckoWebHookUrl = params.ckoWebHookUrl || config.ckoWebHookUrl;
-  config.card.styles = params.card?.styles || defaultStyles;
+  config.card.style = params.card?.style || defaultStyles;
   config.card.localization = params.card?.localization || null;
   config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
+  config.saveInstrumentKey = params.saveInstrumentKey || config.saveInstrumentKey;
 };
 
 const getPublicKey = () => config.publicKey;
 const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
-const getFramesStyles = () => config.card.styles;
+const getFramesStyles = () => config.card.style;
 const getFramesLocalization = () => config.card.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration };
+export { defaultConfig, setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };

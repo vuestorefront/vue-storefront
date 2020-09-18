@@ -31,7 +31,6 @@ export default {
   ],
   buildModules: [
     // to core
-    'nuxt-composition-api',
     '@nuxt/typescript-build',
     '@nuxtjs/dotenv',
     ['@nuxtjs/pwa', { icon: false }],
@@ -68,6 +67,7 @@ export default {
     'vue-scrollto/nuxt',
     '@nuxtjs/robots'
   ],
+  i18n: localeConfig,
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -152,6 +152,5 @@ export default {
     icon: {
       iconSrc: 'src/static/android-icon-512x512.png'
     }
-  },
-  i18n: localeConfig
+  }
 };

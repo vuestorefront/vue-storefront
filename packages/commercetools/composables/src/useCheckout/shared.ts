@@ -1,20 +1,21 @@
 /* istanbul ignore file */
 
-import { ref, Ref, computed } from '@vue/composition-api';
-import { Customer } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { Ref, computed } from '@vue/composition-api';
+import { Customer } from '../types/GraphQL';
+import { sharedRef } from '@vue-storefront/core';
 
 export const initialDetails = { contactInfo: {} };
-export const paymentMethods: Ref<any[]> = ref([]);
-export const shippingMethods: Ref<any[]> = ref([]);
-export const personalDetails: Ref<Customer> = ref<Customer>({} as Customer);
-export const chosenPaymentMethod: Ref<any> = ref({});
-export const chosenShippingMethod: Ref<any> = ref({});
-export const isPersonalDetailsCompleted: Ref<boolean> = ref(false);
-export const isShippingAddressCompleted: Ref<boolean> = ref(false);
-export const isBillingAddressCompleted: Ref<boolean> = ref(false);
-export const billingDetails: Ref<any> = ref(initialDetails);
-export const shippingDetails: Ref<any> = ref(initialDetails);
-export const loading = ref({
+export const paymentMethods: Ref<any[]> = sharedRef([], 'useCheckout-paymentMethods');
+export const shippingMethods: Ref<any[]> = sharedRef([], 'useCheckout-shippingMethods');
+export const personalDetails: Ref<Customer> = sharedRef({}, 'useCheckout-personalDetails');
+export const chosenPaymentMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenPaymentMethod');
+export const chosenShippingMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenShippingMethod');
+export const isPersonalDetailsCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isPersonalDetailsCompleted');
+export const isShippingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isShippingAddressCompleted');
+export const isBillingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isBillingAddressCompleted');
+export const billingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-billingDetails');
+export const shippingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-shippingDetails');
+export const loading = sharedRef({
   personalDetails: false,
   paymentMethods: false,
   shippingMethods: false,
@@ -22,7 +23,7 @@ export const loading = ref({
   billingAddress: false,
   shippingMethod: false,
   order: false
-});
+}, 'useCheckout-loading');
 
 export const checkoutComputed = {
   loading: computed(() => loading.value),

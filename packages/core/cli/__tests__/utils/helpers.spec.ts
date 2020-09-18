@@ -1,15 +1,39 @@
-import { getThemePath, buildFileTargetPath } from '../../src/utils/helpers';
+import { getThemePath, buildFileTargetPath, copyThemeFiles } from '../../src/utils/helpers';
+import path from 'path';
+import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
+
+import { statSync } from 'fs';
+jest.mock('fs', () => ({
+  statSync: jest.fn(() => ({
+    isDirectory: () => true
+  }))
+}));
+
+const filesInDir = [
+  '/dir/abc.jpg',
+  '/dir/yht.html'
+];
+
+jest.mock('@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir.js', () => () => filesInDir);
+jest.mock('@vue-storefront/nuxt-theme/scripts/copyThemeFiles', () => ({
+  copyFile: jest.fn()
+}));
+
+jest.mock('../../src/utils/helpers', () => ({
+  ...jest.requireActual('../../src/utils/helpers'),
+  buildFileTargetPath: jest.fn(jest.requireActual('../../src/utils/helpers').buildFileTargetPath)
+}));
 
 describe('[vsf-next-cli] getThemePath', () => {
   it('getThemePath - creates a proper path', () => {
     const tests = [
       {
         input: 'commercetools',
-        output: '../../../node_modules/@vue-storefront/commercetools'
+        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
       },
       {
         input: 'nuxt-theme/theme',
-        output: '../../../node_modules/@vue-storefront/nuxt-theme/theme'
+        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme/theme')
       }
     ];
 
@@ -43,6 +67,30 @@ describe('[vsf-next-cli] getThemePath', () => {
       const testOutput = buildFileTargetPath(test.input[0], test.input[1], test.input[2]);
       expect(testOutput).toBe(test.output);
     }
+
+  });
+
+  it('copyThemeFiles for directory', async () => {
+    const filesDir = 'some-dir';
+    const targetPath = 'some-target-path';
+    await copyThemeFiles(filesDir, targetPath, '');
+
+    for (const fileInDir of filesInDir) {
+      expect(copyFile).toHaveBeenCalledWith(fileInDir, `${targetPath}${fileInDir}`);
+    }
+  });
+
+  it('copyThemeFiles for a file', async () => {
+    jest.clearAllMocks();
+    (statSync as jest.Mock).mockImplementation(() => ({
+      isDirectory: () => false
+    }));
+
+    const fileDir = 'some-dir';
+    const targetPath = 'some-target-path/';
+    await copyThemeFiles(fileDir, targetPath, '');
+
+    expect(copyFile).toHaveBeenCalledWith(fileDir, `${targetPath}${fileDir}`);
 
   });
 });

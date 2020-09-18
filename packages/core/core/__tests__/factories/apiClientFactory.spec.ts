@@ -10,8 +10,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     const { getSettings } = apiClientFactory<any, any>(params);
 
     expect(getSettings()).toEqual({
-      option: 'option',
-      overrides: {}
+      option: 'option'
     });
   });
 
@@ -27,44 +26,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     expect(getSettings()).toEqual({
       option: 'option',
-      newOption: 'newOption',
-      overrides: {}
-    });
-  });
-
-  it('Should add methods to override settings property', () => {
-    const params = {
-      onSetup: jest.fn(),
-      defaultSettings: {}
-    };
-
-    const { override, getSettings } = apiClientFactory<any, any>(params);
-
-    override({ getProduct: 'getProduct'});
-
-    expect(getSettings()).toEqual({
-      overrides: {
-        getProduct: 'getProduct'
-      }
-    });
-  });
-
-  it('Should keep overwritten methods after setup', () => {
-    const params = {
-      onSetup: jest.fn(),
-      defaultSettings: {}
-    };
-
-    const { override, setup, getSettings } = apiClientFactory<any, any>(params);
-
-    override({ getProduct: 'getProduct'});
-
-    setup({});
-
-    expect(getSettings()).toEqual({
-      overrides: {
-        getProduct: 'getProduct'
-      }
+      newOption: 'newOption'
     });
   });
 
@@ -81,8 +43,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     setup({});
 
     expect(getSettings()).toEqual({
-      option: 'option',
-      overrides: {}
+      option: 'option'
     });
   });
 
@@ -99,8 +60,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     expect(getSettings()).toEqual({
       option: 'overwritten',
-      newOption: 'newOption',
-      overrides: {}
+      newOption: 'newOption'
     });
   });
 
