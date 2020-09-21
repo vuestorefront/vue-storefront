@@ -1,5 +1,5 @@
-import { apolloClient, getSettings } from './../../index';
-import { getCartCustomQuery, ProfileResponse } from './../../types/Api';
+import { apolloClient, getCustomQuery, getSettings } from './../../index';
+import { ProfileResponse } from './../../types/Api';
 import { basicProfile, fullProfile } from './defaultQuery';
 import { resolveCustomQueryVariables } from '../../helpers/search';
 import { ApolloQueryResult } from 'apollo-client';
@@ -10,8 +10,7 @@ interface Options {
 }
 
 const getMe = async (params: Options = {}, customQueryFn?) => {
-  const { user } = getCartCustomQuery(customQueryFn, { user: { query: basicProfile } });
-  const { query, variables } = user;
+  const { query, variables } = getCustomQuery(customQueryFn, basicProfile);
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
   const resolvedVariables = resolveCustomQueryVariables(

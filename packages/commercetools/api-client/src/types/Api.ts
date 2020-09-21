@@ -8,35 +8,9 @@ export interface CustomQuery<T> {
 }
 
 export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
-export type CartCustomQueryFn<T> = (
-  cart?: CustomQuery<T>,
-  user?: CustomQuery<T>
-) => { cart: CustomQuery<T>; user: CustomQuery<T> };
-
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) =>
-  customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
-export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, defaultQueries) => {
-  const { cart, user } = defaultQueries;
-  const { cart: customCart, user: customUser } = customQueryFn();
-  return customQueryFn
-    ? {
-      cart: customCart
-        ? {
-          query: customCart.query ? customCart.query : cart.query,
-          variables: customCart.variables ? customCart.variables : {}
-        }
-        : cart,
-      user: customUser
-        ? {
-          query: customUser.query ? customUser.query : user.query,
-          variables: customUser.variables ? customUser.variables : {}
-        }
-        : user
-    }
-    : {
-      cart: cart ? { query: cart.query, variables: {} } : null,
-      user: user ? { query: user.query, variables: {} } : null
-    };
+export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
+  const { query, variables } = customQueryFn();
+  return customQueryFn ? { query: query || defaultQuery, variables: variables || {} } : { query: defaultQuery, variables: {} };
 };
 
 export interface BaseSearch {

@@ -1,5 +1,5 @@
 import { CartDraft } from './../../types/GraphQL';
-import { apolloClient, getCartCustomQuery, getSettings } from './../../index';
+import { apolloClient, getCustomQuery, getSettings } from './../../index';
 import CreateCartMutation from './defaultMutation';
 import { resolveCustomQueryVariables } from '../../helpers/search';
 import gql from 'graphql-tag';
@@ -9,8 +9,7 @@ interface CartData extends Omit<CartDraft, 'currency'> {
 }
 
 const createCart = async (cartDraft: CartData = {}, customQueryFn?) => {
-  const { cart } = getCartCustomQuery(customQueryFn, { cart: { query: CreateCartMutation } });
-  const { query, variables } = cart;
+  const { query, variables } = getCustomQuery(customQueryFn, CreateCartMutation);
   const { locale, acceptLanguage, currency } = getSettings();
   const resolvedVariables = resolveCustomQueryVariables(
     {
