@@ -1,0 +1,116 @@
+{
+  "server": {
+    "host": "vue-storefront.yourdomain",
+    "port": 3000,
+    "protocol": "http",
+    "api": "api",
+    "useOutputCacheTagging": true,
+    "useOutputCache": true,
+    "outputCacheDefaultTtl": 86400,
+    "invalidateCacheKey": "aeSu7aip",
+    "invalidateCacheForwarding": false,
+    "invalidateCacheForwardUrl": "http://vue-storefront.yourdomain:8080/invalidate?key=aeSu7aip&tag=",
+  },
+  "redis": {
+    "host": "cluster.ip",
+    "port": 6379,
+    "db": 0
+  },
+  "elasticsearch": {
+      "httpAuth": "",
+      "host": "/api/catalog",
+      "index": "vue_storefront_catalog"
+  },
+  "api": {
+    "url": "https://yourproduction.url:8080"",
+    "saveBandwidthOverCache": true
+  },
+  "storeViews": {
+      "mapStoreUrlsFor": [
+          "de",
+          "it"
+      ],
+      "multistore": true,
+      "de": {
+          "elasticsearch": {
+              "httpAuth": "",
+              "host": "/api/catalog",
+              "index": "vue_storefront_catalog_de"
+          }
+      },
+      "it": {
+          "elasticsearch": {
+              "httpAuth": "",
+              "host": "/api/catalog",
+              "index": "vue_storefront_catalog_it"
+          }
+      }
+  },
+  "cart": {
+      "synchronize": true,
+      "synchronize_totals": true,
+      "create_endpoint": "/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+  "products": {
+      "preventConfigurableChildrenDirectAccess": true,
+      "alwaysSyncPlatformPricesOver": true,
+      "clearPricesBeforePlatformSync": true,
+      "waitForPlatformSync": false,
+      "endpoint": "/api/product",
+      "defaultFilters": [
+          "color",
+          "size",
+          "price"
+      ]
+  },
+  "orders": {
+      "endpoint": "/api/order"
+  },
+  "images": {
+      "baseUrl": "/img/"
+  },
+  "users": {
+      "endpoint": "/api/user",
+      "history_endpoint": "/api/user/order-history?token={{token}}",
+      "resetPassword_endpoint": "/api/user/reset-password",
+      "changePassword_endpoint": "/api/user/change-password?token={{token}}",
+      "login_endpoint": "/api/user/login",
+      "create_endpoint": "/api/user/create",
+      "me_endpoint": "/api/user/me?token={{token}}",
+      "refresh_endpoint": "/api/user/refresh"
+  },
+  "stock": {
+      "endpoint": "/api/stock"
+  },
+  "tax": {
+      "defaultCountry": "PL",
+      "defaultRegion": "",
+      "calculateServerSide": true
+  },
+  "i18n": {
+      "defaultCountry": "US",
+      "defaultLanguage": "EN"
+  },
+  "mailchimp": {
+      "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
+  },
+  "registeredExtensions": [
+      "custom_extension",
+      "mailchimp-subscribe",
+      "google-analytics"
+  ],
+  "demomode": true,
+  "analytics": {
+      "id": "UA-108235765-2"
+  }
+}

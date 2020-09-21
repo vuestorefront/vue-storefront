@@ -268,10 +268,23 @@ yarn install
 It may take a few minutes. The phantomjs dependency requires bzip2 to be installed. Once the modules are installed, we can set configuration files for both services.
 
 #### Vue Storefront configuration
+The Vue Storefront application uses the node-config npm module to manage configuration files. Configuration is stored in the /config directory within two JSON files:
 
-The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
+default.json is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shouldn't be modified within your specific Vue Storefront instance.
 
-Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly by copying default.json into local.json by using `cp` command:
+local.json is the second configuration file which is .gitignore'd from the repository. This is the place where you should store all instance-specific configuration variables.
+
+:::tip NOTENOTE
+
+Please not that the config is bundled into JavaScript files that are returned to the user's browser. Please NEVER PUT ANY SENSITIVE INFORMATION into the config file of vue-storefront. If your application requires some authorization / tokens /etc - please store them and access via dedicated vue-storefront-api or storefront-api extension that will prevent these sensitive information from being returned to the users.
+:::
+
+The structure of these files is exactly the same! Vue Storefront does kind of Object.assign(default, local) (but with the deep-merge). This means that the local.json overrides the default.json properties.
+
+The configuration files we produce in this tutorial are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
+
+Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly by either adapting the `local.json` that you have used in development or by copying and editing default.json into local.json by using `cp` command. If you do copy in the default.json config I would suggest you delete sections that you haven't edited as this will make it clearer what has actually been changed.
+
 ```bash
 cp /home/www/vuestorefront/vue-storefront-api/config/default.json /home/www/vuestorefront/vue-storefront-api/config/local.json
 ```
@@ -674,7 +687,10 @@ Apply the Redis Master Service from the following redis-master-service.yaml file
 kubectl apply -f https://k8s.io/examples/application/guestbook/redis-master-service.yaml
 ```
 #### Start up the Redis Slaves
-Although the Redis master is a single pod, you can make it highly available to meet traffic demands by adding replica Redis slaves.
+Although the Redis master is a single pod, you can make it highly available by adding a Redis slave.
+Vue Storefront and Vue Storefront don't presently understand the concept of readonly slaves. So presently you can't horizontally
+Scale Redis. The slave allows high availability because if the master fails then the slave will be promoted to master by re-election until the kubernetes has successfully brought the master back online. Personally I like to have 2 slaves for an extra layer of redundancy.
+
 ```
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
@@ -772,31 +788,316 @@ redis-master   ClusterIP   10.0.0.151   <none>        6379/TCP   1m
 redis-slave    ClusterIP   10.0.0.223   <none>        6379/TCP   6s
 ...
 ```
+#### Vue Storefront configuration
+The Vue Storefront application uses the node-config npm module to manage configuration files. Configuration is stored in the /config directory within two JSON files:
 
+default.json is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shouldn't be modified within your specific Vue Storefront instance.
 
+local.json is the second configuration file which is .gitignore'd from the repository. This is the place where you should store all instance-specific configuration variables.
 
+:::tip NOTENOTE
 
+Please not that the config is bundled into JavaScript files that are returned to the user's browser. Please NEVER PUT ANY SENSITIVE INFORMATION into the config file of vue-storefront. If your application requires some authorization / tokens /etc - please store them and access via dedicated vue-storefront-api or storefront-api extension that will prevent these sensitive information from being returned to the users.
+:::
 
+The structure of these files is exactly the same! Vue Storefront does kind of Object.assign(default, local) (but with the deep-merge). This means that the local.json overrides the default.json properties.
 
+The configuration files we produce in this tutorial are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
 
----
+Please create the `vue-storefront/docker/production/config/local.json` file by either adapting the `local.json` that you have used in development or by copying and editing default.json into local.json by using `cp` command. If you do copy in the default.json config I would suggest you delete sections that you haven't edited as this will make it clearer what has actually been changed.
 
-### Nginx Ingress
-In Kubernetes, an Ingress is an object that allows access to your Kubernetes services from outside the Kubernetes cluster. You configure access by creating a collection of rules that define which inbound connections reach which services.
+```bash
+cd vue-storefront
+mkdir -p docker/production/configs
+cp config/local.json docker/production/config/local.json
+```
 
-Again we decided to use NGINX because as we said before it gives you a lot of flexibility regarding the SSL, gzip compression, URL routing, and other techniques to be configured without additional hassle.
+Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
-#### Configmap
-#### Deployment
-#### Service
----
-### vue-storefront
+There are 27 more instances of `prod.vuestorefront.io` to be replaced with your production endpoints addresses. These can be anything resolvable to an api instance i.e. external urls or even IP addresses. Allowing you to have different API instances responding to different endpoints. However, because we are letting the Nginx ingress handle the load-balancing we will use relative URLs. To do this we will need to let `vue-storefront` know our api URL. Edit the following to config.
+
+```
+"api": {
+  "url": "https://yourproduction.url:8080"
+}
+"elasticsearch": {
+    "httpAuth": "",
+    "host": "/api/catalog",
+    "index": "vue_storefront_catalog"
+},
+"storeViews": {
+    "mapStoreUrlsFor": [
+        "de",
+        "it"
+    ],
+    "multistore": true,
+    "de": {
+        "elasticsearch": {
+            "httpAuth": "",
+            "host": "/api/catalog",
+            "index": "vue_storefront_catalog_de"
+        }
+    },
+    "it": {
+        "elasticsearch": {
+            "httpAuth": "",
+            "host": "/api/catalog",
+            "index": "vue_storefront_catalog_it"
+        }
+    }
+},
+```
+
+We're setting up the product's endpoint to https://yourproduction.url/api/catalog. As you may notice, the `/api` url is proxied by the NGINX to our `vue-storefront-api` instance.
+
+```json
+"cart": {
+      "synchronize": true,
+      "synchronize_totals": true,
+      "create_endpoint": "/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+```
+We set up a master and slaves, here we will point it at the master. Because, as
+previously mentioned, the slaves simply provide failover redundancy.
+```
+  "server": {
+    "host": "vue-storefront.yourdomain",
+    "port": 3000,
+    "protocol": "http",
+    "api": "api",
+    "useOutputCacheTagging": true,
+    "useOutputCache": true,
+    "outputCacheDefaultTtl": 86400,
+    "invalidateCacheKey": "aeSu7aip",
+    "invalidateCacheForwarding": false,
+    "invalidateCacheForwardUrl": "http://vue-storefront.yourdomain:8080/invalidate?key=aeSu7aip&tag=",      
+  },
+  "redis": {
+    "host": "cluster.ip",
+    "port": 6379,
+    "db": 0
+  },
+```
+
+#### Using your own Magento 2 instance
+
+ In this case, you'll have to update `magento2` config node with the correct hostname in the vue-storefront-api config file. To get all necessary Magento 2 API data for the `api` node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
+node, navigate to SYSTEM -> Extensions -> Integrations in the Magento 2 Admin.
+
+- Click Add New Integration
+- Check the necessary permissions (check Catalog, Sales, My Account, and Carts on the API Permissions tab )
+- Click Activate
+- Copy necessary keys, secrets, and tokens into the api section of vue-storefront-api config
+
+### vue-storefront Docker Image
 As I mentioned earlier, we recommend that you base your own Dockerfile on ours in order to copy the relevant directories into kubernetes rather than mounting them as volumes.
+
+Becuase of this I would avoid using a git clone that you have been using for development to build your image for production, afterall we don't want to accidentally include development tools. Instead clone to a fresh location then install and build with yarn.
+
+```
+git clone git@github.com:your-org/vue-storefront.git
+cd vue-storefront
+git submodule update --init --recursive
+```
+```
+yarn install && yarn build
+```
+Now lets create the Dockerfile, first lets copy the existing one to a new location.
 
 ```
 mkdir docker/production && cp docker/vue-storefront/* docker/production/
 ```
-Edit the file to copy the needed folders into the image.
+
+Edit the Dockerfile to copy the needed folders into the image.
+```
+FROM node:10
+
+ENV NODE_CONFIG_ENV=docker PM2_ARGS=--no-daemon BIND_HOST=0.0.0.0 VS_ENV=prod
+
+WORKDIR /var/www
+
+COPY . .
+
+RUN cp -f ./docker/production/ecosystem.json ./ecosystem.json
+RUN cp -r ./docker/production/config/local.json ./config/local.json
+
+# Should be yarn install --production
+RUN apt update && apt install -y git \
+  && yarn install \
+  && yarn build
+
+COPY dev/docker/vue-storefront.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/vue-storefront.sh
+
+ENTRYPOINT ["vue-storefront.sh"]
+```
+#### Create a new ecosystem.json
+You might have noticed that we are copying a new `./docker/production/ecosystem.json` into the image. Create that file now.
+```
+{
+  "apps": [
+    {
+      "name": "server",
+      "max_memory_restart": "1G",
+      "instances": "4",
+      "exec_mode": "cluster",
+      "env": {
+        "TS_NODE_PROJECT": "tsconfig-build.json",
+        "NODE_ENV": "production"
+      },
+      "interpreter": "./node_modules/.bin/ts-node",
+      "script": "./core/scripts/server.ts",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "ignore_watch": [
+        "core/build/config.json",
+        "node_modules"
+      ]
+    }
+  ]
+}
+```
+
+Notice that I haven't based the image on `divante/vue-storefront`. To guarantee a base image that will work with your project you should base your Dockerfile on the one source controlled within the project, not an image from hub that may be stale.
+
+#### Building an image kubernetes can pull&nbsp;from.
+
+You will need a repository to host your image.  [hub.docker.com](https://hub.docker.com) is perhaps the best known (documentation can be found [here](https://docs.docker.com/docker-hub/builds/)).
+
+However, I would advise that the most convenient registry is [Github Packages](https://docs.github.com/en/packages). Therefore, I use it in the examples below.
+
+#### Build and Push a Package to Github
+This is a three stage process, build, authenticate push.
+##### 1. Build the image
+When you issue a docker build command, the current working directory is called the [build context](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#understand-build-context). By default, the Dockerfile is assumed to be located here, but you can specify a different location with the file flag (-f).
+
+Regardless of where the Dockerfile actually lives, all recursive contents of files and directories in the current directory are sent to the Docker daemon as the build context.
+
+Run the following command from the root directory of the vue-storefront project. The trailing dot in the command is referring to the present directory and thus the build context.
+
+```
+docker build -f docker/production/Dockerfile .
+```
+If the build is successful you will be presented with an __*image id*__.
+
+```
+...
+Step 22/22 : CMD ["vue-storefront.sh"]
+ ---> Running in cfec4ff702f1
+Removing intermediate container cfec4ff702f1
+ ---> 5e556dc7047c
+Successfully built 5e556dc7047c
+```
+In the above example `5e556dc7047c` is your __*image id*__.
+
+```
+docker images | grep 5e556dc7047c
+```
+Will output details of that image, and we will use that ID to create a tag so that we can push to Packages.
+
+##### 2. Tag the image
+
+```
+docker tag IMAGE_ID docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION
+```
+
+For example:
+
+```
+docker tag 5e556dc7047c docker.pkg.github.com/<your-company>/vue-storefront/vue-storefront:0.0.1
+```
+Using the Docker image ID, tag the docker image, replacing OWNER with the name of the user or organisation account that owns the repository, REPOSITORY with the name of the repository containing your project, IMAGE_NAME with name of the package or image, and VERSION with package version at build time.
+
+##### 3. Authenticating with a personal access token
+<a name="personalAccess"></a>
+You must use a [personal access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with the appropriate scopes to publish and install packages in GitHub Packages.
+
+You can authenticate to GitHub Packages with Docker using the docker login command.
+
+To keep your credentials secure, we recommend you save your personal access token in a local file on your computer and use Docker's --password-stdin flag, which reads your token from a local file.
+
+```
+$ cat ~/TOKEN.txt | docker login https://docker.pkg.github.com -u USERNAME --password-stdin
+```
+
+##### 4. Push the image
+```
+docker push docker.pkg.github.com/<your-company>/vue-storefront/vue-storefront:0.0.1
+```
+
+### Configure, Build, Tag and Push vue-storefront-api
+
+#### Vue Storefront API configuration
+
+Please create the `vue-storefront-api/docker/production/config/local.json` file by either adapting the `local.json` that you have used in development or by copying and editing default.json into local.json by using `cp` command. If you do copy in the default.json config I would suggest you delete sections that you haven't edited as this will make it clearer what has actually been changed.
+
+
+```bash
+cd vue-storefront-api
+mkdir -p docker/production/config
+cp config/default.json docker/production/config/local.json
+```
+
+The vue-storefront-api configuration requires almost no changes.
+
+The only lines that you **need** to alter are:
+
+```json
+"imageable": {
+    "namespace": "",
+    "maxListeners": 512,
+    "imageSizeLimit": 1024,
+    "timeouts": {
+        "convert": 5000,
+        "identify": 100,
+        "download": 1000
+    },
+    "whitelist": {
+        "allowedHosts": [
+            ".*divante.pl",
+            ".*vuestorefront.io"
+        ]
+    },
+    "keepDownloads": true,
+    "maxDownloadCacheSize": 1000,
+    "tmpPathRoot": "/tmp"
+},
+"elasticsearch": {
+    "host": "Cluster.IP",
+    "port": "9200",
+    "indices": [
+        "vue_storefront_catalog",
+        "vue_storefront_catalog_it",
+        "vue_storefront_catalog_de"
+    ]
+}
+```
+
+You should put here the `allowedHosts` for the _imageable_ node to download the
+product images. The domain name points to the instance where images are sourced.
+In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
+
+You also point elasticsearch at the Cluster IP replacing `Cluster.IP` with the IP of
+your elasticsearch instance.
+
+#### Create a production dockerfile:
+```
+mkdir docker/production && cp docker/vue-storefront-api/* docker/production/
+```
+Edit the Dockerfile to:
+1. copy the needed folders and config files into the image,
+2. install imagemagick.
+3. change the path at line 16 to copy in our version  of the entrypoint vue-storefront-api.sh at line 16.
+
 ```
 FROM node:10-alpine
 
@@ -804,69 +1105,685 @@ ENV VS_ENV prod
 
 WORKDIR /var/www
 
+RUN apk add --no-cache curl git
+
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
-  && apk add --no-cache git \
-  && yarn install --no-cache \
-  && apk del .build-deps
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ && \
+    yarn install --no-cache && \
+    apk del .build-deps
 
-COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
+COPY docker/production/vue-storefront-api.sh /usr/local/bin/
 
-COPY babel.config.js /var/www/babel.config.js
+RUN apk update && \
+    apk add git && \
+    apk add imagemagick && \
+    rm -rf /var/cache/apk/*
+
 COPY config /var/www/config
-COPY core /var/www/core'
-COPY ecosystem.json /var/www/ecosystem.json'
-COPY .eslintignore /var/www/.eslintignore'
-COPY .eslintrc.js /var/www/.eslintrc.js'
-COPY lerna.json /var/www/lerna.json'
-COPY tsconfig.json /var/www/tsconfig.json'
-COPY tsconfig-build.json /var/www/tsconfig-build.json'
-COPY shims.d.ts /var/www/shims.d.ts'
-COPY package.json /var/www/package.json'
-COPY src /var/www/src'
-COPY var /var/www/var'
-COPY packages /var/www/packages'
+COPY docker/production/config/local.json /var/www/config/local.js
+COPY migrations /var/www/migrations
+COPY scripts /var/www/scripts
+COPY src /var/www/src
 
-CMD ["vue-storefront.sh"]
+COPY ecosystem.json /var/www/ecosystem.json
+COPY package.json /var/www/package.json
+COPY babel.config.js /var/www/babel.config.js
+COPY tsconfig.json /var/www/tsconfig.json
+COPY nodemon.json /var/www/nodemon.json
+
+CMD ["vue-storefront-api.sh"]
+```
+#### Build the image
+```
+docker build -f docker/production/Dockerfile .
+```
+If the build is successful you will be presented with an __*image id*__.
+##### 2. Tag the image
+
+```
+docker tag IMAGE_ID docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION
+```
+##### 3. Authenticating with your personal access token
+```
+$ cat ~/TOKEN.txt | docker login https://docker.pkg.github.com -u USERNAME --password-stdin
+```
+[see above](#personalAccess) for fuller explanation.
+##### 4. Push the image
+```
+docker push docker.pkg.github.com/<your-company>/vue-storefront-api/vue-storefront-api:0.0.1
 ```
 
-Notice that I haven't based the image on `divante/vue-storefront`. To guarantee a base image that will work with your project you should base your Dockerfile on the one source controlled within the project, not an image from hub that may be stale.
+#### Kubernetes Config for Vue-storefront
+Now create a directory where you can store production Kubernetes config and copy in the existing kubernetes files.
 
-#### Creating an image kubernetes can pull&nbsp;from.
+```
+mkdir -p kubernetes/production
+```
+Copy in the templates
+```
+cp kubernetes/vue* kubernetes/production/
+```
+#### ConfigMap
+Edit `kubernetes/production/vue-storefront-configmap.yaml`
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vue-storefront-config
+data:
+  NODE_CONFIG_ENV: docker
+  BIND_HOST: 0.0.0.0
+  PM2_ARGS: --no-daemon
+  VS_ENV: prod
+```
+The only change we make here it to change `VS_ENV` to `prod`.
 
-You will need repository to host your image.  [hub.docker.com](https://hub.docker.com) is perhaps the best known (documentation can be found [here](https://docs.docker.com/docker-hub/builds/)).
+Now apply the file.
+```
+kubectl apply -f kubernetes/production/vue-storefront-configmap.yaml
+```
+Outputs:
+```
+configmap/vue-storefront-config created
+```
+#### Secrets
+You will probably have set up you git repository as private so we will need to tell Kubernetes the credentials for pulling the images. To do this you need to create some imagePullSecrets.
 
-However, I would advise that the most convenient registry is [Github Packages](https://github.com/features/packages). Therefore, I use it in the examples below.
+Run the below replacing `yourusername`, `yourpersonalaccesstoken` & `your@email.com` with the appropriate values.
 
-#### Using GitHub actions.
+```
+kubectl create secret docker-registry regcred --docker-server=docker.pkg.github.com --docker-username=yourusername --docker-password=yourpersonalaccesstoken --docker-email=your@email.com
+```
+Outputs:
+```
+secret/regcred created
+```
+
+#### Deployment
+Edit `kubernetes/production/vue-storefront-deployment.yaml`
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-storefront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vue-storefront
+  template:
+    metadata:
+      labels:
+        app: vue-storefront
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: vue-storefront
+        image: docker.pkg.github.com/<your-company>/vue-storefront/vue-storefront:0.0.1
+        envFrom:
+        - configMapRef:
+            name: vue-storefront-config
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /var/www/var
+          name: code
+          subPath: var
+        - mountPath: /var/www/dist
+          name: dist
+      volumes:
+      - name: code
+        emptyDir:
+          medium: Memory
+      - name: dist
+        emptyDir:
+          medium: Memory
+      imagePullSecrets:
+        - name: regcred
+```
+The most important change is on line 16 where you need to change the image to point at your own repo rather than that of Divante.
+
+You should also notice that we have deleted most of the `volumeMounts` because they have been copied into your image already, and we've changed the `var` folder so that its mounted from memory.
+
+Finally we've referenced the imagePullSecrets that we created earlier.
+
+Now apply the file:
+```
+kubectl apply -f kubernetes/production/vue-storefront-deployment.yaml
+```
+Outputs:
+```
+deployment.apps/vue-storefront created
+```
+Now check the health of the deployment:
+```
+kubectl get deployments
+```
+Outputs:
+```
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+vue-storefront   1/1     1            1           96s
+```
+When ready is 1/1 your deployment is healthy.
+
+#### Kubernetes Config for Vue-storefront-api
+Change to the vue-storefront-api directory
+```
+cd ../vue-storefront-api
+```
+Now create a directory where you can store production Kubernetes config and copy in the existing kubernetes files.
+
+```
+mkdir -p kubernetes/production
+```
+Copy in the templates
+```
+cp kubernetes/vue* kubernetes/production/
+```
+Delete the volume claim as we won't be using it.
+```
+rm kubernetes/production/vue-storefront-api-persistent-volume-claim.yaml
+```
+#### ConfigMap
+The Configmap `vue-storefront-api-configmap.yaml` presently contains the following code:
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vue-storefront-api-config
+data:
+  BIND_HOST: 0.0.0.0
+  ELASTICSEARCH_HOST: elasticsearch
+  ELASTICSEARCH_PORT: "9200"
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  VS_ENV: dev
+```
+We need change these values to point at the Elasticsearch & Redis services. We'll use kubectl to query the API service discovery to find the cluster IPs for the services we set up earlier.
+
+To find elasticsearch run
+```
+$ kubectl get service quickstart-es-http
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+quickstart-es-http   ClusterIP   10.245.216.182   <none>        9200/TCP   13d
+```
+To find redis
+```
+$ kubectl get service redis-master
+NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+redis-master   ClusterIP   10.245.176.214   <none>        6379/TCP   13d
+```
+
+
+finally we'll change `VS_ENV: dev` to `VS_ENV: prod` and set the `PM2_ARGS: --no-daemon` leaving us with the finished Configmap of:
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vue-storefront-api-config
+data:
+  BIND_HOST: 0.0.0.0
+  ELASTICSEARCH_HOST: 10.245.216.182
+  ELASTICSEARCH_PORT: "9200"
+  REDIS_HOST: 10.245.176.214
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  VS_ENV: prod
+  PM2_ARGS: --no-daemon
+```
+Apply the ConfigMap:
+```
+kubectl apply -f kubernetes/production/vue-storefront-api-configmap.yaml
+```
+Outputs:
+```
+configmap/vue-storefront-api-config created
+```
+
+#### Deployment
+Edit `kubernetes/production/vue-storefront-api-deployment.yaml`
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-storefront-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vue-storefront-api
+  template:
+    metadata:
+      labels:
+        app: vue-storefront-api
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: vue-storefront-api
+        image: docker.pkg.github.com/<your-company>/vue-storefront/vue-storefront:0.0.1
+        envFrom:
+        - configMapRef:
+            name: vue-storefront-api-config
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /var/www/var
+          name: code
+        - mountPath: /var/www/dist
+          name: dist
+      volumes:
+      - name: code
+        emptyDir:
+          medium: Memory
+      - name: dist
+        emptyDir:
+          medium: Memory
+      imagePullSecrets:
+        - name: regcred
+```
+The changes here are on line 16 which you should change to point at your repo rather than that of Divante, and add the `imagePullSecrets` to the end of the file.
+
+Apply the file:
+```
+kubectl apply -f kubernetes/production/vue-storefront-api-deployment.yaml
+```
+Outputs:
+```
+deployment.apps/vue-storefront-api created
+```
+Check the health of the deployment:
+```
+kubectl get deployments
+```
+Outputs:
+```
+NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
+vue-storefront       0/1     1            0           12m
+vue-storefront-api   0/1     1            0           2m19s
+```
+---
+### Create the needed Services
+Earlier we copied in the services configs into our production folder. And we don't
+actually need to change them, so lets just apply them.
+
+```
+cd vue-storefront
+kubectl apply -f kubernetes/production/vue-storefront-service.yaml
+```
+which give the output:
+```
+service/vue-storefront created
+```
+Now let's do the same for the api
+```
+kubectl apply -f kubernetes/production/vue-storefront-api-service.yaml
+```
+```
+service/vue-storefront-api created
+```
+---
+#### Data import
+
+Vue Storefront needs to have some data in the Elasticsearch to properly display products and categories. Of course, you can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the Elasticsearch index whenever data is being changed in Magento. For the purpose of this tutorial, we'll just kubernetes exec into an `vue-storefront-api` pod and restore the data from the JSON file.
+
+You can easily dump your current VS index using the following command (your local installation):
+
+```bash
+cd vue-storefront-api
+rm var/catalog.json
+yarn dump
+```
+
+Now in the `var/catalog.json` you have your current database dump. Please transfer this file to the kubernetes pod for example, using the following ssh command:
+
+```bash
+kubectl cp cp vue-storefront-api/var/catalog.json vue-storefront-api-74f4766dd4-94rt4:~/vue-storefront-api/var/catalog.json
+```
+
+Then logging in to your pod, you can import the data:
+
+```
+kubectl exec -it vue-storefront-api-74f4766dd4-94rt4 -- sh
+```
+
+```bash
+cd vue-storefront-api
+yarn db new
+yarn restore2main
+yarn db rebuild
+```
+
+---
+
+### Nginx Ingress
+In Kubernetes, an Ingress is an object that allows access to your Kubernetes services from outside the Kubernetes cluster. You configure access by creating a collection of rules that define which inbound connections reach which services.
+
+Again we decided to use NGINX as our ingress because as we said before it gives you a lot of flexibility regarding the SSL, gzip compression, URL routing, and other techniques to be configured without additional hassle.
+
+We will set up the Kubernetes Nginx Ingress Controller using Helm and create an Ingress Resource to route traffic from your domains to the Vue StoreFront back-end services.
+
+Once we’ve set up the Ingress, we’ll install Cert Manager to the cluster to be able to automatically provision Let’s Encrypt TLS certificates to secure the Ingresses.
+
+Helm is a package manager for managing Kubernetes.
+
+Helm documentation and installation instructions can be found [here](https://helm.sh/docs/intro/quickstart/).
+
+
+To install the Nginx Ingress Controller to your cluster, run the following command:
+```
+helm install nginx-ingress stable/nginx-ingress --set controller.publishService.enabled=true
+```
+The output is similar to:
+```
+Output
+NAME: nginx-ingress
+LAST DEPLOYED: Fri Apr  3 17:39:05 2020
+NAMESPACE: ingress-nginx
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+...
+```
+Make a note of the namespace, you'll need it later.
+
+You can watch the Load Balancer become available by running:
+```
+$ kubectl get services -o wide -w nginx-ingress-controller
+```
+
+#### Exposing the App Using an Ingress
+You’ll store the Ingress in a file named nginx-ingress.yaml.
+
+```
+touch kubernetes/production/nginx-ingress.yaml
+```
+
+To know what rules to write lets take a look inside `kubernetes/nginx-configmap.yaml`. On line 6 you will a configuration for nginx... however this is for a deployment running an nginx as a proxy. This though similar is not the method we are going to employ.
+
+However, it can be used as a starting point for understanding what we need to do in our own ingress. All the configuration in `default.conf` have equivalents for an ingress and the documentation can be [read here](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/).
+
+Lines 10 to 13 deal with security
+```
+10|    add_header X-Frame-Options DENY;
+11|    add_header X-Content-Type-Options nosniff;
+12|    add_header X-XSS-Protection "1; mode=block";
+13|    add_header X-Robots-Tag none;
+```
+Because these are very use-case specific I will leave you to explore what each mean. (Please make sure you understand them or you could ban all traffic from your store, be especially careful with `add_header X-Robots-Tag none` which is the same as adding `noindex, nofollow` to your whole site). I won't be including any of the directives in our example.
+
+lines 15 to 24 handle gzip compression:
+```
+15|    gzip on;
+16|    gzip_proxied any;
+17|    gzip_types
+18|      text/css
+19|      text/javascript
+20|      text/xml
+21|      application/javascript
+22|      application/json
+23|      text/json
+24|      text/html;
+```
+and lines 26 to 40 deal with the routing.
+```
+26|    location / {
+27|        proxy_pass http://vue-storefront:3000/;
+28|    }
+29|
+30|    location /assets/ {
+31|        proxy_pass http://vue-storefront:3000/assets/;
+32|    }
+33|
+34|    location /api/ {
+35|        proxy_pass http://vue-storefront-api:8080/api/;
+36|    }
+37|
+38|    location /img/ {
+39|        proxy_pass http://vue-storefront-api:8080/img/;
+40|    }
+```
+
+OK lets deal with routing first edit you new file and add the following rules based on what we've found out.
+
+```
+nano kubernetes/production/nginx-ingress.yaml
+```
+
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: vue-storefront
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+      - host: www.yourdomain.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vue-storefront
+              servicePort: 3000
+          - path /assets
+            backend:
+              serviceName: vue-storefront
+              servicePort: 3000
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: vue-storefront-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+      - host: api.yourdomain.com
+      http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: vue-storefront-api
+              servicePort: 8080
+          - path /img
+            backend:
+              serviceName: vue-storefront-api
+              servicePort: 8080      
+```
+You can use Kubernetes annotations to attach arbitrary non-identifying metadata to objects. Clients such as tools and libraries can then retrieve this metadata.
+
+Edit your Ingress file to add to the metadata.
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: vue-storefront
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/configuration-snippet": |2
+      gzip on;
+      gzip_proxied any;
+      gzip_types
+        text/css
+        text/javascript
+        text/xml
+        application/javascript
+        application/json
+        text/json
+        text/html;
+...
+```
+Notice the `|2` at the beginning of the data directly following the key. This specifies that we want a multiline string and that we want it to preserve indentation whitespace to 2 whitespaces.
+
+#### Set up the SSL certificates
+We’ll install cert-manager into our cluster. cert-manager is a Kubernetes add-on that provisions TLS certificates from Let’s Encrypt (and some other certificate authorities). Certificates can be requested and configured by annotating Ingress Resources, appending a tls section to the Ingress spec, and configuring an Issuers or ClusterIssuers to specify your certificate authority. [Click here](https://cert-manager.io/docs/configuration/) if you wish to read the offical documentation
+
+Lets install:
+```
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
+```
+You will see:
+```
+Output
+customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io created
+. . .
+deployment.apps/cert-manager-webhook created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+```
+To verify
+```
+kubectl get pods --namespace cert-manager
+```
+Outputs:
+```
+Output
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-578cd6d964-hr5v2              1/1     Running   0          99s
+cert-manager-cainjector-5ffff9dd7c-f46gf   1/1     Running   0          100s
+cert-manager-webhook-556b9d7dfd-wd5l6      1/1     Running   0          99s
+```
+Now we need to create an Issuer, which specifies the certificate authority. So let's use the Let’s Encrypt certificate authority, which provides free TLS certificates and offers both a staging server and a production certificates.
+
+A ClusterIssuer is not namespace-scoped and can be used by Certificate resources in any namespace. So let's create one.
+
+Open a file named staging_issuer.yaml in your favorite text editor:
+```
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: your_email_address_here
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+```
+Roll out this Issuer using kubectl:
+```
+kubectl create -f prod_issuer.yaml
+```
+Output
+```
+clusterissuer.cert-manager.io/letsencrypt-prod created
+
+```
+Now that we’ve created our Let’s Encrypt staging and prod ClusterIssuers, we need to modify the Ingress Resource we created above and enable TLS encryption for the Vue-StoreFront and Vue-StoreFront-API paths.
+
+#### Possible Gotcha
+Before it provisions certificates from Let’s Encrypt, cert-manager first performs a self-check to ensure that Let’s Encrypt can reach the cert-manager Pod that validates your domain. For this check to pass on DigitalOcean Kubernetes, you need to enable Pod-Pod communication through the Nginx Ingress load balancer. [Click here](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes#step-5-%E2%80%94-enabling-pod-communication-through-the-load-balancer-optional) for futher information.
+
+(Other providers may or may not pass this test, but if you are finding failures at self-check please refer to your providers documentation or get their help with with the needed configuration. Once you have it working feel free to open an issue and we'll happily append what you've found out to this guide.)
+
+#### Issuing the certificate
+Add the following to the Ingress resource manifest:
+
+Add to annotations:
+```
+cert-manager.io/cluster-issuer: "letsencrypt-prod"
+```
+Add to spec:
+```
+  tls:
+  - hosts:
+    - vue-storefront.com
+    - vue-storefront-api.com
+    secretName: echo-tls
+```
+To leave you with the full config of:
+
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: vue-storefront
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ngress.kubernetes.io/configuration-snippet": |2
+      gzip on;
+      gzip_proxied any;
+      gzip_types
+        text/css
+        text/javascript
+        text/xml
+        application/javascript
+        application/json
+        text/json
+        text/html;
+spec:
+  tls:
+  - hosts:
+    - echo1.example.com
+    - echo2.example.com
+    secretName: echo-tls
+  rules:
+      - host: www.yourdomain.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vue-storefront
+              servicePort: 3000
+          - path /assets
+            backend:
+              serviceName: vue-storefront
+              servicePort: 3000
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: vue-storefront-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+      - host: api.yourdomain.com
+      http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: vue-storefront-api
+              servicePort: 8080
+          - path /img
+            backend:
+              serviceName: vue-storefront-api
+              servicePort: 8080
+```
+Roll out the changes using kubectl apply
+```
+kubectl apply -f echo_ingress.yaml
+```
+Output
+```
+ingress.networking.k8s.io/echo-ingress configured
+```
+
+## Cache Strategies
+
+### Varnish cache for VSF
+_Vue Storefront_ has multiple layers of cache, and the forefront cache is _Varnish_ which serves a request just as fast as a static HTML page once it's hit. You can install it from [here](https://github.com/new-fantastic/vsf-cache-varnish).
+
+If you choose to use the project you will need to add a varnish controller to your cluster and there is an open source project for doing so, [Read More](https://github.com/mittwald/kube-httpcache) and a tutorial for using it [Read More](https://medium.com/@dealancer/creating-a-scalable-and-resilient-varnish-cluster-using-kubernetes-853f03ec9731).
+
+### Further Suggestions
+#### Using GitHub actions to Automatically Build and Push.
 GitHub Actions makes it easy to automate your software workflow. You can Build, test and push the image to packages; finally deploying your docker image to Kubernetes right from GitHub.
-
-#### Kubernetes Config
-Now create a directory where you can store production kubernetes config.
-
-```
-mkdir kubernetes/production
-```
-
-#### Configmap
-#### Deployment
-#### Service
----
-### vue-storefront-api
-#### Configmap
-#### Deployment
-#### Service
----
-### Api Connectors (bridges)
-#### Configmap
-#### Deployment
-#### Service
----
-#### Varnish cache for VSF
-Vue Storefront has multiple layers of cache, and the forefront cache is Varnish which serves a request just as fast as a static HTML page once it's hit. You can install it from here.
-
-##### Configmap
-##### Deployment
-##### Service
