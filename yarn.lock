@@ -2736,14 +2736,20 @@
     "@types/node" "*"
 
 "@types/node@*", "@types/node@>= 8", "@types/node@>=6":
+<<<<<<< refs/remotes/origin/next
   version "14.11.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.2.tgz#2de1ed6670439387da1c9f549a2ade2b0a799256"
   integrity sha512-jiE3QIxJ8JLNcb1Ps6rDbysDhN4xa8DJJvuC9prr6w+1tIh+QAbYyNF3tyiZNLDBIuBCf4KEcV2UvQm/V60xfA==
+=======
+  version "14.11.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.1.tgz#56af902ad157e763f9ba63d671c39cda3193c835"
+  integrity sha512-oTQgnd0hblfLsJ6BvJzzSL+Inogp3lq9fGgqRkMB/ziKMgEUaFl801OncOzUmalfzt14N0oPHMK47ipl+wbTIw==
+>>>>>>> Updated lock
 
 "@types/node@^12.12.14", "@types/node@^12.12.47":
-  version "12.12.61"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.61.tgz#f9115df7cef34d76afa0a333d1c7e6aab051870a"
-  integrity sha512-+/KPk6uV9qGfVX0y2uUj3y8O0Z6KZWUy3XTS0uQGYYF+iXGtepm9GPETdcRq+hGmErkLOr5QJDX8vuymkwu4sA==
+  version "12.12.62"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.62.tgz#733923d73669188d35950253dd18a21570085d2b"
+  integrity sha512-qAfo81CsD7yQIM9mVyh6B/U47li5g7cfpVQEDMfQeF8pSZVwzbhwU3crc0qG4DmpsebpJPR49AKOExQyJ05Cpg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -3095,6 +3101,11 @@
   optionalDependencies:
     prettier "^1.18.2"
 
+<<<<<<< refs/remotes/origin/next
+=======
+<<<<<<< refs/remotes/origin/next
+=======
+>>>>>>> Updated lock
 "@vue/composition-api@1.0.0-beta.13":
   version "1.0.0-beta.13"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.13.tgz#441ffde5edfc0be90ae1fc96bebab70467762b51"
@@ -3102,7 +3113,12 @@
   dependencies:
     tslib "^2.0.1"
 
+<<<<<<< refs/remotes/origin/next
 "@vue/composition-api@^1.0.0-beta.8":
+=======
+>>>>>>> Updated lock
+"@vue/composition-api@1.0.0-beta.14", "@vue/composition-api@^1.0.0-beta.8":
+>>>>>>> Updated lock
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.14.tgz#b243d906ae5dcda7483e0b5a2b5ea1aa971a4e00"
   integrity sha512-HYBe87RG//qpN/2+ZtgdhrIafdO8bYK/Tu1+/jMS4iNGYJi42XCbPydhEAiaRcTvsEJjZQEfP+hKKIuH+iPICg==
@@ -4387,13 +4403,13 @@ browserify-zlib@^0.2.0:
     pako "~1.0.5"
 
 browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.6.4, browserslist@^4.8.5:
-  version "4.14.2"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.14.2.tgz#1b3cec458a1ba87588cc5e9be62f19b6d48813ce"
-  integrity sha512-HI4lPveGKUR0x2StIz+2FXfDk9SfVMrxn6PLh1JeGUwcuoDkdKZebWiyLRJ68iIPDpMI4JLVDf7S7XzslgWOhw==
+  version "4.14.3"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.14.3.tgz#381f9e7f13794b2eb17e1761b4f118e8ae665a53"
+  integrity sha512-GcZPC5+YqyPO4SFnz48/B0YaCwS47Q9iPChRGi6t7HhflKBcINzFrJvRfC+jp30sRMKxF+d4EHGs27Z0XP1NaQ==
   dependencies:
-    caniuse-lite "^1.0.30001125"
-    electron-to-chromium "^1.3.564"
-    escalade "^3.0.2"
+    caniuse-lite "^1.0.30001131"
+    electron-to-chromium "^1.3.570"
+    escalade "^3.1.0"
     node-releases "^1.1.61"
 
 bs-logger@0.x:
@@ -4691,9 +4707,15 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001131, caniuse-lite@^1.0.30001133:
+<<<<<<< refs/remotes/origin/next
   version "1.0.30001135"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001135.tgz#995b1eb94404a3c9a0d7600c113c9bb27f2cd8aa"
   integrity sha512-ziNcheTGTHlu9g34EVoHQdIu5g4foc8EsxMGC7Xkokmvw0dqNtX8BS8RgCgFBaAiSp2IdjvBxNdh0ssib28eVQ==
+=======
+  version "1.0.30001133"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001133.tgz#ec564c5495311299eb05245e252d589a84acd95e"
+  integrity sha512-s3XAUFaC/ntDb1O3lcw9K8MPeOW7KO3z9+GzAoBxfz1B0VdacXPMKgFUtG4KIsgmnbexmi013s9miVu4h+qMHw==
+>>>>>>> Updated lock
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -6304,7 +6326,7 @@ ejs@^3.0.2:
   dependencies:
     jake "^10.6.1"
 
-electron-to-chromium@^1.3.564:
+electron-to-chromium@^1.3.570:
   version "1.3.570"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.570.tgz#3f5141cc39b4e3892a276b4889980dabf1d29c7f"
   integrity sha512-Y6OCoVQgFQBP5py6A/06+yWxUZHDlNr/gNDGatjH8AZqXl8X0tE4LfjLJsXGz/JmWJz8a6K7bR1k+QzZ+k//fg==
@@ -6492,7 +6514,7 @@ es6-promisify@^5.0.0:
   dependencies:
     es6-promise "^4.0.3"
 
-escalade@^3.0.2:
+escalade@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.0.tgz#e8e2d7c7a8b76f6ee64c2181d6b8151441602d4e"
   integrity sha512-mAk+hPSO8fLDkhV7V0dXazH5pDc6MrjBTPyD3VeKzxnVFjH1MIxbCdqGZB9O8+EwWakZs3ZCbDS4IpRt79V1ig==
