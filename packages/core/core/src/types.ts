@@ -188,6 +188,13 @@ export interface UseFacet<SEARCH_DATA> {
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
 }
 
+export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
+  search: (params?: CONTENT_SEARCH_PARAMS) => Promise<void>;
+  content: ComputedProperty<CONTENT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<string | null>;
+}
+
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getName: (product: PRODUCT) => string;
   getSlug: (product: PRODUCT) => string;
