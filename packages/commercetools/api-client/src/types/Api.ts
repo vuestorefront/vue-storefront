@@ -15,13 +15,29 @@ export type CartCustomQueryFn<T> = (
 
 export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) =>
   customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
-export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, customQueries) =>
-  customQueryFn
-    ? customQueryFn()
+export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, customQueries) => {
+  const { cart, user } = customQueries;
+  const { cart: customCart, user: customUser } = customQueryFn();
+  return customQueryFn
+    ? {
+      cart: customCart
+        ? {
+          query: customCart.query ? customCart.query : cart.query,
+          variables: customCart.variables ? customCart.variables : {}
+        }
+        : cart,
+      user: customUser
+        ? {
+          query: customUser.query ? customUser.query : user.query,
+          variables: customUser.variables ? customUser.variables : {}
+        }
+        : user
+    }
     : {
       cart: customQueries.cart ? { query: customQueries.cart.query, variables: {} } : null,
       user: customQueries.user ? { query: customQueries.user.query, variables: {} } : null
     };
+};
 
 export interface BaseSearch {
   limit?: number;
