@@ -109,7 +109,7 @@ export interface UseCategory
   loading: ComputedProperty<boolean>;
 }
 
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number): Promise<void>;
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number): Promise<void>;
 export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
 export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number, customQuery?: {}): any {
   return { product, quantity, customQuery };
