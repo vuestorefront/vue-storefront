@@ -35,6 +35,10 @@ export default function (moduleOptions) {
     throw new Error(`Please provide missing i18n fields: (${missingFields.join(', ')})`);
   }
 
+  this.extendBuild(config => {
+    config.resolve.alias['@vue-storefront/commercetools-api$'] = require.resolve('@vue-storefront/commercetools-api');
+  });
+
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
     options

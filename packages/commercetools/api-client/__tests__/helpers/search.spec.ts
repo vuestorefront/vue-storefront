@@ -12,7 +12,7 @@ describe('[commercetools-api-client] search', () => {
   });
 
   it('returns undefined string when parameters are not supported', () => {
-    expect(buildCategoryWhere(null)).toBe('');
+    expect(buildCategoryWhere(null)).toBe(undefined);
   });
 
   it('returns undefined string when parameters are not supported', () => {
@@ -50,172 +50,116 @@ describe('[commercetools-api-client] search', () => {
 
   describe('using filters', () => {
     it('returns empty string for empty filters', () => {
-      expect(buildProductWhere({ filters: {} })).toEqual('');
-    });
-
-    it('returns empty string when no option is selected', () => {
-      const search: ProductSearch = {
-        filters: {
-          attr1: {
-            type: AttributeType.STRING,
-            options: [
-              { value: 'stringValue', selected: false, label: 'whatever' },
-              { value: 'notImportant', selected: false, label: 'irrelevant' }
-            ]
-          }
-        }
-      };
-      expect(buildProductWhere(search)).toEqual('');
+      expect(buildProductWhere({ filters: [] })).toEqual('');
     });
 
     it(`returns product search query by ${AttributeType.STRING}`, () => {
       const search: ProductSearch = {
-        filters: {
-          attr1: {
-            type: AttributeType.STRING,
-            options: [
-              { value: 'stringValue', selected: true, label: 'whatever' },
-              { value: 'notImportant', selected: false, label: 'irrelevant' }
-            ]
-          }
-        }
+        filters: [
+          { type: AttributeType.STRING, value: 'stringValue', name: 'whatever' }
+        ]
       };
-      expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value = "stringValue")))))');
+
+      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "stringValue"))))');
     });
 
     describe(`returns product search query by ${AttributeType.DATE}`, () => {
       it('when single value', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.DATE,
-              options: [
-                { value: 'dateValue', selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.STRING, value: 'dateValue', name: 'whatever' }
+          ]
         };
-        expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value = "dateValue")))))');
+
+        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "dateValue"))))');
       });
-      it('', () => {
+
+      it('when multiple value', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.DATE,
-              options: [
-                { value: ['dateValue1', 'dateValue2'], selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.DATE, value: ['dateValue1', 'dateValue2'], name: 'whatever' }
+          ]
         };
         expect(buildProductWhere(search))
-          .toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value >= "dateValue1" and value <= "dateValue2")))))');
+          .toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value >= "dateValue1" and value <= "dateValue2"))))');
       });
     });
 
     describe(`returns product search query by ${AttributeType.NUMBER}`, () => {
       it('when single value', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.NUMBER,
-              options: [
-                { value: 1, selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.NUMBER, value: 1, name: 'whatever' }
+          ]
         };
-        expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value = 1)))))');
+
+        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = 1))))');
       });
       it('when pair of values', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.NUMBER,
-              options: [
-                { value: [100, 200], selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.NUMBER, value: [100, 200], name: 'whatever' }
+          ]
         };
-        expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value >= 100 and value <= 200)))))');
+        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value >= 100 and value <= 200))))');
       });
     });
 
     it(`returns product search query by ${AttributeType.ENUM}`, () => {
       const search: ProductSearch = {
-        filters: {
-          attr1: {
-            type: AttributeType.ENUM,
-            options: [
-              { value: 'enumValue', selected: true, label: 'whatever' }
-            ]
-          }
-        }
+        filters: [
+          { type: AttributeType.ENUM, value: 'enumValue', name: 'whatever' }
+        ]
       };
-      expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value(key = "enumValue"))))))');
+
+      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value(key = "enumValue")))))');
     });
 
     it(`returns product search query by ${AttributeType.LOCALIZED_STRING}`, () => {
       const search: ProductSearch = {
-        filters: {
-          attr1: {
-            type: AttributeType.LOCALIZED_STRING,
-            options: [
-              { value: 'locStringValue', selected: true, label: 'whatever' }
-            ]
-          }
-        }
+        filters: [
+          { type: AttributeType.LOCALIZED_STRING, value: 'locStringValue', name: 'whatever' }
+        ]
       };
+
       const { locale } = getSettings();
-      expect(buildProductWhere(search)).toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(${locale} = "locStringValue"))))))`);
+      expect(buildProductWhere(search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(${locale} = "locStringValue")))))`);
     });
 
     describe(`returns product search query by ${AttributeType.MONEY}`, () => {
       it('when single value', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.MONEY,
-              options: [
-                { value: 200, selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.MONEY, value: 200, name: 'whatever' }
+          ]
         };
+
         const { currency } = getSettings();
 
-        expect(buildProductWhere(search)).toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}"))))))`);
+        expect(buildProductWhere(search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}")))))`);
       });
       it('when pair of values', () => {
         const search: ProductSearch = {
-          filters: {
-            attr1: {
-              type: AttributeType.MONEY,
-              options: [
-                { value: [100, 200], selected: true, label: 'whatever' }
-              ]
-            }
-          }
+          filters: [
+            { type: AttributeType.MONEY, value: [100, 200], name: 'whatever' }
+          ]
         };
+
         const { currency } = getSettings();
         expect(buildProductWhere(search))
-          .toEqual(`(masterData(current(masterVariant(attributes(name = "attr1" and value(centAmount >= 10000 and centAmount <= 20000 and currencyCode = "${currency.toUpperCase()}"))))))`);
+          .toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount >= 10000 and centAmount <= 20000 and currencyCode = "${currency.toUpperCase()}")))))`);
       });
     });
 
     it(`returns product search query by ${AttributeType.BOOLEAN}`, () => {
+
       const search: ProductSearch = {
-        filters: {
-          attr1: {
-            type: AttributeType.BOOLEAN,
-            options: [
-              { value: true, selected: true, label: 'whatever' }
-            ]
-          }
-        }
+        filters: [
+          { type: AttributeType.BOOLEAN, value: true, name: 'whatever' }
+        ]
       };
-      expect(buildProductWhere(search)).toEqual('(masterData(current(masterVariant(attributes(name = "attr1" and value = true)))))');
+
+      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = true))))');
     });
   });
 });
