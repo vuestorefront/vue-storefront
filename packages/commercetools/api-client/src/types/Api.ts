@@ -15,8 +15,8 @@ export type CartCustomQueryFn<T> = (
 
 export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) =>
   customQueryFn ? customQueryFn() : { query: defaultQuery, variables: {} };
-export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, customQueries) => {
-  const { cart, user } = customQueries;
+export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>, defaultQueries) => {
+  const { cart, user } = defaultQueries;
   const { cart: customCart, user: customUser } = customQueryFn();
   return customQueryFn
     ? {
@@ -34,8 +34,8 @@ export const getCartCustomQuery = <T = any>(customQueryFn: CartCustomQueryFn<T>,
         : user
     }
     : {
-      cart: customQueries.cart ? { query: customQueries.cart.query, variables: {} } : null,
-      user: customQueries.user ? { query: customQueries.user.query, variables: {} } : null
+      cart: cart ? { query: cart.query, variables: {} } : null,
+      user: user ? { query: user.query, variables: {} } : null
     };
 };
 
