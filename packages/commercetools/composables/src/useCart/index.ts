@@ -8,7 +8,7 @@ import {
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
 import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
-import { getCoupon } from '../getters/cartGetters';
+import { getCouponFromCart } from '../helpers/internals';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find(item => item.productId === product._id);
@@ -40,7 +40,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
     return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
   },
   removeCoupon: async ({ currentCart }) => {
-    const { id: couponId } = getCoupon(currentCart);
+    const { id: couponId } = getCouponFromCart(currentCart);
     const updatedCart = await apiRemoveCartCoupon(currentCart, { id: couponId, typeId: 'discount-code' });
     return { updatedCart: updatedCart.data.cart };
   },
