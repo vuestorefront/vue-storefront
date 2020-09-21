@@ -11,7 +11,7 @@ export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery
 
 export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
   if (customQueryFn) {
-    const { query, variables } = customQueryFn as any;
+    const { query, variables } = customQueryFn() as any;
     return { query: query || defaultQuery, variables: variables || {} };
   }
   return { query: defaultQuery, variables: {} };

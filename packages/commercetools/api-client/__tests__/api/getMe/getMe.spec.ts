@@ -33,7 +33,7 @@ describe('[commercetools-api-client] getMe', () => {
       return { data: 'me response' };
     });
 
-    const { data } = await getMe({ customer: false }, (query = {}, variables = givenVariables) => ({ query, variables }));
+    const { data } = await getMe({ customer: false }, (query = null, variables = givenVariables) => ({ query, variables }));
 
     expect(data).toBe('me response');
   });

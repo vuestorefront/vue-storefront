@@ -23,9 +23,7 @@ const getMe = async (params: Options = {}, customQueryFn?) => {
   const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
     query: customer
       ? fullProfile
-      : query
-        ? gql`${query}`
-        : basicProfile,
+      : query ? gql`${query}` : basicProfile,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
