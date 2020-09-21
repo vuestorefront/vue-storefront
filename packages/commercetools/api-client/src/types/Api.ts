@@ -8,9 +8,18 @@ export interface CustomQuery<T> {
 }
 
 export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
+
+/* export type CartCustomQueryFn<T> = (
+  cart?: CustomQuery<T>,
+  user?: CustomQuery<T>
+) => { cart: CustomQuery<T>; user: CustomQuery<T> };*/
+
 export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
-  const { query, variables } = customQueryFn();
-  return customQueryFn ? { query: query || defaultQuery, variables: variables || {} } : { query: defaultQuery, variables: {} };
+  if (customQueryFn) {
+    const { query, variables } = customQueryFn as any;
+    return { query: query || defaultQuery, variables: variables || {} };
+  }
+  return { query: defaultQuery, variables: {} };
 };
 
 export interface BaseSearch {
