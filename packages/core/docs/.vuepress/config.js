@@ -61,11 +61,8 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/use-product', 'useProduct'],
-<<<<<<< HEAD
             ['/commercetools/use-review', 'useReview']
-=======
             ['/commercetools/use-facet', 'useFacet'],
->>>>>>> update docs
           ]
         }, {
           title: 'Theme',
