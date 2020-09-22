@@ -92,6 +92,7 @@ export default {
     const averageRating = computed(() => reviewGetters.getAverageRating(rawReviews.value));
     const totalReviews = computed(() => reviewGetters.getTotalReviews(rawReviews.value));
 
+    // if you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
       await search({ productId: '<PRODUCT_ID>' });
     });
