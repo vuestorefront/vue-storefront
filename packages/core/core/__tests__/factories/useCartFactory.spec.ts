@@ -2,9 +2,9 @@ import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
-let useCart: () => UseCart<any, any, any>;
+let useCart: () => UseCart<any, any, any, any>;
 let setCart = null;
-let params: UseCartFactoryParams<any, any, any>;
+let params: UseCartFactoryParams<any, any, any, any>;
 
 function createComposable() {
   params = {
@@ -26,7 +26,7 @@ function createComposable() {
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };
-  const factory = useCartFactory<any, any, any>(params);
+  const factory = useCartFactory<any, any, any, any>(params);
   useCart = factory.useCart;
   setCart = factory.setCart;
 }
@@ -150,7 +150,7 @@ describe('[CORE - factories] useCartFactory', () => {
         await applyCoupon('qwerty');
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: 'qwerty'
+          couponCode: 'qwerty'
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
       });

@@ -7,13 +7,13 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
+import { AgnosticCoupon, useCartFactory, UseCartFactoryParams} from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find(item => item.productId === product._id);
 };
 
-const params: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
+const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
   loadCart: async () => {
     return await loadCurrentCart();
   },
@@ -38,8 +38,8 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
     const updatedCart = await apiApplyCartCoupon(currentCart, couponCode);
     return { updatedCart: updatedCart.data.cart };
   },
-  removeCoupon: async ({ currentCart, couponId }) => {
-    const updatedCart = await apiRemoveCartCoupon(currentCart, { id: couponId, typeId: 'discount-code' });
+  removeCoupon: async ({ currentCart, coupon }) => {
+    const updatedCart = await apiRemoveCartCoupon(currentCart, { id: coupon.id, typeId: 'discount-code' });
     return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
@@ -47,6 +47,6 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
   }
 };
 
-const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant>(params);
+const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
 
 export { useCart, setCart };

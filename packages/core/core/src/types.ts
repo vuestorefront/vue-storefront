@@ -113,7 +113,8 @@ export interface UseCart
 <
   CART,
   CART_ITEM,
-  PRODUCT
+  PRODUCT,
+  COUPON
 > {
   cart: ComputedProperty<CART>;
   addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
@@ -122,7 +123,7 @@ export interface UseCart
   updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
   clearCart: () => Promise<void>;
   applyCoupon: (couponCode: string) => Promise<void>;
-  removeCoupon: (couponId: string) => Promise<void>;
+  removeCoupon: (coupon: COUPON) => Promise<void>;
   loadCart: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }

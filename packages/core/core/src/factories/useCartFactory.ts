@@ -2,7 +2,7 @@ import { UseCart } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
-export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT> = {
+export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
   loadCart: () => Promise<CART>;
   addToCart: (params: {
     currentCart: CART;
@@ -25,25 +25,25 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT> = {
   }) => Promise<{ updatedCart: CART }>;
   removeCoupon: (params: {
     currentCart: CART;
-    couponId: string;
+    coupon: COUPON;
   }) => Promise<{ updatedCart: CART }>;
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
-interface UseCartFactory<CART, CART_ITEM, PRODUCT> {
-  useCart: () => UseCart<CART, CART_ITEM, PRODUCT>;
+interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
+  useCart: () => UseCart<CART, CART_ITEM, PRODUCT, COUPON>;
   setCart: (cart: CART) => void;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT>
-): UseCartFactory<CART, CART_ITEM, PRODUCT> => {
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
+  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
+): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
 
   const setCart = (newCart: CART) => {
     sharedRef('useCart-cart').value = newCart;
   };
 
-  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT> => {
+  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
@@ -118,12 +118,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT>(
       }
     };
 
-    const removeCoupon = async (couponId: string) => {
+    const removeCoupon = async (coupon: COUPON) => {
       try {
         loading.value = true;
         const { updatedCart } = await factoryParams.removeCoupon({
           currentCart: cart.value,
-          couponId
+          coupon
         });
         cart.value = updatedCart;
         loading.value = false;
