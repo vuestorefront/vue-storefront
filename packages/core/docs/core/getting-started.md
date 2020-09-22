@@ -1,6 +1,4 @@
-
-
- # Getting started
+# Getting started
 
 [[toc]]
 
