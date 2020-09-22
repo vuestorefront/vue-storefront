@@ -1,4 +1,4 @@
-import { changeCustomerEmail, setCustomerFirstName, setCustomerLastName } from '../../helpers/customer';
+import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
 import { apolloClient } from '../../index';
 import CustomerUpdateMeMutation from './defaultMutation';
 
@@ -8,9 +8,9 @@ const customerUpdateMe = async (currentUser, updatedUserData) => {
     variables: {
       version: currentUser.version,
       actions: [
-        changeCustomerEmail(updatedUserData.email),
-        setCustomerFirstName(updatedUserData.firstName),
-        setCustomerLastName(updatedUserData.lastName)
+        changeCustomerEmailAction(updatedUserData.email),
+        setCustomerFirstNameAction(updatedUserData.firstName),
+        setCustomerLastNameAction(updatedUserData.lastName)
       ]
     },
     fetchPolicy: 'no-cache'
