@@ -98,7 +98,7 @@ export const getCartCheckoutUrl = (cart: Cart): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCoupon = (cart: Cart): AgnosticCoupon => null;
+export const getCoupons = (cart: Cart): AgnosticCoupon[] => [];
 
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
@@ -114,7 +114,7 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getTotalItems: getCartTotalItems,
   getCheckoutUrl: getCartCheckoutUrl,
   hasItemAttributes: hasItemAttributes,
-  getCoupon
+  getCoupons
   // getItemAttributes: getCartItemAttributes
 };
 
