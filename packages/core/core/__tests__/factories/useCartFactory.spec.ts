@@ -94,7 +94,7 @@ describe('[CORE - factories] useCartFactory', () => {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
-        });
+        }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_added_cart' });
       });
     });
@@ -106,7 +106,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.removeFromCart).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' }
-        });
+        }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });
@@ -131,7 +131,7 @@ describe('[CORE - factories] useCartFactory', () => {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
-        });
+        }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_updated_quantity_cart' });
       });
     });
@@ -152,7 +152,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
           coupon: 'qwerty'
-        });
+        }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
         expect(coupon.value).toEqual('appliedCouponMock');
       });
@@ -165,7 +165,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
           coupon: null
-        });
+        }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
         expect(coupon.value).toBeNull();
       });

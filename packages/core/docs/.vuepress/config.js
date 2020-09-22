@@ -41,6 +41,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/use-product', 'useProduct'],
+            ['/commercetools/use-review', 'useReview']
           ]
         }, {
           title: 'Theme',
