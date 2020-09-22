@@ -2259,11 +2259,11 @@
     webpackbar "^4.0.0"
 
 "@nuxtjs/composition-api@^0.12.0":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.12.4.tgz#332989de1ddd28dca8815103bee6afdd2b22864b"
-  integrity sha512-mgwfq3sHXWcWIyQrE3IqpUB26E77Jp2ON90YTlBy1i4leslJXqebX5i5vlaQAYq21WoUYxId4G/wxjTGEyHLVQ==
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.12.5.tgz#0603d36da64ecb573ce222ad1aee74ee3f5b9756"
+  integrity sha512-srUwqaxwc4/8nKH68kDaMn0+3H2LD7awpjFdtzQWFiGK0Go38hrIsR+W7Xi1K5wC3kDo9SaNt9nvZy8d8VauDw==
   dependencies:
-    "@vue/composition-api" "1.0.0-beta.13"
+    "@vue/composition-api" "1.0.0-beta.14"
     defu "^3.1.0"
     normalize-path "^3.0.0"
 
@@ -2949,6 +2949,22 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
+"@vue-storefront/commercetools-api@0.0.5", "@vue-storefront/commercetools-api@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.5.tgz#d9d93c196ff8bcce754992d2747797d84c1f8b7e"
+  integrity sha512-/Sp6wf6HhSM274exo/XtcZ6veis6vbRCWMwS+ipasXsaOHPnBDXDYZkb5Y0ynSrxbTkz86W1cpamUGkF9HeZ1A==
+  dependencies:
+    "@commercetools/sdk-auth" "^3.0.1"
+    apollo-cache-inmemory "^1.6.6"
+    apollo-client "^2.6.10"
+    apollo-link "^1.2.14"
+    apollo-link-context "^1.0.20"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.17"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
 "@vue-storefront/commercetools-api@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.3.tgz#d1f14739a9168ec300a32f28f24cd49d1b76edcb"
@@ -2963,6 +2979,41 @@
     graphql "^14.5.8"
     graphql-tag "^2.10.1"
     isomorphic-fetch "^2.2.1"
+
+"@vue-storefront/commercetools-theme@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-theme/-/commercetools-theme-0.0.6.tgz#6e2656c84528966590067570673f95b32c2d2e9e"
+  integrity sha512-cSunPsZ+WtZbpgjI3qP3oA3yhddqOFTmylliZ+3aWOiDw6Q3wqA6rY7fdtY8A32Qz2/Voso0scuhZw39W8v1Gw==
+  dependencies:
+    "@storefront-ui/vue" "^0.7.10"
+    "@vue-storefront/commercetools" "^0.0.6"
+    "@vue-storefront/commercetools-api" "^0.0.5"
+    "@vue-storefront/nuxt" "^0.0.4"
+    "@vue-storefront/nuxt-theme" "^0.0.2"
+    cookie-universal-nuxt "^2.1.3"
+    core-js "^2.6.5"
+    nuxt "^2.13.3"
+    nuxt-i18n "^6.5.0"
+    vee-validate "^3.2.3"
+    vue-scrollto "^2.17.1"
+
+"@vue-storefront/commercetools@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools/-/commercetools-0.0.6.tgz#b489a721528c2a6961e0311576a5db7980b7b8e9"
+  integrity sha512-s3W1FbNK6auKjZ5kX6yslG1GKlkR2hhLlguSkFLvS5YJ9a45AHVzsnbjole09O7kgD+koy5VJjdE6uKGKSNWaw==
+  dependencies:
+    "@vue-storefront/commercetools-api" "0.0.5"
+    "@vue-storefront/core" "2.0.3"
+    js-cookie "^2.2.1"
+    vue "^2.6.x"
+
+"@vue-storefront/core@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.3.tgz#087a55eabcfa9cc396379914e3769db847ea9f2a"
+  integrity sha512-chcDP5SXDLkdhB9Ef7B3E8WJ7euiTnfSD2kTYakVb8dziAq2sG/u7Sd0+y+TTUUi0TS7wgGB8DFLFWKX2hULcQ==
+  dependencies:
+    "@vue/composition-api" "^1.0.0-beta.8"
+    vue "^2.6.11"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"
@@ -3085,14 +3136,7 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-beta.13":
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.13.tgz#441ffde5edfc0be90ae1fc96bebab70467762b51"
-  integrity sha512-5wHG9kfnTLST1rXFE5pHNL1VMl7Ojmr4WS1pIUmdkcPstBxr3/4fyRbYyeE4YUOJOnV7FkrSrPX69mIvApZeMA==
-  dependencies:
-    tslib "^2.0.1"
-
-"@vue/composition-api@^1.0.0-beta.8":
+"@vue/composition-api@1.0.0-beta.14", "@vue/composition-api@^1.0.0-beta.8":
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.14.tgz#b243d906ae5dcda7483e0b5a2b5ea1aa971a4e00"
   integrity sha512-HYBe87RG//qpN/2+ZtgdhrIafdO8bYK/Tu1+/jMS4iNGYJi42XCbPydhEAiaRcTvsEJjZQEfP+hKKIuH+iPICg==
