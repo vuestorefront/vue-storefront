@@ -121,8 +121,8 @@ export interface UseCart
   removeFromCart: (product: CART_ITEM,) => Promise<void>;
   updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
   clearCart: () => Promise<void>;
-  applyCoupon: (coupon: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
+  applyCoupon: (couponCode: string) => Promise<void>;
+  removeCoupon: (couponId: string) => Promise<void>;
   loadCart: () => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
@@ -215,7 +215,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
-  getCoupon: (cart: CART) => AgnosticCoupon;
+  getCoupons: (cart: CART) => AgnosticCoupon[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 

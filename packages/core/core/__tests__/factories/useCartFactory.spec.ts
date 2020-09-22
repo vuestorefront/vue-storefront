@@ -159,9 +159,11 @@ describe('[CORE - factories] useCartFactory', () => {
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
         const { removeCoupon, cart } = useCart();
-        await removeCoupon();
+        const coupon = 'some-coupon-code-12321231';
+        await removeCoupon(coupon);
         expect(params.removeCoupon).toHaveBeenCalledWith({
-          currentCart: null
+          currentCart: null,
+          coupon
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
       });
