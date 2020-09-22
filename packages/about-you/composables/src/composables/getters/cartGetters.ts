@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon } from '@vue-storefront/core';
 import { BasketResponseData, BasketItem } from '../../types';
 import {
   getProductCoverImage,
@@ -45,7 +45,7 @@ export const getCartShippingPrice = (cart: BasketResponseData): number => 0;
 export const getCartTotalItems = (cart: BasketResponseData): number => cart?.items.reduce((previous, current) => previous + current.quantity, 0) ?? 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCoupon = (cart: BasketResponseData): null => null;
+export const getCoupons = (cart: BasketResponseData): AgnosticCoupon[] => [];
 
 const cartGetters: CartGetters<BasketResponseData, BasketItem> = {
   getTotals: getCartTotals,
@@ -58,7 +58,7 @@ const cartGetters: CartGetters<BasketResponseData, BasketItem> = {
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
-  getCoupon,
+  getCoupons,
   getFormattedPrice
 };
 
