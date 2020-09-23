@@ -3,6 +3,7 @@ import { createContext, createPayment, getCustomerCards, removeSavedCard } from 
 const publicKey = 'public key';
 const ckoWebhookUrl = 'https://webhook.com/api';
 const ckoProxyUrl = 'https://proxy.com/api';
+const currentChannel = 'en';
 
 import axios from 'axios';
 jest.mock('axios', () => ({
@@ -12,7 +13,8 @@ jest.mock('axios', () => ({
 jest.mock('@vue-storefront/checkout-com/src/configuration', () => ({
   getPublicKey: () => publicKey,
   getCkoWebhookUrl: () => ckoWebhookUrl,
-  getCkoProxyUrl: () => ckoProxyUrl
+  getCkoProxyUrl: () => ckoProxyUrl,
+  getCurrentChannel: () => currentChannel
 }));
 
 describe('[checkout-com] payment', () => {
@@ -113,16 +115,17 @@ describe('[checkout-com] payment', () => {
   it('getCustomerCards', () => {
 
     /*eslint-disable */
-    const customer = {
-      customer_id: 15
+    const payload = {
+      customer_id: 15,
+      channel: currentChannel
     };
     /* eslint-enable */
 
-    getCustomerCards(customer);
+    getCustomerCards(payload);
 
     expect(axios.post).toBeCalledWith(
       `${ckoProxyUrl}/payment-instruments`,
-      customer
+      payload
     );
 
   });
@@ -132,14 +135,15 @@ describe('[checkout-com] payment', () => {
     /*eslint-disable */
     const customerData = {
       customer_id: 15,
-      payment_instrument_id: 12
+      payment_instrument_id: 12,
+      channel: currentChannel
     };
     /* eslint-enable */
 
     removeSavedCard(customerData);
 
     expect(axios.delete).toBeCalledWith(
-      `${ckoProxyUrl}/payment-instruments/${customerData.customer_id}/${customerData.payment_instrument_id}`
+      `${ckoProxyUrl}/payment-instruments/${customerData.customer_id}/${customerData.payment_instrument_id}/${customerData.channel}`
     );
 
   });
