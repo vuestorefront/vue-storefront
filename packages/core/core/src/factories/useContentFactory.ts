@@ -14,7 +14,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
     const error: Ref<string | null> = sharedRef(null, `useContent-error-${id}`);
 
-    const search = async(params?: CONTENT_SEARCH_PARAMS): Promise<void> => {
+    const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
       try {
         loading.value = true;
         content.value = await factoryParams.search(params);
