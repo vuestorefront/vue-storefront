@@ -137,7 +137,7 @@ You will see 4 containers are running, which is :
 
 4. Now that backend part is done, let's work on frontend part, install `@vue-storefront/cli`
 ```bash
-yarn add global @vue-storefront/cli 
+yarn global add @vue-storefront/cli 
 ```
 
 5. Run the `init` command in a directory where you want to install _Vue Storefront_ as follows : 

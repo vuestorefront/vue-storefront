@@ -59,6 +59,14 @@ const StorageManager = {
     } else {
       return this.storageMap[collectionName]
     }
+  },
+  clear (): Promise<void[]> {
+    const promiseArray = Object.keys(this.storageMap).map((collectionName) => {
+      return (config.localForage.preserveCollections || []).every(collectionToKeep => collectionName !== collectionToKeep) && this.storageMap[collectionName].clear().then(() => {
+        Logger.warn(`storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`, `storeManager cleared: ${collectionName}`)()
+      })
+    })
+    return Promise.all(promiseArray)
   }
 }
 
