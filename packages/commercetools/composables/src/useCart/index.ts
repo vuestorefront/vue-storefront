@@ -7,13 +7,13 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { CustomQuery, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { AgnosticCoupon, CustomQuery, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
 };
 
-const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
+const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
   loadCart: async (customQuery?: CustomQuery) => {
     return await loadCurrentCart(customQuery);
   },
@@ -32,12 +32,12 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
-    const { data } = await apiApplyCartCoupon(currentCart, coupon, customQuery);
-    return { updatedCart: data.cart, updatedCoupon: coupon };
+  applyCoupon: async ({ currentCart, couponCode }, customQuery?: CustomQuery) => {
+    const { data } = await apiApplyCartCoupon(currentCart, couponCode, customQuery);
+    return { updatedCart: data.cart };
   },
   removeCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
-    const { data } = await apiRemoveCartCoupon(currentCart, coupon, customQuery);
+    const { data } = await apiRemoveCartCoupon(currentCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
@@ -45,6 +45,6 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   }
 };
 
-const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, any>(params);
+const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
 
 export { useCart, setCart };

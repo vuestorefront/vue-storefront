@@ -18,7 +18,7 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
     customQuery?: CustomQuery
   ) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (params: { currentCart: CART; coupon: string }, customQuery?: CustomQuery) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
+  applyCoupon: (params: { currentCart: CART; couponCode: string }, customQuery?: CustomQuery) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     params: { currentCart: CART; coupon: COUPON },
     customQuery?: CustomQuery
@@ -39,7 +39,6 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   };
 
   const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
-    const appliedCoupon: Ref<COUPON | null> = sharedRef(null, 'useCart-appliedCoupon');
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
@@ -108,32 +107,30 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       });
     };
 
-    const applyCoupon = async (coupon: string, customQuery?: CustomQuery) => {
+    const applyCoupon = async (couponCode: string, customQuery?: CustomQuery) => {
       try {
         loading.value = true;
-        const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
+        const { updatedCart } = await factoryParams.applyCoupon({
           currentCart: cart.value,
-          coupon
+          couponCode
         }, customQuery);
         cart.value = updatedCart;
-        appliedCoupon.value = updatedCoupon;
       } finally {
         loading.value = false;
       }
     };
 
-    const removeCoupon = async (customQuery?: CustomQuery) => {
+    const removeCoupon = async (coupon: COUPON, customQuery?: CustomQuery) => {
       try {
         loading.value = true;
         const { updatedCart } = await factoryParams.removeCoupon(
           {
             currentCart: cart.value,
-            coupon: appliedCoupon.value
+            coupon
           },
           customQuery
         );
         cart.value = updatedCart;
-        appliedCoupon.value = null;
         loading.value = false;
       } finally {
         loading.value = false;
@@ -148,7 +145,6 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       removeFromCart,
       clearCart,
       updateQuantity,
-      coupon: computed(() => appliedCoupon.value),
       applyCoupon,
       removeCoupon,
       loading: computed(() => loading.value)
