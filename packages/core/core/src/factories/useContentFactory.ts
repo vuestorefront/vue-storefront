@@ -3,7 +3,7 @@ import { UseContent } from '../types';
 import { sharedRef } from '../utils/shared';
 
 export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
-	search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
+  search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
 };
 
 export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
