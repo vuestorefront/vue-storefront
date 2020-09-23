@@ -24,6 +24,7 @@ import customerUpdateMe from './api/customerUpdateMe';
 import createAccessToken from './helpers/createAccessToken';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config, ConfigurableConfig } from './types/setup';
+import { resolveCustomQueryVariables } from './helpers/search';
 export * from './types/Api';
 export * from './types/setup';
 export * as cartActions from './helpers/cart/actions';
@@ -56,6 +57,7 @@ const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConf
 export {
   getSettings,
   createAccessToken,
+  resolveCustomQueryVariables,
   apolloClient,
   setup,
   update,

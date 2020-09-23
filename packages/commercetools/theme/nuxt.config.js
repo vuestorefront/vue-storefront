@@ -61,15 +61,18 @@ export default {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',
         projectKey: 'vsf-ct-dev',
-        clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
-        clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+        clientId: 'RT4iJGDbDzZe4b2E6RyeNe9s',
+        clientSecret: '5eBt3yfZJWw1j7V6kXjfKXpuFP-YQXpg',
         scopes: [
+          'manage_products:vsf-ct-dev',
           'create_anonymous_token:vsf-ct-dev',
-          'manage_my_orders:vsf-ct-dev',
           'manage_my_profile:vsf-ct-dev',
-          'manage_my_shopping_lists:vsf-ct-dev',
+          'manage_customer_groups:vsf-ct-dev',
+          'view_categories:vsf-ct-dev',
+          'introspect_oauth_tokens:vsf-ct-dev',
           'manage_my_payments:vsf-ct-dev',
-          'view_products:vsf-ct-dev',
+          'manage_my_orders:vsf-ct-dev',
+          'manage_my_shopping_lists:vsf-ct-dev',
           'view_published_products:vsf-ct-dev'
         ]
       },
@@ -128,6 +131,21 @@ export default {
     }
   },
   build: {
+    babel: {
+      plugins: [
+        '@babel/plugin-proposal-optional-chaining'
+      ],
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              node: 'current'
+            }
+          }
+        ]
+      ]
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],
