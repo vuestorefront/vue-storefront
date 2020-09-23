@@ -91,9 +91,7 @@ import {
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '@vue-storefront/shopify';
 import { onSSR } from '@vue-storefront/core';
-import uiState from '~/assets/ui-state';
-
-const { isCartSidebarOpen, toggleCartSidebar } = uiState;
+import { useUiState } from '~/composables';
 
 export default {
   name: 'Cart',
@@ -107,6 +105,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
+    const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));

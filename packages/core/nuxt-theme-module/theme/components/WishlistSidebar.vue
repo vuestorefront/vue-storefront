@@ -82,9 +82,7 @@ import {
 import { computed } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
-import uiState from '~/assets/ui-state';
-
-const { isWishlistSidebarOpen, toggleWishlistSidebar } = uiState;
+import { useUiState } from '~/composables';
 
 export default {
   name: 'Wishlist',
@@ -98,6 +96,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
+    const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
     const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
