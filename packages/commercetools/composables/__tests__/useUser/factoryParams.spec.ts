@@ -17,11 +17,16 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
   customerSignOut: jest.fn(),
   customerChangeMyPassword: jest.fn(),
+  customerUpdateMe: jest.fn((currentUser, updatedUserData) => Promise.resolve({ user: { currentUser, updatedUserData } })),
   createCart: jest.fn()
 }));
 
 jest.mock('../../src/useUser/authenticate', () => ({
   authenticate: jest.fn()
+}));
+
+jest.mock('../../src/useUser', () => ({
+  setUser: jest.fn()
 }));
 
 describe('[commercetools-composables] factoryParams', () => {
