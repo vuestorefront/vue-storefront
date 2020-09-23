@@ -39,7 +39,7 @@ describe('[commercetools-composables] useCart', () => {
     const response = await addToCart({ currentCart: 'current cart', product: 'product1', quantity: 3 });
 
     expect(response).toEqual('some cart');
-    expect(apiAddToCart).toBeCalledWith('current cart', 'product1', 3);
+    expect(apiAddToCart).toBeCalledWith('current cart', 'product1', 3, undefined);
   });
 
   it('removes from cart', async () => {
@@ -47,7 +47,7 @@ describe('[commercetools-composables] useCart', () => {
     const response = await removeFromCart({ currentCart: 'current cart', product: 'product1' });
 
     expect(response).toEqual('some cart');
-    expect(apiRemoveFromCart).toBeCalledWith('current cart', 'product1');
+    expect(apiRemoveFromCart).toBeCalledWith('current cart', 'product1', undefined);
   });
 
   it('updates quantity', async () => {
@@ -59,7 +59,7 @@ describe('[commercetools-composables] useCart', () => {
     });
 
     expect(response).toEqual('some cart');
-    expect(apiUpdateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 });
+    expect(apiUpdateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 }, undefined);
   });
 
   it('clears cart', async () => {
@@ -73,12 +73,25 @@ describe('[commercetools-composables] useCart', () => {
     const { applyCoupon } = useCart() as any;
     const response = await applyCoupon({ currentCart: 'current cart', coupon: 'X123' });
 
-    expect(response).toEqual({ updatedCart: 'some cart', updatedCoupon: 'X123' });
+    expect(response).toEqual({ updatedCart: 'some cart' });
   });
 
   it('removes coupon', async () => {
     const { removeCoupon } = useCart() as any;
-    const response = await removeCoupon({ currentCart: 'current cart' });
+    const response = await removeCoupon({
+      currentCart: {
+        discountCodes: [
+          {
+            discountCode: {
+              id: 'asdasdas',
+              name: 'asdasdas',
+              code: 'XA12345'
+            }
+          }
+        ]
+      },
+      coupon: { id: 'asdasdas' }
+    });
 
     expect(response).toEqual({ updatedCart: 'current cart' });
   });
