@@ -1,6 +1,6 @@
 # What is faceting?
 
-Faceting is the way of searching anc classifying records, allowing users to browse the catalog data.
+Faceting is the way of searching and classifying records, allowing users to browse the catalog data.
 Each facet is the unit that refines the results over multiple dimensions at a time. Considering the clothing shop, we can distinguish multiple dimensions such as brand, size, color and so on. The particular value of that dimension is a facet, for example `color: red`, `size: xl etc`.
 
 ## Why do we need this?
@@ -11,7 +11,7 @@ When it comes to searching or browsing the results, faceting is the most common 
 
 In most cases faceting in eCommerce is a dedicated feature for browsing the catalog of products, usually on the category page / product listing page.
 
-In a Vue Storefront core, we have implemented couple of interfaces which covers that functionality. Each facet is represented by single type called `AgnosticFacet` which also defines other types that are providing scoped functionalities such as pagination (`AgnosticPagination`), sorting (`AgnosticSort`) and more. For more details please look at the implementation in some of our integrations.
+In Vue Storefront, we have implemented a couple of interfaces that covers that functionality. Each facet is represented by a single type called `AgnosticFacet` which also defines other types that are providing scoped functionalities such as pagination (`AgnosticPagination`), sorting (`AgnosticSort`), and more. For more details please look at the implementation in some of our integrations.
 
 ![faceting sechema](./../images/faceting.jpg)
 

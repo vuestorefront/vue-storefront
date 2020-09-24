@@ -18,11 +18,41 @@ interface ProductsSearchParams {
 }
 ```
 
+## Available getters
+
+```ts
+interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
+  // returns all available facets
+  getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
+
+  // returns grouped facets by facet name
+  getGrouped: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
+
+  // return the category nested tree
+  getCategoryTree: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticCategoryTree;
+
+  // returns sorting options and current selected one
+  getSortOptions: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticSort;
+
+  // returns products that were found
+  getProducts: (searchData: FacetSearchResult<SEARCH_DATA>) => RESULTS;
+
+  // returns pagination settings
+  getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
+
+  // returns breadcrumbs
+  getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
+  [getterName: string]: (element: any, options?: any) => unknown;
+}
+```
+
 ## Examples
 
-Using a full working example of the category page browsing.
+Example of the category page browsing.
 
 ```js
+import { useFacet, facetGetters } from '@vue-storefront/your-integration';
+
 setup(props, context) {
   const { result, search, loading } = useFacet();
   const products = computed(() => facetGetters.getProducts(result.value));
@@ -33,7 +63,7 @@ setup(props, context) {
   const pagination = computed(() => facetGetters.getPagination(result.value));
 
   onSSR(async () => {
-    await search(context.$router.history.current.query);
+    await search({ categorySlug: 'clothing', sortBy: 'latest' });
   });
 
   return {

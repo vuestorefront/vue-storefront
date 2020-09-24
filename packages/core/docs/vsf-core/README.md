@@ -1,3 +1,1 @@
 # VSF core docs
-
-TODO

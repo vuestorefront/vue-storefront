@@ -4,15 +4,19 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Core', link: '/vsf-core/' },
       { text: 'Contributing', link: '/contributing/' },
+      { text: 'Changelog', link: '/contributing/changelog' },
       { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
     ],
     sidebar: {
-      '/get-started/': [
-        ['/get-started/', 'What is Vue Storefront?'],
-        ['/get-started/api-design-philosophy', 'API design'],
-        ['/get-started/themes', 'Working with themes'],
+      '/': [
+        {
+          title: 'Essentials',
+          children: [
+            ['/get-started/api-design-philosophy', 'API design'],
+            ['/get-started/themes', 'Working with themes'],
+          ]
+        },
         {
           title: 'Integrations',
           children: [
@@ -24,19 +28,19 @@ module.exports = {
             ['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
             ['https://github.com/DivanteLtd/vue-storefront', 'Magento']
           ]
-        }
-      ],
-      '/vsf-core/': [
-        ['/vsf-core/', 'Essentials'],
-        ['/vsf-core/changelog', 'Changelog'],
-        ['/vsf-core/i18n', 'i18n'],
-        ['/vsf-core/server-side-rendering', 'Server-side rendering'],
-        ['/vsf-core/faceting', 'Faceting']
+        },
+        {
+          title: 'Core',
+          children: [
+            ['/vsf-core/', 'Essentials'],
+            ['/vsf-core/i18n', 'i18n'],
+            ['/vsf-core/server-side-rendering', 'Server-side rendering'],
+            ['/vsf-core/faceting', 'Faceting']
+          ]
+        },
       ],
       '/integrations/': [
         ['/integrations/', 'Introduction'],
-        ['/integrations/step-by-step-guide', 'Get started'],
-        ['/integrations/available-integrations', 'Available integrations']
       ],
       '/contributing/': [
         ['/contributing/', 'Contributing'],
