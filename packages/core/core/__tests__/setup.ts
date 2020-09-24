@@ -14,6 +14,7 @@ jest.mock('../src/utils', () => ({
     warn: () => {},
     error: () => {}
   },
+  mask: jest.fn((s) => s),
   onSSR: jest.fn(fn => fn()),
   sharedRef: jest.fn(ref),
   vsfRef: jest.fn(ref)

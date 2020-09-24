@@ -1,6 +1,6 @@
 import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserShipping } from '../types';
-import { sharedRef, Logger } from '../utils';
+import { sharedRef, Logger, mask } from '../utils';
 
 export interface UseUserShippingFactoryParams<ADDRESS> {
   addAddress: (params: {
@@ -40,7 +40,7 @@ export const useUserShippingFactory = <ADDRESS>(
     const readonlyDefaultAddress: Readonly<ADDRESS> = unref(defaultAddress);
 
     const addAddress = async (address: ADDRESS) => {
-      Logger.debug('useUserShipping.addAddress', address);
+      Logger.debug('useUserShipping.addAddress', mask(address));
 
       loading.value = true;
       try {

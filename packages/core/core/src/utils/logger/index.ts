@@ -3,7 +3,14 @@ import defaultLogger from './defaultLogger';
 
 let Logger: VSFLogger = defaultLogger;
 
-const registerLogger = (loggerImplementation: VSFLogger, verbosity: string) => {
+type LoggerImplementation = VSFLogger | ((verbosity: string) => VSFLogger);
+
+const registerLogger = (loggerImplementation: LoggerImplementation, verbosity: string) => {
+  if (typeof loggerImplementation === 'function') {
+    Logger = loggerImplementation(verbosity);
+    return;
+  }
+
   switch (verbosity) {
     case 'info':
       Logger = {

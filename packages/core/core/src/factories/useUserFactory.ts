@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { sharedRef, onSSR, Logger } from '../utils';
+import { sharedRef, onSSR, Logger, mask } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
@@ -92,7 +92,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     };
 
     const changePassword = async (currentPassword: string, newPassword: string) => {
-      Logger.debug('useUserFactory.changePassword', { currentPassword, newPassword });
+      Logger.debug('useUserFactory.changePassword', { currentPassword: mask(currentPassword), newPassword: mask(newPassword) });
 
       loading.value = true;
       try {

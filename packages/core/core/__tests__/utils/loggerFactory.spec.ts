@@ -57,4 +57,19 @@ describe('[CORE - utils] registerLogger', () => {
     expect(Logger.error()).toEqual(undefined);
     expect(Logger.debug()).toEqual(undefined);
   });
+
+  it('registers custom logger', () => {
+    const logger = (verbosity) => ({
+      debug: () => verbosity + '-debug',
+      info: () => verbosity + '-info',
+      warn: () => verbosity + '-warn',
+      error: () => verbosity + '-error'
+    });
+    registerLogger(logger, 'custom-verbose');
+
+    expect(Logger.info()).toEqual('custom-verbose-info');
+    expect(Logger.warn()).toEqual('custom-verbose-warn');
+    expect(Logger.error()).toEqual('custom-verbose-error');
+    expect(Logger.debug()).toEqual('custom-verbose-debug');
+  });
 });
