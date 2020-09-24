@@ -2,7 +2,7 @@ import { useReviewFactory, UseReview, UseReviewFactoryParams } from '@vue-storef
 
 const params: UseReviewFactoryParams<any, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchReviews: async (params?) => {
+  searchReviews: async (params) => {
     console.log('Mocked: searchReviews');
     return {};
   },
