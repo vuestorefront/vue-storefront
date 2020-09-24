@@ -6,6 +6,7 @@
 
 ### Changes
 
+- fixed updateUser on useUser composable ([#4863](https://github.com/DivanteLtd/vue-storefront/issues/4863))
 - implemented useReviews on product page ([#4800](https://github.com/DivanteLtd/vue-storefront/issues/4800))
 - implemented faceting using useFacet factory (#4853)
 

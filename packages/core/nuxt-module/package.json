@@ -11,7 +11,7 @@
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
     "@vue/composition-api": "1.0.0-beta.13",
-    "@nuxtjs/composition-api": "^0.12.0",
+    "@nuxtjs/composition-api": "0.12.4",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",

@@ -251,7 +251,7 @@ export default {
       await loadCart();
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
-      await searchReviews({ product });
+      await searchReviews({ productId: id });
     });
 
     const updateFilter = (filter) => {

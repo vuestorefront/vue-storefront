@@ -109,23 +109,44 @@ export interface UseCategory
   loading: ComputedProperty<boolean>;
 }
 
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number): Promise<void>;
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
+export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number, customQuery?: {}): any {
+  return { product, quantity, customQuery };
+}
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM): Promise<void>
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): Promise<void>
+export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
+  return { product, customQuery };
+}
+export function ApplyCoupon(coupon): Promise<void>
+export function ApplyCoupon(coupon, customQuery: {}): Promise<void>
+export function ApplyCoupon(coupon, customQuery?: {}): any {
+  return { coupon, customQuery };
+}
+export function LoadCart(customQuery?: {}): Promise<void>
+export function LoadCart(customQuery?: {}): any {
+  return { customQuery };
+}
+
 export interface UseCart
 <
   CART,
   CART_ITEM,
   PRODUCT,
   COUPON
-> {
+  > {
   cart: ComputedProperty<CART>;
-  addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
+  addToCart: typeof AddToCart;
   isOnCart: (product: PRODUCT) => boolean;
-  removeFromCart: (product: CART_ITEM,) => Promise<void>;
-  updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  removeFromCart: typeof RemoveFromCart;
+  updateQuantity: typeof AddToCart;
   clearCart: () => Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
-  applyCoupon: (coupon: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
-  loadCart: () => Promise<void>;
+  applyCoupon: typeof ApplyCoupon;
+  removeCoupon: typeof LoadCart;
+  loadCart: typeof LoadCart;
   loading: ComputedProperty<boolean>;
 }
 

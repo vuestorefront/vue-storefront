@@ -2,11 +2,7 @@ const axios = require('axios');
 const express = require('express');
 const app = express();
 
-const config = {
-  publicKey: null,
-  secretKey: null,
-  ctApiUrl: null
-};
+let channels = null;
 
 app.use(express.json());
 
@@ -17,18 +13,22 @@ const sendJsonResponse = (res, json) => {
 
 const sendError = (res, errorCode, errorMessage) => res.status(errorCode).send(errorMessage);
 
-const apiRequestHeaders = () => ({
+const getChannelSecretKey = channel => channels[channel].secretKey;
+const getChannelCtApiUrl = channel => channels[channel].ctApiUrl;
+const getChannelPublicKey = channel => channels[channel].publicKey;
+
+const apiRequestHeaders = channel => ({
   headers: {
-    authorization: config.secretKey,
+    authorization: getChannelSecretKey(channel),
     'Content-Type': 'application/json'
   }
 });
 
-const getStoredMethods = async ({ customerId }) => {
+const getStoredMethods = async ({ customerId, channel }) => {
   try {
     const { data } = await axios.get(
-      `${config.ctApiUrl}/merchants/${config.publicKey}/customers/${customerId}`,
-      apiRequestHeaders()
+      `${getChannelCtApiUrl(channel)}/merchants/${getChannelPublicKey(channel)}/customers/${customerId}`,
+      apiRequestHeaders(channel)
     );
     return data;
   } catch (err) {
@@ -39,11 +39,11 @@ const getStoredMethods = async ({ customerId }) => {
     return null;
   }
 };
-const removeStoredMethod = async ({ customerId, paymentInstrumentId }) => {
+const removeStoredMethod = async ({ customerId, paymentInstrumentId, channel }) => {
   try {
     return await axios.delete(
-      `${config.ctApiUrl}/merchants/${config.publicKey}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
-      apiRequestHeaders()
+      `${getChannelCtApiUrl(channel)}/merchants/${getChannelPublicKey(channel)}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
+      apiRequestHeaders(channel)
     );
   } catch (err) {
     console.log(err);
@@ -52,7 +52,7 @@ const removeStoredMethod = async ({ customerId, paymentInstrumentId }) => {
 };
 
 app.post('/', async (req, res) => {
-  const data = await getStoredMethods({ customerId: req.body.customer_id });
+  const data = await getStoredMethods({ customerId: req.body.customer_id, channel: req.body.channel });
   if (data) {
     return sendJsonResponse(res, JSON.stringify({
       // eslint-disable-next-line
@@ -66,10 +66,11 @@ app.post('/', async (req, res) => {
   return sendError(res, 400, 'Could not load customer\'s stored payment instruments');
 });
 
-app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
+app.delete('/:customerId/:paymentInstrumentId/:channel', async (req, res) => {
   const response = await removeStoredMethod({
     customerId: req.params.customerId,
-    paymentInstrumentId: req.params.paymentInstrumentId
+    paymentInstrumentId: req.params.paymentInstrumentId,
+    channel: req.params.channel
   });
   if (response) {
     return sendJsonResponse(res, JSON.stringify({}));
@@ -77,9 +78,7 @@ app.delete('/:customerId/:paymentInstrumentId', async (req, res) => {
   return sendError(res, 400, 'Could not remove stored payment instrument');
 });
 
-export default ({ publicKey, secretKey, ctApiUrl }) => {
-  config.publicKey = publicKey;
-  config.secretKey = secretKey;
-  config.ctApiUrl = ctApiUrl;
+export default configChannels => {
+  channels = {...configChannels};
   return app;
 };
