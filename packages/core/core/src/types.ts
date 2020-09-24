@@ -196,8 +196,8 @@ export interface UseCheckout
 }
 
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
-  search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
-  addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
+  search: (params?: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<void>;
+  addReview: (params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery) => Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
