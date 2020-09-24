@@ -45,7 +45,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
     const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
-      Logger.debug('userCart.addToCart', { product, quantity });
+      Logger.debug('useCart.addToCart', { product, quantity });
 
       loading.value = true;
       const updatedCart = await factoryParams.addToCart(
