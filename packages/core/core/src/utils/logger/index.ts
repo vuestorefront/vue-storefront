@@ -1,27 +1,20 @@
-import { AgnosticLogger } from './../../types';
+import { VSFLogger } from './../../types';
+import defaultLogger from './defaultLogger';
 
-const defaultImplementation = {
-  debug: (message: any, ...args) => console.debug('[VSF][debug]', message, ...args),
-  info: (message: any, ...args) => console.info('[VSF][info]', message, ...args),
-  warn: (message: any, ...args) => console.warn('[VSF][warn]', message, ...args),
-  error: (message: any, ...args) => console.error('[VSF][error]', message, ...args),
-  verbosity: 'error'
-};
+let Logger: VSFLogger = defaultLogger;
 
-let Logger: AgnosticLogger = defaultImplementation;
-
-const registerLogger = (loggerImplementation: AgnosticLogger) => {
-  switch (loggerImplementation.verbosity) {
+const registerLogger = (loggerImplementation: VSFLogger, verbosity: string) => {
+  switch (verbosity) {
     case 'info':
       Logger = {
-        ...defaultImplementation,
+        ...defaultLogger,
         ...loggerImplementation,
         debug: () => {}
       };
       break;
     case 'warn':
       Logger = {
-        ...defaultImplementation,
+        ...defaultLogger,
         ...loggerImplementation,
         info: () => {},
         debug: () => {}
@@ -29,22 +22,30 @@ const registerLogger = (loggerImplementation: AgnosticLogger) => {
       break;
     case 'error':
       Logger = {
-        ...defaultImplementation,
+        ...defaultLogger,
         ...loggerImplementation,
         info: () => {},
         warn: () => {},
         debug: () => {}
       };
       break;
+    case 'none':
+      Logger = {
+        debug: () => {},
+        info: () => {},
+        warn: () => {},
+        error: () => {}
+      };
+      break;
     default:
       Logger = {
-        ...defaultImplementation,
+        ...defaultLogger,
         ...loggerImplementation
       };
   }
 };
 
-registerLogger(defaultImplementation);
+registerLogger(defaultLogger, 'error');
 
 export {
   Logger,

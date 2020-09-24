@@ -49,10 +49,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     options: moduleOptions.logger || {}
   })
 
-  // this.nuxt.hook('build:done', () => {
-  //   console.log('registering loger xxx');
-  //   registerLogger(moduleOptions.logger || {})
-  // })
   log.success('Installed VSF Logger plugin');
 
   this.addModule('@nuxtjs/composition-api')

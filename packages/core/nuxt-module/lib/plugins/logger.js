@@ -2,8 +2,8 @@
 import { registerLogger } from '@vue-storefront/core'
 
 const loggerPlugin = () => {
-  console.log('registering logger plugin');
-  registerLogger(<%= serialize(options) %>)
+  const { verbosity, ...args } = <%= serialize(options) %>;
+  registerLogger(args, verbosity || 'error')
 };
 
 export default loggerPlugin;

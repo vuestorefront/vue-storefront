@@ -14,8 +14,6 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
       settings = merge(factoryParams.defaultSettings, config);
       factoryParams.onSetup(settings);
 
-      console.log('TEST', Logger);
-
       Logger.debug('apiClientFactory.setup', settings);
 
       // @ts-ignore
