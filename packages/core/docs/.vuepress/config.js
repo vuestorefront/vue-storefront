@@ -9,39 +9,6 @@ module.exports = {
       { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
     ],
     sidebar: {
-      '/': [
-        {
-          title: 'Essentials',
-          children: [
-            ['/get-started/api-design-philosophy', 'API design'],
-            ['/get-started/themes', 'Working with themes'],
-          ]
-        },
-        {
-          title: 'Integrations',
-          children: [
-            ['/integrations/', 'Introduction'],
-            ['/integrations/step-by-step-guide', 'Get started'],
-            ['/commercetools/', 'Commercetools'],
-            ['/shopify/', 'Shopify'],
-            ['/aboutyou/', 'About you'],
-            ['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
-            ['https://github.com/DivanteLtd/vue-storefront', 'Magento']
-          ]
-        },
-        {
-          title: 'Core',
-          children: [
-            ['/vsf-core/', 'Essentials'],
-            ['/vsf-core/i18n', 'i18n'],
-            ['/vsf-core/server-side-rendering', 'Server-side rendering'],
-            ['/vsf-core/faceting', 'Faceting']
-          ]
-        },
-      ],
-      '/integrations/': [
-        ['/integrations/', 'Introduction'],
-      ],
       '/contributing/': [
         ['/contributing/', 'Contributing'],
         ['/contributing/changelog', 'Changelog']
@@ -65,10 +32,11 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/use-product', 'useProduct'],
-            ['/commercetools/use-review', 'useReview']
-            ['/commercetools/use-facet', 'useFacet'],
+            ['/commercetools/use-review', 'useReview'],
+            ['/commercetools/use-facet', 'useFacet']
           ]
-        }, {
+        },
+        {
           title: 'Theme',
           collapsable: false,
           children: [
@@ -130,7 +98,36 @@ module.exports = {
             ['/shopify/checkout', 'Checkout']
           ],
         }
-      ]
+      ],
+      '/': [
+        {
+          title: 'Essentials',
+          children: [
+            ['/get-started/api-design-philosophy', 'API design'],
+            ['/get-started/themes', 'Working with themes'],
+          ]
+        },
+        {
+          title: 'Integrations',
+          children: [
+            ['/integrations/', 'Introduction'],
+            ['/commercetools/', 'Commercetools'],
+            ['/shopify/', 'Shopify'],
+            ['/aboutyou/', 'About you'],
+            ['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
+            ['https://github.com/DivanteLtd/vue-storefront', 'Magento']
+          ]
+        },
+        {
+          title: 'Core',
+          children: [
+            ['/vsf-core/', 'Essentials'],
+            ['/vsf-core/i18n', 'i18n'],
+            ['/vsf-core/server-side-rendering', 'Server-side rendering'],
+            ['/vsf-core/faceting', 'Faceting']
+          ]
+        },
+      ],
     }
   }
 }
