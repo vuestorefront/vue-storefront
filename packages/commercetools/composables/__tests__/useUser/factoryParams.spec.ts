@@ -3,7 +3,8 @@ import {
   getMe as apiGetMe,
   customerSignOut as apiCustomerSignOut,
   customerChangeMyPassword as apiCustomerChangeMyPassword,
-  createCart as apiCreateCart
+  createCart as apiCreateCart,
+  customerUpdateMe as apiCustomerUpdateMe
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
 import { useCart } from '../../src/useCart';
@@ -13,11 +14,16 @@ jest.mock('../../src/useCart', () => ({
   setCart: jest.fn()
 }));
 
+jest.mock('../../src/useUser', () => ({
+  setUser: jest.fn()
+}));
+
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
   customerSignOut: jest.fn(),
   customerChangeMyPassword: jest.fn(),
-  createCart: jest.fn()
+  createCart: jest.fn(),
+  customerUpdateMe: jest.fn()
 }));
 
 jest.mock('../../src/useUser/authenticate', () => ({
@@ -58,9 +64,10 @@ describe('[commercetools-composables] factoryParams', () => {
     expect(apiCreateCart).toHaveBeenCalled();
   });
   it('updateUser return updated user', async () => {
-    // wait until the apiClient receive userUpdate method
-    const update = {currentUser: 'Jon', updatedUserData: 'Bob'} as any;
-    expect(await params.updateUser(update)).toEqual(update);
+    const user = {currentUser: 'Jon', updatedUserData: 'Bob'} as any;
+    (apiCustomerUpdateMe as jest.Mock).mockReturnValueOnce({ user });
+
+    expect(await params.updateUser(user)).toEqual(user);
   });
   it('register method return a new customer', async () => {
     const customer = {email: 'test@test.pl', password: '123456', firstName: 'Don', lastName: 'Jon'};

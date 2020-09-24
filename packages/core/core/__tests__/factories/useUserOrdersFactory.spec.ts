@@ -40,9 +40,11 @@ describe('[CORE - factories] useUserOrderFactory', () => {
         params.searchOrders = jest.fn().mockImplementationOnce(() => {
           throw new Error();
         });
-        const { searchOrders, loading } = useUserOrders();
-        await expect(searchOrders({})).rejects.toThrow(Error);
+        const { searchOrders, loading, orders } = useUserOrders();
+        await searchOrders({});
+
         expect(loading.value).toEqual(false);
+        expect(orders.value).toEqual([]);
       });
     });
   });

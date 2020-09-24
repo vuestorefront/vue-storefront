@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 const defaultLogger = {
   debug: (message: any, ...args) => console.debug('[VSF][debug]', message, ...args),
   info: (message: any, ...args) => console.info('[VSF][info]', message, ...args),
