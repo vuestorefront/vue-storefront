@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import createCommerceToolsLink from './helpers/createCommerceToolsLink';
@@ -55,6 +56,7 @@ const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConf
 });
 
 export {
+  gql,
   getSettings,
   createAccessToken,
   resolveCustomQueryVariables,
