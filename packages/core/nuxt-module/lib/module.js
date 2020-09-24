@@ -5,6 +5,7 @@ const consola = require('consola')
 const chalk = require('chalk');
 const { mergeWith, isArray } = require('lodash')
 const chokidar = require('chokidar')
+const registerLogger = require('@vue-storefront/core').registerLogger
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -42,6 +43,17 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'))
   log.success('Installed VSF SSR plugin');
+
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/logger.js'),
+    options: moduleOptions.logger || {}
+  })
+
+  // this.nuxt.hook('build:done', () => {
+  //   console.log('registering loger xxx');
+  //   registerLogger(moduleOptions.logger || {})
+  // })
+  log.success('Installed VSF Logger plugin');
 
   this.addModule('@nuxtjs/composition-api')
   log.success('Installed nuxt composition api module');

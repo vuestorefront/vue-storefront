@@ -443,3 +443,11 @@ export interface AgnosticFacetSearchParams {
   metadata?: any;
   [x: string]: any;
 }
+
+export interface AgnosticLogger {
+  debug(message?: any, ...args: any): void;
+  info(message?: any, ...args: any): void;
+  warn(message?: any, ...args: any): void;
+  error(message?: any, ...args: any): void;
+  verbosity: string;
+}
