@@ -2,14 +2,14 @@ import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
 import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
 
-export interface CustomQuery<T> {
+export type CustomQueryFn = () => {
   query: any;
-  variables: T;
-}
+  variables?: {
+    [key: string]: any;
+  };
+};
 
-export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
-
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
+export const getCustomQuery = (customQueryFn: CustomQueryFn, defaultQuery) => {
   if (customQueryFn) {
     const { query, variables } = customQueryFn();
     return { query: query || defaultQuery, variables: variables || {} };

@@ -4,31 +4,32 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
-
-export interface SearchParams {
+export interface SearchParams extends ObjectWithAnyKeys {
   perPage?: number;
   page?: number;
   sort?: any;
   term?: any;
   filters?: any;
-  [x: string]: any;
 }
 
-export function Search(params: SearchParams): Promise<void>;
-export function Search(params: SearchParams, customQuery: {}): Promise<void>
-// Overloaded function type need declaration, as bellow
-// https://www.typescriptlang.org/docs/handbook/functions.html#overloads
-export function Search(params: SearchParams, customQuery?: {}): any {
-  return { params, customQuery };
-}
-
-export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any> extends ObjectWithAnyKeys {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
-  search: typeof Search;
-  [x: string]: any;
+  search(params: SearchParams): Promise<void>;
+  search(params: SearchParams, customQuery?: CUSTOM_QUERY): Promise<void>;
+}
+
+export interface UseUserRegisterParams extends ObjectWithAnyKeys {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface UseUserLoginParams extends ObjectWithAnyKeys {
+  username: string;
+  password: string;
 }
 
 export interface UseUser
@@ -38,31 +39,26 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
-  register: (user: {
-    email: string;
-    password: string;
-    firstName?: string;
-    lastName?: string;
-    [x: string]: any;
-  }) => Promise<void>;
-  login: (user: {
-    username: string;
-    password: string;
-    [x: string]: any;
-  }) => Promise<void>;
+  register: (user: UseUserRegisterParams) => Promise<void>;
+  login: (user: UseUserLoginParams) => Promise<void>;
   logout: () => Promise<void>;
-  changePassword: (
-    currentPassword: string,
-    newPassword: string) => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   refreshUser: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseUserOrders<ORDER> {
+export interface UseUserOrdersSearchParams extends ObjectWithAnyKeys {
+  id?: any;
+  page?: number;
+  perPage?: number;
+}
+
+export interface UseUserOrders<ORDER, CUSTOM_QUERY = any> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders: typeof Search;
+  searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
+  searchOrders(params: UseUserOrdersSearchParams, customQuery: CUSTOM_QUERY): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -72,7 +68,7 @@ export interface UseUserAddress<ADDRESS> {
   addAddress: (address: ADDRESS) => Promise<void>;
   deleteAddress: (address: ADDRESS) => Promise<void>;
   updateAddress: (address: ADDRESS) => Promise<void>;
-  searchAddresses: (params?: { [x: string]: any }) => Promise<void>;
+  searchAddresses: (params?: ObjectWithAnyKeys) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -100,33 +96,11 @@ export interface UseUserBilling<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseCategory
-<
-  CATEGORY
-> {
+export interface UseCategory<CATEGORY, CUSTOM_QUERY = any> {
   categories: ComputedProperty<CATEGORY[]>;
-  search: typeof Search;
+  search(params: ObjectWithAnyKeys): Promise<void>;
+  search(params: ObjectWithAnyKeys, customQuery: CUSTOM_QUERY): Promise<void>;
   loading: ComputedProperty<boolean>;
-}
-
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number): Promise<void>;
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number, customQuery?: {}): any {
-  return { product, quantity, customQuery };
-}
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM): Promise<void>
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): Promise<void>
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
-  return { product, customQuery };
-}
-export function ApplyCoupon(coupon): Promise<void>
-export function ApplyCoupon(coupon, customQuery: {}): Promise<void>
-export function ApplyCoupon(coupon, customQuery?: {}): any {
-  return { coupon, customQuery };
-}
-export function LoadCart(customQuery?: {}): Promise<void>
-export function LoadCart(customQuery?: {}): any {
-  return { customQuery };
 }
 
 export interface UseCart
@@ -134,19 +108,25 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON
+  COUPON,
+  CUSTOM_QUERY = any
   > {
   cart: ComputedProperty<CART>;
-  addToCart: typeof AddToCart;
+  addToCart(product: PRODUCT, quantity?: number): Promise<void>;
+  addToCart(product: PRODUCT, quantity?: number, customQuery?: CUSTOM_QUERY): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
-  removeFromCart: typeof RemoveFromCart;
-  updateQuantity: typeof AddToCart;
-  clearCart: () => Promise<void>;
+  removeFromCart(product: CART_ITEM): Promise<void>;
+  removeFromCart(product: CART_ITEM, customQuery: CUSTOM_QUERY): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CUSTOM_QUERY): Promise<void>;
+  clearCart(): Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
-  applyCoupon: typeof ApplyCoupon;
-  removeCoupon: typeof LoadCart;
-  loadCart: typeof LoadCart;
+  applyCoupon(coupon): Promise<void>;
+  applyCoupon(coupon, customQuery: CUSTOM_QUERY): Promise<void>;
+  removeCoupon(): Promise<void>;
+  removeCoupon(customQuery: CUSTOM_QUERY): Promise<void>;
+  loadCart(): Promise<void>;
+  loadCart(customQuery: CUSTOM_QUERY): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -195,14 +175,13 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, CUSTOM_QUERY = any> {
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, CUSTOM_QUERY = any> extends ObjectWithAnyKeys {
   search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
-  search(params: REVIEWS_SEARCH_PARAMS, customQuery?: CUSTOM_QUERY): Promise<void>;
+  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
   addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
-  addReview(params: REVIEW_ADD_PARAMS, customQuery?: CUSTOM_QUERY): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
-  [x: string]: any;
 }
 
 export interface UseFacet<SEARCH_DATA> {
@@ -321,12 +300,11 @@ export interface AgnosticMediaGalleryItem {
   big: string;
 }
 
-export interface AgnosticCategoryTree {
+export interface AgnosticCategoryTree extends ObjectWithAnyKeys {
   label: string;
   slug?: string;
   items: AgnosticCategoryTree[];
   isCurrent: boolean;
-  [x: string]: unknown;
 }
 
 export interface AgnosticPrice {
@@ -334,10 +312,9 @@ export interface AgnosticPrice {
   special?: number | null;
 }
 
-export interface AgnosticTotals {
+export interface AgnosticTotals extends ObjectWithAnyKeys {
   total: number;
   subtotal: number;
-  [x: string]: unknown;
 }
 
 export interface AgnosticAttribute {
@@ -354,24 +331,21 @@ export interface AgnosticProductReview {
   rating: number | null;
 }
 
-export interface AgnosticLocale {
+export interface AgnosticLocale extends ObjectWithAnyKeys {
   code: string;
   label: string;
-  [x: string]: unknown;
 }
 
-export interface AgnosticCountry {
+export interface AgnosticCountry extends ObjectWithAnyKeys {
   code: string;
   label: string;
-  [x: string]: unknown;
 }
 
-export interface AgnosticCurrency {
+export interface AgnosticCurrency extends ObjectWithAnyKeys {
   code: string;
   label: string;
   prefixSign: boolean;
   sign: string;
-  [x: string]: unknown;
 }
 
 export interface AgnosticBreadcrumb {
@@ -379,10 +353,9 @@ export interface AgnosticBreadcrumb {
   link: string;
 }
 
-export interface AgnosticSortByOption {
+export interface AgnosticSortByOption extends ObjectWithAnyKeys {
   label: string;
   value: string;
-  [x: string]: unknown;
 }
 
 export interface AgnosticRateCount {
@@ -436,12 +409,15 @@ export interface FacetSearchResult<S> {
   input: AgnosticFacetSearchParams;
 }
 
-export interface AgnosticFacetSearchParams {
+export interface AgnosticFacetSearchParams extends ObjectWithAnyKeys {
   categorySlug?: string;
   page?: number;
   itemsPerPage?: number;
   sort?: string;
   filters?: Record<string, string[]>;
   metadata?: any;
+}
+
+export interface ObjectWithAnyKeys {
   [x: string]: any;
 }
