@@ -35,3 +35,12 @@ interface ReviewDraft {
 }
 ```
 :::
+
+::: slot integration-specific-examples
+Providing custom GraphQL query and variables:
+
+```typescript
+await search(searchParams, () => ({ query, variables }));
+await addReview(addParams, () => ({ query, variables }));
+```
+:::

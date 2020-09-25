@@ -107,3 +107,5 @@ export default {
   }
 };
 ```
+
+<Content slot-key="integration-specific-examples" />
