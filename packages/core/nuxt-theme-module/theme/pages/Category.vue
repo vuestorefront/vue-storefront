@@ -254,18 +254,11 @@ import { useUiHelpers } from '~/composables';
 import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
-import { useContent } from '@vue-storefront/commercetools';
 
 export default {
   transition: 'fade',
   setup(props, context) {
-    onMounted(() => {
-      const { search } = useContent();
-      console.log(search({
-        contentId: 'bb1ce5fc-0dfd-49dc-80fe-bdac41bb7d6a'
-      }));
-      return context.root.$scrollTo(context.root.$el, 2000);
-    });
+    onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
     const { loadCart, addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
