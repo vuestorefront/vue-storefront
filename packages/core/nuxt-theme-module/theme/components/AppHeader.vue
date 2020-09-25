@@ -2,9 +2,9 @@
   <SfHeader
     data-cy="app-header"
     active-sidebar="activeSidebar"
-    @click:cart="toggleCartSidebar"
+    @click:cart="handleSidebarOpen"
     @click:wishlist="toggleWishlistSidebar"
-    @click:account="onAccountClicked"
+    @click:account="handleAccountClick"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
     class="sf-header--has-mobile-search"
@@ -55,7 +55,7 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
-    const { isAuthenticated } = useUser();
+    const { isAuthenticated, loadUser } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const cartTotalItems = computed(() => {
@@ -65,21 +65,30 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    const onAccountClicked = () => {
-      isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
+    const handleSidebarOpen = async () => {
+      await loadCart();
+      toggleCartSidebar();
+    };
+
+    const handleAccountClick = async () => {
+      await loadUser();
+
+      if (isAuthenticated.value) {
+        return root.$router.push('/my-account');
+      }
+
+      toggleLoginModal();
     };
 
     onSSR(async () => {
-      await loadCart();
       await loadWishlist();
     });
 
     return {
       accountIcon,
       cartTotalItems,
-      toggleLoginModal,
-      onAccountClicked,
-      toggleCartSidebar,
+      handleAccountClick,
+      handleSidebarOpen,
       toggleWishlistSidebar
     };
   }

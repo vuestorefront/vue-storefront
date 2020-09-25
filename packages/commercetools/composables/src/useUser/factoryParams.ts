@@ -13,26 +13,37 @@ import {
 import { setCart } from '../useCart';
 import { setUser } from '../useUser';
 
-export const params: UseUserFactoryParams<Customer, any, any> = {
-  loadUser: async (customQuery?: CustomQuery) => {
-    try {
-      const profile = await apiGetMe({ customer: true }, customQuery);
-      return profile.data.me.customer;
-    } catch (err) {
-      const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
-      if (error.includes('Resource Owner Password Credentials Grant')) {
-        return null;
-      }
-      throw new Error(error);
+const loadUser = async (customQuery?: CustomQuery) => {
+  try {
+    const profile = await apiGetMe({ customer: true }, customQuery);
+    return profile.data.me.customer;
+  } catch (err) {
+    const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
+    if (error.includes('Resource Owner Password Credentials Grant')) {
+      return null;
     }
-  },
+    throw new Error(error);
+  }
+};
+
+const getCurrentUser = async (currentUser) => {
+  if (!currentUser) {
+    return loadUser();
+  }
+
+  return currentUser;
+};
+
+export const params: UseUserFactoryParams<Customer, any, any> = {
+  loadUser,
   logOut: async () => {
     await apiCustomerSignOut();
     const cartResponse = await createCart();
     setCart(cartResponse.data.cart);
   },
   updateUser: async ({ currentUser, updatedUserData }) => {
-    const { user } = await apiCustomerUpdateMe(currentUser, updatedUserData);
+    const loadedUser = await getCurrentUser(currentUser);
+    const { user } = await apiCustomerUpdateMe(loadedUser, updatedUserData);
     setUser(user);
 
     return user;
@@ -52,7 +63,8 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   },
   changePassword: async function changePassword({currentUser, currentPassword, newPassword}) {
     try {
-      const userResponse = await apiCustomerChangeMyPassword(currentUser.version, currentPassword, newPassword);
+      const loadedUser = await getCurrentUser(currentUser);
+      const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
       // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
       await this.logOut();
       const userLogged = await authenticate({ email: userResponse.data.user.email, password: newPassword }, apiCustomerSignMeIn);

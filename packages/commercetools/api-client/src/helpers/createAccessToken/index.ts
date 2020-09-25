@@ -5,6 +5,7 @@ import { getSettings } from './../../index';
 interface FlowOptions {
   currentToken?: Token;
   customerCredentials?: CustomerCredentials;
+  requireUserSession?: boolean;
 }
 
 const createAuthClient = (config: ApiConfig): SdkAuth =>
@@ -35,11 +36,19 @@ const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
   return tokenIntrospection.active;
 };
 
+const isTokenUserSession = (token: Token) =>
+  token.scope.includes('customer_id') ||
+  token.scope.includes('anonymous_id');
+
 const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   const currentToken = getCurrentToken(options);
 
   if (options.customerCredentials) {
     return sdkAuth.customerPasswordFlow(options.customerCredentials);
+  }
+
+  if (options.requireUserSession && !isTokenUserSession(currentToken)) {
+    return sdkAuth.anonymousFlow();
   }
 
   if (currentToken) {
@@ -50,7 +59,7 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
     }
   }
 
-  return sdkAuth.anonymousFlow();
+  return sdkAuth.clientCredentialsFlow();
 };
 
 const createAccessToken = async (options: FlowOptions = {}): Promise<Token> => {
