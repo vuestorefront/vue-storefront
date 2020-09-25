@@ -7,7 +7,7 @@ import useCheckout from './useCheckout';
 import { setUser, useUser } from './useUser';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
-import { useReview, reviewGetters } from './useReview';
+import { useReview, reviewGetters } from './useReview/mock';
 import useFacet from './useFacet';
 import { track } from '@vue-storefront/core';
 
