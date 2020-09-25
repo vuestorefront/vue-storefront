@@ -4,15 +4,9 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Contributing', link: '/contributing/' },
-      { text: 'Changelog', link: '/contributing/changelog' },
       { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
     ],
     sidebar: {
-      '/contributing/': [
-        ['/contributing/', 'Contributing'],
-        ['/contributing/changelog', 'Changelog']
-      ],
       '/commercetools/': [
         {
           title: 'Essentials',
@@ -101,16 +95,18 @@ module.exports = {
       ],
       '/': [
         {
-          title: 'Essentials',
+          title: 'General',
+          collapsable: false,
           children: [
-            ['/get-started/api-design-philosophy', 'API design'],
-            ['/get-started/themes', 'Working with themes'],
+            ['/general/i18n', 'i18n'],
+            ['/general/server-side-rendering', 'Server-side rendering'],
+            ['/general/faceting', 'Faceting']
           ]
         },
         {
-          title: 'Integrations',
+          title: 'eCommerce platforms',
+          collapsable: false,
           children: [
-            ['/integrations/', 'Introduction'],
             ['/commercetools/', 'Commercetools'],
             ['/shopify/', 'Shopify'],
             ['/aboutyou/', 'About you'],
@@ -119,14 +115,16 @@ module.exports = {
           ]
         },
         {
-          title: 'Core',
+          title: 'Contributing',
+          collapsable: false,
           children: [
-            ['/vsf-core/', 'Essentials'],
-            ['/vsf-core/i18n', 'i18n'],
-            ['/vsf-core/server-side-rendering', 'Server-side rendering'],
-            ['/vsf-core/faceting', 'Faceting']
+            ['/contributing/', 'Contributing'],
+            ['/contributing/api-design-philosophy', 'Rules and conventions'],
+            ['/contributing/integrating-ecommerce', 'Integrating eCommerce'],
+            ['/contributing/themes', 'Working with themes'],
+            ['/contributing/changelog', 'Core Changelog']
           ]
-        },
+        },  
       ],
     }
   }
