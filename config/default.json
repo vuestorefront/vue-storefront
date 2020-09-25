@@ -727,7 +727,7 @@
   "images": {
     "useExactUrlsNoProxy": false,
     "baseUrl": "https://demo.vuestorefront.io/img/",
-    "useSpecificImagePaths": false,
+    "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product"
     },
