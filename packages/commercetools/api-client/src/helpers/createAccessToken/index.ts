@@ -1,12 +1,8 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
-import { Token, ApiConfig, CustomerCredentials } from '../../types/setup';
+import { Token, ApiConfig } from '../../types/setup';
+import { FlowOptions } from '../../types/Api';
 import { getSettings } from './../../index';
-
-interface FlowOptions {
-  currentToken?: Token;
-  customerCredentials?: CustomerCredentials;
-  requireUserSession?: boolean;
-}
+import { isTokenActive, isTokenUserSession } from './../token';
 
 const createAuthClient = (config: ApiConfig): SdkAuth =>
   new SdkAuth({
@@ -30,16 +26,6 @@ const getCurrentToken = (options: FlowOptions = {}) => {
   return options.currentToken;
 };
 
-const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
-  const tokenIntrospection = await sdkAuth.introspectToken(token.access_token);
-
-  return tokenIntrospection.active;
-};
-
-const isTokenUserSession = (token: Token) =>
-  token.scope.includes('customer_id') ||
-  token.scope.includes('anonymous_id');
-
 const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   const currentToken = getCurrentToken(options);
 
@@ -48,6 +34,7 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   }
 
   if (options.requireUserSession && !isTokenUserSession(currentToken)) {
+    console.log('ANON FLOW');
     return sdkAuth.anonymousFlow();
   }
 

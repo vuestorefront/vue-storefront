@@ -8,12 +8,20 @@ import {
   customerUpdateMe as apiCustomerUpdateMe,
   getMe as apiGetMe,
   createCart,
-  customerChangeMyPassword as apiCustomerChangeMyPassword
+  customerChangeMyPassword as apiCustomerChangeMyPassword,
+  getSettings,
+  isTokenUserSession
 } from '@vue-storefront/commercetools-api';
 import { setCart } from '../useCart';
 import { setUser } from '../useUser';
 
 const loadUser = async (customQuery?: CustomQuery) => {
+  const settings = getSettings();
+
+  if (!isTokenUserSession(settings.currentToken)) {
+    return null;
+  }
+
   try {
     const profile = await apiGetMe({ customer: true }, customQuery);
     return profile.data.me.customer;

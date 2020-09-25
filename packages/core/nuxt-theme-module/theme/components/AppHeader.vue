@@ -81,6 +81,8 @@ export default {
     };
 
     onSSR(async () => {
+      await loadUser();
+      await loadCart();
       await loadWishlist();
     });
 

@@ -3,7 +3,9 @@ import {
   removeFromCart as apiRemoveFromCart,
   updateCartQuantity as apiUpdateCartQuantity,
   applyCartCoupon as apiApplyCartCoupon,
-  removeCartCoupon as apiRemoveCartCoupon
+  removeCartCoupon as apiRemoveCartCoupon,
+  getSettings,
+  isTokenUserSession
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
@@ -23,6 +25,12 @@ const getCurrentCart = async (currentCart) => {
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   loadCart: async (customQuery?: CustomQuery) => {
+    const settings = getSettings();
+
+    if (!isTokenUserSession(settings.currentToken)) {
+      return null;
+    }
+
     return await loadCurrentCart(customQuery);
   },
   addToCart: async ({ currentCart, product, quantity }, customQuery?: CustomQuery) => {
