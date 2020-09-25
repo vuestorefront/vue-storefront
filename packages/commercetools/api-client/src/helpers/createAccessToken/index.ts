@@ -34,7 +34,6 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   }
 
   if (options.requireUserSession && !isTokenUserSession(currentToken)) {
-    console.log('ANON FLOW');
     return sdkAuth.anonymousFlow();
   }
 

@@ -1,9 +1,15 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 import * as sdk from '@commercetools/sdk-auth';
+import { isTokenUserSession } from '@vue-storefront/commercetools-api';
 import createAccessToken from './../../src/helpers/createAccessToken';
 import { setup } from './../../src/index';
 
 jest.unmock('./../../src/helpers/createAccessToken');
+
+const accessTokenFlowMock = jest.fn(() => ({
+  access_token: 'access token',
+  refresh_token: 'access refresh token'
+}));
 
 const anonymousFlowMock = jest.fn(() => ({
   access_token: 'anonymous token',
@@ -19,6 +25,10 @@ const introspectTokenMock = jest.fn(() => ({
   active: true
 }));
 
+jest.mock('@vue-storefront/commercetools-api', () => ({
+  isTokenUserSession: jest.fn()
+}));
+
 jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
   getTokenInfo: () => tokenInfo
 }));
@@ -26,7 +36,8 @@ jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
 jest.spyOn(sdk, 'default').mockImplementation(() => ({
   anonymousFlow: anonymousFlowMock,
   customerPasswordFlow: passwordFlowMock,
-  introspectToken: introspectTokenMock
+  introspectToken: introspectTokenMock,
+  clientCredentialsFlow: accessTokenFlowMock
 }));
 
 const config = {
@@ -58,19 +69,30 @@ describe('[commercetools-api-client] tokenFlow', () => {
     expect(token).toEqual(currentToken);
   });
 
-  it('creates anonymous access token when there is no token  set', async () => {
+  it('creates access token when there is no token  set', async () => {
     introspectTokenMock.mockReturnValue({ active: false });
     const token = await createAccessToken();
 
     expect(token).toEqual({
-      access_token: 'anonymous token',
-      refresh_token: 'anonymous refresh token'
+      access_token: 'access token',
+      refresh_token: 'access refresh token'
     });
   });
 
-  it('creates anonymous access token when token is invalid', async () => {
+  it('creates anonymous token when user session is required', async () => {
+    isTokenUserSession.mockReturnValue(false);
     introspectTokenMock.mockReturnValue({ active: false });
-    const token = await createAccessToken({ currentToken: null } as any);
+    const token = await createAccessToken();
+
+    expect(token).toEqual({
+      access_token: 'access token',
+      refresh_token: 'access refresh token'
+    });
+  });
+
+  it('creates anonymous token when token is invalid', async () => {
+    introspectTokenMock.mockReturnValue({ active: false });
+    const token = await createAccessToken({ currentToken: null, requireUserSession: true } as any);
 
     expect(token).toEqual({
       access_token: 'anonymous token',
