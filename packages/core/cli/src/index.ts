@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import log from './utils/log';
+import path from 'path';
 
 export const cli = async (args) => {
   const [command] = args.slice(2);
@@ -9,11 +10,11 @@ export const cli = async (args) => {
   }
 
   try {
-    const commandFn = require(`./commands/${command}.ts`);
+    const commandFn = require(path.join(__dirname, `./commands/${command}.ts`));
     return commandFn.default(args.slice(3));
   } catch (err) {
     try {
-      const commandFn = require(`./commands/${command}.js`);
+      const commandFn = require(path.join(__dirname, `./commands/${command}.js`));
       return commandFn.default(args.slice(3));
     } catch (err) {
       log.error('Bad command');
