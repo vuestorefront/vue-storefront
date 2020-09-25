@@ -1,7 +1,6 @@
 const defaultConfig = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
-  tokenizedCardKey: 'temporary-tokenized-card',
   saveInstrumentKey: 'save-instrument',
   card: {
     style: {},
@@ -24,7 +23,6 @@ interface Configuration {
   publicKey: string;
   ckoWebHookUrl?: string;
   ctApiUrl?: string;
-  tokenizedCardKey?: string;
   saveInstrumentKey?: string;
   card?: CardConfiguration;
 }
@@ -73,7 +71,6 @@ const setChannel = (channel: string) => {
   config.ckoWebHookUrl = pickedChannel.ckoWebHookUrl || config.ckoWebHookUrl;
   config.card.style = pickedChannel.card?.style || defaultStyles;
   config.card.localization = pickedChannel.card?.localization || null;
-  config.tokenizedCardKey = pickedChannel.tokenizedCardKey || config.tokenizedCardKey;
   config.saveInstrumentKey = pickedChannel.saveInstrumentKey || config.saveInstrumentKey;
   config.currentChannel = channel;
 };
@@ -92,8 +89,7 @@ const getCkoWebhookUrl = () => config.ckoWebHookUrl;
 const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
 const getFramesStyles = () => config.card.style;
 const getFramesLocalization = () => config.card.localization;
-const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
 const getCurrentChannel = () => config.currentChannel;
 
-export { defaultConfig, setChannel, setup, getPublicKey, getCurrentChannel, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
+export { defaultConfig, setChannel, setup, getPublicKey, getCurrentChannel, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getSaveInstrumentKey, Configuration, CardConfiguration };

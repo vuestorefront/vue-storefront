@@ -2,7 +2,7 @@
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { Ref, ref, computed } from '@vue/composition-api';
-import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
+import { getPublicKey, getFramesStyles, CardConfiguration, getFramesLocalization } from './configuration';
 import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } from './helpers';
 
 declare const Frames: any;
@@ -11,12 +11,10 @@ const isCardValid = ref(false);
 const error = ref(null);
 const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
 
-const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
-const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
-const removeTransactionToken = () => localStorage.removeItem(getTransactionTokenKey());
-
 const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);
+  const cardToken = ref(null);
+
   const makePayment = async ({
     cartId,
     email,
@@ -28,9 +26,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   }) => {
     try {
 
-      const token = getTransactionToken();
-
-      if (!token) {
+      if (!cardToken.value) {
         throw new Error('There is no payment token');
       }
 
@@ -41,7 +37,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
 
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
-          token,
+          token: cardToken.value,
           secure3d,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && savePaymentInstrument,
@@ -50,15 +46,14 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
         })
       );
 
-      removeTransactionToken();
       if (![200, 202].includes(payment.status)) {
         throw new Error(payment.data.error_type);
       }
-
+      cardToken.value = null;
       return payment;
     } catch (e) {
-      removeTransactionToken();
       error.value = e;
+      cardToken.value = null;
       return null;
     }
   };
@@ -75,7 +70,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
         isCardValid.value = Frames.isCardValid();
       },
       cardTokenized: async ({ token }) => {
-        setTransactionToken(token);
+        cardToken.value = token;
       },
       cardTokenizationFailed: (data) => {
         error.value = data;
@@ -99,9 +94,9 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
       const { id: cardSrcId } = storedPaymentInstruments.value.find(card => card.payment_instrument_id === paymentInstrument);
 
       storedPaymentInstruments.value = storedPaymentInstruments.value.filter(instrument => instrument.payment_instrument_id !== paymentInstrument);
-      if (cardSrcId === getTransactionToken()) {
+      if (cardSrcId === cardToken.value) {
         selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD;
-        removeTransactionToken();
+        cardToken.value = null;
       }
     } catch (e) {
       error.value = e;
@@ -109,7 +104,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   };
 
   const setPaymentInstrument = (token: string) => {
-    setTransactionToken(token);
+    cardToken.value = token;
     selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD;
   };
 
@@ -118,10 +113,10 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     submitDisabled,
     storedPaymentInstruments,
     selectedCardPaymentMethod: computed(() => selectedPaymentMethod.value),
+    cardToken: computed(() => cardToken.value),
     submitForm,
     makePayment,
     initCardForm,
-    setTransactionToken,
     loadStoredPaymentInstruments,
     removePaymentInstrument,
     setPaymentInstrument
