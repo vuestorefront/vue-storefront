@@ -1,8 +1,27 @@
-lib
+# Dependency directories
 node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# NPM config
+.npmrc
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Rollup generate output
+lib
+
+# Coverage directory used by tools like istanbul
 coverage
-.DS_STORE
-lerna-debug.log
+
+# Editor directories and files
 .idea
 .vscode
-.npmrc
+
+# OS generated files
+.DS_STORE

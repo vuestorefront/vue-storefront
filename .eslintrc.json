@@ -11,10 +11,7 @@
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
-  "plugins": [
-    "vue",
-    "@typescript-eslint"
-  ],
+  "plugins": ["vue", "@typescript-eslint"],
   "env": {
     "browser": true,
     "commonjs": true,
@@ -112,20 +109,11 @@
       }
     ],
     "operator-linebreak": 2,
-    "quote-props": [
-      2,
-      "as-needed"
-    ],
-    "quotes": [
-      2,
-      "single"
-    ],
+    "quote-props": [2, "as-needed"],
+    "quotes": [2, "single"],
     "semi": 2,
     "semi-spacing": 2,
-    "one-var": [
-      2,
-      "never"
-    ],
+    "one-var": [2, "never"],
     "eol-last": 2,
     "newline-after-var": 0,
     "no-var": 2,

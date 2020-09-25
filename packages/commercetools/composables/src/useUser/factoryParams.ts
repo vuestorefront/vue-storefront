@@ -5,11 +5,13 @@ import {
   customerSignMeUp as apiCustomerSignMeUp,
   customerSignMeIn as apiCustomerSignMeIn,
   customerSignOut as apiCustomerSignOut,
+  customerUpdateMe as apiCustomerUpdateMe,
   getMe as apiGetMe,
   createCart,
   customerChangeMyPassword as apiCustomerChangeMyPassword
 } from '@vue-storefront/commercetools-api';
 import { setCart } from '../useCart';
+import { setUser } from '../useUser';
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser: async (customQuery?: CustomQuery) => {
@@ -29,9 +31,11 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
     const cartResponse = await createCart();
     setCart(cartResponse.data.cart);
   },
-  updateUser: async ({currentUser, updatedUserData}): Promise<Customer> => {
-    // Change code below if the apiClient receive userUpdate method
-    return Promise.resolve({currentUser, updatedUserData} as any);
+  updateUser: async ({ currentUser, updatedUserData }) => {
+    const { user } = await apiCustomerUpdateMe(currentUser, updatedUserData);
+    setUser(user);
+
+    return user;
   },
   register: async ({email, password, firstName, lastName}) => {
     const { customer, cart } = await authenticate({email, password, firstName, lastName}, apiCustomerSignMeUp);
