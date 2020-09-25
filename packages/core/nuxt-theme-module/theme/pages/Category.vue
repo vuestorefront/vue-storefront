@@ -122,7 +122,7 @@
             :isOnWishlist="false"
             :isAddedToCart="isOnCart(product)"
             @click:wishlist="addToWishlist(product)"
-            @click:add-to-cart="handleAddToCart(product, 1)"
+            @click:add-to-cart="addToCart(product, 1)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="products__product-card"
           />
@@ -261,7 +261,7 @@ export default {
   setup(props, context) {
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
-    const { addToCart, isOnCart, loadCart } = useCart();
+    const { addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -276,11 +276,6 @@ export default {
       await search(th.getFacetsFromURL());
     });
 
-    const handleAddToCart = async (product, qty) => {
-      await loadCart();
-      await addToCart(product, qty);
-    };
-
     return {
       ...uiState,
       th,
@@ -293,7 +288,7 @@ export default {
       facets,
       breadcrumbs,
       addToWishlist,
-      handleAddToCart,
+      addToCart,
       isOnCart
     };
   },
