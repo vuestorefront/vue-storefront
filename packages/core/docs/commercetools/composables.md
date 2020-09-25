@@ -44,5 +44,5 @@ const { search } = useProduct()
 search({ id: '12345' }, () => ({ query, variables }))
 ```
 
-You can use it for `useProduct`, `useCategory`, `useUser` and `useUserOrders` composables.
+You can use it for `useProduct`, `useCategory`, `useUser`, `useUserOrders` and `useReview` composables.
 :::
