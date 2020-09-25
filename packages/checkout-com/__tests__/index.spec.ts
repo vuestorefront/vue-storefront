@@ -1,9 +1,10 @@
-import { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, useCko, CkoPaymentType } from '../src/index';
+import { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, useCko, setChannel, CkoPaymentType } from '../src/index';
 
 jest.mock('../src/configuration.ts', () => ({
   setup: jest.fn(),
   getPublicKey: jest.fn(),
   getCkoWebhookUrl: jest.fn(),
+  setChannel: jest.fn(),
   getFramesStyles: jest.fn()
 }));
 
@@ -13,18 +14,27 @@ describe('index.ts', () => {
 
   it('exports proper functions', () => {
     setup({
-      publicKey: '12'
+      channels: {
+        en: {
+          publicKey: '12'
+        }
+      },
+      defaultChannel: 'en'
     });
     getPublicKey();
     getCkoWebhookUrl();
     getFramesStyles();
     useCko();
 
+    const newChannel = 'it';
+    setChannel(newChannel);
+
     expect(setup).toHaveBeenCalled();
     expect(getPublicKey).toHaveBeenCalled();
     expect(getCkoWebhookUrl).toHaveBeenCalled();
     expect(getFramesStyles).toHaveBeenCalled();
     expect(useCko).toHaveBeenCalled();
+    expect(setChannel).toHaveBeenCalledWith(newChannel);
   });
 
   it('exports proper CkoPaymentType enum', () => {

@@ -27,11 +27,7 @@ export default function CheckoutComModule(moduleOptions) {
 
   this.addServerMiddleware({
     path: '/cko-api/payment-instruments',
-    handler: proxyMiddleware({
-      publicKey: moduleOptions.publicKey,
-      secretKey: moduleOptions.secretKey,
-      ctApiUrl: moduleOptions.ctApiUrl
-    })
+    handler: proxyMiddleware(moduleOptions.channels)
   });
 
   const paymentMethods = {

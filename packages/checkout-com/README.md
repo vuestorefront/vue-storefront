@@ -26,13 +26,19 @@ If you are Developing Core of Vue Storefront Next you might need to add `@vue-st
 3. At the bottom of `modules` add:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
-    publicKey: 'pk_test_your-public-key',
-    secretKey: 'sk_test_your-secret-key',
-    ctApiUrl: 'https://your-commerctools-instance.com/api',
-    ckoWebHookUrl: 'https://your-commerctools-instance.com/api'
+    channels: {
+        en: {
+            publicKey: 'pk_test_your-public-key',
+            secretKey: 'sk_test_your-secret-key',
+            ctApiUrl: 'https://your-commerctools-instance.com/api',
+            ckoWebHookUrl: 'https://your-commerctools-instance.com/api'
+        }
+    },
+    defaultChannel: 'en'
 }],
 ```
-
+`defaultChannel` is the channel which will be chosen by default. Value should be keyname from `channels`
+`channels` allows us to define many variants of attributes. Developer is able to change them just by calling `setChannel` 
 `publicKey` and `secretKey` comes from Checkout COM
 `ctApiUrl` is URL to the API endpoints which needs `secretKey` & `publicKey` it will be proxied by Express API create inside CKO Nuxt's module
 `ckoWebHookUrl` is URL to the API endpoints which needs only `publicKey` it will be used in frontend calls to the API
@@ -408,3 +414,13 @@ const removeMinePaymentInstrument = async (paymentInstrument: string): Promise<v
     }
 }
 ```
+
+## Changing current channel
+All you have to do us just import `setChannel` method and call it:
+```ts
+import { setChannel } from '@vue-storefront/checkout-com';
+
+setChannel('it');
+```
+
+Where `it` is name of channel to set. It should be present inside config's `channels`.

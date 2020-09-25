@@ -3,25 +3,16 @@ module.exports = {
   description: 'Vue Storefront 2 documentation',
   themeConfig: {
     nav: [
-      { text: 'General information', link: '/' },
-      { text: 'Commercetools', link: '/commercetools/' },
-      { text: 'About You Cloud', link: '/aboutyou/' },
-      { text: 'Shopify', link: '/shopify/' },
-      { text: 'Shopware', items: [
-        { text: 'Documentation' , link: 'https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa'},
-        { text: 'Demo' , link: 'https://shopware-pwa.storefrontcloud.io/'},
-        { text: 'GitHub' , link: 'https://github.com/DivanteLtd/shopware-pwa'}
-      ]},
-      { text: 'Magento', items: [
-        { text: 'Documentation' , link: 'https://docs.vuestorefront.io/'},
-        { text: 'Demo' , link: 'https://demo.vuestorefront.io/'},
-        { text: 'GitHub' , link: 'https://github.com/DivanteLtd/vue-storefront'}
-      ]},
-      { text: 'Integration tutorial', link: '/integration/' },
-      { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-      { text: 'Github', link: 'https://github.com/DivanteLtd/next' },
+      { text: 'Home', link: '/' },
+      { text: 'Contributing', link: '/contributing/' },
+      { text: 'Changelog', link: '/contributing/changelog' },
+      { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
     ],
     sidebar: {
+      '/contributing/': [
+        ['/contributing/', 'Contributing'],
+        ['/contributing/changelog', 'Changelog']
+      ],
       '/commercetools/': [
         {
           title: 'Essentials',
@@ -41,9 +32,11 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/use-product', 'useProduct'],
-            ['/commercetools/use-review', 'useReview']
+            ['/commercetools/use-review', 'useReview'],
+            ['/commercetools/use-facet', 'useFacet']
           ]
-        }, {
+        },
+        {
           title: 'Theme',
           collapsable: false,
           children: [
@@ -106,31 +99,33 @@ module.exports = {
           ],
         }
       ],
-      '/integration/': [
-        {
-          title: 'Integration tutorial',
-          collapsable: false,
-          children: [
-            ['/integration/', 'Introduction']
-          ],
-        },
-      ],
       '/': [
         {
-          title: 'i18n',
-          collapsable: false,
+          title: 'Essentials',
           children: [
-            ['/i18n/overview', 'overview'],
-          ],
+            ['/get-started/api-design-philosophy', 'API design'],
+            ['/get-started/themes', 'Working with themes'],
+          ]
         },
         {
-          title: 'Contributing',
-          collapsable: false,
+          title: 'Integrations',
           children: [
-            ['/contributing/api-design-philosophy', 'API Design Philosophy'],
-            ['/contributing/themes', 'Working with themes'],
-            ['/contributing/changelog', 'Core changelog'],
-          ],
+            ['/integrations/', 'Introduction'],
+            ['/commercetools/', 'Commercetools'],
+            ['/shopify/', 'Shopify'],
+            ['/aboutyou/', 'About you'],
+            ['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
+            ['https://github.com/DivanteLtd/vue-storefront', 'Magento']
+          ]
+        },
+        {
+          title: 'Core',
+          children: [
+            ['/vsf-core/', 'Essentials'],
+            ['/vsf-core/i18n', 'i18n'],
+            ['/vsf-core/server-side-rendering', 'Server-side rendering'],
+            ['/vsf-core/faceting', 'Faceting']
+          ]
         },
       ],
     }
