@@ -1,7 +1,7 @@
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from '../src/payment';
 
 const publicKey = 'public key';
-const ctApiUrl = 'https://webhook.com/api';
+const ctApiUrl = 'https://webhook.com';
 const ckoProxyUrl = 'https://proxy.com/api';
 const currentChannel = 'en';
 
@@ -32,7 +32,7 @@ describe('[checkout-com] payment', () => {
     createContext({ reference });
 
     expect(axios.post).toBeCalledWith(
-      `${ctApiUrl}/contexts`,
+      `${ctApiUrl}/api/contexts`,
       { reference },
       {
         crossDomain: true,
@@ -61,7 +61,7 @@ describe('[checkout-com] payment', () => {
     createContext(payload);
 
     expect(axios.post).toBeCalledWith(
-      `${ctApiUrl}/contexts`,
+      `${ctApiUrl}/api/contexts`,
       expectedPayload,
       {
         crossDomain: true,
@@ -100,7 +100,7 @@ describe('[checkout-com] payment', () => {
     createPayment(paymentPayload);
 
     expect(axios.post).toBeCalledWith(
-      `${ctApiUrl}/payments`,
+      `${ctApiUrl}/api/payments`,
       expectedRequestPayload,
       {
         crossDomain: true,

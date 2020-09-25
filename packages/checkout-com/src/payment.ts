@@ -11,14 +11,14 @@ const createOptions = () => ({
 });
 
 export const createContext = async ({ reference, email = null }) =>
-  axios.post(`${getApiUrl()}/contexts`, {
+  axios.post(`${getApiUrl()}/api/contexts`, {
     reference,
     ...(email ? { customer_email: email } : {})
   }, createOptions());
 
 export const createPayment = async (payload: PaymentMethodPayload) =>
   axios.post(
-    `${getApiUrl()}/payments`,
+    `${getApiUrl()}/api/payments`,
     payload,
     createOptions()
   );
