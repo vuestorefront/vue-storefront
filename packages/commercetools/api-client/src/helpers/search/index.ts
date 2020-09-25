@@ -95,10 +95,10 @@ const buildOrderWhere = (search: OrderSearch): string => {
   return null;
 };
 
-const resolveCustomQueryVariables = (defaultVariables: {}, customVariables: {}, type?: 'category' | 'order') => {
+const resolveCustomQueryVariables = (defaultVariables: {}, customVariables: {}, type?: 'category' | 'order' | 'product') => {
   const variables = {};
   for (const [key, value] of Object.entries(defaultVariables)) {
-    if (customVariables[key] && key === 'where') {
+    if (key === 'where' && customVariables[key]) {
       switch (type) {
         case 'category':
           variables[key] = buildCategoryWhere(value);
@@ -106,8 +106,11 @@ const resolveCustomQueryVariables = (defaultVariables: {}, customVariables: {}, 
         case 'order':
           variables[key] = buildOrderWhere(value);
           break;
-        default:
+        case 'product':
           variables[key] = buildProductWhere(value);
+          break;
+        default:
+          variables[key] = customVariables[key];
       }
     } else {
       variables[key] = customVariables[key] ? customVariables[key] : value;
