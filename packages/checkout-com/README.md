@@ -30,8 +30,7 @@ If you are Developing Core of Vue Storefront Next you might need to add `@vue-st
         en: {
             publicKey: 'pk_test_your-public-key',
             secretKey: 'sk_test_your-secret-key',
-            ctApiUrl: 'https://your-commerctools-instance.com/api',
-            ckoWebHookUrl: 'https://your-commerctools-instance.com/api'
+            ctApiUrl: 'https://your-commerctools-instance.com/api'
         }
     },
     defaultChannel: 'en'
@@ -40,9 +39,7 @@ If you are Developing Core of Vue Storefront Next you might need to add `@vue-st
 `defaultChannel` is the channel which will be chosen by default. Value should be keyname from `channels`
 `channels` allows us to define many variants of attributes. Developer is able to change them just by calling `setChannel` 
 `publicKey` and `secretKey` comes from Checkout COM
-`ctApiUrl` is URL to the API endpoints which needs `secretKey` & `publicKey` it will be proxied by Express API create inside CKO Nuxt's module
-`ckoWebHookUrl` is URL to the API endpoints which needs only `publicKey` it will be used in frontend calls to the API
-We are still waiting for the confirmation if we could merge these 2 to one field.
+`ctApiUrl` is base URL to the CT CKO API
 
 ## Render payment handlers & finalize payment
 1. Import `useCko`:

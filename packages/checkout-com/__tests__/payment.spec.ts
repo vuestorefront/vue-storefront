@@ -1,7 +1,7 @@
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from '../src/payment';
 
 const publicKey = 'public key';
-const ckoWebhookUrl = 'https://webhook.com/api';
+const ctApiUrl = 'https://webhook.com/api';
 const ckoProxyUrl = 'https://proxy.com/api';
 const currentChannel = 'en';
 
@@ -12,7 +12,7 @@ jest.mock('axios', () => ({
 }));
 jest.mock('@vue-storefront/checkout-com/src/configuration', () => ({
   getPublicKey: () => publicKey,
-  getCkoWebhookUrl: () => ckoWebhookUrl,
+  getApiUrl: () => ctApiUrl,
   getCkoProxyUrl: () => ckoProxyUrl,
   getCurrentChannel: () => currentChannel
 }));
@@ -32,7 +32,7 @@ describe('[checkout-com] payment', () => {
     createContext({ reference });
 
     expect(axios.post).toBeCalledWith(
-      `${ckoWebhookUrl}/contexts`,
+      `${ctApiUrl}/contexts`,
       { reference },
       {
         crossDomain: true,
@@ -61,7 +61,7 @@ describe('[checkout-com] payment', () => {
     createContext(payload);
 
     expect(axios.post).toBeCalledWith(
-      `${ckoWebhookUrl}/contexts`,
+      `${ctApiUrl}/contexts`,
       expectedPayload,
       {
         crossDomain: true,
@@ -100,7 +100,7 @@ describe('[checkout-com] payment', () => {
     createPayment(paymentPayload);
 
     expect(axios.post).toBeCalledWith(
-      `${ckoWebhookUrl}/payments`,
+      `${ctApiUrl}/payments`,
       expectedRequestPayload,
       {
         crossDomain: true,
