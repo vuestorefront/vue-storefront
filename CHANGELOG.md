@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add new resetUserInvalidation action to clear invalidation state before login,
   clear order history and refresh token after logout,
   add redirection when user is logged out and sees myaccount page - gibkigonzo (#4882)
+- Fix `config.products.filterUnavailableVariants` feature - Ogek (#4923)
 
 ### Changed / Improved
 
