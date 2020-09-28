@@ -1,4 +1,4 @@
-import { apolloClient, getCustomQuery, getSettings, MeQueryInterface } from './../../index';
+import { apolloClient, getCustomQuery, getSettings } from './../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
 import { resolveCustomQueryVariables } from '../../helpers/search';
 import gql from 'graphql-tag';
@@ -8,8 +8,8 @@ interface Options {
 }
 
 interface OrdersData {
-  // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change to Pick<MeQueryInterface, "activeCart" | "customer">;
-  me: Partial<MeQueryInterface>;
+  // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change "me: any" to "me: Pick<MeQueryInterface, "activeCart" | "customer">"
+  me: any;
 }
 
 const getMe = async (params: Options = {}, customQueryFn?) => {
