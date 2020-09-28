@@ -1,4 +1,4 @@
-import { OrdersSearchResult, useUserOrdersFactory, UseUserOrdersFactoryParams, CustomQuery } from '@vue-storefront/core';
+import { CustomQuery, OrdersSearchResult, useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/core';
 import { Order } from '../types/GraphQL';
 import { OrderSearchParams } from '../types';
 import { getOrders } from '@vue-storefront/commercetools-api';
