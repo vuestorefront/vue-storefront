@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
-import { Ref, ref, computed } from '@vue/composition-api';
+import { Ref, ref, computed, onUnmounted } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
 import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } from './helpers';
 
@@ -11,9 +11,9 @@ const isCardValid = ref(false);
 const error = ref(null);
 const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
 
-const getTransactionToken = () => localStorage.getItem(getTransactionTokenKey());
-const setTransactionToken = (token) => localStorage.setItem(getTransactionTokenKey(), token);
-const removeTransactionToken = () => localStorage.removeItem(getTransactionTokenKey());
+const getTransactionToken = () => sessionStorage.getItem(getTransactionTokenKey());
+const setTransactionToken = (token) => sessionStorage.setItem(getTransactionTokenKey(), token);
+const removeTransactionToken = () => sessionStorage.removeItem(getTransactionTokenKey());
 
 const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);
@@ -112,6 +112,8 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     setTransactionToken(token);
     selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD;
   };
+
+  onUnmounted(removeTransactionToken);
 
   return {
     error,

@@ -29,8 +29,13 @@ jest.mock('../src/configuration', () => ({
   getFramesLocalization: jest.fn(),
   CardConfiguration: jest.requireActual('../src/configuration').CardConfiguration
 }));
+jest.mock('@vue/composition-api', () => ({
+  onUnmounted: jest.fn(),
+  ref: jest.requireActual('@vue/composition-api').ref,
+  computed: jest.requireActual('@vue/composition-api').computed
+}));
 
-const localStorageMock = {
+const sessionStorageMock = {
   removeItem: jest.fn(),
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -39,8 +44,8 @@ const localStorageMock = {
   length: 1
 };
 
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
+Object.defineProperty(window, 'sessionStorage', {
+  value: sessionStorageMock
 });
 
 const framesMock = {
@@ -79,7 +84,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('does not create context if provided', async () => {
 
-      localStorageMock.getItem.mockImplementation(() => 'abc');
+      sessionStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const reference = {
         cartId: 15,
@@ -100,7 +105,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('creates context if not provided', async () => {
 
-      localStorageMock.getItem.mockImplementation(() => 'abc');
+      sessionStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -125,7 +130,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('calls createPayment & returns proper success response', async () => {
 
-      localStorageMock.getItem.mockImplementation(() => 'abc');
+      sessionStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -147,7 +152,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('uses default values for success and failure url and save_payment_instrument', async () => {
       const token = 'abc';
-      localStorageMock.getItem.mockImplementation(() => token);
+      sessionStorageMock.getItem.mockImplementation(() => token);
 
       /*eslint-disable */
       const payload = {
@@ -177,7 +182,7 @@ describe('[checkout-com] useCkoCard', () => {
     it('allows to set success and failure url and save_payment_instrument', async () => {
 
       const token = '123';
-      localStorageMock.getItem.mockImplementation(() => token);
+      sessionStorageMock.getItem.mockImplementation(() => token);
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -208,7 +213,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('throws an error if receives diff. code than 200 and 202 from createPayment request', async () => {
 
-      localStorageMock.getItem.mockImplementation(() => 'abc');
+      sessionStorageMock.getItem.mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -291,7 +296,7 @@ describe('[checkout-com] useCkoCard', () => {
       expect(submitDisabled.value).toBeFalsy();
 
       framesMock.init.mock.calls[0][0].cardTokenized({ token });
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
+      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
 
       framesMock.init.mock.calls[0][0].cardTokenizationFailed(errorMessage);
       expect(submitDisabled.value).toBeTruthy();
@@ -376,7 +381,7 @@ describe('[checkout-com] useCkoCard', () => {
       }));
       await loadStoredPaymentInstruments(customerId)
       const instrument = payment_instruments[1];
-      localStorageMock.getItem.mockImplementation(() => 'targetly-bad-value')
+      sessionStorageMock.getItem.mockImplementation(() => 'targetly-bad-value')
       const paymentInstrumentsWithoutRemoved = payment_instruments.filter(ins => ins.payment_instrument_id != instrument.payment_instrument_id);
       /* eslint-enable */
 
@@ -408,7 +413,7 @@ describe('[checkout-com] useCkoCard', () => {
       (removeSavedCard as jest.Mock).mockImplementation(() => Promise.resolve());
       /*eslint-disable */
       const instrument = payment_instruments[1];
-      localStorageMock.getItem.mockImplementation(() => instrument.id)
+      sessionStorageMock.getItem.mockImplementation(() => instrument.id)
       const paymentInstrumentsWithoutRemoved = payment_instruments.filter(ins => ins.payment_instrument_id !== instrument.payment_instrument_id);
   
       await removePaymentInstrument(customerId, instrument.payment_instrument_id)
@@ -420,7 +425,7 @@ describe('[checkout-com] useCkoCard', () => {
       /* eslint-enable */
       expect(storedPaymentInstruments.value).toEqual(paymentInstrumentsWithoutRemoved);
       expect(selectedCardPaymentMethod.value).toBe(CkoPaymentType.CREDIT_CARD);
-      expect(localStorageMock.removeItem).toHaveBeenCalled();
+      expect(sessionStorageMock.removeItem).toHaveBeenCalled();
     });
 
     it('sets error if remove stored payment instruments fails', async () => {
@@ -440,7 +445,7 @@ describe('[checkout-com] useCkoCard', () => {
       const token = '12345';
       setPaymentInstrument(token);
 
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
+      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
       expect(selectedCardPaymentMethod.value).toBe(CkoPaymentType.SAVED_CARD);
     });
 
