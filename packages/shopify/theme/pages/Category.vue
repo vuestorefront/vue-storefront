@@ -255,7 +255,7 @@ import {
 import { computed, ref, watch, onMounted } from '@vue/composition-api';
 import { useCategory, useProduct, useCart, useWishlist, productGetters, categoryGetters } from '@vue-storefront/shopify';
 import { getCategorySearchParameters, getCategoryPath } from '~/helpers/category';
-import { getFiltersFromUrl, getFiltersForUrl } from '~/helpers/filters';
+import { getFiltersFromUrl } from '~/helpers/filters';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 import ProductTile from '~/components/ProductTile';
