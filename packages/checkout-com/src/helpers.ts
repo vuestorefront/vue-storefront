@@ -1,6 +1,7 @@
 /* eslint-disable */
 interface PaymentPropeties {
     context_id: string,
+    cvv?: number,
     save_payment_instrument?: boolean,
     secure3d?: boolean,
     success_url?: string,
@@ -44,8 +45,9 @@ enum CkoPaymentType {
     PAYPAL
 }
 
-const buildBasePaymentMethodPayload = ({ context_id, save_payment_instrument, secure3d, success_url, failure_url }: PaymentPropeties) => ({
+const buildBasePaymentMethodPayload = ({ context_id, save_payment_instrument, secure3d, success_url, failure_url, cvv }: PaymentPropeties) => ({
     context_id,
+    ...(cvv ? { cvv } : {}),
     ...(save_payment_instrument ? { save_payment_instrument } : {}),
     ...(secure3d ? { '3ds': secure3d } : {}),
     ...(success_url ? { success_url } : {}),
