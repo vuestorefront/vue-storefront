@@ -1,7 +1,7 @@
-import { OrdersSearchResult, useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/core';
+import { OrdersSearchResult, useUserOrdersFactory, UseUserOrdersFactoryParams, CustomQueryFn } from '@vue-storefront/core';
 import { Order } from '../types/GraphQL';
 import { OrderSearchParams } from '../types';
-import { getOrders, CustomQueryFn } from '@vue-storefront/commercetools-api';
+import { getOrders } from '@vue-storefront/commercetools-api';
 
 const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
   searchOrders: async (params: OrderSearchParams = {}, customQuery?: CustomQueryFn): Promise<OrdersSearchResult<Order>> => {

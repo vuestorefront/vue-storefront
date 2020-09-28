@@ -1,7 +1,7 @@
-import { getProduct, CustomQueryFn } from '@vue-storefront/commercetools-api';
+import { getProduct } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, mapPaginationParams, getFiltersFromProductsAttributes } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
-import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption } from '@vue-storefront/core';
+import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption, CustomQueryFn } from '@vue-storefront/core';
 import { ProductsSearchParams } from '../types';
 import { ProductSearch, Filter } from '@vue-storefront/commercetools-api';
 
@@ -30,7 +30,7 @@ const productsSearch = async (params: ProductsSearchParams, customQuery?: Custom
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<ProductVariant, Record<string, Filter>, AgnosticSortByOption[], CustomQueryFn> =
-  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>, AgnosticSortByOption[], CustomQueryFn>({ productsSearch });
+const useProduct: (cacheId: string) => UseProduct<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]> =
+  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>, AgnosticSortByOption[]>({ productsSearch });
 
 export default useProduct;

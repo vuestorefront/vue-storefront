@@ -1,4 +1,4 @@
-import { SearchParams, UseProduct } from '../types';
+import { CustomQueryFn, SearchParams, UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
@@ -9,21 +9,21 @@ export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>
   availableSortingOptions?: SORTING_OPTIONS;
 }
 
-export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CUSTOM_QUERY) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
+export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS> = {
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQueryFn) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
 };
 
-export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any>(
-  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY>
+export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS>(
+  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY> {
+  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
     const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
     const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
     const filters: Ref<PRODUCT_FILTERS> = sharedRef(null, `useProduct-filters-${id}`);
     const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
-    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CUSTOM_QUERY) => {
+    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQueryFn) => {
       loading.value = true;
       filters.value = null;
       try {

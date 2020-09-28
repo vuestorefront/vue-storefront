@@ -1,13 +1,7 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
 import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
-
-export type CustomQueryFn = () => {
-  query: any;
-  variables?: {
-    [key: string]: any;
-  };
-};
+import { CustomQueryFn } from '@vue-storefront/core';
 
 export const getCustomQuery = (customQueryFn: CustomQueryFn, defaultQuery) => {
   if (customQueryFn) {

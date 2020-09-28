@@ -1,8 +1,7 @@
-import { UseUserFactoryParams } from '@vue-storefront/core';
+import { UseUserFactoryParams, CustomQueryFn } from '@vue-storefront/core';
 import { Customer } from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import {
-  CustomQueryFn,
   customerSignMeUp as apiCustomerSignMeUp,
   customerSignMeIn as apiCustomerSignMeIn,
   customerSignOut as apiCustomerSignOut,

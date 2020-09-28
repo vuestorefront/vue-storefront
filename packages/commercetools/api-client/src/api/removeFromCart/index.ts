@@ -1,7 +1,8 @@
 import updateCart from './../updateCart';
-import { CartResponse, CustomQueryFn } from './../../types/Api';
+import { CartResponse } from './../../types/Api';
 import { Cart, LineItem } from './../../types/GraphQL';
 import { createRemoveLineItemAction } from './../../helpers/cart/actions';
+import { CustomQueryFn } from '@vue-storefront/core';
 
 const removeFromCart = async (cart: Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse> => {
   return await updateCart(

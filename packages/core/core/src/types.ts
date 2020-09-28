@@ -4,32 +4,43 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export interface SearchParams extends ObjectWithAnyKeys {
+export type CustomQueryFn = () => {
+  query: any;
+  variables?: {
+    [key: string]: any;
+  };
+};
+
+export interface SearchParams {
   perPage?: number;
   page?: number;
   sort?: any;
   term?: any;
   filters?: any;
+  [x: string]: any;
 }
 
-export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any> extends ObjectWithAnyKeys {
+export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
   search(params: SearchParams): Promise<void>;
   search(params: SearchParams, customQuery?: CUSTOM_QUERY): Promise<void>;
+  [x: string]: any;
 }
 
-export interface UseUserRegisterParams extends ObjectWithAnyKeys {
+export interface UseUserRegisterParams {
   email: string;
   password: string;
   firstName?: string;
   lastName?: string;
+  [x: string]: any;
 }
 
-export interface UseUserLoginParams extends ObjectWithAnyKeys {
+export interface UseUserLoginParams {
   username: string;
   password: string;
+  [x: string]: any;
 }
 
 export interface UseUser
@@ -48,10 +59,11 @@ export interface UseUser
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseUserOrdersSearchParams extends ObjectWithAnyKeys {
+export interface UseUserOrdersSearchParams {
   id?: any;
   page?: number;
   perPage?: number;
+  [x: string]: any;
 }
 
 export interface UseUserOrders<ORDER, CUSTOM_QUERY = any> {
@@ -68,7 +80,7 @@ export interface UseUserAddress<ADDRESS> {
   addAddress: (address: ADDRESS) => Promise<void>;
   deleteAddress: (address: ADDRESS) => Promise<void>;
   updateAddress: (address: ADDRESS) => Promise<void>;
-  searchAddresses: (params?: ObjectWithAnyKeys) => Promise<void>;
+  searchAddresses: (params?: { [x: string]: any }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -98,8 +110,8 @@ export interface UseUserBilling<ADDRESS> {
 
 export interface UseCategory<CATEGORY, CUSTOM_QUERY = any> {
   categories: ComputedProperty<CATEGORY[]>;
-  search(params: ObjectWithAnyKeys): Promise<void>;
-  search(params: ObjectWithAnyKeys, customQuery: CUSTOM_QUERY): Promise<void>;
+  search(params: { [x: string]: any }): Promise<void>;
+  search(params: { [x: string]: any }, customQuery: CUSTOM_QUERY): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -175,13 +187,14 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, CUSTOM_QUERY = any> extends ObjectWithAnyKeys {
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, CUSTOM_QUERY = any> {
   search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
   search(params: REVIEWS_SEARCH_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
   addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
   addReview(params: REVIEW_ADD_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
+  [x: string]: any;
 }
 
 export interface UseFacet<SEARCH_DATA> {
@@ -300,11 +313,12 @@ export interface AgnosticMediaGalleryItem {
   big: string;
 }
 
-export interface AgnosticCategoryTree extends ObjectWithAnyKeys {
+export interface AgnosticCategoryTree {
   label: string;
   slug?: string;
   items: AgnosticCategoryTree[];
   isCurrent: boolean;
+  [x: string]: any;
 }
 
 export interface AgnosticPrice {
@@ -312,9 +326,10 @@ export interface AgnosticPrice {
   special?: number | null;
 }
 
-export interface AgnosticTotals extends ObjectWithAnyKeys {
+export interface AgnosticTotals {
   total: number;
   subtotal: number;
+  [x: string]: any;
 }
 
 export interface AgnosticAttribute {
@@ -331,21 +346,24 @@ export interface AgnosticProductReview {
   rating: number | null;
 }
 
-export interface AgnosticLocale extends ObjectWithAnyKeys {
+export interface AgnosticLocale {
   code: string;
   label: string;
+  [x: string]: any;
 }
 
-export interface AgnosticCountry extends ObjectWithAnyKeys {
+export interface AgnosticCountry {
   code: string;
   label: string;
+  [x: string]: any;
 }
 
-export interface AgnosticCurrency extends ObjectWithAnyKeys {
+export interface AgnosticCurrency {
   code: string;
   label: string;
   prefixSign: boolean;
   sign: string;
+  [x: string]: any;
 }
 
 export interface AgnosticBreadcrumb {
@@ -353,9 +371,10 @@ export interface AgnosticBreadcrumb {
   link: string;
 }
 
-export interface AgnosticSortByOption extends ObjectWithAnyKeys {
+export interface AgnosticSortByOption {
   label: string;
   value: string;
+  [x: string]: any;
 }
 
 export interface AgnosticRateCount {
@@ -409,15 +428,12 @@ export interface FacetSearchResult<S> {
   input: AgnosticFacetSearchParams;
 }
 
-export interface AgnosticFacetSearchParams extends ObjectWithAnyKeys {
+export interface AgnosticFacetSearchParams {
   categorySlug?: string;
   page?: number;
   itemsPerPage?: number;
   sort?: string;
   filters?: Record<string, string[]>;
   metadata?: any;
-}
-
-export interface ObjectWithAnyKeys {
   [x: string]: any;
 }
