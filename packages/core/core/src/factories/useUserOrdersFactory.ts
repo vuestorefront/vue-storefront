@@ -11,7 +11,7 @@ export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
   searchOrders: (params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
 };
 
-export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS = any>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
+export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
   return function useUserOrders(): UseUserOrders<ORDER> {
     const orders: Ref<ORDER[]> = sharedRef([], 'useUserOrders-orders');
     const totalOrders: Ref<number> = sharedRef(0, 'useUserOrders-totalOrders');

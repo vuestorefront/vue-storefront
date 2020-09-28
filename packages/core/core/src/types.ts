@@ -318,7 +318,7 @@ export interface AgnosticCategoryTree {
   slug?: string;
   items: AgnosticCategoryTree[];
   isCurrent: boolean;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticPrice {
