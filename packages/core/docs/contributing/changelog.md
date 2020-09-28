@@ -1,6 +1,8 @@
 # Changelog
 ## 2.1.0 (not released)
 
+- renamed refreshUser to load in useUser (#4917)
+
 ## 2.0.6
 
 - renamed useReviews factory to useReview (#4800)
