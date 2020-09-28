@@ -1,6 +1,6 @@
 # Logging
 
-A logging error, debugging information, and warnings are a very common case during development and future monitoring of the application. In the Vue Storefront core, you can catch everything you need to screen what is happening inside of your app.
+In Vue Storefront we're providing all the debugging information, warnings, and errors out of the box so you won't miss anything that happens inside your application. Sometimes you have to pass these data to some third-party monitoring services. You can do this through a custom Logger.
 
 
 ## Logger interface and configuring
