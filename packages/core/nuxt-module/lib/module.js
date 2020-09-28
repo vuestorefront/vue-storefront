@@ -48,7 +48,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     src: path.resolve(__dirname, 'plugins/logger.js'),
     options: moduleOptions.logger || {}
   })
-
   log.success('Installed VSF Logger plugin');
 
   this.addModule('@nuxtjs/composition-api')

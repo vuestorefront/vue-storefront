@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import { logger } from './testLogger';
 
 export default {
   mode: 'universal',
@@ -34,8 +33,7 @@ export default {
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
-        verbosity: 'error',
-        customLogger: logger
+        verbosity: 'error'
       },
       useRawSource: {
         dev: [
