@@ -1,12 +1,15 @@
-import { apolloClient, getCustomQuery, getSettings } from './../../index';
-import { ProfileResponse } from './../../types/Api';
+import { apolloClient, getCustomQuery, getSettings, MeQueryInterface } from './../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
 import { resolveCustomQueryVariables } from '../../helpers/search';
-import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 
 interface Options {
   customer?: boolean;
+}
+
+interface OrdersData {
+  // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change to Pick<MeQueryInterface, "activeCart" | "customer">;
+  me: Partial<MeQueryInterface>;
 }
 
 const getMe = async (params: Options = {}, customQueryFn?) => {
@@ -20,13 +23,15 @@ const getMe = async (params: Options = {}, customQueryFn?) => {
     },
     variables
   );
-  const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
+
+  const request = await apolloClient.query<OrdersData>({
     query: customer
       ? fullProfile
       : query ? gql`${query}` : basicProfile,
     variables: resolvedVariables,
     fetchPolicy: 'no-cache'
   });
+
   return {
     ...request,
     query: customer ? fullProfile : basicProfile,

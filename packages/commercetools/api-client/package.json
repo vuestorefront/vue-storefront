@@ -4,7 +4,7 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/commercetools/api-client/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
