@@ -1,6 +1,7 @@
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
+import { userHooks } from '@vue-storefront/core/modules/user/hooks'
 const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
@@ -88,7 +89,7 @@ export const UserAccount = {
         !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
         (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), [...config.users.allowModification, 'default_billing'])
+        updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
         updatedProfile.firstname = this.currentUser.firstname
         updatedProfile.lastname = this.currentUser.lastname
         updatedProfile.email = this.currentUser.email
@@ -150,25 +151,36 @@ export const UserAccount = {
           newPassword: this.password
         })
       }
+      updatedProfile = pick(updatedProfile, config.users.allowModification)
       this.exitSection(null, updatedProfile)
     },
     exitSection (event, updatedProfile) {
       this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
-      if (!updatedProfile) {
-        this.currentUser = Object.assign({}, this.$store.state.user.current)
-        this.userCompany = this.getUserCompany()
-        this.changePassword = false
-        this.oldPassword = ''
-        this.password = ''
-        this.rPassword = ''
-        if (!this.userCompany.company) {
-          this.addCompany = false
+      userHooks.afterUserAddressUpdated(async (event) => {
+        if (event.resultCode === 200) {
+          if (!updatedProfile) {
+            this.currentUser = Object.assign({}, this.$store.state.user.current)
+            this.userCompany = this.getUserCompany()
+            this.changePassword = false
+            this.oldPassword = ''
+            this.password = ''
+            this.rPassword = ''
+            if (!this.userCompany.company) {
+              this.addCompany = false
+            }
+            this.remainInEditMode = false
+          }
+          if (!this.remainInEditMode) {
+            this.isEdited = false
+          }
+        } else {
+          await this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t(event.result.errorMessage),
+            action1: { label: this.$t('OK') }
+          }, { root: true })
         }
-        this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
-      }
+      })
     },
     getUserCompany () {
       let user = this.$store.state.user.current

@@ -1,4 +1,5 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 // Authorize
 
@@ -14,10 +15,16 @@ const {
   executor: afterUserUnauthorizeExecutor
 } = createListenerHook()
 
+const {
+  hook: afterUserAddressUpdatedHook,
+  executor: afterUserAddressUpdatedExecutor
+} = createListenerHook<Task>()
+
 /** Only for internal usage in this module */
 const userHooksExecutors = {
   afterUserAuthorize: afterUserAuthorizeExecutor,
-  afterUserUnauthorize: afterUserUnauthorizeExecutor
+  afterUserUnauthorize: afterUserUnauthorizeExecutor,
+  afterUserAddressUpdated: afterUserAddressUpdatedExecutor
 }
 
 const userHooks = {
@@ -27,7 +34,8 @@ const userHooks = {
   afterUserAuthorize: afterUserAuthorizeHook,
   /** Hook is fired right after user is logged out.
   */
-  afterUserUnauthorize: afterUserUnauthorizeHook
+  afterUserUnauthorize: afterUserUnauthorizeHook,
+  afterUserAddressUpdated: afterUserAddressUpdatedHook
 }
 
 export {

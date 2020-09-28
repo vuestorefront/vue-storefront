@@ -178,6 +178,7 @@ const actions: ActionTree<UserState, RootState> = {
       }, { root: true })
       dispatch('user/setCurrentUser', event.result, { root: true })
     }
+    userHooksExecutors.afterUserAddressUpdated(event)
   },
   setCurrentUser ({ commit }, userData) {
     commit(types.USER_INFO_LOADED, userData)
