@@ -76,8 +76,7 @@ export default {
       i18n: {
         useNuxtI18nConfig: true
       }
-    }],
-    '~/../../../../Pro/commercetools/useReview'
+    }]
   ],
   modules: [
     'nuxt-i18n',
@@ -129,21 +128,6 @@ export default {
     }
   },
   build: {
-    babel: {
-      plugins: [
-        '@babel/plugin-proposal-optional-chaining'
-      ],
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            targets: {
-              node: 'current'
-            }
-          }
-        ]
-      ]
-    },
     transpile: [
       'vee-validate/dist/rules'
     ],
