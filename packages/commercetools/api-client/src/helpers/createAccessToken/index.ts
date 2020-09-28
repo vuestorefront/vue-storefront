@@ -45,6 +45,10 @@ const getTokenFlow = async (sdkAuth: SdkAuth, options: FlowOptions = {}) => {
     }
   }
 
+  if (options.requireUserSession) {
+    return sdkAuth.anonymousFlow();
+  }
+
   return sdkAuth.clientCredentialsFlow();
 };
 

@@ -127,4 +127,22 @@ describe('[commercetools-api-client] tokenFlow', () => {
 
     expect(token).toEqual(currentToken);
   });
+
+  it('returns anonymous token when old one is invalid', async () => {
+    introspectTokenMock.mockReturnValue({ active: false });
+
+    const currentToken = {
+      access_token: 'current token',
+      refresh_token: 'current refresh token',
+      scope: ''
+    };
+    setup({ ...config, currentToken } as any);
+
+    const token = await createAccessToken({ currentToken, requireUserSession: true } as any);
+
+    expect(token).toEqual({
+      access_token: 'anonymous token',
+      refresh_token: 'anonymous refresh token'
+    });
+  });
 });
