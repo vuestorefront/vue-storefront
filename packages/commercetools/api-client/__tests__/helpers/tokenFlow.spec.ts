@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 import * as sdk from '@commercetools/sdk-auth';
-import { isTokenUserSession } from '@vue-storefront/commercetools-api';
+import { isTokenUserSession, isTokenActive } from './../../src/helpers/token';
 import createAccessToken from './../../src/helpers/createAccessToken';
 import { setup } from './../../src/index';
 
@@ -25,8 +25,9 @@ const introspectTokenMock = jest.fn(() => ({
   active: true
 }));
 
-jest.mock('@vue-storefront/commercetools-api', () => ({
-  isTokenUserSession: jest.fn()
+jest.mock('./../../src/helpers/token', () => ({
+  isTokenUserSession: jest.fn(),
+  isTokenActive: jest.fn()
 }));
 
 jest.spyOn(sdk, 'TokenProvider').mockImplementation((_, tokenInfo) => ({
@@ -58,7 +59,7 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('return same token', async () => {
-    introspectTokenMock.mockReturnValue({ active: true });
+    (isTokenActive as any).mockReturnValue(true);
 
     const currentToken = {
       access_token: 'bbbbb',
@@ -70,7 +71,7 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates access token when there is no token  set', async () => {
-    introspectTokenMock.mockReturnValue({ active: false });
+    (isTokenActive as any).mockReturnValue(false);
     const token = await createAccessToken();
 
     expect(token).toEqual({
@@ -80,8 +81,8 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates anonymous token when user session is required', async () => {
-    isTokenUserSession.mockReturnValue(false);
-    introspectTokenMock.mockReturnValue({ active: false });
+    (isTokenUserSession as any).mockReturnValue(false);
+    (isTokenActive as any).mockReturnValue(false);
     const token = await createAccessToken();
 
     expect(token).toEqual({
@@ -91,7 +92,7 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('creates anonymous token when token is invalid', async () => {
-    introspectTokenMock.mockReturnValue({ active: false });
+    (isTokenActive as any).mockReturnValue(false);
     const token = await createAccessToken({ currentToken: null, requireUserSession: true } as any);
 
     expect(token).toEqual({
@@ -115,7 +116,7 @@ describe('[commercetools-api-client] tokenFlow', () => {
   });
 
   it('returns same token as in the configuration', async () => {
-    introspectTokenMock.mockReturnValue({ active: true });
+    (isTokenActive as any).mockReturnValue(true);
 
     const currentToken = {
       access_token: 'current token',
