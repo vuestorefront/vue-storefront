@@ -11,13 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Replaced deprecated action product/list call with product/findProducts (#4769)
+- Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
 - Documentation examples of how to translate strings that contain variables or HTML tags - @weaves81 (#4991)
 
 ### Fixed
+
+- Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
+- Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
 - Fixed some typo in docs (#5071)
-
-### Fixed
-
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
 
 ## [1.12.2] - 2020.07.28
