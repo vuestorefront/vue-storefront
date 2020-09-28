@@ -3,19 +3,18 @@ import {
   removeFromCart as apiRemoveFromCart,
   updateCartQuantity as apiUpdateCartQuantity,
   applyCartCoupon as apiApplyCartCoupon,
-  removeCartCoupon as apiRemoveCartCoupon,
-  CustomQueryFn
+  removeCartCoupon as apiRemoveCartCoupon
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { CustomQueryFn, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
-  loadCart: async (customQuery?: CustomQueryFn) => {
+  loadCart: async (customQuery?: any) => {
     return await loadCurrentCart(customQuery);
   },
   addToCart: async ({ currentCart, product, quantity }, customQuery?: CustomQueryFn) => {

@@ -1,4 +1,4 @@
-import { CustomQueryFn, SearchParams, UseProduct } from '../types';
+import { CustomQuery, SearchParams, UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef } from '../utils';
 
@@ -10,7 +10,7 @@ export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>
 }
 
 export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQueryFn) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
 };
 
 export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS>(
@@ -23,7 +23,7 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchP
     const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
-    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQueryFn) => {
+    const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => {
       loading.value = true;
       filters.value = null;
       try {

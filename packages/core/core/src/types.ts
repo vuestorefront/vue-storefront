@@ -4,7 +4,7 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export type CustomQueryFn = () => {
+export type CustomQuery = () => {
   query: any;
   variables?: {
     [key: string]: any;
@@ -329,7 +329,7 @@ export interface AgnosticPrice {
 export interface AgnosticTotals {
   total: number;
   subtotal: number;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticAttribute {
@@ -349,13 +349,13 @@ export interface AgnosticProductReview {
 export interface AgnosticLocale {
   code: string;
   label: string;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticCountry {
   code: string;
   label: string;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticCurrency {
@@ -363,7 +363,7 @@ export interface AgnosticCurrency {
   label: string;
   prefixSign: boolean;
   sign: string;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticBreadcrumb {
@@ -374,7 +374,7 @@ export interface AgnosticBreadcrumb {
 export interface AgnosticSortByOption {
   label: string;
   value: string;
-  [x: string]: any;
+  [x: string]: unknown;
 }
 
 export interface AgnosticRateCount {
