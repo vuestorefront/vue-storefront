@@ -59,7 +59,7 @@ interface {
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
-    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d }): Promise<Response | void>,
+    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d, cvv }): Promise<Response | void>,
     setPaymentInstrument: (token: string): void,
     setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
     loadSavePaymentInstrument: (): boolean,
@@ -170,8 +170,12 @@ Unfortunately, Checkout.com is not sharing any component for Saved Cards. After 
 ```js
 // If it is guest
 const payment = await makePayment({ cartId: cart.value.id });
+// If it is guest & you require cvv
+const payment = await makePayment({ cartId: cart.value.id, cvv: 1234 });
 // If it is customer
 const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email });
+// If it is customer & require cvv
+const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email, cvv: 100 });
 // If you've already loaded available payment methods with same useCko composable instance
 const payment = await makePayment();
 
@@ -436,3 +440,12 @@ setChannel('it');
 ```
 
 Where `it` is name of channel to set. It should be present inside config's `channels`.
+
+## Sending CVV
+To send CVV for saved payment instrument just add `cvv` attribute to object provided inside `makePayment`, e.g:
+```ts
+// If it is guest & you require cvv
+const payment = await makePayment({ cartId: cart.value.id, cvv: 1234 });
+// If it is customer & require cvv
+const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email, cvv: 100 });
+```
