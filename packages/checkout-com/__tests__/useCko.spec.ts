@@ -226,6 +226,7 @@ describe('[checkout-com] useCkoPaypal', () => {
     const payload = {
       cartId: '1',
       email: 'a@gmail.com',
+      cvv: 899,
       contextDataId: '12',
       secure3d: true,
       success_url: null,
@@ -238,7 +239,7 @@ describe('[checkout-com] useCkoPaypal', () => {
       cartId: '1',
       email: 'a@gmail.com',
       contextDataId: '12',
-      cvv: null,
+      cvv: 899,
       secure3d: true,
       success_url: null,
       failure_url: null,
