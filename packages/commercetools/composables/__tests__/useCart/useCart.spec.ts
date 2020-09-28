@@ -21,6 +21,8 @@ jest.mock('@vue-storefront/core', () => ({
   })
 }));
 
+const customQuery = undefined;
+
 describe('[commercetools-composables] useCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -39,7 +41,7 @@ describe('[commercetools-composables] useCart', () => {
     const response = await addToCart({ currentCart: 'current cart', product: 'product1', quantity: 3 });
 
     expect(response).toEqual('some cart');
-    expect(apiAddToCart).toBeCalledWith('current cart', 'product1', 3);
+    expect(apiAddToCart).toBeCalledWith('current cart', 'product1', 3, customQuery);
   });
 
   it('removes from cart', async () => {
@@ -47,7 +49,7 @@ describe('[commercetools-composables] useCart', () => {
     const response = await removeFromCart({ currentCart: 'current cart', product: 'product1' });
 
     expect(response).toEqual('some cart');
-    expect(apiRemoveFromCart).toBeCalledWith('current cart', 'product1');
+    expect(apiRemoveFromCart).toBeCalledWith('current cart', 'product1', customQuery);
   });
 
   it('updates quantity', async () => {
@@ -59,7 +61,7 @@ describe('[commercetools-composables] useCart', () => {
     });
 
     expect(response).toEqual('some cart');
-    expect(apiUpdateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 });
+    expect(apiUpdateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 }, customQuery);
   });
 
   it('clears cart', async () => {
