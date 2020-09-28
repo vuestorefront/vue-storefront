@@ -1,7 +1,7 @@
 # Changelog
 ## 2.1.0 (not released)
 
-- renamed refreshUser to load in useUser (#4917)
+- renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now (#4917)
 
 ## 2.0.6
 
