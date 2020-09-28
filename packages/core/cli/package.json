@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -8,9 +8,10 @@
   },
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir .",
+    "build": "rm -rf ./lib; tsc",
     "generate:templates": "ts-node ./src/scripts/generateTemplates/index.ts",
     "cli": "yarn generate:templates; ts-node ./src/index.ts",
-    "prepublish": "yarn generate:templates"
+    "prepublish": "yarn build; yarn generate:templates"
   },
   "dependencies": {
     "inquirer": "^7.3.3",

@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { sharedRef, onSSR, Logger, mask } from '../utils';
+import { sharedRef, Logger, mask } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
@@ -106,10 +106,10 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const refreshUser = async () => {
+    const load = async () => {
       Logger.debug('useUserFactory.refreshUser');
-
       loading.value = true;
+
       try {
         user.value = await factoryParams.loadUser();
       } catch (err) {
@@ -121,13 +121,6 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    onSSR(async () => {
-      if (!user.value) {
-        await refreshUser();
-      }
-    });
-
     return {
       user: computed(() => user.value),
       updateUser,
@@ -136,7 +129,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       logout,
       isAuthenticated,
       changePassword,
-      refreshUser,
+      load,
       loading: computed(() => loading.value)
     };
   };
