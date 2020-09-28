@@ -1,7 +1,9 @@
 # Changelog
+
 ## 2.1.0 (not released)
 
 - renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now (#4917)
+- implementing logger feature (#4911)
 
 ## 2.0.6
 

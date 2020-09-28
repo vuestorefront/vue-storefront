@@ -15,6 +15,10 @@ jest.mock('../../src/useCart', () => ({
   setCart: jest.fn()
 }));
 
+jest.mock('../../src/useUser', () => ({
+  setUser: jest.fn()
+}));
+
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
   customerSignOut: jest.fn(),
