@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   clear order history and refresh token after logout,
   add redirection when user is logged out and sees myaccount page - gibkigonzo (#4882)
 - Fix `config.products.filterUnavailableVariants` feature - Ogek (#4923)
+- added 'afterUserAddressUpdated' hook which allows us to take control over update address flow (send notification if something failed)
+  move pick allowed modification just before sending data to task managment - gibkigonzo (#4427)
 
 ### Changed / Improved
 
