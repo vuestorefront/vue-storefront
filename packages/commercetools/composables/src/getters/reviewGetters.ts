@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
 
 // TODO: Replace with GraphQL types when they get updated

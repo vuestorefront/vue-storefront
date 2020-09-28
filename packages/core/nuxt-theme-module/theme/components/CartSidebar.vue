@@ -88,8 +88,8 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { onSSR } from '@vue-storefront/core';
 import uiState from '~/assets/ui-state';
+import { onSSR } from '@vue-storefront/core';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
 
