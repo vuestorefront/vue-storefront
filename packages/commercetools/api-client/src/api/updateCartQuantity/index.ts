@@ -1,8 +1,7 @@
 import updateCart from '../updateCart';
-import { CartResponse } from '../../types/Api';
+import { CartResponse, CustomQueryFn } from '../../types/Api';
 import { Cart, LineItem } from '../../types/GraphQL';
 import { createChangeLineItemQuantityAction } from '../../helpers/cart/actions';
-import { CustomQueryFn } from '@vue-storefront/core';
 
 const updateCartQuantity = async (
   cart: Cart,

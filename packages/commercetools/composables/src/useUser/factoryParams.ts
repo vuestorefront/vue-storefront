@@ -1,4 +1,4 @@
-import { UseUserFactoryParams, CustomQueryFn } from '@vue-storefront/core';
+import { CustomQuery, UseUserFactoryParams } from '@vue-storefront/core';
 import { Customer } from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import {
@@ -14,7 +14,7 @@ import { setCart } from '../useCart';
 import { setUser } from '../useUser';
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
-  loadUser: async (customQuery?: CustomQueryFn) => {
+  loadUser: async (customQuery?: CustomQuery) => {
     try {
       const profile = await apiGetMe({ customer: true }, customQuery);
       return profile.data.me.customer;

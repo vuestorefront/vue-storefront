@@ -1,7 +1,7 @@
 import { getProduct } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, mapPaginationParams, getFiltersFromProductsAttributes } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
-import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption, CustomQueryFn } from '@vue-storefront/core';
+import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption, CustomQuery } from '@vue-storefront/core';
 import { ProductsSearchParams } from '../types';
 import { ProductSearch, Filter } from '@vue-storefront/commercetools-api';
 
@@ -11,7 +11,7 @@ const availableSortingOptions = [
   { value: 'price-down', label: 'Price from high to low' }
 ];
 
-const productsSearch = async (params: ProductsSearchParams, customQuery?: CustomQueryFn): Promise<ProductsSearchResult<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]>> => {
+const productsSearch = async (params: ProductsSearchParams, customQuery?: CustomQuery): Promise<ProductsSearchResult<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]>> => {
   const apiSearchParams: ProductSearch = {
     ...params,
     ...mapPaginationParams(params)

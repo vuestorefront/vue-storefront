@@ -1,8 +1,7 @@
 import updateCart from '../updateCart';
-import { CartResponse } from '../../types/Api';
+import { CartResponse, CustomQueryFn } from '../../types/Api';
 import { Cart, ReferenceInput } from '../../types/GraphQL';
 import { removeDiscountCodeAction } from '../../helpers/cart/actions';
-import { CustomQueryFn } from '@vue-storefront/core';
 
 const removeCartCoupon = async (
   cart: Cart,
