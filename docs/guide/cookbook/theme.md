@@ -384,17 +384,91 @@ In this chapter, we are going to cover :
 ## 0. Introduction
 Theme is what customers get first impression from your shop. You will be majorly discouraged if your customers underestimate your shop by looks and feels of the first impression due to poorly designed theme when you had pearls and golds in value for your customers on your shop. Great products, meticulously calibrated technology backing your store, are abysmally depreciated which impact your sales in result. We are here to help you get away with such disasters by guiding you in wrapping your head around how to deal with `theme` in _Vue Storefront_ context. Are you ready? a _Picaso_?
 
-
+<!-- 
 ## 1. Start building your own theme
+You've seen a lot of examples here and there of exquisite online shops with aesthetics. Now you want to transform your shops just the same way with much more splendor of luxuries fully filled with higher taste. But how? Ask _Vue Storefront_ core team how to do it because they did it many times before with tons of hours of reflection. What if they are busy? they certainly are. OK, then shortcut. You can inherit the base `capybara` theme and override the parts only where you want it. 
+
+This recipe talks about how to do it.
+
 ### 1. Preparation
+ - You have a [_Vue Storefront_ `1.12` App installed](/guide/cookbook/setup.html#_1-install-with-docker) on your machine.
+
+
 ### 2. Recipe
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
 <br />
 <br />
+ -->
 
-## 2. How to upgrade theme one from another
+## 2. How to upgrade theme from 1.11 to 1.12
+Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/DivanteLtd/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunks. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
+
+In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since we will not use `default` theme but `capybara` for this recipe.
+
+### 1. Preparation
+ - You have a [_Vue Storefront_ `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
+ - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/DivanteLtd/vue-storefront).
+
+### 2. Recipe
+1. Pull `v1.12.0` tag to the `1.11` VSF app as follows : 
+```bash
+git fetch 
+git checkout tags/v1.12.0 -b recipe # this checkouts to v1.12.0 tag and create a [recipe] branch for this tutorial.
+```
+
+
+2. Change directory to `src/themes` as follows : 
+```bash
+cd src
+mkdir themes && cd themes
+```
+
+
+3. Add `git` `submodule` into `themes` folder as follows : 
+```bash
+git submodule add https://github.com/DivanteLtd/vsf-capybara capybara
+```
+
+Now files are ready.
+
+:::tip
+If you go to root `./config` folder and open `local.json`, then you will notice `theme` node is set to `capybara` by default as follows : 
+```json
+  "theme": "@vue-storefront/theme-capybara",
+```
+:::
+
+4. Run the app then you will see the screen as below : 
+```bash
+docker-compose up -d 
+```
+
+![vs_home_intro_borderline](../images/home_capybara.png)
+
+
+### 3. Peep into the kitchen (what happens internally)
+In this recipe, we have checked out to `v1.12.0` and install `vsf-capybara` theme as a submodule to `themes` folder. And that's all it takes, it's that simple to adapt your application to new theme eco-system.
+
+_Capybara_ theme is based on [_Storefront UI_](https://www.storefrontui.io/) and it's completely different approach from other plain themes since it's kinda an eCommerce version of _Bootstrap_ in CSS framework. All the frequently used components have been divided into their chunks in the smallest meaningful size so that users can compose those components whatever way they want it to please their purposes. Easier, Organized, Planned, all the brighter sides of modular system have been implemented into it. You can follow the best practices made by core teams by looking at how _Capybara_ is structured. 
+
+That said, you had to say good-bye to your old `1.11` theme. [_Start building your own theme_ recipe](#_1-start-building-your-own-theme) may help you achieve complete migration of theme's customized parts in that _say good-bye_.
+
+### 4. Chef's secret (protip)
+<br />
+<br />
+<br />
+
+
+## 3. How to upgrade theme from 1.10 to 1.11
+:::warning REMINDER
+This recipe assumes you will use [`default` theme](https://github.com/DivanteLtd/vsf-default) for your store which is natural because `1.11` has only one _default_ theme whose name is `default`. 
+
+From `1.12` on, however, `default` theme becomes optional while `capybara` is _default_. 
+:::
+
 When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. 
 
 Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces. 
@@ -464,7 +538,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - [Related](#_27-product-related-is-ready-to-transform)
     - Reviews
       - [Reviews](#_28-reviews-is-fixed-too)
-    - SearchPanel
+    - SearchPanel 
       - [SearchPanel](#_29-searchpanel-has-parts-to-update)
     - [SidebarMenu](#_30-sidebarmenu-wants-to-update-too)
       - SidebarMenu
@@ -2140,70 +2214,6 @@ In general, the theme upgrade might be a tedious process for you but it's worth 
 1. Debunk _github_ features to uncover the code changes
 
 
-<br />
-<br />
-<br />
-
-
-## 3. How `default` theme works
-_Theme_ is the face of your store. Face is what makes people recognize you as you. That works just the same for your store. However, your _theme_ shows not only looks and feels of your store's identity, but also represents how features such as _UI_, _widgets_ and _components_ are arranged and interconnected just the same as your face helps connect _eyes_, _nose_, _ears_ and _brain_ under the skin.
-
-Online stores should demand many features in common and they deal with similar types of requests from their customers to fulfill their desire : _Purchase_. They are divided and placed under the `core` folder to be dealt with.
-
-We already got our hands dirty to place all the core business logic in place and created the `default` theme as the best practice to show how they are intertwined behind the scene and make it work seamlessly out of the box. 
-
-In this recipe, we will walk through how `default` theme works in cooperation with other core parts of the `app` such as `modules`, `filters`, `stores` and so on. 
-<br />
-Among methodologies for this recipe, we will use the one inspired by [_Chaos Monkey_](https://en.wikipedia.org/wiki/Chaos_engineering); One that creates various errors on purpose, and ___see___ why it was needed to prevent such errors in the first place.
-
-#### Sidetalk (If you are busy dev, please skip this)
-Why we don't make a recipe for solution to a problem, but a recipe for a problem itself? Read this quote from _Aristotle_ and please ask me again
-:::tip QUOTE
-_He who sees things grow from their beginning will have the best view of them_
-
-___- Aristotle___
-:::
-You are not the core developers who built the ___Vue Storefront___ from its beginning so you don't know the _why_ and _how_ and the history of what happened to each corner of the code base. (even if you are core developers, I bet you really don't know _every_ detail ;)) Yet, that's fine until you just take advantage of the platform and things work as `docs` dictates. It becomes, however, problems when things get in unexpected ways. 
-<br/>
-In attempts to reduce such frustration, one might need to simulate _How things grew from the beginning_. Creating problems on purpose and an attempt to solve them may help you understand why things were there in the first place. Think of it as _Hadron Collider_ of ___Vue Storefront___. Now time's up, Let's turn on the _particle accelerator_. 
-
-### 1. Preparation
-- You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html). 
-
-### 2. Recipe
-1. Open your editor and go to `./src/themes/default/index.js`
- 
-
-
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-#### Secret 1. What is `amp` here and there?
-#### Secret 2. 
-
-<br />
-<br />
-<br />
-
-
-
-
-## 4. Execuse me, but can I use your theme if I may?
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
-<br />
-
-
-
-## 5. Integrate with 3rd party CSS frameworks
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 <br />

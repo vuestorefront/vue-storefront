@@ -1,17 +1,17 @@
- is out of stock!, is niet in voorraad!
-"Adding a review ...","Adding a review ..."
-"Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw mandje wilt verwijderen?"
-"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
+ is out of stock!, is niet op voorraad!
+"Adding a review ...","Review aan het aanmaken ..."
+"Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw winkelwagen wilt verwijderen?"
+"Only {maxQuantity} products of this type are available!","Er zijn {maxQuantity} producten van dit type op voorraad!"
 "Product price is unknown, product cannot be added to the cart!",Productprijs onbekend. Dit product kan niet worden toegevoegd aan de winkelwagen!
-"Product quantity has been updated!","Producthoeveelheid is bijgewerkt!"
+"Product quantity has been updated!","Producthoeveelheid is aangepast!"
 "Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
-"Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment gedult alstublieft, we checken op dit moment de voorraden"
+"Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment geduld alstublieft, we checken op dit moment de voorraden"
 "Thumbnail","Thumbnail"
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "You need to be logged in to see this page","U moet ingelogd zijn om deze pagina te bekijken"
 "You submitted your review for moderation.","You submitted your review for moderation."
 404 Page Not Found,404 Pagina niet gevonden
-Account data has successfully been updated,Account gegevens succesvol geupdatet.
+Account data has successfully been updated,Account gegevens succesvol geüpdatet.
 Checkout,Afrekenen
 Compare Products,Producten vergelijken
 Error with response - bad content-type!,Error with response - bad content-type!
@@ -24,7 +24,7 @@ My Account,Mijn Account
 Newsletter preferences have successfully been updated,Uw nieuwsbrief voorkeur is gewijzigd.
 No products synchronized for this category. Please come back while online!,Er zijn geen producten gesynchroniseerd in deze categorie. Kom alstublieft terug terwijl u online bent.
 No such configuration for the product. Please do choose another combination of attributes.,De gekozen productconfiguratie bestaat niet. Kies een andere combinatie.
-Out of stock!,Niet in voorraad!
+Out of stock!,Niet op voorraad!
 Please fix the validation errors,Corrigeer de validatiefouten
 Product has been added to the cart!,Product is toegevoegd aan de winkelwagen!
 Product {productName} has been added to the compare!,Product {productName} is toegevoegd aan de vergelijking!
@@ -41,4 +41,4 @@ There is no Internet connection. You can still place your order. We will notify 
 This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!,"Helaas, deze feature is nog niet geimplementeerd. Kijk op https://github.com/DivanteLtd/vue-storefront/issues om de roadmap te zien."
 Type what you are looking for...,Waar bent u naar op zoek?
 You are logged in!,U bent ingelogd!
-You're logged out,Je bent uitgelogd
+You're logged out,U bent uitgelogd

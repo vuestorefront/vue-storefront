@@ -2,6 +2,7 @@ import * as localForage from 'localforage'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import cloneDeep from 'lodash-es/cloneDeep'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
@@ -334,16 +335,23 @@ class LocalForageCacheDriver {
         })
       } else {
         let isResolved = false
-        const promise = this._localForageCollection.ready().then(() => this._localForageCollection.setItem(key, copiedValue).then(result => {
-          if (isCallbackCallable) {
-            callback(null, result)
-          }
-          isResolved = true
-        }).catch(err => {
-          isResolved = true
-          this._lastError = err
-          throw err
-        }))
+        const handleSetItem = () => this._localForageCollection.setItem(key, copiedValue)
+          .then(result => {
+            if (isCallbackCallable) {
+              callback(null, result)
+            }
+            isResolved = true
+          })
+          .catch(async err => {
+            if (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+              await StorageManager.clear()
+              handleSetItem()
+            }
+            isResolved = true
+            this._lastError = err
+            throw err
+          })
+        const promise = this._localForageCollection.ready().then(handleSetItem)
         clearTimeout(this._cacheTimeouts.iterate)
         this._cacheTimeouts.setItem = setTimeout(() => {
           if (!isResolved) { // this is cache time out check

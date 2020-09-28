@@ -17,7 +17,7 @@ function convertToObject (array) {
 
 module.exports = function (csvDirectories, config = null) {
   const currentLocales = currentBuildLocales()
-  const fallbackLocale = 'en-US'
+  const fallbackLocale = config.i18n.defaultLocale || 'en-US'
   let messages = {}
   let languages = []
 
@@ -43,7 +43,7 @@ module.exports = function (csvDirectories, config = null) {
 
   // create fallback
   console.debug(`Writing JSON file fallback: ${fallbackLocale}.json`)
-  fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`), JSON.stringify(messages[fallbackLocale]))
+  fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`), JSON.stringify(messages[fallbackLocale] || {}))
 
   // bundle all messages in one file
   if (config && config.i18n.bundleAllStoreviewLanguages) {

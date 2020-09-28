@@ -8,12 +8,13 @@ once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const loadedLanguages = ['en-US']
+const defaultLocale = config.i18n.defaultLocale || 'en-US'
+const loadedLanguages = [defaultLocale]
 const i18n = new VueI18n({
-  locale: config.i18n.bundleAllStoreviewLanguages ? config.i18n.defaultLocale : 'en-US', // set locale
-  fallbackLocale: 'en-US',
+  locale: defaultLocale, // set locale
+  fallbackLocale: defaultLocale,
   messages: config.i18n.bundleAllStoreviewLanguages ? require('./resource/i18n/multistoreLanguages.json') : {
-    'en-US': require('./resource/i18n/en-US.json')
+    [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`)
   }
 })
 

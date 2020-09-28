@@ -14,7 +14,7 @@ const isBottomVisible = () => {
 }
 
 /**
- * By implementing this mixin add "onBottomScroll" mthod in component.
+ * By implementing this mixin add "onBottomScroll" method in component.
  * It will be invoked when view reach the bottom.
  */
 export default {

@@ -12,6 +12,7 @@ const isWindows = require('is-windows')
 const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
 const program = require('commander')
+const { createThemeTasks, createThemePrompt } = require('./../../packages/cli/themeTasks')
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
 const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json'
@@ -561,6 +562,33 @@ class Storefront extends Abstract {
       resolve(answers)
     })
   }
+
+  /**
+   * Handles all tasks needed to make theme installation
+   */
+  async themeInstallation () {
+    // get theme tasks
+    const { installDeps, cloneTheme, configureTheme } = createThemeTasks(STOREFRONT_DIRECTORY.toString())
+
+    // put tasks in order
+    const tasks = [
+      cloneTheme,
+      installDeps,
+      configureTheme
+    ]
+
+    for (let { title, task, skip } of tasks) {
+      Message.info(title)
+
+      const skipAnswer = skip ? await skip(this.answers) : ''
+
+      if (skipAnswer) {
+        Message.warning(skipAnswer)
+      } else {
+        await task(this.answers)
+      }
+    }
+  }
 }
 
 class Manager extends Abstract {
@@ -654,6 +682,7 @@ class Manager extends Abstract {
   initStorefront () {
     return this.storefront.goToDirectory()
       .then(this.storefront.createConfig.bind(this.storefront))
+      .then(this.storefront.themeInstallation.bind(this.storefront))
       .then(this.storefront.depBuild.bind(this.storefront))
       .then(this.storefront.runDevEnvironment.bind(this.storefront))
   }
@@ -863,7 +892,8 @@ let questions = [
     name: 'ssr_endpoints',
     message: `Would You like to create fields for SSR endpoints?`,
     default: false
-  }
+  },
+  ...createThemePrompt(STOREFRONT_DIRECTORY.toString())
 ]
 
 async function processAnswers (answers) {

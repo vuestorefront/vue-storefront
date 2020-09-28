@@ -15,9 +15,7 @@ else {
   if(!fs.existsSync(themePath)) {
     console.error(`
       The theme you want to use does not exist.
-      Please use 'vsf init' or install manualy one of our official themes:
-      - https://github.com/DivanteLtd/vsf-capybara#--installation
-      - https://github.com/DivanteLtd/vsf-default#--installation
+      Please check theme installation: https://docs.vuestorefront.io/guide/installation/theme.html
     `)
     process.exit(1)
   }

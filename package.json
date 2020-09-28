@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.12.0",
+  "version": "1.12.2",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {

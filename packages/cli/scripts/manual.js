@@ -6,4 +6,5 @@ module.exports = function () {
   console.log('Commands:')
   console.log(' init [dir]              setup new VS project')
   console.log(' init:module [name]      generate vs module boilerplate')
+  console.log(' init:theme              adds theme in specified directory')
 }

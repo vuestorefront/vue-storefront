@@ -7894,6 +7894,21 @@ execa@^3.2.0:
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
 
+execa@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-4.0.2.tgz#ad87fb7b2d9d564f70d2b62d511bee41d5cbb240"
+  integrity sha512-QI2zLa6CjGWdiQsmSkZoGtDx2N+cQIGb3yNolGTdjSQzydzLgYYf8LRuagp7S7fPimjcrzUDSUFd/MgzELMi4Q==
+  dependencies:
+    cross-spawn "^7.0.0"
+    get-stream "^5.0.0"
+    human-signals "^1.1.1"
+    is-stream "^2.0.0"
+    merge-stream "^2.0.0"
+    npm-run-path "^4.0.0"
+    onetime "^5.1.0"
+    signal-exit "^3.0.2"
+    strip-final-newline "^2.0.0"
+
 executable@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/executable/-/executable-4.1.1.tgz#41532bff361d3e57af4d763b70582db18f5d133c"
@@ -15534,7 +15549,7 @@ stealthy-require@^1.1.1:
 
 "storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
   version "1.0.1"
-  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#3984d3972162d2aa407a7435522066a73959aa21"
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#0ef1f9760eb44edce5b9464a9145ce0a7517a419"
   dependencies:
     "@typescript-eslint/parser" "^2.26.0"
     clone-deep "^4.0.1"
@@ -16971,11 +16986,6 @@ vue-offline@^1.0.8:
   version "1.0.204"
   resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.204.tgz#9c9c0e98fc29cb3334b57848dd4c6f6cd9607d6d"
   integrity sha512-4dYUE81k9tLSPbx7qlJDyKw2QNdNL7aJMuBAfrAhtCjZdZsiXoaS56QApZaTh8BV3yG6sbTdbAD6hDaEYHe3EQ==
-
-vue-progressbar@^0.7.5:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/vue-progressbar/-/vue-progressbar-0.7.5.tgz#414730892252b1e45582d4979dec93038e007f79"
-  integrity sha512-VeNG/inMsFbvdCTS7lJ1gjDAKSUZdqkhW9gS1tb0we1rqFKxR+BCEiVUgw5C84vODKb14M2GWHTw0WVdpoVg6g==
 
 vue-router@^3.0.1, vue-router@^3.1.3:
   version "3.1.6"

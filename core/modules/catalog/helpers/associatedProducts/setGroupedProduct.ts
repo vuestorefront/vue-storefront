@@ -1,9 +1,10 @@
-import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import { isGroupedProduct } from './..';
+import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import buildQuery from './buildQuery'
 import setProductLink from './setProductLink'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
 import getGroupedProductPrice from './getGroupedProductPrice'
+import { isGroupedProduct } from './..'
+import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { catalogHooksExecutors } from './../../hooks'
 
 /**
  * This function prepare all product_links for grouped products.
@@ -28,6 +29,8 @@ export default async function setGroupedProduct (product: Product, { includeFiel
         separateSelectedVariant: false
       }
     })
+
+    catalogHooksExecutors.afterSetGroupedProduct(items)
 
     for (const productLink of productLinks) {
       const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.linked_product_sku)

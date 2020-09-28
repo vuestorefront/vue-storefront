@@ -12,6 +12,11 @@ In this chapter, we will cover :
 
 [[toc]]
 
+:::tip SECURITY BEST PRACTICE
+There is a separate site dedicated to PWA security and you can get a handful of advices to apply for your business from industry gurus. 
+[Headless Security Best Practices](https://headless-security.org/vsf-best-practices.html)
+:::
+
 ## 0. Introduction
 
 Vue Storefront is getting tremendous attention from the market and gain traction from developers with more than 20 sites running on production. In the mean time, Vue Storefront framework evolves with each new release and the docs can hardly catch up with it! 
@@ -846,3 +851,45 @@ Vue Storefront contains some pretty useful config variables that are sometimes m
 
 <br />
 <br />
+
+## 16. Cloudflare Autopurge
+You might use CDN not only to serve dist & assets directory but also SSR Output. In this case, you would want to dynamicly purge cache in Cloudflare when it is being purged in Varnish. 
+There is a 3rd party module just for that! Install the module at [here](https://github.com/new-fantastic/vsf-cloudflare)
+
+
+<br />
+<br />
+
+## 17. VSF Cache Varnish
+By default VSF is able to cache SSR Output in the Redis Cache. This module will Cache Redis Output in the Varnish. So Node.js server is not being used even to load output from Redis. It makes our app's first load even faster! Follow the instruction [here](https://github.com/new-fantastic/vsf-cache-varnish)
+
+
+<br />
+<br />
+
+
+## 18. VSF Cache NGINX
+By default VSF is able to cache SSR Output in the Redis Cache. This module will Cache Redis Output in the NGINX. So Node.js server is not being used even to load output from Redis. It makes our app's first load even faster! Follow the instruction [here](https://github.com/new-fantastic/vsf-cache-nginx)
+
+
+<br />
+<br />
+
+## 19. Vue Storefront 1 config validator for Magento 1 and Magento 2
+
+There is a simple PHP CLI tool to check whether your Vue Storefront PWA configuration matches the structure of your Magento site. You can rest assured whether your VSF works seamlessly with Magento 1 or Magento 2. Please follow the install [here](https://github.com/yireo/vsf-config-validator)
+
+
+<br />
+<br />
+
+## 20. A sample theme to start with
+
+This [sample theme](https://github.com/yireo-training/vsf-yireo-theme) can help you start with a Webpack configuration to allow for simple parent/child theming.
+
+
+<br />
+<br />
+
+## 21. Optimized Webpack configuration for Vue Storefront 1 development
+The default Webpack configuration of Vue Storefront 1 allows for fully testing all features. However, because of various reasons, this leads to a slow transpilation time and therefore a bad developer experience. This [repository](https://github.com/yireo-training/vsf1-local-webpack) contains a separate Webpack

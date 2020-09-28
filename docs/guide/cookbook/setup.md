@@ -20,6 +20,12 @@ Then, why so? In modern computer engineering, products are so complex with an en
 
 Luckily, we already have been through all this for you, got our hands dirty. All you need is run a set of docker commands to get you up and running from scratch. Without further ado, let's get started!
 
+:::tip UPDATE
+From VSF `1.12` on, 
+  1. `CLI` is the main method to install _Vue Storefront_ infrastructure. (which is easier, hassle-free, and intuitive)
+  2. Bleeding-edge `vsf-capybara` is default theme while original `default` theme remains to be chosen at your discretion. 
+:::
+
 ### 1. Preparation
 - You need [`docker`](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04) and [`docker-compose`](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04) installed.
 
@@ -129,21 +135,99 @@ You will see 4 containers are running, which is :
 | Redis                  | :6379               |
 
 
-4. Now that backend part is done, let's work on frontend part, that is download [**Vue Storefront**](https://github.com/DivanteLtd/vue-storefront)
-
+4. Now that backend part is done, let's work on frontend part, install `@vue-storefront/cli`
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
-cd vue-storefront
+yarn add global @vue-storefront/cli 
 ```
 
-5. Prepare the config file at `./config/local.json`. There is `default.json` file in the same folder which is a default set of configuration. Copy it as follows :
+5. Run the `init` command in a directory where you want to install _Vue Storefront_ as follows : 
+```bash
+vsf init vue-storefront # [vue-storefront] is the directory where the app is going to be installed. 
+```
+
+6. Choose your target version from below (Picked _Stable versions_ in this recipe) :
+
+```bash
+dex@ubuntu:~/code$ vsf init vue-storefront
+  ✔ Check avalilable versions
+? Which version of Vue Storefront you'd like to install? (Use arrow keys)
+❯ Stable versions (recommended for production) 
+  Release Candidates 
+  In development branches (could be unstable!) 
+```
+
+7. Then pick `1.12` version for the install from below : 
+```bash
+  ✔ Check avalilable versions
+? Which version of Vue Storefront you'd like to install? Stable versions (recommended for production)
+? Select specific version (Use arrow keys)
+❯ v1.12.0 
+  v1.11.4 
+  v1.11.3 
+  v1.11.2 
+  v1.11.1 
+  v1.11.0 
+  v1.10.6 
+```
+8. Select a theme you want to start with (This time `Capybara` for the recipe) :
+```bash
+  ✔ Check available versions
+? Which version of Vue Storefront you'd like to install? Stable version (recommended for production)
+? Select specific version v1.12.0
+? Select theme for Vue Storefront 
+❯ Capybara - based on Storefront UI 
+  Default
+```
+:::tip INFO
+Capybara is built on top of [Storefront UI](https://www.storefrontui.io/). Worth checking it out!
+:::
+
+Then, `Stable version` as follows : 
+```bash
+  ✔ Check available versions
+? Which version of Vue Storefront you'd like to install? Stable version (recommended for production)
+? Select specific version v1.12.0
+? Select theme for Vue Storefront Capybara - based on Storefront UI
+? Select theme version (Use arrow keys)
+❯ Stable version (recommended for production) 
+  In development branch (could be unstable!) 
+
+```
+
+8. Now wrap it up by choosing `Manual installation` from the next step : 
+```bash
+  ✔ Check avalilable versions
+? Which version of Vue Storefront you'd like to install? Stable versions (recommended for production)
+? Select specific version v1.12.0
+? Would you like to use friendly installer or install Vue Storefront manually? 
+  Installer (MacOS/Linux only) 
+❯ Manual installation
+```
+
+Then the `cli` will copy all the necessary files to the designated folder. 
+
+Let's `cd` to the folder.
+
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/i4lHsWZHDDWvDjkdFEb8zQa0m)
+
+:::warning
+Friendly `Installer` among options above is deprecated yet it is supported.
+:::
+
+9. Prepare the config file at `./config/local.json`. There is `default.json` file in the same folder which is a default set of configuration. Copy it as follows :
 ```bash
 cp config/default.json config/local.json
 ```
 Then fix the value as you need it in the `local.json` file.
 In `local.json`, you may change values for information of backend family. But if you followed this recipe verbatim, you don't have to, because it's already there with the default value. Should you study the contents, please see to [Chef's secret](#secret-1-study-in-local-json)
 
-6. Finally run the following Docker command :
+
+10. Install theme
+
+From version 1.12 you need to add theme into your project. [Here is more information](https://docs.vuestorefront.io/guide/installation/theme.html)
+
+11. Finally run the following Docker command :
+
 ```bash
 docker-compose up -d
 ```
@@ -190,21 +274,24 @@ info fsevents@1.2.4: The platform "linux" is incompatible with this module.
 
 :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/JZYI9ZE6DHeC7N2keBNoFUWjQ)
 
-7. In order to verify, run `docker ps`, there should be another container added to the list.
+
+12. In order to verify, run `docker ps`, there should be another container added to the list.
+
 ```bash
 CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS              PORTS                                            NAMES
-88d758bc24d0        vuestorefront_app         "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        0.0.0.0:3000->3000/tcp                           vuestorefront_app_1
+88d758bc24d0        vuestorefront_app         "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes                                                         vuestorefront_app_1
 de560221fdaf        vuestorefrontapi_kibana   "/bin/bash /usr/loca…"   8 hours ago         Up 23 minutes       0.0.0.0:5601->5601/tcp                           vuestorefrontapi_kibana_1
 5576cd9963a1        vuestorefrontapi_app      "docker-entrypoint.s…"   8 hours ago         Up 23 minutes       0.0.0.0:8080->8080/tcp                           vuestorefrontapi_app_1
 88f5db9486da        vuestorefrontapi_es1      "/bin/bash bin/es-do…"   8 hours ago         Up 24 minutes       0.0.0.0:9200->9200/tcp, 0.0.0.0:9300->9300/tcp   elasticsearch
 d46c1e0a22af        redis:4-alpine            "docker-entrypoint.s…"   8 hours ago         Up 24 minutes       0.0.0.0:6379->6379/tcp                           vuestorefrontapi_redis_1
 
 ```
-8. Open your browser and visit [http://localhost:3000/](http://localhost:3000/)
+
+13. Open your browser and visit [http://localhost:3000/](http://localhost:3000/)
 
 After compiling, *Voila!*
 
-![vs_home_intro_borderline](../images/home-vuestorefront.png)
+![vs_home_intro_borderline](../images/home_capybara.png)
 
 ### 3. Peep into the kitchen (what happens internally)
 We used `docker-compose` for setting up the entire environment of Vue Storefront. It was more than enough to launch the machines behind for running the shop.
@@ -463,7 +550,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
         "defaultCountry": "DE",
         "defaultRegion": "",
         "calculateServerSide": true,
-		"sourcePriceIncludesTax": false
+    "sourcePriceIncludesTax": false
       },
       "i18n": {
         "fullCountryName": "Germany",
@@ -1336,28 +1423,78 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 <br />
 
 
-## 2. Using Installer
+## 2. User-friendly installation using installer (Deprecated)
+:::warning
+This recipe is deprecated, and installer may not be supported at any version without prior notice. Please use it at your own peril.
+:::
+
 We made it one step further where you just need to answer a series of questions to set up the whole bunch of architecture.
+
 ### 1. Preparation
 ### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 
-<br />
-<br />
-<br />
+1. If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
+```bash
+git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+cd vue-storefront
+yarn
+yarn installer
+```
 
-## 3. Manual Installation
-Sometimes we need to know the inside of the perfect machine so that we can prepare for the fails of imperfection within.
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
+It will take some time for installation and during the last step you will be asked some questions. First one is
 
-<br />
-<br />
-<br />
+```
+Would you like to use https://demo.vuestorefront.io as the backend?
+```
+
+2. If you answer `Yes`, you will have remote backend at `https://demo.vuestorefront.io`. Otherwise, you will need to install `vue-storefront-api`.
+
+2-1. Using Vue Storefront demo as a backend
+
+In this case you don't need to run Docker and you will be asked one additional question:
+
+```
+? Please provide path for images endpoint (https://demo.vuestorefront.io/img/)
+```
+
+You can simply proceed and as a result you will have a `vue-storefront` folder inside your project root and Storefront application running on `http://localhost:3000`. All images will be also hosted at `https://demo.vuestorefront.io/img/`.
+
+2-2. Installing the vue-storefront-api locally
+
+If you answer `No` on the previous question, please be sure the Docker is running, otherwise you might get an error. You will be asked some more questions immediately:
+
+```
+? Would you like to use https://demo.vuestorefront.io as the backend? No
+? Please provide Git path (if it's not globally installed) git
+? Please provide path for installing backend locally ../vue-storefront-api
+? Choose path for images endpoint http://localhost:8080/img/
+```
+
+As for images endpoint: you can choose between `https://demo.vuestorefront.io/img/` again or host your images on localhost.
+
+After you answered all the questions, the installation process will start (it might take some time to install all dependencies). When it's finished, you will get the following message:
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│ Congratulations!                                               │
+│                                                                │
+│ You've just successfully installed vue-storefront.             │
+│ All required servers are running in background                 │
+│                                                                │
+│ Storefront: http://localhost:3000                              │
+│ Backend: http://localhost:8080                                 │
+│                                                                │
+│ Logs: /Users/natalia/Desktop/work/test/vue-storefront/var/log/ │
+│                                                                │
+│ Good Luck!                                                     │
+└────────────────────────────────────────────────────────────────┘
+```
+
+Your project should contain 2 folders at this moment: `vue-storefront` and `vue-storefront-api`. Vue Storefront should be running on `http://localhost:3000`:
+
+![Storefront screenshot](../images/storefront.png)
+
 
 ## 4. Storefront CLI at your service
 Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all-time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there.
@@ -1370,7 +1507,7 @@ We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@
 ### 2. Recipe
 1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows :
 ```bash
-npm install -g  @vue-storefront/cli@0.0.15
+npm install -g  @vue-storefront/cli
 ```
 :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/ZK0BVF7cQ8OaHHRcsaZgcOCfN)
 
@@ -1402,7 +1539,23 @@ Select an option based on which you are to install.
 ```
 Choose a version of your target.
 
-5. Next question is about how you install it between `installer`/`manual` like below :
+5. Next question is about theme installation.
+
+```
+? Select theme for Vue Storefront (Use arrow keys)
+❯ Capybara - based on Storefront UI 
+  Default 
+```
+
+You will also get question about theme version.
+
+```
+? Select theme version (Use arrow keys)
+❯ Stable version (recommended for production) 
+  In development branch (could be unstable!) 
+```
+
+6. Next question is about how you install it between `installer`/`manual` like below :
 ```bash
 ? Would you like to use friendly installer or install Vue Storefront manually?
 ❯ Installer (MacOS/Linux only)
@@ -1418,7 +1571,7 @@ Then you will see the machine start working on installation :
     Running installer
 ```
 
-6. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows :
+7. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows :
 ```bash
 yarn run v1.17.3
 $ node ./core/scripts/installer
@@ -1433,7 +1586,7 @@ $ node ./core/scripts/installer
 From this on, the questions would be the same as installation through `installer`.
 You can follow it further at [Install using installer](#_2-using-installer)
 
-7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+8. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
 ```bash
 ? Please provide path for images endpoint https://demo.vuestorefront.io/img/
 
@@ -1462,7 +1615,7 @@ You can follow it further at [Install using installer](#_2-using-installer)
   ✔ Running installer
 ```
 
-8. Now visit the address on your browser as printed in the screen, then Voila! :
+9. Now visit the address on your browser as printed in the screen, then Voila! :
 
 ![home_borderline](../images/home-vuestorefront.png)
 
@@ -1481,22 +1634,3 @@ _Vue Storefront_ people prepared the `CLI` way of installing the whole infrastru
 <br />
 <br />
 <br />
-
-## 5. How to debug *Anything*
-When it comes to developing a software, there is one thing you really need to know. Knowing the blocker. Fixing a problem means you already know what's going on before what went wrong, and most of the time your pains are from yourself failing at that, which is, you don't know the problem and that is the problem.
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-
-<br />
-<br />
-<br />
-
-## 6. Install Tool Chains
-**Vue Storefront** family is huge, and it's only ever growing. From helpers to bridges, we are going to take a github tour of the entire tool chains.
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-

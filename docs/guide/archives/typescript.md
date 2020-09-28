@@ -1,5 +1,10 @@
 # TypeScript Action Plan
 
+:::danger REMINDER
+This document is _archived_ and _NOT_ relevant with the latest version which is `1.12` at the time of writing. Please keep in mind this document is supposed to help you maintain legacy product, not the fresh installation. 
+:::
+
+
 We've started adding TypeScript support to Vue Storefront, mostly because of the following reasons:
 
 - Developer convenience (IntelliSense support in the IDEs)
