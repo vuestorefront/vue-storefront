@@ -160,6 +160,7 @@ describe('[checkout-com] useCkoCard', () => {
   
       const exptectedObject = {
         token,
+        cvv: null,
         secure3d: payload.secure3d,
         context_id: payload.contextDataId,
         save_payment_instrument: false,
@@ -191,6 +192,7 @@ describe('[checkout-com] useCkoCard', () => {
       };
   
       const expectedObject = {
+        cvv: null,
         secure3d: payload.secure3d,
         context_id: payload.contextDataId,
         save_payment_instrument: payload.savePaymentInstrument,
