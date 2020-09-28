@@ -2,7 +2,7 @@
   <SfHeader
     data-cy="app-header"
     active-sidebar="activeSidebar"
-    @click:cart="handleSidebarOpen"
+    @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
     :cartItemsQty="cartTotalItems"
@@ -65,14 +65,7 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    const handleSidebarOpen = async () => {
-      await loadCart();
-      toggleCartSidebar();
-    };
-
     const handleAccountClick = async () => {
-      await loadUser();
-
       if (isAuthenticated.value) {
         return root.$router.push('/my-account');
       }
@@ -90,7 +83,7 @@ export default {
       accountIcon,
       cartTotalItems,
       handleAccountClick,
-      handleSidebarOpen,
+      toggleCartSidebar,
       toggleWishlistSidebar
     };
   }

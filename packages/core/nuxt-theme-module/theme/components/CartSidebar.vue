@@ -89,6 +89,7 @@ import {
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import uiState from '~/assets/ui-state';
+import { onSSR } from '@vue-storefront/core';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
 
@@ -104,11 +105,15 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { cart, removeFromCart, updateQuantity } = useCart();
+    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+
+    onSSR(async () => {
+      await loadCart();
+    });
 
     return {
       isAuthenticated,

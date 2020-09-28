@@ -15,6 +15,7 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
 };
 
+/** returns current cart or creates new one **/
 const getCurrentCart = async (currentCart) => {
   if (!currentCart) {
     return loadCurrentCart();
