@@ -118,7 +118,7 @@ describe('[CORE - factories] useUserFactory', () => {
       it('return loadedUser user', async () => {
         const user = {firstName: 'John', lastName: 'Galt'};
         factoryParams.loadUser.mockReturnValueOnce(user);
-        await useUserMethods.loadUser();
+        await useUserMethods.load();
         expect(factoryParams.loadUser).toHaveBeenCalled();
         expect(useUserMethods.user.value).toEqual(user);
       });
@@ -126,7 +126,7 @@ describe('[CORE - factories] useUserFactory', () => {
         factoryParams.loadUser.mockImplementationOnce(() => {
           throw 'Error';
         });
-        await expect(useUserMethods.loadUser()).rejects.toThrow('Error');
+        await expect(useUserMethods.load()).rejects.toThrow('Error');
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);

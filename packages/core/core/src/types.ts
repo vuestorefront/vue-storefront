@@ -54,7 +54,7 @@ export interface UseUser
   changePassword: (
     currentPassword: string,
     newPassword: string) => Promise<void>;
-  loadUser: () => Promise<void>;
+  load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
 }

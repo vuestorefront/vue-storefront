@@ -55,7 +55,7 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
-    const { isAuthenticated, loadUser } = useUser();
+    const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const cartTotalItems = computed(() => {
@@ -65,6 +65,7 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
+    // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
         return root.$router.push('/my-account');
@@ -74,7 +75,7 @@ export default {
     };
 
     onSSR(async () => {
-      await loadUser();
+      await load();
       await loadCart();
       await loadWishlist();
     });

@@ -85,7 +85,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const loadUser = async () => {
+    const load = async () => {
       loading.value = true;
       try {
         user.value = await factoryParams.loadUser();
@@ -104,7 +104,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       logout,
       isAuthenticated,
       changePassword,
-      loadUser,
+      load,
       loading: computed(() => loading.value)
     };
   };
