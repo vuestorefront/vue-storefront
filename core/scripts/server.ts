@@ -194,6 +194,11 @@ app.get('*', (req, res, next) => {
     }
     const context = ssr.initSSRRequestContext(app, req, res, config)
     renderer.renderToString(context).then(output => {
+      if (context.redirect.isPending()) {
+        console.log(`Redirection from ${context.url}`)
+        context.redirect.resolve()
+        return
+      }
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
       }

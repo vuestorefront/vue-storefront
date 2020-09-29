@@ -1,4 +1,5 @@
 import { Express } from 'express'
+import { SsrRedirect } from './../ssr-redirect'
 
 export interface Context {
   url: string,
@@ -19,5 +20,6 @@ export interface Context {
   vs: {
     config: Record<any, any>,
     storeCode: string
-  }
+  },
+  redirect: SsrRedirect
 }

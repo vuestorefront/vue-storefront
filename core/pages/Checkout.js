@@ -342,8 +342,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`checkout`)
-      if (context) context.server.response.redirect(localizedRoute('/'))
+      if (context) context.redirect.create(localizedRoute('/'))
       resolve()
     })
   }

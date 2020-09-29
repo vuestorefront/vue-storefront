@@ -1,4 +1,5 @@
 import { Context } from './types';
+import { createContextRedirection } from './ssr-redirect';
 const fs = require('fs')
 const path = require('path')
 const compile = require('lodash.template')
@@ -107,7 +108,7 @@ function initTemplatesCache (config, compileOptions) {
 }
 
 function initSSRRequestContext (app, req, res, config): Context {
-  return {
+  const context: Context = {
     url: decodeURI(req.url),
     output: {
       prepend: (context) => { return ''; },
@@ -126,8 +127,13 @@ function initSSRRequestContext (app, req, res, config): Context {
     vs: {
       config: config,
       storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
-    }
+    },
+    redirect: null
   };
+
+  context.redirect = createContextRedirection.call(context)
+
+  return context
 }
 
 function clearContext (context) {
