@@ -1,10 +1,10 @@
 import getOrders from '../../../src/api/getMyOrders';
 import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getMyOrders/defaultQuery';
-import { OrderSearch } from '../../../src/types/Api';
+import { OrderWhereSearch } from '../../../src/types/Api';
 
 describe('[commercetools-api-client] getMyOrders', () => {
-  const params: OrderSearch = {
+  const params: OrderWhereSearch = {
     id: 'fvdrt8gaw4r',
     limit: 10,
     offset: 0
