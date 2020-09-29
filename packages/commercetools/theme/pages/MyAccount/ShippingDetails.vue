@@ -142,7 +142,7 @@
         </p>
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
-            v-for="(shipping, key) in account.shipping"
+            v-for="(shipping, key) in shippingAddresses"
             :key="shipping.streetName + shipping.apartment"
             class="shipping"
           >
@@ -198,6 +198,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { useUserShipping } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
   ...required,
@@ -225,15 +226,13 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
-  props: {
-    account: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup ({ account }) {
+  setup () {
+    const { addresses: shippingAddresses, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
+
     const editAddress = ref(false);
     const editedAddress = ref(-1);
+
+    const id = ref('');
     const firstName = ref('');
     const lastName = ref('');
     const streetName = ref('');
@@ -244,13 +243,12 @@ export default {
     const country = ref('');
     const phoneNumber = ref('');
 
-    const { addAddress, deleteAddress } = useUserShipping();
-
     const changeAddress = async (index) => {
-      const shipping = account.shipping[index];
+      const shipping = shippingAddresses.value[index];
       if (index > -1) {
-        firstName.value = account.firstName;
-        lastName.value = account.lastName;
+        id.value = shipping.id;
+        firstName.value = shipping.firstName;
+        lastName.value = shipping.lastName;
         streetName.value = shipping.streetName;
         apartment.value = shipping.apartment;
         city.value = shipping.city;
@@ -261,23 +259,29 @@ export default {
         editedAddress.value = index;
       }
       editAddress.value = true;
-
     };
 
-    const updateAddress = () => {
-      // this.$emit('update:shipping');
-    };
-
-    // eslint-disable-next-line
     const removeAddress = async (index) => {
-      // this.$emit('update:shipping');
-      await deleteAddress(account.shipping[index]);
+      await deleteAddress(shippingAddresses.value[index]);
     };
 
     const processAddress = async () => {
       /* eslint-disable */
       if (editedAddress.value > -1) {
-
+        console.log('EDITED')
+        await updateAddress({
+          id: id.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
+          streetName: streetName.value,
+          apartment: apartment.value,
+          city: city.value,
+          state: state.value,
+          zipCode: zipCode.value,
+          country: country.value,
+          phoneNumber: phoneNumber.value
+        })
+        editAddress.value = false;
       } else {
       /* eslint-enable */
         await addAddress({
@@ -292,14 +296,21 @@ export default {
           phoneNumber: phoneNumber.value
         });
         editAddress.value = false;
+        console.log('added');
       }
     };
+
+    onSSR(async () => {
+      await load();
+    });
 
     return {
       changeAddress,
       updateAddress,
       removeAddress,
       processAddress,
+
+      shippingAddresses,
 
       editAddress,
       editedAddress,

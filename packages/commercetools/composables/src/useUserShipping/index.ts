@@ -46,8 +46,8 @@ const params: UseUserShippingFactoryParams<any> = {
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deleteAddress: async (params?) => {
-    console.log('Mocked: deleteAddress');
-    const indexToRemove = addresses.find(address => address.id === params.address.id);
+    console.log('Mocked: deleteAddress', params);
+    const indexToRemove = addresses.findIndex(address => address.id === params.address.id);
     if (indexToRemove < 0) {
       return Promise.reject('This address does not exist');
     }
@@ -56,7 +56,12 @@ const params: UseUserShippingFactoryParams<any> = {
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateAddress: async (params?) => {
-    console.log('Mocked: updateAddress');
+    console.log('Mocked: updateAddress', params);
+    const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
+    if (indexToUpdate < 0) {
+      return Promise.reject('This address does not exist');
+    }
+    addresses[indexToUpdate] = params.address;
     return Promise.resolve(addresses);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
