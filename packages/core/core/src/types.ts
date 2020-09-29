@@ -18,12 +18,12 @@ export interface SearchParams {
   [x: string]: any;
 }
 
-export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS, CUSTOM_QUERY = any> {
+export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
   search(params: SearchParams): Promise<void>;
-  search(params: SearchParams, customQuery?: CUSTOM_QUERY): Promise<void>;
+  search(params: SearchParams, customQuery?: CustomQuery): Promise<void>;
   [x: string]: any;
 }
 
@@ -64,11 +64,11 @@ export interface UseUserOrdersSearchParams {
   [x: string]: any;
 }
 
-export interface UseUserOrders<ORDER, CUSTOM_QUERY = any> {
+export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
   searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
-  searchOrders(params: UseUserOrdersSearchParams, customQuery: CUSTOM_QUERY): Promise<void>;
+  searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -106,10 +106,10 @@ export interface UseUserBilling<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseCategory<CATEGORY, CUSTOM_QUERY = any> {
+export interface UseCategory<CATEGORY> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: Record<string, any>): Promise<void>;
-  search(params: Record<string, any>, customQuery: CUSTOM_QUERY): Promise<void>;
+  search(params: Record<string, any>, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -118,25 +118,24 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON,
-  CUSTOM_QUERY = any
+  COUPON
   > {
   cart: ComputedProperty<CART>;
   addToCart(product: PRODUCT, quantity?: number): Promise<void>;
-  addToCart(product: PRODUCT, quantity?: number, customQuery?: CUSTOM_QUERY): Promise<void>;
+  addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
   removeFromCart(product: CART_ITEM): Promise<void>;
-  removeFromCart(product: CART_ITEM, customQuery: CUSTOM_QUERY): Promise<void>;
+  removeFromCart(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
   updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
-  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CUSTOM_QUERY): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   clearCart(): Promise<void>;
   coupon: ComputedProperty<COUPON | null>;
   applyCoupon(coupon): Promise<void>;
-  applyCoupon(coupon, customQuery: CUSTOM_QUERY): Promise<void>;
+  applyCoupon(coupon, customQuery: CustomQuery): Promise<void>;
   removeCoupon(): Promise<void>;
-  removeCoupon(customQuery: CUSTOM_QUERY): Promise<void>;
+  removeCoupon(customQuery: CustomQuery): Promise<void>;
   loadCart(): Promise<void>;
-  loadCart(customQuery: CUSTOM_QUERY): Promise<void>;
+  loadCart(customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -185,11 +184,11 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, CUSTOM_QUERY = any> {
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
-  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
+  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CustomQuery): Promise<void>;
   addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
-  addReview(params: REVIEW_ADD_PARAMS, customQuery: CUSTOM_QUERY): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS, customQuery: CustomQuery): Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
