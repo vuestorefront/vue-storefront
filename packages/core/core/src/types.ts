@@ -6,9 +6,7 @@ export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
 export type CustomQuery = () => {
   query: any;
-  variables?: {
-    [key: string]: any;
-  };
+  variables?: Record<string, any>;
 };
 
 export interface SearchParams {

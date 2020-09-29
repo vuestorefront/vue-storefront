@@ -5,9 +5,7 @@ import { Token, CustomerCredentials } from './setup';
 
 export type CustomQueryFn = () => {
   query: any;
-  variables?: {
-    [key: string]: any;
-  };
+  variables?: Record<string, any>;
 };
 
 export const getCustomQuery = (customQueryFn: CustomQueryFn, defaultQuery) => {
