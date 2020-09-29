@@ -40,7 +40,7 @@ interface ReviewDraft {
 Providing custom GraphQL query and variables:
 
 ```typescript
-await search(searchParams, () => ({ query, variables }));
-await addReview(addParams, () => ({ query, variables }));
+await search(searchParams, (query, variables) => ({ query, variables }));
+await addReview(addParams, (query, variables) => ({ query, variables }));
 ```
 :::
