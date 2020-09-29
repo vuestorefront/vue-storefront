@@ -110,8 +110,8 @@ export interface UseUserBilling<ADDRESS> {
 
 export interface UseCategory<CATEGORY, CUSTOM_QUERY = any> {
   categories: ComputedProperty<CATEGORY[]>;
-  search(params: { [x: string]: any }): Promise<void>;
-  search(params: { [x: string]: any }, customQuery: CUSTOM_QUERY): Promise<void>;
+  search(params: Record<string, any>): Promise<void>;
+  search(params: Record<string, any>, customQuery: CUSTOM_QUERY): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
