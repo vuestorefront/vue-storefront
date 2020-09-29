@@ -137,7 +137,7 @@ export const checkParentRedirection = (currentProduct, parentProduct) => {
       AsyncDataLoader.push({
         execute: async ({ context }) => {
           if (context) {
-            context.redirect.create(parentUrl, { code: 301 })
+            context.server.redirect(parentUrl, { code: 301 })
           }
         }
       })

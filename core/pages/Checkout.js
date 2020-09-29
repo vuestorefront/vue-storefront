@@ -342,7 +342,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.redirect.create(localizedRoute('/'))
+      if (context) context.server.redirect(localizedRoute('/'))
       resolve()
     })
   }

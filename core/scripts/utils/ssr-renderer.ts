@@ -121,17 +121,18 @@ function initSSRRequestContext (app, req, res, config): Context {
     server: {
       app: app,
       response: res,
-      request: req
+      request: req,
+      redirect: null,
+      _redirect: null
     },
     meta: null,
     vs: {
       config: config,
       storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
-    },
-    redirect: null
+    }
   };
 
-  context.redirect = createContextRedirection.call(context)
+  context.server.redirect = createContextRedirection.call(context)
 
   return context
 }
