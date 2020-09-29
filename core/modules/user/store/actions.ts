@@ -167,6 +167,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user profile with data from My Account page
    */
   async update (_, profile: UserProfile) {
+    profile = userHooksExecutors.beforeUserProfileUpdate(profile)
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
   async handleUpdateProfile ({ dispatch }, event) {
@@ -178,7 +179,7 @@ const actions: ActionTree<UserState, RootState> = {
       }, { root: true })
       dispatch('user/setCurrentUser', event.result, { root: true })
     }
-    userHooksExecutors.afterUserAddressUpdated(event)
+    userHooksExecutors.afterUserProfileUpdated(event)
   },
   setCurrentUser ({ commit }, userData) {
     commit(types.USER_INFO_LOADED, userData)

@@ -1,5 +1,6 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile';
 
 // Authorize
 
@@ -16,15 +17,21 @@ const {
 } = createListenerHook()
 
 const {
-  hook: afterUserAddressUpdatedHook,
-  executor: afterUserAddressUpdatedExecutor
+  hook: afterUserProfileUpdatedHook,
+  executor: afterUserProfileUpdatedExecutor
 } = createListenerHook<Task>()
+
+const {
+  hook: beforeUserProfileUpdateHook,
+  executor: beforeUserProfileUpdateExecutor
+} = createMutatorHook<UserProfile, any>()
 
 /** Only for internal usage in this module */
 const userHooksExecutors = {
   afterUserAuthorize: afterUserAuthorizeExecutor,
   afterUserUnauthorize: afterUserUnauthorizeExecutor,
-  afterUserAddressUpdated: afterUserAddressUpdatedExecutor
+  afterUserProfileUpdated: afterUserProfileUpdatedExecutor,
+  beforeUserProfileUpdate: beforeUserProfileUpdateExecutor
 }
 
 const userHooks = {
@@ -35,7 +42,14 @@ const userHooks = {
   /** Hook is fired right after user is logged out.
   */
   afterUserUnauthorize: afterUserUnauthorizeHook,
-  afterUserAddressUpdated: afterUserAddressUpdatedHook
+  /**
+   * Hook is fired after user profile is updated ('user/handleUpdateProfile')
+   */
+  afterUserProfileUpdated: afterUserProfileUpdatedHook,
+  /**
+   * Hook is fired before user profile is send to update. This can be useful to add additional properties to user profile.
+   */
+  beforeUserProfileUpdate: beforeUserProfileUpdateHook
 }
 
 export {
