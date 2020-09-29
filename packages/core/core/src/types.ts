@@ -54,7 +54,7 @@ export interface UseUser
   changePassword: (
     currentPassword: string,
     newPassword: string) => Promise<void>;
-  refreshUser: () => Promise<void>;
+  load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
 }
@@ -442,4 +442,11 @@ export interface AgnosticFacetSearchParams {
   filters?: Record<string, string[]>;
   metadata?: any;
   [x: string]: any;
+}
+
+export interface VSFLogger {
+  debug(message?: any, ...args: any): void;
+  info(message?: any, ...args: any): void;
+  warn(message?: any, ...args: any): void;
+  error(message?: any, ...args: any): void;
 }

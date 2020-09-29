@@ -1,6 +1,6 @@
 import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserShipping } from '../types';
-import { sharedRef } from '../utils';
+import { sharedRef, Logger, mask } from '../utils';
 
 export interface UseUserShippingFactoryParams<ADDRESS> {
   addAddress: (params: {
@@ -40,6 +40,8 @@ export const useUserShippingFactory = <ADDRESS>(
     const readonlyDefaultAddress: Readonly<ADDRESS> = unref(defaultAddress);
 
     const addAddress = async (address: ADDRESS) => {
+      Logger.debug('useUserShipping.addAddress', mask(address));
+
       loading.value = true;
       try {
         addresses.value = await factoryParams.addAddress({
@@ -47,6 +49,8 @@ export const useUserShippingFactory = <ADDRESS>(
           addresses: readonlyAddresses
         });
       } catch (err) {
+        Logger.error('useUserShipping.addAddress', err);
+
         throw new Error(err);
       } finally {
         loading.value = false;
@@ -54,6 +58,8 @@ export const useUserShippingFactory = <ADDRESS>(
     };
 
     const deleteAddress = async (address: ADDRESS) => {
+      Logger.debug('useUserShipping.deleteAddress', address);
+
       loading.value = true;
       try {
         addresses.value = await factoryParams.deleteAddress({
@@ -62,6 +68,8 @@ export const useUserShippingFactory = <ADDRESS>(
           addresses: readonlyAddresses
         });
       } catch (err) {
+        Logger.error('useUserShipping.deleteAddress', err);
+
         throw new Error(err);
       } finally {
         loading.value = false;
@@ -69,6 +77,8 @@ export const useUserShippingFactory = <ADDRESS>(
     };
 
     const updateAddress = async (address: ADDRESS) => {
+      Logger.debug('useUserShipping.updateAddress', address);
+
       loading.value = true;
       try {
         addresses.value = await factoryParams.updateAddress({
@@ -77,6 +87,8 @@ export const useUserShippingFactory = <ADDRESS>(
           addresses: readonlyAddresses
         });
       } catch (err) {
+        Logger.error('useUserShipping.updateAddress', address);
+
         throw new Error(err);
       } finally {
         loading.value = false;
@@ -84,12 +96,16 @@ export const useUserShippingFactory = <ADDRESS>(
     };
 
     const load = async () => {
+      Logger.debug('useUserShipping.load');
+
       loading.value = true;
       try {
         addresses.value = await factoryParams.load({
           addresses: readonlyAddresses
         });
       } catch (err) {
+        Logger.error('useUserShipping.load', err);
+
         throw new Error(err);
       } finally {
         loading.value = false;
@@ -97,6 +113,8 @@ export const useUserShippingFactory = <ADDRESS>(
     };
 
     const setDefault = async (address: ADDRESS) => {
+      Logger.debug('useUserShipping.setDefault', address);
+
       loading.value = true;
       try {
         defaultAddress.value = await factoryParams.setDefault({
@@ -105,6 +123,8 @@ export const useUserShippingFactory = <ADDRESS>(
           addresses: readonlyAddresses
         });
       } catch (err) {
+        Logger.error('useUserShipping.setDefault', err);
+
         throw new Error(err);
       } finally {
         loading.value = false;
