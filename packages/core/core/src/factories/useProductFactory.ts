@@ -1,6 +1,6 @@
 import { CustomQuery, SearchParams, UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef } from '../utils';
+import { sharedRef, Logger } from '../utils';
 
 export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   data: PRODUCT[];
@@ -24,6 +24,8 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => {
+      Logger.debug('useProduct.search', params);
+
       loading.value = true;
       filters.value = null;
       try {
@@ -32,6 +34,8 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
         totalProducts.value = total;
         filters.value = availableFilters || null;
         sortingOptions.value = availableSortingOptions || null;
+      } catch (e) {
+        Logger.error('useProduct.search', e);
       } finally {
         loading.value = false;
       }

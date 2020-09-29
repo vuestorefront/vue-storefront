@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { vsfRef } from '../utils';
+import { vsfRef, Logger } from '../utils';
 import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams } from '../types';
 
 interface UseFacetFactoryParams<SEARCH_DATA> {
@@ -14,6 +14,8 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
 
     const search = async (params?: AgnosticFacetSearchParams) => {
+      Logger.debug('useFacet.search', params);
+
       result.value.input = params;
       loading.value = true;
       result.value.data = await factoryParams.search(result.value);

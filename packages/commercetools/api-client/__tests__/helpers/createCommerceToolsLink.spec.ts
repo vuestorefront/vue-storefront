@@ -30,14 +30,14 @@ describe('[commercetools-api-client] createCommerceToolsLink', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     setContext = jest.fn().mockImplementation((handler) => {
-      handler(null, { headers: { test: 1 } }).then((res) => {
+      handler({ operationName: 'test' }, { headers: { test: 1 } }).then((res) => {
         expect(res).toEqual({ headers: { test: 1,
           authorization: 'Bearer access token' } });
         done();
       });
     });
 
-    createCommerceToolsLink();
+    await createCommerceToolsLink();
 
     expect(createHttpLink).toBeCalled();
     expect(setContext).toBeCalled();

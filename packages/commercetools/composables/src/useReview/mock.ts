@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { useReviewFactory, UseReview, UseReviewFactoryParams } from '@vue-storefront/core';
 
 const params: UseReviewFactoryParams<any, any, any> = {

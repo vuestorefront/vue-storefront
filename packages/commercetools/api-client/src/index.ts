@@ -28,6 +28,7 @@ import { resolveCustomQueryVariables } from './helpers/search';
 export * from './types/Api';
 export * from './types/setup';
 export * as cartActions from './helpers/cart/actions';
+export * from './helpers/token';
 
 let apolloClient: ApolloClient<any> = null;
 

@@ -32,6 +32,9 @@ export default {
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
+      logger: {
+        verbosity: 'error'
+      },
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',

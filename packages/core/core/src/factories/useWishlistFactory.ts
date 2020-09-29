@@ -1,6 +1,6 @@
 import { UseWishlist } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef } from '../utils';
+import { sharedRef, Logger } from '../utils';
 
 export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
   loadWishlist: () => Promise<WISHLIST>;
@@ -34,6 +34,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
 
     const addToWishlist = async (product: PRODUCT) => {
+      Logger.debug('useWishlist.addToWishlist', product);
+
       loading.value = true;
       const updatedWishlist = await factoryParams.addToWishlist({
         currentWishlist: wishlist.value,
@@ -44,6 +46,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     };
 
     const removeFromWishlist = async (product: WISHLIST_ITEM) => {
+      Logger.debug('useWishlist.removeFromWishlist', product);
+
       loading.value = true;
       const updatedWishlist = await factoryParams.removeFromWishlist({
         currentWishlist: wishlist.value,
@@ -54,6 +58,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     };
 
     const loadWishlist = async () => {
+      Logger.debug('useWishlist.loadWishlist');
+
       if (wishlist.value) return;
 
       loading.value = true;
@@ -62,6 +68,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     };
 
     const clearWishlist = async () => {
+      Logger.debug('useWishlist.clearWishlist');
+
       loading.value = true;
       const updatedWishlist = await factoryParams.clearWishlist({
         currentWishlist: wishlist.value
@@ -71,6 +79,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     };
 
     const isOnWishlist = (product: PRODUCT) => {
+      Logger.debug('useWishlist.isOnWishlist', product);
+
       return factoryParams.isOnWishlist({
         currentWishlist: wishlist.value,
         product

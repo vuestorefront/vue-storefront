@@ -1,6 +1,7 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
 import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Token, CustomerCredentials } from './setup';
 
 export type CustomQueryFn = () => {
   query: any;
@@ -63,6 +64,11 @@ export enum AttributeType {
   LOCALIZED_STRING = 'LocalizedStringAttribute',
   MONEY = 'MoneyAttribute',
   BOOLEAN = 'BooleanAttribute'
+}
+export interface FlowOptions {
+  currentToken?: Token;
+  customerCredentials?: CustomerCredentials;
+  requireUserSession?: boolean;
 }
 
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
