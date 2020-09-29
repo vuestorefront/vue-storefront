@@ -216,6 +216,21 @@ success_url: 'https://example.com/success',
 failure_url: 'https://example.com/failure'
 ```
 
+14. You should make sure that after user leaves checkout - payment token is being removed from sessionStorage. For that purpose, `useCko` exports `removeTransactionToken` method. Call it when user exits Checkout's view! E.g:
+```ts
+// Checkout.vue
+import { useCko } from '@vue-storefront/checkout-com';
+import { onUnmounted } from '@vue/composition-api';
+// ...
+export default {
+    // ...
+    setup() {
+        const { removeTransactionToken } = useCko();
+        onUnmounted(removeTransactionToken);
+    }
+}
+```
+
 ## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
 ```js

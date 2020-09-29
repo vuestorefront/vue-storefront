@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
-import { Ref, ref, computed, onUnmounted } from '@vue/composition-api';
+import { Ref, ref, computed } from '@vue/composition-api';
 import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
 import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } from './helpers';
 
@@ -113,8 +113,6 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD;
   };
 
-  onUnmounted(removeTransactionToken);
-
   return {
     error,
     submitDisabled,
@@ -126,7 +124,8 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     setTransactionToken,
     loadStoredPaymentInstruments,
     removePaymentInstrument,
-    setPaymentInstrument
+    setPaymentInstrument,
+    removeTransactionToken
   };
 };
 export default useCkoCard;

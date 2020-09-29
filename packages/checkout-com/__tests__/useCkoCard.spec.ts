@@ -29,11 +29,6 @@ jest.mock('../src/configuration', () => ({
   getFramesLocalization: jest.fn(),
   CardConfiguration: jest.requireActual('../src/configuration').CardConfiguration
 }));
-jest.mock('@vue/composition-api', () => ({
-  onUnmounted: jest.fn(),
-  ref: jest.requireActual('@vue/composition-api').ref,
-  computed: jest.requireActual('@vue/composition-api').computed
-}));
 
 const sessionStorageMock = {
   removeItem: jest.fn(),
