@@ -1,4 +1,5 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+import { Context } from './utils/types';
 
 let config = require('config')
 const path = require('path')
@@ -192,11 +193,12 @@ app.get('*', (req, res, next) => {
       res.status(202).end(HTMLContent)
       return next()
     }
-    const context = ssr.initSSRRequestContext(app, req, res, config)
+    const context: Context = ssr.initSSRRequestContext(app, req, res, config)
     renderer.renderToString(context).then(output => {
       if (context.server._redirect.isPending()) {
         console.log(`redirect from [${context.url}]`)
-        context.server._redirect.resolve()
+        // it should have arguments setup, we just need to call it
+        context.server._redirect.resolve.call(null)
         return
       }
       if (!res.get('content-type')) {

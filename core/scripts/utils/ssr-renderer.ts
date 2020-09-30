@@ -1,5 +1,5 @@
 import { Context } from './types';
-import { createContextRedirection } from './ssr-redirect';
+import { createRedirectProxy, createRedirectTempObject } from './ssr-redirect';
 const fs = require('fs')
 const path = require('path')
 const compile = require('lodash.template')
@@ -120,9 +120,8 @@ function initSSRRequestContext (app, req, res, config): Context {
     },
     server: {
       app: app,
-      response: res,
+      response: null,
       request: req,
-      redirect: null,
       _redirect: null
     },
     meta: null,
@@ -132,7 +131,9 @@ function initSSRRequestContext (app, req, res, config): Context {
     }
   };
 
-  context.server.redirect = createContextRedirection.call(context)
+  // build redirection object that will be used to resolve redirection
+  context.server._redirect = createRedirectTempObject(context, res)
+  context.server.response = createRedirectProxy(context, res)
 
   return context
 }

@@ -1,5 +1,5 @@
-import { Express } from 'express'
-import { SsrRedirect, SsrRedirectResolve } from './../ssr-redirect'
+import { Express, Response, Request } from 'express'
+import { SsrRedirectResolve, ExpressReponseProxy } from './../ssr-redirect'
 
 export interface Context {
   url: string,
@@ -13,9 +13,8 @@ export interface Context {
   },
   server: {
     app: Express,
-    response: Express.Response,
-    request: Express.Request,
-    redirect: SsrRedirect,
+    response: ExpressReponseProxy,
+    request: Request,
     _redirect: {
       pendingPath: string,
       isPending: () => boolean,
