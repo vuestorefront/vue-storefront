@@ -257,6 +257,18 @@ export default {
         country.value = shipping.country;
         phoneNumber.value = shipping.phoneNumber;
         editedAddress.value = index;
+      } else {
+        id.value = '';
+        firstName.value = '';
+        lastName.value = '';
+        streetName.value = '';
+        apartment.value = '';
+        city.value = '';
+        state.value = '';
+        zipCode.value = '';
+        country.value = '';
+        phoneNumber.value = '';
+        editedAddress.value = -1;
       }
       editAddress.value = true;
     };
@@ -282,6 +294,8 @@ export default {
           phoneNumber: phoneNumber.value
         })
         editAddress.value = false;
+        editedAddress.value = -1;
+
       } else {
       /* eslint-enable */
         await addAddress({
@@ -296,7 +310,6 @@ export default {
           phoneNumber: phoneNumber.value
         });
         editAddress.value = false;
-        console.log('added');
       }
     };
 
