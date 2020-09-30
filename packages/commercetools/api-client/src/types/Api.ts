@@ -4,7 +4,7 @@ import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './G
 import { Token, CustomerCredentials } from './setup';
 
 export type CustomQueryFn<T = any> = (query: any, variables: T) => {
-  query: any;
+  query?: any;
   variables?: T;
 };
 
