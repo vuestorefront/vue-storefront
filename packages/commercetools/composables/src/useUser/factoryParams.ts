@@ -73,18 +73,11 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
     return customer;
   },
   changePassword: async function changePassword({ currentUser, currentPassword, newPassword }) {
-    try {
-      const loadedUser = await getCurrentUser(currentUser);
-      const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
-      // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-      await this.logOut();
-      return await params.logIn({ username: userResponse.data.user.email, password: newPassword });
-    } catch (err) {
-      const errorMessage = err?.graphQLErrors?.[0].message || err.message;
-      err.message = errorMessage;
-      console.error(errorMessage);
-      throw err;
-    }
+    const loadedUser = await getCurrentUser(currentUser);
+    const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
+    // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
+    await this.logOut();
+    return await params.logIn({ username: userResponse.data.user.email, password: newPassword });
   }
 };
 
