@@ -117,7 +117,7 @@ export const UserShippingDetails = {
     },
     exitSection (event, updatedShippingDetails) {
       this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
-      userHooks.afterUserProfileUpdated(async (event: any) => {
+      userHooks.afterUserProfileUpdated(event => {
         if (event.resultCode === 200) {
           if (!updatedShippingDetails) {
             this.shippingDetails = this.getShippingDetails()
@@ -128,7 +128,7 @@ export const UserShippingDetails = {
             this.isEdited = false
           }
         } else {
-          await this.$store.dispatch('notification/spawnNotification', {
+          this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
             message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
             action1: { label: this.$t('OK') }

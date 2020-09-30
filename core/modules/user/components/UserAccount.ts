@@ -156,7 +156,7 @@ export const UserAccount = {
     },
     exitSection (event, updatedProfile) {
       this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
-      userHooks.afterUserProfileUpdated(async (event) => {
+      userHooks.afterUserProfileUpdated(event => {
         if (event.resultCode === 200) {
           if (!updatedProfile) {
             this.currentUser = Object.assign({}, this.$store.state.user.current)
@@ -174,7 +174,7 @@ export const UserAccount = {
             this.isEdited = false
           }
         } else {
-          await this.$store.dispatch('notification/spawnNotification', {
+          this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
             message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
             action1: { label: this.$t('OK') }
