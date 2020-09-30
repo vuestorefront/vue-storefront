@@ -264,6 +264,7 @@ export interface UserGetters<USER> {
   getFirstName: (customer: USER) => string;
   getLastName: (customer: USER) => string;
   getFullName: (customer: USER) => string;
+  getEmailAddress: (customer: USER) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 

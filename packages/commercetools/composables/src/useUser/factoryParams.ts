@@ -26,11 +26,14 @@ const loadUser = async (customQuery?: CustomQuery) => {
     const profile = await apiGetMe({ customer: true }, customQuery);
     return profile.data.me.customer;
   } catch (err) {
-    const error = err.graphQLErrors ? err.graphQLErrors[0].message : err.message;
-    if (error.includes('Resource Owner Password Credentials Grant')) {
+    const errorMessage = err?.graphQLErrors?.[0].message || err.message;
+
+    if (errorMessage.includes('Resource Owner Password Credentials Grant')) {
       return null;
     }
-    throw new Error(error);
+
+    err.message = errorMessage;
+    throw err;
   }
 };
 
@@ -69,16 +72,18 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
 
     return customer;
   },
-  changePassword: async function changePassword({currentUser, currentPassword, newPassword}) {
+  changePassword: async function changePassword({ currentUser, currentPassword, newPassword }) {
     try {
       const loadedUser = await getCurrentUser(currentUser);
       const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
       // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
       await this.logOut();
-      const userLogged = await authenticate({ email: userResponse.data.user.email, password: newPassword }, apiCustomerSignMeIn);
-      return userLogged.value;
+      return await params.logIn({ username: userResponse.data.user.email, password: newPassword });
     } catch (err) {
-      console.error(err.graphQLErrors ? err.graphQLErrors[0].message : err);
+      const errorMessage = err?.graphQLErrors?.[0].message || err.message;
+      err.message = errorMessage;
+      console.error(errorMessage);
+      throw err;
     }
   }
 };

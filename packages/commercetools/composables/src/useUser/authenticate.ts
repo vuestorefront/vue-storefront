@@ -1,4 +1,4 @@
-import {CustomerSignMeInDraft, CustomerSignMeUpDraft} from '../types/GraphQL';
+import { CustomerSignMeInDraft, CustomerSignMeUpDraft } from '../types/GraphQL';
 
 type UserData = CustomerSignMeUpDraft | CustomerSignMeInDraft;
 
@@ -7,6 +7,8 @@ export const authenticate = async (userData: UserData, fn) => {
     const userResponse = await fn(userData);
     return userResponse.data.user;
   } catch (err) {
-    console.error(err.graphQLErrors ? err.graphQLErrors[0].message : err);
+    err.message = err?.graphQLErrors?.[0]?.message || err.message;
+    console.error(err.message);
+    throw err;
   }
 };

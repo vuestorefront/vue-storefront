@@ -5,13 +5,13 @@
         Feel free to edit any of your details below so your account is always up
         to date
       </p>
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form class="form" @submit.prevent="handleSubmit(updatePersonal)">
+      <ValidationObserver v-slot="{ handleSubmit, reset }">
+        <form class="form" @submit.prevent="handleSubmit(updatePersonalData(reset))">
           <div class="form__horizontal">
             <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="my-profile-input_firstName"
-                v-model="firstName"
+                v-model="personalDataForm.firstName"
                 name="firstName"
                 label="First Name"
                 required
@@ -22,7 +22,7 @@
             <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="my-profile-input_lastName"
-                v-model="lastName"
+                v-model="personalDataForm.lastName"
                 name="lastName"
                 label="Last Name"
                 required
@@ -34,7 +34,7 @@
           <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
             <SfInput
               data-cy="my-profile-input_email"
-              v-model="email"
+              v-model="personalDataForm.email"
               type="email"
               name="email"
               label="Your e-mail"
@@ -59,12 +59,12 @@
         following information:<br />Your current email address is
         <span class="message__label">example@email.com</span>
       </p>
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form class="form" @submit.prevent="handleSubmit(updatePassword)">
-          <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
+      <ValidationObserver v-slot="{ handleSubmit, reset }">
+        <form class="form" @submit.prevent="handleSubmit(updatePassword(reset))">
+          <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
             <SfInput
               data-cy="my-profile-input_currentPassword"
-              v-model="form.currentPassword"
+              v-model="passwordResetForm.currentPassword"
               type="password"
               name="currentPassword"
               label="Current Password"
@@ -77,7 +77,7 @@
             <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
               <SfInput
                 data-cy="my-profile-input_newPassword"
-                v-model="form.newPassword"
+                v-model="passwordResetForm.newPassword"
                 type="password"
                 name="newPassword"
                 label="New Password"
@@ -89,7 +89,7 @@
             <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="my-profile-input_repeatPassword"
-                v-model="form.repeatPassword"
+                v-model="passwordResetForm.repeatPassword"
                 type="password"
                 name="repeatPassword"
                 label="Repeat Password"
@@ -99,7 +99,6 @@
               />
             </ValidationProvider>
           </div>
-          <SfAlert v-if="error" class="alert" type="danger" :message="error" />
           <SfButton data-cy="my-profile-btn_update-password" class="form__button">Update password</SfButton>
         </form>
       </ValidationObserver>
@@ -110,8 +109,8 @@
 import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
-import { SfTabs, SfInput, SfButton, SfAlert } from '@storefront-ui/vue';
-import { useUser } from '<%= options.generate.replace.composables %>';
+import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
+import { useUser, userGetters } from '<%= options.generate.replace.composables %>';
 
 extend('email', {
   ...email,
@@ -140,69 +139,60 @@ extend('confirmed', {
 
 export default {
   name: 'PersonalDetails',
+
   components: {
     SfTabs,
     SfInput,
     SfButton,
-    SfAlert,
     ValidationProvider,
     ValidationObserver
   },
-  props: {
-    account: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup() {
-    const resetPassForm = () => ({ currentPassword: '', newPassword: '', repeatPassword: '' });
-    const { user, changePassword } = useUser();
-    const error = ref(null);
-    const form = ref(resetPassForm());
 
-    const updatePassword = async () => {
-      try {
-        await changePassword(form.value.currentPassword, form.value.newPassword);
-      } catch (e) {
-        error.value = e.message;
-        return;
-      }
-      form.value = resetPassForm();
+  setup() {
+    const { user, updateUser, changePassword } = useUser();
+    const cleanPersonalForm = () => ({
+      firstName: userGetters.getFirstName(user.value),
+      lastName: userGetters.getLastName(user.value),
+      email: userGetters.getEmailAddress(user.value)
+    });
+    const cleanPasswordForm = () => ({
+      currentPassword: '',
+      newPassword: '',
+      repeatPassword: ''
+    });
+    const personalDataForm = ref(cleanPersonalForm());
+    const passwordResetForm = ref(cleanPasswordForm());
+
+    const updatePersonalData = (resetValidationFn) => {
+      return async () => {
+        try {
+          await updateUser(personalDataForm.value);
+          personalDataForm.value = cleanPersonalForm();
+          resetValidationFn();
+        } catch (error) {
+          // TODO: Handle error
+        }
+      };
+    };
+
+    const updatePassword = (resetValidationFn) => {
+      return async () => {
+        try {
+          await changePassword(passwordResetForm.value.currentPassword, passwordResetForm.value.newPassword);
+          passwordResetForm.value = cleanPasswordForm();
+          resetValidationFn();
+        } catch (error) {
+          // TODO: Handle error
+        }
+      };
     };
 
     return {
-      user,
-      error,
-      form,
+      personalDataForm,
+      passwordResetForm,
+      updatePersonalData,
       updatePassword
     };
-  },
-  data() {
-    return {
-      firstName: '',
-      lastName: '',
-      email: ''
-    };
-  },
-  watch: {
-    account: {
-      handler(value) {
-        this.firstName = value.firstName;
-        this.lastName = value.lastName;
-        this.email = value.email;
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    updatePersonal() {
-      const personal = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email
-      };
-      this.$emit('update:personal', personal);
-    }
   }
 };
 </script>

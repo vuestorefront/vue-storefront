@@ -13,10 +13,7 @@
     >
       <SfContentCategory title="Personal Details">
         <SfContentPage data-cy="my-account-page_my-profile" title="My profile">
-          <MyProfile
-            :account="account"
-            @update:personal="account = { ...account, ...$event }"
-          />
+          <MyProfile />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
           <ShippingDetails
