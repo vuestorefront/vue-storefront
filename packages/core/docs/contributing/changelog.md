@@ -2,6 +2,7 @@
 
 ## 2.1.0 (not released)
 
+- adds `getEmailAddress` getter in `userGetters` (#4939)
 - renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now (#4917)
 - implementing logger feature (#4911)
 
