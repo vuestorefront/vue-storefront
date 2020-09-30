@@ -1,7 +1,7 @@
-import { apolloClient, getCustomQuery, getSettings } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
-import { resolveCustomQueryVariables } from '../../helpers/search';
 import gql from 'graphql-tag';
+import { getCustomQuery } from './../../helpers/queries';
 
 interface Options {
   customer?: boolean;
@@ -13,29 +13,25 @@ interface OrdersData {
 }
 
 const getMe = async (params: Options = {}, customQueryFn?) => {
-  const { query, variables } = getCustomQuery(customQueryFn, basicProfile);
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
-  const resolvedVariables = resolveCustomQueryVariables(
-    {
-      locale,
-      acceptLanguage
-    },
-    variables
-  );
+  const defaultQuery = customer ? fullProfile : basicProfile;
+  const defaultVariables = {
+    locale,
+    acceptLanguage
+  };
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 
   const request = await apolloClient.query<OrdersData>({
-    query: customer
-      ? fullProfile
-      : query ? gql`${query}` : basicProfile,
-    variables: resolvedVariables,
+    query: gql`${query}`,
+    variables,
     fetchPolicy: 'no-cache'
   });
 
   return {
     ...request,
-    query: customer ? fullProfile : basicProfile,
-    variables: resolvedVariables
+    query: gql`${query}`,
+    variables
   };
 };
 

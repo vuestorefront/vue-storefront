@@ -10,14 +10,6 @@ export interface CustomQuery<T> {
 
 export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
 
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
-  if (customQueryFn) {
-    const { query, variables } = customQueryFn();
-    return { query: query || defaultQuery, variables: variables || {} };
-  }
-  return { query: defaultQuery, variables: {} };
-};
-
 export interface BaseSearch {
   limit?: number;
   offset?: number;
