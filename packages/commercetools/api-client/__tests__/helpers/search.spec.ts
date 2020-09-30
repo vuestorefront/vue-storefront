@@ -1,7 +1,8 @@
 import {
   buildProductWhere,
   buildCategoryWhere,
-  buildOrderWhere
+  buildOrderWhere,
+  resolveCustomQueryVariables
 } from './../../src/helpers/search';
 import { AttributeType, ProductSearch } from '../../src/types/Api';
 import { getSettings } from '../../src';
@@ -161,5 +162,20 @@ describe('[commercetools-api-client] search', () => {
 
       expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = true))))');
     });
+  });
+
+  it('returns resolved custom query variables', () => {
+    const defaultVariables = { offset: 2 };
+    const customVariables = { offset: 3 };
+    expect(resolveCustomQueryVariables(defaultVariables, customVariables)).toEqual(customVariables);
+  });
+
+  it('returns resolved custom query where variable', () => {
+    const defaultVariable = { where: { id: 'default-id' } };
+    const customVariable = { where: { id: 'custom-id' } };
+    expect(resolveCustomQueryVariables(defaultVariable, customVariable)).toEqual(customVariable);
+    expect(resolveCustomQueryVariables(defaultVariable, customVariable, 'order')).toEqual({ where: 'id="custom-id"' });
+    expect(resolveCustomQueryVariables(defaultVariable, customVariable, 'product')).toEqual({ where: 'id="custom-id"' });
+    expect(resolveCustomQueryVariables(defaultVariable, { where: { catId: 'custom-id' } }, 'category')).toEqual({ where: 'id="custom-id"' });
   });
 });
