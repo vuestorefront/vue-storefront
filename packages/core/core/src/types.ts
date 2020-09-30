@@ -4,9 +4,9 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export type CustomQuery = () => {
+export type CustomQuery<T = any> = (query: any, variables: T) => {
   query: any;
-  variables?: Record<string, any>;
+  variables?: T;
 };
 
 export interface SearchParams {

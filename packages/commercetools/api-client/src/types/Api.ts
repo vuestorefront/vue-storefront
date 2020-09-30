@@ -3,17 +3,9 @@ import { FetchResult } from 'apollo-link';
 import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
 import { Token, CustomerCredentials } from './setup';
 
-export type CustomQueryFn = () => {
+export type CustomQueryFn<T = any> = (query: any, variables: T) => {
   query: any;
-  variables?: Record<string, any>;
-};
-
-export const getCustomQuery = (customQueryFn: CustomQueryFn, defaultQuery) => {
-  if (customQueryFn) {
-    const { query, variables } = customQueryFn();
-    return { query: query || defaultQuery, variables: variables || {} };
-  }
-  return { query: defaultQuery, variables: {} };
+  variables?: T;
 };
 
 export interface BaseSearch {

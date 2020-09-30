@@ -40,7 +40,7 @@ describe('[commercetools-api-client] getCategory', () => {
   });
 
   it('fetches categories with customized query', async () => {
-    const givenQuery = `
+    const newQuery = gql`
       query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $acceptLanguage: [Locale!]) {
         categories(where: $where, sort: $sort, limit: $limit, offset: $offset) {
           offset
@@ -54,15 +54,31 @@ describe('[commercetools-api-client] getCategory', () => {
       }
     `;
 
-    (apolloClient.query as any).mockImplementation(({ query }) => {
-      expect(query).not.toEqual(defaultQuery);
-      expect(query).toEqual(gql`${givenQuery}`);
+    const newVariables = { id: 1 };
 
-      return { data: 'category response' };
+    const customQuery = (currentQuery, currentVariables) => {
+      expect(currentQuery).toEqual(defaultQuery);
+      expect(currentVariables).toEqual({
+        acceptLanguage: ['en', 'de'],
+        where: 'id="724b250d-9805-4657-ae73-3c02a63a9a13"',
+        limit: undefined,
+        offset: undefined
+      });
+
+      return {
+        query: newQuery,
+        variables: newVariables
+      };
+    };
+
+    (apolloClient.query as any).mockImplementation(({ query, variables }) => {
+      return { query, variables };
     });
 
-    const { data } = await getCategory({ catId: '724b250d-9805-4657-ae73-3c02a63a9a13' }, (query = givenQuery, variables = { offset: 2 }): any => ({ query, variables }));
+    const data: any = await getCategory({ catId: '724b250d-9805-4657-ae73-3c02a63a9a13' }, customQuery);
 
-    expect(data).toBe('category response');
+    expect(data.query).toBe(newQuery);
+    expect(data.variables).toBe(newVariables);
+
   });
 });

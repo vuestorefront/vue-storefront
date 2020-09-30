@@ -1,33 +1,31 @@
-import { apolloClient, getCustomQuery, getSettings, MeQueryInterface } from './../../index';
+import { apolloClient, getSettings, MeQueryInterface } from './../../index';
 import defaultQuery from './defaultQuery';
-import { buildOrderWhere, resolveCustomQueryVariables } from './../../helpers/search';
+import { buildOrderWhere } from './../../helpers/search';
 import gql from 'graphql-tag';
+import { getCustomQuery } from './../../helpers/queries';
 
 interface OrdersData {
   me: Pick<MeQueryInterface, 'orders'>;
 }
 
 const getOrders = async (params, customQueryFn?) => {
-  const { query, variables } = getCustomQuery(customQueryFn, defaultQuery);
   const { locale, acceptLanguage } = getSettings();
-  const resolvedVariables = resolveCustomQueryVariables({
+  const defaultVariables = {
     where: buildOrderWhere(params),
     sort: params.sort,
     limit: params.limit,
     offset: params.offset,
     acceptLanguage,
     locale
-  }, variables, 'order');
+  };
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
+
   const request = await apolloClient.query<OrdersData>({
     query: gql`${query}`,
-    variables: resolvedVariables,
+    variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables: resolvedVariables
-  };
+  return request;
 };
 
 export default getOrders;
