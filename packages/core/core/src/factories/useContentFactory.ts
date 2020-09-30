@@ -42,7 +42,7 @@ export declare type RenderContentFactoryParams<CONTENT> = {
 export function renderComponentFactory<CONTENT>(
   factoryParams: RenderContentFactoryParams<CONTENT>
 ) {
-  return function renderContent(id: string): RenderContent<CONTENT> {
+  return function renderComponent(id: string): RenderContent<CONTENT> {
     const content: Ref<CONTENT> = sharedRef([], `renderComponent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `renderComponent-loading-${id}`);
     const error: Ref<string | null> = sharedRef(null, `renderComponent-error-${id}`);
