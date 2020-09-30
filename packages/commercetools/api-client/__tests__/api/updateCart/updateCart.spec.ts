@@ -64,6 +64,6 @@ describe('[commercetools-api-client] updateCart', () => {
     }, customQuery);
 
     expect(data.variables).toEqual(variables);
-    expect(data.query).toEqual(query);
+    expect(data.mutation).toEqual(query);
   });
 });
