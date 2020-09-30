@@ -3,12 +3,10 @@ import { FetchResult } from 'apollo-link';
 import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
 import { Token, CustomerCredentials } from './setup';
 
-export interface CustomQuery<T> {
-  query: any;
-  variables: T;
-}
-
-export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
+export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+};
 
 export interface BaseSearch {
   limit?: number;

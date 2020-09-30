@@ -12,9 +12,35 @@ This feature is part of the Enterprise version. Please [contact our team](https:
 ::: slot search-params
 ```typescript
 interface ReviewSearchParams {
-  productId: string | number;
+  productId: string;
   limit?: number;
   offset?: number;
 }
+```
+:::
+
+::: slot add-params
+```typescript
+interface ReviewAddParams {
+  productId: string;
+  limit?: number;
+  offset?: number;
+  draft: ReviewDraft;
+}
+
+interface ReviewDraft {
+  authorName: string;
+  text: string;
+  rating: number;
+}
+```
+:::
+
+::: slot integration-specific-examples
+Providing custom GraphQL query and variables:
+
+```typescript
+await search(searchParams, (query, variables) => ({ query, variables }));
+await addReview(addParams, (query, variables) => ({ query, variables }));
 ```
 :::
