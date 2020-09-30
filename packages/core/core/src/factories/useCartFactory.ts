@@ -95,8 +95,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const loadCart = async (customQuery?: CustomQuery) => {
       Logger.debug('userCart.loadCart');
 
-      if (cart.value) return;
+      if (cart.value) {
 
+        /**
+          * Triggering change for hydration purpose,
+          * temporary issue related with cpapi plugin
+          */
+        loading.value = false;
+        cart.value = { ...cart.value };
+        return;
+      }
       loading.value = true;
       cart.value = await factoryParams.loadCart(customQuery);
       loading.value = false;
