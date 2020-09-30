@@ -119,9 +119,14 @@ export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): 
 export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
   return { product, customQuery };
 }
-export function ApplyCoupon(coupon): Promise<void>
-export function ApplyCoupon(coupon, customQuery: {}): Promise<void>
-export function ApplyCoupon(coupon, customQuery?: {}): any {
+export function ApplyCoupon(coupon: string): Promise<void>
+export function ApplyCoupon(coupon: string, customQuery: {}): Promise<void>
+export function ApplyCoupon(coupon: string, customQuery?: {}): any {
+  return { coupon, customQuery };
+}
+export function RemoveCoupon<COUPON>(coupon: COUPON): Promise<void>
+export function RemoveCoupon<COUPON>(coupon: COUPON, customQuery: {}): Promise<void>
+export function RemoveCoupon<COUPON>(coupon: COUPON, customQuery?: {}): any {
   return { coupon, customQuery };
 }
 export function LoadCart(customQuery?: {}): Promise<void>
@@ -143,9 +148,8 @@ export interface UseCart
   removeFromCart: typeof RemoveFromCart;
   updateQuantity: typeof AddToCart;
   clearCart: () => Promise<void>;
-  coupon: ComputedProperty<COUPON | null>;
   applyCoupon: typeof ApplyCoupon;
-  removeCoupon: typeof LoadCart;
+  removeCoupon: typeof RemoveCoupon;
   loadCart: typeof LoadCart;
   loading: ComputedProperty<boolean>;
 }
@@ -238,6 +242,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  getCoupons: (cart: CART) => AgnosticCoupon[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -311,6 +316,13 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
 }
 
 export interface AgnosticMediaGalleryItem {

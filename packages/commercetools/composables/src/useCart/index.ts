@@ -9,7 +9,7 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { CustomQuery, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { AgnosticCoupon, CustomQuery, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
@@ -24,7 +24,7 @@ const getCurrentCart = async (currentCart) => {
   return currentCart;
 };
 
-const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
+const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
   loadCart: async (customQuery?: CustomQuery) => {
     const settings = getSettings();
 
@@ -55,16 +55,16 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
+  applyCoupon: async ({ currentCart, couponCode }, customQuery?: CustomQuery) => {
     const loadedCart = await getCurrentCart(currentCart);
 
-    const { data } = await apiApplyCartCoupon(loadedCart, coupon, customQuery);
-    return { updatedCart: data.cart, updatedCoupon: coupon };
+    const { data } = await apiApplyCartCoupon(loadedCart, couponCode, customQuery);
+    return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
   removeCoupon: async ({ currentCart, coupon }, customQuery?: CustomQuery) => {
     const loadedCart = await getCurrentCart(currentCart);
 
-    const { data } = await apiRemoveCartCoupon(loadedCart, coupon, customQuery);
+    const { data } = await apiRemoveCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
@@ -72,6 +72,6 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, any> = {
   }
 };
 
-const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, any>(params);
+const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
 
 export { useCart, setCart };
