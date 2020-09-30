@@ -69,7 +69,7 @@ describe('[commercetools-api-client] getProduct', () => {
       return { query, variables };
     });
 
-    const data = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, customQuery);
+    const data: any = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, customQuery);
 
     expect(data.query).toEqual(newQuery);
     expect(data.variables).toEqual(newVariables);

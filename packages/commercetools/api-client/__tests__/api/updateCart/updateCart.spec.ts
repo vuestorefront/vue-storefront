@@ -57,7 +57,7 @@ describe('[commercetools-api-client] updateCart', () => {
       return { query, variables };
     };
 
-    const data = await updateCart({
+    const data: any = await updateCart({
       id: 'cart id',
       version: 1,
       actions: [{ addLineItem: {} }]

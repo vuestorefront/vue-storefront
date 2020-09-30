@@ -49,7 +49,7 @@ describe('[commercetools-api-client] getMe', () => {
       return { query, variables };
     });
 
-    const data = await getMe({ customer: false }, customQuery);
+    const data: any = await getMe({ customer: false }, customQuery);
 
     expect(data.query).toBe(newQuery);
     expect(data.variables).toBe(newVariables);
