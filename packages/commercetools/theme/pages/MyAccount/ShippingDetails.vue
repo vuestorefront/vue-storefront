@@ -123,6 +123,13 @@
                 :errorMessage="errors[0]"
               />
             </ValidationProvider>
+            <SfCheckbox
+              data-cy="shipping-details-checkbox_isDefault"
+              v-model="isDefault"
+              name="isDefault"
+              label="Set as default"
+              class="form__checkbox-isDefault"
+            />
             <SfButton
               data-cy="shipping-details-btn_update"
               class="form__button"
@@ -192,7 +199,8 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfIcon
+  SfIcon,
+  SfCheckbox
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
@@ -223,6 +231,7 @@ export default {
     SfButton,
     SfSelect,
     SfIcon,
+    SfCheckbox,
     ValidationProvider,
     ValidationObserver
   },
@@ -242,6 +251,7 @@ export default {
     const zipCode = ref('');
     const country = ref('');
     const phoneNumber = ref('');
+    const isDefault = ref(false);
 
     const changeAddress = async (index) => {
       const shipping = shippingAddresses.value[index];
@@ -256,6 +266,7 @@ export default {
         zipCode.value = shipping.zipCode;
         country.value = shipping.country;
         phoneNumber.value = shipping.phoneNumber;
+        isDefault.value = shipping.isDefault;
         editedAddress.value = index;
       } else {
         id.value = '';
@@ -268,6 +279,7 @@ export default {
         zipCode.value = '';
         country.value = '';
         phoneNumber.value = '';
+        isDefault.value = false;
         editedAddress.value = -1;
       }
       editAddress.value = true;
@@ -280,7 +292,6 @@ export default {
     const processAddress = async () => {
       /* eslint-disable */
       if (editedAddress.value > -1) {
-        console.log('EDITED')
         await updateAddress({
           id: id.value,
           firstName: firstName.value,
@@ -291,7 +302,8 @@ export default {
           state: state.value,
           zipCode: zipCode.value,
           country: country.value,
-          phoneNumber: phoneNumber.value
+          phoneNumber: phoneNumber.value,
+          isDefault: isDefault.value
         })
         editAddress.value = false;
         editedAddress.value = -1;
@@ -307,7 +319,8 @@ export default {
           state: state.value,
           zipCode: zipCode.value,
           country: country.value,
-          phoneNumber: phoneNumber.value
+          phoneNumber: phoneNumber.value,
+          isDefault: isDefault.value
         });
         editAddress.value = false;
       }
@@ -336,6 +349,7 @@ export default {
       zipCode,
       country,
       phoneNumber,
+      isDefault,
       countries: [
         'Austria',
         'Azerbaijan',
@@ -402,6 +416,12 @@ export default {
   }
 }
 .form {
+  &__checkbox {
+    &-isDefault {
+      margin-bottom: var(--spacer-2xl);
+    }
+  }
+
   &__element {
     display: block;
     margin-bottom: var(--spacer-2xl);

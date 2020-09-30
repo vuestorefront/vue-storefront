@@ -11,7 +11,8 @@ const addresses: any[] = [
     state: 'Masovian',
     zipCode: '26-600',
     country: 'Poland',
-    phoneNumber: '(00)560 123 456'
+    phoneNumber: '(00)560 123 456',
+    isDefault: true
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ const addresses: any[] = [
     state: 'Lower Silesia',
     zipCode: '53-603',
     country: 'Poland',
-    phoneNumber: '(00)560 123 456'
+    phoneNumber: '(00)560 123 456',
+    isDefault: false
   }
 ];
 
@@ -34,14 +36,37 @@ const findBiggestId = () => addresses.reduce((biggest, curr) => {
   return biggest;
 }, 0);
 
+const disableOldDefault = () => {
+  const oldDefault = addresses.find(address => address.isDefault);
+  oldDefault.isDefault = false;
+};
+
+const sortDefaultAtTop = (a, b) => {
+  if (a.isDefault) {
+    return -1;
+  } else if (b.isDefault) {
+    return 1;
+  }
+  return 0;
+};
+
 const params: UseUserShippingFactoryParams<any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addAddress: async (params?) => {
     console.log('Mocked: addAddress', params.address);
-    addresses.push({
-      ...params.address,
-      id: findBiggestId() + 1
-    });
+    if (params.address.isDefault) {
+      disableOldDefault();
+      addresses.unshift({
+        ...params.address,
+        id: findBiggestId() + 1
+      });
+    } else {
+      addresses.push({
+        ...params.address,
+        id: findBiggestId() + 1
+      });
+    }
+
     return Promise.resolve(addresses);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -61,7 +86,12 @@ const params: UseUserShippingFactoryParams<any> = {
     if (indexToUpdate < 0) {
       return Promise.reject('This address does not exist');
     }
+    if (params.address.isDefault && addresses[0].id !== params.address.id) {
+      disableOldDefault();
+    }
     addresses[indexToUpdate] = params.address;
+    console.log(addresses);
+    addresses.sort(sortDefaultAtTop);
     return Promise.resolve(addresses);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -72,6 +102,15 @@ const params: UseUserShippingFactoryParams<any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setDefault: async (params?) => {
     console.log('Mocked: setDefault');
+    if (params.address.isDefault && addresses[0].id !== params.address.id) {
+      disableOldDefault();
+      const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
+      if (indexToUpdate < 0) {
+        return Promise.reject('This address does not exist');
+      }
+      addresses[indexToUpdate].isDefault = true;
+      addresses.sort(sortDefaultAtTop);
+    }
     return Promise.resolve({});
   }
 };
