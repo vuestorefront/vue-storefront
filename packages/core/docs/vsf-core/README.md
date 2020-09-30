@@ -1,1 +1,0 @@
-# VSF core docs

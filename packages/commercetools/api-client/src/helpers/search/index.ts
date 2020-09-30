@@ -1,7 +1,7 @@
 import {
-  CategorySearch,
-  ProductSearch,
-  OrderSearch,
+  CategoryWhereSearch,
+  ProductWhereSearch,
+  OrderWhereSearch,
   Filter,
   AttributeType
 } from './../../types/Api';
@@ -43,7 +43,7 @@ const mapFilterToPredicate = (filter: Filter) => {
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
-const buildProductWhere = (search: ProductSearch) => {
+const buildProductWhere = (search: ProductWhereSearch) => {
   const { acceptLanguage } = getSettings();
 
   const predicates: string[] = [];
@@ -72,7 +72,7 @@ const buildProductWhere = (search: ProductSearch) => {
   return predicates.join(' and ');
 };
 
-const buildCategoryWhere = (search: CategorySearch) => {
+const buildCategoryWhere = (search: CategoryWhereSearch) => {
   const { acceptLanguage } = getSettings();
 
   if (search?.catId) {
@@ -87,7 +87,7 @@ const buildCategoryWhere = (search: CategorySearch) => {
   return undefined;
 };
 
-const buildOrderWhere = (search: OrderSearch): string => {
+const buildOrderWhere = (search: OrderWhereSearch): string => {
   if (search?.id) {
     return `id="${search.id}"`;
   }
