@@ -43,7 +43,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const appliedCoupon: Ref<COUPON | null> = sharedRef(null, 'useCart-appliedCoupon');
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
-
+    console.log('useCart called', sharedRef);
     const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
       Logger.debug('useCart.addToCart', { product, quantity });
 
@@ -96,8 +96,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const loadCart = async (customQuery?: CustomQuery) => {
       Logger.debug('userCart.loadCart');
 
-      if (cart.value) return;
+      if (cart.value) {
 
+        /**
+          * Triggering change for hydration purpose,
+          * temporary issue related with cpapi plugin
+          */
+        cart.value = { ...cart.value };
+        return;
+      }
       loading.value = true;
       cart.value = await factoryParams.loadCart(customQuery);
       loading.value = false;
