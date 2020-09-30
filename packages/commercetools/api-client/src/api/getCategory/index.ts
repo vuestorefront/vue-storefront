@@ -26,11 +26,7 @@ const getCategory = async (params, customQueryFn?) => {
     fetchPolicy: 'no-cache'
   });
 
-  return {
-    ...request,
-    query,
-    variables
-  };
+  return request;
 };
 
 export default getCategory;

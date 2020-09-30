@@ -25,11 +25,7 @@ const getOrders = async (params, customQueryFn?) => {
     variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables
-  };
+  return request;
 };
 
 export default getOrders;

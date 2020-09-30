@@ -29,11 +29,7 @@ const getProduct = async (params, customQueryFn?) => {
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables
-  };
+  return request;
 };
 
 export default getProduct;

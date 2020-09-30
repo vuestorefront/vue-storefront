@@ -28,11 +28,7 @@ const getMe = async (params: Options = {}, customQueryFn?) => {
     fetchPolicy: 'no-cache'
   });
 
-  return {
-    ...request,
-    query: gql`${query}`,
-    variables
-  };
+  return request;
 };
 
 export default getMe;

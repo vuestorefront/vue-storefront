@@ -29,11 +29,8 @@ const updateCart = async (params: UpdateCart, customQueryFn?) => {
     variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables
-  };
+
+  return request;
 };
 
 export default updateCart;

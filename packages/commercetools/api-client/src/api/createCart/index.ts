@@ -28,10 +28,8 @@ const createCart = async (cartDraft: CartData = {}, customQueryFn?) => {
     variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    variables,
-    ...request
-  };
+
+  return request;
 };
 
 export default createCart;
