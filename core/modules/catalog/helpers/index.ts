@@ -103,7 +103,7 @@ export function attributeImages (product) {
   let attributeImages = []
   if (config.products.gallery.imageAttributes) {
     for (let attribute of config.products.gallery.imageAttributes) {
-      if (product[attribute]) {
+      if (product[attribute] && product[attribute] !== 'no_selection') {
         attributeImages.push({
           'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
           'loading': getThumbnailPath(product[attribute], 310, 300),
