@@ -3,7 +3,7 @@ import { enhanceProduct, mapPaginationParams, getFiltersFromProductsAttributes }
 import { ProductVariant } from './../types/GraphQL';
 import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption, CustomQuery } from '@vue-storefront/core';
 import { ProductsSearchParams } from '../types';
-import { ProductSearch, Filter } from '@vue-storefront/commercetools-api';
+import { Filter } from '@vue-storefront/commercetools-api';
 
 const availableSortingOptions = [
   { value: 'latest', label: 'Latest' },
@@ -12,7 +12,7 @@ const availableSortingOptions = [
 ];
 
 const productsSearch = async (params: ProductsSearchParams, customQuery?: CustomQuery): Promise<ProductsSearchResult<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]>> => {
-  const apiSearchParams: ProductSearch = {
+  const apiSearchParams = {
     ...params,
     ...mapPaginationParams(params)
   };

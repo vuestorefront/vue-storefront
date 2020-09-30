@@ -3,7 +3,9 @@ import {
   getMe as apiGetMe,
   customerSignOut as apiCustomerSignOut,
   customerChangeMyPassword as apiCustomerChangeMyPassword,
-  createCart as apiCreateCart
+  createCart as apiCreateCart,
+  customerUpdateMe as apiCustomerUpdateMe,
+  isTokenUserSession
 } from '@vue-storefront/commercetools-api';
 import { authenticate } from '../../src/useUser/authenticate';
 import { useCart } from '../../src/useCart';
@@ -13,11 +15,22 @@ jest.mock('../../src/useCart', () => ({
   setCart: jest.fn()
 }));
 
+jest.mock('../../src/useUser', () => ({
+  setUser: jest.fn()
+}));
+
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getMe: jest.fn(),
   customerSignOut: jest.fn(),
   customerChangeMyPassword: jest.fn(),
-  createCart: jest.fn()
+  createCart: jest.fn(),
+  customerUpdateMe: jest.fn(),
+  getSettings: jest.fn(() => ({ currentToken: 1 })),
+  isTokenUserSession: jest.fn()
+}));
+
+jest.mock('../../src/useUser', () => ({
+  setUser: jest.fn()
 }));
 
 jest.mock('../../src/useUser/authenticate', () => ({
@@ -32,6 +45,7 @@ describe('[commercetools-composables] factoryParams', () => {
 
       return error;
     };
+    (isTokenUserSession as any).mockReturnValue(true);
 
     const customer = {email: 'test@test.pl', password: '123456'};
     (apiGetMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer } }});
@@ -49,6 +63,13 @@ describe('[commercetools-composables] factoryParams', () => {
 
     await expect(params.loadUser()).rejects.toThrowError('some error');
   });
+
+  it('does not loading the user without user session', async () => {
+    (isTokenUserSession as any).mockReturnValue(false);
+
+    expect(await params.loadUser()).toEqual(null);
+  });
+
   it('logOut method calls API log out method', async () => {
     (apiCreateCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
     const refreshCartMock = jest.fn(() => {});
@@ -57,16 +78,27 @@ describe('[commercetools-composables] factoryParams', () => {
     expect(apiCustomerSignOut).toHaveBeenCalled();
     expect(apiCreateCart).toHaveBeenCalled();
   });
+
   it('updateUser return updated user', async () => {
-    // wait until the apiClient receive userUpdate method
-    const update = {currentUser: 'Jon', updatedUserData: 'Bob'} as any;
-    expect(await params.updateUser(update)).toEqual(update);
+    const user = {currentUser: 'Jon', updatedUserData: 'Bob'} as any;
+    (apiCustomerUpdateMe as jest.Mock).mockReturnValueOnce({ user });
+
+    expect(await params.updateUser(user)).toEqual(user);
   });
+
+  it('updates the user and loads when it is not available', async () => {
+    const user = {currentUser: null, updatedUserData: 'Bob'} as any;
+    (apiCustomerUpdateMe as jest.Mock).mockReturnValueOnce({ user });
+
+    expect(await params.updateUser(user)).toEqual(user);
+  });
+
   it('register method return a new customer', async () => {
     const customer = {email: 'test@test.pl', password: '123456', firstName: 'Don', lastName: 'Jon'};
     (authenticate as jest.Mock).mockReturnValueOnce({ customer });
     expect(await params.register(customer)).toEqual(customer);
   });
+
   it('logIn method return a logged in customer', async () => {
     const refreshCartMock = jest.fn(() => {});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});

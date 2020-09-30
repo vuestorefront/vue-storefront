@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { CustomQuery, UseUserOrders } from '../types';
-import { sharedRef } from '../utils';
+import { sharedRef, Logger } from '../utils';
 
 export interface OrdersSearchResult<ORDER> {
   data: ORDER[];
@@ -18,11 +18,15 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
 
     const searchOrders = async (params?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useUserOrders.searchOrders', params);
+
       loading.value = true;
       try {
         const { data, total } = await factoryParams.searchOrders(params, customQuery);
         orders.value = data;
         totalOrders.value = total;
+      } catch (err) {
+        Logger.error('useUserOrders.searchOrders', err);
       } finally {
         loading.value = false;
       }

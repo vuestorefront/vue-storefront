@@ -4,7 +4,7 @@ import {
   buildOrderWhere,
   resolveCustomQueryVariables
 } from './../../src/helpers/search';
-import { AttributeType, ProductSearch } from '../../src/types/Api';
+import { AttributeType, ProductWhereSearch } from '../../src/types/Api';
 import { getSettings } from '../../src';
 
 describe('[commercetools-api-client] search', () => {
@@ -55,7 +55,7 @@ describe('[commercetools-api-client] search', () => {
     });
 
     it(`returns product search query by ${AttributeType.STRING}`, () => {
-      const search: ProductSearch = {
+      const search: ProductWhereSearch = {
         filters: [
           { type: AttributeType.STRING, value: 'stringValue', name: 'whatever' }
         ]
@@ -66,7 +66,7 @@ describe('[commercetools-api-client] search', () => {
 
     describe(`returns product search query by ${AttributeType.DATE}`, () => {
       it('when single value', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.STRING, value: 'dateValue', name: 'whatever' }
           ]
@@ -76,7 +76,7 @@ describe('[commercetools-api-client] search', () => {
       });
 
       it('when multiple value', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.DATE, value: ['dateValue1', 'dateValue2'], name: 'whatever' }
           ]
@@ -88,7 +88,7 @@ describe('[commercetools-api-client] search', () => {
 
     describe(`returns product search query by ${AttributeType.NUMBER}`, () => {
       it('when single value', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.NUMBER, value: 1, name: 'whatever' }
           ]
@@ -97,7 +97,7 @@ describe('[commercetools-api-client] search', () => {
         expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = 1))))');
       });
       it('when pair of values', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.NUMBER, value: [100, 200], name: 'whatever' }
           ]
@@ -107,7 +107,7 @@ describe('[commercetools-api-client] search', () => {
     });
 
     it(`returns product search query by ${AttributeType.ENUM}`, () => {
-      const search: ProductSearch = {
+      const search: ProductWhereSearch = {
         filters: [
           { type: AttributeType.ENUM, value: 'enumValue', name: 'whatever' }
         ]
@@ -117,7 +117,7 @@ describe('[commercetools-api-client] search', () => {
     });
 
     it(`returns product search query by ${AttributeType.LOCALIZED_STRING}`, () => {
-      const search: ProductSearch = {
+      const search: ProductWhereSearch = {
         filters: [
           { type: AttributeType.LOCALIZED_STRING, value: 'locStringValue', name: 'whatever' }
         ]
@@ -129,7 +129,7 @@ describe('[commercetools-api-client] search', () => {
 
     describe(`returns product search query by ${AttributeType.MONEY}`, () => {
       it('when single value', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.MONEY, value: 200, name: 'whatever' }
           ]
@@ -140,7 +140,7 @@ describe('[commercetools-api-client] search', () => {
         expect(buildProductWhere(search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}")))))`);
       });
       it('when pair of values', () => {
-        const search: ProductSearch = {
+        const search: ProductWhereSearch = {
           filters: [
             { type: AttributeType.MONEY, value: [100, 200], name: 'whatever' }
           ]
@@ -154,7 +154,7 @@ describe('[commercetools-api-client] search', () => {
 
     it(`returns product search query by ${AttributeType.BOOLEAN}`, () => {
 
-      const search: ProductSearch = {
+      const search: ProductWhereSearch = {
         filters: [
           { type: AttributeType.BOOLEAN, value: true, name: 'whatever' }
         ]
