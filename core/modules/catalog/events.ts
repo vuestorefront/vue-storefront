@@ -136,9 +136,7 @@ export const checkParentRedirection = (currentProduct, parentProduct) => {
     if (isServer) {
       AsyncDataLoader.push({
         execute: async ({ context }) => {
-          if (context) {
-            context.server.response.redirect(301, parentUrl as string)
-          }
+          context.server.response.redirect(301, parentUrl as string)
         }
       })
     } else {
