@@ -129,11 +129,10 @@ export interface UseCart
   updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
   updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   clearCart(): Promise<void>;
-  coupon: ComputedProperty<COUPON | null>;
-  applyCoupon(coupon): Promise<void>;
-  applyCoupon(coupon, customQuery: CustomQuery): Promise<void>;
-  removeCoupon(): Promise<void>;
-  removeCoupon(customQuery: CustomQuery): Promise<void>;
+  applyCoupon(coupon: string): Promise<void>;
+  applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
+  removeCoupon(coupon: COUPON): Promise<void>;
+  removeCoupon(coupon: COUPON, customQuery: CustomQuery): Promise<void>;
   loadCart(): Promise<void>;
   loadCart(customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
@@ -229,6 +228,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  getCoupons: (cart: CART) => AgnosticCoupon[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -302,6 +302,13 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
 }
 
 export interface AgnosticMediaGalleryItem {

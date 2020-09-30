@@ -45,7 +45,7 @@ describe('[commercetools-composables] useUserOrders', () => {
   });
 
   it('loads user orders with empty response', async () => {
-    getOrders.mockReturnValue({ data: null });
+    (getOrders as jest.Mock).mockReturnValue({ data: null });
 
     const { searchOrders } = useUserOrders() as any;
 
