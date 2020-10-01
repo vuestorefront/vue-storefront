@@ -264,7 +264,7 @@ export default {
   setup(props, context) {
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
-    const { addToCart, isOnCart, loadCart } = useCart();
+    const { addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -277,7 +277,6 @@ export default {
 
     onSSR(async () => {
       await search(th.getFacetsFromURL());
-      await loadCart();
     });
 
     return {
