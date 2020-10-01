@@ -1,15 +1,6 @@
-import { UseProduct } from '../types';
+import { CustomQuery, SearchParams, UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger } from '../utils';
-import { CustomQuery } from '../types';
-
-type SearchParams = {
-  perPage?: number;
-  page?: number;
-  sort?: any;
-  term?: any;
-  filters?: any;
-}
 
 export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   data: PRODUCT[];

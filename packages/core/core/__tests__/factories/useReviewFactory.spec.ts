@@ -86,7 +86,7 @@ describe('[CORE - factories] useReviews', () => {
   it('returns reviews response', async () => {
     const { search, reviews, error } = useReviews('test-reviews');
 
-    await search();
+    await search({});
 
     expect(reviews.value).toEqual(searchReviewResponse);
     expect(error.value).toEqual(null);
@@ -95,7 +95,7 @@ describe('[CORE - factories] useReviews', () => {
   it('can submit new review', async () => {
     const { search, addReview, reviews } = useReviews('test-reviews');
 
-    await search();
+    await search({});
 
     expect(reviews.value.total).toEqual(1);
 
@@ -107,7 +107,7 @@ describe('[CORE - factories] useReviews', () => {
   it('returns error when search fails', async () => {
     const { search, reviews, loading, error } = useReviesError('test-reviews');
 
-    await search();
+    await search({});
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
