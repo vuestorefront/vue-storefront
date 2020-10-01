@@ -8,15 +8,24 @@
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
       <form @submit.prevent="handleSubmit(dirty ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
         <div v-if="!provideAddress">
-          <div
-            v-for="shippingAddress in shippingAddresses"
-            :key="shippingAddress.id"
-            class="shipping-address"
-            :class="{'shipping-address--selected': currentAddress === shippingAddress.id}"
-            @click="setCurrentAddress(shippingAddress.id)"
+          <SfAddressPicker
+            :value="currentAddress"
+            @input="setCurrentAddress($event)"
+            class="shipping__addresses"
           >
-            Address number {{ shippingAddress.id }}
-          </div>
+            <SfAddress
+              v-for="shippingAddress in shippingAddresses"
+              :key="shippingAddress.id"
+              :name="String(shippingAddress.id)"
+            >
+              <span>{{shippingAddress.firstName}} {{shippingAddress.lastName}}</span>
+              <span>{{shippingAddress.streetName}} {{shippingAddress.apartment}}</span>
+              <span>{{shippingAddress.zipCode}}</span>
+              <span>{{shippingAddress.city}}{{shippingAddress.state ? `, ${shippingAddress.city}` : ''}}</span>
+              <span>{{shippingAddress.country}}</span>
+              <span>{{shippingAddress.phoneNumber}}</span>
+            </SfAddress>
+          </SfAddressPicker>
           <SfCheckbox
             data-cy="shipping-details-checkbox_isDefault"
             v-model="setAsDefault"
@@ -224,6 +233,7 @@ export default {
     SfSelect,
     SfRadio,
     SfCheckbox,
+    SfAddressPicker: () => import('~/components/SfAddressPicker'),
     ValidationProvider,
     ValidationObserver
   },
@@ -248,7 +258,6 @@ export default {
     const setAsDefault = ref(false);
 
     const setCurrentAddress = async (currentAddressId) => {
-      currentAddress.value = currentAddressId;
       const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddressId);
       if (!chosenAddress) {
         return;
@@ -337,23 +346,16 @@ export default {
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 
+.shipping__addresses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: var(--spacer-xl);
+}
+
 .shipping-address-setAsDefault {
-  margin-bottom: var(--spacer-2xl);
+  margin-bottom: var(--spacer-xl);
 }
 
-.shipping-address {
-  cursor: pointer;
-  padding: 15px;
-  display: inline-flex;
-  margin: 10px;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-  &--selected {
-    border: 1px solid green;
-  }
-}
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   @include for-desktop {
