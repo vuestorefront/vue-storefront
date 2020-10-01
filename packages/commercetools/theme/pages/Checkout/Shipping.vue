@@ -279,6 +279,9 @@ export default {
     onMounted(async () => {
       if (isAuthenticated.value) {
         await loadShippingAddresses();
+        if (!shippingAddresses.value.length) {
+          return;
+        }
         provideAddress.value = false;
         if (shippingAddresses.value[0].isDefault) {
           const defaultAddress = shippingAddresses.value.find(address => address.isDefault);
