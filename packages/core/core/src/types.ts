@@ -216,10 +216,9 @@ export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   error: ComputedProperty<string | null>;
 }
 
-export interface RenderContent<CONTENT> {
-  components: ComputedProperty<CONTENT>;
-  loading: ComputedProperty<boolean>;
-  error: ComputedProperty<string | null>;
+export interface RenderComponent {
+  componentName: string;
+  props?: {};
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {

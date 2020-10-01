@@ -1,7 +1,7 @@
 import { Ref, computed } from '@vue/composition-api';
-import {RenderContent, UseContent} from '../types';
+import { RenderComponent, UseContent } from '../types';
 import { sharedRef } from '../utils/shared';
-import Vue from 'vue';
+import Vue, { VNode } from 'vue';
 
 export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
@@ -35,44 +35,24 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   };
 }
 
-export declare type RenderContentFactoryParams<CONTENT> = {
-  content: CONTENT;
+export declare type RenderComponentFactoryParams = {
+  resolveComponents: { content: RenderComponent }[];
 };
 
-export function renderComponentFactory<CONTENT>(
-  factoryParams: RenderContentFactoryParams<CONTENT>
+export function renderComponentsFactory(
+  factoryParams: RenderComponentFactoryParams
 ) {
-  return function renderComponent(id: string): RenderContent<CONTENT> {
-    const content: Ref<CONTENT> = sharedRef([], `renderComponent-content-${id}`);
-    const loading: Ref<boolean> = sharedRef(false, `renderComponent-loading-${id}`);
-    const error: Ref<string | null> = sharedRef(null, `renderComponent-error-${id}`);
-
-    const { content: data } = factoryParams;
-    try {
-      loading.value = true;
-      (content as any).value = () => {
-        return new Vue({
-          render(createElement) {
-            const components = [];
-            (data as any).map((component: { name: string; props: {} }) => {
-              const { name, props } = component;
-              const componentNode = createElement(`${name}`, { props });
-              components.push(componentNode);
-            });
-            return createElement('div', components);
-          }
-        });
-      };
-    } catch (searchError) {
-      error.value = searchError.toString();
-    } finally {
-      loading.value = false;
-    }
-
-    return {
-      loading: computed(() => loading.value),
-      error: computed(() => error.value),
-      components: computed(() => content.value)
-    };
+  return function renderComponents(): VNode[] {
+    const components = [];
+    factoryParams.resolveComponents.map(component => {
+      const { content } = component;
+      return new Vue({
+        render(createElement): any {
+          const { componentName } = content;
+          components.push(createElement(componentName, { props: { ...content } }));
+        }
+      });
+    });
+    return components;
   };
 }
