@@ -2,7 +2,7 @@ import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 
-const nonFilters = ['page', 'sort', 'itemsPerPage'];
+const nonFilters = ['page', 'sort', 'phase', 'itemsPerPage'];
 
 const getContext = () => {
   const vm = getCurrentInstance();
@@ -31,15 +31,16 @@ const useUiHelpers = () => {
 
   const getFacetsFromURL = () => {
     const { query, params } = context.$router.history.current;
-
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
 
     return {
+      rootCatSlug: params.slug_1,
       categorySlug,
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(context, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
+      phase: query.phase
     };
   };
 
@@ -70,6 +71,15 @@ const useUiHelpers = () => {
     });
   };
 
+  const switchSearchPhase = (phase: string) => {
+    context.$router.push({
+      query: {
+        ...getFiltersDataFromUrl(context, false),
+        phase: phase || undefined
+      }
+    });
+  };
+
   const isFacetColor = (facet: AgnosticFacet): boolean => facet.id === 'color';
 
   const isFacetCheckbox = (): boolean => false;
@@ -80,6 +90,7 @@ const useUiHelpers = () => {
     switchSorting,
     switchFilters,
     switchItemsPerPage,
+    switchSearchPhase,
     isFacetColor,
     isFacetCheckbox
   };

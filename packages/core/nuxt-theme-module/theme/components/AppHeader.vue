@@ -5,6 +5,9 @@
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
+    @enter:search="switchSearchPhase"
+    @change:search="p => phase = p"
+    :searchValue="phase"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
     class="sf-header--has-mobile-search"
@@ -42,8 +45,9 @@
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import uiState from '~/assets/ui-state';
 import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { computed } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 
 const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = uiState;
@@ -55,9 +59,12 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
+    const { switchSearchPhase, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
+    const phase = ref(getFacetsFromURL().phase);
+
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
       return count ? count.toString() : null;
@@ -85,7 +92,9 @@ export default {
       cartTotalItems,
       handleAccountClick,
       toggleCartSidebar,
-      toggleWishlistSidebar
+      toggleWishlistSidebar,
+      switchSearchPhase,
+      phase
     };
   }
 };

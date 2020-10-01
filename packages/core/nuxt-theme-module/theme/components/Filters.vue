@@ -28,7 +28,7 @@
               v-for="option in facet.options"
               :key="`${facet.id}-${option.value}`"
               :data-cy="`category-filter_${facet.id}_${option.value}`"
-              :label="option.id"
+              :label="option.id + `${option.count && ` (${option.count})`}`"
               :selected="isFilterSelected(facet, option)"
               class="filters__item"
               @change="() => selectFilter(facet, option)"

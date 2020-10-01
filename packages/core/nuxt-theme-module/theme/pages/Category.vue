@@ -81,14 +81,14 @@
             >
               <SfList class="list">
                 <SfListItem class="list__item">
-                  <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
+                  <SfMenuItem :count="cat.count || ''" :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
                     <template #label>
                       <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
                 <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                  <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
+                  <SfMenuItem :count="subCat.count || ''" :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
                     <template #label="{ label }">
                       <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                     </template>
@@ -201,6 +201,7 @@
                 <SfList class="list">
                   <SfListItem class="list__item">
                     <SfMenuItem
+                      :count="cat.coun || ''"
                       :data-cy="`category-link_subcategory_${cat.slug}`"
                       :label="cat.label"
                       icon=""
@@ -212,6 +213,7 @@
                   </SfListItem>
                   <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
                     <SfMenuItem
+                      :count="subCat.count || ''"
                       :data-cy="`category-link_subcategory_${subCat.slug}`"
                       :label="subCat.label"
                       icon=""
@@ -250,18 +252,19 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, onMounted } from '@vue/composition-api';
-import { useFacet, useCart, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useWishlist, productGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers } from '~/composables';
 import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
+import { useFacet, facetGetters } from '@vsf-enterprise/faceting';
 
 export default {
   transition: 'fade',
   setup(props, context) {
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
-    const { addToCart, isOnCart } = useCart();
+    const { addToCart, isOnCart, loadCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -274,6 +277,7 @@ export default {
 
     onSSR(async () => {
       await search(th.getFacetsFromURL());
+      await loadCart();
     });
 
     return {
