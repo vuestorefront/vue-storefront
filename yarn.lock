@@ -2258,16 +2258,7 @@
     webpack-node-externals "^2.5.2"
     webpackbar "^4.0.0"
 
-"@nuxtjs/composition-api@0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.12.4.tgz#332989de1ddd28dca8815103bee6afdd2b22864b"
-  integrity sha512-mgwfq3sHXWcWIyQrE3IqpUB26E77Jp2ON90YTlBy1i4leslJXqebX5i5vlaQAYq21WoUYxId4G/wxjTGEyHLVQ==
-  dependencies:
-    "@vue/composition-api" "1.0.0-beta.13"
-    defu "^3.1.0"
-    normalize-path "^3.0.0"
-
-"@nuxtjs/composition-api@^0.12.0":
+"@nuxtjs/composition-api@0.12.5", "@nuxtjs/composition-api@^0.12.0":
   version "0.12.5"
   resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.12.5.tgz#0603d36da64ecb573ce222ad1aee74ee3f5b9756"
   integrity sha512-srUwqaxwc4/8nKH68kDaMn0+3H2LD7awpjFdtzQWFiGK0Go38hrIsR+W7Xi1K5wC3kDo9SaNt9nvZy8d8VauDw==
@@ -3131,7 +3122,7 @@
   dependencies:
     tslib "^2.0.1"
 
-"@vue/composition-api@1.0.0-beta.14", "@vue/composition-api@^1.0.0-beta.14":
+"@vue/composition-api@1.0.0-beta.14":
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.14.tgz#b243d906ae5dcda7483e0b5a2b5ea1aa971a4e00"
   integrity sha512-HYBe87RG//qpN/2+ZtgdhrIafdO8bYK/Tu1+/jMS4iNGYJi42XCbPydhEAiaRcTvsEJjZQEfP+hKKIuH+iPICg==
@@ -7964,9 +7955,9 @@ hex-color-regex@^1.1.0:
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
 highlight.js@^10.0.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.2.0.tgz#367151bcf813adebc54822f1cb51d2e1e599619f"
-  integrity sha512-OryzPiqqNCfO/wtFo619W+nPYALM6u7iCQkum4bqRmmlcTikOkmlL06i009QelynBPAlNByTQU6cBB2cOBQtCw==
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.2.1.tgz#09784fe2e95612abbefd510948945d4fe6fa9668"
+  integrity sha512-A+sckVPIb9zQTUydC9lpRX1qRFO/N0OKEh0NwIr65ckvWA/oMY8v9P3+kGRK3w2ULSh9E8v5MszXafodQ6039g==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"

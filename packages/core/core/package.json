@@ -10,7 +10,7 @@
     "dev": "rollup -c -w"
   },
   "dependencies": {
-    "@vue/composition-api": "^1.0.0-beta.14",
+    "@vue/composition-api": "1.0.0-beta.14",
     "vue": "^2.6.11",
     "lodash-es": "^4.17.15"
   },
