@@ -7,7 +7,32 @@
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
       <form @submit.prevent="handleSubmit(dirty ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
-        <div class="form">
+        <div v-if="!provideAddress">
+          <div
+            v-for="shippingAddress in shippingAddresses"
+            :key="shippingAddress.id"
+            class="shipping-address"
+            :class="{'shipping-address--selected': currentAddress === shippingAddress.id}"
+            @click="setCurrentAddress(shippingAddress.id)"
+          >
+            Address number {{ shippingAddress.id }}
+          </div>
+          <SfCheckbox
+            data-cy="shipping-details-checkbox_isDefault"
+            v-model="setAsDefault"
+            name="setAsDefault"
+            label="Use this address as my default one."
+            class="shipping-address-setAsDefault"
+          />
+          <SfButton
+            class="form__action-button"
+            type="submit"
+            @click.native="provideAddress = true"
+          >
+            Add new address
+          </SfButton>
+        </div>
+        <div class="form" v-else>
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.firstName"
@@ -168,13 +193,16 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfRadio
+  SfRadio,
+  SfCheckbox
 } from '@storefront-ui/vue';
 import { getSettings } from '@vue-storefront/commercetools-api';
-import { useCheckout, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useUserShipping, useUser, checkoutGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
+import { ref, onMounted, computed } from '@vue/composition-api';
+
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -188,13 +216,14 @@ extend('digits', {
   message: 'Please provide a valid phone number'
 });
 export default {
-  name: 'PersonalDetails',
+  name: 'Shipping',
   components: {
     SfHeading,
     SfInput,
     SfButton,
     SfSelect,
     SfRadio,
+    SfCheckbox,
     ValidationProvider,
     ValidationObserver
   },
@@ -211,19 +240,74 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
+    const { addresses: shippingAddresses, load: loadShippingAddresses, setDefault } = useUserShipping();
+    const { isAuthenticated } = useUser();
+
+    const provideAddress = ref(true);
+    const currentAddress = ref(-1);
+    const setAsDefault = ref(false);
+
+    const setCurrentAddress = async (currentAddressId) => {
+      currentAddress.value = currentAddressId;
+      const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddressId);
+      if (!chosenAddress) {
+        return;
+      }
+      await setShippingDetails({
+        ...shippingDetails.value,
+        contactInfo: {
+          ...shippingDetails.value.contactInfo,
+          phone: chosenAddress.phoneNumber
+        },
+        streetNumber: chosenAddress.apartment,
+        city: chosenAddress.city,
+        country: chosenAddress.country,
+        state: chosenAddress.state,
+        firstName: chosenAddress.firstName,
+        lastName: chosenAddress.lastName,
+        streetName: chosenAddress.streetName,
+        postalCode: chosenAddress.zipCode
+      }, { save: true });
+      await loadShippingMethods();
+    };
+
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
+
+    onMounted(async () => {
+      if (isAuthenticated.value) {
+        await loadShippingAddresses();
+        provideAddress.value = false;
+        if (shippingAddresses.value[0].isDefault) {
+          const defaultAddress = shippingAddresses.value.find(address => address.isDefault);
+          if (!defaultAddress) {
+            return;
+          }
+          currentAddress.value = defaultAddress.id;
+        }
+      }
+    });
+
     const handleShippingAddressSubmit = (reset) => async () => {
       await setShippingDetails(shippingDetails.value, { save: true });
       await loadShippingMethods();
       reset();
     };
     const handleShippingMethodSubmit = (reset) => async () => {
+      console.log('aaaa');
+      if (setAsDefault.value) {
+        const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddress.value);
+        if (!chosenAddress) {
+          return;
+        }
+        await setDefault(chosenAddress);
+      }
       reset();
       context.root.$router.push('/checkout/payment');
     };
+
     return {
       loading,
       handleShippingAddressSubmit,
@@ -236,7 +320,12 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      countries: getSettings().countries
+      countries: getSettings().countries,
+      shippingAddresses,
+      provideAddress,
+      currentAddress: computed(() => currentAddress.value),
+      setAsDefault,
+      setCurrentAddress
     };
   }
 };
@@ -244,6 +333,24 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
+.shipping-address-setAsDefault {
+  margin-bottom: var(--spacer-2xl);
+}
+
+.shipping-address {
+  cursor: pointer;
+  padding: 15px;
+  display: inline-flex;
+  margin: 10px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+  &--selected {
+    border: 1px solid green;
+  }
+}
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   @include for-desktop {

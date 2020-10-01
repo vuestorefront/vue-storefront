@@ -8,10 +8,10 @@ const addresses: any[] = [
     streetName: 'Zielinskiego',
     apartment: '24/193A',
     city: 'Radom',
-    state: 'Masovian',
+    state: '',
     zipCode: '26-600',
-    country: 'Poland',
-    phoneNumber: '(00)560 123 456',
+    country: 'US',
+    phoneNumber: '560123456',
     isDefault: true
   },
   {
@@ -21,10 +21,10 @@ const addresses: any[] = [
     streetName: 'Zielinskiego',
     apartment: '20/193A',
     city: 'Wroclaw',
-    state: 'Lower Silesia',
+    state: '',
     zipCode: '53-603',
-    country: 'Poland',
-    phoneNumber: '(00)560 123 456',
+    country: 'US',
+    phoneNumber: '560123456',
     isDefault: false
   }
 ];
@@ -102,7 +102,7 @@ const params: UseUserShippingFactoryParams<any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setDefault: async (params?) => {
     console.log('Mocked: setDefault');
-    if (params.address.isDefault && addresses[0].id !== params.address.id) {
+    if (addresses[0].id !== params.address.id) {
       disableOldDefault();
       const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
       if (indexToUpdate < 0) {
