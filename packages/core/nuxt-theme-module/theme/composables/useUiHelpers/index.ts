@@ -1,7 +1,7 @@
 
 const useUiHelpers = () => {
   const getFacetsFromURL = () => {
-    console.warn('[VSF] please implement createThemeHelpers.getFacets.');
+    console.warn('[VSF] please implement useUiHelpers.getFacets.');
 
     return {
       categorySlug: null,
@@ -11,31 +11,36 @@ const useUiHelpers = () => {
 
   // eslint-disable-next-line
   const getCatLink = (category): string => {
-    console.warn('[VSF] please implement createThemeHelpers.getCatLink.');
+    console.warn('[VSF] please implement useUiHelpers.getCatLink.');
 
     return '/';
   };
 
   // eslint-disable-next-line
   const switchSorting = (sort) => {
-    console.warn('[VSF] please implement createThemeHelpers.switchSorting.');
+    console.warn('[VSF] please implement useUiHelpers.switchSorting.');
 
     return 'latest';
   };
 
   // eslint-disable-next-line
   const switchFilters = (filters) => {
-    console.warn('[VSF] please implement createThemeHelpers.switchFilters.');
+    console.warn('[VSF] please implement useUiHelpers.switchFilters.');
   };
 
   // eslint-disable-next-line
   const switchItemsPerPage = (itemsPerPage) => {
-    console.warn('[VSF] please implement createThemeHelpers.switchItemsPerPage.');
+    console.warn('[VSF] please implement useUiHelpers.switchItemsPerPage.');
+  };
+
+  // eslint-disable-next-line
+  const switchSearchPhase = (phase: string) => {
+    console.warn('[VSF] please implement useUiHelpers.switchItemsPerPage.');
   };
 
   // eslint-disable-next-line
   const isFacetColor = (facet): boolean => {
-    console.warn('[VSF] please implement createThemeHelpers.isFacetColor.');
+    console.warn('[VSF] please implement useUiHelpers.isFacetColor.');
 
     return false;
   };
@@ -53,6 +58,7 @@ const useUiHelpers = () => {
     switchSorting,
     switchFilters,
     switchItemsPerPage,
+    switchSearchPhase,
     isFacetColor,
     isFacetCheckbox
   };
