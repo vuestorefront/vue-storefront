@@ -27,7 +27,9 @@ module.exports = {
           children: [
             ['/commercetools/use-product', 'useProduct'],
             ['/commercetools/use-review', 'useReview'],
-            ['/commercetools/use-facet', 'useFacet']
+            ['/commercetools/use-facet', 'useFacet'],
+            ['/commercetools/use-cart', 'useCart']
+
           ]
         },
         {
@@ -100,7 +102,9 @@ module.exports = {
           children: [
             ['/general/i18n', 'i18n'],
             ['/general/server-side-rendering', 'Server-side rendering'],
-            ['/general/faceting', 'Faceting']
+            ['/general/faceting', 'Faceting'],
+            ['/general/logging', 'Logging']
+
           ]
         },
         {
@@ -124,7 +128,7 @@ module.exports = {
             ['/contributing/themes', 'Working with themes'],
             ['/contributing/changelog', 'Core Changelog']
           ]
-        },  
+        },
       ],
     }
   }

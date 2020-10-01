@@ -1,19 +1,19 @@
 {
   "name": "@vue-storefront/commercetools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "tsModule": "src/index.ts",
-  "types": "lib/index.d.ts",
+  "types": "lib/commercetools/composables/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "0.1.0",
-    "@vue-storefront/core": "2.0.6",
+    "@vue-storefront/commercetools-api": "0.2.0",
+    "@vue-storefront/core": "2.0.7",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
