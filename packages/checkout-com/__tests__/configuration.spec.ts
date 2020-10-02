@@ -1,4 +1,4 @@
-import { defaultConfig, setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, getCurrentChannel, setChannel } from '../src/configuration';
+import { defaultConfig, setup, getPublicKey, getApiUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, getCurrentChannel, setChannel } from '../src/configuration';
 
 const consoleLogMock = {
   error: jest.fn()
@@ -24,7 +24,7 @@ describe('[checkout-com] configuration', () => {
     setup(config);
 
     expect(getPublicKey()).toBe(config.channels.en.publicKey);
-    expect(getCkoWebhookUrl()).toBe(defaultConfig.ckoWebHookUrl);
+    expect(getApiUrl()).toBe(defaultConfig.ctApiUrl);
     expect(getFramesStyles()).toEqual(defaultConfig.card.style);
     expect(getFramesLocalization()).toEqual(defaultConfig.card.localization);
     expect(getTransactionTokenKey()).toBe(defaultConfig.tokenizedCardKey);
@@ -38,7 +38,7 @@ describe('[checkout-com] configuration', () => {
       channels: {
         en: {
           publicKey: 'some-public-key',
-          ckoWebHookUrl: 'https://pwebhook.com/api/a',
+          ctApiUrl: 'https://pwebhook.com/api/a',
           card: {
             style: {ab: '12'},
             localization: 'en-US'
@@ -53,7 +53,7 @@ describe('[checkout-com] configuration', () => {
     setup(config);
 
     expect(getPublicKey()).toBe(config.channels.en.publicKey);
-    expect(getCkoWebhookUrl()).toBe(config.channels.en.ckoWebHookUrl);
+    expect(getApiUrl()).toBe(config.channels.en.ctApiUrl);
     expect(getFramesStyles()).toEqual(config.channels.en.card.style);
     expect(getFramesLocalization()).toEqual(config.channels.en.card.localization);
     expect(getTransactionTokenKey()).toBe(config.channels.en.tokenizedCardKey);
@@ -74,7 +74,7 @@ describe('[checkout-com] configuration', () => {
       channels: {
         en: {
           publicKey: 'some-public-key',
-          ckoWebHookUrl: 'https://pwebhook.com/api/a',
+          ctApiUrl: 'https://pwebhook.com/api/a',
           card: {
             style: {ab: '12'},
             localization: 'en-US'
@@ -84,7 +84,7 @@ describe('[checkout-com] configuration', () => {
         },
         it: {
           publicKey: 'some-public-xcxcxc-asdas',
-          ckoWebHookUrl: 'https://abcc.com/api/bbba',
+          ctApiUrl: 'https://abcc.com/api/bbba',
           card: {
             style: {asdas: '1552'},
             localization: 'it-IT'
@@ -101,7 +101,7 @@ describe('[checkout-com] configuration', () => {
     setChannel(newChannel);
 
     expect(getPublicKey()).toBe(config.channels.it.publicKey);
-    expect(getCkoWebhookUrl()).toBe(config.channels.it.ckoWebHookUrl);
+    expect(getApiUrl()).toBe(config.channels.it.ctApiUrl);
     expect(getFramesStyles()).toEqual(config.channels.it.card.style);
     expect(getFramesLocalization()).toEqual(config.channels.it.card.localization);
     expect(getTransactionTokenKey()).toBe(config.channels.it.tokenizedCardKey);
@@ -116,7 +116,7 @@ describe('[checkout-com] configuration', () => {
       channels: {
         en: {
           publicKey: 'some-public-key',
-          ckoWebHookUrl: 'https://pwebhook.com/api/a',
+          ctApiUrl: 'https://pwebhook.com/api/a',
           card: {
             style: {ab: '12'},
             localization: 'en-US'
@@ -139,7 +139,7 @@ describe('[checkout-com] configuration', () => {
       channels: {
         en: {
           publicKey: 'some-public-key',
-          ckoWebHookUrl: 'https://pwebhook.com/api/a',
+          ctApiUrl: 'https://pwebhook.com/api/a',
           card: {
             style: {ab: '12'},
             localization: 'en-US'
