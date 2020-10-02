@@ -12,7 +12,6 @@ const isTokenUserSession = (token: Token) => {
   const { handleIsTokenUserSession } = getSettings();
 
   if (handleIsTokenUserSession) {
-    console.log('using cusomized one');
     return handleIsTokenUserSession(token);
   }
 
