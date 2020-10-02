@@ -1,5 +1,5 @@
 import { Context } from './types';
-import { createRedirectProxy, createRedirectTempObject } from './ssr-redirect';
+import { createRedirectProxy, addRedirectTempObject } from './ssr-redirect';
 const fs = require('fs')
 const path = require('path')
 const compile = require('lodash.template')
@@ -131,8 +131,10 @@ function initSSRRequestContext (app, req, res, config): Context {
     }
   };
 
-  // build redirection object that will be used to resolve redirection
-  context.server._redirect = createRedirectTempObject(context, res)
+  // build temporary object that will be used to resolve redirection
+  addRedirectTempObject(context, res)
+
+  // assign proxy instead of original response object
   context.server.response = createRedirectProxy(context, res)
 
   return context

@@ -1,9 +1,6 @@
 import { Response } from 'express'
 import { Context } from './types'
 
-// Redirection resolver type
-export type SsrRedirectResolve = (code: number, path: string) => void
-
 function createIsPending (context: Context): () => boolean {
   return () => !!context.server._redirect.pendingPath
 }
@@ -13,6 +10,8 @@ function createIsPending (context: Context): () => boolean {
  */
 function createResolveMethod (context: Context, expressResponse: Response) {
   return (code: number, path: string) => {
+    if (!context.server._redirect.isPending()) return
+
     // normal express redirection
     expressResponse.redirect(code, path)
 
@@ -21,7 +20,7 @@ function createResolveMethod (context: Context, expressResponse: Response) {
   }
 }
 
-function createRedirectMethod (context: Context) {
+export function createRedirectMethod (context: Context) {
   function redirect (path: string): void
   function redirect (code: number, path: string): void
   function redirect (path: string, code: number): void
@@ -59,15 +58,22 @@ function createRedirectMethod (context: Context) {
   return redirect
 }
 
+export interface RedirectTempObject {
+  pendingPath: string,
+  isPending: () => boolean,
+  resolve: (code: number, path: string) => void
+}
+
 /**
  * Builds temporary object that will handle redirection
  */
-export function createRedirectTempObject (context: Context, expressResponse: Response) {
-  return {
+export function addRedirectTempObject (context: Context, expressResponse: Response) {
+  const redirectTempObject: RedirectTempObject = {
     isPending: createIsPending(context),
     resolve: createResolveMethod(context, expressResponse),
     pendingPath: null
   }
+  context.server._redirect = redirectTempObject
 }
 
 export interface ExpressReponseProxy extends Omit<Response, 'redirect'> {
