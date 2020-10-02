@@ -31,7 +31,7 @@ setup({
 ```
 **`setup`** accepts following properties:
 
-
+- `handleIsTokenUserSession: (token: Token) => boolean`
 - `api: ApiConfig`
 ```js
 export interface ApiConfig {
