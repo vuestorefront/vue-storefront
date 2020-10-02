@@ -2,7 +2,7 @@
 
 ## 0.2.3 - not released
 
-- adding ability to overriding `isTokenUserSession` check in api-client
+- adding ability to overriding `isTokenUserSession` check in api-client (#4959)
 
 ## 0.2.2
 
