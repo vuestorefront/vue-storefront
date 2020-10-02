@@ -12,6 +12,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -167,9 +168,10 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user profile with data from My Account page
    */
   async update (_, profile: UserProfile) {
+    profile = userHooksExecutors.beforeUserProfileUpdate(profile)
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
-  async handleUpdateProfile ({ dispatch }, event) {
+  async handleUpdateProfile ({ dispatch }, event: Task) {
     if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
@@ -178,6 +180,7 @@ const actions: ActionTree<UserState, RootState> = {
       }, { root: true })
       dispatch('user/setCurrentUser', event.result, { root: true })
     }
+    userHooksExecutors.afterUserProfileUpdated(event)
   },
   setCurrentUser ({ commit }, userData) {
     commit(types.USER_INFO_LOADED, userData)
