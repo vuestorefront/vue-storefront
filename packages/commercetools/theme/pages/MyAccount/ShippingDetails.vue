@@ -290,6 +290,7 @@ export default {
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
+        ...(editedAddress.value > -1 ? { id: id.value } : {}),
         firstName: firstName.value,
         lastName: lastName.value,
         streetName: streetName.value,
