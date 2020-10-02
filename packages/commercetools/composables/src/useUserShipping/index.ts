@@ -31,14 +31,16 @@ const addresses: any[] = [
 
 const findBiggestId = () => addresses.reduce((biggest, curr) => {
   if (curr.id > biggest) {
-    biggest = curr.id;
+    return curr.id;
   }
   return biggest;
 }, 0);
 
 const disableOldDefault = () => {
   const oldDefault = addresses.find(address => address.isDefault);
-  oldDefault.isDefault = false;
+  if (oldDefault) {
+    oldDefault.isDefault = false;
+  }
 };
 
 const sortDefaultAtTop = (a, b) => {
@@ -51,58 +53,69 @@ const sortDefaultAtTop = (a, b) => {
 };
 
 const params: UseUserShippingFactoryParams<any> = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addAddress: async (params?) => {
     console.log('Mocked: addAddress', params.address);
+
+    const newAddress = {
+      ...params.address,
+      id: findBiggestId() + 1
+    };
+
     if (params.address.isDefault) {
       disableOldDefault();
-      addresses.unshift({
-        ...params.address,
-        id: findBiggestId() + 1
-      });
+      addresses.unshift(newAddress);
     } else {
-      addresses.push({
-        ...params.address,
-        id: findBiggestId() + 1
-      });
+      addresses.push(newAddress);
     }
 
     return Promise.resolve(addresses);
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   deleteAddress: async (params?) => {
     console.log('Mocked: deleteAddress', params);
+
     const indexToRemove = addresses.findIndex(address => address.id === params.address.id);
     if (indexToRemove < 0) {
       return Promise.reject('This address does not exist');
     }
+
     addresses.splice(indexToRemove, 1);
     return Promise.resolve(addresses);
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   updateAddress: async (params?) => {
     console.log('Mocked: updateAddress', params);
+
     const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
     if (indexToUpdate < 0) {
       return Promise.reject('This address does not exist');
     }
-    if (params.address.isDefault && addresses[0].id !== params.address.id) {
+
+    const isNewDefault = params.address.isDefault && addresses[0].id !== params.address.id;
+
+    if (isNewDefault) {
       disableOldDefault();
     }
+
     addresses[indexToUpdate] = params.address;
-    console.log(addresses);
-    addresses.sort(sortDefaultAtTop);
+
+    if (isNewDefault) {
+      addresses.sort(sortDefaultAtTop);
+    }
     return Promise.resolve(addresses);
   },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (params?) => {
     console.log('Mocked: load');
     return Promise.resolve(addresses);
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   setDefault: async (params?) => {
     console.log('Mocked: setDefault');
-    if (addresses[0].id !== params.address.id) {
+    const isDefault = id => addresses[0].id !== id;
+
+    if (!isDefault(params.address.id)) {
       disableOldDefault();
       const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
       if (indexToUpdate < 0) {
@@ -111,6 +124,7 @@ const params: UseUserShippingFactoryParams<any> = {
       addresses[indexToUpdate].isDefault = true;
       addresses.sort(sortDefaultAtTop);
     }
+
     return Promise.resolve({});
   }
 };
