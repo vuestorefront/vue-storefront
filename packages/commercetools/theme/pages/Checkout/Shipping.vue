@@ -9,7 +9,7 @@
       <form @submit.prevent="handleSubmit(dirty || justChangedAddress ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
         <div v-if="isAuthenticated && shippingAddresses.length">
           <SfAddressPicker
-            :value="currentAddress"
+            :value="currentAddressId"
             @input="setCurrentAddress($event)"
             class="shipping__addresses"
           >
@@ -256,17 +256,17 @@ export default {
 
     const provideAddress = ref(true);
     const justChangedAddress = ref(false);
-    const currentAddress = ref(-1);
+    const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
 
     const findAddressById = id => shippingAddresses.value.find(address => address.id === id);
 
-    const setCurrentAddress = async (currentAddressId) => {
-      const chosenAddress = findAddressById(currentAddressId);
+    const setCurrentAddress = async (addressId) => {
+      const chosenAddress = findAddressById(addressId);
       if (!chosenAddress) {
         return;
       }
-      currentAddress.value = currentAddressId;
+      currentAddressId.value = addressId;
       setShippingDetails({
         ...shippingDetails.value,
         contactInfo: {
@@ -308,7 +308,7 @@ export default {
       await loadShippingMethods();
       reset();
       if (setAsDefault.value) {
-        const chosenAddress = findAddressById(currentAddress.value);
+        const chosenAddress = findAddressById(currentAddressId.value);
         if (!chosenAddress) {
           return;
         }
@@ -338,7 +338,7 @@ export default {
       provideAddress,
       justChangedAddress,
       isAuthenticated,
-      currentAddress: computed(() => currentAddress.value),
+      currentAddressId: computed(() => currentAddressId.value),
       setAsDefault,
       setCurrentAddress
     };
