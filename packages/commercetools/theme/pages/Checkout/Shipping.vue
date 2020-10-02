@@ -38,7 +38,7 @@
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.firstName"
-              @input="firstName => setShippingDetails({ firstName })"
+              @input="firstName => setShippingDetailsAndUnpickAddress({ firstName })"
               label="First name"
               name="firstName"
               class="form__element form__element--half"
@@ -50,7 +50,7 @@
           <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.lastName"
-              @input="lastName => setShippingDetails({ lastName })"
+              @input="lastName => setShippingDetailsAndUnpickAddress({ lastName })"
               label="Last name"
               name="lastName"
               class="form__element form__element--half form__element--half-even"
@@ -62,7 +62,7 @@
           <ValidationProvider name="streetName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.streetName"
-              @input="streetName => setShippingDetails({ streetName })"
+              @input="streetName => setShippingDetailsAndUnpickAddress({ streetName })"
               label="Street name"
               name="streetName"
               class="form__element form__element--half"
@@ -74,7 +74,7 @@
           <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.streetNumber"
-              @input="streetNumber => setShippingDetails({ streetNumber })"
+              @input="streetNumber => setShippingDetailsAndUnpickAddress({ streetNumber })"
               label="House/Apartment number"
               name="apartment"
               class="form__element form__element--half form__element--half-even"
@@ -86,7 +86,7 @@
           <ValidationProvider name="city" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.city"
-              @input="city => setShippingDetails({ city })"
+              @input="city => setShippingDetailsAndUnpickAddress({ city })"
               label="City"
               name="city"
               class="form__element form__element--half"
@@ -98,7 +98,7 @@
           <ValidationProvider name="zipCode" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.postalCode"
-              @input="postalCode => setShippingDetails({ postalCode })"
+              @input="postalCode => setShippingDetailsAndUnpickAddress({ postalCode })"
               label="Zip-code"
               name="zipCode"
               class="form__element form__element--half form__element--half-even"
@@ -110,7 +110,7 @@
           <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
             :selected="shippingDetails.country"
-            @change="country => setShippingDetails({ country })"
+            @change="country => setShippingDetailsAndUnpickAddress({ country })"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -130,7 +130,7 @@
           <ValidationProvider name="phone" rules="required|digits:9" v-slot="{ errors }" slim>
           <SfInput
             :value="shippingDetails.contactInfo.phone"
-            @input="phone => setShippingDetails({ contactInfo: { phone } })"
+            @input="phone => setShippingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"
             class="form__element form__element--half form__element--half-even"
@@ -307,7 +307,7 @@ export default {
       await setShippingDetails(shippingDetails.value, { save: true });
       await loadShippingMethods();
       reset();
-      if (setAsDefault.value) {
+      if (currentAddressId.value > -1 && setAsDefault.value) {
         const chosenAddress = findAddressById(currentAddressId.value);
         if (!chosenAddress) {
           return;
@@ -321,13 +321,19 @@ export default {
       context.root.$router.push('/checkout/payment');
     };
 
+    const setShippingDetailsAndUnpickAddress = value => {
+      setShippingDetails(value);
+      currentAddressId.value = -1;
+      justChangedAddress.value = false;
+    };
+
     return {
       loading,
       handleShippingAddressSubmit,
       handleShippingMethodSubmit,
       isShippingAddressCompleted,
       isShippingMethodCompleted,
-      setShippingDetails,
+      setShippingDetailsAndUnpickAddress,
       setShippingMethod,
       shippingDetails,
       chosenShippingMethod,
