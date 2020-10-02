@@ -102,9 +102,6 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       if (responseCode !== 200) {
         if (responseCode === 401 /** unauthorized */ && currentToken) { // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
-          if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
-          if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
-
           silentMode = true
           if (config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {
