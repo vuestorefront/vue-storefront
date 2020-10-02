@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+### Changes
+
+- added '_rating' back to the product ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
+
 ## 0.2.2
 
 ### Breaking changes
