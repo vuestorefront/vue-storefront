@@ -85,13 +85,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/variables";
+@import "~@storefront-ui/vue/styles";
 
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
 .sf-footer {
   --footer-width: 100%;
   &__container {
@@ -101,14 +96,18 @@ export default {
 }
 .footer {
   &__socials {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 var(--spacer-lg) 0;
     padding: var(--spacer-base) var(--spacer-xl);
-
-    @media screen and (min-width: $desktop-min) {
-      padding: var(--spacer-sm) 0;
+    @include for-desktop {
+      justify-content: flex-start;
+      padding: var(--spacer-base) 0;
+      margin: 0;
     }
   }
   &__social-image {
-    margin: 0 var(--spacer-base) 0 0;
+    margin: 0 var(--spacer-lg) 0 0;
   }
 }
 </style>

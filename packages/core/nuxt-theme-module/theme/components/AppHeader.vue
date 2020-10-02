@@ -16,24 +16,12 @@
       </nuxt-link>
     </template>
     <template #navigation>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_women" :to="localePath('/c/women')">
-          WOMEN
-        </nuxt-link>
-      </SfHeaderNavigationItem>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_men" :to="localePath('/c/men')">
-          MEN
-        </nuxt-link>
-      </SfHeaderNavigationItem>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_kids" :to="localePath('/c/kids')">
-          KIDS
-        </nuxt-link>
-      </SfHeaderNavigationItem>
+      <SfHeaderNavigationItem data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
+      <SfHeaderNavigationItem  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+      <SfHeaderNavigationItem data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
     </template>
     <template #aside>
-      <LocaleSelector class="mobile-only" />
+      <LocaleSelector class="smartphone-only" />
     </template>
   </SfHeader>
 </template>

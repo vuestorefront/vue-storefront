@@ -136,7 +136,7 @@ export default {
           subtitle: 'T-Shirts',
           title: 'The Office Life',
           image: '/homepage/bannerC.jpg',
-          class: 'sf-banner--slim'
+          class: 'sf-banner--slim banner__tshirt'
         },
         {
           slot: 'banner-D',
@@ -228,17 +228,30 @@ export default {
     padding: 0;
   }
 }
+
+.sf-hero-item{
+  background-position: center;
+}
+
 .banner-grid {
+  --banner-container-width: 50%;
   margin: var(--spacer-xl) 0;
   @include for-desktop {
     margin: var(--spacer-2xl) 0;
   }
 }
-.banner-central {
-  @include for-desktop {
-    --banner-container-flex: 0 0 70%;
+
+.banner {
+  &__tshirt {
+    background-position: left;
+  }
+  &-central {
+    @include for-desktop {
+      --banner-container-flex: 0 0 70%;
+    }
   }
 }
+
 .call-to-action {
   margin: var(--spacer-xl) 0;
   @include for-desktop {
