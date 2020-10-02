@@ -31,7 +31,7 @@ setup({
 ```
 **`setup`** accepts following properties:
 
-- `handleIsTokenUserSession: (token: Token) => boolean`
+- `handleIsTokenUserSession: (token: Token) => boolean` more details [here](#checking-the-user-session)
 - `api: ApiConfig`
 ```js
 export interface ApiConfig {
