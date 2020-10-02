@@ -236,7 +236,7 @@ export default {
     ValidationObserver
   },
   setup () {
-    const { addresses: shippingAddresses, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { addresses: shippingAddresses, load: loadShippingAddresses, addAddress, deleteAddress, updateAddress } = useUserShipping();
 
     const editAddress = ref(false);
     const editedAddress = ref(-1);
@@ -285,50 +285,27 @@ export default {
       editAddress.value = true;
     };
 
-    const removeAddress = async (index) => {
-      await deleteAddress(shippingAddresses.value[index]);
-    };
+    const removeAddress = index => deleteAddress(shippingAddresses.value[index]);
 
     const processAddress = async () => {
-      /* eslint-disable */
-      if (editedAddress.value > -1) {
-        await updateAddress({
-          id: id.value,
-          firstName: firstName.value,
-          lastName: lastName.value,
-          streetName: streetName.value,
-          apartment: apartment.value,
-          city: city.value,
-          state: state.value,
-          zipCode: zipCode.value,
-          country: country.value,
-          phoneNumber: phoneNumber.value,
-          isDefault: isDefault.value
-        })
-        editAddress.value = false;
-        editedAddress.value = -1;
-
-      } else {
-      /* eslint-enable */
-        await addAddress({
-          firstName: firstName.value,
-          lastName: lastName.value,
-          streetName: streetName.value,
-          apartment: apartment.value,
-          city: city.value,
-          state: state.value,
-          zipCode: zipCode.value,
-          country: country.value,
-          phoneNumber: phoneNumber.value,
-          isDefault: isDefault.value
-        });
-        editAddress.value = false;
-      }
+      const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
+      await actionMethod({
+        firstName: firstName.value,
+        lastName: lastName.value,
+        streetName: streetName.value,
+        apartment: apartment.value,
+        city: city.value,
+        state: state.value,
+        zipCode: zipCode.value,
+        country: country.value,
+        phoneNumber: phoneNumber.value,
+        isDefault: isDefault.value
+      });
+      editAddress.value = false;
+      editedAddress.value = -1;
     };
 
-    onSSR(async () => {
-      await load();
-    });
+    onSSR(loadShippingAddresses);
 
     return {
       changeAddress,
