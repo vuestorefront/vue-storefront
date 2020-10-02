@@ -117,6 +117,25 @@ const serverMiddleware = async ({ app }) => {
 export default serverMiddleware;
 ```
 
+#### Checking the user session
+
+As commercetools have different strategies of using a token, the Vue Storefront needs to know whether your token belongs to the user session or not. By default, we are handling this as well, but if for some reason you have provided your graphql client, you probably need to implement this check by yourself.
+
+Example:
+
+```js
+setup({
+  handleIsTokenUserSession: (token) => {
+
+    if (isYourTokenBelongsToUser(token)) {
+      return true
+    }
+
+    return false
+  }
+})
+```
+
 ### Localisation
 
 Commercetools supports querying localised fields via an array of accepted languages - `acceptLanguage`.
