@@ -1,7 +1,6 @@
 import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
-import { FacetSearchInput } from '@vue-storefront/commercetools';
 
 const nonFilters = ['page', 'sort', 'itemsPerPage'];
 
@@ -30,7 +29,7 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 const useUiHelpers = () => {
   const context = getContext();
 
-  const getFacetsFromURL = (): FacetSearchInput => {
+  const getFacetsFromURL = () => {
     const { query, params } = context.$router.history.current;
 
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);

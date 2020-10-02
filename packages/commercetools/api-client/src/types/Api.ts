@@ -1,20 +1,11 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Token, CustomerCredentials } from './setup';
 
-export interface CustomQuery<T> {
-  query: any;
-  variables: T;
-}
-
-export type CustomQueryFn<T = any> = (query?: any, variables?: T) => CustomQuery<T>;
-
-export const getCustomQuery = <T = any>(customQueryFn: CustomQueryFn<T>, defaultQuery) => {
-  if (customQueryFn) {
-    const { query, variables } = customQueryFn();
-    return { query: query || defaultQuery, variables: variables || {} };
-  }
-  return { query: defaultQuery, variables: {} };
+export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
 };
 
 export interface BaseSearch {
@@ -23,7 +14,7 @@ export interface BaseSearch {
   sort?: string[];
 }
 
-export interface ProductSearch extends BaseSearch {
+export interface ProductWhereSearch extends BaseSearch {
   catId?: string | string[];
   skus?: string[];
   slug?: string;
@@ -43,12 +34,12 @@ export interface FilterOption {
   selected: boolean;
 }
 
-export interface CategorySearch extends BaseSearch {
+export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
   slug?: string;
 }
 
-export interface OrderSearch extends BaseSearch {
+export interface OrderWhereSearch extends BaseSearch {
   id?: string;
 }
 
@@ -64,10 +55,14 @@ export enum AttributeType {
   MONEY = 'MoneyAttribute',
   BOOLEAN = 'BooleanAttribute'
 }
+export interface FlowOptions {
+  currentToken?: Token;
+  customerCredentials?: CustomerCredentials;
+  requireUserSession?: boolean;
+}
 
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
-export type ProfileResponse = QueryResponse<'me', Me>;
 export type CartQueryResponse = QueryResponse<'cart', Cart>;
 export type OrderQueryResponse = QueryResponse<'order', Order>;
 export type CartMutationResponse = MutationResponse<'cart', Cart>;

@@ -1,37 +1,34 @@
-import { apolloClient, getCustomQuery, getSettings } from './../../index';
-import { ProfileResponse } from './../../types/Api';
+import { apolloClient, getSettings } from './../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
-import { resolveCustomQueryVariables } from '../../helpers/search';
-import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
+import { getCustomQuery } from './../../helpers/queries';
 
 interface Options {
   customer?: boolean;
 }
 
+interface OrdersData {
+  // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change "me: any" to "me: Pick<MeQueryInterface, "activeCart" | "customer">"
+  me: any;
+}
+
 const getMe = async (params: Options = {}, customQueryFn?) => {
-  const { query, variables } = getCustomQuery(customQueryFn, basicProfile);
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
-  const resolvedVariables = resolveCustomQueryVariables(
-    {
-      locale,
-      acceptLanguage
-    },
-    variables
-  );
-  const request = await apolloClient.query<ApolloQueryResult<ProfileResponse>>({
-    query: customer
-      ? fullProfile
-      : query ? gql`${query}` : basicProfile,
-    variables: resolvedVariables,
+  const defaultQuery = customer ? fullProfile : basicProfile;
+  const defaultVariables = {
+    locale,
+    acceptLanguage
+  };
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
+
+  const request = await apolloClient.query<OrdersData>({
+    query: gql`${query}`,
+    variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query: customer ? fullProfile : basicProfile,
-    variables: resolvedVariables
-  };
+
+  return request;
 };
 
 export default getMe;

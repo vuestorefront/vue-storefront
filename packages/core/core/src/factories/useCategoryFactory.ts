@@ -1,6 +1,6 @@
 import { CustomQuery, UseCategory } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef } from '../utils';
+import { sharedRef, Logger } from '../utils';
 
 export type UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> = {
   categorySearch: (searchParams: CATEGORY_SEARCH_PARAMS, customQuery: CustomQuery) => Promise<CATEGORY[]>;
@@ -14,6 +14,8 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const loading = sharedRef(false, `useCategory-loading-${id}`);
 
     const search = async (params: CATEGORY_SEARCH_PARAMS, customQuery?: CustomQuery) => {
+      Logger.debug('useCategory.search', params);
+
       loading.value = true;
       categories.value = await factoryParams.categorySearch(params, customQuery);
       loading.value = false;

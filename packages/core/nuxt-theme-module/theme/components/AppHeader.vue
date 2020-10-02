@@ -4,7 +4,7 @@
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
-    @click:account="onAccountClicked"
+    @click:account="handleAccountClick"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
     class="sf-header--has-mobile-search"
@@ -55,7 +55,7 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
-    const { isAuthenticated } = useUser();
+    const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const cartTotalItems = computed(() => {
@@ -65,11 +65,17 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    const onAccountClicked = () => {
-      isAuthenticated && isAuthenticated.value ? root.$router.push('/my-account') : toggleLoginModal();
+    // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
+    const handleAccountClick = async () => {
+      if (isAuthenticated.value) {
+        return root.$router.push('/my-account');
+      }
+
+      toggleLoginModal();
     };
 
     onSSR(async () => {
+      await load();
       await loadCart();
       await loadWishlist();
     });
@@ -77,8 +83,7 @@ export default {
     return {
       accountIcon,
       cartTotalItems,
-      toggleLoginModal,
-      onAccountClicked,
+      handleAccountClick,
       toggleCartSidebar,
       toggleWishlistSidebar
     };

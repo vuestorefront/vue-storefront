@@ -6,9 +6,9 @@ const extractAttributes = (product: ProductVariant): Attribute[] => product.attr
 
 const flattenAttributes = (prev: Attribute[], curr: Attribute[]): Attribute[] => [...prev, ...(curr || [])];
 
-const getFilterFromAttribute = (attribute: Attribute, prev: Record<string, Filter>): Filter => {
+const getFilterFromAttribute = (attribute: Attribute, prev) => {
   const attrValue = getAttributeValue(attribute);
-  const filter: Filter = prev[attribute.name] || {
+  const filter = prev[attribute.name] || {
     type: (attribute as any).__typename,
     options: []
   };

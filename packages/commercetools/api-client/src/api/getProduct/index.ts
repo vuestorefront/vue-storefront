@@ -1,18 +1,17 @@
 import gql from 'graphql-tag';
-import { apolloClient, getCustomQuery, getSettings } from './../../index';
+import { apolloClient, getSettings } from './../../index';
 import { ProductQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
-import { buildProductWhere, resolveCustomQueryVariables } from './../../helpers/search';
-import { ApolloQueryResult } from 'apollo-client';
+import { buildProductWhere } from './../../helpers/search';
+import { getCustomQuery } from './../../helpers/queries';
 
 export interface ProductData {
   products: ProductQueryResult;
 }
 
 const getProduct = async (params, customQueryFn?) => {
-  const { query, variables } = getCustomQuery(customQueryFn, defaultQuery);
   const { locale, acceptLanguage, currency, country } = getSettings();
-  const resolvedVariables = resolveCustomQueryVariables({
+  const defaultVariables = {
     where: buildProductWhere(params),
     skus: params.skus,
     limit: params.limit,
@@ -21,19 +20,16 @@ const getProduct = async (params, customQueryFn?) => {
     acceptLanguage,
     currency,
     country
-  }, variables);
-  const request = await apolloClient.query<ApolloQueryResult<ProductData>>({
+  };
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
+  const request = await apolloClient.query<ProductData>({
     query: gql`${query}`,
-    variables: resolvedVariables,
+    variables,
     // temporary, seems like bug in apollo:
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables: resolvedVariables
-  };
+  return request;
 };
 
 export default getProduct;
