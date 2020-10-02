@@ -41,7 +41,7 @@ const getters: GetterTree<CategoryState, RootState> = {
       let valueCheck = []
       const searchOptions = getSearchOptionsFromRouteParams(params)
       forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
-      return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
+      return valueCheck.length > 0 && valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
