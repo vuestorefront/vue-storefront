@@ -15,6 +15,7 @@ desktop.ini
 src/themes/catalog/resource/i18n.json
 src/themes/default/resource/i18n.json
 yarn-error.log
+yarn.lock
 package-lock.json
 cypress/videos
 cypress/screenshots
