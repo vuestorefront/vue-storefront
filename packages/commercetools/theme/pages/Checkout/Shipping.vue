@@ -18,12 +18,12 @@
               :key="shippingAddress.id"
               :name="String(shippingAddress.id)"
             >
-              <span>{{shippingAddress.firstName}} {{shippingAddress.lastName}}</span>
-              <span>{{shippingAddress.streetName}} {{shippingAddress.apartment}}</span>
-              <span>{{shippingAddress.zipCode}}</span>
-              <span>{{shippingAddress.city}}{{shippingAddress.state ? `, ${shippingAddress.city}` : ''}}</span>
-              <span>{{shippingAddress.country}}</span>
-              <span>{{shippingAddress.phoneNumber}}</span>
+              <span>{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</span>
+              <span>{{ shippingAddress.streetName }} {{ shippingAddress.apartment }}</span>
+              <span>{{ shippingAddress.zipCode }}</span>
+              <span>{{ shippingAddress.city }}{{ shippingAddress.state ? `, ${shippingAddress.city}` : ''}}</span>
+              <span>{{ shippingAddress.country }}</span>
+              <span>{{ shippingAddress.phoneNumber }}</span>
             </SfAddress>
           </SfAddressPicker>
           <SfCheckbox
@@ -259,8 +259,10 @@ export default {
     const currentAddress = ref(-1);
     const setAsDefault = ref(false);
 
+    const findAddressById = id => shippingAddresses.value.find(address => address.id === id);
+
     const setCurrentAddress = async (currentAddressId) => {
-      const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddressId);
+      const chosenAddress = findAddressById(currentAddressId);
       if (!chosenAddress) {
         return;
       }
@@ -305,14 +307,14 @@ export default {
       await setShippingDetails(shippingDetails.value, { save: true });
       await loadShippingMethods();
       reset();
-      justChangedAddress.value = false;
       if (setAsDefault.value) {
-        const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddress.value);
+        const chosenAddress = findAddressById(currentAddress.value);
         if (!chosenAddress) {
           return;
         }
         await setDefault(chosenAddress);
       }
+      justChangedAddress.value = false;
     };
     const handleShippingMethodSubmit = (reset) => async () => {
       reset();
