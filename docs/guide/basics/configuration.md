@@ -161,6 +161,11 @@ This both option is used when you don't want re-attempting task of just X number
 
 This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend, please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
 
+If you would like requests without a storeCode to be redirected to the `defaultStoreCode`, you can optionally set the following to `true`.
+```json
+"appendDefaultStoreCode": true,
+```
+
 ## Store views
 
 ```json

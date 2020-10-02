@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Replaced deprecated action product/list call with product/findProducts (#4769)
+- New module which provides option to automatically redirect to the default store if no store code is found in URL. - @rain2o (#3399)
 
 ### Fixed
 
