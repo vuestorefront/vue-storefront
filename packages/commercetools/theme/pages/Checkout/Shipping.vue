@@ -6,8 +6,8 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
-      <form @submit.prevent="handleSubmit(dirty ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
-        <div v-if="!provideAddress">
+      <form @submit.prevent="handleSubmit(dirty || justChangedAddress ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
+        <div v-if="isAuthenticated && shippingAddresses.length">
           <SfAddressPicker
             :value="currentAddress"
             @input="setCurrentAddress($event)"
@@ -33,15 +33,8 @@
             label="Use this address as my default one."
             class="shipping-address-setAsDefault"
           />
-          <SfButton
-            class="form__action-button"
-            type="submit"
-            @click.native="provideAddress = true"
-          >
-            Add new address
-          </SfButton>
         </div>
-        <div class="form" v-else>
+        <div class="form" v-if="provideAddress">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.firstName"
@@ -147,14 +140,22 @@
           />
           </ValidationProvider>
         </div>
+        <SfButton
+          v-if="!provideAddress"
+          class="form__action-button form__action-button--margin-bottom"
+          type="submit"
+          @click.native="provideAddress = true"
+        >
+          Add new address
+        </SfButton>
         <SfHeading
-          v-if="isShippingAddressCompleted && !dirty"
+          v-if="isShippingAddressCompleted && !dirty && !justChangedAddress"
           :level="3"
           title="Shipping method"
           class="sf-heading--left sf-heading--no-underline title"
         />
         <div class="form">
-          <div class="form__radio-group" v-if="isShippingAddressCompleted && !dirty">
+          <div class="form__radio-group" v-if="isShippingAddressCompleted && !dirty && !justChangedAddress">
             <SfRadio
               v-for="item in shippingMethods"
               :key="checkoutGetters.getShippingMethodName(item)"
@@ -183,7 +184,7 @@
           </div>
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
+            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty && !justChangedAddress" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
               Continue to payment
             </SfButton>
             <SfButton class="form__action-button" type="submit" :disabled="loading.shippingMethods" v-else>
@@ -254,6 +255,7 @@ export default {
     const { isAuthenticated } = useUser();
 
     const provideAddress = ref(true);
+    const justChangedAddress = ref(false);
     const currentAddress = ref(-1);
     const setAsDefault = ref(false);
 
@@ -262,7 +264,8 @@ export default {
       if (!chosenAddress) {
         return;
       }
-      await setShippingDetails({
+      currentAddress.value = currentAddressId;
+      setShippingDetails({
         ...shippingDetails.value,
         contactInfo: {
           ...shippingDetails.value.contactInfo,
@@ -276,8 +279,8 @@ export default {
         lastName: chosenAddress.lastName,
         streetName: chosenAddress.streetName,
         postalCode: chosenAddress.zipCode
-      }, { save: true });
-      await loadShippingMethods();
+      });
+      justChangedAddress.value = true;
     };
 
     onSSR(async () => {
@@ -293,11 +296,7 @@ export default {
         }
         provideAddress.value = false;
         if (shippingAddresses.value[0].isDefault) {
-          const defaultAddress = shippingAddresses.value.find(address => address.isDefault);
-          if (!defaultAddress) {
-            return;
-          }
-          currentAddress.value = defaultAddress.id;
+          setCurrentAddress(shippingAddresses.value[0].id);
         }
       }
     });
@@ -306,9 +305,7 @@ export default {
       await setShippingDetails(shippingDetails.value, { save: true });
       await loadShippingMethods();
       reset();
-    };
-    const handleShippingMethodSubmit = (reset) => async () => {
-      console.log('aaaa');
+      justChangedAddress.value = false;
       if (setAsDefault.value) {
         const chosenAddress = shippingAddresses.value.find(address => address.id === currentAddress.value);
         if (!chosenAddress) {
@@ -316,6 +313,8 @@ export default {
         }
         await setDefault(chosenAddress);
       }
+    };
+    const handleShippingMethodSubmit = (reset) => async () => {
       reset();
       context.root.$router.push('/checkout/payment');
     };
@@ -335,6 +334,8 @@ export default {
       countries: getSettings().countries,
       shippingAddresses,
       provideAddress,
+      justChangedAddress,
+      isAuthenticated,
       currentAddress: computed(() => currentAddress.value),
       setAsDefault,
       setCurrentAddress
@@ -352,7 +353,7 @@ export default {
   margin-bottom: var(--spacer-xl);
 }
 
-.shipping-address-setAsDefault {
+.shipping-address-setAsDefault, .form__action-button--margin-bottom {
   margin-bottom: var(--spacer-xl);
 }
 

@@ -69,8 +69,8 @@
                 />
               </ValidationProvider>
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="shipping-details-input_state"
+                <SfInput
+                  data-cy="shipping-details-input_state"
                   v-model="state"
                   name="state"
                   label="State/Province"
