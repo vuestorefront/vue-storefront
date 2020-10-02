@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 - not released
+
+- adding ability to overriding `isTokenUserSession` check in api-client
+
 ## 0.2.2
 
 ### Breaking changes
