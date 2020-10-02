@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Replaced deprecated action product/list call with product/findProducts (#4769)
 - New module which provides option to automatically redirect to the default store if no store code is found in URL. - @rain2o (#3399)
+- Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
+
+### Fixed
+
+- Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
+- Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
 
 ### Fixed
 
