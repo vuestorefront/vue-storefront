@@ -12,8 +12,8 @@ Assumptions for the rest of this tutorial:
 
 - You have root access to a Debian Linux machine.
 - We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed**, as they will be hidden behind **NGINX proxy**.
-- We're using **prod.vuestorefront.io** as a domain name. Please replace it with your host URL address.
-- We assume that you have an SSL certificate for **prod.vuestorefront.io** (or your domain, of course). SSL encryption is required for PWA and Service Workers.
+- We're using **demo.vuestorefront.io** as a domain name. Please replace it with your host URL address.
+- We assume that you have an SSL certificate for **demo.vuestorefront.io** (or your domain, of course). SSL encryption is required for PWA and Service Workers.
 
 General Solution Architecture:
 _USER -> NGINX proxy -> vue-storefront / vue-storefront-api_
@@ -81,8 +81,8 @@ In case you have already set up SSL on your own domain, please skip to [the next
 Create NGINX config file from the template (please run as a root user):
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
-ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/demo.vuestorefront.io > /etc/nginx/sites-available/demo.vuestorefront.io
+ln -s /etc/nginx/sites-available/demo.vuestorefront.io /etc/nginx/sites-enabled/demo.vuestorefront.io
 ```
 
 You need to replace two lines of the configuration you just downloaded with the actual path to your certificate files with its key. 
@@ -109,22 +109,22 @@ Saving debug log to /var/log/letsencrypt/letsencrypt.log
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Found the following certs:
-  Certificate Name: prod.vuestorefront.io
-    Domains: prod.vuestorefront.io
+  Certificate Name: demo.vuestorefront.io
+    Domains: demo.vuestorefront.io
     Expiry Date: 2020-04-19 22:47:19+00:00 (VALID: 89 days)
-    Certificate Path: /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem
-    Private Key Path: /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem
+    Certificate Path: /etc/letsencrypt/live/demo.vuestorefront.io/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/demo.vuestorefront.io/privkey.pem
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
 
-Replace the paths for certificate and its key in the `/etc/nginx/sites-available/prod.vuestorefront.io` with the info above as follows :
+Replace the paths for certificate and its key in the `/etc/nginx/sites-available/demo.vuestorefront.io` with the info above as follows :
 ```bash{5,6}
 # ... abridged
 
   ssl on;
 
-  ssl_certificate /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/demo.vuestorefront.io/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/demo.vuestorefront.io/privkey.pem;
 
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
@@ -135,12 +135,12 @@ Replace the paths for certificate and its key in the `/etc/nginx/sites-available
 ```bash
 server {
   listen 80;
-  server_name prod.vuestorefront.io; 
-  return 301 https://prod.vuestorefront.io$request_uri;
+  server_name demo.vuestorefront.io; 
+  return 301 https://demo.vuestorefront.io$request_uri;
 }
 ```
 
-This section runs the standard `http://prod.vuestorefront.io` and creates a wildcard redirect from `http://prod.vuestorefront.io/*` -> `https://prod.vuestorefront.io/*`. 
+This section runs the standard `http://demo.vuestorefront.io` and creates a wildcard redirect from `http://demo.vuestorefront.io/*` -> `https://demo.vuestorefront.io/*`. 
 :::
 
 #### Now you can run the NGINX with SSL applied :
@@ -150,11 +150,11 @@ This section runs the standard `http://prod.vuestorefront.io` and creates a wild
 ```
 
 :::tip TIP
-After you're done with the installation, once again open `/etc/nginx/sites-available/prod.vuestorefront.io` and add `http2` after the `listen 443 ssl` (but before the semicolon!). It should look like this: 
+After you're done with the installation, once again open `/etc/nginx/sites-available/demo.vuestorefront.io` and add `http2` after the `listen 443 ssl` (but before the semicolon!). It should look like this: 
 ```
 server {
     listen 443 ssl http2;
-    server_name prod.vuestorefront.io;
+    server_name demo.vuestorefront.io;
 
 	ssl on;
 	(...the rest of the config...)
@@ -189,7 +189,7 @@ location / {
 }
 ```
 
-We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) from the `ngx_http_proxy_module` to pass content from the Vue Storefront node.js server. The content should be available under ___https://prod.vuestorefront.io/___ according to the configuration. 
+We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) from the `ngx_http_proxy_module` to pass content from the Vue Storefront node.js server. The content should be available under ___https://demo.vuestorefront.io/___ according to the configuration. 
 
 ```
 location /assets/ {
@@ -204,7 +204,7 @@ location /api/ {
 }
 ```
 
-The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under ___https://prod.vuestorefront.io/api___
+The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under ___https://demo.vuestorefront.io/api___
 
 ```
 location /img/ {
@@ -212,7 +212,7 @@ location /img/ {
 }
 ```
 
-The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under ___https://prod.vuestorefront.io/img___
+The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under ___https://demo.vuestorefront.io/img___
 
 #### Apache2 configuration
 
@@ -238,7 +238,7 @@ You also need to enable [mod_proxy](https://httpd.apache.org/docs/current/mod/mo
 
 ### Vue Storefront and Vue Storefront API
 
-After you have the NGINX set up, you should get a `502 error` when accessing the https://prod.vuestorefront.io. This is totally fine! We just missed the most important step, which is running backend services that will power up our installation. Now NGINX is trying to connect to `localhost:3000` for `vue-storefront` and `localhost:8080` for `vue-storefront-api` without any success.
+After you have the NGINX set up, you should get a `502 error` when accessing the https://demo.vuestorefront.io. This is totally fine! We just missed the most important step, which is running backend services that will power up our installation. Now NGINX is trying to connect to `localhost:3000` for `vue-storefront` and `localhost:8080` for `vue-storefront-api` without any success.
 
 We created a Linux user called `vuestorefront` and go to `/home/www/vuestorefront` which is our home directory.
 
@@ -257,9 +257,9 @@ cd /home/www/vuestorefront/src;
 mkdir themes;
 cd themes;
 # Clone one of these 2, default:
-git clone https://github.com/DivanteLtd/vsf-default.git;
+git clone https://github.com/DivanteLtd/vsf-default.git default;
 # or capybara theme
-git clone https://github.com/DivanteLtd/vsf-capybara.git;
+git clone https://github.com/DivanteLtd/vsf-capybara.git capybara;
 ```
 
 Then, you will need to install the required node packages:
@@ -297,7 +297,7 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
 ```json
 "elasticsearch": {
     "httpAuth": "",
-    "host": "https://prod.vuestorefront.io/api/catalog",
+    "host": "https://demo.vuestorefront.io/api/catalog",
     "index": "vue_storefront_catalog"
 },
 "storeViews": {
@@ -309,52 +309,52 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     "de": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "https://prod.vuestorefront.io/api/catalog",
+            "host": "https://demo.vuestorefront.io/api/catalog",
             "index": "vue_storefront_catalog_de"
         }
     },
     "it": {
         "elasticsearch": {
             "httpAuth": "",
-            "host": "https://prod.vuestorefront.io/api/catalog",
+            "host": "https://demo.vuestorefront.io/api/catalog",
             "index": "vue_storefront_catalog_it"
         }
     }
 },
 ```
 
-We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `https://prod.vuestorefront.io/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
+We're setting up the catalog endpoint to https://demo.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `https://demo.vuestorefront.io/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
 
 ```json
 "cart": {
       "synchronize": true,
       "synchronize_totals": true,
-      "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+      "create_endpoint": "https://demo.vuestorefront.io/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "https://demo.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "https://demo.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "https://demo.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "https://demo.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "https://demo.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "https://demo.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "https://demo.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "https://demo.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
 ```
 
-There are many more instances of `https://prod.vuestorefront.io/api/*` to be replaced with your production URL address in this file. Please just do so :)   
+There are many more instances of `demo.vuestorefront.io` to be replaced with your production URL address in this file. Please just do so :)   
 If you want to use different URL for some native endpoint or elasticsearch host - just add `_ssr` at the end of attribute's name. It might be extra useful for Kubernetes architecture. Also, we often do not use SSL in LAN network to get better performance. E.g:
 ```js
 "elasticsearch": {
     "httpAuth": "",
-    "host": "https://prod.vuestorefront.io/api/catalog",
+    "host": "https://demo.vuestorefront.io/api/catalog",
     "host_ssr": "http://localhost:8080/api/catalog"
     // ...
 }
 ```
 
-If you want to see how the local.json should look like after your modifications, the configs we prepared for `prod.vuestorefront.io` are available under: 
+If you want to see how the local.json should look like after your modifications, the configs we prepared for `demo.vuestorefront.io` are available under: 
 
 [vue-storefront local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json)
 
@@ -506,11 +506,11 @@ yarn dump;
 Now in the `var/catalog.json` you have your current database dump. Please transfer this file to the server—for example, using the following ssh command:
 
 ```bash
-ssh vuestorefront@prod.vuestorefront.io rm ~/vue-storefront-api/var/catalog.json;
-scp vue-storefront-api/var/catalog.json vuestorefront@prod.vuestorefront.io:~/vue-storefront-api/var/catalog.json;
+ssh vuestorefront@demo.vuestorefront.io rm ~/vue-storefront-api/var/catalog.json;
+scp vue-storefront-api/var/catalog.json vuestorefront@demo.vuestorefront.io:~/vue-storefront-api/var/catalog.json;
 ```
 
-Then, after logging in to your `prod.vuestorefront.io` server as a `vuestorefront`, you can run the following command to import the data:
+Then, after logging in to your `demo.vuestorefront.io` server as a `vuestorefront`, you can run the following command to import the data:
 
 ```bash
 cd vue-storefront-api;
