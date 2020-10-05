@@ -33,6 +33,13 @@ module.exports = {
           ]
         },
         {
+          title: 'Enterprise (paid)',
+          collapsable: false,
+          children: [
+            ['/commercetools/enterprise/use-review', 'useReview']
+          ]
+        },
+        {
           title: 'Theme',
           collapsable: false,
           children: [
