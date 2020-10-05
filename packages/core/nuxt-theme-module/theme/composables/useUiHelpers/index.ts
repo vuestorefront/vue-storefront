@@ -35,7 +35,7 @@ const useUiHelpers = () => {
 
   // eslint-disable-next-line
   const switchSearchPhase = (phase: string) => {
-    console.warn('[VSF] please implement useUiHelpers.switchItemsPerPage.');
+    console.warn('[VSF] please implement useUiHelpers.switchSearchPhase.');
   };
 
   // eslint-disable-next-line
