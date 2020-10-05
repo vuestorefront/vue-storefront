@@ -181,7 +181,10 @@
     "maxCartBypassAttempts": 1
   },
   "defaultStoreCode": "",
-  "appendDefaultStoreCode": false,
+  "defaultStoreCodeRedirect": {
+    "enabled": true,
+    "blacklist": ["__webpack_hmr"]
+  },
   "storeViews": {
     "multistore": false,
     "commonCache": false,

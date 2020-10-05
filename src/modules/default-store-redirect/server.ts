@@ -5,9 +5,9 @@ import { defaultStoreRedirectHooksExecutors } from './hooks'
 /**
  * Redirect requests without a store code to the default (or first) store
  */
-if (appConfig.storeViews.multistore && appConfig.appendDefaultStoreCode) {
+if (appConfig.storeViews.multistore && appConfig.defaultStoreCodeRedirect.enabled) {
   serverHooks.afterApplicationInitialized(({ app }) => {
-    const blacklist = ['__webpack_hmr']
+    const blacklist = appConfig.defaultStoreCodeRedirect.blacklist
     const storeCodes = appConfig.storeViews.mapStoreUrlsFor
 
     const blacklistStr = blacklist.join('|')
