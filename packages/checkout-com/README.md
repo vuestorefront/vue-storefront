@@ -158,12 +158,12 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 
 Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access an array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
-`setPaymentInstrument` will set transaction token in your localStorage for a moment to make it work even after the refresh. Then it will set `selectedPaymentMethod` to `CkoPaymentType.SAVED_CARD`.
+`setPaymentInstrument` will set transaction token in your sessionStorage for a moment to make it work even after the refresh. Then it will set `selectedPaymentMethod` to `CkoPaymentType.SAVED_CARD`.
 
-6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
+6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in sessionStorage for a moment.
 7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood.
 8. Then you need to make Payment
-`error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
+`error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from sessionStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
 
 9. You should call `makePayment` at first (remember to check if everything went ok):
@@ -216,6 +216,21 @@ success_url: 'https://example.com/success',
 failure_url: 'https://example.com/failure'
 ```
 
+14. You should make sure that after user leaves checkout - payment token is being removed from sessionStorage. For that purpose, `useCko` exports `removeTransactionToken` method. Call it when user exits Checkout's view! E.g:
+```ts
+// Checkout.vue
+import { useCko } from '@vue-storefront/checkout-com';
+import { onUnmounted } from '@vue/composition-api';
+// ...
+export default {
+    // ...
+    setup() {
+        const { removeTransactionToken } = useCko();
+        onUnmounted(removeTransactionToken);
+    }
+}
+```
+
 ## Changing current payment method
 It is important to set proper CKO's Payment Method in `useCko` instance so it will be able to figure out proper payload to send in `makePayment`. To do that:
 ```js
@@ -262,7 +277,7 @@ selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD
 ```
 
 ## Allowing user to decide whether save payment instrument or not
-`useCko` composable shares `loadSavePaymentInstrument` method and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage. E.g:
+`useCko` composable shares `loadSavePaymentInstrument` method and `setSavePaymentInstrument` method for that purpose. It is being stored in the localStorage. E.g:
 ```js
 const {
       initForm,
