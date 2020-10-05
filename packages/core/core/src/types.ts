@@ -4,7 +4,10 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export type CustomQuery = <T>(query, variables) => T extends T ? T : ({ query; variables })
+export type CustomQuery<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+};
 
 export interface SearchParams {
   perPage?: number;
@@ -15,19 +18,26 @@ export interface SearchParams {
   [x: string]: any;
 }
 
-export function Search(params: SearchParams): Promise<void>;
-export function Search(params: SearchParams, customQuery: {}): Promise<void>
-// Overloaded function type need declaration, as bellow
-// https://www.typescriptlang.org/docs/handbook/functions.html#overloads
-export function Search(params: SearchParams, customQuery?: {}): any {
-  return { params, customQuery };
-}
-
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
-  search: typeof Search;
+  search(params: SearchParams): Promise<void>;
+  search(params: SearchParams, customQuery?: CustomQuery): Promise<void>;
+  [x: string]: any;
+}
+
+export interface UseUserRegisterParams {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+  [x: string]: any;
+}
+
+export interface UseUserLoginParams {
+  username: string;
+  password: string;
   [x: string]: any;
 }
 
@@ -38,31 +48,27 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
-  register: (user: {
-    email: string;
-    password: string;
-    firstName?: string;
-    lastName?: string;
-    [x: string]: any;
-  }) => Promise<void>;
-  login: (user: {
-    username: string;
-    password: string;
-    [x: string]: any;
-  }) => Promise<void>;
+  register: (user: UseUserRegisterParams) => Promise<void>;
+  login: (user: UseUserLoginParams) => Promise<void>;
   logout: () => Promise<void>;
-  changePassword: (
-    currentPassword: string,
-    newPassword: string) => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseUserOrdersSearchParams {
+  id?: any;
+  page?: number;
+  perPage?: number;
+  [x: string]: any;
+}
+
 export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders: typeof Search;
+  searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
+  searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -100,33 +106,11 @@ export interface UseUserBilling<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseCategory
-<
-  CATEGORY
-> {
+export interface UseCategory<CATEGORY> {
   categories: ComputedProperty<CATEGORY[]>;
-  search: typeof Search;
+  search(params: Record<string, any>): Promise<void>;
+  search(params: Record<string, any>, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
-}
-
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number): Promise<void>;
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity: number, customQuery: {}): Promise<void>
-export function AddToCart<PRODUCT>(product: PRODUCT, quantity?: number, customQuery?: {}): any {
-  return { product, quantity, customQuery };
-}
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM): Promise<void>
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery: {}): Promise<void>
-export function RemoveFromCart<CART_ITEM>(product: CART_ITEM, customQuery?: {}): any {
-  return { product, customQuery };
-}
-export function ApplyCoupon(coupon): Promise<void>
-export function ApplyCoupon(coupon, customQuery: {}): Promise<void>
-export function ApplyCoupon(coupon, customQuery?: {}): any {
-  return { coupon, customQuery };
-}
-export function LoadCart(customQuery?: {}): Promise<void>
-export function LoadCart(customQuery?: {}): any {
-  return { customQuery };
 }
 
 export interface UseCart
@@ -137,16 +121,20 @@ export interface UseCart
   COUPON
   > {
   cart: ComputedProperty<CART>;
-  addToCart: typeof AddToCart;
+  addToCart(product: PRODUCT, quantity?: number): Promise<void>;
+  addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
-  removeFromCart: typeof RemoveFromCart;
-  updateQuantity: typeof AddToCart;
-  clearCart: () => Promise<void>;
-  coupon: ComputedProperty<COUPON | null>;
-  applyCoupon: typeof ApplyCoupon;
-  removeCoupon: typeof LoadCart;
-  loadCart: typeof LoadCart;
+  removeFromCart(product: CART_ITEM): Promise<void>;
+  removeFromCart(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
+  clearCart(): Promise<void>;
+  applyCoupon(coupon: string): Promise<void>;
+  applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
+  removeCoupon(coupon: COUPON): Promise<void>;
+  removeCoupon(coupon: COUPON, customQuery: CustomQuery): Promise<void>;
+  loadCart(): Promise<void>;
+  loadCart(customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -196,8 +184,10 @@ export interface UseCheckout
 }
 
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
-  search: (params?: REVIEWS_SEARCH_PARAMS) => Promise<void>;
-  addReview: (params: REVIEW_ADD_PARAMS) => Promise<void>;
+  search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
+  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CustomQuery): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS, customQuery: CustomQuery): Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
@@ -238,6 +228,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  getCoupons: (cart: CART) => AgnosticCoupon[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -312,6 +303,13 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
 }
 
 export interface AgnosticMediaGalleryItem {

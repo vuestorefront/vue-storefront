@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
@@ -22,7 +22,11 @@
         "./*"
       ]
     },
-    "types": []
+    "types": [
+      "@types/node",
+      "@nuxt/types",
+      "nuxt-i18n"
+    ]
   },
   "exclude": [
     "node_modules"

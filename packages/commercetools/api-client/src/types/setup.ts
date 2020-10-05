@@ -74,6 +74,7 @@ export interface Config {
   cookies: CookiesConfig;
   auth?: Auth;
   forceToken?: boolean;
+  handleIsTokenUserSession: (token: Token) => boolean;
 }
 
 export interface ConfigurableConfig {

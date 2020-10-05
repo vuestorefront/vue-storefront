@@ -1,8 +1,8 @@
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
-import { apolloClient, getCustomQuery, getSettings } from '../../index';
-import CreateCartMutation from './defaultMutation';
-import { resolveCustomQueryVariables } from '../../helpers/search';
+import { apolloClient, getSettings } from '../../index';
+import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
+import { getCustomQuery } from './../../helpers/queries';
 
 interface UpdateCart {
   id: string;
@@ -11,31 +11,26 @@ interface UpdateCart {
 }
 
 const updateCart = async (params: UpdateCart, customQueryFn?) => {
-  const { query, variables } = getCustomQuery(customQueryFn, CreateCartMutation);
   const { locale, acceptLanguage } = getSettings();
-  const resolvedVariables = resolveCustomQueryVariables(
-    params
-      ? {
-        locale,
-        acceptLanguage,
-        ...params
-      }
-      : { acceptLanguage },
-    variables,
-    'category'
-  );
+  const defaultVariables = params
+    ? {
+      locale,
+      acceptLanguage,
+      ...params
+    }
+    : { acceptLanguage };
+
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
+
   const request = await apolloClient.mutate({
     mutation: gql`
       ${query}
     `,
-    variables: resolvedVariables,
+    variables,
     fetchPolicy: 'no-cache'
   });
-  return {
-    ...request,
-    query,
-    variables: resolvedVariables
-  };
+
+  return request;
 };
 
 export default updateCart;

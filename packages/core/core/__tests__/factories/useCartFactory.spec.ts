@@ -39,10 +39,9 @@ describe('[CORE - factories] useCartFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties', async () => {
-      const { cart, coupon, loading } = useCart();
+      const { cart, loading } = useCart();
 
       expect(cart.value).toEqual(null);
-      expect(coupon.value).toEqual(null);
       expect(loading.value).toEqual(false);
     });
 
@@ -147,27 +146,26 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('applyCoupon', () => {
       it('should apply provided coupon', async () => {
-        const { applyCoupon, cart, coupon } = useCart();
+        const { applyCoupon, cart } = useCart();
         await applyCoupon('qwerty');
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: 'qwerty'
+          couponCode: 'qwerty'
         }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
-        expect(coupon.value).toEqual('appliedCouponMock');
       });
     });
 
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
-        const { removeCoupon, cart, coupon } = useCart();
-        await removeCoupon();
+        const { removeCoupon, cart } = useCart();
+        const coupon = 'some-coupon-code-12321231';
+        await removeCoupon(coupon);
         expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: null
+          coupon
         }, undefined);
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
-        expect(coupon.value).toBeNull();
       });
 
       // TODO
