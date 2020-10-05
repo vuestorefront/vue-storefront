@@ -182,7 +182,7 @@
   },
   "defaultStoreCode": "",
   "defaultStoreCodeRedirect": {
-    "enabled": true,
+    "enabled": false,
     "blacklist": ["__webpack_hmr"]
   },
   "storeViews": {
