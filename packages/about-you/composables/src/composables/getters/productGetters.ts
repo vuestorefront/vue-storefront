@@ -120,6 +120,20 @@ export const getProductId = (product: BapiProduct): string => product.id.toStrin
 
 export const getFormattedPrice = (price: number): string => price ? `${price.toFixed(2)}€` : '';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductTotalReviews = (product: BapiProduct): number => {
+  console.log('Mocked: getProductTotalReviews');
+
+  return 0;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductAverageRating = (product: BapiProduct): number => {
+  console.log('Mocked: getProductAverageRating');
+
+  return 0;
+};
+
 const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -132,7 +146,9 @@ const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
   getMultiAttributeValue: getProductMultiAttributeValue,
-  getFormattedPrice
+  getFormattedPrice,
+  getTotalReviews: getProductTotalReviews,
+  getAverageRating: getProductAverageRating
 };
 
 export default productGetters;
