@@ -207,7 +207,7 @@ import {
   SfCheckbox
 } from '@storefront-ui/vue';
 import { getSettings } from '@vue-storefront/commercetools-api';
-import { useCheckout, useUserShipping, useUser, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useUserShipping, useUser, checkoutGetters, userShippingGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { onSSR } from '@vue-storefront/core';
@@ -259,10 +259,8 @@ export default {
     const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
 
-    const findAddressById = id => shippingAddresses.value.find(address => address.id === id);
-
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = findAddressById(addressId);
+      const chosenAddress = userShippingGetters.getFiltered(shippingAddresses.value, { id: addressId });
       if (!chosenAddress) {
         return;
       }
@@ -294,7 +292,7 @@ export default {
       await loadShippingMethods();
       reset();
       if (currentAddressId.value > -1 && setAsDefault.value) {
-        const chosenAddress = findAddressById(currentAddressId.value);
+        const chosenAddress = userShippingGetters.getFiltered(shippingAddresses.value, { id: currentAddressId.value });
         if (!chosenAddress) {
           return;
         }
