@@ -1,6 +1,9 @@
 import { addRedirectTempObject, createRedirectProxy } from './../../ssr-redirect'
 import { Context, RedirectTempObject } from './../../types';
 
+// we don't want to show warning in tests
+jest.spyOn(console, 'warn').mockImplementation(() => {});
+
 describe('addRedirectTempObject', () => {
   let context: Context
   const response: any = {
@@ -31,9 +34,6 @@ describe('addRedirectTempObject', () => {
     };
 
     addRedirectTempObject(context, response)
-
-    // we don't want to show warning in tests
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   it('should create temporary object', () => {
@@ -159,6 +159,18 @@ describe('createRedirectProxy', () => {
     context.server._redirect.isPending = () => true
 
     const spy = jest.spyOn(context.server._redirect, 'handler')
+    const spy2 = jest.spyOn(response, 'redirect')
+
+    context.server.response.redirect('/checkout')
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should return normal express response object if there is no temp redirection object', () => {
+    context.server.response = createRedirectProxy(context, response)
+
+    const spy = jest.spyOn(response, 'redirect')
 
     context.server.response.redirect('/checkout')
 

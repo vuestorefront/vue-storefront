@@ -75,6 +75,11 @@ export function addRedirectTempObject (context: Context, expressResponse: Respon
  * proxy creation takes place only once while context is created
  */
 export function createRedirectProxy (context: Context, expressResponse: Response): ExpressReponseProxy {
+  if (!context.server._redirect) {
+    console.warn(`Something went wrong while creating vsf redirection handler. Fallback to normal express redirect`)
+    return expressResponse
+  }
+
   const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
 
   // returns proxy for Express Reponse object
