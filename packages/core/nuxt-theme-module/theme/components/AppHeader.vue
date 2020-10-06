@@ -5,9 +5,9 @@
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
-    @enter:search="changeSearchPhase"
-    @change:search="p => phase = p"
-    :searchValue="phase"
+    @enter:search="changeSearchTerm"
+    @change:search="p => term = p"
+    :searchValue="term"
     :cartItemsQty="cartTotalItems"
     :accountIcon="accountIcon"
     class="sf-header--has-mobile-search"
@@ -59,11 +59,11 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
-    const { changeSearchPhase, getFacetsFromURL } = useUiHelpers();
+    const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
-    const phase = ref(getFacetsFromURL().phase);
+    const term = ref(getFacetsFromURL().term);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -93,8 +93,8 @@ export default {
       handleAccountClick,
       toggleCartSidebar,
       toggleWishlistSidebar,
-      changeSearchPhase,
-      phase
+      changeSearchTerm,
+      term
     };
   }
 };

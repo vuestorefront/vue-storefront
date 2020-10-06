@@ -436,7 +436,7 @@ export interface FacetSearchResult<S> {
 export interface AgnosticFacetSearchParams {
   categorySlug?: string;
   rootCatSlug?: string;
-  phase?: string;
+  term?: string;
   page?: number;
   itemsPerPage?: number;
   sort?: string;

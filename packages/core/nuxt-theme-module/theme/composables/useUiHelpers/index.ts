@@ -34,8 +34,8 @@ const useUiHelpers = () => {
   };
 
   // eslint-disable-next-line
-  const changeSearchPhase = (phase: string) => {
-    console.warn('[VSF] please implement useUiHelpers.changeSearchPhase.');
+  const changeSearchTerm = (term: string) => {
+    console.warn('[VSF] please implement useUiHelpers.changeSearchTerm.');
   };
 
   // eslint-disable-next-line
@@ -58,7 +58,7 @@ const useUiHelpers = () => {
     changeSorting,
     changeFilters,
     changeItemsPerPage,
-    changeSearchPhase,
+    changeSearchTerm,
     isFacetColor,
     isFacetCheckbox
   };
