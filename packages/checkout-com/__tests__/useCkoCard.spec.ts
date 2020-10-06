@@ -123,6 +123,40 @@ describe('[checkout-com] useCkoCard', () => {
 
     });
 
+    it('throws error if CVV not provided and required in context response', async () => {
+
+      const paymentMethod = ref(CkoPaymentType.SAVED_CARD);
+      const {
+        makePayment,
+        error
+      } = useCkoCard(paymentMethod);
+
+      localStorageMock.getItem.mockImplementation(() => 'abc');
+
+      (createContext as jest.Mock).mockImplementation(() => Promise.resolve({
+        data: {
+          id: '12',
+          // eslint-disable-next-line
+          cvv_required: true
+        }
+      }));
+
+      /*eslint-disable */
+      const payload = {
+        cartId: 15,
+        email: 'ab@gmail.com',
+        secure3d: true,
+        savePaymentInstrument: true,
+        success_url: null,
+        failure_url: null
+      };
+      /* eslint-enable */
+
+      await makePayment(payload);
+      expect(error.value.message).toBe('CVV is required');
+
+    });
+
     it('calls createPayment & returns proper success response', async () => {
 
       sessionStorageMock.getItem.mockImplementation(() => 'abc');

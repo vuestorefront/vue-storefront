@@ -38,6 +38,10 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
       let context;
       if (!contextDataId) {
         context = await createContext({ reference: cartId, email });
+        const hasCvvIfRequired = selectedPaymentMethod.value === CkoPaymentType.SAVED_CARD && context.data.cvv_required && !cvv;
+        if (hasCvvIfRequired) {
+          throw new Error('CVV is required');
+        }
       }
 
       const payment = await createPayment(
