@@ -8,12 +8,14 @@ import { useReview, reviewGetters } from './composables/useReview';
 import { setUser, useUser } from './composables/useUser';
 import useUserOrders from './composables/useUserOrders';
 import useContent from './composables/useContent';
+import useFacet from './composables/useFacet';
 import { useWishlist, setWishlist } from './composables/useWishlist';
 
 import {
   cartGetters,
   categoryGetters,
   checkoutGetters,
+  facetGetters,
   productGetters,
   userGetters,
   orderGetters,
@@ -31,12 +33,14 @@ export {
   setUser,
   useUserOrders,
   useContent,
+  useFacet,
   useWishlist,
   setWishlist,
   cartGetters,
   categoryGetters,
   checkoutGetters,
   productGetters,
+  facetGetters,
   reviewGetters,
   userGetters,
   orderGetters,

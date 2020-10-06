@@ -1,6 +1,6 @@
 const defaultConfig = {
   publicKey: null,
-  ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
+  ctApiUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
   tokenizedCardKey: 'temporary-tokenized-card',
   saveInstrumentKey: 'save-instrument',
   card: {
@@ -22,7 +22,6 @@ interface CardConfiguration {
 
 interface Configuration {
   publicKey: string;
-  ckoWebHookUrl?: string;
   ctApiUrl?: string;
   tokenizedCardKey?: string;
   saveInstrumentKey?: string;
@@ -70,11 +69,11 @@ const setChannel = (channel: string) => {
   }
   const pickedChannel = config.channels[channel];
   config.publicKey = pickedChannel.publicKey;
-  config.ckoWebHookUrl = pickedChannel.ckoWebHookUrl || config.ckoWebHookUrl;
   config.card.style = pickedChannel.card?.style || defaultStyles;
   config.card.localization = pickedChannel.card?.localization || null;
   config.tokenizedCardKey = pickedChannel.tokenizedCardKey || config.tokenizedCardKey;
   config.saveInstrumentKey = pickedChannel.saveInstrumentKey || config.saveInstrumentKey;
+  config.ctApiUrl = pickedChannel.ctApiUrl || config.ctApiUrl;
   config.currentChannel = channel;
 };
 
@@ -88,7 +87,7 @@ const setup = ({ channels, defaultChannel }: MultichannelConfiguration) => {
 };
 
 const getPublicKey = () => config.publicKey;
-const getCkoWebhookUrl = () => config.ckoWebHookUrl;
+const getApiUrl = () => config.ctApiUrl;
 const getCkoProxyUrl = () => `${window.location.origin}/cko-api`;
 const getFramesStyles = () => config.card.style;
 const getFramesLocalization = () => config.card.localization;
@@ -96,4 +95,4 @@ const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
 const getCurrentChannel = () => config.currentChannel;
 
-export { defaultConfig, setChannel, setup, getPublicKey, getCurrentChannel, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
+export { defaultConfig, setChannel, setup, getPublicKey, getCurrentChannel, getApiUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration, CardConfiguration };
