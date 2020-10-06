@@ -61,7 +61,7 @@ TIP: if you use multistore then its good to use `localizedRoute` helper. `router
 
 ## Redirect: AsyncDataLoader
 
-If you need to make redirection outside of `asyncData` then you can also use `AsyncDataLoader` to handle server side.
+If you need to make redirection outside of `asyncData` then you can also use `AsyncDataLoader` to handle it.
 ```
 import { isServer } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
