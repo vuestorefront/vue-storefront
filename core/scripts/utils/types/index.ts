@@ -26,7 +26,7 @@ export interface Context {
 export interface RedirectTempObject {
   pendingPath: string,
   isPending: () => boolean,
-  resolver: (code: number, path: string) => void,
+  resolver (code?: number, path?: string): void,
 
   handler (path: string): void,
   handler (code: number, path: string): void,

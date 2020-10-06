@@ -31,6 +31,9 @@ describe('addRedirectTempObject', () => {
     };
 
     addRedirectTempObject(context, response)
+
+    // we don't want to show warning in tests
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   it('should create temporary object', () => {
@@ -44,27 +47,78 @@ describe('addRedirectTempObject', () => {
     expect(Object.keys(context.server._redirect)).toEqual(expect.arrayContaining(Object.keys(expectedObject)));
   });
 
-  it('should turn in pending state when pendingPath is filled', () => {
-    expect(context.server._redirect.isPending()).toEqual(false);
+  describe('isPending', () => {
+    it('should turn in pending state when pendingPath is filled', () => {
+      expect(context.server._redirect.isPending()).toEqual(false);
 
-    context.server._redirect.pendingPath = '/checkout'
+      context.server._redirect.pendingPath = '/checkout'
 
-    expect(context.server._redirect.isPending()).toEqual(true);
-  });
+      expect(context.server._redirect.isPending()).toEqual(true);
+    });
+  })
 
-  it('should not resolve redirection if its not pending', () => {
-    context.server._redirect.resolver(302, '/checkout')
+  describe('resolver', () => {
+    it('should not resolve redirection if its not pending', () => {
+      context.server._redirect.resolver(302, '/checkout')
 
-    expect(context.server._redirect).toBeTruthy();
-    expect(response.redirect).not.toBeCalled()
-  });
+      expect(context.server._redirect).toBeTruthy();
+      expect(response.redirect).not.toBeCalled()
+    });
 
-  it('should resolve redirection if its pending', () => {
-    context.server._redirect.isPending = jest.fn(() => true)
+    it('should resolve redirection if its pending', () => {
+      context.server._redirect.isPending = jest.fn(() => true)
 
-    context.server._redirect.resolver(302, '/checkout')
+      context.server._redirect.resolver(302, '/checkout')
 
-    expect(context.server._redirect).toBeFalsy();
-    expect(response.redirect).toBeCalled()
-  });
+      expect(context.server._redirect).toBeFalsy();
+      expect(response.redirect).toBeCalled()
+    });
+  })
+
+  describe('handler', () => {
+    it('should not set in pending state if current path is same as redirection', () => {
+      context.url = '/checkout'
+
+      context.server._redirect.handler('/checkout')
+
+      expect(context.server._redirect.pendingPath).toEqual(null)
+    });
+
+    it('should set in pending state', () => {
+      context.server._redirect.handler('/checkout')
+
+      expect(context.server._redirect.pendingPath).toEqual('/checkout')
+    });
+
+    it('should set in pending state only once per request', () => {
+      context.server._redirect.handler('/checkout')
+      context.server._redirect.handler('/checkout2')
+
+      expect(context.server._redirect.pendingPath).toEqual('/checkout')
+    });
+
+    it('should extend express redirect interface: (path: string): void', () => {
+      context.server._redirect.handler('/checkout')
+
+      context.server._redirect.resolver()
+
+      expect(response.redirect).toBeCalledWith(302, '/checkout')
+    });
+
+    it('should extend express redirect interface: (code: number, path: string): void', () => {
+      context.server._redirect.handler(301, '/checkout')
+
+      context.server._redirect.resolver()
+
+      expect(response.redirect).toBeCalledWith(301, '/checkout')
+    });
+
+    it('should extend express redirect interface: (path: string, code: number): void', () => {
+      context.server._redirect.handler('/checkout', 301)
+
+      context.server._redirect.resolver()
+
+      expect(response.redirect).toBeCalledWith(301, '/checkout')
+    });
+  })
 });
