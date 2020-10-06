@@ -37,7 +37,8 @@ describe('addRedirectTempObject', () => {
     const expectedObject: RedirectTempObject = {
       pendingPath: null,
       isPending: jest.fn(),
-      resolver: jest.fn()
+      resolver: jest.fn(),
+      handler: jest.fn()
     }
 
     expect(Object.keys(context.server._redirect)).toEqual(expect.arrayContaining(Object.keys(expectedObject)));

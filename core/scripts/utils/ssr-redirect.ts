@@ -20,7 +20,7 @@ function createResolveMethod (context: Context, expressResponse: Response) {
   }
 }
 
-export function createRedirectMethod (context: Context) {
+function createRedirectMethod (context: Context) {
   function redirect (path: string): void
   function redirect (code: number, path: string): void
   function redirect (path: string, code: number): void
@@ -65,7 +65,8 @@ export function addRedirectTempObject (context: Context, expressResponse: Respon
   const redirectTempObject: RedirectTempObject = {
     isPending: createIsPending(context),
     resolver: createResolveMethod(context, expressResponse),
-    pendingPath: null
+    pendingPath: null,
+    handler: createRedirectMethod(context)
   }
   context.server._redirect = redirectTempObject
 }
@@ -76,9 +77,6 @@ export function addRedirectTempObject (context: Context, expressResponse: Respon
 export function createRedirectProxy (context: Context, expressResponse: Response): ExpressReponseProxy {
   const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
 
-  // redirect method will be reused so we need to keep it out of proxy scope
-  const redirectMethod = createRedirectMethod(context)
-
   // returns proxy for Express Reponse object
   return new ProxyConstructor(expressResponse, {
     get (target, propKey) {
@@ -86,7 +84,7 @@ export function createRedirectProxy (context: Context, expressResponse: Response
 
       // 'redirect' can be called multiple times and we want to reuse same method
       if (propKey === 'redirect') {
-        return redirectMethod
+        return context.server._redirect.handler
       }
 
       return originalMethod
