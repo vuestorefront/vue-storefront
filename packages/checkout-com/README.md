@@ -449,3 +449,5 @@ const payment = await makePayment({ cartId: cart.value.id, cvv: 1234 });
 // If it is customer & require cvv
 const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email, cvv: 100 });
 ```
+
+You might wonder how you could learn whether you have to provide CVV for saved card or not. For that, I shared `isCvvRequired` computed boolean in `useCko`. It's value bases on `loadAvailableMethods` response. So you have to call this method before. If you didn't provide `cvv` to `makePayment` and it requires it - then it will throw an error.
