@@ -1,4 +1,4 @@
-import { addRedirectTempObject } from './../../ssr-redirect'
+import { addRedirectTempObject, createRedirectProxy } from './../../ssr-redirect'
 import { Context, RedirectTempObject } from './../../types';
 
 describe('addRedirectTempObject', () => {
@@ -81,20 +81,20 @@ describe('addRedirectTempObject', () => {
 
       context.server._redirect.handler('/checkout')
 
-      expect(context.server._redirect.pendingPath).toEqual(null)
+      expect(context.server._redirect.isPending()).toEqual(false)
     });
 
     it('should set in pending state', () => {
       context.server._redirect.handler('/checkout')
 
-      expect(context.server._redirect.pendingPath).toEqual('/checkout')
+      expect(context.server._redirect.isPending()).toEqual(true)
     });
 
     it('should set in pending state only once per request', () => {
       context.server._redirect.handler('/checkout')
       context.server._redirect.handler('/checkout2')
 
-      expect(context.server._redirect.pendingPath).toEqual('/checkout')
+      expect(context.server._redirect.isPending()).toEqual(true)
     });
 
     it('should extend express redirect interface: (path: string): void', () => {
@@ -121,4 +121,47 @@ describe('addRedirectTempObject', () => {
       expect(response.redirect).toBeCalledWith(301, '/checkout')
     });
   })
+});
+
+describe('createRedirectProxy', () => {
+  let context: Context
+  const response: any = {
+    redirect: jest.fn(() => null)
+  }
+
+  beforeEach(() => {
+    context = {
+      url: '/',
+      output: {
+        prepend: (context) => { return ''; },
+        append: (context) => { return ''; },
+        filter: (output, context) => { return output },
+        appendHead: (context) => { return ''; },
+        template: 'default',
+        cacheTags: new Set()
+      },
+      server: {
+        app: null,
+        response,
+        request: null
+      },
+      meta: null,
+      vs: {
+        config: null,
+        storeCode: ''
+      }
+    };
+  });
+
+  it('should call redirect method from temp context', () => {
+    addRedirectTempObject(context, response)
+    context.server.response = createRedirectProxy(context, response)
+    context.server._redirect.isPending = () => true
+
+    const spy = jest.spyOn(context.server._redirect, 'handler')
+
+    context.server.response.redirect('/checkout')
+
+    expect(spy).toHaveBeenCalled();
+  });
 });
