@@ -1,6 +1,6 @@
-import { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, setChannel } from './configuration';
+import { setup, getPublicKey, getApiUrl, getFramesStyles, setChannel } from './configuration';
 import useCko from './useCko';
 import { CkoPaymentType } from './helpers';
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, useCko, setChannel, CkoPaymentType };
+export { setup, getPublicKey, getApiUrl, getFramesStyles, useCko, setChannel, CkoPaymentType };
 

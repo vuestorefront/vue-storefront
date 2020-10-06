@@ -1,9 +1,26 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "include": ["src"],
-  "exclude": ["node_modules", "lib"],
-  "files": ["typings.d.ts"],
   "compilerOptions": {
+    "outDir": "./lib",
+    "esModuleInterop": true,
+    "target": "es5",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
+    "strict": false,
+    "preserveSymlinks": true,
+    "paths": {
+      "@vue-storefront/core": ["core/core/src"],
+    },
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["node_modules", "**/*.spec.ts", "lib"],
+  "include": ["src"],
+  "files": ["typings.d.ts"],
 }
