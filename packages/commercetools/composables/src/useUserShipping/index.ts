@@ -125,7 +125,7 @@ const params: UseUserShippingFactoryParams<any> = {
       addresses.sort(sortDefaultAtTop);
     }
 
-    return Promise.resolve({});
+    return Promise.resolve(addresses);
   }
 };
 
