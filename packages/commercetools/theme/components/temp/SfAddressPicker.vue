@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import SfAddress from '~/components/SfAddress.vue';
+import SfAddress from '~/components/temp/SfAddress.vue';
 
 import Vue from 'vue';
 Vue.component('SfAddress', SfAddress);

@@ -18,7 +18,7 @@
 import {
   SfIcon
 } from '@storefront-ui/vue';
-import SfRadio from '~/components/SfRadio.vue';
+import SfRadio from '~/components/temp/SfRadio.vue';
 
 export default {
   name: 'SfAddressPicker',

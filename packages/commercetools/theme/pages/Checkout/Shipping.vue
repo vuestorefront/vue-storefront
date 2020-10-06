@@ -34,7 +34,7 @@
             class="shipping-address-setAsDefault"
           />
         </div>
-        <div class="form" v-if="provideAddress">
+        <div class="form" v-if="isAddNewAddressVisible">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.firstName"
@@ -141,10 +141,10 @@
           </ValidationProvider>
         </div>
         <SfButton
-          v-if="!provideAddress"
+          v-if="!isAddNewAddressVisible"
           class="form__action-button form__action-button--margin-bottom"
           type="submit"
-          @click.native="provideAddress = true"
+          @click.native="isAddNewAddressVisible = true"
         >
           Add new address
         </SfButton>
@@ -234,7 +234,7 @@ export default {
     SfSelect,
     SfRadio,
     SfCheckbox,
-    SfAddressPicker: () => import('~/components/SfAddressPicker'),
+    SfAddressPicker: () => import('~/components/temp/SfAddressPicker'),
     ValidationProvider,
     ValidationObserver
   },
@@ -254,7 +254,7 @@ export default {
     const { addresses: shippingAddresses, load: loadShippingAddresses, setDefault } = useUserShipping();
     const { isAuthenticated } = useUser();
 
-    const provideAddress = ref(true);
+    const isAddNewAddressVisible = ref(true);
     const justChangedAddress = ref(false);
     const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
@@ -280,7 +280,7 @@ export default {
         if (!shippingAddresses.value.length) {
           return;
         }
-        provideAddress.value = false;
+        isAddNewAddressVisible.value = false;
         if (shippingAddresses.value[0].isDefault) {
           setCurrentAddress(shippingAddresses.value[0].id);
         }
@@ -327,7 +327,7 @@ export default {
       checkoutGetters,
       countries: getSettings().countries,
       shippingAddresses,
-      provideAddress,
+      isAddNewAddressVisible,
       justChangedAddress,
       isAuthenticated,
       currentAddressId: computed(() => currentAddressId.value),
