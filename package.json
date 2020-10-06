@@ -99,17 +99,13 @@
   },
   "workspaces": {
     "packages": [
-      "packages/commercetools/*",
-      "packages/spryker/*",
-      "packages/checkout-com",
+      "packages/about-you/*",
       "packages/boilerplate/*",
+      "packages/checkout-com",
+      "packages/commercetools/*",
       "packages/core/*",
       "packages/prismic",
-      "packages/about-you/*",
       "packages/shopify/*"
-    ],
-    "nohoist": [
-      "**/**/**"
     ]
   },
   "husky": {

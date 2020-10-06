@@ -16,8 +16,8 @@ const log = {
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
-  const isProd = process.env.NODE_ENV === 'production'
-  const isSfuiInstalled = fs.existsSync(path.resolve('node_modules/@storefront-ui'))
+  const isProd = process.env.NODE_ENV === 'production';
+  const isSfuiInstalled = fs.existsSync(require.resolve('@storefront-ui/vue'));
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: {
@@ -60,20 +60,20 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     log.info(`Vue Storefront core development mode is on ${chalk.italic('[coreDevelopment]')}`)
     if (moduleOptions.coreDevelopment) global.coreDev = true
     this.extendBuild(config => {
-      config.resolve.alias['@vue/composition-api'] = path.resolve('node_modules/@vue/composition-api')
-    })
+      config.resolve.alias['@vue/composition-api'] = require.resolve('@vue/composition-api');
+    });
   }
 
   //------------------------------------
 
   const useRawSource = (package) => {
-    const pkgPath = path.resolve('node_modules/'+ package)
-    const pkg = require(pkgPath + '/package.json')
+    const pkgPath = require.resolve(`${package}/package.json`);
+    const pkg = require(pkgPath);
 
     if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.tsModule || pkg.module)
-      })
+        config.resolve.alias[pkg.name + '$'] = require.resolve(`${package}/${pkg.module}`);
+      });
     }
     this.options.build.transpile.push(package)
     log.info(`Using raw source/ESM for ${chalk.bold(pkg.name)} ${chalk.italic('[useRawSource]')}`)
@@ -81,8 +81,8 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   // always use raw source on core development mode
   options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
-    useRawSource(package)
-  })
+    useRawSource(package);
+  });
 }
 
 module.exports.meta = require('../package.json')
