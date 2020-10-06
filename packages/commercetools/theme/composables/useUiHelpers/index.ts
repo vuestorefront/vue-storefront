@@ -39,7 +39,7 @@ const useUiHelpers = () => {
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(context, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10) || 30,
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
       term: query.term
     };
   };
