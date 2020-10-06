@@ -29,12 +29,7 @@ const addresses: any[] = [
   }
 ];
 
-const findBiggestId = () => addresses.reduce((biggest, curr) => {
-  if (curr.id > biggest) {
-    return curr.id;
-  }
-  return biggest;
-}, 0);
+const findBiggestId = () => addresses.reduce((highest, { id }) => Math.max(highest, id), 0);
 
 const disableOldDefault = () => {
   const oldDefault = addresses.find(address => address.isDefault);
