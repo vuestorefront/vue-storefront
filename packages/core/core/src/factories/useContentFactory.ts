@@ -1,7 +1,7 @@
 import { Ref, computed } from '@vue/composition-api';
 import { RenderComponent, UseContent } from '../types';
 import { sharedRef } from '../utils/shared';
-import Vue, { VNode } from 'vue';
+import Vue, {Component, CreateElement, PropOptions, VNode} from 'vue';
 
 export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
@@ -35,23 +35,23 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   };
 }
 
-export declare type RenderContentFactoryParams<CONTENT> = {
-  resolveComponents: CONTENT[];
+export const RenderContentProp: PropOptions<RenderComponent[]> = {
+  type: Array,
+  default: () => []
 };
 
-export function renderContentFactory(
-  factoryParams: RenderContentFactoryParams<RenderComponent>
-) {
-  return function renderComponents(): VNode[] {
-    const components = [];
-    factoryParams.resolveComponents.map(component => {
-      return new Vue({
-        render(createElement): any {
-          const { componentName, props } = component;
-          components.push(createElement(componentName, { props }));
-        }
+export function renderContentFactory(): Component {
+  return Vue.component('render-content', {
+    render: function render(createElement) {
+      const components: VNode[] = [];
+      this.content.map(function component(component: RenderComponent) {
+        const { componentName, props } = component;
+        components.push(createElement(componentName, { attrs: { name: componentName }, props }, this.$slots.default));
       });
-    });
-    return components;
-  };
+      return createElement('render-container', components);
+    },
+    props: {
+      content: RenderContentProp
+    }
+  });
 }

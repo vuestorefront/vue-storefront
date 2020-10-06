@@ -9,3 +9,4 @@ export * from './useUserOrdersFactory';
 export * from './apiClientFactory';
 export * from './useReviewFactory';
 export * from './useFacetFactory';
+export * from './useContentFactory';
