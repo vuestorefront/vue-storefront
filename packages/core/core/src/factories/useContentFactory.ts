@@ -35,21 +35,20 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   };
 }
 
-export declare type RenderComponentFactoryParams = {
-  resolveComponents: { content: RenderComponent }[];
+export declare type RenderContentFactoryParams<CONTENT> = {
+  resolveComponents: CONTENT[];
 };
 
-export function renderComponentsFactory(
-  factoryParams: RenderComponentFactoryParams
+export function renderContentFactory(
+  factoryParams: RenderContentFactoryParams<RenderComponent>
 ) {
   return function renderComponents(): VNode[] {
     const components = [];
     factoryParams.resolveComponents.map(component => {
-      const { content } = component;
       return new Vue({
         render(createElement): any {
-          const { componentName } = content;
-          components.push(createElement(componentName, { props: { ...content } }));
+          const { componentName, props } = component;
+          components.push(createElement(componentName, { props }));
         }
       });
     });
