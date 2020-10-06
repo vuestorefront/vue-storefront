@@ -10,6 +10,10 @@ import { Attributes } from '@aboutyou/backbone/types/BapiProduct';
 
 type ProductVariantFilters = any
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const formatAttributeList = (attributes: Attributes): AgnosticAttribute[] => {
   const result = [];
   for (const key in attributes) {
@@ -124,14 +128,14 @@ export const getFormattedPrice = (price: number): string => price ? `${price.toF
 export const getProductTotalReviews = (product: BapiProduct): number => {
   console.log('Mocked: getProductTotalReviews');
 
-  return 0;
+  return getRandomInt(0, 20);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductAverageRating = (product: BapiProduct): number => {
   console.log('Mocked: getProductAverageRating');
 
-  return 0;
+  return getRandomInt(1, 5);
 };
 
 const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {

@@ -41,7 +41,7 @@ interface ReviewDraft {
 
 When `@vsf-enterprise/ct-reviews` plugin is installed as a dependency, it requires minor modifications in the code to work.
 
-At the top of `script` tag in `Product.vue`, we're importing `useReview` and `reviewGetters` from `@vue-storefront/commercetools`. To use this plugin, simple import them from `@vsf-enterprise/ct-reviews` instead of `@vue-storefront/commercetools`:
+In the codebase we're importing `useReview` and `reviewGetters` from `@vue-storefront/commercetools`. To use this plugin, simply import them from `@vsf-enterprise/ct-reviews` instead of `@vue-storefront/commercetools`:
 
 ```javascript
 // Before
