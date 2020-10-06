@@ -190,7 +190,7 @@
         <template #categories-mobile>
           <SfAccordionItem
             header="Category"
-            class="filters__accordion-item smartphone-only"
+            class="filters__accordion-item"
           >
             <SfAccordion class="categories">
               <SfAccordionItem
@@ -544,32 +544,6 @@ export default {
   }
 }
 .filters {
-  &__title {
-    --heading-title-font-size: var(--font-xl);
-    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-    &:first-child {
-      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-    }
-  }
-  &__color {
-    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
-  }
-  &__item {
-    --filter-label-color: var(--c-secondary-variant);
-    --filter-count-color: var(--c-secondary-variant);
-    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-    padding: var(--spacer-sm) 0;
-    border-bottom: 1px solid var(--c-light);
-    &:last-child {
-      border-bottom: 0;
-    }
-    @include for-desktop {
-      --checkbox-padding: 0;
-      margin: var(--spacer-sm) 0;
-      border: 0;
-      padding: 0;
-    }
-  }
   &__accordion-item {
     --accordion-item-content-padding: 0;
     position: relative;
@@ -578,14 +552,6 @@ export default {
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-  }
-  &__buttons {
-    margin: var(--spacer-sm) 0;
-  }
-  &__button-clear {
-    --button-background: var(--c-light);
-    --button-color: var(--c-dark-variant);
-    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>
