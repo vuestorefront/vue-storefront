@@ -3,6 +3,7 @@ import { useUserShippingFactory, UseUserShippingFactoryParams } from '@vue-store
 const addresses: any[] = [
   {
     id: 1,
+    email: 'john@gmail.com',
     firstName: 'Sviatlana',
     lastName: 'Havaka',
     streetName: 'Zielinskiego',
@@ -16,6 +17,7 @@ const addresses: any[] = [
   },
   {
     id: 2,
+    email: 'havaka@gmail.com',
     firstName: 'Sviatlana',
     lastName: 'Havaka',
     streetName: 'Zielinskiego',
