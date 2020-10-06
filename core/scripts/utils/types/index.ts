@@ -1,5 +1,4 @@
-import { Express, Request } from 'express'
-import { RedirectTempObject, ExpressReponseProxy } from './../ssr-redirect'
+import { Express, Request, Response } from 'express'
 
 export interface Context {
   url: string,
@@ -15,11 +14,39 @@ export interface Context {
     app: Express,
     response: ExpressReponseProxy,
     request: Request,
-    _redirect: RedirectTempObject
+    _redirect?: RedirectTempObject
   },
   meta: any|null,
   vs: {
     config: Record<any, any>,
     storeCode: string
   }
+}
+
+export interface RedirectTempObject {
+  pendingPath: string,
+  isPending: () => boolean,
+  resolver: (code: number, path: string) => void
+}
+
+export interface ExpressReponseProxy extends Omit<Response, 'redirect'> {
+  /**
+   * Redirect to the given `url` with optional response `status`
+   * defaulting to 302.
+   *
+   * The resulting `url` is determined by `res.location()`, so
+   * it will play nicely with mounted apps, relative paths,
+   * `"back"` etc.
+   *
+   * Examples:
+   *
+   *    res.redirect('/foo/bar');
+   *    res.redirect('http://example.com');
+   *    res.redirect(301, 'http://example.com');
+   *    res.redirect('http://example.com', 301);
+   *    res.redirect('../login'); // /blog/post/1 -> /blog/login
+   */
+  redirect (path: string): void,
+  redirect (code: number, path: string): void,
+  redirect (path: string, code: number): void
 }

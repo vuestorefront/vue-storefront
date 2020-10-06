@@ -1,5 +1,5 @@
-import { addRedirectTempObject, RedirectTempObject } from './../../ssr-redirect'
-import { Context } from './../../types';
+import { addRedirectTempObject } from './../../ssr-redirect'
+import { Context, RedirectTempObject } from './../../types';
 
 describe('addRedirectTempObject', () => {
   let context: Context
@@ -21,8 +21,7 @@ describe('addRedirectTempObject', () => {
       server: {
         app: null,
         response,
-        request: null,
-        _redirect: null
+        request: null
       },
       meta: null,
       vs: {
@@ -38,7 +37,7 @@ describe('addRedirectTempObject', () => {
     const expectedObject: RedirectTempObject = {
       pendingPath: null,
       isPending: jest.fn(),
-      resolve: jest.fn()
+      resolver: jest.fn()
     }
 
     expect(Object.keys(context.server._redirect)).toEqual(expect.arrayContaining(Object.keys(expectedObject)));
@@ -53,7 +52,7 @@ describe('addRedirectTempObject', () => {
   });
 
   it('should not resolve redirection if its not pending', () => {
-    context.server._redirect.resolve(302, '/checkout')
+    context.server._redirect.resolver(302, '/checkout')
 
     expect(context.server._redirect).toBeTruthy();
     expect(response.redirect).not.toBeCalled()
@@ -62,7 +61,7 @@ describe('addRedirectTempObject', () => {
   it('should resolve redirection if its pending', () => {
     context.server._redirect.isPending = jest.fn(() => true)
 
-    context.server._redirect.resolve(302, '/checkout')
+    context.server._redirect.resolver(302, '/checkout')
 
     expect(context.server._redirect).toBeFalsy();
     expect(response.redirect).toBeCalled()

@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { Context } from './types'
+import { Context, ExpressReponseProxy, RedirectTempObject } from './types'
 
 function createIsPending (context: Context): () => boolean {
   return () => !!context.server._redirect.pendingPath
@@ -52,16 +52,10 @@ export function createRedirectMethod (context: Context) {
     context.server._redirect.pendingPath = redirectionPath
 
     // fill up resolver with arguments
-    context.server._redirect.resolve = context.server._redirect.resolve.bind(null, redirectionCode, redirectionPath)
+    context.server._redirect.resolver = context.server._redirect.resolver.bind(null, redirectionCode, redirectionPath)
   }
 
   return redirect
-}
-
-export interface RedirectTempObject {
-  pendingPath: string,
-  isPending: () => boolean,
-  resolve: (code: number, path: string) => void
 }
 
 /**
@@ -70,34 +64,12 @@ export interface RedirectTempObject {
 export function addRedirectTempObject (context: Context, expressResponse: Response) {
   const redirectTempObject: RedirectTempObject = {
     isPending: createIsPending(context),
-    resolve: createResolveMethod(context, expressResponse),
+    resolver: createResolveMethod(context, expressResponse),
     pendingPath: null
   }
   context.server._redirect = redirectTempObject
 }
 
-export interface ExpressReponseProxy extends Omit<Response, 'redirect'> {
-
-  /**
-   * Redirect to the given `url` with optional response `status`
-   * defaulting to 302.
-   *
-   * The resulting `url` is determined by `res.location()`, so
-   * it will play nicely with mounted apps, relative paths,
-   * `"back"` etc.
-   *
-   * Examples:
-   *
-   *    res.redirect('/foo/bar');
-   *    res.redirect('http://example.com');
-   *    res.redirect(301, 'http://example.com');
-   *    res.redirect('http://example.com', 301);
-   *    res.redirect('../login'); // /blog/post/1 -> /blog/login
-   */
-  redirect (path: string): void,
-  redirect (code: number, path: string): void,
-  redirect (path: string, code: number): void
-}
 /**
  * proxy creation takes place only once while context is created
  */

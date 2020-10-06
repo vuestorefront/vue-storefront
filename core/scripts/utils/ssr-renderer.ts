@@ -120,9 +120,8 @@ function initSSRRequestContext (app, req, res, config): Context {
     },
     server: {
       app: app,
-      response: null,
-      request: req,
-      _redirect: null
+      response: null, // we will initialize it as proxy
+      request: req
     },
     meta: null,
     vs: {

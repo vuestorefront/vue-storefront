@@ -198,7 +198,7 @@ app.get('*', (req, res, next) => {
       if (context.server._redirect.isPending()) {
         console.log(`redirect from [${context.url}]`)
         // it should have arguments setup, we just need to call it
-        context.server._redirect.resolve.call(null)
+        context.server._redirect.resolver.call(null)
         return
       }
       if (!res.get('content-type')) {
