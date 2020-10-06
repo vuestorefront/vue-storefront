@@ -28,7 +28,7 @@
               v-for="option in facet.options"
               :key="`${facet.id}-${option.value}`"
               :data-cy="`category-filter_${facet.id}_${option.value}`"
-              :label="option.id"
+              :label="option.id + `${option.count && ` (${option.count})`}`"
               :selected="isFilterSelected(facet, option)"
               class="filters__item"
               @change="() => selectFilter(facet, option)"
@@ -90,7 +90,7 @@ export default {
     }
   },
   setup(props) {
-    const { switchFilters, isFacetColor } = useUiHelpers();
+    const { changeFilters, isFacetColor } = useUiHelpers();
     const selectedFilters = ref({});
 
     onMounted(() => {
@@ -120,12 +120,12 @@ export default {
     const clearFilters = () => {
       uiState.toggleFilterSidebar();
       selectedFilters.value = {};
-      switchFilters(selectedFilters.value);
+      changeFilters(selectedFilters.value);
     };
 
     const applyFilters = () => {
       uiState.toggleFilterSidebar();
-      switchFilters(selectedFilters.value);
+      changeFilters(selectedFilters.value);
     };
 
     return {
