@@ -252,12 +252,11 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, onMounted } from '@vue/composition-api';
-import { useCart, useWishlist, productGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers } from '~/composables';
 import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
-import { useFacet, facetGetters } from '@vsf-enterprise/faceting';
 
 export default {
   transition: 'fade',
