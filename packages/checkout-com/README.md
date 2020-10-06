@@ -432,7 +432,7 @@ const removeMinePaymentInstrument = async (paymentInstrument: string): Promise<v
 ```
 
 ## Changing current channel
-All you have to do us just import `setChannel` method and call it:
+All you have to do is just import `setChannel` method and call it:
 ```ts
 import { setChannel } from '@vue-storefront/checkout-com';
 
