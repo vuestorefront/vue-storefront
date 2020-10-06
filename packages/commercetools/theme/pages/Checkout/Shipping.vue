@@ -149,13 +149,13 @@
           Add new address
         </SfButton>
         <SfHeading
-          v-if="isShippingAddressCompleted && !dirty && !justChangedAddress"
+          v-if="canContinueToPayment(dirty)"
           :level="3"
           title="Shipping method"
           class="sf-heading--left sf-heading--no-underline title"
         />
         <div class="form">
-          <div class="form__radio-group" v-if="isShippingAddressCompleted && !dirty && !justChangedAddress">
+          <div class="form__radio-group" v-if="canContinueToPayment(dirty)">
             <SfRadio
               v-for="item in shippingMethods"
               :key="checkoutGetters.getShippingMethodName(item)"
@@ -184,7 +184,7 @@
           </div>
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-            <SfButton class="form__action-button" type="submit" v-if="isShippingAddressCompleted && !dirty && !justChangedAddress" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
+            <SfButton class="form__action-button" type="submit" v-if="canContinueToPayment(dirty)" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
               Continue to payment
             </SfButton>
             <SfButton class="form__action-button" type="submit" :disabled="loading.shippingMethods" v-else>
@@ -267,21 +267,7 @@ export default {
         return;
       }
       currentAddressId.value = addressId;
-      setShippingDetails({
-        ...shippingDetails.value,
-        contactInfo: {
-          ...shippingDetails.value.contactInfo,
-          phone: chosenAddress.phoneNumber
-        },
-        streetNumber: chosenAddress.apartment,
-        city: chosenAddress.city,
-        country: chosenAddress.country,
-        state: chosenAddress.state,
-        firstName: chosenAddress.firstName,
-        lastName: chosenAddress.lastName,
-        streetName: chosenAddress.streetName,
-        postalCode: chosenAddress.zipCode
-      });
+      setShippingDetails(chosenAddress);
       justChangedAddress.value = true;
     };
 
@@ -327,6 +313,8 @@ export default {
       justChangedAddress.value = false;
     };
 
+    const canContinueToPayment = dirty => isShippingAddressCompleted.value && !dirty && !justChangedAddress.value;
+
     return {
       loading,
       handleShippingAddressSubmit,
@@ -346,7 +334,8 @@ export default {
       isAuthenticated,
       currentAddressId: computed(() => currentAddressId.value),
       setAsDefault,
-      setCurrentAddress
+      setCurrentAddress,
+      canContinueToPayment
     };
   }
 };
