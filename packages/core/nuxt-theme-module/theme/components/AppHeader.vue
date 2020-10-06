@@ -5,7 +5,7 @@
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
-    @enter:search="switchSearchPhase"
+    @enter:search="changeSearchPhase"
     @change:search="p => phase = p"
     :searchValue="phase"
     :cartItemsQty="cartTotalItems"
@@ -59,7 +59,7 @@ export default {
     LocaleSelector
   },
   setup(props, { root }) {
-    const { switchSearchPhase, getFacetsFromURL } = useUiHelpers();
+    const { changeSearchPhase, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
@@ -93,7 +93,7 @@ export default {
       handleAccountClick,
       toggleCartSidebar,
       toggleWishlistSidebar,
-      switchSearchPhase,
+      changeSearchPhase,
       phase
     };
   }

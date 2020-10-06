@@ -26,7 +26,7 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" :selected="sortBy.selected" @change="th.switchSorting" data-cy="category-select_sortBy">
+          <SfSelect class="navbar__select" :selected="sortBy.selected" @change="th.changeSorting" data-cy="category-select_sortBy">
             <SfSelectOption
               v-for="option in sortBy.options"
               :key="option.id"
@@ -167,7 +167,7 @@
           class="products__pagination__options"
         >
           <span class="products__pagination__label">Items per page:</span>
-          <SfSelect class="items-per-page" :selected="pagination.itemsPerPage" @change="th.switchItemsPerPage">
+          <SfSelect class="items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
             <SfSelectOption
               v-for="option in pagination.pageOptions"
               :key="option"

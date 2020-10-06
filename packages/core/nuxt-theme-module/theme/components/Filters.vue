@@ -90,7 +90,7 @@ export default {
     }
   },
   setup(props) {
-    const { switchFilters, isFacetColor } = useUiHelpers();
+    const { changeFilters, isFacetColor } = useUiHelpers();
     const selectedFilters = ref({});
 
     onMounted(() => {
@@ -120,12 +120,12 @@ export default {
     const clearFilters = () => {
       uiState.toggleFilterSidebar();
       selectedFilters.value = {};
-      switchFilters(selectedFilters.value);
+      changeFilters(selectedFilters.value);
     };
 
     const applyFilters = () => {
       uiState.toggleFilterSidebar();
-      switchFilters(selectedFilters.value);
+      changeFilters(selectedFilters.value);
     };
 
     return {

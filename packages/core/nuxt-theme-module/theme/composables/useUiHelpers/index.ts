@@ -17,25 +17,25 @@ const useUiHelpers = () => {
   };
 
   // eslint-disable-next-line
-  const switchSorting = (sort) => {
-    console.warn('[VSF] please implement useUiHelpers.switchSorting.');
+  const changeSorting = (sort) => {
+    console.warn('[VSF] please implement useUiHelpers.changeSorting.');
 
     return 'latest';
   };
 
   // eslint-disable-next-line
-  const switchFilters = (filters) => {
-    console.warn('[VSF] please implement useUiHelpers.switchFilters.');
+  const changeFilters = (filters) => {
+    console.warn('[VSF] please implement useUiHelpers.changeFilters.');
   };
 
   // eslint-disable-next-line
-  const switchItemsPerPage = (itemsPerPage) => {
-    console.warn('[VSF] please implement useUiHelpers.switchItemsPerPage.');
+  const changeItemsPerPage = (itemsPerPage) => {
+    console.warn('[VSF] please implement useUiHelpers.changeItemsPerPage.');
   };
 
   // eslint-disable-next-line
-  const switchSearchPhase = (phase: string) => {
-    console.warn('[VSF] please implement useUiHelpers.switchSearchPhase.');
+  const changeSearchPhase = (phase: string) => {
+    console.warn('[VSF] please implement useUiHelpers.changeSearchPhase.');
   };
 
   // eslint-disable-next-line
@@ -55,10 +55,10 @@ const useUiHelpers = () => {
   return {
     getFacetsFromURL,
     getCatLink,
-    switchSorting,
-    switchFilters,
-    switchItemsPerPage,
-    switchSearchPhase,
+    changeSorting,
+    changeFilters,
+    changeItemsPerPage,
+    changeSearchPhase,
     isFacetColor,
     isFacetCheckbox
   };

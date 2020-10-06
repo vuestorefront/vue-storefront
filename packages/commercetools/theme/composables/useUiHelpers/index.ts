@@ -48,12 +48,12 @@ const useUiHelpers = () => {
     return `/c/${context.$route.params.slug_1}/${category.slug}`;
   };
 
-  const switchSorting = (sort: string) => {
+  const changeSorting = (sort: string) => {
     const { query } = context.$router.history.current;
     context.$router.push({ query: { ...query, sort } });
   };
 
-  const switchFilters = (filters: any) => {
+  const changeFilters = (filters: any) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
@@ -62,7 +62,7 @@ const useUiHelpers = () => {
     });
   };
 
-  const switchItemsPerPage = (itemsPerPage: number) => {
+  const changeItemsPerPage = (itemsPerPage: number) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
@@ -71,7 +71,7 @@ const useUiHelpers = () => {
     });
   };
 
-  const switchSearchPhase = (phase: string) => {
+  const changeSearchPhase = (phase: string) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
@@ -87,10 +87,10 @@ const useUiHelpers = () => {
   return {
     getFacetsFromURL,
     getCatLink,
-    switchSorting,
-    switchFilters,
-    switchItemsPerPage,
-    switchSearchPhase,
+    changeSorting,
+    changeFilters,
+    changeItemsPerPage,
+    changeSearchPhase,
     isFacetColor,
     isFacetCheckbox
   };
