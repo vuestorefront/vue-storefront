@@ -9,12 +9,10 @@ export interface UseUserShippingFactoryParams<ADDRESS> {
   }) => Promise<ADDRESS[]>;
   deleteAddress: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
     addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   updateAddress: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
     addresses: Readonly<ADDRESS[]>;
   }) => Promise<ADDRESS[]>;
   load: (params: {
@@ -22,9 +20,8 @@ export interface UseUserShippingFactoryParams<ADDRESS> {
   }) => Promise<ADDRESS[]>;
   setDefault: (params: {
     address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
     addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS>;
+  }) => Promise<ADDRESS[]>;
 }
 
 export const useUserShippingFactory = <ADDRESS>(
@@ -32,12 +29,10 @@ export const useUserShippingFactory = <ADDRESS>(
 ) => {
 
   const useUserShipping = (): UseUserShipping<ADDRESS> => {
-    const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserShipping-default-address');
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
     const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserShipping-addresses');
 
     const readonlyAddresses: Readonly<ADDRESS[]> = unref(addresses);
-    const readonlyDefaultAddress: Readonly<ADDRESS> = unref(defaultAddress);
 
     const addAddress = async (address: ADDRESS) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
@@ -64,7 +59,6 @@ export const useUserShippingFactory = <ADDRESS>(
       try {
         addresses.value = await factoryParams.deleteAddress({
           address,
-          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
@@ -83,7 +77,6 @@ export const useUserShippingFactory = <ADDRESS>(
       try {
         addresses.value = await factoryParams.updateAddress({
           address,
-          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
@@ -117,9 +110,8 @@ export const useUserShippingFactory = <ADDRESS>(
 
       loading.value = true;
       try {
-        defaultAddress.value = await factoryParams.setDefault({
+        addresses.value = await factoryParams.setDefault({
           address,
-          defaultAddress: readonlyDefaultAddress,
           addresses: readonlyAddresses
         });
       } catch (err) {
@@ -133,8 +125,6 @@ export const useUserShippingFactory = <ADDRESS>(
 
     return {
       addresses: computed(() => addresses.value),
-      totalAddresses: computed(() => addresses.value.length),
-      defaultAddress: computed(() => defaultAddress.value),
       loading: computed(() => loading.value),
       addAddress,
       deleteAddress,

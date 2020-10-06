@@ -21,14 +21,10 @@ describe('[CORE - factories] useUserShippingFactory', () => {
     const { useUserShipping } = useUserShippingFactory(factoryParams);
     const {
       addresses,
-      totalAddresses,
-      defaultAddress,
       loading
     } = useUserShipping();
 
     expect(addresses.value).toEqual([]);
-    expect(totalAddresses.value).toEqual(0);
-    expect(defaultAddress.value).toEqual(null);
     expect(loading.value).toEqual(false);
   });
 
@@ -118,7 +114,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.setDefault(paramsToUpdate);
-        expect(useUserShippingMethods.defaultAddress.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {

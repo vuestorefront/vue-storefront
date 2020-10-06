@@ -84,14 +84,28 @@ export interface UseUserAddress<ADDRESS> {
 
 export interface UseUserShipping<ADDRESS> {
   addresses: ComputedProperty<ADDRESS[]>;
-  totalAddresses: ComputedProperty<number>;
   addAddress: (address: ADDRESS) => Promise<void>;
   deleteAddress: (address: ADDRESS) => Promise<void>;
   updateAddress: (address: ADDRESS) => Promise<void>;
   load: () => Promise<void>;
-  defaultAddress: ComputedProperty<ADDRESS>;
   setDefault: (address: ADDRESS) => Promise<void>;
   loading: ComputedProperty<boolean>;
+}
+
+export interface UserShippingGetters<ADDRESS> {
+  getFiltered: (addresses: ADDRESS[], criteria: any) => ADDRESS[];
+  getDefault: (addresses: ADDRESS[]) => ADDRESS;
+  getTotal: (addresses: ADDRESS[]) => number;
+  getPostCode: (address: ADDRESS) => string;
+  getStreetName: (address: ADDRESS) => string;
+  getCity: (address: ADDRESS) => string;
+  getFirstName: (address: ADDRESS) => string;
+  getLastName: (address: ADDRESS) => string;
+  getCountry: (address: ADDRESS) => string;
+  getStreetNumber: (address: ADDRESS) => string;
+  getPhone: (address: ADDRESS) => string;
+  getEmail: (address: ADDRESS) => string;
+  getProvince: (address: ADDRESS) => string;
 }
 
 export interface UseUserBilling<ADDRESS> {
