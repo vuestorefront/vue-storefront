@@ -26,7 +26,7 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" placeholder="select sorting" :selected="sortBy.selected" @change="th.switchSorting" data-cy="category-select_sortBy">
+          <SfSelect class="navbar__select" :selected="sortBy.selected" placeholder="select sorting" @change="th.changeSorting" data-cy="category-select_sortBy">
             <SfSelectOption
               v-for="option in sortBy.options"
               :key="option.id"
@@ -81,14 +81,14 @@
             >
               <SfList class="list">
                 <SfListItem class="list__item">
-                  <SfMenuItem :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
+                  <SfMenuItem :count="cat.count || ''" :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
                     <template #label>
                       <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
                     </template>
                   </SfMenuItem>
                 </SfListItem>
                 <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                  <SfMenuItem :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
+                  <SfMenuItem :count="subCat.count || ''" :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
                     <template #label="{ label }">
                       <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
                     </template>
@@ -167,7 +167,7 @@
           class="products__pagination__options desktop-only"
         >
           <span class="products__pagination__label">Show on page:</span>
-          <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.switchItemsPerPage">
+          <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
             <SfSelectOption
               v-for="option in pagination.pageOptions"
               :key="option"
@@ -190,7 +190,7 @@
         <template #categories-mobile>
           <SfAccordionItem
             header="Category"
-            class="filters__accordion-item smartphone-only"
+            class="filters__accordion-item"
           >
             <SfAccordion class="categories">
               <SfAccordionItem
@@ -201,6 +201,7 @@
                 <SfList class="list">
                   <SfListItem class="list__item">
                     <SfMenuItem
+                      :count="cat.coun || ''"
                       :data-cy="`category-link_subcategory_${cat.slug}`"
                       :label="cat.label"
                       icon=""
@@ -212,6 +213,7 @@
                   </SfListItem>
                   <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
                     <SfMenuItem
+                      :count="subCat.count || ''"
                       :data-cy="`category-link_subcategory_${subCat.slug}`"
                       :label="subCat.label"
                       icon=""
@@ -250,7 +252,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { computed, onMounted } from '@vue/composition-api';
-import { useFacet, useCart, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers } from '~/composables';
 import uiState from '~/assets/ui-state';
 import { onSSR } from '@vue-storefront/core';
@@ -544,32 +546,6 @@ export default {
   }
 }
 .filters {
-  &__title {
-    --heading-title-font-size: var(--font-xl);
-    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-    &:first-child {
-      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-    }
-  }
-  &__color {
-    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
-  }
-  &__item {
-    --filter-label-color: var(--c-secondary-variant);
-    --filter-count-color: var(--c-secondary-variant);
-    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-    padding: var(--spacer-sm) 0;
-    border-bottom: 1px solid var(--c-light);
-    &:last-child {
-      border-bottom: 0;
-    }
-    @include for-desktop {
-      --checkbox-padding: 0;
-      margin: var(--spacer-sm) 0;
-      border: 0;
-      padding: 0;
-    }
-  }
   &__accordion-item {
     --accordion-item-content-padding: 0;
     position: relative;
@@ -578,14 +554,6 @@ export default {
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-  }
-  &__buttons {
-    margin: var(--spacer-sm) 0;
-  }
-  &__button-clear {
-    --button-background: var(--c-light);
-    --button-color: var(--c-dark-variant);
-    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>
