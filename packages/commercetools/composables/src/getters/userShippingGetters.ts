@@ -1,11 +1,5 @@
 import { UserShippingGetters } from '@vue-storefront/core';
 
-export const getUserFirstName = (user: any): string => user ? user.firstName : '';
-
-export const getUserLastName = (user: any): string => user ? user.lastName : '';
-
-export const getUserFullName = (user: any): string => user ? `${user.firstName} ${user.lastName}` : '';
-
 const userGetters: UserShippingGetters<any> = {
   getFiltered: (addresses, criteria: Record<string, any>) => {
     const entries = Object.entries(criteria);
