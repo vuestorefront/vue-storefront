@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 export default async (integration: string, targetPath: string): Promise<void> => {
-  const agnosticThemePath = getThemePath('nuxt-theme/theme');
+  const agnosticThemePath = path.resolve(getThemePath('nuxt-theme'), 'theme');
   const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath)
     .filter(file => !file.includes(path.sep + 'static' + path.sep));
 

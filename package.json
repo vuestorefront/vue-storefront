@@ -99,13 +99,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/about-you/*",
-      "packages/boilerplate/*",
-      "packages/checkout-com",
-      "packages/commercetools/*",
-      "packages/core/*",
-      "packages/prismic",
-      "packages/shopify/*"
+      "packages/**/*"
     ]
   },
   "husky": {
