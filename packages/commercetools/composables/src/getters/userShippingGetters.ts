@@ -8,14 +8,10 @@ export const getUserFullName = (user: any): string => user ? `${user.firstName} 
 
 const userGetters: UserShippingGetters<any> = {
   getFiltered: (addresses, criteria: Record<string, any>) => {
-    return addresses.filter(address => {
-      for (const [key, value] of Object.entries(criteria)) {
-        if (address[key] !== value) {
-          return false;
-        }
-      }
-      return true;
-    });
+    const entries = Object.entries(criteria);
+    return addresses.filter(
+      address => entries.every(([key, value]) => address[key] === value)
+    );
   },
   getDefault: addresses => addresses.find(address => address.isDefault),
   getTotal: addresses => addresses.length,
