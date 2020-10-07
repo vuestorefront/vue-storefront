@@ -3,6 +3,7 @@
 ## 2.0.9
 
 - implementing `useContent` and `renderContent` (#4848)
+- fix ssr transitions
 
 ## 2.0.8
 
