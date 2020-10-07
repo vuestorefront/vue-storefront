@@ -323,6 +323,7 @@ export interface AgnosticCategoryTree {
   slug?: string;
   items: AgnosticCategoryTree[];
   isCurrent: boolean;
+  count?: number;
   [x: string]: unknown;
 }
 
@@ -435,6 +436,8 @@ export interface FacetSearchResult<S> {
 
 export interface AgnosticFacetSearchParams {
   categorySlug?: string;
+  rootCatSlug?: string;
+  term?: string;
   page?: number;
   itemsPerPage?: number;
   sort?: string;

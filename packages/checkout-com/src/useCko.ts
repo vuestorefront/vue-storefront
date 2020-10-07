@@ -42,6 +42,7 @@ const useCko = () => {
     setPaymentInstrument,
     removePaymentInstrument,
     loadStoredPaymentInstruments,
+    removeTransactionToken,
     storedPaymentInstruments,
     submitDisabled
   } = useCkoCard(selectedPaymentMethod);
@@ -142,7 +143,8 @@ const useCko = () => {
     setSavePaymentInstrument,
     loadSavePaymentInstrument,
     removePaymentInstrument,
-    loadStoredPaymentInstruments
+    loadStoredPaymentInstruments,
+    removeTransactionToken
   };
 };
 export default useCko;
