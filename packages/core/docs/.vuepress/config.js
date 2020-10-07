@@ -105,6 +105,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/general/getting-started', 'Getting started'],
+            ['/general/architecture', 'Architecture'],
             ['/general/i18n', 'i18n'],
             ['/general/server-side-rendering', 'Server-side rendering'],
             ['/general/faceting', 'Faceting'],

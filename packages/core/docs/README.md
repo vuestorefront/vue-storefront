@@ -65,8 +65,7 @@ Do you recall the frustration when implementing your dream design is not possibl
 
 **Solution** You will forget about these issues with Vue Storefront! For the best experience when it comes to maintaining the framework, we divided the system into the smallest chunks until it's not meaningful to do so. ___Technically all parts are wrapped in as individual `npm` packages so switching from one version to another should be as easy as any `npm` command.___ In short, it has been built on the firm ground of _Mircroservice_ architecture. Each of these packages is independent and optional so its up to you how much of the framework you want to utilize. Moreover **there are absolutely no limitations in terms of UI customization**. Your theme is just a regular Nuxt.js project which you can customize to any degree.
 
-
-## Architecture in a nutshell
+<!-- ## Architecture in a nutshell
 
 _Vue Storefront_ is made up of 4 layers as follows :
 
@@ -84,7 +83,7 @@ _Vue Storefront_ is a set of independent `npm` packages taking various roles of 
 
 :::tip
 _Vue Storefront_ packages are standalone which allows you to use them in __any__ Vue.js enviroment so it's not a must to use Nuxt. You can use _Vue Storefront_ packages with Vue CLI or even within your custom Vue.js codebase. All you need is know how to communicate with _Vue Storefront_, which is done via interfaces over API.
-:::
+::: -->
 
 ## eCommerce Integrations
 
