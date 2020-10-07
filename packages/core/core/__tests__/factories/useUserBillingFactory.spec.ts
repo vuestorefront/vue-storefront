@@ -21,14 +21,10 @@ describe('[CORE - factories] useUserBillingFactory', () => {
     const { useUserBilling } = useUserBillingFactory(factoryParams);
     const {
       addresses,
-      totalAddresses,
-      defaultAddress,
       loading
     } = useUserBilling();
 
     expect(addresses.value).toEqual([]);
-    expect(totalAddresses.value).toEqual(0);
-    expect(defaultAddress.value).toEqual(null);
     expect(loading.value).toEqual(false);
   });
 
@@ -118,7 +114,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
         await useUserBillingMethods.setDefault(paramsToUpdate);
-        expect(useUserBillingMethods.defaultAddress.value).toEqual(paramsToUpdate);
+        expect(useUserBillingMethods.addresses.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
