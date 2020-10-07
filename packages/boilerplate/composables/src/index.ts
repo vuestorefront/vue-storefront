@@ -10,7 +10,7 @@ import useUserOrders from './composables/useUserOrders';
 import useContent from './composables/useContent';
 import useFacet from './composables/useFacet';
 import { useWishlist, setWishlist } from './composables/useWishlist';
-import useUserShipping from './useUserShipping';
+import useUserShipping from './composables/useUserShipping';
 
 import {
   cartGetters,
