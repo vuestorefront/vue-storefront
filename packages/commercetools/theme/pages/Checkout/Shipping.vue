@@ -7,33 +7,14 @@
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
       <form @submit.prevent="handleSubmit(dirty || addressIsModified ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
-        <div v-if="isAuthenticated && shippingAddresses.length">
-          <SfAddressPicker
-            :value="currentAddressId"
-            @input="setCurrentAddress($event)"
-            class="shipping__addresses"
-          >
-            <SfAddress
-              v-for="shippingAddress in shippingAddresses"
-              :key="shippingAddress.id"
-              :name="String(shippingAddress.id)"
-            >
-              <span>{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</span>
-              <span>{{ shippingAddress.streetName }} {{ shippingAddress.apartment }}</span>
-              <span>{{ shippingAddress.zipCode }}</span>
-              <span>{{ shippingAddress.city }}{{ shippingAddress.state ? `, ${shippingAddress.city}` : ''}}</span>
-              <span>{{ shippingAddress.country }}</span>
-              <span>{{ shippingAddress.phoneNumber }}</span>
-            </SfAddress>
-          </SfAddressPicker>
-          <SfCheckbox
-            data-cy="shipping-details-checkbox_isDefault"
-            v-model="setAsDefault"
-            name="setAsDefault"
-            label="Use this address as my default one."
-            class="shipping-address-setAsDefault"
-          />
-        </div>
+        <SfUserShippingAddresses
+          v-if="isAuthenticated && shippingAddresses.length"
+          :setAsDefault="setAsDefault"
+          :shippingAddresses="shippingAddresses"
+          :currentAddressId="currentAddressId"
+          @setCurrentAddress="setCurrentAddress($event)"
+          @changeSetAsDefault="setAsDefault = $event"
+        />
         <div class="form" v-if="canAddNewAddress">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
@@ -234,7 +215,7 @@ export default {
     SfSelect,
     SfRadio,
     SfCheckbox,
-    SfAddressPicker: () => import('~/components/temp/SfAddressPicker'),
+    SfUserShippingAddresses: () => import('~/components/SfUserShippingAddresses'),
     ValidationProvider,
     ValidationObserver
   },
@@ -341,16 +322,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
-
-.shipping__addresses {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: var(--spacer-xl);
-}
-
-.shipping-address-setAsDefault, .form__action-button--margin-bottom {
-  margin-bottom: var(--spacer-xl);
-}
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
