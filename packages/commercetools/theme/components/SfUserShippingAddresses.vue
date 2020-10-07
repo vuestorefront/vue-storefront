@@ -63,13 +63,13 @@ export default {
     SfCheckbox,
     SfAddressPicker
   },
-  setup (props, { emit }) {
+  setup ({ setAsDefault }, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
 
-    const localSetAsDefault = ref(props.setAsDefault);
+    const localSetAsDefault = ref(setAsDefault);
 
     watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
-    watch(() => props.setAsDefault, () => localSetAsDefault.value = props.setAsDefault);
+    watch(() => setAsDefault, () => localSetAsDefault.value = setAsDefault);
 
     return {
       setCurrentAddress,
