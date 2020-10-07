@@ -155,6 +155,6 @@ languageMap: {
 
 # Methods
 
-You can find detailed information about all API Client methods [here](./api-client/index.html)
+You can find detailed information about all API Client methods [here](http://docs-next.vuestorefront.io/commercetools/api-client/index.html)
 :::
 
