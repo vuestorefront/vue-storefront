@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { Context, ExpressReponseProxy, RedirectTempObject } from './types'
+import { Context, ExpressResponseProxy, RedirectTempObject } from './types'
 
 function createIsPending (context: Context): () => boolean {
   return () => !!context.server._redirect.pendingPath
@@ -74,7 +74,7 @@ export function addRedirectTempObject (context: Context, expressResponse: Respon
 /**
  * proxy creation takes place only once while context is created
  */
-export function createRedirectProxy (context: Context, expressResponse: Response): ExpressReponseProxy {
+export function createRedirectProxy (context: Context, expressResponse: Response): ExpressResponseProxy {
   if (!context.server._redirect) {
     console.warn(`Something went wrong while creating vsf redirection handler. Fallback to normal express redirect`)
     return expressResponse
@@ -85,13 +85,12 @@ export function createRedirectProxy (context: Context, expressResponse: Response
   // returns proxy for Express Reponse object
   return new ProxyConstructor(expressResponse, {
     get (target, propKey) {
-      const originalMethod = target[propKey]
-
       // 'redirect' can be called multiple times and we want to reuse same method
       if (propKey === 'redirect') {
         return context.server._redirect.handler
       }
 
+      const originalMethod = target[propKey]
       return originalMethod
     }
   })

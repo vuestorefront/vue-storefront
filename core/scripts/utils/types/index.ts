@@ -12,7 +12,7 @@ export interface Context {
   },
   server: {
     app: Express,
-    response: ExpressReponseProxy,
+    response: ExpressResponseProxy,
     request: Request,
     _redirect?: RedirectTempObject
   },
@@ -33,7 +33,7 @@ export interface RedirectTempObject {
   handler (path: string, code: number): void
 }
 
-export interface ExpressReponseProxy extends Omit<Response, 'redirect'> {
+export interface ExpressResponseProxy extends Omit<Response, 'redirect'> {
   /**
    * Redirect to the given `url` with optional response `status`
    * defaulting to 302.
