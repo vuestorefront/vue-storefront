@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.9
+
+- implementing `useContent` and `renderContent` (#4848)
+
 ## 2.0.8
 
 - renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now (#4917)
