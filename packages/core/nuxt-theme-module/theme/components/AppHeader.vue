@@ -1,7 +1,6 @@
 <template>
   <SfHeader
     data-cy="app-header"
-    active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
@@ -19,9 +18,9 @@
       </nuxt-link>
     </template>
     <template #navigation>
-      <SfHeaderNavigationItem data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
-      <SfHeaderNavigationItem  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
-      <SfHeaderNavigationItem data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
+      <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
     </template>
     <template #aside>
       <LocaleSelector class="smartphone-only" />
@@ -90,6 +89,11 @@ export default {
 
 <style lang="scss" scoped>
 .sf-header__logo-image {
-  height: 100%;
+    height: 100%;
 }
+
+.nav-item {
+  --header-navigation-item-margin: 0 var(--spacer-base);
+}
+
 </style>
