@@ -61,18 +61,18 @@ export default {
   setup(_, { emit }) {
     const { user } = useUser();
 
-    const clearForm = () => ({
+    const resetForm = () => ({
       firstName: userGetters.getFirstName(user.value),
       lastName: userGetters.getLastName(user.value),
       email: userGetters.getEmailAddress(user.value)
     });
 
-    const form = ref(clearForm());
+    const form = ref(resetForm());
 
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
-          form.value = clearForm();
+          form.value = resetForm();
           resetValidationFn();
         };
 

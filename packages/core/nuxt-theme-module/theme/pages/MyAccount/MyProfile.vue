@@ -31,8 +31,8 @@
 <script>
 import { extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
-import ProfileUpdateForm from '~/components/profile/ProfileUpdateForm';
-import PasswordResetForm from '~/components/profile/PasswordResetForm';
+import ProfileUpdateForm from '~/components/MyAccount/ProfileUpdateForm';
+import PasswordResetForm from '~/components/MyAccount/PasswordResetForm';
 import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
 import { useUser } from '<%= options.generate.replace.composables %>';
 

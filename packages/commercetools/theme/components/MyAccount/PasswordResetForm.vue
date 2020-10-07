@@ -60,18 +60,18 @@ export default {
   },
 
   setup(_, { emit }) {
-    const clearForm = () => ({
+    const resetForm = () => ({
       currentPassword: '',
       newPassword: '',
       repeatPassword: ''
     });
 
-    const form = ref(clearForm());
+    const form = ref(resetForm());
 
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
-          form.value = clearForm();
+          form.value = resetForm();
           resetValidationFn();
         };
 
