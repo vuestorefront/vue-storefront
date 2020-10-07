@@ -113,11 +113,11 @@ const params: UseUserShippingFactoryParams<any> = {
     const isDefault = id => addresses[0].id !== id;
 
     if (!isDefault(params.address.id)) {
-      disableOldDefault();
       const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
       if (indexToUpdate < 0) {
         return Promise.reject('This address does not exist');
       }
+      disableOldDefault();
       addresses[indexToUpdate].isDefault = true;
       addresses.sort(sortDefaultAtTop);
     }
