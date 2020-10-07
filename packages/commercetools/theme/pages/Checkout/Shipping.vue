@@ -7,7 +7,7 @@
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
       <form @submit.prevent="handleSubmit(dirty || addressIsModified ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
-        <SfUserShippingAddresses
+        <UserShippingAddresses
           v-if="isAuthenticated && shippingAddresses.length"
           :setAsDefault="setAsDefault"
           :shippingAddresses="shippingAddresses"
@@ -215,7 +215,7 @@ export default {
     SfSelect,
     SfRadio,
     SfCheckbox,
-    SfUserShippingAddresses: () => import('~/components/SfUserShippingAddresses'),
+    UserShippingAddresses: () => import('~/components/UserShippingAddresses'),
     ValidationProvider,
     ValidationObserver
   },
@@ -240,13 +240,29 @@ export default {
     const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
 
+    const mapAbstractAddressToIntegrationAddress = address => ({
+      ...shippingDetails.value,
+      contactInfo: {
+        ...shippingDetails.value.contactInfo,
+        phone: address.phoneNumber
+      },
+      streetNumber: address.apartment,
+      city: address.city,
+      country: address.country,
+      state: address.state,
+      firstName: address.firstName,
+      lastName: address.lastName,
+      streetName: address.streetName,
+      postalCode: address.zipCode
+    });
+
     const setCurrentAddress = async (addressId) => {
       const chosenAddress = userShippingGetters.getFiltered(shippingAddresses.value, { id: addressId });
-      if (!chosenAddress) {
+      if (!chosenAddress || !chosenAddress.length) {
         return;
       }
       currentAddressId.value = addressId;
-      setShippingDetails(chosenAddress);
+      setShippingDetails(mapAbstractAddressToIntegrationAddress(chosenAddress[0]));
       addressIsModified.value = true;
     };
 
