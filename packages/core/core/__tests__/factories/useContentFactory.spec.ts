@@ -2,16 +2,16 @@ import { UseContentFactoryParams, useContentFactory, renderContentFactory } from
 import { UseContent } from '../../src/types';
 import { shallowMount } from '@vue/test-utils';
 
-let useContent: (cacheId: string) => UseContent<any, any>;
-let params: UseContentFactoryParams<any, any>;
-const createContentFactoryMock = () => {
-  params = {
-    search: jest.fn().mockResolvedValueOnce({ id: 'test-id' })
-  };
-  useContent = useContentFactory<any, any>(params);
-};
-
 describe('[CORE - factories] useContentFactory', () => {
+  let params: UseContentFactoryParams<any, any>;
+  let useContent: (cacheId: string) => UseContent<any, any>;
+  const createContentFactoryMock = () => {
+    params = {
+      search: jest.fn().mockResolvedValueOnce({ id: 'test-id' })
+    };
+    useContent = useContentFactory<any, any>(params);
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
     createContentFactoryMock();
@@ -31,15 +31,16 @@ describe('[CORE - factories] useContentFactory', () => {
     await search(searchParams);
 
     expect(params.search).toBeCalledWith(searchParams);
+    expect(params.search).toBeCalledTimes(1);
   });
 });
 
-let render: any;
-const renderContentFactoryMock = () => {
-  render = renderContentFactory();
-};
-
 describe('[CORE - factories] renderContentFactory', () => {
+  let render: any;
+  const renderContentFactoryMock = () => {
+    render = renderContentFactory();
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
     renderContentFactoryMock();
