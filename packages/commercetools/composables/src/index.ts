@@ -20,10 +20,10 @@ import {
   productGetters,
   userGetters,
   userShippingGetters,
+  userBillingGetters,
   orderGetters,
   wishlistGetters,
-  facetGetters,
-  userBillingGetters
+  facetGetters
 } from './getters';
 
 track('VSFCommercetools');
