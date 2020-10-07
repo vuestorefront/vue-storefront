@@ -44,7 +44,7 @@ import SfAddressPicker from '~/components/temp/SfAddressPicker';
 import { ref, watch } from '@vue/composition-api';
 
 export default {
-  name: 'SfUserShippingAddresses',
+  name: 'UserShippingAddresses',
   props: {
     currentAddressId: {
       type: Number,
