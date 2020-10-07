@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
-      <form @submit.prevent="handleSubmit(dirty || justChangedAddress ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
+      <form @submit.prevent="handleSubmit(dirty || addressIsModified ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
         <div v-if="isAuthenticated && shippingAddresses.length">
           <SfAddressPicker
             :value="currentAddressId"
@@ -34,7 +34,7 @@
             class="shipping-address-setAsDefault"
           />
         </div>
-        <div class="form" v-if="isAddNewAddressVisible">
+        <div class="form" v-if="canAddNewAddress">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
               :value="shippingDetails.firstName"
@@ -141,10 +141,10 @@
           </ValidationProvider>
         </div>
         <SfButton
-          v-if="!isAddNewAddressVisible"
+          v-if="!canAddNewAddress"
           class="form__action-button form__action-button--margin-bottom"
           type="submit"
-          @click.native="isAddNewAddressVisible = true"
+          @click.native="canAddNewAddress = true"
         >
           Add new address
         </SfButton>
@@ -254,8 +254,8 @@ export default {
     const { addresses: shippingAddresses, load: loadShippingAddresses, setDefault } = useUserShipping();
     const { isAuthenticated } = useUser();
 
-    const isAddNewAddressVisible = ref(true);
-    const justChangedAddress = ref(false);
+    const canAddNewAddress = ref(true);
+    const addressIsModified = ref(false);
     const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
 
@@ -266,7 +266,7 @@ export default {
       }
       currentAddressId.value = addressId;
       setShippingDetails(chosenAddress);
-      justChangedAddress.value = true;
+      addressIsModified.value = true;
     };
 
     onSSR(async () => {
@@ -280,7 +280,7 @@ export default {
         if (!shippingAddresses.value.length) {
           return;
         }
-        isAddNewAddressVisible.value = false;
+        canAddNewAddress.value = false;
         if (shippingAddresses.value[0].isDefault) {
           setCurrentAddress(shippingAddresses.value[0].id);
         }
@@ -298,7 +298,7 @@ export default {
         }
         await setDefault(chosenAddress);
       }
-      justChangedAddress.value = false;
+      addressIsModified.value = false;
     };
     const handleShippingMethodSubmit = (reset) => async () => {
       reset();
@@ -308,10 +308,10 @@ export default {
     const setShippingDetailsAndUnpickAddress = value => {
       setShippingDetails(value);
       currentAddressId.value = -1;
-      justChangedAddress.value = false;
+      addressIsModified.value = false;
     };
 
-    const canContinueToPayment = dirty => isShippingAddressCompleted.value && !dirty && !justChangedAddress.value;
+    const canContinueToPayment = dirty => isShippingAddressCompleted.value && !dirty && !addressIsModified.value;
 
     return {
       loading,
@@ -327,8 +327,8 @@ export default {
       checkoutGetters,
       countries: getSettings().countries,
       shippingAddresses,
-      isAddNewAddressVisible,
-      justChangedAddress,
+      canAddNewAddress,
+      addressIsModified,
       isAuthenticated,
       currentAddressId: computed(() => currentAddressId.value),
       setAsDefault,
