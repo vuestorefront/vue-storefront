@@ -4,6 +4,7 @@ import userActions from '../../../store/actions'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
@@ -52,6 +53,9 @@ jest.mock('@vue-storefront/core/data-resolver', () => ({
   }
 }));
 EventBus.$emit = jest.fn()
+jest.mock('@vue-storefront/core/lib/modules', () => ({
+  isModuleRegistered: jest.fn(() => false)
+}));
 
 describe('User actions', () => {
   beforeEach(() => {
@@ -179,7 +183,7 @@ describe('User actions', () => {
       const password = data.password;
       const result = await (userActions as any).login(contextMock, { username, password });
 
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'resetUserInvalidateLock', {}, { root: rootValue })
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'resetUserInvalidation', {}, { root: rootValue })
       expect(contextMock.commit).toHaveBeenCalledWith(types.USER_TOKEN_CHANGED, {
         newToken: data.responseOb.result,
         meta: data.responseOb.meta
@@ -386,6 +390,9 @@ describe('User actions', () => {
         commit: jest.fn(),
         dispatch: jest.fn()
       };
+      (StorageManager.get as jest.Mock).mockImplementation(() => ({
+        setItem: async () => {}
+      }));
 
       (userActions as any).clearCurrentUser(contextMock)
 
@@ -393,11 +400,20 @@ describe('User actions', () => {
       expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_GROUP_TOKEN_CHANGED, '')
       expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.USER_GROUP_CHANGED, null)
       expect(contextMock.commit).toHaveBeenNthCalledWith(4, types.USER_INFO_LOADED, null)
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'checkout/savePersonalDetails', {}, { root: true })
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'checkout/saveShippingDetails', {}, { root: true })
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'checkout/savePaymentDetails', {}, { root: true })
+    })
+    it('should clear additional modules when they are registered', () => {
+      const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn()
+      };
+      ;(isModuleRegistered as jest.Mock).mockImplementation(() => true);
+      (userActions as any).clearCurrentUser(contextMock)
+
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'wishlist/clear', null, { root: true })
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'compare/clear', null, { root: true })
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'checkout/savePersonalDetails', {}, { root: true })
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(4, 'checkout/saveShippingDetails', {}, { root: true })
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(5, 'checkout/savePaymentDetails', {}, { root: true })
     })
   });
 

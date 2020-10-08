@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.12.3] - 2020.??.??
+
+### Added
+
+- Added states.json in core/i18n/resource (#4531)
+
+### Fixed
+
+- Remove redundant user token invalidation code - TerrorSquad (#4533)
+- configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem (#4575)
+- Fix user/register call by adding storeId - @haelbichalex (#4697)
+- refresh categoryMappedFilters after loading attributes in PLP - @gibkigonzo (#4695)
+- Check module registration for wishlist and compare list - gibkigonzo (#4764)
+- Fix gallery image generation by checking if image exists - simonmaass (#4908)
+- Fix getSelectedOption based on attribute_code check - simonmaass (#4851)
+- add new resetUserInvalidation action to clear invalidation state before login,
+  clear order history and refresh token after logout,
+  add redirection when user is logged out and sees myaccount page - gibkigonzo (#4882)
+- Fix `config.products.filterUnavailableVariants` feature - Ogek (#4923)
+- added 'afterUserProfileUpdated' hook which allows us to take control over update address flow (send notification if something failed)
+  move pick allowed modification just before sending data to task managment
+  add 'beforeUserProfileUpdate' which allows to modify user object before update - gibkigonzo (#4427)
+
+### Changed / Improved
+
+- Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
