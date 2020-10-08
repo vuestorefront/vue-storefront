@@ -204,7 +204,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (resp.code === 200) {
       await dispatch('notification/spawnNotification', {
         type: 'success',
-        message: 'Password has successfully been changed',
+        message: i18n.t('Password has successfully been changed'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
       await dispatch('login', {
