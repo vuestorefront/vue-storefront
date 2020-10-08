@@ -125,12 +125,19 @@ module.exports = {
           ]
         },
         {
+          title: 'Build integration',
+          collapsable: true,
+          children: [
+            ['/integrate/ecommerce', 'eCommerce'],
+            ['/integrate/cms', 'CMS']
+          ]
+        },
+        {
           title: 'Contributing',
-          collapsable: false,
+          collapsable: true,
           children: [
             ['/contributing/', 'Contributing'],
             ['/contributing/api-design-philosophy', 'Rules and conventions'],
-            ['/contributing/integrating-ecommerce', 'Integrating eCommerce'],
             ['/contributing/themes', 'Working with themes'],
             ['/contributing/changelog', 'Core Changelog']
           ]
