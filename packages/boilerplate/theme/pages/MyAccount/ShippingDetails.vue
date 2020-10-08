@@ -204,7 +204,7 @@ import {
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
-import { useUserShipping } from '@vue-storefront/commercetools';
+import { useUserShipping } from '@vue-storefront/boilerplate';
 import { ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 extend('required', {
