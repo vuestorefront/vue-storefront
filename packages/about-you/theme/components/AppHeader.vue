@@ -39,7 +39,7 @@
     </template>
   </SfHeader>
 </template>
- 
+
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
