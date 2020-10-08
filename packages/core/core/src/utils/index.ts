@@ -5,6 +5,7 @@ import { sharedRef } from './shared';
 import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
+import createMiddleware from './middleware';
 
 export {
   wrap,
@@ -14,5 +15,6 @@ export {
   sharedRef,
   Logger,
   registerLogger,
-  mask
+  mask,
+  createMiddleware
 };

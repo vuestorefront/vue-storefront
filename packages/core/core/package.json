@@ -12,7 +12,8 @@
   "dependencies": {
     "@vue/composition-api": "1.0.0-beta.14",
     "vue": "^2.6.11",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
