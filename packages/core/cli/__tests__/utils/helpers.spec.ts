@@ -1,4 +1,4 @@
-import { getThemePath, buildFileTargetPath, copyThemeFiles } from '../../src/utils/helpers';
+import { getDependencyPath, buildFileTargetPath, copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 import path from 'path';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 
@@ -24,21 +24,21 @@ jest.mock('../../src/utils/helpers', () => ({
   buildFileTargetPath: jest.fn(jest.requireActual('../../src/utils/helpers').buildFileTargetPath)
 }));
 
-describe('[vsf-next-cli] getThemePath', () => {
-  it('getThemePath - creates a proper path', () => {
+describe('[vsf-next-cli] getDependencyPath', () => {
+  it('getDependencyPath - creates a proper path', () => {
     const tests = [
       {
         input: 'commercetools',
-        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
+        output: path.resolve(__dirname, '../../../../../packages/commercetools/composables')
       },
       {
-        input: 'nuxt-theme/theme',
-        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme/theme')
+        input: 'nuxt-theme',
+        output: path.resolve(__dirname, '../../../../../packages/core/nuxt-theme-module')
       }
     ];
 
     for (const test of tests) {
-      const testOutput = getThemePath(test.input);
+      const testOutput = getDependencyPath(test.input);
       expect(testOutput).toBe(test.output);
     }
 
@@ -48,17 +48,17 @@ describe('[vsf-next-cli] getThemePath', () => {
     const tests = [
       {
         input: [
-          '../../../node_modules/@vue-storefront/commercetools-theme/.editorconfig',
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme/.editorconfig',
           '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4',
-          '../../../node_modules/@vue-storefront/commercetools-theme'
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme'
         ],
         output: '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4/.editorconfig'
       },
       {
         input: [
-          '../../../node_modules/@vue-storefront/commercetools-theme/middleware',
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme/middleware',
           '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4',
-          '../../../node_modules/@vue-storefront/commercetools-theme'
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme'
         ],
         output: '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4/middleware'
       }

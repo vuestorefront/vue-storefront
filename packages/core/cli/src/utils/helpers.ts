@@ -5,7 +5,7 @@ import fs from 'fs';
 
 export const buildFileTargetPath = (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, ''));
 
-export const getThemePath = (themeName: string): string => path.dirname(require.resolve(`@vue-storefront/${themeName}/package.json`));
+export const getDependencyPath = (themeName: string): string => path.dirname(require.resolve(`@vue-storefront/${themeName}/package.json`));
 
 export const copyThemeFiles = (filesDir: string, targetPath: string, chopPhrase: string) => {
   if (fs.statSync(filesDir).isDirectory()) {
