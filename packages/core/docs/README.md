@@ -24,11 +24,11 @@ Give me 7 minutes and you will grab :
 
 ## Problems Vue Storefront will solve from you
 
-The main purpose of any software is to solve problems. Vue Storefront is no different. We're doing our best to find common issues in eCommerce space (and in our software!) and find viable solutions to them. Below you can find just a few of them that Vue Storefront will solve for you.
+The main purpose of any software is to solve problems. Vue Storefront is no different. We're doing our best to find common issues in eCommerce space (and in our software!) and find viable solutions to them. Below you can find just a few of the issues Vue Storefront will solve for you.
 
 ### Slow, unresponsive online shop
 
-No matter how great your products are slow and unresponsive shop will make your conversion significantly lower lower. **Some estimates say up to 1% users will leave your website for every 100ms delay in page load time.**
+No matter how great your products are slow and unresponsive shop will make your conversion significantly lower . **Some estimates say up to 1% users will leave your website for every 100ms delay in page load time.**
 
 **Solution**  _Vue Storefront_ solves slow, unresponsive online shop problems as follows :
 
