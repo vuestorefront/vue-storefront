@@ -105,9 +105,9 @@ module.exports = {
           collapsable: false,
           children: [
             ['/general/getting-started', 'Getting started'],
+            ['/general/key-concepts', 'Key concepts'],
             ['/general/architecture', 'Architecture'],
             ['/general/i18n', 'i18n'],
-            ['/general/server-side-rendering', 'Server-side rendering'],
             ['/general/faceting', 'Faceting'],
             ['/general/logging', 'Logging']
 
@@ -139,6 +139,7 @@ module.exports = {
             ['/contributing/', 'Contributing'],
             ['/contributing/api-design-philosophy', 'Rules and conventions'],
             ['/contributing/themes', 'Working with themes'],
+            ['/contributing/server-side-rendering', 'Server-side rendering'],
             ['/contributing/changelog', 'Core Changelog']
           ]
         },
