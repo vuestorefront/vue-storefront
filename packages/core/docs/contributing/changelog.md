@@ -2,6 +2,7 @@
 
 ## 2.0.9
 - fix ssr transitions
+- fix `sharedRef` nullable assigning
 
 ## 2.0.8
 
