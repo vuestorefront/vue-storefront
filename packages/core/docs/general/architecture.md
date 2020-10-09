@@ -6,5 +6,5 @@ This diagram shows a lot of useful information but it's not mandatory to underst
 
 
 <center>
- <img src="../images/architecture.png" alt="vue storefront cli" />
+ <img src="../images/architecture.svg" alt="vue storefront cli" />
 </center>
