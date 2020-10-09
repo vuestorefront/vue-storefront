@@ -61,8 +61,8 @@ const useCko = () => {
         { name: 'card' }
       ];
       contextId.value = response.data.id;
-      if ('cvv_required' in response.data) {
-        requiresCvv.value = response.data.cvv_required;
+      if (response.data.payment_settings && 'cvv_required' in response.data.payment_settings) {
+        requiresCvv.value = response.data.payment_settings.cvv_required;
       }
       return response.data;
     } catch (e) {

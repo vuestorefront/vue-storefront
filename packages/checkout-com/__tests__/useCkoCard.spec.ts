@@ -131,13 +131,16 @@ describe('[checkout-com] useCkoCard', () => {
         error
       } = useCkoCard(paymentMethod);
 
-      localStorageMock.getItem.mockImplementation(() => 'abc');
+      sessionStorageMock.getItem.mockImplementation(() => 'abc');
 
       (createContext as jest.Mock).mockImplementation(() => Promise.resolve({
         data: {
           id: '12',
           // eslint-disable-next-line
-          cvv_required: true
+          payment_settings: {
+            // eslint-disable-next-line
+            cvv_required: true
+          }
         }
       }));
 

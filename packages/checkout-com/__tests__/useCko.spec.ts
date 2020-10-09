@@ -20,7 +20,10 @@ const contextData = {
   apms: contextPaymentMethods,
   id: customerId,
   // eslint-disable-next-line
-  cvv_required: true
+  payment_settings: {
+    // eslint-disable-next-line
+    cvv_required: true
+  }
 };
 
 const finalizeTransactionResponse = 'abc';
@@ -129,7 +132,7 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     await loadAvailableMethods(payload.reference);
 
-    expect(isCvvRequired.value).toEqual(contextData.cvv_required);
+    expect(isCvvRequired.value).toEqual(contextData.payment_settings.cvv_required);
 
   });
 
@@ -142,7 +145,7 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     await loadAvailableMethods(payload.reference, payload.email);
 
-    expect(isCvvRequired.value).toEqual(contextData.cvv_required);
+    expect(isCvvRequired.value).toEqual(contextData.payment_settings.cvv_required);
 
   });
 
@@ -166,7 +169,7 @@ describe('[checkout-com] useCkoPaypal', () => {
 
     await loadAvailableMethods(payload.reference);
 
-    expect(isCvvRequired.value).toEqual(contextData.cvv_required);
+    expect(isCvvRequired.value).toEqual(contextData.payment_settings.cvv_required);
 
   });
 
