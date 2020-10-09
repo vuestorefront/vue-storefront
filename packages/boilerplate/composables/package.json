@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vue-storefront/boilerplate-api": "^0.0.1",
-    "@vue-storefront/core": "^2.0.8"
+    "@vue-storefront/core": "2.0.8"
   },
   "files": [
     "lib/**/*"
