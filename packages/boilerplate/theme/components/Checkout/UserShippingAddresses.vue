@@ -79,6 +79,7 @@ export default {
   .shipping__addresses {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
     margin-bottom: var(--spacer-xl);
   }
   .shipping-address-setAsDefault, .form__action-button--margin-bottom {
