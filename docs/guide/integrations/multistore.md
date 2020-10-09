@@ -6,6 +6,12 @@ Vue Storefront supports Magento Multistore installations
 
 Multiwebsite support starts with the Elasticsearch indexing. Basically, each store has its own Elasticsearch index and should be populated separately using the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) tool.
 
+:::warning
+
+Using node indexer to enable _multistore_ feature for _Vue Storefront_ has been deprecated. 
+You can use _Bridge Indexer_ for the better performance and maintainability. For Magento 2, you can find it [here](https://github.com/DivanteLtd/magento2-vsbridge-indexer)
+:::
+
 The simplest script to index multi site:
 
 ```bash
@@ -102,17 +108,30 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
         "tax": {
           "defaultCountry": "DE",
           "defaultRegion": "",
-          "calculateServerSide": true
+          "sourcePriceIncludesTax": false,
+          "calculateServerSide": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false,
+          "deprecatedPriceFieldsSupport": true,
+          "finalPriceIncludesTax": false
         },
         "i18n": {
-          "fullCountryName": "Germany",
-          "fullLanguageName": "German",
-          "defaultLanguage": "DE",
           "defaultCountry": "DE",
+          "defaultLanguage": "DE",
+          "availableLocale": [
+            "de-DE"
+          ],
           "defaultLocale": "de-DE",
           "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
+          "currencySign": "€",
+          "currencyDecimal": "",
+          "currencyGroup": "",
+          "fractionDigits": 2,
+          "priceFormat": "{sign}{amount}",
+          "dateFormat": "HH:mm D/M/YYYY",
+          "fullCountryName": "Deutschland",
+          "fullLanguageName": "German",
+          "bundleAllStoreviewLanguages": false
         }
       },
       "it": {
@@ -125,23 +144,40 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
-          "defaultCountry": "DE",
+          "defaultCountry": "IT",
           "defaultRegion": "",
-          "calculateServerSide": true
+          "sourcePriceIncludesTax": false,
+          "calculateServerSide": true,
+          "userGroupId": null,
+          "useOnlyDefaultUserGroupId": false,
+          "deprecatedPriceFieldsSupport": true,
+          "finalPriceIncludesTax": false
         },
         "i18n": {
-          "fullCountryName": "Italy",
-          "fullLanguageName": "Italian",
           "defaultCountry": "IT",
           "defaultLanguage": "IT",
+          "availableLocale": [
+            "it-IT"
+          ],
           "defaultLocale": "it-IT",
           "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
+          "currencySign": "€",
+          "currencyDecimal": "",
+          "currencyGroup": "",
+          "fractionDigits": 2,
+          "priceFormat": "{sign}{amount}",
+          "dateFormat": "HH:mm D/M/YYYY",
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "bundleAllStoreviewLanguages": false
         }
       }
     },
 ```
+
+:::tip
+You can find more options available to _multistore_ features in [store view](/guide/basics/configuration.html#store-views) section of _Configuration File Explained_. 
+:::
 
 After these changes, you'll have a `LanguageSwitcher` component visible on the bottom.
 
@@ -204,3 +240,121 @@ or
   "
 ></router-link>
 ```
+
+## Useful _Helpers_
+
+### How to get current store view?
+
+Here is a helper method to get the value of current store view.
+
+You just need to import `currentStoreView` function from `core/lib/multistore` as example follows: 
+
+```js
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+// ... abridged 
+  return {
+    currency: currentStoreView().i18n.currencyCode,
+    value: method.price_incl_tax
+  }
+```
+
+`currentStoreView()` will return the object value you set in `local.json` - it should be type of StoreView or extended StoreView.
+```ts
+interface StoreView {
+  storeCode: string,
+  extend?: string,
+  disabled?: boolean,
+  storeId: any,
+  name?: string,
+  url?: string,
+  appendStoreCode?: boolean,
+  elasticsearch: {
+    host: string,
+    index: string
+  },
+  tax: {
+    sourcePriceIncludesTax?: boolean,
+    finalPriceIncludesTax?: boolean,
+    deprecatedPriceFieldsSupport?: boolean,
+    defaultCountry: string,
+    defaultRegion: null | string,
+    calculateServerSide: boolean,
+    userGroupId?: number,
+    useOnlyDefaultUserGroupId: boolean
+  },
+  i18n: {
+    fullCountryName: string,
+    fullLanguageName: string,
+    defaultLanguage: string,
+    defaultCountry: string,
+    defaultLocale: string,
+    currencyCode: string,
+    currencySign: string,
+    currencyDecimal: string,
+    currencyGroup: string,
+    fractionDigits: number,
+    priceFormat: string,
+    dateFormat: string
+  },
+  seo: {
+    defaultTitle: string
+  }
+}
+```
+
+### How to remove store code from route
+
+When you need to remove `storeCode` from route in such a case you want to route to default store by mapping fallback, use `removeStoreCodeFromRoute` as following example : 
+
+```js
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+// ... abridged 
+    const urlWithoutStorecode1 = removeStoreCodeFromRoute('/gb/home'); // should return '/home`
+    const urlWithoutStorecode2 = removeStoreCodeFromRoute('gb/home'); // should return 'home`
+    const urlWithoutStorecode3 = removeStoreCodeFromRoute({
+      path: '/gb/home'
+    }); // should return '/home`
+``` 
+
+### Update/append a store code to your URL
+If you need to append or update `storeCode` query parameter in provided URL you can do it by calling `adjustMultistoreApiUrl` function as following example:
+
+```js
+import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+
+// ... abridged 
+// Let's say current storeCode is `de`
+const myUrl1 = adjustMultistoreApiUrl('https://example.com?a=b'); // returns 'https://example.com?a=b&storeCode=de'
+const myUrl2 = adjustMultistoreApiUrl('https://example.com?a=b&storeCode=it'); // returns 'https://example.com?a=b&storeCode=de'
+``` 
+
+### Localize URL with correct store code
+:::tip
+Localized Route means denoting store code in URL by convention without a parameter.
+
+e.g. It's `de` in `https://example.com/de?a=b` 
+:::
+
+Method that allows use to do that is `localizedRoute`. Example transformations for `de` as a current storeCode:
+```js
+localizedRoute('http://example.com/'); // returns http://example.com/de
+localizedRoute('/'); // returns /de
+localizedRoute('/?a=b'); // returns /de?a=b
+localizedRoute('/about'); // returns /de/about
+```
+
+:::warning
+`appendStoreCode` option of the store view configuration should be set to `true` to display store code as tip above
+:::
+
+### How to extract store code from route
+
+You can extract store code from route as follows : 
+
+```js
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+// abridged
+ const storeCode = storeCodeFromRoute(currentRoute)
+```
+
+You should get store code `gb` from route `https://example.com/gb/foo` where storeCode is `gb`
