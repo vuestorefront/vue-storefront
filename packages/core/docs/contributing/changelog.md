@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.9
+
+- added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
+- fix ssr transitions
+
 ## 2.0.8
 
 - renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now (#4917)
