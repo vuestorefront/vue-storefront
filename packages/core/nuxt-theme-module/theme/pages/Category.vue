@@ -116,7 +116,7 @@
             :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
             :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
             :max-rating="5"
-            :score-rating="3"
+            :score-rating="productGetters.getAverageRating(product)"
             :show-add-to-cart-button="true"
             :isOnWishlist="false"
             :isAddedToCart="isOnCart(product)"
