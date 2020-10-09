@@ -75,13 +75,21 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "~@storefront-ui/shared/styles/variables";
+
   .shipping__addresses {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
+    @media screen and (min-width: $desktop-min) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 10px;
+    }
     margin-bottom: var(--spacer-xl);
+    .sf-address {
+      margin-bottom: var(--spacer-sm);
+    }
   }
+
   .shipping-address-setAsDefault, .form__action-button--margin-bottom {
     margin-bottom: var(--spacer-xl);
   }
