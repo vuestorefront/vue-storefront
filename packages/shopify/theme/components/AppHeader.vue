@@ -55,7 +55,7 @@
 
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
-import uiState from '~/assets/ui-state';
+import { useUiState } from '~/composables';
 import {
   useCart,
   useWishlist,
@@ -69,8 +69,6 @@ import { onSSR } from '@vue-storefront/core';
 import SearchResults from './SearchResults';
 import LocaleSelector from './LocaleSelector';
 
-const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = uiState;
-
 export default {
   components: {
     SfHeader,
@@ -79,6 +77,7 @@ export default {
     LocaleSelector
   },
   setup(props, context) {
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { isAuthenticated } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
