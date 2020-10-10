@@ -102,10 +102,9 @@ import {
 import { ref, watch } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
-import uiState from '~/assets/ui-state';
+import { useUiState } from '~/composables';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-const { toggleLoginModal } = uiState;
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -131,6 +130,7 @@ export default {
     ValidationProvider
   },
   setup(props, context) {
+    const { toggleLoginModal } = useUiState();
     const { register, isAuthenticated } = useUser();
     const { loadDetails, personalDetails, setPersonalDetails, loading } = useCheckout();
     const accountBenefits = ref(false);

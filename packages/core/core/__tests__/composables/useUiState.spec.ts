@@ -1,13 +1,19 @@
-import uiState from '../../../nuxt-theme-module/theme/assets/ui-state';
+import { useUiState } from '../../../nuxt-theme-module/theme/composables';
 
-const { isCartSidebarOpen,
+const {
+  isCartSidebarOpen,
   isWishlistSidebarOpen,
   isLoginModalOpen,
+  isCategoryGridView,
+  isFilterSidebarOpen,
   toggleCartSidebar,
   toggleWishlistSidebar,
-  toggleLoginModal } = uiState;
+  toggleLoginModal,
+  toggleCategoryGridView,
+  toggleFilterSidebar
+} = useUiState();
 
-describe('ui-state', () => {
+describe('useUiState', () => {
   it('Cart Sidebar', () => {
     const expectedIsCartSidebarOpen = !isCartSidebarOpen.value;
 
@@ -30,5 +36,21 @@ describe('ui-state', () => {
     toggleLoginModal();
 
     expect(expectedIsLoginModalOpen).toBe(isLoginModalOpen.value);
+  });
+
+  it('Grid View', () => {
+    const expectedIsCategoryGridView = !isCategoryGridView.value;
+
+    toggleCategoryGridView();
+
+    expect(expectedIsCategoryGridView).toBe(isCategoryGridView.value);
+  });
+
+  it('Filter Sidebar', () => {
+    const expectedIsFilterSidebarOpen = !isFilterSidebarOpen.value;
+
+    toggleFilterSidebar();
+
+    expect(expectedIsFilterSidebarOpen).toBe(isFilterSidebarOpen.value);
   });
 });

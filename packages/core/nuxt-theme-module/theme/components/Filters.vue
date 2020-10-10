@@ -71,8 +71,7 @@ import {
   SfColor
 } from '@storefront-ui/vue';
 import { ref, onMounted } from '@vue/composition-api';
-import { useUiHelpers } from '~/composables';
-import uiState from '~/assets/ui-state';
+import { useUiHelpers, useUiState } from '~/composables';
 import Vue from 'vue';
 
 export default {
@@ -91,6 +90,7 @@ export default {
   },
   setup(props) {
     const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
 
     onMounted(() => {
@@ -118,13 +118,13 @@ export default {
     };
 
     const clearFilters = () => {
-      uiState.toggleFilterSidebar();
+      toggleFilterSidebar();
       selectedFilters.value = {};
       changeFilters(selectedFilters.value);
     };
 
     const applyFilters = () => {
-      uiState.toggleFilterSidebar();
+      toggleFilterSidebar();
       changeFilters(selectedFilters.value);
     };
 
