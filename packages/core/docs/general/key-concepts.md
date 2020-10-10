@@ -14,7 +14,7 @@ If you're using our boilerplate you will find 3 Vue Storefront modules in your c
 ## Composables
 
 ::: tip Composables? Is this a French meal?
-Composable is a function that uses Vue.js Composition API under the hood with some Vue-related business logic inside of it. It's commonly named with a `use` prefix (eg. `useProduct`, `useCart`). This convention comes from the React community where we can find a very similar pattern - Hooks which inspired Vue.js core team to introduce the Composition API.
+Composable is a function that uses Vue.js Composition API under the hood. It's commonly named with a `use` prefix (eg. `useProduct`, `useCart`). This convention comes from the React community where we can find a very similar pattern - Hooks which inspired Vue.js core team to introduce the Composition API.
 :::
 
 **Composables are the main public API of Vue Storefront** and in many cases the only API except configuration you'll work with.

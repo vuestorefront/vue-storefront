@@ -8,7 +8,7 @@ Integrating a CMS platform with Vue Storefront is a piece of cake. You just have
 
 ## What is needed
 
-To build an integration you need a few things:
+Here are the things that are expected from CMS integration:
 
 ### Configuration
 
