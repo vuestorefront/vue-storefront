@@ -22,7 +22,7 @@ Give me 7 minutes and you will grab :
 
 [[toc]]
 
-## Problems Vue Storefront will solve from you
+## Problems Vue Storefront will solve for you
 
 The main purpose of any software is to solve problems. Vue Storefront is no different. We're doing our best to find common issues in eCommerce space (and in our software!) and find viable solutions to them. Below you can find just a few of the issues Vue Storefront will solve for you.
 
