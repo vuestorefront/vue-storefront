@@ -54,6 +54,8 @@ useContent() // usually external CMS
 useCheckout()
 ```
 
+In a real-world application these composables will most likely use different backend services under the hood yet still leverage the same frontend API.
+
 ## Routing
 
 Routes are injected via `@vue-storefront/nuxt-theme` module. Use [`extendRoutes`](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) from `nuxt.config.js` to modify them.
