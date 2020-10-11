@@ -54,7 +54,7 @@ useContent() // usually external CMS
 useCheckout()
 ```
 
-In a real-world application these composables will most likely use different backend services under the hood yet still leverage the same frontend API.
+In a real-world application these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `usefacet` - Algolia etc.
 
 ## Routing
 
