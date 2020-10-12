@@ -31,6 +31,10 @@ const addresses: any[] = [
   }
 ];
 
+const shipping = {
+  addresses
+};
+
 const findBiggestId = () => addresses.reduce((highest, { id }) => Math.max(highest, id), 0);
 
 const disableOldDefault = () => {
@@ -49,7 +53,7 @@ const sortDefaultAtTop = (a, b) => {
   return 0;
 };
 
-const params: UseUserShippingFactoryParams<any> = {
+const params: UseUserShippingFactoryParams<any, any> = {
   addAddress: async (params?) => {
     console.log('Mocked: addAddress', params.address);
 
@@ -65,7 +69,7 @@ const params: UseUserShippingFactoryParams<any> = {
       addresses.push(newAddress);
     }
 
-    return Promise.resolve(addresses);
+    return Promise.resolve(shipping);
   },
 
   deleteAddress: async (params?) => {
@@ -77,7 +81,7 @@ const params: UseUserShippingFactoryParams<any> = {
     }
 
     addresses.splice(indexToRemove, 1);
-    return Promise.resolve(addresses);
+    return Promise.resolve(shipping);
   },
 
   updateAddress: async (params?) => {
@@ -99,13 +103,13 @@ const params: UseUserShippingFactoryParams<any> = {
     if (isNewDefault) {
       addresses.sort(sortDefaultAtTop);
     }
-    return Promise.resolve(addresses);
+    return Promise.resolve(shipping);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (params?) => {
     console.log('Mocked: load');
-    return Promise.resolve(addresses);
+    return Promise.resolve(shipping);
   },
 
   setDefault: async (params?) => {
@@ -122,10 +126,10 @@ const params: UseUserShippingFactoryParams<any> = {
       addresses.sort(sortDefaultAtTop);
     }
 
-    return Promise.resolve(addresses);
+    return Promise.resolve(shipping);
   }
 };
 
-const { useUserShipping } = useUserShippingFactory<any>(params);
+const { useUserShipping } = useUserShippingFactory<any, any>(params);
 
 export default useUserShipping;
