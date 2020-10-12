@@ -4,6 +4,7 @@
 
 - added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
 - fix ssr transitions
+- fix `sharedRef` nullable assigning
 
 ## 2.0.8
 
