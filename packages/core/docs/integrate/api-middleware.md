@@ -2,7 +2,7 @@
 
 Sometimes, due to security reasons, our integrations need to be hidden behind some server middleware which works as a sort of proxy, but it introduces a bit more transparency for the client-side so the app doesn't have to know, how API works itself.
 
-If some of the integration need to implement such a proxy for Nuxt.js, the core introduces a special function `createMiddleware` which registers provided middleware and gives as the ability to extend it.
+If some of the integration need to implement such a proxy for Nuxt.js, the core introduces a special function `createMiddleware` which registers provided middleware and gives us the ability to extend it.
 
 ## Nuxt module
 As each integration has its own nuxt module, we are able to add a middleware as well. Below is the example:
