@@ -20,11 +20,11 @@ describe('[CORE - factories] useUserShippingFactory', () => {
   it('should have proper initial properties', () => {
     const { useUserShipping } = useUserShippingFactory(factoryParams);
     const {
-      addresses,
+      shipping,
       loading
     } = useUserShipping();
 
-    expect(addresses.value).toEqual([]);
+    expect(shipping.value).toEqual({});
     expect(loading.value).toEqual(false);
   });
 
@@ -34,7 +34,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.addAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
@@ -54,7 +54,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.deleteAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
@@ -74,7 +74,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.updateAddress(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
@@ -94,7 +94,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.load.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.load();
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
@@ -114,7 +114,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
         await useUserShippingMethods.setDefault(paramsToUpdate);
-        expect(useUserShippingMethods.addresses.value).toEqual(paramsToUpdate);
+        expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {

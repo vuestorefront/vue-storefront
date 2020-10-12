@@ -82,30 +82,32 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseUserShipping<ADDRESS> {
-  addresses: ComputedProperty<ADDRESS[]>;
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
+export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  shipping: ComputedProperty<USER_SHIPPING>;
+  addAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (address: USER_SHIPPING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
-export interface UserShippingGetters<ADDRESS> {
-  getFiltered: (addresses: ADDRESS[], criteria: any) => ADDRESS[];
-  getDefault: (addresses: ADDRESS[]) => ADDRESS;
-  getTotal: (addresses: ADDRESS[]) => number;
-  getPostCode: (address: ADDRESS) => string;
-  getStreetName: (address: ADDRESS) => string;
-  getCity: (address: ADDRESS) => string;
-  getFirstName: (address: ADDRESS) => string;
-  getLastName: (address: ADDRESS) => string;
-  getCountry: (address: ADDRESS) => string;
-  getStreetNumber: (address: ADDRESS) => string;
-  getPhone: (address: ADDRESS) => string;
-  getEmail: (address: ADDRESS) => string;
-  getProvince: (address: ADDRESS) => string;
+export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  getFiltered: (shipping: USER_SHIPPING, criteria: any) => USER_SHIPPING_ITEM[];
+  getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
+  getTotal: (shipping: USER_SHIPPING) => number;
+  getPostCode: (address: USER_SHIPPING_ITEM) => string;
+  getStreetName: (address: USER_SHIPPING_ITEM) => string;
+  getCity: (address: USER_SHIPPING_ITEM) => string;
+  getFirstName: (address: USER_SHIPPING_ITEM) => string;
+  getLastName: (address: USER_SHIPPING_ITEM) => string;
+  getCountry: (address: USER_SHIPPING_ITEM) => string;
+  getStreetNumber: (address: USER_SHIPPING_ITEM) => string;
+  getPhone: (address: USER_SHIPPING_ITEM) => string;
+  getEmail: (address: USER_SHIPPING_ITEM) => string;
+  getProvince: (address: USER_SHIPPING_ITEM) => string;
+  getCompanyName: (address: USER_SHIPPING_ITEM) => string;
+  getTaxNumber: (address: USER_SHIPPING_ITEM) => string;
 }
 
 export interface UseUserBilling<ADDRESS> {
