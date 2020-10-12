@@ -257,7 +257,7 @@ export default {
     });
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getFiltered(shipping.value, { id: addressId });
+      const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: addressId });
       if (!chosenAddress || !chosenAddress.length) {
         return;
       }
@@ -290,7 +290,7 @@ export default {
       await loadShippingMethods();
       reset();
       if (currentAddressId.value > -1 && setAsDefault.value) {
-        const chosenAddress = userShippingGetters.getFiltered(shipping.value, { id: currentAddressId.value });
+        const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: currentAddressId.value });
         if (!chosenAddress || !chosenAddress.length) {
           return;
         }
