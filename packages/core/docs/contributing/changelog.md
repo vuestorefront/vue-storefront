@@ -7,7 +7,7 @@
 
 ## 2.0.8
 
-- adds `getEmailAddress` getter in `userGetters` [#4939](https://github.com/DivanteLtd/vue-storefront/pull/4939)
+- adds `getEmailAddress` getter to `userGetters` [#4939](https://github.com/DivanteLtd/vue-storefront/pull/4939)
 - renamed `refreshUser` to `load` in `useUser`, user shouldn't be automatically loaded now [#4917](https://github.com/DivanteLtd/vue-storefront/pull/4917)
 - implementing logger feature [#4911](https://github.com/DivanteLtd/vue-storefront/pull/4911)
 - fix cart hydration issues [#4942](https://github.com/DivanteLtd/vue-storefront/pull/4942)
