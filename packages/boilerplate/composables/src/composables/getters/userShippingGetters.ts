@@ -1,8 +1,11 @@
 import { UserShippingGetters } from '@vue-storefront/core';
 
 const userGetters: UserShippingGetters<any, any> = {
-  getAddresses: shipping => shipping.addresses,
-  getFiltered: (shipping, criteria: Record<string, any>) => {
+  getAddresses: (shipping, criteria?: Record<string, any>) => {
+    const { addresses } = shipping;
+    if (!criteria || !Object.keys(criteria).length) {
+      return addresses;
+    }
     const entries = Object.entries(criteria);
     return shipping.addresses.filter(
       address => entries.every(([key, value]) => address[key] === value)
