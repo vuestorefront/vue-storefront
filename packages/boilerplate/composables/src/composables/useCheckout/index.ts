@@ -27,41 +27,8 @@ const PAYMENT_METHODS_MOCK = [
   }
 ];
 
-const SHIPPING_METHODS = [
-  {
-    id: '1',
-    price: '0',
-    description: 'Delivery from 3 to 7 business days',
-    name: 'Pickup in the store'
-  },
-  {
-    id: '2',
-    price: '9.90',
-    description: 'Delivery from 4 to 6 business days',
-    name: 'Delivery to home'
-  },
-  {
-    id: '3',
-    price: '9.90',
-    description: 'Delivery from 4 to 6 business days',
-    name: 'Paczkomaty InPost'
-  },
-  {
-    id: '4',
-    price: '11.00',
-    description: 'Delivery within 48 hours',
-    name: '48 hours'
-  },
-  {
-    id: '5',
-    price: '14.00',
-    description: 'Delivery within 24 hours',
-    name: 'Urgent 24h'
-  }
-];
-
 const paymentMethods: Ref<any[]> = ref(PAYMENT_METHODS_MOCK);
-const shippingMethods: Ref<any[]> = ref(SHIPPING_METHODS);
+const shippingMethods: Ref<any[]> = ref([]);
 const personalDetails: Ref<User> = ref({});
 const shippingDetails: Ref<UserAddress> = ref({});
 const billingDetails: Ref<UserAddress> = ref({});
