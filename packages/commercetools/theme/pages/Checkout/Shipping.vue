@@ -291,10 +291,10 @@ export default {
       reset();
       if (currentAddressId.value > -1 && setAsDefault.value) {
         const chosenAddress = userShippingGetters.getFiltered(shipping.value, { id: currentAddressId.value });
-        if (!chosenAddress) {
+        if (!chosenAddress || !chosenAddress.length) {
           return;
         }
-        await setDefault(chosenAddress);
+        await setDefault(chosenAddress[0]);
       }
       addressIsModified.value = false;
     };

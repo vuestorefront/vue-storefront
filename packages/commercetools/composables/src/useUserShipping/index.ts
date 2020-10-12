@@ -114,7 +114,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
 
   setDefault: async (params?) => {
     console.log('Mocked: setDefault');
-    const isDefault = id => addresses[0].id !== id;
+    const isDefault = id => addresses[0].id === id;
 
     if (!isDefault(params.address.id)) {
       const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
