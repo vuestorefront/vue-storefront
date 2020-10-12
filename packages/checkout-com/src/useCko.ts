@@ -95,7 +95,8 @@ const useCko = () => {
     success_url = null,
     failure_url = null,
     secure3d = true,
-    cvv = null
+    cvv = null,
+    reference = null
   } = {}) => {
     if (!selectedPaymentMethod.value) {
       error.value = new Error('Payment method not selected');
@@ -128,6 +129,7 @@ const useCko = () => {
       failure_url,
       secure3d,
       cvv,
+      reference,
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });

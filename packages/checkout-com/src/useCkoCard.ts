@@ -25,7 +25,8 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     contextDataId = null,
     savePaymentInstrument = false,
     success_url = null,
-    failure_url = null
+    failure_url = null,
+    reference = null
   }) => {
     try {
 
@@ -49,6 +50,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
           token,
           secure3d,
           cvv,
+          reference,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && savePaymentInstrument,
           success_url: success_url || `${window.location.origin}/cko/payment-success`,
