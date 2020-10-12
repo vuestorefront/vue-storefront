@@ -8,7 +8,7 @@ If some of the integration need to implement such a proxy for Nuxt.js, the core 
 As each integration has its own nuxt module, we are able to add a middleware as well. Below is the example:
 
 ```js
-import { createMiddleware } from '@vue-storefront/core';
+import { createMiddleware } from '@vue-storefront/core/server';
 
 export default function (moduleOptions) {
   const { middleware, extend } = createMiddleware(moduleOptions);

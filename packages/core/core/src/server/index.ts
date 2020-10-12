@@ -1,8 +1,8 @@
 
-import express from 'express';
+import express, { json } from 'express';
 
 const app = express();
-app.use(express.json());
+app.use(json());
 
 const extend = (fn) => fn(app);
 

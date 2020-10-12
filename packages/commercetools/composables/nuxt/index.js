@@ -1,5 +1,6 @@
 import path from 'path';
 import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/helpers';
+import { createMiddleware } from '@vue-storefront/core/server';
 
 const hasDefinedMiddleware = (options) => options.router && options.router.middleware && options.router.middleware.includes(CT_TOKEN_MIDDLEWARE_SLUG);
 
@@ -20,6 +21,7 @@ const getMissingFields = (options) =>
     .filter(o => options[o] === undefined);
 
 export default function (moduleOptions) {
+  const { middleware } = createMiddleware(moduleOptions);
 
   if (!moduleOptions.disableGenerateTokenMiddleware && !hasDefinedMiddleware(this.options)) {
     this.options.router.middleware.push(CT_TOKEN_MIDDLEWARE_SLUG);
@@ -43,4 +45,6 @@ export default function (moduleOptions) {
     src: path.resolve(__dirname, './plugin.js'),
     options
   });
+
+  this.addServerMiddleware(middleware);
 }
