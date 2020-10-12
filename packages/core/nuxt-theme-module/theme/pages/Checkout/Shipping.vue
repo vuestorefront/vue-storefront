@@ -65,7 +65,7 @@
       <SfSelect
         data-cy="shipping-details-select_country"
         v-model="shippingDetails.country"
-        label="Country"
+        placeholder="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
         required
       >
@@ -187,17 +187,26 @@ export default {
 @import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
+  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
   &__element {
+    --input-label-top: 85%;
     margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
@@ -243,7 +252,7 @@ export default {
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-2xl) var(--spacer-base);
   }
 }
 .shipping {
@@ -254,13 +263,12 @@ export default {
   }
   &__description {
     --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-xs);
+    --radio-description-font-size: var(--font-size--xs);
   }
   &__delivery {
     color: var(--c-text-muted);
   }
   &__action {
-    margin: 0 0 0 var(--spacer);
     &::before {
       content: "+";
     }
@@ -271,6 +279,11 @@ export default {
         content: "-";
       }
     }
+  }
+}
+.sf-input {
+  &.has-text {
+    --input-label-top: 0;
   }
 }
 </style>

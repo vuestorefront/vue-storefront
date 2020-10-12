@@ -19,5 +19,10 @@ export type Category = {
   items: Category[];
 }
 export type CategoryFilter = {}
-export type ShippingMethod = {}
+export type ShippingMethod = {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+}
 export type LineItem = {};
