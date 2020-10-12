@@ -56,9 +56,8 @@ export default ssrPlugin;
 
 Once Vue 3 and Nuxt.js can talk together, we'll replace this implementation using `configureSSR` so it will be transparent for you.
 
-## Usage in your project
+## Usage 
 
-In order to trigger an async call, you can simply use `onSSR` and `vsfRef` in your theme:
 
 ```js
 setup () {
