@@ -93,6 +93,7 @@ export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
 }
 
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  getAddresses: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM[];
   getFiltered: (shipping: USER_SHIPPING, criteria: any) => USER_SHIPPING_ITEM[];
   getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
   getTotal: (shipping: USER_SHIPPING) => number;

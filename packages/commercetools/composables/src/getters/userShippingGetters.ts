@@ -1,14 +1,15 @@
 import { UserShippingGetters } from '@vue-storefront/core';
 
-const userGetters: UserShippingGetters<any> = {
-  getFiltered: (addresses, criteria: Record<string, any>) => {
+const userGetters: UserShippingGetters<any, any> = {
+  getAddresses: shipping => shipping.addresses,
+  getFiltered: (shipping, criteria: Record<string, any>) => {
     const entries = Object.entries(criteria);
-    return addresses.filter(
+    return shipping.addresses.filter(
       address => entries.every(([key, value]) => address[key] === value)
     );
   },
-  getDefault: addresses => addresses.find(address => address.isDefault),
-  getTotal: addresses => addresses.length,
+  getDefault: shipping => shipping.addresses.find(address => address.isDefault),
+  getTotal: shipping => shipping.addresses.length,
   getPostCode: address => address ? address.zipCode : '',
   getStreetName: address => address ? address.streetName : '',
   getCity: address => address ? address.city : '',
@@ -18,7 +19,9 @@ const userGetters: UserShippingGetters<any> = {
   getStreetNumber: address => address ? address.apartment : '',
   getPhone: address => address ? address.phoneNumber : '',
   getEmail: address => address ? address.email : '',
-  getProvince: address => address ? address.state : ''
+  getProvince: address => address ? address.state : '',
+  getCompanyName: address => address ? address.company : '',
+  getTaxNumber: address => address ? address.taxId : ''
 };
 
 export default userGetters;
