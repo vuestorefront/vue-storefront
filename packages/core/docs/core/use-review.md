@@ -71,6 +71,8 @@ interface AgnosticRateCount {
 }
 ```
 
+<Content slot-key="usage" />
+
 ## Examples
 
 Fetching reviews for a single product:
@@ -92,7 +94,7 @@ export default {
     const averageRating = computed(() => reviewGetters.getAverageRating(rawReviews.value));
     const totalReviews = computed(() => reviewGetters.getTotalReviews(rawReviews.value));
 
-    // if you're using Nuxt or any other framework for Universal Vue apps
+    // If you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
       await search({ productId: '<PRODUCT_ID>' });
     });

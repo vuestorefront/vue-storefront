@@ -2,9 +2,16 @@
 
 ## 0.2.4 - not released
 
+### Changes
+
+- added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
+- added '_rating' back to the product ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
+
 ## 0.2.3
 
-- adding ability to overriding `isTokenUserSession` check in api-client (#4959)
+### Changes
+
+- adding ability to overriding `isTokenUserSession` check in api-client ([#4959](https://github.com/DivanteLtd/vue-storefront/issues/4959))
 
 ## 0.2.2
 

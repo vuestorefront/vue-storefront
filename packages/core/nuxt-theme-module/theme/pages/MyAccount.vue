@@ -51,7 +51,6 @@ import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
 import MyReviews from './MyAccount/MyReviews';
 
-// TODO: protect this route: https://github.com/DivanteLtd/next/issues/379
 export default {
   name: 'MyAccount',
   components: {
@@ -65,6 +64,17 @@ export default {
     OrderHistory,
     MyReviews
   },
+
+  async middleware({ redirect }) {
+    const { load, isAuthenticated } = useUser();
+
+    await load();
+
+    if (!isAuthenticated.value) {
+      return redirect('/');
+    }
+  },
+
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
