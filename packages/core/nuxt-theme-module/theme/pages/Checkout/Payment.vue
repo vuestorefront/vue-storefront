@@ -198,9 +198,6 @@ export default {
 @import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
   &__select {
@@ -220,7 +217,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
+    margin: 0 0 var(--spacer-base) 0;
     --input-label-top: 85%;
     @include for-desktop {
       flex: 0 0 100%;
@@ -236,32 +233,25 @@ export default {
       }
     }
   }
-  &__group {
-    display: flex;
-    align-items: center;
-  }
   &__action {
     @include for-desktop {
       flex: 0 0 100%;
       display: flex;
     }
   }
-  &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
-    }
-  }
-  &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
-  }
-  &__button {
+   &__action-button, &__back-button {
     --button-width: 100%;
     @include for-desktop {
       --button-width: auto;
+    }
+  }
+  &__action-button {
+    margin: 0 var(--spacer-xl) 0 0;
+  }
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
     }
   }
   &__radio-group {
@@ -291,36 +281,6 @@ export default {
   @include for-desktop {
     border: 0;
     --radio-border-radius: 4px;
-  }
-}
-.credit-card-form {
-  margin: 0 0 var(--spacer-xl) 0;
-  @include for-desktop {
-    flex: 0 0 66.666%;
-    padding: 0 calc((100% - 66.666%) / 2);
-  }
-  &__group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 0 var(--spacer-xl) 0;
-  }
-  &__label {
-    flex: unset;
-    font: 300 var(--font-size--base) / 1.6 var(--font-family--secondary);
-  }
-  &__element {
-    display: flex;
-    flex: 0 0 66.66%;
-  }
-  &__input {
-    flex: 1;
-    &--small {
-      flex: 0 0 46.666%;
-    }
-    & + & {
-      margin: 0 0 0 var(--spacer-xl);
-    }
   }
 }
 .sf-input {
