@@ -6,9 +6,9 @@ app.use(json());
 
 const extend = (fn) => fn(app);
 
-const createMiddleware = (moduleOptions) => {
-  if (moduleOptions.extendApi) {
-    extend(moduleOptions.extendApi);
+const createMiddleware = ({ apiMiddleware }) => {
+  if (apiMiddleware && apiMiddleware.extend) {
+    extend(apiMiddleware.extend);
   }
 
   return {

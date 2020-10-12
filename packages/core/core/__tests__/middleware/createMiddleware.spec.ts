@@ -15,7 +15,7 @@ describe('[CORE - server] createMiddleware', () => {
   });
 
   it('creates middleware', () => {
-    const { middleware } = createMiddleware({});
+    const { middleware } = createMiddleware({} as any);
 
     expect(middleware.handler).toBeInstanceOf(Object);
     expect(middleware.path).toEqual('/api');
@@ -23,7 +23,7 @@ describe('[CORE - server] createMiddleware', () => {
 
   it('extends middleware', () => {
     const extendApi = jest.fn();
-    const { extend } = createMiddleware({ extendApi });
+    const { extend } = createMiddleware({ apiMiddleware: { extend: extendApi } });
 
     extend(extendApi);
 

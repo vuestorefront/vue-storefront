@@ -46,5 +46,7 @@ export default function (moduleOptions) {
     options
   });
 
-  this.addServerMiddleware(middleware);
+  if (moduleOptions.apiMiddleware !== false) {
+    this.addServerMiddleware(middleware);
+  }
 }

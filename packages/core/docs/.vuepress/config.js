@@ -116,10 +116,7 @@ module.exports = {
             ['/general/architecture', 'Architecture'],
             ['/general/i18n', 'i18n'],
             ['/general/faceting', 'Faceting'],
-            ['/general/logging', 'Logging'],
-            ['/general/api-middleware', 'API middleware']
-
-
+            ['/general/logging', 'Logging']
           ]
         },
         {
@@ -140,7 +137,6 @@ module.exports = {
             ['/integrate/ecommerce', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
             ['/integrate/api-middleware', 'API middleware'],
-
           ]
         },
         {

@@ -4,8 +4,7 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "mainServer": "server/index.cjs.js",
-  "moduleServer": "server/index.js",
+  "mainServer": "server/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
     "build:client": "rollup -c rollup-client.config.js",

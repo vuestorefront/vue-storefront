@@ -10,11 +10,6 @@ export function generateBaseConfig(pkg) {
         file: pkg.mainServer,
         format: 'cjs',
         sourcemap: true
-      },
-      {
-        file: pkg.moduleServer,
-        format: 'es',
-        sourcemap: true
       }
     ],
     external: [

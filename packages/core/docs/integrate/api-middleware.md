@@ -29,14 +29,24 @@ The function `createMiddleware` returns two properties:
 
 ## Nuxt module configuration
 
-Once we have created our middleware in the integration, `createMiddleware` exposes also config option, called `extendApi`. It works in the same way as `extend` - gives us a possibility to extend api anywhere else in the project.
+Once we have created our middleware in the integration, `createMiddleware` exposes also config option, called `apiMiddleware`. Inside of this section you can extend your API by using `extend` function, or disable it at all by setting `apiMiddleware` to false
 
+Extending example:
 ```js
-['@vue-storefront/commercetools/nuxt', {
-  extendApi: (app) => {
-    app.get('/add-custom-user', (req, res) => {
-      res.send({ customizedUser: true });
-    });
+['@vue-storefront/{PLATFORM}/nuxt', {
+  apiMiddleware: {
+    extend: (app) => {
+      app.get('/add-custom-user', (req, res) => {
+        res.send({ customizedUser: true });
+      });
+    }
   }
+}]
+```
+
+Disabling middleware example:
+```js
+['@vue-storefront/{PLATFORM}/nuxt', {
+  apiMiddleware: false
 }]
 ```
