@@ -117,7 +117,6 @@ module.exports = {
             ['/general/i18n', 'i18n'],
             ['/general/faceting', 'Faceting'],
             ['/general/logging', 'Logging']
-
           ]
         },
         {
@@ -136,7 +135,8 @@ module.exports = {
           collapsable: true,
           children: [
             ['/integrate/ecommerce', 'eCommerce'],
-            ['/integrate/cms', 'CMS']
+            ['/integrate/cms', 'CMS'],
+            ['/integrate/api-middleware', 'API middleware'],
           ]
         },
         {
