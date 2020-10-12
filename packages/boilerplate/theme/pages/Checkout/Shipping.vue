@@ -7,7 +7,7 @@
     />
     <div class="form">
         <UserShippingAddresses
-          v-if="isAuthenticated && shippingAddresses.length"
+          v-if="isAuthenticated && shippingAddresses && shippingAddresses.length"
           :setAsDefault="setAsDefault"
           :shippingAddresses="shippingAddresses"
           :currentAddressId="currentAddressId"
@@ -205,7 +205,7 @@ export default {
       shippingMethods
     } = useCheckout();
 
-    const { addresses: shippingAddresses, load: loadShippingAddresses, setDefault } = useUserShipping();
+    const { shipping, load: loadShipping, setDefault } = useUserShipping();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -235,7 +235,7 @@ export default {
     });
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getFiltered(shippingAddresses.value, { id: addressId });
+      const chosenAddress = userShippingGetters.getFiltered(shipping.value, { id: addressId });
       if (!chosenAddress || !chosenAddress.length) {
         return;
       }
@@ -246,24 +246,25 @@ export default {
 
     onMounted(async () => {
       if (isAuthenticated.value) {
-        await loadShippingAddresses();
-        if (!shippingAddresses.value.length) {
+        await loadShipping();
+        const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
+        if (!shippingAddresses || !shippingAddresses.length) {
           return;
         }
         canAddNewAddress.value = false;
-        if (shippingAddresses.value[0].isDefault) {
-          setCurrentAddress(shippingAddresses.value[0].id);
+        if (shippingAddresses[0].isDefault) {
+          setCurrentAddress(shippingAddresses[0].id);
         }
       }
     });
 
     const saveShippingDetails = async () => {
       if (currentAddressId.value > -1 && setAsDefault.value) {
-        const chosenAddress = userShippingGetters.getFiltered(shippingAddresses.value, { id: currentAddressId.value });
-        if (!chosenAddress) {
+        const chosenAddress = userShippingGetters.getFiltered(shipping.value, { id: currentAddressId.value });
+        if (!chosenAddress || !chosenAddress.length) {
           return;
         }
-        await setDefault(chosenAddress);
+        await setDefault(chosenAddress[0]);
       }
       isShippingAddressCompleted.value = true;
       addressIsModified.value = false;
@@ -284,7 +285,7 @@ export default {
       COUNTRIES,
 
       isAuthenticated,
-      shippingAddresses,
+      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       setAsDefault,
       currentAddressId,
       setCurrentAddress,
