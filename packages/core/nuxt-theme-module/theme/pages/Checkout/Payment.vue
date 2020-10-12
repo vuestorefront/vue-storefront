@@ -71,7 +71,7 @@
       <SfSelect
         data-cy="payment-select_billingDetails"
         v-model="billingDetails.country"
-        label="Country"
+        placeholder="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
         required
       >
@@ -123,7 +123,7 @@
           Go back
         </SfButton>
         <SfButton data-cy="payment-btn_review" class="form__action-button" @click="$emit('nextStep')">
-          Review my order
+          Pay for order
         </SfButton>
       </div>
     </div>
@@ -203,6 +203,17 @@ export default {
   }
 }
 .form {
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
+  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
@@ -210,6 +221,7 @@ export default {
   }
   &__element {
     margin: 0 0 var(--spacer-xl) 0;
+    --input-label-top: 85%;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -268,15 +280,13 @@ export default {
 .payment-method {
   --radio-container-align-items: center;
   --ratio-content-margin: 0 0 0 var(--spacer-base);
-  --radio-label-font-size: var(--font-base);
+  --radio-label-font-size: var(--font-size--base);
+  --radio-background: transparent;
   white-space: nowrap;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
   &:last-child {
     border-width: 1px 0;
-  }
-  @include for-mobile {
-    --radio-background: transparent;
   }
   @include for-desktop {
     border: 0;
@@ -297,7 +307,7 @@ export default {
   }
   &__label {
     flex: unset;
-    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
+    font: 300 var(--font-size--base) / 1.6 var(--font-family--secondary);
   }
   &__element {
     display: flex;
@@ -311,6 +321,11 @@ export default {
     & + & {
       margin: 0 0 0 var(--spacer-xl);
     }
+  }
+}
+.sf-input {
+  &.has-text {
+    --input-label-top: 0;
   }
 }
 </style>
