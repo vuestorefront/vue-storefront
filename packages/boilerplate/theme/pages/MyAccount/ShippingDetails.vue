@@ -204,9 +204,10 @@ import {
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
-import { useUserShipping } from '@vue-storefront/boilerplate';
-import { ref } from '@vue/composition-api';
+import { useUserShipping, userShippingGetters } from '@vue-storefront/boilerplate';
+import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -232,7 +233,8 @@ export default {
     ValidationObserver
   },
   setup () {
-    const { addresses: shippingAddresses, load: loadShippingAddresses, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { shipping, load: loadShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
+
     const editAddress = ref(false);
     const editedAddress = ref(-1);
     const id = ref('');
@@ -246,20 +248,21 @@ export default {
     const country = ref('');
     const phoneNumber = ref('');
     const isDefault = ref(false);
+
     const changeAddress = async (index) => {
-      const shipping = shippingAddresses.value[index];
+      const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
       if (index > -1) {
-        id.value = shipping.id;
-        firstName.value = shipping.firstName;
-        lastName.value = shipping.lastName;
-        streetName.value = shipping.streetName;
-        apartment.value = shipping.apartment;
-        city.value = shipping.city;
-        state.value = shipping.state;
-        zipCode.value = shipping.zipCode;
-        country.value = shipping.country;
-        phoneNumber.value = shipping.phoneNumber;
-        isDefault.value = shipping.isDefault;
+        id.value = shippingAddress.id;
+        firstName.value = shippingAddress.firstName;
+        lastName.value = shippingAddress.lastName;
+        streetName.value = shippingAddress.streetName;
+        apartment.value = shippingAddress.apartment;
+        city.value = shippingAddress.city;
+        state.value = shippingAddress.state;
+        zipCode.value = shippingAddress.zipCode;
+        country.value = shippingAddress.country;
+        phoneNumber.value = shippingAddress.phoneNumber;
+        isDefault.value = shippingAddress.isDefault;
         editedAddress.value = index;
       } else {
         id.value = '';
@@ -277,7 +280,7 @@ export default {
       }
       editAddress.value = true;
     };
-    const removeAddress = index => deleteAddress(shippingAddresses.value[index]);
+    const removeAddress = index => deleteAddress(userShippingGetters.getAddresses(shipping.value)[index]);
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
@@ -296,13 +299,13 @@ export default {
       editAddress.value = false;
       editedAddress.value = -1;
     };
-    onSSR(loadShippingAddresses);
+    onSSR(loadShipping);
     return {
       changeAddress,
       updateAddress,
       removeAddress,
       processAddress,
-      shippingAddresses,
+      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       editAddress,
       editedAddress,
       firstName,

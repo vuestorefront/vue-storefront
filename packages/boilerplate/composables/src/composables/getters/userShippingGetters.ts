@@ -1,6 +1,7 @@
 import { UserShippingGetters } from '@vue-storefront/core';
 
-const userGetters: UserShippingGetters<any> = {
+const userGetters: UserShippingGetters<any, any> = {
+  getAddresses: shipping => shipping.addresses,
   getFiltered: (addresses, criteria: Record<string, any>) => {
     const entries = Object.entries(criteria);
     return addresses.filter(
@@ -18,7 +19,9 @@ const userGetters: UserShippingGetters<any> = {
   getStreetNumber: address => address ? address.apartment : '',
   getPhone: address => address ? address.phoneNumber : '',
   getEmail: address => address ? address.email : '',
-  getProvince: address => address ? address.state : ''
+  getProvince: address => address ? address.state : '',
+  getCompanyName: address => address ? address.company : '',
+  getTaxNumber: address => address ? address.taxId : ''
 };
 
 export default userGetters;
