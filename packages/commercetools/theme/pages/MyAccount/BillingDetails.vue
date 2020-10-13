@@ -254,8 +254,8 @@ export default {
     const isDefault = ref(false);
 
     const changeAddress = async (index) => {
-      const billingAddress = userBillingGetters.getAddresses(billing.value)[index];
       if (index > -1) {
+        const billingAddress = userBillingGetters.getAddresses(billing.value)[index];
         id.value = billingAddress.id;
         firstName.value = billingAddress.firstName;
         lastName.value = billingAddress.lastName;
