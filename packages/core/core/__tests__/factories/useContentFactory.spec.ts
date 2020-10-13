@@ -1,4 +1,9 @@
-import { UseContentFactoryParams, useContentFactory, renderContentFactory } from '../../src/factories';
+import {
+  UseContentFactoryParams,
+  useContentFactory,
+  renderContentFactory,
+  RenderContentFactoryParams
+} from '../../src/factories';
 import { UseContent } from '../../src/types';
 import { shallowMount } from '@vue/test-utils';
 
@@ -36,9 +41,11 @@ describe('[CORE - factories] useContentFactory', () => {
 });
 
 describe('[CORE - factories] renderContentFactory', () => {
-  let render: any;
+  let renderContent: any;
+  let extractContent: any;
   const renderContentFactoryMock = () => {
-    render = renderContentFactory();
+    extractContent = (content) => content;
+    renderContent = renderContentFactory({ extractContent } as RenderContentFactoryParams<any>);
   };
 
   beforeEach(() => {
@@ -53,13 +60,12 @@ describe('[CORE - factories] renderContentFactory', () => {
         title: 'test title'
       }
     }];
-    const component = shallowMount(render, {
+    const component = shallowMount(renderContent, {
       propsData: {
         content
       },
       components: {
-        TestComponent: {},
-        RenderContainer: {}
+        TestComponent: {}
       }
     });
 
