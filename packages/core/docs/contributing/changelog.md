@@ -2,10 +2,11 @@
 
 ## 2.0.9
 
-- updated UseUserShipping & UserShippingGetters interfaces, implemented them in useUserShippingFactory, written & updated tests ([#4841](https://github.com/DivanteLtd/vue-storefront/issues/4841))
 - added `getEmailAddress` getter to `userGetters` [#4939](https://github.com/DivanteLtd/vue-storefront/pull/4939)
-- added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
-- fixed ssr transitions
+- added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))	
+- fix ssr transitions
+- updated UseUserShipping & UserShippingGetters interfaces, implemented them in useUserShippingFactory, written & updated tests ([#4841](https://github.com/DivanteLtd/vue-storefront/issues/4841))
+- fix `sharedRef` nullable assigning
 
 ## 2.0.8
 
