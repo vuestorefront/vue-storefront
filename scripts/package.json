@@ -9,5 +9,5 @@
     "release": "ts-node ./release/index.ts"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

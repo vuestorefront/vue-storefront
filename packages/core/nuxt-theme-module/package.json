@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vue Storefront",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
