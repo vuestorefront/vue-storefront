@@ -113,30 +113,32 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
-export interface UseUserBilling<ADDRESS> {
-  addresses: ComputedProperty<ADDRESS[]>;
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
+export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
+  billing: ComputedProperty<USER_BILLING>;
+  addAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
-export interface UserBillingGetters<ADDRESS> {
-  getFiltered: (addresses: ADDRESS[], criteria: any) => ADDRESS[];
-  getDefault: (addresses: ADDRESS[]) => ADDRESS;
-  getTotal: (addresses: ADDRESS[]) => number;
-  getPostCode: (address: ADDRESS) => string;
-  getStreetName: (address: ADDRESS) => string;
-  getCity: (address: ADDRESS) => string;
-  getFirstName: (address: ADDRESS) => string;
-  getLastName: (address: ADDRESS) => string;
-  getCountry: (address: ADDRESS) => string;
-  getStreetNumber: (address: ADDRESS) => string;
-  getPhone: (address: ADDRESS) => string;
-  getEmail: (address: ADDRESS) => string;
-  getProvince: (address: ADDRESS) => string;
+export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
+  getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
+  getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
+  getTotal: (billing: USER_BILLING) => number;
+  getPostCode: (address: USER_BILLING_ITEM) => string;
+  getStreetName: (address: USER_BILLING_ITEM) => string;
+  getCity: (address: USER_BILLING_ITEM) => string;
+  getFirstName: (address: USER_BILLING_ITEM) => string;
+  getLastName: (address: USER_BILLING_ITEM) => string;
+  getCountry: (address: USER_BILLING_ITEM) => string;
+  getStreetNumber: (address: USER_BILLING_ITEM) => string;
+  getPhone: (address: USER_BILLING_ITEM) => string;
+  getEmail: (address: USER_BILLING_ITEM) => string;
+  getProvince: (address: USER_BILLING_ITEM) => string;
+  getCompanyName: (address: USER_BILLING_ITEM) => string;
+  getTaxNumber: (address: USER_BILLING_ITEM) => string;
 }
 
 export interface UseCategory<CATEGORY> {
