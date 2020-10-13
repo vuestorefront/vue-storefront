@@ -31,6 +31,10 @@ const addresses: any[] = [
   }
 ];
 
+const billing = {
+  addresses
+};
+
 const findBiggestId = () => addresses.reduce((highest, { id }) => Math.max(highest, id), 0);
 
 const disableOldDefault = () => {
@@ -49,7 +53,7 @@ const sortDefaultAtTop = (a, b) => {
   return 0;
 };
 
-const params: UseUserBillingFactoryParams<any> = {
+const params: UseUserBillingFactoryParams<any, any> = {
   addAddress: async (params?) => {
     console.log('Mocked: addAddress', params.address);
 
@@ -65,7 +69,7 @@ const params: UseUserBillingFactoryParams<any> = {
       addresses.push(newAddress);
     }
 
-    return Promise.resolve(addresses);
+    return Promise.resolve(billing);
   },
 
   deleteAddress: async (params?) => {
@@ -77,7 +81,7 @@ const params: UseUserBillingFactoryParams<any> = {
     }
 
     addresses.splice(indexToRemove, 1);
-    return Promise.resolve(addresses);
+    return Promise.resolve(billing);
   },
 
   updateAddress: async (params?) => {
@@ -99,18 +103,18 @@ const params: UseUserBillingFactoryParams<any> = {
     if (isNewDefault) {
       addresses.sort(sortDefaultAtTop);
     }
-    return Promise.resolve(addresses);
+    return Promise.resolve(billing);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (params?) => {
     console.log('Mocked: load');
-    return Promise.resolve(addresses);
+    return Promise.resolve(billing);
   },
 
   setDefault: async (params?) => {
     console.log('Mocked: setDefault');
-    const isDefault = id => addresses[0].id !== id;
+    const isDefault = id => addresses[0].id === id;
 
     if (!isDefault(params.address.id)) {
       const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
@@ -122,10 +126,10 @@ const params: UseUserBillingFactoryParams<any> = {
       addresses.sort(sortDefaultAtTop);
     }
 
-    return Promise.resolve(addresses);
+    return Promise.resolve(billing);
   }
 };
 
-const { useUserBilling } = useUserBillingFactory<any>(params);
+const { useUserBilling } = useUserBillingFactory<any, any>(params);
 
 export default useUserBilling;
