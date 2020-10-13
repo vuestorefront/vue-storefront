@@ -251,17 +251,26 @@ export default {
 @import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
+  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
   &__element {
+    --input-label-top: 85%;
     margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
@@ -287,25 +296,19 @@ export default {
       display: flex;
     }
   }
-  &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
-    }
-  }
-  &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
-    &:hover {
-      color:  white;
-    }
-  }
-  &__button {
+   &__action-button, &__back-button {
     --button-width: 100%;
     @include for-desktop {
       --button-width: auto;
+    }
+  }
+  &__action-button {
+    margin: 0 var(--spacer-xl) 0 0;
+  }
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
     }
   }
   &__radio-group {
@@ -325,6 +328,7 @@ export default {
   --radio-container-align-items: center;
   --ratio-content-margin: 0 0 0 var(--spacer-base);
   --radio-label-font-size: var(--font-base);
+  --radio-background: transparent;
   white-space: nowrap;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
@@ -339,34 +343,9 @@ export default {
     --radio-border-radius: 4px;
   }
 }
-.credit-card-form {
-  margin: 0 0 var(--spacer-xl) 0;
-  @include for-desktop {
-    flex: 0 0 66.666%;
-    padding: 0 calc((100% - 66.666%) / 2);
-  }
-  &__group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 0 var(--spacer-xl) 0;
-  }
-  &__label {
-    flex: unset;
-    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
-  }
-  &__element {
-    display: flex;
-    flex: 0 0 66.66%;
-  }
-  &__input {
-    flex: 1;
-    &--small {
-      flex: 0 0 46.666%;
-    }
-    & + & {
-      margin: 0 0 0 var(--spacer-xl);
-    }
+.sf-input {
+  &.has-text {
+    --input-label-top: 0;
   }
 }
 </style>

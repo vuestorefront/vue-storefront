@@ -33,7 +33,7 @@
             :level="6"
             class="heading sf-heading--left sf-heading--no-underline"
             title="Primary contacts for any questions"
-          ></SfHeading>
+          />
           <div class="contact">
             <p class="contact__name">{{ address.name }}</p>
             <p class="contact__street">{{ address.street }}</p>
@@ -104,10 +104,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
+
 #thank-you {
   box-sizing: border-box;
   @include for-desktop {
-    max-width: 1272px;
+    max-width: 1240px;
     padding: 0 var(--spacer-sm);
     margin: 0 auto;
   }
@@ -118,16 +119,16 @@ export default {
 .paragraph {
   margin: var(--spacer-xs) 0 var(--spacer-sm) 0;
   color: var(--c-dark-variant);
-  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   @include for-desktop {
-    font-weight: var(--font-normal);
-    font-size: var(--font-sm);
+    font-weight: var(--font-weight--normal);
+    font-size: var(--font-size--sm);
   }
 }
 .banner {
   --call-to-action-color: var(--c-text);
-  --call-to-action-title-font-size: var(--font-xl);
-  --call-to-action-title-font-weight: var(--font-medium);
+  --call-to-action-title-font-size: var(--font-size--xl);
+  --call-to-action-title-font-weight: var(--font-weight--medium);
   --call-to-action-text-container-width: 50%;
   margin: 0 0 var(--spacer-base);
   @include for-desktop {
@@ -136,10 +137,10 @@ export default {
   &__order-number {
     display: flex;
     flex-direction: column;
-    font: var(--font-light) var(--font-sm) / 1.4 var(--font-family-primary);
+    font: var(--font-weight--light) var(--font-size--sm) / 1.4 var(--font-family--primary);
     @include for-desktop {
       flex-direction: row;
-      font-size: var(--font-normal);
+      font-size: var(--font-size--normal);
     }
   }
 }
@@ -178,7 +179,7 @@ export default {
     }
   }
   &__notifications-button {
-    --button-width: calc(100% - (var(--spacer-sm) * 2));
+    --button-width: calc(100% - var(--spacer-lg));
     margin: var(--spacer-base) auto 0 auto;
     @include for-desktop {
       margin: var(--spacer-xl) 0 0 0;
@@ -186,11 +187,11 @@ export default {
   }
 }
 .contact {
-  color: var(--c-dark-variant);
-  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
+  color: var(--c-link);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
   @include for-desktop {
-    font-weight: var(--font-normal);
-    font-size: var(--font-sm);
+    font-weight: var(--font-size--normal);
+    font-size: var(--font-size--sm);
   }
   &__name,
   &__street,
@@ -219,13 +220,9 @@ export default {
   }
 }
 .back-button {
-  --button-width: calc(100% - (var(--spacer-sm) * 2));
+  --button-width: calc(100% - var(--spacer-lg));
   margin: 0 auto var(--spacer-sm) auto;
-  &:hover {
-    color:white;
-  }
   @include for-desktop {
-    --button-background: var(--c-secondary);
     margin: var(--spacer-xl) auto;
   }
 }
