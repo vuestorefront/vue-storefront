@@ -36,6 +36,7 @@ describe('[checkout-com] helpers', () => {
     const rawPayload = {
       context_id: '123',
       save_payment_instrument: true,
+      cvv: 1234,
       secure3d: true,
       success_url: 'aa',
       failure_url: 'bb',
@@ -45,6 +46,7 @@ describe('[checkout-com] helpers', () => {
     const expectedPayload = {
       context_id: '123',
       save_payment_instrument: true,
+      cvv: 1234,
       '3ds': true,
       success_url: 'aa',
       failure_url: 'bb',

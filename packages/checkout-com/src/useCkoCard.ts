@@ -21,6 +21,7 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
     cartId,
     email,
     secure3d,
+    cvv = null,
     contextDataId = null,
     savePaymentInstrument = false,
     success_url = null,
@@ -37,12 +38,17 @@ const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
       let context;
       if (!contextDataId) {
         context = await createContext({ reference: cartId, email });
+        const requiresCvv = selectedPaymentMethod.value === CkoPaymentType.SAVED_CARD && context.data.payment_settings && context.data.payment_settings.cvv_required;
+        if (requiresCvv && !cvv) {
+          throw new Error('CVV is required');
+        }
       }
 
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
           token,
           secure3d,
+          cvv,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && savePaymentInstrument,
           success_url: success_url || `${window.location.origin}/cko/payment-success`,
