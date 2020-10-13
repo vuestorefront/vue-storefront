@@ -39,9 +39,11 @@ interface ReviewDraft {
 
 ## Usage
 
-When `@vsf-enterprise/ct-reviews` plugin is installed as a dependency, it requires minor modifications in the code to work.
+When you already installed `@vsf-enterprise/ct-reviews` as a dependency, there are few minor modifications required to make it work.
 
-In the codebase we're importing `useReview` and `reviewGetters` from `@vue-storefront/commercetools`. To use this plugin, simply import them from `@vsf-enterprise/ct-reviews` instead of `@vue-storefront/commercetools`:
+The first step is to add `@vsf-enterprise/ct-reviews` to `build > traspile` array in `nuxt.config.js`.
+
+Then we need to replace the import of `useReview` and `reviewGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-reviews`:
 
 ```javascript
 // Before

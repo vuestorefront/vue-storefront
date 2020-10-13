@@ -6,7 +6,7 @@ Core Development Theme and Project Themes are different things. Core development
 
 Because of that, it's very important to keep the agnostic APIs in default theme. Clients can do whatever they want in their projects but we should keep agnosticism for maintenance purposes.
 
-Default theme is located in `packages/core/theme-module` folder and recognized as `@vue-storefront/nuxt-theme`
+Default theme is located in `packages/core/nuxt-theme-module` folder and recognized as `@vue-storefront/nuxt-theme`
 
 ## Configuration
 
@@ -24,4 +24,12 @@ Under the hood what this module does is:
 
 ## Magic comments
 
-To find code lines to remove easily - we use magic comments. We cut everything from `// @core-development-only-start` to `// @core-development-only-end`.
+Sometimes you might need to have some code only for core development purposes (mostly in `nuxt.config.js`).In that case youu should wrap this code with these comments:
+```js
+// @core-development-only-start 
+core development only stuff
+// @core-development-only-end
+```
+::: warning
+Be cautious with this feature! The more differences will be between the theme you develop and the theme customer sees the more unreliable it could get.
+:::

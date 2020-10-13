@@ -14,8 +14,12 @@ function sharedRef<T>(value: T, key: string): Ref {
     return sharedMap.get(givenKey);
   }
 
-  const newRef = vsfRef(value, key);
-  sharedMap.set(key, newRef);
+  const newRef = vsfRef(
+    key ? value : null,
+    givenKey as string
+  );
+
+  sharedMap.set(givenKey, newRef);
 
   return newRef;
 }
