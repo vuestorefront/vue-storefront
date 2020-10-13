@@ -82,7 +82,7 @@ export function createRedirectProxy (context: Context, expressResponse: Response
 
   const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
 
-  // returns proxy for Express Reponse object
+  // returns proxy for Express Response object
   return new ProxyConstructor(expressResponse, {
     get (target, propKey) {
       // 'redirect' can be called multiple times and we want to reuse same method
