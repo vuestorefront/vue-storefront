@@ -91,6 +91,11 @@ export default gql`
       total
       results {
         id
+        reviewRatingStatistics {	
+          averageRating,
+          ratingsDistribution,
+          count
+        }
         masterData {
           current {
             slug(acceptLanguage: $acceptLanguage)

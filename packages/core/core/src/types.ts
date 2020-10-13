@@ -205,13 +205,14 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getPrice: (product: PRODUCT) => AgnosticPrice;
   getGallery: (product: PRODUCT) => AgnosticMediaGalleryItem[];
   getCoverImage: (product: PRODUCT) => string;
-  getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) =>
-    PRODUCT[];
+  getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) => PRODUCT[];
   getAttributes: (products: PRODUCT[] | PRODUCT, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
   getDescription: (product: PRODUCT) => string;
   getCategoryIds: (product: PRODUCT) => string[];
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
+  getTotalReviews: (product: PRODUCT) => number;
+  getAverageRating: (product: PRODUCT) => number;
   getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
   [getterName: string]: any;
 }
