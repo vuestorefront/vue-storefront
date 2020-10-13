@@ -54,13 +54,17 @@ export default {
     SfAddressPicker,
     UserShippingAddress
   },
+  watch: {
+    setAsDefault (setAsDefault) {
+      this.localSetAsDefault = setAsDefault;
+    }
+  },
   setup ({ setAsDefault }, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
 
     const localSetAsDefault = ref(setAsDefault);
 
     watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
-    watch(() => setAsDefault, () => localSetAsDefault.value = setAsDefault);
 
     return {
       setCurrentAddress,
