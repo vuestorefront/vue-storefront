@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "0.2.4",
+    "@vue-storefront/commercetools-api": "0.2.5",
     "@vue-storefront/core": "2.0.9",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
