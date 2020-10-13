@@ -11,6 +11,7 @@ import useContent from './composables/useContent';
 import useFacet from './composables/useFacet';
 import { useWishlist, setWishlist } from './composables/useWishlist';
 import useUserShipping from './composables/useUserShipping';
+import useUserBilling from './composables/useUserBilling';
 
 import {
   cartGetters,
@@ -20,6 +21,7 @@ import {
   productGetters,
   userGetters,
   userShippingGetters,
+  userBillingGetters,
   orderGetters,
   wishlistGetters
 } from './composables/getters';
@@ -38,6 +40,7 @@ export {
   useFacet,
   useWishlist,
   useUserShipping,
+  useUserBilling,
   setWishlist,
   cartGetters,
   categoryGetters,
@@ -48,5 +51,6 @@ export {
   userGetters,
   orderGetters,
   wishlistGetters,
-  userShippingGetters
+  userShippingGetters,
+  userBillingGetters
 };
