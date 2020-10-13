@@ -25,7 +25,7 @@
           />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_billing-details" title="Billing details">
-          <ShippingDetails
+          <BillingDetails
             :account="account"
             @update:billing="account = { ...account, ...$event }"
           />
@@ -55,6 +55,7 @@ import { computed } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
+import BillingDetails from './MyAccount/BillingDetails';
 import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
@@ -69,6 +70,7 @@ export default {
     SfButton,
     MyProfile,
     ShippingDetails,
+    BillingDetails,
     LoyaltyCard,
     MyNewsletter,
     OrderHistory,
