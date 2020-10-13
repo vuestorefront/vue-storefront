@@ -111,7 +111,7 @@ module.exports = {
             ['/general/server-side-rendering', 'Server-side rendering'],
             ['/general/faceting', 'Faceting'],
             ['/general/logging', 'Logging'],
-            ['/general/use-content', 'Use Content'],
+            ['/general/cms', 'CMS'],
           ]
         },
         {
