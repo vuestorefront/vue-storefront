@@ -15,7 +15,6 @@ const log = {
 }
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
-
   const isProd = process.env.NODE_ENV === 'production'
   const isSfuiInstalled = fs.existsSync(path.resolve('node_modules/@storefront-ui'))
   const defaultOptions = {
