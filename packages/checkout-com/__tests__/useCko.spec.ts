@@ -265,7 +265,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       secure3d: true,
       success_url: null,
       failure_url: null,
-      savePaymentInstrument: true
+      savePaymentInstrument: true,
+      reference: null
     }
     /* eslint-enable */
 
@@ -285,7 +286,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       contextDataId: '12',
       secure3d: true,
       success_url: null,
-      failure_url: null
+      failure_url: null,
+      reference: 'zyxxzxz'
     }
 
     localStorageMock.getItem.mockImplementation(() => 'true')
@@ -298,7 +300,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       secure3d: true,
       success_url: null,
       failure_url: null,
-      savePaymentInstrument: true
+      savePaymentInstrument: true,
+      reference: 'zyxxzxz'
     }
     /* eslint-enable */
 
@@ -350,7 +353,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       secure3d: true,
       success_url: null,
       failure_url: null,
-      savePaymentInstrument: true
+      savePaymentInstrument: true,
+      reference: null
     }
     /* eslint-enable */
 

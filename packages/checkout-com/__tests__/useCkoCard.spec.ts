@@ -203,7 +203,8 @@ describe('[checkout-com] useCkoCard', () => {
         context_id: payload.contextDataId,
         save_payment_instrument: false,
         success_url: `${window.location.origin}/cko/payment-success`,
-        failure_url: `${window.location.origin}/cko/payment-error`
+        failure_url: `${window.location.origin}/cko/payment-error`,
+        reference: null
       }
       /* eslint-enable */
 
@@ -213,7 +214,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     });
 
-    it('allows to set success and failure url and save_payment_instrument', async () => {
+    it('allows to set success and failure url and save_payment_instrument and reference', async () => {
 
       const token = '123';
       sessionStorageMock.getItem.mockImplementation(() => token);
@@ -226,6 +227,7 @@ describe('[checkout-com] useCkoCard', () => {
         savePaymentInstrument: true,
         success_url: 'aa',
         failure_url: 'bb',
+        reference: 'zyxxzxz',
         token
       };
   
@@ -236,6 +238,7 @@ describe('[checkout-com] useCkoCard', () => {
         save_payment_instrument: payload.savePaymentInstrument,
         success_url: payload.success_url,
         failure_url: payload.failure_url,
+        reference: 'zyxxzxz',
         token
       }
       /* eslint-enable */
