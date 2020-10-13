@@ -1,5 +1,7 @@
 # Changelog
 
+## 2.0.10 - not released
+
 ## 2.0.9
 
 - added `getEmailAddress` getter to `userGetters` ([#4939](https://github.com/DivanteLtd/vue-storefront/pull/4939))

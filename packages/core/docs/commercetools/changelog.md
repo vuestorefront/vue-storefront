@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.2.4 - not released
+## 0.2.5 - not released
+
+
+## 0.2.4
 
 ### Changes
 
