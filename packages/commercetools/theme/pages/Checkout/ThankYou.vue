@@ -4,8 +4,8 @@
       class="banner"
       title="Thank you for your order!"
       :image="{
-        mobile: '/thank-you/BannerM.png',
-        desktop: '/thank-you/BannerD.png',
+        mobile: '/thank-you/bannerM.png',
+        desktop: '/thank-you/bannerD.png',
       }"
     >
       <template #description>
@@ -115,29 +115,34 @@ export default {
 }
 .heading {
   --heading-padding: var(--spacer-base) 0;
+  @include for-desktop {
+    --heading-padding: var(--spacer-sm) 0 var(--spacer-xs) 0;
+  }
 }
 .paragraph {
-  margin: var(--spacer-xs) 0 var(--spacer-sm) 0;
-  color: var(--c-dark-variant);
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
+  margin: 0;
+  color: var(--c-link);
+  font: var(--font-weight--normal) var(--font-size--base) / 1.6
+    var(--font-family--primary);
   @include for-desktop {
-    font-weight: var(--font-weight--normal);
+    font-weight: var(--font-weight--light);
     font-size: var(--font-size--sm);
+    margin-bottom: var(--spacer-lg);
   }
 }
 .banner {
   --call-to-action-color: var(--c-text);
-  --call-to-action-title-font-size: var(--font-size--xl);
-  --call-to-action-title-font-weight: var(--font-weight--medium);
+  --call-to-action-title-font-size: var(--h2-font-size);
+  --call-to-action-title-font-weight: var(--font-weight--semibold);
   --call-to-action-text-container-width: 50%;
-  margin: 0 0 var(--spacer-base);
   @include for-desktop {
     margin: 0 0 var(--spacer-2xl) 0;
   }
   &__order-number {
     display: flex;
     flex-direction: column;
-    font: var(--font-weight--light) var(--font-size--sm) / 1.4 var(--font-family--primary);
+    font: var(--font-weight--light) var(--font-size--sm) / 1.4
+      var(--font-family--primary);
     @include for-desktop {
       flex-direction: row;
       font-size: var(--font-size--normal);
@@ -155,10 +160,19 @@ export default {
   }
 }
 .order {
+  background: var(--c-light);
+  padding-bottom: var(--spacer-sm);
   @include for-desktop {
     width: 100%;
     padding: var(--spacer-xl) var(--spacer-xl) var(--spacer-2xl)
       var(--spacer-2xl);
+  }
+  &__heading {
+    --heading-title-font-weight: var(--font-weight--bold);
+    @include for-desktop {
+      --heading-title-color: var(--c-link);
+      --heading-title-font-weight: var(--font-weight--swemibold);
+    }
   }
   &__heading,
   &__paragraph,
@@ -167,12 +181,15 @@ export default {
       margin: 0;
       padding-left: var(--spacer-sm);
       padding-right: var(--spacer-sm);
-      background: var(--c-light);
     }
   }
   &__contact {
-    padding: var(--spacer-sm);
+    padding-bottom: var(--spacer-base);
+    --heading-title-font-size: var(--font-size--lg);
+    --heading-title-font-weight: var(--font-weight--medium);
     @include for-desktop {
+      --heading-title-font-size: var(--font-size--base);
+      --heading-title-font-weight: var(--font-weight--normal);
       padding: 0 var(--spacer-sm);
       border: 2px solid var(--c-white);
       border-width: 2px 0 2px 0;
@@ -180,17 +197,18 @@ export default {
   }
   &__notifications-button {
     --button-width: calc(100% - var(--spacer-lg));
-    margin: var(--spacer-base) auto 0 auto;
+    margin: 0 auto;
     @include for-desktop {
       margin: var(--spacer-xl) 0 0 0;
     }
   }
 }
 .contact {
-  color: var(--c-link);
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
+  color: var(--c-dark-variant);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6
+    var(--font-family--secondary);
   @include for-desktop {
-    font-weight: var(--font-size--normal);
+    font-weight: var(--font-weight--normal);
     font-size: var(--font-size--sm);
   }
   &__name,
@@ -198,13 +216,25 @@ export default {
   &__city {
     margin: 0;
   }
-  &__mail {
-    margin: var(--spacer-sm) 0;
+  &__email {
+    margin: var(--spacer-sm) 0 0 0;
+    @include for-desktop {
+      margin-bottom: var(--spacer-sm);
+    }
+  }
+  &__name,
+  &__street,
+  &__city,
+  &__email {
+    font-size: var(--font-size--sm);
   }
 }
 .additional-info {
+  --heading-title-font-weight: var(--font-weight--bold);
   padding: 0 var(--spacer-sm);
   @include for-desktop {
+    --heading-title-color: var(--c-link);
+    --heading-title-font-weight: var(--font-weight--semibold);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -214,7 +244,7 @@ export default {
   }
 }
 .feedback-button {
-  margin: var(--spacer-sm) 0;
+  margin: var(--spacer-xl) 0 var(--spacer-sm) 0;
   @include for-desktop {
     margin: var(--spacer-base) 0 0 0;
   }
