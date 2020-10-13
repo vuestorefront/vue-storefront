@@ -3,9 +3,10 @@
     <SfAddressPicker
       :value="currentAddressId"
       @input="setCurrentAddress($event)"
-      class="shipping__addresses"
+      class="shipping-addresses"
     >
       <SfAddress
+        class="shipping-addresses__address"
         v-for="shippingAddress in shippingAddresses"
         :key="shippingAddress.id"
         :name="String(shippingAddress.id)"
@@ -38,9 +39,9 @@
 
 <script>
 import {
-  SfCheckbox
+  SfCheckbox,
+  SfAddressPicker
 } from '@storefront-ui/vue';
-import SfAddressPicker from '~/components/temp/SfAddressPicker';
 import { ref, watch } from '@vue/composition-api';
 export default {
   name: 'UserShippingAddresses',
@@ -76,21 +77,21 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/variables";
+@import "~@storefront-ui/vue/styles";
 
-  .shipping__addresses {
-    @media screen and (min-width: $desktop-min) {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-column-gap: 10px;
-    }
-    margin-bottom: var(--spacer-xl);
-    .sf-address {
-      margin-bottom: var(--spacer-sm);
-    }
+.shipping-addresses {
+  @media screen and (min-width: $desktop-min) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
   }
+  margin-bottom: var(--spacer-xl);
+  &__address {
+    margin-bottom: var(--spacer-sm);
+  }
+}
 
-  .shipping-address-setAsDefault, .form__action-button--margin-bottom {
-    margin-bottom: var(--spacer-xl);
-  }
+.shipping-address-setAsDefault, .form__action-button--margin-bottom {
+  margin-bottom: var(--spacer-xl);
+}
 </style>
