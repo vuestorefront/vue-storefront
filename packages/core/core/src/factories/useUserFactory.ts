@@ -39,7 +39,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.updateUser', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -54,7 +54,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.register', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -72,7 +72,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.login', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -87,7 +87,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.err');
 
-        throw new Error(err);
+        throw err;
       }
     };
 
@@ -100,7 +100,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.changePassword', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -115,7 +115,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       } catch (err) {
         Logger.error('useUserFactory.refreshUser', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
