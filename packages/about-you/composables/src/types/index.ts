@@ -16,6 +16,7 @@ import { SearchSuggestionsEndpointParameters } from '@aboutyou/backbone/endpoint
 type BapiUser = {
   firstName?: string;
   lastName?: string;
+  email?: string;
 }
 
 type BapiUserAddress = {
