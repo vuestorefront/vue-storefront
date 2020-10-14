@@ -16,16 +16,10 @@
           <MyProfile />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
-          <ShippingDetails
-            :account="account"
-            @update:shipping="account = { ...account, ...$event }"
-          />
+          <ShippingDetails />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_billing-details" title="Billing details">
-          <BillingDetails
-            :account="account"
-            @update:billing="account = { ...account, ...$event }"
-          />
+          <BillingDetails />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_loyalty-card" title="Loyalty card">
           <LoyaltyCard />
