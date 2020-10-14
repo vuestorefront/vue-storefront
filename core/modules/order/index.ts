@@ -75,6 +75,9 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                       }
                     }
 
+                    if (orderData.transmited) {
+                      store.dispatch('user/refreshOrdersHistory', { resolvedFromCache: false })
+                    }
                     ordersCollection.setItem(orderId.toString(), orderData)
                   } else {
                     Logger.error(jsonResponse)()
