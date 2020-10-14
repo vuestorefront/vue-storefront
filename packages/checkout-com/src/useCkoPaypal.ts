@@ -14,7 +14,8 @@ const useCkoPaypal = () => {
     contextDataId = null,
     savePaymentInstrument = false,
     success_url = null,
-    failure_url = null
+    failure_url = null,
+    reference = null
   }) => {
     try {
       let context;
@@ -25,6 +26,7 @@ const useCkoPaypal = () => {
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(CkoPaymentType.PAYPAL, {
           secure3d,
+          reference,
           context_id: contextDataId || context.data.id,
           save_payment_instrument: savePaymentInstrument,
           success_url: success_url || `${window.location.origin}/cko/payment-success`,

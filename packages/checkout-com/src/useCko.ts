@@ -10,6 +10,7 @@ import useCkoPaypal from './useCkoPaypal';
 const error = ref(null);
 const availableMethods = ref([]);
 const contextId = ref<string>(null);
+const requiresCvv = ref(false);
 
 interface PaymentMethods {
   card?: boolean;
@@ -60,6 +61,9 @@ const useCko = () => {
         { name: 'card' }
       ];
       contextId.value = response.data.id;
+      if (response.data.payment_settings && 'cvv_required' in response.data.payment_settings) {
+        requiresCvv.value = response.data.payment_settings.cvv_required;
+      }
       return response.data;
     } catch (e) {
       error.value = e;
@@ -90,7 +94,9 @@ const useCko = () => {
     contextDataId = null,
     success_url = null,
     failure_url = null,
-    secure3d = true
+    secure3d = true,
+    cvv = null,
+    reference = null
   } = {}) => {
     if (!selectedPaymentMethod.value) {
       error.value = new Error('Payment method not selected');
@@ -101,6 +107,11 @@ const useCko = () => {
     let localError;
 
     if ([CkoPaymentType.CREDIT_CARD, CkoPaymentType.SAVED_CARD].includes(selectedPaymentMethod.value)) {
+      const hasCvvIfRequired = selectedPaymentMethod.value === CkoPaymentType.SAVED_CARD && requiresCvv.value && !cvv;
+      if (hasCvvIfRequired) {
+        error.value = new Error('CVV is required');
+        return;
+      }
       finalizeTransactionFunction = makeCardPayment;
       localError = cardError;
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
@@ -117,6 +128,8 @@ const useCko = () => {
       success_url,
       failure_url,
       secure3d,
+      cvv,
+      reference,
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });
@@ -135,6 +148,7 @@ const useCko = () => {
     storedPaymentInstruments,
     submitDisabled,
     storedContextId: computed(() => contextId.value),
+    isCvvRequired: computed(() => requiresCvv.value),
     loadAvailableMethods,
     initForm,
     submitCardForm,

@@ -53,7 +53,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
       it('throws error', async () => {
         factoryParams.updateUser.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.updateUser('' as any)).rejects.toThrow('Error');
       });
@@ -71,7 +71,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.register.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.register('' as any)).rejects.toThrow('Error');
       });
@@ -90,7 +90,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.logIn.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.login('' as any)).rejects.toThrow('Error');
       });
@@ -106,7 +106,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.logOut.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.logout()).rejects.toThrow('Error');
       });
@@ -124,7 +124,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.loadUser.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.load()).rejects.toThrow('Error');
       });
@@ -141,7 +141,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.changePassword.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.changePassword(null as any, null as any)).rejects.toThrow('Error');
       });
