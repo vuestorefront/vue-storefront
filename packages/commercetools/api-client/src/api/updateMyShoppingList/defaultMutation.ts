@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export default gql`
 
-  mutation updateShoppingList($id: String!, $version: Long!, $actions: [MyShoppingListUpdateAction!]!, $locale: Locale!, $acceptLanguage: [Locale!]) {
-    shoppingList: updateMyShoppingList(id: $id, version: $version, actions: $actions) {
+  mutation updateShoppingList($id: String!, $version: Long!, $actions: [MyShoppingListUpdateAction!]!, $locale: Locale!, $acceptLanguage: [Locale!], currency: $currency) {
+    wishlist: updateMyShoppingList(id: $id, version: $version, actions: $actions, currency: $currency) {
       id  
       name(acceptLanguage: $acceptLanguage) 
       description
@@ -16,7 +16,7 @@ export default gql`
         variant {
           id
           sku
-          price (currency: "USD") {
+          price (currency: $currency) {
             tiers {
               value {
                 centAmount

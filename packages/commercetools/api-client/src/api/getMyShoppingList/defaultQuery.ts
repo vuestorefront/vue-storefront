@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const basicProfile = gql`
-  query getMe($locale: Locale!, $acceptLanguage: [Locale!]) {
+  query getMe($locale: Locale!, $acceptLanguage: [Locale!], currency: $currency) {
     me {
       shoppingList {
         id  
@@ -16,7 +16,7 @@ const basicProfile = gql`
           variant {
             id
             sku
-            price(currency: "USD") {
+            price(currency: $currency) {
               tiers {
                 value {
                   centAmount

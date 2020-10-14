@@ -4,11 +4,12 @@ import gql from 'graphql-tag';
 import { getCustomQuery } from './../../helpers/queries';
 
 const getMyShoppingList = async (customQueryFn?) => {
-  const { locale, acceptLanguage } = getSettings();
+  const { locale, acceptLanguage, currency } = getSettings();
   const defaultQuery = basicProfile;
   const defaultVariables = {
     locale,
-    acceptLanguage
+    acceptLanguage,
+    currency
   };
   const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 

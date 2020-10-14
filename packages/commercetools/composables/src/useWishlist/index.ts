@@ -1,7 +1,9 @@
 /* istanbul ignore file */
 import {
   addToWishlist,
-  removeFromWishlist
+  removeFromWishlist,
+  getSettings,
+  isTokenUserSession
 } from '@vue-storefront/commercetools-api';
 import { useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
@@ -15,33 +17,28 @@ export const wishlist: Ref<Wishlist> = ref(null);
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
-const getCurrentWishlist = async (currentWishlist) => {
-  if (!currentWishlist) {
-    return loadCurrentWishlist();
-  }
-  return currentWishlist;
-};
-
 const getWishlistItemByProduct = ({ currentWishlist, product }) => {
   return currentWishlist.items.find((item: any) => item.product.id === product.id);
 };
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   loadWishlist: async (CustomQueryFn?: any) => {
+    const settings = getSettings();
+
+    if (!isTokenUserSession(settings.currentToken)) {
+      return null;
+    }
+
     return await loadCurrentWishlist(CustomQueryFn);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addToWishlist: async ({ currentWishlist, product }) => {
-    const loadedWishlist = await getCurrentWishlist(currentWishlist);
-
-    const { data } = await addToWishlist(loadedWishlist, product);
+    const { data } = await addToWishlist(currentWishlist, product);
     return data.wishlist;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeFromWishlist: async ({ currentWishlist, product }) => {
-    const loadedWishlist = await getCurrentWishlist(currentWishlist);
-
-    const { data } = await removeFromWishlist(loadedWishlist, product);
+    const { data } = await removeFromWishlist(currentWishlist, product);
     return data.wishlist;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

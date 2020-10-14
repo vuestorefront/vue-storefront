@@ -4,8 +4,8 @@ const loadCurrentShoppingList = async (customQueryFn = (user = null, wishlist = 
   const { user, wishlist } = customQueryFn();
   const { data: profileData } = await getMe({ customer: false }, user);
 
-  if (profileData.me.shoppingList) {
-    return profileData.me.shoppingList;
+  if (profileData.me.wishlist) {
+    return profileData.me.wishlist;
   }
 
   const { data } = await createMyShoppingList({}, wishlist);
