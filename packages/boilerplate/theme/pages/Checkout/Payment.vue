@@ -222,15 +222,15 @@ export default {
 
     const mapAbstractAddressToIntegrationAddress = address => ({
       ...billingDetails.value,
-      city: address.city,
-      country: address.country,
-      firstName: address.firstName,
-      lastName: address.lastName,
-      streetName: address.streetName,
-      postalCode: address.zipCode,
-      state: address.state,
-      phone: address.phoneNumber,
-      apartment: address.apartment
+      city: userBillingGetters.getCity(address),
+      country: userBillingGetters.getCountry(address),
+      firstName: userBillingGetters.getFirstName(address),
+      lastName: userBillingGetters.getLastName(address),
+      streetName: userBillingGetters.getStreetName(address),
+      postalCode: userBillingGetters.getPostCode(address),
+      state: userBillingGetters.getProvince(address),
+      phone: userBillingGetters.getPhone(address),
+      apartment: userBillingGetters.getApartmentNumber(address)
     });
 
     const setCurrentAddress = async (addressId) => {
@@ -252,8 +252,8 @@ export default {
           return;
         }
         canAddNewAddress.value = false;
-        if (billingAddresses[0].isDefault) {
-          setCurrentAddress(billingAddresses[0].id);
+        if (userBillingGetters.getIsDefault(billingAddresses[0])) {
+          setCurrentAddress(userBillingGetters.getId(billingAddresses[0]));
         }
       }
     });

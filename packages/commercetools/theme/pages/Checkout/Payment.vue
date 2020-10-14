@@ -24,7 +24,7 @@
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.firstName"
+            :value="userBillingGetters.getFirstName(billingDetails)"
             @input="firstName => setBillingDetailsAndUnpickAddress({ firstName })"
             label="First name"
             name="firstName"
@@ -36,7 +36,7 @@
         </ValidationProvider>
         <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.lastName"
+            :value="userBillingGetters.getLastName(billingDetails)"
             @input="lastName => setBillingDetailsAndUnpickAddress({ lastName })"
             label="Last name"
             name="lastName"
@@ -48,7 +48,7 @@
         </ValidationProvider>
         <ValidationProvider name="streetName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.streetName"
+            :value="userBillingGetters.getStreetName(billingDetails)"
             @input="streetName => setBillingDetailsAndUnpickAddress({ streetName })"
             label="Street name"
             name="streetName"
@@ -60,7 +60,7 @@
         </ValidationProvider>
         <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.streetNumber"
+            :value="userBillingGetters.getStreetName(billingDetails)"
             @input="streetNumber => setBillingDetailsAndUnpickAddress({ streetNumber })"
             label="House/Apartment number"
             name="apartment"
@@ -72,7 +72,7 @@
         </ValidationProvider>
         <ValidationProvider name="city" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.city"
+            :value="userBillingGetters.getCity(billingDetails)"
             @input="city => setBillingDetailsAndUnpickAddress({ city })"
             label="City"
             name="city"
@@ -84,7 +84,7 @@
         </ValidationProvider>
         <ValidationProvider name="zipCode" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.postalCode"
+            :value="userBillingGetters.getPostCode(billingDetails)"
             @input="postalCode => setBillingDetailsAndUnpickAddress({ postalCode })"
             label="Zip-code"
             name="zipCode"
@@ -96,7 +96,7 @@
         </ValidationProvider>
         <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selected="billingDetails.country"
+            :selected="userBillingGetters.getCountry(billingDetails)"
             @change="country => setBillingDetailsAndUnpickAddress({ country })"
             label="Country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -115,7 +115,7 @@
         </ValidationProvider>
         <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.contactInfo.phone"
+            :value="userBillingGetters.getPhone(billingDetails)"
             @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"
@@ -250,16 +250,16 @@ export default {
       ...billingDetails.value,
       contactInfo: {
         ...billingDetails.value.contactInfo,
-        phone: address.phoneNumber
+        phone: userBillingGetters.getPhone(address)
       },
-      streetNumber: address.apartment,
-      city: address.city,
-      country: address.country,
-      state: address.state,
-      firstName: address.firstName,
-      lastName: address.lastName,
-      streetName: address.streetName,
-      postalCode: address.zipCode
+      streetNumber: userBillingGetters.getApartmentNumber(address),
+      city: userBillingGetters.getCity(address),
+      country: userBillingGetters.getCountry(address),
+      state: userBillingGetters.getProvince(address),
+      firstName: userBillingGetters.getFirstName(address),
+      lastName: userBillingGetters.getLastName(address),
+      streetName: userBillingGetters.getStreetName(address),
+      postalCode: userBillingGetters.getPostCode(address)
     });
 
     const setCurrentAddress = async (addressId) => {
@@ -286,8 +286,8 @@ export default {
           return;
         }
         canAddNewAddress.value = false;
-        if (billingAddresses[0].isDefault) {
-          setCurrentAddress(billingAddresses[0].id);
+        if (userBillingGetters.getIsDefault(billingAddresses[0])) {
+          setCurrentAddress(userBillingGetters.getId(billingAddresses[0]));
         }
       }
     });
@@ -350,7 +350,8 @@ export default {
       setCurrentAddress,
       addressIsModified,
       setBillingDetailsAndUnpickAddress,
-      canAddNewAddress
+      canAddNewAddress,
+      userBillingGetters
     };
   }
 };
