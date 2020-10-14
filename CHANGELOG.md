@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added 'afterUserProfileUpdated' hook which allows us to take control over update address flow (send notification if something failed)
   move pick allowed modification just before sending data to task managment
   add 'beforeUserProfileUpdate' which allows to modify user object before update - gibkigonzo (#4427)
+- replace lodash with lodash-es for client files - gibkigonzo (#5019)
 
 ### Changed / Improved
 
