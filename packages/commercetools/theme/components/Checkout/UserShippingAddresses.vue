@@ -61,9 +61,7 @@ export default {
   },
   setup ({ setAsDefault }, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-
     const localSetAsDefault = ref(setAsDefault);
-
     watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
 
     return {
