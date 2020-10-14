@@ -19,12 +19,14 @@ const userGetters: UserBillingGetters<any, any> = {
   getFirstName: address => address ? address.firstName : '',
   getLastName: address => address ? address.lastName : '',
   getCountry: address => address ? address.country : '',
-  getStreetNumber: address => address ? address.apartment : '',
   getPhone: address => address ? address.phoneNumber : '',
   getEmail: address => address ? address.email : '',
   getProvince: address => address ? address.state : '',
   getCompanyName: address => address ? address.company : '',
-  getTaxNumber: address => address ? address.taxId : ''
+  getTaxNumber: address => address ? address.taxId : '',
+  getId: address => address ? address.id : '',
+  getIsDefault: address => address ? address.isDefault : false,
+  getApartmentNumber: address => address ? address.apartment : ''
 };
 
 export default userGetters;

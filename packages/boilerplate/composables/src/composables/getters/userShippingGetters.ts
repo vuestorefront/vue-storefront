@@ -19,7 +19,6 @@ const userGetters: UserShippingGetters<any, any> = {
   getFirstName: address => address ? address.firstName : '',
   getLastName: address => address ? address.lastName : '',
   getCountry: address => address ? address.country : '',
-  getStreetNumber: address => address ? address.apartment : '',
   getPhone: address => address ? address.phoneNumber : '',
   getEmail: address => address ? address.email : '',
   getProvince: address => address ? address.state : '',
