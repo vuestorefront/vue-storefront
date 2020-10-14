@@ -2,6 +2,8 @@
 
 ## 0.2.4 - not released
 
+- implementation of wishlist, api-client functions and composable (#5013)
+
 ## 0.2.3
 
 - adding ability to overriding `isTokenUserSession` check in api-client (#4959)

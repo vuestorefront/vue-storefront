@@ -1,32 +1,49 @@
 import gql from 'graphql-tag';
-import { CartFragment, CustomerFragment } from './../../fragments';
 
 const basicProfile = gql`
-  ${CartFragment}
-
   query getMe($locale: Locale!, $acceptLanguage: [Locale!]) {
     me {
-      activeCart {
-        ...DefaultCart
+      shoppingList {
+        id  
+        name(acceptLanguage: $acceptLanguage) 
+        description
+        slug
+        lineItems {
+          id 
+          productId
+          variantId
+          quantity
+          variant {
+            id
+            sku
+            price(currency: "USD") {
+              tiers {
+                value {
+                  centAmount
+                }
+              }
+              value {
+                centAmount
+              }
+              discounted {
+                value {
+                  centAmount
+                }
+                discount {
+                  isActive
+                  name(acceptLanguage: $acceptLanguage)
+                }
+              }
+            }
+            images {
+              url
+              label
+            }
+          }
+        }
       }
     }
   }
 `;
 
-const fullProfile = gql`
-  ${CartFragment}
-  ${CustomerFragment}
-
-  query getMe($locale: Locale!, $acceptLanguage: [Locale!]) {
-    me {
-      activeCart {
-        ...DefaultCart
-      }
-      customer {
-        ...DefaultCustomer
-      }
-    }
-  }
-`;
-
-export { basicProfile, fullProfile };
+export { basicProfile };

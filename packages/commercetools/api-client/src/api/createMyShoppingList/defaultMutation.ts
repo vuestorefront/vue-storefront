@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  mutation createMyShoppingList($draft: MyShoppingListDraft!, $locale: Locale!, $acceptLanguage: [Locale!], $storeKey: KeyReferenceInput, $currency: Currency!, $image: [Image!]) {
-    shoppingList: createMyShoppingList(draft: $draft, storeKey: $storeKey, locale: $locale, currency: $currency, image: $image)
+  mutation createMyShoppingList($draft: MyShoppingListDraft!, $locale: Locale!, $acceptLanguage: [Locale!], $storeKey: KeyReferenceInput, $currency: Currency!) {
+    shoppingList: createMyShoppingList(draft: $draft, storeKey: $storeKey, locale: $locale, currency: $currency)
       id  
-      version
-      name 
+      name(acceptLanguage: $acceptLanguage) 
       description
+      slug
       lineItems {
         id 
         productId
@@ -14,8 +14,30 @@ export default gql`
         quantity
         variant {
           id
-          price
-          images
+          sku
+          price (currency: "USD") {
+            tiers {
+              value {
+                centAmount
+              }
+            }
+            value {
+              centAmount
+            }
+            discounted {
+              value {
+                centAmount
+              }
+              discount {
+                isActive
+                name(acceptLanguage: $acceptLanguage)
+              }
+            }
+          }
+          images {
+            url
+            label
+          }
         }
       }
       textLineItems {
