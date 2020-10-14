@@ -317,6 +317,7 @@ export default {
         setBillingDetails(shippingDetails.value);
         currentAddressId.value = -1;
         setAsDefault.value = false;
+        addressIsModified.value = true;
         return;
       }
       setBillingDetails(oldBilling);
