@@ -135,13 +135,13 @@
         Add new address
       </SfButton>
     <SfHeading
-      v-if="canContinueToPayment"
+      v-if="canContinueToReview"
       :level="3"
       title="Payment methods"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div class="form__element payment-methods" v-if="canContinueToPayment">
+      <div class="form__element payment-methods" v-if="canContinueToReview">
         <SfRadio
           v-for="item in paymentMethods"
           :key="item.value"
@@ -162,7 +162,7 @@
       </div>
       <div class="form__action">
         <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
-        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToPayment">
+        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToReview">
           Review my order
         </SfButton>
         <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-else>
@@ -345,7 +345,7 @@ export default {
       isAuthenticated,
       billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
       setAsDefault,
-      canContinueToPayment: computed(() => isBillingAddressCompleted.value && !addressIsModified.value),
+      canContinueToReview: computed(() => isBillingAddressCompleted.value && !addressIsModified.value),
       currentAddressId: computed(() => currentAddressId.value),
       setCurrentAddress,
       addressIsModified,

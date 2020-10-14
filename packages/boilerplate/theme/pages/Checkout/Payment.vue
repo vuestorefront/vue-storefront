@@ -121,13 +121,13 @@
       Add new address
     </SfButton>
     <SfHeading
-      v-if="canContinueToPayment"
+      v-if="canContinueToReview"
       :level="3"
       title="Payment methods"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div class="form__element payment-methods" v-if="canContinueToPayment">
+      <div class="form__element payment-methods" v-if="canContinueToReview">
         <SfRadio
           data-cy="payment-radio_paymentMethod"
           v-for="item in paymentMethods"
@@ -151,7 +151,7 @@
         <SfButton data-cy="payment-btn_go-back" class="color-secondary form__back-button">
           Go back
         </SfButton>
-        <SfButton class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToPayment">
+        <SfButton class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToReview">
           Review my order
         </SfButton>
         <SfButton class="form__action-button" @click="saveBillingDetails" v-else>
@@ -275,7 +275,7 @@ export default {
       currentAddressId.value = -1;
     };
 
-    const canContinueToPayment = computed(() => isBillingAddressCompleted.value && !addressIsModified.value);
+    const canContinueToReview = computed(() => isBillingAddressCompleted.value && !addressIsModified.value);
 
     watch(sameAsShipping, () => {
       if (sameAsShipping.value) {
@@ -304,7 +304,7 @@ export default {
       currentAddressId,
       setCurrentAddress,
       canAddNewAddress,
-      canContinueToPayment,
+      canContinueToReview,
       isBillingAddressCompleted,
       addressIsModified,
       saveBillingDetails,
