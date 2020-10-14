@@ -1,10 +1,15 @@
 
+import { MyShoppingListDraft } from './../../types/GraphQL';
 import { apolloClient, getSettings } from './../../index';
 import defaultQuery from './defaultMutation';
 import { getCustomQuery } from './../../helpers/queries';
 import gql from 'graphql-tag';
 
-const createMyShoppingList = async(myShoppingListDraft: any, customQueryFn?) => {
+interface ShoppingListData extends Omit<MyShoppingListDraft, 'currency'> {
+  currency?: string;
+}
+
+const createMyShoppingList = async (myShoppingListDraft: ShoppingListData, customQueryFn?) => {
   const { locale, acceptLanguage, currency } = getSettings();
 
   const defaultVariables = {

@@ -1,11 +1,11 @@
-import { createMyShoppingList, getMyShoppingList } from '@vue-storefront/commercetools-api';
+import { createMyShoppingList, getMe } from '@vue-storefront/commercetools-api';
 
-const loadCurrentShoppingList = async (customQueryFn = (wishlist = null) => ({ wishlist })) => {
-  const { wishlist } = customQueryFn();
-  const { data: profileData } = await getMyShoppingList({ customer: false });
+const loadCurrentShoppingList = async (customQueryFn = (user = null, wishlist = null) => ({ user, wishlist })) => {
+  const { user, wishlist } = customQueryFn();
+  const { data: profileData } = await getMe({ customer: false }, user);
 
-  if (profileData.me.activeCart) {
-    return profileData.me.activeCart;
+  if (profileData.me.shoppingList) {
+    return profileData.me.shoppingList;
   }
 
   const { data } = await createMyShoppingList({}, wishlist);
