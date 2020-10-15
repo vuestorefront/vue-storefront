@@ -24,7 +24,7 @@
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getFirstName(billingDetails)"
+            :value="billingDetails.firstName"
             @input="firstName => setBillingDetailsAndUnpickAddress({ firstName })"
             label="First name"
             name="firstName"
@@ -36,7 +36,7 @@
         </ValidationProvider>
         <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getLastName(billingDetails)"
+            :value="billingDetails.lastName"
             @input="lastName => setBillingDetailsAndUnpickAddress({ lastName })"
             label="Last name"
             name="lastName"
@@ -48,7 +48,7 @@
         </ValidationProvider>
         <ValidationProvider name="streetName" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getStreetName(billingDetails)"
+            :value="billingDetails.streetName"
             @input="streetName => setBillingDetailsAndUnpickAddress({ streetName })"
             label="Street name"
             name="streetName"
@@ -60,7 +60,7 @@
         </ValidationProvider>
         <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getStreetName(billingDetails)"
+            :value="billingDetails.streetNumber"
             @input="streetNumber => setBillingDetailsAndUnpickAddress({ streetNumber })"
             label="House/Apartment number"
             name="apartment"
@@ -72,7 +72,7 @@
         </ValidationProvider>
         <ValidationProvider name="city" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getCity(billingDetails)"
+            :value="billingDetails.city"
             @input="city => setBillingDetailsAndUnpickAddress({ city })"
             label="City"
             name="city"
@@ -84,7 +84,7 @@
         </ValidationProvider>
         <ValidationProvider name="zipCode" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getPostCode(billingDetails)"
+            :value="billingDetails.postalCode"
             @input="postalCode => setBillingDetailsAndUnpickAddress({ postalCode })"
             label="Zip-code"
             name="zipCode"
@@ -96,7 +96,7 @@
         </ValidationProvider>
         <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selected="userBillingGetters.getCountry(billingDetails)"
+            :selected="billingDetails.country"
             @change="country => setBillingDetailsAndUnpickAddress({ country })"
             label="Country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -115,7 +115,7 @@
         </ValidationProvider>
         <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="userBillingGetters.getPhone(billingDetails)"
+            :value="billingDetails.contactInfo.phone"
             @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"
