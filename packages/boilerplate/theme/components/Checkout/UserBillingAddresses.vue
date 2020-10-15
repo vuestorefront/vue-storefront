@@ -42,7 +42,7 @@ import {
 } from '@storefront-ui/vue';
 import SfAddressPicker from '~/components/temp/SfAddressPicker';
 import { ref, watch } from '@vue/composition-api';
-import { userBillingGetters } from '@vue-storefront/commercetools';
+import { userBillingGetters } from '@vue-storefront/boilerplate';
 
 export default {
   name: 'UserBillingAddresses',

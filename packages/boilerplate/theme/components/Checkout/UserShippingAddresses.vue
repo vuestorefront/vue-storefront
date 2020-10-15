@@ -43,7 +43,7 @@ import {
   SfAddressPicker
 } from '@storefront-ui/vue';
 import { ref, watch } from '@vue/composition-api';
-import { userShippingGetters } from '@vue-storefront/commercetools';
+import { userShippingGetters } from '@vue-storefront/boilerplate';
 
 export default {
   name: 'UserShippingAddresses',
