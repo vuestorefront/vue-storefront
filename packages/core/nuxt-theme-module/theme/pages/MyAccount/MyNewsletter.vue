@@ -74,7 +74,7 @@ export default {
   }
   &__title {
     margin: 0 0 var(--spacer-xl) 0;
-    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--roboto);
+    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
   }
   &__button {
     --button-width: 100%;
@@ -85,14 +85,14 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--roboto);
+  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--primary);
   &__label {
     font-weight: 500;
   }
 }
 .notice {
   margin: var(--spacer-xl) 0 0 0;
-  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--roboto);
+  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--primary);
   &__link {
     color: var(--c-text-muted);
     text-decoration: none;
