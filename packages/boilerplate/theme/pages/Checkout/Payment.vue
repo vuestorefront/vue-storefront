@@ -239,9 +239,9 @@ export default {
         return;
       }
       currentAddressId.value = addressId;
+      sameAsShipping.value = false;
       setBillingDetails(mapAbstractAddressToIntegrationAddress(chosenAddress[0]));
       addressIsModified.value = true;
-      sameAsShipping.value = false;
     };
 
     onMounted(async () => {
@@ -283,11 +283,6 @@ export default {
         currentAddressId.value = -1;
         setAsDefault.value = false;
         addressIsModified.value = true;
-      } else {
-        billingDetails.value = Object.keys(billingDetails.value).reduce((prev, curr) => ({
-          ...prev,
-          [curr]: ''
-        }), {});
       }
     });
 

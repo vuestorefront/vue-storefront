@@ -286,6 +286,7 @@ export default {
 
       isAuthenticated,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
+
       setAsDefault,
       currentAddressId,
       setCurrentAddress,
