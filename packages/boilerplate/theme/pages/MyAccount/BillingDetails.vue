@@ -305,6 +305,7 @@ export default {
       updateAddress,
       removeAddress,
       processAddress,
+      userBillingGetters,
       billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
       editAddress,
       editedAddress,
