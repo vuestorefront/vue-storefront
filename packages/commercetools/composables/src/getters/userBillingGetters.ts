@@ -26,8 +26,8 @@ const userGetters: UserBillingGetters<any, any> = {
   getCompanyName: address => address ? address.company : '',
   getTaxNumber: address => address ? address.taxId : '',
   getId: address => address ? address.id : '',
-  getIsDefault: address => address ? address.isDefault : false,
-  getApartmentNumber: address => address ? address.apartment : ''
+  getApartmentNumber: address => address ? address.apartment : '',
+  isDefault: address => address ? address.isDefault : false
 };
 
 export default userGetters;

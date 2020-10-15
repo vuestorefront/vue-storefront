@@ -24,7 +24,8 @@ const userGetters: UserShippingGetters<any, any> = {
   getEmail: address => address ? address.email : '',
   getProvince: address => address ? address.state : '',
   getCompanyName: address => address ? address.company : '',
-  getTaxNumber: address => address ? address.taxId : ''
+  getTaxNumber: address => address ? address.taxId : '',
+  isDefault: address => address ? address.isDefault : false
 };
 
 export default userGetters;

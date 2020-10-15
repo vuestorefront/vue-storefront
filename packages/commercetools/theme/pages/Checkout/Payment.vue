@@ -286,7 +286,7 @@ export default {
           return;
         }
         canAddNewAddress.value = false;
-        if (userBillingGetters.getIsDefault(billingAddresses[0])) {
+        if (userBillingGetters.isDefault(billingAddresses[0])) {
           setCurrentAddress(userBillingGetters.getId(billingAddresses[0]));
         }
       }

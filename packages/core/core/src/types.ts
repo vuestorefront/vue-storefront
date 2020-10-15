@@ -141,7 +141,7 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   getTaxNumber: (address: USER_BILLING_ITEM) => string;
   getId: (address: USER_BILLING_ITEM) => string;
   getApartmentNumber: (address: USER_BILLING_ITEM) => string | number;
-  getIsDefault: (address: USER_BILLING_ITEM) => boolean;
+  isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
 export interface UseCategory<CATEGORY> {
