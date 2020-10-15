@@ -35,7 +35,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   };
 }
 
-export declare type RenderContentFactoryParams<CONTENT> = {
+export declare type RenderContentFactoryParams<CONTENT = any> = {
   extractContent: (content) => CONTENT;
 };
 
