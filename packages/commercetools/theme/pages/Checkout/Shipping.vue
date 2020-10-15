@@ -299,6 +299,7 @@ export default {
       addressIsModified.value = false;
     };
     const handleShippingMethodSubmit = (reset) => async () => {
+      await setShippingMethod(chosenShippingMethod.value, { save: true });
       reset();
       context.root.$router.push('/checkout/payment');
     };
