@@ -162,7 +162,7 @@
                 {{ userShippingGetters.getStreetName(shipping) }} {{ userShippingGetters.getStreetNumber(shipping) }} {{ userShippingGetters.getApartmentNumber(shipping) }}<br />{{
                   userShippingGetters.getPostCode(shipping)
                 }}
-                {{ serShippingGetters.getCity(shipping) }},<br />{{ serShippingGetters.getCountry(shipping) }}
+                {{ userShippingGetters.getCity(shipping) }},<br />{{ userShippingGetters.getCountry(shipping) }}
               </p>
               <p class="shipping__address">
                 {{ userShippingGetters.getPhone(shipping) }}
@@ -306,6 +306,7 @@ export default {
       updateAddress,
       removeAddress,
       processAddress,
+      userShippingGetters,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       editAddress,
       editedAddress,
