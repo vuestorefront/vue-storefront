@@ -266,7 +266,7 @@ export default {
         zipCode.value = userBillingGetters.getPostCode(billingAddress);
         country.value = userBillingGetters.getCountry(billingAddress);
         phoneNumber.value = userBillingGetters.getPhone(billingAddress);
-        isDefault.value = userBillingGetters.getIsDefault(billingAddress);
+        isDefault.value = userBillingGetters.isDefault(billingAddress);
         editedAddress.value = index;
       } else {
         id.value = '';

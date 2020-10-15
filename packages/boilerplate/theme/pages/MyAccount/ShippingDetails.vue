@@ -151,21 +151,21 @@
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
             v-for="(shipping, key) in shippingAddresses"
-            :key="shipping.streetName + shipping.apartment"
+            :key="userShippingGetters.getStreetName(shipping) + userShippingGetters.getApartmentNumber(shipping)"
             class="shipping"
           >
             <div class="shipping__content">
               <p class="shipping__address">
                 <span class="shipping__client-name"
-                  >{{ shipping.firstName }} {{ shipping.lastName }}</span
+                  >{{ userShippingGetters.getFirstName(shipping) }} {{ userShippingGetters.getLastName(shipping) }}</span
                 ><br />
-                {{ shipping.streetName }} {{ shipping.apartment }}<br />{{
-                  shipping.zipCode
+                {{ userShippingGetters.getStreetName(shipping) }} {{ userShippingGetters.getStreetNumber(shipping) }} {{ userShippingGetters.getApartmentNumber(shipping) }}<br />{{
+                  userShippingGetters.getPostCode(shipping)
                 }}
-                {{ shipping.city }},<br />{{ shipping.country }}
+                {{ serShippingGetters.getCity(shipping) }},<br />{{ serShippingGetters.getCountry(shipping) }}
               </p>
               <p class="shipping__address">
-                {{ shipping.phoneNumber }}
+                {{ userShippingGetters.getPhone(shipping) }}
               </p>
             </div>
             <div class="shipping__actions">
@@ -253,17 +253,17 @@ export default {
     const changeAddress = async (index) => {
       if (index > -1) {
         const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
-        id.value = shippingAddress.id;
-        firstName.value = shippingAddress.firstName;
-        lastName.value = shippingAddress.lastName;
-        streetName.value = shippingAddress.streetName;
-        apartment.value = shippingAddress.apartment;
-        city.value = shippingAddress.city;
-        state.value = shippingAddress.state;
-        zipCode.value = shippingAddress.zipCode;
-        country.value = shippingAddress.country;
-        phoneNumber.value = shippingAddress.phoneNumber;
-        isDefault.value = shippingAddress.isDefault;
+        id.value = userShippingGetters.getId(shippingAddress);
+        firstName.value = userShippingGetters.getFirstName(shippingAddress);
+        lastName.value = userShippingGetters.getLastName(shippingAddress);
+        streetName.value = userShippingGetters.getStreetName(shippingAddress);
+        apartment.value = userShippingGetters.getApartmentNumber(shippingAddress);
+        city.value = userShippingGetters.getCity(shippingAddress);
+        state.value = userShippingGetters.getProvince(shippingAddress);
+        zipCode.value = userShippingGetters.getPostCode(shippingAddress);
+        country.value = userShippingGetters.getCountry(shippingAddress);
+        phoneNumber.value = userShippingGetters.getPhone(shippingAddress);
+        isDefault.value = userShippingGetters.isDefault(shippingAddress);
         editedAddress.value = index;
       } else {
         id.value = '';

@@ -150,21 +150,21 @@
         <transition-group tag="div" name="fade" class="billing-list">
           <div
             v-for="(billing, key) in billingAddresses"
-            :key="billing.streetName + billing.apartment"
+            :key="userBillingGetters.getStreetName(billing) + userBillingGetters.getApartmentNumber(billing)"
             class="billing"
           >
             <div class="billing__content">
               <p class="billing__address">
                 <span class="billing__client-name"
-                  >{{ billing.firstName }} {{ billing.lastName }}</span
+                  >{{ userBillingGetters.getFirstName(billing) }} {{ userBillingGetters.getLastName(billing) }}</span
                 ><br />
-                {{ billing.streetName }} {{ billing.apartment }}<br />{{
-                  billing.zipCode
+                {{ userBillingGetters.getStreetName(billing) }} {{ userBillingGetters.getApartmentNumber(billing) }}<br />{{
+                  userBillingGetters.getPostCode(billing)
                 }}
-                {{ billing.city }},<br />{{ billing.country }}
+                {{ userBillingGetters.getCity(billing) }},<br />{{ userBillingGetters.getCountry(billing) }}
               </p>
               <p class="billing__address">
-                {{ billing.phoneNumber }}
+                {{ userBillingGetters.getPhone(billing) }}
               </p>
             </div>
             <div class="billing__actions">
@@ -252,17 +252,17 @@ export default {
     const changeAddress = async (index) => {
       if (index > -1) {
         const billingAddress = userBillingGetters.getAddresses(billing.value)[index];
-        id.value = billingAddress.id;
-        firstName.value = billingAddress.firstName;
-        lastName.value = billingAddress.lastName;
-        streetName.value = billingAddress.streetName;
-        apartment.value = billingAddress.apartment;
-        city.value = billingAddress.city;
-        state.value = billingAddress.state;
-        zipCode.value = billingAddress.zipCode;
-        country.value = billingAddress.country;
-        phoneNumber.value = billingAddress.phoneNumber;
-        isDefault.value = billingAddress.isDefault;
+        id.value = userBillingGetters.getId(billingAddress);
+        firstName.value = userBillingGetters.getFirstName(billingAddress);
+        lastName.value = userBillingGetters.getLastName(billingAddress);
+        streetName.value = userBillingGetters.getStreetName(billingAddress);
+        apartment.value = userBillingGetters.getApartmentNumber(billingAddress);
+        city.value = userBillingGetters.getCity(billingAddress);
+        state.value = userBillingGetters.getProvince(billingAddress);
+        zipCode.value = userBillingGetters.getPostCode(billingAddress);
+        country.value = userBillingGetters.getCountry(billingAddress);
+        phoneNumber.value = userBillingGetters.getPhone(billingAddress);
+        isDefault.value = userBillingGetters.isDefault(billingAddress);
         editedAddress.value = index;
       } else {
         id.value = '';
