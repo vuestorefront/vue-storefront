@@ -15,6 +15,7 @@ const userGetters: UserBillingGetters<any, any> = {
   getTotal: billing => billing.addresses.length,
   getPostCode: address => address ? address.zipCode : '',
   getStreetName: address => address ? address.streetName : '',
+  getStreetNumber: address => address ? address.apartment : '',
   getCity: address => address ? address.city : '',
   getFirstName: address => address ? address.firstName : '',
   getLastName: address => address ? address.lastName : '',
