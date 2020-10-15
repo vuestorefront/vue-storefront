@@ -28,14 +28,12 @@ describe('[commercetools-composables] useUser/authenticate', () => {
       consoleErrorSpy.mockImplementationOnce(() => {});
       const callback = jest.fn().mockRejectedValueOnce(new GraphQLMockError('GraphQL message'));
       await expect(authenticate(customer, callback)).rejects.toThrow('GraphQL message');
-      // expect(consoleErrorSpy).toBeCalledWith('GraphQL message');
     });
 
     it('with message from exception', async () => {
       consoleErrorSpy.mockImplementationOnce(() => {});
       const callback = jest.fn().mockRejectedValue(new Error('There is an error'));
       await expect(authenticate(customer, callback)).rejects.toThrow('There is an error');
-      // expect(consoleErrorSpy).toBeCalledWith('There is an error');
     });
   });
 });
