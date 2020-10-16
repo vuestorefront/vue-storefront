@@ -6,7 +6,9 @@
       :open-tab="1"
       class="tab-orphan"
     >
-      <SfTab data-cy="shipping-details-tab_change" title="Change the address">
+      <SfTab
+        data-cy="shipping-details-tab_change"
+        :title="editedAddress === -1 ? 'Add the address' : 'Update the address'">
         <p class="message">
           Keep your addresses and contact details updated.
         </p>
@@ -92,7 +94,7 @@
                   :errorMessage="errors[0]"
                 />
               </ValidationProvider>
-              <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
+              <ValidationProvider :rules="`required|oneOf:${countries.map(c => c.name).join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
                   data-cy="shipping-details-select_country"
                   v-model="country"
@@ -100,14 +102,12 @@
                   label="Country"
                   required
                   :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                >
+                  :errorMessage="errors[0]">
                   <SfSelectOption
-                    v-for="countryOption in countries"
-                    :key="countryOption"
-                    :value="countryOption"
-                  >
-                    {{ countryOption }}
+                    v-for="{ name, label } in countries"
+                    :key="name"
+                    :value="name">
+                    {{ label }}
                   </SfSelectOption>
                 </SfSelect>
               </ValidationProvider>
@@ -149,23 +149,26 @@
         </p>
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
-            v-for="(shipping, key) in shippingAddresses"
-            :key="shipping.streetName + shipping.apartment"
-            class="shipping"
-          >
+            v-for="(address, key) in userShippingGetters.getAddresses(shipping)"
+            :key="userShippingGetters.getId(address)"
+            class="shipping">
             <div class="shipping__content">
-              <p class="shipping__address">
-                <span class="shipping__client-name"
-                  >{{ shipping.firstName }} {{ shipping.lastName }}</span
-                ><br />
-                {{ shipping.streetName }} {{ shipping.apartment }}<br />{{
-                  shipping.zipCode
-                }}
-                {{ shipping.city }},<br />{{ shipping.country }}
-              </p>
-              <p class="shipping__address">
-                {{ shipping.phoneNumber }}
-              </p>
+              <div class="shipping__address">
+                <p class="shipping__client-name">
+                  {{ userShippingGetters.getFirstName(address) }}
+                  {{ userShippingGetters.getLastName(address) }}
+                </p>
+                <p>
+                  {{ userShippingGetters.getStreetName(address) }}
+                  {{ userShippingGetters.getApartmentNumber(address) }}
+                </p>
+                <p>
+                  {{ userShippingGetters.getPostCode(address) }}
+                  {{ userShippingGetters.getCity(address) }}
+                </p>
+                <p>{{ countries.find(c => c.name === userShippingGetters.getCountry(address)).label }}</p>
+                <p>{{ userShippingGetters.getPhone(address) }}</p>
+              </div>
             </div>
             <div class="shipping__actions">
               <SfIcon
@@ -177,18 +180,27 @@
                 class="mobile-only"
                 @click="removeAddress(key)"
               />
-              <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
-              <SfButton data-cy="shipping-details-btn_delete"
+              <SfButton
+                data-cy="shipping-details-btn_change"
+                @click="changeAddress(key)">
+                Change
+              </SfButton>
+
+              <SfButton
+                data-cy="shipping-details-btn_delete"
                 class="shipping__button-delete desktop-only"
-                @click="removeAddress(key)"
-                >Delete</SfButton
-              >
+                @click="removeAddress(key)">
+                Delete
+              </SfButton>
             </div>
           </div>
         </transition-group>
-        <SfButton data-cy="shipping-details-btn_add" class="action-button" @click="changeAddress(-1)"
-          >Add new address</SfButton
-        >
+        <SfButton
+          data-cy="shipping-details-btn_add"
+          class="action-button"
+          @click="changeAddress(-1)">
+          Add new address
+        </SfButton>
       </SfTab>
     </SfTabs>
   </transition>
@@ -202,10 +214,11 @@ import {
   SfIcon,
   SfCheckbox
 } from '@storefront-ui/vue';
+import { getSettings } from '@vue-storefront/commercetools-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/commercetools';
-import { ref, computed } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
@@ -254,19 +267,20 @@ export default {
     const isDefault = ref(false);
 
     const changeAddress = async (index) => {
-      const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
       if (index > -1) {
-        id.value = shippingAddress.id;
-        firstName.value = shippingAddress.firstName;
-        lastName.value = shippingAddress.lastName;
-        streetName.value = shippingAddress.streetName;
-        apartment.value = shippingAddress.apartment;
-        city.value = shippingAddress.city;
-        state.value = shippingAddress.state;
-        zipCode.value = shippingAddress.zipCode;
-        country.value = shippingAddress.country;
-        phoneNumber.value = shippingAddress.phoneNumber;
-        isDefault.value = shippingAddress.isDefault;
+        const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
+
+        id.value = userShippingGetters.getId(shippingAddress);
+        firstName.value = userShippingGetters.getFirstName(shippingAddress);
+        lastName.value = userShippingGetters.getLastName(shippingAddress);
+        streetName.value = userShippingGetters.getStreetName(shippingAddress);
+        apartment.value = userShippingGetters.getApartmentNumber(shippingAddress);
+        city.value = userShippingGetters.getCity(shippingAddress);
+        state.value = userShippingGetters.getProvince(shippingAddress);
+        zipCode.value = userShippingGetters.getPostCode(shippingAddress);
+        country.value = userShippingGetters.getCountry(shippingAddress);
+        phoneNumber.value = userShippingGetters.getPhone(shippingAddress);
+        isDefault.value = userShippingGetters.isDefault(shippingAddress);
         editedAddress.value = index;
       } else {
         id.value = '';
@@ -306,16 +320,17 @@ export default {
       editedAddress.value = -1;
     };
 
-    onSSR(loadShipping);
+    onSSR(async () => {
+      await loadShipping();
+    });
 
     return {
       changeAddress,
       updateAddress,
       removeAddress,
       processAddress,
-
-      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
-
+      userShippingGetters,
+      shipping,
       editAddress,
       editedAddress,
       firstName,
@@ -328,55 +343,7 @@ export default {
       country,
       phoneNumber,
       isDefault,
-      countries: [
-        'Austria',
-        'Azerbaijan',
-        'Belarus',
-        'Belgium',
-        'Bosnia and Herzegovina',
-        'Bulgaria',
-        'Croatia',
-        'Cyprus',
-        'Czech Republic',
-        'Denmark',
-        'Estonia',
-        'Finland',
-        'France',
-        'Georgia',
-        'Germany',
-        'Greece',
-        'Hungary',
-        'Iceland',
-        'Ireland',
-        'Italy',
-        'Kosovo',
-        'Latvia',
-        'Liechtenstein',
-        'Lithuania',
-        'Luxembourg',
-        'Macedonia',
-        'Malta',
-        'Moldova',
-        'Monaco',
-        'Montenegro',
-        'The Netherlands',
-        'Norway',
-        'Poland',
-        'Portugal',
-        'Romania',
-        'Russia',
-        'San Marino',
-        'Serbia',
-        'Slovakia',
-        'Slovenia',
-        'Spain',
-        'Sweden',
-        'Switzerland',
-        'Turkey',
-        'Ukraine',
-        'United Kingdom',
-        'Vatican City'
-      ]
+      countries: getSettings().countries
     };
   }
 };
@@ -477,8 +444,9 @@ export default {
     }
   }
   &__address {
-    margin: 0 0 var(--spacer-xl) 0;
-    &:last-child {
+    margin: 0;
+
+    p {
       margin: 0;
     }
   }

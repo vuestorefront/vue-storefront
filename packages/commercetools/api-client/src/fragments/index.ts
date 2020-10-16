@@ -1,4 +1,3 @@
-
 export const ProductPriceFragment = `
   fragment DefaultProductPrice on ProductPrice {
     discounted {
@@ -50,6 +49,61 @@ export const CustomerFragment = `
     firstName
     lastName
     email
+    addresses {
+      id
+    }
+    shippingAddresses {
+      id,
+      title,
+      salutation,
+      firstName,
+      lastName,
+      streetName,
+      streetNumber,
+      additionalStreetInfo,
+      postalCode,
+      city,
+      region,
+      state,
+      country,
+      company,
+      department,
+      building,
+      apartment,
+      pOBox,
+      additionalAddressInfo,
+      phone,
+      mobile,
+      email,
+      fax
+    }
+    billingAddresses {
+      id,
+      title,
+      salutation,
+      firstName,
+      lastName,
+      streetName,
+      streetNumber,
+      additionalStreetInfo,
+      postalCode,
+      city,
+      region,
+      state,
+      country,
+      company,
+      department,
+      building,
+      apartment,
+      pOBox,
+      additionalAddressInfo,
+      phone,
+      mobile,
+      email,
+      fax
+    }
+    defaultBillingAddressId
+    defaultShippingAddressId
   }
 `;
 
