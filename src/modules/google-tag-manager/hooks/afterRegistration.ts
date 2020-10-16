@@ -67,7 +67,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Measuring Views of Product Details
-      if (type === 'product/product/SET_PRODUCT_CURRENT') {
+      if (type === 'product/product/SET_CURRENT') {
         GTM.trackEvent({
           ecommerce: {
             detail: {
