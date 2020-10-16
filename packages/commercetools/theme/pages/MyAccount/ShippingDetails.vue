@@ -450,7 +450,7 @@ export default {
     flex: 1;
     color: var(--c-text);
     font-size: var(--font-size--base);
-    font-weight: 300;
+    font-weight: var(--font-weight--light);
     line-height: 1.6;
   }
   &__actions {
@@ -480,7 +480,7 @@ export default {
   }
   &__client-name {
     font-size: var(--font-size--base);
-    font-weight: 500;
+    font-weight: var(--font-weight--semibold);
   }
 }
 .action-button {

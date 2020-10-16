@@ -333,8 +333,7 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-base) var(--spacer-base) var(--spacer-base)
-    var(--spacer-sm);
+  padding: var(--spacer-base) 0;
 }
 .navbar {
   position: relative;

@@ -324,7 +324,6 @@ export default {
     align-items: center;
   }
   &__element {
-    --input-label-top: 85%;
     margin: 0 0 var(--spacer-base) 0;
     @include for-desktop {
       flex: 0 0 100%;
@@ -379,11 +378,6 @@ export default {
   &__description {
     --radio-description-margin: 0;
     --radio-description-font-size: var(--font-size--xs);
-  }
-}
-.sf-input {
-  &.has-text {
-    --input-label-top: 0;
   }
 }
 
