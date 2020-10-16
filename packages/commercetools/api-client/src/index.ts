@@ -21,7 +21,6 @@ import applyCartCoupon from './api/applyCartCoupon';
 import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import customerUpdateMe from './api/customerUpdateMe';
-import deleteCart from './api/deleteCart';
 import createAccessToken from './helpers/createAccessToken';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config, ConfigurableConfig } from './types/setup';
@@ -67,7 +66,6 @@ export {
   createCart,
   updateCart,
   getCart,
-  deleteCart,
   addToCart,
   removeFromCart,
   getMe,
