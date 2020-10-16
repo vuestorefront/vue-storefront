@@ -7,8 +7,8 @@
     >
       <SfAddress
         v-for="billingAddress in billingAddresses"
-        :key="billingAddress.id"
-        :name="String(billingAddress.id)"
+        :key="userBillingGetters.getId(billingAddress)"
+        :name="String(userBillingGetters.getId(billingAddress))"
       >
         <span
           >{{ userBillingGetters.getFirstName(billingAddress) }} {{ userBillingGetters.getLastName(billingAddress) }}</span

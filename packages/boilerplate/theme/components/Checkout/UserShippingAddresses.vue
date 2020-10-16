@@ -8,8 +8,8 @@
       <SfAddress
         class="shipping-addresses__address"
         v-for="shippingAddress in shippingAddresses"
-        :key="shippingAddress.id"
-        :name="String(shippingAddress.id)"
+        :key="userShippingGetters.getId(shippingAddress)"
+        :name="String(userShippingGetters.getId(shippingAddress))"
       >
         <span
           >{{ userShippingGetters.getFirstName(shippingAddress) }} {{ userShippingGetters.getLastName(shippingAddress) }}</span
