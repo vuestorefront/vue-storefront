@@ -246,7 +246,7 @@ describe('[commercetools-composables] useCheckout/placeOrder', () => {
   });
 
   it('places order', async () => {
-    const placeOrder = createPlaceOrder({ factoryParams: {}, cartFields, setCart });
+    const placeOrder = createPlaceOrder({ cartFields });
     await placeOrder();
 
     expect(createMyOrderFromCart).toBeCalled();
