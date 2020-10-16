@@ -75,7 +75,6 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   getShippingMethods: jest.fn(() => ({ data: { shippingMethods: [{ method: 1 }] } })),
   createMyOrderFromCart: jest.fn(() => ({ data: { order: { cart: { id: 'xxx', version: 3 } } }})),
   createCart: jest.fn(() => ({ data: { cart: 'some-cart' }})),
-  deleteCart: jest.fn(() => ({ data: { cart: 'some-cart' }})),
   cartActions: {
     setShippingMethodAction: jest.fn(() => 'setShippingMethodAction'),
     setShippingAddressAction: jest.fn(() => 'setShippingAddressAction'),
@@ -93,7 +92,7 @@ import createSetPersonalDetails from './../../src/useCheckout/createSetPersonalD
 import createSetPaymentMethod from './../../src/useCheckout/createSetPaymentMethod';
 import createPlaceOrder from './../../src/useCheckout/createPlaceOrder';
 import createLoadDetails from './../../src/useCheckout/createLoadDetails';
-import { updateCart, getShippingMethods, createMyOrderFromCart, deleteCart } from '@vue-storefront/commercetools-api';
+import { updateCart, getShippingMethods, createMyOrderFromCart } from '@vue-storefront/commercetools-api';
 import initFields from './../../src/useCheckout/initFields';
 
 describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
@@ -251,7 +250,6 @@ describe('[commercetools-composables] useCheckout/placeOrder', () => {
     await placeOrder();
 
     expect(createMyOrderFromCart).toBeCalled();
-    expect(deleteCart).toBeCalled();
   });
 });
 
