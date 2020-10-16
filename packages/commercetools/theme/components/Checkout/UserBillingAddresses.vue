@@ -28,7 +28,8 @@
     </SfAddressPicker>
     <SfCheckbox
       data-cy="billing-details-checkbox_isDefault"
-      v-model="localSetAsDefault"
+      :selected="setAsDefault"
+      @change="$emit('changeSetAsDefault', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="billing-address-setAsDefault"
@@ -41,7 +42,6 @@ import {
   SfCheckbox
 } from '@storefront-ui/vue';
 import SfAddressPicker from '~/components/temp/SfAddressPicker';
-import { ref, watch } from '@vue/composition-api';
 import { userBillingGetters } from '@vue-storefront/commercetools';
 
 export default {
@@ -64,19 +64,11 @@ export default {
     SfCheckbox,
     SfAddressPicker
   },
-  watch: {
-    setAsDefault (setAsDefault) {
-      this.localSetAsDefault = setAsDefault;
-    }
-  },
-  setup ({ setAsDefault }, { emit }) {
+  setup (_, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-    const localSetAsDefault = ref(setAsDefault);
-    watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
 
     return {
       setCurrentAddress,
-      localSetAsDefault,
       userBillingGetters
     };
   }
