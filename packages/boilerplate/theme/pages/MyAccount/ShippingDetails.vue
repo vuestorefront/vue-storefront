@@ -151,7 +151,7 @@
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
             v-for="(shipping, key) in shippingAddresses"
-            :key="userShippingGetters.getStreetName(shipping) + userShippingGetters.getApartmentNumber(shipping)"
+            :key="userShippingGetters.getId(shipping)"
             class="shipping"
           >
             <div class="shipping__content">

@@ -150,7 +150,7 @@
         <transition-group tag="div" name="fade" class="billing-list">
           <div
             v-for="(billing, key) in billingAddresses"
-            :key="userBillingGetters.getStreetName(billing) + userBillingGetters.getApartmentNumber(billing)"
+            :key="userBillingGetters.getId(billing)"
             class="billing"
           >
             <div class="billing__content">
