@@ -341,7 +341,6 @@ export default {
       handleFormSubmit,
       handleBillingAddressSubmit,
       handleCheckSameAddress,
-
       isAuthenticated,
       billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
       setAsDefault,

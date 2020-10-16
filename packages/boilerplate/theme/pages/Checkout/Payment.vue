@@ -292,7 +292,6 @@ export default {
       chosenPaymentMethod,
       sameAsShipping,
       COUNTRIES,
-
       isAuthenticated,
       billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
       setAsDefault,

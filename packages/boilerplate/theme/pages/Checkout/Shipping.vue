@@ -283,10 +283,8 @@ export default {
       shippingMethods,
       checkoutGetters,
       COUNTRIES,
-
       isAuthenticated,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
-
       setAsDefault,
       currentAddressId,
       setCurrentAddress,
