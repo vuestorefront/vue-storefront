@@ -196,7 +196,8 @@ export default {
       loadShippingMethods,
       placeOrder,
       loading,
-      loadDetails
+      loadDetails,
+      clean
     } = useCheckout();
     onSSR(async () => {
       await loadDetails();
@@ -205,6 +206,7 @@ export default {
     const processOrder = async () => {
       const order = await placeOrder();
       context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
+      clean();
     };
     return {
       loading,
