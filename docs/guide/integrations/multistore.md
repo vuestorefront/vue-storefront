@@ -214,33 +214,6 @@ export default function(app, router, store) {
 
 Another option is to create a separate theme for a specific storeview. Runtime theme changes are not possible, as themes are compiled in the JS bundles by webpack during the page build process. In that case, you should run separate instances of `vue-storefront` having the proper theme set in the `config/local.json` file.
 
-## Localized routes
-
-The route switching mechanism by default works on the URL level. Please use the `localizedRoute` mixin:
-
-```vue
-<router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{
-  page.title
-}}</router-link>
-```
-
-or
-
-```vue
-<router-link
-  :to="
-    localizedRoute({
-      name: product.type_id + '-product',
-      params: {
-        parentSku: product.parentSku ? product.parentSku : product.sku,
-        slug: product.slug,
-        childSku: product.sku,
-      },
-    })
-  "
-></router-link>
-```
-
 ## Useful _Helpers_
 
 ### How to get current store view?
@@ -316,7 +289,7 @@ import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
     }); // should return '/home`
 ``` 
 
-### Update/append a store code to your URL
+### Update/append a storeCode to your URL
 If you need to append or update `storeCode` query parameter in provided URL you can do it by calling `adjustMultistoreApiUrl` function as following example:
 
 ```js
@@ -327,6 +300,53 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 const myUrl1 = adjustMultistoreApiUrl('https://example.com?a=b'); // returns 'https://example.com?a=b&storeCode=de'
 const myUrl2 = adjustMultistoreApiUrl('https://example.com?a=b&storeCode=it'); // returns 'https://example.com?a=b&storeCode=de'
 ``` 
+
+This feature is extra useful when you are sending a request to the VSF-API and you want VSF-API to use endpoint of certain storeCode.
+
+### Using endpoint of certain storeCode in Vue Storefront API
+In `src/api/extensions/example-magento-api/index.js` we have example line that creates Magento 2 Client:
+```js
+const client = Magento2Client(config.magento2.api);
+```
+
+If you want to support multistore for certain endpoint, you should make it this way:
+```js
+const client = Magento2Client(multiStoreConfig(config.magento2.api, req));
+```
+
+Obviously, you could do the same in Magento 1:
+```js
+const client = Magento1Client(multiStoreConfig(config.magento2.api, req));
+```
+
+It will use `storeCode` query parameter from the `req` to figure out which store to use. To make it work properly you should also configure different stores in your VSF-API's config. Check this example configuration for `de` and `it` store codes:
+```js
+"magento2": {
+    "imgUrl": "http://demo-magento2.vuestorefront.io/media/catalog/product",
+    "assetPath": "/../var/magento2-sample-data/pub/media",
+    "api": {
+      "url": "https://my-magento.com/rest",
+      "consumerKey": "******",
+      "consumerSecret": "******",
+      "accessToken": "******",
+      "accessTokenSecret": "******"
+    },
+    "api_de": {
+      "url": "https://my-magento.com/de/rest",
+      "consumerKey": "******",
+      "consumerSecret": "******",
+      "accessToken": "******",
+      "accessTokenSecret": "******"
+    },
+    "api_it": {
+      "url": "https://my-magento.com/it/rest",
+      "consumerKey": "******",
+      "consumerSecret": "******",
+      "accessToken": "******",
+      "accessTokenSecret": "******"
+    }
+  },
+```
 
 ### Localize URL with correct store code
 :::tip
@@ -346,6 +366,33 @@ localizedRoute('/about'); // returns /de/about
 :::warning
 `appendStoreCode` option of the store view configuration should be set to `true` to display store code as tip above
 :::
+
+:::warning
+`localizedRoute` is injected to each Vue's instance so you can access it in your component with `this.localizedRoute`. You could also use it in template without additional imports.
+:::
+
+```vue
+<router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{
+  page.title
+}}</router-link>
+```
+
+or
+
+```vue
+<router-link
+  :to="
+    localizedRoute({
+      name: product.type_id + '-product',
+      params: {
+        parentSku: product.parentSku ? product.parentSku : product.sku,
+        slug: product.slug,
+        childSku: product.sku,
+      },
+    })
+  "
+></router-link>
+```
 
 ### How to extract store code from route
 
