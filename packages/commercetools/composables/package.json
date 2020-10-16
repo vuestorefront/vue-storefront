@@ -5,7 +5,7 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "tsModule": "src/index.ts",
-  "types": "lib/commercetools/composables/src/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
