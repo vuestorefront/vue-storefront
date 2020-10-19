@@ -220,7 +220,7 @@ import {
 import { getSettings } from '@vue-storefront/commercetools-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
-import { useUserShipping, userShippingGetters } from '@vsf-enterprise/ct-shipping';
+import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
