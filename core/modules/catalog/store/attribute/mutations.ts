@@ -10,7 +10,7 @@ const mutations: MutationTree<AttributeState> = {
    * @param {} state
    * @param {Array} attributes
    */
-  async [types.ATTRIBUTE_UPD_ATTRIBUTES] (state, { attrHashByCode, attrHashById }) {
+  [types.ATTRIBUTE_UPD_ATTRIBUTES] (state, { attrHashByCode, attrHashById }) {
     Vue.set(state, 'list_by_code', attrHashByCode)
     Vue.set(state, 'list_by_id', attrHashById)
     EventBus.$emit('product-after-attributes-loaded')
