@@ -10,6 +10,10 @@ import { Attributes } from '@aboutyou/backbone/types/BapiProduct';
 
 type ProductVariantFilters = any
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const formatAttributeList = (attributes: Attributes): AgnosticAttribute[] => {
   const result = [];
   for (const key in attributes) {
@@ -120,6 +124,20 @@ export const getProductId = (product: BapiProduct): string => product.id.toStrin
 
 export const getFormattedPrice = (price: number): string => price ? `${price.toFixed(2)}€` : '';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductTotalReviews = (product: BapiProduct): number => {
+  console.log('Mocked: getProductTotalReviews');
+
+  return getRandomInt(0, 20);
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductAverageRating = (product: BapiProduct): number => {
+  console.log('Mocked: getProductAverageRating');
+
+  return getRandomInt(1, 5);
+};
+
 const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -132,7 +150,9 @@ const productGetters: ProductGetters<BapiProduct, ProductVariantFilters> = {
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
   getMultiAttributeValue: getProductMultiAttributeValue,
-  getFormattedPrice
+  getFormattedPrice,
+  getTotalReviews: getProductTotalReviews,
+  getAverageRating: getProductAverageRating
 };
 
 export default productGetters;

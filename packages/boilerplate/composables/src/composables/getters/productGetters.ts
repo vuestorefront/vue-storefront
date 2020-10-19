@@ -96,6 +96,12 @@ export const getProductId = (product: ProductVariant): string => (product as any
 
 export const getFormattedPrice = (price: number) => String(price);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductTotalReviews = (product: ProductVariant): number => 0;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductAverageRating = (product: ProductVariant): number => 0;
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -107,7 +113,9 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
-  getFormattedPrice: getFormattedPrice
+  getFormattedPrice: getFormattedPrice,
+  getTotalReviews: getProductTotalReviews,
+  getAverageRating: getProductAverageRating
 };
 
 export default productGetters;
