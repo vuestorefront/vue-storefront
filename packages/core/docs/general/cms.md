@@ -95,7 +95,7 @@ const RenderComponent = renderComponentFactory({
 
 And the real life example.
 
-```typescript
+```vue
 <template>
   <div v-if="loading">Loading content...</div>
   <div v-if="error">Something is wrong!</div>
