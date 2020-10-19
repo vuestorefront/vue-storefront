@@ -166,22 +166,25 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, forcedStoreCode: string = null): any {
+  // return falsy value
   if (!routeObj) return routeObj
-
-  const storeCode = (forcedStoreCode && config.storeViews[forcedStoreCode])
-    ? forcedStoreCode
-    : currentStoreView().storeCode
-
+  // prep route object
   if ((typeof routeObj === 'object')) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
   }
+  // do not make localization when multistore is off
+  if (!config.storeViews.multistore) return routeObj
+
+  const storeCode = (forcedStoreCode && config.storeViews[forcedStoreCode])
+    ? forcedStoreCode
+    : currentStoreView().storeCode
 
   if (
     storeCode && // store view exist
     config.defaultStoreCode !== storeCode &&
-    config.storeViews[storeCode].appendStoreCode
+    config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode
   ) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)

@@ -23,8 +23,10 @@ describe('localizedDispatcherRoute', () => {
     Object.keys(config).forEach((key) => { delete config[key]; });
   })
 
-  it('URL with  LocalizedRoute object with fullPath test gets prefixed with /de', () => {
-    config.storeViews = {}
+  it('URL with  LocalizedRoute object with fullPath test stays the same', () => {
+    config.storeViews = {
+      multistore: true
+    }
 
     const LocalizedRoute: LocalizedRoute = {
       fullPath: 'test'
@@ -34,7 +36,9 @@ describe('localizedDispatcherRoute', () => {
   })
 
   it('URL with LocalizedRoute object with fullPath and parameter test stays the same', () => {
-    config.storeViews = {}
+    config.storeViews = {
+      multistore: true
+    }
 
     const LocalizedRoute: LocalizedRoute = {
       fullPath: 'test',
@@ -49,6 +53,7 @@ describe('localizedDispatcherRoute', () => {
 
   it('URL with LocalizedRoute object with fullPath test gets prefixed with /de', () => {
     config.storeViews = {
+      multistore: true,
       de: {
         appendStoreCode: true
       }
@@ -63,6 +68,7 @@ describe('localizedDispatcherRoute', () => {
 
   it('URL with LocalizedRoute object with fullPath test and params gets prefixed with /de', () => {
     config.storeViews = {
+      multistore: true,
       de: {
         appendStoreCode: true
       }
@@ -81,6 +87,7 @@ describe('localizedDispatcherRoute', () => {
 
   it('URL with LocalizedRoute object with fullPath test stays same', () => {
     config.storeViews = {
+      multistore: true,
       de: {
         appendStoreCode: false
       }
@@ -95,6 +102,7 @@ describe('localizedDispatcherRoute', () => {
 
   it('URL with LocalizedRoute object with fullPath test and params stays same', () => {
     config.storeViews = {
+      multistore: true,
       de: {
         appendStoreCode: false
       }
