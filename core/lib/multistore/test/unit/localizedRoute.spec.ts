@@ -92,4 +92,31 @@ describe('localizedRoute', () => {
 
     expect(localizedRoute('/test', 'de')).toStrictEqual('/test')
   })
+
+  it('URL /test stays the same if defaultStoreCode is same as desired storeCode', () => {
+    config.storeViews = {
+      multistore: true,
+      de: {
+        appendStoreCode: true
+      }
+    }
+    config.defaultStoreCode = 'de'
+
+    expect(localizedRoute('/test', 'de')).toStrictEqual('/test')
+  })
+
+  it('URL /test returns /it/test if defaultStoreCode is different then desired storeCode', () => {
+    config.storeViews = {
+      multistore: true,
+      it: {
+        appendStoreCode: true
+      },
+      de: {
+        appendStoreCode: true
+      }
+    }
+    config.defaultStoreCode = 'de'
+
+    expect(localizedRoute('/test', 'it')).toStrictEqual('/it/test')
+  })
 })
