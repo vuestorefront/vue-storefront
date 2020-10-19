@@ -71,7 +71,7 @@ When you already installed `@vsf-enterprise/ct-shipping` as a dependency, there 
 
 The first step is to add `@vsf-enterprise/ct-shipping` to `build > traspile` array in `nuxt.config.js`.
 
-Then we need to replace the import of `useUserShipping` and `userShippingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-reviews`:
+Then we need to replace the import of `useUserShipping` and `userShippingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-shipping`:
 
 ```javascript
 // Before
@@ -79,7 +79,7 @@ import { /* other imports */, useUserShipping, userShippingGetters } from '@vue-
 
 // After
 import { /* other imports */ } from '@vue-storefront/commercetools';
-import { useUserShipping, userShippingGetters } from '@vsf-enterprise/ct-reviews';
+import { useUserShipping, userShippingGetters } from '@vsf-enterprise/ct-shipping';
 ```
 
 :::
