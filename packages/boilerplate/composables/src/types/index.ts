@@ -5,6 +5,7 @@ type Category = {}
 type User = {
   firstName?: string;
   lastName?: string;
+  email?: string;
 }
 type UserAddress = {}
 type Cart = {}

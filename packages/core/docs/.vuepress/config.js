@@ -42,6 +42,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/enterprise/use-review', 'useReview'],
+            ['/commercetools/enterprise/user-groups', 'User groups'],
             ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
           ]
         },

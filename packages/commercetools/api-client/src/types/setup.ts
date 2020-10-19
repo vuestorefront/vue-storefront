@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { ApolloClientOptions } from 'apollo-client';
+import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 
 export interface ApiConfig {
   uri: string;
@@ -59,7 +59,8 @@ export interface CustomerCredentials {
 
 // --
 
-export interface Config {
+export interface Config<T = any> {
+  client?: ApolloClient<T>;
   api: ApiConfig;
   currentToken?: Token;
   customOptions?: ApolloClientOptions<any>;

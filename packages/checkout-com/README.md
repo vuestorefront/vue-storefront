@@ -59,7 +59,7 @@ interface {
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
-    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d, cvv }): Promise<Response | void>,
+    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d, cvv, reference }): Promise<Response | void>,
     setPaymentInstrument: (token: string): void,
     setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
     loadSavePaymentInstrument: (): boolean,

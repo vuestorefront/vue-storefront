@@ -97,7 +97,8 @@ describe('[checkout-com] helpers', () => {
       save_payment_instrument: false,
       secure3d: true,
       success_url: 'aa',
-      failure_url: 'bb'
+      failure_url: 'bb',
+      reference: 'zyxxzxz'
     };
 
     const expectedPayload = {
@@ -105,7 +106,8 @@ describe('[checkout-com] helpers', () => {
       '3ds': true,
       success_url: 'aa',
       failure_url: 'bb',
-      type: 'paypal'
+      type: 'paypal',
+      reference: 'zyxxzxz'
     };
     /* eslint-enable */
 

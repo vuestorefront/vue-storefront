@@ -35,6 +35,7 @@ const onSetup = (config: Config) => {
     cache: new InMemoryCache(),
     ...config.customOptions
   });
+  config.client = apolloClient;
 };
 
 const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
@@ -42,6 +43,9 @@ const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConf
   defaultSettings: {
     locale: 'en',
     acceptLanguage: ['en'],
+    auth: {
+      onTokenChange: () => {}
+    },
     cookies: {
       currencyCookieName: 'vsf-currency',
       countryCookieName: 'vsf-country',

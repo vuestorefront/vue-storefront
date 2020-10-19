@@ -325,6 +325,10 @@ export const OrderFragment = `
     billingAddress {
       ...DefaultAddress
     }
+    cart {
+      id
+      version
+    }
   }
 `;
 

@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.2.4 - not released
+## 0.2.5 - not released
+
+
+## 0.2.4
+
+- Remove defaulting for checkout shipping details ([#5026](https://github.com/DivanteLtd/vue-storefront/issues/5026))
 
 ### Changes
 
