@@ -42,7 +42,9 @@ function buildBaseStoreView (): StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews.multistore
+      ? config.storeViews[config.defaultStoreCode].storeId
+      : 1,
     seo: config.seo
   })
 }
@@ -112,31 +114,14 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode?: string): LocalizedRoute | string {
-  const { storeCode: currentStoreCode, appendStoreCode } = currentStoreView()
-  if (!storeCode || !config.storeViews[storeCode]) {
-    storeCode = currentStoreCode
-  }
-  const appendStoreCodePrefix = storeCode && appendStoreCode
+  const localizedRouteObject = localizedRoute(routeObj, storeCode)
 
-  if (typeof routeObj === 'string') {
-    if (routeObj[0] !== '/') routeObj = `/${routeObj}`
-    return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
+  if (typeof localizedRouteObject === 'string') {
+    return localizedRouteObject
   }
 
-  if (routeObj) {
-    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
-      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
-    }
-
-    if (routeObj.path) { // case of using dispatcher
-      const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : ''
-      const qrStr = queryString.stringify(routeObj.params);
-
-      return `${routeCodePrefix}${getNormalizedPath(routeObj.path)}${qrStr ? `?${qrStr}` : ''}`
-    }
-  }
-
-  return routeObj
+  const qrStr = queryString.stringify((routeObj as LocalizedRoute).params);
+  return `${getNormalizedPath(localizedRouteObject.path)}${qrStr ? `?${qrStr}` : ''}`
 }
 
 export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
@@ -183,14 +168,14 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string = null): any {
-  if (!storeCode) {
+  if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreView().storeCode
   }
   if (!routeObj) {
     return routeObj
   }
 
-  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
+  if ((typeof routeObj === 'object')) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }

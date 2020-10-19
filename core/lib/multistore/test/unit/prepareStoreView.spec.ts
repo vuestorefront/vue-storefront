@@ -28,7 +28,10 @@ describe('prepareStoreView', () => {
     rootStore.state.user = {}
 
     config.storeViews = {
-      multistore: false
+      multistore: false,
+      de: {
+        storeId: 4
+      }
     }
 
     config.tax = {
@@ -115,7 +118,7 @@ describe('prepareStoreView', () => {
       elasticsearch: {
         index: 'vue_storefront_catalog'
       },
-      storeId: 4,
+      storeId: 1,
       storeCode: ''
     })
   })
