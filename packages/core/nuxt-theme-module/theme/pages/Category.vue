@@ -46,7 +46,7 @@
           <SfIcon
             data-cy="category-icon_grid-view"
             class="navbar__view-icon"
-            :color="isCategoryGridView ? '#1D1F22' : '#43464E'"
+            :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
             size="12px"
             role="button"
@@ -58,7 +58,7 @@
           <SfIcon
             data-cy="category-icon_list-view"
             class="navbar__view-icon"
-            :color="!isCategoryGridView ? '#1D1F22' : '#43464E'"
+            :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
             size="12px"
             role="button"
