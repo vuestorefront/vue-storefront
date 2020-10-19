@@ -818,7 +818,7 @@ There are 27 more instances of `prod.vuestorefront.io` to be replaced with your 
 
 ```
 "api": {
-  "url": "https://yourproduction.url:8080"
+  "url": "https://www.yourdomain.com"
 }
 "elasticsearch": {
     "httpAuth": "",
@@ -871,7 +871,7 @@ We set up a master and slaves, here we will point it at the master. Because, as
 previously mentioned, the slaves simply provide failover redundancy.
 ```
   "server": {
-    "host": "vue-storefront.yourdomain",
+    "host": "www.yourdomain.com",
     "port": 3000,
     "protocol": "http",
     "api": "api",
@@ -1574,18 +1574,6 @@ spec:
             backend:
               serviceName: vue-storefront
               servicePort: 3000
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: vue-storefront-api
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-      - host: api.yourdomain.com
-      http:
-        paths:
           - path: /api
             backend:
               serviceName: vue-storefront-api
@@ -1593,7 +1581,7 @@ spec:
           - path /img
             backend:
               serviceName: vue-storefront-api
-              servicePort: 8080      
+              servicePort: 8080
 ```
 You can use Kubernetes annotations to attach arbitrary non-identifying metadata to objects. Clients such as tools and libraries can then retrieve this metadata.
 
@@ -1732,8 +1720,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - echo1.example.com
-    - echo2.example.com
+    - www.yourdomain.com
     secretName: echo-tls
   rules:
       - host: www.yourdomain.com
@@ -1747,18 +1734,6 @@ spec:
             backend:
               serviceName: vue-storefront
               servicePort: 3000
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: vue-storefront-api
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-      - host: api.yourdomain.com
-      http:
-        paths:
           - path: /api
             backend:
               serviceName: vue-storefront-api
@@ -1770,7 +1745,7 @@ spec:
 ```
 Roll out the changes using kubectl apply
 ```
-kubectl apply -f echo_ingress.yaml
+kubectl apply -f kubernetes/production/nginx-ingress.yaml
 ```
 Output
 ```
