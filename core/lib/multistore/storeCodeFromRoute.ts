@@ -2,6 +2,7 @@ import { RawLocation } from 'vue-router'
 import config from 'config'
 import { LocalizedRoute } from './../types'
 import { getNormalizedPath } from './helpers'
+import { getExtendedStoreviewConfig } from '.'
 
 const getUrl = (matchedRouteOrUrl) => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
@@ -30,11 +31,11 @@ const isMatchingByDomainAndPath = (matchedRouteOrUrl, store) => {
 const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string => {
   if (!matchedRouteOrUrl) return ''
 
-  for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-    const store = config.storeViews[storeCode]
+  for (let storeViewProp of config.storeViews.mapStoreUrlsFor) {
+    const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
 
-    if (isMatchingByPath(matchedRouteOrUrl, store) || isMatchingByDomainAndPath(matchedRouteOrUrl, store)) {
-      return storeCode
+    if (isMatchingByPath(matchedRouteOrUrl, storeView) || isMatchingByDomainAndPath(matchedRouteOrUrl, storeView)) {
+      return storeView.storeCode
     }
   }
 

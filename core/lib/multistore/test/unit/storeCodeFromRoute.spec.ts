@@ -1,6 +1,13 @@
 import storeCodeFromRoute from './../../storeCodeFromRoute'
 import config from 'config'
 
+jest.mock('@vue-storefront/core/app', () => ({
+  createApp: jest.fn()
+}))
+jest.mock('@vue-storefront/core/lib/logger', () => ({
+  Logger: {}
+}))
+jest.mock('@vue-storefront/i18n', () => ({ loadLanguageAsync: jest.fn() }))
 jest.mock('config', () => ({}))
 
 describe('storeCodeFromRoute', () => {
@@ -8,40 +15,44 @@ describe('storeCodeFromRoute', () => {
     config.storeViews = {
       mapStoreUrlsFor: ['us'],
       us: {
+        storeCode: 'us_navy',
         url: '/us'
       }
     };
 
-    expect(storeCodeFromRoute('/us')).toBe('us')
+    expect(storeCodeFromRoute('/us')).toBe('us_navy')
   })
 
   it('returns store code given a route matching a storeview by path', () => {
     config.storeViews = {
       mapStoreUrlsFor: ['us'],
       us: {
+        storeCode: 'us_navy',
         url: '/us'
       }
     };
 
     const route = { path: 'us' }
 
-    expect(storeCodeFromRoute(route)).toBe('us')
+    expect(storeCodeFromRoute(route)).toBe('us_navy')
   })
 
   it('returns store code given a url matching a storeview by url', () => {
     config.storeViews = {
       mapStoreUrlsFor: ['us', 'gb'],
       us: {
+        storeCode: 'us_navy',
         url: '/us'
       },
       gb: {
+        storeCode: 'gb_queen',
         url: 'domain.co.uk'
       }
     };
 
     const route = 'domain.co.uk'
 
-    expect(storeCodeFromRoute(route)).toBe('gb')
+    expect(storeCodeFromRoute(route)).toBe('gb_queen')
   })
 
   it('returns store code given a url matching a storeview by url with path', () => {
@@ -51,6 +62,7 @@ describe('storeCodeFromRoute', () => {
         url: '/us'
       },
       gb: {
+        storeCode: 'gb',
         url: 'domain.co.uk/gb'
       }
     };
@@ -67,6 +79,7 @@ describe('storeCodeFromRoute', () => {
         url: '/us'
       },
       gb: {
+        storeCode: 'gb',
         url: 'domain.co.uk/gb'
       }
     };
@@ -108,5 +121,21 @@ describe('storeCodeFromRoute', () => {
 
   it('returns empty string if route is not given', () => {
     expect(storeCodeFromRoute('')).toBe('')
+  })
+
+  it('supports extend option', () => {
+    config.storeViews = {
+      mapStoreUrlsFor: ['us'],
+      us: {
+        url: '/us_navy',
+        extend: 'full_us'
+      },
+      full_us: {
+        storeCode: 'us_navy',
+        url: '/us'
+      }
+    };
+
+    expect(storeCodeFromRoute('/us_navy')).toBe('us_navy')
   })
 })

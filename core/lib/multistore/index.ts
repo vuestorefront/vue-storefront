@@ -15,7 +15,7 @@ import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
 import { getNormalizedPath } from './helpers'
 
-function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
+export function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
