@@ -42,9 +42,7 @@ function buildBaseStoreView (): StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews.multistore
-      ? config.storeViews[config.defaultStoreCode].storeId
-      : 1,
+    storeId: 1,
     seo: config.seo
   })
 }
@@ -167,13 +165,12 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
   return _route
 }
 
-export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string = null): any {
-  if (!storeCode || !config.storeViews[storeCode]) {
-    storeCode = currentStoreView().storeCode
-  }
-  if (!routeObj) {
-    return routeObj
-  }
+export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, forcedStoreCode: string = null): any {
+  if (!routeObj) return routeObj
+
+  const storeCode = (forcedStoreCode && config.storeViews[forcedStoreCode])
+    ? forcedStoreCode
+    : currentStoreView().storeCode
 
   if ((typeof routeObj === 'object')) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
@@ -181,7 +178,11 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     }
   }
 
-  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+  if (
+    storeCode && // store view exist
+    config.defaultStoreCode !== storeCode &&
+    config.storeViews[storeCode].appendStoreCode
+  ) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }

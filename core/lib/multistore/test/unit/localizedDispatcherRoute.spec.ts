@@ -3,7 +3,6 @@ import {
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
-import rootStore from '@vue-storefront/core/store';
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
@@ -21,12 +20,7 @@ jest.mock('config', () => ({}))
 describe('localizedDispatcherRoute', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
-    // TODO: Important!!
-    rootStore.state.storeView = {
-      appendStoreCode: true
-    }
   })
   it('URL /test stays the same', () => {
     config.storeViews = {}
