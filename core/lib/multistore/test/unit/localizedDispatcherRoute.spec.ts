@@ -54,7 +54,9 @@ describe('localizedDispatcherRoute', () => {
   it('URL with LocalizedRoute object with fullPath test gets prefixed with /de', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -69,7 +71,9 @@ describe('localizedDispatcherRoute', () => {
   it('URL with LocalizedRoute object with fullPath test and params gets prefixed with /de', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -88,7 +92,9 @@ describe('localizedDispatcherRoute', () => {
   it('URL with LocalizedRoute object with fullPath test stays same', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: false
       }
     }
@@ -103,7 +109,9 @@ describe('localizedDispatcherRoute', () => {
   it('URL with LocalizedRoute object with fullPath test and params stays same', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: false
       }
     }

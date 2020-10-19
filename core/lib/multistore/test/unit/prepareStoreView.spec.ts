@@ -29,6 +29,7 @@ describe('prepareStoreView', () => {
 
     config.storeViews = {
       multistore: false,
+      mapStoreUrlsFor: ['de'],
       de: {
         storeId: 4
       }
@@ -79,6 +80,7 @@ describe('prepareStoreView', () => {
 
     config.storeViews = {
       multistore: false,
+      mapStoreUrlsFor: ['de'],
       de: {
         storeId: 4
       }
@@ -128,8 +130,10 @@ describe('prepareStoreView', () => {
     rootStore.state.user = {}
 
     config.storeViews = {
+      mapStoreUrlsFor: ['de'],
       multistore: true,
       de: {
+        storeCode: 'de',
         storeId: 4
       }
     }
@@ -179,6 +183,7 @@ describe('prepareStoreView', () => {
 
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
         storeCode: 'de',
         storeId: 3,
@@ -246,6 +251,7 @@ describe('prepareStoreView', () => {
 
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de', 'it'],
       de: {
         storeCode: 'de',
         storeId: 3,

@@ -33,7 +33,9 @@ describe('localizedRoute', () => {
   it('URL /test starts with /de if appendStoreCode is true', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -44,7 +46,9 @@ describe('localizedRoute', () => {
   it('URL /test stays the same if appendStoreCode is false', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: false
       }
     }
@@ -63,7 +67,9 @@ describe('localizedRoute', () => {
   it('URL /test?a=b&b=a starts with /de', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -74,7 +80,9 @@ describe('localizedRoute', () => {
   it('URL /test?a=b&b=a stays the same if appendStoreCode is false', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: false
       }
     }
@@ -85,7 +93,9 @@ describe('localizedRoute', () => {
   it('URL /test stays the same if multistore is false', () => {
     config.storeViews = {
       multistore: false,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -96,7 +106,9 @@ describe('localizedRoute', () => {
   it('URL /test stays the same if defaultStoreCode is same as desired storeCode', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de'],
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }
@@ -108,10 +120,13 @@ describe('localizedRoute', () => {
   it('URL /test returns /it/test if defaultStoreCode is different then desired storeCode', () => {
     config.storeViews = {
       multistore: true,
+      mapStoreUrlsFor: ['de', 'it'],
       it: {
+        storeCode: 'it',
         appendStoreCode: true
       },
       de: {
+        storeCode: 'de',
         appendStoreCode: true
       }
     }

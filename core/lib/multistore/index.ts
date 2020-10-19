@@ -14,6 +14,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
 import { getNormalizedPath } from './helpers'
+import getStoreViewByStoreCode from './getStoreViewByStoreCode'
 
 export function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -63,8 +64,8 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
 
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
-  if (storeView.storeCode && config.storeViews.multistore === true && config.storeViews[storeView.storeCode]) {
-    storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
+  if (storeView.storeCode && config.storeViews.multistore === true && getStoreViewByStoreCode(storeView.storeCode)) {
+    storeView = merge(storeView, getExtendedStoreviewConfig(getStoreViewByStoreCode(storeView.storeCode)))
   }
 
   if (rootStore.state.user) {
@@ -177,14 +178,14 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   // do not make localization when multistore is off
   if (!config.storeViews.multistore) return routeObj
 
-  const storeCode = (forcedStoreCode && config.storeViews[forcedStoreCode])
+  const storeCode = (forcedStoreCode && getStoreViewByStoreCode(forcedStoreCode))
     ? forcedStoreCode
     : currentStoreView().storeCode
-
+  const storeView = getStoreViewByStoreCode(storeCode)
   if (
     storeCode && // store view exist
     config.defaultStoreCode !== storeCode &&
-    config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode
+    storeView && storeView.appendStoreCode
   ) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
