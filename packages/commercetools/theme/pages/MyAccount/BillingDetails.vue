@@ -17,7 +17,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="billing-details-input_firstName"
-                  v-model="firstName"
+                  v-model="currentAddress.firstName"
                   name="firstName"
                   label="First Name"
                   required
@@ -28,7 +28,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="billing-details-input_lastName"
-                  v-model="lastName"
+                  v-model="currentAddress.lastName"
                   name="lastName"
                   label="Last Name"
                   required
@@ -40,7 +40,7 @@
             <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="billing-details-input_streetName"
-                v-model="streetName"
+                v-model="currentAddress.streetName"
                 name="streetName"
                 label="Street Name"
                 required
@@ -50,7 +50,7 @@
             </ValidationProvider>
             <SfInput
               data-cy="billing-details-input_apartment"
-              v-model="apartment"
+              v-model="currentAddress.apartment"
               name="apartment"
               label="House/Apartment number"
               required
@@ -60,7 +60,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="billing-details-input_city"
-                  v-model="city"
+                  v-model="currentAddress.city"
                   name="city"
                   label="City"
                   required
@@ -71,7 +71,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="billing-details-input_state"
-                  v-model="state"
+                  v-model="currentAddress.state"
                   name="state"
                   label="State/Province"
                   required
@@ -84,7 +84,7 @@
               <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="billing-details-input_zipCode"
-                  v-model="zipCode"
+                  v-model="currentAddress.zipCode"
                   name="zipCode"
                   label="Zip-code"
                   required
@@ -95,7 +95,7 @@
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
                   data-cy="billing-details-select_country"
-                  v-model="country"
+                  v-model="currentAddress.country"
                   name="country"
                   label="Country"
                   required
@@ -115,7 +115,7 @@
             <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="billing-details-input_phoneNumber"
-                v-model="phoneNumber"
+                v-model="currentAddress.phoneNumber"
                 name="phone"
                 label="Phone number"
                 required
@@ -125,7 +125,7 @@
             </ValidationProvider>
             <SfCheckbox
               data-cy="billing-details-checkbox_isDefault"
-              v-model="isDefault"
+              v-model="currentAddress.isDefault"
               name="isDefault"
               label="Set as default"
               class="form__checkbox-isDefault"
@@ -205,7 +205,7 @@ import {
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
-import { ref, computed } from '@vue/composition-api';
+import { ref, reactive, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
@@ -241,45 +241,47 @@ export default {
     const editAddress = ref(false);
     const editedAddress = ref(-1);
 
-    const id = ref('');
-    const firstName = ref('');
-    const lastName = ref('');
-    const streetName = ref('');
-    const apartment = ref('');
-    const city = ref('');
-    const state = ref('');
-    const zipCode = ref('');
-    const country = ref('');
-    const phoneNumber = ref('');
-    const isDefault = ref(false);
+    const currentAddress = reactive({
+      id: '',
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      phoneNumber: '',
+      isDefault: false
+    });
 
     const changeAddress = async (index) => {
       if (index > -1) {
         const billingAddress = userBillingGetters.getAddresses(billing.value)[index];
-        id.value = userBillingGetters.getId(billingAddress);
-        firstName.value = userBillingGetters.getFirstName(billingAddress);
-        lastName.value = userBillingGetters.getLastName(billingAddress);
-        streetName.value = userBillingGetters.getStreetName(billingAddress);
-        apartment.value = userBillingGetters.getApartmentNumber(billingAddress);
-        city.value = userBillingGetters.getCity(billingAddress);
-        state.value = userBillingGetters.getProvince(billingAddress);
-        zipCode.value = userBillingGetters.getPostCode(billingAddress);
-        country.value = userBillingGetters.getCountry(billingAddress);
-        phoneNumber.value = userBillingGetters.getPhone(billingAddress);
-        isDefault.value = userBillingGetters.isDefault(billingAddress);
+        currentAddress.id = userBillingGetters.getId(billingAddress);
+        currentAddress.firstName = userBillingGetters.getFirstName(billingAddress);
+        currentAddress.lastName = userBillingGetters.getLastName(billingAddress);
+        currentAddress.streetName = userBillingGetters.getStreetName(billingAddress);
+        currentAddress.apartment = userBillingGetters.getApartmentNumber(billingAddress);
+        currentAddress.city = userBillingGetters.getCity(billingAddress);
+        currentAddress.state = userBillingGetters.getProvince(billingAddress);
+        currentAddress.zipCode = userBillingGetters.getPostCode(billingAddress);
+        currentAddress.country = userBillingGetters.getCountry(billingAddress);
+        currentAddress.phoneNumber = userBillingGetters.getPhone(billingAddress);
+        currentAddress.isDefault = userBillingGetters.isDefault(billingAddress);
         editedAddress.value = index;
       } else {
-        id.value = '';
-        firstName.value = '';
-        lastName.value = '';
-        streetName.value = '';
-        apartment.value = '';
-        city.value = '';
-        state.value = '';
-        zipCode.value = '';
-        country.value = '';
-        phoneNumber.value = '';
-        isDefault.value = false;
+        currentAddress.id = '';
+        currentAddress.firstName = '';
+        currentAddress.lastName = '';
+        currentAddress.streetName = '';
+        currentAddress.apartment = '';
+        currentAddress.city = '';
+        currentAddress.state = '';
+        currentAddress.zipCode = '';
+        currentAddress.country = '';
+        currentAddress.phoneNumber = '';
+        currentAddress.isDefault = false;
         editedAddress.value = -1;
       }
       editAddress.value = true;
@@ -290,17 +292,17 @@ export default {
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
-        ...(editedAddress.value > -1 ? { id: id.value } : {}),
-        firstName: firstName.value,
-        lastName: lastName.value,
-        streetName: streetName.value,
-        apartment: apartment.value,
-        city: city.value,
-        state: state.value,
-        zipCode: zipCode.value,
-        country: country.value,
-        phoneNumber: phoneNumber.value,
-        isDefault: isDefault.value
+        ...(editedAddress.value > -1 ? { id: currentAddress.id } : {}),
+        firstName: currentAddress.firstName,
+        lastName: currentAddress.lastName,
+        streetName: currentAddress.streetName,
+        apartment: currentAddress.apartment,
+        city: currentAddress.city,
+        state: currentAddress.state,
+        zipCode: currentAddress.zipCode,
+        country: currentAddress.country,
+        phoneNumber: currentAddress.phoneNumber,
+        isDefault: currentAddress.isDefault
       });
       editAddress.value = false;
       editedAddress.value = -1;
@@ -319,16 +321,7 @@ export default {
 
       editAddress,
       editedAddress,
-      firstName,
-      lastName,
-      streetName,
-      apartment,
-      city,
-      state,
-      zipCode,
-      country,
-      phoneNumber,
-      isDefault,
+      currentAddress,
       countries: [
         'Austria',
         'Azerbaijan',

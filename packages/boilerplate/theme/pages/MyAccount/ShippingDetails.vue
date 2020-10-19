@@ -17,7 +17,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_firstName"
-                  v-model="firstName"
+                  v-model="currentAddress.firstName"
                   name="firstName"
                   label="First Name"
                   required
@@ -28,7 +28,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_lastName"
-                  v-model="lastName"
+                  v-model="currentAddress.lastName"
                   name="lastName"
                   label="Last Name"
                   required
@@ -40,7 +40,7 @@
             <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="shipping-details-input_streetName"
-                v-model="streetName"
+                v-model="currentAddress.streetName"
                 name="streetName"
                 label="Street Name"
                 required
@@ -50,7 +50,7 @@
             </ValidationProvider>
             <SfInput
               data-cy="shipping-details-input_apartment"
-              v-model="apartment"
+              v-model="currentAddress.apartment"
               name="apartment"
               label="House/Apartment number"
               required
@@ -60,7 +60,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_city"
-                  v-model="city"
+                  v-model="currentAddress.city"
                   name="city"
                   label="City"
                   required
@@ -71,7 +71,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_state"
-                  v-model="state"
+                  v-model="currentAddress.state"
                   name="state"
                   label="State/Province"
                   required
@@ -84,7 +84,7 @@
               <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_zipCode"
-                  v-model="zipCode"
+                  v-model="currentAddress.zipCode"
                   name="zipCode"
                   label="Zip-code"
                   required
@@ -96,7 +96,7 @@
                 <SfSelect
                   data-cy="shipping-details-select_country"
                   class="form__select sf-select--underlined"
-                  v-model="country"
+                  v-model="currentAddress.country"
                   name="country"
                   label="Country"
                   required
@@ -116,7 +116,7 @@
             <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="shipping-details-input_phoneNumber"
-                v-model="phoneNumber"
+                v-model="currentAddress.phoneNumber"
                 name="phone"
                 label="Phone number"
                 required
@@ -126,7 +126,7 @@
             </ValidationProvider>
             <SfCheckbox
               data-cy="shipping-details-checkbox_isDefault"
-              v-model="isDefault"
+              v-model="currentAddress.isDefault"
               name="isDefault"
               label="Set as default"
               class="form__checkbox-isDefault"
@@ -206,7 +206,7 @@ import {
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/boilerplate';
-import { ref, computed } from '@vue/composition-api';
+import { ref, reactive, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
@@ -238,45 +238,48 @@ export default {
 
     const editAddress = ref(false);
     const editedAddress = ref(-1);
-    const id = ref('');
-    const firstName = ref('');
-    const lastName = ref('');
-    const streetName = ref('');
-    const apartment = ref('');
-    const city = ref('');
-    const state = ref('');
-    const zipCode = ref('');
-    const country = ref('');
-    const phoneNumber = ref('');
-    const isDefault = ref(false);
+
+    const currentAddress = reactive({
+      id: '',
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      phoneNumber: '',
+      isDefault: false
+    });
 
     const changeAddress = async (index) => {
       if (index > -1) {
         const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
-        id.value = userShippingGetters.getId(shippingAddress);
-        firstName.value = userShippingGetters.getFirstName(shippingAddress);
-        lastName.value = userShippingGetters.getLastName(shippingAddress);
-        streetName.value = userShippingGetters.getStreetName(shippingAddress);
-        apartment.value = userShippingGetters.getApartmentNumber(shippingAddress);
-        city.value = userShippingGetters.getCity(shippingAddress);
-        state.value = userShippingGetters.getProvince(shippingAddress);
-        zipCode.value = userShippingGetters.getPostCode(shippingAddress);
-        country.value = userShippingGetters.getCountry(shippingAddress);
-        phoneNumber.value = userShippingGetters.getPhone(shippingAddress);
-        isDefault.value = userShippingGetters.isDefault(shippingAddress);
+        currentAddress.id = userShippingGetters.getId(shippingAddress);
+        currentAddress.firstName = userShippingGetters.getFirstName(shippingAddress);
+        currentAddress.lastName = userShippingGetters.getLastName(shippingAddress);
+        currentAddress.streetName = userShippingGetters.getStreetName(shippingAddress);
+        currentAddress.apartment = userShippingGetters.getApartmentNumber(shippingAddress);
+        currentAddress.city = userShippingGetters.getCity(shippingAddress);
+        currentAddress.state = userShippingGetters.getProvince(shippingAddress);
+        currentAddress.zipCode = userShippingGetters.getPostCode(shippingAddress);
+        currentAddress.country = userShippingGetters.getCountry(shippingAddress);
+        currentAddress.phoneNumber = userShippingGetters.getPhone(shippingAddress);
+        currentAddress.isDefault = userShippingGetters.isDefault(shippingAddress);
         editedAddress.value = index;
       } else {
-        id.value = '';
-        firstName.value = '';
-        lastName.value = '';
-        streetName.value = '';
-        apartment.value = '';
-        city.value = '';
-        state.value = '';
-        zipCode.value = '';
-        country.value = '';
-        phoneNumber.value = '';
-        isDefault.value = false;
+        currentAddress.id = '';
+        currentAddress.firstName = '';
+        currentAddress.lastName = '';
+        currentAddress.streetName = '';
+        currentAddress.apartment = '';
+        currentAddress.city = '';
+        currentAddress.state = '';
+        currentAddress.zipCode = '';
+        currentAddress.country = '';
+        currentAddress.phoneNumber = '';
+        currentAddress.isDefault = false;
         editedAddress.value = -1;
       }
       editAddress.value = true;
@@ -285,17 +288,17 @@ export default {
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
-        ...(editedAddress.value > -1 ? { id: id.value } : {}),
-        firstName: firstName.value,
-        lastName: lastName.value,
-        streetName: streetName.value,
-        apartment: apartment.value,
-        city: city.value,
-        state: state.value,
-        zipCode: zipCode.value,
-        country: country.value,
-        phoneNumber: phoneNumber.value,
-        isDefault: isDefault.value
+        ...(editedAddress.value > -1 ? { id: currentAddress.id } : {}),
+        firstName: currentAddress.firstName,
+        lastName: currentAddress.lastName,
+        streetName: currentAddress.streetName,
+        apartment: currentAddress.apartment,
+        city: currentAddress.city,
+        state: currentAddress.state,
+        zipCode: currentAddress.zipCode,
+        country: currentAddress.country,
+        phoneNumber: currentAddress.phoneNumber,
+        isDefault: currentAddress.isDefault
       });
       editAddress.value = false;
       editedAddress.value = -1;
@@ -310,16 +313,7 @@ export default {
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       editAddress,
       editedAddress,
-      firstName,
-      lastName,
-      streetName,
-      apartment,
-      city,
-      state,
-      zipCode,
-      country,
-      phoneNumber,
-      isDefault,
+      currentAddress,
       countries: [
         'Austria',
         'Azerbaijan',
