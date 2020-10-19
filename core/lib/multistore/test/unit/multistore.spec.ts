@@ -1,12 +1,9 @@
 import {
-  setupMultistoreRoutes,
   localizedRoutePath,
   localizedRouteConfig
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import rootStore from '@vue-storefront/core/store';
-import { router } from '@vue-storefront/core/app';
-import { RouteConfig } from 'vue-router'
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
@@ -34,57 +31,6 @@ describe('Multistore', () => {
     rootStore.state.storeView = {
       appendStoreCode: true
     }
-  })
-
-  describe('setupMultistoreRoutes', () => {
-    it('Add new routes for each store in mapStoreUrlsFor', () => {
-      config.storeViews = {
-        'de': {
-          appendStoreCode: true
-        },
-        mapStoreUrlsFor: [
-          'de'
-        ],
-        multistore: true
-      }
-      config.seo = {
-        useUrlDispatcher: true
-      }
-
-      const routeConfig: RouteConfig[] = [
-        {
-          path: 'test'
-        },
-        {
-          path: 'test2'
-        }
-      ]
-
-      setupMultistoreRoutes(config, router, routeConfig)
-
-      expect(router.addRoutes).toBeCalledTimes(1)
-    })
-
-    it('Do nothing as mapStoreUrlsFor is empty', () => {
-      config.storeViews = {
-        'de': {
-        },
-        mapStoreUrlsFor: []
-      }
-
-      const routeConfig: RouteConfig[] = [
-        {
-          path: 'test'
-        },
-        {
-          path: 'test2'
-        }
-      ]
-
-      setupMultistoreRoutes(config, router, routeConfig)
-
-      expect(router.addRoutes).toBeCalledTimes(1)
-    })
   })
 
   describe('localizedRoutePath', () => {
