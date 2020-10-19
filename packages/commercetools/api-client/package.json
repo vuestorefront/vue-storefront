@@ -8,7 +8,8 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
-    "test": "cross-env APP_ENV=test jest --rootDir ."
+    "test": "cross-env APP_ENV=test jest --rootDir .",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@vue-storefront/core": "2.0.9",

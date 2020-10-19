@@ -40,7 +40,9 @@ module.exports = {
           title: 'Enterprise',
           collapsable: false,
           children: [
-            ['/commercetools/enterprise/use-review', 'useReview']
+            ['/commercetools/enterprise/use-review', 'useReview'],
+            ['/commercetools/enterprise/user-groups', 'User groups']
+
           ]
         },
         {
