@@ -138,4 +138,20 @@ describe('storeCodeFromRoute', () => {
 
     expect(storeCodeFromRoute('/us_navy')).toBe('us_navy')
   })
+
+  it('returns empty string if storeCode doesn\'t exist', () => {
+    config.storeViews = {
+      mapStoreUrlsFor: ['us', 'gb'],
+      us: {
+        url: '/us'
+      },
+      gb: {
+        url: 'domain.co.uk/gb'
+      }
+    };
+
+    const route = 'domain.co.uk/gb/foo'
+
+    expect(storeCodeFromRoute(route)).toBe('')
+  })
 })

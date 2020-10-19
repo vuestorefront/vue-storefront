@@ -35,7 +35,7 @@ const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | st
     const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
 
     if (isMatchingByPath(matchedRouteOrUrl, storeView) || isMatchingByDomainAndPath(matchedRouteOrUrl, storeView)) {
-      return storeView.storeCode
+      return storeView.storeCode || ''
     }
   }
 
