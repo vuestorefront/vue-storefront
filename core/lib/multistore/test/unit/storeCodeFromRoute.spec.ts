@@ -1,6 +1,8 @@
 import storeCodeFromRoute from './../../storeCodeFromRoute'
 import config from 'config'
 
+jest.mock('config', () => ({}))
+
 describe('storeCodeFromRoute', () => {
   it('returns store code given url matching a storeview by path', () => {
     config.storeViews = {

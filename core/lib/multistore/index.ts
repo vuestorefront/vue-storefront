@@ -94,7 +94,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
-    let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+    const urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
     return urlPath.replace(storeCodeInRoute + '/', '')
   } else {
     return matchedRouteOrUrl
