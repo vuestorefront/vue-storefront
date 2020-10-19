@@ -17,7 +17,7 @@ const methodsActions = {
   },
   async setDefaultCheckoutMethods ({ getters, rootGetters, commit }) {
     if (!getters.getShippingMethodCode) {
-      commit(types.CART_UPD_SHIPPING, rootGetters['checkout/getDefaultShippingMethod'])
+      commit(types.CART_UPD_SHIPPING, rootGetters['checkout/getShippingMethods'])
     }
 
     if (!getters.getPaymentMethodCode) {

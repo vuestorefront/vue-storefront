@@ -8,6 +8,8 @@ import {
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import { calculateTotals } from '../../helpers'
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -51,7 +53,11 @@ const totalsActions = {
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     const methodsData = payload ? payload.methodsData : null
-    await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
+    if (!onlineHelper.isOnline) {
+      dispatch('overrideOfflineTotals')
+    } else {
+      await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
+    }
 
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       const shippingMethodsData = methodsData || createOrderData({
@@ -75,6 +81,20 @@ const totalsActions = {
   async refreshTotals ({ dispatch }, payload) {
     Logger.warn('The "cart/refreshTotals" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     await dispatch('syncTotals', payload)
+  },
+  async overrideOfflineTotals ({ commit, getters, rootGetters }) {
+    const shippingMethodsData = createOrderData({
+      shippingDetails: rootGetters['checkout/getShippingDetails'],
+      shippingMethods: rootGetters['checkout/getShippingMethods'],
+      paymentMethods: rootGetters['checkout/getPaymentMethods'],
+      paymentDetails: rootGetters['checkout/getPaymentDetails']
+    })
+    if (shippingMethodsData.country) {
+      const shippingMethod = rootGetters['checkout/getShippingDetails'].shippingMethod
+      const totals = calculateTotals(rootGetters['checkout/getShippingMethods'], shippingMethod, getters.getPaymentMethod, getters.getCartItems)
+      const itemsAfterTotal = getters.getCartItems
+      commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: totals })
+    }
   }
 }
 

@@ -4,8 +4,18 @@ import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMeth
 import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 
-const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
-  const shippingTax = shippingMethod ? shippingMethod.price_incl_tax : 0
+const calculateTotals = (shippingMethods, shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
+  var shippingTax = 0
+  var shipping
+  if (shippingMethods) {
+    for (let i = 0; i < shippingMethods['length']; i++) {
+      if (shippingMethods[i].method_code === shippingMethod) {
+        shippingTax = shippingMethods[i].amount === 'Free' ? 0 : shippingMethods[i].amount
+        shipping = shippingMethods[i]
+        break
+      }
+    }
+  }
 
   const totalsArray = [
     {
@@ -27,11 +37,11 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       value: paymentMethod.cost_incl_tax
     })
   }
-  if (shippingMethod) {
+  if (shipping) {
     totalsArray.push({
       code: 'shipping',
-      title: i18n.t(shippingMethod.method_title),
-      value: shippingMethod.price_incl_tax
+      title: i18n.t(shipping.method_title),
+      value: shippingTax
     })
   }
 
