@@ -7,7 +7,7 @@ The Vue Storefront application uses the [node-config](https://github.com/lorenwe
 - `local.json` is the second configuration file which is .gitignore'd from the repository. This is the place where you should store all instance-specific configuration variables.
 
 :::tip NOTE
-Please not that the `config` is bundled into JavaScript files that are returned to the user's browser. Please **NEVER PUT ANY SENSITIVE INFORMATION** into the config file of `vue-storefront`. If your application requires some authorization / tokens /etc - please store them and access via dedicated [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) or [`storefront-api`](https://github.com/DivanteLtd/storefront-api) extension that will prevent these sensitive information from being returned to the users.
+Please note that the `config` is bundled into JavaScript files that are returned to the user's browser. Please **NEVER PUT ANY SENSITIVE INFORMATION** into the config file of `vue-storefront`. If your application requires some authorization / tokens /etc - please store them and access via dedicated [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) or [`storefront-api`](https://github.com/DivanteLtd/storefront-api) extension that will prevent these sensitive information from being returned to the users.
 :::
 
 The structure of these files is exactly the same! Vue Storefront does kind of  `Object.assign(default, local)` (but with the deep-merge). This means that the `local.json` overrides the `default.json` properties.
@@ -63,7 +63,7 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 `http://localhost:3000/women/frauen-20`
 `http://localhost:3000/de/women/frauen-20`
 
-For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/findProducts` the ServiceWorker cache SHOULD populate url mappings anyway)
 
 For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
@@ -174,7 +174,7 @@ If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher
 
 You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
 
-`commonCache` is refering to llocal browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
+`commonCache` is refering to local browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
 
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
@@ -256,7 +256,7 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 },
 ```
 
-The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
+The internationalization settings are used by the translation engine (`defaultLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
 
 
 ```json

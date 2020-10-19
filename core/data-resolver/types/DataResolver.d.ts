@@ -18,7 +18,7 @@ declare namespace DataResolver {
     onlyNotEmpty?: boolean,
     size?: number,
     start?: number,
-    sort?: string,
+    sort?: string|any,
     includeFields?: string[],
     excludeFields?: string[],
     reloadAll?: boolean
