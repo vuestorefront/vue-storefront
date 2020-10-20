@@ -17,7 +17,7 @@
         >
           <SfIcon
             size="18px"
-            color="#43464E"
+            color="dark-secondary"
             icon="filter"
             class="navbar__filters-icon"
             data-cy="category-icon_"
