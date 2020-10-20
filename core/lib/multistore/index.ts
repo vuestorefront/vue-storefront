@@ -195,7 +195,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     ? forcedStoreCode
     : currentStoreView().storeCode
 
-  if (storeCode && config.defaultStoreCode !== storeCode) {
+  if (storeCode) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }
@@ -212,6 +212,7 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
     allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)
+    allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   }
   router.addRoutes(allRoutes, true, priority)
 }
