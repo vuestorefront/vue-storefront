@@ -21,7 +21,7 @@
             icon="drag"
             size="xl"
             color="gray-secondary"
-            class="product__drag-icon mobile-only"
+            class="product__drag-icon smartphone-only"
           />
         </div>
         <div class="product__price-and-rating">
@@ -48,7 +48,7 @@
         </div>
         <div>
           <p class="product__description desktop-only">
-            {{ description }}}
+            {{ description }}
           </p>
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
             Size guide
@@ -121,7 +121,7 @@
               class="product__property"
             >
               <template v-if="property.name === 'Category'" #value>
-                <SfButton class="sf-button--text">
+                <SfButton class="product__property__button sf-button--text">
                   {{ property.value }}
                 </SfButton>
               </template>
@@ -376,6 +376,7 @@ export default {
     }
   }
   &__header {
+    --heading-title-color: var(--c-link);
     margin: 0 var(--spacer-sm);
     display: flex;
     justify-content: space-between;
@@ -398,15 +399,18 @@ export default {
   &__rating {
     display: flex;
     align-items: center;
-    margin: var(--spacer-xs) 0 0 0;
+    margin: var(--spacer-xs) 0;
+    @include for-desktop {
+      justify-content: flex-end;
+    }
   }
   &__count {
     @include font(
       --count-font,
-      var(--font-normal),
-      var(--font-sm),
+      var(--weight--normal),
+      var(--font-size--sm),
       1.4,
-      var(--font-family-secondary)
+      var(--font-family--secondary)
     );
     color: var(--c-text);
     text-decoration: none;
@@ -414,12 +418,13 @@ export default {
   }
   &__description {
     color: var(--c-link);
+    margin-top: var(--spacer-xl);
     @include font(
       --product-description-font,
-      var(--font-light),
-      var(--font-base),
+      var(--font-weight--normal),
+      var(--font-size--base),
       1.6,
-      var(--font-family-primary)
+      var(--font-family--primary)
     );
   }
   &__select-size {
@@ -431,10 +436,10 @@ export default {
   &__colors {
     @include font(
       --product-color-font,
-      var(--font-normal),
-      var(--font-lg),
+      var(--font-weight--normal),
+      var(--font-size--lg),
       1.6,
-      var(--font-family-secondary)
+      var(--font-family--secondary)
     );
     display: flex;
     align-items: center;
@@ -449,7 +454,7 @@ export default {
   &__add-to-cart {
     margin: var(--spacer-base) var(--spacer-sm) 0;
     @include for-desktop {
-      margin-top: var(--spacer-2xl);
+      margin: var(--spacer-2xl) 0 0 0;
     }
   }
   &__guide,
@@ -464,12 +469,15 @@ export default {
   &__tabs {
     margin: var(--spacer-lg) auto var(--spacer-2xl);
     @include for-desktop {
-      margin-top: var(--spacer-2xl);
+      margin-top: var(--spacer-2xl) 0 0 0;
       --tabs-content-tab-padding: 3.5rem 0 0 0;
     }
   }
   &__property {
     margin: var(--spacer-base) 0;
+    &__button {
+      --button-font-size: var(--font-size--base);
+    }
   }
   &__review {
     padding-bottom: 24px;
@@ -487,13 +495,14 @@ export default {
   &__additional-info {
     @include font(
       --additional-info-font,
-      var(--font-light),
-      var(--font-base),
+      var(--font-weight--light),
+      var(--font-size--base),
       1.6,
-      var(--font-family-primary)
+      var(--font-family--primary)
     );
     &__title {
-      font-weight: var(--font-bold);
+      color: var(--c-link);
+      font-weight: var(--font-weight--bold);
       margin: 0 0 var(--spacer-sm);
       &:not(:first-child) {
         margin-top: 3.5rem;
