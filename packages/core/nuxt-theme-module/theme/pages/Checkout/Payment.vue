@@ -71,7 +71,7 @@
       <SfSelect
         data-cy="payment-select_billingDetails"
         v-model="billingDetails.country"
-        placeholder="Country"
+        label="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
         required
       >
@@ -207,6 +207,7 @@ export default {
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
       margin: 0;
+      color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
@@ -218,7 +219,6 @@ export default {
   }
   &__element {
     margin: 0 0 var(--spacer-base) 0;
-    --input-label-top: 85%;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -283,9 +283,5 @@ export default {
     --radio-border-radius: 4px;
   }
 }
-.sf-input {
-  &.has-text {
-    --input-label-top: 0;
-  }
-}
+
 </style>

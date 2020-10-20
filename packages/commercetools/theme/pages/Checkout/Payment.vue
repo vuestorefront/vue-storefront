@@ -260,6 +260,7 @@ export default {
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
       margin: 0;
+      color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
@@ -296,24 +297,35 @@ export default {
       display: flex;
     }
   }
-   &__action-button, &__back-button {
+  &__action-button, &__back-button {
     --button-width: 100%;
     @include for-desktop {
       --button-width: auto;
     }
   }
   &__action-button {
-    margin: 0 var(--spacer-xl) 0 0;
+    &--secondary {
+      @include for-desktop {
+        order: -1;
+        --button-margin: 0;
+        text-align: left;
+      }
+    }
+  }
+  &__back-button {
+    margin: var(--spacer-xl) 0 var(--spacer-sm);
+    &:hover {
+      color:  white;
+    }
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+    }
   }
   &__back-button {
     margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
     }
-  }
-  &__radio-group {
-    flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
   }
 }
 .payment-methods {
@@ -335,17 +347,10 @@ export default {
   &:last-child {
     border-width: 1px 0;
   }
-  @include for-mobile {
-    --radio-background: transparent;
-  }
+  --radio-background: transparent;
   @include for-desktop {
     border: 0;
     --radio-border-radius: 4px;
-  }
-}
-.sf-input {
-  &.has-text {
-    --input-label-top: 0;
   }
 }
 </style>

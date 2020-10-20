@@ -254,6 +254,9 @@ export default {
   margin: 0 auto var(--spacer-sm) auto;
   @include for-desktop {
     margin: var(--spacer-xl) auto;
+    &:hover {
+      color: var(--c-white);
+    }
   }
 }
 .button-size {

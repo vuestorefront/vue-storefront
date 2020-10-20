@@ -220,7 +220,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
   & > * {
     margin: 0 0 0 var(--spacer-xs);
   }

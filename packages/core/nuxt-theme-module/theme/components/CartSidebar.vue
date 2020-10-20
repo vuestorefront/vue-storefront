@@ -186,6 +186,10 @@ export default {
   &__icon {
     width: 18.125rem;
     height: 12.3125rem;
+    margin-left: 50%;
+    @include for-desktop {
+      margin-left: 45%;
+    }
   }
 }
 .heading {
@@ -207,11 +211,7 @@ export default {
 
 .collected-product {
   margin: var(--spacer-base) 0;
-
-  &__properties {
-    margin: var(--spacer-sm) 0 0 0;
-  }
-    ::v-deep .sf-collected-product__remove--circle-icon {
+  ::v-deep .sf-collected-product__remove--circle-icon {
     --button-background: var(--c-primary);
     --icon-color: var(--c-white);
   }

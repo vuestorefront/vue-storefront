@@ -92,6 +92,9 @@ export default {
   &__container {
     --footer-margin: var(--spacer-sm);
     width: 100%;
+    @include for-desktop {
+      --footer-margin: 0;
+    }
   }
 }
 .footer {

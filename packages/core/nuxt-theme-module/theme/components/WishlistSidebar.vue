@@ -177,6 +177,10 @@ export default {
   &__icon {
     width: 18.125rem;
     height: 12.3125rem;
+    margin-left: 50%;
+    @include for-desktop {
+      margin-left: 45%;
+    }
   }
 }
 .heading {

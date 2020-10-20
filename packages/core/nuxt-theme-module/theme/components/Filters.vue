@@ -144,8 +144,8 @@ export default {
 
 .filters {
   &__title {
-    --heading-title-font-size: var(--font-xl);
-    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+    --heading-title-font-size: var(--font-size--xl);
+    margin: var(--spacer-xl) 0 var(--spacer-sm) 0;
     &:first-child {
       margin: var(--spacer-xs) 0;
     }

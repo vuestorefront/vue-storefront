@@ -85,7 +85,7 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--primary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   &__label {
     font-weight: 500;
   }
