@@ -172,6 +172,7 @@ import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { ref } from '@vue/composition-api';
 import { getSettings } from '@vue-storefront/commercetools-api';
+import { userShippingGetters } from '@vue-storefront/commercetools';
 
 extend('required', {
   ...required,
@@ -203,7 +204,7 @@ export default {
   props: {
     address: {
       type: Object,
-      required: true
+      default: {}
     },
     isNew: {
       type: Boolean,
@@ -212,7 +213,19 @@ export default {
   },
 
   setup(props, { emit }) {
-    const form = ref({ ...props.address });
+    const form = ref({
+      id: userShippingGetters.getId(props.address),
+      firstName: userShippingGetters.getFirstName(props.address),
+      lastName: userShippingGetters.getLastName(props.address),
+      streetName: userShippingGetters.getStreetName(props.address),
+      apartment: userShippingGetters.getApartmentNumber(props.address),
+      city: userShippingGetters.getCity(props.address),
+      state: userShippingGetters.getProvince(props.address),
+      zipCode: userShippingGetters.getPostCode(props.address),
+      country: userShippingGetters.getCountry(props.address),
+      phoneNumber: userShippingGetters.getPhone(props.address),
+      isDefault: userShippingGetters.isDefault(props.address)
+    });
 
     const submitForm = () => {
       emit('submit', {

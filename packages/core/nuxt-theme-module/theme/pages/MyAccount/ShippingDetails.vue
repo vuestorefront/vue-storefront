@@ -14,7 +14,7 @@
         </p>
 
         <ShippingAddressForm
-          :address="address"
+          :address="activeAddress"
           :isNew="isNewAddress"
           @submit="saveAddress" />
       </SfTab>
@@ -33,7 +33,7 @@
         </p>
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
-            v-for="(address, key) in addresses"
+            v-for="address in addresses"
             :key="userShippingGetters.getId(address)"
             class="shipping">
             <div class="shipping__content">
@@ -49,18 +49,18 @@
                 size="14px"
                 role="button"
                 class="mobile-only"
-                @click="removeAddress(key)"
+                @click="removeAddress(address)"
               />
               <SfButton
                 data-cy="shipping-details-btn_change"
-                @click="changeAddress(key)">
+                @click="changeAddress(address)">
                 Change
               </SfButton>
 
               <SfButton
                 data-cy="shipping-details-btn_delete"
                 class="shipping__button-delete desktop-only"
-                @click="removeAddress(key)">
+                @click="removeAddress(address)">
                 Delete
               </SfButton>
             </div>
@@ -69,7 +69,7 @@
         <SfButton
           data-cy="shipping-details-btn_add"
           class="action-button"
-          @click="changeAddress(-1)">
+          @click="changeAddress()">
           Add new address
         </SfButton>
       </SfTab>
@@ -101,39 +101,22 @@ export default {
     const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
     const edittingAddress = ref(false);
-    const activeAddressId = ref(-1);
-    const address = computed(() => {
-      const address = addresses.value[activeAddressId.value] || {};
+    const activeAddress = ref(null);
+    const isNewAddress = computed(() => !activeAddress.value);
 
-      return {
-        id: userShippingGetters.getId(address),
-        firstName: userShippingGetters.getFirstName(address),
-        lastName: userShippingGetters.getLastName(address),
-        streetName: userShippingGetters.getStreetName(address),
-        apartment: userShippingGetters.getApartmentNumber(address),
-        city: userShippingGetters.getCity(address),
-        state: userShippingGetters.getProvince(address),
-        zipCode: userShippingGetters.getPostCode(address),
-        country: userShippingGetters.getCountry(address),
-        phoneNumber: userShippingGetters.getPhone(address),
-        isDefault: userShippingGetters.isDefault(address)
-      };
-    });
-    const isNewAddress = computed(() => activeAddressId.value === -1);
-
-    const changeAddress = async (index) => {
-      activeAddressId.value = index;
+    const changeAddress = (address = null) => {
+      activeAddress.value = address;
       edittingAddress.value = true;
     };
 
-    const removeAddress = index => deleteAddress(addresses.value[index]);
+    const removeAddress = address => deleteAddress(address);
 
     const saveAddress = async ({ form, onComplete, onError }) => {
       try {
         const actionMethod = isNewAddress.value ? addAddress : updateAddress;
         const data = await actionMethod(form);
         edittingAddress.value = false;
-        activeAddressId.value = -1;
+        activeAddress.value = null;
         await onComplete(data);
       } catch (error) {
         onError(error);
@@ -152,9 +135,8 @@ export default {
       userShippingGetters,
       addresses,
       edittingAddress,
-      activeAddressId,
-      isNewAddress,
-      address
+      activeAddress,
+      isNewAddress
     };
   }
 };
