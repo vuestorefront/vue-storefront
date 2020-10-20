@@ -109,13 +109,15 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          :rules="`required|oneOf:${countries.map((c) => c.name).join(',')}`"
+          :rules="`required|oneOf:${countries.map(c => c.name).join(',')}`"
           v-slot="{ errors }"
           class="form__element"
         >
           <SfSelect
             data-cy="shipping-details-select_country"
-            v-model="form.country"
+            class="form__select sf-select--underlined"
+            :value="form.country"
+            @selected="form.country = $event"
             name="country"
             label="Country"
             required
@@ -147,15 +149,8 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfCheckbox
-        data-cy="shipping-details-checkbox_isDefault"
-        v-model="form.isDefault"
-        name="isDefault"
-        label="Set as default"
-        class="form__checkbox-isDefault"
-      />
       <SfButton data-cy="shipping-details-btn_update" class="form__button">
-        {{ isNew ? 'Add the address' : 'Update the address' }}
+        {{ isNew ? "Add the address" : "Update the address" }}
       </SfButton>
     </form>
   </ValidationObserver>
@@ -249,15 +244,21 @@ export default {
 @import '~@storefront-ui/vue/styles';
 
 .form {
-  &__checkbox {
-    &-isDefault {
-      margin-bottom: var(--spacer-2xl);
-    }
-  }
-
   &__element {
     display: block;
-    margin-bottom: var(--spacer-2xl);
+    margin: var(--spacer-xl) 0;
+  }
+
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
   }
 
   &__button {
@@ -274,7 +275,7 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-2xl);
+        margin-right: var(--spacer-lg);
       }
 
       &:last-child {
