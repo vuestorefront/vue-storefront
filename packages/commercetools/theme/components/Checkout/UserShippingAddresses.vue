@@ -83,11 +83,16 @@ export default {
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
 
-.shipping-addresses {
-  @media screen and (min-width: $desktop-min) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
+  .shipping__addresses {
+    @include for-desktop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    margin-bottom: var(--spacer-xl);
+
+    .sf-address {
+      margin-bottom: var(--spacer-sm);
+    }
   }
   margin-bottom: var(--spacer-xl);
   &__address {
