@@ -80,7 +80,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .shipping-addresses {
-  @media screen and (min-width: $desktop-min) {
+  @include for-desktop {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
