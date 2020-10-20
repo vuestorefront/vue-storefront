@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vue Storefront",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
     "@vue/composition-api": "1.0.0-beta.14",

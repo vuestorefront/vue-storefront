@@ -95,6 +95,7 @@
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
                   data-cy="shipping-details-select_country"
+                  class="form__select sf-select--underlined"
                   v-model="country"
                   name="country"
                   label="Country"
@@ -162,7 +163,7 @@
                 color="gray"
                 size="14px"
                 role="button"
-                class="mobile-only"
+                class="smartphone-only"
                 @click="deleteAddress(key)"
               />
               <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
@@ -339,20 +340,22 @@ export default {
 </script>
 <style lang='scss' scoped>
 @import '~@storefront-ui/vue/styles';
-@mixin for-mobile {
-  @media screen and (max-width: $desktop-min) {
-    @content;
-  }
-}
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
 .form {
   &__element {
     display: block;
-    margin-bottom: var(--spacer-2xl);
+    margin: var(--spacer-xl) 0;
+  }
+
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
   }
 
   &__button {
@@ -369,7 +372,7 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-2xl);
+        margin-right: var(--spacer-lg);
       }
 
       &:last-child {
@@ -379,13 +382,9 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family--primary);
   line-height: 1.6;
-  font-size: var(--font-base-mobile);
-  @include for-desktop {
-    font-size: var(--font-base-desktop);
-  }
+  font-size: var(--font-size--base);
 }
 .shipping-list {
   margin-bottom: var(--spacer-2xl);
@@ -400,12 +399,9 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-sm-mobile);
+    font-size: var(--font-size--base);
     font-weight: 300;
     line-height: 1.6;
-    @include for-desktop {
-      font-size: var(--font-sm-desktop);
-    }
   }
   &__actions {
     flex: 1;
@@ -433,7 +429,7 @@ export default {
     }
   }
   &__client-name {
-    font-size: var(--font-base-desktop);
+    font-size: var(--font-size--base);
     font-weight: 500;
   }
 }

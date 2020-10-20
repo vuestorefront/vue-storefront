@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
-      <form @submit.prevent="handleSubmit(dirty || addressIsModified ? handleShippingAddressSubmit(reset) : handleShippingMethodSubmit(reset))">
+      <form @submit.prevent="handleSubmit(canContinueToPayment(dirty) ? handleShippingMethodSubmit(reset) : handleShippingAddressSubmit(reset))">
         <UserShippingAddresses
           v-if="isAuthenticated && shippingAddresses && shippingAddresses.length"
           :setAsDefault="setAsDefault"
@@ -123,7 +123,7 @@
         </div>
         <SfButton
           v-if="!canAddNewAddress"
-          class="form__action-button form__action-button--margin-bottom"
+          class="color-light form__action-button form__action-button--add-address"
           type="submit"
           @click.native="canAddNewAddress = true"
         >
@@ -299,6 +299,7 @@ export default {
       addressIsModified.value = false;
     };
     const handleShippingMethodSubmit = (reset) => async () => {
+      await setShippingMethod(chosenShippingMethod.value, { save: true });
       reset();
       context.root.$router.push('/checkout/payment');
     };
@@ -342,11 +343,9 @@ export default {
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
+  --button-width: 100%;
   &__select {
     display: flex;
     align-items: center;
@@ -354,6 +353,7 @@ export default {
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
       margin: 0;
+      color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
@@ -362,6 +362,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    --button-width: auto;
   }
   &__element {
     margin: 0 0 var(--spacer-xl) 0;
@@ -389,31 +390,41 @@ export default {
       display: flex;
     }
   }
-  &__action-button, &__back-button {
-    --button-width: 100%;
-    @include for-desktop {
-      --button-width: auto;
-    }
-  }
   &__action-button {
-    margin: 0 var(--spacer-xl) 0 0;
-    &--margin-bottom {
-      margin-bottom: var(--spacer-xl);
+    &--secondary {
+      @include for-desktop {
+        order: -1;
+        text-align: left;
+      }
+    }
+    &--add-address {
+      width: 100%;
+      margin: 0;
+      @include for-desktop {
+        margin: 0 0 var(--spacer-lg) 0;
+        width: auto;
+      }
     }
   }
   &__back-button {
-    margin: 0 0 var(--spacer-sm) 0;
+    margin: var(--spacer-xl) 0 var(--spacer-sm);
+    &:hover {
+      color:  var(--c-white);
+    }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
     }
   }
   &__radio-group {
     flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
+    @include for-desktop {
+      margin: 0 0 var(--spacer-2xl) 0;
+    }
+
   }
 }
 .shipping {
-  margin: 0 calc(var(--spacer-xl) * -1);
   &__label {
     display: flex;
     justify-content: space-between;

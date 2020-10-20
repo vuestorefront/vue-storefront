@@ -97,20 +97,21 @@ export default {
 .form {
   &__element {
     display: block;
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-lg) 0;
   }
-
   &__button {
     display: block;
+    width: 100%;
+    @include for-desktop {
+      width: 17.5rem;
+    }
   }
-
   &__horizontal {
     @include for-desktop {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
     }
-
     .form__element {
       @include for-desktop {
         flex: 1;
