@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.10 - not released
+
+- added `useUiState` composable instead `ui-state.ts` ([#4876](https://github.com/DivanteLtd/vue-storefront/pull/4997))
+
 ## 2.0.9
 
 - added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
