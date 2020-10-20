@@ -271,7 +271,6 @@ export default {
     align-items: center;
   }
   &__element {
-    --input-label-top: 85%;
     margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
       flex: 0 0 100%;
