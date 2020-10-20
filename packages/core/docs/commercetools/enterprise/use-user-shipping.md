@@ -8,16 +8,18 @@ platform: Commercetools
 
 ```typescript
 interface ShippingAddressAddParams {
-  firstName: string;
-  lastName: string;
-  streetName: string;
-  postalCode: string;
-  city: string;
-  state: string;
-  country: string;
-  apartment: string;
-  phone: string;
-  isDefault: boolean;
+  address: {
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
 }
 ```
 
@@ -27,7 +29,9 @@ interface ShippingAddressAddParams {
 
 ```typescript
 interface ShippingAddressDeleteParams {
-  id: string | number;
+  address: {
+    id: string | number;
+  }
 }
 ```
 
@@ -37,17 +41,19 @@ interface ShippingAddressDeleteParams {
 
 ```typescript
 interface ShippingAddressUpdateParams {
-  id: string | number;
-  firstName: string;
-  lastName: string;
-  streetName: string;
-  postalCode: string;
-  city: string;
-  state: string;
-  country: string;
-  apartment: string;
-  phone: string;
-  isDefault: boolean;
+  address: {
+    id: string | number;
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
 }
 ```
 
@@ -57,7 +63,9 @@ interface ShippingAddressUpdateParams {
 
 ```typescript
 interface ShippingAddressSetDefaultParams {
-  id: string | number;
+  address: {
+    id: string | number;
+  }
 }
 ```
 
