@@ -88,7 +88,6 @@ export const actions: ActionTree<UrlState, any> = {
     `)()
     const productQuery = new SearchQuery()
     url = removeLocalization(url).replace(/^(\/)/gm, '')
-    console.log('mappingFallback', url)
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/findProducts', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
@@ -107,7 +106,6 @@ export const actions: ActionTree<UrlState, any> = {
    */
   async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
     url = removeLocalization(url).replace(/^(\/)/gm, '')
-    console.log('mapFallbackUrl', url)
 
     // search for record in ES based on `url`
     const fallbackData = await dispatch('getFallbackByUrl', { url, params })
