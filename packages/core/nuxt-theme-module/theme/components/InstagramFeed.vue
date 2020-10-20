@@ -34,12 +34,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/shared/styles/variables";
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
+@import "~@storefront-ui/vue/styles";
+
 .grid {
   max-width: 960px;
   margin: auto;

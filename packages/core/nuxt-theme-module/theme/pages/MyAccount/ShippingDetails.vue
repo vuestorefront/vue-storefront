@@ -48,7 +48,7 @@
                 color="gray"
                 size="14px"
                 role="button"
-                class="mobile-only"
+                class="smartphone-only"
                 @click="removeAddress(address)"
               />
               <SfButton
@@ -158,13 +158,9 @@ export default {
 }
 
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family--primary);
   line-height: 1.6;
-  font-size: var(--font-base-mobile);
-  @include for-desktop {
-    font-size: var(--font-base-desktop);
-  }
+  font-size: var(--font-size--base);
 }
 
 .shipping-list {
@@ -183,12 +179,9 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-sm-mobile);
+    font-size: var(--font-size--base);
     font-weight: 300;
     line-height: 1.6;
-    @include for-desktop {
-      font-size: var(--font-sm-desktop);
-    }
   }
 
   &__actions {
@@ -221,7 +214,7 @@ export default {
   }
 
   &__client-name {
-    font-size: var(--font-base-desktop);
+    font-size: var(--font-size--base);
     font-weight: 500;
   }
 }

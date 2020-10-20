@@ -167,7 +167,6 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
-    var(--spacer-2xl);
-}
+  padding: var(--spacer-base) 0;
+ }
 </style>
