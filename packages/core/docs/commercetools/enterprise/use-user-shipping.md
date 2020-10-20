@@ -30,7 +30,7 @@ interface ShippingAddressAddParams {
 ```typescript
 interface ShippingAddressDeleteParams {
   address: {
-    id: string | number;
+    id: string;
   }
 }
 ```
@@ -42,7 +42,7 @@ interface ShippingAddressDeleteParams {
 ```typescript
 interface ShippingAddressUpdateParams {
   address: {
-    id: string | number;
+    id: string;
     firstName: string;
     lastName: string;
     streetName: string;
@@ -64,7 +64,7 @@ interface ShippingAddressUpdateParams {
 ```typescript
 interface ShippingAddressSetDefaultParams {
   address: {
-    id: string | number;
+    id: string;
   }
 }
 ```
