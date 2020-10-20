@@ -1,6 +1,7 @@
 import {
   localizedRouteConfig
 } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
@@ -15,6 +16,17 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('config', () => ({}))
 
 describe('localizedRouteConfig', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    config.storeViews = {
+      multistore: true,
+      mapStoreUrlsFor: ['de'],
+      de: {
+        storeCode: 'de',
+        appendStoreCode: true
+      }
+    }
+  })
   it('create new route object with storeCode', () => {
     const storeCode = 'de'
     const route = {
@@ -63,6 +75,46 @@ describe('localizedRouteConfig', () => {
     }
     const expectedRoute = {
       path: '/de/test',
+      name: 'de-test',
+      children: [
+        {
+          path: 'test2',
+          name: 'de-test2',
+          children: [
+            {
+              path: '/test3',
+              name: 'de-test3'
+            }
+          ]
+        }
+      ]
+    }
+
+    expect(localizedRouteConfig(route, storeCode)).toEqual(expectedRoute)
+  })
+
+  it('use url value for localization', () => {
+    config.storeViews.de.appendStoreCode = false
+    config.storeViews.de.url = '/de_de'
+    const storeCode = 'de'
+    const route = {
+      path: '/test',
+      name: 'test',
+      children: [
+        {
+          path: 'test2',
+          name: 'test2',
+          children: [
+            {
+              path: '/test3',
+              name: 'test3'
+            }
+          ]
+        }
+      ]
+    }
+    const expectedRoute = {
+      path: '/de_de/test',
       name: 'de-test',
       children: [
         {

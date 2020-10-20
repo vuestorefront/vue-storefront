@@ -13,7 +13,7 @@ import storeCodeFromRoute from './storeCodeFromRoute'
 import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
-import { getNormalizedPath } from './helpers'
+import { getNormalizedPath, getPrefixFromUrl } from './helpers'
 import getStoreViewByStoreCode from './getStoreViewByStoreCode'
 
 export function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
@@ -96,7 +96,8 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
     const urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-    return urlPath.replace(storeCodeInRoute + '/', '')
+    if (getNormalizedPath(urlPath) === `/${storeCodeInRoute}`) return ''
+    return getNormalizedPath(urlPath).replace(new RegExp(`^/${storeCodeInRoute}/`, 'g'), '')
   } else {
     return matchedRouteOrUrl
   }
@@ -123,8 +124,8 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return `${getNormalizedPath(localizedRouteObject.path)}${qrStr ? `?${qrStr}` : ''}`
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
-  if (appendStoreCode) {
+export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode?: boolean): string {
+  if (config.defaultStoreCode !== storeCode) {
     return `${storeCode}-${routeName}`
   }
   return routeName
@@ -137,8 +138,15 @@ export function localizedDispatcherRouteName (routeName: string, storeCode: stri
  */
 export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
+  const storeView = getStoreViewByStoreCode(storeCode)
 
-  return `/${storeCode}/${_path}`
+  if (storeView.appendStoreCode) {
+    return `/${storeView.storeCode}/${_path}`
+  }
+
+  const url = getPrefixFromUrl(storeView.url || '/')
+
+  return `${url.length === 1 ? url.replace(/^\//, '') : url}/${_path}`
 }
 
 /**
@@ -181,12 +189,8 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   const storeCode = (forcedStoreCode && getStoreViewByStoreCode(forcedStoreCode))
     ? forcedStoreCode
     : currentStoreView().storeCode
-  const storeView = getStoreViewByStoreCode(storeCode)
-  if (
-    storeCode && // store view exist
-    config.defaultStoreCode !== storeCode &&
-    storeView && storeView.appendStoreCode
-  ) {
+
+  if (storeCode && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }
@@ -198,8 +202,8 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
   const allRoutes: RouteConfig[] = []
-  const { storeCode, appendStoreCode } = currentStoreView()
-  if (storeCode && appendStoreCode) {
+  const { storeCode } = currentStoreView()
+  if (config.defaultStoreCode !== storeCode) {
     allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)
