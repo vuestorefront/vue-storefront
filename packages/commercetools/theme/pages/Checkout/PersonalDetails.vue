@@ -179,18 +179,14 @@ export default {
 @import "~@storefront-ui/vue/styles";
 .title {
  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .log-in {
   &__info {
     margin: var(--spacer-lg) 0;
-    color: var(--c-dark-variant);
-    font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
+    color: var(--c-link);
+    font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
     @include for-desktop {
-      font-weight: var(--font-normal);
-      font-size: var(--font-sm);
+      font-weight: var(--font-weight--normal);
     }
   }
   &__button {
@@ -200,21 +196,26 @@ export default {
 .info {
   margin: 0 0 var(--spacer-xl) 0;
   &__heading {
-    font-family: var(--font-family-primary);
-    font-weight: var(--font-light);
+    font-family: var(--font-family--secondary);
+    font-weight: var(--font-weight--normal);
+    margin-bottom: var(--spacer-base);
   }
   &__characteristic {
-    --characteristic-description-font-size: var(--font-xs);
+    --characteristic-description-font-size: var(--font-size--base);
     margin: 0 0 var(--spacer-sm) var(--spacer-2xs);
   }
   @include for-desktop {
+    display: flex;
+    flex-wrap: wrap;
     margin: 0;
     &__heading {
+      flex: 100%;
       margin: 0 0 var(--spacer-sm) 0;
-      font-size: var(--font-xs);
+      font-size: var(--font-size--xs);
     }
     &__characteristic {
-      margin: var(--spacer-base) 0;
+      margin: 0 0 var(--spacer-base) 0;
+      flex: 0 50%;
     }
   }
 }
@@ -262,9 +263,11 @@ export default {
     }
   }
   &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
-    &:hover {
-      color: white;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+      &:hover {
+        color: var(--c-white);
+      }
     }
   }
   &__button {
