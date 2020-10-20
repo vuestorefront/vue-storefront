@@ -1,7 +1,7 @@
 <template>
   <div>
     <SfAddressPicker
-      :value="currentAddressId"
+      :selected="String(currentAddressId)"
       @input="setCurrentAddress($event)"
       class="billing__addresses"
     >
