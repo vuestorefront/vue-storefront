@@ -95,7 +95,8 @@
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
                   data-cy="billing-details-select_country"
-                  v-model="currentAddress.country"
+                  :value="currentAddress.country"
+                  @selected="currentAddress.country = $event"
                   name="country"
                   label="Country"
                   required
@@ -174,7 +175,7 @@
                 color="gray"
                 size="14px"
                 role="button"
-                class="mobile-only"
+                class="smartphone-only"
                 @click="removeAddress(key)"
               />
               <SfButton data-cy="billing-details-btn_change" @click="changeAddress(key)">Change</SfButton>

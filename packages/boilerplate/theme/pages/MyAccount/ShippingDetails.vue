@@ -96,7 +96,8 @@
                 <SfSelect
                   data-cy="shipping-details-select_country"
                   class="form__select sf-select--underlined"
-                  v-model="currentAddress.country"
+                  :value="currentAddress.country"
+                  @selected="currentAddress.country = $event"
                   name="country"
                   label="Country"
                   required
