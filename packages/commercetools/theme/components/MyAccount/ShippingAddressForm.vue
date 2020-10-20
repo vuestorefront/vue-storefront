@@ -170,7 +170,7 @@ import {
 } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { ref } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 import { getSettings } from '@vue-storefront/commercetools-api';
 import { userShippingGetters } from '@vue-storefront/commercetools';
 
@@ -213,7 +213,7 @@ export default {
   },
 
   setup(props, { emit }) {
-    const form = ref({
+    const form = reactive({
       id: userShippingGetters.getId(props.address),
       firstName: userShippingGetters.getFirstName(props.address),
       lastName: userShippingGetters.getLastName(props.address),
@@ -229,7 +229,7 @@ export default {
 
     const submitForm = () => {
       emit('submit', {
-        form: form.value,
+        form,
         onComplete: () => {},
         // TODO: Handle Error
         onError: () => {}
