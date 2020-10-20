@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <SfTabs
-      v-if="editAddress"
+      v-if="edittingAddress"
       key="edit-address"
       :open-tab="1"
       class="tab-orphan"
@@ -13,137 +13,18 @@
           Keep your addresses and contact details updated.
         </p>
 
-        <ValidationObserver v-slot="{ handleSubmit }">
-          <form id="shipping-details-form" class="form" @submit.prevent="handleSubmit(processAddress)">
-            <div class="form__horizontal">
-              <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-                <SfInput
-                  data-cy="shipping-details-input_firstName"
-                  v-model="address.firstName"
-                  name="firstName"
-                  label="First Name"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                />
-              </ValidationProvider>
-              <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-                <SfInput
-                  data-cy="shipping-details-input_lastName"
-                  v-model="address.lastName"
-                  name="lastName"
-                  label="Last Name"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                />
-              </ValidationProvider>
-            </div>
-            <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="shipping-details-input_streetName"
-                v-model="address.streetName"
-                name="streetName"
-                label="Street Name"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-            <SfInput
-              data-cy="shipping-details-input_apartment"
-              v-model="address.apartment"
-              name="apartment"
-              label="House/Apartment number"
-              required
-              class="form__element"
-            />
-            <div class="form__horizontal">
-              <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-                <SfInput
-                  data-cy="shipping-details-input_city"
-                  v-model="address.city"
-                  name="city"
-                  label="City"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                />
-              </ValidationProvider>
-              <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-                <SfInput
-                  data-cy="shipping-details-input_state"
-                  v-model="address.state"
-                  name="state"
-                  label="State/Province"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="form__horizontal">
-              <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
-                <SfInput
-                  data-cy="shipping-details-input_zipCode"
-                  v-model="address.zipCode"
-                  name="zipCode"
-                  label="Zip-code"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]"
-                />
-              </ValidationProvider>
-              <ValidationProvider
-                :rules="`required|oneOf:${ countries.map(c => c.name).join(',') }`"
-                v-slot="{ errors }"
-                class="form__element">
-                <SfSelect
-                  data-cy="shipping-details-select_country"
-                  v-model="address.country"
-                  name="country"
-                  label="Country"
-                  required
-                  :valid="!errors[0]"
-                  :errorMessage="errors[0]">
-                  <SfSelectOption
-                    v-for="{ name, label } in countries"
-                    :key="name"
-                    :value="name">
-                    {{ label }}
-                  </SfSelectOption>
-                </SfSelect>
-              </ValidationProvider>
-            </div>
-            <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="shipping-details-input_phoneNumber"
-                v-model="address.phoneNumber"
-                name="phone"
-                label="Phone number"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-            <SfCheckbox
-              data-cy="shipping-details-checkbox_isDefault"
-              v-model="address.isDefault"
-              name="isDefault"
-              label="Set as default"
-              class="form__checkbox-isDefault"
-            />
-            <SfButton
-              data-cy="shipping-details-btn_update"
-              class="form__button"
-            >
-              {{ isNewAddress ? 'Add the address' : 'Update the address' }}
-            </SfButton>
-          </form>
-        </ValidationObserver>
+        <ShippingAddressForm
+          :address="address"
+          :isNew="isNewAddress"
+          @submit="saveAddress" />
       </SfTab>
     </SfTabs>
-    <SfTabs v-else key="address-list" :open-tab="1" class="tab-orphan">
+
+    <SfTabs
+      v-else
+      :open-tab="1"
+      key="address-list"
+      class="tab-orphan">
       <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
         <p class="message">
           Manage all the shipping addresses you want (work place, home address
@@ -152,25 +33,12 @@
         </p>
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
-            v-for="(address, key) in userShippingGetters.getAddresses(shipping)"
+            v-for="(address, key) in addresses"
             :key="userShippingGetters.getId(address)"
             class="shipping">
             <div class="shipping__content">
               <div class="shipping__address">
-                <p class="shipping__client-name">
-                  {{ userShippingGetters.getFirstName(address) }}
-                  {{ userShippingGetters.getLastName(address) }}
-                </p>
-                <p>
-                  {{ userShippingGetters.getStreetName(address) }}
-                  {{ userShippingGetters.getApartmentNumber(address) }}
-                </p>
-                <p>
-                  {{ userShippingGetters.getPostCode(address) }}
-                  {{ userShippingGetters.getCity(address) }}
-                </p>
-                <p>{{ countries.find(c => c.name === userShippingGetters.getCountry(address)).label }}</p>
-                <p>{{ userShippingGetters.getPhone(address) }}</p>
+                <UserShippingAddress :address="address" />
               </div>
             </div>
             <div class="shipping__actions">
@@ -211,125 +79,87 @@
 <script>
 import {
   SfTabs,
-  SfInput,
   SfButton,
-  SfSelect,
-  SfIcon,
-  SfCheckbox
+  SfIcon
 } from '@storefront-ui/vue';
-import { getSettings } from '@vue-storefront/commercetools-api';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, min, oneOf } from 'vee-validate/dist/rules';
+import UserShippingAddress from '~/components/UserShippingAddress';
+import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-
-extend('oneOf', {
-  ...oneOf,
-  message: 'Invalid country'
-});
 
 export default {
   name: 'ShippingDetails',
   components: {
     SfTabs,
-    SfInput,
     SfButton,
-    SfSelect,
     SfIcon,
-    SfCheckbox,
-    ValidationProvider,
-    ValidationObserver
+    UserShippingAddress,
+    ShippingAddressForm
   },
   setup() {
-    const resetForm = () => ({
-      id: '',
-      firstName: '',
-      lastName: '',
-      streetName: '',
-      apartment: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: '',
-      phoneNumber: '',
-      isDefault: false
-    });
-
-    const { shipping, load: loadShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
-    const address = ref(resetForm());
-    const editAddress = ref(false);
-    const editedAddress = ref(-1);
-    const isNewAddress = computed(() => editedAddress.value === -1);
-
-    const getFormById = (index) => {
-      const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
+    const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
+    const edittingAddress = ref(false);
+    const activeAddressId = ref(-1);
+    const address = computed(() => {
+      const address = addresses.value[activeAddressId.value] || {};
 
       return {
-        id: userShippingGetters.getId(shippingAddress),
-        firstName: userShippingGetters.getFirstName(shippingAddress),
-        lastName: userShippingGetters.getLastName(shippingAddress),
-        streetName: userShippingGetters.getStreetName(shippingAddress),
-        apartment: userShippingGetters.getApartmentNumber(shippingAddress),
-        city: userShippingGetters.getCity(shippingAddress),
-        state: userShippingGetters.getProvince(shippingAddress),
-        zipCode: userShippingGetters.getPostCode(shippingAddress),
-        country: userShippingGetters.getCountry(shippingAddress),
-        phoneNumber: userShippingGetters.getPhone(shippingAddress),
-        isDefault: userShippingGetters.isDefault(shippingAddress)
+        id: userShippingGetters.getId(address),
+        firstName: userShippingGetters.getFirstName(address),
+        lastName: userShippingGetters.getLastName(address),
+        streetName: userShippingGetters.getStreetName(address),
+        apartment: userShippingGetters.getApartmentNumber(address),
+        city: userShippingGetters.getCity(address),
+        state: userShippingGetters.getProvince(address),
+        zipCode: userShippingGetters.getPostCode(address),
+        country: userShippingGetters.getCountry(address),
+        phoneNumber: userShippingGetters.getPhone(address),
+        isDefault: userShippingGetters.isDefault(address)
       };
-    };
+    });
+    const isNewAddress = computed(() => activeAddressId.value === -1);
 
     const changeAddress = async (index) => {
-      editedAddress.value = index;
-      address.value = isNewAddress.value ? resetForm() : getFormById(index);
-      editAddress.value = true;
+      activeAddressId.value = index;
+      edittingAddress.value = true;
     };
 
-    const removeAddress = index => deleteAddress(userShippingGetters.getAddresses(shipping.value)[index]);
+    const removeAddress = index => deleteAddress(addresses.value[index]);
 
-    const processAddress = async () => {
-      const actionMethod = isNewAddress.value ? addAddress : updateAddress;
-      const { id, ...rest } = address.value;
-
-      await actionMethod({
-        ...(isNewAddress.value ? {} : { id }),
-        ...rest
-      });
-      editAddress.value = false;
-      editedAddress.value = -1;
+    const saveAddress = async ({ form, onComplete, onError }) => {
+      try {
+        const actionMethod = isNewAddress.value ? addAddress : updateAddress;
+        const data = await actionMethod(form);
+        edittingAddress.value = false;
+        activeAddressId.value = -1;
+        await onComplete(data);
+      } catch (error) {
+        onError(error);
+      }
     };
 
     onSSR(async () => {
-      await loadShipping();
+      await load();
     });
 
     return {
       changeAddress,
       updateAddress,
       removeAddress,
-      processAddress,
+      saveAddress,
       userShippingGetters,
-      shipping,
-      editAddress,
-      editedAddress,
+      addresses,
+      edittingAddress,
+      activeAddressId,
       isNewAddress,
-      countries: getSettings().countries,
       address
     };
   }
 };
 </script>
+
 <style lang='scss' scoped>
 @import '~@storefront-ui/vue/styles';
 
@@ -342,42 +172,6 @@ export default {
 @mixin for-desktop {
   @media screen and (min-width: $desktop-min) {
     @content;
-  }
-}
-
-.form {
-  &__checkbox {
-    &-isDefault {
-      margin-bottom: var(--spacer-2xl);
-    }
-  }
-
-  &__element {
-    display: block;
-    margin-bottom: var(--spacer-2xl);
-  }
-
-  &__button {
-    display: block;
-  }
-
-  &__horizontal {
-    @include for-desktop {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    .form__element {
-      @include for-desktop {
-        flex: 1;
-        margin-right: var(--spacer-2xl);
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
   }
 }
 
