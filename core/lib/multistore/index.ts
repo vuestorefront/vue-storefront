@@ -15,6 +15,11 @@ import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
 import { getNormalizedPath, getPrefixFromUrl } from './helpers'
 import getStoreViewByStoreCode from './getStoreViewByStoreCode'
+import removeLocalization from './removeLocalization'
+
+export {
+  removeLocalization
+}
 
 export function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
