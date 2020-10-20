@@ -65,7 +65,7 @@
       <SfSelect
         data-cy="shipping-details-select_country"
         v-model="shippingDetails.country"
-        placeholder="Country"
+        label="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
         required
       >
@@ -207,7 +207,6 @@ export default {
     align-items: center;
   }
   &__element {
-    --input-label-top: 85%;
     margin: 0 0 var(--spacer-base) 0;
     @include for-desktop {
       flex: 0 0 100%;
@@ -264,9 +263,5 @@ export default {
     --radio-description-font-size: var(--font-size--xs);
   }
 }
-.sf-input {
-  &.has-text {
-    --input-label-top: 0;
-  }
-}
+
 </style>
