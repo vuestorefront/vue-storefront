@@ -103,7 +103,7 @@ describe('localizedRoute', () => {
     expect(localizedRoute('/test', 'de')).toStrictEqual('/test')
   })
 
-  it('URL /test stays the same if defaultStoreCode is same as desired storeCode', () => {
+  it('URL /test is changed if defaultStoreCode is same as desired storeCode', () => {
     config.storeViews = {
       multistore: true,
       mapStoreUrlsFor: ['de'],
@@ -114,7 +114,7 @@ describe('localizedRoute', () => {
     }
     config.defaultStoreCode = 'de'
 
-    expect(localizedRoute('/test', 'de')).toStrictEqual('/test')
+    expect(localizedRoute('/test', 'de')).toStrictEqual('/de/test')
   })
 
   it('URL /test returns /it/test if defaultStoreCode is different then desired storeCode', () => {

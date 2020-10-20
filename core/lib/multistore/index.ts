@@ -145,6 +145,8 @@ export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
   const storeView = getStoreViewByStoreCode(storeCode)
 
+  if (!storeView) return path
+
   if (storeView.appendStoreCode) {
     return `/${storeView.storeCode}/${_path}`
   }
