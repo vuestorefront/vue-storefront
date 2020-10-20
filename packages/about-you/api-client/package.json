@@ -9,7 +9,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@aboutyou/backbone": "^7.0.0",

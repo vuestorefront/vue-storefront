@@ -88,8 +88,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sf-header__logo-image {
-    height: 100%;
+@import "~@storefront-ui/vue/styles";
+
+.sf-header {
+  --header-padding:  var(--spacer-sm);
+  @include for-desktop {
+    --header-padding: 0;
+  }
+  &__logo-image {
+      height: 100%;
+  }
 }
 
 .nav-item {

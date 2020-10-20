@@ -12,10 +12,6 @@ const createLoadShippingMethods = ({ factoryParams, setShippingMethod, cartField
   const defaultShipping = shippingMethods.value.find(method => method.isDefault) || shippingMethods.value[0];
   const { shippingInfo } = cartFields.cart.value;
 
-  if (!shippingInfo && defaultShipping) {
-    await setShippingMethod(defaultShipping, { save: true });
-  }
-
   chosenShippingMethod.value = shippingInfo?.shippingMethod || defaultShipping || {};
   loading.value.shippingMethods = false;
 };

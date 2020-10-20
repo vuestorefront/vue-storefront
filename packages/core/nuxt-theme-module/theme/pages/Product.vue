@@ -358,9 +358,10 @@ export default {
 
 #product {
   box-sizing: border-box;
+  padding: 0 var(--spacer-sm);
   @include for-desktop {
     max-width: 1272px;
-    padding: 0 var(--spacer-sm);
+    padding: 0;
     margin: 0 auto;
   }
 }

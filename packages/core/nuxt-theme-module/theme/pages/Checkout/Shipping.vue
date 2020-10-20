@@ -197,6 +197,7 @@ export default {
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
       margin: 0;
+      color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
