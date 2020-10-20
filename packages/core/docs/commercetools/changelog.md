@@ -1,11 +1,17 @@
 # Changelog
 
-## 0.2.4 - not released
+## 0.2.5 - not released
+
+
+## 0.2.4
+
+- Remove defaulting for checkout shipping details ([#5026](https://github.com/DivanteLtd/vue-storefront/issues/5026))
 
 ### Changes
 
 - added `getTotalReviews` and `getAverageRating` to `productGetters` ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
 - added '_rating' back to the product ([#4958](https://github.com/DivanteLtd/vue-storefront/issues/4958))
+- added mock for user shipping addresses in MyShippingDetails and Checkout's Shipping ([#4841](https://github.com/DivanteLtd/vue-storefront/issues/4841))
 
 ## 0.2.3
 

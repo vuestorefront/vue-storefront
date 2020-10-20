@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -10,7 +10,8 @@
     "build:client": "rollup -c rollup-client.config.js",
     "build:server": "rollup -c rollup-server.config.js",
     "build": "yarn build:client && yarn build:server",
-    "dev": "rollup -c rollup-client.config.js -w"
+    "dev": "rollup -c rollup-client.config.js -w",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@vue/composition-api": "1.0.0-beta.14",

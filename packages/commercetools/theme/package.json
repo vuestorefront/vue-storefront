@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.7.10",
-    "@vue-storefront/commercetools": "^0.2.3",
+    "@vue-storefront/commercetools": "^0.2.4",
     "@vue-storefront/nuxt": "^0.0.8",
     "@vue-storefront/nuxt-theme": "^0.0.4",
     "cookie-universal-nuxt": "^2.1.3",
