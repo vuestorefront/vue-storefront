@@ -1,4 +1,4 @@
-import omit from 'lodash/omit'
+import omit from 'lodash-es/omit'
 import config from 'config'
 
 /**
