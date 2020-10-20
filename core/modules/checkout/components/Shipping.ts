@@ -94,6 +94,7 @@ export const Shipping = {
         this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
       }
+      this.useMyAddress()
     },
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
