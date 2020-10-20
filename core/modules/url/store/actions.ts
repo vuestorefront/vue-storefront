@@ -87,7 +87,8 @@ export const actions: ActionTree<UrlState, any> = {
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
     `)()
     const productQuery = new SearchQuery()
-    url = (removeLocalization(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = removeLocalization(url).replace(/^(\/)/gm, '')
+    console.log('mappingFallback', url)
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/findProducts', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
@@ -105,7 +106,8 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
-    url = (removeLocalization(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = removeLocalization(url).replace(/^(\/)/gm, '')
+    console.log('mapFallbackUrl', url)
 
     // search for record in ES based on `url`
     const fallbackData = await dispatch('getFallbackByUrl', { url, params })

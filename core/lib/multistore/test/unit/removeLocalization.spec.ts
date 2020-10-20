@@ -299,4 +299,26 @@ describe('removeLocalization', () => {
 
     expect(removeLocalization(route)).toBe('/')
   })
+
+  it('real example 1', () => {
+    config.defaultStoreCode = 'de'
+    config.storeViews = {
+      'multistore': true,
+      'mapStoreUrlsFor': [
+        'de',
+        'it'
+      ],
+      'de': {
+        'storeCode': 'de',
+        'url': '/de'
+      },
+      'it': {
+        'extend': 'de',
+        'storeCode': 'it',
+        'url': '/it'
+      }
+    }
+
+    expect(removeLocalization('/de/teton-pullover-hoodie.html?childSku=MH02-XS-Black')).toBe('/teton-pullover-hoodie.html?childSku=MH02-XS-Black')
+  })
 })
