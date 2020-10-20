@@ -146,7 +146,7 @@ export function localizedRoutePath (path: string, storeCode: string): string {
 
   const url = getPrefixFromUrl(storeView.url || '/')
 
-  return `${url.length === 1 ? url.replace(/^\//, '') : url}/${_path}`
+  return `${url === '/' ? '' : url}/${_path}`
 }
 
 /**
