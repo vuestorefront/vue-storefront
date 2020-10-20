@@ -83,7 +83,7 @@ export default {
 @import "~@storefront-ui/shared/styles/variables";
 
   .shipping__addresses {
-    @media screen and (min-width: $desktop-min) {
+    @include for-desktop {
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
