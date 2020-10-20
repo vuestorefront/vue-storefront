@@ -81,7 +81,6 @@
 </template>
 
 <script>
-// TODO(CHECKOUT): implement thank-you page view
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
 
