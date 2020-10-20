@@ -166,7 +166,7 @@ export default {
   }
   &__label {
     margin: var(--spacer-2xl) 0 0 0;
-    font-weight: var(--font-weight--normal) var(--font-size--2xl) / 1.6 var(--font-family--secondary);
+    font: var(--font-weight--normal) var(--font-size--xl) / 1.6 var(--font-family--secondary);
     color: var(--c-primary);
   }
   &__description {
