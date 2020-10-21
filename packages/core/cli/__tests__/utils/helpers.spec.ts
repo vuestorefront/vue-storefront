@@ -29,19 +29,25 @@ describe('[vsf-next-cli] getDependencyPath', () => {
     const tests = [
       {
         input: 'commercetools',
-        output: path.resolve(__dirname, '../../../../../packages/commercetools/composables')
+        outputs: [
+          path.resolve(__dirname, '../../../../../packages/commercetools/composables'),
+          path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
+        ]
       },
       {
         input: 'nuxt-theme',
-        output: path.resolve(__dirname, '../../../../../packages/core/nuxt-theme-module')
+        outputs: [
+          path.resolve(__dirname, '../../../../../packages/core/nuxt-theme-module'),
+          path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme')
+        ]
       }
     ];
 
     for (const test of tests) {
       const testOutput = getDependencyPath(test.input);
-      expect(testOutput).toBe(test.output);
+      // Depending on version of the dependency used, it can be either in root or local 'node_modules' folder
+      expect(test.outputs).toContain(testOutput);
     }
-
   });
 
   it('buildFileTargetPath - ', () => {
