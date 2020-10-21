@@ -69,7 +69,8 @@ module.exports = {
             'basics/ssr-cache',
             'basics/static-generator',
             'basics/e2e',
-            'basics/url'
+            'basics/url',
+            'basics/redirect'
           ],
         },
         {
