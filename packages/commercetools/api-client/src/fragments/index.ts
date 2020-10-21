@@ -1,4 +1,3 @@
-
 export const ProductPriceFragment = `
   fragment DefaultProductPrice on ProductPrice {
     discounted {
@@ -26,6 +25,7 @@ export const ProductPriceFragment = `
 
 export const AddressFragment = `
   fragment DefaultAddress on Address {
+    id
     title
     firstName
     lastName
@@ -33,23 +33,36 @@ export const AddressFragment = `
     streetNumber
     postalCode
     city
-    region
     country
-    company
     state
-    contactInfo {
-      phone
-      email
-    }
+    region
+    company
+    apartment
+    phone
+    mobile
   }
 `;
 
+// TODO: Remove all address information and update PRO packages to use customQueries when this is implemented: https://github.com/DivanteLtd/vue-storefront/issues/5049
 export const CustomerFragment = `
+  ${AddressFragment}
+
   fragment DefaultCustomer on Customer {
     version
     firstName
     lastName
     email
+    addresses {
+      id
+    }
+    shippingAddresses {
+      ...DefaultAddress
+    }
+    billingAddresses {
+      ...DefaultAddress
+    }
+    defaultBillingAddressId
+    defaultShippingAddressId
   }
 `;
 
@@ -270,6 +283,10 @@ export const OrderFragment = `
     }
     billingAddress {
       ...DefaultAddress
+    }
+    cart {
+      id
+      version
     }
   }
 `;

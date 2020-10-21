@@ -17,7 +17,7 @@
         >
           <SfIcon
             size="18px"
-            color="#BEBFC4"
+            color="dark-secondary"
             icon="filter"
             class="navbar__filters-icon"
             data-cy="category-icon_"
@@ -26,7 +26,7 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" :selected="sortBy.selected" @change="th.changeSorting" data-cy="category-select_sortBy">
+          <SfSelect class="navbar__select" :selected="sortBy.selected" placeholder="select sorting" @change="th.changeSorting" data-cy="category-select_sortBy">
             <SfSelectOption
               v-for="option in sortBy.options"
               :key="option.id"
@@ -39,14 +39,14 @@
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <span class="desktop-only">{{ pagination.totalItems }}</span>
-          <span class="navbar__label mobile-only">{{ pagination.totalItems }} Items</span>
+          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} Items</span>
         </div>
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
             data-cy="category-icon_grid-view"
             class="navbar__view-icon"
-            :color="isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
             size="12px"
             role="button"
@@ -58,7 +58,7 @@
           <SfIcon
             data-cy="category-icon_list-view"
             class="navbar__view-icon"
-            :color="!isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
             size="12px"
             role="button"
@@ -164,15 +164,15 @@
         <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
         <div
           v-show="pagination.totalPages > 1"
-          class="products__pagination__options"
+          class="products__pagination__options desktop-only"
         >
-          <span class="products__pagination__label">Items per page:</span>
-          <SfSelect class="items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
+          <span class="products__pagination__label">Show on page:</span>
+          <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
             <SfSelectOption
               v-for="option in pagination.pageOptions"
               :key="option"
               :value="option"
-              class="items-per-page__option"
+              class="products__items-per-page__option"
             >
               {{ option }}
             </SfSelectOption>
@@ -192,7 +192,7 @@
             header="Category"
             class="filters__accordion-item"
           >
-            <SfAccordion class="categories mobile-only">
+            <SfAccordion class="categories">
               <SfAccordionItem
                 v-for="cat in categoryTree && categoryTree.items"
                 :key="`category-${cat.slug}`"
@@ -333,8 +333,7 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-base) var(--spacer-base) var(--spacer-base)
-    var(--spacer-sm);
+  padding: var(--spacer-base) 0;
 }
 .navbar {
   position: relative;
@@ -355,6 +354,11 @@ export default {
     display: flex;
     align-items: center;
     padding: var(--spacer-sm) 0;
+    flex: 1;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
+    }
   }
   &__aside {
     flex: 0 0 15%;
@@ -362,21 +366,18 @@ export default {
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
-  &__main {
-    flex: 1;
-    padding: 0;
-    @include for-desktop {
-      padding: var(--spacer-xs) var(--spacer-xl);
-    }
-  }
   &__title {
-    --heading-title-font-weight: var(--font-light);
-    --heading-title-font-size: var(--font-xl);
+    --heading-title-font-weight: var(--font-weight--light);
+    --heading-title-font-size: var(--font-size--xl);
   }
   &__filters-icon {
     margin: 0 var(--spacer-sm) 0 0;
   }
   &__filters-button {
+    --button-color: var(--c-link);
+    --button-font-size: var(--font-size--base);
+    --button-font-weight: var(--font-weight--normal);
+    --button-text-decoration: none;
     display: flex;
     align-items: center;
     @include for-mobile {
@@ -393,17 +394,18 @@ export default {
     }
   }
   &__label {
-    font-family: var(--font-family-secondary);
-    font-weight: var(--font-normal);
-    color: var(--c-text-muted);
-    margin: 0 var(--spacer-2xs) 0 0;
+    font-family: var(--font-family--secondary);
+    font-weight: var(--font-weight--normal);
+    color: var(--c-link);
+    margin: 0 var(--spacer-xs) 0 0;
   }
   &__select {
-    --select-width: 220px;
-    --select-padding: 0;
-    --select-selected-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
-    --select-margin: 0;
-    --select-error-message-height: 0;
+    --select-option-font-size: var(--font-size--base);
+    --select-padding: var(--spacer-sm) 0;
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--base);
+      margin: var(--spacer-2xs) 0 0 0;
+    }
   }
   &__sort {
     display: flex;
@@ -411,7 +413,7 @@ export default {
     margin: 0 auto 0 var(--spacer-2xl);
   }
   &__counter {
-    font-family: var(--font-family-secondary);
+    font-family: var(--font-family--secondary);
     margin: auto;
     @include for-desktop {
       margin: auto 0 auto auto;
@@ -435,8 +437,8 @@ export default {
     }
     &-label {
       margin: 0 var(--spacer-sm) 0 0;
-      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
-      text-decoration: underline;
+      font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--secondary);
+      color: var(--c-link);
     }
   }
 }
@@ -492,8 +494,8 @@ export default {
     }
   }
   &__product-card {
-    --product-card-padding: var(--spacer);
-    flex: 1 1 50%;
+    --product-card-add-button-transform: translate3d(0, 30%, 0);
+     flex: 1 1 50%;
     @include for-desktop {
       --product-card-padding: var(--spacer-sm);
       flex: 1 1 25%;
@@ -510,12 +512,26 @@ export default {
     transition: all 0.2s ease;
     transition-delay: calc(0.1s * var(--index));
   }
-  @include for-desktop {
-    margin: var(--spacer-sm) 0 0 var(--spacer-sm);
-    &__pagination {
+  &__pagination {
       display: flex;
       justify-content: center;
       margin: var(--spacer-xl) 0 0 0;
+  }
+  @include for-desktop {
+    margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    &__pagination {
+      &__options {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-end;
+      }
+      &__label {
+        font-family: var(--font-family--secondary);
+        font-size: var(--font-size--sm);
+        font-weight: var(--font-weight--normal);
+        color: var(--c-link);
+        margin-right: var(--spacer-2xs);
+      }
     }
     &__product-card-horizontal {
       margin: var(--spacer-lg) 0;
@@ -529,32 +545,6 @@ export default {
   }
 }
 .filters {
-  &__title {
-    --heading-title-font-size: var(--font-xl);
-    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-    &:first-child {
-      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-    }
-  }
-  &__color {
-    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
-  }
-  &__item {
-    --filter-label-color: var(--c-secondary-variant);
-    --filter-count-color: var(--c-secondary-variant);
-    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-    padding: var(--spacer-sm) 0;
-    border-bottom: 1px solid var(--c-light);
-    &:last-child {
-      border-bottom: 0;
-    }
-    @include for-desktop {
-      --checkbox-padding: 0;
-      margin: var(--spacer-sm) 0;
-      border: 0;
-      padding: 0;
-    }
-  }
   &__accordion-item {
     --accordion-item-content-padding: 0;
     position: relative;
@@ -563,14 +553,6 @@ export default {
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-  }
-  &__buttons {
-    margin: var(--spacer-sm) 0;
-  }
-  &__button-clear {
-    --button-background: var(--c-light);
-    --button-color: var(--c-dark-variant);
-    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>

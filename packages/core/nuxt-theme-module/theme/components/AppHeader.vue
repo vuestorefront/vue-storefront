@@ -1,7 +1,6 @@
 <template>
   <SfHeader
     data-cy="app-header"
-    active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
@@ -19,24 +18,12 @@
       </nuxt-link>
     </template>
     <template #navigation>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_women" :to="localePath('/c/women')">
-          WOMEN
-        </nuxt-link>
-      </SfHeaderNavigationItem>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_men" :to="localePath('/c/men')">
-          MEN
-        </nuxt-link>
-      </SfHeaderNavigationItem>
-      <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_kids" :to="localePath('/c/kids')">
-          KIDS
-        </nuxt-link>
-      </SfHeaderNavigationItem>
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
+      <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
     </template>
     <template #aside>
-      <LocaleSelector class="mobile-only" />
+      <LocaleSelector class="smartphone-only" />
     </template>
   </SfHeader>
 </template>
@@ -100,7 +87,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sf-header__logo-image {
-  height: 100%;
+@import "~@storefront-ui/vue/styles";
+
+.sf-header {
+  --header-padding:  var(--spacer-sm);
+  @include for-desktop {
+    --header-padding: 0;
+  }
+  &__logo-image {
+      height: 100%;
+  }
 }
+
+.nav-item {
+  --header-navigation-item-margin: 0 var(--spacer-base);
+}
+
 </style>

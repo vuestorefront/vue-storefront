@@ -29,6 +29,10 @@ const useCheckoutFactory = (factoryParams) => {
 
     initFields(cartFields.cart.value);
 
+    const clean = () => {
+      setCart(null);
+    };
+
     return {
       ...checkoutComputed,
       setShippingDetails,
@@ -39,7 +43,8 @@ const useCheckoutFactory = (factoryParams) => {
       setPersonalDetails,
       setPaymentMethod,
       placeOrder,
-      loadDetails
+      loadDetails,
+      clean
     };
   };
 

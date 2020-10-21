@@ -9,7 +9,8 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@vue-storefront/boilerplate-api": "^0.0.1",

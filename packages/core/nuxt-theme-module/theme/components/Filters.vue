@@ -37,10 +37,10 @@
       </template>
       <div class="filters__buttons">
         <SfButton @click="applyFilters" class="sf-button--full-width">Done</SfButton>
-        <SfButton @click="clearFilters" class="sf-button--full-width filters__button-clear">Clear all</SfButton>
+        <SfButton @click="clearFilters" class="sf-button--full-width color-light filters__button-clear">Clear all</SfButton>
       </div>
     </div>
-    <SfAccordion class="filters mobile-only">
+    <SfAccordion class="filters smartphone-only">
       <slot name="categories-mobile"></slot>
       <template v-for="facet in facets">
         <SfAccordionItem
@@ -139,3 +139,50 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import "~@storefront-ui/vue/styles";
+
+.filters {
+  &__title {
+    --heading-title-font-size: var(--font-size--xl);
+    margin: var(--spacer-xl) 0 var(--spacer-sm) 0;
+    &:first-child {
+      margin: var(--spacer-xs) 0;
+    }
+  }
+  &__color {
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
+  }
+  &__item {
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
+    }
+    @include for-desktop {
+      --checkbox-padding: 0;
+      margin: var(--spacer-sm) 0;
+      border: 0;
+      padding: 0;
+    }
+  }
+  &__accordion-item {
+    --accordion-item-content-padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+  }
+  &__buttons {
+    margin: var(--spacer-sm) 0;
+  }
+  &__button-clear {
+    margin: var(--spacer-xs) 0 0 0;
+  }
+}
+</style>

@@ -106,13 +106,18 @@
                   class="form__element"
                 />
               </ValidationProvider>
-              <SfCheckbox
-                v-model="createAccount"
-                name="create-account"
-                label="I want to create an account"
-                class="form__element"
-              />
-              <SfButton data-cy="login-btn_submit"
+              <ValidationProvider :rules="{ required: { allowFalse: false } }" v-slot="{ errors }">
+                <SfCheckbox
+                  v-model="createAccount"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="create-account"
+                  label="I want to create an account"
+                  class="form__element"
+                />
+              </ValidationProvider>
+              <SfButton
+                data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -214,7 +219,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
   & > * {
     margin: 0 0 0 var(--spacer-xs);
   }

@@ -94,14 +94,15 @@ describe('[checkout-com] useCkoPaypal', () => {
 
   });
 
-  it('uses default values for success and failure url and save_payment_instrument', async () => {
+  it('uses default values for success and failure url and save_payment_instrument and reference', async () => {
 
     /*eslint-disable */
     const payload = {
       cartId: 15,
       contextDataId: 'abc',
       email: 'ab@gmail.com',
-      secure3d: true
+      secure3d: true,
+      reference: 'zyxxzxz'
     };
 
     const exptectedObject = {
@@ -109,7 +110,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       context_id: payload.contextDataId,
       save_payment_instrument: false,
       success_url: `${window.location.origin}/cko/payment-success`,
-      failure_url: `${window.location.origin}/cko/payment-error`
+      failure_url: `${window.location.origin}/cko/payment-error`,
+      reference: 'zyxxzxz'
     }
     /* eslint-enable */
 
@@ -138,7 +140,8 @@ describe('[checkout-com] useCkoPaypal', () => {
       context_id: payload.contextDataId,
       save_payment_instrument: payload.savePaymentInstrument,
       success_url: payload.success_url,
-      failure_url: payload.failure_url
+      failure_url: payload.failure_url,
+      reference: null
     }
     /* eslint-enable */
 
