@@ -1,4 +1,4 @@
-import { apolloClient, getSettings } from './../../index';
+import { apolloClient, CustomQueryFn, getSettings } from './../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
 import gql from 'graphql-tag';
 import { getCustomQuery } from './../../helpers/queries';
@@ -12,7 +12,7 @@ interface OrdersData {
   me: any;
 }
 
-const getMe = async (params: Options = {}, customQueryFn?) => {
+const getMe = async (params: Options = {}, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage } = getSettings();
   const { customer }: Options = params;
   const defaultQuery = customer ? fullProfile : basicProfile;

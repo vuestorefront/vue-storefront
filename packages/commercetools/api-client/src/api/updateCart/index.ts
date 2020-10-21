@@ -1,5 +1,6 @@
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 import { apolloClient, getSettings } from '../../index';
+import { CustomQueryFn } from './../../types/Api';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
 import { getCustomQuery } from './../../helpers/queries';
@@ -10,7 +11,7 @@ interface UpdateCart {
   actions: CartUpdateAction[] | MyCartUpdateAction[];
 }
 
-const updateCart = async (params: UpdateCart, customQueryFn?) => {
+const updateCart = async (params: UpdateCart, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage } = getSettings();
   const defaultVariables = params
     ? {
