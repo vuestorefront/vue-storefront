@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
 - Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
 
-### Fixed
+### Changed / Improved
 
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
+- Remove unnecessary async and Logger import - @jahvi (#5039)
 
 ## [1.12.2] - 2020.07.28
 
