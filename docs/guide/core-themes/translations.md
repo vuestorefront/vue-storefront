@@ -52,3 +52,41 @@ When you create the `en-US.csv` file within your `src/themes/{themename}/resourc
 ```
 
 ... you may expect that `$t('customMessage)` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the theme`. As simple as that! :)
+
+## Passing data to translations
+
+### Variables
+You can pass variables into the translation string using a placeholder.
+```vue
+{{ $t('This is a loan of {loanAmount} with {depositAmount} deposit', {loanAmount: getLoanAmount, depositAmount: getDepositAmount}) }}
+```
+
+### HTML
+It is also possible to translate strings that contain html tags.<br>
+Instead using partial translation strings like this.
+```vue
+<span class="css-classes">
+    <a href="#">{{ $t('Login') }}</a> {{ $t('to your Account') }}
+</span>
+```
+You can use the i18n component, which allows for the href tag moving within the sentence.
+```vue
+<i18n path="{0} to your Account" tag="span" class="css-classes">
+    <a href="#">{{ $t('Login') }}</a>
+</i18n>
+```
+Output
+```html
+<span class="css-classes"><a href="#">Login</a> to your Account</span>
+```
+or in `de-DE` locale
+```html
+<span class="css-classes">In Ihr Konto <a href="#">einloggen</a></span>
+```
+
+Example CSV for `de-DE.csv` for `de-DE` locale
+```csv
+"This is a loan of {loanAmount} with {depositAmount} deposit","Dies ist ein Darlehen von {loanAmount} mit {depositAmount} Anzahlung"
+"Login","einloggen"
+"{0} to your Account","In Ihr Konto {0}"
+```
