@@ -1,5 +1,5 @@
 <template>
-  <b>Please implement vendor specific UserAddress component in 'components' directory</b>
+  <b>Please implement vendor specific UserShippingAddress component in 'components' directory</b>
 </template>
 
 <script>
