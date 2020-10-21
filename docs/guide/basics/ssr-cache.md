@@ -69,10 +69,10 @@ We strongly recommend you DO NOT USE output cache in development mode. By using 
 You can manually clear the Redis cache for specific tags by running the following command:
 
 ```bash
-yarn cache clear
-yarn cache clear -- --tag=product,category
-yarn cache clear -- --tag=P198
-yarn cache clear -- --tag=*
+yarn cache clean
+yarn cache clean -- --tag=product,category
+yarn cache clean -- --tag=P198
+yarn cache clean -- --tag=*
 ```
 
 **Note:** The commands presented above works exactly the same way in the `vue-storefront-api`.
