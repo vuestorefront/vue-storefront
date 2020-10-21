@@ -58,6 +58,36 @@ export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
   return getCouponsFromCart(cart);
 };
 
+/**
+ * Cart agnostic type mapping
+{
+  totals: {
+    total: getTotals
+    subtotal: getTotals
+    shipping: getShippingPrice
+  },
+  items: {
+    list: [{
+      name: getItemName,
+      price: {
+        regular: getItemPrice,
+        special: getItemPrice
+      },
+      quantity: getCartItemQty
+      attributes: [{
+        name: getCartItemAttributes,
+        value: getCartItemAttributes,
+        label: getCartItemAttributes
+        $original: Object
+      }]
+      image: getItemImage,
+      $original: Object
+    }],
+    total: getTotalItems
+  }
+  $original: LineItem
+}
+ */
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,

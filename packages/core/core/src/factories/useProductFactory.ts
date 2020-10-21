@@ -10,6 +10,7 @@ export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>
 }
 
 export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS> = {
+  productAgnosticMapping: any;
   productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
 };
 
@@ -42,7 +43,7 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
     };
 
     return {
-      products: computed(() => products.value),
+      products: computed(() => factoryParams.productAgnosticMapping(products.value, totalProducts)),
       availableFilters: computed(() => filters.value),
       totalProducts: computed(() => totalProducts.value),
       search,

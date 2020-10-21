@@ -91,6 +91,35 @@ export const getTotalReviews = (product: ProductVariant): number => (product as 
 
 export const getAverageRating = (product: ProductVariant): number => (product as any)?._rating?.averageRating || 0;
 
+/**
+ * Product agnostic type mapping
+ * (including other data)
+ {
+  list: [{
+    name:
+    description:
+    slug:
+    id:
+    price:
+    image: {
+      gallery:
+      cover
+    },
+    categoryIds: [],
+    reviews: {
+      total:,
+      averageRating:
+    },
+    attributes: [
+      name,
+      value
+      label
+      $original
+    ],
+    $original,
+  }]
+  total:
+ */
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -106,5 +135,28 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getTotalReviews,
   getAverageRating
 };
+export const productAgnosticMapping = (products, totalProducts) => {
+  const productsList = products.map(product => ({
+    ...product,
+    $agnostic: {
+      name: getProductName(product),
+      description: getProductDescription(product),
+      slug: getProductSlug(product),
+      id: getProductId(product),
+      price: getProductPrice(product),
+      // todo: adjust getter to the data format from above
+      attributes: getProductAttributes(product),
+      image: {
+        gallery: getProductGallery(product),
+        cover: getProductCoverImage(product)
+      },
+      categoryIds: getProductCategoryIds(product),
+      $original: product
+    }}));
 
+  return {
+    list: productsList,
+    total: totalProducts
+  };
+};
 export default productGetters;

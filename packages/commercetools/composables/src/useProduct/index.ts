@@ -4,7 +4,7 @@ import { ProductVariant } from './../types/GraphQL';
 import { useProductFactory, ProductsSearchResult, UseProduct, AgnosticSortByOption, CustomQuery } from '@vue-storefront/core';
 import { ProductsSearchParams } from '../types';
 import { Filter } from '@vue-storefront/commercetools-api';
-
+import { productAgnosticMapping } from '../getters/productGetters';
 const availableSortingOptions = [
   { value: 'latest', label: 'Latest' },
   { value: 'price-up', label: 'Price from low to high' },
@@ -31,6 +31,6 @@ const productsSearch = async (params: ProductsSearchParams, customQuery?: Custom
 };
 
 const useProduct: (cacheId: string) => UseProduct<ProductVariant, Record<string, Filter>, AgnosticSortByOption[]> =
-  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>, AgnosticSortByOption[]>({ productsSearch });
+  useProductFactory<ProductVariant, ProductsSearchParams, Record<string, Filter>, AgnosticSortByOption[]>({ productAgnosticMapping, productsSearch });
 
 export default useProduct;

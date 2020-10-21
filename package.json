@@ -8,6 +8,7 @@
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
     "build:core": "cd packages/core/core && yarn build",
+    "dev:core": "cd packages/core/core && yarn dev",
     "build:prismic": "cd packages/prismic && yarn build",
     "build:ayc:api-client": "cd packages/about-you/api-client && yarn build",
     "build:ayc:composables": "cd packages/about-you/composables && yarn build",
