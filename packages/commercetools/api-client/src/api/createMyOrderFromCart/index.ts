@@ -10,8 +10,7 @@ const createMyOrderFromCart = async (draft: OrderMyCartCommand, customQueryFn?: 
     acceptLanguage,
     draft
   };
-  const { query, variables } = getCustomQuery(customQueryFn, { CreateMyOrderFromCartMutation, defaultVariables });
-
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery: CreateMyOrderFromCartMutation, defaultVariables });
   return await apolloClient.mutate({
     mutation: gql`${query}`,
     variables,

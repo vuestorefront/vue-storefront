@@ -23,9 +23,7 @@ const updateCart = async (params: UpdateCart, customQueryFn?) => {
   const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 
   const request = await apolloClient.mutate({
-    mutation: gql`
-      ${query}
-    `,
+    mutation: gql`${query}`,
     variables,
     fetchPolicy: 'no-cache'
   });
