@@ -5,6 +5,13 @@
       class="form"
       @submit.prevent="handleSubmit(submitForm)"
     >
+      <SfCheckbox
+        data-cy="shipping-details-checkbox_isDefault"
+        v-model="form.isDefault"
+        name="isDefault"
+        label="Set as default"
+        class="form__checkbox-isDefault"
+      />
       <div class="form__horizontal">
         <ValidationProvider
           rules="required|min:2"
