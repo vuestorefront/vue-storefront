@@ -2,12 +2,13 @@
 
 import { createMyOrderFromCart } from '@vue-storefront/commercetools-api';
 import { loading } from './shared';
+import { CustomQuery } from '@vue-storefront/core';
 
-const createPlaceOrder = ({ cartFields }) => async () => {
+const createPlaceOrder = ({ cartFields }, customQuery: CustomQuery) => async () => {
   loading.value.order = true;
   const { id, version } = cartFields.cart.value;
 
-  const orderResponse = await createMyOrderFromCart({ id, version });
+  const orderResponse = await createMyOrderFromCart({ id, version }, customQuery);
   const { order } = orderResponse.data;
 
   loading.value.order = false;
