@@ -143,9 +143,7 @@ import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@stor
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
-import uiState from '~/assets/ui-state';
-
-const { isLoginModalOpen, toggleLoginModal } = uiState;
+import { useUiState } from '~/composables';
 
 extend('email', {
   ...email,
@@ -170,6 +168,7 @@ export default {
     ValidationObserver
   },
   setup() {
+    const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(false);
     const createAccount = ref(false);

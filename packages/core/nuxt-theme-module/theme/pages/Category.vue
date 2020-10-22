@@ -253,8 +253,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, onMounted } from '@vue/composition-api';
 import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers } from '~/composables';
-import uiState from '~/assets/ui-state';
+import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import Filters from '../components/Filters';
 
@@ -263,6 +262,7 @@ export default {
   setup(props, context) {
     onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
+    const uiState = useUiState();
     const { addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
