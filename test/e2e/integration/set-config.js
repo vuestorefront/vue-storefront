@@ -4,6 +4,10 @@ describe('setConfig', () => {
     cy.task('setConfig', {
       storeViews: {
         multistore: false, // disable multistore
+        mapStoreUrlsFor: [
+          'de',
+          'it'
+        ],
         de: {
           storeCode: 'de',
           appendStoreCode: true,
@@ -21,6 +25,10 @@ describe('setConfig', () => {
         cy.task('setConfig', {
           storeViews: {
             multistore: true, // enable multistore
+            mapStoreUrlsFor: [
+              'de',
+              'it'
+            ],
             de: {
               storeCode: 'de',
               appendStoreCode: true,
@@ -35,7 +43,7 @@ describe('setConfig', () => {
             cy.get('h1').should(($h1) => {
               expect($h1).to.contain('Neue Wege beschreiten.')
             })
-            cy.task('setConfig', {})
+            // cy.task('setConfig', {})
           })
       })
   })
