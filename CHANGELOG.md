@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
 - Remove unnecessary async and Logger import - @jahvi (#5039)
+- Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
 
 ## [1.12.2] - 2020.07.28
 
