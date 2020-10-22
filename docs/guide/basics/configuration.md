@@ -159,7 +159,7 @@ This both option is used when you don't want re-attempting task of just X number
 "defaultStoreCode": "",
 ```
 
-This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend, please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
+`defaultStoreCode` is **required**. It is used only in the [Multistore setup](../integrations/multistore.md). This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts). You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you need to decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": ""` then on `"/"` you will have German store.
 
 ## Store views
 
@@ -170,9 +170,9 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
-If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
+If the `storeViews.multistore` is set to `true` then all configs that are defined in `storeViews` and `defaultStoreCode` will be enabled.
 
-You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
+`mapStoreUrlsFor` is **required**. You should add all the multistore names to the `mapStoreUrlsFor` as this property describes which storeView is enabled. It's useful when you want to turn off some store. **Important** you need to have enabled at least your default storeView (`"defaultStoreCode"`)
 
 `commonCache` is refering to local browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
 
@@ -182,7 +182,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
-This attribute is not inherited through the "extend" mechanism.
+`storeCode` is **required**. It is some kind of storeView id number. This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "storeId": 3,
@@ -194,22 +194,20 @@ This is the `storeId`  as set in the backend panel. This parameter is being used
     "name": "German Store",
 ```
 
-This is the store name as displayed in the `Language/Switcher.vue`.
+This is the store name as displayed in the `Language/Switcher.vue` (for default theme).
 
 ```json
     "url": "/de",
 ```
 
-This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
-It accepts not only path, but also domains as well.
+When `appendStoreCode` is set to `false` then this value is required. With `url` you can define internal route prefix for example `/de`. Sometimes you may also like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. It accepts not only path, but also domains as well. Check `test/e2e/integration/multistore-domain.js`
 This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
-This attribute is not inherited through the "extend" mechanism.
+`appendStoreCode` is deprecated. It's used to create internal route prefix by adding storeCode. For example if you have storeCode `"de"` then your prefix will be `"/de"`. Same behavior you can get with `"url": "/de"` and `"appendStoreCode": false`.
 
 ```json
     "elasticsearch": {
@@ -264,7 +262,75 @@ The internationalization settings are used by the translation engine (`defaultLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
-Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from other storeviews.
+Keep in mind that `url`, `storeCode` attributes cannot be inherited from other storeviews, because they are required values for each storeView.
+
+Example configuration:
+
+
+```json
+  "defaultStoreCode": "de",
+  "storeViews": {
+    "multistore": true,
+    "commonCache": false,
+    "mapStoreUrlsFor": [
+      "de",
+      "it"
+    ],
+    "de": {
+      "storeCode": "de",
+      "storeId": 3,
+      "name": "German Store",
+      "url": "/de",
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_de"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": false,
+        "defaultCountry": "DE",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Germany",
+        "fullLanguageName": "German",
+        "defaultLanguage": "DE",
+        "defaultCountry": "DE",
+        "defaultLocale": "de-DE",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
+      }
+    },
+    "it": {
+      "extend": "de",
+      "storeCode": "it",
+      "storeId": 4,
+      "name": "Italian Store",
+      "url": "/it",
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_it"
+      },
+      "tax": {
+        "defaultCountry": "IT"
+      },
+      "i18n": {
+        "fullCountryName": "Italy",
+        "fullLanguageName": "Italian",
+        "defaultCountry": "IT",
+        "defaultLanguage": "IT",
+        "defaultLocale": "it-IT"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
+      }
+    }
+  }
+```
 
 ## Entities
 

@@ -87,6 +87,7 @@ After this sequence of command, you may add the available ES index to your `vue-
 The last thing is to change the `vue-storefront/config/local.json` to configure the storeViews that are available.
 
 ```json
+    "defaultStoreCode": "de",
     "storeViews": {
       "multistore": false,
       "mapStoreUrlsFor": ["de", "it"],
