@@ -8,23 +8,10 @@
       <SfAddress
         class="shipping-addresses__address"
         v-for="shippingAddress in shippingAddresses"
-        :key="shippingAddress.id"
-        :name="String(shippingAddress.id)"
+        :key="userShippingGetters.getId(shippingAddress)"
+        :name="String(userShippingGetters.getId(shippingAddress))"
       >
-        <span
-          >{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</span
-        >
-        <span
-          >{{ shippingAddress.streetName }}
-          {{ shippingAddress.apartment }}</span
-        >
-        <span>{{ shippingAddress.zipCode }}</span>
-        <span
-          >{{ shippingAddress.city
-          }}{{ shippingAddress.state ? `, ${shippingAddress.city}` : '' }}</span
-        >
-        <span>{{ shippingAddress.country }}</span>
-        <span>{{ shippingAddress.phoneNumber }}</span>
+        <UserShippingAddress :address="shippingAddress" />
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
@@ -42,7 +29,9 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
+import UserShippingAddress from '~/components/UserShippingAddress';
 import { ref, watch } from '@vue/composition-api';
+import { userShippingGetters } from '@vue-storefront/commercetools';
 
 export default {
   name: 'UserShippingAddresses',
@@ -62,7 +51,8 @@ export default {
   },
   components: {
     SfCheckbox,
-    SfAddressPicker
+    SfAddressPicker,
+    UserShippingAddress
   },
   setup ({ setAsDefault }, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
@@ -74,7 +64,8 @@ export default {
 
     return {
       setCurrentAddress,
-      localSetAsDefault
+      localSetAsDefault,
+      userShippingGetters
     };
   }
 };

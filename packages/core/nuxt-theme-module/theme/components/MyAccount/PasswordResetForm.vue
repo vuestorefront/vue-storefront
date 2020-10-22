@@ -1,5 +1,5 @@
 <template>
-  <b>Please implement vendor specific PasswordResetForm component</b>
+  <b>Please implement vendor specific PasswordResetForm component in 'components/MyAccount' directory</b>
 </template>
 
 <script>

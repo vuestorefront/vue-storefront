@@ -8,11 +8,11 @@
 
 `useReview` contains following properties:
 
-- `search` - function used to retrieve review data. When invoked, it requests data from the API and populates `reviews` property. It accepts following properties:
+- `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property.
 
 <Content slot-key="search-params" />
 
-- `addReview` - function used to post new review. When invoked, it submits data to the API and populates `reviews` property with updated information.
+- `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information.
 
 <Content slot-key="add-params" />
 
@@ -24,9 +24,9 @@
 
 ## Getters
 
-Because `reviews` property is a raw response with some additional properties, it's recommended to use `reviewGetters` for accessing any data from it. It includes following helper functions:
+Because `reviews` property is a raw response with some additional properties, it's recommended to use `ReviewGetters` for accessing any data from it. It includes following helper functions:
 
-- `getItems` - returns list of reviews
+- `getItems` - returns list of reviews.
 
 - `getTotalReviews` - returns total number of reviews product has.
 
@@ -79,7 +79,7 @@ Fetching reviews for a single product:
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
-import { useReview, reviewGetters } from '@vsf-enterprise/ct-use-review';
+import { useReview, reviewGetters } from '@vsf-enterprise/ct-reviews';
 
 export default {
   setup() {

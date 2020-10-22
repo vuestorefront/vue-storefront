@@ -82,6 +82,7 @@ export {
   customerUpdateMe
 };
 
+export * from './fragments';
 export * from './types/Api';
 export * from './types/GraphQL';
 export * from './types/setup';
