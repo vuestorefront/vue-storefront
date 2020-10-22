@@ -2,51 +2,46 @@ import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserBilling } from '../types';
 import { sharedRef, Logger } from '../utils';
 
-export interface UseUserBillingFactoryParams<ADDRESS> {
+export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> {
   addAddress: (params: {
-    address: Readonly<ADDRESS>;
-    addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS[]>;
+    address: Readonly<USER_BILLING_ITEM>;
+    billing: Readonly<USER_BILLING>;
+  }) => Promise<USER_BILLING>;
   deleteAddress: (params: {
-    address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
-    addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS[]>;
+    address: Readonly<USER_BILLING_ITEM>;
+    billing: Readonly<USER_BILLING>;
+  }) => Promise<USER_BILLING>;
   updateAddress: (params: {
-    address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
-    addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS[]>;
+    address: Readonly<USER_BILLING_ITEM>;
+    billing: Readonly<USER_BILLING>;
+  }) => Promise<USER_BILLING>;
   load: (params: {
-    addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS[]>;
+    billing: Readonly<USER_BILLING>;
+  }) => Promise<USER_BILLING>;
   setDefault: (params: {
-    address: Readonly<ADDRESS>;
-    defaultAddress: Readonly<ADDRESS>;
-    addresses: Readonly<ADDRESS[]>;
-  }) => Promise<ADDRESS>;
+    address: Readonly<USER_BILLING_ITEM>;
+    billing: Readonly<USER_BILLING>;
+  }) => Promise<USER_BILLING>;
 }
 
-export const useUserBillingFactory = <ADDRESS>(
-  factoryParams: UseUserBillingFactoryParams<ADDRESS>
+export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
+  factoryParams: UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM>
 ) => {
 
-  const useUserBilling = (): UseUserBilling<ADDRESS> => {
-    const defaultAddress: Ref<ADDRESS> = sharedRef(null, 'useUserBilling-default-address');
+  const useUserBilling = (): UseUserBilling<USER_BILLING, USER_BILLING_ITEM> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
-    const addresses: Ref<ADDRESS[]> = sharedRef([], 'useUserBilling-addresses');
+    const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
 
-    const readonlyAddresses: Readonly<ADDRESS[]> = unref(addresses);
-    const readonlyDefaultAddress: Readonly<ADDRESS> = unref(defaultAddress);
+    const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
-    const addAddress = async (address: ADDRESS) => {
+    const addAddress = async (address: USER_BILLING_ITEM) => {
       Logger.debug('useUserBilling.addAddress', address);
 
       loading.value = true;
       try {
-        addresses.value = await factoryParams.addAddress({
+        billing.value = await factoryParams.addAddress({
           address,
-          addresses: readonlyAddresses
+          billing: readonlyBilling
         });
       } catch (err) {
         Logger.error('useUserBilling.addAddress', err);
@@ -57,15 +52,14 @@ export const useUserBillingFactory = <ADDRESS>(
       }
     };
 
-    const deleteAddress = async (address: ADDRESS) => {
+    const deleteAddress = async (address: USER_BILLING_ITEM) => {
       Logger.debug('useUserBilling.deleteAddress', address);
 
       loading.value = true;
       try {
-        addresses.value = await factoryParams.deleteAddress({
+        billing.value = await factoryParams.deleteAddress({
           address,
-          defaultAddress: readonlyDefaultAddress,
-          addresses: readonlyAddresses
+          billing: readonlyBilling
         });
       } catch (err) {
         Logger.error('useUserBilling.deleteAddress', err);
@@ -76,15 +70,14 @@ export const useUserBillingFactory = <ADDRESS>(
       }
     };
 
-    const updateAddress = async (address: ADDRESS) => {
+    const updateAddress = async (address: USER_BILLING_ITEM) => {
       Logger.debug('useUserBilling.updateAddress', address);
 
       loading.value = true;
       try {
-        addresses.value = await factoryParams.updateAddress({
+        billing.value = await factoryParams.updateAddress({
           address,
-          defaultAddress: readonlyDefaultAddress,
-          addresses: readonlyAddresses
+          billing: readonlyBilling
         });
       } catch (err) {
         Logger.error('useUserBilling.updateAddress', err);
@@ -100,8 +93,8 @@ export const useUserBillingFactory = <ADDRESS>(
 
       loading.value = true;
       try {
-        addresses.value = await factoryParams.load({
-          addresses: readonlyAddresses
+        billing.value = await factoryParams.load({
+          billing: readonlyBilling
         });
       } catch (err) {
         Logger.error('useUserBilling.load', err);
@@ -112,15 +105,14 @@ export const useUserBillingFactory = <ADDRESS>(
       }
     };
 
-    const setDefault = async (address: ADDRESS) => {
+    const setDefault = async (address: USER_BILLING_ITEM) => {
       Logger.debug('useUserBilling.setDefault');
 
       loading.value = true;
       try {
-        defaultAddress.value = await factoryParams.setDefault({
+        billing.value = await factoryParams.setDefault({
           address,
-          defaultAddress: readonlyDefaultAddress,
-          addresses: readonlyAddresses
+          billing: readonlyBilling
         });
       } catch (err) {
         Logger.error('useUserBilling.setDefault', err);
@@ -132,9 +124,7 @@ export const useUserBillingFactory = <ADDRESS>(
     };
 
     return {
-      addresses: computed(() => addresses.value),
-      totalAddresses: computed(() => addresses.value.length),
-      defaultAddress: computed(() => defaultAddress.value),
+      billing: computed(() => billing.value),
       loading: computed(() => loading.value),
       addAddress,
       deleteAddress,

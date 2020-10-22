@@ -1,35 +1,36 @@
 <template>
   <div>
     <SfAddressPicker
-      :value="currentAddressId"
+      :selected="String(currentAddressId)"
       @input="setCurrentAddress($event)"
       class="shipping-addresses"
     >
       <SfAddress
         class="shipping-addresses__address"
         v-for="shippingAddress in shippingAddresses"
-        :key="shippingAddress.id"
-        :name="String(shippingAddress.id)"
+        :key="userShippingGetters.getId(shippingAddress)"
+        :name="String(userShippingGetters.getId(shippingAddress))"
       >
         <span
-          >{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</span
+          >{{ userShippingGetters.getFirstName(shippingAddress) }} {{ userShippingGetters.getLastName(shippingAddress) }}</span
         >
         <span
-          >{{ shippingAddress.streetName }}
-          {{ shippingAddress.apartment }}</span
+          >{{ userShippingGetters.getStreetName(shippingAddress) }}
+          {{ userShippingGetters.getApartmentNumber(shippingAddress) }}</span
         >
-        <span>{{ shippingAddress.zipCode }}</span>
+        <span>{{ userShippingGetters.getPostCode(shippingAddress) }}</span>
         <span
-          >{{ shippingAddress.city
-          }}{{ shippingAddress.state ? `, ${shippingAddress.city}` : '' }}</span
+          >{{ userShippingGetters.getCity(shippingAddress)
+          }}{{ userShippingGetters.getProvince(shippingAddress) ? `, ${userShippingGetters.getProvince(shippingAddress)}` : '' }}</span
         >
-        <span>{{ shippingAddress.country }}</span>
-        <span>{{ shippingAddress.phoneNumber }}</span>
+        <span>{{ userShippingGetters.getCountry(shippingAddress)}}</span>
+        <span>{{ userShippingGetters.getPhone(shippingAddress) }}</span>
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
       data-cy="shipping-details-checkbox_isDefault"
-      v-model="localSetAsDefault"
+      :selected="setAsDefault"
+      @change="$emit('changeSetAsDefault', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="shipping-address-setAsDefault"
@@ -42,7 +43,8 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
-import { ref, watch } from '@vue/composition-api';
+import { userShippingGetters } from '@vue-storefront/boilerplate';
+
 export default {
   name: 'UserShippingAddresses',
   props: {
@@ -63,14 +65,12 @@ export default {
     SfCheckbox,
     SfAddressPicker
   },
-  setup ({ setAsDefault }, { emit }) {
+  setup (_, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-    const localSetAsDefault = ref(setAsDefault);
-    watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
-    watch(() => setAsDefault, () => localSetAsDefault.value = setAsDefault);
+
     return {
       setCurrentAddress,
-      localSetAsDefault
+      userShippingGetters
     };
   }
 };

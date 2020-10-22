@@ -6,17 +6,17 @@
       :open-tab="1"
       class="tab-orphan"
     >
-      <SfTab data-cy="shipping-details-tab_change" title="Change the address">
+      <SfTab data-cy="billing-details-tab_change" title="Change the address">
         <p class="message">
           Keep your addresses and contact details updated.
         </p>
 
         <ValidationObserver v-slot="{ handleSubmit }">
-          <form id="shipping-details-form" class="form" @submit.prevent="handleSubmit(processAddress)">
+          <form id="billing-details-form" class="form" @submit.prevent="handleSubmit(processAddress)">
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
-                  data-cy="shipping-details-input_firstName"
+                  data-cy="billing-details-input_firstName"
                   v-model="currentAddress.firstName"
                   name="firstName"
                   label="First Name"
@@ -27,7 +27,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
-                  data-cy="shipping-details-input_lastName"
+                  data-cy="billing-details-input_lastName"
                   v-model="currentAddress.lastName"
                   name="lastName"
                   label="Last Name"
@@ -39,7 +39,7 @@
             </div>
             <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
               <SfInput
-                data-cy="shipping-details-input_streetName"
+                data-cy="billing-details-input_streetName"
                 v-model="currentAddress.streetName"
                 name="streetName"
                 label="Street Name"
@@ -49,7 +49,7 @@
               />
             </ValidationProvider>
             <SfInput
-              data-cy="shipping-details-input_apartment"
+              data-cy="billing-details-input_apartment"
               v-model="currentAddress.apartment"
               name="apartment"
               label="House/Apartment number"
@@ -59,7 +59,7 @@
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
-                  data-cy="shipping-details-input_city"
+                  data-cy="billing-details-input_city"
                   v-model="currentAddress.city"
                   name="city"
                   label="City"
@@ -70,7 +70,7 @@
               </ValidationProvider>
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
-                  data-cy="shipping-details-input_state"
+                  data-cy="billing-details-input_state"
                   v-model="currentAddress.state"
                   name="state"
                   label="State/Province"
@@ -83,7 +83,7 @@
             <div class="form__horizontal">
               <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
                 <SfInput
-                  data-cy="shipping-details-input_zipCode"
+                  data-cy="billing-details-input_zipCode"
                   v-model="currentAddress.zipCode"
                   name="zipCode"
                   label="Zip-code"
@@ -94,8 +94,7 @@
               </ValidationProvider>
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
-                  data-cy="shipping-details-select_country"
-                  class="form__select sf-select--underlined"
+                  data-cy="billing-details-select_country"
                   :value="currentAddress.country"
                   @selected="currentAddress.country = $event"
                   name="country"
@@ -116,7 +115,7 @@
             </div>
             <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
               <SfInput
-                data-cy="shipping-details-input_phoneNumber"
+                data-cy="billing-details-input_phoneNumber"
                 v-model="currentAddress.phoneNumber"
                 name="phone"
                 label="Phone number"
@@ -126,14 +125,14 @@
               />
             </ValidationProvider>
             <SfCheckbox
-              data-cy="shipping-details-checkbox_isDefault"
+              data-cy="billing-details-checkbox_isDefault"
               v-model="currentAddress.isDefault"
               name="isDefault"
               label="Set as default"
               class="form__checkbox-isDefault"
             />
             <SfButton
-              data-cy="shipping-details-btn_update"
+              data-cy="billing-details-btn_update"
               class="form__button"
             >
               {{ editedAddress === -1 ? 'Add the address' : 'Update the address' }}
@@ -143,35 +142,35 @@
       </SfTab>
     </SfTabs>
     <SfTabs v-else key="address-list" :open-tab="1" class="tab-orphan">
-      <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
+      <SfTab data-cy="billing-details-tab_details" title="Billing details">
         <p class="message">
-          Manage all the shipping addresses you want (work place, home address
-          ...) This way you won"t have to enter the shipping address manually
+          Manage all the billing addresses you want (work place, home address
+          ...) This way you won"t have to enter the billing address manually
           with each order.
         </p>
-        <transition-group tag="div" name="fade" class="shipping-list">
+        <transition-group tag="div" name="fade" class="billing-list">
           <div
-            v-for="(shipping, key) in shippingAddresses"
-            :key="userShippingGetters.getId(shipping)"
-            class="shipping"
+            v-for="(billing, key) in billingAddresses"
+            :key="userBillingGetters.getId(billing)"
+            class="billing"
           >
-            <div class="shipping__content">
-              <p class="shipping__address">
-                <span class="shipping__client-name"
-                  >{{ userShippingGetters.getFirstName(shipping) }} {{ userShippingGetters.getLastName(shipping) }}</span
+            <div class="billing__content">
+              <p class="billing__address">
+                <span class="billing__client-name"
+                  >{{ userBillingGetters.getFirstName(billing) }} {{ userBillingGetters.getLastName(billing) }}</span
                 ><br />
-                {{ userShippingGetters.getStreetName(shipping) }} {{ userShippingGetters.getStreetNumber(shipping) }} {{ userShippingGetters.getApartmentNumber(shipping) }}<br />{{
-                  userShippingGetters.getPostCode(shipping)
+                {{ userBillingGetters.getStreetName(billing) }} {{ userBillingGetters.getApartmentNumber(billing) }}<br />{{
+                  userBillingGetters.getPostCode(billing)
                 }}
-                {{ userShippingGetters.getCity(shipping) }},<br />{{ userShippingGetters.getCountry(shipping) }}
+                {{ userBillingGetters.getCity(billing) }},<br />{{ userBillingGetters.getCountry(billing) }}
               </p>
-              <p class="shipping__address">
-                {{ userShippingGetters.getPhone(shipping) }}
+              <p class="billing__address">
+                {{ userBillingGetters.getPhone(billing) }}
               </p>
             </div>
-            <div class="shipping__actions">
+            <div class="billing__actions">
               <SfIcon
-                data-cy="shipping-details-icon_delete"
+                data-cy="billing-details-icon_delete"
                 icon="cross"
                 color="gray"
                 size="14px"
@@ -179,16 +178,16 @@
                 class="smartphone-only"
                 @click="removeAddress(key)"
               />
-              <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
-              <SfButton data-cy="shipping-details-btn_delete"
-                class="shipping__button-delete desktop-only"
+              <SfButton data-cy="billing-details-btn_change" @click="changeAddress(key)">Change</SfButton>
+              <SfButton data-cy="billing-details-btn_delete"
+                class="billing__button-delete desktop-only"
                 @click="removeAddress(key)"
                 >Delete</SfButton
               >
             </div>
           </div>
         </transition-group>
-        <SfButton data-cy="shipping-details-btn_add" class="action-button" @click="changeAddress(-1)"
+        <SfButton data-cy="billing-details-btn_add" class="action-button" @click="changeAddress(-1)"
           >Add new address</SfButton
         >
       </SfTab>
@@ -206,7 +205,7 @@ import {
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
-import { useUserShipping, userShippingGetters } from '@vue-storefront/boilerplate';
+import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
 import { ref, reactive, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
@@ -214,16 +213,19 @@ extend('required', {
   ...required,
   message: 'This field is required'
 });
+
 extend('min', {
   ...min,
   message: 'The field should have at least {length} characters'
 });
+
 extend('oneOf', {
   ...oneOf,
   message: 'Invalid country'
 });
+
 export default {
-  name: 'ShippingDetails',
+  name: 'BillingDetails',
   components: {
     SfTabs,
     SfInput,
@@ -235,7 +237,7 @@ export default {
     ValidationObserver
   },
   setup () {
-    const { shipping, load: loadShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { billing, load: loadBilling, addAddress, deleteAddress, updateAddress } = useUserBilling();
 
     const editAddress = ref(false);
     const editedAddress = ref(-1);
@@ -256,18 +258,18 @@ export default {
 
     const changeAddress = async (index) => {
       if (index > -1) {
-        const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
-        currentAddress.id = userShippingGetters.getId(shippingAddress);
-        currentAddress.firstName = userShippingGetters.getFirstName(shippingAddress);
-        currentAddress.lastName = userShippingGetters.getLastName(shippingAddress);
-        currentAddress.streetName = userShippingGetters.getStreetName(shippingAddress);
-        currentAddress.apartment = userShippingGetters.getApartmentNumber(shippingAddress);
-        currentAddress.city = userShippingGetters.getCity(shippingAddress);
-        currentAddress.state = userShippingGetters.getProvince(shippingAddress);
-        currentAddress.zipCode = userShippingGetters.getPostCode(shippingAddress);
-        currentAddress.country = userShippingGetters.getCountry(shippingAddress);
-        currentAddress.phoneNumber = userShippingGetters.getPhone(shippingAddress);
-        currentAddress.isDefault = userShippingGetters.isDefault(shippingAddress);
+        const billingAddress = userBillingGetters.getAddresses(billing.value)[index];
+        currentAddress.id = userBillingGetters.getId(billingAddress);
+        currentAddress.firstName = userBillingGetters.getFirstName(billingAddress);
+        currentAddress.lastName = userBillingGetters.getLastName(billingAddress);
+        currentAddress.streetName = userBillingGetters.getStreetName(billingAddress);
+        currentAddress.apartment = userBillingGetters.getApartmentNumber(billingAddress);
+        currentAddress.city = userBillingGetters.getCity(billingAddress);
+        currentAddress.state = userBillingGetters.getProvince(billingAddress);
+        currentAddress.zipCode = userBillingGetters.getPostCode(billingAddress);
+        currentAddress.country = userBillingGetters.getCountry(billingAddress);
+        currentAddress.phoneNumber = userBillingGetters.getPhone(billingAddress);
+        currentAddress.isDefault = userBillingGetters.isDefault(billingAddress);
         editedAddress.value = index;
       } else {
         currentAddress.id = '';
@@ -285,7 +287,9 @@ export default {
       }
       editAddress.value = true;
     };
-    const removeAddress = index => deleteAddress(userShippingGetters.getAddresses(shipping.value)[index]);
+
+    const removeAddress = index => deleteAddress(userBillingGetters.getAddresses(billing.value)[index]);
+
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
@@ -304,14 +308,18 @@ export default {
       editAddress.value = false;
       editedAddress.value = -1;
     };
-    onSSR(loadShipping);
+
+    onSSR(loadBilling);
+
     return {
       changeAddress,
       updateAddress,
       removeAddress,
       processAddress,
-      userShippingGetters,
-      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
+
+      userBillingGetters,
+      billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
+
       editAddress,
       editedAddress,
       currentAddress,
@@ -370,42 +378,45 @@ export default {
 </script>
 <style lang='scss' scoped>
 @import '~@storefront-ui/vue/styles';
+@mixin for-mobile {
+  @media screen and (max-width: $desktop-min) {
+    @content;
+  }
+}
+@mixin for-desktop {
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
 .form {
   &__checkbox {
     &-isDefault {
-      margin: var(--spacer-xl) 0;
+      margin-bottom: var(--spacer-2xl);
     }
   }
 
-  &__select {
-    display: flex;
-    align-items: center;
-    --select-option-font-size: var(--font-size--lg);
-    ::v-deep .sf-select__dropdown {
-      font-size: var(--font-size--lg);
-      margin: 0;
-      font-family: var(--font-family--secondary);
-      font-weight: var(--font-weight--normal);
-    }
-  }
   &__element {
     display: block;
-    margin-bottom: var(--spacer-lg);
+    margin-bottom: var(--spacer-2xl);
   }
+
   &__button {
     display: block;
   }
+
   &__horizontal {
     @include for-desktop {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
     }
+
     .form__element {
       @include for-desktop {
         flex: 1;
         margin-right: var(--spacer-2xl);
       }
+
       &:last-child {
         margin-right: 0;
       }
@@ -413,14 +424,18 @@ export default {
   }
 }
 .message {
-  font-family: var(--font-family--primary);
+  margin: 0 0 var(--spacer-2xl) 0;
+  font-family: var(--font-family-primary);
   line-height: 1.6;
-  font-size: var(--font-size--base);
+  font-size: var(--font-base-mobile);
+  @include for-desktop {
+    font-size: var(--font-base-desktop);
+  }
 }
-.shipping-list {
+.billing-list {
   margin-bottom: var(--spacer-2xl);
 }
-.shipping {
+.billing {
   display: flex;
   padding: var(--spacer-xl) 0;
   border-top: 1px solid var(--c-light);
@@ -430,9 +445,12 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-size--base);
+    font-size: var(--font-sm-mobile);
     font-weight: 300;
     line-height: 1.6;
+    @include for-desktop {
+      font-size: var(--font-sm-desktop);
+    }
   }
   &__actions {
     flex: 1;
@@ -460,7 +478,7 @@ export default {
     }
   }
   &__client-name {
-    font-size: var(--font-size--base);
+    font-size: var(--font-base-desktop);
     font-weight: 500;
   }
 }

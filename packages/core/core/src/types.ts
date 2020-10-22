@@ -113,16 +113,35 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
-export interface UseUserBilling<ADDRESS> {
-  addresses: ComputedProperty<ADDRESS[]>;
-  totalAddresses: ComputedProperty<number>;
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
+export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
+  billing: ComputedProperty<USER_BILLING>;
+  addAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  defaultAddress: ComputedProperty<ADDRESS>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
+}
+
+export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
+  getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
+  getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
+  getTotal: (billing: USER_BILLING) => number;
+  getPostCode: (address: USER_BILLING_ITEM) => string;
+  getStreetName: (address: USER_BILLING_ITEM) => string;
+  getStreetNumber: (address: USER_BILLING_ITEM) => string | number;
+  getCity: (address: USER_BILLING_ITEM) => string;
+  getFirstName: (address: USER_BILLING_ITEM) => string;
+  getLastName: (address: USER_BILLING_ITEM) => string;
+  getCountry: (address: USER_BILLING_ITEM) => string;
+  getPhone: (address: USER_BILLING_ITEM) => string;
+  getEmail: (address: USER_BILLING_ITEM) => string;
+  getProvince: (address: USER_BILLING_ITEM) => string;
+  getCompanyName: (address: USER_BILLING_ITEM) => string;
+  getTaxNumber: (address: USER_BILLING_ITEM) => string;
+  getId: (address: USER_BILLING_ITEM) => string;
+  getApartmentNumber: (address: USER_BILLING_ITEM) => string | number;
+  isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
 export interface UseCategory<CATEGORY> {
