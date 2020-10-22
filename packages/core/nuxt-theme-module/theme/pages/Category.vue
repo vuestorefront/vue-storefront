@@ -4,7 +4,6 @@
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
-
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
         <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
