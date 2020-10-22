@@ -89,8 +89,8 @@ export default {
   setup(props, context) {
     return {
       address: {
-        name: 'Divante Headquarter',
-        street: 'St. Dmowskiego 17, 53-534',
+        name: 'Company Headquarter',
+        street: 'St. Main 17, 53-534',
         city: 'Wroclaw, Poland',
         email: 'demo@vuestorefront.io'
       },
