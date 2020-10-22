@@ -164,12 +164,15 @@ export interface UseWishlist
   PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT) => Promise<void>;
-  isOnWishlist: (product: PRODUCT) => boolean;
-  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
-  clearWishlist: () => Promise<void>;
-  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
+  addToWishlist(product: PRODUCT): Promise<void>;
+  addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
+  loadWishlist(): Promise<void>;
+  loadWishlist(customQuery?: CustomQuery): Promise<void>;
+  clearWishlist(): Promise<void>;
+  isOnWishlist(product: PRODUCT): boolean;
 }
 
 export interface UseCompare<PRODUCT> {

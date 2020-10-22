@@ -69,7 +69,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         const { loadWishlist, wishlist } = useWishlist();
         await loadWishlist();
         await loadWishlist();
-        expect(params.loadWishlist).toHaveBeenCalled();
+        expect(params.loadWishlist).toHaveBeenCalledWith(undefined);
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
     });
@@ -81,7 +81,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.addToWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, undefined);
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
     });
@@ -93,7 +93,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.removeFromWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, undefined);
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
     });
