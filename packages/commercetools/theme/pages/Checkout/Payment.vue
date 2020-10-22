@@ -320,10 +320,10 @@ export default {
       margin: 0 var(--spacer-xl) 0 0;
     }
   }
-  &__button {
-    --button-width: 100%;
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
     @include for-desktop {
-      --button-width: auto;
+      margin: 0 var(--spacer-xl) 0 0;
     }
   }
 }
@@ -339,6 +339,7 @@ export default {
   --radio-container-align-items: center;
   --ratio-content-margin: 0 0 0 var(--spacer-base);
   --radio-label-font-size: var(--font-base);
+  --radio-background: transparent;
   white-space: nowrap;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;

@@ -33,7 +33,7 @@
             :level="6"
             class="heading sf-heading--left sf-heading--no-underline"
             title="Primary contacts for any questions"
-          ></SfHeading>
+          />
           <div class="contact">
             <p class="contact__name">{{ address.name }}</p>
             <p class="contact__street">{{ address.street }}</p>
@@ -89,8 +89,8 @@ export default {
   setup(props, context) {
     return {
       address: {
-        name: 'Divante Headquarter',
-        street: 'St. Dmowskiego 17, 53-534',
+        name: 'Company Headquarter',
+        street: 'St. Main 17, 53-534',
         city: 'Wroclaw, Poland',
         email: 'demo@vuestorefront.io'
       },
@@ -108,7 +108,7 @@ export default {
 #thank-you {
   box-sizing: border-box;
   @include for-desktop {
-    max-width: 1272px;
+    max-width: 1240px;
     padding: 0 var(--spacer-sm);
     margin: 0 auto;
   }
