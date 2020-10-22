@@ -39,9 +39,9 @@
 
 <script>
 import {
-  SfCheckbox
+  SfCheckbox,
+  SfAddressPicker
 } from '@storefront-ui/vue';
-import SfAddressPicker from '~/components/temp/SfAddressPicker';
 import { userBillingGetters } from '@vue-storefront/boilerplate';
 
 export default {
