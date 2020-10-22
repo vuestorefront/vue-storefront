@@ -11,7 +11,7 @@
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
           <a :href="switchLocalePath(lang.code)">
-            <SfCharacteristic>
+            <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
               </template>
@@ -71,7 +71,7 @@ export default {
   position: relative;
 
   .sf-bottom-modal {
-    z-index: 1;
+    z-index: 2;
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
@@ -79,14 +79,12 @@ export default {
   }
 
   .sf-list {
-    @include for-desktop {
-      display: flex;
+    .language {
+      padding: var(--spacer-sm) 0;
     }
 
-    .sf-button {
-      background: transparent;
-      color: var(--c-text-muted);
-      --button-box-shadow: none;
+    @include for-desktop {
+      display: flex;
     }
 
     .sf-image {

@@ -305,18 +305,26 @@ export default {
 @import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
+  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
+    margin: 0 0 var(--spacer-base) 0;
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -341,22 +349,19 @@ export default {
       display: flex;
     }
   }
-  &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
-    }
-  }
-  &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
-  }
-  &__button {
+  &__action-button, &__back-button {
     --button-width: 100%;
     @include for-desktop {
       --button-width: auto;
+    }
+  }
+  &__action-button {
+    margin: 0 var(--spacer-xl) 0 0;
+  }
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
     }
   }
   &__radio-group {
@@ -372,23 +377,8 @@ export default {
   }
   &__description {
     --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-xs);
-  }
-  &__delivery {
-    color: var(--c-text-muted);
-  }
-  &__action {
-    margin: 0 0 0 var(--spacer);
-    &::before {
-      content: "+";
-    }
-    &--is-active {
-      --button-color: var(--c-primary);
-      --button-transition: color 150ms linear;
-      &::before {
-        content: "-";
-      }
-    }
+    --radio-description-font-size: var(--font-size--xs);
   }
 }
+
 </style>

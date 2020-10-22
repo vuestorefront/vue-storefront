@@ -98,16 +98,19 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getTotal: (shipping: USER_SHIPPING) => number;
   getPostCode: (address: USER_SHIPPING_ITEM) => string;
   getStreetName: (address: USER_SHIPPING_ITEM) => string;
+  getStreetNumber: (address: USER_SHIPPING_ITEM) => string | number;
   getCity: (address: USER_SHIPPING_ITEM) => string;
   getFirstName: (address: USER_SHIPPING_ITEM) => string;
   getLastName: (address: USER_SHIPPING_ITEM) => string;
   getCountry: (address: USER_SHIPPING_ITEM) => string;
-  getStreetNumber: (address: USER_SHIPPING_ITEM) => string;
   getPhone: (address: USER_SHIPPING_ITEM) => string;
   getEmail: (address: USER_SHIPPING_ITEM) => string;
   getProvince: (address: USER_SHIPPING_ITEM) => string;
   getCompanyName: (address: USER_SHIPPING_ITEM) => string;
   getTaxNumber: (address: USER_SHIPPING_ITEM) => string;
+  getId: (address: USER_SHIPPING_ITEM) => string | number;
+  getApartmentNumber: (address: USER_SHIPPING_ITEM) => string | number;
+  isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
 export interface UseUserBilling<ADDRESS> {
