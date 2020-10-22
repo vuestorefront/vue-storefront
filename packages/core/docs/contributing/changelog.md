@@ -2,7 +2,7 @@
 
 ## 2.0.10 - not released
 
-- implementing `useContent` and `renderContent` (#4848)
+- added `useContent` and `renderContent` (#4848)
 
 ## 2.0.9
 
