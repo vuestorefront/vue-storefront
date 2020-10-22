@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Replaced deprecated action product/list call with product/findProducts (#4769)
 - Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
+- Added handling redirection on server side and update docs about it - @gibkigonzo (#4647)
+- Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
 
 ### Fixed
 
@@ -22,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
 - Remove vue-lazyload from core - @jahvi (#5045)
+- Remove unnecessary async and Logger import - @jahvi (#5039)
 
 ## [1.12.2] - 2020.07.28
 
