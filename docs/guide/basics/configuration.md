@@ -159,7 +159,7 @@ This both option is used when you don't want re-attempting task of just X number
 "defaultStoreCode": "",
 ```
 
-`defaultStoreCode` is **required**. It is used only in the [Multistore setup](../integrations/multistore.md). This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts). You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you need to decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": ""` then on `"/"` you will have German store.
+`defaultStoreCode` it is recommended to set some value for it. It is used only in the [Multistore setup](../integrations/multistore.md). This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts). You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you need to decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
 
 ## Store views
 
@@ -200,7 +200,7 @@ This is the store name as displayed in the `Language/Switcher.vue` (for default 
     "url": "/de",
 ```
 
-When `appendStoreCode` is set to `false` then this value is required. With `url` you can define internal route prefix for example `/de`. Sometimes you may also like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. It accepts not only path, but also domains as well. Check `test/e2e/integration/multistore-domain.js`
+When `appendStoreCode` is set to `false` then this value is required. With `url` you can define internal route prefix for example `/de`. Sometimes you may also like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. It accepts not only path, but also domains as well. Check `test/e2e/integration/multistore/domain.js`
 This attribute is not inherited through the "extend" mechanism.
 
 ```json

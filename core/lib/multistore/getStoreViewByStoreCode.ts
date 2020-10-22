@@ -5,6 +5,7 @@ import { getExtendedStoreviewConfig } from '.'
 const getStoreViewByStoreCode = (storeCode: string): StoreView => {
   const { mapStoreUrlsFor = [] } = config.storeViews
   for (let storeViewProp of mapStoreUrlsFor) {
+    if (!config.storeViews[storeViewProp]) break
     const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
 
     if (storeView.storeCode === storeCode) return storeView

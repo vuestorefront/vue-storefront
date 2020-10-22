@@ -22,6 +22,7 @@ export {
 }
 
 export function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
+  if (!storeView) return storeView
   if (storeView.extend) {
     const originalParent = storeView.extend
 

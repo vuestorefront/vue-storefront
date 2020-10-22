@@ -22,10 +22,13 @@ const isMatchingWithAppendStoreCode = (matchedRouteOrUrl, store) => {
 }
 
 const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string => {
-  if (!matchedRouteOrUrl || !config.storeViews.multistore) return ''
+  const { multistore, mapStoreUrlsFor = [] } = config.storeViews
+  if (!matchedRouteOrUrl || !multistore) return ''
 
-  for (let storeViewProp of config.storeViews.mapStoreUrlsFor) {
+  for (let storeViewProp of mapStoreUrlsFor) {
     const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
+
+    if (!storeView) break
 
     if (storeView.appendStoreCode) {
       // legacy

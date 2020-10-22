@@ -288,4 +288,25 @@ describe('storeCodeFromRoute', () => {
 
     expect(storeCodeFromRoute(route)).toBe('')
   })
+
+  it('appendStoreCode: real example', () => {
+    config.storeViews = {
+      multistore: true, // enable multistore
+      mapStoreUrlsFor: [
+        'de',
+        'it'
+      ],
+      de: {
+        storeCode: 'de',
+        appendStoreCode: true
+      }
+    }
+
+    const route = {
+      host: 'localhost:3000',
+      path: 'de'
+    }
+
+    expect(storeCodeFromRoute(route)).toBe('de')
+  })
 })
