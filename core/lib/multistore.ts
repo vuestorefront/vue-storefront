@@ -136,7 +136,9 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreCode
   }
-  const appendStoreCodePrefix = storeCode && appendStoreCode
+
+  let separateDomain = get(config, 'storeViews[' + storeCode + '].separateDomain', false)
+  const appendStoreCodePrefix = storeCode && appendStoreCode && !separateDomain
 
   if (typeof routeObj === 'string') {
     if (routeObj[0] !== '/') routeObj = `/${routeObj}`
@@ -174,7 +176,9 @@ export function localizedDispatcherRouteName (routeName: string, storeCode: stri
  */
 export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
-
+  if (get(config, 'storeViews[' + storeCode + '].separateDomain', false) && !isServer) {
+    return `/${_path}`
+  }
   return `/${storeCode}/${_path}`
 }
 

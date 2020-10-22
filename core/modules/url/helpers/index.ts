@@ -67,7 +67,9 @@ export function normalizeUrlPath (url: string): string {
 export function formatCategoryLink (category: Category, storeCode: string = currentStoreView().storeCode): string {
   storeCode ? storeCode += '/' : storeCode = '';
 
-  if (currentStoreView().appendStoreCode === false) {
+  let configStoreCode = currentStoreView().storeCode;
+
+  if (currentStoreView().appendStoreCode === false || (config.storeViews.hasOwnProperty(configStoreCode) && config.storeViews[configStoreCode].separateDomain === true)) {
     storeCode = ''
   }
 
