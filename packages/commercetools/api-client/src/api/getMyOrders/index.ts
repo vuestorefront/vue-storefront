@@ -1,4 +1,4 @@
-import { apolloClient, getSettings, MeQueryInterface } from './../../index';
+import { apolloClient, CustomQueryFn, getSettings, MeQueryInterface } from './../../index';
 import defaultQuery from './defaultQuery';
 import { buildOrderWhere } from './../../helpers/search';
 import gql from 'graphql-tag';
@@ -8,7 +8,7 @@ interface OrdersData {
   me: Pick<MeQueryInterface, 'orders'>;
 }
 
-const getOrders = async (params, customQueryFn?) => {
+const getOrders = async (params, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage } = getSettings();
   const defaultVariables = {
     where: buildOrderWhere(params),

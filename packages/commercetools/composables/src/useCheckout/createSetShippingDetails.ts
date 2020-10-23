@@ -3,10 +3,11 @@
 import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
 import { shippingDetails, loading } from './shared';
 import initFields from './initFields';
+import { CustomQuery } from '@vue-storefront/core';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}) => {
+const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
   shippingDetails.value = {
     ...initialDetails,
     ...shippingDetails.value,
@@ -31,7 +32,7 @@ const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => asy
       cartActions.setShippingMethodAction(),
       cartActions.setShippingAddressAction(shippingDetails.value)
     ]
-  });
+  }, customQuery);
 
   setCart(cartResponse.data.cart);
   initFields(cartResponse.data.cart);

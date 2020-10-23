@@ -1,16 +1,19 @@
 import { OrderMyCartCommand } from '../../types/GraphQL';
-import { apolloClient, getSettings } from '../../index';
+import { apolloClient, CustomQueryFn, getCustomQuery, getSettings } from '../../index';
 import CreateMyOrderFromCartMutation from './defaultMutation';
 import { OrderMutationResponse } from '../../types/Api';
+import gql from 'graphql-tag';
 
-const createMyOrderFromCart = async (draft: OrderMyCartCommand): Promise<OrderMutationResponse> => {
+const createMyOrderFromCart = async (draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> => {
   const { locale, acceptLanguage } = getSettings();
-
+  const defaultVariables = { locale,
+    acceptLanguage,
+    draft
+  };
+  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery: CreateMyOrderFromCartMutation, defaultVariables });
   return await apolloClient.mutate({
-    mutation: CreateMyOrderFromCartMutation,
-    variables: { locale,
-      acceptLanguage,
-      draft },
+    mutation: gql`${query}`,
+    variables,
     fetchPolicy: 'no-cache'
   });
 };

@@ -17,17 +17,13 @@ describe('[commercetools-api-client] getMyOrders', () => {
     offset: 0,
     sort: undefined
   };
-
   it('fetches current user orders data', async () => {
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables);
       expect(query).toEqual(defaultQuery);
-
       return { data: 'me response' };
     });
-
     const { data } = await getOrders(params);
-
     expect(data).toBe('me response');
   });
 
@@ -35,12 +31,9 @@ describe('[commercetools-api-client] getMyOrders', () => {
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect({ ...variables, where: 'id="fvdrt8gaw4r"' }).toEqual(givenVariables);
       expect(query).toEqual(defaultQuery);
-
       return { data: 'me response' };
     });
-
     const { data } = await getOrders(params, (query = defaultQuery, variables = givenVariables) => ({ query, variables }));
-
     expect(data).toBe('me response');
   });
 });
