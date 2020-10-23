@@ -41,7 +41,6 @@ describe('[vsf-next-cli] getThemePath', () => {
       const testOutput = getThemePath(test.input);
       expect(testOutput).toBe(test.output);
     }
-
   });
 
   it('buildFileTargetPath - ', () => {
@@ -91,6 +90,5 @@ describe('[vsf-next-cli] getThemePath', () => {
     await copyThemeFiles(fileDir, targetPath, '');
 
     expect(copyFile).toHaveBeenCalledWith(fileDir, `${targetPath}${fileDir}`);
-
   });
 });

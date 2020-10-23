@@ -1,6 +1,7 @@
 import createProject from '../../../src/scripts/createProject';
+import { integrations } from '../../mock';
 
-const integration = 'commercetools';
+// const integration = 'commercetools';
 const targetPath = 'vsf-new-project';
 const absoluteTargetPath = `/home/abc/${targetPath}`;
 
@@ -30,11 +31,13 @@ jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
 describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments for relative path', async () => {
 
-    await createProject(integration, targetPath);
+    integrations.map(async (integration) => {
+      await createProject(integration, targetPath);
 
-    expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
-    expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
-    expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
+      expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
+      expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
+      expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
+    });
   });
 
   it('runs subprograms with proper arguments for absolute path', async () => {
@@ -42,10 +45,12 @@ describe('[vsf-next-cli] createProject', () => {
     (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
-    await createProject(integration, absoluteTargetPath);
+    integrations.map(async (integration) => {
+      await createProject(integration, absoluteTargetPath);
 
-    expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath, ['_theme', '.nuxt', 'node_modules']);
-    expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath);
-    expect(processMagicCommentsMock).toHaveBeenCalledWith(absoluteTargetPath);
+      expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath, ['_theme', '.nuxt', 'node_modules']);
+      expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath);
+      expect(processMagicCommentsMock).toHaveBeenCalledWith(absoluteTargetPath);
+    });
   });
 });
