@@ -1134,21 +1134,21 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-
-"@jest/types@^25.5.0":
-  version "25.5.0"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-25.5.0.tgz#4d6a4793f7b9599fc3680877b856a97dbccf2a9d"
-  integrity sha512-OXD0RgQ86Tu3MazKo8bnrkDRaDXXMGUqd+kTtLtK1Zb7CRzQcaSRPPPV37SvYTdevXEBVxe0HXylEjs8ibkmCw==
-  dependencies:
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^1.1.1"
-    "@types/yargs" "^15.0.0"
-    chalk "^3.0.0"
-
 "@jest/types@^26.5.2":
   version "26.5.2"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-26.5.2.tgz#44c24f30c8ee6c7f492ead9ec3f3c62a5289756d"
   integrity sha512-QDs5d0gYiyetI8q+2xWdkixVQMklReZr4ltw7GFDtb4fuJIBCE6mzj2LnitGqCuAlLap6wPyb8fpoHgwZz5fdg==
+  dependencies:
+    "@types/istanbul-lib-coverage" "^2.0.0"
+    "@types/istanbul-reports" "^3.0.0"
+    "@types/node" "*"
+    "@types/yargs" "^15.0.0"
+    chalk "^4.0.0"
+
+"@jest/types@^26.6.0":
+  version "26.6.1"
+  resolved "https://registry.yarnpkg.com/@jest/types/-/types-26.6.1.tgz#2638890e8031c0bc8b4681e0357ed986e2f866c5"
+  integrity sha512-ywHavIKNpAVrStiRY5wiyehvcktpijpItvGiK72RAn5ctqmzvPk8OvKnvHeBqa1XdQr959CTWAJMqxI8BTibyg==
   dependencies:
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^3.0.0"
@@ -3001,6 +3001,16 @@
     graphql "^14.5.8"
     graphql-tag "^2.10.1"
     isomorphic-fetch "^2.2.1"
+
+"@vue-storefront/core@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.9.tgz#36d8adb1088596ac988054a5a8c0c0dc1eff0aa1"
+  integrity sha512-zrpZwi7/LfkFFUVgRgwKscLs6PbcKQRbhdTecMKFDL7SWbzYaCvrW7QNI750Frv6LRKMwNcnXwhi0rZWHvgp7g==
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.14"
+    express "^4.17.1"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
 
 "@vue-storefront/nuxt-theme@^0.0.3":
   version "0.0.3"
