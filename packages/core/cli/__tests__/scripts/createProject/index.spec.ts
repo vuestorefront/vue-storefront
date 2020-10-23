@@ -1,7 +1,6 @@
 import createProject from '../../../src/scripts/createProject';
 import { integrations } from '../../mock';
 
-// const integration = 'commercetools';
 const targetPath = 'vsf-new-project';
 const absoluteTargetPath = `/home/abc/${targetPath}`;
 
