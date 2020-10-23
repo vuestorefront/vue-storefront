@@ -1,4 +1,3 @@
-
 import { createMiddleware } from '../../src/server';
 
 jest.mock('express', () => ({

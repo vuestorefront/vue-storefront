@@ -1,16 +1,16 @@
 import gql from 'graphql-tag';
-import { apolloClient, getSettings } from './../../index';
-import { ProductQueryResult } from './../../types/GraphQL';
+import { CustomQueryFn, getSettings } from '../../index';
+import { ProductQueryResult } from '../../types/GraphQL';
 import defaultQuery from './defaultQuery';
-import { buildProductWhere } from './../../helpers/search';
-import { getCustomQuery } from './../../helpers/queries';
+import { buildProductWhere } from '../../helpers/search';
+import { getCustomQuery } from '../../helpers/queries';
 
 export interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (params, customQueryFn?) => {
-  const { locale, acceptLanguage, currency, country } = getSettings();
+const getProduct = async (params, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage, currency, country, client } = getSettings();
   const defaultVariables = {
     where: buildProductWhere(params),
     skus: params.skus,
@@ -22,7 +22,7 @@ const getProduct = async (params, customQueryFn?) => {
     country
   };
   const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
-  const request = await apolloClient.query<ProductData>({
+  const request = await client.query<ProductData>({
     query: gql`${query}`,
     variables,
     // temporary, seems like bug in apollo:

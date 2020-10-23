@@ -138,7 +138,7 @@ module.exports = {
           collapsable: true,
           children: [
             ['/integrate/ecommerce', 'eCommerce'],
-            ['/integrate/cms', 'CMS'],
+            ['/general/cms', 'CMS'],
             ['/integrate/api-middleware', 'API middleware'],
           ]
         },

@@ -307,7 +307,7 @@ export default {
     const setShippingDetailsAndUnpickAddress = value => {
       setShippingDetails(value);
       currentAddressId.value = -1;
-      addressIsModified.value = false;
+      addressIsModified.value = true;
     };
 
     const canContinueToPayment = dirty => isShippingAddressCompleted.value && !dirty && !addressIsModified.value;

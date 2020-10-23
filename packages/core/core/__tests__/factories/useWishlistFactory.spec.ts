@@ -5,6 +5,8 @@ let useWishlist: () => UseWishlist<any, any, any>;
 let setWishlist = null;
 let params: UseWishlistFactoryParams<any, any, any>;
 
+const customQuery = undefined;
+
 function createComposable() {
   params = {
     loadWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
@@ -69,7 +71,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         const { loadWishlist, wishlist } = useWishlist();
         await loadWishlist();
         await loadWishlist();
-        expect(params.loadWishlist).toHaveBeenCalled();
+        expect(params.loadWishlist).toHaveBeenCalledWith(customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
     });
@@ -81,7 +83,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.addToWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
     });
@@ -93,7 +95,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.removeFromWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
     });
