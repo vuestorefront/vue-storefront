@@ -32,7 +32,8 @@ module.exports = {
             ['/commercetools/use-product', 'useProduct'],
             ['/commercetools/use-review', 'useReview'],
             ['/commercetools/use-facet', 'useFacet'],
-            ['/commercetools/use-cart', 'useCart']
+            ['/commercetools/use-cart', 'useCart'],
+            ['/commercetools/use-wishlist', 'useWishlist']
 
           ]
         },
@@ -40,7 +41,8 @@ module.exports = {
           title: 'Enterprise',
           collapsable: false,
           children: [
-            ['/commercetools/enterprise/use-review', 'useReview']
+            ['/commercetools/enterprise/use-review', 'useReview'],
+            ['/commercetools/enterprise/use-wishlist', 'useWishlist']
           ]
         },
         {
