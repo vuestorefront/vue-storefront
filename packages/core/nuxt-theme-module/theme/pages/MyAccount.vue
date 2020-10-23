@@ -50,7 +50,7 @@
 <script>
 import { SfBreadcrumbs, SfContentPages, SfButton } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useUser } from '@vue-storefront/boilerplate';
+import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
