@@ -1,5 +1,5 @@
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
-import { apolloClient, getSettings } from '../../index';
+import { getSettings } from '../../index';
 import { CustomQueryFn } from './../../types/Api';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
@@ -12,7 +12,7 @@ interface UpdateCart {
 }
 
 const updateCart = async (params: UpdateCart, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage } = getSettings();
+  const { locale, acceptLanguage, client } = getSettings();
   const defaultVariables = params
     ? {
       locale,
@@ -23,7 +23,7 @@ const updateCart = async (params: UpdateCart, customQueryFn?: CustomQueryFn) => 
 
   const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 
-  const request = await apolloClient.mutate({
+  const request = await client.mutate({
     mutation: gql`${query}`,
     variables,
     fetchPolicy: 'no-cache'
