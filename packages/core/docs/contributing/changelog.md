@@ -1,6 +1,9 @@
 # Changelog
 
-## 2.0.10 - not released
+## 2.0.11 - not released
+
+
+## 2.0.10
 
 - added `useContent` and `renderContent` (#4848)
 - added `useUiState` composable instead `ui-state.ts` ([#4876](https://github.com/DivanteLtd/vue-storefront/issues/4876))
