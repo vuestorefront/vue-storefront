@@ -24,14 +24,14 @@ interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
 ): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-  const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
-  const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
-
   const setWishlist = (newWishlist: WISHLIST) => {
-    wishlist.value = newWishlist;
+    sharedRef('useWishlist-wishlist').value = newWishlist;
+    Logger.debug('useWishlistFactory.setWishlist', newWishlist);
   };
 
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
+    const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
+    const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
 
     const addToWishlist = async (product: PRODUCT, customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.addToWishlist', product);
@@ -66,9 +66,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const loadWishlist = async (customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.loadWishlist');
 
+      loading.value = true;
+
       if (wishlist.value) return;
 
-      loading.value = true;
       wishlist.value = await factoryParams.loadWishlist(customQuery);
       loading.value = false;
     };

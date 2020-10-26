@@ -1,7 +1,7 @@
 # Changelog
 
 ## 2.0.11 - not released
-
+- fixed SSR in useWishlistFactory ([#5076](https://github.com/DivanteLtd/vue-storefront/issues/5076))
 
 ## 2.0.10
 
