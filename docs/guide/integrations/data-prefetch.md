@@ -24,7 +24,7 @@ export const InstantPrefetch: StorefrontModule = async function ({ store }) {
       const productUrl = queryString.parseUrl(linkElement.href.replace(new RegExp(`^${window.location.origin}`, 'g'), '')).url
       // get product page parameters
       const urlData = store.state.url.dispatcherMap[productUrl]
-      if (urlData && Object.keys(urlData).length) {
+      if (urlData && Object.keys(urlData).length && urlData.name.endsWith('-product')) {
         // fetch product data
         store.dispatch('product/loadProduct', urlData.params)
         // you can also fetch other things like related products which are lazy loaded on product page in default theme
