@@ -15,16 +15,19 @@ const userGetters: UserShippingGetters<any, any> = {
   getTotal: shipping => shipping.addresses.length,
   getPostCode: address => address ? address.zipCode : '',
   getStreetName: address => address ? address.streetName : '',
+  getStreetNumber: address => address ? address.streetNumber : '',
   getCity: address => address ? address.city : '',
   getFirstName: address => address ? address.firstName : '',
   getLastName: address => address ? address.lastName : '',
   getCountry: address => address ? address.country : '',
-  getStreetNumber: address => address ? address.apartment : '',
   getPhone: address => address ? address.phoneNumber : '',
   getEmail: address => address ? address.email : '',
   getProvince: address => address ? address.state : '',
   getCompanyName: address => address ? address.company : '',
-  getTaxNumber: address => address ? address.taxId : ''
+  getTaxNumber: address => address ? address.taxId : '',
+  getId: address => address ? address.id : '',
+  getApartmentNumber: address => address ? address.apartment : '',
+  isDefault: address => address ? address.isDefault : false
 };
 
 export default userGetters;

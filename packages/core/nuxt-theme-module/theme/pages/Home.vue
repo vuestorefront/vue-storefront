@@ -10,7 +10,7 @@
         :background="hero.background"
         :image="hero.image"
         :class="hero.className"
-      ></SfHeroItem>
+      />
     </SfHero>
     <SfBannerGrid :banner-grid="1" class="section banner-grid">
       <template v-for="item in banners" v-slot:[item.slot]>
@@ -33,8 +33,8 @@
       class="call-to-action"
     />
     <SfSection title-heading="Best Sellers" class="section">
-      <SfCarousel class="product-carousel">
-        <SfCarouselItem v-for="(product, i) in products" :key="i">
+      <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
+        <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
           <SfProductCard
             data-cy="home-url_product"
             :title="product.title"
@@ -45,7 +45,7 @@
             :show-add-to-cart-button="true"
             :is-on-wishlist="product.isOnWishlist"
             link="/"
-            class="product-card"
+            class="carousel__item__product"
             @click:wishlist="toggleWishlist(i)"
           />
         </SfCarouselItem>
@@ -136,7 +136,7 @@ export default {
           subtitle: 'T-Shirts',
           title: 'The Office Life',
           image: '/homepage/bannerC.jpg',
-          class: 'sf-banner--slim'
+          class: 'sf-banner--slim banner__tshirt'
         },
         {
           slot: 'banner-D',
@@ -228,34 +228,50 @@ export default {
     padding: 0;
   }
 }
+
+.sf-hero-item {
+  background-position: center;
+}
+
 .banner-grid {
+  --banner-container-width: 50%;
   margin: var(--spacer-xl) 0;
   @include for-desktop {
     margin: var(--spacer-2xl) 0;
   }
 }
-.banner-central {
-  @include for-desktop {
-    --banner-container-flex: 0 0 70%;
+
+.banner {
+  &__tshirt {
+    background-position: left;
+  }
+  &-central {
+    @include for-desktop {
+      --banner-container-flex: 0 0 70%;
+    }
   }
 }
+
 .call-to-action {
   margin: var(--spacer-xl) 0;
   @include for-desktop {
     margin: var(--spacer-2xl) 0 0 0;
   }
 }
-.product-carousel {
-  margin: 0 calc(var(--spacer-xl) * -1) 0 0;
+
+.carousel {
+    margin: 0 calc(var(--spacer-sm) * -1) 0 0;
   @include for-desktop {
-    margin: var(--spacer-xl) 0;
-    --carousel-padding: var(--spacer-xl);
-    --carousel-max-width: calc(100% - 13.5rem);
+    margin: 0;
+  }
+  &__item {
+    margin: 1.9375rem 0 2.4375rem 0;
+    &__product {
+      --product-card-add-button-transform: translate3d(0, 30%, 0);
+    }
   }
 }
-.product-card {
-  max-width: unset;
-}
+
 .images-grid {
   max-width: 60rem;
   margin: 0 auto;

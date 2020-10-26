@@ -42,7 +42,7 @@ body {
 
 #layout {
   box-sizing: border-box;
-  @media screen and (min-width: $desktop-min) {
+  @include for-desktop {
     max-width: 1240px;
     margin: auto;
   }

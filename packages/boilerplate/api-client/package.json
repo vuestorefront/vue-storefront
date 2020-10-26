@@ -9,10 +9,11 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/core": "2.0.8"
+    "@vue-storefront/core": "2.0.9"
   },
   "files": [
     "lib/**/*"

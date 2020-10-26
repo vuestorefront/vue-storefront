@@ -15,8 +15,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.7.10",
-    "@vue-storefront/commercetools": "^0.2.4",
+    "@storefront-ui/vue": "^0.9.1",
+    "@vue-storefront/commercetools": "^0.2.5",
     "@vue-storefront/nuxt": "^0.0.7",
     "@vue-storefront/nuxt-theme": "^0.0.4",
     "cookie-universal-nuxt": "^2.1.3",

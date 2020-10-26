@@ -88,10 +88,8 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import uiState from '~/assets/ui-state';
+import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
-
-const { isCartSidebarOpen, toggleCartSidebar } = uiState;
 
 export default {
   name: 'Cart',
@@ -105,6 +103,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
+    const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -143,18 +142,18 @@ export default {
   display: flex;
   flex-direction: column;
   &__total-items {
-    font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
-    color: var(--c-dark-variant);
+    font: var(--font-weight--normal) var(--font-size--lg) / 1.6 var(--font-family--secondary);
+    color: var(--c-link);
     margin: 0;
   }
   &__total-price {
-    --property-name-font-size: var(--font-xl);
-    --price-font-size: var(--font-xl);
+    --property-name-font-size: var(--font-size--xl);
+    --price-font-size: var(--font-size--xl);
     margin: 0 0 var(--spacer-xl) 0;
 
     &-label {
-      font: var(--font-normal) var(--font-xl) / 1.6 var(--font-family-secondary);
-      color: var(--c-dark-variant);
+      font: var(--font-weight--normal) var(--font-size--xl) / 1.6 var(--font-family--secondary);
+      color: var(--c-link);
     }
   }
 }
@@ -175,25 +174,27 @@ export default {
   }
   &__label {
     margin: var(--spacer-2xl) 0 0 0;
-    font: var(--font-normal) var(--font-lg) / 1.6 var(--font-family-secondary);
+    font: var(--font-weight--bold) var(--font-size--xl) / 1.6 var(--font-family--secondary);
+    color: var(--c-primary);
   }
   &__description {
     margin: var(--spacer-xl) 0 0 0;
-    font: var(--font-light) var(--font-base) / 1.6 var(--font-family-primary);
+    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
+    color: var(--c-link);
   }
   &__icon {
     width: 18.125rem;
     height: 12.3125rem;
-    margin-left: 60%;
+    margin-left: 50%;
     @include for-desktop {
-      margin-left: 50%;
+      margin-left: 45%;
     }
   }
 }
 .heading {
   &__wrapper {
-    --heading-title-color: var(--c-dark-variant);
-    --heading-title-font-weight: var(--font-normal);
+    --heading-title-color: var(--c-link);
+    --heading-title-font-weight: var(--font-weight--semibold);
     display: flex;
     justify-content: space-between;
   }
@@ -209,10 +210,9 @@ export default {
 
 .collected-product {
   margin: var(--spacer-base) 0;
-
-  &__properties {
-    margin: var(--spacer-sm) 0 0 0;
+  ::v-deep .sf-collected-product__remove--circle-icon {
+    --button-background: var(--c-primary);
+    --icon-color: var(--c-white);
   }
-
 }
 </style>

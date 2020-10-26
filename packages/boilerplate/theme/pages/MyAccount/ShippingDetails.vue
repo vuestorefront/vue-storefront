@@ -17,7 +17,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_firstName"
-                  v-model="firstName"
+                  v-model="currentAddress.firstName"
                   name="firstName"
                   label="First Name"
                   required
@@ -28,7 +28,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_lastName"
-                  v-model="lastName"
+                  v-model="currentAddress.lastName"
                   name="lastName"
                   label="Last Name"
                   required
@@ -40,7 +40,7 @@
             <ValidationProvider rules="required|min:5" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="shipping-details-input_streetName"
-                v-model="streetName"
+                v-model="currentAddress.streetName"
                 name="streetName"
                 label="Street Name"
                 required
@@ -50,7 +50,7 @@
             </ValidationProvider>
             <SfInput
               data-cy="shipping-details-input_apartment"
-              v-model="apartment"
+              v-model="currentAddress.apartment"
               name="apartment"
               label="House/Apartment number"
               required
@@ -60,7 +60,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_city"
-                  v-model="city"
+                  v-model="currentAddress.city"
                   name="city"
                   label="City"
                   required
@@ -71,7 +71,7 @@
               <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_state"
-                  v-model="state"
+                  v-model="currentAddress.state"
                   name="state"
                   label="State/Province"
                   required
@@ -84,7 +84,7 @@
               <ValidationProvider rules="required|min:4" v-slot="{ errors }" class="form__element">
                 <SfInput
                   data-cy="shipping-details-input_zipCode"
-                  v-model="zipCode"
+                  v-model="currentAddress.zipCode"
                   name="zipCode"
                   label="Zip-code"
                   required
@@ -95,7 +95,9 @@
               <ValidationProvider :rules="`required|oneOf:${countries.join(',')}`" v-slot="{ errors }" class="form__element">
                 <SfSelect
                   data-cy="shipping-details-select_country"
-                  v-model="country"
+                  class="form__select sf-select--underlined"
+                  :value="currentAddress.country"
+                  @selected="currentAddress.country = $event"
                   name="country"
                   label="Country"
                   required
@@ -115,7 +117,7 @@
             <ValidationProvider rules="required|min:8" v-slot="{ errors }" class="form__element">
               <SfInput
                 data-cy="shipping-details-input_phoneNumber"
-                v-model="phoneNumber"
+                v-model="currentAddress.phoneNumber"
                 name="phone"
                 label="Phone number"
                 required
@@ -125,7 +127,7 @@
             </ValidationProvider>
             <SfCheckbox
               data-cy="shipping-details-checkbox_isDefault"
-              v-model="isDefault"
+              v-model="currentAddress.isDefault"
               name="isDefault"
               label="Set as default"
               class="form__checkbox-isDefault"
@@ -150,21 +152,21 @@
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
             v-for="(shipping, key) in shippingAddresses"
-            :key="shipping.streetName + shipping.apartment"
+            :key="userShippingGetters.getId(shipping)"
             class="shipping"
           >
             <div class="shipping__content">
               <p class="shipping__address">
                 <span class="shipping__client-name"
-                  >{{ shipping.firstName }} {{ shipping.lastName }}</span
+                  >{{ userShippingGetters.getFirstName(shipping) }} {{ userShippingGetters.getLastName(shipping) }}</span
                 ><br />
-                {{ shipping.streetName }} {{ shipping.apartment }}<br />{{
-                  shipping.zipCode
+                {{ userShippingGetters.getStreetName(shipping) }} {{ userShippingGetters.getStreetNumber(shipping) }} {{ userShippingGetters.getApartmentNumber(shipping) }}<br />{{
+                  userShippingGetters.getPostCode(shipping)
                 }}
-                {{ shipping.city }},<br />{{ shipping.country }}
+                {{ userShippingGetters.getCity(shipping) }},<br />{{ userShippingGetters.getCountry(shipping) }}
               </p>
               <p class="shipping__address">
-                {{ shipping.phoneNumber }}
+                {{ userShippingGetters.getPhone(shipping) }}
               </p>
             </div>
             <div class="shipping__actions">
@@ -174,7 +176,7 @@
                 color="gray"
                 size="14px"
                 role="button"
-                class="mobile-only"
+                class="smartphone-only"
                 @click="removeAddress(key)"
               />
               <SfButton data-cy="shipping-details-btn_change" @click="changeAddress(key)">Change</SfButton>
@@ -205,7 +207,7 @@ import {
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/boilerplate';
-import { ref, computed } from '@vue/composition-api';
+import { ref, reactive, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 extend('required', {
@@ -237,45 +239,48 @@ export default {
 
     const editAddress = ref(false);
     const editedAddress = ref(-1);
-    const id = ref('');
-    const firstName = ref('');
-    const lastName = ref('');
-    const streetName = ref('');
-    const apartment = ref('');
-    const city = ref('');
-    const state = ref('');
-    const zipCode = ref('');
-    const country = ref('');
-    const phoneNumber = ref('');
-    const isDefault = ref(false);
+
+    const currentAddress = reactive({
+      id: '',
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      phoneNumber: '',
+      isDefault: false
+    });
 
     const changeAddress = async (index) => {
-      const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
       if (index > -1) {
-        id.value = shippingAddress.id;
-        firstName.value = shippingAddress.firstName;
-        lastName.value = shippingAddress.lastName;
-        streetName.value = shippingAddress.streetName;
-        apartment.value = shippingAddress.apartment;
-        city.value = shippingAddress.city;
-        state.value = shippingAddress.state;
-        zipCode.value = shippingAddress.zipCode;
-        country.value = shippingAddress.country;
-        phoneNumber.value = shippingAddress.phoneNumber;
-        isDefault.value = shippingAddress.isDefault;
+        const shippingAddress = userShippingGetters.getAddresses(shipping.value)[index];
+        currentAddress.id = userShippingGetters.getId(shippingAddress);
+        currentAddress.firstName = userShippingGetters.getFirstName(shippingAddress);
+        currentAddress.lastName = userShippingGetters.getLastName(shippingAddress);
+        currentAddress.streetName = userShippingGetters.getStreetName(shippingAddress);
+        currentAddress.apartment = userShippingGetters.getApartmentNumber(shippingAddress);
+        currentAddress.city = userShippingGetters.getCity(shippingAddress);
+        currentAddress.state = userShippingGetters.getProvince(shippingAddress);
+        currentAddress.zipCode = userShippingGetters.getPostCode(shippingAddress);
+        currentAddress.country = userShippingGetters.getCountry(shippingAddress);
+        currentAddress.phoneNumber = userShippingGetters.getPhone(shippingAddress);
+        currentAddress.isDefault = userShippingGetters.isDefault(shippingAddress);
         editedAddress.value = index;
       } else {
-        id.value = '';
-        firstName.value = '';
-        lastName.value = '';
-        streetName.value = '';
-        apartment.value = '';
-        city.value = '';
-        state.value = '';
-        zipCode.value = '';
-        country.value = '';
-        phoneNumber.value = '';
-        isDefault.value = false;
+        currentAddress.id = '';
+        currentAddress.firstName = '';
+        currentAddress.lastName = '';
+        currentAddress.streetName = '';
+        currentAddress.apartment = '';
+        currentAddress.city = '';
+        currentAddress.state = '';
+        currentAddress.zipCode = '';
+        currentAddress.country = '';
+        currentAddress.phoneNumber = '';
+        currentAddress.isDefault = false;
         editedAddress.value = -1;
       }
       editAddress.value = true;
@@ -284,17 +289,17 @@ export default {
     const processAddress = async () => {
       const actionMethod = editedAddress.value > -1 ? updateAddress : addAddress;
       await actionMethod({
-        ...(editedAddress.value > -1 ? { id: id.value } : {}),
-        firstName: firstName.value,
-        lastName: lastName.value,
-        streetName: streetName.value,
-        apartment: apartment.value,
-        city: city.value,
-        state: state.value,
-        zipCode: zipCode.value,
-        country: country.value,
-        phoneNumber: phoneNumber.value,
-        isDefault: isDefault.value
+        ...(editedAddress.value > -1 ? { id: currentAddress.id } : {}),
+        firstName: currentAddress.firstName,
+        lastName: currentAddress.lastName,
+        streetName: currentAddress.streetName,
+        apartment: currentAddress.apartment,
+        city: currentAddress.city,
+        state: currentAddress.state,
+        zipCode: currentAddress.zipCode,
+        country: currentAddress.country,
+        phoneNumber: currentAddress.phoneNumber,
+        isDefault: currentAddress.isDefault
       });
       editAddress.value = false;
       editedAddress.value = -1;
@@ -305,19 +310,11 @@ export default {
       updateAddress,
       removeAddress,
       processAddress,
+      userShippingGetters,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       editAddress,
       editedAddress,
-      firstName,
-      lastName,
-      streetName,
-      apartment,
-      city,
-      state,
-      zipCode,
-      country,
-      phoneNumber,
-      isDefault,
+      currentAddress,
       countries: [
         'Austria',
         'Azerbaijan',
@@ -373,25 +370,27 @@ export default {
 </script>
 <style lang='scss' scoped>
 @import '~@storefront-ui/vue/styles';
-@mixin for-mobile {
-  @media screen and (max-width: $desktop-min) {
-    @content;
-  }
-}
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
 .form {
   &__checkbox {
     &-isDefault {
-      margin-bottom: var(--spacer-2xl);
+      margin: var(--spacer-xl) 0;
+    }
+  }
+
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
     }
   }
   &__element {
     display: block;
-    margin-bottom: var(--spacer-2xl);
+    margin-bottom: var(--spacer-lg);
   }
   &__button {
     display: block;
@@ -414,13 +413,9 @@ export default {
   }
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family--primary);
   line-height: 1.6;
-  font-size: var(--font-base-mobile);
-  @include for-desktop {
-    font-size: var(--font-base-desktop);
-  }
+  font-size: var(--font-size--base);
 }
 .shipping-list {
   margin-bottom: var(--spacer-2xl);
@@ -435,12 +430,9 @@ export default {
   &__content {
     flex: 1;
     color: var(--c-text);
-    font-size: var(--font-sm-mobile);
+    font-size: var(--font-size--base);
     font-weight: 300;
     line-height: 1.6;
-    @include for-desktop {
-      font-size: var(--font-sm-desktop);
-    }
   }
   &__actions {
     flex: 1;
@@ -468,7 +460,7 @@ export default {
     }
   }
   &__client-name {
-    font-size: var(--font-base-desktop);
+    font-size: var(--font-size--base);
     font-weight: 500;
   }
 }

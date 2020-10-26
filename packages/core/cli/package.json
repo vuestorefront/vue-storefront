@@ -23,5 +23,5 @@
     "@vue-storefront/commercetools-theme": "^0.1.0"
   },
   "author": "Filip Jędrasik",
-  "license": "ISC"
+  "license": "MIT"
 }
