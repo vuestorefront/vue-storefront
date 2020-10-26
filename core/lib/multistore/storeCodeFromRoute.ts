@@ -1,34 +1,34 @@
 import { RawLocation } from 'vue-router'
-import config from 'config'
-import { LocalizedRoute } from './../types'
+import { storeViews } from 'config'
+import { LocalizedRoute, StoreView } from './../types'
 import { getNormalizedPath, getUrl } from './helpers'
 import { getExtendedStoreviewConfig } from '.'
 import cloneDeep from 'lodash-es/cloneDeep'
 
-const isMatchingByPath = (matchedRouteOrUrl, store) => {
+const isMatchingByPath = (matchedRouteOrUrl: LocalizedRoute | string, store: StoreView): boolean => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
   return normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url
 }
 
-const isMatchingByDomainAndPath = (matchedRouteOrUrl, store) => {
+const isMatchingByDomain = (matchedRouteOrUrl: LocalizedRoute | string, store: StoreView): boolean => {
   const url = getUrl(matchedRouteOrUrl)
   return url.startsWith(`${store.url}/`) || url === store.url
 }
 
-const isMatchingWithAppendStoreCode = (matchedRouteOrUrl, store) => {
+const isMatchingWithAppendStoreCode = (matchedRouteOrUrl: LocalizedRoute | string, store: StoreView): boolean => {
   const clonedStoreView = cloneDeep(store)
   clonedStoreView.url = `/${store.storeCode}`
-  return isMatchingByPath(matchedRouteOrUrl, clonedStoreView) || isMatchingByDomainAndPath(matchedRouteOrUrl, clonedStoreView)
+  return isMatchingByPath(matchedRouteOrUrl, clonedStoreView) || isMatchingByDomain(matchedRouteOrUrl, clonedStoreView)
 }
 
 const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string => {
-  const { multistore, mapStoreUrlsFor = [] } = config.storeViews
+  const { multistore, mapStoreUrlsFor = [] } = storeViews
   if (!matchedRouteOrUrl || !multistore) return ''
 
   for (let storeViewProp of mapStoreUrlsFor) {
-    const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
+    const storeView = getExtendedStoreviewConfig(storeViews[storeViewProp])
 
-    if (!storeView) break
+    if (!storeView) continue
 
     if (storeView.appendStoreCode) {
       // legacy
@@ -36,7 +36,7 @@ const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | st
         return storeView.storeCode || ''
       }
     } else {
-      if (isMatchingByPath(matchedRouteOrUrl, storeView) || isMatchingByDomainAndPath(matchedRouteOrUrl, storeView)) {
+      if (isMatchingByPath(matchedRouteOrUrl, storeView) || isMatchingByDomain(matchedRouteOrUrl, storeView)) {
         return storeView.storeCode || ''
       }
     }

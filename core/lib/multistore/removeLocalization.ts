@@ -1,20 +1,21 @@
-import config from 'config'
+import { storeViews } from 'config'
 import { removeProtocool, getNormalizedPath, getUrl } from './helpers'
 import { getExtendedStoreviewConfig } from '.'
-import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore';
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { LocalizedRoute, StoreView } from './../types'
 
-const isEqualUrl = (url, storeView) => getNormalizedPath(url) === storeView.url || url === storeView.url
+const isEqualUrl = (url: LocalizedRoute | string, storeView: StoreView): boolean => getNormalizedPath(url) === storeView.url || url === storeView.url
 
-const removeLocalization = (matchedRouteOrUrl): string => {
-  const { multistore, mapStoreUrlsFor = [] } = config.storeViews
+const removeLocalization = (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string => {
+  const { multistore, mapStoreUrlsFor = [] } = storeViews
   if (!matchedRouteOrUrl || !multistore) return matchedRouteOrUrl
 
   let url = getUrl(matchedRouteOrUrl)
 
   for (let storeViewProp of mapStoreUrlsFor) {
-    const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
+    const storeView = getExtendedStoreviewConfig(storeViews[storeViewProp])
 
-    if (!storeView) break
+    if (!storeView) continue
 
     // base tranformation
     url = removeProtocool(url)

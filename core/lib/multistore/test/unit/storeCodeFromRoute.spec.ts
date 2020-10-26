@@ -309,4 +309,17 @@ describe('storeCodeFromRoute', () => {
 
     expect(storeCodeFromRoute(route)).toBe('de')
   })
+
+  it('returns storeCode even if there is missing storeView for first mapStoreUrlsFor', () => {
+    config.storeViews = {
+      multistore: true,
+      mapStoreUrlsFor: ['missing', 'test'],
+      test: {
+        storeCode: 'de',
+        url: '/de'
+      }
+    }
+
+    expect(storeCodeFromRoute('/de/teton-pullover-hoodie.html?childSku=MH02-XS-Black')).toBe('de')
+  })
 })

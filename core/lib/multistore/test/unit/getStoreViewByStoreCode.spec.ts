@@ -32,4 +32,17 @@ describe('getStoreViewByStoreCode', () => {
       storeCode: 'de'
     })
   })
+  it('returns storeView based on storeCode even if there is missing storeView for first mapStoreUrlsFor', () => {
+    config.storeViews = {
+      multistore: true,
+      mapStoreUrlsFor: ['missing', 'test'],
+      test: {
+        storeCode: 'de'
+      }
+    }
+
+    expect(getStoreViewByStoreCode('de')).toStrictEqual({
+      storeCode: 'de'
+    })
+  })
 })

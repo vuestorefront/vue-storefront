@@ -53,6 +53,8 @@ Now:
 
 `defaultStoreCode` it is recommended to set some value for it. It is used only used when `multistore` is enabled. You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you can decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
 
+`removeStoreCodeFromRoute` is replaced by `removeLocalization`
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.

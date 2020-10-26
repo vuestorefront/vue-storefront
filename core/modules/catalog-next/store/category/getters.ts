@@ -34,7 +34,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
   getCategoryProducts: (state) => mapCategoryProducts(state.products, nonReactiveState.products),
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => removeLocalization(path).replace(/^(\/)/gm, '') === category.url_path)
+    return getters.getCategories.find(category => (removeLocalization(path) as string).replace(/^(\/)/gm, '') === category.url_path)
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories.find(category => {

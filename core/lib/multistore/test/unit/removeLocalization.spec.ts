@@ -321,4 +321,17 @@ describe('removeLocalization', () => {
 
     expect(removeLocalization('/de/teton-pullover-hoodie.html?childSku=MH02-XS-Black')).toBe('/teton-pullover-hoodie.html?childSku=MH02-XS-Black')
   })
+
+  it('removes localization even if there is missing storeView for first mapStoreUrlsFor', () => {
+    config.storeViews = {
+      multistore: true,
+      mapStoreUrlsFor: ['missing', 'test'],
+      test: {
+        storeCode: 'de',
+        url: '/de'
+      }
+    }
+
+    expect(removeLocalization('/de/teton-pullover-hoodie.html?childSku=MH02-XS-Black')).toBe('/teton-pullover-hoodie.html?childSku=MH02-XS-Black')
+  })
 })

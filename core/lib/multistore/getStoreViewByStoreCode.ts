@@ -1,12 +1,12 @@
 import { StoreView } from './../types'
-import config from 'config'
+import { storeViews } from 'config'
 import { getExtendedStoreviewConfig } from '.'
 
 const getStoreViewByStoreCode = (storeCode: string): StoreView => {
-  const { mapStoreUrlsFor = [] } = config.storeViews
+  const { mapStoreUrlsFor = [] } = storeViews
   for (let storeViewProp of mapStoreUrlsFor) {
-    if (!config.storeViews[storeViewProp]) break
-    const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
+    if (!storeViews[storeViewProp]) continue
+    const storeView = getExtendedStoreviewConfig(storeViews[storeViewProp])
 
     if (storeView.storeCode === storeCode) return storeView
   }

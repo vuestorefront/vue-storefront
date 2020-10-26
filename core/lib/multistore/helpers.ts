@@ -1,12 +1,14 @@
-export const removeProtocool = (url) => url.replace(/^https?:\/\//i, '')
+import { LocalizedRoute } from './../types'
 
-export const getNormalizedPath = (matchedRouteOrUrl): string => {
-  const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)
+export const removeProtocool = (url: string): string => url.replace(/^https?:\/\//i, '')
 
+export const getNormalizedPath = (matchedRouteOrUrl: LocalizedRoute | string): string => {
+  let matchingPath = matchedRouteOrUrl && ((matchedRouteOrUrl as LocalizedRoute).path || matchedRouteOrUrl)
+  matchingPath = matchingPath as string
   return matchingPath && (matchingPath.length > 0 && matchingPath[0] !== '/') ? `/${matchingPath}` : matchingPath
 }
 
-export const getPrefixFromUrl = (url): string => {
+export const getPrefixFromUrl = (url: string): string => {
   if (url.startsWith('/')) return url
 
   const firstPart = removeProtocool(url).split('/')[1]
@@ -14,16 +16,15 @@ export const getPrefixFromUrl = (url): string => {
   return firstPart ? `/${firstPart}` : '/'
 }
 
-export const getUrl = (matchedRouteOrUrl) => {
-  const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
-
+export const getUrl = (matchedRouteOrUrl: LocalizedRoute | string): string => {
   if (matchedRouteOrUrl && typeof matchedRouteOrUrl === 'object') {
     if (matchedRouteOrUrl['host']) {
+      const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
       return matchedRouteOrUrl['host'] + normalizedPath
     }
 
     return matchedRouteOrUrl.path || ''
   }
 
-  return matchedRouteOrUrl
+  return matchedRouteOrUrl as string
 }
