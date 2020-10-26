@@ -2,6 +2,8 @@
 
 ## 0.2.6 - not released
 
+- removed `chosenShippingMethod` defaulting ([#5073](https://github.com/DivanteLtd/vue-storefront/issues/5073))
+
 ## 0.2.5
 
 - `customQuery` for checkout composables ([#5025](https://github.com/DivanteLtd/vue-storefront/issues/5025))
