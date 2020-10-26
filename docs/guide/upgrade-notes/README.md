@@ -2,6 +2,10 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.12 -> 1.13
+
+- `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
