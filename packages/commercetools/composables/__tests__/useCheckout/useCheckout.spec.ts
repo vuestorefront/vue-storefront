@@ -234,7 +234,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
 
     expect(getShippingMethods).toBeCalled();
     expect(shippingMethods.value).toEqual([]);
-    expect(chosenShippingMethod.value).toEqual({ method: 'cart' });
+    expect(chosenShippingMethod.value).toEqual({ });
     expect(setShippingMethod).not.toBeCalled();
   });
 });
