@@ -2,64 +2,23 @@
 
 `useWishlist` composition API function is responsible, as its name suggests, for interactions with wishlist in your eCommerce. This function returns following values:
 
-## Properties
+- `wishlist` - a main data object that contains wishlist structure in platform specific structure
 
-`useWishlist` contains following properties:
+<Content slot-key="wishlist-interface" />
 
-- `loadWishlist` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property.
+- `loadWishlist` - function required to fetch wishlist from a server or create brand new if it doesn't exist.  
+- `addToWishlist` - function for adding products to the wishlist
+- `removeFromWishlist` - function for removing a product that currently is in the wishlist
+- `isOnWishlist` - function for checking if a product is currently in the wishlist
+- `clearWishlist` - function for removing all items currently stored in wishlist
+- `loading` - a reactive object containing information about loading state of the wishlist
 
-- `addToWishlist` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information.
+## Wishlist initialization
 
-<!-- <Content slot-key="add-params" /> -->
+Wishlist composable is a service designed for supporting a single wishlist and access it everywhere with ease. 
+Initialization of a wishlist requires using `loadWishlist()` when calling `useWishlist()` for the first time. Keep in mind that upon
+execution of `loadWishlist`, the wishlist will get loaded only once, if a wishlist has already been loaded, nothing happens.  
 
-- `removeFromWishlist` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property.
+<Content slot-key="wishlist-initialization" />
 
-- `clearWishlist` - function that removes all products from the wishlist and populates clear `wishlist` property.
-
-- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value.
-
-
-## Getters
-
-Because `wishlist` property is a raw response with some additional properties, it's recommended to use `wishlistGetters` for accessing any data from it. It includes following helper functions:
-
-- `getWishlistItems` - returns list of products on wishlist
-
-- `getWishlistItemName` - returns product's name from wishlist.
-
-- `getWishlistItemImage` - returns product's image from wishlist.
-
-- `getWishlistItemPrice` - returns product's price from wishlist.
-
-- `getWishlistItemQty` - returns quantity of product which is on wishlist.
-
-- `getWishlistItemAttributes` - returns product variant attribute chosen by its name.
-
-- `getWishlistItemSku` - returns product's SKU code.
-
-- `getWishlistShippingPrice` - returns price of products.
-
-- `getWishlistTotalItems` - returns amount of all items that are currently on wishlist.
-
-- `getFormattedPrice` - returns price in formatted manner taking into account local specifics.
-
-Interface for the above getter looks like this:
-
-```typescript
-interface WishlistGetters<Wishlist, ShoppingListLineItem> = {
-  getTotals: getWishlistTotals,
-  getShippingPrice: getWishlistShippingPrice,
-  getItems: getWishlistItems,
-  getItemName: getWishlistItemName,
-  getItemImage: getWishlistItemImage,
-  getItemPrice: getWishlistItemPrice,
-  getItemQty: getWishlistItemQty,
-  getItemAttributes: getWishlistItemAttributes,
-  getItemSku: getWishlistItemSku,
-  getTotalItems: getWishlistTotalItems,
-  getFormattedPrice
-};
-```
-
-<Content slot-key="usage" />
 
