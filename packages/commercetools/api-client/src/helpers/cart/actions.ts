@@ -1,7 +1,7 @@
 import { Logger } from '@vue-storefront/core';
 import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput, AddressInput } from './../../types/GraphQL';
 
-const hasContactInfo = details => Object.keys(details.contactInfo).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
+const hasContactInfo = details => Object.keys(details.contactInfo || {}).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
