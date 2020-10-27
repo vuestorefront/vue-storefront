@@ -67,9 +67,6 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       Logger.debug('useWishlist.loadWishlist');
 
       loading.value = true;
-
-      if (wishlist.value) return;
-
       wishlist.value = await factoryParams.loadWishlist(customQuery);
       loading.value = false;
     };
