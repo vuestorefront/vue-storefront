@@ -19,8 +19,7 @@ context
     {
       url: config.stock.endpoint + '/check/' + encodeURIComponent(product.sku),
       payload: {
-        method: 'GET',
-        mode: 'cors',
+        method: 'GET'
       },
       product_sku: product.sku,
       callback_event: 'store:stock/stockAfterCheck',
