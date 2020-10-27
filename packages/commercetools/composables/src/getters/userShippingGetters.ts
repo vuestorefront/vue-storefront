@@ -9,7 +9,7 @@ const userShippingGetters: UserShippingGetters<any, any> = {
     const entries = Object.entries(criteria);
     return shipping.addresses.filter(address => entries.every(([key, value]) => address[key] === value));
   },
-  getDefault: shipping => shipping.addresses.find(({ id }) => id === shipping.defaultshippingAddressId),
+  getDefault: shipping => shipping.addresses.find(({ isDefault }) => isDefault),
   getTotal: shipping => shipping.addresses.length,
 
   getPostCode: address => address?.postalCode || '',

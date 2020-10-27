@@ -9,8 +9,8 @@ const userBillingGetters: UserBillingGetters<any, any> = {
     const entries = Object.entries(criteria);
     return billing.addresses.filter(address => entries.every(([key, value]) => address[key] === value));
   },
-  getDefault: Billing => Billing.addresses.find(({ id }) => id === Billing.defaultBillingAddressId),
-  getTotal: Billing => Billing.addresses.length,
+  getDefault: billing => billing.addresses.find(({ isDefault }) => isDefault),
+  getTotal: billing => billing.addresses.length,
 
   getPostCode: address => address?.postalCode || '',
   getStreetName: address => address?.streetName || '',
