@@ -237,7 +237,7 @@ export default {
       postalCode: props.address.postalCode,
       country: props.address.country,
       phone: props.address.phone,
-      isDefault: props.address._isDefault
+      isDefault: props.address.isDefault
     });
 
     const submitForm = () => {
