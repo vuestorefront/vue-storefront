@@ -66,6 +66,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const loadWishlist = async (customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.loadWishlist');
 
+      if (wishlist.value) return;
+
       loading.value = true;
       wishlist.value = await factoryParams.loadWishlist(customQuery);
       loading.value = false;
