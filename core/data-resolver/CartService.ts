@@ -11,7 +11,6 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippinginfo_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify({ addressInformation })
     },
     silent: true
@@ -21,8 +20,7 @@ const getTotals = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'totals_endpoint')),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     silent: true
   });
@@ -35,8 +33,7 @@ const getCartToken = async (guestCart: boolean = false, forceClientState: boolea
   return TaskQueue.execute({
     url,
     payload: {
-      method: 'POST',
-      mode: 'cors'
+      method: 'POST'
     },
     force_client_state: forceClientState,
     silent: true
@@ -48,7 +45,6 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'updateitem_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
@@ -63,7 +59,6 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deleteitem_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
@@ -78,8 +73,7 @@ const getPaymentMethods = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'paymentmethods_endpoint')),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     silent: true
   });
@@ -89,7 +83,6 @@ const getShippingMethods = async (address: any): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippingmethods_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify({
         address
       })
@@ -101,8 +94,7 @@ const getItems = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'pull_endpoint')),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     silent: true
   });
@@ -113,8 +105,7 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
   return TaskQueue.execute({
     url,
     payload: {
-      method: 'POST',
-      mode: 'cors'
+      method: 'POST'
     },
     silent: false
   });
@@ -124,8 +115,7 @@ const removeCoupon = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deletecoupon_endpoint')),
     payload: {
-      method: 'POST',
-      mode: 'cors'
+      method: 'POST'
     },
     silent: false
   });

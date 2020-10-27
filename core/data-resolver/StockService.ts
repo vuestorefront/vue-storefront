@@ -9,8 +9,7 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     is_result_cacheable: true,
     product_sku: sku,
@@ -21,8 +20,7 @@ const check = (sku: string): Promise<Task> =>
   TaskQueue.execute({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     is_result_cacheable: true,
     product_sku: sku
@@ -36,8 +34,7 @@ const list = (skuList: string[]): Promise<Task> =>
       )}`
     ),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     skus: skuList
   })
