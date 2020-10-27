@@ -1,6 +1,6 @@
 import { UserShippingGetters } from '@vue-storefront/core';
 
-export const usershippingGetters: UserShippingGetters<any, any> = {
+const userShippingGetters: UserShippingGetters<any, any> = {
   getAddresses: (shipping, criteria?: Record<string, any>) => {
     if (!criteria || !Object.keys(criteria).length) {
       return shipping.addresses;
@@ -29,3 +29,5 @@ export const usershippingGetters: UserShippingGetters<any, any> = {
   getApartmentNumber: address => address?.apartment || '',
   isDefault: address => address?._isDefault || false
 };
+
+export default userShippingGetters;

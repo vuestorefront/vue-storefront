@@ -205,7 +205,19 @@ export default {
   props: {
     address: {
       type: Object,
-      default: {}
+      default: () => ({
+        id: undefined,
+        firstName: '',
+        lastName: '',
+        streetName: '',
+        apartment: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: '',
+        phone: '',
+        _isDefault: false
+      })
     },
     isNew: {
       type: Boolean,
