@@ -1,34 +1,23 @@
 <template>
   <div>
     <SfAddressPicker
-      :value="currentAddressId"
+      :selected="String(currentAddressId)"
       @input="setCurrentAddress($event)"
-      class="shipping__addresses"
+      class="shipping-addresses"
     >
       <SfAddress
+        class="shipping-addresses__address"
         v-for="shippingAddress in shippingAddresses"
-        :key="shippingAddress.id"
-        :name="String(shippingAddress.id)"
+        :key="userShippingGetters.getId(shippingAddress)"
+        :name="String(userShippingGetters.getId(shippingAddress))"
       >
-        <span
-          >{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</span
-        >
-        <span
-          >{{ shippingAddress.streetName }}
-          {{ shippingAddress.apartment }}</span
-        >
-        <span>{{ shippingAddress.zipCode }}</span>
-        <span
-          >{{ shippingAddress.city
-          }}{{ shippingAddress.state ? `, ${shippingAddress.city}` : '' }}</span
-        >
-        <span>{{ shippingAddress.country }}</span>
-        <span>{{ shippingAddress.phoneNumber }}</span>
+        <UserShippingAddress :address="shippingAddress" />
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
       data-cy="shipping-details-checkbox_isDefault"
-      v-model="localSetAsDefault"
+      :selected="setAsDefault"
+      @change="$emit('changeSetAsDefault', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="shipping-address-setAsDefault"
@@ -38,10 +27,11 @@
 
 <script>
 import {
-  SfCheckbox
+  SfCheckbox,
+  SfAddressPicker
 } from '@storefront-ui/vue';
-import SfAddressPicker from '~/components/temp/SfAddressPicker';
-import { ref, watch } from '@vue/composition-api';
+import UserShippingAddress from '~/components/UserShippingAddress';
+import { userShippingGetters } from '@vue-storefront/commercetools';
 
 export default {
   name: 'UserShippingAddresses',
@@ -61,40 +51,36 @@ export default {
   },
   components: {
     SfCheckbox,
-    SfAddressPicker
+    SfAddressPicker,
+    UserShippingAddress
   },
-  setup ({ setAsDefault }, { emit }) {
+  setup (_, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-
-    const localSetAsDefault = ref(setAsDefault);
-
-    watch(localSetAsDefault, () => emit('changeSetAsDefault', localSetAsDefault.value));
-    watch(() => setAsDefault, () => localSetAsDefault.value = setAsDefault);
 
     return {
       setCurrentAddress,
-      localSetAsDefault
+      userShippingGetters
     };
   }
 };
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/variables";
+@import "~@storefront-ui/vue/styles";
 
-  .shipping__addresses {
-    @include for-desktop {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-    margin-bottom: var(--spacer-xl);
-
-    .sf-address {
-      margin-bottom: var(--spacer-sm);
-    }
+.shipping-addresses {
+  @include for-desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
   }
-
-  .shipping-address-setAsDefault, .form__action-button--margin-bottom {
-    margin-bottom: var(--spacer-xl);
+  margin-bottom: var(--spacer-xl);
+  &__address {
+    margin-bottom: var(--spacer-sm);
   }
+}
+
+.shipping-address-setAsDefault, .form__action-button--margin-bottom {
+  margin-bottom: var(--spacer-xl);
+}
 </style>

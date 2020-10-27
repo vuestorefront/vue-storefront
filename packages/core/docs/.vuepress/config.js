@@ -31,6 +31,7 @@ module.exports = {
           children: [
             ['/commercetools/use-product', 'useProduct'],
             ['/commercetools/use-review', 'useReview'],
+            ['/commercetools/use-user-shipping', 'useUserShipping'],
             ['/commercetools/use-facet', 'useFacet'],
             ['/commercetools/use-cart', 'useCart']
 
@@ -41,8 +42,8 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/enterprise/use-review', 'useReview'],
-            ['/commercetools/enterprise/user-groups', 'User groups']
-
+            ['/commercetools/enterprise/user-groups', 'User groups'],
+            ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
           ]
         },
         {
@@ -137,7 +138,7 @@ module.exports = {
           collapsable: true,
           children: [
             ['/integrate/ecommerce', 'eCommerce'],
-            ['/integrate/cms', 'CMS'],
+            ['/general/cms', 'CMS'],
             ['/integrate/api-middleware', 'API middleware'],
           ]
         },

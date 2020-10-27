@@ -1,7 +1,13 @@
 # Changelog
 
-## 0.2.5 - not released
+## 0.2.6 - not released
 
+- removed `chosenShippingMethod` defaulting ([#5073](https://github.com/DivanteLtd/vue-storefront/issues/5073))
+
+## 0.2.5
+
+- `customQuery` for checkout composables ([#5025](https://github.com/DivanteLtd/vue-storefront/issues/5025))
+- api-client apollo client no longer shared between requests ([#5056](https://github.com/DivanteLtd/vue-storefront/pull/5056))
 
 ## 0.2.4
 

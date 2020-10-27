@@ -51,11 +51,11 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary">Forgotten password?</SfButton>
+            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
@@ -130,7 +130,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -143,9 +143,7 @@ import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@stor
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
-import uiState from '~/assets/ui-state';
-
-const { isLoginModalOpen, toggleLoginModal } = uiState;
+import { useUiState } from '~/composables';
 
 extend('email', {
   ...email,
@@ -170,6 +168,7 @@ export default {
     ValidationObserver
   },
   setup() {
+    const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(false);
     const createAccount = ref(false);

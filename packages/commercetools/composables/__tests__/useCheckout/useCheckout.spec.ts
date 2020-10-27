@@ -131,7 +131,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
       ],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toHaveBeenCalledWith({ id: 'new-cart-id' });
   });
 });
@@ -150,7 +150,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
     expect(billingDetails.value).toEqual({ ...billingAddress, contactInfo: {} });
   });
 
-  it('send billing details to the api', async () => {
+  it('send billing details to the API', async () => {
     const setBillingDetails = createSetBillingDetails({ factoryParams: {}, cartFields, setCart });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress, { save: true });
@@ -162,7 +162,7 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
       ],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toHaveBeenCalledWith({ id: 'new-cart-id' });
   });
 });
@@ -234,7 +234,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
 
     expect(getShippingMethods).toBeCalled();
     expect(shippingMethods.value).toEqual([]);
-    expect(chosenShippingMethod.value).toEqual({ method: 'cart' });
+    expect(chosenShippingMethod.value).toEqual({ });
     expect(setShippingMethod).not.toBeCalled();
   });
 });
@@ -297,7 +297,7 @@ describe('[commercetools-composables] useCheckout/setPersonalDetails', () => {
       actions: ['setCustomerEmail'],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(setShippingDetails).toBeCalled();
     expect(initFields).toBeCalled();
   });
@@ -328,7 +328,7 @@ describe('[commercetools-composables] useCheckout/setShippingMethod', () => {
       actions: ['setShippingMethodAction'],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toBeCalled();
   });
 });

@@ -1,7 +1,5 @@
 {
   "name": "@vue-storefront/boilerplate-theme",
-  "description": "My breathtaking Nuxt.js project",
-  "author": "Filip Rakowski",
   "version": "0.0.3",
   "private": true,
   "scripts": {
