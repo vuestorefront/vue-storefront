@@ -7,7 +7,7 @@
     >
       <SfCheckbox
         data-cy="billing-details-checkbox_isDefault"
-        v-model="form.isDefault"
+        v-model="form._isDefault"
         name="isDefault"
         label="Set as default"
         class="form__checkbox-isDefault"
@@ -107,7 +107,7 @@
         >
           <SfInput
             data-cy="billing-details-input_zipCode"
-            v-model="form.zipCode"
+            v-model="form.postalCode"
             name="zipCode"
             label="Zip-code"
             required
@@ -148,7 +148,7 @@
       >
         <SfInput
           data-cy="billing-details-input_phoneNumber"
-          v-model="form.phoneNumber"
+          v-model="form.phone"
           name="phone"
           label="Phone number"
           required
@@ -174,7 +174,6 @@ import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@vue/composition-api';
 import { getSettings } from '@vue-storefront/commercetools-api';
-import { userBillingGetters } from '@vue-storefront/commercetools';
 
 extend('required', {
   ...required,
@@ -216,17 +215,17 @@ export default {
 
   setup(props, { emit }) {
     const form = reactive({
-      id: userBillingGetters.getId(props.address),
-      firstName: userBillingGetters.getFirstName(props.address),
-      lastName: userBillingGetters.getLastName(props.address),
-      streetName: userBillingGetters.getStreetName(props.address),
-      apartment: userBillingGetters.getApartmentNumber(props.address),
-      city: userBillingGetters.getCity(props.address),
-      state: userBillingGetters.getProvince(props.address),
-      zipCode: userBillingGetters.getPostCode(props.address),
-      country: userBillingGetters.getCountry(props.address),
-      phoneNumber: userBillingGetters.getPhone(props.address),
-      isDefault: userBillingGetters.isDefault(props.address)
+      id: props.address.id,
+      firstName: props.address.firstName,
+      lastName: props.address.lastName,
+      streetName: props.address.streetName,
+      apartment: props.address.apartment,
+      city: props.address.city,
+      state: props.address.state,
+      postalCode: props.address.postalCode,
+      country: props.address.country,
+      phone: props.address.phone,
+      _isDefault: props.address._isDefault
     });
 
     const submitForm = () => {

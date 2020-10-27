@@ -1,28 +1,22 @@
 <template>
   <div>
-    <p class="name">
-      {{ data.name }}
-    </p>
+    <p class="name">{{ address.firstName }} {{ address.lastName }}</p>
+    <p>{{ street }}</p>
 
     <p>
-      {{ data.street }}
+      {{ address.city }}
+      {{ address.state }}
+      {{ address.postalCode }}
     </p>
 
-    <p>
-      {{ data.city }}
-      {{ data.state }}
-      {{ data.zipCode }}
-    </p>
-
-    <p>{{ data.country }}</p>
-    <p v-if="data.phoneNumber">T: {{ data.phoneNumber }}</p>
+    <p>{{ country }}</p>
+    <p v-if="address.phone">T: {{ address.phone }}</p>
   </div>
 </template>
 
 <script>
-import { reactive, computed } from '@vue/composition-api';
+import { toRef, computed } from '@vue/composition-api';
 import { getSettings } from '@vue-storefront/commercetools-api';
-import { userShippingGetters } from '@vue-storefront/commercetools';
 
 export default {
   props: {
@@ -33,34 +27,26 @@ export default {
   },
 
   setup(props) {
-    const data = reactive({
-      firstName: computed(() => userShippingGetters.getFirstName(props.address)),
-      lastName: computed(() => userShippingGetters.getLastName(props.address)),
-      streetName: computed(() => userShippingGetters.getStreetName(props.address)),
-      streetNumber: computed(() => userShippingGetters.getStreetNumber(props.address)),
-      apartment: computed(() => userShippingGetters.getApartmentNumber(props.address)),
-      zipCode: computed(() => userShippingGetters.getPostCode(props.address)),
-      city: computed(() => userShippingGetters.getCity(props.address)),
-      state: computed(() => userShippingGetters.getProvince(props.address)),
-      phoneNumber: computed(() => userShippingGetters.getPhone(props.address)),
-      country: computed(() => {
-        const country = userShippingGetters.getCountry(props.address);
-        return getSettings().countries.find(c => c.name === country)?.label || country;
-      }),
-      name: computed(() => `${ data.firstName } ${ data.lastName }`),
-      street: computed(() => {
-        const parts = [
-          data.streetName,
-          data.streetNumber && ` ${ data.streetNumber }`,
-          data.apartment && `, Apartment ${ data.apartment }`
-        ];
+    const address = toRef(props, 'address');
 
-        return parts.filter(Boolean).join('');
-      })
+    const street = computed(() => {
+      const parts = [
+        address.streetName,
+        address.streetNumber && ` ${ address.streetNumber }`,
+        address.apartment && `, Apartment ${ address.apartment }`
+      ];
+
+      return parts.filter(Boolean).join('');
+    });
+
+    const country = computed(() => {
+      const country = address.country;
+      return getSettings().countries.find(c => c.name === country)?.label || country;
     });
 
     return {
-      data
+      street,
+      country
     };
   }
 };
