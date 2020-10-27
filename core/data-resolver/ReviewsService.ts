@@ -12,8 +12,7 @@ const createReview = (review: Review): Promise<boolean> =>
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json, text/plain, */*'
       },
       body: JSON.stringify({ review })
     }

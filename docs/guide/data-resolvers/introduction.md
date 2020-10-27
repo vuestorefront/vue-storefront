@@ -16,7 +16,6 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 const headers = {
   'Accept': 'application/json, text/plain, */*',
-  'Content-Type': 'application/json'
 }
 
 const myNewNetworkCall = async (data: string): Promise<Task> =>

@@ -7,8 +7,7 @@ import config from 'config'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const headers = {
-  'Accept': 'application/json, text/plain, */*',
-  'Content-Type': 'application/json'
+  'Accept': 'application/json, text/plain, */*'
 }
 
 const resetPassword = async (email: string): Promise<Task> =>
@@ -59,7 +58,7 @@ const updateProfile = async (userProfile: UserProfile, actionName: string): Prom
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       mode: 'cors',
       body: JSON.stringify(userProfile)
     },
@@ -94,7 +93,7 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
     payload: {
       method: 'POST',
       mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(passwordData)
     }
   })

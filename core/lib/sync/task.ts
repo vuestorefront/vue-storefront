@@ -53,6 +53,7 @@ function getPayload (task, currentToken) {
   const payload = {
     ...task.payload,
     headers: {
+      'Content-Type': 'application/json',
       ...task.payload.headers,
       ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: `${config.users.tokenAuthScheme} ${currentToken}` } : {})
     }

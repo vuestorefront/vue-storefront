@@ -112,10 +112,6 @@ const getProductRenderList = async ({
     const task = await TaskQueue.execute({ url, // sync the cart
       payload: {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && config.users.tokenInHeader ? { authorization: `Bearer ${token}` } : {})
-        },
         mode: 'cors'
       },
       callback_event: 'prices-after-sync'
