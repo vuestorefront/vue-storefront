@@ -27,7 +27,7 @@ const userBillingGetters: UserBillingGetters<any, any> = {
   getTaxNumber: address => '',
   getId: address => address?.id || '',
   getApartmentNumber: address => address?.apartment || '',
-  isDefault: address => address?._isDefault || false
+  isDefault: address => address?.isDefault || false
 };
 
 export default userBillingGetters;

@@ -15,7 +15,7 @@ const addresses: any[] = [
     phone: '560123456',
     email: '',
     company: '',
-    _isDefault: true
+    isDefault: true
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const addresses: any[] = [
     phone: '560123456',
     email: '',
     company: '',
-    _isDefault: true
+    isDefault: true
   }
 ];
 
