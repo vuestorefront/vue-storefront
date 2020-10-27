@@ -11,7 +11,6 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippinginfo_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({ addressInformation })
     },
@@ -23,7 +22,6 @@ const getTotals = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'totals_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true
@@ -38,7 +36,6 @@ const getCartToken = async (guestCart: boolean = false, forceClientState: boolea
     url,
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     force_client_state: forceClientState,
@@ -51,7 +48,6 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'updateitem_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({
         cartItem: {
@@ -67,7 +63,6 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deleteitem_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({
         cartItem: {
@@ -84,7 +79,6 @@ const getPaymentMethods = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'paymentmethods_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true
@@ -95,7 +89,6 @@ const getShippingMethods = async (address: any): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippingmethods_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({
         address
@@ -109,7 +102,6 @@ const getItems = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'pull_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true
@@ -122,7 +114,6 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
     url,
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: false
@@ -134,7 +125,6 @@ const removeCoupon = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deletecoupon_endpoint')),
     payload: {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: false

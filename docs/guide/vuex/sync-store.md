@@ -20,7 +20,6 @@ context
       url: config.stock.endpoint + '/check/' + encodeURIComponent(product.sku),
       payload: {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
         mode: 'cors',
       },
       product_sku: product.sku,
