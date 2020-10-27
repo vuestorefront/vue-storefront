@@ -1,3 +1,4 @@
+import { Logger } from '@vue-storefront/core';
 import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput, AddressInput } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
@@ -24,7 +25,7 @@ export const createChangeLineItemQuantityAction = (product: LineItem) => ({
 
 export const setShippingAddressAction = (shippingDetails: Address): { setShippingAddress: { address: AddressInput } } => {
   if (shippingDetails.contactInfo?.phone || shippingDetails.contactInfo?.email || shippingDetails.contactInfo?.mobile || shippingDetails.contactInfo?.fax) {
-    console.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
+    Logger.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
   }
   return {
     setShippingAddress: {
@@ -68,7 +69,7 @@ export const addPayment = (payment: ResourceIdentifierInput) => ({
 
 export const setBillingAddressAction = (billingDetails: Address): { setBillingAddress: { address: AddressInput } } => {
   if (billingDetails.contactInfo?.phone || billingDetails.contactInfo?.email || billingDetails.contactInfo?.mobile || billingDetails.contactInfo?.fax) {
-    console.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
+    Logger.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
   }
   return {
     setBillingAddress: {
