@@ -23,7 +23,6 @@ const myNewNetworkCall = async (data: string): Promise<Task> =>
     url: processLocalizedURLAddress(/* some endpoint */),
     payload: {
       method: 'POST',
-      mode: 'cors',
       headers,
       body: JSON.stringify({ data })
     }

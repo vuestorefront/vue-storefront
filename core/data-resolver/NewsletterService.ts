@@ -8,8 +8,7 @@ const isSubscribed = (email: string): Promise<boolean> =>
   TaskQueue.execute({
     url: processURLAddress(getApiEndpointUrl(config.newsletter, 'endpoint')) + '?email=' + encodeURIComponent(email),
     payload: {
-      method: 'GET',
-      mode: 'cors'
+      method: 'GET'
     },
     silent: true
   }).then(({ result }) => result === 'subscribed')
@@ -19,7 +18,6 @@ const subscribe = (email: string): Promise<boolean> =>
     url: processURLAddress(getApiEndpointUrl(config.newsletter, 'endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify({ email })
     }
   }).then(({ code }) => code === 200)
@@ -29,7 +27,6 @@ const unsubscribe = (email: string): Promise<boolean> =>
     url: processURLAddress(getApiEndpointUrl(config.newsletter, 'endpoint')),
     payload: {
       method: 'DELETE',
-      mode: 'cors',
       body: JSON.stringify({ email })
     }
   }).then(({ code }) => code === 200)

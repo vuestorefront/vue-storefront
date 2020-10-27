@@ -15,7 +15,6 @@ const resetPassword = async (email: string): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'resetPassword_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       headers,
       body: JSON.stringify({ email })
     }
@@ -26,7 +25,6 @@ const createPassword = async (email: string, newPassword: string, resetToken: st
     url: processLocalizedURLAddress(config.users.createPassword_endpoint),
     payload: {
       method: 'POST',
-      mode: 'cors',
       headers,
       body: JSON.stringify({ email, newPassword, resetToken })
     }
@@ -37,7 +35,6 @@ const login = async (username: string, password: string): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'login_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       headers,
       body: JSON.stringify({ username, password })
     }
@@ -59,7 +56,6 @@ const updateProfile = async (userProfile: UserProfile, actionName: string): Prom
     payload: {
       method: 'POST',
       headers,
-      mode: 'cors',
       body: JSON.stringify(userProfile)
     },
     callback_event: `store:${actionName}`
@@ -70,7 +66,6 @@ const getProfile = async () =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'GET',
-      mode: 'cors',
       headers
     }
   })
@@ -82,7 +77,6 @@ const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =
     ),
     payload: {
       method: 'GET',
-      mode: 'cors',
       headers
     }
   })
@@ -92,7 +86,6 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'changePassword_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
       headers,
       body: JSON.stringify(passwordData)
     }
@@ -101,7 +94,6 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
 const refreshToken = async (refreshToken: string): Promise<string> =>
   fetch(processLocalizedURLAddress(getApiEndpointUrl(config.users, 'refresh_endpoint')), {
     method: 'POST',
-    mode: 'cors',
     headers,
     body: JSON.stringify({ refreshToken })
   }).then(resp => resp.json())

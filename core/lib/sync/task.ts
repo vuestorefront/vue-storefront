@@ -51,6 +51,7 @@ function getUrl (task, currentToken, currentCartId) {
 
 function getPayload (task, currentToken) {
   const payload = {
+    mode: 'cors',
     ...task.payload,
     headers: {
       'Content-Type': 'application/json',

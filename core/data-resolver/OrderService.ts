@@ -9,7 +9,6 @@ const placeOrder = (order: Order): Promise<Task> =>
   TaskQueue.execute({ url: getApiEndpointUrl(config.orders, 'endpoint'), // sync the order
     payload: {
       method: 'POST',
-      mode: 'cors',
       body: JSON.stringify(order)
     }
   })
