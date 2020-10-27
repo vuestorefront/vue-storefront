@@ -1,3 +1,1 @@
-import storeCodeFromRoute from './multistore/storeCodeFromRoute'
-
-export default storeCodeFromRoute
+export { default } from './multistore/storeCodeFromRoute'
