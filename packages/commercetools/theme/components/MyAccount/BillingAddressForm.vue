@@ -7,7 +7,7 @@
     >
       <SfCheckbox
         data-cy="billing-details-checkbox_isDefault"
-        v-model="form._isDefault"
+        v-model="form.isDefault"
         name="isDefault"
         label="Set as default"
         class="form__checkbox-isDefault"
@@ -216,7 +216,7 @@ export default {
         postalCode: '',
         country: '',
         phone: '',
-        _isDefault: false
+        isDefault: false
       })
     },
     isNew: {
@@ -237,7 +237,7 @@ export default {
       postalCode: props.address.postalCode,
       country: props.address.country,
       phone: props.address.phone,
-      _isDefault: props.address._isDefault
+      isDefault: props.address._isDefault
     });
 
     const submitForm = () => {
