@@ -30,9 +30,11 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
-    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
+      logger: {
+        verbosity: 'error'
+      },
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
@@ -58,22 +60,27 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      disableGenerateTokenMiddleware: false,
       api: {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',
         projectKey: 'vsf-ct-dev',
-        clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
-        clientSecret: 'JejrKtQgU_KkNxPn_96UEAaEoPocNFqy',
+        clientId: 'RT4iJGDbDzZe4b2E6RyeNe9s',
+        clientSecret: '5eBt3yfZJWw1j7V6kXjfKXpuFP-YQXpg',
         scopes: [
+          'manage_products:vsf-ct-dev',
           'create_anonymous_token:vsf-ct-dev',
-          'manage_my_orders:vsf-ct-dev',
           'manage_my_profile:vsf-ct-dev',
-          'manage_my_shopping_lists:vsf-ct-dev',
+          'manage_customer_groups:vsf-ct-dev',
+          'view_categories:vsf-ct-dev',
+          'introspect_oauth_tokens:vsf-ct-dev',
           'manage_my_payments:vsf-ct-dev',
-          'view_products:vsf-ct-dev',
+          'manage_my_orders:vsf-ct-dev',
+          'manage_my_shopping_lists:vsf-ct-dev',
           'view_published_products:vsf-ct-dev'
         ]
+      },
+      i18n: {
+        useNuxtI18nConfig: true
       }
     }]
   ],
@@ -82,6 +89,50 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
+  i18n: {
+    currency: 'USD',
+    country: 'US',
+    countries: [
+      { name: 'US',
+        label: 'United States' },
+      { name: 'AT',
+        label: 'Austria' },
+      { name: 'DE',
+        label: 'Germany' },
+      { name: 'NL',
+        label: 'Netherlands' }
+    ],
+    currencies: [
+      { name: 'EUR',
+        label: 'Euro' },
+      { name: 'USD',
+        label: 'Dollar' }
+    ],
+    locales: [
+      {
+        code: 'en',
+        label: 'English',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de',
+        label: 'German',
+        file: 'de.js',
+        iso: 'de'
+      }
+    ],
+    defaultLocale: 'en',
+    lazy: true,
+    seo: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en'
+    },
+    detectBrowserLanguage: {
+      cookieKey: 'vsf-locale'
+    }
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -95,31 +146,5 @@ export default {
         })
       })
     ]
-  },
-
-  i18n: {
-    locales: [
-      {
-        code: 'en',
-        file: 'en.js',
-        iso: 'en'
-      },
-      {
-        code: 'de',
-        file: 'de.js',
-        iso: 'de'
-      }
-    ],
-    defaultLocale: 'en',
-    lazy: true,
-    seo: true,
-    langDir: 'lang/',
-    vueI18n: {
-      fallbackLocale: 'en'
-    },
-    detectBrowserLanguage: {
-      cookieKey: 'vsf-locale',
-      alwaysRedirect: true
-    }
   }
 };

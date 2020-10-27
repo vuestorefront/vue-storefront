@@ -3,10 +3,11 @@
 import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
 import { billingDetails, loading } from './shared';
 import initFields from './initFields';
+import { CustomQuery } from '@vue-storefront/core';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}) => {
+const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
   billingDetails.value = {
     ...initialDetails,
     ...billingDetails.value,
@@ -27,7 +28,7 @@ const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => asyn
     actions: [
       cartActions.setBillingAddressAction(billingDetails.value)
     ]
-  });
+  }, customQuery);
 
   setCart(cartResponse.data.cart);
   initFields(cartResponse.data.cart);

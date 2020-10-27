@@ -8,12 +8,12 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@vue-storefront/shopify-api": "^0.0.1",
-    "@vue-storefront/core": "^2.0.0",
-    "@vue/composition-api": "^0.6.7",
+    "@vue-storefront/core": "^2.0.4",
     "js-cookie": "^2.2.1"
   },
   "files": [

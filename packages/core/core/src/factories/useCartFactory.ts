@@ -1,32 +1,28 @@
-import { UseCart } from '../types';
-import { Ref, ref, computed } from '@vue/composition-api';
-import { useSSR } from '../utils';
+import { CustomQuery, UseCart } from '../types';
+import { Ref, computed } from '@vue/composition-api';
+import { sharedRef, Logger } from '../utils';
 
 export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
-  loadCart: () => Promise<CART>;
-  addToCart: (params: {
-    currentCart: CART;
-    product: PRODUCT;
-    quantity: any;
-  }) => Promise<CART>;
-  removeFromCart: (params: {
-    currentCart: CART;
-    product: CART_ITEM;
-  }) => Promise<CART>;
-  updateQuantity: (params: {
-    currentCart: CART;
-    product: CART_ITEM;
-    quantity: number;
-  }) => Promise<CART>;
+  loadCart: (customQuery?: CustomQuery) => Promise<CART>;
+  addToCart: (
+    params: {
+      currentCart: CART;
+      product: PRODUCT;
+      quantity: any;
+    },
+    customQuery?: CustomQuery
+  ) => Promise<CART>;
+  removeFromCart: (params: { currentCart: CART; product: CART_ITEM }, customQuery?: CustomQuery) => Promise<CART>;
+  updateQuantity: (
+    params: { currentCart: CART; product: CART_ITEM; quantity: number },
+    customQuery?: CustomQuery
+  ) => Promise<CART>;
   clearCart: (prams: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (params: {
-    currentCart: CART;
-    coupon: string;
-  }) => Promise<{ updatedCart: CART; updatedCoupon: COUPON }>;
-  removeCoupon: (params: {
-    currentCart: CART;
-    coupon: COUPON;
-  }) => Promise<{ updatedCart: CART }>;
+  applyCoupon: (params: { currentCart: CART; couponCode: string }, customQuery?: CustomQuery) => Promise<{ updatedCart: CART }>;
+  removeCoupon: (
+    params: { currentCart: CART; coupon: COUPON },
+    customQuery?: CustomQuery
+  ) => Promise<{ updatedCart: CART }>;
   isOnCart: (params: { currentCart: CART; product: PRODUCT }) => boolean;
 };
 
@@ -38,69 +34,87 @@ interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
 ): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
-  const appliedCoupon: Ref<COUPON | null> = ref(null);
-  const loading: Ref<boolean> = ref<boolean>(false);
-  const cart: Ref<CART> = ref(null);
-  let isInitialized = false;
-
   const setCart = (newCart: CART) => {
-    cart.value = newCart;
+    sharedRef('useCart-cart').value = newCart;
+    Logger.debug('useCartFactory.setCart', newCart);
   };
 
   const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
-    const { initialState, saveToInitialState } = useSSR('vsf-cart');
+    const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
+    const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
 
-    cart.value = isInitialized ? cart.value : initialState || null;
-    isInitialized = true;
+    const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
+      Logger.debug('useCart.addToCart', { product, quantity });
 
-    const addToCart = async (product: PRODUCT, quantity: number) => {
       loading.value = true;
-      const updatedCart = await factoryParams.addToCart({
-        currentCart: cart.value,
-        product,
-        quantity
-      });
-      cart.value = updatedCart;
-      loading.value = false;
-    };
-
-    const removeFromCart = async (product: CART_ITEM) => {
-      loading.value = true;
-      const updatedCart = await factoryParams.removeFromCart({
-        currentCart: cart.value,
-        product
-      });
-      cart.value = updatedCart;
-      loading.value = false;
-    };
-
-    const updateQuantity = async (product: CART_ITEM, quantity?: number) => {
-      if (quantity && quantity > 0) {
-        loading.value = true;
-        const updatedCart = await factoryParams.updateQuantity({
+      const updatedCart = await factoryParams.addToCart(
+        {
           currentCart: cart.value,
           product,
           quantity
-        });
+        },
+        customQuery
+      );
+      cart.value = updatedCart;
+      loading.value = false;
+    };
+
+    const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
+      Logger.debug('userCart.removeFromCart', { product });
+
+      loading.value = true;
+      const updatedCart = await factoryParams.removeFromCart(
+        {
+          currentCart: cart.value,
+          product
+        },
+        customQuery
+      );
+      cart.value = updatedCart;
+      loading.value = false;
+    };
+
+    const updateQuantity = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
+      Logger.debug('userCart.updateQuantity', { product, quantity });
+
+      if (quantity && quantity > 0) {
+        loading.value = true;
+        const updatedCart = await factoryParams.updateQuantity(
+          {
+            currentCart: cart.value,
+            product,
+            quantity
+          },
+          customQuery
+        );
         cart.value = updatedCart;
         loading.value = false;
       }
     };
 
-    const loadCart = async () => {
-      if (cart.value) return;
+    const loadCart = async (customQuery?: CustomQuery) => {
+      Logger.debug('userCart.loadCart');
 
+      if (cart.value) {
+
+        /**
+          * Triggering change for hydration purpose,
+          * temporary issue related with cpapi plugin
+          */
+        loading.value = false;
+        cart.value = { ...cart.value };
+        return;
+      }
       loading.value = true;
-      cart.value = await factoryParams.loadCart();
-      saveToInitialState(cart.value);
+      cart.value = await factoryParams.loadCart(customQuery);
       loading.value = false;
     };
 
     const clearCart = async () => {
+      Logger.debug('userCart.clearCart');
+
       loading.value = true;
-      const updatedCart = await factoryParams.clearCart({
-        currentCart: cart.value
-      });
+      const updatedCart = await factoryParams.clearCart({ currentCart: cart.value });
       cart.value = updatedCart;
       loading.value = false;
     };
@@ -112,30 +126,39 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       });
     };
 
-    const applyCoupon = async (coupon: string) => {
+    const applyCoupon = async (couponCode: string, customQuery?: CustomQuery) => {
+      Logger.debug('userCart.applyCoupon');
+
       try {
         loading.value = true;
-        const { updatedCart, updatedCoupon } = await factoryParams.applyCoupon({
+        const { updatedCart } = await factoryParams.applyCoupon({
           currentCart: cart.value,
-          coupon
-        });
+          couponCode
+        }, customQuery);
         cart.value = updatedCart;
-        appliedCoupon.value = updatedCoupon;
+      } catch (e) {
+        Logger.error('userCart.applyCoupon', e);
       } finally {
         loading.value = false;
       }
     };
 
-    const removeCoupon = async () => {
+    const removeCoupon = async (coupon: COUPON, customQuery?: CustomQuery) => {
+      Logger.debug('userCart.removeCoupon');
+
       try {
         loading.value = true;
-        const { updatedCart } = await factoryParams.removeCoupon({
-          currentCart: cart.value,
-          coupon: appliedCoupon.value
-        });
+        const { updatedCart } = await factoryParams.removeCoupon(
+          {
+            currentCart: cart.value,
+            coupon
+          },
+          customQuery
+        );
         cart.value = updatedCart;
-        appliedCoupon.value = null;
         loading.value = false;
+      } catch (e) {
+        Logger.error('userCart.applyCoupon', e);
       } finally {
         loading.value = false;
       }
@@ -149,7 +172,6 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       removeFromCart,
       clearCart,
       updateQuantity,
-      coupon: computed(() => appliedCoupon.value),
       applyCoupon,
       removeCoupon,
       loading: computed(() => loading.value)

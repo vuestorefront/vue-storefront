@@ -9,8 +9,6 @@ While API Client is a data layer for the application composables are the busines
    - `useUserOrders` (subcomposable to `useUser`) to manage user orders that has already been placed
    - `useUserAddresses` (subcomposable to `useUser`) to manage user shipping addresses
 - `useCheckout` to manage order processing
-- `useLocale` to manage localization settings (only platform-specific ones, theme-specific ones like static content translations are handled by the theme)
-
 
 Each of this function works independently and combined they are covering all the logic of your eCommerce platform.
 
@@ -26,7 +24,7 @@ Let's see an example of how Vue Storefront Composable could look like. This is h
 At the moment of invoking a `search` method the`loading` property value changes to `true`. Once the api call is done `products` object is populated with the result and `loading` becomes `false` again.
 
 ## Getters
-::: tip 
+::: tip
 Usage of getters is coompletely optional. Use them where it makes sense to you.
 :::
 
@@ -37,7 +35,10 @@ Sometimes its hard to extract certain subproperties from complex data objects li
 ___
 
 ::: tip Writing backend-agnostic code
-In many cases using getters can save you time and contribute to cleaner code but there is one more thing about getters that makes them really useful. They're always returning agnostic data formats. No matter which platform we're using `productGetters.getAttributes()` will always return the data in a same, UI-friendly format. 
+In many cases using getters can save you time and contribute to cleaner code but there is one more thing about getters that makes them really useful. They're always returning agnostic data formats. No matter which platform we're using `productGetters.getAttributes()` will always return the data in a same, UI-friendly format.
 
 Because interfaces for composables and getters are the same for every platform the above code from above example will work exactly the each one of them. Because of that you can use getters to keep your frontend code agnostic regarding eCommerce platform. This approach can be really useful when you're considering a migration to different platform in the near future
 :::
+
+<Content slot-key="example-product-search-custom-query" />
+

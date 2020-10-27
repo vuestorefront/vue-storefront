@@ -4,20 +4,40 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
+export type CustomQuery<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+};
+
+export interface SearchParams {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: any;
+  [x: string]: any;
+}
+
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
-  availableFilters: ComputedProperty<PRODUCT_FILTERS>;
-  search: (params: {
-    perPage?: number;
-    page?: number;
-    sort?: any;
-    term?: any;
-    filters?: PRODUCT_FILTERS;
-    [x: string]: any;
-  }) => Promise<void>;
-  availableSortingOptions: ComputedProperty<SORTING_OPTIONS>;
   loading: ComputedProperty<boolean>;
+  search(params: SearchParams): Promise<void>;
+  search(params: SearchParams, customQuery?: CustomQuery): Promise<void>;
+  [x: string]: any;
+}
+
+export interface UseUserRegisterParams {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+  [x: string]: any;
+}
+
+export interface UseUserLoginParams {
+  username: string;
+  password: string;
   [x: string]: any;
 }
 
@@ -28,36 +48,27 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
-  register: (user: {
-    email: string;
-    password: string;
-    firstName?: string;
-    lastName?: string;
-    [x: string]: any;
-  }) => Promise<void>;
-  login: (user: {
-    username: string;
-    password: string;
-    [x: string]: any;
-  }) => Promise<void>;
+  register: (user: UseUserRegisterParams) => Promise<void>;
+  login: (user: UseUserLoginParams) => Promise<void>;
   logout: () => Promise<void>;
-  changePassword: (
-    currentPassword: string,
-    newPassword: string) => Promise<void>;
-  refreshUser: () => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+}
+
+export interface UseUserOrdersSearchParams {
+  id?: any;
+  page?: number;
+  perPage?: number;
+  [x: string]: any;
 }
 
 export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders: (params?: {
-    id?: any;
-    page?: number;
-    perPage?: number;
-    [x: string]: any;
-  }) => Promise<void>;
+  searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
+  searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -71,14 +82,72 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseCategory
-<
-  CATEGORY
-> {
+export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  shipping: ComputedProperty<USER_SHIPPING>;
+  addAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  load: () => Promise<void>;
+  setDefault: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  loading: ComputedProperty<boolean>;
+}
+
+export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  getAddresses: (shipping: USER_SHIPPING, criteria?: Record<string, any>) => USER_SHIPPING_ITEM[];
+  getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
+  getTotal: (shipping: USER_SHIPPING) => number;
+  getPostCode: (address: USER_SHIPPING_ITEM) => string;
+  getStreetName: (address: USER_SHIPPING_ITEM) => string;
+  getStreetNumber: (address: USER_SHIPPING_ITEM) => string | number;
+  getCity: (address: USER_SHIPPING_ITEM) => string;
+  getFirstName: (address: USER_SHIPPING_ITEM) => string;
+  getLastName: (address: USER_SHIPPING_ITEM) => string;
+  getCountry: (address: USER_SHIPPING_ITEM) => string;
+  getPhone: (address: USER_SHIPPING_ITEM) => string;
+  getEmail: (address: USER_SHIPPING_ITEM) => string;
+  getProvince: (address: USER_SHIPPING_ITEM) => string;
+  getCompanyName: (address: USER_SHIPPING_ITEM) => string;
+  getTaxNumber: (address: USER_SHIPPING_ITEM) => string;
+  getId: (address: USER_SHIPPING_ITEM) => string | number;
+  getApartmentNumber: (address: USER_SHIPPING_ITEM) => string | number;
+  isDefault: (address: USER_SHIPPING_ITEM) => boolean;
+}
+
+export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
+  billing: ComputedProperty<USER_BILLING>;
+  addAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  load: () => Promise<void>;
+  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
+  loading: ComputedProperty<boolean>;
+}
+
+export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
+  getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
+  getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
+  getTotal: (billing: USER_BILLING) => number;
+  getPostCode: (address: USER_BILLING_ITEM) => string;
+  getStreetName: (address: USER_BILLING_ITEM) => string;
+  getStreetNumber: (address: USER_BILLING_ITEM) => string | number;
+  getCity: (address: USER_BILLING_ITEM) => string;
+  getFirstName: (address: USER_BILLING_ITEM) => string;
+  getLastName: (address: USER_BILLING_ITEM) => string;
+  getCountry: (address: USER_BILLING_ITEM) => string;
+  getPhone: (address: USER_BILLING_ITEM) => string;
+  getEmail: (address: USER_BILLING_ITEM) => string;
+  getProvince: (address: USER_BILLING_ITEM) => string;
+  getCompanyName: (address: USER_BILLING_ITEM) => string;
+  getTaxNumber: (address: USER_BILLING_ITEM) => string;
+  getId: (address: USER_BILLING_ITEM) => string;
+  getApartmentNumber: (address: USER_BILLING_ITEM) => string | number;
+  isDefault: (address: USER_BILLING_ITEM) => boolean;
+}
+
+export interface UseCategory<CATEGORY> {
   categories: ComputedProperty<CATEGORY[]>;
-  search: (params: {
-    [x: string]: any;
-  }) => Promise<void>;
+  search(params: Record<string, any>): Promise<void>;
+  search(params: Record<string, any>, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -88,17 +157,22 @@ export interface UseCart
   CART_ITEM,
   PRODUCT,
   COUPON
-> {
+  > {
   cart: ComputedProperty<CART>;
-  addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
+  addToCart(product: PRODUCT, quantity?: number): Promise<void>;
+  addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
-  removeFromCart: (product: CART_ITEM,) => Promise<void>;
-  updateQuantity: (product: CART_ITEM, quantity?: number) => Promise<void>;
-  clearCart: () => Promise<void>;
-  coupon: ComputedProperty<COUPON | null>;
-  applyCoupon: (coupon: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
-  loadCart: () => Promise<void>;
+  removeFromCart(product: CART_ITEM): Promise<void>;
+  removeFromCart(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
+  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
+  clearCart(): Promise<void>;
+  applyCoupon(coupon: string): Promise<void>;
+  applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
+  removeCoupon(coupon: COUPON): Promise<void>;
+  removeCoupon(coupon: COUPON, customQuery: CustomQuery): Promise<void>;
+  loadCart(): Promise<void>;
+  loadCart(customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -109,12 +183,15 @@ export interface UseWishlist
   PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT) => Promise<void>;
-  isOnWishlist: (product: PRODUCT) => boolean;
-  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
-  clearWishlist: () => Promise<void>;
-  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
+  addToWishlist(product: PRODUCT): Promise<void>;
+  addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
+  loadWishlist(): Promise<void>;
+  loadWishlist(customQuery?: CustomQuery): Promise<void>;
+  clearWishlist(): Promise<void>;
+  isOnWishlist(product: PRODUCT): boolean;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -147,20 +224,32 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseLocale {
-  availableLocales: ComputedProperty<AgnosticLocale[]>;
-  availableCountries: ComputedProperty<AgnosticCountry[]>;
-  availableCurrencies: ComputedProperty<AgnosticCurrency[]>;
-  country: ComputedProperty<AgnosticCountry>;
-  currency: ComputedProperty<AgnosticCurrency>;
-  loadAvailableLocales: () => Promise<void>;
-  loadAvailableCountries: () => Promise<void>;
-  loadAvailableCurrencies: () => Promise<void>;
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+  search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
+  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CustomQuery): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
+  addReview(params: REVIEW_ADD_PARAMS, customQuery: CustomQuery): Promise<void>;
+  reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
-  locale: ComputedProperty<AgnosticLocale>;
-  setLocale: (locale: AgnosticLocale) => Promise<void>;
-  setCountry: (country: AgnosticCountry) => Promise<void>;
-  setCurrency: (currency: AgnosticCurrency) => Promise<void>;
+  [x: string]: any;
+}
+
+export interface UseFacet<SEARCH_DATA> {
+  result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
+  loading: ComputedProperty<boolean>;
+  search: (params?: AgnosticFacetSearchParams) => Promise<void>;
+}
+
+export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
+  search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
+  content: ComputedProperty<CONTENT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<string | null>;
+}
+
+export interface RenderComponent {
+  componentName: string;
+  props?: {};
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -169,13 +258,14 @@ export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getPrice: (product: PRODUCT) => AgnosticPrice;
   getGallery: (product: PRODUCT) => AgnosticMediaGalleryItem[];
   getCoverImage: (product: PRODUCT) => string;
-  getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) =>
-    PRODUCT[];
+  getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) => PRODUCT[];
   getAttributes: (products: PRODUCT[] | PRODUCT, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
   getDescription: (product: PRODUCT) => string;
   getCategoryIds: (product: PRODUCT) => string[];
   getId: (product: PRODUCT) => string;
   getFormattedPrice: (price: number) => string;
+  getTotalReviews: (product: PRODUCT) => number;
+  getAverageRating: (product: PRODUCT) => number;
   getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
   [getterName: string]: any;
 }
@@ -192,6 +282,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  getCoupons: (cart: CART) => AgnosticCoupon[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -218,6 +309,7 @@ export interface UserGetters<USER> {
   getFirstName: (customer: USER) => string;
   getLastName: (customer: USER) => string;
   getFullName: (customer: USER) => string;
+  getEmailAddress: (customer: USER) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -243,6 +335,37 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
+export interface ReviewGetters<REVIEW, REVIEW_ITEM> {
+  getItems: (review: REVIEW) => REVIEW_ITEM[];
+  getReviewId: (item: REVIEW_ITEM) => string;
+  getReviewAuthor: (item: REVIEW_ITEM) => string;
+  getReviewMessage: (item: REVIEW_ITEM) => string;
+  getReviewRating: (item: REVIEW_ITEM) => number;
+  getReviewDate: (item: REVIEW_ITEM) => string;
+  getTotalReviews: (review: REVIEW) => number;
+  getAverageRating: (review: REVIEW) => number;
+  getRatesCount: (review: REVIEW) => AgnosticRateCount[];
+  getReviewsPage: (review: REVIEW) => number;
+}
+
+export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
+  getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
+  getGrouped: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
+  getCategoryTree: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticCategoryTree;
+  getSortOptions: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticSort;
+  getProducts: (searchData: FacetSearchResult<SEARCH_DATA>) => RESULTS;
+  getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
+  getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
+  [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
+}
+
 export interface AgnosticMediaGalleryItem {
   small: string;
   normal: string;
@@ -253,6 +376,8 @@ export interface AgnosticCategoryTree {
   label: string;
   slug?: string;
   items: AgnosticCategoryTree[];
+  isCurrent: boolean;
+  count?: number;
   [x: string]: unknown;
 }
 
@@ -312,6 +437,11 @@ export interface AgnosticSortByOption {
   [x: string]: unknown;
 }
 
+export interface AgnosticRateCount {
+  rate: number;
+  count: number;
+}
+
 // TODO - remove this interface
 export enum AgnosticOrderStatus {
   Open = 'Open',
@@ -321,4 +451,58 @@ export enum AgnosticOrderStatus {
   Complete = 'Complete',
   Cancelled = 'Cancelled',
   Refunded = 'Refunded'
+}
+
+export interface AgnosticFacet {
+  type: string;
+  id: string;
+  value: any;
+  attrName?: string;
+  count?: number;
+  selected?: boolean;
+  metadata?: any;
+}
+
+export interface AgnosticGroupedFacet {
+  id: string;
+  label: string;
+  count?: number;
+  options: AgnosticFacet[];
+}
+
+export interface AgnosticSort {
+  options: AgnosticFacet[];
+  selected: string;
+}
+
+export interface AgnosticPagination {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  pageOptions: number[];
+}
+
+export interface FacetSearchResult<S> {
+  data: S;
+  input: AgnosticFacetSearchParams;
+}
+
+export interface AgnosticFacetSearchParams {
+  categorySlug?: string;
+  rootCatSlug?: string;
+  term?: string;
+  page?: number;
+  itemsPerPage?: number;
+  sort?: string;
+  filters?: Record<string, string[]>;
+  metadata?: any;
+  [x: string]: any;
+}
+
+export interface VSFLogger {
+  debug(message?: any, ...args: any): void;
+  info(message?: any, ...args: any): void;
+  warn(message?: any, ...args: any): void;
+  error(message?: any, ...args: any): void;
 }

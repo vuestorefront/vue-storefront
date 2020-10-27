@@ -5,6 +5,7 @@ const consola = require('consola')
 const chalk = require('chalk');
 const { mergeWith, isArray } = require('lodash')
 const chokidar = require('chokidar')
+const registerLogger = require('@vue-storefront/core').registerLogger
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -14,7 +15,6 @@ const log = {
 }
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
-
   const isProd = process.env.NODE_ENV === 'production'
   const isSfuiInstalled = fs.existsSync(path.resolve('node_modules/@storefront-ui'))
   const defaultOptions = {
@@ -37,12 +37,24 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     }
   })
 
-
   log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
-  this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
-  log.success('Installed Composition API plugin for Vue 2')
+
+  this.options.head.meta.push({
+    name: 'generator',
+    content: 'Vue Storefront 2'
+  })
+  
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'))
-  log.success('Installed SSR plugin for composables');
+  log.success('Installed Vue Storefront SSR plugin');
+
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/logger.js'),
+    options: moduleOptions.logger || {}
+  })
+  log.success('Installed VSF Logger plugin');
+
+  this.addModule('@nuxtjs/composition-api')
+  log.success('Installed nuxt Composition API Module');
 
   //-------------------------------------
 
@@ -63,7 +75,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
     if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.module)
+        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.tsModule || pkg.module)
       })
     }
     this.options.build.transpile.push(package)
@@ -74,7 +86,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
     useRawSource(package)
   })
-
 }
 
 module.exports.meta = require('../package.json')

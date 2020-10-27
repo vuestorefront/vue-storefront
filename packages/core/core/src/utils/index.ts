@@ -1,12 +1,18 @@
 /* istanbul ignore file */
 
-import { useSSR, onSSR, configureSSR, vsfRef } from './ssr';
+import { onSSR, vsfRef, configureSSR } from './ssr';
+import { sharedRef } from './shared';
 import wrap from './wrap';
+import { Logger, registerLogger } from './logger';
+import mask from './logger/mask';
 
 export {
-  vsfRef,
   wrap,
-  useSSR,
   onSSR,
-  configureSSR
+  vsfRef,
+  configureSSR,
+  sharedRef,
+  Logger,
+  registerLogger,
+  mask
 };

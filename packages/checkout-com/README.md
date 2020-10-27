@@ -26,11 +26,20 @@ If you are Developing Core of Vue Storefront Next you might need to add `@vue-st
 3. At the bottom of `modules` add:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
-    publicKey: 'pk_test_your-public-key',
-    secretKey: 'sk_test_your-secret-key',
-    ctApiUrl: 'https://your-commerctools-instance.com'
+    channels: {
+        en: {
+            publicKey: 'pk_test_your-public-key',
+            secretKey: 'sk_test_your-secret-key',
+            ctApiUrl: 'https://your-commerctools-instance.com'
+        }
+    },
+    defaultChannel: 'en'
 }],
 ```
+`defaultChannel` is the channel which will be chosen by default. Value should be keyname from `channels`
+`channels` allows us to define many variants of attributes. Developer is able to change them just by calling `setChannel` 
+`publicKey` and `secretKey` comes from Checkout COM
+`ctApiUrl` is base URL to the CT CKO API - do not put slash at the end!
 
 ## Render payment handlers & finalize payment
 1. Import `useCko`:
@@ -44,13 +53,13 @@ interface {
     availableMethods: { name: string, [key: string]: any },
     error: Error | null,
     selectedPaymentMethod: CkoPaymentType,
-    savePaymentInstrument: boolean,
     storedPaymentInstruments: PaymentInstrument[],
     submitDisabled: ComputedRef<boolean>,
+    storedContextId: ComputedRef<string>,
     loadAvailableMethods: (cartId: string, email?: string): { id, apms },
     initForm: (): void,
     submitCardForm: (): void,
-    makePayment: ({ cartId, email, contextDataId }): Promise<Response | void>,
+    makePayment: ({ cartId, email, contextDataId, success_url, failure_url, secure3d, cvv, reference }): Promise<Response | void>,
     setPaymentInstrument: (token: string): void,
     setSavePaymentInstrument: (newSavePaymentInstrument: boolean): void,
     loadSavePaymentInstrument: (): boolean,
@@ -112,7 +121,7 @@ onMounted(async () => {
     await loadAvailableMethods(cart.value.id, user.value && user.value.email);
 })
 ```
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`.
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`. Caution: PayPal does not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
 
 ```ts
 interface PaymentMethods {
@@ -149,22 +158,31 @@ This configuration will have bigger priority than one from `nuxt.config.js`. The
 
 Unfortunately, Checkout.com is not sharing any component for Saved Cards. After using `loadStoredPaymentInstruments` you can access an array of them via `storedPaymentInstruments`. Show them to user in a way you want. To choose certain Stored Instrument call `setPaymentInstrument(item.id)` where `item` is single element of `storePaymentInstruments` array.
 
-6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in localStorage for a moment.
+`setPaymentInstrument` will set transaction token in your sessionStorage for a moment to make it work even after the refresh. Then it will set `selectedPaymentMethod` to `CkoPaymentType.SAVED_CARD`.
+
+6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in sessionStorage for a moment.
 7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood.
 8. Then you need to make Payment
-`error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from localStorage it will have `There is no payment token` inside.
+`error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from sessionStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
 
 9. You should call `makePayment` at first (remember to check if everything went ok):
 ```js
 // If it is guest
 const payment = await makePayment({ cartId: cart.value.id });
+// If it is guest & you require cvv
+const payment = await makePayment({ cartId: cart.value.id, cvv: 1234 });
 // If it is customer
 const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email });
+// If it is customer & require cvv
+const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email, cvv: 100 });
 // If you've already loaded available payment methods with same useCko composable instance
 const payment = await makePayment();
 
-if (!payment) return;
+if (error.value) {
+    console.error(error.value.message);
+    return;
+}
 ```
 
 10. If there is any error, you can access it via `error.value`. Otherwise, it will be nullish
@@ -174,7 +192,7 @@ if (!payment) return;
 const order = await placeOrder();
 ```
 
-12. `payment.data.redirect_url` contains 3DS Auth redirect url if it is required by bank. You have to support it:
+12. `payment.data.redirect_url` contains 3DS Auth redirect url for Credit Card if it requires it and it always contain redirect url for the PayPal. You have to support it:
 ```js
 if (payment.data.redirect_url) {
     window.location.href = payment.data.redirect_url;
@@ -182,10 +200,39 @@ if (payment.data.redirect_url) {
 }
 ```
 
-13. After 3DS Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
+13. After 3DS Auth/PayPal Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
 ```js
 success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
+```
+You can override them while calling `makePayment` with `success_url` and `failure_url` attributes.
+E.g:
+```js
+await makePayment({
+    // ...
+    success_url: 'https://example.com/success',
+    failure_url: 'https://example.com/failure',
+})
+```
+Would redirect after process to the:
+```js
+success_url: 'https://example.com/success',
+failure_url: 'https://example.com/failure'
+```
+
+14. You should make sure that after user leaves checkout - payment token is being removed from sessionStorage. For that purpose, `useCko` exports `removeTransactionToken` method. Call it when user exits Checkout's view! E.g:
+```ts
+// Checkout.vue
+import { useCko } from '@vue-storefront/checkout-com';
+import { onUnmounted } from '@vue/composition-api';
+// ...
+export default {
+    // ...
+    setup() {
+        const { removeTransactionToken } = useCko();
+        onUnmounted(removeTransactionToken);
+    }
+}
 ```
 
 ## Changing current payment method
@@ -200,11 +247,10 @@ const {
     loadAvailableMethods,
     submitCardForm,
     makePayment,
-    selectPaymentMethod, // Here
     setPaymentInstrument,
     setSavePaymentInstrument,
     loadSavePaymentInstrument,
-    selectedPaymentMethod,
+    selectedPaymentMethod, // Here
     loadStoredPaymentInstruments,
     removePaymentInstrument,
     storedPaymentInstruments,
@@ -220,29 +266,28 @@ enum CkoPaymentType {
     CREDIT_CARD = 1,
     SAVED_CARD,
     KLARNA, // Not supported yet
-    PAYPAL // Not supported yet
+    PAYPAL
 }
 ```
 
-By default, `selectPaymentMethod` equals `CkoPaymentType.NOT_SELECTED`.
-If user uses stored payment call `setSavePaymentInstrument` and it will set `selectPaymentMethod.value = CkoPaymentType.SAVED_CARD`
+By default, `selectedPaymentMethod` equals `CkoPaymentType.NOT_SELECTED`.
+If user uses stored payment call `setSavePaymentInstrument` and it will set `selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD`
 ```js
 setPaymentInstrument(item.id);
 ```
 If user uses credit card use:
 ```js
-selectPaymentMethod.value = CkoPaymentType.CREDIT_CARD
+selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD
 ```
 
 ## Allowing user to decide whether save payment instrument or not
-`useCko` composable shares `savePaymentInstrument` ref and `setSavePaymentInstrument` method for that purpose. It is also being stored in the localStorage and autoloaded in `onMounted` hook. Remember to always use `setSavePaymentInstrument` after `savePaymentInstrument` update state in localStorage. E.g:
+`useCko` composable shares `loadSavePaymentInstrument` method and `setSavePaymentInstrument` method for that purpose. It is being stored in the localStorage. E.g:
 ```js
 const {
       initForm,
       loadAvailableMethods,
       submitCardForm,
       makePayment,
-      selectPaymentMethod,
       setPaymentInstrument,
       setSavePaymentInstrument, // Save
       loadSavePaymentInstrument, // Load
@@ -285,7 +330,7 @@ In `nuxt.config.js` module's config you can use each attribute from [this page](
     // ...
     card: {
         localization: 'KO-KR',
-        styles: {
+        style: {
             'card-number': {
                 color: 'red'
             },
@@ -385,3 +430,24 @@ const removeMinePaymentInstrument = async (paymentInstrument: string): Promise<v
     }
 }
 ```
+
+## Changing current channel
+All you have to do is just import `setChannel` method and call it:
+```ts
+import { setChannel } from '@vue-storefront/checkout-com';
+
+setChannel('it');
+```
+
+Where `it` is name of channel to set. It should be present inside config's `channels`.
+
+## Sending CVV
+To send CVV for saved payment instrument just add `cvv` attribute to object provided inside `makePayment`, e.g:
+```ts
+// If it is guest & you require cvv
+const payment = await makePayment({ cartId: cart.value.id, cvv: 1234 });
+// If it is customer & require cvv
+const payment = await makePayment({ cartId: cart.value.id, email: user.value && user.value.email, cvv: 100 });
+```
+
+You might wonder how you could learn whether you have to provide CVV for saved card or not. For that, I shared `isCvvRequired` computed boolean in `useCko`. It's value bases on `loadAvailableMethods` response. So you have to call this method before. If you didn't provide `cvv` to `makePayment` and it requires it - then it will throw an error.

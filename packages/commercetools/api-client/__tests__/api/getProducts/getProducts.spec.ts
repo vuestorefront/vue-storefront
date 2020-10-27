@@ -26,13 +26,7 @@ describe('[commercetools-api-client] getProduct', () => {
   });
 
   it('fetches product with customized query', async () => {
-    const givenVariables = {
-      where: 'test',
-      acceptLanguage: ['de', 'en'],
-      currency: 'eur'
-    };
-
-    const givenQuery = `
+    const newQuery = gql`
       query products(
         $where: String
         $sort: [String!]
@@ -50,17 +44,34 @@ describe('[commercetools-api-client] getProduct', () => {
       }
     `;
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).not.toEqual(defaultQuery);
-      expect(query).toEqual(gql`${givenQuery}`);
+    const newVariables = { id: 1 };
 
-      return { data: 'product response' };
+    const customQuery = (currentQuery, currentVariables) => {
+      expect(currentQuery).toEqual(defaultQuery);
+      expect(currentVariables).toEqual({
+        acceptLanguage: ['en', 'de'],
+        country: 'UK',
+        currency: 'USD',
+        locale: 'en',
+        offset: undefined,
+        skus: undefined,
+        limit: undefined,
+        where: 'masterData(current(categories(id in ("724b250d-9805-4657-ae73-3c02a63a9a13"))))'
+      });
+
+      return {
+        query: newQuery,
+        variables: newVariables
+      };
+    };
+
+    (apolloClient.query as any).mockImplementation(({ query, variables }) => {
+      return { query, variables };
     });
 
-    const { data } = await getProduct({ customQuery: { query: givenQuery,
-      variables: givenVariables} });
+    const data: any = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, customQuery);
 
-    expect(data).toBe('product response');
+    expect(data.query).toEqual(newQuery);
+    expect(data.variables).toEqual(newVariables);
   });
 });

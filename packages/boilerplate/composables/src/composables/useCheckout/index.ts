@@ -26,6 +26,7 @@ const PAYMENT_METHODS_MOCK = [
     value: 'check'
   }
 ];
+
 const paymentMethods: Ref<any[]> = ref(PAYMENT_METHODS_MOCK);
 const shippingMethods: Ref<any[]> = ref([]);
 const personalDetails: Ref<User> = ref({});

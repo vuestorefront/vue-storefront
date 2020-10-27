@@ -1,9 +1,8 @@
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import { apiClientFactory } from '@vue-storefront/core';
-import { ApiClientMethods, ApiClientSettings } from './types';
 
-const { setup, override, getSettings } = apiClientFactory<ApiClientMethods, ApiClientSettings>({
+const { setup, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSetup: (config: any) => {}
@@ -14,7 +13,7 @@ const settings = getSettings();
 export {
   getProduct,
   getCategory,
-  override,
   setup,
+  update,
   settings
 };

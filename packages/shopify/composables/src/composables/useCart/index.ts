@@ -12,9 +12,8 @@ export const cart: Ref<Cart> = ref(null);
 
 // @todo: implement cart
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const fetchCartLineItem = ({ currentCart, product }) => {
-  const currentLineItem = currentCart.lineItems.find(lineItem => lineItem.id === product.id);
-  return currentLineItem;
+const getBasketItemByProduct = ({ currentCart, product }) => {
+  return currentCart.lineItems.find(item => item.productId === product._id);
 };
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
@@ -23,9 +22,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
       checkoutId: Cookies.get('cart_id') || '',
       id: Cookies.get('cart_id') || ''
     };
-    const currentCart = await loadCurrentCart(cartParams);
-    cart.value = currentCart;
-    return currentCart;
+    return await loadCurrentCart(cartParams);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addToCart: async ({ currentCart, product, quantity }) => {
@@ -38,9 +35,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
       id: currentCart.id,
       lineItems: [{ variantId: productVariant.id, quantity: quantity }]
     };
-    const updatedCart = await addToCart(cartParams);
-    cart.value = updatedCart;
-    return updatedCart;
+    return await addToCart(cartParams);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeFromCart: async ({ currentCart, product }) => {
@@ -50,27 +45,22 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
       id: currentCart.id,
       lineItemIds: variantId
     };
-    const updatedCart = await removeCart(cartParams);
-    cart.value = updatedCart;
-    return updatedCart;
+    return await removeCart(cartParams);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateQuantity: async ({ currentCart, product, quantity }) => {
-    // const currentItem = fetchCartLineItem({ currentCart, product });
     const cartParams = {
       id: currentCart.id,
       lineItems: [{ id: product.id, variantId: product.variant.id, quantity: quantity }]
     };
-    const updatedCart = await updateCart(cartParams);
-    cart.value = updatedCart;
-    return updatedCart;
+    return await updateCart(cartParams);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clearCart: async ({ currentCart }) => {
     return currentCart;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  applyCoupon: async ({ currentCart, coupon }) => {
+  applyCoupon: async ({ currentCart, couponCode }) => {
     return {updatedCart: currentCart, updatedCoupon: {}};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,8 +68,8 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     return {updatedCart: currentCart, updatedCoupon: {}};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnCart: ({ currentCart }) => {
-    return false;
+  isOnCart: ({ currentCart, product }) => {
+    return Boolean(getBasketItemByProduct({ currentCart, product }));
   }
 };
 

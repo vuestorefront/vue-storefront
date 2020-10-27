@@ -14,13 +14,7 @@ async function fetchAll(): Promise<Content[]> {
     });
   });
 
-  const pages = await _shopifyCustomClient.graphQLClient
-    .send(pagesQuery)
-    .then(({ data }) => {
-      return data;
-    });
-
-  return pages;
+  return await _shopifyCustomClient.graphQLClient.send(pagesQuery);
 }
 
 export default fetchAll;

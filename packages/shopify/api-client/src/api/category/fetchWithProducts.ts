@@ -13,12 +13,7 @@ import { Category, CategorySearchParams } from '../../types';
  * @return {Promise|Category} A promise resolving with an single `Category`.
  */
 async function fetchWithProducts(options: CategorySearchParams): Promise<Category[]> {
-  const collections = await _shopifyClient.collection
-    .fetchWithProducts(options.id)
-    .then((collections) => {
-      return collections;
-    });
-  return collections;
+  return await _shopifyClient.collection.fetchWithProducts(options.id);
 }
 
 export default fetchWithProducts;

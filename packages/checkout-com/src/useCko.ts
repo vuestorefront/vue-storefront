@@ -1,14 +1,16 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext } from './payment';
-import { Configuration, getSaveInstrumentKey } from './configuration';
-import { ref } from '@vue/composition-api';
+import { getSaveInstrumentKey, CardConfiguration } from './configuration';
+import { ref, computed } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
+import useCkoPaypal from './useCkoPaypal';
 
 const error = ref(null);
 const availableMethods = ref([]);
 const contextId = ref<string>(null);
+const requiresCvv = ref(false);
 
 interface PaymentMethods {
   card?: boolean;
@@ -17,7 +19,7 @@ interface PaymentMethods {
 }
 
 interface PaymentMethodsConfig {
-  card?: Omit<Configuration, 'publicKey'>;
+  card?: CardConfiguration;
   klarna?: any;
   paypal?: any;
 }
@@ -34,16 +36,22 @@ const loadSavePaymentInstrument = (): boolean => {
 
 const useCko = () => {
   const {
-    initCardForm, makePayment:
-    makeCardPayment,
+    initCardForm,
+    makePayment: makeCardPayment,
     error: cardError,
     submitForm: submitCardForm,
     setPaymentInstrument,
     removePaymentInstrument,
     loadStoredPaymentInstruments,
+    removeTransactionToken,
     storedPaymentInstruments,
     submitDisabled
   } = useCkoCard(selectedPaymentMethod);
+
+  const {
+    makePayment: makePaypalPayment,
+    error: paypalError
+  } = useCkoPaypal();
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -53,6 +61,9 @@ const useCko = () => {
         { name: 'card' }
       ];
       contextId.value = response.data.id;
+      if (response.data.payment_settings && 'cvv_required' in response.data.payment_settings) {
+        requiresCvv.value = response.data.payment_settings.cvv_required;
+      }
       return response.data;
     } catch (e) {
       error.value = e;
@@ -65,7 +76,6 @@ const useCko = () => {
       return;
     }
     const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
-
     for (const { name } of availableMethods.value) {
       if (!hasSpecifiedMethods || initMethods[name]) {
         const methodConfig = config[name];
@@ -73,20 +83,23 @@ const useCko = () => {
           case 'card':
             initCardForm(methodConfig);
             break;
-          case 'klarna':
-            console.log('Rendering klarna...');
-            break;
-          case 'paypal':
-            console.log('Rendering paypal...');
-            break;
         }
       }
     }
   };
 
-  const makePayment = async ({ cartId = null, email = null, contextDataId = null } = {}) => {
+  const makePayment = async ({
+    cartId = null,
+    email = null,
+    contextDataId = null,
+    success_url = null,
+    failure_url = null,
+    secure3d = true,
+    cvv = null,
+    reference = null
+  } = {}) => {
     if (!selectedPaymentMethod.value) {
-      error.value = 'Payment method not selected';
+      error.value = new Error('Payment method not selected');
       return;
     }
 
@@ -94,30 +107,37 @@ const useCko = () => {
     let localError;
 
     if ([CkoPaymentType.CREDIT_CARD, CkoPaymentType.SAVED_CARD].includes(selectedPaymentMethod.value)) {
+      const hasCvvIfRequired = selectedPaymentMethod.value === CkoPaymentType.SAVED_CARD && requiresCvv.value && !cvv;
+      if (hasCvvIfRequired) {
+        error.value = new Error('CVV is required');
+        return;
+      }
       finalizeTransactionFunction = makeCardPayment;
       localError = cardError;
-    } else if (selectedPaymentMethod.value === CkoPaymentType.KLARNA) {
-      finalizeTransactionFunction = () => {
-        console.log('Making transaction with Klarna...');
-      };
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
-      finalizeTransactionFunction = () => {
-        console.log('Making transaction with PayPal...');
-      };
+      finalizeTransactionFunction = makePaypalPayment;
+      localError = paypalError;
     } else {
-      error.value = 'Not supported payment method';
+      error.value = new Error('Not supported payment method');
       return;
     }
 
     const response = await finalizeTransactionFunction({
       cartId,
       email,
+      success_url,
+      failure_url,
+      secure3d,
+      cvv,
+      reference,
       contextDataId: contextDataId || contextId.value,
       savePaymentInstrument: loadSavePaymentInstrument()
     });
+
     if (localError.value) {
       error.value = localError.value;
     }
+
     return response;
   };
 
@@ -127,6 +147,8 @@ const useCko = () => {
     selectedPaymentMethod,
     storedPaymentInstruments,
     submitDisabled,
+    storedContextId: computed(() => contextId.value),
+    isCvvRequired: computed(() => requiresCvv.value),
     loadAvailableMethods,
     initForm,
     submitCardForm,
@@ -135,7 +157,8 @@ const useCko = () => {
     setSavePaymentInstrument,
     loadSavePaymentInstrument,
     removePaymentInstrument,
-    loadStoredPaymentInstruments
+    loadStoredPaymentInstruments,
+    removeTransactionToken
   };
 };
 export default useCko;

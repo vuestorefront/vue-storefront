@@ -18,8 +18,3 @@ API Client by itself is a Vanilla JavaScript application and it doesn't require 
   **Never** pass fragile data like API Client secrets as plain strings.
 :::
 <Content slot-key="setup"/>
-
-## Methods
-
-<Content slot-key="methods"/>
-

@@ -9,21 +9,17 @@
     </SfButton>
     <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
-        <SfListItem v-for="lang in availableLocales" :key="lang.name">
-          <SfButton
-            class="sf-button--full-width"
-            :aria-label="lang.label"
-            @click="handleChangeLang(lang)"
-          >
-            <SfCharacteristic>
+        <SfListItem v-for="lang in availableLocales" :key="lang.code">
+          <a :href="switchLocalePath(lang.code)">
+            <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/${lang.name}.png`" />
+                <SfImage :src="`/icons/langs/${lang.code}.png`" />
               </template>
             </SfCharacteristic>
-          </SfButton>
+          </a>
         </SfListItem>
       </SfList>
     </SfBottomModal>
@@ -39,13 +35,7 @@ import {
   SfBottomModal,
   SfCharacteristic
 } from '@storefront-ui/vue';
-import { useLocale } from '<%= options.generate.replace.composables %>';
-import { ref } from '@vue/composition-api';
-
-/*
-  This is the old version of that component.
-  Waiting for core useLocaleFactory.
-*/
+import { ref, computed } from '@vue/composition-api';
 
 export default {
   components: {
@@ -57,26 +47,14 @@ export default {
     SfCharacteristic
   },
   setup(props, context) {
-    const { $router, $route } = context.root;
-    const { locale, ...fields } = useLocale();
-    const setCookie = context.root.$i18n.setLocaleCookie;
+    const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
-
-    const handleChangeLang = ({ name }) => {
-      if (name === locale.value) {
-        isLangModalOpen.value = false;
-        return;
-      }
-      locale.value = name;
-      setCookie(name);
-      $router.go({ path: $route.fullPath, force: true });
-    };
+    const availableLocales = computed(() => locales.filter(i => i.code !== locale));
 
     return {
-      handleChangeLang,
+      availableLocales,
       locale,
-      isLangModalOpen,
-      ...fields
+      isLangModalOpen
     };
   }
 };
@@ -93,7 +71,7 @@ export default {
   position: relative;
 
   .sf-bottom-modal {
-    z-index: 1;
+    z-index: 2;
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
@@ -101,14 +79,12 @@ export default {
   }
 
   .sf-list {
-    @include for-desktop {
-      display: flex;
+    .language {
+      padding: var(--spacer-sm) 0;
     }
 
-    .sf-button {
-      background: transparent;
-      color: var(--c-text-muted);
-      --button-box-shadow: none;
+    @include for-desktop {
+      display: flex;
     }
 
     .sf-image {

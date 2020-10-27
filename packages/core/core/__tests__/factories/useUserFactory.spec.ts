@@ -1,13 +1,5 @@
 import { useUserFactory } from '../../src/factories';
-import * as vsfUtils from '../../src/utils';
-
-jest.mock('../../src/utils');
-const mockedUtils = vsfUtils as jest.Mocked<typeof vsfUtils>;
-mockedUtils.onSSR.mockImplementation((fn) => fn());
-mockedUtils.useSSR.mockReturnValueOnce({
-  initialState: null,
-  saveToInitialState: jest.fn()
-});
+import { sharedRef } from './../../src/utils';
 
 const factoryParams = {
   loadUser: jest.fn(() => null),
@@ -28,16 +20,11 @@ describe('[CORE - factories] useUserFactory', () => {
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
-      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user1', saveToInitialState: jest.fn() });
       const { useUser } = useUserFactory(factoryParams);
-      const { user: user1, isAuthenticated } = useUser();
+      const { user, isAuthenticated } = useUser();
 
-      expect(user1.value).toEqual('some-user1');
-      expect(isAuthenticated.value).toEqual(true);
-
-      mockedUtils.useSSR.mockReturnValueOnce({ initialState: 'some-user2', saveToInitialState: jest.fn() });
-      const { user: user2 } = useUser();
-      expect(user2.value).toEqual('some-user1');
+      expect(user.value).toEqual(null);
+      expect(isAuthenticated.value).toEqual(false);
     });
 
     it('isAuthenticated returns true for logged in user', async () => {
@@ -52,7 +39,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
     it('set given user property', () => {
       setUser({ username: 'test' });
-      expect(useUserMethods.user.value).toEqual({ username: 'test' });
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
   describe('methods', () => {
@@ -66,7 +53,7 @@ describe('[CORE - factories] useUserFactory', () => {
 
       it('throws error', async () => {
         factoryParams.updateUser.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.updateUser('' as any)).rejects.toThrow('Error');
       });
@@ -84,7 +71,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.register.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.register('' as any)).rejects.toThrow('Error');
       });
@@ -103,7 +90,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.logIn.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.login('' as any)).rejects.toThrow('Error');
       });
@@ -119,7 +106,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.logOut.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.logout()).rejects.toThrow('Error');
       });
@@ -127,19 +114,19 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.loading.value).toBe(false);
       });
     });
-    describe('refreshUser', () => {
-      it('return refreshed user', async () => {
+    describe('loadUser', () => {
+      it('return loadedUser user', async () => {
         const user = {firstName: 'John', lastName: 'Galt'};
         factoryParams.loadUser.mockReturnValueOnce(user);
-        await useUserMethods.refreshUser();
+        await useUserMethods.load();
         expect(factoryParams.loadUser).toHaveBeenCalled();
         expect(useUserMethods.user.value).toEqual(user);
       });
       it('throws error', async () => {
         factoryParams.loadUser.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
-        await expect(useUserMethods.refreshUser()).rejects.toThrow('Error');
+        await expect(useUserMethods.load()).rejects.toThrow('Error');
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
@@ -154,7 +141,7 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('throws error', async () => {
         factoryParams.changePassword.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error('Error');
         });
         await expect(useUserMethods.changePassword(null as any, null as any)).rejects.toThrow('Error');
       });

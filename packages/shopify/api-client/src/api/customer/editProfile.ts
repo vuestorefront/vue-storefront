@@ -19,9 +19,7 @@ const editProfile = async (token, profile): Promise<void> => {
     customer: profile
   };
 
-  return await _shopifyCustomClient.graphQLClient.send(mutation, data).then(({model}) => {
-    return model;
-  });
+  return await _shopifyCustomClient.graphQLClient.send(mutation, data);
 };
 
 export default editProfile;

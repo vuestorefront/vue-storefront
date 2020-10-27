@@ -1,4 +1,5 @@
-import {CustomerSignMeInDraft, CustomerSignMeUpDraft} from '@vue-storefront/commercetools-api/lib//types/GraphQL';
+import { Logger } from '@vue-storefront/core';
+import { CustomerSignMeInDraft, CustomerSignMeUpDraft } from '../types/GraphQL';
 
 type UserData = CustomerSignMeUpDraft | CustomerSignMeInDraft;
 
@@ -7,6 +8,8 @@ export const authenticate = async (userData: UserData, fn) => {
     const userResponse = await fn(userData);
     return userResponse.data.user;
   } catch (err) {
-    console.error(err.graphQLErrors ? err.graphQLErrors[0].message : err);
+    err.message = err?.graphQLErrors?.[0]?.message || err.message;
+    Logger.error('useUser.authenticate', err.message);
+    throw err;
   }
 };

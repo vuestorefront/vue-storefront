@@ -13,10 +13,7 @@
     >
       <SfContentCategory title="Personal Details">
         <SfContentPage data-cy="my-account-page_my-profile" title="My profile">
-          <MyProfile
-            :account="account"
-            @update:personal="account = { ...account, ...$event }"
-          />
+          <MyProfile />
         </SfContentPage>
         <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
           <ShippingDetails
@@ -54,7 +51,6 @@ import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
 import MyReviews from './MyAccount/MyReviews';
 
-// TODO: protect this route: https://github.com/DivanteLtd/next/issues/379
 export default {
   name: 'MyAccount',
   components: {
@@ -68,6 +64,17 @@ export default {
     OrderHistory,
     MyReviews
   },
+
+  async middleware({ redirect }) {
+    const { load, isAuthenticated } = useUser();
+
+    await load();
+
+    if (!isAuthenticated.value) {
+      return redirect('/');
+    }
+  },
+
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
@@ -119,7 +126,8 @@ export default {
             firstName: 'Sviatlana',
             lastName: 'Havaka',
             streetName: 'Zielinskiego',
-            apartment: '24/193A',
+            streetNumber: '24',
+            apartment: '193A',
             city: 'Wroclaw',
             state: 'Lower Silesia',
             zipCode: '53-540',
@@ -130,7 +138,8 @@ export default {
             firstName: 'Sviatlana',
             lastName: 'Havaka',
             streetName: 'Zielinskiego',
-            apartment: '20/193A',
+            streetNumber: '20',
+            apartment: '193A',
             city: 'Wroclaw',
             state: 'Lower Silesia',
             zipCode: '53-603',
@@ -160,7 +169,6 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
-    var(--spacer-2xl);
-}
+  padding: var(--spacer-base) 0;
+ }
 </style>
