@@ -753,7 +753,8 @@
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
     "tokenInHeader": false,
-    "tokenHeaderName": "Authorization"
+    "tokenHeaderName": "Authorization",
+    "tokenAuthScheme": "Bearer"
   },
   "stock": {
     "synchronize": true,

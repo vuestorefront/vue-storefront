@@ -50,14 +50,11 @@ function getUrl (task, currentToken, currentCartId) {
 }
 
 function getPayload (task, currentToken) {
-  if (config.users.tokenInHeader && config.users.tokenHeaderName === 'Authorization') {
-    currentToken = `Bearer ${currentToken}`
-  }
   const payload = {
     ...task.payload,
     headers: {
       ...task.payload.headers,
-      ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: currentToken } : {})
+      ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: `${config.users.tokenAuthScheme} ${currentToken}` } : {})
     }
   }
   return payload
