@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
 
 ### Changed / Improved
+- Changed the Node version in the local Dockerfile to v12 - @waynetheisinger (#4989)
 
 ## [1.12.1] - 2020.06.22
 
