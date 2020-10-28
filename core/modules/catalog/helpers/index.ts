@@ -106,8 +106,8 @@ export function attributeImages (product) {
       if (product[attribute]) {
         attributeImages.push({
           'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(product[attribute], 310, 300),
-          'error': getThumbnailPath(product[attribute], 310, 300)
+          'loading': getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height),
+          'error': getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height)
         })
       }
     }
