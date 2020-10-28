@@ -8,9 +8,12 @@ const createLoadShippingMethods = ({ factoryParams, setShippingMethod, cartField
   if (!isShippingAddressCompleted.value) return;
   loading.value.shippingMethods = true;
 
-  const shippingMethodsResponse = await getShippingMethods(cartFields.cart.value.id, customQuery);
-  shippingMethods.value = shippingMethodsResponse.data.shippingMethods;
-  loading.value.shippingMethods = false;
+  try {
+    const shippingMethodsResponse = await getShippingMethods(cartFields.cart.value.id, customQuery);
+    shippingMethods.value = shippingMethodsResponse.data.shippingMethods;
+  } finally {
+    loading.value.shippingMethods = false;
+  }
 };
 
 export default createLoadShippingMethods;
