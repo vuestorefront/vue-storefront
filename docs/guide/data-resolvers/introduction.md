@@ -14,16 +14,11 @@ import { DataResolver } from './types/DataResolver';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 
-const headers = {
-  'Accept': 'application/json, text/plain, */*',
-}
-
 const myNewNetworkCall = async (data: string): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(/* some endpoint */),
     payload: {
       method: 'POST',
-      headers,
       body: JSON.stringify({ data })
     }
   })
