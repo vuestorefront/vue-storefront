@@ -4,8 +4,6 @@ const fs = require("fs")
 const consola = require('consola')
 const chalk = require('chalk');
 const { mergeWith, isArray } = require('lodash')
-const chokidar = require('chokidar')
-const registerLogger = require('@vue-storefront/core').registerLogger
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -14,9 +12,11 @@ const log = {
   error: (message) => consola.error(chalk.bold('VSF'), message)
 }
 
+const resolveDependencyFromWorkingDir = name => require.resolve(name, { paths: [ process.cwd() ] });
+
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   const isProd = process.env.NODE_ENV === 'production';
-  const isSfuiInstalled = fs.existsSync(require.resolve('@storefront-ui/vue'));
+  const isSfuiInstalled = fs.existsSync(resolveDependencyFromWorkingDir('@storefront-ui/vue'));
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: {
@@ -63,19 +63,19 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     log.info(`Vue Storefront core development mode is on ${chalk.italic('[coreDevelopment]')}`)
     if (moduleOptions.coreDevelopment) global.coreDev = true
     this.extendBuild(config => {
-      config.resolve.alias['@vue/composition-api'] = require.resolve('@vue/composition-api');
+      config.resolve.alias['@vue/composition-api'] = resolveDependencyFromWorkingDir('@vue/composition-api');
     });
   }
 
   //------------------------------------
 
   const useRawSource = (package) => {
-    const pkgPath = require.resolve(`${package}/package.json`);
+    const pkgPath = resolveDependencyFromWorkingDir(`${package}/package.json`);
     const pkg = require(pkgPath);
 
     if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[pkg.name + '$'] = require.resolve(`${package}/${pkg.module}`);
+        config.resolve.alias[pkg.name + '$'] = resolveDependencyFromWorkingDir(`${package}/${pkg.module}`);
       });
     }
     this.options.build.transpile.push(package)
