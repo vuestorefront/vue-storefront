@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 
+### Fixed
+- Display default placeholder on the Product page (#5088)
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
