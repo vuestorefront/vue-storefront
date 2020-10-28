@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
 - Added handling redirection on server side and update docs about it - @gibkigonzo (#4647)
 - Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
-- Removed redundant `Content-Type` and `mode` while calling TaskQueue.execute/queue, added these paylod in task getPayload method.
+- Removed redundant `Content-Type`, `mode` and `Accept` while calling TaskQueue.execute/queue, added these paylod in task getPayload method.
 
 ### Fixed
 

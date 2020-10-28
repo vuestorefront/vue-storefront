@@ -55,6 +55,7 @@ function getPayload (task, currentToken) {
     ...task.payload,
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*',
       ...task.payload.headers,
       ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {})
     }
