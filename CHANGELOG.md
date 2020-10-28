@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `lazyVisibility` mixin - performance optimization - @gibkigonzo (#5182)
 - `config.server.compression` property for disabling gzip compression (#5183)
 - HTTP2 Server Push support for critical JS assets - @Fifciu (#5199)
-- Removed redundant `Content-Type` and `mode` while calling TaskQueue.execute/queue, added these paylod in task getPayload method.
+- Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while calling TaskQueue.execute/queue, added these request header in task getPayload method.
 
 ### Fixed
 
