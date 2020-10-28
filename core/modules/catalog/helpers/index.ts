@@ -112,6 +112,13 @@ export function attributeImages (product) {
       }
     }
   }
+  if (attributeImages.length <= 0) {
+    attributeImages.push({
+      'src': getThumbnailPath(product['image'], config.products.gallery.width, config.products.gallery.height),
+      'loading': getThumbnailPath(product['image'], 310, 300),
+      'error': getThumbnailPath(product['image'], 310, 300)
+    })
+  }
   return attributeImages
 }
 /**
