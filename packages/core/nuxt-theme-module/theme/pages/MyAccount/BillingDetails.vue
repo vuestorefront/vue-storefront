@@ -7,13 +7,13 @@
       class="tab-orphan"
     >
       <SfTab
-        data-cy="shipping-details-tab_change"
+        data-cy="billing-details-tab_change"
         :title="isNewAddress ? 'Add the address' : 'Update the address'">
         <p class="message">
           Keep your addresses and contact details updated.
         </p>
 
-        <ShippingAddressForm
+        <BillingAddressForm
           :address="activeAddress"
           :isNew="isNewAddress"
           @submit="saveAddress" />
@@ -25,25 +25,25 @@
       :open-tab="1"
       key="address-list"
       class="tab-orphan">
-      <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
+      <SfTab data-cy="billing-details-tab_details" title="Billing details">
         <p class="message">
-          Manage all the shipping addresses you want (work place, home address
-          ...) This way you won"t have to enter the shipping address manually
+          Manage all the billing addresses you want (work place, home address
+          ...) This way you won"t have to enter the billing address manually
           with each order.
         </p>
-        <transition-group tag="div" name="fade" class="shipping-list">
+        <transition-group tag="div" name="fade" class="billing-list">
           <div
             v-for="address in addresses"
-            :key="userShippingGetters.getId(address)"
-            class="shipping">
-            <div class="shipping__content">
-              <div class="shipping__address">
-                <UserShippingAddress :address="address" />
+            :key="userBillingGetters.getId(address)"
+            class="billing">
+            <div class="billing__content">
+              <div class="billing__address">
+                <UserBillingAddress :address="address" />
               </div>
             </div>
-            <div class="shipping__actions">
+            <div class="billing__actions">
               <SfIcon
-                data-cy="shipping-details-icon_delete"
+                data-cy="billing-details-icon_delete"
                 icon="cross"
                 color="gray"
                 size="14px"
@@ -52,14 +52,14 @@
                 @click="removeAddress(address)"
               />
               <SfButton
-                data-cy="shipping-details-btn_change"
+                data-cy="billing-details-btn_change"
                 @click="changeAddress(address)">
                 Change
               </SfButton>
 
               <SfButton
-                data-cy="shipping-details-btn_delete"
-                class="shipping__button-delete desktop-only"
+                data-cy="billing-details-btn_delete"
+                class="billing__button-delete desktop-only"
                 @click="removeAddress(address)">
                 Delete
               </SfButton>
@@ -67,7 +67,7 @@
           </div>
         </transition-group>
         <SfButton
-          data-cy="shipping-details-btn_add"
+          data-cy="billing-details-btn_add"
           class="action-button"
           @click="changeAddress()">
           Add new address
@@ -82,24 +82,24 @@ import {
   SfButton,
   SfIcon
 } from '@storefront-ui/vue';
-import UserShippingAddress from '~/components/UserShippingAddress';
-import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
-import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
+import UserBillingAddress from '~/components/UserBillingAddress';
+import BillingAddressForm from '~/components/MyAccount/BillingAddressForm';
+import { useUserBilling, userBillingGetters } from '<%= options.generate.replace.composables %>';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
-  name: 'ShippingDetails',
+  name: 'BillingDetails',
   components: {
     SfTabs,
     SfButton,
     SfIcon,
-    UserShippingAddress,
-    ShippingAddressForm
+    UserBillingAddress,
+    BillingAddressForm
   },
   setup() {
-    const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
-    const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
+    const { billing, load, addAddress, deleteAddress, updateAddress } = useUserBilling();
+    const addresses = computed(() => userBillingGetters.getAddresses(billing.value));
     const edittingAddress = ref(false);
     const activeAddress = ref(undefined);
     const isNewAddress = computed(() => !activeAddress.value);
@@ -132,7 +132,7 @@ export default {
       updateAddress,
       removeAddress,
       saveAddress,
-      userShippingGetters,
+      userBillingGetters,
       addresses,
       edittingAddress,
       activeAddress,
@@ -163,11 +163,11 @@ export default {
   font-size: var(--font-size--base);
 }
 
-.shipping-list {
+.billing-list {
   margin-bottom: var(--spacer-2xl);
 }
 
-.shipping {
+.billing {
   display: flex;
   padding: var(--spacer-xl) 0;
   border-top: 1px solid var(--c-light);

@@ -3,31 +3,35 @@ import { useUserShippingFactory, UseUserShippingFactoryParams } from '@vue-store
 const addresses: any[] = [
   {
     id: 1,
-    email: 'john@gmail.com',
     firstName: 'John',
     lastName: 'Doe',
     streetName: 'Warsawska',
-    apartment: '24/193A',
+    streetNumber: '24',
+    apartment: '193A',
     city: 'Phoenix',
     state: null,
-    zipCode: '26-620',
+    postalCode: '26-620',
     country: 'US',
-    phoneNumber: '560123456',
+    phone: '560123456',
+    email: '',
+    company: '',
     isDefault: true
   },
   {
     id: 2,
-    email: 'havaka@gmail.com',
     firstName: 'Jonatan',
     lastName: 'Doe',
     streetName: 'Starachowicka',
-    apartment: '20/193A',
+    streetNumber: '20',
+    apartment: '193A',
     city: 'Atlanta',
     state: null,
-    zipCode: '53-603',
+    postalCode: '53-603',
     country: 'US',
-    phoneNumber: '560123456',
-    isDefault: false
+    phone: '560123456',
+    email: '',
+    company: '',
+    isDefault: true
   }
 ];
 
