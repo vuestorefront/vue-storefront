@@ -3,6 +3,7 @@
 ## 0.2.6 - not released
 
 - removed `chosenShippingMethod` defaulting ([#5073](https://github.com/DivanteLtd/vue-storefront/issues/5073))
+- fix `useCheckout` - set loading fields to false when api-client throws ([#5096](https://github.com/DivanteLtd/vue-storefront/pull/5096))
 
 ## 0.2.5
 
