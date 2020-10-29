@@ -22,17 +22,20 @@ const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => asyn
   if (!options.save) return;
   loading.value.billingAddress = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setBillingAddressAction(billingDetails.value)
-    ]
-  }, customQuery);
+  try {
+    const cartResponse = await updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setBillingAddressAction(billingDetails.value)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.billingAddress = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart);
+  } finally {
+    loading.value.billingAddress = false;
+  }
 };
 
 export default createSetBillingDetails;
