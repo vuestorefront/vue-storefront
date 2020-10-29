@@ -1,47 +1,71 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
-import { createContext, createPayment } from './payment';
-import { ref, onMounted } from '@vue/composition-api';
-import { getPublicKey, getStyles, getCardTokenKey } from './configuration';
+import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
+import { Ref, ref, computed } from '@vue/composition-api';
+import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
+import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } from './helpers';
 
 declare const Frames: any;
 
-const submitDisabled = ref(false);
+const isCardValid = ref(false);
 const error = ref(null);
+const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
 
-const getCardToken = () => localStorage.getItem(getCardTokenKey());
-const setCardToken = (token) => localStorage.setItem(getCardTokenKey(), token);
-const removeCardToken = () => localStorage.removeItem(getCardTokenKey());
+const getTransactionToken = () => sessionStorage.getItem(getTransactionTokenKey());
+const setTransactionToken = (token) => sessionStorage.setItem(getTransactionTokenKey(), token);
+const removeTransactionToken = () => sessionStorage.removeItem(getTransactionTokenKey());
 
-const useCkoCard = () => {
-  const makePayment = async ({ cartId }) => {
+const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
+  const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);
+  const makePayment = async ({
+    cartId,
+    email,
+    secure3d,
+    cvv = null,
+    contextDataId = null,
+    savePaymentInstrument = false,
+    success_url = null,
+    failure_url = null,
+    reference = null
+  }) => {
     try {
 
-      const token = getCardToken();
+      const token = getTransactionToken();
 
       if (!token) {
         throw new Error('There is no payment token');
       }
 
-      const context = await createContext({ reference: cartId });
-      const payment = await createPayment({
-        type: 'token',
-        token,
-        context_id: context.data.id,
-        save_payment_instrument: true,
-        secure3d: true,
-        success_url: `${window.location.origin}/cko/payment-success`,
-        failure_url: `${window.location.origin}/cko/payment-error`
-      });
+      let context;
+      if (!contextDataId) {
+        context = await createContext({ reference: cartId, email });
+        const requiresCvv = selectedPaymentMethod.value === CkoPaymentType.SAVED_CARD && context.data.payment_settings && context.data.payment_settings.cvv_required;
+        if (requiresCvv && !cvv) {
+          throw new Error('CVV is required');
+        }
+      }
 
-      removeCardToken();
+      const payment = await createPayment(
+        getCurrentPaymentMethodPayload(selectedPaymentMethod.value, {
+          token,
+          secure3d,
+          cvv,
+          reference,
+          context_id: contextDataId || context.data.id,
+          save_payment_instrument: selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && savePaymentInstrument,
+          success_url: success_url || `${window.location.origin}/cko/payment-success`,
+          failure_url: failure_url || `${window.location.origin}/cko/payment-error`
+        })
+      );
+
+      removeTransactionToken();
       if (![200, 202].includes(payment.status)) {
         throw new Error(payment.data.error_type);
       }
 
       return payment;
     } catch (e) {
-      removeCardToken();
+      removeTransactionToken();
       error.value = e;
       return null;
     }
@@ -49,30 +73,67 @@ const useCkoCard = () => {
 
   const submitForm = async () => Frames.submitCard();
 
-  const initForm = () => {
-    submitDisabled.value = true;
-    onMounted(() => Frames.init({
+  const initCardForm = (cardParams?: CardConfiguration) => {
+    const localization = cardParams?.localization || getFramesLocalization();
+    Frames.init({
       publicKey: getPublicKey(),
-      style: getStyles(),
+      style: cardParams?.style || getFramesStyles(),
+      ...(localization ? { localization } : {}),
       cardValidationChanged: () => {
-        submitDisabled.value = !Frames.isCardValid();
+        isCardValid.value = Frames.isCardValid();
       },
       cardTokenized: async ({ token }) => {
-        setCardToken(token);
+        setTransactionToken(token);
       },
       cardTokenizationFailed: (data) => {
         error.value = data;
-        submitDisabled.value = false;
+        isCardValid.value = false;
       }
-    }));
+    });
+  };
+
+  const loadStoredPaymentInstruments = async (customerId: string) => {
+    try {
+      const { data } = await getCustomerCards({ customer_id: customerId });
+      storedPaymentInstruments.value = data.payment_instruments;
+    } catch (e) {
+      error.value = e;
+    }
+  };
+
+  const removePaymentInstrument = async (customerId: string, paymentInstrument: string) => {
+    try {
+      await removeSavedCard({ customer_id: customerId, payment_instrument_id: paymentInstrument });
+      const { id: cardSrcId } = storedPaymentInstruments.value.find(card => card.payment_instrument_id === paymentInstrument);
+
+      storedPaymentInstruments.value = storedPaymentInstruments.value.filter(instrument => instrument.payment_instrument_id !== paymentInstrument);
+      if (cardSrcId === getTransactionToken()) {
+        selectedPaymentMethod.value = CkoPaymentType.CREDIT_CARD;
+        removeTransactionToken();
+      }
+    } catch (e) {
+      error.value = e;
+    }
+  };
+
+  const setPaymentInstrument = (token: string) => {
+    setTransactionToken(token);
+    selectedPaymentMethod.value = CkoPaymentType.SAVED_CARD;
   };
 
   return {
     error,
     submitDisabled,
+    storedPaymentInstruments,
+    selectedCardPaymentMethod: computed(() => selectedPaymentMethod.value),
     submitForm,
     makePayment,
-    initForm
+    initCardForm,
+    setTransactionToken,
+    loadStoredPaymentInstruments,
+    removePaymentInstrument,
+    setPaymentInstrument,
+    removeTransactionToken
   };
 };
 export default useCkoCard;

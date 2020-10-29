@@ -10,6 +10,9 @@ const canEnterReview = cart => Boolean(cart.billingAddress);
 
 export default async ({ app }) => {
   const currentPath = app.context.route.fullPath.split('/checkout/')[1];
+
+  if (!currentPath) return;
+
   const { data: { me: { activeCart } } } = await getMe();
 
   if (!activeCart) return;

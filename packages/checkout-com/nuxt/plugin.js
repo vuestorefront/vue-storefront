@@ -1,7 +1,10 @@
 import { setup } from '@vue-storefront/checkout-com';
 
 export default () => {
-  setup({
-    publicKey: '<%= options.publicKey %>'
-  });
+  const options = <%= serialize(options) %>;
+  for (const channel of Object.keys(options.channels)) {
+    delete options.channels[channel].secretKey;
+  }
+  
+  setup(options);
 };

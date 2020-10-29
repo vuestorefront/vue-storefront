@@ -1,30 +1,31 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Token, CustomerCredentials } from './setup';
 
-export interface CustomQuery {
-  query: string;
-  variables: any;
-}
+export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+};
 
 export interface BaseSearch {
-  customQuery?: CustomQuery;
   limit?: number;
   offset?: number;
   sort?: string[];
 }
 
-export interface ProductSearch extends BaseSearch {
+export interface ProductWhereSearch extends BaseSearch {
   catId?: string | string[];
   skus?: string[];
   slug?: string;
   id?: string;
-  filters?: Record<string, Filter>;
+  filters?: Filter[];
 }
 
 export interface Filter {
-  options: FilterOption[];
-  type: string;
+  type: AttributeType;
+  name: string;
+  value: any;
 }
 
 export interface FilterOption {
@@ -33,12 +34,12 @@ export interface FilterOption {
   selected: boolean;
 }
 
-export interface CategorySearch extends BaseSearch {
+export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
   slug?: string;
 }
 
-export interface OrderSearch extends BaseSearch {
+export interface OrderWhereSearch extends BaseSearch {
   id?: string;
 }
 
@@ -54,16 +55,20 @@ export enum AttributeType {
   MONEY = 'MoneyAttribute',
   BOOLEAN = 'BooleanAttribute'
 }
+export interface FlowOptions {
+  currentToken?: Token;
+  customerCredentials?: CustomerCredentials;
+  requireUserSession?: boolean;
+}
 
-export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>
-export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
-export type ProfileResponse = QueryResponse<'me', Me>
-export type CartQueryResponse = QueryResponse<'cart', Cart>
-export type OrderQueryResponse = QueryResponse<'order', Order>
-export type CartMutationResponse = MutationResponse<'cart', Cart>
-export type CartResponse = CartQueryResponse | CartMutationResponse
-export type OrderMutationResponse = MutationResponse<'order', Order>
-export type OrderResponse = OrderQueryResponse | OrderMutationResponse
-export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>
-export type SignInResponse = QueryResponse<'user', CustomerSignInResult>
-export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>
+export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
+export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
+export type CartQueryResponse = QueryResponse<'cart', Cart>;
+export type OrderQueryResponse = QueryResponse<'order', Order>;
+export type CartMutationResponse = MutationResponse<'cart', Cart>;
+export type CartResponse = CartQueryResponse | CartMutationResponse;
+export type OrderMutationResponse = MutationResponse<'order', Order>;
+export type OrderResponse = OrderQueryResponse | OrderMutationResponse;
+export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>;
+export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
+export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;

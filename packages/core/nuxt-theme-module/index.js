@@ -18,16 +18,8 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   moduleOptions = merge(defaultConfig, moduleOptions);
   const targetDirectory = moduleOptions.generate && moduleOptions.generate.path
     ? moduleOptions.generate.path
-    : '.theme';
+    : '_theme';
   const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', targetDirectory);
-
-  this.options.css = [
-    ...this.options.css,
-    // CSS reset stylesheet
-    moduleOptions.generate
-      ? `${projectLocalThemeDir}/assets/css/reset.scss`
-      : 'assets/css/reset.scss'
-  ];
 
   if (moduleOptions.routes) {
     this.extendRoutes((routes) => {
@@ -36,7 +28,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
   }
 
   if (moduleOptions.generate) {
-    log.info('Watching changes in @vue-storefront/nuxt-theme and used platform theme directory');
+    log.info('Watching changes in @vue-storefront/nuxt-theme-module and used platform theme directory');
     const generate = require('./generate').default;
 
     generate.call(this, {

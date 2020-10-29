@@ -27,7 +27,6 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
-    'nuxt-composition-api',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -72,6 +71,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt'
   ],
+  i18n: localeConfig,
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -85,6 +85,5 @@ export default {
         })
       })
     ]
-  },
-  i18n: localeConfig
+  }
 };

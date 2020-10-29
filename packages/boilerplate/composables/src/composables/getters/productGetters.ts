@@ -88,13 +88,19 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
   return {};
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductDescription = (product: ProductVariant): any => (product as any)?._description || '';
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)?._categoriesRef || '';
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductId = (product: ProductVariant): string => (product as any)?._id || '';
 
 export const getFormattedPrice = (price: number) => String(price);
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductTotalReviews = (product: ProductVariant): number => 0;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductAverageRating = (product: ProductVariant): number => 0;
 
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
@@ -107,7 +113,9 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
-  getFormattedPrice: getFormattedPrice
+  getFormattedPrice: getFormattedPrice,
+  getTotalReviews: getProductTotalReviews,
+  getAverageRating: getProductAverageRating
 };
 
 export default productGetters;

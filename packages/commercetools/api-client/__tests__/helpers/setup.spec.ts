@@ -7,11 +7,6 @@ describe('[commercetools-api-client] setup', () => {
     jest.clearAllMocks();
   });
 
-  it('set configuration without api', () => {
-    setup({ api: null } as any);
-    expect(createCommerceToolsLink).not.toBeCalled();
-  });
-
   it('creating link is being called when configuration is provided', () => {
     setup({ api: 'api-config' } as any);
     expect(createCommerceToolsLink).toBeCalled();

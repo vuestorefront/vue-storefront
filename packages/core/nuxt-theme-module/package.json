@@ -1,21 +1,20 @@
 {
   "name": "@vue-storefront/nuxt-theme",
-  "private": true,
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vue Storefront",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
     "ejs": "^3.0.2",
     "loglevel": "^1.6.7",
-    "@vue/composition-api": "^1.0.0-beta.6",
+    "@vue/composition-api": "1.0.0-beta.14",
     "vue": "^2.6.11"
   },
   "publishConfig": {

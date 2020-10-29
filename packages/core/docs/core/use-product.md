@@ -8,4 +8,3 @@
 
 - `products` - a main data object that contains an array of products fetched by `search` method
 - `loading` - a reactive object containing information about loading state of your `search` method
-

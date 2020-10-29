@@ -5,7 +5,7 @@
       title="Order details"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion first-open class="accordion mobile-only">
+    <SfAccordion first-open class="accordion smartphone-only">
       <SfAccordionItem header="Personal Details">
         <div class="accordion__item">
           <div class="accordion__content">
@@ -136,7 +136,7 @@
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
-              I agree to <a href="#">Terms and conditions</a>
+              I agree to <SfLink href="#">Terms and conditions</SfLink>
             </div>
           </template>
         </SfCheckbox>
@@ -166,7 +166,8 @@ import {
   SfIcon,
   SfPrice,
   SfProperty,
-  SfAccordion
+  SfAccordion,
+  SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
@@ -184,7 +185,8 @@ export default {
     SfIcon,
     SfPrice,
     SfProperty,
-    SfAccordion
+    SfAccordion,
+    SfLink
   },
   setup(props, context) {
     context.emit('changeStep', 3);
@@ -237,62 +239,6 @@ export default {
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
-}
-.form {
-  @include for-desktop {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  &__element {
-    margin: 0 0 var(--spacer-xl) 0;
-    @include for-desktop {
-      flex: 0 0 100%;
-    }
-    &--half {
-      @include for-desktop {
-        flex: 1 1 50%;
-      }
-      &-even {
-        @include for-desktop {
-          padding: 0 0 0 var(--spacer-xl);
-        }
-      }
-    }
-  }
-  &__group {
-    display: flex;
-    align-items: center;
-  }
-  &__action {
-    @include for-desktop {
-      flex: 0 0 100%;
-      display: flex;
-    }
-  }
-  &__action-button {
-    &--secondary {
-      --button-margin: var(--spacer-xl) 0;
-      @include for-desktop {
-        order: -1;
-        --button-margin: 0;
-        text-align: left;
-      }
-    }
-  }
-  &__button {
-    --button-width: 100%;
-    @include for-desktop {
-      --button-width: auto;
-    }
-  }
-  &__radio-group {
-    flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
-  }
 }
 .table {
   margin: 0 0 var(--spacer-xl) 0;
@@ -323,19 +269,12 @@ export default {
 
 .product-sku {
   color: var(--c-text-muted);
-  font-size: var(--font-xs);
+  font-size: var(--font-size--sm);
 }
 .product-price {
-  --price-font-size: var(--font-sm);
-}
-.button {
-  cursor: pointer;
+  --price-font-size: var(--font-size--base);
 }
 .summary {
-  background: var(--c-light);
-  @include for-desktop {
-    background: transparent;
-  }
   &__group {
     @include for-desktop {
       margin: 0 0 var(--spacer-2xl) 0;
@@ -346,20 +285,22 @@ export default {
   }
   &__total {
     margin: 0 0 var(--spacer-sm) 0;
-    padding: 0 var(--spacer-xl);
     flex: 0 0 16.875rem;
-    @include for-desktop {
-      padding: 0;
-    }
   }
   &__action {
     @include for-desktop {
       display: flex;
-    margin: var(--spacer-2xl) 0 0 0;
+      margin: var(--spacer-xl) 0 0 0;
     }
   }
-
   &__action-button {
+    margin: 0;
+    width: 100%;
+    margin: var(--spacer-sm) 0 0 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+      width: auto;
+    }
     &--secondary {
       @include for-desktop {
         text-align: right;
@@ -367,7 +308,16 @@ export default {
     }
   }
   &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
+    margin: var(--spacer-xl) 0 0 0;
+    width: 100%;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+      width: auto;
+    }
+    color:  var(--c-white);
+    &:hover {
+      color:  var(--c-white);
+    }
   }
   &__property-total {
     margin: var(--spacer-xl) 0 0 0;
@@ -380,7 +330,7 @@ export default {
   }
 }
 .accordion {
-  margin: 0 0 var(--spacer-2xl) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   &__item {
     display: flex;
     align-items: flex-start;
@@ -399,14 +349,8 @@ export default {
     margin: 0;
   }
   &__label {
-    font-weight: 400;
+    font-weight: var(--font-weight--normal);
   }
 }
-a {
-  color: var(--c-text-muted);
-  text-decoration: none;
-  &:hover {
-    color: var(--c-text);
-  }
-}
+
 </style>

@@ -5,17 +5,17 @@ export * from './factories';
 export * from './types';
 
 declare global {
-  interface Window { $VSF: any }
+  interface Window { $vuestorefront: any }
 }
 
 if (typeof window !== 'undefined') {
-  window.$VSF = window.$VSF || { integrations: [] };
+  window.$vuestorefront = window.$vuestorefront || { integrations: [] };
 }
 
 export function track(id: string): void {
   if (typeof window !== 'undefined') {
-    if (window.$VSF) {
-      window.$VSF.integrations.push(id);
+    if (window.$vuestorefront) {
+      window.$vuestorefront.integrations.push(id);
     }
   }
 }

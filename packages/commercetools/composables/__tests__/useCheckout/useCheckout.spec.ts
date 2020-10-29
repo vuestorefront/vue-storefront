@@ -73,7 +73,7 @@ jest.mock('./../../src/useCheckout/initFields', () => jest.fn());
 jest.mock('@vue-storefront/commercetools-api', () => ({
   updateCart: jest.fn(() => ({ data: { cart: { id: 'new-cart-id' } } })),
   getShippingMethods: jest.fn(() => ({ data: { shippingMethods: [{ method: 1 }] } })),
-  createMyOrderFromCart: jest.fn(() => ({ data: { order: 'some-order' }})),
+  createMyOrderFromCart: jest.fn(() => ({ data: { order: { cart: { id: 'xxx', version: 3 } } }})),
   createCart: jest.fn(() => ({ data: { cart: 'some-cart' }})),
   cartActions: {
     setShippingMethodAction: jest.fn(() => 'setShippingMethodAction'),
@@ -92,7 +92,7 @@ import createSetPersonalDetails from './../../src/useCheckout/createSetPersonalD
 import createSetPaymentMethod from './../../src/useCheckout/createSetPaymentMethod';
 import createPlaceOrder from './../../src/useCheckout/createPlaceOrder';
 import createLoadDetails from './../../src/useCheckout/createLoadDetails';
-import { updateCart, getShippingMethods, createMyOrderFromCart, createCart } from '@vue-storefront/commercetools-api';
+import { updateCart, getShippingMethods, createMyOrderFromCart } from '@vue-storefront/commercetools-api';
 import initFields from './../../src/useCheckout/initFields';
 
 describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
@@ -107,6 +107,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
     await setShippingDetails(shippingAddress);
 
     expect(shippingDetails.value).toEqual({ ...shippingAddress, contactInfo: {} });
+    expect(loading.value.shippingAddress).toBe(false);
   });
 
   it('overwrites contactInfo properly', async () => {
@@ -116,6 +117,7 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
     await setShippingDetails(shippingAddress);
 
     expect(shippingDetails.value).toEqual({ ...shippingAddress, contactInfo: { phone: '123456789', email: 'test@test.com' } });
+    expect(loading.value.shippingAddress).toBe(false);
   });
 
   it('send shipping details to the api', async () => {
@@ -131,8 +133,33 @@ describe('[commercetools-composables] useCheckout/setShippingDetails', () => {
       ],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toHaveBeenCalledWith({ id: 'new-cart-id' });
+    expect(loading.value.shippingAddress).toBe(false);
+  });
+
+  it('fails when updateCart throws', async () => {
+    (updateCart as jest.Mock).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    const setShippingDetails = createSetShippingDetails({ factoryParams: {}, cartFields, setCart });
+    const shippingAddress = { firstName: 'John', lastName: 'Doe' };
+    try {
+      await setShippingDetails(shippingAddress, { save: true });
+      fail();
+    } catch {
+      expect(shippingDetails.value).toEqual({ ...shippingAddress, contactInfo: {} });
+      expect(updateCart).toHaveBeenCalledWith({
+        actions: [
+          'setShippingMethodAction',
+          'setShippingAddressAction'
+        ],
+        id: 'cart-id',
+        version: 1
+      }, undefined);
+      expect(initFields).not.toBeCalled();
+      expect(loading.value.shippingAddress).toBe(false);
+    }
   });
 });
 
@@ -148,9 +175,10 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
     await setBillingDetails(billingAddress);
 
     expect(billingDetails.value).toEqual({ ...billingAddress, contactInfo: {} });
+    expect(loading.value.billingAddress).toBe(false);
   });
 
-  it('send billing details to the api', async () => {
+  it('send billing details to the API', async () => {
     const setBillingDetails = createSetBillingDetails({ factoryParams: {}, cartFields, setCart });
     const billingAddress = { firstName: 'John', lastName: 'Doe' };
     await setBillingDetails(billingAddress, { save: true });
@@ -162,8 +190,32 @@ describe('[commercetools-composables] useCheckout/setBillingDetails', () => {
       ],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toHaveBeenCalledWith({ id: 'new-cart-id' });
+    expect(loading.value.billingAddress).toBe(false);
+  });
+
+  it('fails when updateCart throws', async () => {
+    (updateCart as jest.Mock).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    const setBillingDetails = createSetBillingDetails({ factoryParams: {}, cartFields, setCart });
+    const billingAddress = { firstName: 'John', lastName: 'Doe' };
+    try {
+      await setBillingDetails(billingAddress, { save: true });
+      fail();
+    } catch {
+      expect(billingDetails.value).toEqual({ ...billingAddress, contactInfo: {} });
+      expect(updateCart).toHaveBeenCalledWith({
+        actions: [
+          'setBillingAddressAction'
+        ],
+        id: 'cart-id',
+        version: 1
+      }, undefined);
+      expect(initFields).not.toBeCalled();
+      expect(loading.value.billingAddress).toBe(false);
+    }
   });
 });
 
@@ -208,30 +260,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
 
     expect(getShippingMethods).not.toBeCalled();
     expect(setShippingMethod).not.toBeCalled();
-  });
-
-  it('loads shipping methods and set first one', async () => {
-    const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
-    await loadShippingMethods();
-
-    expect(getShippingMethods).toBeCalled();
-    expect(shippingMethods.value).toEqual([{ method: 1 }]);
-    expect(chosenShippingMethod.value).toEqual({ method: 1 });
-    expect(setShippingMethod).toBeCalled();
-  });
-
-  it('loads shipping methods and set first default', async () => {
-    const methods = [{ method: 1 }, { method: 2, isDefault: true }];
-    (getShippingMethods as any).mockReturnValueOnce({ data: { shippingMethods: methods } });
-    const setShippingMethod = jest.fn();
-    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
-    await loadShippingMethods();
-
-    expect(getShippingMethods).toBeCalled();
-    expect(shippingMethods.value).toEqual(methods);
-    expect(chosenShippingMethod.value).toEqual({ method: 2, isDefault: true });
-    expect(setShippingMethod).toBeCalled();
+    expect(loading.value.shippingMethods).toBe(false);
   });
 
   it('loads shipping methods with empty list', async () => {
@@ -244,6 +273,7 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
     expect(shippingMethods.value).toEqual([]);
     expect(chosenShippingMethod.value).toEqual({});
     expect(setShippingMethod).not.toBeCalled();
+    expect(loading.value.shippingMethods).toBe(false);
   });
 
   it('selects shipping method from the cart', async () => {
@@ -258,8 +288,31 @@ describe('[commercetools-composables] useCheckout/loadShippingMethods', () => {
 
     expect(getShippingMethods).toBeCalled();
     expect(shippingMethods.value).toEqual([]);
-    expect(chosenShippingMethod.value).toEqual({ method: 'cart' });
+    expect(chosenShippingMethod.value).toEqual({ });
     expect(setShippingMethod).not.toBeCalled();
+    expect(loading.value.shippingMethods).toBe(false);
+  });
+
+  it('fails when getShippingMethods throws', async () => {
+    (getShippingMethods as any).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    cart.value = {
+      ...cart.value,
+      shippingInfo: { shippingMethod: { method: 'cart' } }
+    } as any;
+    const setShippingMethod = jest.fn();
+    const loadShippingMethods = createLoadShippingMethods({ factoryParams: {}, setShippingMethod, cartFields });
+    try {
+      await loadShippingMethods();
+      fail();
+    } catch {
+      expect(getShippingMethods).toBeCalled();
+      expect(shippingMethods.value).toEqual([]);
+      expect(chosenShippingMethod.value).toEqual({ });
+      expect(setShippingMethod).not.toBeCalled();
+      expect(loading.value.shippingMethods).toBe(false);
+    }
   });
 });
 
@@ -270,12 +323,25 @@ describe('[commercetools-composables] useCheckout/placeOrder', () => {
   });
 
   it('places order', async () => {
-    const placeOrder = createPlaceOrder({ factoryParams: {}, cartFields, setCart });
+    const placeOrder = createPlaceOrder({ cartFields });
     await placeOrder();
 
     expect(createMyOrderFromCart).toBeCalled();
-    expect(createCart).toBeCalled();
-    expect(initFields).toHaveBeenCalledWith('some-cart');
+    expect(loading.value.order).toBe(false);
+  });
+
+  it('fails when createMyOrderFromCart throws', async () => {
+    (createMyOrderFromCart as jest.Mock).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    const placeOrder = createPlaceOrder({ cartFields });
+    try {
+      await placeOrder();
+      fail();
+    } catch {
+      expect(createMyOrderFromCart).toBeCalled();
+      expect(loading.value.order).toBe(false);
+    }
   });
 });
 
@@ -310,6 +376,7 @@ describe('[commercetools-composables] useCheckout/setPersonalDetails', () => {
     expect(personalDetails.value).toEqual(data);
     expect(updateCart).not.toBeCalled();
     expect(setShippingDetails).not.toBeCalled();
+    expect(loading.value.personalDetails).toBe(false);
   });
 
   it('set personal details and send it to the API', async () => {
@@ -323,9 +390,33 @@ describe('[commercetools-composables] useCheckout/setPersonalDetails', () => {
       actions: ['setCustomerEmail'],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(setShippingDetails).toBeCalled();
     expect(initFields).toBeCalled();
+    expect(loading.value.personalDetails).toBe(false);
+  });
+
+  it('fails when updateCart throws', async () => {
+    (updateCart as jest.Mock).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    const setShippingDetails = jest.fn();
+    const setPersonalDetails = createSetPersonalDetails({ factoryParams: {}, setShippingDetails, cartFields, setCart });
+    const data = { firstName: 'John', lastName: 'Doe' };
+    try {
+      await setPersonalDetails(data, { save: true });
+      fail();
+    } catch {
+      expect(personalDetails.value).toEqual(data);
+      expect(updateCart).toHaveBeenCalledWith({
+        actions: ['setCustomerEmail'],
+        id: 'cart-id',
+        version: 1
+      }, undefined);
+      expect(setShippingDetails).not.toBeCalled();
+      expect(initFields).not.toBeCalled();
+      expect(loading.value.personalDetails).toBe(false);
+    }
   });
 });
 
@@ -342,6 +433,7 @@ describe('[commercetools-composables] useCheckout/setShippingMethod', () => {
 
     expect(chosenShippingMethod.value).toEqual(method);
     expect(updateCart).not.toBeCalled();
+    expect(loading.value.shippingMethod).toBe(false);
   });
 
   it('set shipping method and send it to the API', async () => {
@@ -354,8 +446,30 @@ describe('[commercetools-composables] useCheckout/setShippingMethod', () => {
       actions: ['setShippingMethodAction'],
       id: 'cart-id',
       version: 1
-    });
+    }, undefined);
     expect(initFields).toBeCalled();
+    expect(loading.value.shippingMethod).toBe(false);
+  });
+
+  it('fails when updateCart throws', async () => {
+    (updateCart as jest.Mock).mockImplementationOnce(() => {
+      throw 'error';
+    });
+    const setShippingMethod = createSetShippingMethod({ factoryParams: {}, cartFields, setCart });
+    const method = { name: 'method1', id: 1};
+    try {
+      await setShippingMethod(method, { save: true });
+      fail();
+    } catch {
+      expect(chosenShippingMethod.value).toEqual(method);
+      expect(updateCart).toHaveBeenCalledWith({
+        actions: ['setShippingMethodAction'],
+        id: 'cart-id',
+        version: 1
+      }, undefined);
+      expect(initFields).not.toBeCalled();
+      expect(loading.value.shippingMethod).toBe(false);
+    }
   });
 });
 

@@ -1,15 +1,14 @@
-import { ProductVariant } from '../../types/GraphQL';
+import { ProductVariant, Attribute } from '../../types/GraphQL';
 import { getAttributeValue } from '../../getters/_utils';
-import { Filter, FilterOption } from '@vue-storefront/commercetools-api/lib/types/Api';
-import { Attribute } from '@vue-storefront/commercetools-api/lib/types/GraphQL';
+import { Filter, FilterOption } from '@vue-storefront/commercetools-api';
 
 const extractAttributes = (product: ProductVariant): Attribute[] => product.attributeList;
 
 const flattenAttributes = (prev: Attribute[], curr: Attribute[]): Attribute[] => [...prev, ...(curr || [])];
 
-const getFilterFromAttribute = (attribute: Attribute, prev: Record<string, Filter>): Filter => {
+const getFilterFromAttribute = (attribute: Attribute, prev) => {
   const attrValue = getAttributeValue(attribute);
-  const filter: Filter = prev[attribute.name] || {
+  const filter = prev[attribute.name] || {
     type: (attribute as any).__typename,
     options: []
   };

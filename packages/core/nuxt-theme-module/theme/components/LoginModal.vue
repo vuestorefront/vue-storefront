@@ -51,11 +51,11 @@
             </form>
           </ValidationObserver>
           <div class="action">
-            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text color-secondary">Forgotten password?</SfButton>
+            <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton data-cy="login-btn_sign-up" class="sf-button--text color-secondary" @click="isLogin = false">Register today?</SfButton>
+            <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
@@ -106,13 +106,18 @@
                   class="form__element"
                 />
               </ValidationProvider>
-              <SfCheckbox
-                v-model="createAccount"
-                name="create-account"
-                label="I want to create an account"
-                class="form__element"
-              />
-              <SfButton data-cy="login-btn_submit"
+              <ValidationProvider :rules="{ required: { allowFalse: false } }" v-slot="{ errors }">
+                <SfCheckbox
+                  v-model="createAccount"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="create-account"
+                  label="I want to create an account"
+                  class="form__element"
+                />
+              </ValidationProvider>
+              <SfButton
+                data-cy="login-btn_submit"
                 type="submit"
                 class="sf-button--full-width form__button"
                 :disabled="loading"
@@ -125,7 +130,7 @@
           </ValidationObserver>
           <div class="action">
             or
-            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text color-secondary" @click="isLogin = true">login in to your account</SfButton>
+            <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -138,9 +143,7 @@ import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@stor
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
-import uiState from '~/assets/ui-state';
-
-const { isLoginModalOpen, toggleLoginModal } = uiState;
+import { useUiState } from '~/composables';
 
 extend('email', {
   ...email,
@@ -165,6 +168,7 @@ export default {
     ValidationObserver
   },
   setup() {
+    const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(false);
     const createAccount = ref(false);
@@ -215,7 +219,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: var(--font-light) var(--font-base) / 1.6 var(--font-family-secondary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
   & > * {
     margin: 0 0 0 var(--spacer-xs);
   }

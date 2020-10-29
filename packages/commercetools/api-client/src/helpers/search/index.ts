@@ -1,64 +1,53 @@
 import {
-  CategorySearch,
-  ProductSearch,
-  OrderSearch,
+  CategoryWhereSearch,
+  ProductWhereSearch,
+  OrderWhereSearch,
   Filter,
-  FilterOption,
   AttributeType
 } from './../../types/Api';
-import { locale, currency, acceptLanguage } from './../../index';
+import { getSettings } from './../../index';
 
-const buildAttributePredicate = (attrName: string, attrType: string) => (option: FilterOption): string => {
-  if (!option.selected) {
-    return '';
-  }
+const mapFilterToPredicate = (filter: Filter) => {
+  const { locale, currency } = getSettings();
 
   let valuePredicate: string;
-  switch (attrType) {
+  switch (filter.type) {
     case AttributeType.STRING:
-      valuePredicate = `value = "${option.value}"`;
+      valuePredicate = `value = "${filter.value}"`;
       break;
     case AttributeType.DATE:
     case AttributeType.DATETIME:
     case AttributeType.TIME:
-      valuePredicate = Array.isArray(option.value) ? `value >= "${option.value[0]}" and value <= "${option.value[1]}"` : `value = "${option.value}"`;
+      valuePredicate = Array.isArray(filter.value) ? `value >= "${filter.value[0]}" and value <= "${filter.value[1]}"` : `value = "${filter.value}"`;
       break;
     case AttributeType.NUMBER:
-      valuePredicate = Array.isArray(option.value) ? `value >= ${option.value[0]} and value <= ${option.value[1]}` : `value = ${option.value}`;
+      valuePredicate = Array.isArray(filter.value) ? `value >= ${filter.value[0]} and value <= ${filter.value[1]}` : `value = ${filter.value}`;
       break;
     case AttributeType.ENUM:
     case AttributeType.LOCALIZED_ENUM:
-      valuePredicate = `value(key = "${option.value}")`;
+      valuePredicate = `value(key = "${filter.value}")`;
       break;
     case AttributeType.LOCALIZED_STRING:
-      valuePredicate = `value(${locale.toLowerCase()} = "${option.value}")`;
+      valuePredicate = `value(${locale.toLowerCase()} = "${filter.value}")`;
       break;
     case AttributeType.MONEY:
-      valuePredicate = Array.isArray(option.value)
-        ? `value(centAmount >= ${(option.value[0] as number) * 100} and centAmount <= ${(option.value[1] as number) * 100} and currencyCode = "${currency}")`
-        : `value(centAmount = ${option.value} and currencyCode = "${currency}")`;
+      valuePredicate = Array.isArray(filter.value)
+        ? `value(centAmount >= ${(filter.value[0] as number) * 100} and centAmount <= ${(filter.value[1] as number) * 100} and currencyCode = "${currency}")`
+        : `value(centAmount = ${filter.value} and currencyCode = "${currency}")`;
       break;
     case AttributeType.BOOLEAN:
-      valuePredicate = `value = ${option.value}`;
+      valuePredicate = `value = ${filter.value}`;
       break;
   }
 
-  return `masterData(current(masterVariant(attributes(name = "${attrName}" and ${valuePredicate}))))`;
+  return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
-const mapFilterToPredicates = ([name, filter]: [string, Filter]): string => {
-  const hasAnyOptionSelected = filter.options.some(option => option.selected);
-  if (!hasAnyOptionSelected) {
-    return '';
-  }
+const buildProductWhere = (search: ProductWhereSearch) => {
+  const { acceptLanguage } = getSettings();
 
-  const predicateMapper = buildAttributePredicate(name, filter.type);
-  const predicates: string[] = filter.options.map(predicateMapper).filter(Boolean);
-  return `(${predicates.join(' or ')})`;
-};
+  const predicates: string[] = [];
 
-const buildProductWhere = (search: ProductSearch) => {
-  let predicates: string[] = [];
   if (search?.catId) {
     const catIds = (Array.isArray(search.catId) ? search.catId : [search.catId]).join('","');
     predicates.push(`masterData(current(categories(id in ("${catIds}"))))`);
@@ -74,16 +63,18 @@ const buildProductWhere = (search: ProductSearch) => {
   }
 
   if (search?.filters) {
-    predicates = [
-      ...predicates,
-      ...Object.entries(search.filters).map(mapFilterToPredicates).filter(Boolean)
-    ];
+    const filterPredicates = search.filters.map(mapFilterToPredicate).join(' or ');
+    if (filterPredicates) {
+      predicates.push(filterPredicates);
+    }
   }
 
   return predicates.join(' and ');
 };
 
-const buildCategoryWhere = (search: CategorySearch) => {
+const buildCategoryWhere = (search: CategoryWhereSearch) => {
+  const { acceptLanguage } = getSettings();
+
   if (search?.catId) {
     return `id="${search.catId}"`;
   }
@@ -93,10 +84,10 @@ const buildCategoryWhere = (search: CategorySearch) => {
     return `slug(${predicate})`;
   }
 
-  return '';
+  return undefined;
 };
 
-const buildOrderWhere = (search: OrderSearch): string => {
+const buildOrderWhere = (search: OrderWhereSearch): string => {
   if (search?.id) {
     return `id="${search.id}"`;
   }

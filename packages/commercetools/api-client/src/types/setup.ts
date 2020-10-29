@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { ApolloClientOptions } from 'apollo-client';
+import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 
 export interface ApiConfig {
   uri: string;
@@ -55,4 +55,40 @@ export interface SetupConfig<TCacheShape> {
 export interface CustomerCredentials {
   username: string;
   password: string;
+}
+
+// --
+
+export interface Config<T = any> {
+  client?: ApolloClient<T>;
+  api: ApiConfig;
+  currentToken?: Token;
+  customOptions?: ApolloClientOptions<any>;
+  currency: string;
+  locale: string;
+  country: string;
+  countries: LocaleItem[];
+  currencies: LocaleItem[];
+  locales: LocaleItem[];
+  languageMap: object;
+  acceptLanguage: string[];
+  cookies: CookiesConfig;
+  auth?: Auth;
+  forceToken?: boolean;
+  handleIsTokenUserSession: (token: Token) => boolean;
+}
+
+export interface ConfigurableConfig {
+  api?: ApiConfig;
+  currentToken?: Token;
+  customOptions?: ApolloClientOptions<any>;
+  currency?: string;
+  locale?: string;
+  country?: string;
+  countries?: LocaleItem[];
+  currencies?: LocaleItem[];
+  locales?: LocaleItem[];
+  languageMap?: object;
+  acceptLanguage?: string[];
+  forceToken?: boolean;
 }
