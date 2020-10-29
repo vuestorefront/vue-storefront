@@ -244,6 +244,10 @@ export type Address = {
   additionalAddressInfo?: Maybe<Scalars["String"]>;
   externalId?: Maybe<Scalars["String"]>;
   key?: Maybe<Scalars["String"]>;
+  phone?: Maybe<Scalars["String"]>;
+  mobile?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  fax?: Maybe<Scalars["String"]>;
 };
 
 export type AddressContactInfo = {

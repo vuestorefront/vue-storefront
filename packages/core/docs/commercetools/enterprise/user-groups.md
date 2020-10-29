@@ -1,3 +1,7 @@
+---
+platform: Commercetools
+---
+
 # User groups
 
 User groups is the feature commonly used in projects when we want to assign dedicated benefits for the close group of customers. Discounts, price rules, special prices - all of them can be quickly assigned to the group of customers so you don't have to configure them one by one.
