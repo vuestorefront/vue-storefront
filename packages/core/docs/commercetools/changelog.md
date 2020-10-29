@@ -2,6 +2,7 @@
 
 ## 0.2.6 - not released
 
+- fix errors throw by some product getters ([#5089](https://github.com/DivanteLtd/vue-storefront/issues/5089))
 - removed `chosenShippingMethod` defaulting ([#5073](https://github.com/DivanteLtd/vue-storefront/issues/5073))
 
 ## 0.2.5
