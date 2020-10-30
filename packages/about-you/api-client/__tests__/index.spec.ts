@@ -272,35 +272,6 @@ describe('[about-you-api] index', () => {
         expect(BapiClientMock.categories.getRoots).toHaveBeenCalled();
       });
 
-      it('getFilters', () => {
-        getFilters({
-          where: {
-            categoryId: 2244,
-            term: '',
-            minPrice: 0,
-            maxPrice: 100,
-            attributes: []
-          },
-          campaignKey: 'x22x',
-          with: ['values', 'category_ids']
-        });
-        expect(BapiClientMock.filters.get).toHaveBeenCalled();
-      });
-
-      it('getFiltersValues', () => {
-        getFiltersValues('groupName', {
-          where: {
-            categoryId: 2244,
-            term: '',
-            minPrice: 0,
-            maxPrice: 100,
-            attributes: []
-          },
-          campaignKey: 'px'
-        });
-        expect(BapiClientMock.filters.getValues).toHaveBeenCalled();
-      });
-
       it('getProductById', () => {
         getProductById(2244, {
           with: {},
