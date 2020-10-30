@@ -1,4 +1,4 @@
-import copyProject from '../../../src/scripts/copyProject';
+import copyProject from '@vue-storefront/cli/src/scripts/copyProject';
 import { copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 import updatePackageJson from '@vue-storefront/cli/src/scripts/createProject/updatePackageJson';
 
