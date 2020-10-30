@@ -1,8 +1,7 @@
-import { getProductsByQuery, getProductById, getFilters } from '@vue-storefront/about-you-api';
+import { getProductsByQuery, getProductById } from '@vue-storefront/about-you-api';
 import { params } from '../../../src/composables/useProduct/factoryParams';
 
 jest.mock('@vue-storefront/about-you-api', () => ({
-  getFilters: jest.fn(),
   getProductsByQuery: jest.fn(),
   getProductById: jest.fn()
 }));
@@ -18,35 +17,6 @@ describe('[about-you-cloud composables] useProduct factoryParams', () => {
         entities: [{ id: '331' }, { id: '332' }],
         pagination: { total: 1 }
       });
-      (getFilters as jest.Mock).mockReturnValueOnce([
-        {
-          id: null,
-          slug: 'prices',
-          name: 'Prices',
-          type: 'range',
-          values: [
-            {
-              min: 5000,
-              max: 10900,
-              productCount: 4
-            }
-          ]
-        },
-        {
-          id: 1525,
-          slug: 'country',
-          name: 'Country',
-          type: 'attributes',
-          values: [
-            {
-              name: 'Germany',
-              productCount: 1,
-              id: 73349
-            }
-          ]
-        }
-      ]);
-
       expect(await params.productsSearch({}, null)).toEqual({
         data: [{ id: '331' }, { id: '332' }],
         total: 1
