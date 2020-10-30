@@ -1,7 +1,7 @@
 # Changelog
 
 ## 2.0.12 - not released
-
+- fix ssr implementation, transition on client-side
 
 ## 2.0.11
 - fixed SSR in useWishlistFactory ([#5076](https://github.com/DivanteLtd/vue-storefront/issues/5076))
