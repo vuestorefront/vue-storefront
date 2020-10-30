@@ -49,45 +49,7 @@ describe('[about-you-cloud composables] useProduct factoryParams', () => {
 
       expect(await params.productsSearch({}, null)).toEqual({
         data: [{ id: '331' }, { id: '332' }],
-        total: 1,
-        availableSortingOptions: [
-          { value: 'price-asc', label: 'Price from low to high' },
-          { value: 'price-desc', label: 'Price from high to low' },
-          { value: 'new-asc', label: 'Latest' },
-          { value: 'reduction-desc', label: 'Discount from high to low' },
-          { value: 'reduction-asc', label: 'Discount from low to hight' },
-          { value: 'new-desc', label: 'Oldest' }
-        ],
-        availableFilters: {
-          country: {
-            id: 1525,
-            name: 'Country',
-            options: [
-              {
-                id: 73349,
-                name: 'Germany',
-                productCount: 1,
-                selected: false
-              }
-            ],
-            slug: 'country',
-            type: 'attributes'
-          },
-          prices: {
-            id: null,
-            name: 'Prices',
-            options: [
-              {
-                max: 10900,
-                min: 5000,
-                productCount: 4,
-                selected: false
-              }
-            ],
-            slug: 'prices',
-            type: 'range'
-          }
-        }
+        total: 1
       });
 
       expect(getProductsByQuery).toBeCalledWith({pagination: {},
@@ -112,15 +74,7 @@ describe('[about-you-cloud composables] useProduct factoryParams', () => {
 
       expect(await params.productsSearch({ id: '331' }, null)).toEqual({
         data: [{ id: '331' }],
-        total: 1,
-        availableSortingOptions: [
-          { value: 'price-asc', label: 'Price from low to high' },
-          { value: 'price-desc', label: 'Price from high to low' },
-          { value: 'new-asc', label: 'Latest' },
-          { value: 'reduction-desc', label: 'Discount from high to low' },
-          { value: 'reduction-asc', label: 'Discount from low to hight' },
-          { value: 'new-desc', label: 'Oldest' }
-        ]
+        total: 1
       });
       expect(getProductById).toBeCalledWith('331', {
         with: {

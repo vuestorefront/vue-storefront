@@ -1,15 +1,8 @@
 import { getProduct } from '@vue-storefront/shopify-api';
-import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
+import { useProductFactory, ProductsSearchResult } from '@vue-storefront/core';
 import { UseProduct, Product } from '../../types';
 
-const availableSortingOptions = [
-  { value: 'createdAt', label: 'Latest' },
-  { value: 'price-asc', label: 'Price from low to high' },
-  { value: 'price-desc', label: 'Price from high to low' },
-  { value: 'bestSelling', label: 'Best selling' }
-];
-
-const productsSearch = async (params): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (params): Promise<ProductsSearchResult<Product>> => {
   const searchParams = {
     ids: params.ids,
     with: params.term,
@@ -28,12 +21,11 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
 
   return {
     data: JSON.parse(JSON.stringify(products)),
-    total: products.length,
-    availableSortingOptions
+    total: products.length
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product, any, AgnosticSortByOption[]> = useProductFactory<Product, any, any, AgnosticSortByOption[]>({
+const useProduct: (cacheId: string) => UseProduct<Product> = useProductFactory<Product, any>({
   productsSearch
 });
 

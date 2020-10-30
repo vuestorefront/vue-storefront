@@ -28,8 +28,6 @@ export const getCategoryById: typeof BapiClient.prototype.categories.getById = (
 export const getCategoriesByIds: typeof BapiClient.prototype.categories.getByIds = (...args) => apiClient.categories.getByIds(...args);
 export const getCategoryByPath: typeof BapiClient.prototype.categories.getByPath = (...args) => apiClient.categories.getByPath(...args);
 export const getCategoryRoots: typeof BapiClient.prototype.categories.getRoots = (...args) => apiClient.categories.getRoots(...args);
-export const getFilters: typeof BapiClient.prototype.filters.get = (...args) => apiClient.filters.get(...args);
-export const getFiltersValues: typeof BapiClient.prototype.filters.getValues = (...args) => apiClient.filters.getValues(...args);
 export const getProductById: typeof BapiClient.prototype.products.getById = (...args) => apiClient.products.getById(...args);
 export const getProductsByIds: typeof BapiClient.prototype.products.getByIds = (...args) => apiClient.products.getByIds(...args);
 export const getProductsByQuery: typeof BapiClient.prototype.products.query = (...args) => apiClient.products.query(...args);
