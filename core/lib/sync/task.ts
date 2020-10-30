@@ -54,7 +54,7 @@ function getPayload (task, currentToken) {
     ...task.payload,
     headers: {
       ...task.payload.headers,
-      ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {})
+      ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: `${config.users.tokenAuthScheme} ${currentToken}` } : {})
     }
   }
   return payload

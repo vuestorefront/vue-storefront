@@ -752,7 +752,9 @@
     "me_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
-    "tokenInHeader": false
+    "tokenInHeader": false,
+    "tokenHeaderName": "Authorization",
+    "tokenAuthScheme": "Bearer"
   },
   "stock": {
     "synchronize": true,
