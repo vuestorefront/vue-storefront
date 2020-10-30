@@ -1,5 +1,6 @@
 import { useWishlistFactory, UseWishlistFactoryParams } from '../../src/factories';
 import { UseWishlist } from '../../src/types';
+import { sharedRef } from './../../src/utils';
 
 let useWishlist: () => UseWishlist<any, any, any>;
 let setWishlist = null;
@@ -45,7 +46,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       const { wishlist } = useWishlist();
       expect(wishlist.value).toEqual(null);
       setWishlist({ wishlist: 'test' });
-      expect(wishlist.value).toEqual({ wishlist: 'test' });
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
 
@@ -69,7 +70,6 @@ describe('[CORE - factories] useWishlistFactory', () => {
         createComposable();
 
         const { loadWishlist, wishlist } = useWishlist();
-        await loadWishlist();
         await loadWishlist();
         expect(params.loadWishlist).toHaveBeenCalledWith(customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });

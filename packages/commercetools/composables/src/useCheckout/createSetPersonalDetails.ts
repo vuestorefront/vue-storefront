@@ -12,18 +12,21 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartField
   if (!options.save) return;
   loading.value.personalDetails = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setCustomerEmail(personalDetails.value.email)
-    ]
-  }, customQuery);
+  try {
+    const cartResponse = await updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setCustomerEmail(personalDetails.value.email)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  setShippingDetails({ firstName, lastName });
-  loading.value.personalDetails = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart);
+    setShippingDetails({ firstName, lastName });
+  } finally {
+    loading.value.personalDetails = false;
+  }
 };
 
 export default createSetPersonalDetails;
