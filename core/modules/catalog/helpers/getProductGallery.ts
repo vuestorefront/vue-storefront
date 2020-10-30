@@ -10,7 +10,10 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 export default function getProductGallery (product: Product) {
   if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
     if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-      return uniqBy(attributeImages(product).concat(getMediaGallery(product)), 'src')
+      return uniqBy([
+        ...attributeImages(product),
+        ...getMediaGallery(product)
+      ], 'src')
     }
   }
 
