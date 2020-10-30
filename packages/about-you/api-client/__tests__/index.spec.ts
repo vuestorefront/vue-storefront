@@ -11,8 +11,6 @@ import {
   getCategoriesByIds,
   getCategoryByPath,
   getCategoryRoots,
-  getFilters,
-  getFiltersValues,
   getProductById,
   getProductsByIds,
   getProductsByQuery,
