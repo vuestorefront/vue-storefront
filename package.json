@@ -38,10 +38,13 @@
     "build:sp:tools": "yarn build:core && yarn build:sp:api-client && yarn build:sp:composables",
     "build:sp:theme": "cd packages/shopify/theme && yarn build",
     "build:sp": "yarn build:core && yarn build:sp:tools && yarn build:sp:theme",
+    
     "build:vc:api-client": "cd packages/virtocommerce/api-client && yarn build",
     "build:vc:composables": "cd packages/virtocommerce/composables && yarn build",
     "build:vc:tools": "yarn build:core && yarn build:vc:api-client && yarn build:vc:composables",
     "build:vc:theme": "cd packages/virtocommerce/theme && yarn build",
+    "build:vc": "yarn build:core && yarn build:vc:tools && yarn build:vc:theme",
+
     "test:ayc:api-client": "cd packages/about-you/api-client && yarn test",
     "test:ayc:composables": "cd packages/about-you/composables && yarn test",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",

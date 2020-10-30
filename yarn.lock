@@ -2981,6 +2981,23 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
+"@vue-storefront/commercetools-api@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.1.0.tgz#eac650c5e0ad54542b39df5b9241606f48e9f2a0"
+  integrity sha512-Oi4bgflus7bXjMU64mARR8GrtYfkrKPm7cXN6JxdMOSKTc+t7PiFHdGBk2FuWnUTEM834WuIbVCje0d6XYUrdg==
+  dependencies:
+    "@commercetools/sdk-auth" "^3.0.1"
+    "@vue-storefront/core" "2.0.5"
+    apollo-cache-inmemory "^1.6.6"
+    apollo-client "^2.6.10"
+    apollo-link "^1.2.14"
+    apollo-link-context "^1.0.20"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.17"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
 "@vue-storefront/commercetools-api@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.3.tgz#d1f14739a9168ec300a32f28f24cd49d1b76edcb"
@@ -2996,12 +3013,76 @@
     graphql-tag "^2.10.1"
     isomorphic-fetch "^2.2.1"
 
+"@vue-storefront/commercetools-theme@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-theme/-/commercetools-theme-0.1.0.tgz#f4061c47c18fed571d86edfa1b353029eed6789c"
+  integrity sha512-Pm9hJ06jF7oCsJKQeqaCMyDscVtuJBzvgi94vMEupcVZIgnbzynoVxa4cxdYw69y2Bldx5xe6ZcC1PB+eqd6tg==
+  dependencies:
+    "@storefront-ui/vue" "^0.7.10"
+    "@vue-storefront/commercetools" "^0.1.0"
+    "@vue-storefront/nuxt" "^0.0.4"
+    "@vue-storefront/nuxt-theme" "^0.0.2"
+    cookie-universal-nuxt "^2.1.3"
+    core-js "^2.6.5"
+    nuxt "^2.13.3"
+    nuxt-i18n "^6.5.0"
+    vee-validate "^3.2.3"
+    vue-scrollto "^2.17.1"
+
+"@vue-storefront/commercetools@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools/-/commercetools-0.1.0.tgz#20ccc7ddb5b0a8b25537b43105cc43d71951b04b"
+  integrity sha512-v/AojT1R2NzCgNrXA/req4Pc2PPNy+uZLjOOwuzBFb2oUA7dZWCAlzhXH5kmF69m+WBlI6OVbMJc6SSgvbrxrA==
+  dependencies:
+    "@vue-storefront/commercetools-api" "0.1.0"
+    "@vue-storefront/core" "2.0.4"
+    js-cookie "^2.2.1"
+    vue "^2.6.x"
+
+"@vue-storefront/core@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.4.tgz#9c570190d2a9251be17ef5417a9cbc707a467e26"
+  integrity sha512-TLygJmHu4VU6cHfv52egp6+wyk8yx8CgXW/pc8wYC7CM/ra2gGmP4iMJ2/0RtR6DP2RfZD8QRyQb7NhptXUA0g==
+  dependencies:
+    "@vue/composition-api" "^1.0.0-beta.8"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
+"@vue-storefront/core@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.5.tgz#91e16bbbe1dc9d3c059f976046377dcb9d2c9192"
+  integrity sha512-66fYSL2Arc7nCQEwtMcMTAz4xbETUpe9myfNoKBnwWf62L0gdXJhbYtOYMD4WFRMOiIFV1nhYgJuYeyFrHlRBw==
+  dependencies:
+    "@vue/composition-api" "^1.0.0-beta.8"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
+"@vue-storefront/nuxt-theme@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.2.tgz#5c6cce6f12a7c69e0aaf3bcba3ff05b219531483"
+  integrity sha512-FkJZj86oNqPj02chW7uE8AgKK2bw3gvwIOuEcC36vSKPGEkxe4VtvsLMu3P2g9ezUnQVubJ5JCG/NgMVY3/59A==
+  dependencies:
+    lodash.merge "^4.6.2"
+
 "@vue-storefront/nuxt-theme@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.3.tgz#3f0f03bad13aa9ac4855c65872b19e9baad783ce"
   integrity sha512-H0xeRgvhWZUyPVig6YlWM++xtkTGzgYQ9lUBBhQuJ0or5Ader1zykeaeDbFHCrGXwzzAiTP4F3HZapIRiI9Tlg==
   dependencies:
     lodash.merge "^4.6.2"
+
+"@vue-storefront/nuxt@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.4.tgz#0425007395db70470e9bcb43d38a23b00723b3cc"
+  integrity sha512-daoWmUD9Ne1h2iz2lgq2RnptTkbGxXMIfWm+FISFbGbMxh6zc0+FCXAJbPyFfMQR5UeQ7VmM3/dLpkgLTlbd6w==
+  dependencies:
+    "@nuxt/typescript-build" "^2.0.0"
+    "@nuxtjs/composition-api" "^0.12.0"
+    "@vue/composition-api" "^1.0.0-beta.8"
+    chalk "^2.4.2"
+    chokidar "^3.3.1"
+    consola "^2.10.1"
+    lodash "^4.17.15"
 
 "@vue-storefront/nuxt@^0.0.5":
   version "0.0.5"
@@ -3171,6 +3252,13 @@
   version "1.0.0-beta.16"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.16.tgz#9f7202125214e9398f68018c1162b57b14fd0bdc"
   integrity sha512-FZgmL2qb2Hy3TGFKCEXHwaddFdTfG17GoA1YFCNGTg5mD3+GfWVchsKKR7XxHIAwOaXiHK/djWWsviSD1NeFFw==
+  dependencies:
+    tslib "^2.0.1"
+
+"@vue/composition-api@^1.0.0-beta.8":
+  version "1.0.0-beta.18"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.18.tgz#9c91ed2fc297e643defee95f16c551d457384239"
+  integrity sha512-5Ins/G+un8rZoXRllMquvuihHYUMz7EKxgCPTvJiBRml0gRrOz2eRisQbjzj8fuTC6yeURjySpOKXdVkTV4HJA==
   dependencies:
     tslib "^2.0.1"
 
@@ -3809,14 +3897,6 @@ apollo-link-http@^1.5.16, apollo-link-http@^1.5.17:
     apollo-link-http-common "^0.2.16"
     tslib "^1.9.3"
 
-apollo-link-schema@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/apollo-link-schema/-/apollo-link-schema-1.2.5.tgz#a1aad9adf7eefc9252797b0a67a4d41f215237db"
-  integrity sha512-7XUS8fOsObJt9rzp8CUuZ/a9TNUBoChWwEDmdVmYxTlzgGcyUXxkLXkMS9CHUb0cx04jiiWjWQc41C4iakSmzA==
-  dependencies:
-    apollo-link "^1.2.14"
-    tslib "^1.9.3"
-
 apollo-link@^1.0.0, apollo-link@^1.2.13, apollo-link@^1.2.14:
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
@@ -3827,7 +3907,7 @@ apollo-link@^1.0.0, apollo-link@^1.2.13, apollo-link@^1.2.14:
     tslib "^1.9.3"
     zen-observable-ts "^0.8.21"
 
-apollo-utilities@1.3.4, apollo-utilities@^1.0.1, apollo-utilities@^1.3.0, apollo-utilities@^1.3.4:
+apollo-utilities@1.3.4, apollo-utilities@^1.3.0, apollo-utilities@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.3.4.tgz#6129e438e8be201b6c55b0f13ce49d2c7175c9cf"
   integrity sha512-pk2hiWrCXMAy2fRPwEyhvka+mqwzeP60Jr1tRYi5xru+3ko94HI9o6lK0CT33/w4RDlxWchmdhDCrvdr+pHCig==
@@ -6065,11 +6145,6 @@ depd@~1.1.2:
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
-deprecated-decorator@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/deprecated-decorator/-/deprecated-decorator-0.1.6.tgz#00966317b7a12fe92f3cc831f7583af329b86c37"
-  integrity sha1-AJZjF7ehL+kvPMgx91g68ym4bDc=
-
 deprecation@^2.0.0, deprecation@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/deprecation/-/deprecation-2.3.1.tgz#6368cbdb40abf3373b525ac87e4a260c3a700919"
@@ -7766,21 +7841,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-graphql-tag@^2.10.1, graphql-tag@^2.2.2:
+graphql-tag@^2.10.1:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.11.0.tgz#1deb53a01c46a7eb401d6cb59dec86fa1cccbffd"
   integrity sha512-VmsD5pJqWJnQZMUeRwrDhfgoyqcfwEkvtpANqcoUG8/tOLkwNgU9mzub/Mc78OJMhHjx7gfAMTxzdG43VGg3bA==
-
-graphql-tools@^4.0.6:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-4.0.8.tgz#e7fb9f0d43408fb0878ba66b522ce871bafe9d30"
-  integrity sha512-MW+ioleBrwhRjalKjYaLQbr+920pHBgy9vM/n47sswtns8+96sRn5M/G+J1eu7IMeKWiN/9p6tmwCHU7552VJg==
-  dependencies:
-    apollo-link "^1.2.14"
-    apollo-utilities "^1.0.1"
-    deprecated-decorator "^0.1.6"
-    iterall "^1.1.3"
-    uuid "^3.1.0"
 
 graphql@^14.5.8:
   version "14.7.0"
@@ -9015,7 +9079,7 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-iterall@^1.1.3, iterall@^1.2.2:
+iterall@^1.2.2:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.3.0.tgz#afcb08492e2915cbd8a0884eb93a8c94d0d72fea"
   integrity sha512-QZ9qOMdF+QLHxy1QIpUHUU1D5pS2CG2P69LF6L6CPjPYA/XMOmKV3PZpawHoAjHNyB0swdVTRxdYT4tbBbxqwg==
@@ -9349,11 +9413,6 @@ jest-snapshot@^24.9.0:
     natural-compare "^1.4.0"
     pretty-format "^24.9.0"
     semver "^6.2.0"
-
-jest-transform-graphql@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/jest-transform-graphql/-/jest-transform-graphql-2.1.0.tgz#903cb66bb27bc2772fd3e5dd4f7e9b57230f5829"
-  integrity sha1-kDy2a7J7wncv0+XdT36bVyMPWCk=
 
 jest-util@^24.9.0:
   version "24.9.0"
@@ -13367,14 +13426,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-graphql@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-graphql/-/rollup-plugin-graphql-0.1.0.tgz#cee3d7137133534f570826c00978eafe528069a9"
-  integrity sha512-zEAXAylBAkA489xk/KAzxtwQ5BcpcgEejsAbQ4gO19nZ8iin6+0TSogYfBhMSfZXtI4YXy3NEqwlT5E0E7rh2w==
-  dependencies:
-    graphql-tag "^2.2.2"
-    rollup-pluginutils "^2.0.1"
-
 rollup-plugin-terser@^5.1.2:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-5.3.1.tgz#8c650062c22a8426c64268548957463bf981b413"
@@ -13404,7 +13455,7 @@ rollup-pluginutils@2.8.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.8.2:
+rollup-pluginutils@^2.8.2:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
@@ -15342,7 +15393,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
