@@ -111,74 +111,76 @@
           </SfAccordion>
         </SfLoader>
       </div>
-      <div class="products">
-        <transition-group
-          v-if="isGridView"
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__grid"
-        >
-          <ProductTile
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :product-key="i"
-            :product="product"
-          />
-        </transition-group>
-        <transition-group
-          v-else
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__list"
-        >
-          <SfProductCardHorizontal
-            data-cy="category-product-cart_wishlist"
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product) + (productGetters.getStatus(product) ? '' : ' - Out of Stock')"
-            :description="productGetters.getDescription(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-            :max-rating="5"
-            :score-rating="3"
-            :is-on-wishlist="false"
-            :add-to-cart-disabled="productGetters.getStatus(product) ? false : true"
-            class="products__product-card-horizontal"
-            @click:wishlist="toggleWishlist(i)"
-            @click.native="addToCart(product, parseInt(1))"
-            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-          />
-        </transition-group>
-        <!-- <SfPagination
-          data-cy="category-pagination"
-          v-show="totalPages > 1"
-          class="products__pagination"
-          :current="currentPage"
-          :total="totalPages"
-          :visible="5"
-        /> -->
-        <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
-        <div
-          v-show="totalPages > 1"
-          class="products__pagination__options"
-        >
-          <span class="products__pagination__label">Items per page:</span>
-          <SfSelect class="items-per-page" v-model="itemsPerPage">
-            <SfSelectOption
-              v-for="option in perPageOptions"
-              :key="option"
-              :value="option"
-              class="items-per-page__option"
-              >{{ option }}</SfSelectOption
-            >
-          </SfSelect>
+      <SfLoader :class="{ loading }" :loading="loading">
+        <div class="products">
+          <transition-group
+            v-if="isGridView"
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__grid"
+          >
+            <ProductTile
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :product-key="i"
+              :product="product"
+            />
+          </transition-group>
+          <transition-group
+            v-else
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__list"
+          >
+            <SfProductCardHorizontal
+              data-cy="category-product-cart_wishlist"
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :style="{ '--index': i }"
+              :title="productGetters.getName(product) + (productGetters.getStatus(product) ? '' : ' - Out of Stock')"
+              :description="productGetters.getDescription(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :max-rating="5"
+              :score-rating="3"
+              :is-on-wishlist="false"
+              :add-to-cart-disabled="productGetters.getStatus(product) ? false : true"
+              class="products__product-card-horizontal"
+              @click:wishlist="toggleWishlist(i)"
+              @click.native="addToCart(product, parseInt(1))"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+            />
+          </transition-group>
+          <!-- <SfPagination
+            data-cy="category-pagination"
+            v-show="totalPages > 1"
+            class="products__pagination"
+            :current="currentPage"
+            :total="totalPages"
+            :visible="5"
+          /> -->
+          <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
+          <div
+            v-show="totalPages > 1"
+            class="products__pagination__options"
+          >
+            <span class="products__pagination__label">Items per page:</span>
+            <SfSelect class="items-per-page" v-model="itemsPerPage">
+              <SfSelectOption
+                v-for="option in perPageOptions"
+                :key="option"
+                :value="option"
+                class="items-per-page__option"
+                >{{ option }}</SfSelectOption
+              >
+            </SfSelect>
+          </div>
+          <!-- end of TODO -->
         </div>
-        <!-- end of TODO -->
-      </div>
+      </SfLoader>
     </div>
     <SfSidebar
       :visible="isFilterSidebarOpen"
@@ -673,5 +675,11 @@ export default {
       padding-left: var(--spacer-sm);
     }
   }
+}
+.loading {
+  margin-top: 100px;
+}
+.loading:first-of-type {
+  margin-top: 50px;
 }
 </style>

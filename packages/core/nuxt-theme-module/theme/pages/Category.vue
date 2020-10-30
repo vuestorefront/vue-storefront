@@ -98,87 +98,89 @@
           </SfAccordion>
         </SfLoader>
       </div>
-      <div class="products" v-if="!loading">
-        <transition-group
-          v-if="isCategoryGridView"
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__grid"
-        >
-          <SfProductCard
-            data-cy="category-product-card"
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-            :max-rating="5"
-            :score-rating="productGetters.getAverageRating(product)"
-            :show-add-to-cart-button="true"
-            :isOnWishlist="false"
-            :isAddedToCart="isOnCart(product)"
-            @click:wishlist="addToWishlist(product)"
-            @click:add-to-cart="addToCart(product, 1)"
-            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-            class="products__product-card"
+      <SfLoader :class="{ loading }" :loading="loading">
+        <div class="products" v-if="!loading">
+          <transition-group
+            v-if="isCategoryGridView"
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__grid"
+          >
+            <SfProductCard
+              data-cy="category-product-card"
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :style="{ '--index': i }"
+              :title="productGetters.getName(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :max-rating="5"
+              :score-rating="productGetters.getAverageRating(product)"
+              :show-add-to-cart-button="true"
+              :isOnWishlist="false"
+              :isAddedToCart="isOnCart(product)"
+              @click:wishlist="addToWishlist(product)"
+              @click:add-to-cart="addToCart(product, 1)"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+              class="products__product-card"
+            />
+          </transition-group>
+          <transition-group
+            v-else
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__list"
+          >
+            <SfProductCardHorizontal
+              data-cy="category-product-cart_wishlist"
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :style="{ '--index': i }"
+              :title="productGetters.getName(product)"
+              :description="productGetters.getDescription(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :max-rating="5"
+              :score-rating="3"
+              :is-on-wishlist="false"
+              class="products__product-card-horizontal"
+              @click:wishlist="addToWishlist(product)"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+            />
+          </transition-group>
+          <SfPagination
+            v-if="!loading"
+            data-cy="category-pagination"
+            v-show="pagination.totalPages > 1"
+            class="products__pagination"
+            :current="pagination.currentPage"
+            :total="pagination.totalPages"
+            :visible="5"
           />
-        </transition-group>
-        <transition-group
-          v-else
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__list"
-        >
-          <SfProductCardHorizontal
-            data-cy="category-product-cart_wishlist"
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product)"
-            :description="productGetters.getDescription(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-            :max-rating="5"
-            :score-rating="3"
-            :is-on-wishlist="false"
-            class="products__product-card-horizontal"
-            @click:wishlist="addToWishlist(product)"
-            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-          />
-        </transition-group>
-        <SfPagination
-          v-if="!loading"
-          data-cy="category-pagination"
-          v-show="pagination.totalPages > 1"
-          class="products__pagination"
-          :current="pagination.currentPage"
-          :total="pagination.totalPages"
-          :visible="5"
-        />
-        <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
-        <div
-          v-show="pagination.totalPages > 1"
-          class="products__pagination__options desktop-only"
-        >
-          <span class="products__pagination__label">Show on page:</span>
-          <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
-            <SfSelectOption
-              v-for="option in pagination.pageOptions"
-              :key="option"
-              :value="option"
-              class="products__items-per-page__option"
-            >
-              {{ option }}
-            </SfSelectOption>
-          </SfSelect>
+          <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
+          <div
+            v-show="pagination.totalPages > 1"
+            class="products__pagination__options desktop-only"
+          >
+            <span class="products__pagination__label">Show on page:</span>
+            <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
+              <SfSelectOption
+                v-for="option in pagination.pageOptions"
+                :key="option"
+                :value="option"
+                class="products__items-per-page__option"
+              >
+                {{ option }}
+              </SfSelectOption>
+            </SfSelect>
+          </div>
+          <!-- end of TODO -->
         </div>
-        <!-- end of TODO -->
-      </div>
+      </SfLoader>
     </div>
     <SfSidebar
       :visible="isFilterSidebarOpen"
@@ -553,5 +555,11 @@ export default {
     margin-right: -50vw;
     width: 100vw;
   }
+}
+.loading {
+  margin-top: 100px;
+}
+.loading:first-of-type {
+  margin-top: 50px;
 }
 </style>
