@@ -88,7 +88,7 @@ jobs:
       #  run: cat ./packages/core/cli/coverage/lcov.info | coveralls
 
   validate_integrations:
-    name: Validate ${{ matrix.integration }} ${{ matix.part }}
+    name: Validate ${{ matrix.integration }} ${{ matrix.part }}
 
     runs-on: ubuntu-latest
 
