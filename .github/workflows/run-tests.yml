@@ -91,11 +91,6 @@ jobs:
           - boilerplate
           - commercetools
           - shopify
-        
-        part:
-          - composables
-          - api-client
-          - theme
 
     steps:
       - name: Checkout code
@@ -120,11 +115,23 @@ jobs:
       - name: Build core
         run: yarn build:core
 
-      - name: Build ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn build
+      - name: Build composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn build
       
-      - name: Test ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn test --passWithNoTests --coverage
+      - name: Test composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
+
+      - name: Build api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn build
+      
+      - name: Test api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
+
+      - name: Build theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn build
+      
+      - name: Test theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests --coverage
       
       #- name: Display ${{ matrix.integration }} ${{ matrix.part }} coverage
       #  run: cat ./packages/${{ matrix.integration }}/${{ matrix.part }}/coverage/lcov.info | coveralls
