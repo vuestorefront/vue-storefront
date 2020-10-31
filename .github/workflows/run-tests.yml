@@ -45,6 +45,8 @@ jobs:
   validate_core:
     name: Validate core
 
+    needs: lint
+
     runs-on: ubuntu-latest
 
     steps:
@@ -90,6 +92,8 @@ jobs:
   validate_integrations:
     name: Validate ${{ matrix.integration }} ${{ matrix.part }}
 
+    needs: validate_core
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -133,15 +137,11 @@ jobs:
       - name: Build core
         run: yarn build:core
 
-      - run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
-      
       - name: Build ${{ matrix.part }}
-        run: yarn build
-
-      - run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
+        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn build
       
       - name: Test ${{ matrix.part }}
-        run: yarn test -- coverage
+        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn test -- coverage
       
       #- name: Display ${{ matrix.integration }} ${{ matrix.part }} coverage
       #  run: cat ./packages/${{ matrix.integration }}/${{ matrix.part }}/coverage/lcov.info | coveralls
