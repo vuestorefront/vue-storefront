@@ -27,6 +27,7 @@ export default {
   },
 
   setup(props) {
+    console.log('Test new CI');
     const address = toRef(props, 'address');
 
     const street = computed(() => {
