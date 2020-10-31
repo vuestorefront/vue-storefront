@@ -90,7 +90,7 @@ jobs:
           - about-you
           - boilerplate
           - commercetools
-          - shopify
+          # - shopify
 
     steps:
       - name: Checkout code
