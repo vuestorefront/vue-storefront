@@ -130,8 +130,8 @@ jobs:
       - name: Build theme
         run: cd packages/${{ matrix.integration }}/theme && yarn build
       
-      - name: Test theme
-        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests --coverage
+      # - name: Test theme
+      #   run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests --coverage
       
       # - name: Display api-client coverage
       #   run: cat ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info | coveralls
