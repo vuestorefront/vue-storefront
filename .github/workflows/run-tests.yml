@@ -31,6 +31,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
       - name: Run linter
@@ -38,8 +39,6 @@ jobs:
 
   validate_core:
     name: Validate core
-
-    needs: lint
 
     runs-on: ubuntu-latest
 
@@ -60,6 +59,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
       - name: Build core
@@ -93,8 +93,8 @@ jobs:
           - shopify
         
         part:
-          - api-client
           - composables
+          - api-client
           - theme
 
     steps:
@@ -114,6 +114,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
       
       - name: Build core
