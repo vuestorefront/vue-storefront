@@ -77,14 +77,18 @@ jobs:
 
       - name: Test core
         run: yarn test:core --coverage
+      
+      - name: Display core coverage
         run: cat ./packages/core/coverage/lcov.info | coveralls
 
       - name: Test CLI
         run: yarn test:cli --coverage
+      
+      - name: Display CLI coverage
         run: cat ./packages/core/cli/coverage/lcov.info | coveralls
 
   validate_integrations:
-    name: Validate ${{ matix.integration }}
+    name: Validate ${{ matrix.integration }} ${{ matix.part }}
 
     runs-on: ubuntu-latest
 
@@ -128,12 +132,16 @@ jobs:
       
       - name: Build core
         run: yarn build:core
+
+      - run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
       
       - name: Build ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
         run: yarn build
+
+      - run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
       
       - name: Test ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
         run: yarn test -- coverage
+      
+      - name: Display ${{ matrix.integration }} ${{ matrix.part }} coverage
         run: cat ./packages/${{ matrix.integration }}/${{ matrix.part }}/coverage/lcov.info | coveralls
