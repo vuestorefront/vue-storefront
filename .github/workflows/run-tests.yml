@@ -23,13 +23,14 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
       - name: Run linter
@@ -51,13 +52,14 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
       - name: Build core
@@ -104,13 +106,14 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
       
       - name: Build core
@@ -120,7 +123,7 @@ jobs:
         run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn build
       
       - name: Test ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn test -- coverage
+        run: cd packages/${{ matrix.integration }}/${{ matrix.part }} && yarn test --passWithNoTests --coverage
       
       #- name: Display ${{ matrix.integration }} ${{ matrix.part }} coverage
       #  run: cat ./packages/${{ matrix.integration }}/${{ matrix.part }}/coverage/lcov.info | coveralls
