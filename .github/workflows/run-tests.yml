@@ -9,8 +9,8 @@ on:
       - next
 
 jobs:
-  lint:
-    name: Lint
+  prepare_dependencies:
+    name: Prepare Dependencies
 
     runs-on: ubuntu-latest
 
@@ -23,17 +23,38 @@ jobs:
         with:
           node-version: '12'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
         id: yarn-cache
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+  lint:
+    name: Lint
+
+    needs: prepare_dependencies
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
@@ -45,6 +66,8 @@ jobs:
   validate_core:
     name: Validate core
 
+    needs: prepare_dependencies
+
     runs-on: ubuntu-latest
 
     steps:
@@ -56,17 +79,12 @@ jobs:
         with:
           node-version: '12'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
         id: yarn-cache
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
@@ -76,15 +94,15 @@ jobs:
         run: yarn build:core
 
       - name: Test core
-        run: yarn test:core --coverage
-        run: cat ./packages/core/coverage/lcov.info | coveralls
+        run: yarn test:core --coverage && yarn coveralls < ./packages/core/coverage/lcov.info
 
       - name: Test CLI
-        run: yarn test:cli --coverage
-        run: cat ./packages/core/cli/coverage/lcov.info | coveralls
+        run: yarn test:cli --coverage && yarn coveralls < ./packages/core/cli/coverage/lcov.info
 
   validate_integrations:
-    name: Validate ${{ matix.integration }}
+    name: Validate ${{ matrix.integration }}
+
+    needs: validate_core
 
     runs-on: ubuntu-latest
 
@@ -94,12 +112,7 @@ jobs:
           - about-you
           - boilerplate
           - commercetools
-          - shopify
-        
-        part:
-          - api-client
-          - composables
-          - theme
+          # - shopify
 
     steps:
       - name: Checkout code
@@ -110,30 +123,38 @@ jobs:
         with:
           node-version: '12'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
+      - name: Get cached dependencies
+        uses: actions/cache@v2
         id: yarn-cache
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
-      
+
       - name: Build core
         run: yarn build:core
-      
-      - name: Build ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
-        run: yarn build
-      
-      - name: Test ${{ matrix.part }}
-        run: cd packages/${{ matrix.integration }}/${{ matrix.part }}
-        run: yarn test -- coverage
-        run: cat ./packages/${{ matrix.integration }}/${{ matrix.part }}/coverage/lcov.info | coveralls
+
+      - name: Build api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn build
+
+      - name: Test api-client
+        run: cd packages/${{ matrix.integration }}/api-client \
+          && yarn test --passWithNoTests --coverage \
+          && yarn coveralls < coverage/lcov.info
+
+      - name: Build composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn build
+
+      - name: Test composables
+        run: cd packages/${{ matrix.integration }}/composables \
+          && yarn test --passWithNoTests --coverage \
+          && yarn coveralls < coverage/lcov.info
+
+      - name: Build theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn build
+
+      - name: Test theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
