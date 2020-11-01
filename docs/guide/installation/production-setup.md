@@ -594,7 +594,30 @@ Disabling certificate verification using the -k flag is not recommended and shou
 Optionally you can deploy an kibana instance to interact with the cluster by following [these instructions.](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-kibana.html)
 
 #### Installing a Certificate
-By default ECK is installed with a self-signed certificate. However, it would be advisable to install a trusted cert on the http layer. Instructions can be [found here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-tls-certificates.html#k8s-setting-up-your-own-certificate). Or use an ingress and a certmanager as [detailed here](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes).
+By default ECK is installed with a self-signed certificate. However, to avoid the error `self signed certificate in certificate chain` you will need to install a trusted cert on the http layer. Instructions can be [found here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-tls-certificates.html#k8s-setting-up-your-own-certificate). I've summarised below for your convenience.
+
+#### Setup your own certificate
+You can bring your own certificate to configure TLS to ensure that communication between HTTP clients and the cluster is encrypted.
+
+Create a Kubernetes secret with:
+
+* `ca.crt`: CA certificate (optional if tls.crt was issued by a well-known CA).
+* `tls.crt`: the certificate.
+* `tls.key`: the private key to the first certificate in the certificate chain.
+
+```
+ubectl create secret generic my-cert --from-file=ca.crt=tls.crt --from-file=tls.crt=tls.crt --from-file=tls.key=tls.key
+```
+
+Then you just have to reference the secret name in the http.tls.certificate section of the resource manifest.
+
+```
+spec:
+  http:
+    tls:
+      certificate:
+        secretName: my-cert
+```
 
 ---
 ### Redis
@@ -788,6 +811,9 @@ redis-master   ClusterIP   10.0.0.151   <none>        6379/TCP   1m
 redis-slave    ClusterIP   10.0.0.223   <none>        6379/TCP   6s
 ...
 ```
+### Kubernetes DNS for Services
+Assume a Service named `foo` in the Kubernetes namespace `bar`. A Pod running in namespace bar can look up this service by simply doing a DNS query for `foo`. A Pod running in namespace `quux` can look up this service by doing a DNS query for `foo.bar`. For simplicity the examples below will assume you are in the default namespace and will just use the serviceName.
+
 #### Vue Storefront configuration
 The Vue Storefront application uses the node-config npm module to manage configuration files. Configuration is stored in the /config directory within two JSON files:
 
@@ -818,7 +844,7 @@ There are 27 more instances of `prod.vuestorefront.io` to be replaced with your 
 
 ```
 "api": {
-  "url": "https://www.yourdomain.com"
+  "url": "http://yourproduction.url"
 }
 "elasticsearch": {
     "httpAuth": "",
@@ -867,11 +893,10 @@ We're setting up the product's endpoint to https://yourproduction.url/api/catalo
       "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
 ```
-We set up a master and slaves, here we will point it at the master. Because, as
-previously mentioned, the slaves simply provide failover redundancy.
+In the server section we bind the host to `0.0.0.0` and set the invalidateCacheForwardUrl to our production URL. `invalidateCacheKey` is another config value to pay attention to and you should, [read more here](https://docs.vuestorefront.io/guide/basics/ssr-cache.html#cli-cache-clear)
 ```
   "server": {
-    "host": "www.yourdomain.com",
+    "host": "0.0.0.0",
     "port": 3000,
     "protocol": "http",
     "api": "api",
@@ -880,10 +905,13 @@ previously mentioned, the slaves simply provide failover redundancy.
     "outputCacheDefaultTtl": 86400,
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "http://vue-storefront.yourdomain:8080/invalidate?key=aeSu7aip&tag=",      
+    "invalidateCacheForwardUrl": "http://yourproduction.url/invalidate?key=aeSu7aip&tag=",      
   },
+  ```
+  We set up a master and slaves, because, as previously mentioned, the slaves simply provide failover redundancy. Here we will point  at the master using its `serviceName` which will be resolved by Kubernetes' DNS.  (Remember to preface it with a namespace if you are resolving between namespaces).
+  ```
   "redis": {
-    "host": "cluster.ip",
+    "host": "redis-master",
     "port": 6379,
     "db": 0
   },
@@ -1063,7 +1091,7 @@ The only lines that you **need** to alter are:
     },
     "whitelist": {
         "allowedHosts": [
-            ".*divante.pl",
+            ".*yourproduction.url",
             ".*vuestorefront.io"
         ]
     },
@@ -1071,9 +1099,36 @@ The only lines that you **need** to alter are:
     "maxDownloadCacheSize": 1000,
     "tmpPathRoot": "/tmp"
 },
+```
+
+You should put here the `allowedHosts` for the _imageable_ node to download the
+product images. The domain name points to the instance where images are sourced.
+In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
+
+
+###Elasticsearch
+You point elasticsearch `host:` at the `ServiceName` of your elasticsearch instance. which will be resolved by Kubernetes' DNS.  (Remember to preface it with a namespace if you are resolving between namespaces).
+
+Elasticsearch needs to be secured so we will need to pass the credentials to the API.
+The username that ES is expecting is `elastic`. You can get the password for elasticsearch by running.
+
+```
+PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
+```
+
+:::tip NOTE
+You should not naively include passwords in anything you are going to source control,
+I suggest you create a environmental variable that you pass to docker and get Node to set later.
+As this requires code changes I leave that to user, for simplicity we are setting the password in clear text.
+***DON'T do this !!!***
+:::
+
+```
 "elasticsearch": {
-    "host": "Cluster.IP",
+    "host": "quickstart-es-http",
     "port": "9200",
+    "user": "elastic",
+    "password": "PASSWORD"
     "indices": [
         "vue_storefront_catalog",
         "vue_storefront_catalog_it",
@@ -1082,12 +1137,16 @@ The only lines that you **need** to alter are:
 }
 ```
 
-You should put here the `allowedHosts` for the _imageable_ node to download the
-product images. The domain name points to the instance where images are sourced.
-In this example, Magento 2 is running under **http://demo-magento2.vuestorefront.io**.
-
-You also point elasticsearch at the Cluster IP replacing `Cluster.IP` with the IP of
-your elasticsearch instance.
+### Redis
+We set up a master and slaves, because, as previously mentioned, the slaves simply provide failover redundancy. Here we will point  at the master using its `serviceName` which will be resolved by Kubernetes' DNS.  (Remember to preface it with a namespace if you are resolving between namespaces).
+```
+"redis": {
+  "host": "redis-master",
+  "port": 6379,
+  "db": 0,
+  "auth": false
+},
+```
 
 #### Create a production dockerfile:
 ```

@@ -61,12 +61,20 @@
         "tmpPathRoot": "/tmp"
     },
     "elasticsearch": {
-        "host": "localhost",
+        "host": "quickstart-es-http",
         "port": "9200",
+        "user": "elastic",
+        "password": "PASSWORD"
         "indices": [
             "vue_storefront_catalog",
             "vue_storefront_catalog_it",
             "vue_storefront_catalog_de"
         ]
-    }
+    },
+    "redis": {
+      "host": "redis-master",
+      "port": 6379,
+      "db": 0,
+      "auth": false
+    },
 }

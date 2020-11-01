@@ -1,6 +1,6 @@
 {
   "server": {
-    "host": "vue-storefront.yourdomain",
+    "host": "0.0.0.0",
     "port": 3000,
     "protocol": "http",
     "api": "api",
@@ -9,10 +9,10 @@
     "outputCacheDefaultTtl": 86400,
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "http://vue-storefront.yourdomain:8080/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://yourproduction.url/invalidate?key=aeSu7aip&tag=",
   },
   "redis": {
-    "host": "cluster.ip",
+    "host": "redis-master",
     "port": 6379,
     "db": 0
   },
@@ -22,7 +22,7 @@
       "index": "vue_storefront_catalog"
   },
   "api": {
-    "url": "https://yourproduction.url:8080"",
+    "url": "https://yourproduction.url"",
     "saveBandwidthOverCache": true
   },
   "storeViews": {
