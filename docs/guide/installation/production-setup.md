@@ -519,7 +519,7 @@ Whilst enabling TLS on the HTTP layer is not required, it would be mad not to. I
 But, the good news is that with the release of the [Elastic Cloud on Kubernetes](https://www.elastic.co/elastic-cloud-kubernetes) operator our architecture has become much easier than it was previously. ECK is now Kubernetes aware which takes away most of the above problems.
 
 :::tip NOTE
-[magento1-vsbridge](https://github.com/DivanteLtd/magento1-vsbridge) is not compatible with ElasticSearch 7 therefore you will need to tie yourself to 5.6. Because ECK is based on ElasticSearch 7. You would be better advised to run your ElasticSearch server on BareMetal or a VM, you could struggle to set up ES5.6 in Kubernetes yourself but "there be dragons there, beware!!"
+[magento1-vsbridge](https://github.com/DivanteLtd/magento1-vsbridge) is not compatible with ElasticSearch 7 therefore you will need to tie yourself to 5.6. Because ECK is based on ElasticSearch 7, you would be better advised to run your ElasticSearch server on BareMetal or a VM, you could struggle to set up ES5.6 in Kubernetes yourself but "there be dragons there, beware!!"
 :::
 
 An Operator extends Kubernetes to automate the management of the entire life cycle of a particular application. They package for distributing applications on Kubernetes, and they monitor, maintain, recover, and upgrade the software they deploy.
