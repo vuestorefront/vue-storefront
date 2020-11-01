@@ -1,13 +1,14 @@
 // import { getProduct } from '@vue-storefront/boilerplate-api';
 import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
-import { UseProduct, Product } from '../../types';
+import { UseProduct } from '../../types';
+import { getProduct, Product } from '@vue-storefront/virtocommerce-api';
 
 const availableSortingOptions = [
   { value: 'price-asc', label: 'Price from low to high' },
   { value: 'price-desc', label: 'Price from high to low' }
 ];
 
-const productsSearch = async (): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (params): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
   // const searchParams = {
   //   ids: params.ids,
   //   with: params.term,
@@ -18,11 +19,11 @@ const productsSearch = async (): Promise<ProductsSearchResult<Product, any, Agno
   //   term: params.term
   // };
 
-  const products = [];
+  const products = await getProduct(params);
 
   return {
-    data: products,
-    total: products.length,
+    data: products.data,
+    total: products.total,
     availableSortingOptions
   };
 };

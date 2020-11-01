@@ -1,0 +1,6 @@
+fragment currencyFields on CurrencyType {
+  code
+  customFormatting
+  exchangeRate
+  symbol
+}

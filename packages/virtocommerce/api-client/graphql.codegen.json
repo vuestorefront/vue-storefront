@@ -1,0 +1,13 @@
+{
+  "schema": "http://localhost:10645/graphql",
+  "documents": "./src/api/**/*.(graphql|gql|ts)",
+  "generates": {
+    "./src/graphql/types.ts": {
+      "plugins": [
+        { "add": { "content": "// This file was generated. Do not edit manually.\n/* eslint-disable */\n" } },
+        "typescript",
+        "typescript-operations"
+      ]
+    }
+  }
+}

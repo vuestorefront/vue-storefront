@@ -1,0 +1,19 @@
+fragment addressFields on AddressType {
+  id
+  name
+  organization
+  firstName
+  lastName
+  line1
+  line2
+  city
+  countryCode
+  countryName
+  regionId
+  regionName
+  postalCode
+  zip # deprecated
+  phone
+  email
+  addressType
+}

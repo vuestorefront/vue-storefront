@@ -1,11 +1,20 @@
-import { useFacetFactory } from '@vue-storefront/core';
+import { useFacetFactory, FacetSearchResult } from '@vue-storefront/core';
+import { getProduct, Product } from '@vue-storefront/virtocommerce-api';
+
+// TODO: move to the config file
+const ITEMS_PER_PAGE = [20, 40, 100];
 
 const factoryParams = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (params) => {
-    console.log('Mocked: searchFacet');
-    return {};
+  search: async (params): Promise<any> => { 
+
+    const result = await getProduct(params);   
+
+    return {
+      products: result.data,
+      total: result.total,
+    };
   }
 };
 
 export default useFacetFactory<any>(factoryParams);
+

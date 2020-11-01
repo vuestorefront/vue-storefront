@@ -7,7 +7,7 @@ export default {
     host: '0.0.0.0'
   },
   head: {
-    title: 'VirtoCommerce Vue Storefront',
+    title: 'VirtoCommerce integration with Vue Storefront',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport',
@@ -23,9 +23,7 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/virtocommerce.js'
-  ],
+
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -59,15 +57,24 @@ export default {
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://localhost:10645/graphql'
+        uri: 'http://172.25.176.1:3000/graphql'
       }
     }]
   ],
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    '@nuxtjs/proxy'
   ],
+  proxy: {
+    '/graphql': {
+      target: 'http://localhost:10645/graphql',
+      pathRewrite: {
+        '^/graphql' : '/'
+        }
+      }
+    },
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -85,6 +92,11 @@ export default {
     }
   },
   build: {
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],

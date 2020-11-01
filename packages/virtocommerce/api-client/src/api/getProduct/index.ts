@@ -1,7 +1,17 @@
-import {ProductVariant} from '../../types';
+import { Product, GetProductByIdQueryVariables } from '../../graphql/types';
+import getProductById from './getProductById';
+import searchProducts from './searchProducts';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function getProduct(options: any): Promise<ProductVariant[]> {
-  return Promise.resolve([]);
+
+async function getProduct(options: GetProductByIdQueryVariables): Promise<any> {
+  if (options.id) {
+    const data = await getProductById(options);
+    const total = data.length;
+    return { data, total };
+  } else {
+    return await searchProducts(options);
+  }
 }
+
+export default getProduct;
 

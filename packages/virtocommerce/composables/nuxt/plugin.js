@@ -1,7 +1,7 @@
 import { setup } from '@vue-storefront/virtocommerce-api';
 
-export default function init() {
-  // const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
-  setup({});
+export default function init() {
+  setup(moduleOptions);
 }

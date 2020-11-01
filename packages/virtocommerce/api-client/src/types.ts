@@ -1,3 +1,16 @@
+export type ApiConfig = {
+  uri: string;
+}
+
+export type Config = {
+  api: ApiConfig; 
+  currency: string;
+  locale: string;
+  store: string;  
+}
+
+
+
 export type Cart = {}
 export type Wishlist = {}
 export type ProductVariant = {
