@@ -2260,15 +2260,6 @@
     defu "^3.1.0"
     normalize-path "^3.0.0"
 
-"@nuxtjs/composition-api@^0.12.0":
-  version "0.12.6"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.12.6.tgz#0010b44e445d3a8c01d1b2bfcd0a89eb37ab2a67"
-  integrity sha512-OvxWd3vtM2GGzVHycaXBmHN2fw4dL06Td6O5/gp6GKFVhYFBFMzVa2FHm6xhhUTgzmE6t8W5w0rrJx+BKlawlQ==
-  dependencies:
-    "@vue/composition-api" "1.0.0-beta.16"
-    defu "^3.1.0"
-    normalize-path "^3.0.0"
-
 "@nuxtjs/dotenv@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/dotenv/-/dotenv-1.4.1.tgz#dd5abb98e22cc7ae27139d3aa606151034293128"
@@ -3013,7 +3004,7 @@
   dependencies:
     lodash.merge "^4.6.2"
 
-"@vue-storefront/nuxt@0.0.8", "@vue-storefront/nuxt@^0.0.8":
+"@vue-storefront/nuxt@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.8.tgz#b12a7cdc1f700de13aa47e21d97abdeb408a9efa"
   integrity sha512-raJ1GBAkXFn1dmUywkrXZwVHmCNQGwn6AYZ//hj1i+Hcc2MbwMyZWBrQPyx6a9bzWyhZNRRm45xtE66EUgDDgQ==
@@ -3021,19 +3012,6 @@
     "@nuxt/typescript-build" "^2.0.0"
     "@nuxtjs/composition-api" "0.12.5"
     "@vue/composition-api" "1.0.0-beta.14"
-    chalk "^2.4.2"
-    chokidar "^3.3.1"
-    consola "^2.10.1"
-    lodash "^4.17.15"
-
-"@vue-storefront/nuxt@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.5.tgz#ced2b2f32e5c51a648b602a2c30e252240caefbc"
-  integrity sha512-/GCdiNnVw3lSMNv2hEZY4rYAedvw1jkA90xcneuCs8TwHExgPAU4DS/kD2QryIOtNKhC12fhb6uUMTQkIAimiQ==
-  dependencies:
-    "@nuxt/typescript-build" "^2.0.0"
-    "@nuxtjs/composition-api" "^0.12.0"
-    "@vue/composition-api" "1.0.0-beta.13"
     chalk "^2.4.2"
     chokidar "^3.3.1"
     consola "^2.10.1"
@@ -3176,24 +3154,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-beta.13":
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.13.tgz#441ffde5edfc0be90ae1fc96bebab70467762b51"
-  integrity sha512-5wHG9kfnTLST1rXFE5pHNL1VMl7Ojmr4WS1pIUmdkcPstBxr3/4fyRbYyeE4YUOJOnV7FkrSrPX69mIvApZeMA==
-  dependencies:
-    tslib "^2.0.1"
-
 "@vue/composition-api@1.0.0-beta.14":
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.14.tgz#b243d906ae5dcda7483e0b5a2b5ea1aa971a4e00"
   integrity sha512-HYBe87RG//qpN/2+ZtgdhrIafdO8bYK/Tu1+/jMS4iNGYJi42XCbPydhEAiaRcTvsEJjZQEfP+hKKIuH+iPICg==
-  dependencies:
-    tslib "^2.0.1"
-
-"@vue/composition-api@1.0.0-beta.16":
-  version "1.0.0-beta.16"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.16.tgz#9f7202125214e9398f68018c1162b57b14fd0bdc"
-  integrity sha512-FZgmL2qb2Hy3TGFKCEXHwaddFdTfG17GoA1YFCNGTg5mD3+GfWVchsKKR7XxHIAwOaXiHK/djWWsviSD1NeFFw==
   dependencies:
     tslib "^2.0.1"
 
