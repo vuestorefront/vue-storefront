@@ -170,13 +170,13 @@ jobs:
           path-to-lcov: ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
           parallel: true
 
-    finish:
-      name: Finish
-      needs: validate_integrations
-      runs-on: ubuntu-latest
-      steps:
-        - name: Coveralls Finished
-          uses: coverallsapp/github-action@master
-          with:
-            github-token: ${{ secrets.github_token }}
-            parallel-finished: true
+  finish:
+    name: Finish
+    needs: validate_integrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
