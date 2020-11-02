@@ -138,17 +138,9 @@ jobs:
 
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
-      
-      - name: api-client coverage file
-        id: api-coverage
-        run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != '' }}"
-
-      - name: composables coverage file
-        id: composables-coverage
-        run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}"
 
       - name: Post api-client coverage data
-        if: steps.api-coverage.outputs.exists == 'true'
+        if: "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info')}}" != ''
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -156,7 +148,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: steps.composables-coverage.outputs.exists == 'true'
+        if: "${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') }}" != ''
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
