@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8 (not released)
+
+- Fixed proxied endpoints URLs ([#5117](https://github.com/DivanteLtd/vue-storefront/pull/5117))
+
 ## 0.0.7
 
 - Removed `ckoWebHookUrl` ([#4910](https://github.com/DivanteLtd/vue-storefront/issues/4910))
