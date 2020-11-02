@@ -141,7 +141,7 @@ jobs:
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
       
       - name: Post api-client coverage data
-        if: test -s ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
+        if: (test -s ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info) == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -149,7 +149,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: test -s ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
+        if: (test -s ./packages/${{ matrix.integration }}/composables/coverage/lcov.info) == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
