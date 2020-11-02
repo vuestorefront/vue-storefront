@@ -126,13 +126,13 @@ jobs:
         run: cd packages/${{ matrix.integration }}/api-client && yarn build
 
       - name: Test api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage && cat ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
+        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
 
       - name: Build composables
         run: cd packages/${{ matrix.integration }}/composables && yarn build
 
       - name: Test composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage && cat ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
+        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
 
       - name: Build theme
         run: cd packages/${{ matrix.integration }}/theme && yarn build
