@@ -32,7 +32,7 @@ jobs:
 
   lint:
     name: Lint
-    needs: prepare_dependencies
+    #needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
 
   validate_core:
     name: Validate core
-    needs: prepare_dependencies
+    #needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -94,7 +94,7 @@ jobs:
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
-    needs: validate_core
+    # needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -139,6 +139,10 @@ jobs:
 
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
+
+      - run: echo hashFiles('./packages/${{ matrix.integration }}/api-client/coverage/lcov.info')
+
+      - run: echo hashFiles('./packages/${{ matrix.integration }}/composables/coverage/lcov.info')
       
       - name: Post api-client coverage data
         if: hashFiles('./packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
