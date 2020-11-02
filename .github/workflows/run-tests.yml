@@ -138,6 +138,9 @@ jobs:
 
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
+      
+      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != '' }}"
+      - run: echo "${{ !hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') }}"
 
       - name: Post api-client coverage data
         if: hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != ""
