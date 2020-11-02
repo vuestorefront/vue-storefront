@@ -32,7 +32,7 @@ jobs:
 
   lint:
     name: Lint
-    #needs: prepare_dependencies
+    needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
 
   validate_core:
     name: Validate core
-    #needs: prepare_dependencies
+    needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -94,7 +94,7 @@ jobs:
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
-    # needs: validate_core
+    needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -148,7 +148,7 @@ jobs:
         run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}"
 
       - name: Post api-client coverage data
-        if: "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != '' }}" == 'true'
+        if: steps.api-coverage.outputs.exists == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -156,7 +156,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: "${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}" == 'true'
+        if: steps.composables-coverage.outputs.exists == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
