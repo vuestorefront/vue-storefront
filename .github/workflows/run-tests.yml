@@ -139,14 +139,8 @@ jobs:
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
 
-      - run: echo "${{ hashFiles('**/package.json') }}"
-
-      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') }}"
-
-      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') }}""
-      
       - name: Post api-client coverage data
-        if: hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        if: hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info')
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -154,7 +148,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        if: hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info')
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
