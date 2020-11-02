@@ -126,13 +126,13 @@ jobs:
         run: cd packages/${{ matrix.integration }}/api-client && yarn build
 
       - name: Test api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
+        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage && cat ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
 
       - name: Build composables
         run: cd packages/${{ matrix.integration }}/composables && yarn build
 
       - name: Test composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
+        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage && cat ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
 
       - name: Build theme
         run: cd packages/${{ matrix.integration }}/theme && yarn build
@@ -141,7 +141,7 @@ jobs:
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
       
       - name: Post api-client coverage data
-        if: test -f ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
+        if: test -s ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -149,7 +149,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: test -f ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
+        if: test -s ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
