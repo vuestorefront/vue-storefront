@@ -8,9 +8,13 @@ on:
     branches:
       - next
 
+env:
+  COVERALLS_REPO_TOKEN: ${{ github.token }}
+  COVERALLS_GIT_BRANCH: ${{ github.ref }}
+
 jobs:
   prepare_dependencies:
-    name: Prepare Dependencies
+    name: Prepare dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -75,22 +79,10 @@ jobs:
         run: yarn build:core
 
       - name: Test core
-        run: yarn test:core --coverage
+        run: yarn test:core --coverage && yarn coveralls < ./packages/core/coverage/lcov.info
 
       - name: Test CLI
-        run: yarn test:cli --coverage
-
-      - name: Post core coverage data
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./packages/core/coverage/lcov.info
-
-      - name: Post CLI coverage data
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./packages/core/cli/coverage/lcov.info
+        run: yarn test:cli --coverage && yarn coveralls < ./packages/core/cli/coverage/lcov.info
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
@@ -119,7 +111,6 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-
       - name: Build core
         run: yarn build:core
 
@@ -127,43 +118,20 @@ jobs:
         run: cd packages/${{ matrix.integration }}/api-client && yarn build
 
       - name: Test api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
+        run: cd packages/${{ matrix.integration }}/api-client \
+          && yarn test --passWithNoTests --coverage \
+          && (test -f ./coverage/lcov.info && yarn coveralls < ./coverage/lcov.info)
 
       - name: Build composables
         run: cd packages/${{ matrix.integration }}/composables && yarn build
 
       - name: Test composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
+        run: cd packages/${{ matrix.integration }}/composables \
+          && yarn test --passWithNoTests --coverage \
+          && (test -f ./coverage/lcov.info && yarn coveralls < ./coverage/lcov.info)
 
       - name: Build theme
         run: cd packages/${{ matrix.integration }}/theme && yarn build
 
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
-      
-      - name: Post api-client coverage data
-        if: test ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./packages/${{ matrix.integration }}/api-client/coverage/lcov.info
-          parallel: true
-
-      - name: Post composables coverage data
-        if: test ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./packages/${{ matrix.integration }}/composables/coverage/lcov.info
-          parallel: true
-
-  finish:
-    name: Finish
-    needs: validate_integrations
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
