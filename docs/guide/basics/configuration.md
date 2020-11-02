@@ -579,7 +579,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "categories": "INDEXEDDB",
     "attributes": "INDEXEDDB",
     "products": "INDEXEDDB",
-    "elasticCache": "INDEXEDDB",
+    "elasticCache": ["INDEXEDDB", "WEBSQL", "LOCALSTORAGE"],
     "claims": "LOCALSTORAGE",
     "compare": "INDEXEDDB",
     "syncTasks": "INDEXEDDB",
@@ -591,6 +591,8 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
 ```
 
 We're using [localForage](https://github.com/localForage/localForage) library to providing the persistence layer to Vue Storefront. `localForage` provides the compatibility fallbacks for the users not equipped with some specific storage methods (for example indexedDb). However, we may want to enforce some specific storage methods in the config. This is the place to set it up.
+It is possible to define a specific fallback sequence (as shown in the `elasticCache` property above), if for some reason the default mode of fallback directly to `LOCALSTORAGE` is not wanted.
+(https://localforage.github.io/localForage/#settings-api-setdriver)
 
 ## Users
 
