@@ -27,7 +27,7 @@ const apiRequestHeaders = channel => ({
 const getStoredMethods = async ({ customerId, channel }) => {
   try {
     const { data } = await axios.get(
-      `${getChannelCtApiUrl(channel)}/merchants/${getChannelPublicKey(channel)}/customers/${customerId}`,
+      `${getChannelCtApiUrl(channel)}/api/merchants/${getChannelPublicKey(channel)}/customers/${customerId}`,
       apiRequestHeaders(channel)
     );
     return data;
@@ -42,7 +42,7 @@ const getStoredMethods = async ({ customerId, channel }) => {
 const removeStoredMethod = async ({ customerId, paymentInstrumentId, channel }) => {
   try {
     return await axios.delete(
-      `${getChannelCtApiUrl(channel)}/merchants/${getChannelPublicKey(channel)}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
+      `${getChannelCtApiUrl(channel)}/api/merchants/${getChannelPublicKey(channel)}/customers/${customerId}/payment-instruments/${paymentInstrumentId}`,
       apiRequestHeaders(channel)
     );
   } catch (err) {
