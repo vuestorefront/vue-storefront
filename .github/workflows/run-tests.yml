@@ -32,7 +32,7 @@ jobs:
 
   lint:
     name: Lint
-    needs: prepare_dependencies
+    #needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
 
   validate_core:
     name: Validate core
-    needs: prepare_dependencies
+    #needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -94,7 +94,7 @@ jobs:
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
-    needs: validate_core
+    #needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       matrix:
