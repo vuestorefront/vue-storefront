@@ -141,20 +141,17 @@ jobs:
       
       - name: api-client coverage file
         id: api-coverage
-        run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != '' }}"
+        run: echo "::set-output name=exists::$(test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info)"
 
       - name: composables coverage file
         id: composables-coverage
-        run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}"
+        run: echo "::set-output name=exists::$(test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info)"
 
-      - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') != '' }}"
-      - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') == true }}"
-      - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') == null }}"
-      - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') }}"
-      - run: echo "${{ !hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') }}"
+      - run: echo "$(test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info)"
+      - run: echo "$(test -f packages/${{ matrix.integration }}/composables/coverage/lcov.info)"
 
       - name: Post api-client coverage data
-        if: steps.api-coverage.outputs.exists == 'true'
+        if: steps.api-coverage.outputs.exists
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -162,7 +159,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: steps.composables-coverage.outputs.exists == 'true'
+        if: steps.composables-coverage.outputs.exists
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
