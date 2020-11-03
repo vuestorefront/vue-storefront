@@ -147,8 +147,8 @@ jobs:
         id: composables-coverage
         run: echo "::set-output name=exists::$(test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info)"
 
-      - run: test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info
-      - run: test -f packages/${{ matrix.integration }}/composables/coverage/lcov.info
+      - run: 'test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info'
+      - run: 'test -f packages/${{ matrix.integration }}/composables/coverage/lcov.info'
 
       - name: Post api-client coverage data
         if: steps.api-coverage.outputs.exists
