@@ -32,7 +32,7 @@ jobs:
 
   lint:
     name: Lint
-    #needs: prepare_dependencies
+    needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
 
   validate_core:
     name: Validate core
-    #needs: prepare_dependencies
+    needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -94,7 +94,7 @@ jobs:
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
-    #needs: validate_core
+    needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -133,11 +133,11 @@ jobs:
       - name: Test composables
         run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
 
-      # - name: Build theme
-      #   run: cd packages/${{ matrix.integration }}/theme && yarn build
+      - name: Build theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn build
 
-      # - name: Test theme
-      #   run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
+      - name: Test theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
       
       - name: api-client coverage file
         id: api-coverage
