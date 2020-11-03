@@ -112,13 +112,6 @@ export function attributeImages (product) {
       }
     }
   }
-  if (!attributeImages.length) {
-    attributeImages.push({
-      src: getThumbnailPath(product.image, config.products.gallery.width, config.products.gallery.height),
-      loading: getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
-      error: getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height)
-    })
-  }
   return attributeImages
 }
 /**

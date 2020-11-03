@@ -15,7 +15,7 @@ export default function getProductGallery (product: Product) {
   }
 
   const productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src')
-    .filter(f => f.src)
+    .filter(f => f.src && f.src !== config.images.productPlaceholder)
 
   return productGallery
 }
