@@ -47,6 +47,13 @@ type BapiShippingMethod = {
 
 }
 
+// @todo: fill missing types
+export type Filter = {
+  type: string;
+  key: string;
+  [x: string]: any;
+}
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
