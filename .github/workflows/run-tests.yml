@@ -141,17 +141,14 @@ jobs:
       
       - name: api-client coverage file
         id: api-coverage
-        run: echo "::set-output name=exists::$(test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info)"
+        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info && echo 'true') || echo 'false')"
 
       - name: composables coverage file
         id: composables-coverage
-        run: echo "::set-output name=exists::$(test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info)"
-
-      - run: '(test -f packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo exists) || echo does not exist'
-      - run: '(test -f packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo exists) || echo does not exist'
+        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo 'true') || echo 'false)"
 
       - name: Post api-client coverage data
-        if: steps.api-coverage.outputs.exists
+        if: steps.api-coverage.outputs.exists == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -159,7 +156,7 @@ jobs:
           parallel: true
 
       - name: Post composables coverage data
-        if: steps.composables-coverage.outputs.exists
+        if: steps.composables-coverage.outputs.exists == 'true'
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
