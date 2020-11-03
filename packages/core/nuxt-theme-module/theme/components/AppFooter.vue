@@ -88,12 +88,11 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 .sf-footer {
-  --footer-width: 100%;
   &__container {
     --footer-margin: var(--spacer-sm);
-    width: 100%;
     @include for-desktop {
-      --footer-margin: 0;
+      --footer-margin: 0 auto;
+      --footer-padding: 0;
     }
   }
 }
@@ -106,7 +105,6 @@ export default {
     @include for-desktop {
       justify-content: flex-start;
       padding: var(--spacer-base) 0;
-      margin: 0;
     }
   }
   &__social-image {
