@@ -152,5 +152,14 @@ export default {
     icon: {
       iconSrc: 'src/static/android-icon-512x512.png'
     }
+  },
+  router: {
+    scrollBehavior (_to, _from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      } else {
+        return { x: 0, y: 0 };
+      }
+    }
   }
 };
