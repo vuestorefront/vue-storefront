@@ -148,11 +148,9 @@ jobs:
         run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}"
 
       - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') != '' }}"
-
       - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') == true }}"
-
+      - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') == null }}"
       - run: echo "${{ hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') }}"
-
       - run: echo "${{ !hashFiles('**/${{ matrix.integration }}/api-client/**/lcov.info') }}"
 
       - name: Post api-client coverage data
