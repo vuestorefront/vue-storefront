@@ -4,7 +4,7 @@ import proxyMiddleware from '@vue-storefront/checkout-com/nuxt/proxyMiddleware';
 const defaultPaymentMethods = {
   cc: true,
   paypal: true,
-  klarna: false
+  klarna: true
 };
 
 const paymentMethodSdk = {

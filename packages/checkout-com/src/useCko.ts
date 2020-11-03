@@ -6,6 +6,7 @@ import { ref, computed } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
 import useCkoPaypal from './useCkoPaypal';
+import useCkoKlarna from './useCkoKlarna';
 
 const error = ref(null);
 const availableMethods = ref([]);
@@ -53,6 +54,10 @@ const useCko = () => {
     error: paypalError
   } = useCkoPaypal();
 
+  const {
+    initKlarnaForm
+  } = useCkoKlarna();
+
   const loadAvailableMethods = async (reference, email?) => {
     try {
       const response = await createContext({ reference, email });
@@ -76,12 +81,15 @@ const useCko = () => {
       return;
     }
     const hasSpecifiedMethods = initMethods && Object.keys(initMethods).length > 0;
-    for (const { name } of availableMethods.value) {
-      if (!hasSpecifiedMethods || initMethods[name]) {
-        const methodConfig = config[name];
-        switch (name) {
+    for (const currentPaymentMethod of availableMethods.value) {
+      if (!hasSpecifiedMethods || initMethods[currentPaymentMethod.name]) {
+        const methodConfig = config[currentPaymentMethod.name];
+        switch (currentPaymentMethod.name) {
           case 'card':
             initCardForm(methodConfig);
+            break;
+          case 'klarna':
+            initKlarnaForm(currentPaymentMethod, contextId.value);
             break;
         }
       }
