@@ -147,9 +147,13 @@ jobs:
         id: composables-coverage
         run: echo "::set-output name=exists::${{ hashFiles('packages/${{ matrix.integration }}/composables/coverage/lcov.info') != '' }}"
 
-      - run: echo "${{ steps.api-coverage.outputs.exists }}"
+      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') != '' }}"
 
-      - run: echo "${{ steps.composables-coverage.outputs.exists }}"
+      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') == true }}"
+
+      - run: echo "${{ hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') }}"
+
+      - run: echo "${{ !hashFiles('packages/${{ matrix.integration }}/api-client/coverage/lcov.info') }}"
 
       - name: Post api-client coverage data
         if: steps.api-coverage.outputs.exists == 'true'
