@@ -2,18 +2,14 @@
 
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from './payment';
 import { Ref, ref, computed } from '@vue/composition-api';
-import { getPublicKey, getFramesStyles, getTransactionTokenKey, CardConfiguration, getFramesLocalization } from './configuration';
-import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } from './helpers';
+import { getPublicKey, getFramesStyles, CardConfiguration, getFramesLocalization } from './configuration';
+import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument, getTransactionToken, removeTransactionToken, setTransactionToken } from './helpers';
 
 declare const Frames: any;
 
 const isCardValid = ref(false);
 const error = ref(null);
 const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
-
-const getTransactionToken = () => sessionStorage.getItem(getTransactionTokenKey());
-const setTransactionToken = (token) => sessionStorage.setItem(getTransactionTokenKey(), token);
-const removeTransactionToken = () => sessionStorage.removeItem(getTransactionTokenKey());
 
 const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
   const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);

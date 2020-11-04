@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { getTransactionTokenKey } from './configuration';
+
 interface PaymentPropeties {
     context_id: string,
     cvv?: number,
@@ -80,4 +82,17 @@ const buildPaymentPayloadStrategies = {
 
 const getCurrentPaymentMethodPayload = (paymentMethod: CkoPaymentType, payload: PaymentPropeties) => buildPaymentPayloadStrategies[paymentMethod](payload);
 
-export { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentPropeties, PaymentMethodPayload, PaymentInstrument };
+const getTransactionToken = () => sessionStorage.getItem(getTransactionTokenKey());
+const setTransactionToken = (token) => sessionStorage.setItem(getTransactionTokenKey(), token);
+const removeTransactionToken = () => sessionStorage.removeItem(getTransactionTokenKey());
+
+export { 
+    CkoPaymentType,
+    PaymentPropeties,
+    PaymentMethodPayload,
+    PaymentInstrument,
+    getCurrentPaymentMethodPayload,
+    setTransactionToken,
+    removeTransactionToken,
+    getTransactionToken
+};
