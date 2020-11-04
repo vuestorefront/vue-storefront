@@ -11,17 +11,20 @@ const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (met
   if (!options.save) return;
   loading.value.shippingMethod = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setShippingMethodAction(method.id)
-    ]
-  }, customQuery);
+  try {
+    const cartResponse = await updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(method.id)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.shippingMethod = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart);
+  } finally {
+    loading.value.shippingMethod = false;
+  }
 };
 
 export default setShippingMethod;

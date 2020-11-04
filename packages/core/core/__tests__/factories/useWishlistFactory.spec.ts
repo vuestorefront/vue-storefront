@@ -1,9 +1,12 @@
 import { useWishlistFactory, UseWishlistFactoryParams } from '../../src/factories';
 import { UseWishlist } from '../../src/types';
+import { sharedRef } from './../../src/utils';
 
 let useWishlist: () => UseWishlist<any, any, any>;
 let setWishlist = null;
 let params: UseWishlistFactoryParams<any, any, any>;
+
+const customQuery = undefined;
 
 function createComposable() {
   params = {
@@ -43,7 +46,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       const { wishlist } = useWishlist();
       expect(wishlist.value).toEqual(null);
       setWishlist({ wishlist: 'test' });
-      expect(wishlist.value).toEqual({ wishlist: 'test' });
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
 
@@ -68,8 +71,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
 
         const { loadWishlist, wishlist } = useWishlist();
         await loadWishlist();
-        await loadWishlist();
-        expect(params.loadWishlist).toHaveBeenCalled();
+        expect(params.loadWishlist).toHaveBeenCalledWith(customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
     });
@@ -81,7 +83,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.addToWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
     });
@@ -93,7 +95,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.removeFromWishlist).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
     });

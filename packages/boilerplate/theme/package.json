@@ -1,7 +1,5 @@
 {
   "name": "@vue-storefront/boilerplate-theme",
-  "description": "My breathtaking Nuxt.js project",
-  "author": "Filip Rakowski",
   "version": "0.0.3",
   "private": true,
   "scripts": {
@@ -16,7 +14,7 @@
     "@storefront-ui/vue": "^0.9.1",
     "@vue-storefront/boilerplate-api": "^0.0.1",
     "@vue-storefront/boilerplate": "^0.0.1",
-    "@vue-storefront/nuxt": "0.0.7",
+    "@vue-storefront/nuxt": "0.0.8",
     "@vue-storefront/nuxt-theme": "0.0.4",
     "cookie-universal-nuxt": "^2.1.3",
     "nuxt-i18n": "^6.5.0",

@@ -1,5 +1,5 @@
-import createProject from '../../../src/scripts/createProject';
 import { integrations } from '../../mock';
+import createProject from '@vue-storefront/cli/src/scripts/createProject';
 
 const targetPath = 'vsf-new-project';
 const absoluteTargetPath = `/home/abc/${targetPath}`;

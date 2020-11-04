@@ -15,27 +15,34 @@
         <SfContentPage data-cy="my-account-page_my-profile" title="My profile">
           <MyProfile />
         </SfContentPage>
+
         <SfContentPage data-cy="my-account-page_shipping-details" title="Shipping details">
-          <ShippingDetails
-            :account="account"
-            @update:shipping="account = { ...account, ...$event }"
-          />
+          <ShippingDetails />
         </SfContentPage>
+
+        <SfContentPage data-cy="my-account-page_billing-details" title="Billing details">
+          <BillingDetails />
+        </SfContentPage>
+
         <SfContentPage data-cy="my-account-page_loyalty-card" title="Loyalty card">
           <LoyaltyCard />
         </SfContentPage>
+
         <SfContentPage data-cy="my-account-page_my-newsletter" title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
       </SfContentCategory>
+
       <SfContentCategory title="Order details">
         <SfContentPage data-cy="my-account-page_order-history" title="Order history">
           <OrderHistory />
         </SfContentPage>
+
         <SfContentPage data-cy="my-account-page_my-reviews" title="My reviews">
           <MyReviews />
         </SfContentPage>
       </SfContentCategory>
+
       <SfContentPage data-cy="my-account-page_log-out" title="Log out" />
     </SfContentPages>
   </div>
@@ -46,6 +53,7 @@ import { computed } from '@vue/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
+import BillingDetails from './MyAccount/BillingDetails';
 import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
@@ -59,6 +67,7 @@ export default {
     SfButton,
     MyProfile,
     ShippingDetails,
+    BillingDetails,
     LoyaltyCard,
     MyNewsletter,
     OrderHistory,
@@ -100,64 +109,24 @@ export default {
 
     return { changeActivePage, activePage };
   },
+
   data() {
     return {
       breadcrumbs: [
         {
           text: 'Home',
-          route: {
-            link: '#'
-          }
+          route: { link: '#' }
         },
         {
           text: 'My Account',
-          route: {
-            link: '#'
-          }
+          route: { link: '#' }
         }
-      ],
-      account: {
-        firstName: 'Sviatlana',
-        lastName: 'Havaka',
-        email: 'example@email.com',
-        password: 'a*23Et',
-        shipping: [
-          {
-            firstName: 'Sviatlana',
-            lastName: 'Havaka',
-            streetName: 'Zielinskiego',
-            streetNumber: '24',
-            apartment: '193A',
-            city: 'Wroclaw',
-            state: 'Lower Silesia',
-            zipCode: '53-540',
-            country: 'Poland',
-            phoneNumber: '(00)560 123 456'
-          },
-          {
-            firstName: 'Sviatlana',
-            lastName: 'Havaka',
-            streetName: 'Zielinskiego',
-            streetNumber: '20',
-            apartment: '193A',
-            city: 'Wroclaw',
-            state: 'Lower Silesia',
-            zipCode: '53-603',
-            country: 'Poland',
-            phoneNumber: '(00)560 123 456'
-          }
-        ],
-        orders: [
-          ['#35765', '4th Nov, 2019', 'Visa card', '$12.00', 'In process'],
-          ['#35766', '4th Nov, 2019', 'Paypal', '$12.00', 'Finalised'],
-          ['#35768', '4th Nov, 2019', 'Mastercard', '$12.00', 'Finalised'],
-          ['#35769', '4th Nov, 2019', 'Paypal', '$12.00', 'Finalised']
-        ]
-      }
+      ]
     };
   }
 };
 </script>
+
 <style lang='scss' scoped>
 @import "~@storefront-ui/vue/styles";
 
@@ -169,6 +138,7 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-base) 0;
- }
+  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
+    var(--spacer-2xl);
+}
 </style>

@@ -1,4 +1,4 @@
-import { getThemePath, buildFileTargetPath, copyThemeFiles } from '../../src/utils/helpers';
+import { getDependencyPath, buildFileTargetPath, copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 import path from 'path';
 import { copyFile } from '@vue-storefront/nuxt-theme/scripts/copyThemeFiles';
 
@@ -24,22 +24,29 @@ jest.mock('../../src/utils/helpers', () => ({
   buildFileTargetPath: jest.fn(jest.requireActual('../../src/utils/helpers').buildFileTargetPath)
 }));
 
-describe('[vsf-next-cli] getThemePath', () => {
-  it('getThemePath - creates a proper path', () => {
+describe('[vsf-next-cli] getDependencyPath', () => {
+  it('getDependencyPath - creates a proper path', () => {
     const tests = [
       {
         input: 'commercetools',
-        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
+        outputs: [
+          path.resolve(__dirname, '../../../../../packages/commercetools/composables'),
+          path.resolve(__dirname, '../../node_modules/@vue-storefront/commercetools')
+        ]
       },
       {
-        input: 'nuxt-theme/theme',
-        output: path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme/theme')
+        input: 'nuxt-theme',
+        outputs: [
+          path.resolve(__dirname, '../../../../../packages/core/nuxt-theme-module'),
+          path.resolve(__dirname, '../../node_modules/@vue-storefront/nuxt-theme')
+        ]
       }
     ];
 
     for (const test of tests) {
-      const testOutput = getThemePath(test.input);
-      expect(testOutput).toBe(test.output);
+      const testOutput = getDependencyPath(test.input);
+      // Depending on version of the dependency used, it can be either in root or local 'node_modules' folder
+      expect(test.outputs).toContain(testOutput);
     }
   });
 
@@ -47,17 +54,17 @@ describe('[vsf-next-cli] getThemePath', () => {
     const tests = [
       {
         input: [
-          '../../../node_modules/@vue-storefront/commercetools-theme/.editorconfig',
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme/.editorconfig',
           '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4',
-          '../../../node_modules/@vue-storefront/commercetools-theme'
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme'
         ],
         output: '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4/.editorconfig'
       },
       {
         input: [
-          '../../../node_modules/@vue-storefront/commercetools-theme/middleware',
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme/middleware',
           '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4',
-          '../../../node_modules/@vue-storefront/commercetools-theme'
+          '../../../../../../node_modules/@vue-storefront/commercetools-theme'
         ],
         output: '/home/someone/Projects/Next/packages/core/cli/src/scripts/createProject/testbuild4/middleware'
       }

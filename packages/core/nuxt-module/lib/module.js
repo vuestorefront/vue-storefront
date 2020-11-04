@@ -4,8 +4,6 @@ const fs = require("fs")
 const consola = require('consola')
 const chalk = require('chalk');
 const { mergeWith, isArray } = require('lodash')
-const chokidar = require('chokidar')
-const registerLogger = require('@vue-storefront/core').registerLogger
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -14,9 +12,11 @@ const log = {
   error: (message) => consola.error(chalk.bold('VSF'), message)
 }
 
+const resolveDependencyFromWorkingDir = name => require.resolve(name, { paths: [ process.cwd() ] });
+
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
-  const isProd = process.env.NODE_ENV === 'production'
-  const isSfuiInstalled = fs.existsSync(path.resolve('node_modules/@storefront-ui'))
+  const isProd = process.env.NODE_ENV === 'production';
+  const isSfuiInstalled = fs.existsSync(resolveDependencyFromWorkingDir('@storefront-ui/vue'));
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: {
@@ -63,20 +63,20 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     log.info(`Vue Storefront core development mode is on ${chalk.italic('[coreDevelopment]')}`)
     if (moduleOptions.coreDevelopment) global.coreDev = true
     this.extendBuild(config => {
-      config.resolve.alias['@vue/composition-api'] = path.resolve('node_modules/@vue/composition-api')
-    })
+      config.resolve.alias['@vue/composition-api'] = resolveDependencyFromWorkingDir('@vue/composition-api');
+    });
   }
 
   //------------------------------------
 
   const useRawSource = (package) => {
-    const pkgPath = path.resolve('node_modules/'+ package)
-    const pkg = require(pkgPath + '/package.json')
+    const pkgPath = resolveDependencyFromWorkingDir(`${package}/package.json`);
+    const pkg = require(pkgPath);
 
     if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.tsModule || pkg.module)
-      })
+        config.resolve.alias[pkg.name + '$'] = resolveDependencyFromWorkingDir(`${package}/${pkg.module}`);
+      });
     }
     this.options.build.transpile.push(package)
     log.info(`Using raw source/ESM for ${chalk.bold(pkg.name)} ${chalk.italic('[useRawSource]')}`)
@@ -84,8 +84,8 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   // always use raw source on core development mode
   options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
-    useRawSource(package)
-  })
+    useRawSource(package);
+  });
 }
 
 module.exports.meta = require('../package.json')
