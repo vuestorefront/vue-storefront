@@ -32,6 +32,7 @@ module.exports = {
             ['/commercetools/use-product', 'useProduct'],
             ['/commercetools/use-review', 'useReview'],
             ['/commercetools/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/use-user-billing', 'useUserBilling'],
             ['/commercetools/use-facet', 'useFacet'],
             ['/commercetools/use-cart', 'useCart'],
             ['/commercetools/use-wishlist', 'useWishlist']
@@ -46,6 +47,7 @@ module.exports = {
             ['/commercetools/enterprise/use-wishlist', 'useWishlist']
             ['/commercetools/enterprise/user-groups', 'User groups'],
             ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/enterprise/use-user-billing', 'useUserBilling']
           ]
         },
         {

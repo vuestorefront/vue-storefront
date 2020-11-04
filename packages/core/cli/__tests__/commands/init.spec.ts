@@ -1,4 +1,4 @@
-import initCommand from '../../src/commands/init';
+import initCommand from '@vue-storefront/cli/src/commands/init';
 
 const chosenIntegration = 'my-super-new-backend-ecommerce-system';
 const integrations = [
