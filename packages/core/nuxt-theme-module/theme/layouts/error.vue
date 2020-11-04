@@ -38,9 +38,8 @@ export default {
   align-items: center;
   width: 100%;
   padding: 0 var(--spacer-sm);
-  margin: 40px 0;
+  margin: var(--spacer-xl) 0;
   @include for-desktop {
-    margin: 40px auto;
     max-width: 77.5rem;
   }
 }
@@ -61,6 +60,12 @@ export default {
   --heading-description-font-family: var(--font-family--primary);
   @include for-desktop {
     --heading-description-margin: 0;
+  }
+}
+.sf-link {
+  --link-text-decoration: none;
+  &:visited, &:hover {
+    color: var(--c-white);
   }
 }
 .actions {
