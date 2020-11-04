@@ -1,6 +1,56 @@
-import { getCurrentPaymentMethodPayload, CkoPaymentType } from '../src/helpers';
+import {
+  getCurrentPaymentMethodPayload,
+  CkoPaymentType,
+  getTransactionToken,
+  setTransactionToken,
+  removeTransactionToken
+} from '../src/helpers';
+
+const getItemValue = 'vxbcyoodgfdg';
+
+const sessionStorageMock = {
+  removeItem: jest.fn(),
+  getItem: jest.fn(() => getItemValue),
+  setItem: jest.fn(),
+  clear: jest.fn(),
+  key: jest.fn(),
+  length: 1
+};
+
+Object.defineProperty(window, 'sessionStorage', {
+  value: sessionStorageMock
+});
+
+const transactionKey = 'adasdascxvbxcvjhdfgfhdfg';
+
+jest.mock('../src/configuration.ts', () => ({
+  getTransactionTokenKey: jest.fn(() => transactionKey)
+}));
+
+import { getTransactionTokenKey } from '../src/configuration';
 
 describe('[checkout-com] helpers', () => {
+
+  it('getTransactionToken', () => {
+    const value = getTransactionToken();
+
+    expect(value).toBe(getItemValue);
+    expect(getTransactionTokenKey).toHaveBeenCalled();
+    expect(sessionStorageMock.getItem).toHaveBeenCalledWith(transactionKey);
+  });
+
+  it('setTransactionToken', () => {
+    const value = 123;
+    setTransactionToken(value);
+
+    expect(sessionStorageMock.setItem).toHaveBeenCalledWith(transactionKey, value);
+  });
+
+  it('removeTransactionToken', () => {
+    removeTransactionToken();
+
+    expect(sessionStorageMock.removeItem).toHaveBeenCalledWith(transactionKey);
+  });
 
   it('builds payment payload for credit card', () => {
 

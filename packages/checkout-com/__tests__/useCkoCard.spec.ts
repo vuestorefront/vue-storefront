@@ -1,6 +1,6 @@
 import useCkoCard from '../src/useCkoCard';
 import { createContext, createPayment, getCustomerCards, removeSavedCard } from '../src/payment';
-import { getCurrentPaymentMethodPayload, CkoPaymentType } from '../src/helpers';
+import { getCurrentPaymentMethodPayload, getTransactionToken, removeTransactionToken, setTransactionToken, CkoPaymentType } from '../src/helpers';
 import { getPublicKey, getFramesStyles } from '../src/configuration';
 import { ref } from '@vue/composition-api';
 
@@ -19,6 +19,9 @@ jest.mock('../src/payment', () => ({
 }));
 jest.mock('../src/helpers', () => ({
   getCurrentPaymentMethodPayload: jest.fn(),
+  setTransactionToken: jest.fn(),
+  removeTransactionToken: jest.fn(),
+  getTransactionToken: jest.fn(),
   CkoPaymentType: jest.requireActual('../src/helpers').CkoPaymentType,
   PaymentInstrument: jest.requireActual('../src/helpers').PaymentInstrument
 }));
@@ -29,19 +32,6 @@ jest.mock('../src/configuration', () => ({
   getFramesLocalization: jest.fn(),
   CardConfiguration: jest.requireActual('../src/configuration').CardConfiguration
 }));
-
-const sessionStorageMock = {
-  removeItem: jest.fn(),
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn(),
-  key: jest.fn(),
-  length: 1
-};
-
-Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock
-});
 
 const framesMock = {
   submitCard: jest.fn(),
@@ -79,7 +69,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('does not create context if provided', async () => {
 
-      sessionStorageMock.getItem.mockImplementation(() => 'abc');
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'abc');
       /*eslint-disable */
       const reference = {
         cartId: 15,
@@ -100,7 +90,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('creates context if not provided', async () => {
 
-      sessionStorageMock.getItem.mockImplementation(() => 'abc');
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -131,7 +121,7 @@ describe('[checkout-com] useCkoCard', () => {
         error
       } = useCkoCard(paymentMethod);
 
-      sessionStorageMock.getItem.mockImplementation(() => 'abc');
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'abc');
 
       (createContext as jest.Mock).mockImplementation(() => Promise.resolve({
         data: {
@@ -162,7 +152,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('calls createPayment & returns proper success response', async () => {
 
-      sessionStorageMock.getItem.mockImplementation(() => 'abc');
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -184,7 +174,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('uses default values for success and failure url and save_payment_instrument', async () => {
       const token = 'abc';
-      sessionStorageMock.getItem.mockImplementation(() => token);
+      (getTransactionToken as jest.Mock).mockImplementation(() => token);
 
       /*eslint-disable */
       const payload = {
@@ -217,7 +207,7 @@ describe('[checkout-com] useCkoCard', () => {
     it('allows to set success and failure url and save_payment_instrument and reference', async () => {
 
       const token = '123';
-      sessionStorageMock.getItem.mockImplementation(() => token);
+      (getTransactionToken as jest.Mock).mockImplementation(() => token);
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -251,7 +241,7 @@ describe('[checkout-com] useCkoCard', () => {
 
     it('throws an error if receives diff. code than 200 and 202 from createPayment request', async () => {
 
-      sessionStorageMock.getItem.mockImplementation(() => 'abc');
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'abc');
       /*eslint-disable */
       const payload = {
         cartId: 15,
@@ -334,7 +324,7 @@ describe('[checkout-com] useCkoCard', () => {
       expect(submitDisabled.value).toBeFalsy();
 
       framesMock.init.mock.calls[0][0].cardTokenized({ token });
-      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
+      expect(setTransactionToken).toHaveBeenCalledWith(token);
 
       framesMock.init.mock.calls[0][0].cardTokenizationFailed(errorMessage);
       expect(submitDisabled.value).toBeTruthy();
@@ -419,7 +409,7 @@ describe('[checkout-com] useCkoCard', () => {
       }));
       await loadStoredPaymentInstruments(customerId)
       const instrument = payment_instruments[1];
-      sessionStorageMock.getItem.mockImplementation(() => 'targetly-bad-value')
+      (getTransactionToken as jest.Mock).mockImplementation(() => 'targetly-bad-value')
       const paymentInstrumentsWithoutRemoved = payment_instruments.filter(ins => ins.payment_instrument_id != instrument.payment_instrument_id);
       /* eslint-enable */
 
@@ -451,7 +441,7 @@ describe('[checkout-com] useCkoCard', () => {
       (removeSavedCard as jest.Mock).mockImplementation(() => Promise.resolve());
       /*eslint-disable */
       const instrument = payment_instruments[1];
-      sessionStorageMock.getItem.mockImplementation(() => instrument.id)
+      (getTransactionToken as jest.Mock).mockImplementation(() => instrument.id)
       const paymentInstrumentsWithoutRemoved = payment_instruments.filter(ins => ins.payment_instrument_id !== instrument.payment_instrument_id);
   
       await removePaymentInstrument(customerId, instrument.payment_instrument_id)
@@ -463,7 +453,7 @@ describe('[checkout-com] useCkoCard', () => {
       /* eslint-enable */
       expect(storedPaymentInstruments.value).toEqual(paymentInstrumentsWithoutRemoved);
       expect(selectedCardPaymentMethod.value).toBe(CkoPaymentType.CREDIT_CARD);
-      expect(sessionStorageMock.removeItem).toHaveBeenCalled();
+      expect(removeTransactionToken).toHaveBeenCalled();
     });
 
     it('sets error if remove stored payment instruments fails', async () => {
@@ -483,7 +473,7 @@ describe('[checkout-com] useCkoCard', () => {
       const token = '12345';
       setPaymentInstrument(token);
 
-      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(undefined, token);
+      expect(setTransactionToken).toHaveBeenCalledWith(token);
       expect(selectedCardPaymentMethod.value).toBe(CkoPaymentType.SAVED_CARD);
     });
 

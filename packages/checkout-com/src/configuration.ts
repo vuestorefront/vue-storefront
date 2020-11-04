@@ -84,6 +84,7 @@ const setChannel = (channel: string) => {
   config.card.style = pickedChannel.card?.style || defaultStyles;
   config.card.localization = pickedChannel.card?.localization || null;
   config.klarna.containerSelector = pickedChannel.klarna?.containerSelector || config.klarna.containerSelector;
+  config.klarna.mounted = pickedChannel.klarna?.mounted || config.klarna.mounted;
   config.tokenizedCardKey = pickedChannel.tokenizedCardKey || config.tokenizedCardKey;
   config.saveInstrumentKey = pickedChannel.saveInstrumentKey || config.saveInstrumentKey;
   config.ctApiUrl = pickedChannel.ctApiUrl || config.ctApiUrl;
