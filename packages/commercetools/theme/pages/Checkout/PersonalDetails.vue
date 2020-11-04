@@ -105,6 +105,7 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { useUiState } from '~/composables';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+
 extend('required', {
   ...required,
   message: 'This field is required'
