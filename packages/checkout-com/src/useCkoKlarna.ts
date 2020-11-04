@@ -5,7 +5,6 @@ import { ref } from '@vue/composition-api';
 import { CkoPaymentType, getCurrentPaymentMethodPayload, getTransactionToken, removeTransactionToken, setTransactionToken } from './helpers';
 import { KlarnaConfiguration, getKlarnaContainerSelector, getKlarnaOnMounted } from './configuration';
 
-declare const document;
 declare const Klarna;
 
 const error = ref(null);
@@ -46,7 +45,6 @@ const useCkoKlarna = () => {
       return payment;
     } catch (e) {
       removeTransactionToken();
-      console.log(e);
       error.value = e;
       return null;
     }
@@ -92,4 +90,5 @@ const useCkoKlarna = () => {
     error
   };
 };
+
 export default useCkoKlarna;
