@@ -1,4 +1,3 @@
 export default (): string[] => [
-  'commercetools',
-  'shopify'
+  'commercetools'
 ];
