@@ -524,12 +524,18 @@ export default {
 }
 .main {
   display: flex;
+  .loading {
+    margin-top: 100px;
+  }
 }
 .sidebar {
   flex: 0 0 15%;
   padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
+  .loading {
+    margin-top: 50px;
+  }
 }
 .sidebar-filters {
   --sidebar-title-display: none;
@@ -675,11 +681,5 @@ export default {
       padding-left: var(--spacer-sm);
     }
   }
-}
-.loading {
-  margin-top: 100px;
-}
-.loading:first-of-type {
-  margin-top: 50px;
 }
 </style>
