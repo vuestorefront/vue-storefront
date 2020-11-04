@@ -3,7 +3,7 @@
 import { createPayment } from './payment';
 import { ref } from '@vue/composition-api';
 import { CkoPaymentType, getCurrentPaymentMethodPayload, getTransactionToken, removeTransactionToken, setTransactionToken } from './helpers';
-import { KlarnaConfiguration } from './configuration';
+import { KlarnaConfiguration, getKlarnaContainerSelector, getKlarnaOnMounted } from './configuration';
 
 declare const document;
 declare const Klarna;
@@ -12,7 +12,7 @@ const error = ref(null);
 
 const useCkoKlarna = () => {
   const makePayment = async ({
-    context,
+    contextDataId,
     secure3d,
     savePaymentInstrument,
     reference = null,
@@ -20,7 +20,6 @@ const useCkoKlarna = () => {
     failure_url = null
   }) => {
     try {
-
       const token = getTransactionToken();
 
       if (!token) {
@@ -30,7 +29,7 @@ const useCkoKlarna = () => {
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(CkoPaymentType.KLARNA, {
           token,
-          context_id: context,
+          context_id: contextDataId,
           secure3d,
           reference,
           save_payment_instrument: savePaymentInstrument,
@@ -71,28 +70,26 @@ const useCkoKlarna = () => {
   });
 
   const initKlarnaForm = (klarnaParams: KlarnaConfiguration, apm: any, contextId: string) => {
-    console.log(apm);
     Klarna.Payments.init({
       client_token: apm.metadata.details.client_token
     });
 
     Klarna.Payments.load(
       {
-        container: '#klarna_container',
+        container: klarnaParams?.containerSelector || getKlarnaContainerSelector(),
         payment_method_categories: apm.metadata.details.payment_method_category.map(cat => cat.identifier),
         instance_id: contextId
       },
       apm.metadata.session,
-      function temp (response) {
-        console.log('klarna payments load', response);
-      }
+      klarnaParams?.mounted || getKlarnaOnMounted()
     );
   };
 
   return {
     makePayment,
     initKlarnaForm,
-    submitForm
+    submitForm,
+    error
   };
 };
 export default useCkoKlarna;

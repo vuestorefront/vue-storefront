@@ -55,7 +55,10 @@ const useCko = () => {
   } = useCkoPaypal();
 
   const {
-    initKlarnaForm
+    initKlarnaForm,
+    submitForm: submitKlarnaForm,
+    makePayment: makeKlarnaPayment,
+    error: klarnaError
   } = useCkoKlarna();
 
   const loadAvailableMethods = async (reference, email?) => {
@@ -125,6 +128,9 @@ const useCko = () => {
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
       finalizeTransactionFunction = makePaypalPayment;
       localError = paypalError;
+    } else if (selectedPaymentMethod.value === CkoPaymentType.KLARNA) {
+      finalizeTransactionFunction = makeKlarnaPayment;
+      localError = klarnaError;
     } else {
       error.value = new Error('Not supported payment method');
       return;
@@ -160,6 +166,7 @@ const useCko = () => {
     loadAvailableMethods,
     initForm,
     submitCardForm,
+    submitKlarnaForm: ctx => submitKlarnaForm(ctx || contextId.value),
     makePayment,
     setPaymentInstrument,
     setSavePaymentInstrument,
