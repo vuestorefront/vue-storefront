@@ -2,7 +2,8 @@
 
 import { createPayment } from './payment';
 import { ref } from '@vue/composition-api';
-import { CkoPaymentType, getCurrentPaymentMethodPayload } from './helpers';
+import { CkoPaymentType, getCurrentPaymentMethodPayload, getTransactionToken, removeTransactionToken, setTransactionToken } from './helpers';
+import { KlarnaConfiguration } from './configuration';
 
 declare const document;
 declare const Klarna;
@@ -11,7 +12,6 @@ const error = ref(null);
 
 const useCkoKlarna = () => {
   const makePayment = async ({
-    token,
     context,
     secure3d,
     savePaymentInstrument,
@@ -21,11 +21,11 @@ const useCkoKlarna = () => {
   }) => {
     try {
 
-      // const token = getTransactionToken();
+      const token = getTransactionToken();
 
-      // if (!token) {
-      //   throw new Error('There is no payment token');
-      // }
+      if (!token) {
+        throw new Error('There is no payment token');
+      }
 
       const payment = await createPayment(
         getCurrentPaymentMethodPayload(CkoPaymentType.KLARNA, {
@@ -39,52 +39,39 @@ const useCkoKlarna = () => {
         })
       );
 
-      // removeTransactionToken();
-      // if (![200, 202].includes(payment.status)) {
-      //   throw new Error(payment.data.error_type);
-      // }
+      removeTransactionToken();
+      if (![200, 202].includes(payment.status)) {
+        throw new Error(payment.data.error_type);
+      }
 
       return payment;
     } catch (e) {
-      // removeTransactionToken();
+      removeTransactionToken();
       console.log(e);
       error.value = e;
       return null;
     }
   };
 
-  const initKlarnaForm = (apm: any, contextId: string) => {
+  const submitForm = (contextId: string) => new Promise((resolve, reject) => {
+    try {
+      Klarna.Payments.authorize(
+        {
+          instance_id: contextId
+        },
+        {},
+        response => {
+          setTransactionToken(response.authorization_token);
+          resolve(response);
+        }
+      );
+    } catch (err) {
+      reject(err);
+    }
+  });
+
+  const initKlarnaForm = (klarnaParams: KlarnaConfiguration, apm: any, contextId: string) => {
     console.log(apm);
-    const buyWithKlarna = document.getElementById('payment-method-klarna');
-    const payWithKlarna = document.getElementById('pay-klarna');
-
-    buyWithKlarna.addEventListener(
-      'click',
-      () => {
-        Klarna.Payments.authorize(
-          {
-            instance_id: contextId
-          },
-          {},
-          response => {
-            console.log('klarna payments authorize', response);
-            buyWithKlarna.classList.add('hidden');
-            payWithKlarna.classList.remove('hidden');
-            payWithKlarna.addEventListener('click', async () => {
-              const payment = await makePayment({
-                token: response.authorization_token,
-                context: contextId,
-                secure3d: true,
-                savePaymentInstrument: false
-              });
-              console.log(payment, 'oo');
-            });
-          }
-        );
-      },
-      false
-    );
-
     Klarna.Payments.init({
       client_token: apm.metadata.details.client_token
     });
@@ -104,7 +91,8 @@ const useCkoKlarna = () => {
 
   return {
     makePayment,
-    initKlarnaForm
+    initKlarnaForm,
+    submitForm
   };
 };
 export default useCkoKlarna;

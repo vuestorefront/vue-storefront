@@ -89,7 +89,7 @@ const useCko = () => {
             initCardForm(methodConfig);
             break;
           case 'klarna':
-            initKlarnaForm(currentPaymentMethod, contextId.value);
+            initKlarnaForm(methodConfig, currentPaymentMethod, contextId.value);
             break;
         }
       }
