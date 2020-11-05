@@ -4,7 +4,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 ## 1.12 -> 1.13
 
-**Multistore**
+### Multistore
 
 `storeCode` is now required for storeView
 `url` is now responsible for creating internal prefix. So `appendStoreCode` is not needed anymore (It is left for compatibility)
@@ -54,6 +54,8 @@ Now:
 `defaultStoreCode` it is recommended to set some value for it. It is used only used when `multistore` is enabled. You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you can decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
 
 `removeStoreCodeFromRoute` is replaced by `removeLocalization`
+
+### `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
 
 ## 1.11 -> 1.12
 

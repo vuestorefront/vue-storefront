@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
 - Added handling redirection on server side and update docs about it - @gibkigonzo (#4647)
 - Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
+- Allow array of localForage fallback drivers in config - @didkan (#5097)
 
 ### Fixed
 
@@ -23,7 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
+- Remove vue-lazyload from core - @jahvi (#5045)
 - Remove unnecessary async and Logger import - @jahvi (#5039)
+- Added support to configure custom auth header name - dixitdeepak (#5078)
 - Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
 
 ## [1.12.2] - 2020.07.28
@@ -47,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
 
 ### Changed / Improved
+- Changed the Node version in the local Dockerfile to v12 - @waynetheisinger (#4989)
 
 ## [1.12.1] - 2020.06.22
 
