@@ -13,7 +13,7 @@ module.exports = {
     'Billing',
     'Shipping',
 
-    // Need updating
+    // TODO: https://github.com/DivanteLtd/vue-storefront/issues/5136
     '<rootDir>/src/getters/cartGetters.ts',
     '<rootDir>/src/getters/checkoutGetters.ts',
     '<rootDir>/src/getters/userGetters.ts',
