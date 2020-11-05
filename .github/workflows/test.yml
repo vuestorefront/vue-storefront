@@ -85,12 +85,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: packages/core/coverage/lcov.info
+          flag-name: core
 
       - name: Post CLI coverage data
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: packages/core/cli/coverage/lcov.info
+          flag-name: core-cli
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
@@ -154,6 +156,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: packages/${{ matrix.integration }}/api-client/coverage/lcov.info
           parallel: true
+          flag-name: ${{ matrix.integration }}-api-client
 
       - name: Post composables coverage data
         if: steps.composables-coverage.outputs.exists == 'true'
@@ -162,6 +165,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: packages/${{ matrix.integration }}/composables/coverage/lcov.info
           parallel: true
+          flag-name: ${{ matrix.integration }}-composables
 
   finish:
     name: Finish
