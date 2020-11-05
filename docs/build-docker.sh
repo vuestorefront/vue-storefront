@@ -1,0 +1,1 @@
+docker build -t registry.storefrontcloud.io/docs/v1:test -f Dockerfile .
