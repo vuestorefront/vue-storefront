@@ -1,6 +1,6 @@
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
 import { actions as urlActions } from '../../../store/actions';
-import { currentStoreView, removeStoreCodeFromRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, removeLocalization, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
 import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
 import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
@@ -28,7 +28,7 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
     appendStoreCode: ''
   })),
   localizedDispatcherRouteName: jest.fn(),
-  removeStoreCodeFromRoute: jest.fn(() => '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html')
+  removeLocalization: jest.fn(() => '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html')
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
@@ -42,7 +42,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('@vue-storefront/core/modules/url/helpers', () => ({
   preProcessDynamicRoutes: jest.fn(),
   parametrizeRouteData: jest.fn(),
-  removeStoreCodeFromRoute: jest.fn(),
+  removeLocalization: jest.fn(),
   normalizeUrlPath: jest.fn()
 }));
 jest.mock('@vue-storefront/core/lib/storeCodeFromRoute', () =>
@@ -189,7 +189,7 @@ describe('Url actions', () => {
 
     it('should trigger fetch from url module', async () => {
       url = 'men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
-      (removeStoreCodeFromRoute as jest.Mock).mockImplementation(() => url);
+      (removeLocalization as jest.Mock).mockImplementation(() => url);
 
       const contextMock = {
         dispatch: jest.fn()
@@ -204,7 +204,7 @@ describe('Url actions', () => {
 
     it('should return page-not-found if missing record from ES', async () => {
       url = 'men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
-      (removeStoreCodeFromRoute as jest.Mock).mockImplementation(() => url);
+      (removeLocalization as jest.Mock).mockImplementation(() => url);
 
       const contextMock = {
         dispatch: jest.fn()
