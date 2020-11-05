@@ -5,5 +5,10 @@ module.exports = {
   coverageReporters: ['html', 'lcov', 'text'],
   rootDir: __dirname,
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
-  watchPathIgnorePatterns: ['/node_modules/']
+  watchPathIgnorePatterns: ['/node_modules/'],
+  modulePathIgnorePatterns: [
+    // Ignore mocked composables
+    './src/useUserBilling',
+    './src/useUserShipping'
+  ]
 };

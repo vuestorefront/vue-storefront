@@ -101,7 +101,7 @@ jobs:
     strategy:
       matrix:
         integration:
-          - about-you
+          # - about-you
           - boilerplate
           - commercetools
           # - shopify
@@ -126,6 +126,7 @@ jobs:
 
       - name: Build api-client
         run: cd packages/${{ matrix.integration }}/api-client && yarn build
+
       - name: Test api-client
         run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
 
