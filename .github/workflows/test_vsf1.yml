@@ -5,14 +5,14 @@ on:
     branches:
       - master
       - develop
-      - 'release/**'
-      - 'hotfix/**'
+      - 'release/v**'
+      - 'hotfix/v**'
   pull_request:
     branches:
       - master
       - develop
-      - 'release/**'
-      - 'hotfix/**'
+      - 'release/v**'
+      - 'hotfix/v**'
 
 jobs:
   prepare_dependencies:
