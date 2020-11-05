@@ -6,9 +6,17 @@ module.exports = {
   rootDir: __dirname,
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   watchPathIgnorePatterns: ['/node_modules/'],
-  modulePathIgnorePatterns: [
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+
     // Ignore mocked composables
     'Billing',
-    'Shipping'
+    'Shipping',
+
+    // Need updating
+    '<rootDir>/src/getters/cartGetters.ts',
+    '<rootDir>/src/getters/checkoutGetters.ts',
+    '<rootDir>/src/getters/userGetters.ts',
+    '<rootDir>/src/getters/productGetters.ts'
   ]
 };
