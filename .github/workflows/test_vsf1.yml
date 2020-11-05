@@ -30,9 +30,7 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: |
-            '**/node_modules'
-            '~/src/themes/default'
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Clone default theme
@@ -57,9 +55,7 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: |
-            '**/node_modules'
-            '~/src/themes/default'
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run linter
@@ -81,9 +77,7 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: |
-            '**/node_modules'
-            '~/src/themes/default'
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run unit tests
@@ -105,10 +99,11 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: |
-            '**/node_modules'
-            '~/src/themes/default'
+          path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Clone default theme
+        run: git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
 
       - name: Run build
         run: yarn build
