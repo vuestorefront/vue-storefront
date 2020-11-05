@@ -57,7 +57,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/src/themes/default'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run linter
@@ -79,7 +81,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/src/themes/default'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run unit tests
@@ -101,7 +105,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/src/themes/default'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run build
