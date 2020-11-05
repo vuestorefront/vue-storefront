@@ -2997,6 +2997,16 @@
     lodash-es "^4.17.15"
     vue "^2.6.11"
 
+"@vue-storefront/core@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.11.tgz#df8a1c1818689deeef23d2b7673c398385113c4b"
+  integrity sha512-f80vDc4I9/r+Fu4HqsuN7z1sLpZ5JQZ62D1+Hs8r+2UvXFDzn1o6O173C8AG7TZLWoThg8R46n+XYAaQj6fZ0w==
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.14"
+    express "^4.17.1"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
 "@vue-storefront/nuxt-theme@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.3.tgz#3f0f03bad13aa9ac4855c65872b19e9baad783ce"
