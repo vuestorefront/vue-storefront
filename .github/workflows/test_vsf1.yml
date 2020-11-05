@@ -80,7 +80,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Run linter
+      - name: Run unit tests
         run: yarn test:unit
 
   build:
@@ -102,5 +102,5 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Run linter
+      - name: Run build
         run: yarn build
