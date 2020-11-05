@@ -68,7 +68,7 @@
               :key="size.value"
               :value="size.value"
             >
-              <SfProductOption :label="size.label" />
+              <span>{{size.label}}</span>
             </SfSelectOption>
           </SfSelect>
           <!-- TODO: add color picker after PR done by SFUI team -->
@@ -201,7 +201,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfProductOption,
   SfAddToCart,
   SfTabs,
   SfGallery,
@@ -289,7 +288,6 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfProductOption,
     SfAddToCart,
     SfTabs,
     SfGallery,
