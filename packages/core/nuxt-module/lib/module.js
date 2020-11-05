@@ -16,7 +16,7 @@ const resolveDependencyFromWorkingDir = name => {
   try {
     return require.resolve(name, { paths: [ process.cwd() ] })
   } catch (error) {
-    return '';
+    return false;
   }
 };
 
