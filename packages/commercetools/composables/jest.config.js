@@ -8,7 +8,7 @@ module.exports = {
   watchPathIgnorePatterns: ['/node_modules/'],
   modulePathIgnorePatterns: [
     // Ignore mocked composables
-    '/Billing/',
-    '/Shipping/'
+    '**/{*Billing*,*Billing*/**}',
+    '**/{*Shipping*,*Shipping*/**}'
   ]
 };
