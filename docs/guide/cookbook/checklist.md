@@ -893,3 +893,14 @@ This [sample theme](https://github.com/yireo-training/vsf-yireo-theme) can help 
 
 ## 21. Optimized Webpack configuration for Vue Storefront 1 development
 The default Webpack configuration of Vue Storefront 1 allows for fully testing all features. However, because of various reasons, this leads to a slow transpilation time and therefore a bad developer experience. This [repository](https://github.com/yireo-training/vsf1-local-webpack) contains a separate Webpack
+
+## 22. Get rid of depracatedActions in VSF 1.12+
+We do not want to make **breaking changes** (only in special situation). That's why we left *depracatedActions* in product's vuex module. If you started your project in 1.12 you can be almost 100% sure that you can get rid of this file which will result in **31.75KB** less app.js bundle! In simple words, you can do that if your app does not use any of *depracatedActions*.
+
+To do that:
+1. Remove `core/modules/catalog/store/product/deprecatedActions.ts`
+2. In `core/modules/catalog/store/product/actions.ts`, remove 317-318 lines:
+```ts
+/** Below actions are not used from 1.12 and can be removed to reduce bundle */
+  ...require('./deprecatedActions').default
+``` 
