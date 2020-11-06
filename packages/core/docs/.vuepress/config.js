@@ -1,6 +1,7 @@
 module.exports = {
   title: 'Vue Storefront Next',
   description: 'Vue Storefront 2 documentation',
+  base: '/v2/',
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }]
   ],
