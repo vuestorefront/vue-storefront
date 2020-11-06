@@ -82,7 +82,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       Vue.filter(key, coreFilters[key])
     })
   })
-
+  console.log('t')
   let vueOptions = {
     router: routerProxy,
     store,
