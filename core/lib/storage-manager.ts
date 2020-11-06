@@ -7,14 +7,16 @@ import config from 'config'
 function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
-  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
+  const cacheDrivers = [].concat(
+    config.localForage && config.localForage.defaultDrivers[key]
     ? config.localForage.defaultDrivers[key]
     : 'LOCALSTORAGE'
+  )
 
   return new UniversalStorage(localForage.createInstance({
     name: localized ? `${dbNamePrefix}shop` : 'shop',
     storeName: key,
-    driver: localForage[cacheDriver]
+    driver: cacheDrivers.map(driver => localForage[driver])
   }), true, storageQuota)
 }
 

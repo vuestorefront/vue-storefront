@@ -1,6 +1,7 @@
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers';
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 jest.mock('@vue-storefront/core/app', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/router-manager', () => jest.fn());
@@ -12,6 +13,9 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))
+jest.mock('@vue-storefront/core/modules/url/helpers', () => ({
+  formatCategoryLink: jest.fn()
+}));
 
 describe('parseCategoryPath method', () => {
   describe('on category page', () => {
@@ -66,6 +70,7 @@ describe('parseCategoryPath method', () => {
     });
 
     it('should return formatted category path for breadcrumbs', () => {
+      (formatCategoryLink as jest.Mock).mockImplementation((category) => `/${category.url_path}`);
       const result = parseCategoryPath(categories);
       const expected = [
         {
@@ -150,6 +155,7 @@ describe('parseCategoryPath method', () => {
     });
 
     it('should return formatted category path for breadcrumbs', () => {
+      (formatCategoryLink as jest.Mock).mockImplementation((category) => `/${category.url_path}`);
       const result = parseCategoryPath(categories);
       const expected = [
         {
