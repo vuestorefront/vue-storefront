@@ -1,7 +1,7 @@
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
-const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
+const Countries = require('theme/resource/i18n/resource/countries.json')
 
 export const UserAccount = {
   name: 'UserAccount',
