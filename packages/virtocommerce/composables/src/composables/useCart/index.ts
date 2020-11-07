@@ -1,55 +1,61 @@
-/* istanbul ignore file */
-
 import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
-import { Cart, CartItem, Coupon, Product } from '../../types';
 
-export const cart: Ref<Cart> = ref(null);
+import { CartType, LineItemType, Product, getCart, addToCart, clearCart, updateCartItemQuantity, removeFromCart } from '@vue-storefront/virtocommerce-api';
+export const cart: Ref<CartType> = ref(null);
+
+const getLineItemItemByProduct = ({ currentCart, product }) => {
+  return currentCart.items.find((item) => item.productId === product._id);
+};
+
 
 // @todo: implement cart
 
-const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const params: UseCartFactoryParams<CartType, LineItemType, Product, any> = {
   loadCart: async () => {
-    console.log('Mocked: loadCart');
-    return {};
+    const cart = await getCart();
+    return cart;
   },
+  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addToCart: async ({ currentCart, product, quantity }) => {
-    console.log('Mocked: addToCart');
-    return {};
+     await addToCart(currentCart, product, quantity);
+     return  await getCart();  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeFromCart: async ({ currentCart, product }) => {
-    console.log('Mocked: removeFromCart');
-    return {};
+    await removeFromCart(currentCart, product);
+    return await getCart();  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateQuantity: async ({ currentCart, product, quantity }) => {
-    console.log('Mocked: updateQuantity');
-    return {};
+    await updateCartItemQuantity(currentCart, product, quantity);
+    return  await getCart();  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clearCart: async ({ currentCart }) => {
-    console.log('Mocked: clearCart');
-    return {};
+    await clearCart(currentCart);
+    return await getCart();    
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   applyCoupon: async ({ currentCart, couponCode }) => {
     console.log('Mocked: applyCoupon');
-    return {updatedCart: {}, updatedCoupon: {}};
+    return {updatedCart: null, updatedCoupon: null};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeCoupon: async ({ currentCart, coupon }) => {
     console.log('Mocked: removeCoupon');
-    return {updatedCart: {}};
+    return {updatedCart: null};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnCart: ({ currentCart }) => {
-    console.log('Mocked: isOnCart');
-    return false;
+  isOnCart: ({ currentCart, product }) => {
+   
+    return Boolean(currentCart && getLineItemItemByProduct({ currentCart, product }));
   }
 };
 
-const { setCart, useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
+
+
+const { setCart, useCart } = useCartFactory<CartType, LineItemType, Product, any>(params);
 
 export { setCart, useCart };

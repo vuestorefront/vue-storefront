@@ -4,6 +4,7 @@ export type ApiConfig = {
 
 export type Config = {
   api: ApiConfig; 
+  userId : string;
   currency: string;
   locale: string;
   store: string;  

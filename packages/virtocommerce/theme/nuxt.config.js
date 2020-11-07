@@ -57,8 +57,11 @@ export default {
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://172.25.176.1:3000/graphql'
-      }
+        uri: 'http://172.18.224.1:3000/graphql'
+      },
+      store: "Electronics",
+      currency: "USD",
+      locale: "en-US"
     }]
   ],
   modules: [

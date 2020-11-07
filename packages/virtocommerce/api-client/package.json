@@ -27,7 +27,8 @@
     "@graphql-codegen/cli": "1.17.8",
     "@graphql-codegen/typescript": "1.17.8",
     "@graphql-codegen/typescript-operations": "1.17.8",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "rollup-plugin-graphql": "^0.1.0"
   },
   "files": [
     "lib/**/*"
