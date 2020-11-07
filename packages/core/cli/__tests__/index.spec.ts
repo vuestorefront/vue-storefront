@@ -1,4 +1,4 @@
-import { cli } from '../src/index';
+import { cli } from '@vue-storefront/cli/src/index';
 import log from '@vue-storefront/cli/src/utils/log';
 jest.mock('@vue-storefront/cli/src/utils/log', () => ({
   error: jest.fn()
