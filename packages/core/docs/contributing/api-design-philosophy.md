@@ -33,7 +33,7 @@ cacheManager.setTags((tags) => {
 ~ Dan Abramov
 ```
 8. Composables should be independent and rely on each other only if they are from the same group (`useUser` `useUserOrders`). The only exception is `useUser` that has to be used in many other composables.
-9. If you introduce a new feature shared across all/many composables (like Logging) users should be able to configure this feature from a single place (usually core function or core nuxt module).
+9. If you introduce a new feature shared across all/many composables (like Logging/cache) users should be able to configure this feature from core/core nuxt module.
 ```ts
 // every function in composables is using logger
 const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
@@ -60,6 +60,5 @@ const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => 
   },
 }]
 ```
-10. If a feature is not platform-specific and applies to whole application (not only a certain integration) provide its configuration through core / core nuxt module. (eg. Logger)
-11. If a feature is platform-specific and not shared across whole application provide integration through its config/nuxt module.
-12. Provide a core interface for every feature, no matter if its paid or not (implementation can be paid, the way of implementing this feature by the user has to be always provided)
+10. If a feature is platform-specific and not shared across whole application provide integration through its config/nuxt module.
+11. Provide a core interface for every feature, no matter if its paid or not (implementation can be paid, the way of implementing this feature by the user has to be always provided)
