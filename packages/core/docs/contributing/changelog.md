@@ -1,6 +1,8 @@
 # Changelog
 
-## 2.0.12 - not released
+## 2.0.13 - not released
+
+## 2.0.12
 - fix ssr implementation, transition on client-side ([#5103](https://github.com/DivanteLtd/vue-storefront/pull/5103))
 
 ## 2.0.11
