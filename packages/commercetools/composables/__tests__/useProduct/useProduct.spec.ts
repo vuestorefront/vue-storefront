@@ -22,11 +22,6 @@ const productResponse = {
       total: 54,
       results: [
         product('prod1', 'prod-1', 'sde213')
-      ],
-      availableSortingOptions: [
-        { value: 'latest', label: 'Latest' },
-        { value: 'price-up', label: 'Price from low to high' },
-        { value: 'price-down', label: 'Price from high to low' }
       ]
     },
     _variants: [product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')]
@@ -51,13 +46,7 @@ describe('[commercetools-composables] useProduct', () => {
 
     expect(response).toEqual({
       data: [product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')],
-      total: 54,
-      availableFilters: {},
-      availableSortingOptions: [
-        { value: 'latest', label: 'Latest' },
-        { value: 'price-up', label: 'Price from low to high' },
-        { value: 'price-down', label: 'Price from high to low' }
-      ]
+      total: 54
     });
     expect(getProduct).toBeCalledWith({ id: 'product-id' }, undefined);
     expect(enhanceProducts).toBeCalledWith(productResponse);
