@@ -51,13 +51,10 @@ const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => 
 };
 ```
 ```js
-// there is only one palce where we're configuring the logger - core
+// there is only one palce where we're configuring the logger/cache - core
 ['@vue-storefront/nuxt', {
   coreDevelopment: true,
-  logger: { // new section here
-    verbosity: 'error' // verbosity    customLogger: logger // your own implementation as function
-
-  },
+  logger: customLogger
 }]
 ```
 10. If a feature is platform-specific and not shared across whole application provide integration through its config/nuxt module.
