@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "0.2.7",
-    "@vue-storefront/core": "2.0.11",
+    "@vue-storefront/core": "2.0.12",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
