@@ -12,7 +12,13 @@ const log = {
   error: (message) => consola.error(chalk.bold('VSF'), message)
 }
 
-const resolveDependencyFromWorkingDir = name => require.resolve(name, { paths: [ process.cwd() ] });
+const resolveDependencyFromWorkingDir = name => {
+  try {
+    return require.resolve(name, { paths: [ process.cwd() ] })
+  } catch (error) {
+    return false;
+  }
+};
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   const isProd = process.env.NODE_ENV === 'production';
