@@ -293,12 +293,12 @@ export default {
     });
 
     const handleFormSubmit = async () => {
-      await setBillingDetails({ ...billingDetails.value, country: 'US' }, { save: true });
+      await setBillingDetails(billingDetails.value, { save: true });
       context.root.$router.push('/checkout/order-review');
     };
 
     const handleBillingAddressSubmit = async () => {
-      await setBillingDetails({ ...billingDetails.value, country: 'US' }, { save: true });
+      await setBillingDetails(billingDetails.value, { save: true });
       // here we should have something like loadPaymentMethods which depends on billing address imo
       if (currentAddressId.value > -1 && setAsDefault.value) {
         const chosenAddress = userBillingGetters.getAddresses(billing.value, { id: currentAddressId.value });

@@ -75,8 +75,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCheckout, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
-import { useCart, cartGetters as talonGetters } from '@vsf-enterprise/ct-talon-one';
+import { useCheckout, useCart, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'CartPreview',
@@ -97,8 +96,8 @@ export default {
     const showPromoCode = ref(false);
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-    const totals = computed(() => talonGetters.getTotals(cart.value));
-    const discounts = computed(() => talonGetters.getDiscounts(cart.value));
+    const totals = computed(() => cartGetters.getTotals(cart.value));
+    const discounts = computed(() => cartGetters.getDiscounts(cart.value));
 
     return {
       discounts,

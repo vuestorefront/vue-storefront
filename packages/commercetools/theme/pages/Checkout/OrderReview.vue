@@ -156,9 +156,8 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { useCart, cartGetters as talonGetters } from '@vsf-enterprise/ct-talon-one';
 
 export default {
   name: 'ReviewOrder',
@@ -180,7 +179,7 @@ export default {
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
-    const totals = computed(() => talonGetters.getTotals(cart.value));
+    const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
       personalDetails,
       shippingDetails,
