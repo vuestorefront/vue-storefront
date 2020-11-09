@@ -2,6 +2,7 @@
 
 ## 0.2.7 - not released
 
+- [BREAKING] removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
 
 ## 0.2.6
 
