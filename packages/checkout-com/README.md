@@ -74,13 +74,14 @@ const { cart } = useCart();
 const { setBillingDetails } = useCheckout();
 const { isAuthenticated, user } = useUser();
 const { 
-    initForm, 
-    loadAvailableMethods, 
-    availableMethods, 
-    submitDisabled, 
-    storedPaymentInstruments, 
-    loadStoredPaymentInstruments, 
-    error 
+    initForm,
+    loadAvailableMethods,
+    availableMethods,
+    submitDisabled,
+    storedPaymentInstruments,
+    loadStoredPaymentInstruments,
+    submitKlarnaForm,
+    error
 } = useCko();
 ```
 
@@ -121,7 +122,11 @@ onMounted(async () => {
     await loadAvailableMethods(cart.value.id, user.value && user.value.email);
 })
 ```
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`. Caution: PayPal does not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. 
+
+- Card's Frames will be mounted in DOM element with class `card-frame`.
+- PayPal does not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
+- Klarna by default will be mounted in container with id `klarna_container`
 
 ```ts
 interface PaymentMethods {
@@ -131,8 +136,8 @@ interface PaymentMethods {
 }
 
 interface PaymentMethodsConfig {
-  card?: Omit<Configuration, 'publicKey'>;
-  klarna?: any;
+  card?: CardConfiguration;
+  klarna?: KlarnaConfiguration;
   paypal?: any;
 }
 
@@ -161,7 +166,7 @@ Unfortunately, Checkout.com is not sharing any component for Saved Cards. After 
 `setPaymentInstrument` will set transaction token in your sessionStorage for a moment to make it work even after the refresh. Then it will set `selectedPaymentMethod` to `CkoPaymentType.SAVED_CARD`.
 
 6. When `submitDisabled` changes to false - it means provided Card's data is proper and you could allow your user go forward. Card's token will be stored in sessionStorage for a moment.
-7. Call `submitCardForm` function on card form submit (only for Credit Card method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood.
+7. Call `submitCardForm` function on card form submit (only for **Credit Card** method - not necessary for Stored Payment Method). It requires mounted `Frames` instance as it uses `Frames.submitCard()` under the hood. If you are using **Klarna** please call `submitKlarnaForm` (it returns promise) to authorize payment.
 8. Then you need to make Payment
 `error` - contains error message from the response if you do not use 3ds or we have some server related issues. If the user just removed stored token from sessionStorage it will have `There is no payment token` inside.
 `makePayment` - it proceeds with the payment and removes card token afterward. Returns Promise<Payment> if succeed, or Promise<null> if failed.
@@ -361,6 +366,21 @@ interface CustomLocalization {
   expiryYearPlaceholder: string;
   cvvPlaceholder: string;
 }
+```
+
+## Customizing Klarna
+In `nuxt.config.js` and `initForm` method call you can configure Klarna component.
+E.g:
+```js
+['@vue-storefront/checkout-com/nuxt', {
+    // ...
+    klarna: {
+        containerSelector: '#my-klarna-div',
+        mounted (response) {
+            console.log('Hello, I have just mounted klarna component!: ', response)
+        }
+    }
+}]
 ```
 
 ## Fetching available payment methods
