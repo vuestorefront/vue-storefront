@@ -59,3 +59,23 @@ const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => 
 ```
 10. If a feature is platform-specific and not shared across whole application provide integration through its config/nuxt module.
 11. Provide a core interface for every feature, no matter if its paid or not (implementation can be paid, the way of implementing this feature by the user has to be always provided)
+
+## Composables
+
+We try to cover each subdomain of the eCommerce domain with a dedicated composable. For example we have a composable for Users Management domain, inventory domain, product catalog domain etc. If you have to add a new feature always think about business domain it correlates to and based on that decide if it should be a new composable or an existing one.
+
+If composables share the same category/prefix it means that they most likely also share the same context eg. `useUserOrders` `useUserShipping` `useUserBilling` are all subcomposables of `useUser` and their content depends on this composable.
+
+Each composable has usually 3 pieces:
+- main data object (eg `products`)
+- supportive data object/s (eg `loading`, `error`)
+- search/load function (eg `search`)
+
+```js
+const { search, products, loading, erro } = useProduct()
+```
+
+### search or load
+As a rule of thumb use
+- `search` when you have to pass some search parameters (eg. in products search)
+- `load` when you just have to load some content based on cookies/local storage etc (eg. cart load)
