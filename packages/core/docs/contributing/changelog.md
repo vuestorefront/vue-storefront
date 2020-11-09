@@ -1,8 +1,8 @@
 # Changelog
 
 ## 2.0.13 - not released
-- [BREAKING] removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
 
+- [BREAKING] removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
 
 ## 2.0.12
 
