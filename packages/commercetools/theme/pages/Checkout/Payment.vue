@@ -115,7 +115,7 @@
         </ValidationProvider>
         <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.contactInfo.phone"
+            :value="billingDetails.phone"
             @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"
@@ -293,12 +293,12 @@ export default {
     });
 
     const handleFormSubmit = async () => {
-      await setBillingDetails(billingDetails.value, { save: true });
+      await setBillingDetails({ ...billingDetails.value, country: 'US' }, { save: true });
       context.root.$router.push('/checkout/order-review');
     };
 
     const handleBillingAddressSubmit = async () => {
-      await setBillingDetails(billingDetails.value, { save: true });
+      await setBillingDetails({ ...billingDetails.value, country: 'US' }, { save: true });
       // here we should have something like loadPaymentMethods which depends on billing address imo
       if (currentAddressId.value > -1 && setAsDefault.value) {
         const chosenAddress = userBillingGetters.getAddresses(billing.value, { id: currentAddressId.value });

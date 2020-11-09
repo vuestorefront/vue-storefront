@@ -16,7 +16,19 @@
       <SfProperty
         name="Subtotal"
         :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
-        class="sf-property--full-width sf-property--large property"
+        :class="['sf-property--full-width', 'sf-property--large', { discounted: totals.special > 0 }]"
+      />
+      <SfProperty
+        v-for="discount in discounts"
+        :key="discount.id"
+        :name="discount.name + (discount.code && ` (${discount.code})`)"
+        :value="'-' + checkoutGetters.getFormattedPrice(discount.value)"
+        class="sf-property--full-width sf-property--small"
+      />
+     <SfProperty
+        v-if="totals.special > 0"
+        :value="checkoutGetters.getFormattedPrice(totals.special)"
+        class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
         name="Shipping"
@@ -25,7 +37,7 @@
       />
       <SfProperty
         name="Total"
-        :value="checkoutGetters.getFormattedPrice(totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="checkoutGetters.getFormattedPrice(totals.total)"
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
@@ -37,7 +49,7 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button">Apply</SfButton>
+      <SfButton class="promo-code__button" @click="() => applyCoupon(promoCode)">Apply</SfButton>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -63,7 +75,8 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, useCheckout, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCheckout, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, cartGetters as talonGetters } from '@vsf-enterprise/ct-talon-one';
 
 export default {
   name: 'CartPreview',
@@ -84,9 +97,11 @@ export default {
     const showPromoCode = ref(false);
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-    const totals = computed(() => cartGetters.getTotals(cart.value));
+    const totals = computed(() => talonGetters.getTotals(cart.value));
+    const discounts = computed(() => talonGetters.getDiscounts(cart.value));
 
     return {
+      discounts,
       totalItems,
       listIsHidden,
       products,
@@ -166,6 +181,21 @@ export default {
   &__input {
     --input-background: var(--c-white);
     flex: 1;
+  }
+}
+
+.discounted {
+  &::v-deep .sf-property__value {
+    color: var(--c-danger);
+    text-decoration: line-through;
+  }
+}
+
+.special-price {
+  justify-content: flex-end;
+
+  &::v-deep .sf-property__name {
+    display: none;
   }
 }
 

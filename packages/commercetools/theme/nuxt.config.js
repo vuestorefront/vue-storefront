@@ -35,6 +35,11 @@ export default {
     }
   },
   buildModules: [
+    ['@vsf-enterprise/ct-talon-one/nuxt', {
+      baseUri: 'https://vuestorefront.europe-west1.talon.one',
+      apiKey: '9fbf47c6f35a5c21877c6494b0bc90795b9bb07fae6afdf429b894b10cb147df',
+      apiKeyPrefix: 'ApiKey-v1'
+    }],
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
@@ -45,11 +50,13 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/core'
+          '@vue-storefront/core',
+          '@vsf-enterprise/ct-talon-one'
         ],
         prod: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/core'
+          '@vue-storefront/core',
+          '@vsf-enterprise/ct-talon-one'
         ]
       }
     }],

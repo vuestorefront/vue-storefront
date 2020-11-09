@@ -286,7 +286,7 @@ export default {
     });
 
     const handleShippingAddressSubmit = (reset) => async () => {
-      await setShippingDetails(shippingDetails.value, { save: true });
+      await setShippingDetails({ ...shippingDetails.value, country: 'US' }, { save: true });
       await loadShippingMethods();
       reset();
       if (currentAddressId.value > -1 && setAsDefault.value) {

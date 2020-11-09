@@ -24,6 +24,7 @@ import customerUpdateMe from './api/customerUpdateMe';
 import createAccessToken from './helpers/createAccessToken';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config, ConfigurableConfig } from './types/setup';
+export * from './fragments';
 
 let apolloClient: ApolloClient<any> = null;
 
