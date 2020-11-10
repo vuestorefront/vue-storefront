@@ -270,7 +270,7 @@ enum CkoPaymentType {
     NOT_SELECTED = 0,
     CREDIT_CARD = 1,
     SAVED_CARD,
-    KLARNA, // Not supported yet
+    KLARNA,
     PAYPAL
 }
 ```
