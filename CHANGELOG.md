@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.7] - UNRELEASED
 
+### Added
+
+- Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
+
 ### Fixed
 - Removed duplicate language loading on initialization - @gibkigonzo (#4155)
 
