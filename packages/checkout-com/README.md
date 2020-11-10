@@ -121,19 +121,17 @@ onMounted(async () => {
     await loadAvailableMethods(cart.value.id, user.value && user.value.email);
 })
 ```
-5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`. Caution: PayPal does not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
+5. Execute `initForm`. It mounts different payment handlers depends on arguments (check details below). If you are calling it after load component - **use `onMounted` to make sure DOM Element where it should be mounted already exists**. Card's Frames will be mounted in DOM element with class `card-frame`. Caution: PayPal and Sofort do not need any SDK, we just redirect to their's website like in 3DS redirection process for credit cards. So if you are interested only in this payment method you could omit this step.
 
 ```ts
 interface PaymentMethods {
   card?: boolean;
   klarna?: boolean;
-  paypal?: boolean;
 }
 
 interface PaymentMethodsConfig {
   card?: Omit<Configuration, 'publicKey'>;
   klarna?: any;
-  paypal?: any;
 }
 
 const initForm = (initMethods: PaymentMethods = null, config: PaymentMethodsConfig = {}): void
@@ -192,7 +190,7 @@ if (error.value) {
 const order = await placeOrder();
 ```
 
-12. `payment.data.redirect_url` contains 3DS Auth redirect url for Credit Card if it requires it and it always contain redirect url for the PayPal. You have to support it:
+12. `payment.data.redirect_url` contains 3DS Auth redirect url for Credit Card if it requires it and it always contain redirect url for the PayPal and Sofort. You have to support it:
 ```js
 if (payment.data.redirect_url) {
     window.location.href = payment.data.redirect_url;
@@ -200,7 +198,7 @@ if (payment.data.redirect_url) {
 }
 ```
 
-13. After 3DS Auth/PayPal Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
+13. After 3DS Auth/PayPal Auth/Sofort Auth, user will be redirected to one of these urls. They are being created inside `makePayment` method:
 ```js
 success_url: `${window.location.origin}/cko/payment-success`,
 failure_url: `${window.location.origin}/cko/payment-error`
@@ -266,7 +264,8 @@ enum CkoPaymentType {
     CREDIT_CARD = 1,
     SAVED_CARD,
     KLARNA, // Not supported yet
-    PAYPAL
+    PAYPAL,
+    SOFORT
 }
 ```
 
@@ -311,13 +310,12 @@ const savePaymentInstrument = ref(loadSavePaymentInstrument());
 ```
 
 ## Autoloading SDK
-Checkout.com supports 3 payment methods - Credit Card, Klarna & Paypal. By default, module fetches SDK only for Credit Card (Frames). You can customize it with module's config `paymentMethods` attribute. E.g:
+Checkout.com supports many payment methods, only a few have own SDKs - Credit Card & Klarna. By default, module fetches SDK only for Credit Card (Frames). You can customize it with module's config `paymentMethods` attribute. E.g:
 ```js
 ['@vue-storefront/checkout-com/nuxt', {
     // ...
     paymentMethods: {
         cc: true,
-        paypal: false,
         klarna: true
     }
 }]
