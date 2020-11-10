@@ -769,5 +769,16 @@
         }
       ]
     }
-  }
+  },
+  "purgeConfig": [
+    "server.invalidateCacheKey",
+    "server.invalidateCacheForwardUrl",
+    "server.trace",
+    "redis",
+    "install",
+    "expireHeaders",
+    "fastly",
+    "nginx",
+    "varnish"
+  ]
 }
