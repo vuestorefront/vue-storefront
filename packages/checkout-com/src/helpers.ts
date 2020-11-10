@@ -43,7 +43,8 @@ enum CkoPaymentType {
     CREDIT_CARD = 1,
     SAVED_CARD,
     KLARNA,
-    PAYPAL
+    PAYPAL,
+    SOFORT
 }
 
 const buildBasePaymentMethodPayload = ({ context_id, save_payment_instrument, secure3d, success_url, failure_url, cvv, reference }: PaymentPropeties) => ({
@@ -75,6 +76,10 @@ const buildPaymentPayloadStrategies = {
     [CkoPaymentType.PAYPAL]: (properties: PaymentPropeties): PaymentMethodPayload => ({
         ...buildBasePaymentMethodPayload(properties),
         type: 'paypal'
+    }),
+    [CkoPaymentType.SOFORT]: (properties: PaymentPropeties): PaymentMethodPayload => ({
+        ...buildBasePaymentMethodPayload(properties),
+        type: 'sofort'
     })
 };
 
