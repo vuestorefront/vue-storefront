@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.9 (not released)
+
+- Klarna support ([#5157](https://github.com/DivanteLtd/vue-storefront/pull/5157))
+
 ## 0.0.8
 
 - Fixed proxied endpoints URLs ([#5117](https://github.com/DivanteLtd/vue-storefront/pull/5117))
