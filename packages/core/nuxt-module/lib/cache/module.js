@@ -51,7 +51,6 @@ function cacheModule (options) {
     })
 
     this.addServerMiddleware(middleware);
-    console.log('YES ENDPINT')
   }
 
   createRenderer(async (route, context, render) => {
