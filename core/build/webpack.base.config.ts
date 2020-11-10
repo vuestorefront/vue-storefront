@@ -199,6 +199,10 @@ export default {
         test: /\.(graphqls|gql)$/,
         exclude: /node_modules/,
         loader: ['graphql-tag/loader']
+      },
+      {
+        test: /core\/build\/config\.json$/,
+        loader: path.resolve('core/build/purge-config.js')
       }
     ]
   }

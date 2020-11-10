@@ -484,6 +484,15 @@
           }
         ]
       }
-    }
+    },
+    "purgeConfig": [
+      "server.invalidateCacheKey",
+      "redis",
+      "install",
+      "expireHeaders",
+      "fastly",
+      "nginx",
+      "varnish"
+    ]
 }
 
