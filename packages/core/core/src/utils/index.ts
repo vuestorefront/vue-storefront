@@ -21,5 +21,6 @@ export {
   useContext,
   generateContext,
   createIntegrationPlugin,
-  injectInContext
+  injectInContext,
+  cache
 };

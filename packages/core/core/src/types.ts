@@ -516,3 +516,17 @@ export interface Context {
 export interface FactoryParams {
   setup?: <T = any>(context: Context) => T;
 }
+
+export enum CacheTagPrefix {
+  Product = 'P',
+  Category = 'C',
+  Attribute = 'A',
+  Cart = 'B',
+  Filter = 'F',
+  Block = 'O'
+}
+
+export interface CacheTag {
+  prefix: CacheTagPrefix;
+  value: string;
+}
