@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.9 (not released)
+- Sofort support ([#5158](https://github.com/DivanteLtd/vue-storefront/issues/5158))
+
 ## 0.0.8
 
 - Fixed proxied endpoints URLs ([#5117](https://github.com/DivanteLtd/vue-storefront/pull/5117))
