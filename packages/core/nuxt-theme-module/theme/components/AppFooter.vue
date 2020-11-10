@@ -91,7 +91,7 @@ export default {
   &__container {
     --footer-margin: var(--spacer-sm);
     @include for-desktop {
-      --footer-margin: 0 auto;
+      --footer-margin: var(--spacer-3xl) auto var(--spacer-xl);
       --footer-padding: 0;
     }
   }
