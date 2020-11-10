@@ -74,7 +74,7 @@ cache.getTags(); // returns current tags
 
 ```ts
 const factoryParams = {
-  getCacheTags: (response): CacheTags => {
+  getCacheTags: (response): CacheTags[] => {
     return [
       prefix: 'P', value: '123' },
       prefix: 'P', value: '456' },
