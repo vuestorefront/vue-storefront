@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/camelcase */
 
 import { createContext } from './payment';
-import { getSaveInstrumentKey, CardConfiguration } from './configuration';
+import { getSaveInstrumentKey, CardConfiguration, KlarnaConfiguration } from './configuration';
 import { ref, computed } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
@@ -21,7 +21,7 @@ interface PaymentMethods {
 
 interface PaymentMethodsConfig {
   card?: CardConfiguration;
-  klarna?: any;
+  klarna?: KlarnaConfiguration;
   paypal?: any;
 }
 
