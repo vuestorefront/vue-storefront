@@ -534,6 +534,15 @@ Product attributes representing the images. We'll see it in the Product page gal
 
 The dimensions of the images in the gallery.
 
+If you want to use max/min aggregations for prices you can enable them with this setting. It is being used by [Storefront Query Builder](https://github.com/DivanteLtd/storefront-query-builder) so it requires it. Depending on other part of your config you might want to apply this setting in PWA or VSF-API's config. New returned aggregations might by used by some custom modules like [VSF Price Slider](https://github.com/Fifciu/vsf-price-slider).
+
+```json
+  "aggregate": {
+      "minPrice": false,
+      "maxPrice": false
+   }
+```
+
 ## Orders
 
 ```json

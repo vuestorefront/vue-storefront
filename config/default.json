@@ -677,6 +677,10 @@
         { "from": 100, "to": 150 },
         { "from": 150 }
       ]
+    },
+    "aggregate": {
+      "maxPrice": false,
+      "minPrice": false
     }
   },
   "orders": {
