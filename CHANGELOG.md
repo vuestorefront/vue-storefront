@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added states.json in core/i18n/resource (#4531)
 - Added phone validation helper (#4980)
+- Configurable enabling min & max price aggregations
 
 ### Fixed
 
