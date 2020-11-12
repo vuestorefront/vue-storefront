@@ -33,10 +33,7 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
     },
     getSettings: (): ALL_SETTINGS => {
       const context = useContext();
-      // @ts-ignore
-      console.log('context reading');
-      // @ts-ignore
-      return context.$vsfSettings;
+      return context.$vsfSettings as ALL_SETTINGS;
     }
   };
 }
