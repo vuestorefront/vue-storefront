@@ -11,14 +11,14 @@ import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/hel
 Middleware[CT_TOKEN_MIDDLEWARE_SLUG] = ctTokenMiddleware(moduleOptions);
 <% } %>
 
-export default ({ app }) => {
+export default ({ app }, inject) => {
   const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
-
   const onTokenChange = (token) => {
     try {
       if (!process.server) {
         app.$cookies.set(CT_TOKEN_COOKIE_NAME, token);
-        setup({ currentToken: token });
+        inject('vsfSettings', setup({ currentToken: token }));
+
       }
     } catch (e) {
       // Cookies on is set after request has sent.
@@ -27,20 +27,19 @@ export default ({ app }) => {
 
   const onTokenRemove = () => {
     app.$cookies.remove(CT_TOKEN_COOKIE_NAME);
-    setup({ currentToken: null, forceToken: true });
+    inject('vsfSettings', setup({ currentToken: null, forceToken: true }));
   };
 
-  setup(
-    mapConfigToSetupObject({
-      moduleOptions,
-      app,
-      additionalProperties: {
-        currentToken,
-        auth: {
-          onTokenChange,
-          onTokenRemove
-        }
+  const settings = mapConfigToSetupObject({
+    moduleOptions,
+    app,
+    additionalProperties: {
+      currentToken,
+      auth: {
+        onTokenChange,
+        onTokenRemove
       }
-    })
-  )
+    }
+  })
+  inject('vsfSettings', setup(settings));
 };

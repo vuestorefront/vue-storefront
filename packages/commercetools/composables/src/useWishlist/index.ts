@@ -12,23 +12,24 @@ export const wishlist: Ref<Wishlist> = ref(null);
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
-  loadWishlist: async () => {
+  // eslint-disable-next-line
+  loadWishlist: async (context) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async ({ currentWishlist, product }) => {
+  addToWishlist: async (context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async ({ currentWishlist, product }) => {
+  removeFromWishlist: async (context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async ({ currentWishlist }) => {
+  clearWishlist: async (context, { currentWishlist }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: ({ currentWishlist }) => {
+  isOnWishlist: (context, { currentWishlist }) => {
     return false;
   }
 };

@@ -49,9 +49,12 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     name: 'generator',
     content: 'Vue Storefront 2'
   })
-  
+
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'))
   log.success('Installed Vue Storefront SSR plugin');
+
+  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'))
+  log.success('Installed Vue Storefront Context plugin');
 
   this.addPlugin({
     src: path.resolve(__dirname, 'plugins/logger.js'),

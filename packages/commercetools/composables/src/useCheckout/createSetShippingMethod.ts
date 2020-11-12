@@ -5,14 +5,14 @@ import { chosenShippingMethod, loading } from './shared';
 import initFields from './initFields';
 import { CustomQuery } from '@vue-storefront/core';
 
-const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (method, options: any = {}, customQuery?: CustomQuery) => {
+const setShippingMethod = ({ context, factoryParams, cartFields, setCart }) => async (method, options: any = {}, customQuery?: CustomQuery) => {
   chosenShippingMethod.value = method;
 
   if (!options.save) return;
   loading.value.shippingMethod = true;
 
   try {
-    const cartResponse = await updateCart({
+    const cartResponse = await updateCart(context, {
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

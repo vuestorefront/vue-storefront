@@ -1,9 +1,8 @@
-import { getSettings } from '../../index';
 import { CartQueryResponse } from '../../types/Api';
 import defaultQuery from './defaultQuery';
 
-const getCart = async (cartId: string): Promise<CartQueryResponse> => {
-  const { locale, acceptLanguage, client } = getSettings();
+const getCart = async ({ $vsfSettings }, cartId: string): Promise<CartQueryResponse> => {
+  const { locale, acceptLanguage, client } = $vsfSettings;
   return await client.query({
     query: defaultQuery,
     variables: { cartId,

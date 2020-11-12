@@ -1,5 +1,5 @@
 import merge from 'lodash-es/merge';
-import { Logger } from './../utils';
+import { Logger, useContext } from './../utils';
 
 interface FactoryParams<T> {
   defaultSettings: any;
@@ -7,12 +7,11 @@ interface FactoryParams<T> {
 }
 
 export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryParams: FactoryParams<ALL_SETTINGS>) {
-  let settings = { ...factoryParams.defaultSettings };
   let setupCalled = false;
   return {
     setup (config: ALL_SETTINGS) {
-      settings = merge(factoryParams.defaultSettings, config);
-      factoryParams.onSetup(settings);
+      const mergedSettings = merge(factoryParams.defaultSettings, config);
+      const settings = factoryParams.onSetup ? factoryParams.onSetup(mergedSettings) : mergedSettings;
 
       Logger.debug('apiClientFactory.setup', settings);
 
@@ -21,13 +20,23 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
         Logger.warn('"setup" function is being called multiple times. If you want to update config, please use "update" instead.');
       }
       setupCalled = true;
+
+      return settings;
     },
     update (config: CONFIGURABLE_SETTINGS) {
-      settings = merge(settings, config);
-      factoryParams.onSetup(settings);
+      const mergedSettings = merge(factoryParams.defaultSettings, config);
+      const settings = factoryParams.onSetup ? factoryParams.onSetup(mergedSettings) : mergedSettings;
 
       Logger.debug('apiClientFactory.update', settings);
+
+      return settings;
     },
-    getSettings: (): ALL_SETTINGS => Object.freeze({ ...settings })
+    getSettings: (): ALL_SETTINGS => {
+      const context = useContext();
+      // @ts-ignore
+      console.log('context reading');
+      // @ts-ignore
+      return context.$vsfSettings;
+    }
   };
 }

@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import { useContext } from '@vue-storefront/core';
 import createSetShippingDetails from './createSetShippingDetails';
 import createSetBillingDetails from './createSetBillingDetails';
 import createSetShippingMethod from './createSetShippingMethod';
@@ -16,7 +17,8 @@ import initFields from './initFields';
 const useCheckoutFactory = (factoryParams) => {
   const useCheckout = () => {
     const cartFields = useCart();
-    const methodsParams = { factoryParams, cartFields, setCart };
+    const context = useContext();
+    const methodsParams = { context, factoryParams, cartFields, setCart };
     const setShippingMethod = createSetShippingMethod(methodsParams);
     const setShippingDetails = createSetShippingDetails(methodsParams);
     const setBillingDetails = createSetBillingDetails(methodsParams);

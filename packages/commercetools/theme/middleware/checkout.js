@@ -13,7 +13,7 @@ export default async ({ app }) => {
 
   if (!currentPath) return;
 
-  const { data: { me: { activeCart } } } = await getMe();
+  const { data: { me: { activeCart } } } = await getMe(app.context);
 
   if (!activeCart) return;
 

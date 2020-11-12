@@ -4,7 +4,6 @@ import {
   updateCartQuantity as apiUpdateCartQuantity,
   applyCartCoupon as apiApplyCartCoupon,
   removeCartCoupon as apiRemoveCartCoupon,
-  getSettings,
   isTokenUserSession,
   CustomQueryFn
 } from '@vue-storefront/commercetools-api';
@@ -17,58 +16,56 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
 };
 
 /** returns current cart or creates new one **/
-const getCurrentCart = async (currentCart) => {
+const getCurrentCart = async (context, currentCart) => {
   if (!currentCart) {
-    return loadCurrentCart();
+    return loadCurrentCart(context);
   }
 
   return currentCart;
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
-  loadCart: async (CustomQueryFn?: any) => {
-    const settings = getSettings();
-
-    if (!isTokenUserSession(settings.currentToken)) {
+  loadCart: async (context, CustomQueryFn?: any) => {
+    if (!isTokenUserSession(context.$vsfSettings, context.$vsfSettings.currentToken)) {
       return null;
     }
 
-    return await loadCurrentCart(CustomQueryFn);
+    return await loadCurrentCart(context, CustomQueryFn);
   },
-  addToCart: async ({ currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(currentCart);
+  addToCart: async (context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
+    const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await apiAddToCart(loadedCart, product, quantity, customQuery);
+    const { data } = await apiAddToCart(context, loadedCart, product, quantity, customQuery);
     return data.cart;
   },
-  removeFromCart: async ({ currentCart, product }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(currentCart);
+  removeFromCart: async (context, { currentCart, product }, customQuery?: CustomQueryFn) => {
+    const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await apiRemoveFromCart(loadedCart, product, customQuery);
+    const { data } = await apiRemoveFromCart(context, loadedCart, product, customQuery);
     return data.cart;
   },
-  updateQuantity: async ({ currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(currentCart);
+  updateQuantity: async (context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
+    const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await apiUpdateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
+    const { data } = await apiUpdateCartQuantity(context, loadedCart, { ...product, quantity }, customQuery);
     return data.cart;
   },
-  clearCart: async ({ currentCart }) => {
+  clearCart: async (context, { currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, couponCode }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(currentCart);
+  applyCoupon: async (context, { currentCart, couponCode }, customQuery?: CustomQueryFn) => {
+    const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await apiApplyCartCoupon(loadedCart, couponCode, customQuery);
+    const { data } = await apiApplyCartCoupon(context, loadedCart, couponCode, customQuery);
     return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
-  removeCoupon: async ({ currentCart, coupon }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(currentCart);
+  removeCoupon: async (context, { currentCart, coupon }, customQuery?: CustomQueryFn) => {
+    const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await apiRemoveCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
+    const { data } = await apiRemoveCartCoupon(context, loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
-  isOnCart: ({ currentCart, product }) => {
+  isOnCart: (context, { currentCart, product }) => {
     return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
   }
 };

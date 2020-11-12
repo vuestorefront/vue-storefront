@@ -1,9 +1,8 @@
-import { getSettings } from '../../index';
 import CustomerChangeMyPassword from './defaultMutation';
 import { ChangeMyPasswordResponse } from '../../types/Api';
 
-const customerChangeMyPassword = async (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
-  const { client } = getSettings();
+const customerChangeMyPassword = async ({ $vsfSettings }, version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
+  const { client } = $vsfSettings;
   return await client.mutate({
     mutation: CustomerChangeMyPassword,
     variables: {
