@@ -11,9 +11,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Add theme
+      - name: Add theme master
+        if: github.ref != 'refs/heads/develop'
         run: |
           git clone --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+      - name: Add theme develop
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          git clone --single-branch --branch develop https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
       - name: Setup node
         uses: actions/setup-node@v1
         with:
