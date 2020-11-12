@@ -1,9 +1,17 @@
 ---
 platform: Commercetools
 ---
+
 # useWishlist composable
 
-`useWishlist` composition API function is responsible, as its name suggests, for interactions with wishlist in your eCommerce. This function returns following values:
+`useWishlist` composition API function is responsible, for integrating with wishlist from Commercetools. It allows to:
+
+- fetch products from wishlist
+- add products to wishlist
+- remove products from wishlist
+- checking if product is on wishlist
+
+This function returns following values:
 
 ## Properties
 
@@ -18,7 +26,6 @@ platform: Commercetools
 - `clearWishlist` - function that removes all products from the wishlist and populates clear `wishlist` property.
 
 - `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value.
-
 
 ## Getters
 
@@ -78,6 +85,7 @@ import { /* other imports */, useWishlist, wishlistGetters } from '@vue-storefro
 import { /* other imports */ } from '@vue-storefront/commercetools';
 import { useWishlist, wishlistGetters } from '@vsf-enterprise/ct-wishlist';
 ```
+
 ## Examples
 
 Fetching products currently on wishlist:
@@ -88,9 +96,7 @@ import { useWishlist, wishlistGetters } from '@vsf-enterprise/ct-wishlist';
 
 export default {
   setup() {
-    const {
-      loadWishlist
-    } = useWishlist();
+    const { loadWishlist } = useWishlist();
 
     const wishlistItems = computed(() => wishlistGetters.getItems());
 

@@ -43,11 +43,11 @@ module.exports = {
           title: 'Enterprise',
           collapsable: false,
           children: [
-            ['/commercetools/enterprise/use-review', 'useReview'],
-            ['/commercetools/enterprise/use-wishlist', 'useWishlist']
+            ['/commercetools/enterprise/use-review', 'Reviews'],
+            ['/commercetools/enterprise/use-wishlist', 'Wishlist']
             ['/commercetools/enterprise/user-groups', 'User groups'],
-            ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/enterprise/use-user-billing', 'useUserBilling']
+            ['/commercetools/enterprise/use-user-shipping', 'User Shipping'],
+            ['/commercetools/enterprise/use-user-billing', 'User Billing']
           ]
         },
         {
