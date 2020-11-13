@@ -2,16 +2,6 @@ import webpack from 'webpack';
 
 export default {
   mode: 'universal',
-  render: {
-    http2: {
-      push: true,
-      pushAssets: (request, response, publicPath, preloadFiles) => {
-        return preloadFiles
-          .filter(({ asType }) => asType === 'script')
-          .map(({ file, asType }) => `<${publicPath}${file}>; rel=preload; as=${asType}`);
-      }
-    }
-  },
   server: {
     port: 3000,
     host: '0.0.0.0'
