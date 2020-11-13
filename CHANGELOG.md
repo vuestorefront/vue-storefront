@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
 - Allow array of localForage fallback drivers in config - @didkan (#5097)
 - Added unit tests for for modules.ts - @TamTran72111 (#5109)
+- Added `lazyVisibility` mixin - performance optimization - @gibkigonzo (#5182)
 
 ### Fixed
 
