@@ -11,20 +11,7 @@
         :key="userShippingGetters.getId(shippingAddress)"
         :name="String(userShippingGetters.getId(shippingAddress))"
       >
-        <span
-          >{{ userShippingGetters.getFirstName(shippingAddress) }} {{ userShippingGetters.getLastName(shippingAddress) }}</span
-        >
-        <span
-          >{{ userShippingGetters.getStreetName(shippingAddress) }}
-          {{ userShippingGetters.getApartmentNumber(shippingAddress) }}</span
-        >
-        <span>{{ userShippingGetters.getPostCode(shippingAddress) }}</span>
-        <span
-          >{{ userShippingGetters.getCity(shippingAddress)
-          }}{{ userShippingGetters.getProvince(shippingAddress) ? `, ${userShippingGetters.getProvince(shippingAddress)}` : '' }}</span
-        >
-        <span>{{ userShippingGetters.getCountry(shippingAddress)}}</span>
-        <span>{{ userShippingGetters.getPhone(shippingAddress) }}</span>
+        <UserShippingAddress :address="shippingAddress" />
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
@@ -43,6 +30,7 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
+import UserShippingAddress from '~/components/UserShippingAddress';
 import { userShippingGetters } from '@vue-storefront/virtocommerce';
 
 export default {
@@ -63,7 +51,8 @@ export default {
   },
   components: {
     SfCheckbox,
-    SfAddressPicker
+    SfAddressPicker,
+    UserShippingAddress
   },
   setup (_, { emit }) {
     const setCurrentAddress = $event => emit('setCurrentAddress', $event);

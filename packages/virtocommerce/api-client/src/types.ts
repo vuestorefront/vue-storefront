@@ -8,6 +8,8 @@ export type Config = {
   currency: string;
   locale: string;
   store: string;  
+  catalogId: string; //it is workaround need to inference catalog id from store 
+  countries: ['USA', "Russia"]
 }
 
 

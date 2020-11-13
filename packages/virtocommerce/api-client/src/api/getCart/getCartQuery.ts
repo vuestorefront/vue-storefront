@@ -24,6 +24,40 @@ export default gql`
       itemsCount
       itemsQuantity
       isValid
+      shipments
+      {
+        id
+        shipmentMethodCode
+        deliveryAddress 
+        {
+          ...addressFields
+        }
+      }
+      payments
+      { 
+        id
+        paymentGatewayCode
+        billingAddress
+        {
+          ...addressFields
+        }
+      }
+      availableShippingMethods {
+        code
+        logoUrl
+        optionName
+        price {
+          ...moneyFields
+        }
+      }
+      availablePaymentMethods {
+        code
+        name
+        logoUrl
+        price {
+          ...moneyFields
+        }
+      }
       addresses {
         ...addressFields
       }

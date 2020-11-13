@@ -1,10 +1,15 @@
 import getProduct from './api/getProduct';
+import searchProducts from './api/searchProducts';
+import searchCategories from './api/searchCategories';
 import getCategory from './api/getCategory';
 import getCart from './api/getCart';
 import clearCart from './api/clearCart';
 import updateCartItemQuantity from './api/updateQuantity';
 import removeFromCart from './api/removeFromCart';
 import addToCart from './api/addToCart';
+import placeOrder from './api/placeOrder';
+import addOrUpdateCartShipment from './api/addOrUpdateCartShipment';
+import addOrUpdateCartPayment from './api/addOrUpdateCartPayment';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config } from './types';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
@@ -26,11 +31,16 @@ const { setup, update, getSettings } = apiClientFactory<Config, any>({
 
 export {
   getProduct,
+  searchProducts,
+  searchCategories,
   getCategory,
   getCart,
+  addOrUpdateCartShipment,
+  addOrUpdateCartPayment,
   updateCartItemQuantity,
   clearCart,
   addToCart,
+  placeOrder,
   removeFromCart,
   setup,
   update,

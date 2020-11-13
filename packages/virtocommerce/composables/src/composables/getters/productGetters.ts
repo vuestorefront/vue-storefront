@@ -5,7 +5,7 @@ import {
   ProductGetters
 } from '@vue-storefront/core';
 import { Product, ImageType } from '@vue-storefront/virtocommerce-api';
-
+import { formatPrice } from "../utils";
 interface ProductVariantFilters {
   master?: boolean;
   attributes?: Record<string, string>;
@@ -24,11 +24,11 @@ export const getProductSlug = (product: Product): string => product.code;
 export const getProductPrice = (product: Product): AgnosticPrice => {
   const regular_price =  product?.price?.list?.amount || 0;
   const special_price = product?.price?.actual?.amount;
-  return {
+  const result = {
     regular : regular_price,
     special: regular_price !== special_price ? special_price : null
   };
-
+  return result;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,7 +62,7 @@ export const getProductCategoryIds = (product: Product): string[] => [];
 
 export const getProductId = (product: Product): string => product?.id || '';
 
-export const getFormattedPrice = (price: number) => String(price);
+export const getFormattedPrice = (price: number) => formatPrice(price);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductTotalReviews = (product: Product): number => 0;

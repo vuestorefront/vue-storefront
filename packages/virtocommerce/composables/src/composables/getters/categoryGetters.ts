@@ -1,11 +1,11 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category } from '@vue-storefront/boilerplate-api/src/types';
+import { Category } from '@vue-storefront/virtocommerce-api';
 
 const itemToTree = (category: Category): AgnosticCategoryTree => {
   return {
     label: category.name,
     slug: category.slug,
-    items: category.items.map(itemToTree),
+    items: [],
     isCurrent: false
   };
 };
@@ -22,3 +22,4 @@ const categoryGetters: CategoryGetters<Category> = {
 };
 
 export default categoryGetters;
+

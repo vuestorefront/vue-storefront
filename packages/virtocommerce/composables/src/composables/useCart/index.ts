@@ -13,6 +13,7 @@ const getLineItemItemByProduct = ({ currentCart, product }) => {
 
 const params: UseCartFactoryParams<CartType, LineItemType, Product, any> = {
   loadCart: async () => {
+    console.log("getCart");
     const cart = await getCart();
     return cart;
   },

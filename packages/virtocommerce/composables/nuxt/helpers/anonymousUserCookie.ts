@@ -7,8 +7,8 @@ function generateUUID() {
 }
 
   
-export const getAnonymousUserId = context => {
-  let id = context.$cookies.get(ANONYMOUS_USER_ID_COOKIE);
+export const getUserIdFromCookies = context => {
+  let id = context.$cookies.get(VC_USER_ID);
 
   if (id) {
     return id;
@@ -16,11 +16,11 @@ export const getAnonymousUserId = context => {
 
   id = generateUUID();
 
-  context.$cookies.set(ANONYMOUS_USER_ID_COOKIE, id);
+  context.$cookies.set(VC_USER_ID, id);
 
   return id;
 };
 
-export const ANONYMOUS_USER_ID_COOKIE = 'VC_ANONYMOUS_USER_ID';
+export const VC_USER_ID = 'VC_USER_ID';
 
 

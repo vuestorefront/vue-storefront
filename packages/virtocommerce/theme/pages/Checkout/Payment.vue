@@ -1,125 +1,139 @@
 <template>
-  <div>
+  <ValidationObserver v-slot="{ handleSubmit }">
+    <form @submit.prevent="handleSubmit(addressIsModified ? handleBillingAddressSubmit : handleFormSubmit)">
     <SfHeading
       :level="3"
       title="Billing address"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <div class="form">
-      <UserBillingAddresses
-        v-if="isAuthenticated && billingAddresses && billingAddresses.length"
-        :setAsDefault="setAsDefault"
-        :billingAddresses="billingAddresses"
-        :currentAddressId="currentAddressId"
-        @setCurrentAddress="setCurrentAddress($event)"
-        @changeSetAsDefault="setAsDefault = $event"
-      />
-      <SfCheckbox
-        v-model="sameAsShipping"
-        label="Copy address data from shipping"
-        name="copyShippingAddress"
-        class="form__element"
-        @input="afterModifiedAddress"
-      />
-      <template v-if="canAddNewAddress">
-      <SfInput
-        data-cy="payment-input_firstName"
-        v-model="billingDetails.firstName"
-        label="First name"
-        name="firstName"
-        class="form__element form__element--half"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_lastName"
-        v-model="billingDetails.lastName"
-        label="Last name"
-        name="lastName"
-        class="form__element form__element--half form__element--half-even"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_streetName"
-        v-model="billingDetails.streetName"
-        label="Street name"
-        name="streetName"
-        class="form__element"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_apartment"
-        v-model="billingDetails.apartment"
-        label="House/Apartment number"
-        name="apartment"
-        class="form__element"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_"
-        v-model="billingDetails.city"
-        label="City"
-        name="city"
-        class="form__element form__element--half"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_state"
-        v-model="billingDetails.state"
-        label="State/Province"
-        name="state"
-        class="form__element form__element--half form__element--half-even"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfInput
-        data-cy="payment-input_postalCode"
-        v-model="billingDetails.postalCode"
-        label="Zip-code"
-        name="zipCode"
-        class="form__element form__element--half"
-        @input="afterModifiedAddress"
-        required
-      />
-      <SfSelect
-        data-cy="payment-select_billingDetails"
-        v-model="billingDetails.country"
-        label="Country"
-        class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
-        @input="afterModifiedAddress"
-        required
+    <UserBillingAddresses
+      v-if="isAuthenticated && billingAddresses && billingAddresses.length"
+      :setAsDefault="setAsDefault"
+      :billingAddresses="billingAddresses"
+      :currentAddressId="currentAddressId"
+      @setCurrentAddress="setCurrentAddress($event)"
+      @changeSetAsDefault="setAsDefault = $event"
+    />
+    <SfCheckbox
+      :selected="sameAsShipping"
+      @change="handleCheckSameAddress"
+      label="Copy address data from shipping"
+      name="copyShippingAddress"
+      class="form__element"
+    />
+      <div class="form" v-if="canAddNewAddress">
+        <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.firstName"
+            @input="firstName => setBillingDetailsAndUnpickAddress({ firstName })"
+            label="First name"
+            name="firstName"
+            class="form__element form__element--half"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.lastName"
+            @input="lastName => setBillingDetailsAndUnpickAddress({ lastName })"
+            label="Last name"
+            name="lastName"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="streetName" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.streetName"
+            @input="streetName => setBillingDetailsAndUnpickAddress({ streetName })"
+            label="Street name"
+            name="streetName"
+            class="form__element form__element--half"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.streetNumber"
+            @input="streetNumber => setBillingDetailsAndUnpickAddress({ streetNumber })"
+            label="House/Apartment number"
+            name="apartment"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="city" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.city"
+            @input="city => setBillingDetailsAndUnpickAddress({ city })"
+            label="City"
+            name="city"
+            class="form__element form__element--half"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="zipCode" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.postalCode"
+            @input="postalCode => setBillingDetailsAndUnpickAddress({ postalCode })"
+            label="Zip-code"
+            name="zipCode"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfSelect
+            :selected="billingDetails.country"
+            @change="country => setBillingDetailsAndUnpickAddress({ country })"
+            label="Country"
+            class="form__element form__element--half form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          >
+            <SfSelectOption
+              v-for="countryOption in COUNTRIES"
+              :key="countryOption.key"
+              :value="countryOption.key"
+            >
+              {{ countryOption.label }}
+            </SfSelectOption>
+          </SfSelect>
+        </ValidationProvider>
+        <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
+          <SfInput
+            :value="billingDetails.contactInfo.phone"
+            @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
+            label="Phone number"
+            name="phone"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+      </div>
+      <SfButton
+        v-if="!canAddNewAddress"
+        class="form__action-button form__action-button--margin-bottom"
+        type="submit"
+        @click.native="canAddNewAddress = true"
       >
-        <SfSelectOption
-          v-for="countryOption in COUNTRIES"
-          :key="countryOption.key"
-          :value="countryOption.key"
-        >
-          {{ countryOption.label }}
-        </SfSelectOption>
-      </SfSelect>
-      <SfInput
-        data-cy="payment-input_phone"
-        v-model="billingDetails.phone"
-        label="Phone number"
-        name="phone"
-        class="form__element"
-        @input="afterModifiedAddress"
-        required
-      />
-      </template>
-    </div>
-    <SfButton
-      v-if="!canAddNewAddress"
-      class="form__action-button form__action-button--margin-bottom"
-      type="submit"
-      @click.native="canAddNewAddress = true"
-    >
-      Add new address
-    </SfButton>
+        Add new address
+      </SfButton>
     <SfHeading
       v-if="canContinueToReview"
       :level="3"
@@ -129,12 +143,12 @@
     <div class="form">
       <div class="form__element payment-methods" v-if="canContinueToReview">
         <SfRadio
-          data-cy="payment-radio_paymentMethod"
           v-for="item in paymentMethods"
           :key="item.value"
-          v-model="chosenPaymentMethod"
+          :selected="chosenPaymentMethod.value"
           :label="item.label"
           :value="item.value"
+          @input="setPaymentMethod(item, { save: true })"
           name="paymentMethod"
           :description="item.description"
           class="form__radio payment-method"
@@ -147,23 +161,20 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton data-cy="payment-btn_go-back" class="color-secondary form__back-button">
-          Go back
-        </SfButton>
-        <SfButton class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToReview">
+        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
+        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToReview">
           Review my order
         </SfButton>
-        <SfButton class="form__action-button" @click="saveBillingDetails" v-else>
+        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-else>
           Select payment method
         </SfButton>
       </div>
     </div>
-  </div>
+    </form>
+  </ValidationObserver>
 </template>
 
 <script>
-
 import {
   SfHeading,
   SfInput,
@@ -173,8 +184,11 @@ import {
   SfImage,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref, watch, onMounted, computed } from '@vue/composition-api';
-import { useCheckout, useUser, useUserBilling, userBillingGetters } from '@vue-storefront/virtocommerce';
+import { ref, computed, onMounted } from '@vue/composition-api';
+import { useCheckout, useUser, userBillingGetters, useUserBilling } from '@vue-storefront/virtocommerce';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required, min } from 'vee-validate/dist/rules';
+import { onSSR } from '@vue-storefront/core';
 
 const COUNTRIES = [
   { key: 'US',
@@ -186,7 +200,14 @@ const COUNTRIES = [
   { key: 'PL',
     label: 'Poland' }
 ];
-
+extend('required', {
+  ...required,
+  message: 'This field is required'
+});
+extend('min', {
+  ...min,
+  message: 'The field should have at least {length} characters'
+});
 export default {
   name: 'Payment',
   components: {
@@ -197,13 +218,23 @@ export default {
     SfRadio,
     SfImage,
     SfCheckbox,
-    UserBillingAddresses: () => import('~/components/Checkout/UserBillingAddresses')
+    UserBillingAddresses: () => import('~/components/Checkout/UserBillingAddresses'),
+    ValidationProvider,
+    ValidationObserver
   },
   setup(props, context) {
-    context.emit('changeStep', 2);
-    const { billingDetails, shippingDetails, paymentMethods, chosenPaymentMethod } = useCheckout();
-    const sameAsShipping = ref(false);
-
+    const {
+      billingDetails,
+      shippingDetails,
+      paymentMethods,
+      chosenPaymentMethod,
+      loadPaymentMethods,
+      isBillingAddressCompleted,
+      setBillingDetails,
+      setPaymentMethod,
+      loadDetails,
+      loading
+    } = useCheckout();
     const { billing, load: loadBilling, setDefault } = useUserBilling();
     const { isAuthenticated } = useUser();
 
@@ -211,26 +242,24 @@ export default {
     const addressIsModified = ref(false);
     const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
-    const isBillingAddressCompleted = ref(false);
 
-    const setBillingDetails = address => {
-      billingDetails.value = {
-        ...billingDetails.value,
-        ...address
-      };
-    };
+    const sameAsShipping = ref(false);
+    let oldBilling = null;
 
     const mapAbstractAddressToIntegrationAddress = address => ({
       ...billingDetails.value,
+      contactInfo: {
+        ...billingDetails.value.contactInfo,
+        phone: userBillingGetters.getPhone(address)
+      },
+      streetNumber: userBillingGetters.getApartmentNumber(address),
       city: userBillingGetters.getCity(address),
       country: userBillingGetters.getCountry(address),
+      state: userBillingGetters.getProvince(address),
       firstName: userBillingGetters.getFirstName(address),
       lastName: userBillingGetters.getLastName(address),
       streetName: userBillingGetters.getStreetName(address),
-      postalCode: userBillingGetters.getPostCode(address),
-      state: userBillingGetters.getProvince(address),
-      phone: userBillingGetters.getPhone(address),
-      apartment: userBillingGetters.getApartmentNumber(address)
+      postalCode: userBillingGetters.getPostCode(address)
     });
 
     const setCurrentAddress = async (addressId) => {
@@ -239,10 +268,15 @@ export default {
         return;
       }
       currentAddressId.value = addressId;
-      sameAsShipping.value = false;
       setBillingDetails(mapAbstractAddressToIntegrationAddress(chosenAddress[0]));
       addressIsModified.value = true;
+      sameAsShipping.value = false;
     };
+
+    onSSR(async () => {
+      await loadDetails();
+      await loadPaymentMethods();
+    });
 
     onMounted(async () => {
       if (isAuthenticated.value) {
@@ -258,7 +292,15 @@ export default {
       }
     });
 
-    const saveBillingDetails = async () => {
+    const handleFormSubmit = async () => {
+      await setBillingDetails(billingDetails.value, { save: true });
+      context.root.$router.push('/checkout/order-review');
+    };
+
+    const handleBillingAddressSubmit = async () => {
+      await setBillingDetails(billingDetails.value, { save: true });
+      await loadPaymentMethods();
+      // here we should have something like loadPaymentMethods which depends on billing address imo
       if (currentAddressId.value > -1 && setAsDefault.value) {
         const chosenAddress = userBillingGetters.getAddresses(billing.value, { id: currentAddressId.value });
         if (!chosenAddress || !chosenAddress.length) {
@@ -266,58 +308,73 @@ export default {
         }
         await setDefault(chosenAddress[0]);
       }
-      isBillingAddressCompleted.value = true;
       addressIsModified.value = false;
     };
 
-    const afterModifiedAddress = () => {
-      addressIsModified.value = true;
-      currentAddressId.value = -1;
-    };
-
-    const canContinueToReview = computed(() => isBillingAddressCompleted.value && !addressIsModified.value);
-
-    watch(sameAsShipping, () => {
+    const handleCheckSameAddress = () => {
+      sameAsShipping.value = !sameAsShipping.value;
       if (sameAsShipping.value) {
-        billingDetails.value = { ...shippingDetails.value };
+        oldBilling = billingDetails.value;
+        setBillingDetails(shippingDetails.value);
         currentAddressId.value = -1;
         setAsDefault.value = false;
         addressIsModified.value = true;
+        return;
       }
-    });
+      setBillingDetails(oldBilling);
+    };
+
+    const setBillingDetailsAndUnpickAddress = value => {
+      setBillingDetails(value);
+      currentAddressId.value = -1;
+      addressIsModified.value = true;
+      sameAsShipping.value = false;
+    };
 
     return {
+      loading,
       billingDetails,
       paymentMethods,
       chosenPaymentMethod,
       sameAsShipping,
       COUNTRIES,
+      setPaymentMethod,
+      handleFormSubmit,
+      handleBillingAddressSubmit,
+      handleCheckSameAddress,
       isAuthenticated,
       billingAddresses: computed(() => userBillingGetters.getAddresses(billing.value)),
       setAsDefault,
-      currentAddressId,
+       canContinueToReview: computed(() => isBillingAddressCompleted.value && !addressIsModified.value),
+      currentAddressId: computed(() => currentAddressId.value),
       setCurrentAddress,
-      canAddNewAddress,
-      canContinueToReview,
-      isBillingAddressCompleted,
       addressIsModified,
-      saveBillingDetails,
-      afterModifiedAddress
+      setBillingDetailsAndUnpickAddress,
+      canAddNewAddress,
+      userBillingGetters
     };
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0 var(--spacer-base) 0;
-  }
 }
 .form {
+  &__select {
+    display: flex;
+    align-items: center;
+    --select-option-font-size: var(--font-size--lg);
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size--lg);
+      margin: 0;
+      color: var(--c-text);
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--normal);
+    }
+  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
@@ -349,6 +406,12 @@ export default {
       display: flex;
     }
   }
+  &__action-button, &__back-button {
+    --button-width: 100%;
+    @include for-desktop {
+      --button-width: auto;
+    }
+  }
   &__action-button {
     &--secondary {
       @include for-desktop {
@@ -359,17 +422,19 @@ export default {
     }
   }
   &__back-button {
-    margin: 0 var(--spacer-xl) 0 0;
-  }
-  &__button {
-    --button-width: 100%;
+    margin: var(--spacer-xl) 0 var(--spacer-sm);
+    &:hover {
+      color:  white;
+    }
     @include for-desktop {
-      --button-width: auto;
+      margin: 0 var(--spacer-xl) 0 0;
     }
   }
-  &__radio-group {
-    flex: 0 0 100%;
-    margin: 0 0 var(--spacer-2xl) 0;
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+    }
   }
 }
 .payment-methods {
@@ -384,48 +449,17 @@ export default {
   --radio-container-align-items: center;
   --ratio-content-margin: 0 0 0 var(--spacer-base);
   --radio-label-font-size: var(--font-base);
+  --radio-background: transparent;
   white-space: nowrap;
   border: 1px solid var(--c-light);
   border-width: 1px 0 0 0;
   &:last-child {
     border-width: 1px 0;
   }
-  @include for-mobile {
-    --radio-background: transparent;
-  }
+  --radio-background: transparent;
   @include for-desktop {
     border: 0;
     --radio-border-radius: 4px;
-  }
-}
-.credit-card-form {
-  margin: 0 0 var(--spacer-xl) 0;
-  @include for-desktop {
-    flex: 0 0 66.666%;
-    padding: 0 calc((100% - 66.666%) / 2);
-  }
-  &__group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 0 var(--spacer-xl) 0;
-  }
-  &__label {
-    flex: unset;
-    font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
-  }
-  &__element {
-    display: flex;
-    flex: 0 0 66.66%;
-  }
-  &__input {
-    flex: 1;
-    &--small {
-      flex: 0 0 46.666%;
-    }
-    & + & {
-      margin: 0 0 0 var(--spacer-xl);
-    }
   }
 }
 </style>

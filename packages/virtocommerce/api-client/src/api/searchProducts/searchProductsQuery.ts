@@ -5,11 +5,18 @@ export default gql`
         $storeId: String!,
         $userId: String!,
         $currencyCode: String!,
-        $cultureName: String)
+        $cultureName: String,
+        $filter: String,
+        $after: String,
+        $first: Int,
+        )
         {
       products(  
         storeId: $storeId,
         userId: $userId,
+        after: $after,
+        first: $first,
+        filter: $filter,
         currencyCode: $currencyCode,
         cultureName: $cultureName) {  
        
