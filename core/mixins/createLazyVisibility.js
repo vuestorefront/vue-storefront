@@ -9,11 +9,11 @@ const getMethodName = (scope) => camelCase(`${scope}LazyVisibility`)
  * Options:
  * - scope - changing scope will change method and data names. For example:
  * { scope: 'product' } will result in 'productLazyVisibility' and 'productLazyVisibilityMetadata'
- * - once - will result in making call only once (in other case call will be repeated each time when route is changed)
+ * - onRouteChange - will be repeated each time when route is changed (by default it's called only once)
  */
 const createLazyVisibilityMixin = ({
   scope = '',
-  once = false
+  onRouteChange = false
 } = {}) => ({
   data () {
     return {
@@ -31,7 +31,7 @@ const createLazyVisibilityMixin = ({
         if (!isVisible) return
 
         // make call only once
-        if (this[getMainPropName(scope)].loaded && once) return
+        if (this[getMainPropName(scope)].loaded && !onRouteChange) return
 
         // reset state because route is changed (component may be same)
         if (this[getMainPropName(scope)].path !== this.$route.path) {
