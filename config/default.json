@@ -10,6 +10,7 @@
       "minifyJS": true,
       "minifyCSS": true
     },
+    "compression": true,
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
