@@ -28,7 +28,6 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
       return { settings, tag };
     },
     apiClientMethodFactory: (apiFunction) => {
-      console.log('BINDING');
       const extendedFn = apiFunction.bind({ $vsf: { [tag]: settingsMemory } });
       extendedFn.raw = apiFunction;
       return extendedFn;
