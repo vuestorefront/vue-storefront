@@ -3,13 +3,14 @@ import { CustomQueryFn } from '../../index';
 import { getCustomQuery } from '../../helpers/queries';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
+import { apiClientMethodFactory } from './../../configuration';
 
 interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
-const createCart = async ({ $vsfSettings }, cartDraft: CartData = {}, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, currency, client } = $vsfSettings;
+async function createCart (cartDraft: CartData = {}, customQueryFn?: CustomQueryFn) {
+  const { locale, acceptLanguage, currency, client } = this.$vsf.ct;
 
   const defaultVariables = {
     acceptLanguage,
@@ -28,6 +29,6 @@ const createCart = async ({ $vsfSettings }, cartDraft: CartData = {}, customQuer
   });
 
   return request;
-};
+}
 
-export default createCart;
+export default apiClientMethodFactory(createCart);

@@ -1,26 +1,26 @@
 import { Ref, computed } from '@vue/composition-api';
-import { RenderComponent, UseContent } from '../types';
+import { RenderComponent, UseContent, BaseFactoryParams } from '../types';
 import { sharedRef } from '../utils/shared';
 import { PropOptions, VNode } from 'vue';
-import { useContext, Context } from './../utils';
+import { createFactoryParams } from './../utils';
 
-export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
-  search: (context: Context, params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
-};
+export interface UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS, API> extends BaseFactoryParams<API> {
+  search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
+}
 
-export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
-  factoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS>
+export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API>(
+  rawFactoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS, API>
 ) {
   return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
     const error: Ref<string | null> = sharedRef(null, `useContent-error-${id}`);
-    const context = useContext();
+    const factoryParams = createFactoryParams(rawFactoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
       try {
         loading.value = true;
-        content.value = await factoryParams.search(context, params);
+        content.value = await factoryParams.search(params);
       } catch (searchError) {
         error.value = searchError.toString();
       } finally {

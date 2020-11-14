@@ -5,7 +5,7 @@ import { sharedRef } from './shared';
 import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
-import { configureContext, useContext, Context } from './context';
+import { configureContext, useContext, createFactoryParams } from './context';
 
 export {
   wrap,
@@ -18,5 +18,5 @@ export {
   mask,
   configureContext,
   useContext,
-  Context
+  createFactoryParams
 };

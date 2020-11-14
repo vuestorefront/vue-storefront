@@ -2,15 +2,14 @@ import updateCart from '../updateCart';
 import { CartResponse, CustomQueryFn } from '../../types/Api';
 import { Cart, LineItem } from '../../types/GraphQL';
 import { createChangeLineItemQuantityAction } from '../../helpers/cart/actions';
+import { apiClientMethodFactory } from './../../configuration';
 
-const updateCartQuantity = async (
-  context,
+async function updateCartQuantity(
   cart: Cart,
   product: LineItem,
   customQuery?: CustomQueryFn
-): Promise<CartResponse> => {
-  return await updateCart(
-    context,
+): Promise<CartResponse> {
+  return await updateCart.raw.bind(this)(
     {
       id: cart.id,
       version: cart.version,
@@ -18,6 +17,6 @@ const updateCartQuantity = async (
     },
     customQuery
   );
-};
+}
 
-export default updateCartQuantity;
+export default apiClientMethodFactory(updateCartQuantity);

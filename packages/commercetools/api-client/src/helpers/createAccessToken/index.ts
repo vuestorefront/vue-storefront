@@ -51,10 +51,10 @@ const getTokenFlow = async (settings, sdkAuth: SdkAuth, options: FlowOptions = {
   return sdkAuth.clientCredentialsFlow();
 };
 
-const createAccessToken = async (settings, options: FlowOptions = {}): Promise<Token> => {
-  const { api } = settings;
+const createAccessToken = async ($vsf, options: FlowOptions = {}): Promise<Token> => {
+  const { api } = $vsf.ct;
   const sdkAuth = createAuthClient(api);
-  const tokenInfo = await getTokenFlow(settings, sdkAuth, options);
+  const tokenInfo = await getTokenFlow($vsf.ct, sdkAuth, options);
   const tokenProvider = new TokenProvider({ sdkAuth }, tokenInfo);
 
   return tokenProvider.getTokenInfo();

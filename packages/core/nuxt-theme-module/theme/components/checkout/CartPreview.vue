@@ -15,17 +15,17 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
+        :value="formatPrice(totals.subtotal)"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Shipping"
-        :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="formatPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Total"
-        :value="checkoutGetters.getFormattedPrice(totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="formatPrice(totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
@@ -64,6 +64,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useCart, useCheckout, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers } from '~/composables';
 
 export default {
   name: 'CartPreview',
@@ -77,6 +78,7 @@ export default {
     SfCircleIcon
   },
   setup() {
+    const { formatPrice } = useUiHelpers();
     const { chosenShippingMethod } = useCheckout();
     const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
     const listIsHidden = ref(false);
@@ -87,6 +89,7 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
 
     return {
+      formatPrice,
       totalItems,
       listIsHidden,
       products,

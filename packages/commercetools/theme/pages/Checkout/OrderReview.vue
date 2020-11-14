@@ -95,8 +95,8 @@
         <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
         <SfTableData class="table__data price">
           <SfPrice
-            :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-            :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+            :regular="formatPrice(cartGetters.getItemPrice(product).regular)"
+            :special="formatPrice(cartGetters.getItemPrice(product).special)"
             class="product-price"
           />
         </SfTableData>
@@ -112,7 +112,7 @@
           />
           <SfProperty
             name="Shipping"
-            :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+            :value="formatPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
             class="sf-property--full-width property"
           />
         </div>
@@ -158,6 +158,8 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+import { useUiHelpers } from '~/composables';
+
 export default {
   name: 'ReviewOrder',
   components: {
@@ -176,6 +178,7 @@ export default {
   setup(props, context) {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
+    const { formatPrice } = useUiHelpers();
     const { cart, removeFromCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -201,6 +204,7 @@ export default {
       clean();
     };
     return {
+      formatPrice,
       loading,
       products,
       personalDetails,

@@ -26,8 +26,8 @@
         </div>
         <div class="product__price-and-rating">
           <SfPrice
-            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular="formatPrice(productGetters.getPrice(product).regular)"
+            :special="formatPrice(productGetters.getPrice(product).special)"
           />
           <div>
             <div class="product__rating">
@@ -220,6 +220,7 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
+import { useUiHelpers } from '~/composables';
 
 export default {
   name: 'Product',
@@ -227,6 +228,7 @@ export default {
   setup(props, context) {
     const qty = ref(1);
     const { id } = context.root.$route.params;
+    const { formatPrice } = useUiHelpers();
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
@@ -263,6 +265,7 @@ export default {
     };
 
     return {
+      formatPrice,
       updateFilter,
       configuration,
       product,

@@ -1,14 +1,13 @@
-import { createCart, getMe } from '@vue-storefront/commercetools-api';
 
-const loadCurrentCart = async (context, customQueryFn = (user = null, cart = null) => ({ cart, user })) => {
+const loadCurrentCart = async (api, customQueryFn = (user = null, cart = null) => ({ cart, user })) => {
   const { user, cart } = customQueryFn();
-  const { data: profileData } = await getMe(context, { customer: false }, user);
+  const { data: profileData } = await api.getMe({ customer: false }, user);
 
   if (profileData.me.activeCart) {
     return profileData.me.activeCart;
   }
 
-  const { data } = await createCart(context, cart);
+  const { data } = await api.createCart(cart);
 
   return data.cart;
 };

@@ -3,6 +3,7 @@ import { CustomQueryFn } from './../../types/Api';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
 import { getCustomQuery } from './../../helpers/queries';
+import { apiClientMethodFactory } from './../../configuration';
 
 interface UpdateCart {
   id: string;
@@ -10,8 +11,9 @@ interface UpdateCart {
   actions: CartUpdateAction[] | MyCartUpdateAction[];
 }
 
-const updateCart = async ({ $vsfSettings }, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, client } = $vsfSettings;
+async function updateCart(params: UpdateCart, customQueryFn?: CustomQueryFn) {
+  const { locale, acceptLanguage, client } = this.$vsf.ct;
+
   const defaultVariables = params
     ? {
       locale,
@@ -29,6 +31,6 @@ const updateCart = async ({ $vsfSettings }, params: UpdateCart, customQueryFn?: 
   });
 
   return request;
-};
+}
 
-export default updateCart;
+export default apiClientMethodFactory(updateCart);

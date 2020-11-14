@@ -10,8 +10,8 @@
           <SfProductCard
             :title="productGetters.getName(product)"
             :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular-price="formatPrice(productGetters.getPrice(product).regular)"
+            :special-price="formatPrice(productGetters.getPrice(product).special)"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </SfCarouselItem>
@@ -30,11 +30,13 @@ import {
 } from '@storefront-ui/vue';
 
 import { productGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers } from '~/composables';
 
 export default {
   name: 'RelatedProducts',
   setup() {
-    return { productGetters };
+    const { formatPrice } = useUiHelpers();
+    return { formatPrice, productGetters };
   },
   components: {
     SfCarousel,

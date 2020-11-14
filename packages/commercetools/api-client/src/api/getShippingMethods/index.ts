@@ -3,13 +3,14 @@ import defaultQuery from './defaultQuery';
 import { ShippingMethod } from '../../types/GraphQL';
 import gql from 'graphql-tag';
 import ApolloClient from 'apollo-client';
+import { apiClientMethodFactory } from './../../configuration';
 
 interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
-const getShippingMethods = async ({ $vsfSettings }, cartId?: string, customQueryFn?: CustomQueryFn) => {
-  const { acceptLanguage, client } = $vsfSettings;
+async function getShippingMethods(cartId?: string, customQueryFn?: CustomQueryFn) {
+  const { acceptLanguage, client } = this.$vsf.ct;
   const defaultVariables = {
     acceptLanguage, cartId
   };
@@ -19,6 +20,6 @@ const getShippingMethods = async ({ $vsfSettings }, cartId?: string, customQuery
     variables,
     fetchPolicy: 'no-cache'
   });
-};
+}
 
-export default getShippingMethods;
+export default apiClientMethodFactory(getShippingMethods);

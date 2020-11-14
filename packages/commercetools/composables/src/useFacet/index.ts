@@ -8,10 +8,9 @@ import { FacetResultsData } from './../types';
 const ITEMS_PER_PAGE = [20, 40, 100];
 
 const factoryParams = {
-  search: async (context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
+  async search(params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> {
     const itemsPerPage = params.input.itemsPerPage;
-
-    const categoryResponse = await getCategory(context, { slug: params.input.categorySlug });
+    const categoryResponse = await this.api.getCategory({ slug: params.input.categorySlug });
     const categories = categoryResponse.data.categories.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([
@@ -19,7 +18,7 @@ const factoryParams = {
       ...inputFilters[curr].map(value => ({ type: AttributeType.STRING, name: curr, value }))
     ]), []);
 
-    const productResponse = await getProduct(context, {
+    const productResponse = await this.api.getProduct({
       catId: categories[0].id,
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,
@@ -39,7 +38,11 @@ const factoryParams = {
       perPageOptions: ITEMS_PER_PAGE,
       itemsPerPage
     };
+  },
+  api: {
+    getCategory,
+    getProduct
   }
 };
 
-export default useFacetFactory<FacetResultsData>(factoryParams);
+export default useFacetFactory<FacetResultsData, any>(factoryParams);

@@ -11,10 +11,11 @@ const restrictedOperations = [
 ];
 
 const createCommerceToolsLink = (settings): ApolloLink => {
+  const $vsf = { ct: settings };
   const { api, currentToken, auth } = settings;
   const httpLink = createHttpLink({ uri: api.uri, fetch });
   const authLink = setContext(async (req, { headers }) => {
-    const token = await createAccessToken(settings, {
+    const token = await createAccessToken($vsf, {
       currentToken,
       requireUserSession: restrictedOperations.includes(req.operationName)
     });

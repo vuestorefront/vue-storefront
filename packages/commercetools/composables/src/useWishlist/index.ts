@@ -11,29 +11,29 @@ export const wishlist: Ref<Wishlist> = ref(null);
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
-const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
+const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant, any> = {
   // eslint-disable-next-line
-  loadWishlist: async (context) => {
+  async loadWishlist(context) {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async (context, { currentWishlist, product }) => {
+  async addToWishlist({ currentWishlist, product }) {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async (context, { currentWishlist, product }) => {
+  async removeFromWishlist({ currentWishlist, product }) {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async (context, { currentWishlist }) => {
+  async clearWishlist({ currentWishlist }) {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: (context, { currentWishlist }) => {
+  isOnWishlist({ currentWishlist }) {
     return false;
   }
 };
 
-const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);
+const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, LineItem, ProductVariant, any>(params);
 
 export { setWishlist, useWishlist};

@@ -3,9 +3,10 @@ import { getCustomQuery, CustomQueryFn } from '../../index';
 import CreateMyOrderFromCartMutation from './defaultMutation';
 import { OrderMutationResponse } from '../../types/Api';
 import gql from 'graphql-tag';
+import { apiClientMethodFactory } from './../../configuration';
 
-const createMyOrderFromCart = async ({ $vsfSettings }, draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> => {
-  const { locale, acceptLanguage, client } = $vsfSettings;
+async function createMyOrderFromCart(draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> {
+  const { locale, acceptLanguage, client } = this.$vsf.ct;
   const defaultVariables = { locale,
     acceptLanguage,
     draft
@@ -16,6 +17,6 @@ const createMyOrderFromCart = async ({ $vsfSettings }, draft: OrderMyCartCommand
     variables,
     fetchPolicy: 'no-cache'
   });
-};
+}
 
-export default createMyOrderFromCart;
+export default apiClientMethodFactory(createMyOrderFromCart);

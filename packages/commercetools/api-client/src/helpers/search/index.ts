@@ -6,8 +6,8 @@ import {
   AttributeType
 } from './../../types/Api';
 
-const mapFilterToPredicate = ({ $vsfSettings }, filter: Filter) => {
-  const { locale, currency } = $vsfSettings;
+const mapFilterToPredicate = (settings, filter: Filter) => {
+  const { locale, currency } = settings;
 
   let valuePredicate: string;
   switch (filter.type) {
@@ -42,8 +42,8 @@ const mapFilterToPredicate = ({ $vsfSettings }, filter: Filter) => {
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
-const buildProductWhere = (context, search: ProductWhereSearch) => {
-  const { acceptLanguage } = context.$vsfSettings;
+const buildProductWhere = (settings, search: ProductWhereSearch) => {
+  const { acceptLanguage } = settings;
 
   const predicates: string[] = [];
 
@@ -62,7 +62,7 @@ const buildProductWhere = (context, search: ProductWhereSearch) => {
   }
 
   if (search?.filters) {
-    const filterPredicates = search.filters.map((f) => mapFilterToPredicate(context, f)).join(' or ');
+    const filterPredicates = search.filters.map((f) => mapFilterToPredicate(settings, f)).join(' or ');
     if (filterPredicates) {
       predicates.push(filterPredicates);
     }
@@ -71,8 +71,8 @@ const buildProductWhere = (context, search: ProductWhereSearch) => {
   return predicates.join(' and ');
 };
 
-const buildCategoryWhere = ({ $vsfSettings }, search: CategoryWhereSearch) => {
-  const { acceptLanguage } = $vsfSettings;
+const buildCategoryWhere = (settings, search: CategoryWhereSearch) => {
+  const { acceptLanguage } = settings;
 
   if (search?.catId) {
     return `id="${search.catId}"`;

@@ -1,24 +1,24 @@
-import { CustomQuery, UseCategory } from '../types';
+import { CustomQuery, UseCategory, BaseFactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, useContext, Context } from '../utils';
+import { sharedRef, Logger, createFactoryParams } from '../utils';
 
-export type UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> = {
-  categorySearch: (context: Context, searchParams: CATEGORY_SEARCH_PARAMS, customQuery: CustomQuery) => Promise<CATEGORY[]>;
-};
+export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS, API> extends BaseFactoryParams<API> {
+  categorySearch: (searchParams: CATEGORY_SEARCH_PARAMS, customQuery: CustomQuery) => Promise<CATEGORY[]>;
+}
 
-export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
-  factoryParams: UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS>
+export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS, API>(
+  rawFactoryParams: UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS, API>
 ) {
   return function useCategory(id: string): UseCategory<CATEGORY> {
     const categories: Ref<CATEGORY[]> = sharedRef([], `useCategory-categories-${id}`);
     const loading = sharedRef(false, `useCategory-loading-${id}`);
-    const context = useContext();
+    const factoryParams = createFactoryParams(rawFactoryParams);
 
     const search = async (params: CATEGORY_SEARCH_PARAMS, customQuery?: CustomQuery) => {
       Logger.debug('useCategory.search', params);
 
       loading.value = true;
-      categories.value = await factoryParams.categorySearch(context, params, customQuery);
+      categories.value = await factoryParams.categorySearch(params, customQuery);
       loading.value = false;
     };
 

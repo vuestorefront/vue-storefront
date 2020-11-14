@@ -26,8 +26,8 @@
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"
-                :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-                :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+                :regular-price="formatPrice(cartGetters.getItemPrice(product).regular)"
+                :special-price="formatPrice(cartGetters.getItemPrice(product).special)"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
@@ -53,7 +53,7 @@
               <span class="my-cart__total-price-label">Total price:</span>
             </template>
             <template #value>
-              <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
+              <SfPrice :regular="formatPrice(totals.subtotal)" />
             </template>
           </SfProperty>
           <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
@@ -88,7 +88,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { useUiState } from '~/composables';
+import { useUiState, useUiHelpers } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -103,6 +103,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
+    const { formatPrice } = useUiHelpers();
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
     const { isAuthenticated } = useUser();
@@ -115,6 +116,7 @@ export default {
     });
 
     return {
+      formatPrice,
       isAuthenticated,
       products,
       removeFromCart,

@@ -4,13 +4,14 @@ import { buildOrderWhere } from '../../helpers/search';
 import gql from 'graphql-tag';
 import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
+import { apiClientMethodFactory } from './../../configuration';
 
 interface OrdersData {
   me: Pick<MeQueryInterface, 'orders'>;
 }
 
-const getOrders = async ({ $vsfSettings }, params, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, client } = $vsfSettings;
+async function getOrders(params, customQueryFn?: CustomQueryFn) {
+  const { locale, acceptLanguage, client } = this.$vsf.ct;
   const defaultVariables = {
     where: buildOrderWhere(params),
     sort: params.sort,
@@ -27,6 +28,6 @@ const getOrders = async ({ $vsfSettings }, params, customQueryFn?: CustomQueryFn
     fetchPolicy: 'no-cache'
   });
   return request;
-};
+}
 
-export default getOrders;
+export default apiClientMethodFactory(getOrders);

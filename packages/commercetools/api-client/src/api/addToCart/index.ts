@@ -2,16 +2,15 @@ import updateCart from './../updateCart';
 import { CartResponse, CustomQueryFn } from './../../types/Api';
 import { Cart, ProductVariant } from './../../types/GraphQL';
 import { createAddLineItemAction } from './../../helpers/cart/actions';
+import { apiClientMethodFactory } from './../../configuration';
 
-const addToCart = async (
-  context,
+async function addToCart(
   { id, version }: Cart,
   product: ProductVariant,
   quantity: number,
   customQuery?: CustomQueryFn
-): Promise<CartResponse> => {
-  return await updateCart(
-    context,
+): Promise<CartResponse> {
+  return await updateCart.raw.bind(this)(
     {
       id,
       version,
@@ -19,6 +18,6 @@ const addToCart = async (
     },
     customQuery
   );
-};
+}
 
-export default addToCart;
+export default apiClientMethodFactory(addToCart);

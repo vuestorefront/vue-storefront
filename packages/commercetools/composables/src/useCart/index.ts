@@ -1,10 +1,12 @@
 import {
-  addToCart as apiAddToCart,
-  removeFromCart as apiRemoveFromCart,
-  updateCartQuantity as apiUpdateCartQuantity,
-  applyCartCoupon as apiApplyCartCoupon,
-  removeCartCoupon as apiRemoveCartCoupon,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  applyCartCoupon,
+  removeCartCoupon,
   isTokenUserSession,
+  getMe,
+  createCart,
   CustomQueryFn
 } from '@vue-storefront/commercetools-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
@@ -16,60 +18,69 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
 };
 
 /** returns current cart or creates new one **/
-const getCurrentCart = async (context, currentCart) => {
+const getCurrentCart = async (api, currentCart) => {
   if (!currentCart) {
-    return loadCurrentCart(context);
+    return loadCurrentCart(api);
   }
 
   return currentCart;
 };
 
-const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
-  loadCart: async (context, CustomQueryFn?: any) => {
-    if (!isTokenUserSession(context.$vsfSettings, context.$vsfSettings.currentToken)) {
+const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon, any> = {
+  async loadCart (CustomQueryFn?: any) {
+    if (!isTokenUserSession(this.$vsf.ct, this.$vsf.ct.currentToken)) {
       return null;
     }
 
-    return await loadCurrentCart(context, CustomQueryFn);
+    return await loadCurrentCart(this.api, CustomQueryFn);
   },
-  addToCart: async (context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+  async addToCart({ currentCart, product, quantity }, customQuery?: CustomQueryFn) {
+    const loadedCart = await getCurrentCart(this.api, currentCart);
 
-    const { data } = await apiAddToCart(context, loadedCart, product, quantity, customQuery);
+    const { data } = await this.api.addToCart(loadedCart, product, quantity, customQuery);
     return data.cart;
   },
-  removeFromCart: async (context, { currentCart, product }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+  async removeFromCart({ currentCart, product }, customQuery?: CustomQueryFn) {
+    const loadedCart = await getCurrentCart(this.api, currentCart);
 
-    const { data } = await apiRemoveFromCart(context, loadedCart, product, customQuery);
+    const { data } = await this.api.removeFromCart(loadedCart, product, customQuery);
     return data.cart;
   },
-  updateQuantity: async (context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+  async updateQuantity({ currentCart, product, quantity }, customQuery?: CustomQueryFn) {
+    const loadedCart = await getCurrentCart(this.api, currentCart);
 
-    const { data } = await apiUpdateCartQuantity(context, loadedCart, { ...product, quantity }, customQuery);
+    const { data } = await this.api.updateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
     return data.cart;
   },
-  clearCart: async (context, { currentCart }) => {
+  async clearCart({ currentCart }) {
     return currentCart;
   },
-  applyCoupon: async (context, { currentCart, couponCode }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+  async applyCoupon({ currentCart, couponCode }, customQuery?: CustomQueryFn) {
+    const loadedCart = await getCurrentCart(this.api, currentCart);
 
-    const { data } = await apiApplyCartCoupon(context, loadedCart, couponCode, customQuery);
+    const { data } = await this.api.applyCartCoupon(loadedCart, couponCode, customQuery);
     return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
-  removeCoupon: async (context, { currentCart, coupon }, customQuery?: CustomQueryFn) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+  async removeCoupon({ currentCart, coupon }, customQuery?: CustomQueryFn) {
+    const loadedCart = await getCurrentCart(this.api, currentCart);
 
-    const { data } = await apiRemoveCartCoupon(context, loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
+    const { data } = await this.api.removeCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
-  isOnCart: (context, { currentCart, product }) => {
+  isOnCart({ currentCart, product }) {
     return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
+  },
+  api: {
+    addToCart,
+    removeFromCart,
+    updateCartQuantity,
+    applyCartCoupon,
+    removeCartCoupon,
+    getMe,
+    createCart
   }
 };
 
-const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
+const { useCart, setCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon, any>(params);
 
 export { useCart, setCart };

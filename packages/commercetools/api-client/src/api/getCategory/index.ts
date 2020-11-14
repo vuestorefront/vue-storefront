@@ -5,15 +5,16 @@ import { CustomQueryFn } from '../../index';
 import { buildCategoryWhere } from '../../helpers/search';
 import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
+import { apiClientMethodFactory } from './../../configuration';
 
 interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (context, params, customQueryFn?: CustomQueryFn) => {
-  const { acceptLanguage, client } = context.$vsfSettings;
+async function getCategory(params, customQueryFn?: CustomQueryFn) {
+  const { acceptLanguage, client } = this.$vsf.ct;
   const defaultVariables = params ? {
-    where: buildCategoryWhere(context, params),
+    where: buildCategoryWhere(this.$vsf.ct, params),
     limit: params.limit,
     offset: params.offset,
     acceptLanguage
@@ -28,6 +29,6 @@ const getCategory = async (context, params, customQueryFn?: CustomQueryFn) => {
   });
 
   return request;
-};
+}
 
-export default getCategory;
+export default apiClientMethodFactory(getCategory);

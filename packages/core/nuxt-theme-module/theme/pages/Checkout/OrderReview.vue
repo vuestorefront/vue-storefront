@@ -98,8 +98,8 @@
           <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
           <SfTableData class="table__data">
             <SfPrice
-              :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-              :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+              :regular="formatPrice(cartGetters.getItemPrice(product).regular)"
+              :special="formatPrice(cartGetters.getItemPrice(product).special)"
               class="product-price"
             />
           </SfTableData>
@@ -122,19 +122,19 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="cartGetters.getFormattedPrice(totals.subtotal)"
+            :value="formatPrice(totals.subtotal)"
             class="sf-property--full-width property"
           />
           <SfProperty
             name="Shipping"
-            :value="cartGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+            :value="formatPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
             class="sf-property--full-width property"
           />
         </div>
         <SfDivider />
         <SfProperty
           name="Total price"
-          :value="cartGetters.getFormattedPrice(totals.total)"
+          :value="formatPrice(totals.total)"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
@@ -176,6 +176,7 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers } from '~/composables';
 
 export default {
   name: 'ReviewOrder',
@@ -196,6 +197,7 @@ export default {
     context.emit('changeStep', 3);
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
+    const { formatPrice } = useUiHelpers();
     const { cart, removeFromCart, loadCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -218,6 +220,7 @@ export default {
     };
 
     return {
+      formatPrice,
       products,
       personalDetails,
       shippingDetails,

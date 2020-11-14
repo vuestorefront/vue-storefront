@@ -1,8 +1,9 @@
 import CustomerChangeMyPassword from './defaultMutation';
 import { ChangeMyPasswordResponse } from '../../types/Api';
+import { apiClientMethodFactory } from './../../configuration';
 
-const customerChangeMyPassword = async ({ $vsfSettings }, version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
-  const { client } = $vsfSettings;
+async function customerChangeMyPassword(version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> {
+  const { client } = this.$vsf.ct;
   return await client.mutate({
     mutation: CustomerChangeMyPassword,
     variables: {
@@ -12,6 +13,6 @@ const customerChangeMyPassword = async ({ $vsfSettings }, version: any, currentP
     },
     fetchPolicy: 'no-cache'
   }) as ChangeMyPasswordResponse;
-};
+}
 
-export default customerChangeMyPassword;
+export default apiClientMethodFactory(customerChangeMyPassword);

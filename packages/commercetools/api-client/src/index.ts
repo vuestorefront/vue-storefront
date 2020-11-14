@@ -1,6 +1,3 @@
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import createCommerceToolsLink from './helpers/createCommerceToolsLink';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import createCart from './api/createCart';
@@ -22,49 +19,17 @@ import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import customerUpdateMe from './api/customerUpdateMe';
 import createAccessToken from './helpers/createAccessToken';
-import { apiClientFactory } from '@vue-storefront/core';
-import { Config, ConfigurableConfig } from './types/setup';
-
-// eslint-disable-next-line
-let apolloClient: ApolloClient<any> = null;
-
-const onSetup = (config: Config) => {
-  const languageMap = config.languageMap || {};
-
-  return {
-    ...config,
-    languageMap,
-    acceptLanguage: languageMap[config.locale] || config.acceptLanguage,
-    client: new ApolloClient({
-      link: createCommerceToolsLink(config),
-      cache: new InMemoryCache(),
-      ...config.customOptions
-    })
-  };
-};
-
-const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
-  onSetup,
-  defaultSettings: {
-    locale: 'en',
-    acceptLanguage: ['en'],
-    auth: {
-      onTokenChange: () => {}
-    },
-    cookies: {
-      currencyCookieName: 'vsf-currency',
-      countryCookieName: 'vsf-country',
-      localeCookieName: 'vsf-locale'
-    }
-  }
-});
+import {
+  getSettings,
+  setup,
+  update
+} from './configuration';
 
 export {
   getSettings,
-  createAccessToken,
-  apolloClient,
   setup,
   update,
+  createAccessToken,
   getProduct,
   getCategory,
   getOrders,

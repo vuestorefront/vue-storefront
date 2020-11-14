@@ -4,7 +4,8 @@ import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/co
 export default moduleOptions => async ({ app }) => {
   if (!process.server) return;
 
-  const newToken = await createAccessToken(app.context.$vsfSettings, moduleOptions);
+  const newToken = await createAccessToken(app.context.$vsf, moduleOptions);
+
   app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
   setup(mapConfigToSetupObject({ moduleOptions, app }));
 };

@@ -506,3 +506,12 @@ export interface VSFLogger {
   warn(message?: any, ...args: any): void;
   error(message?: any, ...args: any): void;
 }
+
+export interface Context {
+  $vsf: any;
+}
+
+export interface BaseFactoryParams<API = any> {
+  $vsf?: Context;
+  api?: API;
+}

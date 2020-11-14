@@ -1,6 +1,7 @@
+import { apiClientMethodFactory } from './../../configuration';
 
-const customerSignOut = async ({ $vsfSettings }): Promise<void> => {
-  $vsfSettings.auth.onTokenRemove();
-};
+async function customerSignOut(): Promise<void> {
+  this.$vsf.ct.auth.onTokenRemove();
+}
 
-export default customerSignOut;
+export default apiClientMethodFactory(customerSignOut);

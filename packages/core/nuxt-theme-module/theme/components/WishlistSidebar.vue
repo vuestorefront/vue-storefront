@@ -26,8 +26,8 @@
                 :key="wishlistGetters.getItemSku(product)"
                 :image="wishlistGetters.getItemImage(product)"
                 :title="wishlistGetters.getItemName(product)"
-                :regular-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).regular)"
-                :special-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).special)"
+                :regular-price="formatPrice(wishlistGetters.getItemPrice(product).regular)"
+                :special-price="formatPrice(wishlistGetters.getItemPrice(product).special)"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
@@ -49,7 +49,7 @@
               <span class="my-wishlist__total-price-label">Total price:</span>
             </template>
             <template #value>
-              <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
+              <SfPrice :regular="formatPrice(totals.subtotal)" />
             </template>
           </SfProperty>
           </div>
@@ -82,7 +82,7 @@ import {
 import { computed } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
-import { useUiState } from '~/composables';
+import { useUiState, useUiHelpers } from '~/composables';
 
 export default {
   name: 'Wishlist',
@@ -96,6 +96,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
+    const { formatPrice } = useUiHelpers();
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
     const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
@@ -108,6 +109,7 @@ export default {
     });
 
     return {
+      formatPrice,
       isAuthenticated,
       products,
       removeFromWishlist,

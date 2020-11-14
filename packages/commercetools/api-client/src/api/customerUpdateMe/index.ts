@@ -1,8 +1,9 @@
 import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
 import CustomerUpdateMeMutation from './defaultMutation';
+import { apiClientMethodFactory } from './../../configuration';
 
-const customerUpdateMe = async ({ $vsfSettings }, currentUser, updatedUserData) => {
-  const { client } = $vsfSettings;
+async function customerUpdateMe(currentUser, updatedUserData) {
+  const { client } = this.$vsf.ct;
   const updateResponse = await client.mutate({
     mutation: CustomerUpdateMeMutation,
     variables: {
@@ -17,6 +18,6 @@ const customerUpdateMe = async ({ $vsfSettings }, currentUser, updatedUserData) 
   });
 
   return updateResponse.data;
-};
+}
 
-export default customerUpdateMe;
+export default apiClientMethodFactory(customerUpdateMe);

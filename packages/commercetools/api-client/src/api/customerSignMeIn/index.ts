@@ -2,9 +2,10 @@ import { CustomerSignMeInDraft } from '../../types/GraphQL';
 import CustomerSignMeInMutation from './defaultMutation';
 import { SignInResponse } from './../../types/Api';
 import createAccessToken from './../../helpers/createAccessToken';
+import { apiClientMethodFactory } from './../../configuration';
 
-const customerSignMeIn = async ({ $vsfSettings }, draft: CustomerSignMeInDraft): Promise<SignInResponse> => {
-  const { locale, acceptLanguage, currentToken, auth, client } = $vsfSettings;
+async function customerSignMeIn(draft: CustomerSignMeInDraft): Promise<SignInResponse> {
+  const { locale, acceptLanguage, currentToken, auth, client } = this.$vsf.ct;
   const loginResponse = await client.mutate({
     mutation: CustomerSignMeInMutation,
     variables: { draft, locale, acceptLanguage },
@@ -12,10 +13,10 @@ const customerSignMeIn = async ({ $vsfSettings }, draft: CustomerSignMeInDraft):
   }) as SignInResponse;
 
   const customerCredentials = { username: draft.email, password: draft.password };
-  const token = await createAccessToken($vsfSettings, { currentToken, customerCredentials });
+  const token = await createAccessToken(this.$vsf, { currentToken, customerCredentials });
   auth.onTokenChange(token);
 
   return loginResponse;
-};
+}
 
-export default customerSignMeIn;
+export default apiClientMethodFactory(customerSignMeIn);

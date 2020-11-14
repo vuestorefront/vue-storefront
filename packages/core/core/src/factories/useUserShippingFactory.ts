@@ -1,55 +1,50 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping } from '../types';
-import { sharedRef, Logger, mask, useContext, Context } from '../utils';
+import { UseUserShipping, BaseFactoryParams } from '../types';
+import { sharedRef, Logger, mask, createFactoryParams } from '../utils';
 
-export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> {
+export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM, API> extends BaseFactoryParams<API> {
   addAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
   deleteAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
   updateAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
   load: (
-    context: Context,
     params: {
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
   setDefault: (
-    context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
 }
 
-export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
-  factoryParams: UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
+export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM, API>(
+  rawFactoryParams: UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM, API>
 ) => {
 
   const useUserShipping = (): UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
-    const context = useContext();
+    const factoryParams = createFactoryParams(rawFactoryParams);
 
     const addAddress = async (address: USER_SHIPPING_ITEM) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.addAddress(context, {
+        shipping.value = await factoryParams.addAddress({
           address,
           shipping: readonlyShipping
         });
@@ -67,7 +62,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.deleteAddress(context, {
+        shipping.value = await factoryParams.deleteAddress({
           address,
           shipping: readonlyShipping
         });
@@ -85,7 +80,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.updateAddress(context, {
+        shipping.value = await factoryParams.updateAddress({
           address,
           shipping: readonlyShipping
         });
@@ -103,7 +98,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.load(context, {
+        shipping.value = await factoryParams.load({
           shipping: readonlyShipping
         });
       } catch (err) {
@@ -120,7 +115,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.setDefault(context, {
+        shipping.value = await factoryParams.setDefault({
           address,
           shipping: readonlyShipping
         });

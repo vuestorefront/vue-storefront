@@ -1,8 +1,9 @@
 import { CartQueryResponse } from '../../types/Api';
 import defaultQuery from './defaultQuery';
+import { apiClientMethodFactory } from './../../configuration';
 
-const getCart = async ({ $vsfSettings }, cartId: string): Promise<CartQueryResponse> => {
-  const { locale, acceptLanguage, client } = $vsfSettings;
+async function getCart(cartId: string): Promise<CartQueryResponse> {
+  const { locale, acceptLanguage, client } = this.$vsf.ct;
   return await client.query({
     query: defaultQuery,
     variables: { cartId,
@@ -10,6 +11,6 @@ const getCart = async ({ $vsfSettings }, cartId: string): Promise<CartQueryRespo
       acceptLanguage },
     fetchPolicy: 'no-cache'
   });
-};
+}
 
-export default getCart;
+export default apiClientMethodFactory(getCart);

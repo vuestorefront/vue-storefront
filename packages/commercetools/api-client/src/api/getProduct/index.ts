@@ -5,15 +5,16 @@ import defaultQuery from './defaultQuery';
 import { buildProductWhere } from '../../helpers/search';
 import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
+import { apiClientMethodFactory } from './../../configuration';
 
 export interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (context, params, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, currency, country, client } = context.$vsfSettings;
+async function getProduct(params, customQueryFn?: CustomQueryFn) {
+  const { locale, acceptLanguage, currency, country, client } = this.$vsf.ct;
   const defaultVariables = {
-    where: buildProductWhere(context, params),
+    where: buildProductWhere(this.$vsf.ct, params),
     skus: params.skus,
     limit: params.limit,
     offset: params.offset,
@@ -31,6 +32,6 @@ const getProduct = async (context, params, customQueryFn?: CustomQueryFn) => {
     fetchPolicy: 'no-cache'
   });
   return request;
-};
+}
 
-export default getProduct;
+export default apiClientMethodFactory(getProduct);

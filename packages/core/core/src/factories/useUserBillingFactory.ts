@@ -1,56 +1,51 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling } from '../types';
+import { UseUserBilling, BaseFactoryParams } from '../types';
 import { sharedRef, Logger } from '../utils';
-import { useContext, Context } from './../utils';
+import { createFactoryParams } from './../utils';
 
-export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> {
+export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM, API> extends BaseFactoryParams<API> {
   addAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
   deleteAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
   updateAddress: (
-    context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
   load: (
-    context: Context,
     params: {
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
   setDefault: (
-    context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
 }
 
-export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
-  factoryParams: UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM>
+export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM, API>(
+  rawFactoryParams: UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM, API>
 ) => {
 
   const useUserBilling = (): UseUserBilling<USER_BILLING, USER_BILLING_ITEM> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
-    const context = useContext();
+    const factoryParams = createFactoryParams(rawFactoryParams);
 
     const addAddress = async (address: USER_BILLING_ITEM) => {
       Logger.debug('useUserBilling.addAddress', address);
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.addAddress(context, {
+        billing.value = await factoryParams.addAddress({
           address,
           billing: readonlyBilling
         });
@@ -68,7 +63,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.deleteAddress(context, {
+        billing.value = await factoryParams.deleteAddress({
           address,
           billing: readonlyBilling
         });
@@ -86,7 +81,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.updateAddress(context, {
+        billing.value = await factoryParams.updateAddress({
           address,
           billing: readonlyBilling
         });
@@ -104,7 +99,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.load(context, {
+        billing.value = await factoryParams.load({
           billing: readonlyBilling
         });
       } catch (err) {
@@ -121,7 +116,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.setDefault(context, {
+        billing.value = await factoryParams.setDefault({
           address,
           billing: readonlyBilling
         });

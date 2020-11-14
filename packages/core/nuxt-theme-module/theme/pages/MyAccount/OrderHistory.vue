@@ -21,7 +21,7 @@
         />
         <SfProperty
           name="Total"
-          :value="orderGetters.getFormattedPrice(orderGetters.getPrice(currentOrder))"
+          :value="formatPrice(orderGetters.getPrice(currentOrder))"
           class="sf-property--full-width sf-property--large property"
         />
         </div>
@@ -34,7 +34,7 @@
           </SfTableHeading>
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
             <SfTableData><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
-            <SfTableData>{{orderGetters.getFormattedPrice(orderGetters.getItemPrice(item))}}</SfTableData>
+            <SfTableData>{{formatPrice(orderGetters.getItemPrice(item))}}</SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
           </SfTableRow>
         </SfTable>
@@ -68,7 +68,7 @@
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ orderGetters.getFormattedPrice(orderGetters.getPrice(order)) }}</SfTableData>
+            <SfTableData>{{ formatPrice(orderGetters.getPrice(order)) }}</SfTableData>
             <SfTableData>
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
@@ -102,6 +102,7 @@ import { computed, ref } from '@vue/composition-api';
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
+import { useUiHelpers } from '~/composables';
 
 export default {
   name: 'PersonalDetails',
@@ -113,6 +114,7 @@ export default {
     SfLink
   },
   setup() {
+    const { formatPrice } = useUiHelpers();
     const { orders, searchOrders } = useUserOrders();
     const currentOrder = ref(null);
 
@@ -160,6 +162,7 @@ export default {
     };
 
     return {
+      formatPrice,
       tableHeaders,
       orders: computed(() => orders ? orders.value : []),
       getStatusTextClass,
