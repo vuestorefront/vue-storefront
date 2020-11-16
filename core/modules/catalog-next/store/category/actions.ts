@@ -260,9 +260,9 @@ const actions: ActionTree<CategoryState, RootState> = {
         }, { root: true })
       }
     }
-  },
+  }
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
-  ...require('./deprecatedActions').default
+  // ...require('./deprecatedActions').default
 }
 
 export default actions
