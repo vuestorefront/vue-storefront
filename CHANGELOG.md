@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
+- Added a DBIC funactionality(#5133)
 
 ## [1.12.2] - 2020.07.28
 
