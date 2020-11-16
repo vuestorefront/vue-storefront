@@ -32,7 +32,17 @@ const createFactoryParams = <T extends BaseFactoryParams>(factoryParams: T): T =
   } as T;
 };
 
+const registerIntegration = (fn) => (ctx, inject) => {
+  const configure = (config) => {
+    const { tag, settings } = config;
+    inject('vsf', { [tag]: settings });
+  };
+
+  return fn({ ...ctx, vsf: { configure } }, inject);
+};
+
 export {
+  registerIntegration,
   createFactoryParams,
   useContext,
   configureContext

@@ -9,7 +9,7 @@ const createPlaceOrder = ({ context, cartFields }, customQuery?: CustomQuery) =>
   const { id, version } = cartFields.cart.value;
 
   try {
-    const orderResponse = await createMyOrderFromCart(context, { id, version }, customQuery);
+    const orderResponse = await createMyOrderFromCart.raw.bind(context)({ id, version }, customQuery);
     const { order } = orderResponse.data;
     return order;
   } finally {

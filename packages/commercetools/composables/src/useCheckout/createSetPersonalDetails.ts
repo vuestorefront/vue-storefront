@@ -5,7 +5,7 @@ import { personalDetails, loading} from './shared';
 import initFields from './initFields';
 import { CustomQuery } from '@vue-storefront/core';
 
-const createSetPersonalDetails = ({ context, factoryParams, setShippingDetails, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+const createSetPersonalDetails = ({ context, setShippingDetails, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
   personalDetails.value = { ...personalDetails.value, ...data };
   const { firstName, lastName } = personalDetails.value;
 
@@ -13,7 +13,7 @@ const createSetPersonalDetails = ({ context, factoryParams, setShippingDetails, 
   loading.value.personalDetails = true;
 
   try {
-    const cartResponse = await updateCart(context, {
+    const cartResponse = await updateCart.raw.bind(context)({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

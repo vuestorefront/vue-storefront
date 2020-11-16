@@ -30,7 +30,7 @@ import {
 } from '@storefront-ui/vue';
 
 import { productGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers } from '~/composables';
+import useUiHelpers from '~/composables/useUiHelpers';
 
 export default {
   name: 'RelatedProducts',

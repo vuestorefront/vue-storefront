@@ -7,7 +7,7 @@ import { CustomQuery } from '@vue-storefront/core';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetBillingDetails = ({ context, factoryParams, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+const createSetBillingDetails = ({ context, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
   billingDetails.value = {
     ...initialDetails,
     ...billingDetails.value,
@@ -23,7 +23,7 @@ const createSetBillingDetails = ({ context, factoryParams, cartFields, setCart }
   loading.value.billingAddress = true;
 
   try {
-    const cartResponse = await updateCart(context, {
+    const cartResponse = await updateCart.raw.bind(context)({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

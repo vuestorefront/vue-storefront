@@ -2,8 +2,8 @@
 import initFields from './initFields';
 import { CustomQuery } from '@vue-storefront/core';
 
-const createLoadDetails = ({ context, factoryParams, cartFields }, customQuery?: CustomQuery) => async () => {
-  await cartFields.loadCart(context, customQuery);
+const createLoadDetails = ({ cartFields }, customQuery?: CustomQuery) => async () => {
+  await cartFields.loadCart(customQuery);
   initFields(cartFields.cart.value);
 };
 

@@ -42,7 +42,7 @@ export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryPar
       return { settings, tag };
     },
     getSettings: (): ALL_SETTINGS => {
-      console.log('DEPRECATED');
+      Logger.info('apiClientFactory.getSettings is deprecated, please use context API instead.');
       return null;
     }
   };
