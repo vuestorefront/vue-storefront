@@ -15,20 +15,20 @@
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.9.1",
-    "@vue-storefront/commercetools": "^0.2.6",
+    "@storefront-ui/vue": "0.9.1",
+    "@vue-storefront/commercetools": "0.2.6",
     "@vue-storefront/nuxt": "0.0.10",
-    "@vue-storefront/nuxt-theme": "^0.0.4",
+    "@vue-storefront/nuxt-theme": "0.0.4",
     "cookie-universal-nuxt": "^2.1.3",
-    "nuxt-i18n": "^6.5.0",
     "core-js": "^2.6.5",
     "nuxt": "^2.13.3",
+    "nuxt-i18n": "^6.5.0",
     "vee-validate": "^3.2.3",
     "vue-scrollto": "^2.17.1"
   },
   "devDependencies": {
-    "@nuxt/typescript-build": "^2.0.0",
     "@nuxt/types": "^0.7.9",
+    "@nuxt/typescript-build": "^2.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
