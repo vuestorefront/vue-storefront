@@ -5,7 +5,6 @@ import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
-import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import { sync } from 'vuex-router-sync'
@@ -66,7 +65,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
-    Vue.use(VueLazyload, { attempt: 2, preLoad: 1.5 })
     Vue.use(Meta, {
       ssrAppId: 1
     })

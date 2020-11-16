@@ -7,7 +7,7 @@ The Vue Storefront application uses the [node-config](https://github.com/lorenwe
 - `local.json` is the second configuration file which is .gitignore'd from the repository. This is the place where you should store all instance-specific configuration variables.
 
 :::tip NOTE
-Please not that the `config` is bundled into JavaScript files that are returned to the user's browser. Please **NEVER PUT ANY SENSITIVE INFORMATION** into the config file of `vue-storefront`. If your application requires some authorization / tokens /etc - please store them and access via dedicated [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) or [`storefront-api`](https://github.com/DivanteLtd/storefront-api) extension that will prevent these sensitive information from being returned to the users.
+Please note that the `config` is bundled into JavaScript files that are returned to the user's browser. Please **NEVER PUT ANY SENSITIVE INFORMATION** into the config file of `vue-storefront`. If your application requires some authorization / tokens /etc - please store them and access via dedicated [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) or [`storefront-api`](https://github.com/DivanteLtd/storefront-api) extension that will prevent these sensitive information from being returned to the users.
 :::
 
 The structure of these files is exactly the same! Vue Storefront does kind of  `Object.assign(default, local)` (but with the deep-merge). This means that the `local.json` overrides the `default.json` properties.
@@ -63,7 +63,7 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 `http://localhost:3000/women/frauen-20`
 `http://localhost:3000/de/women/frauen-20`
 
-For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/findProducts` the ServiceWorker cache SHOULD populate url mappings anyway)
 
 For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
@@ -159,7 +159,7 @@ This both option is used when you don't want re-attempting task of just X number
 "defaultStoreCode": "",
 ```
 
-This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend, please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
+`defaultStoreCode` it is recommended to set some value for it. It is used only in the [Multistore setup](../integrations/multistore.md). This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts). You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you need to decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
 
 ## Store views
 
@@ -170,11 +170,11 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
-If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
+If the `storeViews.multistore` is set to `true` then all configs that are defined in `storeViews` and `defaultStoreCode` will be enabled.
 
-You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
+`mapStoreUrlsFor` is **required**. You should add all the multistore names to the `mapStoreUrlsFor` as this property describes which storeView is enabled. It's useful when you want to turn off some store. **Important** you need to have enabled at least your default storeView (`"defaultStoreCode"`)
 
-`commonCache` is refering to llocal browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
+`commonCache` is refering to local browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
 
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
@@ -182,7 +182,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
-This attribute is not inherited through the "extend" mechanism.
+`storeCode` is **required**. It is some kind of storeView id number. This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "storeId": 3,
@@ -194,22 +194,20 @@ This is the `storeId`  as set in the backend panel. This parameter is being used
     "name": "German Store",
 ```
 
-This is the store name as displayed in the `Language/Switcher.vue`.
+This is the store name as displayed in the `Language/Switcher.vue` (for default theme).
 
 ```json
     "url": "/de",
 ```
 
-This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
-It accepts not only path, but also domains as well.
+When `appendStoreCode` is set to `false` then this value is required. With `url` you can define internal route prefix for example `/de`. Sometimes you may also like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. It accepts not only path, but also domains as well. Check `test/e2e/integration/multistore/domain.js`
 This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
-This attribute is not inherited through the "extend" mechanism.
+`appendStoreCode` is deprecated. It's used to create internal route prefix by adding storeCode. For example if you have storeCode `"de"` then your prefix will be `"/de"`. Same behavior you can get with `"url": "/de"` and `"appendStoreCode": false`.
 
 ```json
     "elasticsearch": {
@@ -256,7 +254,7 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 },
 ```
 
-The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
+The internationalization settings are used by the translation engine (`defaultLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
 
 
 ```json
@@ -264,7 +262,75 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
-Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from other storeviews.
+Keep in mind that `url`, `storeCode` attributes cannot be inherited from other storeviews, because they are required values for each storeView.
+
+Example configuration:
+
+
+```json
+  "defaultStoreCode": "de",
+  "storeViews": {
+    "multistore": true,
+    "commonCache": false,
+    "mapStoreUrlsFor": [
+      "de",
+      "it"
+    ],
+    "de": {
+      "storeCode": "de",
+      "storeId": 3,
+      "name": "German Store",
+      "url": "/de",
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_de"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": false,
+        "defaultCountry": "DE",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Germany",
+        "fullLanguageName": "German",
+        "defaultLanguage": "DE",
+        "defaultCountry": "DE",
+        "defaultLocale": "de-DE",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
+      }
+    },
+    "it": {
+      "extend": "de",
+      "storeCode": "it",
+      "storeId": 4,
+      "name": "Italian Store",
+      "url": "/it",
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_it"
+      },
+      "tax": {
+        "defaultCountry": "IT"
+      },
+      "i18n": {
+        "fullCountryName": "Italy",
+        "fullLanguageName": "Italian",
+        "defaultCountry": "IT",
+        "defaultLanguage": "IT",
+        "defaultLocale": "it-IT"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
+      }
+    }
+  }
+```
 
 ## Entities
 
@@ -579,7 +645,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "categories": "INDEXEDDB",
     "attributes": "INDEXEDDB",
     "products": "INDEXEDDB",
-    "elasticCache": "INDEXEDDB",
+    "elasticCache": ["INDEXEDDB", "WEBSQL", "LOCALSTORAGE"],
     "claims": "LOCALSTORAGE",
     "compare": "INDEXEDDB",
     "syncTasks": "INDEXEDDB",
@@ -591,6 +657,8 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
 ```
 
 We're using [localForage](https://github.com/localForage/localForage) library to providing the persistence layer to Vue Storefront. `localForage` provides the compatibility fallbacks for the users not equipped with some specific storage methods (for example indexedDb). However, we may want to enforce some specific storage methods in the config. This is the place to set it up.
+It is possible to define a specific fallback sequence (as shown in the `elasticCache` property above), if for some reason the default mode of fallback directly to `LOCALSTORAGE` is not wanted.
+(https://localforage.github.io/localForage/#settings-api-setdriver)
 
 ## Users
 

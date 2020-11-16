@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex'
 import AttributeState from '../../types/AttributeState'
 import RootState from '@vue-storefront/core/types/RootState'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 const getters: GetterTree<AttributeState, RootState> = {
   getAttributeListByCode: (state) => state.list_by_code,

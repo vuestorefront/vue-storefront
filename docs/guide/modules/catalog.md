@@ -201,7 +201,7 @@ The following events are published from `product` store:
 
 - `EventBus.$emit('product-after-priceupdate', product)` - from [syncProductPrice](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L33) after product price is synced with Magento;
 - `EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })` from `configureProductAsync` (called by `product/configure` action after `product/single`). This event provides the information about selected product variant on the product page
-- `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/list` providing the current filters etc. You can mark specific product list identifier by setting `meta` property; it's important because on single page this event can be executed multiple time for each individual block of products
+- `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/findProducts` providing the current filters etc. You can mark specific product list identifier by setting `meta` property; it's important because on single page this event can be executed multiple time for each individual block of products
 - `EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })` - after single product has been loaded (invoked by `product/single` action)related products
 
 #### Actions
@@ -214,13 +214,13 @@ This method is in charge of setting `state.breadcrumbs` to be used on `Product.v
 
 **`syncPlatformPricesOver(context, { skus })`**
 
-When the config option `products.alwaysSyncPlatformPricesOver` is on, Vue Storefront will request the current product prices each time when `product/single` or `product/list` action is dispatched. It's called exclusively by these actions and shouldn't be called manually. This method calls `vue-storefront-api` proxy to get the current prices from Magento or any other backend CMS.
+When the config option `products.alwaysSyncPlatformPricesOver` is on, Vue Storefront will request the current product prices each time when `product/single` or `product/findProducts` action is dispatched. It's called exclusively by these actions and shouldn't be called manually. This method calls `vue-storefront-api` proxy to get the current prices from Magento or any other backend CMS.
 
 `skus` - this is an Array with product SKU's to be synchronized
 
 **`setupAssociated (context, { product })`**
 
-This method is called as a subsequent call of `Product.vue:fetchData` or `product/list` action. It's used to get the child products of `grouped` or `bundle` types of products.
+This method is called as a subsequent call of `Product.vue:fetchData` or `product/findProducts` action. It's used to get the child products of `grouped` or `bundle` types of products.
 
 **`checkConfigurableParent (context, {product})`**
 
@@ -256,7 +256,7 @@ This method synchronizes products for offline usage by: storing the whole query 
 
 **`single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku' })`**
 
-This method subsequently dispatched `product/list` action to get the products and synchronize the taxes/prices. When the product has been recently downloaded via `product/list` this method will return the cached version from `localForage` - but update the cache anyway.
+This method subsequently dispatched `product/findProducts` action to get the products and synchronize the taxes/prices. When the product has been recently downloaded via `product/findProducts` this method will return the cached version from `localForage` - but update the cache anyway.
 
 **`configure (context, { product = null, configuration, selectDefaultVariant = true })`**
 

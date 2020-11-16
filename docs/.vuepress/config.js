@@ -69,7 +69,8 @@ module.exports = {
             'basics/ssr-cache',
             'basics/static-generator',
             'basics/e2e',
-            'basics/url'
+            'basics/url',
+            'basics/redirect'
           ],
         },
         {
@@ -111,6 +112,7 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
+            'integrations/data-prefetch',
           ],
         },
         {

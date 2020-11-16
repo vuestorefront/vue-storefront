@@ -2,6 +2,61 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.12 -> 1.13
+
+### Multistore
+
+`storeCode` is now required for storeView
+`url` is now responsible for creating internal prefix. So `appendStoreCode` is not needed anymore (It is left for compatibility)
+For example:
+```
+{
+  storeCode: 'de',
+  appendStoreCode: true
+}
+```
+Results in `/de` prefix for routes. Same thing can be done with:
+```
+{
+  storeCode: 'de',
+  url: '/de'
+}
+```
+We can also create different url (https://github.com/DivanteLtd/vue-storefront/issues/3614) then `/${storeCode}`:
+```
+{
+  storeCode: 'de',
+  url: '/de_de'
+}
+```
+
+Previously `mapStoreUrlsFor` needed to has same values as storeViews object props **and** storeCode. Now its changed and it's only related with storeViews object props.
+Prev:
+```
+    "storeViews": {
+      "mapStoreUrlsFor": ["de"],// 1. this need to match 2. and 3.
+      "de": { // 2.
+        "storeCode": "de" // 3.
+      }
+    }
+```
+Now:
+```
+    "storeViews": {
+      "mapStoreUrlsFor": ["german"],// 1. this need to match 2.
+      "german": { // 2.
+        "storeCode": "de" // 3.
+      }
+    }
+```
+`mapStoreUrlsFor` is only used to disable storeView.
+
+`defaultStoreCode` it is recommended to set some value for it. It is used only used when `multistore` is enabled. You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you can decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
+
+`removeStoreCodeFromRoute` is replaced by `removeLocalization`
+
+### `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
@@ -121,8 +176,8 @@ store.registerModule('promoted', promotedStore);
 
 - We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
 - We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
-- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
-- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/findProducts` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/findProducts` the ServiceWorker cache SHOULD populate url mappings anyway);
 - `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introduces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
 - We've moved files from /store/lib to /lib. Basically to use it from the new directory you have to import now from `@vue-storefront/core/lib/store/` instead of `@vue-storefront/core/store/lib/`. These core files got changed:
 ```js
@@ -160,8 +215,8 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 
 We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
 
-- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
-- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/findProducts` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/findProducts` the ServiceWorker cache SHOULD populate url mappings anyway);
 - `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
 
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
