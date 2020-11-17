@@ -22,7 +22,7 @@ const useCheckoutFactory = (factoryParams) => {
     const setShippingMethod = createSetShippingMethod(methodsParams);
     const setShippingDetails = createSetShippingDetails(methodsParams);
     const setBillingDetails = createSetBillingDetails(methodsParams);
-    const loadShippingMethods = createLoadShippingMethods({ ...methodsParams, setShippingMethod });
+    const loadShippingMethods = createLoadShippingMethods(methodsParams);
     const loadPaymentMethods = createLoadPaymentMethods(methodsParams);
     const loadDetails = createLoadDetails(methodsParams);
     const setPersonalDetails = createSetPersonalDetails({ ...methodsParams, setShippingDetails });
