@@ -57,7 +57,7 @@ export default {
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://172.27.80.1:3000/graphql'
+        uri: 'http://172.27.80.1:3000'
       },
       store: "Electronics",
       currency: "USD",
@@ -87,7 +87,13 @@ export default {
       pathRewrite: {
         '^/graphql' : '/'
         }
-      }
+      },
+      '/connect/token': {
+        target: 'http://localhost:10645/connect/token',
+        pathRewrite: {
+          '^/connect/token' : '/'
+          }      
+      },
     },
   i18n: {
     locales: ['en'],

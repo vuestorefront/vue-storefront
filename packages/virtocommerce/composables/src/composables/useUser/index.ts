@@ -1,20 +1,20 @@
 /* istanbul ignore file */
+import { signIn, getMe } from '@vue-storefront/virtocommerce-api';
 
 import { useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
 import { User } from '../../types';
 
 // @todo useUser
 
-const params: UseUserFactoryParams<User, any, any> = {
+const params: UseUserFactoryParams<any, any, any> = {
   loadUser: async () => {
-    // @todo
-    return {};
+    return await getMe();
   },
   logOut: async () => {
     // @todo
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateUser: async ({currentUser, updatedUserData}): Promise<User> => {
+  updateUser: async ({currentUser, updatedUserData}): Promise<any> => {
     // @todo
     return {};
   },
@@ -25,8 +25,7 @@ const params: UseUserFactoryParams<User, any, any> = {
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async ({ username, password }) => {
-    // @todo
-    return {};
+    return await signIn(username, password);
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   changePassword: async function changePassword({currentUser, currentPassword, newPassword}) {
@@ -35,6 +34,6 @@ const params: UseUserFactoryParams<User, any, any> = {
   }
 };
 
-const {setUser, useUser} = useUserFactory<User, any, any>(params);
+const {setUser, useUser} = useUserFactory<any, any, any>(params);
 
 export {setUser, useUser};

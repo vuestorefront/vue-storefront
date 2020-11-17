@@ -7,13 +7,13 @@ import {
 import mutationDocument from './clearCartMutation';
 
 const clearCart = async (cart: CartType): Promise<void> => {
-  const { store, userId, currency, locale } = getSettings();
+  const { store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.mutate<ClearCartMutation, ClearCartMutationVariables>({
     mutation: mutationDocument,
     variables: {
       command: {
         storeId: store,
-        userId: userId,
+        userId: getUserId(),
         currency: currency,
         language: locale,
       },

@@ -8,13 +8,13 @@ import { xApiClient, getSettings } from '../../index';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
  async function getProductById(options: any): Promise<Product[]> {
   
-  const {store, userId, currency, locale } = getSettings();
+  const {store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.query<GetProductByIdQuery, GetProductByIdQueryVariables>({
     query: getProductByIdQueryDocument,
     variables: {
       id: options.id,
       storeId: store,
-      userId: userId,
+      userId: getUserId(),
       currencyCode: currency,
       cultureName: locale
     }

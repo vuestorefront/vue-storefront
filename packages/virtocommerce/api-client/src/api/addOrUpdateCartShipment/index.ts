@@ -8,14 +8,14 @@ import {
 import mutationDocument from './addOrUpdateCartShipmentMutation';
 
 const addOrUpdateCartShipment = async (cart: CartType, shipment: InputShipmentType): Promise<void> => {
-  const { store, userId, currency, locale } = getSettings();
+  const { store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.mutate<AddOrUpdateCartShpmentMutation, AddOrUpdateCartShpmentMutationVariables>({
     mutation: mutationDocument,
     variables: {
       command: {
         shipment: shipment,
         storeId: store,
-        userId: userId,
+        userId: getUserId(),
         currency: currency,
         language: locale,
       },

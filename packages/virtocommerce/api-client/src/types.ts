@@ -1,13 +1,18 @@
 export type ApiConfig = {
   uri: string;
+  accessTokenUri: string;
 }
 
 export type Config = {
   api: ApiConfig; 
-  userId : string;
+  //userId : string;
   currency: string;
   locale: string;
   store: string;  
+  getUserId: () => string;
+  setUserId: (string) => void;
+  getAccessToken: () => string;
+  setAccessToken: (string) => void;
   catalogId: string; //it is workaround need to inference catalog id from store 
   countries: ['USA', "Russia"]
 }

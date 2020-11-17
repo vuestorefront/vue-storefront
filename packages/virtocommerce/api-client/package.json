@@ -14,6 +14,10 @@
     "generate:graphql": "graphql-codegen -c graphql.codegen.json"
   },
   "dependencies": {
+    "@graphql-codegen/add": "^2.0.1",
+    "@graphql-codegen/cli": "1.17.8",
+    "@graphql-codegen/typescript": "1.17.8",
+    "@graphql-codegen/typescript-operations": "1.17.8",
     "@vue-storefront/core": "2.0.10",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
@@ -21,14 +25,12 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
+    "client-oauth2": "^4.3.3",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
-    "@graphql-codegen/add": "^2.0.1",
-    "@graphql-codegen/cli": "1.17.8",
-    "@graphql-codegen/typescript": "1.17.8",
-    "@graphql-codegen/typescript-operations": "1.17.8",
     "isomorphic-fetch": "^2.2.1",
-    "rollup-plugin-graphql": "^0.1.0"
+    "rollup-plugin-graphql": "^0.1.0",
+    "js-cookie": "^2.2.1"
   },
   "files": [
     "lib/**/*"

@@ -7,15 +7,12 @@ import { xApiClient, getSettings } from '../../index';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function searchProducts(options: any): Promise<any> {
 
-  console.log("searchProducts()");
-  console.log(options);
-  console.log(options.input.outline);
-  const {store, userId, currency, locale, catalogId } = getSettings();
+  const {store, getUserId, currency, locale, catalogId } = getSettings();
   const { data } = await xApiClient.query<SearchProductsQuery, SearchProductsQueryVariables>({
     query: searchProductsQueryDocument,
     variables: {
       storeId: store,
-      userId: userId,
+      userId: getUserId(),
       currencyCode: currency,
       cultureName: locale,
       //it is workaround to get catalogId from config  need to inference catalog id from store

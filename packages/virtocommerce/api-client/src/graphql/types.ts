@@ -2275,6 +2275,7 @@ export type Query = {
   categories?: Maybe<CategoryConnection>;
   category?: Maybe<Category>;
   contact?: Maybe<ContactType>;
+  me?: Maybe<UserType>;
   order?: Maybe<CustomerOrderType>;
   orders?: Maybe<CustomerOrderConnection>;
   organization?: Maybe<Organization>;
@@ -2825,6 +2826,51 @@ export type GetCartQuery = (
         { __typename?: 'ErrorParameterType' }
         & Pick<ErrorParameterType, 'key' | 'value'>
       )>>> }
+    )>>> }
+  )> }
+);
+
+export type LoadUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadUserQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'UserType' }
+    & Pick<UserType, 'id' | 'userName' | 'email' | 'emailConfirmed' | 'photoUrl' | 'phoneNumber' | 'permissions'>
+    & { contact?: Maybe<(
+      { __typename?: 'ContactType' }
+      & Pick<ContactType, 'firstName' | 'lastName' | 'fullName'>
+    )> }
+  )> }
+);
+
+export type GetMyOrdersQueryVariables = Exact<{
+  userId: Scalars['String'];
+  filter: Scalars['String'];
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetMyOrdersQuery = (
+  { __typename?: 'Query' }
+  & { orders?: Maybe<(
+    { __typename?: 'CustomerOrderConnection' }
+    & Pick<CustomerOrderConnection, 'totalCount'>
+    & { items?: Maybe<Array<Maybe<(
+      { __typename?: 'CustomerOrderType' }
+      & Pick<CustomerOrderType, 'id' | 'createdDate' | 'status' | 'number' | 'customerId'>
+      & { items: Array<Maybe<(
+        { __typename?: 'OrderLineItemType' }
+        & Pick<OrderLineItemType, 'sku' | 'name' | 'quantity' | 'price'>
+      )>>, currency?: Maybe<(
+        { __typename?: 'CurrencyType' }
+        & Pick<CurrencyType, 'code'>
+      )>, total?: Maybe<(
+        { __typename?: 'OrderMoneyType' }
+        & Pick<OrderMoneyType, 'amount'>
+      )> }
     )>>> }
   )> }
 );

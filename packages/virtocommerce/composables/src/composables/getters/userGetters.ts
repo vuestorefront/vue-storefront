@@ -1,17 +1,16 @@
 /* istanbul ignore file */
 
 import { UserGetters} from '@vue-storefront/core';
-import { User } from '../../types';
 
-export const getUserFirstName = (user: User): string => user?.firstName || '';
+export const getUserFirstName = (user: any): string => user?.contact?.firstName || '';
 
-export const getUserLastName = (user: User): string => user?.lastName || '';
+export const getUserLastName = (user: any): string => user?.contact?.lastName || '';
 
-export const getUserFullName = (user: User): string => user ? `${user.firstName} ${user.lastName}` : '';
+export const getUserFullName = (user: any): string => user ? `${user?.contact?.firstName} ${user?.contact?.lastName}` : '';
 
-export const getUserEmailAddress = (user: User): string => user?.email || '';
+export const getUserEmailAddress = (user: any): string => user?.email || '';
 
-const userGetters: UserGetters<User> = {
+const userGetters: UserGetters<any> = {
   getFirstName: getUserFirstName,
   getLastName: getUserLastName,
   getFullName: getUserFullName,

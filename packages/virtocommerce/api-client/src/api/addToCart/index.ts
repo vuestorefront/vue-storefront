@@ -8,7 +8,7 @@ import {
 import mutationDocument from './addToCartMutation';
 
 const addToCart = async (cart: CartType, product: Product,  qty: number): Promise<CartType> => {
-  const { store, userId, currency, locale } = getSettings();
+  const { store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.mutate<AddItemMutation, AddItemMutationVariables>({
     mutation: mutationDocument,
     variables: {
@@ -16,7 +16,7 @@ const addToCart = async (cart: CartType, product: Product,  qty: number): Promis
         productId: product.id,
         quantity: qty,
         storeId: store,
-        userId: userId,
+        userId: getUserId(),
         currency: currency,
         language: locale,
       },

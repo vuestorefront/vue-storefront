@@ -2,18 +2,19 @@
 
 import { UserOrderGetters } from '@vue-storefront/core';
 import { Order, OrderItem } from '../../types';
+import { formatPrice } from "../utils";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getDate = (order: any): string => order?.date || '123';
+export const getDate = (order: any): string => order?.createdDate || 'undef';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getId = (order: any): string => order?.id || '123';
+export const getId = (order: any): string => order?.number || 'undef';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getStatus = (order: any): string => order?.status || 'Failed';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getPrice = (order: any): number | null => order?.price || 0;
+export const getPrice = (order: any): number | null => order?.total?.amount || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (order: any): any[] => order?.items || [];
@@ -25,13 +26,13 @@ export const getItemSku = (item: any): string => item?.sku || 0;
 export const getItemName = (item: any): string => item?.name || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemQty = (item: any): number => item?.qty || 0;
+export const getItemQty = (item: any): number => item?.quantity || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemPrice = (item: any): number => item?.price?.current || 0;
+export const getItemPrice = (item: any): number => item?.price || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) => String(price);
+export const getFormattedPrice = (price: number) => formatPrice(price);
 
 const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getDate,

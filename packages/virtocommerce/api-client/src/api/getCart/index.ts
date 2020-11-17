@@ -7,12 +7,12 @@ import {
 import queryDocument from './getCartQuery';
 
 const getCart = async (): Promise<CartType> => {
-  const { store, userId, currency, locale } = getSettings();
+  const { store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.query<GetCartQuery, GetCartQueryVariables>({
     query: queryDocument,
     variables: {
       storeId: store,
-      userId: userId,
+      userId: getUserId(),
       currencyCode: currency,
       cultureName: locale
     },

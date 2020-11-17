@@ -8,7 +8,7 @@ import {
 import mutationDocument from './placeOrderMutation';
 
 const placeOrder = async (cart: CartType): Promise<any> => {
-  const { store, userId, currency, locale } = getSettings();
+  const { store, getUserId, currency, locale } = getSettings();
   const { data } = await xApiClient.mutate<PlaceOrderMutation, PlaceOrderMutationVariables>({
     mutation: mutationDocument,
     variables: {
