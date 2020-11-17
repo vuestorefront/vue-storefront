@@ -20,12 +20,14 @@ import customerChangeMyPassword from './api/customerChangeMyPassword';
 import customerUpdateMe from './api/customerUpdateMe';
 import createAccessToken from './helpers/createAccessToken';
 import {
+  apiClientMethodFactory,
   getSettings,
   setup,
   update
 } from './configuration';
 
 export {
+  apiClientMethodFactory,
   getSettings,
   setup,
   update,
