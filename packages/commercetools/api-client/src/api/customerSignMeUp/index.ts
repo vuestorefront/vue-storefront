@@ -5,6 +5,7 @@ import { SignInResponse } from '../../types/Api';
 import createAccessToken from '../../helpers/createAccessToken';
 
 const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
+  const settings = getSettings();
   const { locale, acceptLanguage, currentToken, auth, client } = getSettings();
   const registerResponse = await client.mutate({
     mutation: CustomerSignMeUpMutation,
@@ -13,7 +14,7 @@ const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<SignInRes
   }) as SignInResponse;
 
   const customerCredentials = { username: draft.email, password: draft.password };
-  const token = await createAccessToken({ currentToken, customerCredentials });
+  const token = await createAccessToken(settings, { currentToken, customerCredentials });
   auth.onTokenChange(token);
 
   return registerResponse;

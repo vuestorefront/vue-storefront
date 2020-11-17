@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { setup } from '@vue-storefront/commercetools-api';
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
+import { registerIntegration } from '@vue-storefront/core';
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
@@ -11,14 +12,14 @@ import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/hel
 Middleware[CT_TOKEN_MIDDLEWARE_SLUG] = ctTokenMiddleware(moduleOptions);
 <% } %>
 
-export default ({ app }) => {
+export default registerIntegration(({ app, vsf }) => {
   const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
 
   const onTokenChange = (token) => {
     try {
       if (!process.server) {
         app.$cookies.set(CT_TOKEN_COOKIE_NAME, token);
-        setup({ currentToken: token });
+        vsf.configure(setup({ currentToken: token }));
       }
     } catch (e) {
       // Cookies on is set after request has sent.
@@ -27,10 +28,10 @@ export default ({ app }) => {
 
   const onTokenRemove = () => {
     app.$cookies.remove(CT_TOKEN_COOKIE_NAME);
-    setup({ currentToken: null, forceToken: true });
+    vsf.configure(setup({ currentToken: null, forceToken: true }));
   };
 
-  setup(
+  vsf.configure(setup(
     mapConfigToSetupObject({
       moduleOptions,
       app,
@@ -42,5 +43,5 @@ export default ({ app }) => {
         }
       }
     })
-  )
-};
+  ))
+});

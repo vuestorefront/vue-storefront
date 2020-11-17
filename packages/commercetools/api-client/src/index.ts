@@ -25,20 +25,23 @@ import createAccessToken from './helpers/createAccessToken';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config, ConfigurableConfig } from './types/setup';
 
-let apolloClient: ApolloClient<any> = null;
-
 const onSetup = (config: Config) => {
-  config.languageMap = config.languageMap || {};
-  config.acceptLanguage = config.languageMap[config.locale] || config.acceptLanguage;
-  apolloClient = new ApolloClient({
-    link: createCommerceToolsLink(),
-    cache: new InMemoryCache(),
-    ...config.customOptions
-  });
-  config.client = apolloClient;
+  const languageMap = config.languageMap || {};
+
+  return {
+    ...config,
+    languageMap,
+    acceptLanguage: languageMap[config.locale] || config.acceptLanguage,
+    client: new ApolloClient({
+      link: createCommerceToolsLink(config),
+      cache: new InMemoryCache(),
+      ...config.customOptions
+    })
+  };
 };
 
 const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
+  tag: 'ct',
   onSetup,
   defaultSettings: {
     locale: 'en',
@@ -57,7 +60,6 @@ const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConf
 export {
   getSettings,
   createAccessToken,
-  apolloClient,
   setup,
   update,
   getProduct,
