@@ -5,6 +5,7 @@ if (config.server.http2ServerPush) {
   serverHooks.beforeOutputRenderedResponse(({
     res,
     context,
+    output,
     isProd
   }) => {
     if (isProd) {
@@ -20,5 +21,6 @@ if (config.server.http2ServerPush) {
         res.setHeader('Link', serverPushItems)
       }
     }
+    return output
   })
 }
