@@ -9,23 +9,28 @@
         <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
       </div>
       <div class="navbar__main">
-        <SfButton data-cy="category-btn_filters"
+        <SfButton
           class="sf-button--text navbar__filters-button"
           aria-label="Filters"
           @click="toggleFilterSidebar"
         >
           <SfIcon
-            size="18px"
+            size="24px"
             color="dark-secondary"
-            icon="filter"
+            icon="filter2"
             class="navbar__filters-icon"
-            data-cy="category-icon_"
           />
-          {{ $t('Filters') }}
+           {{ $t('Filters') }}
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" :selected="sortBy.selected" placeholder="select sorting" @change="th.changeSorting" data-cy="category-select_sortBy">
+          <SfSelect
+            :selected="sortBy.selected"
+            placeholder="Select sorting"
+            data-cy="category-select_sortBy"
+            class="navbar__select"
+            @change="th.changeSorting"
+          >
             <SfSelectOption
               v-for="option in sortBy.options"
               :key="option.id"
@@ -52,10 +57,8 @@
             aria-label="Change to grid view"
             :aria-pressed="isCategoryGridView"
             @click="toggleCategoryGridView"
-          >
-          </SfIcon>
+          />
           <SfIcon
-            data-cy="category-icon_list-view"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -68,32 +71,55 @@
         </div>
       </div>
     </div>
-
     <div class="main section">
       <div class="sidebar desktop-only">
         <SfLoader :class="{ loading }" :loading="loading">
-          <SfAccordion :firstOpen="true" :showChevron="false">
+          <SfAccordion :open="categoryTree.items ? categoryTree.items[0].label : ''" :show-chevron="true">
             <SfAccordionItem
               v-for="(cat, i) in categoryTree && categoryTree.items"
               :key="i"
               :header="cat.label"
             >
-              <SfList class="list">
-                <SfListItem class="list__item">
-                  <SfMenuItem :count="cat.count || ''" :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
-                    <template #label>
-                      <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-                <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                  <SfMenuItem :count="subCat.count || ''" :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
-                    <template #label="{ label }">
-                      <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-              </SfList>
+              <template>
+                <SfList class="list">
+                  <SfListItem class="list__item">
+                    <SfMenuItem
+                      :count="cat.count || ''"
+                      :data-cy="`category-link_subcategory_${cat.slug}`"
+                      :label="cat.label"
+                    >
+                      <template #label>
+                        <nuxt-link
+                        :to="localePath(th.getCatLink(cat))"
+                        :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          All
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem
+                    class="list__item"
+                    v-for="(subCat, j) in cat.items"
+                    :key="j"
+                  >
+                    <SfMenuItem
+                      :count="subCat.count || ''"
+                      :data-cy="`category-link_subcategory_${subCat.slug}`"
+                      :label="subCat.label"
+                    >
+                      <template #label="{ label }">
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(subCat))"
+                          :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          {{ label }}
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </template>
             </SfAccordionItem>
           </SfAccordion>
         </SfLoader>
@@ -121,10 +147,10 @@
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
               :isAddedToCart="isOnCart(product)"
-              @click:wishlist="addToWishlist(product)"
-              @click:add-to-cart="addToCart(product, 1)"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
+              @click:wishlist="addToWishlist(product)"
+              @click:add-to-cart="addToCart(product, 1)"
             />
           </transition-group>
           <transition-group
@@ -150,24 +176,53 @@
               class="products__product-card-horizontal"
               @click:wishlist="addToWishlist(product)"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-            />
+            >
+              <template #configuration>
+                <SfProperty
+                  class="desktop-only"
+                  name="Size"
+                  value="XS"
+                  style="margin: 0 0 1rem 0;"
+                />
+                <SfProperty class="desktop-only" name="Color" value="white" />
+              </template>
+              <template #actions>
+                <SfButton
+                  class="sf-button--text desktop-only"
+                  style="margin: 0 0 1rem auto; display: block;"
+                  @click="() => {}"
+                >
+                  Save for later
+                </SfButton>
+                <SfButton
+                  class="sf-button--text desktop-only"
+                  style="margin: 0 0 0 auto; display: block;"
+                  @click="() => {}"
+                >
+                  Add to compare
+                </SfButton>
+              </template>
+            </SfProductCardHorizontal>
           </transition-group>
           <SfPagination
             v-if="!loading"
             data-cy="category-pagination"
+            class="products__pagination desktop-only"
             v-show="pagination.totalPages > 1"
-            class="products__pagination"
             :current="pagination.currentPage"
             :total="pagination.totalPages"
             :visible="5"
           />
-          <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
           <div
             v-show="pagination.totalPages > 1"
-            class="products__pagination__options desktop-only"
+            class="products__show-on-page"
           >
-            <span class="products__pagination__label">Show on page:</span>
-            <SfSelect class="products__items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
+            <span class="products__show-on-page__label">Show on page:</span>
+            <SfSelect
+              :selected="pagination.itemsPerPage"
+              class="products__items-per-page"
+              @change="th.changeItemsPerPage"
+            >
               <SfSelectOption
                 v-for="option in pagination.pageOptions"
                 :key="option"
@@ -178,59 +233,9 @@
               </SfSelectOption>
             </SfSelect>
           </div>
-          <!-- end of TODO -->
         </div>
       </SfLoader>
     </div>
-    <SfSidebar
-      :visible="isFilterSidebarOpen"
-      title="Filters"
-      @close="toggleFilterSidebar"
-    >
-      <Filters :facets="facets">
-        <template #categories-mobile>
-          <SfAccordionItem
-            header="Category"
-            class="filters__accordion-item"
-          >
-            <SfAccordion class="categories">
-              <SfAccordionItem
-                v-for="cat in categoryTree && categoryTree.items"
-                :key="`category-${cat.slug}`"
-                :header="cat.label"
-              >
-                <SfList class="list">
-                  <SfListItem class="list__item">
-                    <SfMenuItem
-                      :count="cat.coun || ''"
-                      :data-cy="`category-link_subcategory_${cat.slug}`"
-                      :label="cat.label"
-                      icon=""
-                    >
-                      <template #label>
-                        <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
-                    <SfMenuItem
-                      :count="subCat.count || ''"
-                      :data-cy="`category-link_subcategory_${subCat.slug}`"
-                      :label="subCat.label"
-                      icon=""
-                    >
-                      <template #label="{ label }">
-                        <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </SfAccordionItem>
-            </SfAccordion>
-          </SfAccordionItem>
-        </template>
-      </Filters>
-    </SfSidebar>
   </div>
 </template>
 
@@ -250,7 +255,8 @@ import {
   SfSelect,
   SfBreadcrumbs,
   SfLoader,
-  SfColor
+  SfColor,
+  SfProperty
 } from '@storefront-ui/vue';
 import { computed, onMounted } from '@vue/composition-api';
 import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
@@ -274,7 +280,6 @@ export default {
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
     const pagination = computed(() => facetGetters.getPagination(result.value));
-
     onSSR(async () => {
       await search(th.getFacetsFromURL());
     });
@@ -311,7 +316,8 @@ export default {
     SfLoader,
     SfColor,
     SfHeading,
-    Filters
+    Filters,
+    SfProperty
   }
 };
 </script>
@@ -334,7 +340,8 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-base) 0;
+  padding: var(--spacer-base) var(--spacer-base) var(--spacer-base)
+    var(--spacer-sm);
 }
 .navbar {
   position: relative;
@@ -355,11 +362,6 @@ export default {
     display: flex;
     align-items: center;
     padding: var(--spacer-sm) 0;
-    flex: 1;
-    padding: 0;
-    @include for-desktop {
-      padding: var(--spacer-xs) var(--spacer-xl);
-    }
   }
   &__aside {
     flex: 0 0 15%;
@@ -367,20 +369,27 @@ export default {
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
+  &__main {
+    flex: 1;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
+    }
+  }
   &__title {
-    --heading-title-font-weight: var(--font-weight--light);
+    --heading-title-font-weight: var(--font-weight--semibold);
     --heading-title-font-size: var(--font-size--xl);
   }
   &__filters-icon {
-    margin: 0 var(--spacer-sm) 0 0;
+    margin: 0 var(--spacer-xs) 0 0;
   }
   &__filters-button {
-    --button-color: var(--c-link);
-    --button-font-size: var(--font-size--base);
-    --button-font-weight: var(--font-weight--normal);
-    --button-text-decoration: none;
     display: flex;
     align-items: center;
+    --button-font-size: var(--font-size--base);
+    --button-text-decoration: none;
+    --button-color: var(--c-link);
+    --button-font-weight: var(--font-weight--normal);
     @include for-mobile {
       order: 1;
     }
@@ -398,14 +407,25 @@ export default {
     font-family: var(--font-family--secondary);
     font-weight: var(--font-weight--normal);
     color: var(--c-link);
-    margin: 0 var(--spacer-xs) 0 0;
+    margin: 0 var(--spacer-2xs) 0 0;
   }
   &__select {
-    --select-option-font-size: var(--font-size--base);
-    --select-padding: var(--spacer-sm) 0;
+    --select-width: 220px;
+    --select-padding: 0;
+    --select-height: auto;
+    --select-selected-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
+    --select-margin: 0;
+    --select-option-font-size: var(--font-size-sm);
+    --select-error-message-height: 0;
     ::v-deep .sf-select__dropdown {
-      font-size: var(--font-size--base);
-      margin: var(--spacer-2xs) 0 0 0;
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family--primary);
+      font-weight: var(--font-weight--light);
+      margin: 0;
+    }
+    ::v-deep .sf-select__placeholder {
+      --select-option-font-size: var(--font-size-sm);
+      color: red;
     }
   }
   &__sort {
@@ -423,11 +443,9 @@ export default {
   &__view {
     display: flex;
     align-items: center;
+    margin: 0 var(--spacer-xl);
     @include for-desktop {
       margin: 0 0 0 var(--spacer-2xl);
-    }
-    @include for-mobile {
-      order: -1;
     }
     &-icon {
       cursor: pointer;
@@ -438,30 +456,25 @@ export default {
     }
     &-label {
       margin: 0 var(--spacer-sm) 0 0;
-      font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--secondary);
+      font: var(--font-weight--normal) var(--font-size--base) / 1.6
+        var(--font-family--secondary);
+      text-decoration: none;
       color: var(--c-link);
     }
   }
 }
 .sort-by {
-  --select-dropdown-z-index: 1;
   flex: unset;
   width: 11.875rem;
 }
 .main {
   display: flex;
-  .loading {
-    margin-top: 100px;
-  }
 }
 .sidebar {
   flex: 0 0 15%;
   padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
-  .loading {
-    margin-top: 50px;
-  }
 }
 .sidebar-filters {
   --sidebar-title-display: none;
@@ -472,7 +485,7 @@ export default {
   }
 }
 .list {
-  --menu-item-font-size: var(--font-sm);
+  --menu-item-font-size: var(--font-size--sm);
   &__item {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
@@ -488,25 +501,9 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
-  &__grid {
-    justify-content: space-between;
-  }
-  &__grid,
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    @include for-desktop {
-      justify-content: flex-start;
-    }
-  }
   &__product-card {
-    --product-card-add-button-transform: translate3d(0, 30%, 0);
-     flex: 1 1 50%;
-    @include for-desktop {
-      --product-card-padding: var(--spacer-sm);
-      flex: 1 1 25%;
-    }
+    --product-card-title-margin: var(--spacer-base) 0 0 0;
+    flex: 1 1 50%;
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
@@ -519,26 +516,14 @@ export default {
     transition: all 0.2s ease;
     transition-delay: calc(0.1s * var(--index));
   }
-  &__pagination {
-      display: flex;
-      justify-content: center;
-      margin: var(--spacer-xl) 0 0 0;
-  }
   @include for-desktop {
-    margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    &__grid {
+      margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    }
     &__pagination {
-      &__options {
-        display: flex;
-        align-items: baseline;
-        justify-content: flex-end;
-      }
-      &__label {
-        font-family: var(--font-family--secondary);
-        font-size: var(--font-size--sm);
-        font-weight: var(--font-weight--normal);
-        color: var(--c-link);
-        margin-right: var(--spacer-2xs);
-      }
+      display: flex;
+      justify-content: flex-start;
+      margin: var(--spacer-xl) 0 0 0;
     }
     &__product-card-horizontal {
       margin: var(--spacer-lg) 0;
@@ -550,8 +535,58 @@ export default {
       margin: 0 0 0 var(--spacer-sm);
     }
   }
+  &__show-on-page {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    &__label {
+      font-family: var(--font-family--secondary);
+      font-size: var(--font-size--sm);
+    }
+  }
+}
+.loading {
+  margin-top: 100px;
 }
 .filters {
+  &__title {
+    --heading-title-font-size: var(--font-size--xl);
+    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+    &:first-child {
+      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
+    }
+  }
+  &__colors {
+    display: flex;
+  }
+  &__color {
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
+  }
+  &__chosen {
+    color: var(--c-text-muted);
+    font-weight: var(--font-weight--normal);
+    font-family: var(--font-family--secondary);
+    position: absolute;
+    right: var(--spacer-xl);
+  }
+  &__item {
+    --radio-container-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    --radio-background: transparent;
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
+    }
+    @include for-desktop {
+      --checkbox-padding: 0;
+      margin: var(--spacer-sm) 0;
+      border: 0;
+      padding: 0;
+    }
+  }
   &__accordion-item {
     --accordion-item-content-padding: 0;
     position: relative;
@@ -561,5 +596,257 @@ export default {
     margin-right: -50vw;
     width: 100vw;
   }
+  &__buttons {
+    margin: var(--spacer-sm) 0;
+  }
+  &__button-clear {
+    --button-background: var(--c-light);
+    --button-color: var(--c-dark-variant);
+    margin: var(--spacer-xs) 0 0 0;
+  }
 }
+// #category {
+//   box-sizing: border-box;
+//   @include for-desktop {
+//     max-width: 1240px;
+//     margin: 0 auto;
+//   }
+// }
+// .main {
+//   &.section {
+//     padding: var(--spacer-xs);
+//     @include for-desktop {
+//       padding: 0;
+//     }
+//   }
+// }
+// .breadcrumbs {
+//   padding: var(--spacer-base) 0;
+// }
+// .navbar {
+//   position: relative;
+//   display: flex;
+//   border: 1px solid var(--c-light);
+//   border-width: 0 0 1px 0;
+//   @include for-desktop {
+//     border-width: 1px 0 1px 0;
+//   }
+//   &.section {
+//     padding: var(--spacer-sm);
+//     @include for-desktop {
+//       padding: 0;
+//     }
+//   }
+//   &__aside,
+//   &__main {
+//     display: flex;
+//     align-items: center;
+//     padding: var(--spacer-sm) 0;
+//     flex: 1;
+//     padding: 0;
+//     @include for-desktop {
+//       padding: var(--spacer-xs) var(--spacer-xl);
+//     }
+//   }
+//   &__aside {
+//     flex: 0 0 15%;
+//     padding: var(--spacer-sm) var(--spacer-sm);
+//     border: 1px solid var(--c-light);
+//     border-width: 0 1px 0 0;
+//   }
+//   &__title {
+//     --heading-title-font-weight: var(--font-weight--light);
+//     --heading-title-font-size: var(--font-size--xl);
+//   }
+//   &__filters-icon {
+//     margin: 0 var(--spacer-sm) 0 0;
+//   }
+//   &__filters-button {
+//     --button-color: var(--c-link);
+//     --button-font-size: var(--font-size--base);
+//     --button-font-weight: var(--font-weight--normal);
+//     --button-text-decoration: none;
+//     display: flex;
+//     align-items: center;
+//     @include for-mobile {
+//       order: 1;
+//     }
+//     svg {
+//       fill: var(--c-text-muted);
+//       transition: fill 150ms ease;
+//     }
+//     &:hover {
+//       svg {
+//         fill: var(--c-primary);
+//       }
+//     }
+//   }
+//   &__label {
+//     font-family: var(--font-family--secondary);
+//     font-weight: var(--font-weight--normal);
+//     color: var(--c-link);
+//     margin: 0 var(--spacer-xs) 0 0;
+//   }
+//   &__select {
+//     --select-option-font-size: var(--font-size--base);
+//     --select-padding: var(--spacer-sm) 0;
+//     ::v-deep .sf-select__dropdown {
+//       font-size: var(--font-size--base);
+//       margin: var(--spacer-2xs) 0 0 0;
+//     }
+//   }
+//   &__sort {
+//     display: flex;
+//     align-items: center;
+//     margin: 0 auto 0 var(--spacer-2xl);
+//   }
+//   &__counter {
+//     font-family: var(--font-family--secondary);
+//     margin: auto;
+//     @include for-desktop {
+//       margin: auto 0 auto auto;
+//     }
+//   }
+//   &__view {
+//     display: flex;
+//     align-items: center;
+//     @include for-desktop {
+//       margin: 0 0 0 var(--spacer-2xl);
+//     }
+//     @include for-mobile {
+//       order: -1;
+//     }
+//     &-icon {
+//       cursor: pointer;
+//       margin: 0 var(--spacer-base) 0 0;
+//       &:last-child {
+//         margin: 0;
+//       }
+//     }
+//     &-label {
+//       margin: 0 var(--spacer-sm) 0 0;
+//       font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--secondary);
+//       color: var(--c-link);
+//     }
+//   }
+// }
+// .sort-by {
+//   --select-dropdown-z-index: 1;
+//   flex: unset;
+//   width: 11.875rem;
+// }
+// .main {
+//   display: flex;
+//   .loading {
+//     margin-top: 100px;
+//   }
+// }
+// .sidebar {
+//   flex: 0 0 15%;
+//   padding: var(--spacer-sm);
+//   border: 1px solid var(--c-light);
+//   border-width: 0 1px 0 0;
+//   .loading {
+//     margin-top: 50px;
+//   }
+// }
+// .sidebar-filters {
+//   --sidebar-title-display: none;
+//   --sidebar-top-padding: 0;
+//   @include for-desktop {
+//     --sidebar-content-padding: 0 var(--spacer-xl);
+//     --sidebar-bottom-padding: 0 var(--spacer-xl);
+//   }
+// }
+// .list {
+//   --menu-item-font-size: var(--font-sm);
+//   &__item {
+//     &:not(:last-of-type) {
+//       --list-item-margin: 0 0 var(--spacer-sm) 0;
+//     }
+//   }
+// }
+// .products {
+//   box-sizing: border-box;
+//   flex: 1;
+//   margin: 0;
+//   &__grid,
+//   &__list {
+//     display: flex;
+//     flex-wrap: wrap;
+//   }
+//   &__grid {
+//     justify-content: space-between;
+//   }
+//   &__grid,
+//   &__list {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     @include for-desktop {
+//       justify-content: flex-start;
+//     }
+//   }
+//   &__product-card {
+//     --product-card-add-button-transform: translate3d(0, 30%, 0);
+//      flex: 1 1 50%;
+//     @include for-desktop {
+//       --product-card-padding: var(--spacer-sm);
+//       flex: 1 1 25%;
+//     }
+//   }
+//   &__product-card-horizontal {
+//     flex: 0 0 100%;
+//   }
+//   &__slide-enter {
+//     opacity: 0;
+//     transform: scale(0.5);
+//   }
+//   &__slide-enter-active {
+//     transition: all 0.2s ease;
+//     transition-delay: calc(0.1s * var(--index));
+//   }
+//   &__pagination {
+//       display: flex;
+//       justify-content: center;
+//       margin: var(--spacer-xl) 0 0 0;
+//   }
+//   @include for-desktop {
+//     margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+//     &__pagination {
+//       &__options {
+//         display: flex;
+//         align-items: baseline;
+//         justify-content: flex-end;
+//       }
+//       &__label {
+//         font-family: var(--font-family--secondary);
+//         font-size: var(--font-size--sm);
+//         font-weight: var(--font-weight--normal);
+//         color: var(--c-link);
+//         margin-right: var(--spacer-2xs);
+//       }
+//     }
+//     &__product-card-horizontal {
+//       margin: var(--spacer-lg) 0;
+//     }
+//     &__product-card {
+//       flex: 1 1 25%;
+//     }
+//     &__list {
+//       margin: 0 0 0 var(--spacer-sm);
+//     }
+//   }
+// }
+// .filters {
+//   &__accordion-item {
+//     --accordion-item-content-padding: 0;
+//     position: relative;
+//     left: 50%;
+//     right: 50%;
+//     margin-left: -50vw;
+//     margin-right: -50vw;
+//     width: 100vw;
+//   }
+// }
 </style>
