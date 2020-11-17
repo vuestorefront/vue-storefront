@@ -51,7 +51,7 @@
             v-model="configuration.size"
             label="Size"
             class="sf-select--underlined product__select-size"
-            :reqired="true"
+            :required="true"
           >
             <SfSelectOption
               v-for="size in options.size"
