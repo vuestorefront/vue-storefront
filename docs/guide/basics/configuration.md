@@ -35,6 +35,8 @@ Please find the configuration properties reference below.
     "minifyJS": true,
     "minifyCSS": true
   },
+  "http2ServerPush": true,
+  "compression": true,
   "useOutputCacheTagging": false,
   "useOutputCache": false
 },
@@ -43,6 +45,10 @@ Please find the configuration properties reference below.
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
 When the `useHtmlMinifier` is set to true the generated SSR HTML is being minified [using the `htmlMinifierOptions`](https://www.npmjs.com/package/html-minifier#options-quick-reference).
+
+When the `http2ServerPush` is set to true - production server will add `Link` headers to the main document's response. Thanks to that, they will be sent to the client's browser without even requesting. It should make your PWA faster.
+
+When the `compression` is set to true - assets will be compressed with GZip. You might want to disable it if you want to use Brotli compression on your server.
 
 When the `useOutputCacheTagging` and `useOutputCache` options are enabled, Vue Storefront is storing the rendered pages in the Redis-based output cache. Some additional config options are available for the output cache. [Check the details](ssr-cache.md)
 

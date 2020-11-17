@@ -10,6 +10,7 @@
       "minifyJS": true,
       "minifyCSS": true
     },
+    "http2ServerPush": true,
     "compression": true,
     "useOutputCacheTagging": false,
     "useOutputCache": false,
