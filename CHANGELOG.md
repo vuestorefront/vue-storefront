@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unit tests for for modules.ts - @TamTran72111 (#5109)
 - Added `lazyVisibility` mixin - performance optimization - @gibkigonzo (#5182)
 - `config.server.compression` property for disabling gzip compression (#5183)
-- HTTP2 Server Push support for critical JS assets - @Fifciu
+- HTTP2 Server Push support for critical JS assets - @Fifciu (#5199)
 
 ### Fixed
 
