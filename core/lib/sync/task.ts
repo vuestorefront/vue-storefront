@@ -53,11 +53,11 @@ function getPayload (task, currentToken) {
   const payload = {
     mode: 'cors',
     method: 'GET',
-    ...(task && task.payload ? task.payload : {}),
+    ...(task?.payload || {}),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json, text/plain, */*',
-      ...(task && task.payload && task.payload.headers ? task.payload.headers : {}),
+      ...(task?.payload?.headers || {}),
       ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: `${config.users.tokenAuthScheme} ${currentToken}` } : {})
     }
   }
