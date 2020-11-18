@@ -33,9 +33,9 @@ jest.mock('@vue-storefront/core/lib/sync', () => ({
   }
 }))
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  ReviewsService: jest.fn(() => Promise.resolve({
+  ReviewsService: {
     createReview: jest.fn(() => true)
-  }))
+  }
 }))
 
 EventBus.$emit = jest.fn()
@@ -139,9 +139,7 @@ describe('Review actions', () => {
       const payload = expect.anything()
       const wrapper = (actions: any) => actions.add(contextMock, payload);
 
-      (ReviewsService as jest.Mock).mockImplementation(() => Promise.resolve({
-        createReview: jest.fn(() => false)
-      }));
+      (ReviewsService.createReview as jest.Mock).mockImplementationOnce(jest.fn(() => false))
 
       await wrapper(reviewActions);
 

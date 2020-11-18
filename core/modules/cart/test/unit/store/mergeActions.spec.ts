@@ -30,11 +30,11 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  CartService: jest.fn(() => Promise.resolve({
+  CartService: {
     applyCoupon: async () => ({ result: true }),
     removeCoupon: async () => ({ result: true }),
     updateItem: jest.fn()
-  }))
+  }
 }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
@@ -118,11 +118,7 @@ describe('Cart mergeActions', () => {
     };
 
     (createCartItemForUpdate as jest.Mock).mockImplementation(() => clientItem);
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      applyCoupon: async () => ({ result: true }),
-      removeCoupon: async () => ({ result: true }),
-      updateItem: () => Promise.resolve({ resultCode: 500 })
-    }));
+    (CartService.updateItem as jest.Mock).mockImplementation(() => Promise.resolve({ resultCode: 500 }));
 
     const contextMock = createContextMock({
       getters: {
@@ -148,11 +144,7 @@ describe('Cart mergeActions', () => {
     };
 
     (createCartItemForUpdate as jest.Mock).mockImplementation(() => clientItem);
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      applyCoupon: async () => ({ result: true }),
-      removeCoupon: async () => ({ result: true }),
-      updateItem: () => Promise.resolve({ resultCode: 500 })
-    }));
+    (CartService.updateItem as jest.Mock).mockImplementation(() => Promise.resolve({ resultCode: 500 }));
 
     const contextMock = createContextMock({
       getters: {
@@ -179,11 +171,7 @@ describe('Cart mergeActions', () => {
     };
 
     (createCartItemForUpdate as jest.Mock).mockImplementation(() => clientItem);
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      applyCoupon: async () => ({ result: true }),
-      removeCoupon: async () => ({ result: true }),
-      updateItem: () => Promise.resolve({ resultCode: 500 })
-    }));
+    (CartService.updateItem as jest.Mock).mockImplementation(() => Promise.resolve({ resultCode: 500 }));
 
     const contextMock = createContextMock({
       getters: {
@@ -211,11 +199,7 @@ describe('Cart mergeActions', () => {
     };
 
     (createCartItemForUpdate as jest.Mock).mockImplementation(() => clientItem);
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      applyCoupon: async () => ({ result: true }),
-      removeCoupon: async () => ({ result: true }),
-      updateItem: () => Promise.resolve({ resultCode: 200, result: serverItem })
-    }));
+    (CartService.updateItem as jest.Mock).mockImplementation(() => Promise.resolve({ resultCode: 200, result: serverItem }));
 
     const contextMock = createContextMock({
       getters: {

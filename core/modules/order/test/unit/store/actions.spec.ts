@@ -1,6 +1,7 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
+import { notifications } from '../../../helpers';
 import { Order } from '../../../types/Order';
 import { OrderService } from '@vue-storefront/core/data-resolver'
 import config from 'config';
@@ -14,9 +15,9 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
   }))
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  OrderService: jest.fn(() => Promise.resolve({
+  OrderService: {
     placeOrder: jest.fn()
-  }))
+  }
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
@@ -1039,10 +1040,9 @@ describe('Order actions', () => {
     })
 
     it('should dispatch processOrder', async () => {
-      (OrderService as jest.Mock).mockImplementation(() => Promise.resolve({
-        placeOrder: async () => (task)
-      }));
-
+      (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+        (task)
+      );
       const newOrder: Order = {
         order_id: 'orderId',
         created_at: '10-29-2019',
@@ -1103,10 +1103,9 @@ describe('Order actions', () => {
   });
   describe('processOrder action', () => {
     it('should add last order with confirmation', async () => {
-      (OrderService as jest.Mock).mockImplementation(() => Promise.resolve({
-        placeOrder: async () => (task)
-      }));
-
+      (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+        (task)
+      );
       const contextMock = createContextMock();
       const order = { 'transmited': true }
       const order1 = {
@@ -1163,10 +1162,9 @@ describe('Order actions', () => {
 
     it('should remove session order hash', async () => {
       task = { resultCode: 400, result: 'server-order-token' };
-      (OrderService as jest.Mock).mockImplementation(() => Promise.resolve({
-        placeOrder: async () => (task)
-      }));
-
+      (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+        (task)
+      );
       const contextMock = createContextMock();
       const wrapper = (actions: any) => actions.processOrder(contextMock, { order, currentOrderHash })
       const processOrderAction = await wrapper(orderActions);

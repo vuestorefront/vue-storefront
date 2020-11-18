@@ -10,11 +10,11 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
 }));
 
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  NewsletterService: jest.fn(() => Promise.resolve({
+  NewsletterService: {
     isSubscribed: jest.fn(),
     subscribe: jest.fn(),
     unsubscribe: jest.fn()
-  }))
+  }
 }));
 
 describe('Newsletter actions', () => {
@@ -30,17 +30,11 @@ describe('Newsletter actions', () => {
         commit: jest.fn()
       };
 
-      const isSubscribedFunction = jest.fn(() => Promise.resolve(isSubscribed));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: isSubscribedFunction,
-        subscribe: jest.fn(),
-        unsubscribe: jest.fn()
-      }));
+      (NewsletterService.isSubscribed as any).mockImplementation(() => (new Promise(resolve => resolve(isSubscribed))));
 
       const status = await (newsletterStore.actions as any).status(mockContext, email);
 
-      expect(isSubscribedFunction).toHaveBeenCalledWith(email);
+      expect(NewsletterService.isSubscribed).toHaveBeenCalledWith(email);
       expect(mockContext.commit).toHaveBeenCalledTimes(2);
       expect(mockContext.commit).toHaveBeenNthCalledWith(1, types.SET_EMAIL, email);
       expect(mockContext.commit).toHaveBeenNthCalledWith(2, types.NEWSLETTER_SUBSCRIBE);
@@ -54,17 +48,11 @@ describe('Newsletter actions', () => {
         commit: jest.fn()
       };
 
-      const isSubscribedFunction = jest.fn(() => Promise.resolve(isSubscribed));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: isSubscribedFunction,
-        subscribe: jest.fn(),
-        unsubscribe: jest.fn()
-      }));
+      (NewsletterService.isSubscribed as any).mockImplementation(() => (new Promise(resolve => resolve(isSubscribed))));
 
       const status = await (newsletterStore.actions as any).status(mockContext, email);
 
-      expect(isSubscribedFunction).toHaveBeenCalledWith(email);
+      expect(NewsletterService.isSubscribed).toHaveBeenCalledWith(email);
       expect(mockContext.commit).toHaveBeenCalledTimes(1);
       expect(mockContext.commit).toHaveBeenNthCalledWith(1, types.NEWSLETTER_UNSUBSCRIBE);
       expect(status).toBe(isSubscribed);
@@ -81,16 +69,9 @@ describe('Newsletter actions', () => {
         }
       };
 
-      const subscribeFunction = jest.fn(() => Promise.resolve(null));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: jest.fn(),
-        subscribe: subscribeFunction,
-        unsubscribe: jest.fn()
-      }));
       await (newsletterStore.actions as any).subscribe(mockContext);
 
-      expect(subscribeFunction).not.toHaveBeenCalled();
+      expect(NewsletterService.subscribe).not.toHaveBeenCalled();
       expect(mockContext.commit).not.toHaveBeenCalled();
       expect(mockContext.dispatch).not.toHaveBeenCalled();
     });
@@ -105,17 +86,11 @@ describe('Newsletter actions', () => {
         }
       };
 
-      const subscribeFunction = jest.fn(() => Promise.resolve(true));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: jest.fn(),
-        subscribe: subscribeFunction,
-        unsubscribe: jest.fn()
-      }));
+      (NewsletterService.subscribe as any).mockImplementation(() => (new Promise(resolve => resolve(true))));
 
       const status = await (newsletterStore.actions as any).subscribe(mockContext, email);
 
-      expect(subscribeFunction).toHaveBeenCalledWith(email);
+      expect(NewsletterService.subscribe).toHaveBeenCalledWith(email);
       expect(mockContext.commit).toHaveBeenCalledTimes(2);
       expect(mockContext.commit).toHaveBeenNthCalledWith(1, types.NEWSLETTER_SUBSCRIBE);
       expect(mockContext.commit).toHaveBeenNthCalledWith(2, types.SET_EMAIL, email);
@@ -134,17 +109,9 @@ describe('Newsletter actions', () => {
         }
       };
 
-      const unsubscribeFunction = jest.fn(() => Promise.resolve(null));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: jest.fn(),
-        subscribe: jest.fn(),
-        unsubscribe: unsubscribeFunction
-      }));
-
       await (newsletterStore.actions as any).unsubscribe(mockContext);
 
-      expect(unsubscribeFunction).not.toHaveBeenCalled();
+      expect(NewsletterService.unsubscribe).not.toHaveBeenCalled();
       expect(mockContext.commit).not.toHaveBeenCalled();
       expect(mockContext.dispatch).not.toHaveBeenCalled();
     });
@@ -159,17 +126,11 @@ describe('Newsletter actions', () => {
         }
       };
 
-      const unsubscribeFunction = jest.fn(() => Promise.resolve(true));
-
-      (NewsletterService as jest.Mock).mockImplementation(() => Promise.resolve({
-        isSubscribed: jest.fn(),
-        subscribe: jest.fn(),
-        unsubscribe: unsubscribeFunction
-      }));
+      (NewsletterService.unsubscribe as any).mockImplementation(() => (new Promise(resolve => resolve(true))));
 
       const status = await (newsletterStore.actions as any).unsubscribe(mockContext, email);
 
-      expect(unsubscribeFunction).toHaveBeenCalledWith(email);
+      expect(NewsletterService.unsubscribe).toHaveBeenCalledWith(email);
       expect(mockContext.commit).toHaveBeenCalledWith(types.NEWSLETTER_UNSUBSCRIBE);
       expect(status).toBe(true);
     });

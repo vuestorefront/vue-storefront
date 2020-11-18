@@ -25,11 +25,9 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
     info: jest.fn(() => () => {})
   }
 }));
-jest.mock('@vue-storefront/core/data-resolver', () => ({
-  CartService: jest.fn(() => Promise.resolve({
-    getCartToken: jest.fn()
-  }))
-}));
+jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
+  getCartToken: jest.fn()
+} }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()
@@ -123,9 +121,9 @@ describe('Cart connectActions', () => {
   })
 
   it('creates cart token', async () => {
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      getCartToken: async () => ({ resultCode: 200, result: 'server-cart-token' })
-    }))
+    (CartService.getCartToken as jest.Mock).mockImplementation(async () =>
+      ({ resultCode: 200, result: 'server-cart-token' })
+    );
 
     const contextMock = createContextMock({
       getters: {
@@ -143,9 +141,9 @@ describe('Cart connectActions', () => {
   })
 
   it('attempts bypassing guest cart', async () => {
-    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
-      getCartToken: async () => ({ resultCode: 401, result: null })
-    }))
+    (CartService.getCartToken as jest.Mock).mockImplementation(async () =>
+      ({ resultCode: 401, result: null })
+    );
 
     const contextMock = createContextMock({
       getters: {
