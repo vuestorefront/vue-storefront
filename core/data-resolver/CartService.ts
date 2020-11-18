@@ -19,9 +19,6 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
 const getTotals = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'totals_endpoint')),
-    payload: {
-      method: 'GET'
-    },
     silent: true
   });
 
@@ -72,9 +69,6 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
 const getPaymentMethods = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'paymentmethods_endpoint')),
-    payload: {
-      method: 'GET'
-    },
     silent: true
   });
 
@@ -93,9 +87,6 @@ const getShippingMethods = async (address: any): Promise<Task> =>
 const getItems = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'pull_endpoint')),
-    payload: {
-      method: 'GET'
-    },
     silent: true
   });
 
