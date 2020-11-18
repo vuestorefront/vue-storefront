@@ -110,9 +110,6 @@ const getProductRenderList = async ({
 
   try {
     const task = await TaskQueue.execute({ url, // sync the cart
-      payload: {
-        method: 'GET'
-      },
       callback_event: 'prices-after-sync'
     })
     return task.result as DataResolver.ProductsListResponse

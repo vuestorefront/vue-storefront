@@ -54,20 +54,14 @@ const updateProfile = async (userProfile: UserProfile, actionName: string): Prom
 
 const getProfile = async () =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
-    payload: {
-      method: 'GET'
-    }
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint'))
   })
 
 const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(
       getApiEndpointUrl(config.users, 'history_endpoint').replace('{{pageSize}}', pageSize + '').replace('{{currentPage}}', currentPage + '')
-    ),
-    payload: {
-      method: 'GET'
-    }
+    )
   })
 
 const changePassword = async (passwordData: DataResolver.PasswordData): Promise<Task> =>

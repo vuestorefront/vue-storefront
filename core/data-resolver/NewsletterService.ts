@@ -7,9 +7,6 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 const isSubscribed = (email: string): Promise<boolean> =>
   TaskQueue.execute({
     url: processURLAddress(getApiEndpointUrl(config.newsletter, 'endpoint')) + '?email=' + encodeURIComponent(email),
-    payload: {
-      method: 'GET'
-    },
     silent: true
   }).then(({ result }) => result === 'subscribed')
 
