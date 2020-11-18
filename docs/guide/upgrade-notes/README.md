@@ -4,6 +4,25 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 ## 1.12 -> 1.13
 
+### Lazy loading Services
+We are loading services lazily right now:
+```js
+export const StockService = async () => (await import(/* webpackChunkName: "vsf-service-stock" */ './StockService')).StockService;
+```
+
+That's why you have to always make sure at first - you fetched service - then use some method. So you should replace all places where service is being used:
+```js
+const task = await StockService.list(skuArray)
+```
+To one which tries to fetch module at first:
+```js
+const task = await (await StockService()).list(skuArray)
+```
+
+This will reduce initial bundle's size. List of places where I did changes you could find there: https://github.com/DivanteLtd/vue-storefront/pull/5210/files
+
+If you overriding some parts of code, e.g. in own module - you should also make updates there.
+
 ### Multistore
 
 `storeCode` is now required for storeView
