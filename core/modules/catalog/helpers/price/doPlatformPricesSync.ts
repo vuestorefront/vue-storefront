@@ -4,7 +4,7 @@ import flattenDeep from 'lodash-es/flattenDeep'
 import union from 'lodash-es/union'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { ProductService } from '@vue-storefront/core/data-resolver'
 import syncProductPrice from './syncProductPrice'
 
 /**
@@ -74,7 +74,7 @@ export default function doPlatformPricesSync (products) {
       }
       if (skus && skus.length > 0) {
         Logger.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return()
-        const { items } = await ProductService.getProductRenderList({
+        const { items } = await (await ProductService()).getProductRenderList({
           skus,
           isUserGroupedTaxActive: rootStore.getters['tax/getIsUserGroupedTaxActive'],
           userGroupId: rootStore.getters['tax/getUserTaxGroupId'],

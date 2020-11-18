@@ -9,7 +9,7 @@ import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { ProductService } from '@vue-storefront/core/data-resolver'
 import {
   registerProductsMapping,
   doPlatformPricesSync,
@@ -105,7 +105,7 @@ const actions: ActionTree<ProductState, RootState> = {
       filterUnavailableVariants = config.products.filterUnavailableVariants
     } = {}
   } = {}) {
-    const { items, ...restResponseData } = await ProductService.getProducts({
+    const { items, ...restResponseData } = await (await ProductService()).getProducts({
       query,
       start,
       size,
@@ -160,7 +160,7 @@ const actions: ActionTree<ProductState, RootState> = {
     if (!options[key]) {
       throw new Error('Please provide the search key ' + key + ' for product/single action!')
     }
-    const product = await ProductService.getProductByKey({
+    const product = await (await ProductService()).getProductByKey({
       options,
       key,
       skipCache

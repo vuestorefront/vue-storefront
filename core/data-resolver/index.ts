@@ -5,3 +5,4 @@ export const OrderService = async () => (await import(/* webpackChunkName: "vsf-
 export const StockService = async () => (await import(/* webpackChunkName: "vsf-service-stock" */ './StockService')).StockService;
 export const ReviewsService = async () => (await import(/* webpackChunkName: "vsf-service-reviews" */ './ReviewsService')).ReviewsService;
 export const NewsletterService = async () => (await import(/* webpackChunkName: "vsf-service-newsletter" */ './NewsletterService')).NewsletterService;
+export const ProductService = async () => (await import(/* webpackChunkName: "vsf-service-product" */ './ProductService')).ProductService;

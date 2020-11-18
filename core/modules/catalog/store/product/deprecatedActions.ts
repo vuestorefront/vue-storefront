@@ -9,7 +9,7 @@ import {
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import * as types from './mutation-types'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { ProductService } from '@vue-storefront/core/data-resolver'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 const { populateProductConfigurationAsync } = require('@vue-storefront/core/modules/catalog/helpers')
@@ -88,7 +88,7 @@ const actions = {
    */
   async syncPlatformPricesOver ({ rootGetters }, { skus }) {
     Logger.warn('`product/syncPlatformPricesOver`deprecated, will be not used from 1.12')()
-    const result = await ProductService.getProductRenderList({
+    const result = await (await ProductService()).getProductRenderList({
       skus,
       isUserGroupedTaxActive: rootGetters['tax/getIsUserGroupedTaxActive'],
       userGroupId: rootGetters['tax/getUserTaxGroupId'],
