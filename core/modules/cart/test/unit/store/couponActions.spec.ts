@@ -21,10 +21,12 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
     info: jest.fn(() => () => {})
   }
 }));
-jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
-  applyCoupon: async () => ({ result: true }),
-  removeCoupon: async () => ({ result: true })
-} }));
+jest.mock('@vue-storefront/core/data-resolver', () => ({
+  CartService: jest.fn(() => Promise.resolve({
+    applyCoupon: async () => ({ result: true }),
+    removeCoupon: async () => ({ result: true })
+  }))
+}));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()

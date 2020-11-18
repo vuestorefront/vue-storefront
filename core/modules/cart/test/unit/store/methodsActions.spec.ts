@@ -25,13 +25,13 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  CartService: {
+  CartService: jest.fn(() => Promise.resolve({
     applyCoupon: async () => ({ result: true }),
     removeCoupon: async () => ({ result: true }),
     getPaymentMethods: jest.fn(),
     updateItem: jest.fn(),
     getShippingMethods: jest.fn()
-  }
+  }))
 }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
@@ -129,7 +129,14 @@ describe('Cart methodsActions', () => {
       }
     });
 
-    (CartService.getPaymentMethods as jest.Mock).mockImplementation(() => Promise.resolve({ result: {} }));
+    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
+      applyCoupon: async () => ({ result: true }),
+      removeCoupon: async () => ({ result: true }),
+      getPaymentMethods: () => Promise.resolve({ result: {} }),
+      updateItem: jest.fn(),
+      getShippingMethods: jest.fn()
+    }));
+
     (createOrderData as jest.Mock).mockImplementation(() => ({ shippingMethodsData: {} }));
     (preparePaymentMethodsToSync as jest.Mock).mockImplementation(() => ({ uniqueBackendMethods: [], paymentMethods: [] }));
 
@@ -148,7 +155,13 @@ describe('Cart methodsActions', () => {
       }
     });
 
-    (CartService.getShippingMethods as jest.Mock).mockImplementation(() => Promise.resolve({ result: [] }));
+    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
+      applyCoupon: async () => ({ result: true }),
+      removeCoupon: async () => ({ result: true }),
+      getPaymentMethods: jest.fn(),
+      updateItem: jest.fn(),
+      getShippingMethods: () => Promise.resolve({ result: [] })
+    }))
 
     await (cartActions as any).syncShippingMethods(contextMock, {});
     expect(contextMock.dispatch).toBeCalledWith('updateShippingMethods', { shippingMethods: [] })

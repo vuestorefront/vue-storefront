@@ -41,7 +41,7 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  UserService: {
+  UserService: jest.fn(() => Promise.resolve({
     login: jest.fn(),
     register: jest.fn(),
     resetPassword: jest.fn(),
@@ -49,7 +49,7 @@ jest.mock('@vue-storefront/core/data-resolver', () => ({
     updateProfile: jest.fn(),
     changePassword: jest.fn(),
     getOrdersHistory: jest.fn()
-  }
+  }))
 }));
 EventBus.$emit = jest.fn()
 
@@ -144,10 +144,16 @@ describe('User actions', () => {
   });
 
   describe('resetPassword action', () => {
-    it('should return response from resetPassword', () => {
-      (UserService.resetPassword as jest.Mock).mockImplementation(() =>
-        (data.responseOb)
-      );
+    it('should return response from resetPassword', async () => {
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        login: jest.fn(),
+        register: jest.fn(),
+        resetPassword: () => (data.responseOb),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: jest.fn(),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         commit: jest.fn(),
@@ -155,7 +161,7 @@ describe('User actions', () => {
         getters: { isLocalDataLoaded: false }
       };
       const email = data.email;
-      const result = (userActions as any).resetPassword(contextMock, { email });
+      const result = await (userActions as any).resetPassword(contextMock, { email });
 
       expect(result).toEqual(data.responseOb)
     })
@@ -163,9 +169,15 @@ describe('User actions', () => {
 
   describe('login action', () => {
     it('should return login response', async () => {
-      (UserService.login as jest.Mock).mockImplementation(async () =>
-        (data.responseOb)
-      );
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        login: async () => (data.responseOb),
+        register: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: jest.fn(),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         commit: jest.fn(),
@@ -195,9 +207,15 @@ describe('User actions', () => {
 
   describe('register action', () => {
     it('should return response from register', async () => {
-      (UserService.register as jest.Mock).mockImplementation(async () =>
-        (data.responseOb)
-      );
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        register: async () => (data.responseOb),
+        login: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: jest.fn(),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         commit: jest.fn(),
@@ -217,9 +235,15 @@ describe('User actions', () => {
       (StorageManager.get as jest.Mock).mockImplementation(() => ({
         getItem: async () => (data.lastUserToken)
       }));
-      (UserService.refreshToken as jest.Mock).mockImplementation(async () =>
-        (data.lastUserToken)
-      )
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        register: jest.fn(),
+        login: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: async () => (data.lastUserToken),
+        updateProfile: jest.fn(),
+        changePassword: jest.fn(),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         commit: jest.fn()
@@ -331,9 +355,15 @@ describe('User actions', () => {
 
   describe('changePassword action', () => {
     it('should call login action if response code is 200', async () => {
-      (UserService.changePassword as jest.Mock).mockImplementation(async () =>
-        (data.responseOb)
-      );
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        register: jest.fn(),
+        login: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: async () => (data.responseOb),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         dispatch: jest.fn(),
@@ -358,9 +388,15 @@ describe('User actions', () => {
           errorMessage: 'Error'
         }
       };
-      (UserService.changePassword as jest.Mock).mockImplementation(async () =>
-        (responseOb)
-      );
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        register: jest.fn(),
+        login: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: async () => (responseOb),
+        getOrdersHistory: jest.fn()
+      }));
 
       const contextMock = {
         dispatch: jest.fn()
@@ -446,9 +482,15 @@ describe('User actions', () => {
         result: data.ordersHistory,
         code: 200
       };
-      (UserService.getOrdersHistory as jest.Mock).mockImplementation(async () =>
-        (responseOb)
-      );
+      (UserService as jest.Mock).mockImplementation(() => Promise.resolve({
+        register: jest.fn(),
+        login: jest.fn(),
+        resetPassword: jest.fn(),
+        refreshToken: jest.fn(),
+        updateProfile: jest.fn(),
+        changePassword: jest.fn(),
+        getOrdersHistory: async () => (responseOb)
+      }));
 
       const contextMock = {
         commit: jest.fn()

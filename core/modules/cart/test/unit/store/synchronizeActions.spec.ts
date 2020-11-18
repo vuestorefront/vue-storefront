@@ -26,14 +26,14 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/data-resolver', () => ({
-  CartService: {
+  CartService: jest.fn(() => Promise.resolve({
     applyCoupon: async () => ({ result: true }),
     removeCoupon: async () => ({ result: true }),
     getPaymentMethods: jest.fn(),
     updateItem: jest.fn(),
     getShippingMethods: jest.fn(),
     getItems: jest.fn()
-  }
+  }))
 }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
@@ -122,10 +122,17 @@ describe('Cart synchronizeActions', () => {
   })
 
   it('merges current cart', async () => {
-    (CartService.getItems as jest.Mock).mockImplementation(async () => ({
-      resultCode: 200,
-      result: []
-    }))
+    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
+      applyCoupon: async () => ({ result: true }),
+      removeCoupon: async () => ({ result: true }),
+      getPaymentMethods: jest.fn(),
+      updateItem: jest.fn(),
+      getShippingMethods: jest.fn(),
+      getItems: async () => ({
+        resultCode: 200,
+        result: []
+      })
+    }));
 
     const contextMock = createContextMock({
       rootGetters: {
@@ -149,10 +156,17 @@ describe('Cart synchronizeActions', () => {
   })
 
   it('attempts to bypass guest cart', async () => {
-    (CartService.getItems as jest.Mock).mockImplementation(async () => ({
-      resultCode: 500,
-      result: null
-    }))
+    (CartService as jest.Mock).mockImplementation(() => Promise.resolve({
+      applyCoupon: async () => ({ result: true }),
+      removeCoupon: async () => ({ result: true }),
+      getPaymentMethods: jest.fn(),
+      updateItem: jest.fn(),
+      getShippingMethods: jest.fn(),
+      getItems: async () => ({
+        resultCode: 500,
+        result: null
+      })
+    }));
 
     config.queues = {
       maxCartBypassAttempts: 4
