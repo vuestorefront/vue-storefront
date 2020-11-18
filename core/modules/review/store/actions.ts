@@ -19,7 +19,7 @@ const actions: ActionTree<ReviewState, RootState> = {
   async add (_, review: Review) {
     EventBus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
-    const isReviewCreated = await (await ReviewsService()).createReview(review)
+    const isReviewCreated = await ReviewsService.createReview(review)
     EventBus.$emit('notification-progress-stop')
 
     if (isReviewCreated) {

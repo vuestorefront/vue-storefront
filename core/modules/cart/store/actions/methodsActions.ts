@@ -40,12 +40,12 @@ const methodsActions = {
         })
 
         if (shippingMethodsData.country) {
-          const { result } = await (await CartService()).setShippingInfo(createShippingInfoData(shippingMethodsData))
+          const { result } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
           backendPaymentMethods = result.payment_methods || []
         }
       }
       if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
-        const { result } = await (await CartService()).getPaymentMethods()
+        const { result } = await CartService.getPaymentMethods()
         backendPaymentMethods = result
       }
 
@@ -82,7 +82,7 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : { country_id: storeView.tax.defaultCountry }
 
-      const { result } = await (await CartService()).getShippingMethods(address)
+      const { result } = await CartService.getShippingMethods(address)
       await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()

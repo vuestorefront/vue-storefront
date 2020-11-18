@@ -12,10 +12,10 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 const totalsActions = {
   async getTotals (_, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
-      return (await CartService()).setShippingInfo(addressInformation)
+      return CartService.setShippingInfo(addressInformation)
     }
 
-    return (await CartService()).getTotals()
+    return CartService.getTotals()
   },
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })

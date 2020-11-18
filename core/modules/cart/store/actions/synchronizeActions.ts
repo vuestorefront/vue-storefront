@@ -52,7 +52,7 @@ const synchronizeActions = {
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.CART_SET_SYNC)
-    const { result, resultCode } = await (await CartService()).getItems()
+    const { result, resultCode } = await CartService.getItems()
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
 
     if (resultCode === 200) {

@@ -44,20 +44,20 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   async resetPassword (_, { email }) {
-    return (await UserService()).resetPassword(email)
+    return UserService.resetPassword(email)
   },
   /**
    * Create new password for provided email with resetToken
    * We could receive resetToken by running user.resetPassword action
    */
   async createPassword (_, { email, newPassword, resetToken }) {
-    return (await UserService()).createPassword(email, newPassword, resetToken)
+    return UserService.createPassword(email, newPassword, resetToken)
   },
   /**
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
-    const resp = await (await UserService()).login(username, password)
+    const resp = await UserService.login(username, password)
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async register (_, { password, ...customer }) {
-    return (await UserService()).register(customer, password)
+    return UserService.register(customer, password)
   },
 
   /**
@@ -86,7 +86,7 @@ const actions: ActionTree<UserState, RootState> = {
   async refresh ({ commit }) {
     const usersCollection = StorageManager.get('user')
     const refreshToken = await usersCollection.getItem('current-refresh-token')
-    const newToken = await (await UserService()).refreshToken(refreshToken)
+    const newToken = await UserService.refreshToken(refreshToken)
 
     if (newToken) {
       commit(types.USER_TOKEN_CHANGED, { newToken })
@@ -124,7 +124,7 @@ const actions: ActionTree<UserState, RootState> = {
     return null
   },
   async refreshUserProfile ({ commit, dispatch }, { resolvedFromCache }) {
-    const resp = await (await UserService()).getProfile()
+    const resp = await UserService.getProfile()
 
     if (resp.resultCode === 200) {
       commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
@@ -165,7 +165,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user profile with data from My Account page
    */
   async update (_, profile: UserProfile) {
-    await (await UserService()).updateProfile(profile, 'user/handleUpdateProfile')
+    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
   async handleUpdateProfile ({ dispatch }, event) {
     if (event.resultCode === 200) {
@@ -194,7 +194,7 @@ const actions: ActionTree<UserState, RootState> = {
       return
     }
 
-    const resp = await (await UserService()).changePassword(passwordData)
+    const resp = await UserService.changePassword(passwordData)
 
     if (resp.code === 200) {
       await dispatch('notification/spawnNotification', {
@@ -258,7 +258,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
-    const resp = await (await UserService()).getOrdersHistory(pageSize, currentPage)
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
       commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage

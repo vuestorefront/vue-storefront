@@ -88,7 +88,7 @@ const actions = {
    */
   async syncPlatformPricesOver ({ rootGetters }, { skus }) {
     Logger.warn('`product/syncPlatformPricesOver`deprecated, will be not used from 1.12')()
-    const result = await (await ProductService()).getProductRenderList({
+    const result = await ProductService.getProductRenderList({
       skus,
       isUserGroupedTaxActive: rootGetters['tax/getIsUserGroupedTaxActive'],
       userGroupId: rootGetters['tax/getUserTaxGroupId'],

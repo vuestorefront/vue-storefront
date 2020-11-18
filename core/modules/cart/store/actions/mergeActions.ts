@@ -33,7 +33,7 @@ const mergeActions = {
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds, mergeQty }) {
     const diffLog = createDiffLog()
     const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds, mergeQty)
-    const event = await (await CartService()).updateItem(getters.getCartToken, cartItem)
+    const event = await CartService.updateItem(getters.getCartToken, cartItem)
     const wasUpdatedSuccessfully = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
     diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
@@ -149,7 +149,7 @@ const mergeActions = {
         quoteId: serverItem.quote_id
       } as any as CartItem
 
-      const resp = await (await CartService()).deleteItem(getters.getCartToken, cartItem)
+      const resp = await CartService.deleteItem(getters.getCartToken, cartItem)
       return diffLog.pushServerResponse({ status: resp.resultCode, sku: serverItem.sku, result: resp })
     }
 

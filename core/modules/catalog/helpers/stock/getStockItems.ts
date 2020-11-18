@@ -11,7 +11,7 @@ export default async function getStockItems (products) {
   }).reduce((acc, curr) => acc.concat(curr), [])
   if (!config.stock.synchronize) return
   try {
-    const task = await (await StockService()).list(skuArray)
+    const task = await StockService.list(skuArray)
 
     if (task.resultCode === 200) {
       return task.result

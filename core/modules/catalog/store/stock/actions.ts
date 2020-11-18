@@ -15,7 +15,7 @@ const actions: ActionTree<StockState, RootState> = {
     }
 
     if (config.stock.synchronize) {
-      const task = await (await StockService()).queueCheck(product.sku, 'cart/stockSync')
+      const task = await StockService.queueCheck(product.sku, 'cart/stockSync')
 
       // @ts-ignore
       Logger.debug(`Stock quantity checked for ${task.product_sku}, response time: ${task.transmited_at - task.created_at} ms`, 'stock')()
@@ -33,7 +33,7 @@ const actions: ActionTree<StockState, RootState> = {
   },
   async check (_, { product }) {
     if (config.stock.synchronize) {
-      const { result, task_id } = await (await StockService()).check(product.sku)
+      const { result, task_id } = await StockService.check(product.sku)
 
       return {
         qty: result ? result.qty : 0,
@@ -51,7 +51,7 @@ const actions: ActionTree<StockState, RootState> = {
   async list ({ commit }, { skus }) {
     if (!config.stock.synchronize) return
 
-    const task = await (await StockService()).list(skus)
+    const task = await StockService.list(skus)
 
     if (task.resultCode === 200) {
       const productInfos = getProductInfos(task.result)

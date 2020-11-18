@@ -105,7 +105,7 @@ const actions: ActionTree<ProductState, RootState> = {
       filterUnavailableVariants = config.products.filterUnavailableVariants
     } = {}
   } = {}) {
-    const { items, ...restResponseData } = await (await ProductService()).getProducts({
+    const { items, ...restResponseData } = await ProductService.getProducts({
       query,
       start,
       size,
@@ -160,7 +160,7 @@ const actions: ActionTree<ProductState, RootState> = {
     if (!options[key]) {
       throw new Error('Please provide the search key ' + key + ' for product/single action!')
     }
-    const product = await (await ProductService()).getProductByKey({
+    const product = await ProductService.getProductByKey({
       options,
       key,
       skipCache

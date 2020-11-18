@@ -74,7 +74,7 @@ export default function doPlatformPricesSync (products) {
       }
       if (skus && skus.length > 0) {
         Logger.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return()
-        const { items } = await (await ProductService()).getProductRenderList({
+        const { items } = await ProductService.getProductRenderList({
           skus,
           isUserGroupedTaxActive: rootStore.getters['tax/getIsUserGroupedTaxActive'],
           userGroupId: rootStore.getters['tax/getUserTaxGroupId'],

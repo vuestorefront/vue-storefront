@@ -52,7 +52,7 @@ const actions: ActionTree<OrderState, RootState> = {
   },
   async processOrder ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: true }
-    const task = await (await OrderService()).placeOrder(order)
+    const task = await OrderService.placeOrder(order)
 
     if (task.resultCode === 200) {
       dispatch('enqueueOrder', { newOrder: order })

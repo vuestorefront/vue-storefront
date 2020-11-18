@@ -27,7 +27,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
   },
   actions: {
     async status ({ commit }, email): Promise<boolean> {
-      const isSubscribed = await (await NewsletterService()).isSubscribed(email)
+      const isSubscribed = await NewsletterService.isSubscribed(email)
 
       if (isSubscribed) {
         commit(types.SET_EMAIL, email)
@@ -41,7 +41,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
     async subscribe ({ commit, getters, dispatch }, email): Promise<boolean> {
       if (getters.isSubscribed) return
 
-      const subscribeResponse = await (await NewsletterService()).subscribe(email)
+      const subscribeResponse = await NewsletterService.subscribe(email)
 
       commit(types.NEWSLETTER_SUBSCRIBE)
       commit(types.SET_EMAIL, email)
@@ -52,7 +52,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
     async unsubscribe ({ commit, getters }, email): Promise<boolean> {
       if (!getters.isSubscribed) return
 
-      const unsubscribeResponse = await (await NewsletterService()).unsubscribe(email)
+      const unsubscribeResponse = await NewsletterService.unsubscribe(email)
       commit(types.NEWSLETTER_UNSUBSCRIBE)
 
       return unsubscribeResponse
