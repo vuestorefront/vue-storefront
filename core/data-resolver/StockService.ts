@@ -8,11 +8,6 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
-    payload: {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    },
     is_result_cacheable: true,
     product_sku: sku,
     callback_event: `store:${actionName}`
@@ -21,11 +16,6 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
 const check = (sku: string): Promise<Task> =>
   TaskQueue.execute({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
-    payload: {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    },
     is_result_cacheable: true,
     product_sku: sku
   })
@@ -37,11 +27,6 @@ const list = (skuList: string[]): Promise<Task> =>
         skuList.join(',')
       )}`
     ),
-    payload: {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    },
     skus: skuList
   })
 
