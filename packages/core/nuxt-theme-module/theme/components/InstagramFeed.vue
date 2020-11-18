@@ -34,8 +34,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .grid {
   max-width: 960px;
   margin: auto;

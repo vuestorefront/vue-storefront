@@ -85,8 +85,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
-
 .sf-footer {
   &__container {
     --footer-margin: var(--spacer-sm);

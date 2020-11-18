@@ -67,8 +67,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 #checkout {
   box-sizing: border-box;
   @include for-desktop {

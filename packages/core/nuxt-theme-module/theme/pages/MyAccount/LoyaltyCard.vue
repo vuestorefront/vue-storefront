@@ -11,6 +11,7 @@
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
 import { SfTabs, SfLink } from '@storefront-ui/vue';
 export default {
@@ -18,9 +19,8 @@ export default {
   components: { SfTabs, SfLink }
 };
 </script>
-<style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang='scss' scoped>
 .tab-orphan {
   @include for-mobile {
     --tabs-title-display: none;
