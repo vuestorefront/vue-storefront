@@ -8,14 +8,14 @@ import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<StockState, RootState> = {
-  async queueCheck ({ dispatch }, { product }) {
+  async queueCheck (_, { product }) {
     const checkStatus = {
       qty: product.stock ? product.stock.qty : 0,
       status: getStatus(product, 'ok')
     }
 
     if (config.stock.synchronize) {
-      const task = await StockService.queueCheck(product.sku, 'cart/stockSync')
+      const task = await (await StockService()).queueCheck(product.sku, 'cart/stockSync')
 
       // @ts-ignore
       Logger.debug(`Stock quantity checked for ${task.product_sku}, response time: ${task.transmited_at - task.created_at} ms`, 'stock')()
@@ -31,9 +31,9 @@ const actions: ActionTree<StockState, RootState> = {
       status: getStatus(product, 'volatile')
     }
   },
-  async check (context, { product }) {
+  async check (_, { product }) {
     if (config.stock.synchronize) {
-      const { result, task_id } = await StockService.check(product.sku)
+      const { result, task_id } = await (await StockService()).check(product.sku)
 
       return {
         qty: result ? result.qty : 0,
@@ -51,7 +51,7 @@ const actions: ActionTree<StockState, RootState> = {
   async list ({ commit }, { skus }) {
     if (!config.stock.synchronize) return
 
-    const task = await StockService.list(skus)
+    const task = await (await StockService()).list(skus)
 
     if (task.resultCode === 200) {
       const productInfos = getProductInfos(task.result)

@@ -24,7 +24,7 @@ import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helper
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
-  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
+  async loadCategoryProducts ({ commit, getters, dispatch }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
@@ -60,7 +60,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return items
   },
-  async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
+  async loadMoreCategoryProducts ({ commit, getters, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
     const totalValue = typeof total === 'object' ? total.value : total
     if (start >= totalValue || totalValue < perPage) return
@@ -94,7 +94,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return searchResult.items
   },
-  async cacheProducts ({ commit, getters, dispatch, rootState }, { route } = {}) {
+  async cacheProducts ({ getters, dispatch, rootState }, { route } = {}) {
     if (config.api.saveBandwidthOverCache) {
       return
     }
@@ -119,8 +119,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
   },
-  async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
-    return CategoryService.getCategories(categorySearchOptions)
+  async findCategories (_, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
+    return (await CategoryService()).getCategories(categorySearchOptions)
   },
   async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     const searchingByIds = !(!categorySearchOptions || !categorySearchOptions.filters || !categorySearchOptions.filters.id)
@@ -136,7 +136,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
       categorySearchOptions.filters = Object.assign(cloneDeep(config.entities.category.filterFields), categorySearchOptions.filters ? cloneDeep(categorySearchOptions.filters) : {})
-      const categories = await CategoryService.getCategories(categorySearchOptions)
+      const categories = await (await CategoryService()).getCategories(categorySearchOptions)
       if (Vue.prototype.$cacheTags) {
         categories.forEach(category => {
           Vue.prototype.$cacheTags.add(`C${category.id}`)
@@ -151,7 +151,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return loadedCategories
   },
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
-    const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
+    const categories: Category[] = await (await CategoryService()).getCategories(categorySearchOptions)
     const category: Category = categories && categories.length ? categories[0] : null
     if (Vue.prototype.$cacheTags) {
       Vue.prototype.$cacheTags.add(`C${category.id}`)

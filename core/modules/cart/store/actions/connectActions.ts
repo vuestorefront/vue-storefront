@@ -1,7 +1,6 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 
@@ -42,7 +41,7 @@ const connectActions = {
   },
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
     if (!getters.isCartSyncEnabled) return
-    const { result, resultCode } = await CartService.getCartToken(guestCart, forceClientState)
+    const { result, resultCode } = await (await CartService()).getCartToken(guestCart, forceClientState)
 
     if (resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', result)()
