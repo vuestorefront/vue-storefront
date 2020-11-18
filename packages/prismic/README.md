@@ -1,6 +1,7 @@
 # prismic
 
 > Prismic library for Next
+**CAUTION**: This is a PoC of the integration, not ready to be used on production
 
 ## Installation
 

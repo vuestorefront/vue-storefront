@@ -18,7 +18,7 @@ Vue Storefront is the most popular and most advanced PWA Headless frontend for e
 - Sylius
 - Shopware 6
 - Commercetools [WIP]
-- Shopify [WIP]
+- [Shopify](https://github.com/vuestorefront/shopify) [WIP]
 - AboutYou Cloud [WIP]
 - Salesforce Commerce Cloud [WIP]
 - ...more coming!
@@ -51,18 +51,3 @@ then run the app
 yarn dev:ct
 ```
 
-## Shopify
-Build full package
-```sh
-yarn build:sp
-```
-
-Start app in development mode:
-```sh
-yarn dev:sp
-```
-
-Start app in production mode:
-```sh
-yarn start:sp
-```
