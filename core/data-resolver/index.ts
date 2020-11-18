@@ -1,11 +1,11 @@
 import { DataResolver } from './types/DataResolver';
 
-interface GetServiceeLoader<T> {
+interface ServiceDescriptor<T> {
   loader: () => Promise<T>,
   methods: string[]
 }
 
-function GetService<SERVICE> ({ methods, loader }: GetServiceeLoader<SERVICE>): SERVICE {
+function GetService<SERVICE> ({ methods, loader }: ServiceDescriptor<SERVICE>): SERVICE {
   const methodsToReturn = {};
 
   for (let method of methods) {
