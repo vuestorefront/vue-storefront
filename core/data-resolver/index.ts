@@ -1,22 +1,5 @@
 import { DataResolver } from './types/DataResolver';
-
-interface ServiceDescriptor<T> {
-  loader: () => Promise<T>,
-  methods: string[]
-}
-
-function GetService<SERVICE> ({ methods, loader }: ServiceDescriptor<SERVICE>): SERVICE {
-  const methodsToReturn = {};
-
-  for (let method of methods) {
-    methodsToReturn[method] = async function (...args) {
-      const service = await loader();
-      return service[method](...args);
-    }
-  }
-
-  return methodsToReturn as SERVICE
-}
+import GetService from './GetService';
 
 export const StockService = GetService<DataResolver.StockService>({
   loader: async () => (await import(/* webpackChunkName: "vsf-data-service-stock" */ './StockService')).StockService,
