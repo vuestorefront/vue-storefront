@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support to configure custom auth header name - dixitdeepak (#5078)
 - Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
 - Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
+- Got rid of lodash as we are using lodash-es - @Fifciu
 
 ## [1.12.2] - 2020.07.28
 
