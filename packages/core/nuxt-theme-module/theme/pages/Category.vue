@@ -368,7 +368,7 @@ export default {
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
       if (!facets.value.length) return;
-      selectedFilters.value = facets.reduce((prev, curr) => ({
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)

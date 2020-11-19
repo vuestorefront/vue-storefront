@@ -52,7 +52,8 @@ const onSetup = (config: Config): Config => {
       link: createCommerceToolsLink(config),
       cache: new InMemoryCache(),
       ...config.customOptions
-    })
+    }),
+    auth: config.auth || defaultSettings.auth
   } as any as Config;
 };
 

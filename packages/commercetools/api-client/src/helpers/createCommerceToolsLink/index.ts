@@ -13,40 +13,47 @@ const restrictedOperations = [
 
 const createCommerceToolsLink = (settings: Config): ApolloLink => {
   const { api, currentToken, auth } = settings;
-  const httpLink = createHttpLink({ uri: api.uri, fetch });
-  const authLink = setContext(async (req, { headers }) => {
-    const token = await createAccessToken(settings, {
-      currentToken,
-      requireUserSession: restrictedOperations.includes(req.operationName)
+  let tokenCopy: any = currentToken;
+
+  const createCtLink = () => {
+    const httpLink = createHttpLink({ uri: api.uri, fetch });
+    const authLink = setContext(async (req, { headers }) => {
+
+      tokenCopy = await createAccessToken(settings, {
+        currentToken: tokenCopy,
+        requireUserSession: restrictedOperations.includes(req.operationName)
+      });
+
+      auth.onTokenChange(tokenCopy);
+
+      return {
+        headers: {
+          ...headers,
+          authorization: `Bearer ${tokenCopy.access_token}`
+        }
+      };
     });
 
-    auth.onTokenChange(token);
+    const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message, locations, path }) => {
+          const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
 
-    return {
-      headers: {
-        ...headers,
-        authorization: `Bearer ${token.access_token}`
+          if (!message.includes('Resource Owner Password Credentials Grant')) {
+            console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+          }
+        });
       }
-    };
-  });
 
-  const onErrorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      graphQLErrors.map(({ message, locations, path }) => {
-        const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
+      if (networkError) {
+        console.error(`[Network error]: ${networkError}`);
+      }
+    });
 
-        if (!message.includes('Resource Owner Password Credentials Grant')) {
-          console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
-        }
-      });
-    }
+    return ApolloLink.from([onErrorLink, authLink, httpLink]);
+  };
 
-    if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
-    }
-  });
-
-  return ApolloLink.from([onErrorLink, authLink, httpLink]);
+  return createCtLink();
 };
 
 export default createCommerceToolsLink;

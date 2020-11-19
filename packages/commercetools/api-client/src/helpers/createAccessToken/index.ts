@@ -15,18 +15,8 @@ const createAuthClient = (config: ApiConfig): SdkAuth =>
     scopes: config.scopes
   });
 
-const getCurrentToken = (settings: Config, options: FlowOptions = {}) => {
-  const { currentToken } = settings;
-
-  if (currentToken) {
-    return currentToken;
-  }
-
-  return options.currentToken;
-};
-
 const getTokenFlow = async (settings: Config, sdkAuth: SdkAuth, options: FlowOptions = {}) => {
-  const currentToken = getCurrentToken(settings, options);
+  const { currentToken } = options;
 
   if (options.customerCredentials) {
     return sdkAuth.customerPasswordFlow(options.customerCredentials);

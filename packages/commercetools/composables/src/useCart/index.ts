@@ -29,19 +29,19 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   addToCart: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await context.$api.apiAddToCart(loadedCart, product, quantity, customQuery);
+    const { data } = await context.$api.addToCart(loadedCart, product, quantity, customQuery);
     return data.cart;
   },
   removeFromCart: async (context: Context, { currentCart, product }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await context.$api.apiRemoveFromCart(loadedCart, product, customQuery);
+    const { data } = await context.$api.removeFromCart(loadedCart, product, customQuery);
     return data.cart;
   },
   updateQuantity: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await context.$api.apiUpdateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
+    const { data } = await context.$api.updateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
     return data.cart;
   },
   clearCart: async (context: Context, { currentCart }) => {
@@ -50,13 +50,13 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   applyCoupon: async (context: Context, { currentCart, couponCode }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await context.$api.apiApplyCartCoupon(loadedCart, couponCode, customQuery);
+    const { data } = await context.$api.applyCartCoupon(loadedCart, couponCode, customQuery);
     return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
   removeCoupon: async (context: Context, { currentCart, coupon }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
-    const { data } = await context.$api.apiRemoveCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
+    const { data } = await context.$api.removeCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
   isOnCart: (context: Context, { currentCart, product }) => {
