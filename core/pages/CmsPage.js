@@ -1,6 +1,8 @@
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { CmsModule } from '@vue-storefront/core/modules/cms'
+import { registerModule } from '@vue-storefront/core/lib/modules'
 
 export default {
   name: 'CmsPage',
@@ -19,19 +21,17 @@ export default {
   watch: {
     '$route': 'validateRoute'
   },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`cmsPage`)
-      store.dispatch('cmsPage/single', {
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    registerModule(CmsModule)
+    if (context) context.output.cacheTags.add(`cmsPage`)
+    try {
+      await store.dispatch('cmsPage/single', {
         value: route.params.slug,
         setCurrent: true
-      }).then(page => {
-        resolve(page)
-      }).catch(err => {
-        Logger.error(err)()
-        reject(err)
       })
-    })
+    } catch (err) {
+      Logger.error(err)()
+    }
   },
   methods: {
     validateRoute () {

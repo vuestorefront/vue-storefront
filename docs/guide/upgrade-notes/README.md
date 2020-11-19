@@ -3,6 +3,22 @@
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
 ## 1.12 -> 1.13
+### Lazy loading CMS Module
+To reduce initial bundle size we decided to load CmsModule only when it is needed. That's why if you are using it - you have to use `registerModule` from `ecommerce-vsf/sites/berlei/config/local.json`. 
+
+How we edited `core/pages/CmsPage.js`. We imported:
+```js
+import { CmsModule } from '@vue-storefront/core/modules/cms'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+```
+
+Then at the very top of the `asyncData` we put:
+```js
+registerModule(CmsModule)
+```
+
+### Lazy loading Compare Module
+We did not really need any changes here because compare module is already ready for that. `core/modules/compare/mixins/compareMountedMixin.js` registers `CompareModule`
 
 ### Multistore
 

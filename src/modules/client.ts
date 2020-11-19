@@ -3,13 +3,13 @@ import { CatalogModule } from '@vue-storefront/core/modules/catalog'
 import { CatalogNextModule } from '@vue-storefront/core/modules/catalog-next'
 import { CartModule } from '@vue-storefront/core/modules/cart'
 import { CheckoutModule } from '@vue-storefront/core/modules/checkout'
-import { CompareModule } from '@vue-storefront/core/modules/compare'
+// import { CompareModule } from '@vue-storefront/core/modules/compare'
 import { WishlistModule } from '@vue-storefront/core/modules/wishlist'
 import { NotificationModule } from '@vue-storefront/core/modules/notification'
 import { UrlModule } from '@vue-storefront/core/modules/url'
 import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
 import { UserModule } from '@vue-storefront/core/modules/user'
-import { CmsModule } from '@vue-storefront/core/modules/cms'
+// import { CmsModule } from '@vue-storefront/core/modules/cms'
 // import { GoogleTagManagerModule } from './google-tag-manager';
 // import { AmpRendererModule } from './amp-renderer';
 import { PaymentBackendMethodsModule } from './payment-backend-methods'
@@ -32,11 +32,11 @@ export function registerClientModules () {
   registerModule(NotificationModule)
   registerModule(UserModule) // Trigger on user icon click
   registerModule(CatalogNextModule)
-  registerModule(CompareModule)
+  // registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
   // registerModule(GoogleTagManagerModule)
   // registerModule(AmpRendererModule)
-  registerModule(CmsModule)
+  // registerModule(CmsModule)
   registerModule(NewsletterModule)
   registerModule(InitialResourcesModule)
   // registerModule(DeviceModule)
