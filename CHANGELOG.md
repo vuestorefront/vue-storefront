@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HTTP2 Server Push support for critical JS assets - @Fifciu (#5199)
 - Lazy loading services - @Fifciu (#5208)
 - Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
+- Lazy loading async catalog helpers - @Fifciu (#5208)
 
 ### Fixed
 
