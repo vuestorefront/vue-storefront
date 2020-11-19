@@ -1,33 +1,31 @@
 import merge from 'lodash-es/merge';
+import { Interface } from 'readline';
 import { Logger } from './../utils';
 
-interface FactoryParams<T> {
-  defaultSettings: any;
-  onSetup: (config: T) => void;
+interface FactoryParams<T, F = any> {
+  onSetup: (config: T) => T;
+  api: F;
 }
 
-export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryParams: FactoryParams<ALL_SETTINGS>) {
-  let settings = { ...factoryParams.defaultSettings };
-  let setupCalled = false;
+type ApiClientInstance<T, F = any> = { settings: T } & F;
+
+export function apiClientFactory<ALL_SETTINGS, ALL_FUNCTIONS extends Interface>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
   return {
-    setup (config: ALL_SETTINGS) {
-      settings = merge(factoryParams.defaultSettings, config);
-      factoryParams.onSetup(settings);
+    createApiClient (config: ALL_SETTINGS): ApiClientInstance<ALL_SETTINGS, ALL_FUNCTIONS> {
+      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : config;
 
       Logger.debug('apiClientFactory.setup', settings);
 
-      // @ts-ignore
-      if (setupCalled && __DEV__) {
-        Logger.warn('"setup" function is being called multiple times. If you want to update config, please use "update" instead.');
-      }
-      setupCalled = true;
-    },
-    update (config: CONFIGURABLE_SETTINGS) {
-      settings = merge(settings, config);
-      factoryParams.onSetup(settings);
+      const api = Object.entries(factoryParams.api)
+        .reduce((prev, [key, fn]) => ({
+          ...prev,
+          [key]: (...args) => fn(settings, ...args)
+        }), {}) as ALL_FUNCTIONS;
 
-      Logger.debug('apiClientFactory.update', settings);
-    },
-    getSettings: (): ALL_SETTINGS => Object.freeze({ ...settings })
+      return {
+        ...api,
+        settings
+      };
+    }
   };
 }

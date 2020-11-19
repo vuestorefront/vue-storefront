@@ -1,7 +1,7 @@
-import { getSettings } from './../../index';
+import { Config } from './../../types/setup';
 
-const customerSignOut = async (): Promise<void> => {
-  const { auth } = getSettings();
+const customerSignOut = async (settings: Config): Promise<void> => {
+  const { auth } = settings;
   auth.onTokenRemove();
 };
 

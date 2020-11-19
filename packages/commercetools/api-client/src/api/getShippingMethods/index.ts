@@ -1,14 +1,15 @@
-import { CustomQueryFn, getCustomQuery, getSettings } from '../../index';
+import { CustomQueryFn, getCustomQuery } from '../../index';
 import defaultQuery from './defaultQuery';
 import { ShippingMethod } from '../../types/GraphQL';
 import gql from 'graphql-tag';
+import { Config } from './../../types/setup';
 
 interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
-const getShippingMethods = async (cartId?: string, customQueryFn?: CustomQueryFn) => {
-  const { acceptLanguage, client } = getSettings();
+const getShippingMethods = async (settings: Config, cartId?: string, customQueryFn?: CustomQueryFn) => {
+  const { acceptLanguage, client } = settings;
   const defaultVariables = {
     acceptLanguage, cartId
   };

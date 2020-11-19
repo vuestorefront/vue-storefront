@@ -3,19 +3,19 @@ import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import fetch from 'isomorphic-fetch';
 import createAccessToken from './../createAccessToken';
-import { getSettings } from './../../index';
 import { onError } from 'apollo-link-error';
+import { Config } from './../../types/setup';
 
 const restrictedOperations = [
   'getMe',
   'createCart'
 ];
 
-const createCommerceToolsLink = (): ApolloLink => {
-  const { api, currentToken, auth } = getSettings();
+const createCommerceToolsLink = (settings: Config): ApolloLink => {
+  const { api, currentToken, auth } = settings;
   const httpLink = createHttpLink({ uri: api.uri, fetch });
   const authLink = setContext(async (req, { headers }) => {
-    const token = await createAccessToken({
+    const token = await createAccessToken(settings, {
       currentToken,
       requireUserSession: restrictedOperations.includes(req.operationName)
     });

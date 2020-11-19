@@ -1,9 +1,9 @@
 import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
-import { getSettings } from '../../index';
 import CustomerUpdateMeMutation from './defaultMutation';
+import { Config } from './../../types/setup';
 
-const customerUpdateMe = async (currentUser, updatedUserData) => {
-  const { client } = getSettings();
+const customerUpdateMe = async (settings: Config, currentUser, updatedUserData) => {
+  const { client } = settings;
   const updateResponse = await client.mutate({
     mutation: CustomerUpdateMeMutation,
     variables: {

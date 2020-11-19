@@ -1,9 +1,9 @@
-import { getSettings } from '../../index';
 import CustomerChangeMyPassword from './defaultMutation';
 import { ChangeMyPasswordResponse } from '../../types/Api';
+import { Config } from './../../types/setup';
 
-const customerChangeMyPassword = async (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
-  const { client } = getSettings();
+const customerChangeMyPassword = async (settings: Config, version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
+  const { client } = settings;
   return await client.mutate({
     mutation: CustomerChangeMyPassword,
     variables: {

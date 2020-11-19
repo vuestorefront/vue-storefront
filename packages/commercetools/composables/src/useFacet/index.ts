@@ -1,5 +1,5 @@
-import { useFacetFactory, FacetSearchResult } from '@vue-storefront/core';
-import { getProduct, getCategory, AttributeType } from '@vue-storefront/commercetools-api';
+import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/core';
+import { AttributeType } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, getFiltersFromProductsAttributes } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
 import { FacetResultsData } from './../types';
@@ -8,10 +8,10 @@ import { FacetResultsData } from './../types';
 const ITEMS_PER_PAGE = [20, 40, 100];
 
 const factoryParams = {
-  search: async (params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
+  search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
 
-    const categoryResponse = await getCategory({ slug: params.input.categorySlug });
+    const categoryResponse = await context.$api.getCategory({ slug: params.input.categorySlug });
     const categories = categoryResponse.data.categories.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([
@@ -19,7 +19,7 @@ const factoryParams = {
       ...inputFilters[curr].map(value => ({ type: AttributeType.STRING, name: curr, value }))
     ]), []);
 
-    const productResponse = await getProduct({
+    const productResponse = await context.$api.getProduct({
       catId: categories[0].id,
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,

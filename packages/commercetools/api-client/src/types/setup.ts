@@ -57,8 +57,6 @@ export interface CustomerCredentials {
   password: string;
 }
 
-// --
-
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
@@ -76,19 +74,4 @@ export interface Config<T = any> {
   auth?: Auth;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
-}
-
-export interface ConfigurableConfig {
-  api?: ApiConfig;
-  currentToken?: Token;
-  customOptions?: ApolloClientOptions<any>;
-  currency?: string;
-  locale?: string;
-  country?: string;
-  countries?: LocaleItem[];
-  currencies?: LocaleItem[];
-  locales?: LocaleItem[];
-  languageMap?: object;
-  acceptLanguage?: string[];
-  forceToken?: boolean;
 }

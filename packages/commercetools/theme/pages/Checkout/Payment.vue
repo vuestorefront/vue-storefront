@@ -96,8 +96,8 @@
         </ValidationProvider>
         <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selected="billingDetails.country"
-            @change="country => setBillingDetailsAndUnpickAddress({ country })"
+            :selectedValue="billingDetails.country"
+            @selected="country => setBillingDetailsAndUnpickAddress({ country })"
             label="Country"
             class="form__element form__element--half form__select sf-select--underlined"
             required
@@ -115,7 +115,7 @@
         </ValidationProvider>
         <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.contactInfo.phone"
+            :value="billingDetails.phone"
             @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"

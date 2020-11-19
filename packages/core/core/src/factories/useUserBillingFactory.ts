@@ -1,27 +1,37 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling } from '../types';
-import { sharedRef, Logger } from '../utils';
+import { UseUserBilling, Context } from '../types';
+import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> {
-  addAddress: (params: {
-    address: Readonly<USER_BILLING_ITEM>;
-    billing: Readonly<USER_BILLING>;
-  }) => Promise<USER_BILLING>;
-  deleteAddress: (params: {
-    address: Readonly<USER_BILLING_ITEM>;
-    billing: Readonly<USER_BILLING>;
-  }) => Promise<USER_BILLING>;
-  updateAddress: (params: {
-    address: Readonly<USER_BILLING_ITEM>;
-    billing: Readonly<USER_BILLING>;
-  }) => Promise<USER_BILLING>;
-  load: (params: {
-    billing: Readonly<USER_BILLING>;
-  }) => Promise<USER_BILLING>;
-  setDefault: (params: {
-    address: Readonly<USER_BILLING_ITEM>;
-    billing: Readonly<USER_BILLING>;
-  }) => Promise<USER_BILLING>;
+  addAddress: (
+    context: Context,
+    params: {
+      address: Readonly<USER_BILLING_ITEM>;
+      billing: Readonly<USER_BILLING>;
+    }) => Promise<USER_BILLING>;
+  deleteAddress: (
+    context: Context,
+    params: {
+      address: Readonly<USER_BILLING_ITEM>;
+      billing: Readonly<USER_BILLING>;
+    }) => Promise<USER_BILLING>;
+  updateAddress: (
+    context: Context,
+    params: {
+      address: Readonly<USER_BILLING_ITEM>;
+      billing: Readonly<USER_BILLING>;
+    }) => Promise<USER_BILLING>;
+  load: (
+    context: Context,
+    params: {
+      billing: Readonly<USER_BILLING>;
+    }) => Promise<USER_BILLING>;
+  setDefault: (
+    context: Context,
+    params: {
+      address: Readonly<USER_BILLING_ITEM>;
+      billing: Readonly<USER_BILLING>;
+    }) => Promise<USER_BILLING>;
 }
 
 export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
@@ -31,6 +41,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
   const useUserBilling = (): UseUserBilling<USER_BILLING, USER_BILLING_ITEM> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
+    const context = generateContext(factoryParams);
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
@@ -39,7 +50,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.addAddress({
+        billing.value = await factoryParams.addAddress(context, {
           address,
           billing: readonlyBilling
         });
@@ -57,7 +68,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.deleteAddress({
+        billing.value = await factoryParams.deleteAddress(context, {
           address,
           billing: readonlyBilling
         });
@@ -75,7 +86,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.updateAddress({
+        billing.value = await factoryParams.updateAddress(context, {
           address,
           billing: readonlyBilling
         });
@@ -93,7 +104,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.load({
+        billing.value = await factoryParams.load(context, {
           billing: readonlyBilling
         });
       } catch (err) {
@@ -110,7 +121,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.setDefault({
+        billing.value = await factoryParams.setDefault(context, {
           address,
           billing: readonlyBilling
         });

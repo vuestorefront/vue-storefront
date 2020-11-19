@@ -1,18 +1,19 @@
 import gql from 'graphql-tag';
 import defaultQuery from './defaultQuery';
 import { CategoryQueryResult } from '../../types/GraphQL';
-import { CustomQueryFn, getSettings } from '../../index';
+import { CustomQueryFn } from '../../index';
 import { buildCategoryWhere } from '../../helpers/search';
 import { getCustomQuery } from '../../helpers/queries';
+import { Config } from './../../types/setup';
 
 interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (params, customQueryFn?: CustomQueryFn) => {
-  const { acceptLanguage, client } = getSettings();
+const getCategory = async (settings: Config, params, customQueryFn?: CustomQueryFn) => {
+  const { acceptLanguage, client } = settings;
   const defaultVariables = params ? {
-    where: buildCategoryWhere(params),
+    where: buildCategoryWhere(settings, params),
     limit: params.limit,
     offset: params.offset,
     acceptLanguage

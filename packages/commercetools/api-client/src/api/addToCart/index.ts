@@ -2,14 +2,17 @@ import updateCart from './../updateCart';
 import { CartResponse, CustomQueryFn } from './../../types/Api';
 import { Cart, ProductVariant } from './../../types/GraphQL';
 import { createAddLineItemAction } from './../../helpers/cart/actions';
+import { Config } from './../../types/setup';
 
 const addToCart = async (
+  settings: Config,
   { id, version }: Cart,
   product: ProductVariant,
   quantity: number,
   customQuery?: CustomQueryFn
 ): Promise<CartResponse> => {
   return await updateCart(
+    settings,
     {
       id,
       version,

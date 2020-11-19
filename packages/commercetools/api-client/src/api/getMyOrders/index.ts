@@ -1,15 +1,16 @@
-import { CustomQueryFn, getSettings, MeQueryInterface } from '../../index';
+import { CustomQueryFn, MeQueryInterface } from '../../index';
 import defaultQuery from './defaultQuery';
 import { buildOrderWhere } from '../../helpers/search';
 import gql from 'graphql-tag';
 import { getCustomQuery } from '../../helpers/queries';
+import { Config } from './../../types/setup';
 
 interface OrdersData {
   me: Pick<MeQueryInterface, 'orders'>;
 }
 
-const getOrders = async (params, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, client } = getSettings();
+const getOrders = async (settings: Config, params, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage, client } = settings;
   const defaultVariables = {
     where: buildOrderWhere(params),
     sort: params.sort,

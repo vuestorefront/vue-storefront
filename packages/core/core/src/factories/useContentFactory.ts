@@ -1,10 +1,10 @@
 import { Ref, computed } from '@vue/composition-api';
-import { RenderComponent, UseContent } from '../types';
-import { sharedRef } from '../utils/shared';
+import { RenderComponent, UseContent, Context } from '../types';
+import { sharedRef, generateContext } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
 export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
-  search: (params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
+  search: (context: Context, params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
 };
 
 export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
@@ -14,11 +14,12 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
     const error: Ref<string | null> = sharedRef(null, `useContent-error-${id}`);
+    const context = generateContext(factoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
       try {
         loading.value = true;
-        content.value = await factoryParams.search(params);
+        content.value = await factoryParams.search(context, params);
       } catch (searchError) {
         error.value = searchError.toString();
       } finally {
