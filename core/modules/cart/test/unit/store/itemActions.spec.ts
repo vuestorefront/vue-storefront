@@ -1,9 +1,7 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { prepareProductsToAdd, productsEquals, validateProduct } from '@vue-storefront/core/modules/cart/helpers'
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
-import config from 'config';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),

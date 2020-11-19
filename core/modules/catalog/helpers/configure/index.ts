@@ -1,5 +1,3 @@
-import configureProducts from './configureProducts'
+import getAndCallAsyncDefault from '@vue-storefront/core/helpers/getAndCallAsyncDefault';
 
-export {
-  configureProducts
-}
+export const configureProducts = getAndCallAsyncDefault(() => import(/* webpackChunkName: "vsf-catalog-helper-configureProducts" */ './configureProducts'));

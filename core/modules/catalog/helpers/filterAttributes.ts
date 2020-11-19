@@ -1,5 +1,3 @@
-import config from 'config'
-
 export default function filterAttributes ({
   filterValues,
   filterField,
