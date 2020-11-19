@@ -2,7 +2,7 @@
   "name": "@vue-storefront/commercetools-theme",
   "description": "My breathtaking Nuxt.js project",
   "author": "Filip Rakowski",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -18,7 +18,7 @@
     "@storefront-ui/vue": "0.9.1",
     "@vue-storefront/commercetools": "0.2.6",
     "@vue-storefront/nuxt": "0.0.10",
-    "@vue-storefront/nuxt-theme": "0.0.4",
+    "@vue-storefront/nuxt-theme": "0.0.5",
     "cookie-universal-nuxt": "^2.1.3",
     "core-js": "^2.6.5",
     "nuxt": "^2.13.3",
