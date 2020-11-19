@@ -1,9 +1,8 @@
 const log = require('../helpers/log');
+const isProduction = require('../helpers/isProduction');
 const resolveDependency = require('../helpers/resolveDependency');
 
 module.exports = function VueStorefrontPerformanceModule (options) {
-  const isProd = process.env.NODE_ENV === 'production' || options.coreDevelopment;
-
   const useRawSource = (package) => {
     const pkgPath = resolveDependency(`${package}/package.json`);
     const pkg = require(pkgPath);
@@ -18,5 +17,5 @@ module.exports = function VueStorefrontPerformanceModule (options) {
     log.info(`Using raw source/ESM for ${pkg.name}`);
   };
 
-  options.useRawSource[isProd ? 'prod' : 'dev'].map(package => useRawSource(package));
+  options.useRawSource[isProduction(options) ? 'prod' : 'dev'].map(package => useRawSource(package));
 };
