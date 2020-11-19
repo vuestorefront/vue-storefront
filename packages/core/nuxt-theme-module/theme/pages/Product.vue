@@ -16,7 +16,7 @@
           <SfIcon
             icon="drag"
             size="xxl"
-            color="#E0E0E1"
+            color="var(--c-text-disabled)"
             class="product__drag-icon smartphone-only"
           />
         </div>
