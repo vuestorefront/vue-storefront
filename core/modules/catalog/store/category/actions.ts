@@ -11,14 +11,13 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
-import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
-import { formatCategoryLink } from 'core/modules/url/helpers'
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {

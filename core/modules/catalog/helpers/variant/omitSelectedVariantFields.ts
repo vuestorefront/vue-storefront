@@ -1,4 +1,4 @@
-import omit from 'lodash/omit'
+import omit from 'lodash-es/omit'
 
 /**
  * Omit some variant fields to prevent overriding same base product fields
