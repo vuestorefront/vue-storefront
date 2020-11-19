@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/checkout-com",
-  "version": "0.0.8",
+  "version": "0.0.8-lc.6",
   "sideEffects": false,
   "private": true,
   "main": "lib/index.cjs.js",
@@ -13,7 +13,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue/composition-api": "1.0.0-beta.14",
+    "@vue/composition-api": "1.0.0-beta.19",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "vue": "^2.6.x"

@@ -10,8 +10,7 @@ import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
 import { useCart } from './../useCart';
 import initFields from './initFields';
-import { Customer } from '../types/GraphQL';
-import { Ref, computed } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import { sharedRef, generateContext } from '@vue-storefront/core';
 
 // TODO: Move to core
@@ -24,16 +23,16 @@ const useCheckoutFactory = (factoryParams) => {
     });
     const cartFields = useCart();
     const initialDetails = { contactInfo: {} };
-    const paymentMethods: Ref<any[]> = sharedRef([], 'useCheckout-paymentMethods');
-    const shippingMethods: Ref<any[]> = sharedRef([], 'useCheckout-shippingMethods');
-    const personalDetails: Ref<Customer> = sharedRef({}, 'useCheckout-personalDetails');
-    const chosenPaymentMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenPaymentMethod');
-    const chosenShippingMethod: Ref<any> = sharedRef({}, 'useCheckout-chosenShippingMethod');
-    const isPersonalDetailsCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isPersonalDetailsCompleted');
-    const isShippingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isShippingAddressCompleted');
-    const isBillingAddressCompleted: Ref<boolean> = sharedRef(false, 'useCheckout-isBillingAddressCompleted');
-    const billingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-billingDetails');
-    const shippingDetails: Ref<any> = sharedRef(initialDetails, 'useCheckout-shippingDetails');
+    const paymentMethods = sharedRef([], 'useCheckout-paymentMethods');
+    const shippingMethods = sharedRef([], 'useCheckout-shippingMethods');
+    const personalDetails = sharedRef({}, 'useCheckout-personalDetails');
+    const chosenPaymentMethod = sharedRef({}, 'useCheckout-chosenPaymentMethod');
+    const chosenShippingMethod = sharedRef({}, 'useCheckout-chosenShippingMethod');
+    const isPersonalDetailsCompleted = sharedRef(false, 'useCheckout-isPersonalDetailsCompleted');
+    const isShippingAddressCompleted = sharedRef(false, 'useCheckout-isShippingAddressCompleted');
+    const isBillingAddressCompleted = sharedRef(false, 'useCheckout-isBillingAddressCompleted');
+    const billingDetails = sharedRef(initialDetails, 'useCheckout-billingDetails');
+    const shippingDetails = sharedRef(initialDetails, 'useCheckout-shippingDetails');
     const loading = sharedRef({
       personalDetails: false,
       paymentMethods: false,
