@@ -40,7 +40,7 @@ export default {
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
-        verbosity: 'error'
+        verbosity: 'debug'
       },
       useRawSource: {
         dev: [
