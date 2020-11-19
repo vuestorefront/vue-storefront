@@ -87,8 +87,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .sf-header {
   --header-padding:  var(--spacer-sm);
   @include for-desktop {
@@ -102,5 +100,4 @@ export default {
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
 }
-
 </style>

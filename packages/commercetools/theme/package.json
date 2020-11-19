@@ -8,14 +8,14 @@
   },
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build -m",
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "0.9.1",
+    "@storefront-ui/vue": "0.9.2",
     "@vue-storefront/commercetools": "0.2.6",
     "@vue-storefront/nuxt": "0.0.10",
     "@vue-storefront/nuxt-theme": "0.0.4",
