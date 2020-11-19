@@ -11,11 +11,11 @@ import { doPlatformPricesSync } from './price'
 import { setProductConfigurableOptions } from './productOptions'
 
 /** Below helpers are not used from 1.12 and can be removed to reduce bundle */
-import { populateProductConfigurationAsync, configureProductAsync } from './deprecatedHelpers'
-export {
-  populateProductConfigurationAsync,
-  configureProductAsync
-}
+// import { populateProductConfigurationAsync, configureProductAsync } from './deprecatedHelpers'
+// export {
+//   populateProductConfigurationAsync,
+//   configureProductAsync
+// }
 /***/
 
 export {
