@@ -33,10 +33,7 @@
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
-    "build:sp:api-client": "cd packages/shopify/api-client && yarn build",
-    "build:sp:composables": "cd packages/shopify/composables && yarn build",
     "build:sp:tools": "yarn build:core && yarn build:sp:api-client && yarn build:sp:composables",
-    "build:sp:theme": "cd packages/shopify/theme && yarn build",
     "build:sp": "yarn build:core && yarn build:sp:tools && yarn build:sp:theme",
     "test:ayc:api-client": "cd packages/about-you/api-client && yarn test",
     "test:ayc:composables": "cd packages/about-you/composables && yarn test",
@@ -50,15 +47,12 @@
     "test:cko": "cd packages/checkout-com && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
-    "start:sp": "cd packages/shopify/theme && yarn start",
     "dev:ayc:api-client": "cd packages/about-you/api-client && yarn dev",
     "dev:ayc:composables": "cd packages/about-you/composables && yarn dev",
     "dev:ct:api-client": "cd packages/commercetools/api-client && yarn dev",
     "dev:ct:composables": "cd packages/commercetools/composables && yarn dev",
     "dev:ayc": "cd packages/about-you/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
-    "dev:sp:api-client": "cd packages/shopify/api-client && yarn dev",
-    "dev:sp": "cd packages/shopify/theme && yarn dev",
     "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue",
     "release": "cd scripts && yarn release",
@@ -105,8 +99,7 @@
       "packages/boilerplate/*",
       "packages/core/*",
       "packages/prismic",
-      "packages/about-you/*",
-      "packages/shopify/*"
+      "packages/about-you/*"
     ],
     "nohoist": [
       "**/**/**"
