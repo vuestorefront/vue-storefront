@@ -81,7 +81,6 @@ export default {
       }
     }
   },
-  css: [require.resolve('@storefront-ui/vue/styles.scss', { paths: [process.cwd()] })],
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },

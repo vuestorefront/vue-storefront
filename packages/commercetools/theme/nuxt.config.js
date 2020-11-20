@@ -38,6 +38,8 @@ export default {
     // to core
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    // to core soon
+    '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
@@ -141,7 +143,6 @@ export default {
       cookieKey: 'vsf-locale'
     }
   },
-  css: [require.resolve('@storefront-ui/vue/styles.scss', { paths: [process.cwd()] })],
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
