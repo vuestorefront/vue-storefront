@@ -3037,10 +3037,10 @@
     lodash-es "^4.17.15"
     vue "^2.6.11"
 
-"@vue-storefront/nuxt-theme@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.5.tgz#df0e72e050d68c8c8244d533a5b42f2675cbc8d3"
-  integrity sha512-VPFihZq7INRXlk7IEREgRRKEQ1h/gU1/S4uHg5doKDPNRDlUrL05o14VmDFDw9ARzKNX49CBfzXScxlR83yjHw==
+"@vue-storefront/nuxt-theme@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.4.tgz#1796e8e0cf0f424a77925c7268a35759225c490b"
+  integrity sha512-4mmimMsIq2PqPLPAVaeMDTUn9q71OLzh1NIvnBLr2f7RT0bw2LQVr0C7Vjoq4q3gqOwJQJwNu0M3VgMOHCE/eQ==
   dependencies:
     lodash.merge "^4.6.2"
 
