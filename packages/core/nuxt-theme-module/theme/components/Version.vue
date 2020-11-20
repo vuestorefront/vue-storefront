@@ -22,14 +22,11 @@ export default {
     };
   }
 };
-
 </script>
-<style lang="scss">
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss">
 .version {
   padding: 15px;
   font-size: 14px;
 }
-
 </style>

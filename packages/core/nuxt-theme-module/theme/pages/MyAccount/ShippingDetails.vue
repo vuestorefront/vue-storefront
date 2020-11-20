@@ -143,7 +143,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
 
 .message {
   font-family: var(--font-family--primary);

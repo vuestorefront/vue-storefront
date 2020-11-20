@@ -174,8 +174,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
-
 .no-orders {
   &__title {
     margin: 0 0 var(--spacer-lg) 0;
