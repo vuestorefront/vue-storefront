@@ -25,18 +25,21 @@ const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => asy
 
   loading.value.shippingAddress = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setShippingMethodAction(),
-      cartActions.setShippingAddressAction(shippingDetails.value)
-    ]
-  }, customQuery);
+  try {
+    const cartResponse = await updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(),
+        cartActions.setShippingAddressAction(shippingDetails.value)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.shippingAddress = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart);
+  } finally {
+    loading.value.shippingAddress = false;
+  }
 };
 
 export default createSetShippingDetails;

@@ -101,10 +101,10 @@ export default {
     const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
     const edittingAddress = ref(false);
-    const activeAddress = ref(null);
+    const activeAddress = ref(undefined);
     const isNewAddress = computed(() => !activeAddress.value);
 
-    const changeAddress = (address = null) => {
+    const changeAddress = (address = undefined) => {
       activeAddress.value = address;
       edittingAddress.value = true;
     };
@@ -116,7 +116,7 @@ export default {
         const actionMethod = isNewAddress.value ? addAddress : updateAddress;
         const data = await actionMethod(form);
         edittingAddress.value = false;
-        activeAddress.value = null;
+        activeAddress.value = undefined;
         await onComplete(data);
       } catch (error) {
         onError(error);
@@ -143,8 +143,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
-
 @mixin for-mobile {
   @media screen and (max-width: $desktop-min) {
     @content;

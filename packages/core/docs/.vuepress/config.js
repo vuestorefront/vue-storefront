@@ -29,21 +29,23 @@ module.exports = {
           title: 'Composables',
           collapsable: false,
           children: [
-            ['/commercetools/use-product', 'useProduct'],
-            ['/commercetools/use-review', 'useReview'],
-            ['/commercetools/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/use-facet', 'useFacet'],
-            ['/commercetools/use-cart', 'useCart']
+            ['/commercetools/use-product', 'Products'],
+            ['/commercetools/use-review', 'Reviews'],
+            ['/commercetools/use-user-shipping', 'Shipping addresses'],
+            ['/commercetools/use-user-billing', 'Billing addresses'],
+            ['/commercetools/use-facet', 'Faceting'],
+            ['/commercetools/use-cart', 'Cart']
 
           ]
         },
         {
-          title: 'Enterprise',
+          title: 'Enterprise (paid)',
           collapsable: false,
           children: [
-            ['/commercetools/enterprise/use-review', 'useReview'],
+            ['/commercetools/enterprise/use-review', 'Reviews'],
             ['/commercetools/enterprise/user-groups', 'User groups'],
-            ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
+            ['/commercetools/enterprise/use-user-billing', 'Billing addresses']
           ]
         },
         {
@@ -119,7 +121,8 @@ module.exports = {
             ['/general/architecture', 'Architecture'],
             ['/general/i18n', 'i18n'],
             ['/general/faceting', 'Faceting'],
-            ['/general/logging', 'Logging']
+            ['/general/logging', 'Logging'],
+            ['/general/performance', 'Performance']
           ]
         },
         {

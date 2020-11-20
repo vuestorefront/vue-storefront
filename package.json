@@ -67,7 +67,6 @@
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "@vue/eslint-config-typescript": "^5.0.1",
-    "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -93,16 +92,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/commercetools/*",
-      "packages/spryker/*",
-      "packages/checkout-com",
-      "packages/boilerplate/*",
-      "packages/core/*",
-      "packages/prismic",
-      "packages/about-you/*"
-    ],
-    "nohoist": [
-      "**/**/**"
+      "packages/**/*"
     ]
   },
   "husky": {

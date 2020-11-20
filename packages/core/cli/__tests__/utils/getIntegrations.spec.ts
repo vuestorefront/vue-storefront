@@ -1,5 +1,6 @@
-import getIntegrations from '../../src/utils/getIntegrations';
+import getIntegrations from '@vue-storefront/cli/src/utils/getIntegrations';
 
+// const expectedIntegrations = ['commercetools', 'shopify'];
 const expectedIntegrations = ['commercetools'];
 
 describe('[vsf-next-cli] getIntegrations', () => {

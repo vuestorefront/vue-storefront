@@ -88,11 +88,11 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
   return {};
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductDescription = (product: ProductVariant): any => (product as any)?._description || '';
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)?._categoriesRef || '';
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductId = (product: ProductVariant): string => (product as any)?._id || '';
 
 export const getFormattedPrice = (price: number) => String(price);
 

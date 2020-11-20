@@ -24,6 +24,16 @@ jobs:
           password: ${{ secrets.CLOUD_PASSWORD }}
           dockerfile: dev/docker/Dockerfile
           buildoptions: "--compress"
+      - name: Build and publish docker image for release/next
+        if: github.ref == 'refs/heads/release/next'
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
+          registry: registry.storefrontcloud.io
+          username: ${{ secrets.CLOUD_USERNAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
+          dockerfile: dev/docker/Dockerfile
+          buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest
     needs: build

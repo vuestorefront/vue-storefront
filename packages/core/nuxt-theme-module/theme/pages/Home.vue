@@ -29,7 +29,7 @@
       title="Subscribe to Newsletters"
       button-text="Subscribe"
       description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-      image="/homepage/newsletter.jpg"
+      image="/homepage/newsletter.webp"
       class="call-to-action"
     />
     <SfSection title-heading="Best Sellers" class="section">
@@ -88,14 +88,14 @@ export default {
           subtitle: 'SUMMER COLLECTION 2019',
           buttonText: 'Learn more',
           background: '#eceff1',
-          image: '/homepage/bannerH.jpg'
+          image: '/homepage/bannerH.webp'
         },
         {
           title: 'Colorful summer dresses are already in store',
           subtitle: 'SUMMER COLLECTION 2019',
           buttonText: 'Learn more',
           background: '#efebe9',
-          image: '/homepage/bannerA.jpg',
+          image: '/homepage/bannerA.webp',
           className:
             'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
         },
@@ -104,7 +104,7 @@ export default {
           subtitle: 'SUMMER COLLECTION 2019',
           buttonText: 'Learn more',
           background: '#fce4ec',
-          image: '/homepage/bannerB.jpg'
+          image: '/homepage/bannerB.webp'
         }
       ],
       banners: [
@@ -116,8 +116,8 @@ export default {
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
           image: {
-            mobile: '/homepage/bannerB.jpg',
-            desktop: '/homepage/bannerF.jpg'
+            mobile: '/homepage/bannerB.webp',
+            desktop: '/homepage/bannerF.webp'
           },
           class: 'sf-banner--slim'
         },
@@ -128,77 +128,77 @@ export default {
           description:
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
-          image: '/homepage/bannerE.jpg',
+          image: '/homepage/bannerE.webp',
           class: 'sf-banner--slim banner-central'
         },
         {
           slot: 'banner-C',
           subtitle: 'T-Shirts',
           title: 'The Office Life',
-          image: '/homepage/bannerC.jpg',
+          image: '/homepage/bannerC.webp',
           class: 'sf-banner--slim banner__tshirt'
         },
         {
           slot: 'banner-D',
           subtitle: 'Summer Sandals',
           title: 'Eco Sandals',
-          image: '/homepage/bannerG.jpg',
+          image: '/homepage/bannerG.webp',
           class: 'sf-banner--slim'
         }
       ],
       products: [
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productA.jpg',
+          image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: true
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productB.jpg',
+          image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productC.jpg',
+          image: '/homepage/productC.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productA.jpg',
+          image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productB.jpg',
+          image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productC.jpg',
+          image: '/homepage/productC.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productA.jpg',
+          image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
         },
         {
           title: 'Cream Beach Bag',
-          image: '/homepage/productB.jpg',
+          image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
           isOnWishlist: false
@@ -213,8 +213,8 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 #home {
   box-sizing: border-box;
   @include for-desktop {
