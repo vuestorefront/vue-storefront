@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import { SfBreadcrumbs, SfContentPages, SfButton } from '@storefront-ui/vue';
+import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
@@ -64,7 +64,6 @@ export default {
   components: {
     SfBreadcrumbs,
     SfContentPages,
-    SfButton,
     MyProfile,
     ShippingDetails,
     BillingDetails,
@@ -137,8 +136,19 @@ export default {
     margin: 0 auto;
   }
 }
+.my-account {
+  @include for-mobile {
+    --content-pages-sidebar-category-title-font-weight: var(
+      --font-weight--normal
+    );
+    --content-pages-sidebar-category-title-margin: var(--spacer-sm)
+      var(--spacer-sm) var(--spacer-sm) var(--spacer-base);
+  }
+  @include for-desktop {
+    --content-pages-sidebar-category-title-margin: var(--spacer-xl) 0 0 0;
+  }
+}
 .breadcrumbs {
-  padding: var(--spacer-xl) var(--spacer-2xl) var(--spacer-2xl)
-    var(--spacer-2xl);
+  margin: var(--spacer-base) 0 var(--spacer-lg);
 }
 </style>

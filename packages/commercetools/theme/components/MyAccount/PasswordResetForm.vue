@@ -115,9 +115,8 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-2xl);
+        margin-right: var(--spacer-lg);
       }
-
       &:last-child {
         margin-right: 0;
       }
