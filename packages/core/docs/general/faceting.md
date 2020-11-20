@@ -43,7 +43,7 @@ setup (props, context) {
   const pagination = computed(() => facetGetters.getPagination(result.value));
 
   onSSR(async () => {
-    // triggering a search based on criteria available in url query eg. ?colo=red&sortBy=relevance
+    // triggering a search based on criteria available in url query eg. ?colo=red&sortBy=latest
     await search(context.$router.history.current.query);
   });
 }
