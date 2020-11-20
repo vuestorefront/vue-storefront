@@ -20,12 +20,13 @@ const getGrouped = (searchData: SearchData, criteria?: string[]): AgnosticGroupe
 
 const getSortOptions = (searchData: SearchData): AgnosticSort => {
   const options = [
+    { type: 'sort', id: 'relevance', value: 'Relevance', count: null },
     { type: 'sort', id: 'latest', value: 'Latest', count: null },
     { type: 'sort', id: 'price-up', value: 'Price from low to high', count: null },
     { type: 'sort', id: 'price-down', value: 'Price from high to low', count: null }
   ].map(o => ({ ...o, selected: o.id === searchData.input.sort }));
 
-  const selected = options.find(o => o.id === searchData.input.sort)?.id || 'latest';
+  const selected = options.find(o => o.id === searchData.input.sort)?.id || 'relevance';
 
   return { options, selected };
 };

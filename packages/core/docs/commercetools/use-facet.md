@@ -67,7 +67,7 @@ setup(props, context) {
   const pagination = computed(() => facetGetters.getPagination(result.value));
 
   onSSR(async () => {
-    await search({ categorySlug: 'clothing', sortBy: 'latest' });
+    await search({ categorySlug: 'clothing', sortBy: 'relevance' });
   });
 
   return {

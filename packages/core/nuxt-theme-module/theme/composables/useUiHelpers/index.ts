@@ -20,7 +20,7 @@ const useUiHelpers = () => {
   const changeSorting = (sort) => {
     console.warn('[VSF] please implement useUiHelpers.changeSorting.');
 
-    return 'latest';
+    return 'relevance';
   };
 
   // eslint-disable-next-line
