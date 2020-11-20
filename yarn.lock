@@ -3051,6 +3051,19 @@
   dependencies:
     lodash.merge "^4.6.2"
 
+"@vue-storefront/nuxt@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.10.tgz#6f8c6dfcbe7416b45fccea973d30c28ea09c27f2"
+  integrity sha512-H/v402WeaO8Vn/svziLjl/313xlm7CXGmRwYXHW6Dezwxa3tjk7Okh8qSb0COrd6af9J2jOt1ipNz1/vFPCtbQ==
+  dependencies:
+    "@nuxt/typescript-build" "^2.0.0"
+    "@nuxtjs/composition-api" "0.12.5"
+    "@vue/composition-api" "1.0.0-beta.14"
+    chalk "^2.4.2"
+    chokidar "^3.3.1"
+    consola "^2.10.1"
+    lodash "^4.17.15"
+
 "@vue-storefront/nuxt@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.8.tgz#b12a7cdc1f700de13aa47e21d97abdeb408a9efa"

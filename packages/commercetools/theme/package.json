@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build -m",
+    "build": "nuxt build",
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -19,6 +19,7 @@
     "@vue-storefront/commercetools": "0.2.6",
     "@vue-storefront/nuxt": "0.0.12",
     "@vue-storefront/nuxt-theme": "0.0.6",
+    "@nuxtjs/style-resources": "^1.0.0",
     "cookie-universal-nuxt": "^2.1.3",
     "core-js": "^2.6.5",
     "nuxt": "^2.13.3",
