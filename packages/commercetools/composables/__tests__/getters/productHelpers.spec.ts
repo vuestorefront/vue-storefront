@@ -71,7 +71,7 @@ describe('[commercetools-getters] product getters', () => {
   });
 
   it('returns cover image', () => {
-    expect(getProductCoverImage({ images: [] } as any)).toEqual(null);
+    expect(getProductCoverImage({ images: [] } as any)).toEqual('');
     expect(getProductCoverImage(product)).toEqual('imageV11/url.jpg');
   });
 

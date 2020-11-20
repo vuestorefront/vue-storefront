@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'UserAddress'
+  name: 'UserShippingAddress'
 };
 </script>

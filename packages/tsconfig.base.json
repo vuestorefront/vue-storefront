@@ -14,10 +14,7 @@
     "baseUrl": "./",
     "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
     "strict": false,
-    "preserveSymlinks": true,
-    "paths": {
-      "@vue-storefront/core": ["core/core/src"],
-    },
+    "preserveSymlinks": true
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

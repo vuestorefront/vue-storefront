@@ -2,7 +2,6 @@
 platform: Commercetools
 ---
 
-
 <IncludeContent content-key="use-cart" />
 
 ::: slot cart-interface
@@ -53,7 +52,6 @@ type Cart = Versioned & {
 ```
 :::
 
-
-## Loading cart on-demand
-
-In the commetcetools, in order to avoid unnecessary token creation calls, we need to load the cart only when it's really needed, thus each interaction with a cart such as adding item, removing item etc. triggers also token recreation to the one that handles user session. For more information please visit [commercetools documentation](https://docs.commercetools.com/http-api-authorization#create-anonymous-sessions-only-once-necessary).
+:::tip
+Because in commercetools each interaction with the cart (such as adding or removing items) triggers token recreation, cart is loaded only when it's really needed. For more information please visit [commercetools documentation](https://docs.commercetools.com/http-api-authorization#create-anonymous-sessions-only-once-necessary).
+:::

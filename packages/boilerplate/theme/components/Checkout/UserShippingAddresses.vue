@@ -77,8 +77,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
-
 .shipping-addresses {
   @include for-desktop {
     display: grid;

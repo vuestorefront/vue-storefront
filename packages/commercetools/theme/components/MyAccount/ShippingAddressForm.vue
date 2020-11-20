@@ -107,7 +107,7 @@
         >
           <SfInput
             data-cy="shipping-details-input_zipCode"
-            v-model="form.zipCode"
+            v-model="form.postalCode"
             name="zipCode"
             label="Zip-code"
             required
@@ -148,7 +148,7 @@
       >
         <SfInput
           data-cy="shipping-details-input_phoneNumber"
-          v-model="form.phoneNumber"
+          v-model="form.phone"
           name="phone"
           label="Phone number"
           required
@@ -174,7 +174,6 @@ import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@vue/composition-api';
 import { getSettings } from '@vue-storefront/commercetools-api';
-import { userShippingGetters } from '@vue-storefront/commercetools';
 
 extend('required', {
   ...required,
@@ -206,7 +205,19 @@ export default {
   props: {
     address: {
       type: Object,
-      default: {}
+      default: () => ({
+        id: undefined,
+        firstName: '',
+        lastName: '',
+        streetName: '',
+        apartment: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: '',
+        phone: '',
+        isDefault: false
+      })
     },
     isNew: {
       type: Boolean,
@@ -216,17 +227,17 @@ export default {
 
   setup(props, { emit }) {
     const form = reactive({
-      id: userShippingGetters.getId(props.address),
-      firstName: userShippingGetters.getFirstName(props.address),
-      lastName: userShippingGetters.getLastName(props.address),
-      streetName: userShippingGetters.getStreetName(props.address),
-      apartment: userShippingGetters.getApartmentNumber(props.address),
-      city: userShippingGetters.getCity(props.address),
-      state: userShippingGetters.getProvince(props.address),
-      zipCode: userShippingGetters.getPostCode(props.address),
-      country: userShippingGetters.getCountry(props.address),
-      phoneNumber: userShippingGetters.getPhone(props.address),
-      isDefault: userShippingGetters.isDefault(props.address)
+      id: props.address.id,
+      firstName: props.address.firstName,
+      lastName: props.address.lastName,
+      streetName: props.address.streetName,
+      apartment: props.address.apartment,
+      city: props.address.city,
+      state: props.address.state,
+      postalCode: props.address.postalCode,
+      country: props.address.country,
+      phone: props.address.phone,
+      isDefault: props.address.isDefault
     });
 
     const submitForm = () => {
@@ -248,8 +259,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
-
 .form {
   &__element {
     display: block;

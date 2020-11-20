@@ -68,13 +68,13 @@
               :key="size.value"
               :value="size.value"
             >
-              <SfProductOption :label="size.label" />
+              {{size.label}}
             </SfSelectOption>
           </SfSelect>
           <!-- TODO: add color picker after PR done by SFUI team -->
-          <div class="product__colors desktop-only">
+          <div v-if="options.color" class="product__colors desktop-only">
             <p class="product__color-label">Color:</p>
-            <div v-if="options.color">
+            <div>
               <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
               <SfColor
                 data-cy="product-color_update"
@@ -201,7 +201,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfProductOption,
   SfAddToCart,
   SfTabs,
   SfGallery,
@@ -289,7 +288,6 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfProductOption,
     SfAddToCart,
     SfTabs,
     SfGallery,
@@ -353,9 +351,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 #product {
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
