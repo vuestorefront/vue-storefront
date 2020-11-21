@@ -105,6 +105,7 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { useUiState } from '~/composables';
 import { useCheckout, useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -176,7 +177,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

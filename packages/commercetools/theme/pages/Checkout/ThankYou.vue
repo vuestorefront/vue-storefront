@@ -74,7 +74,7 @@
         </div>
       </div>
     </section>
-    <nuxt-link to="/" class="sf-button back-button color-primary button-size">Go back to shop</nuxt-link>
+    <SfButton link="/" class="sf-button back-button color-secondary button-size">Back to homepage</SfButton>
   </div>
 </template>
 
@@ -103,13 +103,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 #thank-you {
   box-sizing: border-box;
   @include for-desktop {
     max-width: 1240px;
-    padding: 0 var(--spacer-sm);
+    padding: 0;
     margin: 0 auto;
   }
 }

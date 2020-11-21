@@ -5,11 +5,7 @@
       :breadcrumbs="breadcrumbs"
     />
     <div class="product">
-      <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
-      <SfGallery
-        class="product__gallery"
-        :images="productGallery"
-      />
+      <SfGallery :images="productGallery" class="product__gallery" />
       <div class="product__info">
         <div class="product__header">
           <SfHeading
@@ -19,8 +15,8 @@
           />
           <SfIcon
             icon="drag"
-            size="xl"
-            color="gray-secondary"
+            size="xxl"
+            color="var(--c-text-disabled)"
             class="product__drag-icon smartphone-only"
           />
         </div>
@@ -33,17 +29,13 @@
             <div class="product__rating">
               <SfRating
                 :score="averageRating"
-                :max="5" />
-              <a
-                v-if="!!totalReviews"
-                href="#"
-                class="product__count">
+                :max="5"
+              />
+              <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text desktop-only">
-              Read all reviews
-            </SfButton>
+            <SfButton data-cy="product-btn_read-all" class="sf-button--text">Read all reviews</SfButton>
           </div>
         </div>
         <div>
@@ -53,12 +45,10 @@
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
             Size guide
           </SfButton>
-          <!-- TODO: add size selector after design is added -->
           <SfSelect
             data-cy="product-select_size"
             v-if="options.size"
-            :selected="configuration.size"
-            @change="size => updateFilter({ size })"
+            v-model="configuration.size"
             label="Size"
             class="sf-select--underlined product__select-size"
             :required="true"
@@ -68,23 +58,19 @@
               :key="size.value"
               :value="size.value"
             >
-              <SfProductOption :label="size.label" />
+              {{size.label}}
             </SfSelectOption>
           </SfSelect>
-          <!-- TODO: add color picker after PR done by SFUI team -->
-          <div class="product__colors desktop-only">
+          <div v-if="options.color" class="product__colors desktop-only">
             <p class="product__color-label">Color:</p>
-            <div v-if="options.color">
-              <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
-              <SfColor
-                data-cy="product-color_update"
-                v-for="(color, i) in options.color"
-                :key="i"
-                :color="color.value"
-                class="product__color"
-                @click="updateFilter({color})"
-              />
-            </div>
+            <SfColor
+              data-cy="product-color_update"
+              v-for="(color, i) in options.color"
+              :key="i"
+              :color="color.value"
+              class="product__color"
+              @click="updateFilter({color})"
+            />
           </div>
           <SfAddToCart
             data-cy="product-cart_add"
@@ -92,8 +78,8 @@
             v-model="qty"
             :disabled="loading"
             :canAddToCart="stock > 0"
-            @click="addToCart(product, parseInt(qty))"
             class="product__add-to-cart"
+            @click="addToCart(product, parseInt(qty))"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
             Save for later
@@ -102,16 +88,14 @@
             Add to compare
           </SfButton>
         </div>
-        <SfTabs :openTab="1" class="product__tabs">
+        <SfTabs :open-tab="1" class="product__tabs">
           <SfTab data-cy="product-tab_description" title="Description">
-            <div>
-              <p>
+            <div class="product__description">
                 The Karissa V-Neck Tee features a semi-fitted shape that's
                 flattering for every figure. You can hit the gym with
                 confidence while it hugs curves and hides common "problem"
                 areas. Find stunning women's cocktail dresses and party
                 dresses.
-              </p>
             </div>
             <SfProperty
               v-for="(property, i) in properties"
@@ -127,7 +111,7 @@
               </template>
             </SfProperty>
           </SfTab>
-          <SfTab title="Read review" data-cy="product-tab_reviews">
+          <SfTab title="Read reviews" data-cy="product-tab_reviews">
             <SfReview
               v-for="review in reviews"
               :key="reviewGetters.getReviewId(review)"
@@ -147,6 +131,7 @@
             data-cy="product-tab_additional"
             class="product__additional-info"
           >
+          <div class="product__additional-info">
             <p class="product__additional-info__title">Brand</p>
             <p>{{ brand }}</p>
             <p class="product__additional-info__title">Take care of me</p>
@@ -157,6 +142,7 @@
               Yeah, we thought so
             </p>
             <p>{{ careInstructions }}</p>
+          </div>
           </SfTab>
         </SfTabs>
       </div>
@@ -173,22 +159,26 @@
       title="Download our application to your mobile"
       class="sf-banner--left desktop-only banner-app"
     >
-      <template #call-to-action>
+    <template #call-to-action>
         <div class="banner-app__call-to-action">
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/google.png"
-            :width="191"
-            :height="51"
-            alt="Google Play"
-          />
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/apple.png"
-            :width="174"
-            :height="57"
-            alt="App Store"
-          />
+          <SfButton
+            class="banner-app__button"
+            aria-label="Go to Apple Product"
+            @click="() => {}"
+          >
+            <SfImage
+              src="/homepage/apple.png"
+            />
+          </SfButton>
+          <SfButton
+            class="banner-app__button"
+            aria-label="Go to Google Product"
+            @click="() => {}"
+          >
+            <SfImage
+              src="/homepage/google.png"
+            />
+          </SfButton>
         </div>
       </template>
     </SfBanner>
@@ -201,7 +191,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfProductOption,
   SfAddToCart,
   SfTabs,
   SfGallery,
@@ -289,7 +278,6 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfProductOption,
     SfAddToCart,
     SfTabs,
     SfGallery,
@@ -353,15 +341,12 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 #product {
   box-sizing: border-box;
-  padding: 0 var(--spacer-sm);
   @include for-desktop {
     max-width: 1272px;
-    padding: 0;
     margin: 0 auto;
   }
 }
@@ -370,7 +355,7 @@ export default {
     display: flex;
   }
   &__info {
-    margin: var(--spacer-sm) auto var(--spacer-xs);
+    margin: var(--spacer-sm) auto;
     @include for-desktop {
       max-width: 32.625rem;
       margin: 0 0 0 7.5rem;
@@ -378,10 +363,13 @@ export default {
   }
   &__header {
     --heading-title-color: var(--c-link);
+    --heading-title-font-weight: var(--font-weight--bold);
+    --heading-padding: 0;
     margin: 0 var(--spacer-sm);
     display: flex;
     justify-content: space-between;
     @include for-desktop {
+      --heading-title-font-weight: var(--font-weight--semibold);
       margin: 0 auto;
     }
   }
@@ -389,7 +377,7 @@ export default {
     animation: moveicon 1s ease-in-out infinite;
   }
   &__price-and-rating {
-    margin: var(--spacer-xs) var(--spacer-sm) var(--spacer-base);
+    margin: 0 var(--spacer-sm) var(--spacer-base);
     align-items: center;
     @include for-desktop {
       display: flex;
@@ -400,15 +388,13 @@ export default {
   &__rating {
     display: flex;
     align-items: center;
-    margin: var(--spacer-xs) 0;
-    @include for-desktop {
-      justify-content: flex-end;
-    }
+    justify-content: flex-end;
+    margin: var(--spacer-xs) 0 var(--spacer-xs);
   }
   &__count {
     @include font(
       --count-font,
-      var(--weight--normal),
+      var(--font-weight--normal),
       var(--font-size--sm),
       1.4,
       var(--font-family--secondary)
@@ -418,11 +404,9 @@ export default {
     margin: 0 0 0 var(--spacer-xs);
   }
   &__description {
-    color: var(--c-link);
-    margin-top: var(--spacer-xl);
     @include font(
       --product-description-font,
-      var(--font-weight--normal),
+      var(--font-weight--light),
       var(--font-size--base),
       1.6,
       var(--font-family--primary)
@@ -455,7 +439,7 @@ export default {
   &__add-to-cart {
     margin: var(--spacer-base) var(--spacer-sm) 0;
     @include for-desktop {
-      margin: var(--spacer-2xl) 0 0 0;
+      margin-top: var(--spacer-2xl);
     }
   }
   &__guide,
@@ -469,9 +453,9 @@ export default {
   }
   &__tabs {
     margin: var(--spacer-lg) auto var(--spacer-2xl);
+    --tabs-title-font-size: var(--font-size--lg);
     @include for-desktop {
-      margin-top: var(--spacer-2xl) 0 0 0;
-      --tabs-content-tab-padding: 3.5rem 0 0 0;
+      margin-top: var(--spacer-2xl);
     }
   }
   &__property {
@@ -484,26 +468,19 @@ export default {
     padding-bottom: 24px;
     border-bottom: var(--c-light) solid 1px;
     margin-bottom: var(--spacer-base);
-    &:last-of-type {
-      border: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-    @include for-desktop {
-      padding-bottom: 0;
-    }
   }
   &__additional-info {
+    color: var(--c-link);
     @include font(
       --additional-info-font,
       var(--font-weight--light),
-      var(--font-size--base),
+      var(--font-size--sm),
       1.6,
       var(--font-family--primary)
     );
     &__title {
-      color: var(--c-link);
-      font-weight: var(--font-weight--bold);
+      font-weight: var(--font-weight--normal);
+      font-size: var(--font-size--base);
       margin: 0 0 var(--spacer-sm);
       &:not(:first-child) {
         margin-top: 3.5rem;
@@ -519,6 +496,34 @@ export default {
 }
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
+}
+.banner-app {
+  --banner-container-width: 100%;
+  --banner-title-margin: var(--spacer-base) 0 var(--spacer-xl) 0;
+  --banner-padding: 0 var(--spacer-2xl);
+  --banner-title-font-size: var(--h1-font-size);
+  --banner-subtitle-font-size: var(--font-size--xl);
+  --banner-title-font-weight: var(--font-weight--semibold);
+  --banner-subtitle-font-weight: var(--font-weight--medium);
+  --banner-title-text-transform: capitalize;
+  --banner-subtitle-text-transform: capitalize;
+  display: block;
+  min-height: 26.25rem;
+  max-width: 65rem;
+  margin: 0 auto;
+  padding: 0 calc(25% + var(--spacer-2xl)) 0 var(--spacer-xl);
+  &__call-to-action {
+    --button-background: transparent;
+    display: flex;
+  }
+  &__button {
+    --image-width: 8.375rem;
+    --image-height: 2.75rem;
+    --button-padding: 0;
+    & + & {
+      margin: 0 0 0 calc(var(--spacer-xl) / 2);
+    }
+  }
 }
 @keyframes moveicon {
   0% {

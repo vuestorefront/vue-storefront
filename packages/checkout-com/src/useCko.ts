@@ -6,6 +6,7 @@ import { ref, computed } from '@vue/composition-api';
 import { CkoPaymentType } from './helpers';
 import useCkoCard from './useCkoCard';
 import useCkoPaypal from './useCkoPaypal';
+import useCkoSofort from './useCkoSofort';
 
 const error = ref(null);
 const availableMethods = ref([]);
@@ -52,6 +53,11 @@ const useCko = () => {
     makePayment: makePaypalPayment,
     error: paypalError
   } = useCkoPaypal();
+
+  const {
+    makePayment: makeSofortPayment,
+    error: sofortError
+  } = useCkoSofort();
 
   const loadAvailableMethods = async (reference, email?) => {
     try {
@@ -117,6 +123,9 @@ const useCko = () => {
     } else if (selectedPaymentMethod.value === CkoPaymentType.PAYPAL) {
       finalizeTransactionFunction = makePaypalPayment;
       localError = paypalError;
+    } else if (selectedPaymentMethod.value === CkoPaymentType.SOFORT) {
+      finalizeTransactionFunction = makeSofortPayment;
+      localError = sofortError;
     } else {
       error.value = new Error('Not supported payment method');
       return;

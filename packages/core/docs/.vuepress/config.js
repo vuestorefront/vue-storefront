@@ -20,7 +20,7 @@ module.exports = {
             ['/commercetools/getting-started', 'Getting Started'],
             ['/commercetools/api-client', 'API Client'],
             ['/commercetools/composables', 'Composables'],
-            ['/commercetools/feature-list', 'Feature list'],
+            ['https://www.notion.so/vuestorefront/6017d5a553904d0bbdcdf0f37d388c2b?v=a618b57067f34e68944145ade66da3a3', 'Feature list'],
             ['/commercetools/maintainers', 'Maintainers and support'],
             ['/commercetools/changelog', 'Changelog']
           ]
@@ -29,23 +29,23 @@ module.exports = {
           title: 'Composables',
           collapsable: false,
           children: [
-            ['/commercetools/use-product', 'useProduct'],
-            ['/commercetools/use-review', 'useReview'],
-            ['/commercetools/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/use-user-billing', 'useUserBilling'],
-            ['/commercetools/use-facet', 'useFacet'],
-            ['/commercetools/use-cart', 'useCart']
+            ['/commercetools/use-product', 'Products'],
+            ['/commercetools/use-review', 'Reviews'],
+            ['/commercetools/use-user-shipping', 'Shipping addresses'],
+            ['/commercetools/use-user-billing', 'Billing addresses'],
+            ['/commercetools/use-facet', 'Faceting'],
+            ['/commercetools/use-cart', 'Cart']
 
           ]
         },
         {
-          title: 'Enterprise',
+          title: 'Enterprise (paid)',
           collapsable: false,
           children: [
-            ['/commercetools/enterprise/use-review', 'useReview'],
+            ['/commercetools/enterprise/use-review', 'Reviews'],
             ['/commercetools/enterprise/user-groups', 'User groups'],
-            ['/commercetools/enterprise/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/enterprise/use-user-billing', 'useUserBilling']
+            ['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
+            ['/commercetools/enterprise/use-user-billing', 'Billing addresses']
           ]
         },
         {
@@ -121,7 +121,8 @@ module.exports = {
             ['/general/architecture', 'Architecture'],
             ['/general/i18n', 'i18n'],
             ['/general/faceting', 'Faceting'],
-            ['/general/logging', 'Logging']
+            ['/general/logging', 'Logging'],
+            ['/general/performance', 'Performance']
           ]
         },
         {

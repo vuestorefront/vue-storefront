@@ -204,9 +204,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 .form {
   margin-top: var(--spacer-sm);
   &__element {

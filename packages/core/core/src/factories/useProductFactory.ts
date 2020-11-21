@@ -1,39 +1,32 @@
-import { CustomQuery, SearchParams, UseProduct } from '../types';
+import { CustomQuery, ProductsSearchParams, UseProduct } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger } from '../utils';
 
-export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+export interface ProductsSearchResult<PRODUCT> {
   data: PRODUCT[];
   total: number;
-  availableFilters?: PRODUCT_FILTERS;
-  availableSortingOptions?: SORTING_OPTIONS;
 }
 
-export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
+export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> = {
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT>>;
 };
 
-export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>(
-  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
+export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
+  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+  return function useProduct(id: string): UseProduct<PRODUCT> {
     const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
     const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
-    const filters: Ref<PRODUCT_FILTERS> = sharedRef(null, `useProduct-filters-${id}`);
-    const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => {
       Logger.debug('useProduct.search', params);
 
       loading.value = true;
-      filters.value = null;
       try {
-        const { data, total, availableFilters, availableSortingOptions } = await factoryParams.productsSearch(params, customQuery);
+        const { data, total } = await factoryParams.productsSearch(params, customQuery);
         products.value = data;
         totalProducts.value = total;
-        filters.value = availableFilters || null;
-        sortingOptions.value = availableSortingOptions || null;
       } catch (e) {
         Logger.error('useProduct.search', e);
       } finally {
@@ -42,11 +35,9 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
     };
 
     return {
-      products: computed(() => products.value),
-      availableFilters: computed(() => filters.value),
-      totalProducts: computed(() => totalProducts.value),
       search,
-      availableSortingOptions: computed(() => sortingOptions.value),
+      products: computed(() => products.value),
+      totalProducts: computed(() => totalProducts.value),
       loading: computed(() => loading.value)
     };
   };
