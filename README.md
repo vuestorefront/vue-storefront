@@ -29,24 +29,15 @@ Vue Storefront is the most popular and most advanced PWA Headless frontend for e
 * [Lerna](https://github.com/lerna/lerna) - Monorepo manager
 * [Typescript](https://www.typescriptlang.org/docs/home.html) - JavaScript superset
 
-## Installation
-**Installing dependencies:**
+## Installation (Commercetools)
 ```sh
 $ yarn install
 ```
-
-**Verify by building packages:**
-```sh
-yarn build:core
-yarn build:prismic
-```
-
-## Commercetools
 ```sh
 yarn build:ct:tools
 ```
-
 then run the app
 ```sh
 yarn dev:ct
 ```
+
