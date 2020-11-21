@@ -37,6 +37,9 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
+    // to core soon
+    '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
@@ -139,6 +142,9 @@ export default {
     detectBrowserLanguage: {
       cookieKey: 'vsf-locale'
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     transpile: [
