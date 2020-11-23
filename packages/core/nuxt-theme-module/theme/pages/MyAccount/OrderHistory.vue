@@ -34,8 +34,8 @@
           </SfTableHeading>
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
             <SfTableData><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
-            <SfTableData>{{orderGetters.getFormattedPrice(orderGetters.getItemPrice(item))}}</SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
+            <SfTableData>{{orderGetters.getFormattedPrice(orderGetters.getItemPrice(item))}}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
