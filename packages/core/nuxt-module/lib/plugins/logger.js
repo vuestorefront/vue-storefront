@@ -1,4 +1,3 @@
-
 import { registerLogger } from '@vue-storefront/core'
 
 const loggerPlugin = () => {

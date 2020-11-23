@@ -3,18 +3,18 @@
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage src="/homepage/imageA.jpg" :width="486" :height="486">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageA.webp" :width="486" :height="486">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage src="/homepage/imageB.jpg" :width="486" :height="486">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageB.webp" :width="486" :height="486">katherina_trn</SfImage>
         </div>
       </div>
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage src="/homepage/imageC.jpg" :width="486" :height="486">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageC.webp" :width="486" :height="486">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage src="/homepage/imageD.jpg" :width="486" :height="486">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageD.webp" :width="486" :height="486">katherina_trn</SfImage>
         </div>
       </div>
     </div>
@@ -34,8 +34,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .grid {
   max-width: 960px;
   margin: auto;

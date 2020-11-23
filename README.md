@@ -12,13 +12,13 @@ Vue Storefront is the most popular and most advanced PWA Headless frontend for e
 
 ![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
 **Supported platforms**
-- Magento 1.9/2
-- Spryker
-- Spree
-- Sylius
+- Magento 1.9/2 (VSF1)
+- Spryker (VSF1)
+- Spree (VSF1)
+- Sylius (VSF1)
 - Shopware 6
-- Commercetools [WIP]
-- Shopify [WIP]
+- Commercetools
+- [Shopify](https://github.com/vuestorefront/shopify) [WIP]
 - AboutYou Cloud [WIP]
 - Salesforce Commerce Cloud [WIP]
 - ...more coming!
@@ -29,40 +29,15 @@ Vue Storefront is the most popular and most advanced PWA Headless frontend for e
 * [Lerna](https://github.com/lerna/lerna) - Monorepo manager
 * [Typescript](https://www.typescriptlang.org/docs/home.html) - JavaScript superset
 
-## Installation
-**Installing dependencies:**
+## Installation (Commercetools)
 ```sh
 $ yarn install
 ```
-
-**Verify by building packages:**
-```sh
-yarn build:core
-yarn build:prismic
-```
-
-## Commercetools
 ```sh
 yarn build:ct:tools
 ```
-
 then run the app
 ```sh
 yarn dev:ct
 ```
 
-## Shopify
-Build full package
-```sh
-yarn build:sp
-```
-
-Start app in development mode:
-```sh
-yarn dev:sp
-```
-
-Start app in production mode:
-```sh
-yarn start:sp
-```

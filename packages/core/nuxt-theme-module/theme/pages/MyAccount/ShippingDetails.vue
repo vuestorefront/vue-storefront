@@ -143,8 +143,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '~@storefront-ui/vue/styles';
-
 @mixin for-mobile {
   @media screen and (max-width: $desktop-min) {
     @content;

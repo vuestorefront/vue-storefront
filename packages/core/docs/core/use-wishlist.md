@@ -1,4 +1,4 @@
-# useWishlist composable
+# Wishlist
 
 `useWishlist` composition API function is responsible, as its name suggests, for interactions with wishlist in your eCommerce. This function returns following values:
 
