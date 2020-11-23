@@ -5,7 +5,7 @@
       class="container__lang container__lang--selected"
       @click="isLangModalOpen = !isLangModalOpen"
     >
-      <SfImage :src="`/icons/langs/${locale}.png`" width="20" />
+      <SfImage :src="`/icons/langs/${locale}.webp`" width="20" />
     </SfButton>
     <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
@@ -16,7 +16,7 @@
                 <span>{{ lang.label }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/${lang.code}.png`" />
+                <SfImage :src="`/icons/langs/${lang.code}.webp`" />
               </template>
             </SfCharacteristic>
           </a>
@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .container {
   margin: 0 -5px;
   display: flex;

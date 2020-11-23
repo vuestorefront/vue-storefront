@@ -63,55 +63,59 @@
       </SfAccordionItem>
     </SfAccordion>
     <SfTable class="sf-table--bordered table desktop-only">
-      <SfTableHeading class="table__row">
-        <SfTableHeader class="table__header table__image">Item</SfTableHeader>
-        <SfTableHeader
-          v-for="tableHeader in tableHeaders"
-          :key="tableHeader"
-          class="table__header"
+      <thead>
+        <SfTableHeading class="table__row">
+          <SfTableHeader class="table__header table__image">Item</SfTableHeader>
+          <SfTableHeader
+            v-for="tableHeader in tableHeaders"
+            :key="tableHeader"
+            class="table__header"
+          >
+            {{ tableHeader }}
+          </SfTableHeader>
+          <SfTableHeader class="table__action"></SfTableHeader>
+        </SfTableHeading>
+      </thead>
+      <tbody>
+        <SfTableRow
+          v-for="(product, index) in products"
+          :key="index"
+          class="table__row"
         >
-          {{ tableHeader }}
-        </SfTableHeader>
-        <SfTableHeader class="table__action"></SfTableHeader>
-      </SfTableHeading>
-      <SfTableRow
-        v-for="(product, index) in products"
-        :key="index"
-        class="table__row"
-      >
-        <SfTableData class="table__image">
-          <SfImage :src="cartGetters.getItemImage(product)" />
-        </SfTableData>
-        <SfTableData class="table__data table__data--left">
-          <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
-          <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
-        </SfTableData>
-        <SfTableData
-          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
-          :key="key"
-        >
-          {{ value }}
-        </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData class="table__data">
-          <SfPrice
-            :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-            :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
-            class="product-price"
-          />
-        </SfTableData>
-        <SfTableData class="table__action">
-          <SfIcon
-            data-cy="order-review-icon_remove-from-cart"
-            icon="cross"
-            size="xxs"
-            color="#BEBFC4"
-            role="button"
-            class="button"
-            @click="removeFromCart(product)"
-          />
-        </SfTableData>
-      </SfTableRow>
+          <SfTableData class="table__image">
+            <SfImage :src="cartGetters.getItemImage(product)" />
+          </SfTableData>
+          <SfTableData class="table__data table__data--left">
+            <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
+            <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
+          </SfTableData>
+          <SfTableData
+            class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+            :key="key"
+          >
+            {{ value }}
+          </SfTableData>
+          <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+          <SfTableData class="table__data">
+            <SfPrice
+              :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
+              :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+              class="product-price"
+            />
+          </SfTableData>
+          <SfTableData class="table__action">
+            <SfIcon
+              data-cy="order-review-icon_remove-from-cart"
+              icon="cross"
+              size="xxs"
+              color="#BEBFC4"
+              role="button"
+              class="button"
+              @click="removeFromCart(product)"
+            />
+          </SfTableData>
+        </SfTableRow>
+      </tbody>
     </SfTable>
     <div class="summary">
       <div class="summary__group">
@@ -235,8 +239,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
