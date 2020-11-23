@@ -1,4 +1,4 @@
-import { CustomQuery, ProductsSearchParams, UseProduct, Context } from '../types';
+import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -7,9 +7,9 @@ export interface ProductsSearchResult<PRODUCT> {
   total: number;
 }
 
-export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> = {
+export interface UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
   productsSearch: (context: Context, searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT>>;
-};
+}
 
 export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
   factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS>

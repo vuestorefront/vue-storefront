@@ -3,10 +3,9 @@ import { getCustomQuery, CustomQueryFn } from '../../index';
 import CreateMyOrderFromCartMutation from './defaultMutation';
 import { OrderMutationResponse } from '../../types/Api';
 import gql from 'graphql-tag';
-import { Config } from './../../types/setup';
 
-const createMyOrderFromCart = async (settings: Config, draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> => {
-  const { locale, acceptLanguage, client } = settings;
+const createMyOrderFromCart = async ({ config, client }, draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> => {
+  const { locale, acceptLanguage } = config;
   const defaultVariables = { locale,
     acceptLanguage,
     draft

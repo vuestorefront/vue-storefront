@@ -9,7 +9,7 @@ const productsSearch = async (context: Context, params: ProductsSearchParams, cu
     ...mapPaginationParams(params)
   };
 
-  const productResponse = await context.$api.getProduct(apiSearchParams, customQuery);
+  const productResponse = await context.$ct.api.getProduct(apiSearchParams, customQuery);
   const enhancedProductResponse = enhanceProduct(productResponse);
   const products = (enhancedProductResponse.data as any)._variants;
 

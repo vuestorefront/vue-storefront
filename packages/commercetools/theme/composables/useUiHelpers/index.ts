@@ -89,7 +89,7 @@ const useUiHelpers = () => {
     if (!price) {
       return null;
     }
-    const { locale, currency } = context.$settings;
+    const { locale, currency } = context.$ct.config;
 
     return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
   };

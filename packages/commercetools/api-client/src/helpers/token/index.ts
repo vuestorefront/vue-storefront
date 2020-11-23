@@ -1,5 +1,5 @@
 import SdkAuth from '@commercetools/sdk-auth';
-import { Token, Config } from '../../types/setup';
+import { Token } from '../../types/setup';
 
 const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
   const tokenIntrospection = await sdkAuth.introspectToken(token.access_token);
@@ -7,8 +7,8 @@ const isTokenActive = async (sdkAuth: SdkAuth, token: Token) => {
   return tokenIntrospection.active;
 };
 
-const isTokenUserSession = (settings: Config, token: Token) => {
-  const { handleIsTokenUserSession } = settings;
+const isTokenUserSession = (context, token: Token) => {
+  const { handleIsTokenUserSession } = context.config;
 
   if (handleIsTokenUserSession) {
     return handleIsTokenUserSession(token);

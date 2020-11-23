@@ -2,8 +2,11 @@ import { createAccessToken } from '@vue-storefront/commercetools-api';
 import { CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers';
 
 export default () => async (context) => {
-  if (!process.server || context.$settings.currentToken) return;
+  if (!process.server || context.$vsfCT.config.currentToken) return;
 
-  const newToken = await createAccessToken(context.$settings);
+  const { currentToken } = context.$vsfCT.config;
+  const newToken = await createAccessToken(context.$vsfCT.config, { currentToken });
+
+  console.log('token middleware', newToken.access_token);
   context.app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
 };

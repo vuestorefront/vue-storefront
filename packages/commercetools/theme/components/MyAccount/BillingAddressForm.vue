@@ -226,7 +226,7 @@ export default {
   },
 
   setup(props, { emit }) {
-    const { $settings } = useContext();
+    const { $ct: { config } } = useContext();
     const form = reactive({
       id: props.address.id,
       firstName: props.address.firstName,
@@ -253,7 +253,7 @@ export default {
     return {
       form,
       submitForm,
-      countries: $settings.countries
+      countries: config.countries
     };
   }
 };

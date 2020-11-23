@@ -1,18 +1,28 @@
 import merge from 'lodash-es/merge';
-import { Interface } from 'readline';
 import { Logger } from './../utils';
 
 interface FactoryParams<T, F = any> {
-  onSetup: (config: T) => T;
+  tag: string;
+  onSetup: (config: T) => { config: T; client: any };
   api: F;
 }
 
-type ApiClientInstance<T, F = any> = { settings: T } & F;
+export interface ApiClientInstance {
+  api: any;
+  client: any;
+  settings: any;
+  tag: string;
+}
 
-export function apiClientFactory<ALL_SETTINGS, ALL_FUNCTIONS extends Interface>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
+export interface BaseConfig {
+  [x: string]: any;
+  client?: any;
+}
+
+export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
   return {
-    createApiClient (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance<ALL_SETTINGS, ALL_FUNCTIONS> {
-      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : config;
+    createApiClient (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance {
+      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
       Logger.debug('apiClientFactory.setup', settings);
 
@@ -25,8 +35,10 @@ export function apiClientFactory<ALL_SETTINGS, ALL_FUNCTIONS extends Interface>(
         }), {}) as ALL_FUNCTIONS;
 
       return {
-        ...api,
-        settings
+        api,
+        client: settings.client,
+        settings: settings.config,
+        tag: factoryParams.tag
       };
     }
   };

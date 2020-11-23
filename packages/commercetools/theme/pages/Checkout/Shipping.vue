@@ -219,7 +219,8 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    const { $settings } = useContext();
+    const { $ct: { config } } = useContext();
+
     const {
       shippingDetails,
       chosenShippingMethod,
@@ -324,7 +325,7 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      countries: $settings.countries,
+      countries: config.countries,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       canAddNewAddress,
       addressIsModified,

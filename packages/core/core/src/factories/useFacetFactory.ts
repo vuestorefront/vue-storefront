@@ -1,8 +1,8 @@
 import { Ref, computed } from '@vue/composition-api';
 import { vsfRef, Logger, generateContext } from '../utils';
-import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context } from '../types';
+import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams } from '../types';
 
-interface UseFacetFactoryParams<SEARCH_DATA> {
+interface UseFacetFactoryParams<SEARCH_DATA> extends FactoryParams {
   search: (context: Context, params?: FacetSearchResult<SEARCH_DATA>) => Promise<SEARCH_DATA>;
 }
 

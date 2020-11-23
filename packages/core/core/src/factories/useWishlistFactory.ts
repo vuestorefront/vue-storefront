@@ -1,8 +1,8 @@
-import { UseWishlist, CustomQuery, Context } from '../types';
+import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
+export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
   loadWishlist: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
   addToWishlist: (
     context: Context,
@@ -18,7 +18,7 @@ export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
     }, customQuery?: CustomQuery) => Promise<WISHLIST>;
   clearWishlist: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
-};
+}
 
 interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
   useWishlist: () => UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT>;

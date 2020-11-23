@@ -3,7 +3,6 @@ import { CustomQueryFn } from './../../types/Api';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
 import { getCustomQuery } from './../../helpers/queries';
-import { Config } from './../../types/setup';
 
 interface UpdateCart {
   id: string;
@@ -11,8 +10,8 @@ interface UpdateCart {
   actions: CartUpdateAction[] | MyCartUpdateAction[];
 }
 
-const updateCart = async (settings: Config, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, client } = settings;
+const updateCart = async ({ config, client }, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage } = config;
   const defaultVariables = params
     ? {
       locale,

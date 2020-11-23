@@ -4,7 +4,7 @@ import { useCategoryFactory, UseCategoryFactoryParams, Context } from '@vue-stor
 
 const params: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params, customQuery?: CustomQuery) => {
-    const categoryResponse = await context.$api.getCategory(params, customQuery);
+    const categoryResponse = await context.$ct.api.getCategory(params, customQuery);
     return categoryResponse.data.categories.results;
   }
 };

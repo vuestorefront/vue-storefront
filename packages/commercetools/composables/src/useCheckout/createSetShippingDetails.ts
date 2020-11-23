@@ -26,7 +26,7 @@ const createSetShippingDetails = (params) => async (data, options: any = {}, cus
   loading.value.shippingAddress = true;
 
   try {
-    const cartResponse = await context.$api.updateCart({
+    const cartResponse = await context.$ct.api.updateCart({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

@@ -4,7 +4,7 @@ import { OrderSearchParams } from '../types';
 
 const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
   searchOrders: async (context: Context, params: OrderSearchParams = {}, customQuery?: CustomQuery): Promise<OrdersSearchResult<Order>> => {
-    const result = await context.$api.getOrders(params, customQuery);
+    const result = await context.$ct.api.getOrders(params, customQuery);
     const { results: data, total } = result.data?.me.orders || { results: [], total: 0 };
     return { data, total };
   }

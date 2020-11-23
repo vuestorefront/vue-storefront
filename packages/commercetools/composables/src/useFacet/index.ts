@@ -11,7 +11,7 @@ const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
 
-    const categoryResponse = await context.$api.getCategory({ slug: params.input.categorySlug });
+    const categoryResponse = await context.$ct.api.getCategory({ slug: params.input.categorySlug });
     const categories = categoryResponse.data.categories.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([
@@ -19,7 +19,7 @@ const factoryParams = {
       ...inputFilters[curr].map(value => ({ type: AttributeType.STRING, name: curr, value }))
     ]), []);
 
-    const productResponse = await context.$api.getProduct({
+    const productResponse = await context.$ct.api.getProduct({
       catId: categories[0].id,
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,

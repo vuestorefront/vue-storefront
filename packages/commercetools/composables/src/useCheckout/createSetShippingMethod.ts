@@ -12,7 +12,7 @@ const setShippingMethod = (params) => async (method, options: any = {}, customQu
   loading.value.shippingMethod = true;
 
   try {
-    const cartResponse = await context.$api.updateCart({
+    const cartResponse = await context.$ct.api.updateCart({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

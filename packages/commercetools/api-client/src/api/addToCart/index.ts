@@ -2,10 +2,9 @@ import updateCart from './../updateCart';
 import { CartResponse, CustomQueryFn } from './../../types/Api';
 import { Cart, ProductVariant } from './../../types/GraphQL';
 import { createAddLineItemAction } from './../../helpers/cart/actions';
-import { Config } from './../../types/setup';
 
 const addToCart = async (
-  settings: Config,
+  settings,
   { id, version }: Cart,
   product: ProductVariant,
   quantity: number,

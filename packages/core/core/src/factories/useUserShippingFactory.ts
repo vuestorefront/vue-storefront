@@ -1,8 +1,8 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping, Context } from '../types';
+import { UseUserShipping, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
-export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> {
+export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
   addAddress: (
     context: Context,
       params: {

@@ -1,8 +1,8 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context } from '../types';
+import { UseUserBilling, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> {
+export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
   addAddress: (
     context: Context,
     params: {

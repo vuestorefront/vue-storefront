@@ -1,5 +1,5 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
-import { Token, ApiConfig, Config } from '../../types/setup';
+import { Token, ApiConfig } from '../../types/setup';
 import { FlowOptions } from '../../types/Api';
 import { isTokenActive, isTokenUserSession } from './../token';
 
@@ -15,14 +15,14 @@ const createAuthClient = (config: ApiConfig): SdkAuth =>
     scopes: config.scopes
   });
 
-const getTokenFlow = async (settings: Config, sdkAuth: SdkAuth, options: FlowOptions = {}) => {
+const getTokenFlow = async (settings, sdkAuth: SdkAuth, options: FlowOptions = {}) => {
   const { currentToken } = options;
 
   if (options.customerCredentials) {
     return sdkAuth.customerPasswordFlow(options.customerCredentials);
   }
 
-  if (options.requireUserSession && !isTokenUserSession(settings, currentToken)) {
+  if (options.requireUserSession && !isTokenUserSession({ config: settings }, currentToken)) {
     return sdkAuth.anonymousFlow();
   }
 
@@ -41,7 +41,7 @@ const getTokenFlow = async (settings: Config, sdkAuth: SdkAuth, options: FlowOpt
   return sdkAuth.clientCredentialsFlow();
 };
 
-const createAccessToken = async (settings: Config, options: FlowOptions = {}): Promise<Token> => {
+const createAccessToken = async (settings, options: FlowOptions = {}): Promise<Token> => {
   const { api } = settings;
   const sdkAuth = createAuthClient(api);
   const tokenInfo = await getTokenFlow(settings, sdkAuth, options);

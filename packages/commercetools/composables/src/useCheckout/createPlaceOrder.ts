@@ -7,7 +7,7 @@ const createPlaceOrder = ({ context, cartFields, loading }, customQuery?: Custom
   const { id, version } = cartFields.cart.value;
 
   try {
-    const orderResponse = await context.$api.createMyOrderFromCart({ id, version }, customQuery);
+    const orderResponse = await context.$ct.api.createMyOrderFromCart({ id, version }, customQuery);
     const { order } = orderResponse.data;
     return order;
   } finally {

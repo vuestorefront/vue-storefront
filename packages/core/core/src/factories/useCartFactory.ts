@@ -1,8 +1,8 @@
-import { CustomQuery, UseCart, Context } from '../types';
+import { CustomQuery, UseCart, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
+export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
   loadCart: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
   addToCart: (
     context: Context,
@@ -27,8 +27,7 @@ export type UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> = {
     customQuery?: CustomQuery
   ) => Promise<{ updatedCart: CART }>;
   isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
-  setup?: () => any;
-};
+}
 
 interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
   useCart: () => UseCart<CART, CART_ITEM, PRODUCT, COUPON>;

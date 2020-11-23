@@ -39,25 +39,33 @@ const defaultSettings = {
   }
 };
 
-const onSetup = (config: Config): Config => {
-  const languageMap = config.languageMap || {};
-  const acceptLanguage = config.acceptLanguage || defaultSettings.acceptLanguage;
-  const locale = config.locale || defaultSettings.locale;
+const onSetup = (settings: Config): { config: Config; client: ApolloClient<any> } => {
+  const languageMap = settings.languageMap || {};
+  const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
+  const locale = settings.locale || defaultSettings.locale;
 
-  return {
+  const config = {
     ...defaultSettings,
+    ...settings,
     languageMap,
     acceptLanguage: languageMap[locale] || acceptLanguage,
-    client: new ApolloClient({
-      link: createCommerceToolsLink(config),
-      cache: new InMemoryCache(),
-      ...config.customOptions
-    }),
-    auth: config.auth || defaultSettings.auth
+    auth: settings.auth || defaultSettings.auth
   } as any as Config;
+
+  const client = settings.client || new ApolloClient({
+    link: createCommerceToolsLink(config),
+    cache: new InMemoryCache(),
+    ...settings.customOptions
+  });
+
+  return {
+    config,
+    client
+  };
 };
 
 const { createApiClient } = apiClientFactory<Config, any>({
+  tag: 'ct',
   onSetup,
   api: {
     getProduct,

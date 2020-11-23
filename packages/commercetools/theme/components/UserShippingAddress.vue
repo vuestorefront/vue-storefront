@@ -27,7 +27,7 @@ export default {
   },
 
   setup(props) {
-    const { $settings } = useContext();
+    const { $ct: { config } } = useContext();
     const address = toRef(props, 'address');
 
     const street = computed(() => {
@@ -42,7 +42,7 @@ export default {
 
     const country = computed(() => {
       const country = address.country;
-      return $settings.countries.find(c => c.name === country)?.label || country;
+      return config.countries.find(c => c.name === country)?.label || country;
     });
 
     return {

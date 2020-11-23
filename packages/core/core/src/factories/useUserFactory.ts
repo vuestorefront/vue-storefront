@@ -1,15 +1,14 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUser, Context } from '../types';
+import { UseUser, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
-export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
+export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
   loadUser: (context: Context,) => Promise<USER>;
   logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
   logIn: (context: Context, params: { username: string; password: string }) => Promise<USER>;
   changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
-  setup?: () => any;
 }
 
 interface UseUserFactory<USER, UPDATE_USER_PARAMS> {

@@ -6,7 +6,7 @@ const createLoadShippingMethods = ({ context, cartFields, shippingMethods, isShi
   loading.value.shippingMethods = true;
 
   try {
-    const shippingMethodsResponse = await context.$api.getShippingMethods(cartFields.cart.value.id, customQuery);
+    const shippingMethodsResponse = await context.$ct.api.getShippingMethods(cartFields.cart.value.id, customQuery);
     shippingMethods.value = shippingMethodsResponse.data.shippingMethods;
   } finally {
     loading.value.shippingMethods = false;

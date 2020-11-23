@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseUserOrders, Context } from '../types';
+import { CustomQuery, UseUserOrders, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface OrdersSearchResult<ORDER> {
@@ -7,9 +7,9 @@ export interface OrdersSearchResult<ORDER> {
   total: number;
 }
 
-export type UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> = {
+export interface UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> extends FactoryParams {
   searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
-};
+}
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
   return function useUserOrders(): UseUserOrders<ORDER> {

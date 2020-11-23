@@ -1,7 +1,6 @@
-import { Config } from './../../types/setup';
 
-const customerSignOut = async (settings: Config): Promise<void> => {
-  const { auth } = settings;
+const customerSignOut = async (context): Promise<void> => {
+  const { auth } = context.config;
   auth.onTokenRemove();
 };
 

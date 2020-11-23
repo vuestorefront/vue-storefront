@@ -3,14 +3,13 @@ import { CustomQueryFn } from '../../index';
 import { getCustomQuery } from '../../helpers/queries';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
-import { Config } from './../../types/setup';
 
 interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
-const createCart = async (settings: Config, cartDraft: CartData = {}, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, currency, client } = settings;
+const createCart = async ({ config, client }, cartDraft: CartData = {}, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage, currency } = config;
 
   const defaultVariables = {
     acceptLanguage,

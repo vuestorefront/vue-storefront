@@ -1,11 +1,11 @@
 import { Ref, computed } from '@vue/composition-api';
-import { RenderComponent, UseContent, Context } from '../types';
+import { RenderComponent, UseContent, Context, FactoryParams } from '../types';
 import { sharedRef, generateContext } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
-export declare type UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> = {
+export interface UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> extends FactoryParams {
   search: (context: Context, params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
-};
+}
 
 export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   factoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS>

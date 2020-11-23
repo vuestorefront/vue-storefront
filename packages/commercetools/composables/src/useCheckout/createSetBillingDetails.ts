@@ -23,7 +23,7 @@ const createSetBillingDetails = (params) => async (data, options: any = {}, cust
   loading.value.billingAddress = true;
 
   try {
-    const cartResponse = await context.$api.updateCart({
+    const cartResponse = await context.$ct.api.updateCart({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [

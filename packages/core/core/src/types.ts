@@ -510,7 +510,9 @@ export interface VSFLogger {
 }
 
 export interface Context {
-  $api: any;
-  $settings: any;
   [x: string]: any;
+}
+
+export interface FactoryParams {
+  setup?: <T = any>(context: Context) => T;
 }

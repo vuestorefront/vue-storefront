@@ -1,11 +1,11 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseReview, Context } from '../types';
+import { CustomQuery, UseReview, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export declare type UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> = {
+export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
   searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<REVIEW>;
   addReview: (context: Context, params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery) => Promise<REVIEW>;
-};
+}
 
 export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
   factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>
