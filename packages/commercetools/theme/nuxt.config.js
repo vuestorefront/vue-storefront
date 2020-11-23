@@ -35,6 +35,7 @@ export default {
     }
   },
   buildModules: [
+    '@vsf-enterprise/ct-faceting/nuxt',
     // to core
     '@nuxt/typescript-build',
     ['@vue-storefront/nuxt', {
