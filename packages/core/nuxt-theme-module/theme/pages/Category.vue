@@ -27,11 +27,11 @@
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
           <SfSelect
-            :selected="sortBy.selected"
+            :value="sortBy.selected"
             placeholder="Select sorting"
             data-cy="category-select_sortBy"
             class="navbar__select"
-            @change="th.changeSorting"
+            @input="th.changeSorting"
           >
             <SfSelectOption
               v-for="option in sortBy.options"
@@ -222,9 +222,9 @@
           >
             <span class="products__show-on-page__label">Show on page:</span>
             <SfSelect
-              :selected="pagination.itemsPerPage"
+              :value="pagination.itemsPerPage"
               class="products__items-per-page"
-              @change="th.changeItemsPerPage"
+              @input="th.changeItemsPerPage"
             >
               <SfSelectOption
                 v-for="option in pagination.pageOptions"
@@ -356,7 +356,7 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value));
+    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
     onSSR(async () => {
       await search(th.getFacetsFromURL());
     });
