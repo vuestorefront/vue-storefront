@@ -2,18 +2,20 @@
 platform: Commercetools
 ---
 
-# useWishlist composable
+# Wishlist
+
+[[toc]]
+
+## Features
 
 `useWishlist` composition API function is responsible, for integrating with wishlist from Commercetools. It allows to:
 
 - fetch products from wishlist
 - add products to wishlist
 - remove products from wishlist
-- checking if product is on wishlist
+- check if product is on wishlist
 
-This function returns following values:
-
-## Properties
+## API
 
 `useWishlist` contains following properties:
 

@@ -35,7 +35,7 @@ module.exports = {
 						['/commercetools/use-user-billing', 'Billing addresses'],
 						['/commercetools/use-facet', 'Faceting'],
 						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'useWishlist']
+						['/commercetools/use-wishlist', 'Wishlist']
 
 					]
 				},
@@ -43,10 +43,10 @@ module.exports = {
 					title: 'Enterprise (paid)',
 					collapsable: false,
 					children: [
+						['/commercetools/enterprise/use-review', 'Reviews'],
 						['/commercetools/enterprise/user-groups', 'User groups'],
 						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
 						['/commercetools/enterprise/use-user-billing', 'Billing addresses'],
-						['/commercetools/enterprise/use-review', 'Reviews'],
 						['/commercetools/enterprise/use-wishlist', 'Wishlist']
 					]
 				},
