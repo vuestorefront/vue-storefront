@@ -6,7 +6,5 @@ export default () => async (context) => {
 
   const { currentToken } = context.$vsfCT.config;
   const newToken = await createAccessToken(context.$vsfCT.config, { currentToken });
-
-  console.log('token middleware', newToken.access_token);
   context.app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
 };
