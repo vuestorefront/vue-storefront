@@ -7,15 +7,14 @@ import { CkoPaymentType, getCurrentPaymentMethodPayload, PaymentInstrument } fro
 
 declare const Frames: any;
 
-const isCardValid = ref(false);
-const error = ref(null);
-const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
-
 const getTransactionToken = () => sessionStorage.getItem(getTransactionTokenKey());
 const setTransactionToken = (token) => sessionStorage.setItem(getTransactionTokenKey(), token);
 const removeTransactionToken = () => sessionStorage.removeItem(getTransactionTokenKey());
 
 const useCkoCard = (selectedPaymentMethod: Ref<CkoPaymentType>) => {
+  const isCardValid = ref(false);
+  const error = ref(null);
+  const storedPaymentInstruments = ref<PaymentInstrument[]>([]);
   const submitDisabled = computed(() => selectedPaymentMethod.value === CkoPaymentType.CREDIT_CARD && !isCardValid.value);
   const makePayment = async ({
     cartId,

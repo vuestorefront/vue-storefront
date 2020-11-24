@@ -1,8 +1,7 @@
 {
   "name": "@vue-storefront/checkout-com",
-  "version": "0.0.8-7",
+  "version": "0.0.8-lc.8",
   "sideEffects": false,
-  "private": true,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",

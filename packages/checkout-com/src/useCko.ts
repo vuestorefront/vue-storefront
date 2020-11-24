@@ -8,11 +8,6 @@ import useCkoCard from './useCkoCard';
 import useCkoPaypal from './useCkoPaypal';
 import useCkoSofort from './useCkoSofort';
 
-const error = ref(null);
-const availableMethods = ref([]);
-const contextId = ref<string>(null);
-const requiresCvv = ref(false);
-
 interface PaymentMethods {
   card?: boolean;
   klarna?: boolean;
@@ -25,8 +20,6 @@ interface PaymentMethodsConfig {
   paypal?: any;
 }
 
-const selectedPaymentMethod = ref(CkoPaymentType.NOT_SELECTED);
-
 const setSavePaymentInstrument = (newSavePaymentInstrument: boolean) => {
   localStorage.setItem(getSaveInstrumentKey(), JSON.stringify(newSavePaymentInstrument));
 };
@@ -36,6 +29,11 @@ const loadSavePaymentInstrument = (): boolean => {
 };
 
 const useCko = () => {
+  const error = ref(null);
+  const availableMethods = ref([]);
+  const contextId = ref<string>(null);
+  const requiresCvv = ref(false);
+  const selectedPaymentMethod = ref(CkoPaymentType.NOT_SELECTED);
   const {
     initCardForm,
     makePayment: makeCardPayment,

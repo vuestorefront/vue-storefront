@@ -4,9 +4,9 @@ import { createContext, createPayment } from './payment';
 import { ref } from '@vue/composition-api';
 import { CkoPaymentType, getCurrentPaymentMethodPayload } from './helpers';
 
-const error = ref(null);
-
 const useCkoSofort = () => {
+  const error = ref(null);
+
   const makePayment = async ({
     cartId,
     email,
