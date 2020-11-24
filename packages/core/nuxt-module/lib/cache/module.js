@@ -63,7 +63,14 @@ function cacheModule (options) {
       return []
     }
 
-    return driver.invoke({ route, context, getTags, render })
+    try {
+      return await driver.invoke({ route, context, getTags, render });
+    } catch (err) {
+      console.error('Your cache driver thrown an error!')
+      console.error('Server is going to render fresh page (cacheless)')
+      console.error(err)
+      return render();
+    }
   });
 }
 
