@@ -1,5 +1,5 @@
 import { CacheTag } from '../../types';
-import { getTagSet } from './tagSet';
+import { useContext } from '@nuxtjs/composition-api';
 
 export type CacheDriver = (options: any) => {
   invoke: () => Promise<any>;
@@ -8,37 +8,31 @@ export type CacheDriver = (options: any) => {
 
 type SetTagsFn = (tags: CacheTag[]) => CacheTag[]
 
-let driver: CacheDriver = null;
+const useCache = () => {
+  const { $vsfCache } = useContext();
 
-const addTags = (tags: CacheTag[]) => {
-  const tagsSet = getTagSet();
-  tags.forEach(tag => tagsSet.add(tag));
+  const addTags = (tags: CacheTag[]) => tags.forEach(tag => $vsfCache.tagsSet.add(tag));
+  const cleanTags = () => $vsfCache.tagsSet.clear();
+  const getTags = (): CacheTag[] => Array.from($vsfCache.tagsSet);
+  const setTags = (fn: SetTagsFn) => {
+    const tagsSet = $vsfCache.tagsSet;
+    const newTags = fn(Array.from(tagsSet));
+    tagsSet.clear();
+    newTags.forEach(tag => tagsSet.add(tag));
+  };
+  const registerDriver = (cacheDriver: CacheDriver) => {
+    $vsfCache.driver = cacheDriver;
+  };
+  const getCacheDriver = () => $vsfCache.driver;
+
+  return {
+    addTags,
+    cleanTags,
+    getTags,
+    setTags,
+    registerDriver,
+    getCacheDriver
+  };
 };
 
-const cleanTags = () => getTagSet().tagsSet.clear();
-
-const getTags = (): CacheTag[] => Array.from(getTagSet());
-
-const setTags = (fn: SetTagsFn) => {
-  const tagsSet = getTagSet();
-  const newTags = fn(Array.from(tagsSet));
-  tagsSet.clear();
-  newTags.forEach(tag => tagsSet.add(tag));
-};
-
-const registerDriver = (cacheDriver: CacheDriver) => {
-  driver = cacheDriver;
-};
-
-const getCacheDriver = () => driver;
-
-const cache = {
-  addTags,
-  cleanTags,
-  getTags,
-  setTags,
-  registerDriver,
-  getCacheDriver
-};
-
-export default cache;
+export default useCache;
