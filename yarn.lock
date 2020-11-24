@@ -2936,21 +2936,6 @@
   dependencies:
     lodash.merge "^4.6.2"
 
-"@vue-storefront/nuxt@0.0.10-lc.8":
-  version "0.0.10-lc.8"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.10-lc.8.tgz#987d0797911dab6f54c4fb7c78e1f1a037e3dab6"
-  integrity sha512-WLcVHDswOqbMf9oCv3D3n/9OARFhvwTrLLL+AfJL5wBptMJJq30lkK6H24uYvJcIbfmI9+U4X8T4cxhQH1WtWg==
-  dependencies:
-    "@nuxt/typescript-build" "^2.0.0"
-    "@nuxtjs/composition-api" "0.15.1"
-    "@nuxtjs/style-resources" "^1.0.0"
-    "@vue/composition-api" "1.0.0-beta.19"
-    chalk "^2.4.2"
-    chokidar "^3.3.1"
-    consola "^2.10.1"
-    lodash "^4.17.15"
-    nuxt-purgecss "^1.0.0"
-
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
