@@ -19,7 +19,14 @@ export default {
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico' }
+        href: '/favicon.ico'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com'
+      }
     ],
     script: []
   },
@@ -35,9 +42,11 @@ export default {
     }
   },
   buildModules: [
-    '@vsf-enterprise/ct-faceting/nuxt',
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
+    // to core soon
+    '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
@@ -140,6 +149,9 @@ export default {
     detectBrowserLanguage: {
       cookieKey: 'vsf-locale'
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     transpile: [
