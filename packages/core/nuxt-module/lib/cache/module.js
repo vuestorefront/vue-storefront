@@ -60,12 +60,6 @@ function cacheModule (options) {
         return Array.from(context.req.vsfCache.tags)
       }
 
-      if (context.req.headers['cache-tags']) {
-        return context.req.headers['cache-tags']
-          .split(' ')
-          .map(t => ({ prefix: t[0], value: t.substr(1) }));
-      }
-
       return []
     }
 
