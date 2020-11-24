@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "0.0.10-lc.7",
+  "version": "0.0.10-lc.8",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
