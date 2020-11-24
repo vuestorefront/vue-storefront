@@ -362,7 +362,6 @@ export default {
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
     const pagination = computed(() => facetGetters.getPagination(result.value).toString());
-    const showSidebar = computed(() => Object.keys(categoryTree.value).length > 0);
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
@@ -428,7 +427,6 @@ export default {
       loading,
       productGetters,
       pagination,
-      showSidebar,
       activeCategory,
       sortBy,
       facets,
