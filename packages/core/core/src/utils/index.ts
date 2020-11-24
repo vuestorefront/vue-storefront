@@ -6,6 +6,7 @@ import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
 import { useContext, configureContext, generateContext } from './context';
+import { createIntegrationPlugin, injectInContext } from './nuxt';
 
 export {
   wrap,
@@ -18,5 +19,7 @@ export {
   mask,
   configureContext,
   useContext,
-  generateContext
+  generateContext,
+  createIntegrationPlugin,
+  injectInContext
 };

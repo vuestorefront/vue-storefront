@@ -1,5 +1,5 @@
 import defaultConfig from '@vue-storefront/commercetools/nuxt/defaultConfig';
-import { createIntegrationPlugin } from '@vue-storefront/nuxt/helpers';
+import { createIntegrationPlugin } from '@vue-storefront/core';
 import { createApiClient } from '@vue-storefront/commercetools-api';
 
 const getLocaleSettings = (moduleOptions, app) => {
