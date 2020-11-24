@@ -76,8 +76,13 @@
     </div>
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfLoader :class="{ loading }" :loading="loading">
-          <SfAccordion :open="categoryTree.items ? categoryTree.items[0].label : ''" :show-chevron="true">
+        <SfLoader
+        :class="{ loading }"
+        :loading="loading">
+          <SfAccordion
+            :open="activeCategory"
+            :show-chevron="true"
+          >
             <SfAccordionItem
               v-for="(cat, i) in categoryTree && categoryTree.items"
               :key="i"
@@ -93,8 +98,8 @@
                     >
                       <template #label>
                         <nuxt-link
-                        :to="localePath(th.getCatLink(cat))"
-                        :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
+                          :to="localePath(th.getCatLink(cat))"
+                          :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
                         >
                           All
                         </nuxt-link>
@@ -357,6 +362,18 @@ export default {
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
     const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const activeCategory = computed(() => {
+      const items = categoryTree.value.items;
+
+      if (!items) {
+        return '';
+      }
+
+      const category = items.find(({ isCurrent, items }) => isCurrent || items.find(({ isCurrent }) => isCurrent));
+
+      return category?.label || items[0].label;
+    });
+
     onSSR(async () => {
       await search(th.getFacetsFromURL());
     });
@@ -368,7 +385,7 @@ export default {
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
       if (!facets.value.length) return;
-      selectedFilters.value = facets.reduce((prev, curr) => ({
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)
@@ -410,6 +427,7 @@ export default {
       loading,
       productGetters,
       pagination,
+      activeCategory,
       sortBy,
       facets,
       breadcrumbs,
@@ -621,6 +639,10 @@ export default {
   &__item {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
+    }
+
+    .nuxt-link-exact-active {
+      text-decoration: underline;
     }
   }
 }
