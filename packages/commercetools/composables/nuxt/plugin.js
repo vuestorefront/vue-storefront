@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { createApiClient } from '@vue-storefront/commercetools-api';
 import { mapConfigToSetupObject, createIntegration, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
@@ -16,8 +15,6 @@ export default createIntegration(({ app, $configure }) => {
   const onTokenChange = (token) => {
     try {
       app.$cookies.set(CT_TOKEN_COOKIE_NAME, token);
-      console.log('TOKEN UPDATE', token.access_token);
-
     } catch (e) {
       // Cookies on is set after request has sent.
     }
