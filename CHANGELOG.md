@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.5] - UNRELEASED
 
 ### Added
+
+- Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
+
 ### Changed / Improved
 ### Fixed
 
