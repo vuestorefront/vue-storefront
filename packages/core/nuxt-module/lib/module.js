@@ -80,7 +80,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   log.success('Installed Performance Module');
 
   // Cache module
-  this.addModule([path.resolve(__dirname, 'cache/module.js'), moduleOptions.cache])
+  this.options.modules.push([path.resolve(__dirname, 'cache/module.js'), moduleOptions.cache])
   log.success('Installed cache');
 
   // Raw sources loader
