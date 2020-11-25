@@ -66,7 +66,7 @@ const {
 const {
   hook: beforeOutputRenderedResponseHook,
   executor: beforeOutputRenderedResponseExecutor
-} = createMutatorHook<any, string | { output: string }>();
+} = createMutatorHook<any, string | { output: string, [key: string]: any }>();
 
 const {
   hook: afterOutputRenderedResponseHook,
