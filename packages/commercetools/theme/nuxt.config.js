@@ -111,7 +111,22 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    // function test() {
+    //   console.log('hello modules world', this.options.modules)
+    //   console.log(this.nuxt.renderer)
+    //   console.log(Object.keys(this.nuxt))
+    // },
+    [
+      '/home/fjedrasik/Projects/Next/packages/core/nuxt-module/lib/cache/module.js',
+      {
+        server: {
+          invalidateEndpoint: '/cache-invalidate',
+          invalidators: ['./invalidator'],
+          driver: ['./exampleCache', { test: 1 }]
+        }
+      }
+    ]
   ],
   i18n: {
     currency: 'USD',
