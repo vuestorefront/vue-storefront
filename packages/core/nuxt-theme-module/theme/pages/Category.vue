@@ -299,7 +299,7 @@
             :label="option.id"
             :selected="isFilterSelected(facet, option)"
             class="filters__item"
-            @change="option.selected = !option.selected"
+            @change="() => selectFilter(facet, option)"
           />
         </SfAccordionItem>
       </div>
