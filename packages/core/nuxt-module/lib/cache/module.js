@@ -1,5 +1,4 @@
 import path from 'path';
-import { cache } from '@vue-storefront/core';
 import { createMiddleware } from '@vue-storefront/core/server';
 
 function rendererFactory (renderFn) {
@@ -35,16 +34,24 @@ const createDriver = (options) => {
 }
 
 function cacheModule (options) {
-  cache.registerDriver(createDriver(options))
+  const resolvedDriver = createDriver(options)
   const createRenderer = rendererFactory.bind(this)
+
+  this.addPlugin({
+    src: path.resolve(__dirname, './plugin.js'),
+    mode: 'server',
+    options: {
+      ...options.server,
+      driver: resolvedDriver
+    }
+  });
 
   if (options.server.invalidateEndpoint) {
     const { middleware, extend } = createMiddleware({});
 
     extend((app) => {
       app.get(options.server.invalidateEndpoint, async (req, res) => {
-        const driver = cache.getCacheDriver()
-        await driver.invalidate({ req, res });
+        await resolvedDriver.invalidate({ req, res });
 
         res.send()
       })
@@ -54,17 +61,16 @@ function cacheModule (options) {
   }
 
   createRenderer(async (route, context, render) => {
-    const driver = cache.getCacheDriver()
     const getTags = () => {
-      if (context.req.vsfCache) {
-        return Array.from(context.req.vsfCache.tags)
+      if (context.req.$vsfCache && context.req.$vsfCache.tagsSet) {
+        return Array.from(context.req.$vsfCache.tagsSet)
       }
 
       return []
     }
 
     try {
-      return await driver.invoke({ route, context, getTags, render });
+      return await resolvedDriver.invoke({ route, context, getTags, render });
     } catch (err) {
       console.error('Your cache driver thrown an error!')
       console.error('Server is going to render fresh page (cacheless)')
@@ -72,6 +78,8 @@ function cacheModule (options) {
       return render();
     }
   });
+
+
 }
 
 export default cacheModule

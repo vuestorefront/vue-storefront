@@ -9,8 +9,17 @@ export type CacheDriver = (options: any) => {
 type SetTagsFn = (tags: CacheTag[]) => CacheTag[]
 
 const useCache = () => {
-  const { $vsfCache } = useContext();
+  const { req }: any = useContext();
+  if (!req) {
+    return {
+      addTags: () => {},
+      cleanTags: () => {},
+      getTags: () => {},
+      setTags: () => {}
+    };
+  }
 
+  const $vsfCache = req.$vsfCache;
   const addTags = (tags: CacheTag[]) => tags.forEach(tag => $vsfCache.tagsSet.add(tag));
   const cleanTags = () => $vsfCache.tagsSet.clear();
   const getTags = (): CacheTag[] => Array.from($vsfCache.tagsSet);
@@ -20,18 +29,12 @@ const useCache = () => {
     tagsSet.clear();
     newTags.forEach(tag => tagsSet.add(tag));
   };
-  const registerDriver = (cacheDriver: CacheDriver) => {
-    $vsfCache.driver = cacheDriver;
-  };
-  const getCacheDriver = () => $vsfCache.driver;
 
   return {
     addTags,
     cleanTags,
     getTags,
-    setTags,
-    registerDriver,
-    getCacheDriver
+    setTags
   };
 };
 

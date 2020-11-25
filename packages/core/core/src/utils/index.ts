@@ -7,6 +7,7 @@ import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
 import { useContext, configureContext, generateContext } from './context';
 import { createIntegrationPlugin, injectInContext } from './nuxt';
+import useCache from './cache';
 
 export {
   wrap,
@@ -22,5 +23,5 @@ export {
   generateContext,
   createIntegrationPlugin,
   injectInContext,
-  cache
+  useCache
 };

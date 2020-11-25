@@ -4,11 +4,11 @@ const CacheDriver = (options, invalidators) => {
   console.log('driver called', options);
 
   return {
-    invoke: async ({ getTags, render }) => {
+    invoke: async ({ getTags, render, context }) => {
 
       const res = await render();
-      console.log('invoke called 2', getTags());
-
+      context.res.setHeader('X-Cache-Tags', getTags().join(' '))
+      
       return res;
     },
     invalidate: ({ req, res }) => {
