@@ -34,9 +34,8 @@ const createDriver = (options) => {
 }
 
 function cacheModule (options) {
+  // This part must be before the condition below
   const resolvedDriver = createDriver(options)
-  const createRenderer = rendererFactory.bind(this)
-
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
     mode: 'server',
@@ -45,6 +44,11 @@ function cacheModule (options) {
       driver: resolvedDriver
     }
   });
+
+  if (!this.nuxt || !this.nuxt.renderer) {
+    return
+  }
+  const createRenderer = rendererFactory.bind(this)
 
   if (options.server.invalidateEndpoint) {
     const { middleware, extend } = createMiddleware({});
