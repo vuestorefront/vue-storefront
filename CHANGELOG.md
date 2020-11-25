@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 
+- Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
 - Remove vue-lazyload from core - @jahvi (#5045)
 - Remove unnecessary async and Logger import - @jahvi (#5039)
