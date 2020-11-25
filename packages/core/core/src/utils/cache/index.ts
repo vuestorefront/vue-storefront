@@ -19,7 +19,8 @@ const useCache = () => {
     };
   }
 
-  const $vsfCache = req.$vsfCache;
+  const { ssrContext }: any = useContext();
+  const $vsfCache = req.$vsfCache || ssrContext.req.$vsfCache;
   const addTags = (tags: CacheTag[]) => tags.forEach(tag => $vsfCache.tagsSet.add(tag));
   const cleanTags = () => $vsfCache.tagsSet.clear();
   const getTags = (): CacheTag[] => Array.from($vsfCache.tagsSet);
