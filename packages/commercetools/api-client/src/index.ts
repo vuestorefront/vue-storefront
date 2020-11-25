@@ -22,64 +22,79 @@ import removeCartCoupon from './api/removeCartCoupon';
 import customerChangeMyPassword from './api/customerChangeMyPassword';
 import customerUpdateMe from './api/customerUpdateMe';
 import createAccessToken from './helpers/createAccessToken';
+import { isTokenUserSession } from './helpers/token/index';
 import { apiClientFactory } from '@vue-storefront/core';
-import { Config, ConfigurableConfig } from './types/setup';
+import { Config } from './types/setup';
 
-let apolloClient: ApolloClient<any> = null;
-
-const onSetup = (config: Config) => {
-  config.languageMap = config.languageMap || {};
-  config.acceptLanguage = config.languageMap[config.locale] || config.acceptLanguage;
-  apolloClient = new ApolloClient({
-    link: createCommerceToolsLink(),
-    cache: new InMemoryCache(),
-    ...config.customOptions
-  });
-  config.client = apolloClient;
+const defaultSettings = {
+  locale: 'en',
+  acceptLanguage: ['en'],
+  auth: {
+    onTokenChange: () => {}
+  },
+  cookies: {
+    currencyCookieName: 'vsf-currency',
+    countryCookieName: 'vsf-country',
+    localeCookieName: 'vsf-locale'
+  }
 };
 
-const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
+const onSetup = (settings: Config): { config: Config; client: ApolloClient<any> } => {
+  const languageMap = settings.languageMap || {};
+  const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
+  const locale = settings.locale || defaultSettings.locale;
+
+  const config = {
+    ...defaultSettings,
+    ...settings,
+    languageMap,
+    acceptLanguage: languageMap[locale] || acceptLanguage,
+    auth: settings.auth || defaultSettings.auth
+  } as any as Config;
+
+  const client = settings.client || new ApolloClient({
+    link: createCommerceToolsLink(config),
+    cache: new InMemoryCache(),
+    ...settings.customOptions
+  });
+
+  return {
+    config,
+    client
+  };
+};
+
+const { createApiClient } = apiClientFactory<Config, any>({
+  tag: 'ct',
   onSetup,
-  defaultSettings: {
-    locale: 'en',
-    acceptLanguage: ['en'],
-    auth: {
-      onTokenChange: () => {}
-    },
-    cookies: {
-      currencyCookieName: 'vsf-currency',
-      countryCookieName: 'vsf-country',
-      localeCookieName: 'vsf-locale'
-    }
+  api: {
+    getProduct,
+    getCategory,
+    getOrders,
+    createCart,
+    updateCart,
+    getCart,
+    addToCart,
+    removeFromCart,
+    getMe,
+    updateCartQuantity,
+    createMyOrderFromCart,
+    getShippingMethods,
+    updateShippingDetails,
+    customerSignMeUp,
+    customerSignMeIn,
+    customerSignOut,
+    applyCartCoupon,
+    removeCartCoupon,
+    customerChangeMyPassword,
+    customerUpdateMe,
+    isTokenUserSession
   }
 });
 
 export {
-  getSettings,
-  createAccessToken,
-  apolloClient,
-  setup,
-  update,
-  getProduct,
-  getCategory,
-  getOrders,
-  createCart,
-  updateCart,
-  getCart,
-  addToCart,
-  removeFromCart,
-  getMe,
-  updateCartQuantity,
-  createMyOrderFromCart,
-  getShippingMethods,
-  updateShippingDetails,
-  customerSignMeUp,
-  customerSignMeIn,
-  customerSignOut,
-  applyCartCoupon,
-  removeCartCoupon,
-  customerChangeMyPassword,
-  customerUpdateMe
+  createApiClient,
+  createAccessToken
 };
 
 export * from './fragments';

@@ -1,29 +1,15 @@
-import { CustomQuery, UseUserFactoryParams } from '@vue-storefront/core';
+import { CustomQuery, UseUserFactoryParams, Context } from '@vue-storefront/core';
 import { Customer } from '../types/GraphQL';
 import { authenticate } from './authenticate';
-import {
-  customerSignMeUp as apiCustomerSignMeUp,
-  customerSignMeIn as apiCustomerSignMeIn,
-  customerSignOut as apiCustomerSignOut,
-  customerUpdateMe as apiCustomerUpdateMe,
-  getMe as apiGetMe,
-  createCart,
-  customerChangeMyPassword as apiCustomerChangeMyPassword,
-  getSettings,
-  isTokenUserSession
-} from '@vue-storefront/commercetools-api';
-import { setCart } from '../useCart';
-import { setUser } from '../useUser';
+import { useCart } from '../useCart';
 
-const loadUser = async (customQuery?: CustomQuery) => {
-  const settings = getSettings();
-
-  if (!isTokenUserSession(settings.currentToken)) {
+const loadUser = async (context: Context, customQuery?: CustomQuery) => {
+  if (!context.$ct.api.isTokenUserSession(context.$ct.config.currentToken)) {
     return null;
   }
 
   try {
-    const profile = await apiGetMe({ customer: true }, customQuery);
+    const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
     return profile.data.me.customer;
   } catch (err) {
     const errorMessage = err?.graphQLErrors?.[0].message || err.message;
@@ -37,47 +23,49 @@ const loadUser = async (customQuery?: CustomQuery) => {
   }
 };
 
-const getCurrentUser = async (currentUser) => {
+const getCurrentUser = async (context: Context, currentUser) => {
   if (!currentUser) {
-    return loadUser();
+    return loadUser(context);
   }
 
   return currentUser;
 };
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
-  loadUser,
-  logOut: async () => {
-    await apiCustomerSignOut();
-    const cartResponse = await createCart();
-    setCart(cartResponse.data.cart);
+  setup(): any {
+    return useCart();
   },
-  updateUser: async ({ currentUser, updatedUserData }) => {
-    const loadedUser = await getCurrentUser(currentUser);
-    const { user } = await apiCustomerUpdateMe(loadedUser, updatedUserData);
-    setUser(user);
+  loadUser,
+  logOut: async (context: Context) => {
+    await context.$ct.api.customerSignOut();
+    const cartResponse = await context.$ct.api.createCart();
+    context.setCart(cartResponse.data.cart);
+  },
+  updateUser: async (context: Context, { currentUser, updatedUserData }) => {
+    const loadedUser = await getCurrentUser(context, currentUser);
+    const { user } = await context.$ct.api.customerUpdateMe(loadedUser, updatedUserData);
 
     return user;
   },
-  register: async ({email, password, firstName, lastName}) => {
-    const { customer, cart } = await authenticate({email, password, firstName, lastName}, apiCustomerSignMeUp);
-    setCart(cart);
+  register: async (context: Context, {email, password, firstName, lastName}) => {
+    const { customer, cart } = await authenticate({email, password, firstName, lastName}, context.$ct.api.customerSignMeUp);
+    context.setCart(cart);
 
     return customer;
   },
-  logIn: async ({ username, password }) => {
+  logIn: async (context: Context, { username, password }) => {
     const customerLogin = { email: username, password };
-    const { customer, cart } = await authenticate(customerLogin, apiCustomerSignMeIn);
-    setCart(cart);
+    const { customer, cart } = await authenticate(customerLogin, context.$ct.api.customerSignMeIn);
+    context.setCart(cart);
 
     return customer;
   },
-  changePassword: async function changePassword({ currentUser, currentPassword, newPassword }) {
-    const loadedUser = await getCurrentUser(currentUser);
-    const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
+  changePassword: async function changePassword(context: Context, { currentUser, currentPassword, newPassword }) {
+    const loadedUser = await getCurrentUser(context, currentUser);
+    const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-    await this.logOut();
-    return await params.logIn({ username: userResponse.data.user.email, password: newPassword });
+    await this.logOut(context);
+    return await params.logIn(context, { username: userResponse.data.user.email, password: newPassword });
   }
 };
 

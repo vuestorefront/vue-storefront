@@ -90,8 +90,8 @@
           </ValidationProvider>
           <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selected="shippingDetails.country"
-            @change="country => setShippingDetailsAndUnpickAddress({ country })"
+            :selectedValue="shippingDetails.country"
+            @selected="country => setShippingDetailsAndUnpickAddress({ country })"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -187,11 +187,10 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { getSettings } from '@vue-storefront/commercetools-api';
 import { useCheckout, useUserShipping, useUser, checkoutGetters, userShippingGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
-import { onSSR } from '@vue-storefront/core';
+import { onSSR, useContext } from '@vue-storefront/core';
 import { ref, onMounted, computed } from '@vue/composition-api';
 
 extend('required', {
@@ -220,6 +219,8 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
+    const { $ct: { config } } = useContext();
+
     const {
       shippingDetails,
       chosenShippingMethod,
@@ -324,7 +325,7 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      countries: getSettings().countries,
+      countries: config.countries,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       canAddNewAddress,
       addressIsModified,

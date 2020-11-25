@@ -2,9 +2,9 @@
 
 import useCategory from './useCategory';
 import useProduct from './useProduct';
-import { setCart, useCart } from './useCart';
+import { useCart } from './useCart';
 import useCheckout from './useCheckout';
-import { setUser, useUser } from './useUser';
+import { useUser } from './useUser';
 import useUserOrders from './useUserOrders';
 import { setWishlist, useWishlist } from './useWishlist';
 import { useReview, reviewGetters } from './useReview';
@@ -32,10 +32,8 @@ export {
   useCategory,
   useProduct,
   useCart,
-  setCart,
   useCheckout,
   useUser,
-  setUser,
   useUserOrders,
   useUserBilling,
   useWishlist,

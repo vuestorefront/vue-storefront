@@ -1,6 +1,5 @@
 import { UserOrderGetters, AgnosticOrderStatus } from '@vue-storefront/core';
 import { Order, OrderState, LineItem } from './../types/GraphQL';
-import { createFormatPrice } from './_utils';
 
 export const getOrderDate = (order: Order): string => order?.createdAt || '';
 
@@ -25,7 +24,7 @@ export const getOrderItemName = (item: LineItem): string => item?.name || '';
 
 export const getOrderItemQty = (item: LineItem): number => item?.quantity || 0;
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
 
 const orderGetters: UserOrderGetters<Order, LineItem> = {
   getDate: getOrderDate,

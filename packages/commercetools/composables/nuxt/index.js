@@ -2,8 +2,6 @@ import path from 'path';
 import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/helpers';
 import { createMiddleware } from '@vue-storefront/core/server';
 
-const hasDefinedMiddleware = (options) => options.router && options.router.middleware && options.router.middleware.includes(CT_TOKEN_MIDDLEWARE_SLUG);
-
 const mapI18nSettings = (i18n) => ({
   locale: i18n.defaultLocale,
   currency: i18n.currency,
@@ -13,6 +11,8 @@ const mapI18nSettings = (i18n) => ({
   currencies: i18n.currencies,
   locales: i18n.locales.map(({ label, code }) => ({ name: code, label }))
 });
+
+const hasDefinedMiddleware = (options) => options.router && options.router.middleware && options.router.middleware.includes(CT_TOKEN_MIDDLEWARE_SLUG);
 
 const isNuxtI18nUsed = (moduleOptions) => moduleOptions.i18n && moduleOptions.i18n.useNuxtI18nConfig;
 
