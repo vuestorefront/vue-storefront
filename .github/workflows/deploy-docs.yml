@@ -45,7 +45,7 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/cloud
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v2
           state: "success"
           description: Congratulations! The deploy is done.
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
@@ -54,7 +54,7 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/cloud
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v2
           description: Unfortunately, the instance hasn't been updated.
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
