@@ -209,15 +209,12 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
-import { onSSR, cache } from '@vue-storefront/core';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Product',
   transition: 'fade',
   setup(props, context) {
-    cache.addTags([{ prefix: 'P', value: '01'}]);
-    // cache.setTags((tags) => [{ prefix: 'X', value: '02'}])
-
     const qty = ref(1);
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
