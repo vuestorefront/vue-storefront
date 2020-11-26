@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
           workdir: packages/core/docs
-          dockerfile: packages/core/docs/Dockerfile
+          dockerfile: Dockerfile
           buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest
