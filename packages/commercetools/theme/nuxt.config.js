@@ -104,17 +104,7 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt',
-    [
-      '@vue-storefront/cache/nuxt',
-      {
-        server: {
-          invalidateEndpoint: '/cache-invalidate',
-          invalidators: ['./invalidator'],
-          driver: ['./exampleCache', { test: 1 }]
-        }
-      }
-    ]
+    'vue-scrollto/nuxt'
   ],
   i18n: {
     currency: 'USD',
