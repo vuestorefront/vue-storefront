@@ -45,27 +45,24 @@ const CacheDriver = (options, invalidators) => {
 
 
 ```ts
-import { cache } from '@vue-storefront/core';
+import { useCache } from '@vue-storefront/core';
 import redisDriver from '@vue-storefront/cache-redis'
 
-cache.registerCacheDriver(redisDriver(options, invalidators))
-
+const cache = useCache(); // Inside setup
 cache.addTags([{ prefix: 'P', value: '123' }]) // adds tags
 cache.setTags((currentTags) => [...currentTags, { prefix: 'P', value: '123' }]) // adds tags, also you can skip previous one
-cache.getCacheDriver(); // returns current cache driver
 cache.getTags(); // returns current tags
 ```
 
 ## Nuxt compatibility
+Add it to **modules** not **buildModules** - it is very important.
 
 ```js
-['@vue-storefront/nuxt', {
-  cache: {
-    server: {
-      invalidateEndpoint: '/cache-invalidate',
-      invalidators: ['./invalidator'],
-      driver: ['./exampleCache', { test: 1 }]
-    }
+['@vue-storefront/cache', {
+  server: {
+    invalidateEndpoint: '/cache-invalidate',
+    invalidators: ['./invalidator'],
+    driver: ['./exampleCache', { test: 1 }]
   }
 }]
 ```
@@ -87,9 +84,10 @@ const factoryParams = {
 ## Tagging in the components
 
 ```ts
-import { cache } from '@vue-storefront/core';
+import { useCache } from '@vue-storefront/core';
 
 setup () {
-  cache.addTags([{ prefix: 'P', value: '123' }])
+  const cache = useCache();
+  cache.addTags([{ prefix: 'P', value: '123' }]);
 }
 ```
