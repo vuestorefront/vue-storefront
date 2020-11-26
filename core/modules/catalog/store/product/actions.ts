@@ -274,6 +274,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setProductGallery (context, { product }) {
     const productGallery = getProductGallery(product)
+    if (productGallery.length <= 0) {
+      productGallery.push({
+        src: config.images.productPlaceholder,
+        loading: config.images.productPlaceholder,
+        error: config.images.productPlaceholder
+      })
+    }
     context.commit(types.PRODUCT_SET_GALLERY, productGallery)
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {

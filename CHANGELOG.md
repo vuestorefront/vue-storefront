@@ -39,6 +39,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
 - Got rid of lodash as we are using lodash-es - @Fifciu
 
+### Fixed
+- Display default placeholder on the Product page (#5088)
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
