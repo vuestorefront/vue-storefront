@@ -1,5 +1,4 @@
 import path from 'path';
-import { CT_TOKEN_MIDDLEWARE_SLUG } from '@vue-storefront/commercetools/nuxt/helpers';
 import { createMiddleware } from '@vue-storefront/core/server';
 
 const mapI18nSettings = (i18n) => ({
@@ -12,8 +11,6 @@ const mapI18nSettings = (i18n) => ({
   locales: i18n.locales.map(({ label, code }) => ({ name: code, label }))
 });
 
-const hasDefinedMiddleware = (options) => options.router && options.router.middleware && options.router.middleware.includes(CT_TOKEN_MIDDLEWARE_SLUG);
-
 const isNuxtI18nUsed = (moduleOptions) => moduleOptions.i18n && moduleOptions.i18n.useNuxtI18nConfig;
 
 const getMissingFields = (options) =>
@@ -22,10 +19,6 @@ const getMissingFields = (options) =>
 
 export default function (moduleOptions) {
   const { middleware } = createMiddleware(moduleOptions);
-
-  if (!moduleOptions.disableGenerateTokenMiddleware && !hasDefinedMiddleware(this.options)) {
-    this.options.router.middleware.push(CT_TOKEN_MIDDLEWARE_SLUG);
-  }
 
   const options = isNuxtI18nUsed(moduleOptions)
     ? { ...moduleOptions, ...mapI18nSettings(this.options.i18n) }

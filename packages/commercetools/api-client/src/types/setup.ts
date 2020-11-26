@@ -32,12 +32,12 @@ export interface LocaleItem {
 
 export interface Auth {
   onTokenChange?: (token: Token) => void;
+  onTokenRead?: () => string;
   onTokenRemove?: () => void;
 }
 
 export interface SetupConfig<TCacheShape> {
   api?: ApiConfig;
-  currentToken?: Token;
   customOptions?: ApolloClientOptions<TCacheShape>;
   currency?: string;
   locale?: string;
@@ -60,7 +60,6 @@ export interface CustomerCredentials {
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
-  currentToken?: Token;
   customOptions?: ApolloClientOptions<any>;
   currency: string;
   locale: string;

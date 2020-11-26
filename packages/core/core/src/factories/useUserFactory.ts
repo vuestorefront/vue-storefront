@@ -107,13 +107,13 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     };
 
     const load = async () => {
-      Logger.debug('useUserFactory.refreshUser');
+      Logger.debug('useUserFactory.load');
       loading.value = true;
 
       try {
         user.value = await factoryParams.loadUser(context);
       } catch (err) {
-        Logger.error('useUserFactory.refreshUser', err);
+        Logger.error('useUserFactory.load', err);
 
         throw err;
       } finally {
