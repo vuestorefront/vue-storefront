@@ -1,15 +1,31 @@
 {
-    "name": "@vue-storefront/cache",
-    "version": "0.0.1",
-    "description": "",
-    "main": "lib/module.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "Vue Storefront",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
-  }
-  
+  "name": "@vue-storefront/cache",
+  "version": "2.0.12-lc.10",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "mainServer": "server/index.js",
+  "types": "lib/src/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@nuxtjs/composition-api": "0.15.1"
+  },
+  "author": "Vue Storefront",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuestorefront/checkout-com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuestorefront/checkout-com/issues"
+  },
+  "homepage": "https://github.com/vuestorefront/checkout-com#readme",
+  "description": ""
+}

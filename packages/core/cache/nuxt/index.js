@@ -1,7 +1,7 @@
+/* eslint-disable */
 import path from 'path';
 import { createMiddleware } from '@vue-storefront/core/server';
 import { Logger } from '@vue-storefront/core';
-
 
 function rendererFactory (renderFn) {
   const renderer = this.nuxt.renderer;

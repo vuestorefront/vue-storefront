@@ -45,7 +45,7 @@ const CacheDriver = (options, invalidators) => {
 
 
 ```ts
-import { useCache } from '@vue-storefront/core';
+import { useCache } from '@vue-storefront/cache';
 import redisDriver from '@vue-storefront/cache-redis'
 
 const cache = useCache(); // Inside setup
@@ -58,7 +58,7 @@ cache.getTags(); // returns current tags
 Add it to **modules** not **buildModules** - it is very important.
 
 ```js
-['@vue-storefront/cache', {
+['@vue-storefront/cache/nuxt', {
   server: {
     invalidateEndpoint: '/cache-invalidate',
     invalidators: ['./invalidator'],
@@ -84,7 +84,7 @@ const factoryParams = {
 ## Tagging in the components
 
 ```ts
-import { useCache } from '@vue-storefront/core';
+import { useCache } from '@vue-storefront/cache';
 
 setup () {
   const cache = useCache();

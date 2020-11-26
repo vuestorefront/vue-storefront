@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default (ctx, inject) => {
   const options = <%= serialize(options) %>;
   const cache = {

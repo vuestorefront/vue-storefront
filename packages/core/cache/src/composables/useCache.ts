@@ -1,4 +1,4 @@
-import { CacheTag } from '../../types';
+import { CacheTag } from '../types';
 import { useContext } from '@nuxtjs/composition-api';
 
 export type CacheDriver = (options: any) => {
