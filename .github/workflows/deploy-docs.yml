@@ -16,7 +16,7 @@ jobs:
           name: docs-storefrontcloud-io/v2:${{ github.sha }}
           registry: registry.storefrontcloud.io
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
-          password: ${{ secrets.DOCS_CLOUD_USERNAME }}
+          password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
           workdir: packages/core/docs
           dockerfile: Dockerfile
           buildoptions: "--compress"
