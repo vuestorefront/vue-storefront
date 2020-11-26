@@ -20,7 +20,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   loadCart: async (context: Context, CustomQueryFn?: any) => {
     const { $ct } = context;
 
-    if (!$ct.api.isTokenUserSession($ct.config.currentToken)) {
+    if ($ct.api.isGuest()) {
       return null;
     }
 

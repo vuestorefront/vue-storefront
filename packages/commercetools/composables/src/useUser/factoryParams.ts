@@ -4,7 +4,7 @@ import { authenticate } from './authenticate';
 import { useCart } from '../useCart';
 
 const loadUser = async (context: Context, customQuery?: CustomQuery) => {
-  if (!context.$ct.api.isTokenUserSession(context.$ct.config.currentToken)) {
+  if (context.$ct.api.isGuest()) {
     return null;
   }
 
@@ -38,8 +38,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
   loadUser,
   logOut: async (context: Context) => {
     await context.$ct.api.customerSignOut();
-    const cartResponse = await context.$ct.api.createCart();
-    context.setCart(cartResponse.data.cart);
+    context.setCart(null);
   },
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
     const loadedUser = await getCurrentUser(context, currentUser);
