@@ -1,5 +1,7 @@
 import path from 'path';
 import { createMiddleware } from '@vue-storefront/core/server';
+import { Logger } from '@vue-storefront/core';
+
 
 function rendererFactory (renderFn) {
   const renderer = this.nuxt.renderer;
@@ -34,7 +36,7 @@ const createDriver = (options) => {
 }
 
 function cacheModule (options) {
-  console.log('Installed cache');
+  Logger.info('Installed cache');
 
   // This part must be before the condition below
   const resolvedDriver = createDriver(options)
@@ -78,9 +80,9 @@ function cacheModule (options) {
     try {
       return await resolvedDriver.invoke({ route, context, getTags, render });
     } catch (err) {
-      console.error('Your cache driver thrown an error!')
-      console.error('Server is going to render fresh page (cacheless)')
-      console.error(err)
+      Logger.error('Your cache driver thrown an error!')
+      Logger.error('Server is going to render fresh page (cacheless)')
+      Logger.error(err)
       return render();
     }
   });
