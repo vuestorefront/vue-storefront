@@ -34,6 +34,8 @@ const createDriver = (options) => {
 }
 
 function cacheModule (options) {
+  console.log('Installed cache');
+
   // This part must be before the condition below
   const resolvedDriver = createDriver(options)
   this.addPlugin({
@@ -86,4 +88,4 @@ function cacheModule (options) {
 
 }
 
-export default cacheModule
+export default cacheModule;

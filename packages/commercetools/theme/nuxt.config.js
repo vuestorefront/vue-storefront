@@ -49,13 +49,6 @@ export default {
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
-      cache: {
-        server: {
-          invalidateEndpoint: '/cache-invalidate',
-          invalidators: ['./invalidator'],
-          driver: ['./exampleCache', { test: 1 }]
-        }
-      },
       logger: {
         verbosity: 'debug'
       },
@@ -112,13 +105,8 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    // function test() {
-    //   console.log('hello modules world', this.options.modules)
-    //   console.log(this.nuxt.renderer)
-    //   console.log(Object.keys(this.nuxt))
-    // },
     [
-      '/home/fjedrasik/Projects/Next/packages/core/nuxt-module/lib/cache/module.js',
+      '@vue-storefront/cache',
       {
         server: {
           invalidateEndpoint: '/cache-invalidate',

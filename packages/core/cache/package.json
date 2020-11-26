@@ -1,0 +1,15 @@
+{
+    "name": "@vue-storefront/cache",
+    "version": "0.0.1",
+    "description": "",
+    "main": "lib/module.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Vue Storefront",
+    "license": "MIT",
+    "publishConfig": {
+      "access": "public"
+    }
+  }
+  
