@@ -67,8 +67,6 @@ const customerSignOut = async ({ config, client }) => {
 
   if (client.tokenProvider) {
     client.tokenProvider.invalidateTokenInfo();
-    console.log('TOKEN INVALIDATION');
-
   }
 };
 
