@@ -6,7 +6,10 @@
   "mainServer": "server/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf lib && rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@nuxtjs/composition-api": "0.15.1"
