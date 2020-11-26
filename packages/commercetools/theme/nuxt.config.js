@@ -106,7 +106,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     [
-      '@vue-storefront/cache',
+      '@vue-storefront/cache/nuxt',
       {
         server: {
           invalidateEndpoint: '/cache-invalidate',
