@@ -1,5 +1,3 @@
-import useCache from './composables/useCache';
+import cache from './composables/useCache';
 
-export default {
-  useCache
-};
+export const useCache = cache;
