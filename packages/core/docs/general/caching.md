@@ -2,6 +2,10 @@
 
 Overview here
 
+## Installation
+```sh
+yarn add @vue-storefront/cache
+```
 
 ## How it works?
 
