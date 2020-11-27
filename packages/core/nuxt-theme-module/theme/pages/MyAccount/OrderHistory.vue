@@ -7,22 +7,22 @@
         <SfProperty
           name="Order ID"
           :value="orderGetters.getId(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
+          class="sf-property--full-width property"
         />
         <SfProperty
           name="Date"
           :value="orderGetters.getDate(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
+          class="sf-property--full-width property"
         />
         <SfProperty
           name="Status"
           :value="orderGetters.getStatus(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
+          class="sf-property--full-width property"
         />
         <SfProperty
           name="Total"
           :value="orderGetters.getFormattedPrice(orderGetters.getPrice(currentOrder))"
-          class="sf-property--full-width sf-property--large property"
+          class="sf-property--full-width property"
         />
         </div>
 
@@ -35,8 +35,7 @@
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
             <SfTableData class="products__name"><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
-            <!-- TODO: add price for item -->
-            <SfTableData>$20</SfTableData>
+            <SfTableData>{{orderGetters.getFormattedPrice(orderGetters.getItemPrice(item))}}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
@@ -234,20 +233,39 @@ export default {
   }
 }
 .products {
+  --table-column-flex: 1;
   &__name {
-    --table-column-flex: 2;
+    margin-right: var(--spacer-sm);
+    @include for-desktop {
+      --table-column-flex: 2;
+    }
   }
 }
 .highlighted {
   box-sizing: border-box;
   width: 100%;
   background-color: var(--c-light);
-  padding: var(--spacer-xl);
+  padding: var(--spacer-sm);
+  --property-value-font-size: var(--font-size--base);
+  --property-name-font-size: var(--font-size--base);
   &:last-child {
     margin-bottom: 0;
   }
+  ::v-deep .sf-property__name {
+    white-space: nowrap;
+  }
+  ::v-deep .sf-property__value {
+    text-align: right;
+  }
   &--total {
     margin-bottom: var(--spacer-sm);
+  }
+  @include for-desktop {
+    padding: var(--spacer-xl);
+    --property-name-font-size: var(--font-size--lg);
+    --property-name-font-weight: var(--font-weight--medium);
+    --property-value-font-size: var(--font-size--lg);
+    --property-value-font-weight: var(--font-weight--semibold);
   }
 }
 

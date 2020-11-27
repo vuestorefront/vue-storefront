@@ -72,17 +72,6 @@ export default {
     OrderHistory,
     MyReviews
   },
-
-  async middleware({ redirect }) {
-    const { load, isAuthenticated } = useUser();
-
-    await load();
-
-    if (!isAuthenticated.value) {
-      return redirect('/');
-    }
-  },
-
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();

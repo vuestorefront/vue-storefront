@@ -3,8 +3,8 @@ import { CartResponse, CustomQueryFn } from '../../types/Api';
 import { Cart, Address } from '../../types/GraphQL';
 import { setShippingAddressAction } from '../../helpers/cart/actions';
 
-const updateShippingDetails = async (cart: Cart, shippingDetails: Address, customQueryFn?: CustomQueryFn): Promise<CartResponse> => {
-  const cartResponse = await updateCart({
+const updateShippingDetails = async (context, cart: Cart, shippingDetails: Address, customQueryFn?: CustomQueryFn): Promise<CartResponse> => {
+  const cartResponse = await updateCart(context, {
     id: cart.id,
     version: cart.version,
     actions: [setShippingAddressAction(shippingDetails)]

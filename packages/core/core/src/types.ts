@@ -47,6 +47,7 @@ export interface UseUser
   UPDATE_USER_PARAMS
 > {
   user: ComputedProperty<USER>;
+  setUser: (user: USER) => void;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
   register: (user: UseUserRegisterParams) => Promise<void>;
   login: (user: UseUserLoginParams) => Promise<void>;
@@ -159,6 +160,7 @@ export interface UseCart
   COUPON
   > {
   cart: ComputedProperty<CART>;
+  setCart(cart: CART): void;
   addToCart(product: PRODUCT, quantity?: number): Promise<void>;
   addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
@@ -331,6 +333,7 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemSku: (item: ORDER_ITEM) => string;
   getItemName: (item: ORDER_ITEM) => string;
   getItemQty: (item: ORDER_ITEM) => number;
+  getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
@@ -505,4 +508,12 @@ export interface VSFLogger {
   info(message?: any, ...args: any): void;
   warn(message?: any, ...args: any): void;
   error(message?: any, ...args: any): void;
+}
+
+export interface Context {
+  [x: string]: any;
+}
+
+export interface FactoryParams {
+  setup?: <T = any>(context: Context) => T;
 }

@@ -1,5 +1,4 @@
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
-import { getSettings } from '../../index';
 import { CustomQueryFn } from './../../types/Api';
 import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
@@ -11,8 +10,8 @@ interface UpdateCart {
   actions: CartUpdateAction[] | MyCartUpdateAction[];
 }
 
-const updateCart = async (params: UpdateCart, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage, client } = getSettings();
+const updateCart = async ({ config, client }, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage } = config;
   const defaultVariables = params
     ? {
       locale,

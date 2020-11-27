@@ -171,7 +171,7 @@ import {
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@vue/composition-api';
-import { getSettings } from '@vue-storefront/commercetools-api';
+import { useContext } from '@vue-storefront/core';
 
 extend('required', {
   ...required,
@@ -224,6 +224,7 @@ export default {
   },
 
   setup(props, { emit }) {
+    const { $ct: { config } } = useContext();
     const form = reactive({
       id: props.address.id,
       firstName: props.address.firstName,
@@ -250,7 +251,7 @@ export default {
     return {
       form,
       submitForm,
-      countries: getSettings().countries
+      countries: config.countries
     };
   }
 };

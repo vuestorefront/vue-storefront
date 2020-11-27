@@ -1,33 +1,45 @@
 import merge from 'lodash-es/merge';
 import { Logger } from './../utils';
 
-interface FactoryParams<T> {
-  defaultSettings: any;
-  onSetup: (config: T) => void;
+interface FactoryParams<T, F = any> {
+  tag: string;
+  onSetup: (config: T) => { config: T; client: any };
+  api: F;
 }
 
-export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryParams: FactoryParams<ALL_SETTINGS>) {
-  let settings = { ...factoryParams.defaultSettings };
-  let setupCalled = false;
+export interface ApiClientInstance {
+  api: any;
+  client: any;
+  settings: any;
+  tag: string;
+}
+
+export interface BaseConfig {
+  [x: string]: any;
+  client?: any;
+}
+
+export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
   return {
-    setup (config: ALL_SETTINGS) {
-      settings = merge(factoryParams.defaultSettings, config);
-      factoryParams.onSetup(settings);
+    createApiClient (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance {
+      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
       Logger.debug('apiClientFactory.setup', settings);
 
-      // @ts-ignore
-      if (setupCalled && __DEV__) {
-        Logger.warn('"setup" function is being called multiple times. If you want to update config, please use "update" instead.');
-      }
-      setupCalled = true;
-    },
-    update (config: CONFIGURABLE_SETTINGS) {
-      settings = merge(settings, config);
-      factoryParams.onSetup(settings);
+      const apis = { ...factoryParams.api, ...customApi };
 
-      Logger.debug('apiClientFactory.update', settings);
-    },
-    getSettings: (): ALL_SETTINGS => Object.freeze({ ...settings })
+      const api = Object.entries(apis)
+        .reduce((prev, [key, fn]: any) => ({
+          ...prev,
+          [key]: (...args) => fn(settings, ...args)
+        }), {}) as ALL_FUNCTIONS;
+
+      return {
+        api,
+        client: settings.client,
+        settings: settings.config,
+        tag: factoryParams.tag
+      };
+    }
   };
 }
