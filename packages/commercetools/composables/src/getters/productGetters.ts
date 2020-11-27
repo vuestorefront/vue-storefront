@@ -1,6 +1,6 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, Image } from './../types/GraphQL';
-import { formatAttributeList, getVariantByAttributes, createPrice, createFormatPrice } from './_utils';
+import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
 interface ProductVariantFilters {
   master?: boolean;
@@ -86,7 +86,7 @@ export const getProductCategoryIds = (product: ProductVariant): string[] => (pro
 
 export const getProductId = (product: ProductVariant): string => (product as any)?._id || '';
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getTotalReviews = (product: ProductVariant): number => (product as any)?._rating?.count || 0;
 

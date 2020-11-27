@@ -1,8 +1,6 @@
-import { getSettings } from './../../index';
 
-const customerSignOut = async (): Promise<void> => {
-  const { auth } = getSettings();
-  auth.onTokenRemove();
+const customerSignOut = async (context): Promise<void> => {
+  await context.$ct.api.cleanSession();
 };
 
 export default customerSignOut;

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
-import { personalDetails, loading} from './shared';
+import { cartActions } from '@vue-storefront/commercetools-api';
 import initFields from './initFields';
 import { CustomQuery } from '@vue-storefront/core';
 
-const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartFields, setCart }) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+const createSetPersonalDetails = (params) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+  const { context, personalDetails, loading, setShippingDetails, cartFields, setCart } = params;
   personalDetails.value = { ...personalDetails.value, ...data };
   const { firstName, lastName } = personalDetails.value;
 
@@ -13,7 +13,7 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartField
   loading.value.personalDetails = true;
 
   try {
-    const cartResponse = await updateCart({
+    const cartResponse = await context.$ct.api.updateCart({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [
@@ -22,7 +22,7 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartField
     }, customQuery);
 
     setCart(cartResponse.data.cart);
-    initFields(cartResponse.data.cart);
+    initFields(cartResponse.data.cart, params);
     setShippingDetails({ firstName, lastName });
   } finally {
     loading.value.personalDetails = false;

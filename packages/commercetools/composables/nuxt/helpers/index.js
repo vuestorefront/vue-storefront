@@ -1,4 +1,6 @@
 import defaultConfig from '@vue-storefront/commercetools/nuxt/defaultConfig';
+import { createIntegrationPlugin } from '@vue-storefront/core';
+import { createApiClient } from '@vue-storefront/commercetools-api';
 
 const getLocaleSettings = (moduleOptions, app) => {
 
@@ -29,4 +31,5 @@ export const mapConfigToSetupObject = ({ moduleOptions, app, additionalPropertie
 };
 
 export const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
-export const CT_TOKEN_MIDDLEWARE_SLUG = 'commercetools-generate-access-token';
+
+export const createIntegration = createIntegrationPlugin(createApiClient);
