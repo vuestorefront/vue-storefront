@@ -19,6 +19,26 @@ $vsf {
 - `config` - field that always keep configuration for given integration
 - others - depending on the needs you can put into the context any field you want (under the corresponding key)
 
+## Usage in api client functions
+IMPORTANT: The api-client context is not the one within the entire app, it gives you only access to configuration and connection, it doesn't know anything about the application logic
+
+```js
+const createCart = async ({ config, client }, cartDraft, customQueryFn?) => {
+  // config - access to current config
+  // client - access to current api connection / client
+
+  const { locale, acceptLanguage, currency } = config;
+
+  const request = await client.mutate({
+    mutation: gql`${query}`,
+    variables: { locale, acceptLanguage, currency },
+    fetchPolicy: 'no-cache'
+  });
+
+  return request;
+};
+```
+
 ## Usage in components
 
 ```js
