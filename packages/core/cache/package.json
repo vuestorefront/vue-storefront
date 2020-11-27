@@ -1,10 +1,9 @@
 {
   "name": "@vue-storefront/cache",
-  "version": "2.0.12-lc.10",
+  "version": "2.0.12-lc.13",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "mainServer": "server/index.js",
-  "types": "lib/src/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
