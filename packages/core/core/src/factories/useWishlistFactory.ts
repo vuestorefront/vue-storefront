@@ -1,20 +1,24 @@
-import { UseWishlist, CustomQuery } from '../types';
+import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger } from '../utils';
+import { sharedRef, Logger, generateContext } from '../utils';
 
-export type UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> = {
-  loadWishlist: (customQuery?: CustomQuery) => Promise<WISHLIST>;
-  addToWishlist: (params: {
-    currentWishlist: WISHLIST;
-    product: PRODUCT;
-  }, customQuery?: CustomQuery) => Promise<WISHLIST>;
-  removeFromWishlist: (params: {
-    currentWishlist: WISHLIST;
-    product: WISHLIST_ITEM;
-  }, customQuery?: CustomQuery) => Promise<WISHLIST>;
-  clearWishlist: (params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
-  isOnWishlist: (params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
-};
+export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
+  loadWishlist: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  addToWishlist: (
+    context: Context,
+      params: {
+      currentWishlist: WISHLIST;
+      product: PRODUCT;
+    }, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  removeFromWishlist: (
+    context: Context,
+    params: {
+      currentWishlist: WISHLIST;
+      product: WISHLIST_ITEM;
+    }, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  clearWishlist: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
+  isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
+}
 
 interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
   useWishlist: () => UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT>;
@@ -32,12 +36,14 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
+    const context = generateContext(factoryParams);
 
     const addToWishlist = async (product: PRODUCT, customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.addToWishlist', product);
 
       loading.value = true;
       const updatedWishlist = await factoryParams.addToWishlist(
+        context,
         {
           currentWishlist: wishlist.value,
           product
@@ -53,6 +59,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       loading.value = true;
       const updatedWishlist = await factoryParams.removeFromWishlist(
+        context,
         {
           currentWishlist: wishlist.value,
           product
@@ -69,7 +76,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       if (wishlist.value) return;
 
       loading.value = true;
-      wishlist.value = await factoryParams.loadWishlist(customQuery);
+      wishlist.value = await factoryParams.loadWishlist(context, customQuery);
       loading.value = false;
     };
 
@@ -77,7 +84,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       Logger.debug('useWishlist.clearWishlist');
 
       loading.value = true;
-      const updatedWishlist = await factoryParams.clearWishlist({
+      const updatedWishlist = await factoryParams.clearWishlist(context, {
         currentWishlist: wishlist.value
       });
       wishlist.value = updatedWishlist;
@@ -87,7 +94,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const isOnWishlist = (product: PRODUCT) => {
       Logger.debug('useWishlist.isOnWishlist', product);
 
-      return factoryParams.isOnWishlist({
+      return factoryParams.isOnWishlist(context, {
         currentWishlist: wishlist.value,
         product
       });
