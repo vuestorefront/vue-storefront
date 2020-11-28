@@ -27,11 +27,11 @@
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
           <SfSelect
-            :selected="sortBy.selected"
+            :value="sortBy.selected"
             placeholder="Select sorting"
             data-cy="category-select_sortBy"
             class="navbar__select"
-            @change="th.changeSorting"
+            @input="th.changeSorting"
           >
             <SfSelectOption
               v-for="option in sortBy.options"
@@ -76,8 +76,13 @@
     </div>
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfLoader :class="{ loading }" :loading="loading">
-          <SfAccordion :open="categoryTree.items ? categoryTree.items[0].label : ''" :show-chevron="true">
+        <SfLoader
+        :class="{ loading }"
+        :loading="loading">
+          <SfAccordion
+            :open="activeCategory"
+            :show-chevron="true"
+          >
             <SfAccordionItem
               v-for="(cat, i) in categoryTree && categoryTree.items"
               :key="i"
@@ -93,8 +98,8 @@
                     >
                       <template #label>
                         <nuxt-link
-                        :to="localePath(th.getCatLink(cat))"
-                        :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
+                          :to="localePath(th.getCatLink(cat))"
+                          :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
                         >
                           All
                         </nuxt-link>
@@ -222,9 +227,9 @@
           >
             <span class="products__show-on-page__label">Show on page:</span>
             <SfSelect
-              :selected="pagination.itemsPerPage"
+              :value="pagination.itemsPerPage"
               class="products__items-per-page"
-              @change="th.changeItemsPerPage"
+              @input="th.changeItemsPerPage"
             >
               <SfSelectOption
                 v-for="option in pagination.pageOptions"
@@ -294,7 +299,7 @@
             :label="option.id"
             :selected="isFilterSelected(facet, option)"
             class="filters__item"
-            @change="option.selected = !option.selected"
+            @change="() => selectFilter(facet, option)"
           />
         </SfAccordionItem>
       </div>
@@ -337,7 +342,7 @@ import {
   SfProperty
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@vue/composition-api';
-import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import Vue from 'vue';
@@ -356,7 +361,19 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value));
+    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const activeCategory = computed(() => {
+      const items = categoryTree.value.items;
+
+      if (!items) {
+        return '';
+      }
+
+      const category = items.find(({ isCurrent, items }) => isCurrent || items.find(({ isCurrent }) => isCurrent));
+
+      return category?.label || items[0].label;
+    });
+
     onSSR(async () => {
       await search(th.getFacetsFromURL());
     });
@@ -368,7 +385,7 @@ export default {
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
       if (!facets.value.length) return;
-      selectedFilters.value = facets.reduce((prev, curr) => ({
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)
@@ -410,6 +427,7 @@ export default {
       loading,
       productGetters,
       pagination,
+      activeCategory,
       sortBy,
       facets,
       breadcrumbs,
@@ -493,6 +511,7 @@ export default {
   &__main {
     flex: 1;
     padding: 0;
+    justify-content: space-between;
     @include for-desktop {
       padding: var(--spacer-xs) var(--spacer-xl);
     }
@@ -502,7 +521,12 @@ export default {
     --heading-title-font-size: var(--font-size--xl);
   }
   &__filters-icon {
-    margin: 0 var(--spacer-xs) 0 0;
+    margin: 0 0 0 var(--spacer-xs);
+    order: 1;
+    @include for-desktop {
+      margin: 0 var(--spacer-xs) 0 0;
+      order: 0;
+    }
   }
   &__filters-button {
     display: flex;
@@ -512,7 +536,8 @@ export default {
     --button-color: var(--c-link);
     --button-font-weight: var(--font-weight--normal);
     @include for-mobile {
-      order: 1;
+      --button-font-weight: var(--font-weight--medium);
+      order: 2;
     }
     svg {
       fill: var(--c-text-muted);
@@ -527,8 +552,11 @@ export default {
   &__label {
     font-family: var(--font-family--secondary);
     font-weight: var(--font-weight--normal);
-    color: var(--c-link);
-    margin: 0 var(--spacer-2xs) 0 0;
+    color: var(--c-text-muted);
+    @include for-desktop {
+      color: var(--c-link);
+      margin: 0 var(--spacer-2xs) 0 0;
+    }
   }
   &__select {
     --select-width: 220px;
@@ -555,17 +583,19 @@ export default {
   }
   &__counter {
     font-family: var(--font-family--secondary);
-    margin: auto;
+    order: 1;
     @include for-desktop {
       margin: auto 0 auto auto;
+      order: 0;
     }
   }
   &__view {
     display: flex;
     align-items: center;
-    margin: 0 var(--spacer-xl);
+    order: 0;
     @include for-desktop {
       margin: 0 0 0 var(--spacer-2xl);
+      order: 0;
     }
     &-icon {
       cursor: pointer;
@@ -610,12 +640,22 @@ export default {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
+
+    .nuxt-link-exact-active {
+      text-decoration: underline;
+    }
   }
 }
 .products {
   box-sizing: border-box;
   flex: 1;
   margin: 0;
+  &__grid {
+    justify-content: space-between;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
+  }
   &__grid,
   &__list {
     display: flex;
@@ -623,7 +663,14 @@ export default {
   }
   &__product-card {
     --product-card-title-margin: var(--spacer-base) 0 0 0;
+    --product-card-title-font-weight: var(--font-weight--medium);
+    --product-card-title-margin: var(--spacer-xs) 0 0 0;
     flex: 1 1 50%;
+    @include for-desktop {
+      --product-card-title-font-weight: var(--font-weight--normal);
+      --product-card-add-button-bottom: var(--spacer-base);
+      --product-card-title-margin: var(--spacer-sm) 0 0 0;
+    }
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
@@ -666,7 +713,13 @@ export default {
   }
 }
 .loading {
-  margin-top: 100px;
+  margin: var(--spacer-3xl) auto;
+  @include for-desktop {
+    margin-top: 6.25rem;
+  }
+}
+::v-deep .sf-sidebar__aside {
+  --sidebar-z-index: 3;
 }
 .filters {
   &__title {
