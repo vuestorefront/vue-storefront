@@ -1,5 +1,6 @@
-# What is faceting?
+# `useFacet`
 
+## What is faceting?
 Faceting is the way of searching and classifying records, allowing users to browse the catalog data.
 Each facet is the unit that refines the results over multiple dimensions at a time. Considering the clothing shop, we can distinguish multiple dimensions such as brand, size, color and so on. The particular value of that dimension is a facet, for example `color: red`, `size: xl etc`.
 
@@ -48,8 +49,8 @@ setup (props, context) {
   });
 }
 ```
-
-## Integration strategy
+<!-- 
+## Integration strategy (only for integrators)
 
 Are you the integration author? You in that case you need to implement `useFacet` using `useFacetFactory`.
 It requires just one function `search` that is responsible for triggering the search.
@@ -81,4 +82,4 @@ const factoryParams = {
 export default useFacetFactory<FacetResultsData>(factoryParams);
 ```
 
-The search params (`FacetSearchResult`) is a bit complex type. It contains both current result (`FacetSearchResult.data`) and just selected ones (`FacetSearchResult.input`). You actually should use mostly only `input` fields as a search params to the api, but you always have access to the current response in case you need to read something beforehand. That distinction was created to prevent blinks and achieve instant reaction in the UI - if you interact with the UI, firstly you modify the `input` and the `data` will be updated once response comes up.
+The search params (`FacetSearchResult`) is a bit complex type. It contains both current result (`FacetSearchResult.data`) and just selected ones (`FacetSearchResult.input`). You actually should use mostly only `input` fields as a search params to the api, but you always have access to the current response in case you need to read something beforehand. That distinction was created to prevent blinks and achieve instant reaction in the UI - if you interact with the UI, firstly you modify the `input` and the `data` will be updated once response comes up. -->
