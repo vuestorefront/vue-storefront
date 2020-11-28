@@ -17,7 +17,7 @@ export default {
       totalProducts, 
       search, 
       loading 
-    } = useProduct('unique-identifier')
+    } = useProduct('<UNIQUE_ID>')
     
     onSSR(async () => {
       await search({ slug: 'super-t-shirt' }) 

@@ -133,10 +133,13 @@ module.exports = {
             ['/composables/use-product', 'useProduct'],
             ['/composables/use-category', 'useCategory'],
             ['/composables/use-facet', 'useFacet'],
+            ['/composables/use-review', 'useReview'],
             ['/composables/use-cart', 'useCart'],
+            ['/composables/use-wishlist', 'useWishlist'],
             ['/composables/use-user', 'useUser'],
             ['/composables/use-user-billing', 'useUserBilling'],
             ['/composables/use-user-shipping', 'useUserShipping'],
+            ['/composables/use-content', 'useUserShipping'],
           ]
         },
 				{

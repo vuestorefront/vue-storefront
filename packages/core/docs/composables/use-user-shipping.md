@@ -31,7 +31,7 @@ export default {
 
     return {
       // extract a list of addresses from a `shipping` object
-      shipping: computed(() => userShippingGetters.getAddresses(billing.value)),
+      shipping: computed(() => userShippingGetters.getAddresses(shipping.value)),
     };
   }
 };

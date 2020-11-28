@@ -12,7 +12,7 @@ import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
-    const { categories, search, loading } = useCategory('unique-identifier')
+    const { categories, search, loading } = useCategory('<UNIQUE_ID>')
     
     onSSR(async () => {
       await search({ slug: 't-shirts' }) 

@@ -2,7 +2,11 @@
 
 ## When to use it?
 
-Use `useCart` for all cart operations like adding to cart, removing from cart etc.
+Use `useCart` to:
+- fetch current cart
+- add/remove/change quantity of cart items
+- apply/remove discount coupons
+- check if a product is already in the cart
 
 ## How to use it in your project?
 
