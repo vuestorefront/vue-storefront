@@ -47,12 +47,20 @@ const useUiHelpers = () => {
 
   // eslint-disable-next-line
   const isFacetCheckbox = (facet): boolean => {
-    console.warn('[VSF] please implement createThemeHelpers.isFacetCheckbox.');
+    console.warn('[VSF] please implement useUiHelpers.isFacetCheckbox.');
 
     return false;
   };
 
+  // eslint-disable-next-line
+  const formatPrice = (price: number): string => {
+    console.warn('[VSF] please implement useUiHelpers.formatPrice.');
+
+    return '00';
+  };
+
   return {
+    formatPrice,
     getFacetsFromURL,
     getCatLink,
     changeSorting,

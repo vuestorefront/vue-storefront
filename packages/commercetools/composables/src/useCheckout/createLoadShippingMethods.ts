@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { getShippingMethods } from '@vue-storefront/commercetools-api';
-import { shippingMethods, isShippingAddressCompleted, loading } from './shared';
 import { CustomQuery } from '@vue-storefront/core';
 
-const createLoadShippingMethods = ({ factoryParams, setShippingMethod, cartFields }, customQuery?: CustomQuery) => async () => {
+const createLoadShippingMethods = ({ context, cartFields, shippingMethods, isShippingAddressCompleted, loading }, customQuery?: CustomQuery) => async () => {
   if (!isShippingAddressCompleted.value) return;
   loading.value.shippingMethods = true;
 
   try {
-    const shippingMethodsResponse = await getShippingMethods(cartFields.cart.value.id, customQuery);
+    const shippingMethodsResponse = await context.$ct.api.getShippingMethods(cartFields.cart.value.id, customQuery);
     shippingMethods.value = shippingMethodsResponse.data.shippingMethods;
   } finally {
     loading.value.shippingMethods = false;

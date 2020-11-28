@@ -36,7 +36,6 @@ module.exports = {
 						['/commercetools/use-facet', 'Faceting'],
 						['/commercetools/use-cart', 'Cart'],
 						['/commercetools/use-wishlist', 'Wishlist']
-
 					]
 				},
 				{
