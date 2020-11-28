@@ -121,11 +121,27 @@ module.exports = {
 						['/general/key-concepts', 'Key concepts'],
 						['/general/architecture', 'Architecture'],
 						['/general/i18n', 'i18n'],
-						['/general/faceting', 'Faceting'],
 						['/general/logging', 'Logging'],
 						['/general/performance', 'Performance']
 					]
-				},
+        },
+        {
+          title: 'Composables',
+          collapsable: false,
+          children: [
+            ['/composables/rules-and-best-practices', 'Rules and best practices'],
+            ['/composables/use-product', 'useProduct'],
+            ['/composables/use-category', 'useCategory'],
+            ['/composables/use-facet', 'useFacet'],
+            ['/composables/use-review', 'useReview'],
+            ['/composables/use-cart', 'useCart'],
+            ['/composables/use-wishlist', 'useWishlist'],
+            ['/composables/use-user', 'useUser'],
+            ['/composables/use-user-billing', 'useUserBilling'],
+            ['/composables/use-user-shipping', 'useUserShipping'],
+            ['/composables/use-content', 'useUserShipping'],
+          ]
+        },
 				{
 					title: 'eCommerce platforms',
 					collapsable: false,
