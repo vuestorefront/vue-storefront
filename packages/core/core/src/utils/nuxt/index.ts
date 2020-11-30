@@ -8,10 +8,7 @@ const createInjector = ({ tag, nuxtCtx, inject }) => {
     }
 
     const current = nuxtCtx.$vsf[integrationKey];
-    const client = {
-      ...current.client,
-      ...(props.client || {})
-    };
+    const client = current.client;
 
     const config = {
       ...current.config,
@@ -23,10 +20,6 @@ const createInjector = ({ tag, nuxtCtx, inject }) => {
         ...current.api,
         ...composeApiWithContext((props.api || {}), { client, config })
       };
-    }
-
-    if (nuxtCtx.$vsf[integrationKey].config) {
-      nuxtCtx.$vsf[integrationKey].config = config;
     }
 
     Object.keys(props)
