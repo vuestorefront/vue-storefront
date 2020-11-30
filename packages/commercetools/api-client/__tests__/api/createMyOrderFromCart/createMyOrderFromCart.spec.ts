@@ -1,5 +1,4 @@
 import createMyOrderFromCart from '../../../src/api/createMyOrderFromCart';
-import { apolloClient } from '../../../src/index';
 import defaultMutation from '../../../src/api/createMyOrderFromCart/defaultMutation';
 
 jest.unmock('./../../../src/api/createMyOrderFromCart');
@@ -18,12 +17,22 @@ describe('[commercetools-api-client] createMyOrderFromCart', () => {
     jest.clearAllMocks();
   });
   it('creates a new order', async () => {
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
-      return { data: 'order response' };
-    });
-    const { data } = await createMyOrderFromCart({ id: '123123', version: 2 });
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
+          return { data: 'order response' };
+        }
+      }
+    };
+
+    const { data } = await createMyOrderFromCart(context, { id: '123123', version: 2 });
     expect(data).toBe('order response');
   });
 
@@ -32,12 +41,23 @@ describe('[commercetools-api-client] createMyOrderFromCart', () => {
     const customVariables = {
       locale: 'de'
     };
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual({ ...givenVariables, ...customVariables });
-      expect(mutation).toEqual(defaultMutation);
-      return { data: 'order response' };
-    });
-    const { data } = await createMyOrderFromCart({ id: '123123', version: 2 }, (query, variables) => {
+
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual({ ...givenVariables, ...customVariables });
+          expect(mutation).toEqual(defaultMutation);
+          return { data: 'order response' };
+        }
+      }
+    };
+
+    const { data } = await createMyOrderFromCart(context, { id: '123123', version: 2 }, (query, variables) => {
       return {
         query: customQuery,
         variables: {

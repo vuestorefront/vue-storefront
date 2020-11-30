@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import getProduct from './../../../src/api/getProduct';
-import { apolloClient } from './../../../src/index';
 import defaultQuery from './../../../src/api/getProduct/defaultQuery';
 
 describe('[commercetools-api-client] getProduct', () => {
@@ -13,14 +12,24 @@ describe('[commercetools-api-client] getProduct', () => {
       country: 'UK'
     };
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
 
-      return { data: 'product response' };
-    });
+          return { data: 'product response' };
+        }
+      }
+    };
 
-    const { data } = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] });
+    const { data } = await getProduct(context, { catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] });
 
     expect(data).toBe('product response');
   });
@@ -65,11 +74,21 @@ describe('[commercetools-api-client] getProduct', () => {
       };
     };
 
-    (apolloClient.query as any).mockImplementation(({ query, variables }) => {
-      return { query, variables };
-    });
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        query: ({ query, variables }) => {
+          return { query, variables };
+        }
+      }
+    };
 
-    const data: any = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, customQuery);
+    const data: any = await getProduct(context, { catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] }, customQuery);
 
     expect(data.query).toEqual(newQuery);
     expect(data.variables).toEqual(newVariables);

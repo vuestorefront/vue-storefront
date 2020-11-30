@@ -1,7 +1,5 @@
 import customerSignMeUp from '../../../src/api/customerSignMeUp';
-import { apolloClient, getSettings } from '../../../src/index';
 import defaultMutation from '../../../src/api/customerSignMeUp/defaultMutation';
-import createAccessToken from '../../../src/helpers/createAccessToken';
 
 describe('[commercetools-api-client] customerSignMeUp', () => {
 
@@ -17,17 +15,23 @@ describe('[commercetools-api-client] customerSignMeUp', () => {
       locale: 'en'
     };
 
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
 
-      return { data: 'user response' };
-    });
+          return { data: 'user response' };
+        }
+      }
+    };
 
-    const { data } = await customerSignMeUp(givenVariables.draft);
-    const { auth } = getSettings();
-    expect(createAccessToken).toBeCalled();
-    expect(auth.onTokenChange).toBeCalled();
+    const { data } = await customerSignMeUp(context, givenVariables.draft);
     expect(data).toBe('user response');
   });
 });
