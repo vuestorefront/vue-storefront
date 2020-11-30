@@ -131,7 +131,6 @@ export default integrationPlugin(({ app, integration }) => {
 ```js
 import { integrationPlugin } from '@vue-storefront/commercetools'
 import productProjection from './api/productProjection';
-import restClient from './api/rest-client';
 
 export default integrationPlugin(({ app, integration }) => {
   const props = {
