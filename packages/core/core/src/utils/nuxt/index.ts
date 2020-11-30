@@ -1,18 +1,67 @@
-export const injectInContext = (inject, { tag, props }) => {
-  const key = 'vsf' + tag.toUpperCase();
-  inject(key, props);
+import { applyContextForApi } from './../context';
+
+const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
+  const integrationKey = '$' + tag;
+
+  const extendContext = (props) => {
+    if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
+      inject('vsf', { [integrationKey]: {} });
+    }
+
+    const current = nuxtCtx.$vsf[integrationKey];
+    const client = current.client;
+
+    const config = {
+      ...current.config,
+      ...(props.config || {})
+    };
+
+    if (nuxtCtx.$vsf[integrationKey].api) {
+      nuxtCtx.$vsf[integrationKey].api = {
+        ...current.api,
+        ...applyContextForApi((props.api || {}), { client, config })
+      };
+    }
+
+    Object.keys(props)
+      .filter(k => !['api', 'client', 'config'].includes(k))
+      .forEach(key => {
+        nuxtCtx.$vsf[integrationKey][key] = props[key];
+      });
+  };
+
+  const injectInContext = (props) => {
+    if (nuxtCtx.$vsf && !nuxtCtx.$vsf[integrationKey]) {
+      nuxtCtx.$vsf[integrationKey] = props;
+      return;
+    }
+
+    inject('vsf', { [integrationKey]: props });
+  };
+
+  return {
+    extendContext,
+    injectInContext
+  };
 };
 
-export const createIntegrationPlugin = (createApiClientFn) => (pluginFn) => (nuxtCtx, inject) => {
-  const $configure = (givenSettings, customApi = {}) => {
-    const { tag, api, client, settings } = createApiClientFn(givenSettings, customApi);
+export const integrationPluginFactory = (createApiClientFn = null) => (pluginFn) => (nuxtCtx, inject) => {
+  const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClientFn.tag, nuxtCtx, inject });
+
+  const configure = (givenSettings, customApi = {}) => {
+    if (!createApiClientFn) return;
+
+    const { api, client, settings } = createApiClientFn(givenSettings, customApi);
     const props = { api, client, config: settings };
-    injectInContext(inject, { tag, props });
+
+    injectInContext(props);
   };
 
-  const $addCustomOptions = (props) => {
-    injectInContext(inject, { tag: 'custom', props });
+  const extend = (props) => {
+    extendContext(props);
   };
 
-  pluginFn({ ...nuxtCtx, $configure, $addCustomOptions }, inject);
+  const integration = { configure, extend };
+
+  pluginFn({ ...nuxtCtx, integration }, inject);
 };

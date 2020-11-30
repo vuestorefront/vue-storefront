@@ -1,6 +1,6 @@
 import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
-import { AgnosticFacet, useContext } from '@vue-storefront/core';
+import { AgnosticFacet, useVSFContext } from '@vue-storefront/core';
 
 const nonFilters = ['page', 'sort', 'term', 'itemsPerPage'];
 
@@ -28,7 +28,7 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 
 const useUiHelpers = () => {
   const instance = getInstance();
-  const context = useContext();
+  const context = useVSFContext();
 
   const getFacetsFromURL = () => {
     const { query, params } = instance.$router.history.current;

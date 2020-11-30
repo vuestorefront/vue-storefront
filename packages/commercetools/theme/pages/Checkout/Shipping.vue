@@ -190,7 +190,7 @@ import {
 import { useCheckout, useUserShipping, useUser, checkoutGetters, userShippingGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
-import { onSSR, useContext } from '@vue-storefront/core';
+import { onSSR, useVSFContext } from '@vue-storefront/core';
 import { ref, onMounted, computed } from '@vue/composition-api';
 
 extend('required', {
@@ -219,7 +219,7 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    const { $ct: { config } } = useContext();
+    const { $ct: { config } } = useVSFContext();
 
     const {
       shippingDetails,
