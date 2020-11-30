@@ -12,6 +12,8 @@ import useFacet from './useFacet';
 import { track } from '@vue-storefront/core';
 import useUserShipping from './useUserShipping';
 import useUserBilling from './useUserBilling';
+import { integrationPluginFactory } from '@vue-storefront/core';
+import { createApiClient } from '@vue-storefront/commercetools-api';
 
 import {
   cartGetters,
@@ -28,7 +30,10 @@ import {
 
 track('VSFCommercetools');
 
+const integrationPlugin = integrationPluginFactory(createApiClient);
+
 export {
+  integrationPlugin,
   useCategory,
   useProduct,
   useCart,

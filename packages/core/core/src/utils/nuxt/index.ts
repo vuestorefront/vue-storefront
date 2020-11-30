@@ -1,8 +1,9 @@
 import { applyContextForApi } from './../context';
 
 const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
+  const integrationKey = '$' + tag;
+
   const extendContext = (props) => {
-    const integrationKey = '$' + tag;
     if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
       inject('vsf', { [integrationKey]: {} });
     }
@@ -30,7 +31,12 @@ const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
   };
 
   const injectInContext = (props) => {
-    inject('vsf', { ['$' + tag]: props });
+    if (nuxtCtx.$vsf && !nuxtCtx.$vsf[integrationKey]) {
+      nuxtCtx.$vsf[integrationKey] = props;
+      return;
+    }
+
+    inject('vsf', { [integrationKey]: props });
   };
 
   return {
