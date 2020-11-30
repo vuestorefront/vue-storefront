@@ -2,32 +2,16 @@
 import { configureContext } from '@vue-storefront/core'
 import { useContext as useBaseContext } from '@nuxtjs/composition-api';
 
-const createVsfContext = (context) => Object.entries(context)
-  .filter(([key]) => key.includes('$vsf'))
-  .reduce((prev, [key, val]) => ({
-    ...prev,
-    ['$' + key.substr(4).toLowerCase()]: val
-  }), {});
-
-const filterOutVsfFields = (context) => Object.entries(context)
-  .filter(([key]) => !key.includes('$vsf'))
-  .reduce((prev, [key, val]) => ({
-    ...prev,
-    [key]: val
-  }), {});
-
 const contextPlugin = (ctx, inject) => {
   const sharedMap = new Map();
 
-  const useContext = () => {
-    const baseContext = useBaseContext();
-    const vsfContext = createVsfContext(baseContext);
-    const context = filterOutVsfFields(baseContext)
+  const useVSFContext = () => {
+    const { $vsf, ...context } = useBaseContext();
 
-    return { ...context, ...vsfContext }
+    return { $vsf, ...context, ...$vsf }
   }
 
-  configureContext({ useContext });
+  configureContext({ useVSFContext });
   inject('sharedRefsMap', sharedMap)
 };
 

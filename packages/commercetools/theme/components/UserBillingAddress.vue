@@ -16,7 +16,7 @@
 
 <script>
 import { toRef, computed } from '@vue/composition-api';
-import { useContext } from '@vue-storefront/core';
+import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   props: {
@@ -27,7 +27,7 @@ export default {
   },
 
   setup(props) {
-    const { $ct: { config } } = useContext();
+    const { $ct: { config } } = useVSFContext();
     const address = toRef(props, 'address');
 
     const street = computed(() => {
