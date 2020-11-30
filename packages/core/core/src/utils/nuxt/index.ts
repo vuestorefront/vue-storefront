@@ -1,6 +1,6 @@
 import { applyContextForApi } from './../context';
 
-const createInjector = ({ tag, nuxtCtx, inject }) => {
+const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
   const extendContext = (props) => {
     const integrationKey = '$' + tag;
     if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
@@ -40,7 +40,7 @@ const createInjector = ({ tag, nuxtCtx, inject }) => {
 };
 
 export const integrationPluginFactory = (createApiClientFn = null) => (pluginFn) => (nuxtCtx, inject) => {
-  const { extendContext, injectInContext } = createInjector({ tag: createApiClientFn.tag, nuxtCtx, inject });
+  const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClientFn.tag, nuxtCtx, inject });
 
   const configure = (givenSettings, customApi = {}) => {
     if (!createApiClientFn) return;
