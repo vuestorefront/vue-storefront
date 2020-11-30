@@ -1,5 +1,6 @@
 import merge from 'lodash-es/merge';
-import { Logger, composeApiWithContext } from './../utils';
+import { Logger } from './../utils';
+import { composeApiWithContext } from './../utils/context';
 
 interface FactoryParams<T, F = any> {
   tag: string;
