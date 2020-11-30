@@ -1,13 +1,13 @@
 import { Context } from './../../types';
 
 interface ContextConfiguration {
-  useContext: () => Context;
+  useVSFContext: () => Context;
 }
 
-let useContext = () => ({}) as Context;
+let useVSFContext = () => ({}) as Context;
 
 const configureContext = (config: ContextConfiguration) => {
-  useContext = config.useContext || useContext;
+  useVSFContext = config.useVSFContext || useVSFContext;
 };
 
 const composeApiWithContext = (api, context) =>
@@ -18,20 +18,20 @@ const composeApiWithContext = (api, context) =>
     }), {});
 
 const generateContext = (factoryParams) => {
-  const context = useContext();
+  const context = useVSFContext();
 
   if (factoryParams.setup) {
     const generatedSetup = factoryParams.setup();
 
-    return { ...context, ...context.$vsf, ...generatedSetup };
+    return { ...context.$vsf, ...generatedSetup };
   }
 
-  return context;
+  return context.$vsf;
 };
 
 export {
   generateContext,
-  useContext,
+  useVSFContext,
   configureContext,
   composeApiWithContext
 };

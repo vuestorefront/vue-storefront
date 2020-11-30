@@ -5,13 +5,13 @@ import { useContext as useBaseContext } from '@nuxtjs/composition-api';
 const contextPlugin = (ctx, inject) => {
   const sharedMap = new Map();
 
-  const useContext = () => {
+  const useVSFContext = () => {
     const { $vsf, ...context } = useBaseContext();
 
-    return { ...context, ...$vsf }
+    return { $vsf, ...context, ...$vsf }
   }
 
-  configureContext({ useContext });
+  configureContext({ useVSFContext });
   inject('sharedRefsMap', sharedMap)
 };
 

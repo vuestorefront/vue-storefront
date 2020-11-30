@@ -11,7 +11,6 @@ export interface ApiClientInstance {
   api: any;
   client: any;
   settings: any;
-  tag: string;
 }
 
 export interface BaseConfig {
@@ -20,20 +19,22 @@ export interface BaseConfig {
 }
 
 export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
-  return {
-    createApiClient (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance {
-      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
-      Logger.debug('apiClientFactory.setup', settings);
+  const createApiClient = (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance => {
+    const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
-      const api = composeApiWithContext({ ...factoryParams.api, ...customApi }, settings);
+    Logger.debug('apiClientFactory.setup', settings);
 
-      return {
-        api,
-        client: settings.client,
-        settings: settings.config,
-        tag: factoryParams.tag
-      };
-    }
+    const api = composeApiWithContext({ ...factoryParams.api, ...customApi }, settings);
+
+    return {
+      api,
+      client: settings.client,
+      settings: settings.config
+    };
   };
+
+  createApiClient.tag = factoryParams.tag;
+
+  return { createApiClient };
 }

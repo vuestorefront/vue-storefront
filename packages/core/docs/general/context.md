@@ -42,10 +42,10 @@ const createCart = async ({ config, client }, cartDraft, customQueryFn?) => {
 ## Usage in components
 
 ```js
-import { useContext } from '@vue-storefront/core'
+import { useVSFContext } from '@vue-storefront/core'
 
 setup () {
-  const { $ct } = useContext();
+  const { $ct } = useVSFContext();
 
   // $ct.api
   // $ct.client
@@ -110,30 +110,30 @@ import { createApiClient } from '@vue-storefront/commercetools-api';
 
 
 // exposing an integration plugin for nuxt
-export const createIntegration = createIntegrationPlugin(createApiClient);
+export const integrationPlugin = integrationPluginFactory(createApiClient);
 ```
 
 
 ## Registering integration (nuxt plugin)
 
 ```js
-import { createIntegration } from '@vue-storefront/commercetools'
+import { integrationPlugin } from '@vue-storefront/commercetools'
 
-export default createIntegration(({ app, $configure }) => {
+export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }
 
-  $configure(settings)
+  integration.configure(settings)
 });
 ```
 
 ## Extending integration (nuxt plugin)
 
 ```js
-import { createIntegration } from '@vue-storefront/commercetools'
+import { integrationPlugin } from '@vue-storefront/commercetools'
 import productProjection from './api/productProjection';
 import restClient from './api/rest-client';
 
-export default createIntegration(({ app, $extend }) => {
+export default integrationPlugin(({ app, $extend }) => {
   const integrationTag = 'ct' // extend comemrcetools integration
 
   const props = {

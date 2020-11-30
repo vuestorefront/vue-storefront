@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { mapConfigToSetupObject, createIntegration, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
+import { mapConfigToSetupObject, integrationPlugin, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
-export default createIntegration(({ app, $configure }) => {
+export default integrationPlugin(({ app, integration }) => {
   const onTokenChange = (newToken) => {
     try {
       const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
@@ -36,5 +36,5 @@ export default createIntegration(({ app, $configure }) => {
     }
   })
 
-  $configure(settings)
+  integration.configure(settings)
 });

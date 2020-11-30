@@ -1,7 +1,7 @@
 import { composeApiWithContext } from './../context';
 
-const createInjector = ({ nuxtCtx, inject }) => {
-  const extendContext = (tag, props) => {
+const createInjector = ({ tag, nuxtCtx, inject }) => {
+  const extendContext = (props) => {
     const integrationKey = '$' + tag;
     if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
       inject('vsf', { [integrationKey]: {} });
@@ -25,10 +25,6 @@ const createInjector = ({ nuxtCtx, inject }) => {
       };
     }
 
-    if (nuxtCtx.$vsf[integrationKey].client) {
-      nuxtCtx.$vsf[integrationKey].client = client;
-    }
-
     if (nuxtCtx.$vsf[integrationKey].config) {
       nuxtCtx.$vsf[integrationKey].config = config;
     }
@@ -40,7 +36,7 @@ const createInjector = ({ nuxtCtx, inject }) => {
       });
   };
 
-  const injectInContext = (tag, props) => {
+  const injectInContext = (props) => {
     inject('vsf', { ['$' + tag]: props });
   };
 
@@ -50,20 +46,23 @@ const createInjector = ({ nuxtCtx, inject }) => {
   };
 };
 
-export const createIntegrationPlugin = (createApiClientFn = null) => (pluginFn) => (nuxtCtx, inject) => {
-  const { extendContext, injectInContext } = createInjector({ nuxtCtx, inject });
+export const integrationPluginFactory = (createApiClientFn = null) => (pluginFn) => (nuxtCtx, inject) => {
+  const { extendContext, injectInContext } = createInjector({ tag: createApiClientFn.tag, nuxtCtx, inject });
 
-  const $configure = (givenSettings, customApi = {}) => {
+  const configure = (givenSettings, customApi = {}) => {
     if (!createApiClientFn) return;
 
-    const { tag, api, client, settings } = createApiClientFn(givenSettings, customApi);
+    const { api, client, settings } = createApiClientFn(givenSettings, customApi);
     const props = { api, client, config: settings };
-    injectInContext(tag, props);
+
+    injectInContext(props);
   };
 
-  const $extend = (tag, props) => {
-    extendContext(tag, props);
+  const extend = (props) => {
+    extendContext(props);
   };
 
-  pluginFn({ ...nuxtCtx, $configure, $extend }, inject);
+  const integration = { configure, extend };
+
+  pluginFn({ ...nuxtCtx, integration }, inject);
 };
