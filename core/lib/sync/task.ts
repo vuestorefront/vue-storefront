@@ -31,19 +31,25 @@ function _sleep (time) {
 }
 
 function getUrl (task, currentToken, currentCartId) {
-  let url = task.url
-    .replace('{{token}}', (currentToken == null) ? '' : currentToken)
-    .replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  const parsedUrl = queryString.parseUrl(task.url)
+
+  if (parsedUrl.query.token && parsedUrl.query.token === '{{token}}') {
+    parsedUrl.query.token = (currentToken == null) ? '' : currentToken
+  }
+
+  if (parsedUrl.query.cartId && parsedUrl.query.cartId === '{{cartId}}') {
+    parsedUrl.query.cartId = (currentCartId == null) ? '' : currentCartId
+  }
+
+  if (config.users.tokenInHeader) {
+    delete parsedUrl['query']['token']
+  }
+
+  let url = queryString.stringifyUrl(parsedUrl)
 
   url = processURLAddress(url); // use relative url paths
   if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
-  }
-
-  if (config.users.tokenInHeader) {
-    const parsedUrl = queryString.parseUrl(url)
-    delete parsedUrl['query']['token']
-    url = queryString.stringifyUrl(parsedUrl)
   }
 
   return url
@@ -89,6 +95,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
   }
   const url = getUrl(task, currentToken, currentCartId)
   const payload = getPayload(task, currentToken)
+  console.error('url', task, url, currentToken, currentCartId)
   let silentMode = false
   Logger.info('Executing sync task ' + url, 'sync', task)()
   return fetch(url, payload).then((response) => {
