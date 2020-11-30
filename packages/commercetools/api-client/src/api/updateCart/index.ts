@@ -12,6 +12,7 @@ interface UpdateCart {
   id: string;
   version: number;
   actions: CartUpdateAction[] | MyCartUpdateAction[];
+  versionFallback?: boolean;
 }
 
 const updateCart = async (context, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
@@ -35,7 +36,8 @@ const updateCart = async (context, params: UpdateCart, customQueryFn?: CustomQue
 
     return request;
   } catch (error) {
-    if (!error.toString().includes(VERSION_MISSMATCH_STRING)) {
+    const retry = params.versionFallback ?? true;
+    if (!(error.toString().includes(VERSION_MISSMATCH_STRING) && retry)) {
       throw error;
     }
 
