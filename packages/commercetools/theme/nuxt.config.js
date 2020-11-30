@@ -43,9 +43,6 @@ export default {
   },
   buildModules: [
     // to core
-    // ['@vsf-enterprise/ct-faceting/nuxt', {
-    //   host: 'https://api.commercetools.com'
-    // }],
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     // to core soon
