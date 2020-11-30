@@ -1,6 +1,6 @@
 import merge from 'lodash-es/merge';
 import { Logger } from './../utils';
-import { composeApiWithContext } from './../utils/context';
+import { applyContextForApi } from './../utils/context';
 
 interface FactoryParams<T, F = any> {
   tag: string;
@@ -26,7 +26,7 @@ export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>
 
     Logger.debug('apiClientFactory.setup', settings);
 
-    const api = composeApiWithContext({ ...factoryParams.api, ...customApi }, settings);
+    const api = applyContextForApi({ ...factoryParams.api, ...customApi }, settings);
 
     return {
       api,

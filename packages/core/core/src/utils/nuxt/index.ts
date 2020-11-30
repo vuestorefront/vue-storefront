@@ -1,4 +1,4 @@
-import { composeApiWithContext } from './../context';
+import { applyContextForApi } from './../context';
 
 const createInjector = ({ tag, nuxtCtx, inject }) => {
   const extendContext = (props) => {
@@ -18,7 +18,7 @@ const createInjector = ({ tag, nuxtCtx, inject }) => {
     if (nuxtCtx.$vsf[integrationKey].api) {
       nuxtCtx.$vsf[integrationKey].api = {
         ...current.api,
-        ...composeApiWithContext((props.api || {}), { client, config })
+        ...applyContextForApi((props.api || {}), { client, config })
       };
     }
 

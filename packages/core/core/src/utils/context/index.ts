@@ -10,7 +10,7 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const composeApiWithContext = (api, context) =>
+const applyContextForApi = (api, context) =>
   Object.entries(api)
     .reduce((prev, [key, fn]: any) => ({
       ...prev,
@@ -33,5 +33,5 @@ export {
   generateContext,
   useVSFContext,
   configureContext,
-  composeApiWithContext
+  applyContextForApi
 };
