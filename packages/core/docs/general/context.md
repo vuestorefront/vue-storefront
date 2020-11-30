@@ -1,0 +1,134 @@
+# Context API
+
+## Structure
+
+```js
+$vsf {
+  $ct: {
+    api: {},
+    client: {},
+    config: {}
+  }
+  ...
+}
+```
+- `$vsf` - general key that keeps vue storefront context
+- `$ct` - integration key
+- `api` - field that always keep api function for given integration
+- `client` - field that always keep api client/connection for given integration
+- `config` - field that always keep configuration for given integration
+- others - depending on the needs you can put into the context any field you want (under the corresponding key)
+
+## Usage in components
+
+```js
+import { useContext } from '@vue-storefront/core'
+
+setup () {
+  const { $ct } = useContext();
+
+  // $ct.api
+  // $ct.client
+  // $ct.config
+}
+```
+
+## Usage in factory params
+
+```js
+const factoryParams = {
+  addToCart: async (context, { product, quantity }, customQuery?) => {
+    const { data } = await context.$ct.api.addToCart(product, quantity, customQuery);
+
+    return data.cart;
+  },
+}
+```
+
+## Usage in nuxt middlewares
+
+```js
+export default async ({ app, $vsf }) => {
+  const { data: { me: { activeCart } } } = await $vsf.$ct.api.getMe();
+
+  if (activeCart) {
+    app.context.redirect('/checkout');
+  }
+};
+```
+
+## Creating api client for integration
+
+```js
+import getProduct from './api/getProduct';
+import getCategory from './api/getCategory';
+import { apiClientFactory } from '@vue-storefront/core';
+
+const onSetup = (config) => {
+  const client = new EcommerceAPI(config)
+
+  return {
+    config,
+    client
+  };
+};
+
+const { createApiClient } = apiClientFactory({
+  tag: 'ct',
+  onSetup,
+  api: {
+    getProduct,
+    getCategory,
+  }
+});
+```
+
+## Exposing an integation plugin for nuxt
+
+```js
+import { createApiClient } from '@vue-storefront/commercetools-api';
+
+
+// exposing an integration plugin for nuxt
+export const createIntegration = createIntegrationPlugin(createApiClient);
+```
+
+
+## Registering integration (nuxt plugin)
+
+```js
+import { createIntegration } from '@vue-storefront/commercetools'
+
+export default createIntegration(({ app, $configure }) => {
+  const settings = { api: '/graphql', user: 'root' }
+
+  $configure(settings)
+});
+```
+
+## Extending integration (nuxt plugin)
+
+```js
+import { createIntegration } from '@vue-storefront/commercetools'
+import productProjection from './api/productProjection';
+import restClient from './api/rest-client';
+
+export default createIntegration(({ app, $extend }) => {
+  const integrationTag = 'ct' // extend comemrcetools integration
+
+  const props = {
+    api: {
+      productProjection // will merge previous api with a new one, context will be applied to the given function
+    },
+    config: {
+      facetingUrl: '/faceting' // will merge previous config with a new one
+    },
+    client: { // will merge previous new one, and add a new property
+      rest: restClient
+    },
+    hasPromoCookie: app.$cookies.get('promo') // that will just add a new field under the $ct key
+  }
+
+  $extend(integrationTag, props)
+});
+```

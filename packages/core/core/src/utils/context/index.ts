@@ -10,13 +10,20 @@ const configureContext = (config: ContextConfiguration) => {
   useContext = config.useContext || useContext;
 };
 
+const composeApiWithContext = (api, context) =>
+  Object.entries(api)
+    .reduce((prev, [key, fn]: any) => ({
+      ...prev,
+      [key]: (...args) => fn(context, ...args)
+    }), {});
+
 const generateContext = (factoryParams) => {
   const context = useContext();
 
   if (factoryParams.setup) {
     const generatedSetup = factoryParams.setup();
 
-    return { ...context, ...generatedSetup };
+    return { ...context, ...context.$vsf, ...generatedSetup };
   }
 
   return context;
@@ -25,5 +32,6 @@ const generateContext = (factoryParams) => {
 export {
   generateContext,
   useContext,
-  configureContext
+  configureContext,
+  composeApiWithContext
 };

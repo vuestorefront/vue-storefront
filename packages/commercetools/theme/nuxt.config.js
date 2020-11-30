@@ -43,6 +43,9 @@ export default {
   },
   buildModules: [
     // to core
+    ['@vsf-enterprise/ct-faceting/nuxt', {
+      host: 'https://api.commercetools.com'
+    }],
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     // to core soon
@@ -55,11 +58,13 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/core'
+          '@vue-storefront/core',
+          '@vsf-enterprise/ct-faceting'
         ],
         prod: [
           '@vue-storefront/commercetools',
-          '@vue-storefront/core'
+          '@vue-storefront/core',
+          '@vsf-enterprise/ct-faceting'
         ]
       }
     }],
