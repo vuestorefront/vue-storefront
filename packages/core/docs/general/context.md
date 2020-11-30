@@ -133,9 +133,7 @@ import { integrationPlugin } from '@vue-storefront/commercetools'
 import productProjection from './api/productProjection';
 import restClient from './api/rest-client';
 
-export default integrationPlugin(({ app, $extend }) => {
-  const integrationTag = 'ct' // extend comemrcetools integration
-
+export default integrationPlugin(({ app, integration }) => {
   const props = {
     api: {
       productProjection // will merge previous api with a new one, context will be applied to the given function
@@ -143,12 +141,9 @@ export default integrationPlugin(({ app, $extend }) => {
     config: {
       facetingUrl: '/faceting' // will merge previous config with a new one
     },
-    client: { // will merge previous new one, and add a new property
-      rest: restClient
-    },
     hasPromoCookie: app.$cookies.get('promo') // that will just add a new field under the $ct key
   }
 
-  $extend(integrationTag, props)
+  integration.extend(props)
 });
 ```
