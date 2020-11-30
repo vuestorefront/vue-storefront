@@ -33,11 +33,11 @@ function _sleep (time) {
 function getUrl (task, currentToken, currentCartId) {
   const parsedUrl = queryString.parseUrl(task.url)
 
-  if (parsedUrl.query.token && parsedUrl.query.token === '{{token}}') {
+  if (parsedUrl?.query?.token === '{{token}}') {
     parsedUrl.query.token = (currentToken == null) ? '' : currentToken
   }
 
-  if (parsedUrl.query.cartId && parsedUrl.query.cartId === '{{cartId}}') {
+  if (parsedUrl?.query?.cartId === '{{cartId}}') {
     parsedUrl.query.cartId = (currentCartId == null) ? '' : currentCartId
   }
 
