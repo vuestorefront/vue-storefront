@@ -57,7 +57,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       } catch (err) {
         Logger.error('useUserBilling.addAddress', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -75,7 +75,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       } catch (err) {
         Logger.error('useUserBilling.deleteAddress', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -93,7 +93,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       } catch (err) {
         Logger.error('useUserBilling.updateAddress', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -110,7 +110,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       } catch (err) {
         Logger.error('useUserBilling.load', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -128,7 +128,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       } catch (err) {
         Logger.error('useUserBilling.setDefault', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
