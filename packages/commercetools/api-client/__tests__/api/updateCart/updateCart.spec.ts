@@ -1,5 +1,4 @@
 import updateCart from '../../../src/api/updateCart';
-import { apolloClient } from '../../../src/index';
 import defaultMutation from '../../../src/api/updateCart/defaultMutation';
 import gql from 'graphql-tag';
 
@@ -19,14 +18,24 @@ describe('[commercetools-api-client] updateCart', () => {
   });
 
   it('updates cart', async () => {
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
 
-      return { data: 'cart response' };
-    });
+          return { data: 'cart response' };
+        }
+      }
+    };
 
-    const { data } = await updateCart({
+    const { data } = await updateCart(context, {
       id: 'cart id',
       version: 1,
       actions: [{ addLineItem: {} }]
@@ -36,9 +45,19 @@ describe('[commercetools-api-client] updateCart', () => {
   });
 
   it('uses a custom query', async () => {
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      return { variables, mutation };
-    });
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          return { variables, mutation };
+        }
+      }
+    };
 
     const query = gql(`
       mutation updateCart {
@@ -57,7 +76,7 @@ describe('[commercetools-api-client] updateCart', () => {
       return { query, variables };
     };
 
-    const data: any = await updateCart({
+    const data: any = await updateCart(context, {
       id: 'cart id',
       version: 1,
       actions: [{ addLineItem: {} }]

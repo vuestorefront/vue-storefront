@@ -41,7 +41,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
           throw new Error();
         });
         const { searchOrders, loading, orders } = useUserOrders();
-        await searchOrders({});
+        await expect(searchOrders({})).rejects.toThrow();
 
         expect(loading.value).toEqual(false);
         expect(orders.value).toEqual([]);
