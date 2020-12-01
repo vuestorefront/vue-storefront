@@ -333,6 +333,7 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemSku: (item: ORDER_ITEM) => string;
   getItemName: (item: ORDER_ITEM) => string;
   getItemQty: (item: ORDER_ITEM) => number;
+  getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }

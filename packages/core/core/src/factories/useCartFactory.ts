@@ -145,6 +145,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         cart.value = updatedCart;
       } catch (e) {
         Logger.error('userCart.applyCoupon', e);
+        throw e;
       } finally {
         loading.value = false;
       }
@@ -167,6 +168,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         loading.value = false;
       } catch (e) {
         Logger.error('userCart.applyCoupon', e);
+        throw e;
       } finally {
         loading.value = false;
       }

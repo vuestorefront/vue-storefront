@@ -56,7 +56,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       } catch (err) {
         Logger.error('useUserShipping.addAddress', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -74,7 +74,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       } catch (err) {
         Logger.error('useUserShipping.deleteAddress', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -92,7 +92,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       } catch (err) {
         Logger.error('useUserShipping.updateAddress', address);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -109,7 +109,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       } catch (err) {
         Logger.error('useUserShipping.load', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
@@ -127,7 +127,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       } catch (err) {
         Logger.error('useUserShipping.setDefault', err);
 
-        throw new Error(err);
+        throw err;
       } finally {
         loading.value = false;
       }
