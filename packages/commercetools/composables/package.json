@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools",
-  "version": "0.2.6-lc.13",
+  "version": "0.2.6-lc.14",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,8 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "0.2.7-lc.13",
-    "@vue-storefront/core": "2.0.12-lc.13",
+    "@vue-storefront/commercetools-api": "0.2.7-lc.14",
+    "@vue-storefront/core": "2.0.12-lc.14",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
