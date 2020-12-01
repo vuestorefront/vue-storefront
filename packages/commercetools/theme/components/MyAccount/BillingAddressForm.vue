@@ -123,8 +123,7 @@
           <SfSelect
             data-cy="billing-details-select_country"
             class="form__select sf-select--underlined"
-            :value="form.country"
-            @selected="form.country = $event"
+            v-model="form.country"
             name="country"
             label="Country"
             required
