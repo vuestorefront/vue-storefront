@@ -168,6 +168,7 @@ module.exports = {
 					children: [
 						['/contributing/', 'Contributing'],
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
+						['/contributing/creating-changelog', 'Creating changelog'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
 						['/contributing/changelog', 'Core Changelog']
