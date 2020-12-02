@@ -1,4 +1,8 @@
-import { useUserShippingFactory, UseUserShippingFactoryParams } from '@vue-storefront/core';
+import {
+  Context,
+  useUserShippingFactory,
+  UseUserShippingFactoryParams
+} from '@vue-storefront/core';
 
 const addresses: any[] = [
   {
@@ -54,7 +58,7 @@ const sortDefaultAtTop = (a, b) => {
 };
 
 const params: UseUserShippingFactoryParams<any, any> = {
-  addAddress: async (params?) => {
+  addAddress: async (context: Context, params?) => {
     console.log('Mocked: addAddress', params.address);
 
     const newAddress = {
@@ -72,7 +76,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
     return Promise.resolve(shipping);
   },
 
-  deleteAddress: async (params?) => {
+  deleteAddress: async (context: Context, params?) => {
     console.log('Mocked: deleteAddress', params);
 
     const indexToRemove = addresses.findIndex(address => address.id === params.address.id);
@@ -84,7 +88,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
     return Promise.resolve(shipping);
   },
 
-  updateAddress: async (params?) => {
+  updateAddress: async (context: Context, params?) => {
     console.log('Mocked: updateAddress', params);
 
     const indexToUpdate = addresses.findIndex(address => address.id === params.address.id);
@@ -107,12 +111,12 @@ const params: UseUserShippingFactoryParams<any, any> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load: async (params?) => {
+  load: async (context: Context, params?) => {
     console.log('Mocked: load');
     return Promise.resolve(shipping);
   },
 
-  setDefault: async (params?) => {
+  setDefault: async (context: Context, params?) => {
     console.log('Mocked: setDefault');
     const isDefault = id => addresses[0].id === id;
 

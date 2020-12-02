@@ -2,7 +2,7 @@
 
 import { UseCheckout } from '@vue-storefront/core';
 import { ref, Ref, computed } from '@vue/composition-api';
-import { User, ShippingMethod, UserAddress } from '../../types';
+import { User, ShippingMethod, UserAddress } from '../types';
 
 const PAYMENT_METHODS_MOCK = [
   {
@@ -38,7 +38,6 @@ const placeOrder = async () => {};
 
 // @todo CHECKOUT
 const useCheckout: () => UseCheckout<any, any, any, any, any, any, any, any> = () => {
-
   return {
     paymentMethods,
     shippingMethods,
