@@ -12,7 +12,7 @@
         @click:close="toggleLoginModal"
       />
     </template>
-    <transition name="sf-fade">
+    <transition name="sf-fade" mode="out-in">
       <div v-if="isLogin" key="log-in">
         <ValidationObserver v-slot="{ handleSubmit }">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
