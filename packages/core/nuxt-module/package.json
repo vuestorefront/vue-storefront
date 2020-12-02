@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "0.0.12-lc.14",
+  "version": "0.0.12-lc.15",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
     "@vue/composition-api": "1.0.0-beta.19",
-    "@nuxtjs/composition-api": "0.15.1",
+    "@nuxtjs/composition-api": "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix",
     "@nuxtjs/style-resources": "^1.0.0",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
