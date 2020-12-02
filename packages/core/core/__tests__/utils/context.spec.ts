@@ -7,10 +7,13 @@ import {
 import { Context } from '../../src/types';
 
 describe('context', () => {
+  it('useVSFContext returns {} by default', () => {
+    expect(useVSFContext()).toEqual({});
+  });
+
   it('is possible to set useVSFContext with configureContext', () => {
     const myFn = jest.fn((): Context => ({}));
     configureContext({
-
       useVSFContext: myFn
     });
 
