@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: yarn --network-concurrency 1 --frozen-lockfile
 
   lint:
     name: Lint
@@ -141,7 +141,7 @@ jobs:
 
       - name: Test theme
         run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
-      
+
       - name: api-client coverage file
         id: api-coverage
         run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info && echo 'true') || echo 'false')"
