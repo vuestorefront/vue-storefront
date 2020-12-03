@@ -1,8 +1,8 @@
 <template>
   <div>
     <TopBar class="desktop-only" />
+    <AppHeader />
     <div id="layout" >
-      <AppHeader />
       <nuxt :key="$route.fullPath"/>
       <BottomNavigation />
       <AppFooter />
