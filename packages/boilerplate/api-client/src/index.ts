@@ -5,8 +5,10 @@ import getCategory from './api/getCategory';
 const defaultSettings = {};
 
 const onSetup = (settings) => ({
-  ...defaultSettings,
-  ...settings,
+  config: {
+    ...defaultSettings,
+    ...settings
+  },
   client: {}
 });
 
