@@ -1,4 +1,5 @@
-import copyIntegrationTheme from '../../../src/scripts/createProject/copyIntegrationTheme';
+import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
+import { copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 
 const themeFiles = {
   pages: [
@@ -25,9 +26,8 @@ const themeFiles = {
 const integration = 'magento-2';
 const targetPath = '../../my-new-super-project/';
 
-import { copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
-  getThemePath: () => '',
+  getDependencyPath: () => '',
   buildFileTargetPath: (file: string, targetPath: string, chopPhrase: string): string => targetPath + (file.replace(chopPhrase, '')),
   copyThemeFiles: jest.fn()
 }));

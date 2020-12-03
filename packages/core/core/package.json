@@ -1,25 +1,31 @@
 {
   "name": "@vue-storefront/core",
-  "version": "2.0.8",
+  "version": "2.0.12-lc.16",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
+  "mainServer": "server/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "build:client": "rollup -c rollup-client.config.js",
+    "build:server": "rollup -c rollup-server.config.js",
+    "build": "yarn build:client && yarn build:server",
+    "dev": "rollup -c rollup-client.config.js -w",
+    "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue/composition-api": "1.0.0-beta.14",
+    "@vue/composition-api": "1.0.0-beta.20",
     "vue": "^2.6.11",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
     "vue-template-compiler": "^2.6.x"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "server/**/*"
   ],
   "publishConfig": {
     "access": "public"

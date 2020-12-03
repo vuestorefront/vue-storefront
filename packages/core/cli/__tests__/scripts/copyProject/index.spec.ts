@@ -1,8 +1,8 @@
-import copyProject from '../../../src/scripts/copyProject';
+import copyProject from '@vue-storefront/cli/src/scripts/copyProject';
 import { copyThemeFiles } from '@vue-storefront/cli/src/utils/helpers';
 import updatePackageJson from '@vue-storefront/cli/src/scripts/createProject/updatePackageJson';
+import { integrations } from '../../mock';
 
-const integration = 'commercetools';
 const targetPath = 'vsf-new-project';
 const absoluteTargetPath = `/home/abc/${targetPath}`;
 
@@ -24,12 +24,14 @@ jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
 }));
 
 describe('[vsf-next-cli] copyProject', () => {
-  it('runs with proper arguments for relative path', async () => {
+  it('runs with proper arguments for relative path', () => {
 
-    await copyProject(integration, targetPath, projectName);
+    integrations.map(async (integration) => {
+      await copyProject(integration, targetPath, projectName);
 
-    expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
-    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
+      expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
+      expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
+    });
   });
 
   it('runs with proper arguments for absolute path', async () => {
@@ -37,9 +39,11 @@ describe('[vsf-next-cli] copyProject', () => {
     (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
-    await copyProject(integration, absoluteTargetPath, projectName);
+    integrations.map(async (integration) => {
+      await copyProject(integration, absoluteTargetPath, projectName);
 
-    expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
-    expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
+      expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
+      expect(updatePackageJson).toHaveBeenCalledWith(targetPath, projectName);
+    });
   });
 });

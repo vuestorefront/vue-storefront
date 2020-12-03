@@ -1,28 +1,29 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
 import { ProductVariant, Image } from './../types/GraphQL';
-import { formatAttributeList, getVariantByAttributes, createPrice, createFormatPrice } from './_utils';
+import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
 interface ProductVariantFilters {
   master?: boolean;
   attributes?: Record<string, string>;
 }
 
-export const getProductName = (product: ProductVariant | Readonly<ProductVariant>): string => product ? (product as any)._name : '';
+export const getProductName = (product: ProductVariant | Readonly<ProductVariant>): string => (product as any)?._name || '';
 
-export const getProductSlug = (product: ProductVariant | Readonly<ProductVariant>): string => product ? (product as any)._slug : '';
+export const getProductSlug = (product: ProductVariant | Readonly<ProductVariant>): string => (product as any)?._slug || '';
 
 export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): AgnosticPrice => createPrice(product);
 
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] =>
-  (product ? product.images : [])
-    .map((image: Image) => ({
-      small: image.url,
-      big: image.url,
-      normal: image.url
-    }));
+export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => {
+  const images = product?.images || [];
 
-export const getProductCoverImage = (product: ProductVariant): string =>
-  product.images.length > 0 ? product.images[0].url : null;
+  return images.map((image: Image) => ({
+    small: image.url,
+    big: image.url,
+    normal: image.url
+  }));
+};
+
+export const getProductCoverImage = (product: ProductVariant): string => product?.images?.[0]?.url || '';
 
 export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
   if (!products) {
@@ -79,13 +80,13 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
     .reduce(reduceByAttributeName, {});
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductDescription = (product: ProductVariant): any => (product as any)?._description || '';
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)?._categoriesRef || '';
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductId = (product: ProductVariant): string => (product as any)?._id || '';
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getTotalReviews = (product: ProductVariant): number => (product as any)?._rating?.count || 0;
 

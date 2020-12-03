@@ -5,18 +5,18 @@
       class="container__lang container__lang--selected"
       @click="isLangModalOpen = !isLangModalOpen"
     >
-      <SfImage :src="`/icons/langs/${locale}.png`" width="20" />
+      <SfImage :src="`/icons/langs/${locale}.webp`" width="20" />
     </SfButton>
     <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
           <a :href="switchLocalePath(lang.code)">
-            <SfCharacteristic>
+            <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/${lang.code}.png`" />
+                <SfImage :src="`/icons/langs/${lang.code}.webp`" />
               </template>
             </SfCharacteristic>
           </a>
@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .container {
   margin: 0 -5px;
   display: flex;
@@ -71,7 +69,7 @@ export default {
   position: relative;
 
   .sf-bottom-modal {
-    z-index: 1;
+    z-index: 2;
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
@@ -79,14 +77,12 @@ export default {
   }
 
   .sf-list {
-    @include for-desktop {
-      display: flex;
+    .language {
+      padding: var(--spacer-sm) 0;
     }
 
-    .sf-button {
-      background: transparent;
-      color: var(--c-text-muted);
-      --button-box-shadow: none;
+    @include for-desktop {
+      display: flex;
     }
 
     .sf-image {

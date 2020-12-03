@@ -1,20 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { createMyOrderFromCart, createCart } from '@vue-storefront/commercetools-api';
-import initFields from './initFields';
-import { loading } from './shared';
+import { CustomQuery } from '@vue-storefront/core';
 
-const createPlaceOrder = ({ factoryParams, cartFields, setCart }) => async () => {
+const createPlaceOrder = ({ context, cartFields, loading }, customQuery?: CustomQuery) => async () => {
   loading.value.order = true;
   const { id, version } = cartFields.cart.value;
 
-  const orderResponse = await createMyOrderFromCart({ id, version });
-  const cartResponse = await createCart();
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-
-  loading.value.order = false;
-  return orderResponse.data.order;
+  try {
+    const orderResponse = await context.$ct.api.createMyOrderFromCart({ id, version }, customQuery);
+    const { order } = orderResponse.data;
+    return order;
+  } finally {
+    loading.value.order = false;
+  }
 };
 
 export default createPlaceOrder;

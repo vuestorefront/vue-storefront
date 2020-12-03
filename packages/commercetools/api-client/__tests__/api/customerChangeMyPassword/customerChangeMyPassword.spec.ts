@@ -1,5 +1,4 @@
 import customerChangeMyPassword from '../../../src/api/customerChangeMyPassword';
-import { apolloClient } from '../../../src/index';
 import defaultMutation from '../../../src/api/customerChangeMyPassword/defaultMutation';
 
 describe('[commercetools-api-client] customerChangeMyPassword', () => {
@@ -10,14 +9,19 @@ describe('[commercetools-api-client] customerChangeMyPassword', () => {
       newPassword: 'newPassword'
     };
 
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
+    const context = {
+      config: {},
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
 
-      return { data: 'user response' };
-    });
+          return { data: 'user response' };
+        }
+      }
+    };
 
-    const { data } = await customerChangeMyPassword(givenVariables.version, givenVariables.currentPassword, givenVariables.newPassword);
+    const { data } = await customerChangeMyPassword(context, givenVariables.version, givenVariables.currentPassword, givenVariables.newPassword);
 
     expect(data).toBe('user response');
   });

@@ -1,11 +1,11 @@
-import { getThemePath, buildFileTargetPath } from '../../utils/helpers';
+import { getDependencyPath, buildFileTargetPath } from '../../utils/helpers';
 import getAllFilesFromDir from '@vue-storefront/nuxt-theme/scripts/getAllFilesFromDir';
 import compileTemplate from '@vue-storefront/nuxt-theme/scripts/compileTemplate';
 import * as path from 'path';
 import * as fs from 'fs';
 
 export default async (integration: string, targetPath: string): Promise<void> => {
-  const agnosticThemePath = getThemePath('nuxt-theme/theme');
+  const agnosticThemePath = path.join(getDependencyPath('nuxt-theme'), 'theme');
   const agnosticThemeFiles = getAllFilesFromDir(agnosticThemePath)
     .filter(file => !file.includes(path.sep + 'static' + path.sep));
 

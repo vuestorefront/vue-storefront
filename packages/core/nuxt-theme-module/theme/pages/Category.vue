@@ -4,29 +4,35 @@
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
-
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
         <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
       </div>
       <div class="navbar__main">
-        <SfButton data-cy="category-btn_filters"
+        <SfButton
           class="sf-button--text navbar__filters-button"
+          data-cy="category-btn_filters"
           aria-label="Filters"
           @click="toggleFilterSidebar"
         >
           <SfIcon
-            size="18px"
-            color="#BEBFC4"
-            icon="filter"
+            size="24px"
+            color="dark-secondary"
+            icon="filter2"
             class="navbar__filters-icon"
             data-cy="category-icon_"
           />
-          {{ $t('Filters') }}
+           {{ $t('Filters') }}
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect class="navbar__select" :selected="sortBy.selected" @change="th.changeSorting" data-cy="category-select_sortBy">
+          <SfSelect
+            :value="sortBy.selected"
+            placeholder="Select sorting"
+            data-cy="category-select_sortBy"
+            class="navbar__select"
+            @input="th.changeSorting"
+          >
             <SfSelectOption
               v-for="option in sortBy.options"
               :key="option.id"
@@ -39,26 +45,25 @@
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <span class="desktop-only">{{ pagination.totalItems }}</span>
-          <span class="navbar__label mobile-only">{{ pagination.totalItems }} Items</span>
+          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} Items</span>
         </div>
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
             data-cy="category-icon_grid-view"
             class="navbar__view-icon"
-            :color="isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
             size="12px"
             role="button"
             aria-label="Change to grid view"
             :aria-pressed="isCategoryGridView"
             @click="toggleCategoryGridView"
-          >
-          </SfIcon>
+          />
           <SfIcon
             data-cy="category-icon_list-view"
             class="navbar__view-icon"
-            :color="!isCategoryGridView ? '#1D1F22' : '#BEBFC4'"
+            :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
             size="12px"
             role="button"
@@ -69,166 +74,250 @@
         </div>
       </div>
     </div>
-
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfLoader :class="{ loading }" :loading="loading">
-          <SfAccordion :firstOpen="true" :showChevron="false">
+        <SfLoader
+        :class="{ loading }"
+        :loading="loading">
+          <SfAccordion
+            :open="activeCategory"
+            :show-chevron="true"
+          >
             <SfAccordionItem
               v-for="(cat, i) in categoryTree && categoryTree.items"
               :key="i"
               :header="cat.label"
             >
-              <SfList class="list">
-                <SfListItem class="list__item">
-                  <SfMenuItem :count="cat.count || ''" :data-cy="`category-link_subcategory_${cat.slug}`" :label="cat.label">
-                    <template #label>
-                      <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-                <SfListItem class="list__item" v-for="(subCat, j) in cat.items" :key="j">
-                  <SfMenuItem :count="subCat.count || ''" :data-cy="`category-link_subcategory_${subCat.slug}`" :label="subCat.label">
-                    <template #label="{ label }">
-                      <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                    </template>
-                  </SfMenuItem>
-                </SfListItem>
-              </SfList>
-            </SfAccordionItem>
-          </SfAccordion>
-        </SfLoader>
-      </div>
-      <div class="products" v-if="!loading">
-        <transition-group
-          v-if="isCategoryGridView"
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__grid"
-        >
-          <SfProductCard
-            data-cy="category-product-card"
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-            :max-rating="5"
-            :score-rating="productGetters.getAverageRating(product)"
-            :show-add-to-cart-button="true"
-            :isOnWishlist="false"
-            :isAddedToCart="isOnCart(product)"
-            @click:wishlist="addToWishlist(product)"
-            @click:add-to-cart="addToCart(product, 1)"
-            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-            class="products__product-card"
-          />
-        </transition-group>
-        <transition-group
-          v-else
-          appear
-          name="products__slide"
-          tag="div"
-          class="products__list"
-        >
-          <SfProductCardHorizontal
-            data-cy="category-product-cart_wishlist"
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product)"
-            :description="productGetters.getDescription(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
-            :max-rating="5"
-            :score-rating="3"
-            :is-on-wishlist="false"
-            class="products__product-card-horizontal"
-            @click:wishlist="addToWishlist(product)"
-            :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-          />
-        </transition-group>
-        <SfPagination
-          v-if="!loading"
-          data-cy="category-pagination"
-          v-show="pagination.totalPages > 1"
-          class="products__pagination"
-          :current="pagination.currentPage"
-          :total="pagination.totalPages"
-          :visible="5"
-        />
-        <!-- TODO: change accordingly when designed by UI team: https://github.com/DivanteLtd/storefront-ui/issues/941 -->
-        <div
-          v-show="pagination.totalPages > 1"
-          class="products__pagination__options"
-        >
-          <span class="products__pagination__label">Items per page:</span>
-          <SfSelect class="items-per-page" :selected="pagination.itemsPerPage" @change="th.changeItemsPerPage">
-            <SfSelectOption
-              v-for="option in pagination.pageOptions"
-              :key="option"
-              :value="option"
-              class="items-per-page__option"
-            >
-              {{ option }}
-            </SfSelectOption>
-          </SfSelect>
-        </div>
-        <!-- end of TODO -->
-      </div>
-    </div>
-    <SfSidebar
-      :visible="isFilterSidebarOpen"
-      title="Filters"
-      @close="toggleFilterSidebar"
-    >
-      <Filters :facets="facets">
-        <template #categories-mobile>
-          <SfAccordionItem
-            header="Category"
-            class="filters__accordion-item"
-          >
-            <SfAccordion class="categories mobile-only">
-              <SfAccordionItem
-                v-for="cat in categoryTree && categoryTree.items"
-                :key="`category-${cat.slug}`"
-                :header="cat.label"
-              >
+              <template>
                 <SfList class="list">
                   <SfListItem class="list__item">
                     <SfMenuItem
-                      :count="cat.coun || ''"
+                      :count="cat.count || ''"
                       :data-cy="`category-link_subcategory_${cat.slug}`"
                       :label="cat.label"
-                      icon=""
                     >
                       <template #label>
-                        <nuxt-link :to="localePath(th.getCatLink(cat))" :class="cat.isCurrent ? 'sidebar--cat-selected' : ''">All</nuxt-link>
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(cat))"
+                          :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          All
+                        </nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
-                  <SfListItem class="list__item" v-for="subCat in cat.items" :key="`subcat-${subCat.slug}`">
+                  <SfListItem
+                    class="list__item"
+                    v-for="(subCat, j) in cat.items"
+                    :key="j"
+                  >
                     <SfMenuItem
                       :count="subCat.count || ''"
                       :data-cy="`category-link_subcategory_${subCat.slug}`"
                       :label="subCat.label"
-                      icon=""
                     >
                       <template #label="{ label }">
-                        <nuxt-link :to="localePath(th.getCatLink(subCat))" :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(subCat))"
+                          :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          {{ label }}
+                        </nuxt-link>
                       </template>
                     </SfMenuItem>
                   </SfListItem>
                 </SfList>
-              </SfAccordionItem>
-            </SfAccordion>
-          </SfAccordionItem>
-        </template>
-      </Filters>
+              </template>
+            </SfAccordionItem>
+          </SfAccordion>
+        </SfLoader>
+      </div>
+      <SfLoader :class="{ loading }" :loading="loading">
+        <div class="products" v-if="!loading">
+          <transition-group
+            v-if="isCategoryGridView"
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__grid"
+          >
+            <SfProductCard
+              data-cy="category-product-card"
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :style="{ '--index': i }"
+              :title="productGetters.getName(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :max-rating="5"
+              :score-rating="productGetters.getAverageRating(product)"
+              :show-add-to-cart-button="true"
+              :isOnWishlist="false"
+              :isAddedToCart="isOnCart(product)"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+              class="products__product-card"
+              @click:wishlist="addToWishlist(product)"
+              @click:add-to-cart="addToCart(product, 1)"
+            />
+          </transition-group>
+          <transition-group
+            v-else
+            appear
+            name="products__slide"
+            tag="div"
+            class="products__list"
+          >
+            <SfProductCardHorizontal
+              data-cy="category-product-cart_wishlist"
+              v-for="(product, i) in products"
+              :key="productGetters.getSlug(product)"
+              :style="{ '--index': i }"
+              :title="productGetters.getName(product)"
+              :description="productGetters.getDescription(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
+              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :max-rating="5"
+              :score-rating="3"
+              :is-on-wishlist="false"
+              class="products__product-card-horizontal"
+              @click:wishlist="addToWishlist(product)"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+            >
+              <template #configuration>
+                <SfProperty
+                  class="desktop-only"
+                  name="Size"
+                  value="XS"
+                  style="margin: 0 0 1rem 0;"
+                />
+                <SfProperty class="desktop-only" name="Color" value="white" />
+              </template>
+              <template #actions>
+                <SfButton
+                  class="sf-button--text desktop-only"
+                  style="margin: 0 0 1rem auto; display: block;"
+                  @click="() => {}"
+                >
+                  Save for later
+                </SfButton>
+                <SfButton
+                  class="sf-button--text desktop-only"
+                  style="margin: 0 0 0 auto; display: block;"
+                  @click="() => {}"
+                >
+                  Add to compare
+                </SfButton>
+              </template>
+            </SfProductCardHorizontal>
+          </transition-group>
+          <SfPagination
+            v-if="!loading"
+            data-cy="category-pagination"
+            class="products__pagination desktop-only"
+            v-show="pagination.totalPages > 1"
+            :current="pagination.currentPage"
+            :total="pagination.totalPages"
+            :visible="5"
+          />
+          <div
+            v-show="pagination.totalPages > 1"
+            class="products__show-on-page"
+          >
+            <span class="products__show-on-page__label">Show on page:</span>
+            <SfSelect
+              :value="pagination.itemsPerPage"
+              class="products__items-per-page"
+              @input="th.changeItemsPerPage"
+            >
+              <SfSelectOption
+                v-for="option in pagination.pageOptions"
+                :key="option"
+                :value="option"
+                class="products__items-per-page__option"
+              >
+                {{ option }}
+              </SfSelectOption>
+            </SfSelect>
+          </div>
+        </div>
+      </SfLoader>
+    </div>
+    <SfSidebar
+      :visible="isFilterSidebarOpen"
+      title="Filters"
+      class="sidebar-filters"
+      @close="toggleFilterSidebar"
+    >
+      <div class="filters desktop-only">
+        <div v-for="(facet, i) in facets" :key="i">
+          <SfHeading
+            :level="4"
+            :title="facet.label"
+            class="filters__title sf-heading--left"
+            :key="`filter-title-${facet.id}`"
+          />
+            <div
+              v-if="isFacetColor(facet)"
+              class="filters__colors"
+              :key="`${facet.id}-colors`"
+            >
+              <SfColor
+                v-for="option in facet.options"
+                :key="`${facet.id}-${option.value}`"
+                :data-cy="`category-filter_color_${option.value}`"
+                :color="option.value"
+                :selected="isFilterSelected(facet, option)"
+                class="filters__color"
+                @click="() => selectFilter(facet, option)"
+              />
+            </div>
+            <div v-else>
+              <SfFilter
+                v-for="option in facet.options"
+                :key="`${facet.id}-${option.value}`"
+                :data-cy="`category-filter_${facet.id}_${option.value}`"
+                :label="option.id + `${option.count && ` (${option.count})`}`"
+                :selected="isFilterSelected(facet, option)"
+                class="filters__item"
+                @change="() => selectFilter(facet, option)"
+              />
+            </div>
+        </div>
+      </div>
+      <SfAccordion class="filters smartphone-only">
+        <div v-for="(facet, i) in facets" :key="i">
+          <SfAccordionItem
+            :key="`filter-title-${facet.id}`"
+            :header="facet.label"
+            class="filters__accordion-item"
+          >
+          <SfFilter
+            v-for="option in facet.options"
+            :key="`${facet.id}-${option.id}`"
+            :label="option.id"
+            :selected="isFilterSelected(facet, option)"
+            class="filters__item"
+            @change="() => selectFilter(facet, option)"
+          />
+        </SfAccordionItem>
+      </div>
+      </SfAccordion>
+      <template #content-bottom>
+        <div class="filters__buttons">
+          <SfButton
+            class="sf-button--full-width"
+            @click="applyFilters"
+            >Done</SfButton
+          >
+          <SfButton
+            class="sf-button--full-width filters__button-clear"
+            @click="clearFilters"
+            >Clear all</SfButton
+          >
+        </div>
+      </template>
     </SfSidebar>
   </div>
 </template>
@@ -249,20 +338,20 @@ import {
   SfSelect,
   SfBreadcrumbs,
   SfLoader,
-  SfColor
+  SfColor,
+  SfProperty
 } from '@storefront-ui/vue';
-import { computed, onMounted } from '@vue/composition-api';
-import { useCart, useFacet, useWishlist, facetGetters, productGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers } from '~/composables';
-import uiState from '~/assets/ui-state';
+import { ref, computed, onMounted } from '@vue/composition-api';
+import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
-import Filters from '../components/Filters';
+import Vue from 'vue';
 
 export default {
   transition: 'fade',
   setup(props, context) {
-    onMounted(() => context.root.$scrollTo(context.root.$el, 2000));
     const th = useUiHelpers();
+    const uiState = useUiState();
     const { addToCart, isOnCart } = useCart();
     const { addToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
@@ -272,11 +361,63 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value));
+    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const activeCategory = computed(() => {
+      const items = categoryTree.value.items;
+
+      if (!items) {
+        return '';
+      }
+
+      const category = items.find(({ isCurrent, items }) => isCurrent || items.find(({ isCurrent }) => isCurrent));
+
+      return category?.label || items[0].label;
+    });
 
     onSSR(async () => {
       await search(th.getFacetsFromURL());
     });
+
+    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();
+    const selectedFilters = ref({});
+
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
+      if (!facets.value.length) return;
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
+        ...prev,
+        [curr.id]: curr.options
+          .filter(o => o.selected)
+          .map(o => o.id)
+      }), {});
+    });
+
+    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
+
+    const selectFilter = (facet, option) => {
+      if (!selectedFilters.value[facet.id]) {
+        Vue.set(selectedFilters.value, facet.id, []);
+      }
+
+      if (selectedFilters.value[facet.id].find(f => f === option.id)) {
+        selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.id);
+        return;
+      }
+
+      selectedFilters.value[facet.id].push(option.id);
+    };
+
+    const clearFilters = () => {
+      toggleFilterSidebar();
+      selectedFilters.value = {};
+      changeFilters(selectedFilters.value);
+    };
+
+    const applyFilters = () => {
+      toggleFilterSidebar();
+      changeFilters(selectedFilters.value);
+    };
 
     return {
       ...uiState,
@@ -286,12 +427,19 @@ export default {
       loading,
       productGetters,
       pagination,
+      activeCategory,
       sortBy,
       facets,
       breadcrumbs,
       addToWishlist,
       addToCart,
-      isOnCart
+      isOnCart,
+      isFacetColor,
+      selectFilter,
+      isFilterSelected,
+      selectedFilters,
+      clearFilters,
+      applyFilters
     };
   },
   components: {
@@ -310,13 +458,12 @@ export default {
     SfLoader,
     SfColor,
     SfHeading,
-    Filters
+    SfProperty
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 #category {
   box-sizing: border-box;
   @include for-desktop {
@@ -333,8 +480,7 @@ export default {
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-base) var(--spacer-base) var(--spacer-base)
-    var(--spacer-sm);
+  margin: var(--spacer-base) auto var(--spacer-lg);
 }
 .navbar {
   position: relative;
@@ -365,22 +511,33 @@ export default {
   &__main {
     flex: 1;
     padding: 0;
+    justify-content: space-between;
     @include for-desktop {
       padding: var(--spacer-xs) var(--spacer-xl);
     }
   }
   &__title {
-    --heading-title-font-weight: var(--font-light);
-    --heading-title-font-size: var(--font-xl);
+    --heading-title-font-weight: var(--font-weight--semibold);
+    --heading-title-font-size: var(--font-size--xl);
   }
   &__filters-icon {
-    margin: 0 var(--spacer-sm) 0 0;
+    margin: 0 0 0 var(--spacer-xs);
+    order: 1;
+    @include for-desktop {
+      margin: 0 var(--spacer-xs) 0 0;
+      order: 0;
+    }
   }
   &__filters-button {
     display: flex;
     align-items: center;
+    --button-font-size: var(--font-size--base);
+    --button-text-decoration: none;
+    --button-color: var(--c-link);
+    --button-font-weight: var(--font-weight--normal);
     @include for-mobile {
-      order: 1;
+      --button-font-weight: var(--font-weight--medium);
+      order: 2;
     }
     svg {
       fill: var(--c-text-muted);
@@ -393,17 +550,31 @@ export default {
     }
   }
   &__label {
-    font-family: var(--font-family-secondary);
-    font-weight: var(--font-normal);
+    font-family: var(--font-family--secondary);
+    font-weight: var(--font-weight--normal);
     color: var(--c-text-muted);
-    margin: 0 var(--spacer-2xs) 0 0;
+    @include for-desktop {
+      color: var(--c-link);
+      margin: 0 var(--spacer-2xs) 0 0;
+    }
   }
   &__select {
     --select-width: 220px;
     --select-padding: 0;
+    --select-height: auto;
     --select-selected-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
     --select-margin: 0;
+    --select-option-font-size: var(--font-size-sm);
     --select-error-message-height: 0;
+    ::v-deep .sf-select__dropdown {
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family--secondary);
+      font-weight: var(--font-weight--light);
+      margin: 0;
+    }
+    ::v-deep .sf-select__placeholder {
+      --select-option-font-size: var(--font-size-sm);
+    }
   }
   &__sort {
     display: flex;
@@ -411,20 +582,20 @@ export default {
     margin: 0 auto 0 var(--spacer-2xl);
   }
   &__counter {
-    font-family: var(--font-family-secondary);
-    margin: auto;
+    font-family: var(--font-family--secondary);
+    order: 1;
     @include for-desktop {
       margin: auto 0 auto auto;
+      order: 0;
     }
   }
   &__view {
     display: flex;
     align-items: center;
+    order: 0;
     @include for-desktop {
       margin: 0 0 0 var(--spacer-2xl);
-    }
-    @include for-mobile {
-      order: -1;
+      order: 0;
     }
     &-icon {
       cursor: pointer;
@@ -435,13 +606,14 @@ export default {
     }
     &-label {
       margin: 0 var(--spacer-sm) 0 0;
-      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
-      text-decoration: underline;
+      font: var(--font-weight--normal) var(--font-size--base) / 1.6
+        var(--font-family--secondary);
+      text-decoration: none;
+      color: var(--c-link);
     }
   }
 }
 .sort-by {
-  --select-dropdown-z-index: 1;
   flex: unset;
   width: 11.875rem;
 }
@@ -463,10 +635,14 @@ export default {
   }
 }
 .list {
-  --menu-item-font-size: var(--font-sm);
+  --menu-item-font-size: var(--font-size--sm);
   &__item {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
+    }
+
+    .nuxt-link-exact-active {
+      text-decoration: underline;
     }
   }
 }
@@ -474,29 +650,26 @@ export default {
   box-sizing: border-box;
   flex: 1;
   margin: 0;
-  &__grid,
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-  }
   &__grid {
     justify-content: space-between;
-  }
-  &__grid,
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     @include for-desktop {
       justify-content: flex-start;
     }
   }
+  &__grid,
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
   &__product-card {
-    --product-card-padding: var(--spacer);
+    --product-card-title-margin: var(--spacer-base) 0 0 0;
+    --product-card-title-font-weight: var(--font-weight--medium);
+    --product-card-title-margin: var(--spacer-xs) 0 0 0;
     flex: 1 1 50%;
     @include for-desktop {
-      --product-card-padding: var(--spacer-sm);
-      flex: 1 1 25%;
+      --product-card-title-font-weight: var(--font-weight--normal);
+      --product-card-add-button-bottom: var(--spacer-base);
+      --product-card-title-margin: var(--spacer-sm) 0 0 0;
     }
   }
   &__product-card-horizontal {
@@ -511,10 +684,12 @@ export default {
     transition-delay: calc(0.1s * var(--index));
   }
   @include for-desktop {
-    margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    &__grid {
+      margin: var(--spacer-sm) 0 0 var(--spacer-sm);
+    }
     &__pagination {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       margin: var(--spacer-xl) 0 0 0;
     }
     &__product-card-horizontal {
@@ -527,19 +702,49 @@ export default {
       margin: 0 0 0 var(--spacer-sm);
     }
   }
+  &__show-on-page {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    &__label {
+      font-family: var(--font-family--secondary);
+      font-size: var(--font-size--sm);
+    }
+  }
+}
+.loading {
+  margin: var(--spacer-3xl) auto;
+  @include for-desktop {
+    margin-top: 6.25rem;
+  }
+}
+::v-deep .sf-sidebar__aside {
+  --sidebar-z-index: 3;
 }
 .filters {
   &__title {
-    --heading-title-font-size: var(--font-xl);
+    --heading-title-font-size: var(--font-size--xl);
     margin: var(--spacer-xl) 0 var(--spacer-base) 0;
     &:first-child {
       margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
     }
   }
+  &__colors {
+    display: flex;
+  }
   &__color {
     margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
   }
+  &__chosen {
+    color: var(--c-text-muted);
+    font-weight: var(--font-weight--normal);
+    font-family: var(--font-family--secondary);
+    position: absolute;
+    right: var(--spacer-xl);
+  }
   &__item {
+    --radio-container-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    --radio-background: transparent;
     --filter-label-color: var(--c-secondary-variant);
     --filter-count-color: var(--c-secondary-variant);
     --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);

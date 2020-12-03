@@ -1,9 +1,8 @@
 import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
-import { apolloClient } from '../../index';
 import CustomerUpdateMeMutation from './defaultMutation';
 
-const customerUpdateMe = async (currentUser, updatedUserData) => {
-  const updateResponse = await apolloClient.mutate({
+const customerUpdateMe = async ({ client }, currentUser, updatedUserData) => {
+  const updateResponse = await client.mutate({
     mutation: CustomerUpdateMeMutation,
     variables: {
       version: currentUser.version,

@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 
 # ENV NODE_CONFIG_ENV=docker PM2_ARGS=--no-daemon BIND_HOST=0.0.0.0 VS_ENV=prod
 
@@ -9,7 +9,7 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install && yarn build:ct && yarn cache clean --all
+RUN yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
 
 COPY dev/docker/vue-storefront.sh /usr/local/bin/
 

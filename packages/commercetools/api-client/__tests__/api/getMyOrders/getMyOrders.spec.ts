@@ -1,5 +1,4 @@
 import getOrders from '../../../src/api/getMyOrders';
-import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getMyOrders/defaultQuery';
 import { OrderWhereSearch } from '../../../src/types/Api';
 
@@ -17,30 +16,42 @@ describe('[commercetools-api-client] getMyOrders', () => {
     offset: 0,
     sort: undefined
   };
-
   it('fetches current user orders data', async () => {
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
+          return { data: 'me response' };
+        }
+      }
+    };
 
-      return { data: 'me response' };
-    });
-
-    const { data } = await getOrders(params);
-
+    const { data } = await getOrders(context, params);
     expect(data).toBe('me response');
   });
 
   it('fetches current user orders data with custom variables', async () => {
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect({ ...variables, where: 'id="fvdrt8gaw4r"' }).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
-
-      return { data: 'me response' };
-    });
-
-    const { data } = await getOrders(params, (query = defaultQuery, variables = givenVariables) => ({ query, variables }));
-
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect({ ...variables, where: 'id="fvdrt8gaw4r"' }).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
+          return { data: 'me response' };
+        }
+      }
+    };
+    const { data } = await getOrders(context, params, (query = defaultQuery, variables = givenVariables) => ({ query, variables }));
     expect(data).toBe('me response');
   });
 });

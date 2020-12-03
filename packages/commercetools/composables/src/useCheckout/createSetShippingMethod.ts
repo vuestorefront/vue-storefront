@@ -1,26 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
-import { chosenShippingMethod, loading } from './shared';
+import { cartActions } from '@vue-storefront/commercetools-api';
 import initFields from './initFields';
+import { CustomQuery } from '@vue-storefront/core';
 
-const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (method, options: any = {}) => {
+const setShippingMethod = (params) => async (method, options: any = {}, customQuery?: CustomQuery) => {
+  const { chosenShippingMethod, loading, context, cartFields, setCart } = params;
   chosenShippingMethod.value = method;
 
   if (!options.save) return;
   loading.value.shippingMethod = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setShippingMethodAction(method.id)
-    ]
-  });
+  try {
+    const cartResponse = await context.$ct.api.updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(method.id)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.shippingMethod = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart, params);
+  } finally {
+    loading.value.shippingMethod = false;
+  }
 };
 
 export default setShippingMethod;

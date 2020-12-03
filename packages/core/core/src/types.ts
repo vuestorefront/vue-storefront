@@ -9,7 +9,7 @@ export type CustomQuery<T = any> = (query: any, variables: T) => {
   variables?: T;
 };
 
-export interface SearchParams {
+export interface ProductsSearchParams {
   perPage?: number;
   page?: number;
   sort?: any;
@@ -18,12 +18,12 @@ export interface SearchParams {
   [x: string]: any;
 }
 
-export interface UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+export interface UseProduct<PRODUCT> {
   products: ComputedProperty<PRODUCT[]>;
   totalProducts: ComputedProperty<number>;
   loading: ComputedProperty<boolean>;
-  search(params: SearchParams): Promise<void>;
-  search(params: SearchParams, customQuery?: CustomQuery): Promise<void>;
+  search(params: ProductsSearchParams): Promise<void>;
+  search(params: ProductsSearchParams, customQuery?: CustomQuery): Promise<void>;
   [x: string]: any;
 }
 
@@ -47,6 +47,7 @@ export interface UseUser
   UPDATE_USER_PARAMS
 > {
   user: ComputedProperty<USER>;
+  setUser: (user: USER) => void;
   updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
   register: (user: UseUserRegisterParams) => Promise<void>;
   login: (user: UseUserLoginParams) => Promise<void>;
@@ -82,28 +83,66 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseUserShipping<ADDRESS> {
-  addresses: ComputedProperty<ADDRESS[]>;
-  totalAddresses: ComputedProperty<number>;
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
+export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  shipping: ComputedProperty<USER_SHIPPING>;
+  addAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  defaultAddress: ComputedProperty<ADDRESS>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (address: USER_SHIPPING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseUserBilling<ADDRESS> {
-  addresses: ComputedProperty<ADDRESS[]>;
-  totalAddresses: ComputedProperty<number>;
-  addAddress: (address: ADDRESS) => Promise<void>;
-  deleteAddress: (address: ADDRESS) => Promise<void>;
-  updateAddress: (address: ADDRESS) => Promise<void>;
+export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
+  getAddresses: (shipping: USER_SHIPPING, criteria?: Record<string, any>) => USER_SHIPPING_ITEM[];
+  getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
+  getTotal: (shipping: USER_SHIPPING) => number;
+  getPostCode: (address: USER_SHIPPING_ITEM) => string;
+  getStreetName: (address: USER_SHIPPING_ITEM) => string;
+  getStreetNumber: (address: USER_SHIPPING_ITEM) => string | number;
+  getCity: (address: USER_SHIPPING_ITEM) => string;
+  getFirstName: (address: USER_SHIPPING_ITEM) => string;
+  getLastName: (address: USER_SHIPPING_ITEM) => string;
+  getCountry: (address: USER_SHIPPING_ITEM) => string;
+  getPhone: (address: USER_SHIPPING_ITEM) => string;
+  getEmail: (address: USER_SHIPPING_ITEM) => string;
+  getProvince: (address: USER_SHIPPING_ITEM) => string;
+  getCompanyName: (address: USER_SHIPPING_ITEM) => string;
+  getTaxNumber: (address: USER_SHIPPING_ITEM) => string;
+  getId: (address: USER_SHIPPING_ITEM) => string | number;
+  getApartmentNumber: (address: USER_SHIPPING_ITEM) => string | number;
+  isDefault: (address: USER_SHIPPING_ITEM) => boolean;
+}
+
+export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
+  billing: ComputedProperty<USER_BILLING>;
+  addAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  defaultAddress: ComputedProperty<ADDRESS>;
-  setDefault: (address: ADDRESS) => Promise<void>;
+  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
+}
+
+export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
+  getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
+  getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
+  getTotal: (billing: USER_BILLING) => number;
+  getPostCode: (address: USER_BILLING_ITEM) => string;
+  getStreetName: (address: USER_BILLING_ITEM) => string;
+  getStreetNumber: (address: USER_BILLING_ITEM) => string | number;
+  getCity: (address: USER_BILLING_ITEM) => string;
+  getFirstName: (address: USER_BILLING_ITEM) => string;
+  getLastName: (address: USER_BILLING_ITEM) => string;
+  getCountry: (address: USER_BILLING_ITEM) => string;
+  getPhone: (address: USER_BILLING_ITEM) => string;
+  getEmail: (address: USER_BILLING_ITEM) => string;
+  getProvince: (address: USER_BILLING_ITEM) => string;
+  getCompanyName: (address: USER_BILLING_ITEM) => string;
+  getTaxNumber: (address: USER_BILLING_ITEM) => string;
+  getId: (address: USER_BILLING_ITEM) => string;
+  getApartmentNumber: (address: USER_BILLING_ITEM) => string | number;
+  isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
 export interface UseCategory<CATEGORY> {
@@ -121,6 +160,7 @@ export interface UseCart
   COUPON
   > {
   cart: ComputedProperty<CART>;
+  setCart(cart: CART): void;
   addToCart(product: PRODUCT, quantity?: number): Promise<void>;
   addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
@@ -145,12 +185,15 @@ export interface UseWishlist
   PRODUCT,
 > {
   wishlist: ComputedProperty<WISHLIST>;
-  addToWishlist: (product: PRODUCT) => Promise<void>;
-  isOnWishlist: (product: PRODUCT) => boolean;
-  removeFromWishlist: (product: WISHLIST_ITEM,) => Promise<void>;
-  clearWishlist: () => Promise<void>;
-  loadWishlist: () => Promise<void>;
   loading: ComputedProperty<boolean>;
+  addToWishlist(product: PRODUCT): Promise<void>;
+  addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
+  removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
+  loadWishlist(): Promise<void>;
+  loadWishlist(customQuery?: CustomQuery): Promise<void>;
+  clearWishlist(): Promise<void>;
+  isOnWishlist(product: PRODUCT): boolean;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -197,6 +240,18 @@ export interface UseFacet<SEARCH_DATA> {
   result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
   loading: ComputedProperty<boolean>;
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
+}
+
+export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
+  search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
+  content: ComputedProperty<CONTENT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<string | null>;
+}
+
+export interface RenderComponent {
+  componentName: string;
+  props?: {};
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -256,6 +311,7 @@ export interface UserGetters<USER> {
   getFirstName: (customer: USER) => string;
   getLastName: (customer: USER) => string;
   getFullName: (customer: USER) => string;
+  getEmailAddress: (customer: USER) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -277,6 +333,7 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemSku: (item: ORDER_ITEM) => string;
   getItemName: (item: ORDER_ITEM) => string;
   getItemQty: (item: ORDER_ITEM) => number;
+  getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
@@ -451,4 +508,12 @@ export interface VSFLogger {
   info(message?: any, ...args: any): void;
   warn(message?: any, ...args: any): void;
   error(message?: any, ...args: any): void;
+}
+
+export interface Context {
+  [x: string]: any;
+}
+
+export interface FactoryParams {
+  setup?: <T = any>(context: Context) => T;
 }

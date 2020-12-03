@@ -29,4 +29,3 @@ export const mapConfigToSetupObject = ({ moduleOptions, app, additionalPropertie
 };
 
 export const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
-export const CT_TOKEN_MIDDLEWARE_SLUG = 'commercetools-generate-access-token';

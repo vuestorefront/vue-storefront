@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
-import { shippingDetails, loading } from './shared';
+import { cartActions } from '@vue-storefront/commercetools-api';
 import initFields from './initFields';
+import { CustomQuery } from '@vue-storefront/core';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}) => {
+const createSetShippingDetails = (params) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+  const { cartFields, setCart, shippingDetails, loading, context } = params;
   shippingDetails.value = {
     ...initialDetails,
     ...shippingDetails.value,
@@ -24,18 +25,21 @@ const createSetShippingDetails = ({ factoryParams, cartFields, setCart }) => asy
 
   loading.value.shippingAddress = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setShippingMethodAction(),
-      cartActions.setShippingAddressAction(shippingDetails.value)
-    ]
-  });
+  try {
+    const cartResponse = await context.$ct.api.updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(),
+        cartActions.setShippingAddressAction(shippingDetails.value)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.shippingAddress = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart, params);
+  } finally {
+    loading.value.shippingAddress = false;
+  }
 };
 
 export default createSetShippingDetails;

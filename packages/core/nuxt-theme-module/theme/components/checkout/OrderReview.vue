@@ -72,18 +72,12 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/shared/styles/variables";
 
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
+<style lang="scss" scoped>
 .highlighted {
   box-sizing: border-box;
   width: 100%;
-  background-color: #f1f2f3;
+  background-color: var(--c-light);
   padding: var(--spacer-2xl);
   margin-bottom: var(--spacer-xl);
   &:last-child {
@@ -99,8 +93,8 @@ export default {
     margin-bottom: var(--spacer-xl);
   }
   &__title {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-lg-desktop);
+    font-family: var(--font-family--primary);
+    font-size: var(--font-size--lg);
     line-height: 1.6;
   }
 }
@@ -113,14 +107,14 @@ export default {
 .content {
   margin: 0 0 var(--spacer-xl) 0;
   color: var(--c-text);
-  font-size: var(--font-xs-desktop);
-  font-weight: var(--font-light);
+  font-size: var(--font-size--sm);
+  font-weight: var(--font-weight--light);
   line-height: 1.6;
   &:last-child {
     margin: 0;
   }
   &__label {
-    font-weight: 400;
+    font-weight: var(--font-weight--normal);
   }
 }
 </style>

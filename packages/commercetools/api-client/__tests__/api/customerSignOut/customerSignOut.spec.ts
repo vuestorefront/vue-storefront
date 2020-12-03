@@ -1,5 +1,4 @@
 import customerSignOut from './../../../src/api/customerSignOut';
-import { getSettings } from './../../../src/index';
 
 describe('[commercetools-api-client] customerSignOut', () => {
   beforeEach(() => {
@@ -7,8 +6,11 @@ describe('[commercetools-api-client] customerSignOut', () => {
   });
 
   it('clears user session', async () => {
-    await customerSignOut();
-    const { auth } = getSettings();
-    expect(auth.onTokenRemove).toBeCalled();
+    const context = {
+      $ct: { api: { cleanSession: jest.fn() }}
+    };
+    await customerSignOut(context);
+
+    expect(context.$ct.api.cleanSession).toBeCalled();
   });
 });

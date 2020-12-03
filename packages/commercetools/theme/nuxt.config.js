@@ -19,21 +19,38 @@ export default {
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico' }
+        href: '/favicon.ico'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com'
+      }
     ],
     script: []
   },
   loading: { color: '#fff' },
   router: {
-    middleware: ['checkout']
+    middleware: ['checkout'],
+    scrollBehavior (_to, _from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      } else {
+        return { x: 0, y: 0 };
+      }
+    }
   },
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
+    // to core soon
+    '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       logger: {
-        verbosity: 'error'
+        verbosity: 'debug'
       },
       useRawSource: {
         dev: [
@@ -132,6 +149,9 @@ export default {
     detectBrowserLanguage: {
       cookieKey: 'vsf-locale'
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     transpile: [

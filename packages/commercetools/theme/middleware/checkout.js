@@ -1,5 +1,3 @@
-import { getMe } from '@vue-storefront/commercetools-api';
-
 const canEnterPersonalDetails = cart => !cart.customerId && cart.lineItems.length > 0;
 
 const canEnterShipping = cart => cart.customerEmail || cart.customerId;
@@ -8,12 +6,12 @@ const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
 
 const canEnterReview = cart => Boolean(cart.billingAddress);
 
-export default async ({ app }) => {
+export default async ({ app, $vsf }) => {
   const currentPath = app.context.route.fullPath.split('/checkout/')[1];
 
   if (!currentPath) return;
 
-  const { data: { me: { activeCart } } } = await getMe();
+  const { data: { me: { activeCart } } } = await $vsf.$ct.api.getMe();
 
   if (!activeCart) return;
 

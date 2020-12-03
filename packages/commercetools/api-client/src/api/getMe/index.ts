@@ -1,7 +1,8 @@
-import { apolloClient, getSettings } from './../../index';
+import { CustomQueryFn } from '../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
 import gql from 'graphql-tag';
-import { getCustomQuery } from './../../helpers/queries';
+import { getCustomQuery } from '../../helpers/queries';
+import ApolloClient from 'apollo-client';
 
 interface Options {
   customer?: boolean;
@@ -12,8 +13,9 @@ interface OrdersData {
   me: any;
 }
 
-const getMe = async (params: Options = {}, customQueryFn?) => {
-  const { locale, acceptLanguage } = getSettings();
+const getMe = async ({ config, client }, params: Options = {}, customQueryFn?: CustomQueryFn) => {
+  const { locale, acceptLanguage } = config;
+
   const { customer }: Options = params;
   const defaultQuery = customer ? fullProfile : basicProfile;
   const defaultVariables = {
@@ -22,7 +24,7 @@ const getMe = async (params: Options = {}, customQueryFn?) => {
   };
   const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 
-  const request = await apolloClient.query<OrdersData>({
+  const request = await (client as ApolloClient<any>).query<OrdersData>({
     query: gql`${query}`,
     variables,
     fetchPolicy: 'no-cache'

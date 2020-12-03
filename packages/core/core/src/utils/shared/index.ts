@@ -1,21 +1,24 @@
 
 import { Ref } from '@vue/composition-api';
-import { vsfRef } from '../../utils';
-
-const sharedMap = new Map();
+import { vsfRef, useVSFContext } from '../../utils';
 
 function sharedRef<T>(value: T, key: string): Ref;
 function sharedRef<T>(key: string, _?): Ref;
 
 function sharedRef<T>(value: T, key: string): Ref {
+  const { $sharedRefsMap } = useVSFContext() as any;
   const givenKey = key || value;
 
-  if (sharedMap.has(givenKey)) {
-    return sharedMap.get(givenKey);
+  if ($sharedRefsMap.has(givenKey)) {
+    return $sharedRefsMap.get(givenKey);
   }
 
-  const newRef = vsfRef(value, key);
-  sharedMap.set(key, newRef);
+  const newRef = vsfRef(
+    key ? value : null,
+    givenKey as string
+  );
+
+  $sharedRefsMap.set(givenKey, newRef);
 
   return newRef;
 }

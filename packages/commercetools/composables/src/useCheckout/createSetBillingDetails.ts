@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
-import { billingDetails, loading } from './shared';
+import { cartActions } from '@vue-storefront/commercetools-api';
 import initFields from './initFields';
+import { CustomQuery } from '@vue-storefront/core';
 
 const initialDetails = { contactInfo: {} };
 
-const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => async (data, options: any = {}) => {
+const createSetBillingDetails = (params) => async (data, options: any = {}, customQuery?: CustomQuery) => {
+  const { cartFields, setCart, billingDetails, loading, context } = params;
   billingDetails.value = {
     ...initialDetails,
     ...billingDetails.value,
@@ -21,17 +22,20 @@ const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => asyn
   if (!options.save) return;
   loading.value.billingAddress = true;
 
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setBillingAddressAction(billingDetails.value)
-    ]
-  });
+  try {
+    const cartResponse = await context.$ct.api.updateCart({
+      id: cartFields.cart.value.id,
+      version: cartFields.cart.value.version,
+      actions: [
+        cartActions.setBillingAddressAction(billingDetails.value)
+      ]
+    }, customQuery);
 
-  setCart(cartResponse.data.cart);
-  initFields(cartResponse.data.cart);
-  loading.value.billingAddress = false;
+    setCart(cartResponse.data.cart);
+    initFields(cartResponse.data.cart, params);
+  } finally {
+    loading.value.billingAddress = false;
+  }
 };
 
 export default createSetBillingDetails;

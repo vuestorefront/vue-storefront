@@ -1,51 +1,13 @@
 <template>
   <SfTabs :open-tab="1">
+    <!-- Personal data update -->
     <SfTab data-cy="my-profile-tab_personal-data" title="Personal data">
       <p class="message">
-        Feel free to edit any of your details below so your account is always up
-        to date
+        Feel free to edit any of your details below so your account is always up to date
       </p>
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form class="form" @submit.prevent="handleSubmit(updatePersonal)">
-          <div class="form__horizontal">
-            <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="my-profile-input_firstName"
-                v-model="firstName"
-                name="firstName"
-                label="First Name"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-            <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="my-profile-input_lastName"
-                v-model="lastName"
-                name="lastName"
-                label="Last Name"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
-            <SfInput
-              data-cy="my-profile-input_email"
-              v-model="email"
-              type="email"
-              name="email"
-              label="Your e-mail"
-              required
-              :valid="!errors[0]"
-              :errorMessage="errors[0]"
-            />
-          </ValidationProvider>
-          <SfButton data-cy="my-profile-btn_update" class="form__button">Update personal data</SfButton>
-        </form>
-      </ValidationObserver>
+
+      <ProfileUpdateForm @submit="updatePersonalData" />
+
       <p class="notice">
         At Brand name, we attach great importance to privacy issues and are
         committed to protecting the personal data of our users. Learn more about
@@ -53,64 +15,26 @@
         <a href="">Privacy Policy.</a>
       </p>
     </SfTab>
+
+    <!-- Password reset -->
     <SfTab data-cy="my-profile-tab_password-change" title="Password change">
       <p class="message">
         If you want to change the password to access your account, enter the
         following information:<br />Your current email address is
         <span class="message__label">example@email.com</span>
       </p>
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form class="form" @submit.prevent="handleSubmit(updatePassword)">
-          <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
-            <SfInput
-              data-cy="my-profile-input_currentPassword"
-              v-model="form.currentPassword"
-              type="password"
-              name="currentPassword"
-              label="Current Password"
-              required
-              :valid="!errors[0]"
-              :errorMessage="errors[0]"
-            />
-          </ValidationProvider>
-          <div class="form__horizontal">
-            <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
-              <SfInput
-                data-cy="my-profile-input_newPassword"
-                v-model="form.newPassword"
-                type="password"
-                name="newPassword"
-                label="New Password"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-            <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
-              <SfInput
-                data-cy="my-profile-input_repeatPassword"
-                v-model="form.repeatPassword"
-                type="password"
-                name="repeatPassword"
-                label="Repeat Password"
-                required
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
-              />
-            </ValidationProvider>
-          </div>
-          <SfAlert v-if="error" class="alert" type="danger" :message="error" />
-          <SfButton data-cy="my-profile-btn_update-password" class="form__button">Update password</SfButton>
-        </form>
-      </ValidationObserver>
+
+      <PasswordResetForm @submit="updatePassword" />
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
-import { ref } from '@vue/composition-api';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
-import { SfTabs, SfInput, SfButton, SfAlert } from '@storefront-ui/vue';
+import ProfileUpdateForm from '~/components/MyAccount/ProfileUpdateForm';
+import PasswordResetForm from '~/components/MyAccount/PasswordResetForm';
+import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
 import { useUser } from '<%= options.generate.replace.composables %>';
 
 extend('email', {
@@ -140,126 +64,54 @@ extend('confirmed', {
 
 export default {
   name: 'PersonalDetails',
+
   components: {
     SfTabs,
     SfInput,
     SfButton,
-    SfAlert,
-    ValidationProvider,
-    ValidationObserver
+    ProfileUpdateForm,
+    PasswordResetForm
   },
-  props: {
-    account: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup() {
-    const resetPassForm = () => ({ currentPassword: '', newPassword: '', repeatPassword: '' });
-    const { user, changePassword } = useUser();
-    const error = ref(null);
-    const form = ref(resetPassForm());
 
-    const updatePassword = async () => {
+  setup() {
+    const { updateUser, changePassword } = useUser();
+
+    const formHandler = async (fn, onComplete, onError) => {
       try {
-        await changePassword(form.value.currentPassword, form.value.newPassword);
-      } catch (e) {
-        error.value = e.message;
-        return;
+        const data = await fn();
+        await onComplete(data);
+      } catch (error) {
+        onError(error);
       }
-      form.value = resetPassForm();
     };
 
+    const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser(form.value), onComplete, onError);
+    const updatePassword = ({ form, onComplete, onError }) => formHandler(() => changePassword(form.value.currentPassword, form.value.newPassword), onComplete, onError);
+
     return {
-      user,
-      error,
-      form,
+      updatePersonalData,
       updatePassword
     };
-  },
-  data() {
-    return {
-      firstName: '',
-      lastName: '',
-      email: ''
-    };
-  },
-  watch: {
-    account: {
-      handler(value) {
-        this.firstName = value.firstName;
-        this.lastName = value.lastName;
-        this.email = value.email;
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    updatePersonal() {
-      const personal = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email
-      };
-      this.$emit('update:personal', personal);
-    }
   }
 };
 </script>
+
 <style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
-
-.form {
-  &__element {
-    display: block;
-    margin: 0 0 var(--spacer-2xl) 0;
-  }
-
-  &__button {
-    display: block;
-  }
-
-  &__horizontal {
-    @include for-desktop {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    .form__element {
-      @include for-desktop {
-        flex: 1;
-        margin-right: var(--spacer-2xl);
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-}
 .message,
 .notice {
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family--primary);
   line-height: 1.6;
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font-size: var(--font-base-mobile);
-  @include for-desktop {
-    font-size: var(--font-base-desktop);
-  }
+  font-size: var(--font-size--base);
   &__label {
     font-weight: 400;
   }
 }
 .notice {
-  margin: var(--spacer-xl) 0 0 0;
-  font-size: var(--font-xs-mobile);
-  @include for-desktop {
-    max-width: 70%;
-    margin: var(--spacer) 0 0 0;
-    font-size: var(--font-xs-desktop);
-  }
+  margin: var(--spacer-lg) 0 0 0;
+  font-size: var(--font-size--sm);
 }
+
 </style>

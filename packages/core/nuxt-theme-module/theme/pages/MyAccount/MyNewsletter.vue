@@ -22,84 +22,39 @@
           />
           <SfCheckbox
             v-model="newsletter"
-            label="Children"
-            value="children"
+            label="Kids"
+            value="kids"
             class="form__element"
           />
         </div>
-        <SfButton data-cy="newsletter-btn_join" class="form__button">Join Newsletter</SfButton>
+        <SfButton data-cy="newsletter-btn_join" class="form__button">Save changes</SfButton>
       </div>
       <p class="notice">
-        I have read and understand the <a href="#">Privacy</a> and
-        <a href="#">Cookies Policy</a> and agree to receive personalized
+        I have read and understand the <SfLink class="notice__link" href="#">Privacy</SfLink> and
+        <SfLink class="notice__link" href="#">Cookies Policy</SfLink> and agree to receive personalized
         commercial information from Brand name by email.
       </p>
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
-import { SfTabs, SfCheckbox, SfButton } from '@storefront-ui/vue';
+import { SfTabs, SfCheckbox, SfButton, SfLink } from '@storefront-ui/vue';
 export default {
   name: 'MyNewsletter',
   components: {
     SfTabs,
     SfCheckbox,
-    SfButton
+    SfButton,
+    SfLink
   },
   data() {
-    return { newsletter: '' };
+    return { newsletter: [] };
   }
 };
 </script>
+
 <style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
-.shipping-list {
-  margin: 0 0 var(--spacer-2xl) 0;
-}
-.shipping {
-  display: flex;
-  padding: var(--spacer-xl) 0;
-  border: 1px solid var(--c-light);
-  border-width: 1px 0 0 0;
-  &:last-child {
-    border-width: 1px 0 1px 0;
-  }
-  &__content {
-    flex: 1;
-    color: var(--c-text);
-    font: 300 var(--font-sm) / 1.6 var(--font-family-secondary);
-  }
-  &__actions {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    @include for-desktop {
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
-  &__button-delete {
-    --button-background: var(--c-light);
-    --button-color: var(--c-dark-variant);
-    &:hover {
-      --button-background: var(--c-light-variant);
-    }
-    @include for-desktop {
-      margin: 0 0 0 var(--spacer-xl);
-    }
-  }
-  &__address {
-    margin: 0 0 var(--spacer-xl) 0;
-    &:last-child {
-      margin: 0;
-    }
-  }
-  &__client-name {
-    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
-  }
-}
 .tab-orphan {
   @include for-mobile {
     --tabs-title-display: none;
@@ -109,47 +64,42 @@ export default {
 }
 .form {
   &__element {
-    margin: 0 0 var(--spacer-xl) 0;
+    margin: 0 0 var(--spacer-sm) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__checkbox-group {
-    margin: 0 0 var(--spacer-2xl) 0;
+    margin: 0 0 var(--spacer-xl) 0;
   }
   &__title {
     margin: 0 0 var(--spacer-xl) 0;
-    font: 500 var(--font-base) / 1.6 var(--font-family-secondary);
+    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
   }
   &__button {
     --button-width: 100%;
     @include for-desktop {
-      --button-width: auto;
+      --button-width: 17.5rem;
     }
   }
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
-  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
+  margin: 0 0 var(--spacer-xl) 0;
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   &__label {
     font-weight: 500;
   }
 }
-a {
-  color: var(--c-text-muted);
-  text-decoration: none;
-  &:hover {
-    color: var(--c-text);
-  }
-}
 .notice {
   margin: var(--spacer-xl) 0 0 0;
-  font: 300 var(--font-xs) / 1.6 var(--font-family-secondary);
-}
-.action-button {
-  --button-width: 100%;
-  @include for-desktop {
-    --button-width: auto;
+  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--primary);
+  &__link {
+    color: var(--c-text-muted);
+    text-decoration: none;
+    &:hover {
+      color: var(--c-text);
+    }
   }
 }
+
 </style>

@@ -3,24 +3,24 @@
     <SfTab data-cy="loyalty-card-tab" title="Loyalty Card">
       <p class="message">
         This feature is not implemented yet! Please take a look at<br />
-        <a href="#"
-          >https://github.com/DivanteLtd/vue-storefront/issues for our
-          Roadmap!</a
+        <SfLink class="message__link" href="#"
+          >https://github.com/DivanteLtd/vue-storefront/issues </SfLink
         >
+        for our Roadmap!
       </p>
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
-import { SfTabs } from '@storefront-ui/vue';
+import { SfTabs, SfLink } from '@storefront-ui/vue';
 export default {
   name: 'LoyalityCard',
-  components: { SfTabs }
+  components: { SfTabs, SfLink }
 };
 </script>
-<style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang='scss' scoped>
 .tab-orphan {
   @include for-mobile {
     --tabs-title-display: none;
@@ -30,16 +30,14 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font: 300 var(--font-base) / 1.6 var(--font-family-secondary);
-  &__label {
-    font-weight: 500;
+  font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family-iprimary);
+    &__link {
+    color: var(--c-primary);
+    text-decoration: none;
+    &:hover {
+      color: var(--c-text);
+    }
   }
 }
-a {
-  color: var(--c-text-muted);
-  text-decoration: none;
-  &:hover {
-    color: var(--c-text);
-  }
-}
+
 </style>

@@ -24,15 +24,15 @@ jobs:
           password: ${{ secrets.CLOUD_PASSWORD }}
           dockerfile: dev/docker/Dockerfile
           buildoptions: "--compress"
-      - name: Build and publish docker image for Shopify
-        if: github.ref == 'refs/heads/next'
+      - name: Build and publish docker image for release/next
+        if: github.ref == 'refs/heads/release/next'
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: shopify-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
+          name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          dockerfile: dev/docker/shopify/Dockerfile
+          dockerfile: dev/docker/Dockerfile
           buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest
@@ -50,15 +50,6 @@ jobs:
         if: github.ref == 'refs/heads/next'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"lovecrafts-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
-            echo "Instance updated"
-          else
-            echo "Something went wrong during the update process..."
-            exit 1
-          fi
-      - name: Deploy on shopify-demo.storefrontcloud.io
-        if: github.ref == 'refs/heads/next'
-        run: |
-          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"shopify-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."

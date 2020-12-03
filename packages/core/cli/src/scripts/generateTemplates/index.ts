@@ -1,5 +1,5 @@
-import getIntegrations from '@vue-storefront/cli/src/utils/getIntegrations';
-import createProject from '@vue-storefront/cli/src/scripts/createProject';
+import getIntegrations from '../../utils/getIntegrations';
+import createProject from '../createProject';
 import path from 'path';
 
 const generateTemplatesScript = async () => {
