@@ -282,7 +282,7 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
-  // @deprecated - use getCoupons instead
+  // @deprecated - use getDiscounts instead
   getCoupons: (cart: CART) => AgnosticCoupon[];
   getDiscounts: (cart: CART) => AgnosticDiscount[];
   [getterName: string]: (element: any, options?: any) => unknown;
