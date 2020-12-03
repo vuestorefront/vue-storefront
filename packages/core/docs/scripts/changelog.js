@@ -2,22 +2,28 @@ const fs = require('fs');
 
 const commandArgs = process.argv.slice(2);
 
-const releaseVersion = commandArgs[commandArgs.findIndex(arg => arg === '--v') + 1];
+const getCliArgument = (name, number) => {
+  return commandArgs[commandArgs.findIndex(arg => arg === name) + number];
+};
 
-const DEFAULT_IN = commandArgs[commandArgs.findIndex(arg => arg === '--in')] ? commandArgs[commandArgs.findIndex(arg => arg === '--in') + 1] : '../changelog';
+const releaseVersion = getCliArgument('--v', 1);
 
-const DEFAULT_OUT = commandArgs[commandArgs.findIndex(arg => arg === '--out')] ? commandArgs[commandArgs.findIndex(arg => arg === '--out') + 1] : '../contributing/changelog.md';
+const pathIn = getCliArgument('--in', 0) ? getCliArgument('--in', 1) : '../changelog';
 
-const prNumbers = fs.readdirSync(DEFAULT_IN);
+const pathOut = getCliArgument('--out', 0) ? getCliArgument('--out', 1) : '../contributing/changelog.md';
+
+const prNumbers = fs.readdirSync(pathIn);
 
 const numberOfPR = prNumbers.map(el => el.substr(0, el.lastIndexOf('.')));
 
-const finalData = prNumbers.map(el => require(DEFAULT_IN + '/' + el))
-  .map((el, i) => '\n - ' + (el.isBreaking ? '[BREAKING] ' : '') + el.description + ' ([#' + numberOfPR[i] + '](' + el.link + ')) - [' + el.author + '](' + el.linkToGitHubAccount + ')' +
-    (el.isBreaking ? ' \n\n | Before | After | Comment | Module  \n | --------- | -------- | -------- | -------- ' + el.breakingChanges
-      .map(br => '\n | ' + br.before + ' | ' + br.after + ' | ' + br.comment + ' | ' + br.module + '|') : ''));
+const finalData = prNumbers.map(el => require(`${pathIn}/${el}`)).map((el, i) => `
+- ${el.isBreaking ? '[BREAKING]' : ''} ${el.description} ([#${numberOfPR[i]}](${el.link})) - [${el.author}](${el.linkToGitHubAccount})
+${el.isBreaking ? `
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------` +
+el.breakingChanges.map(br => '\n' + br.before + ' | ' + br.after + ' | ' + br.comment + ' | ' + br.module) : ''}`);
 
-const changelogData = fs.readFileSync(DEFAULT_OUT).toString().split('\n');
+const changelogData = fs.readFileSync(pathOut).toString().split('\n');
 
 const versionExists = changelogData
   .map(el => el.indexOf(releaseVersion))
@@ -26,8 +32,8 @@ const versionExists = changelogData
 changelogData.splice(versionExists > -1 ? versionExists + 1 : 1, 0, versionExists > -1 ? finalData : '\n## ' + releaseVersion + '\n' + finalData);
 const text = changelogData.join('\n');
 
-fs.writeFile(DEFAULT_OUT, text, (err) => {
+fs.writeFile(pathOut, text, (err) => {
   if (err) return err;
 });
 
-prNumbers.map(el => fs.unlinkSync(`${DEFAULT_IN}/${el}`));
+prNumbers.map(el => fs.unlinkSync(`${pathIn}/${el}`));
