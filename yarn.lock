@@ -11,9 +11,9 @@
     query-string "^6.2.0"
 
 "@apollo/client@^3.2.9":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.2.tgz#112bfad9a2656b2ffb2819d5e55c9f2ac591bdb1"
-  integrity sha512-drgbagTptpo33EfOL9VedyOrPwx6u49vUdySAA3FMYRW5pSOtnWf5WMOC0fRp2xIGEtKAf0ZGC0DBbXbLvxiig==
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.3.tgz#97433fd50c498197afea2b8da4195d350daebb4c"
+  integrity sha512-zs148iUbBgmeQFOc+Jc4/Cb3LK7urQuCQGHifviMp0ihxzbJ8rtj0hCVuQhWaZxZRcL5oZBCfIuL1O5xuvszmQ==
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -2328,13 +2328,13 @@
     once "^1.4.0"
 
 "@octokit/request@^5.2.0":
-  version "5.4.11"
-  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-5.4.11.tgz#2536e9095f7e90c9d22a14fed7bb7299a22050c5"
-  integrity sha512-vskebNjuz4oTdPIv+9cQjHvjk8vjrMv2fOmSo6zr7IIaFHeVsJlG/C07MXiSS/+g/qU1GHjkPG1XW3faz57EoQ==
+  version "5.4.12"
+  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-5.4.12.tgz#b04826fa934670c56b135a81447be2c1723a2ffc"
+  integrity sha512-MvWYdxengUWTGFpfpefBBpVmmEYfkwMoxonIB3sUGp5rhdgwjXL1ejo6JbgzG/QD9B/NYt/9cJX1pxXeSIUCkg==
   dependencies:
     "@octokit/endpoint" "^6.0.1"
     "@octokit/request-error" "^2.0.0"
-    "@octokit/types" "^6.0.0"
+    "@octokit/types" "^6.0.3"
     deprecation "^2.0.0"
     is-plain-object "^5.0.0"
     node-fetch "^2.6.1"
@@ -2370,10 +2370,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@octokit/types@^6.0.0":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.0.1.tgz#a43a667ac8fff45012d23b771b7c3199f4491910"
-  integrity sha512-H/DnTKC+U09en2GFLH/MfAPNDaYb1isieD4Hx4NLpEt/I1PgtZP/8a+Ehc/j9GHuVF/UvGtOVD8AF9XXvws53w==
+"@octokit/types@^6.0.0", "@octokit/types@^6.0.3":
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.0.3.tgz#df21856c3690a90e332ea36e39fbf413b0a4f25d"
+  integrity sha512-6y0Emzp+uPpdC5QLzUY1YRklvqiZBMTOz2ByhXdmTFlc3lNv8Mi28dX1U1b4scNtFMUa3tkpjofNFJ5NqMJaZw==
   dependencies:
     "@octokit/openapi-types" "^1.2.0"
     "@types/node" ">= 8"
@@ -2853,9 +2853,9 @@
     "@types/yargs-parser" "*"
 
 "@types/yargs@^15.0.0":
-  version "15.0.10"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-15.0.10.tgz#0fe3c8173a0d5c3e780b389050140c3f5ea6ea74"
-  integrity sha512-z8PNtlhrj7eJNLmrAivM7rjBESG6JwC5xP3RVk12i/8HVP7Xnx/sEmERnRImyEuUaJfO942X0qMOYsoupaJbZQ==
+  version "15.0.11"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-15.0.11.tgz#361d7579ecdac1527687bcebf9946621c12ab78c"
+  integrity sha512-jfcNBxHFYJ4nPIacsi3woz1+kvUO6s1CyeEhtnDHBjHUMNj5UlW2GynmnSgiJJEdNg9yW5C8lfoNRZrHGv5EqA==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -6308,9 +6308,9 @@ ejs@^3.0.2:
     jake "^10.6.1"
 
 electron-to-chromium@^1.3.612:
-  version "1.3.613"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.613.tgz#5ad7ec1e19d28c81edb6d61b9d4990d1c9716182"
-  integrity sha512-c3gkahddiUalk7HLhTC7PsKzPZmovYFtgh+g3rZJ+dGokk4n4dzEoOBnoV8VU8ptvnGJMhrjM/lyXKSltqf2hQ==
+  version "1.3.614"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.614.tgz#ff359e8d2249e2ce859a4c2bc34c22bd2e2eb0a2"
+  integrity sha512-JMDl46mg4G+n6q/hAJkwy9eMTj5FJjsE+8f/irAGRMLM4yeRVbMuRrdZrbbGGOrGVcZc4vJPjUpEUWNb/fA6hg==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -8680,9 +8680,9 @@ is-generator-fn@^2.0.0:
   integrity sha512-cTIB4yPYL/Grw0EaSzASzg6bBy9gqCofvWN8okThAYIxKJZC+udlRAmGbM0XLeniEJSs8uEgHPGuHSe1XsOLSQ==
 
 is-generator-function@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/is-generator-function/-/is-generator-function-1.0.7.tgz#d2132e529bb0000a7f80794d4bdf5cd5e5813522"
-  integrity sha512-YZc5EwyO4f2kWCax7oegfuSr9mFz1ZvieNYBEjmukLxgXfBUbxAWGVF7GZf0zidYtoBl3WvC07YK0wT76a+Rtw==
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/is-generator-function/-/is-generator-function-1.0.8.tgz#dfb5c2b120e02b0a8d9d2c6806cd5621aa922f7b"
+  integrity sha512-2Omr/twNtufVZFr1GhxjOMFPAj2sjc/dKaIqBhvo4qciXfJmITGH6ZGd8eZYNHza8t1y0e01AuqRhJwfWp26WQ==
 
 is-glob@^3.1.0:
   version "3.1.0"
@@ -15421,9 +15421,9 @@ vue-drag-drop@^1.1.4:
     core-js "^2.5.3"
 
 vue-eslint-parser@^7.0.0:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.1.1.tgz#c43c1c715ff50778b9a7e9a4e16921185f3425d3"
-  integrity sha512-8FdXi0gieEwh1IprIBafpiJWcApwrU+l2FEj8c1HtHFdNXMd0+2jUSjBVmcQYohf/E72irwAXEXLga6TQcB3FA==
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.2.0.tgz#1e17ae94ca71e617025e05143c8ac5593aacb6ef"
+  integrity sha512-uVcQqe8sUNzdHGcRHMd2Z/hl6qEaWrAmglTKP92Fnq9TYU9un8xsyFgEdFJaXh/1rd7h8Aic1GaiQow5nVneow==
   dependencies:
     debug "^4.1.1"
     eslint-scope "^5.0.0"
