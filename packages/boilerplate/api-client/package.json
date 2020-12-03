@@ -13,7 +13,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/core": "2.0.12"
+    "@vue-storefront/core": "2.0.12-lc.16"
   },
   "files": [
     "lib/**/*"

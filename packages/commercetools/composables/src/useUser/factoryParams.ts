@@ -46,7 +46,7 @@ export const params: UseUserFactoryParams<Customer, any, any> = {
 
     return user;
   },
-  register: async (context: Context, {email, password, firstName, lastName}) => {
+  register: async (context: Context, { email, password, firstName, lastName }) => {
     const { customer, cart } = await authenticate({email, password, firstName, lastName}, context.$ct.api.customerSignMeUp);
     context.setCart(cart);
 

@@ -1,7 +1,10 @@
-import {ProductVariant} from '../../types';
+import { CustomQuery } from '@vue-storefront/core';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function getProduct(options: any): Promise<ProductVariant[]> {
-  return Promise.resolve([]);
+export default async function getProduct(context, params, customQuery?: CustomQuery) {
+  return Promise.resolve({
+    data: [],
+    total: 0
+  });
 }
 
