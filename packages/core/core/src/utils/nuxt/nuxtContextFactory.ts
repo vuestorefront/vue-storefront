@@ -8,15 +8,14 @@ export const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
       inject('vsf', { [integrationKey]: {} });
     }
 
-    const current = nuxtCtx.$vsf[integrationKey];
-    const client = current.client;
-
-    const config = {
-      ...current.config,
-      ...(props.config || {})
-    };
-
     if (nuxtCtx.$vsf[integrationKey].api) {
+      const current = nuxtCtx.$vsf[integrationKey];
+      const client = current.client;
+
+      const config = {
+        ...current.config,
+        ...(props.config || {})
+      };
       nuxtCtx.$vsf[integrationKey].api = {
         ...current.api,
         ...applyContextForApi((props.api || {}), { client, config })

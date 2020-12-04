@@ -1,4 +1,4 @@
-import { nuxtContextFactory } from './nuxtContentFactory';
+import { nuxtContextFactory } from './nuxtContextFactory';
 
 export const integrationPluginFactory = (createApiClientFn) => (pluginFn) => (nuxtCtx, inject) => {
   const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClientFn.tag, nuxtCtx, inject });

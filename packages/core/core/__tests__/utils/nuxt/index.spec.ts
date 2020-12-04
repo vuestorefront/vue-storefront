@@ -1,7 +1,7 @@
-import { integrationPluginFactory } from '../../../src/utils/nuxt/index';
-import { nuxtContextFactory } from '../../../src/utils/nuxt/nuxtContentFactory';
+import { integrationPluginFactory } from '../../../src/utils/nuxt';
+import { nuxtContextFactory } from '../../../src/utils/nuxt/nuxtContextFactory';
 
-jest.mock('../../../src/utils/nuxt/nuxtContentFactory', () => ({
+jest.mock('../../../src/utils/nuxt/nuxtContextFactory', () => ({
   nuxtContextFactory: jest.fn(() => ({}))
 }));
 
