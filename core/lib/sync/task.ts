@@ -95,7 +95,6 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
   }
   const url = getUrl(task, currentToken, currentCartId)
   const payload = getPayload(task, currentToken)
-  console.error('url', task, url, currentToken, currentCartId)
   let silentMode = false
   Logger.info('Executing sync task ' + url, 'sync', task)()
   return fetch(url, payload).then((response) => {
