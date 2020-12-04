@@ -39,6 +39,7 @@
               :title="category.name"
               @close="currentCategory = ''"
               class="sb-mega-menu"
+              v-if="category && category.children.length"
             >
               <SfMegaMenuColumn
                 v-for="(subcategory, subIndex) in category.children"
