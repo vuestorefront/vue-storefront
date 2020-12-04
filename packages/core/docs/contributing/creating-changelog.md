@@ -45,4 +45,4 @@ If you want to change any of the default paths, you have to ensure that the new 
 
 Let's assume you want to change `in` and `out` default paths. Your new `in` path is `../new-changelog` and the `out` path is `../new-changelog.md`. 
 In this case you need to run in your console 
-`yarn changelog --in ./changelog --out ./contributing/changelog.md --v 0.14.3`
+`yarn changelog --in ../changelog --out ../contributing/changelog.md --v 0.14.3`
