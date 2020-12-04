@@ -4,19 +4,19 @@ import gql from 'graphql-tag';
 import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
 
-interface Options {
+export interface GetMeParams {
   customer?: boolean;
 }
 
-interface OrdersData {
+export interface OrdersData {
   // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change "me: any" to "me: Pick<MeQueryInterface, "activeCart" | "customer">"
   me: any;
 }
 
-const getMe = async ({ config, client }, params: Options = {}, customQueryFn?: CustomQueryFn) => {
+const getMe = async ({ config, client }, params: GetMeParams = {}, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage } = config;
 
-  const { customer }: Options = params;
+  const { customer }: GetMeParams = params;
   const defaultQuery = customer ? fullProfile : basicProfile;
   const defaultVariables = {
     locale,
