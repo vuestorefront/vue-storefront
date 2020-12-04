@@ -23,6 +23,7 @@ import customerChangeMyPassword from './api/customerChangeMyPassword';
 import customerUpdateMe from './api/customerUpdateMe';
 import { apiClientFactory } from '@vue-storefront/core';
 import { Config } from './types/setup';
+export * from './fragments';
 
 const defaultSettings = {
   locale: 'en',

@@ -284,7 +284,9 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  // @deprecated - use getDiscounts instead
   getCoupons: (cart: CART) => AgnosticCoupon[];
+  getDiscounts: (cart: CART) => AgnosticDiscount[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -392,6 +394,7 @@ export interface AgnosticPrice {
 export interface AgnosticTotals {
   total: number;
   subtotal: number;
+  special?: number;
   [x: string]: unknown;
 }
 
@@ -508,6 +511,14 @@ export interface VSFLogger {
   info(message?: any, ...args: any): void;
   warn(message?: any, ...args: any): void;
   error(message?: any, ...args: any): void;
+}
+
+export interface AgnosticDiscount {
+  id: string;
+  name: string;
+  description: string;
+  value: number;
+  code?: string;
 }
 
 export interface Context {
