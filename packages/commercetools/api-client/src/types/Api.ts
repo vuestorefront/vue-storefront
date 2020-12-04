@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
+import { Cart, Order, ShippingMethod, CustomerSignInResult, Customer, CartDraft } from './GraphQL';
 import { Token, CustomerCredentials } from './setup';
 
 export type CustomQueryFn<T = any> = (query: any, variables: T) => {
@@ -59,6 +59,10 @@ export interface FlowOptions {
   currentToken?: Token;
   customerCredentials?: CustomerCredentials;
   requireUserSession?: boolean;
+}
+
+export interface CartData extends Omit<CartDraft, 'currency'> {
+  currency?: string;
 }
 
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
