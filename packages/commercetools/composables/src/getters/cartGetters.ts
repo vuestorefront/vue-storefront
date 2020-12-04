@@ -1,7 +1,7 @@
 import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals, AgnosticDiscount } from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
-import { createPrice, createFormatPrice } from './_utils';
+import { createPrice } from './_utils';
 import { getCouponsFromCart } from '../helpers/internals';
 
 export const getCartItems = (cart: Cart): LineItem[] => {
@@ -54,7 +54,7 @@ export const getCartTotalItems = (cart: Cart): number => {
   return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
 };
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
   return getCouponsFromCart(cart);

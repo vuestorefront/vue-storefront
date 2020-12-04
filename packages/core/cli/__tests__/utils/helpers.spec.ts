@@ -97,6 +97,5 @@ describe('[vsf-next-cli] getDependencyPath', () => {
     await copyThemeFiles(fileDir, targetPath, '');
 
     expect(copyFile).toHaveBeenCalledWith(fileDir, `${targetPath}${fileDir}`);
-
   });
 });

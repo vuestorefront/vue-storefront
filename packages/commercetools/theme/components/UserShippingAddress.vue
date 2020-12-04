@@ -16,7 +16,7 @@
 
 <script>
 import { toRef, computed } from '@vue/composition-api';
-import { getSettings } from '@vue-storefront/commercetools-api';
+import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   props: {
@@ -27,6 +27,7 @@ export default {
   },
 
   setup(props) {
+    const { $ct: { config } } = useVSFContext();
     const address = toRef(props, 'address');
 
     const street = computed(() => {
@@ -41,7 +42,7 @@ export default {
 
     const country = computed(() => {
       const country = address.country;
-      return getSettings().countries.find(c => c.name === country)?.label || country;
+      return config.countries.find(c => c.name === country)?.label || country;
     });
 
     return {

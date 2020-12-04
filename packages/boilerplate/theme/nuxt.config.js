@@ -19,16 +19,22 @@ export default {
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico' }
+        href: '/favicon.ico'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com'
+      }, {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com'
+      }
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/boilerplate.js'
-  ],
+  plugins: [],
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -79,6 +85,9 @@ export default {
         }
       }
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     transpile: [

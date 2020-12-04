@@ -1,5 +1,4 @@
 import getCart from '../../../src/api/getCart';
-import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getCart/defaultQuery';
 
 describe('[commercetools-api-client] getCart', () => {
@@ -10,14 +9,23 @@ describe('[commercetools-api-client] getCart', () => {
       cartId: 'cart id'
     };
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
 
-      return { data: 'cart response' };
-    });
+          return { data: 'cart response' };
+        }
+      }
+    };
 
-    const { data } = await getCart('cart id');
+    const { data } = await getCart(context, 'cart id');
 
     expect(data).toBe('cart response');
   });

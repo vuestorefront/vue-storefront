@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { paymentMethods, chosenPaymentMethod } from './shared';
-
 const PAYMENT_METHODS_MOCK = [
   {
     label: 'Visa Debit',
@@ -40,7 +38,7 @@ const PAYMENT_METHODS_MOCK = [
   }
 ];
 
-const createLoadPaymentMethods = ({ factoryParams }) => async () => {
+const createLoadPaymentMethods = ({ paymentMethods, chosenPaymentMethod }) => async () => {
   paymentMethods.value = PAYMENT_METHODS_MOCK;
   chosenPaymentMethod.value = PAYMENT_METHODS_MOCK[0];
 };

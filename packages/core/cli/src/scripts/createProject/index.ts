@@ -6,11 +6,11 @@ import processMagicComments from './processMagicComments';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
 
-  log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
-
   log.info(`Coppying agnostic theme to ${targetPath}`);
   await copyAgnosticTheme(integration, targetPath);
+
+  log.info(`Coppying ${integration}-theme to ${targetPath}`);
+  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
 
   log.info('Updating Nuxt config');
   const absoluteTargetPath = path.isAbsolute(targetPath)

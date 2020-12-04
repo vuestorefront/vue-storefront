@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@vue-storefront/commercetools-api';
-import { chosenShippingMethod, loading } from './shared';
+import { cartActions } from '@vue-storefront/commercetools-api';
 import initFields from './initFields';
 import { CustomQuery } from '@vue-storefront/core';
 
-const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (method, options: any = {}, customQuery?: CustomQuery) => {
+const setShippingMethod = (params) => async (method, options: any = {}, customQuery?: CustomQuery) => {
+  const { chosenShippingMethod, loading, context, cartFields, setCart } = params;
   chosenShippingMethod.value = method;
 
   if (!options.save) return;
   loading.value.shippingMethod = true;
 
   try {
-    const cartResponse = await updateCart({
+    const cartResponse = await context.$ct.api.updateCart({
       id: cartFields.cart.value.id,
       version: cartFields.cart.value.version,
       actions: [
@@ -21,7 +21,7 @@ const setShippingMethod = ({ factoryParams, cartFields, setCart }) => async (met
     }, customQuery);
 
     setCart(cartResponse.data.cart);
-    initFields(cartResponse.data.cart);
+    initFields(cartResponse.data.cart, params);
   } finally {
     loading.value.shippingMethod = false;
   }
