@@ -188,7 +188,7 @@ export interface ApiInstance {
   getProduct (params, customQueryFn?: CustomQueryFn): Promise<QueryResponse<'products', ProductQueryResult>>;
   getShippingMethods (cartId?: string, customQueryFn?: CustomQueryFn): Promise<ShippingMethodData>;
   removeCartCoupon (cart: Cart, discountCode: ReferenceInput, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  removeFromCart (Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse>;
+  removeFromCart (cart: Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse>;
   updateCart (params: UpdateCartParams, customQueryFn?: CustomQueryFn): Promise<CartResponse>;
   updateCartQuantity (cart: Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address, customQueryFn?: CustomQueryFn): Promise<CartResponse>;
