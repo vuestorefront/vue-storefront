@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfMegaMenu, SfList, SfLink, SfMenuItem, SfBanner, SfOverlay, SfLoader } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfMegaMenu, SfList, SfLink, SfMenuItem, SfBanner, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, useCategory, cartGetters } from '@vue-storefront/commercetools';
 import { computed, ref, watch } from '@vue/composition-api';
@@ -102,7 +102,6 @@ export default {
     SfBanner,
     SfMenuItem,
     SfOverlay,
-    SfLoader,
     LocaleSelector
   },
   setup(props, { root }) {
