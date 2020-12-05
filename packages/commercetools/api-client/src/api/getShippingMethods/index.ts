@@ -4,7 +4,7 @@ import { ShippingMethod } from '../../types/GraphQL';
 import gql from 'graphql-tag';
 import ApolloClient from 'apollo-client';
 
-interface ShippingMethodData {
+export interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
