@@ -84,7 +84,7 @@ const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
     return `slug(${predicate})`;
   }
 
-  if (search?.onlyParents) {
+  if (search?.rootOnly) {
     return 'parent is not defined';
   }
 

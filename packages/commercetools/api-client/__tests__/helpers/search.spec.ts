@@ -41,8 +41,8 @@ describe('[commercetools-api-client] search', () => {
     expect(buildCategoryWhere(settings, { slug: 'cat slug' })).toBe('slug(en="cat slug" or de="cat slug")');
   });
 
-  it('returns only parents', () => {
-    expect(buildCategoryWhere(settings, { onlyParents: true })).toBe('parent is not defined');
+  it('returns only root category', () => {
+    expect(buildCategoryWhere(settings, { rootOnly: true })).toBe('parent is not defined');
   });
 
   it('returns product search query by slug', () => {

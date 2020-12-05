@@ -82,7 +82,7 @@ export interface FilterOption {
 export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
   slug?: string;
-  onlyParents?: boolean;
+  rootOnly?: boolean;
 }
 
 export interface OrderWhereSearch extends BaseSearch {

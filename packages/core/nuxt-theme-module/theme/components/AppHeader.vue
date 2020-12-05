@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SfOverlay :visible="!!currentCategory" />
+    <SfOverlay :visible="!!currentHoveredCategory" />
     <SfHeader
       data-cy="app-header"
       @click:cart="toggleCartSidebar"
@@ -20,47 +20,43 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigation
-          :is-visible-on-mobile="false"
-          @close="isVisible = false"
-        >
+        <SfHeaderNavigation>
           <SfHeaderNavigationItem
             v-for="(category, index) in categories"
             :key="index"
             :label="category.name"
-            @mouseenter="currentCategory = category.name"
-            @mouseleave="currentCategory = ''"
-            @click="currentCategory = ''"
+            @mouseenter="currentHoveredCategory = category.name"
+            @mouseleave="currentHoveredCategory = ''"
+            @click="currentHoveredCategory = ''"
             :link="localePath(`/c/${category.slug}`)"
           >
             <SfMegaMenu
               :is-absolute="true"
-              :visible="currentCategory === category.name"
+              :visible="currentHoveredCategory === category.name"
               :title="category.name"
-              @close="currentCategory = ''"
-              class="sb-mega-menu"
+              @close="currentHoveredCategory = ''"
               v-if="category && category.children.length"
             >
               <SfMegaMenuColumn
-                v-for="(subcategory, subIndex) in category.children"
+                v-for="(subCategory, subIndex) in category.children"
                 :key="subIndex"
-                :title="subcategory.name"
+                :title="subCategory.name"
               >
                 <SfList>
                   <SfListItem
-                    v-for="(subcategoryChild, childIndex) in subcategory.children"
+                    v-for="(subCategoryChild, childIndex) in subCategory.children"
                     :key="childIndex"
                   >
-                    <SfMenuItem :label="subcategoryChild.name" :link="localePath(`/c/${subcategoryChild.slug}`)">
+                    <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
                       <SfLink>
-                        {{ subcategoryChild.name }}
+                        {{ subCategoryChild.name }}
                       </SfLink>
                     </SfMenuItem>
                   </SfListItem>
                 </SfList>
               </SfMegaMenuColumn>
               <SfMegaMenuColumn
-                v-if="currentCategory === 'New'"
+                v-if="isCategoryWithBanners"
                 title="Featured"
                 class="sf-mega-menu-column--pined-content-on-mobile sf-mega-menu-column--hide-header-on-mobile sb-mega-menu__featured"
               >
@@ -113,10 +109,10 @@ export default {
     const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
+    const { categories, search } = useCategory('menu-categories');
     const term = ref(getFacetsFromURL().term);
-    const currentCategory = ref('');
-    const isVisible = ref(true);
-    const { categories, search } = useCategory('categories');
+    const currentHoveredCategory = ref('');
+    const categoriesWithBanners = ref(['New']);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -124,6 +120,8 @@ export default {
     });
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
+
+    const isCategoryWithBanners = computed(() => categoriesWithBanners.value.includes(currentHoveredCategory.value));
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
@@ -138,7 +136,7 @@ export default {
       await load();
       await loadCart();
       await loadWishlist();
-      await search({ onlyParents: true });
+      await search({ rootOnly: true });
     });
 
     return {
@@ -149,8 +147,9 @@ export default {
       toggleWishlistSidebar,
       changeSearchTerm,
       term,
-      currentCategory,
-      isVisible,
+      currentHoveredCategory,
+      categoriesWithBanners,
+      isCategoryWithBanners,
       categories
     };
   },
@@ -161,16 +160,16 @@ export default {
           title: 'THE OFFICE LIFE',
           subtitle: 'T-shirts',
           pictures: {
-            mobile: '/megamenu/bannerA.png',
-            desktop: '/megamenu/bannerA.png'
+            mobile: '/megamenu/bannerA.webp',
+            desktop: '/megamenu/bannerA.webp'
           }
         },
         {
           title: 'ECO SANDALS',
           subtitle: 'T-shirts',
           pictures: {
-            mobile: '/megamenu/bannerB.png',
-            desktop: '/megamenu/bannerB.png'
+            mobile: '/megamenu/bannerB.webp',
+            desktop: '/megamenu/bannerB.webp'
           }
         }
       ]
