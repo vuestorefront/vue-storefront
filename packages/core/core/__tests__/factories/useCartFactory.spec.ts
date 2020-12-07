@@ -7,7 +7,7 @@ let params: UseCartFactoryParams<any, any, any, any>;
 
 function createComposable() {
   params = {
-    loadCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
     addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
     removeFromCart: jest
       .fn()
@@ -46,7 +46,7 @@ describe('[CORE - factories] useCartFactory', () => {
     it('should not load cart if is provided during factory creation', () => {
       createComposable();
       useCart();
-      expect(params.loadCart).not.toBeCalled();
+      expect(params.load).not.toBeCalled();
     });
     it('set given cart', () => {
       const { cart, setCart } = useCart();
@@ -71,14 +71,14 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('methods', () => {
-    describe('loadCart', () => {
+    describe('load', () => {
       it('load the cart', async () => {
         createComposable();
 
-        const { loadCart, cart } = useCart();
-        await loadCart();
-        await loadCart();
-        expect(params.loadCart).toHaveBeenCalled();
+        const { load, cart } = useCart();
+        await load();
+        await load();
+        expect(params.load).toHaveBeenCalled();
         expect(cart.value).toEqual({ id: 'mocked_cart' });
       });
     });

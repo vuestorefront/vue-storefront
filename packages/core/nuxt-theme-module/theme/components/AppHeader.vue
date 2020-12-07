@@ -47,7 +47,7 @@ export default {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load } = useUser();
-    const { cart, loadCart } = useCart();
+    const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
 

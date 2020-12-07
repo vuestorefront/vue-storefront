@@ -12,8 +12,8 @@ import { Cart, CartItem, Coupon, Product } from '../types';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadCart: async (context: Context, customQuery?: CustomQuery) => {
-    console.log('Mocked: loadCart');
+  load: async (context: Context, customQuery?: CustomQuery) => {
+    console.log('Mocked: load');
     return {};
   },
 

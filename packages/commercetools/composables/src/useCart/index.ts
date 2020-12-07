@@ -17,7 +17,7 @@ const getCurrentCart = async (context: Context, currentCart) => {
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
-  loadCart: async (context: Context, customQueryFn?: any) => {
+  load: async (context: Context, customQueryFn?: any) => {
     const { $ct } = context;
 
     if ($ct.api.isGuest()) {
