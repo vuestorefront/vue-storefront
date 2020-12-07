@@ -111,7 +111,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
       loading.value = true;
-      cart.value = await factoryParams.load(context, { customQuery });
+      cart.value = await factoryParams.load(context, customQuery);
       loading.value = false;
     };
 
