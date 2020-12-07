@@ -39,9 +39,14 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
 export const handleErrors = ({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
-      const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
-
       if (!message.includes('Resource Owner Password Credentials Grant')) {
+        if (!locations) {
+          Logger.error(`[GraphQL error]: Message: ${message}, Path: ${path}`);
+          return;
+        }
+
+        const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
+
         Logger.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
       }
     });
@@ -50,4 +55,17 @@ export const handleErrors = ({ graphQLErrors, networkError }) => {
   if (networkError) {
     Logger.error(`[Network error]: ${networkError}`);
   }
+};
+
+export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
+  if (count > 3) {
+    return false;
+  }
+
+  if (error.result.message === 'invalid_token') {
+    Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
+    tokenProvider.invalidateTokenInfo();
+    return true;
+  }
+  return false;
 };

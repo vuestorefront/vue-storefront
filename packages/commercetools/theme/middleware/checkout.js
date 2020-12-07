@@ -11,9 +11,10 @@ export default async ({ app, $vsf }) => {
 
   if (!currentPath) return;
 
-  const { data: { me: { activeCart } } } = await $vsf.$ct.api.getMe();
+  const { data } = await $vsf.$ct.api.getMe();
 
-  if (!activeCart) return;
+  if (!data || !data.me.activeCart) return;
+  const { activeCart } = data.me;
 
   switch (currentPath) {
     case 'personal-details':
