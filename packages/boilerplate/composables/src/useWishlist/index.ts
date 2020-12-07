@@ -11,8 +11,8 @@ export const wishlist: Ref<Wishlist> = ref(null);
 
 const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadWishlist: async (context: Context) => {
-    console.log('Mocked: loadWishlist');
+  load: async (context: Context) => {
+    console.log('Mocked: load');
     return {};
   },
 

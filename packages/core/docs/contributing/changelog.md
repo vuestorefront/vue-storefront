@@ -23,6 +23,8 @@
 - added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
 - added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
 - added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
+- [BREAKING] loadWishlist, loadUser, loadCart renamed to `load` ([#5285](https://github.com/DivanteLtd/vue-storefront/issues/5285))
+
 ## 2.0.12
 
 - fix ssr implementation, transition on client-side ([#5103](https://github.com/DivanteLtd/vue-storefront/pull/5103))

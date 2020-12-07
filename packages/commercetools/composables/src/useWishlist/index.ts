@@ -13,7 +13,7 @@ export const wishlist: Ref<Wishlist> = ref(null);
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadWishlist: async (context: Context) => {
+  load: async (context: Context) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

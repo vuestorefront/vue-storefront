@@ -18,15 +18,15 @@ export default {
     const { 
       wishlist,
       addToWishlist,
-      loadWishlist,
+      load,
       removeFromWishlist,
       clearWishlist,
       isOnWishlist,
-      loadWishlist
+      load
      } = useWishlist()
     
     onSSR(async () => {
-      await loadWishlist()
+      await load()
     })
 
     return {

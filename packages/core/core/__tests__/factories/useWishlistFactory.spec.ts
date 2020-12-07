@@ -10,7 +10,7 @@ const customQuery = undefined;
 
 function createComposable() {
   params = {
-    loadWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
     addToWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
     isOnWishlist: jest.fn().mockReturnValueOnce(true),
     clearWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
@@ -40,7 +40,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
     it('should not load wishlist if is provided during factory creation', () => {
       createComposable();
       useWishlist();
-      expect(params.loadWishlist).not.toBeCalled();
+      expect(params.load).not.toBeCalled();
     });
     it('set given wishlist', () => {
       const { wishlist } = useWishlist();
@@ -65,13 +65,13 @@ describe('[CORE - factories] useWishlistFactory', () => {
   });
 
   describe('methods', () => {
-    describe('loadWishlist', () => {
+    describe('load', () => {
       it('load the wishlist', async () => {
         createComposable();
 
-        const { loadWishlist, wishlist } = useWishlist();
-        await loadWishlist();
-        expect(params.loadWishlist).toHaveBeenCalledWith({ context: null }, customQuery);
+        const { load, wishlist } = useWishlist();
+        await load();
+        expect(params.load).toHaveBeenCalledWith({ context: null }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
     });

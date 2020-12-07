@@ -48,7 +48,7 @@ export default {
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load } = useUser();
     const { cart, loadCart } = useCart();
-    const { loadWishlist } = useWishlist();
+    const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
 
     const cartTotalItems = computed(() => {
