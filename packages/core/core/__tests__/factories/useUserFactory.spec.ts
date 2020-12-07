@@ -2,7 +2,7 @@ import { useUserFactory } from '../../src/factories';
 import { sharedRef } from './../../src/utils';
 
 const factoryParams = {
-  loadUser: jest.fn(() => null),
+  load: jest.fn(() => null),
   logOut: jest.fn(),
   updateUser: jest.fn(),
   register: jest.fn(),
@@ -115,16 +115,16 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.loading.value).toBe(false);
       });
     });
-    describe('loadUser', () => {
+    describe('load', () => {
       it('return loadedUser user', async () => {
         const user = {firstName: 'John', lastName: 'Galt'};
-        factoryParams.loadUser.mockReturnValueOnce(user);
+        factoryParams.load.mockReturnValueOnce(user);
         await useUserMethods.load();
-        expect(factoryParams.loadUser).toHaveBeenCalled();
+        expect(factoryParams.load).toHaveBeenCalled();
         expect(useUserMethods.user.value).toEqual(user);
       });
       it('throws error', async () => {
-        factoryParams.loadUser.mockImplementationOnce(() => {
+        factoryParams.load.mockImplementationOnce(() => {
           throw new Error('Error');
         });
         await expect(useUserMethods.load()).rejects.toThrow('Error');

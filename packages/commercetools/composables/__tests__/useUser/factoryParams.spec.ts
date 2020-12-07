@@ -36,18 +36,18 @@ const context = {
 } as any;
 
 describe('[commercetools-composables] factoryParams', () => {
-  it('loadUser return customer data', async () => {
+  it('load return customer data', async () => {
 
     (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer } }});
-    expect(await params.loadUser(context)).toEqual(customer);
+    expect(await params.load(context)).toEqual(customer);
 
     (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer: null } }});
-    expect(await params.loadUser(context)).toEqual(null);
+    expect(await params.load(context)).toEqual(null);
   });
 
   it('does not loading the user without user session', async () => {
     (context.$ct.api.isGuest as any).mockReturnValue(true);
-    expect(await params.loadUser(context)).toEqual(null);
+    expect(await params.load(context)).toEqual(null);
   });
 
   it('logOut method calls API log out method', async () => {
