@@ -10,7 +10,7 @@ const context = {
       createCart: jest.fn(() => cartResponse)
     }
   }
-};
+} as any;
 
 describe('[commercetools-composables] useCart/currentCart', () => {
   beforeEach(() => {
