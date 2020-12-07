@@ -173,8 +173,8 @@ export interface UseCart
   applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
   removeCoupon(coupon: COUPON): Promise<void>;
   removeCoupon(coupon: COUPON, customQuery: CustomQuery): Promise<void>;
-  loadCart(): Promise<void>;
-  loadCart(customQuery: CustomQuery): Promise<void>;
+  load(): Promise<void>;
+  load(customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -190,8 +190,8 @@ export interface UseWishlist
   addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
   removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
   removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
-  loadWishlist(): Promise<void>;
-  loadWishlist(customQuery?: CustomQuery): Promise<void>;
+  load(): Promise<void>;
+  load(customQuery?: CustomQuery): Promise<void>;
   clearWishlist(): Promise<void>;
   isOnWishlist(product: PRODUCT): boolean;
 }

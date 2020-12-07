@@ -3,7 +3,7 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
-  loadCart: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
+  load: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
   addToCart: (
     context: Context,
     params: {
@@ -99,8 +99,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const loadCart = async (customQuery?: CustomQuery) => {
-      Logger.debug('userCart.loadCart');
+    const load = async (customQuery?: CustomQuery) => {
+      Logger.debug('userCart.load');
 
       if (cart.value) {
 
@@ -113,7 +113,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
       loading.value = true;
-      cart.value = await factoryParams.loadCart(context, customQuery);
+      cart.value = await factoryParams.load(context, customQuery);
       loading.value = false;
     };
 
@@ -179,7 +179,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       cart: computed(() => cart.value),
       isOnCart,
       addToCart,
-      loadCart,
+      load,
       removeFromCart,
       clearCart,
       updateQuantity,
