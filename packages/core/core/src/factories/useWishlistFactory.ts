@@ -6,16 +6,18 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
   load: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
   addToWishlist: (
     context: Context,
-      params: {
+    params: {
       currentWishlist: WISHLIST;
       product: PRODUCT;
-    }, customQuery?: CustomQuery) => Promise<WISHLIST>;
+      customQuery?: CustomQuery;
+    }) => Promise<WISHLIST>;
   removeFromWishlist: (
     context: Context,
     params: {
       currentWishlist: WISHLIST;
       product: WISHLIST_ITEM;
-    }, customQuery?: CustomQuery) => Promise<WISHLIST>;
+      customQuery?: CustomQuery;
+    }) => Promise<WISHLIST>;
   clearWishlist: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
@@ -46,9 +48,9 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
         context,
         {
           currentWishlist: wishlist.value,
-          product
-        },
-        customQuery
+          product,
+          customQuery
+        }
       );
       wishlist.value = updatedWishlist;
       loading.value = false;
@@ -62,9 +64,9 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
         context,
         {
           currentWishlist: wishlist.value,
-          product
-        },
-        customQuery
+          product,
+          customQuery
+        }
       );
       wishlist.value = updatedWishlist;
       loading.value = false;

@@ -8,7 +8,7 @@ export interface OrdersSearchResult<ORDER> {
 }
 
 export interface UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> extends FactoryParams {
-  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
+  searchOrders: (context: Context, params: { searchParams: ORDER_SEARCH_PARAMS; customQuery?: CustomQuery }) => Promise<OrdersSearchResult<ORDER>>;
 }
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
@@ -18,12 +18,12 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
     const context = generateContext(factoryParams);
 
-    const searchOrders = async (params?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useUserOrders.searchOrders', params);
+    const searchOrders = async (searchParams?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useUserOrders.searchOrders', searchParams);
 
       loading.value = true;
       try {
-        const { data, total } = await factoryParams.searchOrders(context, params, customQuery);
+        const { data, total } = await factoryParams.searchOrders(context, { searchParams, customQuery });
         orders.value = data;
         totalOrders.value = total;
       } catch (err) {

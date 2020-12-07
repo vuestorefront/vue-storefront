@@ -3,8 +3,8 @@ import { CustomQuery, UseReview, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
-  searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<REVIEW>;
-  addReview: (context: Context, params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery) => Promise<REVIEW>;
+  searchReviews: (context: Context, params: { searchParams: REVIEWS_SEARCH_PARAMS; customQuery?: CustomQuery }) => Promise<REVIEW>;
+  addReview: (context: Context, params: { addParams: REVIEW_ADD_PARAMS; customQuery?: CustomQuery }) => Promise<REVIEW>;
 }
 
 export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
@@ -16,12 +16,12 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     const error: Ref<string | null> = sharedRef(null, `useReviews-error-${id}`);
     const context = generateContext(factoryParams);
 
-    const search = async (params?: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useReview.search', params);
+    const search = async (searchParams?: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useReview.search', searchParams);
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.searchReviews(context, params, customQuery);
+        reviews.value = await factoryParams.searchReviews(context, { searchParams, customQuery });
       } catch (searchError) {
         Logger.error('useReview.search', searchError);
 
@@ -31,12 +31,12 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       }
     };
 
-    const addReview = async (params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useReview.addReview', params);
+    const addReview = async (addParams: REVIEW_ADD_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useReview.addReview', addParams);
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.addReview(context, params, customQuery);
+        reviews.value = await factoryParams.addReview(context, { addParams, customQuery });
       } catch (addError) {
         Logger.error('useReview.addReview', addError);
 

@@ -5,7 +5,7 @@ import { sharedRef, Logger, mask, generateContext } from '../utils';
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
   addAddress: (
     context: Context,
-      params: {
+    params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
@@ -17,7 +17,7 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     }) => Promise<USER_SHIPPING>;
   updateAddress: (
     context: Context,
-      params: {
+    params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;

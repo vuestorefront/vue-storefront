@@ -3,7 +3,7 @@ import { UseUser, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
-  load: (context: Context) => Promise<USER>;
+  load: (context: Context, params?: {}) => Promise<USER>;
   logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
