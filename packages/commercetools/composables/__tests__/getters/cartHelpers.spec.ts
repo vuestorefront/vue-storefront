@@ -60,6 +60,7 @@ describe('[commercetools-getters] cart helpers', () => {
 
   it('returns cart total price', () => {
     expect(getCartTotals(null)).toEqual({
+      special: 0,
       total: 0,
       subtotal: 0
     });

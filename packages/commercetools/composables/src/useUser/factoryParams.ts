@@ -10,19 +10,8 @@ const loadUser = async (context: Context, customQuery?: CustomQuery) => {
     return null;
   }
 
-  try {
-    const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
-    return profile.data.me.customer;
-  } catch (err) {
-    const errorMessage = err?.graphQLErrors?.[0].message || err.message;
-
-    if (errorMessage.includes('Resource Owner Password Credentials Grant')) {
-      return null;
-    }
-
-    err.message = errorMessage;
-    throw err;
-  }
+  const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
+  return profile.data.me.customer;
 };
 
 const getCurrentUser = async (context: Context, currentUser) => {

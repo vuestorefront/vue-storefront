@@ -10,15 +10,6 @@ jest.mock('../../src/useUser/authenticate', () => ({
   authenticate: jest.fn()
 }));
 
-class GraphQLMockError extends Error {
-  graphQLErrors: any;
-
-  constructor(message) {
-    super();
-    this.graphQLErrors = [{ message }];
-  }
-}
-
 const customer: any = {
   email: 'test@test.pl',
   password: '123456',
@@ -42,7 +33,7 @@ const context = {
     }
   },
   setCart: jest.fn()
-};
+} as any;
 
 describe('[commercetools-composables] factoryParams', () => {
   it('loadUser return customer data', async () => {
@@ -50,11 +41,8 @@ describe('[commercetools-composables] factoryParams', () => {
     (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer } }});
     expect(await params.loadUser(context)).toEqual(customer);
 
-    (context.$ct.api.getMe as jest.Mock).mockRejectedValueOnce(new GraphQLMockError('Resource Owner Password Credentials Grant'));
+    (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer: null } }});
     expect(await params.loadUser(context)).toEqual(null);
-
-    (context.$ct.api.getMe as jest.Mock).mockRejectedValueOnce(new Error('some error'));
-    await expect(params.loadUser(context)).rejects.toThrowError('some error');
   });
 
   it('does not loading the user without user session', async () => {

@@ -1,13 +1,14 @@
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
+import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-fetch';
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import { asyncMap } from '@apollo/client/utilities';
 import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
 import { Config, ApiConfig } from './../../types/setup';
-import { handleBeforeAuth, handleAfterAuth, handleErrors } from './linkHandlers';
+import { handleBeforeAuth, handleAfterAuth, handleErrors, handleRetry } from './linkHandlers';
 import { isAnonymousSession, isUserSession } from './helpers';
 
 const getAccessToken = (token) => token ? token.access_token : null;
@@ -66,15 +67,25 @@ const createCommerceToolsConnection = (settings: Config): any => {
   });
 
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {
-    return asyncMap(forward(apolloReq) as any, async (response) => {
+    return asyncMap(forward(apolloReq) as any, async (response: any) => {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
       currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
 
-      return response;
+      const errors = (response.errors || []).filter(({ message }) =>
+        !message.includes('Resource Owner Password Credentials Grant') &&
+        !message.includes('This endpoint requires an access token issued either')
+      );
+
+      return { ...response, errors };
     });
   });
 
-  const apolloLink = ApolloLink.from([onErrorLink, authLinkBefore, authLinkAfter.concat(httpLink)]);
+  const errorRetry = new RetryLink({
+    attempts: handleRetry({ tokenProvider }),
+    delay: () => 0
+  });
+
+  const apolloLink = ApolloLink.from([onErrorLink, errorRetry, authLinkBefore, authLinkAfter.concat(httpLink)]);
 
   return {
     apolloLink,
