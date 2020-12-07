@@ -1,12 +1,12 @@
 import { ProductsSearchParams } from '../types';
 import { ProductVariant } from './../types/GraphQL';
 import { enhanceProduct, mapPaginationParams } from './../helpers/internals';
-import { useProductFactory, ProductsSearchResult, UseProduct, CustomQuery, Context } from '@vue-storefront/core';
+import { useProductFactory, ProductsSearchResult, UseProduct, Context } from '@vue-storefront/core';
 
-const productsSearch = async (context: Context, params: ProductsSearchParams, customQuery?: CustomQuery): Promise<ProductsSearchResult<ProductVariant>> => {
+const productsSearch = async (context: Context, { searchParams, customQuery }): Promise<ProductsSearchResult<ProductVariant>> => {
   const apiSearchParams = {
-    ...params,
-    ...mapPaginationParams(params)
+    ...searchParams,
+    ...mapPaginationParams(searchParams)
   };
 
   const productResponse = await context.$ct.api.getProduct(apiSearchParams, customQuery);

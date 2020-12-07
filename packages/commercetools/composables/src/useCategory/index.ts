@@ -1,6 +1,5 @@
 import {
   Context,
-  CustomQuery,
   UseCategory,
   useCategoryFactory,
   UseCategoryFactoryParams
@@ -8,8 +7,8 @@ import {
 import { Category } from './../types/GraphQL';
 
 const params: UseCategoryFactoryParams<Category, any> = {
-  categorySearch: async (context: Context, params, customQuery?: CustomQuery) => {
-    const categoryResponse = await context.$ct.api.getCategory(params, customQuery);
+  categorySearch: async (context: Context, { searchParams, customQuery }) => {
+    const categoryResponse = await context.$ct.api.getCategory(searchParams, customQuery);
     return categoryResponse.data.categories.results;
   }
 };

@@ -32,7 +32,7 @@ describe('[commercetools-composables] useCategory', () => {
   it('loads categories', async () => {
     const { categorySearch } = useCategory('test-category') as any;
 
-    const response = await categorySearch(context, { catId: 'xxx1' });
+    const response = await categorySearch(context, { searchParams: { catId: 'xxx1' } });
 
     expect(response).toEqual(categoriesResult);
     expect(context.$ct.api.getCategory).toBeCalledWith({ catId: 'xxx1' }, undefined);
