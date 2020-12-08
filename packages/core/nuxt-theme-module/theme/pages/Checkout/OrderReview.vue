@@ -196,7 +196,7 @@ export default {
     context.emit('changeStep', 3);
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
-    const { cart, removeFromCart, load } = useCart();
+    const { cart, removeFromCart, load: loadCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -209,7 +209,7 @@ export default {
     } = useCheckout();
 
     onSSR(async () => {
-      await load();
+      await loadCart();
     });
 
     const processOrder = async () => {

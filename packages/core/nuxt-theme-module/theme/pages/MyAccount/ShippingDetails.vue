@@ -98,7 +98,7 @@ export default {
     ShippingAddressForm
   },
   setup() {
-    const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
     const edittingAddress = ref(false);
     const activeAddress = ref(undefined);
@@ -124,7 +124,7 @@ export default {
     };
 
     onSSR(async () => {
-      await load();
+      await loadUserShipping();
     });
 
     return {

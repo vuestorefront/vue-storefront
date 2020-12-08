@@ -98,7 +98,7 @@ export default {
     BillingAddressForm
   },
   setup() {
-    const { billing, load, addAddress, deleteAddress, updateAddress } = useUserBilling();
+    const { billing, load: loadUserBilling, addAddress, deleteAddress, updateAddress } = useUserBilling();
     const addresses = computed(() => userBillingGetters.getAddresses(billing.value));
     const edittingAddress = ref(false);
     const activeAddress = ref(undefined);
@@ -124,7 +124,7 @@ export default {
     };
 
     onSSR(async () => {
-      await load();
+      await loadUserBilling();
     });
 
     return {

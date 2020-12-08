@@ -97,14 +97,14 @@ export default {
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeFromWishlist, load } = useWishlist();
+    const { wishlist, removeFromWishlist, load: loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
     onSSR(async () => {
-      await load();
+      await loadWishlist();
     });
 
     return {

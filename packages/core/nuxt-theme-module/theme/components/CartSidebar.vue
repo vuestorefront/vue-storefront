@@ -137,14 +137,14 @@ export default {
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeFromCart, updateQuantity, load } = useCart();
+    const { cart, removeFromCart, updateQuantity, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
     onSSR(async () => {
-      await load();
+      await loadCart();
     });
 
     return {
