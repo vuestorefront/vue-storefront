@@ -8,14 +8,14 @@ import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 
 const VERSION_MISSMATCH_CODE = 'ConcurrentModification';
 
-interface UpdateCart {
+export interface UpdateCartParams {
   id: string;
   version: number;
   actions: CartUpdateAction[] | MyCartUpdateAction[];
   versionFallback?: boolean;
 }
 
-const updateCart = async (context, params: UpdateCart, customQueryFn?: CustomQueryFn) => {
+const updateCart = async (context, params: UpdateCartParams, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage } = context.config;
   const defaultVariables = params
     ? {

@@ -3,6 +3,7 @@ import cartGetters from './cartGetters';
 import categoryGetters from './categoryGetters';
 import checkoutGetters from './checkoutGetters';
 import productGetters from './productGetters';
+import reviewGetters from './reviewGetters';
 import userGetters from './userGetters';
 import userShippingGetters from './userShippingGetters';
 import userBillingGetters from './userBillingGetters';
@@ -15,6 +16,7 @@ export {
   categoryGetters,
   checkoutGetters,
   productGetters,
+  reviewGetters,
   userGetters,
   userShippingGetters,
   userBillingGetters,

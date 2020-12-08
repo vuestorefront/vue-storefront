@@ -18,4 +18,3 @@ const params: UseReviewFactoryParams<any, any, any> = {
 const useReview: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>(params);
 
 export { useReview };
-export { default as reviewGetters } from '../getters/reviewGetters';
