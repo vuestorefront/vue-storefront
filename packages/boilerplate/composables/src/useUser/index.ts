@@ -12,8 +12,8 @@ import { User } from '../types';
 
 const params: UseUserFactoryParams<User, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load: async (context: Context, customQuery?: CustomQuery) => {
-    console.log('Mocked: load');
+  loadUser: async (context: Context, customQuery?: CustomQuery) => {
+    console.log('Mocked: loadUser');
     return {};
   },
 
