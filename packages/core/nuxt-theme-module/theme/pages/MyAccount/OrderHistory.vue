@@ -4,28 +4,27 @@
       <div v-if="currentOrder">
         <SfButton data-cy="order-history-btn_orders" class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
         <div class="highlighted highlighted--total">
-        <SfProperty
-          name="Order ID"
-          :value="orderGetters.getId(currentOrder)"
-          class="sf-property--full-width property"
-        />
-        <SfProperty
-          name="Date"
-          :value="orderGetters.getDate(currentOrder)"
-          class="sf-property--full-width property"
-        />
-        <SfProperty
-          name="Status"
-          :value="orderGetters.getStatus(currentOrder)"
-          class="sf-property--full-width property"
-        />
-        <SfProperty
-          name="Total"
-          :value="formatPrice(orderGetters.getPrice(currentOrder))"
-          class="sf-property--full-width property"
-        />
+          <SfProperty
+            name="Order ID"
+            :value="orderGetters.getId(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Date"
+            :value="orderGetters.getDate(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Status"
+            :value="orderGetters.getStatus(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Total"
+            :value="formatPrice(orderGetters.getPrice(currentOrder))"
+            class="sf-property--full-width property"
+          />
         </div>
-
         <SfTable class="products">
           <SfTableHeading>
             <SfTableHeader class="products__name">Product</SfTableHeader>
