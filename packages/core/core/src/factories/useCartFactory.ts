@@ -1,9 +1,10 @@
 import { CustomQuery, UseCart, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext } from '../utils';
+import { sharedRef, Logger, generateContext, markDeprecated } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
-  load: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
+  loadCart?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
+  load?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
   addToCart: (
     context: Context,
     params: {
@@ -111,7 +112,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
       loading.value = true;
-      cart.value = await factoryParams.load(context, customQuery);
+      cart.value = await markDeprecated(
+        factoryParams.load,
+        factoryParams.loadCart,
+        '\'loadCart\' is deprecated, use \'load\' in your integration instead'
+      )(context, customQuery);
       loading.value = false;
     };
 

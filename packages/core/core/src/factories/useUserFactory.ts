@@ -1,9 +1,10 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser, Context, FactoryParams } from '../types';
-import { sharedRef, Logger, mask, generateContext } from '../utils';
+import { sharedRef, Logger, mask, generateContext, markDeprecated } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
-  load: (context: Context, params?: {}) => Promise<USER>;
+  loadUser?: (context: Context, params?: {}) => Promise<USER>;
+  load?: (context: Context, params?: {}) => Promise<USER>;
   logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
@@ -111,7 +112,11 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading.value = true;
 
       try {
-        user.value = await factoryParams.load(context);
+        user.value = await markDeprecated(
+          factoryParams.load,
+          factoryParams.loadUser,
+          '\'loadUser\' is deprecated, use \'load\' in your integration instead'
+        )(context);
       } catch (err) {
         Logger.error('useUserFactory.load', err);
 

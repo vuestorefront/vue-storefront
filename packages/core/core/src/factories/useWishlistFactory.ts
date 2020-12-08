@@ -1,9 +1,10 @@
 import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext } from '../utils';
+import { sharedRef, Logger, generateContext, markDeprecated } from '../utils';
 
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
-  load: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  load?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  loadWishlist?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
   addToWishlist: (
     context: Context,
     params: {
@@ -78,7 +79,11 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       if (wishlist.value) return;
 
       loading.value = true;
-      wishlist.value = await factoryParams.load(context, customQuery);
+      wishlist.value = await markDeprecated(
+        factoryParams.load,
+        factoryParams.loadWishlist,
+        '\'loadWishlist\' is deprecated, use \'load\' in your integration instead'
+      )(context, customQuery);
       loading.value = false;
     };
 

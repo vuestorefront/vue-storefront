@@ -7,6 +7,7 @@ import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
 import { useVSFContext, configureContext, generateContext } from './context';
 import { integrationPluginFactory } from './nuxt';
+import { markDeprecated } from './helpers';
 
 export {
   wrap,
@@ -20,5 +21,6 @@ export {
   configureContext,
   useVSFContext,
   generateContext,
-  integrationPluginFactory
+  integrationPluginFactory,
+  markDeprecated
 };
