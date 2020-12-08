@@ -21,6 +21,7 @@ Check your case. In case of any doubts please read about [Release Cycle](https:/
 ### Upgrade Notes and Changelog
 - [x] No upgrade steps required (100% backward compatibility and no breaking changes)
 - [ ] I've updated the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/upgrade-notes/README.md) and [Changelog](https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md) on how to port existing Vue Storefront sites with this new feature
+- [ ] (Next only) I've followed this [instruction](https://docs-next.vuestorefront.io/contributing/creating-changelog.html) and I've created a `.js` file with information about my Pull Request
 
 **IMPORTANT NOTICE** - Remember to update `CHANGELOG.md` with description of your change
 
