@@ -53,7 +53,7 @@
     "lint": "eslint . --ext .js,.ts,.vue",
     "release": "cd scripts && yarn release",
     "cli": "cd packages/core/cli && yarn cli",
-    "changelog": "cd packages/core/docs/scripts && node changelog"
+    "core:changelog": "cd packages/core/docs/scripts && node changelog"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

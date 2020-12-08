@@ -7,7 +7,7 @@ There are just a few steps to do in order to create the changelog.
 ## Steps
 
 1. Go to folder `/changelog`, create a `.js` file, and give it the same name as a number of your current issue from GitHub. For example `4523.js`
-2. Copy this code below, paste it inside your `.js` file and fill it in with your data and save it
+2. Copy this code below, paste it inside your `.js` file and fill it in with your data
 
 ```js
 module.exports = {
@@ -26,9 +26,12 @@ module.exports = {
   linkToGitHubAccount: "link to your github account",
 }
 ```
-3. Check a release version in which your changes should appear. Let's assume it's `2.0.14`
-4. In your console run `yarn changelog --v 0.14.3` 
-5. And it's done! Your changes should appear in `changelog.md` and the `/changelog` folder is empty now
+3. Save all changes and that's all
+
+<!-- For releases:
+1. Check a release version in which your changes should appear. Let's assume it's `2.0.14`
+2. In your console run `yarn core:changelog --v 0.14.3` 
+3. And it's done! Your changes should appear in `changelog.md` and the `/changelog` folder is empty now
 
 ## Changing default `in` and `out` paths
 
@@ -45,4 +48,4 @@ If you want to change any of the default paths, you have to ensure that the new 
 
 Let's assume you want to change `in` and `out` default paths. Your new `in` path is `../new-changelog` and the `out` path is `../new-changelog.md`. 
 In this case you need to run in your console 
-`yarn changelog --in ../changelog --out ../contributing/changelog.md --v 0.14.3`
+`yarn changelog --in ../changelog --out ../contributing/changelog.md --v 0.14.3` -->
