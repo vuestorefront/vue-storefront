@@ -1,5 +1,5 @@
-import getShippingMethods from '../../../src/api/getShippingMethods';
-import defaultQuery from '../../../src/api/getShippingMethods/defaultQuery';
+import getShippingMethods from '../../src/api/getShippingMethods';
+import defaultQuery from '../../src/api/getShippingMethods/defaultQuery';
 
 describe('[commercetools-api-client] getShippingMethods', () => {
   it('fetches shipping methods', async () => {

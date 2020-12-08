@@ -1,4 +1,4 @@
-import removeCartCoupon from './../../../src/api/removeCartCoupon';
+import removeCartCoupon from '../../src/api/removeCartCoupon';
 
 const cart = {
   id: 1,

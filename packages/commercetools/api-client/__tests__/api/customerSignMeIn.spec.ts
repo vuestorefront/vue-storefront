@@ -1,5 +1,5 @@
-import customerSignMeIn from '../../../src/api/customerSignMeIn';
-import defaultMutation from '../../../src/api/customerSignMeIn/defaultMutation';
+import customerSignMeIn from '../../src/api/customerSignMeIn';
+import defaultMutation from '../../src/api/customerSignMeIn/defaultMutation';
 
 describe('[commercetools-api-client] customerSignMeIn', () => {
   beforeEach(() => {

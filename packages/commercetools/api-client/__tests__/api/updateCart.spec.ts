@@ -1,8 +1,8 @@
-import updateCart from '../../../src/api/updateCart';
-import defaultMutation from '../../../src/api/updateCart/defaultMutation';
+import updateCart from '../../src/api/updateCart';
+import defaultMutation from '../../src/api/updateCart/defaultMutation';
 import gql from 'graphql-tag';
 
-jest.unmock('./../../../src/api/updateCart');
+jest.unmock('../../src/api/updateCart');
 
 const givenVariables = {
   acceptLanguage: ['en', 'de'],
@@ -85,4 +85,18 @@ describe('[commercetools-api-client] updateCart', () => {
     expect(data.variables).toEqual(variables);
     expect(data.mutation).toEqual(query);
   });
+
+  // it('retries if error is caused by version missmatch', async () => {
+  //   const context = {
+  //     config: {
+  //       locale: 'en',
+  //       acceptLanguage: ['en', 'de'],
+  //       currency: 'USD',
+  //       country: 'UK'
+  //     },
+  //     client: {
+
+  //     }
+  //   };
+  // });
 });

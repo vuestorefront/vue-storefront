@@ -1,16 +1,16 @@
-import updateCartQuantity from './../../../src/api/updateCartQuantity';
+import applyCartCoupon from '../../src/api/applyCartCoupon';
 
 const cart = {
   id: 1,
   version: 1
 } as any;
 
-describe('[commercetools-api-client] updateCartQuantity', () => {
+describe('[commercetools-api-client] applyCartCoupon', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('updates cart product quantity', async () => {
+  it('applies coupon to the cart', async () => {
     const context = {
       config: {
         locale: 'en',
@@ -21,7 +21,7 @@ describe('[commercetools-api-client] updateCartQuantity', () => {
       client: {
         mutate: () => ({
           actions: [
-            { changeLineItemQuantity: { quantity: 2, lineItemId: 1} }
+            { addDiscountCode: { code: 'coupon' } }
           ],
           id: 1,
           version: 1
@@ -29,22 +29,15 @@ describe('[commercetools-api-client] updateCartQuantity', () => {
       }
     };
 
-    const product = {
-      id: 1,
-      sku: '123',
-      quantity: 2
-    } as any;
-
-    const response = await updateCartQuantity(context, cart, product);
+    const response = await applyCartCoupon(context, cart, 'coupon');
 
     expect(response).toEqual({
       id: 1,
       version: 1,
       actions: [
         {
-          changeLineItemQuantity: {
-            lineItemId: 1,
-            quantity: 2
+          addDiscountCode: {
+            code: 'coupon'
           }
         }
       ]

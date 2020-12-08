@@ -1,5 +1,5 @@
-import createCart from '../../../src/api/createCart';
-import defaultMutation from '../../../src/api/createCart/defaultMutation';
+import createCart from '../../src/api/createCart';
+import defaultMutation from '../../src/api/createCart/defaultMutation';
 
 describe('[commercetools-api-client] createCart', () => {
   it('creates a new cart with draft', async () => {

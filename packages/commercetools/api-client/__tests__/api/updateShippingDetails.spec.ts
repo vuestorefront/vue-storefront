@@ -1,4 +1,4 @@
-import updateShippingDetails from './../../../src/api/updateShippingDetails';
+import updateShippingDetails from '../../src/api/updateShippingDetails';
 
 const cart = {
   id: 1,

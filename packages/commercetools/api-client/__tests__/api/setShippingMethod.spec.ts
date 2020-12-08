@@ -1,4 +1,4 @@
-import { setShippingMethodAction } from './../../../src/helpers/cart/actions';
+import { setShippingMethodAction } from '../../src/helpers/cart/actions';
 
 describe('[commercetools-api-client] setShippingMethod', () => {
   beforeEach(() => {

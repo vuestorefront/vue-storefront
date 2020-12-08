@@ -1,5 +1,5 @@
-import getMe from '../../../src/api/getMe';
-import { basicProfile } from '../../../src/api/getMe/defaultQuery';
+import getMe from '../../src/api/getMe';
+import { basicProfile } from '../../src/api/getMe/defaultQuery';
 import gql from 'graphql-tag';
 
 describe('[commercetools-api-client] getMe', () => {

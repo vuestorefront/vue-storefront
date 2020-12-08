@@ -1,16 +1,16 @@
-import addToCart from './../../../src/api/addToCart';
+import removeFromCart from '../../src/api/removeFromCart';
 
 const cart = {
   id: 1,
   version: 1
 } as any;
 
-describe('[commercetools-api-client] addToCart', () => {
+describe('[commercetools-api-client] removeFromCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('adds product to the cart', async () => {
+  it('removes product from cart', async () => {
     const context = {
       config: {
         locale: 'en',
@@ -21,26 +21,28 @@ describe('[commercetools-api-client] addToCart', () => {
       client: {
         mutate: () => ({
           actions: [
-            { addLineItem: {quantity: 2, sku: '123', variantId: 1} }
+            { removeLineItem: { quantity: 2, lineItemId: 1} }
           ],
           id: 1,
           version: 1
         })
       }
     };
-    const product = { id: 1,
-      sku: '123' } as any;
 
-    const response = await addToCart(context, cart, product, 2);
+    const product = {
+      id: 1,
+      sku: '123',
+      quantity: 2
+    } as any;
+    const response = await removeFromCart(context, cart, product);
 
     expect(response).toEqual({
       id: 1,
       version: 1,
       actions: [
         {
-          addLineItem: {
-            variantId: 1,
-            sku: '123',
+          removeLineItem: {
+            lineItemId: 1,
             quantity: 2
           }
         }

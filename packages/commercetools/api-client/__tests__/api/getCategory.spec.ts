@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import getCategory from '../../../src/api/getCategory';
-import defaultQuery from '../../../src/api/getCategory/defaultQuery';
+import getCategory from '../../src/api/getCategory';
+import defaultQuery from '../../src/api/getCategory/defaultQuery';
 
 describe('[commercetools-api-client] getCategory', () => {
   it('fetches categories without search parameters', async () => {

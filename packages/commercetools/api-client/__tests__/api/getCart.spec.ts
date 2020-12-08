@@ -1,5 +1,5 @@
-import getCart from '../../../src/api/getCart';
-import defaultQuery from '../../../src/api/getCart/defaultQuery';
+import getCart from '../../src/api/getCart';
+import defaultQuery from '../../src/api/getCart/defaultQuery';
 
 describe('[commercetools-api-client] getCart', () => {
   it('fetches cart', async () => {

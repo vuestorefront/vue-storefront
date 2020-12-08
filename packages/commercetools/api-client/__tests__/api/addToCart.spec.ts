@@ -1,16 +1,16 @@
-import applyCartCoupon from './../../../src/api/applyCartCoupon';
+import addToCart from '../../src/api/addToCart';
 
 const cart = {
   id: 1,
   version: 1
 } as any;
 
-describe('[commercetools-api-client] applyCartCoupon', () => {
+describe('[commercetools-api-client] addToCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('applies coupon to the cart', async () => {
+  it('adds product to the cart', async () => {
     const context = {
       config: {
         locale: 'en',
@@ -21,23 +21,27 @@ describe('[commercetools-api-client] applyCartCoupon', () => {
       client: {
         mutate: () => ({
           actions: [
-            { addDiscountCode: { code: 'coupon' } }
+            { addLineItem: {quantity: 2, sku: '123', variantId: 1} }
           ],
           id: 1,
           version: 1
         })
       }
     };
+    const product = { id: 1,
+      sku: '123' } as any;
 
-    const response = await applyCartCoupon(context, cart, 'coupon');
+    const response = await addToCart(context, cart, product, 2);
 
     expect(response).toEqual({
       id: 1,
       version: 1,
       actions: [
         {
-          addDiscountCode: {
-            code: 'coupon'
+          addLineItem: {
+            variantId: 1,
+            sku: '123',
+            quantity: 2
           }
         }
       ]

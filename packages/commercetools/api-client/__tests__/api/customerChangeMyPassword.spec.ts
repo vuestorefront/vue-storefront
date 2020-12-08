@@ -1,5 +1,5 @@
-import customerChangeMyPassword from '../../../src/api/customerChangeMyPassword';
-import defaultMutation from '../../../src/api/customerChangeMyPassword/defaultMutation';
+import customerChangeMyPassword from '../../src/api/customerChangeMyPassword';
+import defaultMutation from '../../src/api/customerChangeMyPassword/defaultMutation';
 
 describe('[commercetools-api-client] customerChangeMyPassword', () => {
   it('changes user password', async () => {

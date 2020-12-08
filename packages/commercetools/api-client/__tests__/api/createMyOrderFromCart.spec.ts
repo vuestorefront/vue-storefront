@@ -1,7 +1,7 @@
-import createMyOrderFromCart from '../../../src/api/createMyOrderFromCart';
-import defaultMutation from '../../../src/api/createMyOrderFromCart/defaultMutation';
+import createMyOrderFromCart from '../../src/api/createMyOrderFromCart';
+import defaultMutation from '../../src/api/createMyOrderFromCart/defaultMutation';
 
-jest.unmock('./../../../src/api/createMyOrderFromCart');
+jest.unmock('../../src/api/createMyOrderFromCart');
 
 const givenVariables = {
   draft: {

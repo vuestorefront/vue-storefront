@@ -1,8 +1,7 @@
-import customerSignMeUp from '../../../src/api/customerSignMeUp';
-import defaultMutation from '../../../src/api/customerSignMeUp/defaultMutation';
+import customerSignMeUp from '../../src/api/customerSignMeUp';
+import defaultMutation from '../../src/api/customerSignMeUp/defaultMutation';
 
 describe('[commercetools-api-client] customerSignMeUp', () => {
-
   it('creates user account', async () => {
     const givenVariables = {
       draft: {

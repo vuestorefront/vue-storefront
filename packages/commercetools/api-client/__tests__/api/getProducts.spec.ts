@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import getProduct from './../../../src/api/getProduct';
-import defaultQuery from './../../../src/api/getProduct/defaultQuery';
+import getProduct from '../../src/api/getProduct';
+import defaultQuery from '../../src/api/getProduct/defaultQuery';
 
 describe('[commercetools-api-client] getProduct', () => {
   it('fetches product with default query', async () => {
