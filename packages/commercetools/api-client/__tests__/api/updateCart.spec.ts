@@ -12,28 +12,30 @@ const givenVariables = {
   actions: [{ addLineItem: {} }]
 };
 
+const createContext = (client) => ({
+  config: {
+    locale: 'en',
+    acceptLanguage: ['en', 'de'],
+    currency: 'USD',
+    country: 'UK'
+  },
+  client
+});
+
 describe('[commercetools-api-client] updateCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('updates cart', async () => {
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD',
-        country: 'UK'
-      },
-      client: {
-        mutate: ({ variables, mutation }) => {
-          expect(variables).toEqual(givenVariables);
-          expect(mutation).toEqual(defaultMutation);
+    const context = createContext({
+      mutate: ({ variables, mutation }) => {
+        expect(variables).toEqual(givenVariables);
+        expect(mutation).toEqual(defaultMutation);
 
-          return { data: 'cart response' };
-        }
+        return { data: 'cart response' };
       }
-    };
+    });
 
     const { data } = await updateCart(context, {
       id: 'cart id',
@@ -45,19 +47,9 @@ describe('[commercetools-api-client] updateCart', () => {
   });
 
   it('uses a custom query', async () => {
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD',
-        country: 'UK'
-      },
-      client: {
-        mutate: ({ variables, mutation }) => {
-          return { variables, mutation };
-        }
-      }
-    };
+    const context = createContext({
+      mutate: ({ variables, mutation }) => ({ variables, mutation })
+    });
 
     const query = gql(`
       mutation updateCart {
@@ -69,7 +61,6 @@ describe('[commercetools-api-client] updateCart', () => {
     const variables = { id: 123 };
 
     const customQuery = (currentQuery, currentVariables) => {
-
       expect(currentQuery).toEqual(defaultMutation);
       expect(currentVariables).toEqual(givenVariables);
 
@@ -95,17 +86,7 @@ describe('[commercetools-api-client] updateCart', () => {
       })
       .mockImplementationOnce(() => 'SECOND_RETRY');
 
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD',
-        country: 'UK'
-      },
-      client: {
-        mutate: requestMock
-      }
-    };
+    const context = createContext({ mutate: requestMock });
 
     const params = {
       id: 'cart id',
@@ -120,25 +101,13 @@ describe('[commercetools-api-client] updateCart', () => {
   });
 
   it('doesnt retry if it was disabled', async () => {
-    const requestMock = jest.fn()
-      .mockImplementationOnce(() => {
-        const error: any = new Error('Mismatch');
-        error.graphQLErrors = [{ code: 'ConcurrentModification', currentVersion: 10 }];
-        throw error;
-      })
-      .mockImplementationOnce(() => 'SECOND_RETRY');
+    const requestMock = jest.fn().mockImplementation(() => {
+      const error: any = new Error('Mismatch');
+      error.graphQLErrors = [{ code: 'ConcurrentModification', currentVersion: 10 }];
+      throw error;
+    });
 
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD',
-        country: 'UK'
-      },
-      client: {
-        mutate: requestMock
-      }
-    };
+    const context = createContext({ mutate: requestMock });
 
     const params = {
       id: 'cart id',
@@ -148,29 +117,17 @@ describe('[commercetools-api-client] updateCart', () => {
     };
 
     await expect(updateCart(context, params)).rejects.toThrow(/Mismatch/);
-    expect(requestMock).not.toHaveBeenCalledTimes(2);
+    expect(requestMock).toHaveBeenCalledTimes(1);
   });
 
   it('doesnt retry if error was not caused by mismatch', async () => {
-    const requestMock = jest.fn()
-      .mockImplementationOnce(() => {
-        const error: any = new Error('Some error');
-        error.graphQLErrors = [{ code: 'SomeRandomErrorCode' }];
-        throw error;
-      })
-      .mockImplementationOnce(() => 'SECOND_RETRY');
+    const requestMock = jest.fn().mockImplementation(() => {
+      const error: any = new Error('Some error');
+      error.graphQLErrors = [{ code: 'SomeRandomErrorCode' }];
+      throw error;
+    });
 
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD',
-        country: 'UK'
-      },
-      client: {
-        mutate: requestMock
-      }
-    };
+    const context = createContext({ mutate: requestMock });
 
     const params = {
       id: 'cart id',
@@ -179,6 +136,6 @@ describe('[commercetools-api-client] updateCart', () => {
     };
 
     await expect(updateCart(context, params)).rejects.toThrow(/Some error/);
-    expect(requestMock).not.toHaveBeenCalledTimes(2);
+    expect(requestMock).toHaveBeenCalledTimes(1);
   });
 });
