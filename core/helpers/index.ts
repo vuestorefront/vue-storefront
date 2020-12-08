@@ -154,7 +154,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
 export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
   let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
 
-  // add choosedn filters
+  // add chosen filters
   for (let code of Object.keys(chosenFilters)) {
     const filter = chosenFilters[code]
     const attributeCode = Array.isArray(filter) ? filter[0].attribute_code : filter.attribute_code
