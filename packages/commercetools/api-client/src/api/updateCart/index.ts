@@ -1,4 +1,3 @@
-
 import gql from 'graphql-tag';
 import { Logger } from '@vue-storefront/core';
 import defaultQuery from './defaultMutation';
