@@ -8,6 +8,7 @@ module.exports = {
   watchPathIgnorePatterns: ['/node_modules/'],
   coveragePathIgnorePatterns: [
     '/node_modules/',
+    '<rootDir>/src/context.d.ts',
 
     // Ignore mocked composables
     'Billing',
