@@ -28,6 +28,8 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
         totalOrders.value = total;
       } catch (err) {
         Logger.error('useUserOrders.searchOrders', err);
+
+        throw err;
       } finally {
         loading.value = false;
       }

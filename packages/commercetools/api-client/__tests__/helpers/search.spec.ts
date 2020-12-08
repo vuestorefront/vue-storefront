@@ -4,15 +4,20 @@ import {
   buildOrderWhere
 } from './../../src/helpers/search';
 import { AttributeType, ProductWhereSearch } from '../../src/types/Api';
-import { getSettings } from '../../src';
+
+const settings = {
+  locale: 'en',
+  acceptLanguage: ['en', 'de'],
+  currency: 'USD'
+} as any;
 
 describe('[commercetools-api-client] search', () => {
   it('returns undefined when parameters are not supported', () => {
-    expect(buildProductWhere(null)).toBe('');
+    expect(buildProductWhere(settings, null)).toBe('');
   });
 
   it('returns undefined string when parameters are not supported', () => {
-    expect(buildCategoryWhere(null)).toBe(undefined);
+    expect(buildCategoryWhere(settings, null)).toBe(undefined);
   });
 
   it('returns undefined string when parameters are not supported', () => {
@@ -21,27 +26,27 @@ describe('[commercetools-api-client] search', () => {
 
   describe('returns product search query by cat id', () => {
     it('single one', () => {
-      expect(buildProductWhere({ catId: 'cat id' })).toBe('masterData(current(categories(id in ("cat id"))))');
+      expect(buildProductWhere(settings, { catId: 'cat id' })).toBe('masterData(current(categories(id in ("cat id"))))');
     });
     it('multiple', () => {
-      expect(buildProductWhere({ catId: ['cat id', 'dog id'] })).toBe('masterData(current(categories(id in ("cat id","dog id"))))');
+      expect(buildProductWhere(settings, { catId: ['cat id', 'dog id'] })).toBe('masterData(current(categories(id in ("cat id","dog id"))))');
     });
   });
 
   it('returns category search query by id', () => {
-    expect(buildCategoryWhere({ catId: 'cat id' })).toBe('id="cat id"');
+    expect(buildCategoryWhere(settings, { catId: 'cat id' })).toBe('id="cat id"');
   });
 
   it('returns category search query by slug', () => {
-    expect(buildCategoryWhere({ slug: 'cat slug' })).toBe('slug(en="cat slug" or de="cat slug")');
+    expect(buildCategoryWhere(settings, { slug: 'cat slug' })).toBe('slug(en="cat slug" or de="cat slug")');
   });
 
   it('returns product search query by slug', () => {
-    expect(buildProductWhere({ slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug" or de="product-slug")))');
+    expect(buildProductWhere(settings, { slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug" or de="product-slug")))');
   });
 
   it('returns product search query by id', () => {
-    expect(buildProductWhere({ id: 'product-id' })).toBe('id="product-id"');
+    expect(buildProductWhere(settings, { id: 'product-id' })).toBe('id="product-id"');
   });
 
   it('returns order search query by id', () => {
@@ -50,7 +55,7 @@ describe('[commercetools-api-client] search', () => {
 
   describe('using filters', () => {
     it('returns empty string for empty filters', () => {
-      expect(buildProductWhere({ filters: [] })).toEqual('');
+      expect(buildProductWhere(settings, { filters: [] })).toEqual('');
     });
 
     it(`returns product search query by ${AttributeType.STRING}`, () => {
@@ -60,7 +65,7 @@ describe('[commercetools-api-client] search', () => {
         ]
       };
 
-      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "stringValue"))))');
+      expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "stringValue"))))');
     });
 
     describe(`returns product search query by ${AttributeType.DATE}`, () => {
@@ -71,7 +76,7 @@ describe('[commercetools-api-client] search', () => {
           ]
         };
 
-        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "dateValue"))))');
+        expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = "dateValue"))))');
       });
 
       it('when multiple value', () => {
@@ -80,7 +85,7 @@ describe('[commercetools-api-client] search', () => {
             { type: AttributeType.DATE, value: ['dateValue1', 'dateValue2'], name: 'whatever' }
           ]
         };
-        expect(buildProductWhere(search))
+        expect(buildProductWhere(settings, search))
           .toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value >= "dateValue1" and value <= "dateValue2"))))');
       });
     });
@@ -93,7 +98,7 @@ describe('[commercetools-api-client] search', () => {
           ]
         };
 
-        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = 1))))');
+        expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = 1))))');
       });
       it('when pair of values', () => {
         const search: ProductWhereSearch = {
@@ -101,7 +106,7 @@ describe('[commercetools-api-client] search', () => {
             { type: AttributeType.NUMBER, value: [100, 200], name: 'whatever' }
           ]
         };
-        expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value >= 100 and value <= 200))))');
+        expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value >= 100 and value <= 200))))');
       });
     });
 
@@ -112,7 +117,7 @@ describe('[commercetools-api-client] search', () => {
         ]
       };
 
-      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value(key = "enumValue")))))');
+      expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value(key = "enumValue")))))');
     });
 
     it(`returns product search query by ${AttributeType.LOCALIZED_STRING}`, () => {
@@ -122,8 +127,8 @@ describe('[commercetools-api-client] search', () => {
         ]
       };
 
-      const { locale } = getSettings();
-      expect(buildProductWhere(search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(${locale} = "locStringValue")))))`);
+      const { locale } = settings;
+      expect(buildProductWhere(settings, search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(${locale} = "locStringValue")))))`);
     });
 
     describe(`returns product search query by ${AttributeType.MONEY}`, () => {
@@ -134,9 +139,9 @@ describe('[commercetools-api-client] search', () => {
           ]
         };
 
-        const { currency } = getSettings();
+        const { currency } = settings;
 
-        expect(buildProductWhere(search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}")))))`);
+        expect(buildProductWhere(settings, search)).toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount = 200 and currencyCode = "${currency.toUpperCase()}")))))`);
       });
       it('when pair of values', () => {
         const search: ProductWhereSearch = {
@@ -145,8 +150,8 @@ describe('[commercetools-api-client] search', () => {
           ]
         };
 
-        const { currency } = getSettings();
-        expect(buildProductWhere(search))
+        const { currency } = settings;
+        expect(buildProductWhere(settings, search))
           .toEqual(`masterData(current(masterVariant(attributes(name = "whatever" and value(centAmount >= 10000 and centAmount <= 20000 and currencyCode = "${currency.toUpperCase()}")))))`);
       });
     });
@@ -159,7 +164,7 @@ describe('[commercetools-api-client] search', () => {
         ]
       };
 
-      expect(buildProductWhere(search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = true))))');
+      expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = true))))');
     });
   });
 });

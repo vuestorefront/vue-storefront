@@ -1,8 +1,8 @@
-import { useFacetFactory } from '@vue-storefront/core';
+import { Context, useFacetFactory } from '@vue-storefront/core';
 
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (params) => {
+  search: async (context: Context, params) => {
     console.log('Mocked: searchFacet');
     return {};
   }

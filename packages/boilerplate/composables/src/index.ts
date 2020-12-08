@@ -1,56 +1,37 @@
 /* istanbul ignore file */
 
-import useCategory from './composables/useCategory';
-import useProduct from './composables/useProduct';
-import { setCart, useCart } from './composables/useCart';
-import useCheckout from './composables/useCheckout';
-import { useReview, reviewGetters } from './composables/useReview';
-import { setUser, useUser } from './composables/useUser';
-import useUserOrders from './composables/useUserOrders';
-import useContent from './composables/useContent';
-import useFacet from './composables/useFacet';
-import { useWishlist, setWishlist } from './composables/useWishlist';
-import useUserShipping from './composables/useUserShipping';
-import useUserBilling from './composables/useUserBilling';
+import useCart from './useCart';
+import useCategory from './useCategory';
+import useCheckout from './useCheckout';
+import useContent from './useContent';
+import useFacet from './useFacet';
+import useProduct from './useProduct';
+import useReview from './useReview';
+import useUser from './useUser';
+import useUserBilling from './useUserBilling';
+import useUserOrders from './useUserOrders';
+import useUserShipping from './useUserShipping';
+import { useWishlist, setWishlist } from './useWishlist';
+import { createApiClient } from '@vue-storefront/boilerplate-api';
+import { integrationPluginFactory } from '@vue-storefront/core';
 
-import {
-  cartGetters,
-  categoryGetters,
-  checkoutGetters,
-  facetGetters,
-  productGetters,
-  userGetters,
-  userShippingGetters,
-  userBillingGetters,
-  orderGetters,
-  wishlistGetters
-} from './composables/getters';
+const integrationPlugin = integrationPluginFactory(createApiClient);
 
 export {
-  useCategory,
-  useProduct,
+  integrationPlugin,
   useCart,
-  setCart,
+  useCategory,
   useCheckout,
-  useReview,
-  useUser,
-  setUser,
-  useUserOrders,
   useContent,
   useFacet,
-  useWishlist,
-  useUserShipping,
+  useProduct,
+  useReview,
+  useUser,
   useUserBilling,
-  setWishlist,
-  cartGetters,
-  categoryGetters,
-  checkoutGetters,
-  productGetters,
-  facetGetters,
-  reviewGetters,
-  userGetters,
-  orderGetters,
-  wishlistGetters,
-  userShippingGetters,
-  userBillingGetters
+  useUserOrders,
+  useUserShipping,
+  useWishlist,
+  setWishlist
 };
+
+export * from './getters';

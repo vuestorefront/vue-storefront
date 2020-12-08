@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cache",
-  "version": "2.0.12-lc.13",
+  "version": "2.0.12-lc.16",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -11,7 +11,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "0.15.1"
+    "@nuxtjs/composition-api": "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
   },
   "author": "Vue Storefront",
   "license": "MIT",

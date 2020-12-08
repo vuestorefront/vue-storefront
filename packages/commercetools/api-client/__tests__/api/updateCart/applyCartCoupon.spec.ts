@@ -11,7 +11,25 @@ describe('[commercetools-api-client] applyCartCoupon', () => {
   });
 
   it('applies coupon to the cart', async () => {
-    const response = await applyCartCoupon(cart, 'coupon');
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: () => ({
+          actions: [
+            { addDiscountCode: { code: 'coupon' } }
+          ],
+          id: 1,
+          version: 1
+        })
+      }
+    };
+
+    const response = await applyCartCoupon(context, cart, 'coupon');
 
     expect(response).toEqual({
       id: 1,

@@ -1,5 +1,4 @@
 import useCategory from './../../src/useCategory';
-import { getCategory } from '@vue-storefront/commercetools-api';
 
 const categoriesResult = [
   { name: 'cat1',
@@ -10,28 +9,32 @@ const categoriesResult = [
     id: 'fcd' }
 ];
 
-jest.mock('@vue-storefront/commercetools-api', () => ({
-  getCategory: jest.fn(() =>
-    Promise.resolve({
-      data: {
-        categories: {
-          results: categoriesResult
-        }
-      }
-    }))
-}));
-
 jest.mock('@vue-storefront/core', () => ({
   useCategoryFactory: (params) => () => params
 }));
+
+const context = {
+  $ct: {
+    api: {
+      getCategory: jest.fn(() =>
+        Promise.resolve({
+          data: {
+            categories: {
+              results: categoriesResult
+            }
+          }
+        }))
+    }
+  }
+};
 
 describe('[commercetools-composables] useCategory', () => {
   it('loads categories', async () => {
     const { categorySearch } = useCategory('test-category') as any;
 
-    const response = await categorySearch({ catId: 'xxx1' });
+    const response = await categorySearch(context, { catId: 'xxx1' });
 
     expect(response).toEqual(categoriesResult);
-    expect(getCategory).toBeCalledWith({ catId: 'xxx1' }, undefined);
+    expect(context.$ct.api.getCategory).toBeCalledWith({ catId: 'xxx1' }, undefined);
   });
 });

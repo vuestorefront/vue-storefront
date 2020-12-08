@@ -1,6 +1,5 @@
 const restrictedOperations = {
   anonymous: [
-    'getMe',
     'createCart'
   ],
   user: [

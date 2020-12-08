@@ -1,6 +1,11 @@
-import { CustomQuery, UseCategory } from '@vue-storefront/core';
+import {
+  Context,
+  CustomQuery,
+  UseCategory,
+  useCategoryFactory,
+  UseCategoryFactoryParams
+} from '@vue-storefront/core';
 import { Category } from './../types/GraphQL';
-import { useCategoryFactory, UseCategoryFactoryParams, Context } from '@vue-storefront/core';
 
 const params: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params, customQuery?: CustomQuery) => {

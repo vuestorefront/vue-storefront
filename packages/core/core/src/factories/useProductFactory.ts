@@ -30,6 +30,7 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
         totalProducts.value = total;
       } catch (e) {
         Logger.error('useProduct.search', e);
+        throw e;
       } finally {
         loading.value = false;
       }

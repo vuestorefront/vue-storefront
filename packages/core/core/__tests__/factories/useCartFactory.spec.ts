@@ -3,7 +3,6 @@ import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
 let useCart: () => UseCart<any, any, any, any>;
-let setCart = null;
 let params: UseCartFactoryParams<any, any, any, any>;
 
 function createComposable() {
@@ -28,7 +27,6 @@ function createComposable() {
   };
   const factory = useCartFactory<any, any, any, any>(params);
   useCart = factory.useCart;
-  setCart = factory.setCart;
 }
 
 describe('[CORE - factories] useCartFactory', () => {
@@ -51,7 +49,7 @@ describe('[CORE - factories] useCartFactory', () => {
       expect(params.loadCart).not.toBeCalled();
     });
     it('set given cart', () => {
-      const { cart } = useCart();
+      const { cart, setCart } = useCart();
       expect(cart.value).toEqual(null);
       setCart({ cart: 'test' });
       expect(sharedRef).toHaveBeenCalled();
@@ -64,7 +62,7 @@ describe('[CORE - factories] useCartFactory', () => {
         const { isOnCart } = useCart();
         const result = isOnCart({ id: 'productId' });
         expect(result).toEqual(true);
-        expect(params.isOnCart).toBeCalledWith({
+        expect(params.isOnCart).toBeCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' }
         });
@@ -89,7 +87,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke adding to cart', async () => {
         const { addToCart, cart } = useCart();
         await addToCart({ id: 'productId' }, 2);
-        expect(params.addToCart).toHaveBeenCalledWith({
+        expect(params.addToCart).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -102,7 +100,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke adding to cart', async () => {
         const { removeFromCart, cart } = useCart();
         await removeFromCart({ id: 'productId' });
-        expect(params.removeFromCart).toHaveBeenCalledWith({
+        expect(params.removeFromCart).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' }
         }, undefined);
@@ -126,7 +124,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke quantity update', async () => {
         const { updateQuantity, cart } = useCart();
         await updateQuantity({ id: 'productId' }, 2);
-        expect(params.updateQuantity).toHaveBeenCalledWith({
+        expect(params.updateQuantity).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -139,7 +137,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke clearCart', async () => {
         const { clearCart, cart } = useCart();
         await clearCart();
-        expect(params.clearCart).toHaveBeenCalledWith({ currentCart: null });
+        expect(params.clearCart).toHaveBeenCalledWith({ context: null }, { currentCart: null });
         expect(cart.value).toEqual({ id: 'mocked_cleared_cart' });
       });
     });
@@ -148,7 +146,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should apply provided coupon', async () => {
         const { applyCoupon, cart } = useCart();
         await applyCoupon('qwerty');
-        expect(params.applyCoupon).toHaveBeenCalledWith({
+        expect(params.applyCoupon).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           couponCode: 'qwerty'
         }, undefined);
@@ -161,7 +159,7 @@ describe('[CORE - factories] useCartFactory', () => {
         const { removeCoupon, cart } = useCart();
         const coupon = 'some-coupon-code-12321231';
         await removeCoupon(coupon);
-        expect(params.removeCoupon).toHaveBeenCalledWith({
+        expect(params.removeCoupon).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           coupon
         }, undefined);

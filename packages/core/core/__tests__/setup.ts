@@ -17,7 +17,9 @@ jest.mock('../src/utils', () => ({
   mask: jest.fn((s) => s),
   onSSR: jest.fn(fn => fn()),
   sharedRef: jest.fn(ref),
-  vsfRef: jest.fn(ref)
+  vsfRef: jest.fn(ref),
+  generateContext: jest.fn(() => ({ context: null })),
+  useVSFContext: jest.fn()
 }));
 
 // @ts-ignore
