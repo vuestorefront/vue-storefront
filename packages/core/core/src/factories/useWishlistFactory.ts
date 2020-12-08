@@ -80,9 +80,9 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       loading.value = true;
       wishlist.value = await markDeprecated(
+        '\'loadWishlist\' is deprecated, use \'load\' in your integration instead',
         factoryParams.load,
-        factoryParams.loadWishlist,
-        '\'loadWishlist\' is deprecated, use \'load\' in your integration instead'
+        factoryParams.loadWishlist
       )(context, customQuery);
       loading.value = false;
     };

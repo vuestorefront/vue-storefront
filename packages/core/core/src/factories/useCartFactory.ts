@@ -113,9 +113,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
       loading.value = true;
       cart.value = await markDeprecated(
+        '\'loadCart\' is deprecated, use \'load\' in your integration instead',
         factoryParams.load,
-        factoryParams.loadCart,
-        '\'loadCart\' is deprecated, use \'load\' in your integration instead'
+        factoryParams.loadCart
       )(context, customQuery);
       loading.value = false;
     };

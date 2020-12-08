@@ -113,9 +113,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         user.value = await markDeprecated(
+          '\'loadUser\' is deprecated, use \'load\' in your integration instead',
           factoryParams.load,
-          factoryParams.loadUser,
-          '\'loadUser\' is deprecated, use \'load\' in your integration instead'
+          factoryParams.loadUser
         )(context);
       } catch (err) {
         Logger.error('useUserFactory.load', err);
