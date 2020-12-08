@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const restrictedOperations = {
   anonymous: [
     'createCart'

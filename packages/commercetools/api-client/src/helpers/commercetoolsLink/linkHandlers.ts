@@ -1,4 +1,4 @@
-
+/* istanbul ignore file */
 import { Logger } from '@vue-storefront/core';
 import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
 import { isAnonymousOperation, isUserOperation } from './restrictedOperations';

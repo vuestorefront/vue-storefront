@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';

@@ -86,17 +86,99 @@ describe('[commercetools-api-client] updateCart', () => {
     expect(data.mutation).toEqual(query);
   });
 
-  // it('retries if error is caused by version missmatch', async () => {
-  //   const context = {
-  //     config: {
-  //       locale: 'en',
-  //       acceptLanguage: ['en', 'de'],
-  //       currency: 'USD',
-  //       country: 'UK'
-  //     },
-  //     client: {
+  it('retries by default if error is caused by version mismatch', async () => {
+    const requestMock = jest.fn()
+      .mockImplementationOnce(() => {
+        const error: any = new Error('Mismatch');
+        error.graphQLErrors = [{ code: 'ConcurrentModification', currentVersion: 10 }];
+        throw error;
+      })
+      .mockImplementationOnce(() => 'SECOND_RETRY');
 
-  //     }
-  //   };
-  // });
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: requestMock
+      }
+    };
+
+    const params = {
+      id: 'cart id',
+      version: 1,
+      actions: [{ addLineItem: {} }]
+    };
+
+    await expect(updateCart(context, params)).resolves.toBe('SECOND_RETRY');
+    expect(requestMock).toHaveBeenCalledTimes(2);
+    expect(requestMock).toHaveBeenNthCalledWith(1, expect.objectContaining({ variables: expect.objectContaining({ version: 1 }) }));
+    expect(requestMock).toHaveBeenNthCalledWith(2, expect.objectContaining({ variables: expect.objectContaining({ version: 10 }) }));
+  });
+
+  it('doesnt retry if it was disabled', async () => {
+    const requestMock = jest.fn()
+      .mockImplementationOnce(() => {
+        const error: any = new Error('Mismatch');
+        error.graphQLErrors = [{ code: 'ConcurrentModification', currentVersion: 10 }];
+        throw error;
+      })
+      .mockImplementationOnce(() => 'SECOND_RETRY');
+
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: requestMock
+      }
+    };
+
+    const params = {
+      id: 'cart id',
+      version: 1,
+      actions: [{ addLineItem: {} }],
+      versionFallback: false
+    };
+
+    await expect(updateCart(context, params)).rejects.toThrow(/Mismatch/);
+    expect(requestMock).not.toHaveBeenCalledTimes(2);
+  });
+
+  it('doesnt retry if error was not caused by mismatch', async () => {
+    const requestMock = jest.fn()
+      .mockImplementationOnce(() => {
+        const error: any = new Error('Some error');
+        error.graphQLErrors = [{ code: 'SomeRandomErrorCode' }];
+        throw error;
+      })
+      .mockImplementationOnce(() => 'SECOND_RETRY');
+
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: requestMock
+      }
+    };
+
+    const params = {
+      id: 'cart id',
+      version: 1,
+      actions: [{ addLineItem: {} }]
+    };
+
+    await expect(updateCart(context, params)).rejects.toThrow(/Some error/);
+    expect(requestMock).not.toHaveBeenCalledTimes(2);
+  });
 });
