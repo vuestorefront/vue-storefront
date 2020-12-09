@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 export * from './utils';
+export * from './helpers';
 export * from './factories';
 export * from './types';
 

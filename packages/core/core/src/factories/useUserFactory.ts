@@ -1,6 +1,7 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser, Context, FactoryParams } from '../types';
-import { sharedRef, Logger, mask, generateContext, markDeprecated } from '../utils';
+import { sharedRef, Logger, mask, generateContext } from '../utils';
+import { markDeprecated } from '../helpers';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
   loadUser?: (context: Context, params?: {}) => Promise<USER>;

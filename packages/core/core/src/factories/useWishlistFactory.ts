@@ -1,6 +1,7 @@
 import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext, markDeprecated } from '../utils';
+import { sharedRef, Logger, generateContext } from '../utils';
+import { markDeprecated } from '../helpers';
 
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
   load?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;

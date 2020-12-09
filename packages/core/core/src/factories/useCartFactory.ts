@@ -1,6 +1,7 @@
 import { CustomQuery, UseCart, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext, markDeprecated } from '../utils';
+import { sharedRef, Logger, generateContext } from '../utils';
+import { markDeprecated } from '../helpers';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
   loadCart?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
