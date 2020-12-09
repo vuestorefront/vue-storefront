@@ -53,14 +53,14 @@ const logger = (verbosity) => {
  }
 }
 
-registerLogger(logger, verbosity);
+registerLogger(logger, 'error');
 ```
 
 ## Configuring with nuxt
 
 If you are using our nuxt module, setting up the logger is much simpler. All you have to do is just provide the configuration to the module:
 
-```
+```json
 ['@vue-storefront/nuxt', {
   coreDevelopment: true,
   logger: { // new section here
