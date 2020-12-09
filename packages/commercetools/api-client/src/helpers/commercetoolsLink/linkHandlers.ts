@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Logger } from '@vue-storefront/core';
 import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
 import { isAnonymousOperation, isUserOperation } from './restrictedOperations';
@@ -36,6 +35,7 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
   return currentToken;
 };
 
+/* istanbul ignore next */
 export const handleErrors = ({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
