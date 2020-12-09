@@ -5,13 +5,6 @@
       class="form"
       @submit.prevent="handleSubmit(submitForm)"
     >
-      <SfCheckbox
-        data-cy="billing-details-checkbox_isDefault"
-        v-model="form.isDefault"
-        name="isDefault"
-        label="Set as default"
-        class="form__checkbox-isDefault"
-      />
       <div class="form__horizontal">
         <ValidationProvider
           rules="required|min:2"
@@ -155,6 +148,13 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
+      <SfCheckbox
+        data-cy="billing-details-checkbox_isDefault"
+        v-model="form.isDefault"
+        name="isDefault"
+        label="Set as default"
+        class="form__checkbox-isDefault"
+      />
       <SfButton data-cy="billing-details-btn_update" class="form__button">
         {{ isNew ? "Add the address" : "Update the address" }}
       </SfButton>
@@ -262,9 +262,8 @@ export default {
 .form {
   &__element {
     display: block;
-    margin: var(--spacer-xl) 0;
+    margin-bottom: var(--spacer-base);
   }
-
   &__select {
     display: flex;
     align-items: center;
@@ -276,24 +275,21 @@ export default {
       font-weight: var(--font-weight--normal);
     }
   }
-
   &__button {
     display: block;
+    margin-top: var(--spacer-lg);
   }
-
   &__horizontal {
     @include for-desktop {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
     }
-
     .form__element {
       @include for-desktop {
         flex: 1;
         margin-right: var(--spacer-lg);
       }
-
       &:last-child {
         margin-right: 0;
       }

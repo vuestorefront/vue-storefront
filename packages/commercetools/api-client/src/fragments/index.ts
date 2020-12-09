@@ -254,6 +254,12 @@ export const CartFragment = `
       validUntil
       name(acceptLanguage: $acceptLanguage)
     }
+    custom {
+      customFieldsRaw {
+        name
+        value
+      }
+    }
     cartState
     version
   }

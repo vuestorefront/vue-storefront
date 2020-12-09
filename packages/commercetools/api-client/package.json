@@ -21,6 +21,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
+    "apollo-link-retry": "^2.2.16",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "isomorphic-fetch": "^2.2.1"

@@ -17,14 +17,18 @@ const getCurrentCart = async (context: Context, currentCart) => {
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
-  loadCart: async (context: Context, CustomQueryFn?: any) => {
+  loadCart: async (context: Context, customQueryFn?: any) => {
     const { $ct } = context;
 
     if ($ct.api.isGuest()) {
       return null;
     }
 
-    return await loadCurrentCart(context, CustomQueryFn);
+    const { user } = customQueryFn ? customQueryFn() : { user: null };
+
+    const { data: profileData } = await context.$ct.api.getMe({ customer: false }, user);
+
+    return profileData.me.activeCart;
   },
   addToCart: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQueryFn) => {
     const loadedCart = await getCurrentCart(context, currentCart);

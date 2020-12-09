@@ -8,6 +8,7 @@
     >
       <template #content-top>
         <SfProperty
+          v-if="totalItems"
           class="sf-property--large cart-summary desktop-only"
           name="Total items"
           :value="totalItems"

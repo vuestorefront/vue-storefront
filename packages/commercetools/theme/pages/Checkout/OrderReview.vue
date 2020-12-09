@@ -107,7 +107,7 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="totals.subtotal"
+            :value="checkoutGetters.getFormattedPrice(totals.special > 0 ? totals.special : totals.subtotal)"
             class="sf-property--full-width property"
           />
           <SfProperty
@@ -158,6 +158,7 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+
 export default {
   name: 'ReviewOrder',
   components: {
