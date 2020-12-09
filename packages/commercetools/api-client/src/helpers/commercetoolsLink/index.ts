@@ -9,13 +9,11 @@ import { asyncMap } from '@apollo/client/utilities';
 import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
 import { Config, ApiConfig } from './../../types/setup';
-import { handleBeforeAuth, handleAfterAuth, handleErrors, handleRetry } from './linkHandlers';
-import { isAnonymousSession, isUserSession } from './helpers';
+import { handleBeforeAuth, handleAfterAuth, handleRetry } from './linkHandlers';
+import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
 
-const getAccessToken = (token) => token ? token.access_token : null;
-
-const createAuthClient = (config: ApiConfig): SdkAuth =>
-  new SdkAuth({
+const createAuthClient = (config: ApiConfig): SdkAuth => {
+  return new SdkAuth({
     host: config.authHost,
     projectKey: config.projectKey,
     disableRefreshToken: false,
@@ -25,9 +23,10 @@ const createAuthClient = (config: ApiConfig): SdkAuth =>
     },
     scopes: config.scopes
   });
+};
 
-const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) =>
-  new TokenProvider({
+const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) => {
+  return new TokenProvider({
     sdkAuth,
     fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
     onTokenInfoChanged: (tokenInfo) => {
@@ -36,16 +35,9 @@ const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) =>
     },
     onTokenInfoRefreshed: (tokenInfo) => {
       Logger.debug('TokenProvider.onTokenInfoRefreshed', getAccessToken(tokenInfo));
-
     }
   }, currentToken);
-
-const createHeaders = (currentHeaders, token) => ({
-  headers: {
-    ...currentHeaders,
-    authorization: `Bearer ${token.access_token}`
-  }
-});
+};
 
 const createCommerceToolsConnection = (settings: Config): any => {
   let currentToken: any = settings.auth.onTokenRead();
@@ -56,7 +48,24 @@ const createCommerceToolsConnection = (settings: Config): any => {
   const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
 
   const onErrorLink = onError(({ graphQLErrors, networkError }) => {
-    handleErrors({ graphQLErrors, networkError });
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message, locations, path }) => {
+        if (!message.includes('Resource Owner Password Credentials Grant')) {
+          if (!locations) {
+            Logger.error(`[GraphQL error]: Message: ${message}, Path: ${path}`);
+            return;
+          }
+
+          const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
+
+          Logger.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+        }
+      });
+    }
+
+    if (networkError) {
+      Logger.error(`[Network error]: ${networkError}`);
+    }
   });
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
@@ -64,7 +73,12 @@ const createCommerceToolsConnection = (settings: Config): any => {
     currentToken = await handleBeforeAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
     Logger.debug('Apollo authLinkBefore, finished, generated token: ', getAccessToken(currentToken));
 
-    return createHeaders(headers, currentToken);
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${currentToken.access_token}`
+      }
+    };
   });
 
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {

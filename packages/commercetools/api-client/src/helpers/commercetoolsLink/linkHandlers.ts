@@ -35,28 +35,6 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
   return currentToken;
 };
 
-/* istanbul ignore next */
-export const handleErrors = ({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) => {
-      if (!message.includes('Resource Owner Password Credentials Grant')) {
-        if (!locations) {
-          Logger.error(`[GraphQL error]: Message: ${message}, Path: ${path}`);
-          return;
-        }
-
-        const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
-
-        Logger.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
-      }
-    });
-  }
-
-  if (networkError) {
-    Logger.error(`[Network error]: ${networkError}`);
-  }
-};
-
 export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
   if (count > 3) {
     return false;
