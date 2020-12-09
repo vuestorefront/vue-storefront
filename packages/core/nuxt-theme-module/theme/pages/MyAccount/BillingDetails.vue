@@ -59,7 +59,7 @@
 
               <SfButton
                 data-cy="billing-details-btn_delete"
-                class="billing__button-delete desktop-only"
+                class="color-light billing__button-delete desktop-only"
                 @click="removeAddress(address)">
                 Delete
               </SfButton>
@@ -143,37 +143,25 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@mixin for-mobile {
-  @media screen and (max-width: $desktop-min) {
-    @content;
-  }
-}
-
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
 
 .message {
   font-family: var(--font-family--primary);
   line-height: 1.6;
   font-size: var(--font-size--base);
+  margin: 0 0 var(--spacer-base);
 }
 
 .billing-list {
-  margin-bottom: var(--spacer-2xl);
+  margin-bottom: var(--spacer-base);
 }
 
 .billing {
   display: flex;
   padding: var(--spacer-xl) 0;
   border-top: 1px solid var(--c-light);
-
   &:last-child {
     border-bottom: 1px solid var(--c-light);
   }
-
   &__content {
     flex: 1;
     color: var(--c-text);
@@ -181,7 +169,6 @@ export default {
     font-weight: 300;
     line-height: 1.6;
   }
-
   &__actions {
     flex: 1;
     display: flex;
@@ -194,36 +181,29 @@ export default {
       justify-content: flex-end;
     }
   }
-
   &__button-delete {
-    background-color: var(--c-light);
-    color: var(--c-text-muted);
+    color: var(--c-link);
     @include for-desktop {
-      margin-left: var(--spacer-xl);
+      margin-left: var(--spacer-base);
     }
   }
-
   &__address {
     margin: 0;
-
     p {
       margin: 0;
     }
   }
-
   &__client-name {
     font-size: var(--font-size--base);
     font-weight: 500;
   }
 }
-
 .action-button {
   width: 100%;
   @include for-desktop {
     width: auto;
   }
 }
-
 .tab-orphan {
   @include for-mobile {
     ::v-deep .sf-tabs {
