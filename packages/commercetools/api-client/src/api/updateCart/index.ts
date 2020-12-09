@@ -1,12 +1,11 @@
-import { Logger } from '@vue-storefront/core';
-import getMe from '../getMe';
-import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
-import { CustomQueryFn } from './../../types/Api';
-import defaultQuery from './defaultMutation';
 import gql from 'graphql-tag';
+import { Logger } from '@vue-storefront/core';
+import defaultQuery from './defaultMutation';
+import { CustomQueryFn } from './../../types/Api';
 import { getCustomQuery } from './../../helpers/queries';
+import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 
-const VERSION_MISSMATCH_STRING = 'different version than expected';
+const VERSION_MISSMATCH_CODE = 'ConcurrentModification';
 
 export interface UpdateCartParams {
   id: string;
@@ -36,17 +35,18 @@ const updateCart = async (context, params: UpdateCartParams, customQueryFn?: Cus
 
     return request;
   } catch (error) {
-    const retry = params.versionFallback ?? true;
-    if (!(error.toString().includes(VERSION_MISSMATCH_STRING) && retry)) {
+    const canRetry = params.versionFallback ?? true;
+    const causedByMissmatch = error.graphQLErrors?.[0]?.code?.includes(VERSION_MISSMATCH_CODE);
+
+    if (!causedByMissmatch || !canRetry) {
       throw error;
     }
 
-    Logger.debug('Cart version missmatch. Fetching new version and retrying.');
+    Logger.debug('Cart version missmatch. Retrying with current version.');
 
-    const { data } = await getMe(context, { customer: false });
     return updateCart(context, {
       ...params,
-      version: data.me.activeCart.version
+      version: error.graphQLErrors[0].currentVersion
     });
   }
 };
