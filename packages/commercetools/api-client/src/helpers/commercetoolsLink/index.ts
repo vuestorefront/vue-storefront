@@ -39,15 +39,8 @@ const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) => {
   }, currentToken);
 };
 
-const createCommerceToolsConnection = (settings: Config): any => {
-  let currentToken: any = settings.auth.onTokenRead();
-  Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
-
-  const sdkAuth = createAuthClient(settings.api);
-  const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
-  const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
-
-  const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+const createErrorHandler = () => {
+  return onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.map(({ message, locations, path }) => {
         if (!message.includes('Resource Owner Password Credentials Grant')) {
@@ -67,6 +60,16 @@ const createCommerceToolsConnection = (settings: Config): any => {
       Logger.error(`[Network error]: ${networkError}`);
     }
   });
+};
+
+const createCommerceToolsConnection = (settings: Config): any => {
+  let currentToken: any = settings.auth.onTokenRead();
+  Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
+
+  const sdkAuth = createAuthClient(settings.api);
+  const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
+  const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
+  const onErrorLink = createErrorHandler();
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
