@@ -63,6 +63,7 @@ You can import it at the top of the file like that:
 ```js
 import checkAndInjectResults from 'src/modules/device/util/checkAndInjectResults';
 ```
+4. Check **Cache** part below.
 
 ## Cache
 If you are using Redis Cache (if you don't, you should start) you might up with some mismatches between mobile & desktop versions. To prevent that, you should modify cache's key. It will differ per your project - if you have different components for desktop & non-desktops you want to add this information to Redis Cache - so it will serve proper one, based on requirements.
