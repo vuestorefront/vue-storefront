@@ -5,7 +5,7 @@
       <AppHeader />
       <nuxt :key="$route.fullPath"/>
       <BottomNavigation />
-      <AppFooter />
+      <AppFooter class="app-footer" />
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
@@ -91,5 +91,11 @@ h4 {
   font-size: var(--h4-font-size);
   line-height: 1.6;
   margin: 0;
+}
+
+.app-footer {
+  @include for-mobile {
+    margin-bottom: var(--spacer-xl);
+  }
 }
 </style>
