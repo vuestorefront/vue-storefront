@@ -26,11 +26,18 @@ registerLogger(myLogger, verbosity);
 
 Additionally, you can also set the `verbosity` level which tells the app, what you want to log and what communications you want to ignore. By default we have the following verbosity levels:
 
-- `debug` - log everything, including debug calls, information, warnings, and errors (all of the logger functions can be called)
-- `info` - log information, warnings, and errors (debug function calling is skipped)
-- `warn` - log warnings and errors (debug and info functions are skipped)
-- `error` - log only errors (debug, warn and info functions are skipped)
-- `none` - don't log anything
+- `debug` - log everything, including debug calls, information, warnings, and errors (all of the logger functions can be called),
+- `info` - log information, warnings, and errors (debug function calling is skipped),
+- `warn` - log warnings and errors (debug and info functions are skipped),
+- `error` - log only errors (debug, warn and info functions are skipped),
+- `none` - don't log anything.
+
+If not explicitely changed, logging level depends on current environment variable `NODE_ENV`:
+
+- `development` or `dev` defaults to `warn`,
+- `production` or `prod` defaults to `error`,
+- `test` defaults to `none`,
+- any other defaults to `warn`
 
 If for some reason you need to write your completely custom logger, with your own verbosity reaction as well, you can pass a function to the `registerLogger` instead. This function returns the logger object and as an argument, you have access to the `verbosity` level.
 
@@ -45,9 +52,6 @@ const logger = (verbosity) => {
    error: (message: any, ...args) => console.error('[VSF][error]', message, ...args),
  }
 }
-
-const verbosity = 'error'
-
 
 registerLogger(logger, verbosity);
 ```
