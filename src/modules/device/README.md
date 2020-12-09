@@ -18,6 +18,7 @@ They are accessible by, e.g::
 ```
 this.$device.isMobile
 ```
+If you want to use it server-side then just use `serverPrefetch` from Vue 2.6
 
 Example config:
 ```js
@@ -46,6 +47,22 @@ node test.js
 And it will send requests to `http://localhost:3000/device-mod-test` with different user agents. You could multiply amount of tests with `multiplier` variable in test.js file. Ten is a good default value in my opinion.
 
 Anyway we should use media queries whenever we can. However, sometimes we have more advanced structure and we are ending with hidden useless vue instance.
+
+## How to install
+1. Setup config
+2. Enable module in `src/modules/client.ts`
+3. In `initTheme` inside `index.js` of your theme add:
+```js
+checkAndInjectResults({
+    config,
+    app,
+    ssrContext
+  })
+```
+You can import it at the top of the file like that:
+```js
+import checkAndInjectResults from 'src/modules/device/util/checkAndInjectResults';
+```
 
 ## Cache
 If you are using Redis Cache (if you don't, you should start) you might up with some mismatches between mobile & desktop versions. To prevent that, you should modify cache's key. It will differ per your project - if you have different components for desktop & non-desktops you want to add this information to Redis Cache - so it will serve proper one, based on requirements.
