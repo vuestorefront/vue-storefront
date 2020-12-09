@@ -63,7 +63,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       if (res !== null) {
         res.cache = true
         res.noresults = false
-        res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
+        res.offline = !isOnline() // TODO: refactor it to checking ES heartbeat
         Logger.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
 
         servedFromCache = true
