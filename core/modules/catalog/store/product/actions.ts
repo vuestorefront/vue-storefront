@@ -9,7 +9,7 @@ import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { ProductService } from '@vue-storefront/core/data-resolver'
 import {
   registerProductsMapping,
   doPlatformPricesSync,
@@ -274,6 +274,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setProductGallery (context, { product }) {
     const productGallery = getProductGallery(product)
+    if (productGallery.length <= 0) {
+      productGallery.push({
+        src: config.images.productPlaceholder,
+        loading: config.images.productPlaceholder,
+        error: config.images.productPlaceholder
+      })
+    }
     context.commit(types.PRODUCT_SET_GALLERY, productGallery)
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
@@ -313,9 +320,9 @@ const actions: ActionTree<ProductState, RootState> = {
     const { selectedVariant = {}, options, product_option } = newProductVariant
 
     return { ...selectedVariant, options, product_option }
-  },
+  }
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
-  ...require('./deprecatedActions').default
+  // ...require('./deprecatedActions').default
 }
 
 export default actions

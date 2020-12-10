@@ -13,15 +13,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced deprecated action product/list call with product/findProducts (#4769)
 - New module which provides option to automatically redirect to the default store if no store code is found in URL. - @rain2o (#3399)
 - Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
+- Added handling redirection on server side and update docs about it - @gibkigonzo (#4647)
+- Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
+- Allow array of localForage fallback drivers in config - @didkan (#5097)
+- Added unit tests for for modules.ts - @TamTran72111 (#5109)
+- Added `lazyVisibility` mixin - performance optimization - @gibkigonzo (#5182)
+- `config.server.compression` property for disabling gzip compression (#5183)
+- HTTP2 Server Push support for critical JS assets - @Fifciu (#5199)
+- Lazy loading services - @Fifciu (#5208)
+- Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
+- Lazy loading async catalog helpers - @Fifciu (#5208)
 
 ### Fixed
 
 - Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
 - Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
 
-### Fixed
+### Changed / Improved
 
+- Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
+- Remove vue-lazyload from core - @jahvi (#5045)
+- Remove unnecessary async and Logger import - @jahvi (#5039)
+- Added support to configure custom auth header name - dixitdeepak (#5078)
+- Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
+- Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
+- Got rid of lodash as we are using lodash-es - @Fifciu
+
+### Fixed
+- Display default placeholder on the Product page (#5088)
 
 ## [1.12.2] - 2020.07.28
 
@@ -44,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
 
 ### Changed / Improved
+- Changed the Node version in the local Dockerfile to v12 - @waynetheisinger (#4989)
 
 ## [1.12.1] - 2020.06.22
 

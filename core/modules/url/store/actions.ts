@@ -7,7 +7,7 @@ import queryString from 'query-string'
 import config from 'config'
 import { SearchQuery } from 'storefront-query-builder'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+import { removeLocalization, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -87,7 +87,7 @@ export const actions: ActionTree<UrlState, any> = {
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
     `)()
     const productQuery = new SearchQuery()
-    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = (removeLocalization(url) as string).replace(/^(\/)/gm, '')
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/findProducts', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
@@ -105,7 +105,7 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
-    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = (removeLocalization(url) as string).replace(/^(\/)/gm, '')
 
     // search for record in ES based on `url`
     const fallbackData = await dispatch('getFallbackByUrl', { url, params })

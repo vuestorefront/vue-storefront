@@ -1,11 +1,12 @@
 import getStatus from './getStatus'
 import getProductInfos from './getProductInfos'
-import getStockItems from './getStockItems'
 import filterOutUnavailableVariants from './filterOutUnavailableVariants'
+import getAndCallAsyncDefault from '@vue-storefront/core/helpers/getAndCallAsyncDefault';
 
 export {
   getStatus,
   getProductInfos,
-  getStockItems,
   filterOutUnavailableVariants
 }
+
+export const getStockItems = getAndCallAsyncDefault(() => import(/* webpackChunkName: "vsf-catalog-helper-configureProducts" */ './getStockItems'));

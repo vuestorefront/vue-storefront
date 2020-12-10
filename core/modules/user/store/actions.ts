@@ -10,7 +10,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { userHooksExecutors, userHooks } from '../hooks'
+import { userHooksExecutors } from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -43,14 +43,14 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Send password reset link for specific e-mail
    */
-  resetPassword (context, { email }) {
+  async resetPassword (_, { email }) {
     return UserService.resetPassword(email)
   },
   /**
    * Create new password for provided email with resetToken
    * We could receive resetToken by running user.resetPassword action
    */
-  createPassword (context, { email, newPassword, resetToken }) {
+  async createPassword (_, { email, newPassword, resetToken }) {
     return UserService.createPassword(email, newPassword, resetToken)
   },
   /**
@@ -76,7 +76,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async register (context, { password, ...customer }) {
+  async register (_, { password, ...customer }) {
     return UserService.register(customer, password)
   },
 

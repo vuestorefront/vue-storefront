@@ -2,6 +2,10 @@ import Vue from 'vue'
 import VueGtm from 'vue-gtm'
 import { Store } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { PRODUCT_SET_CURRENT } from '@vue-storefront/core/modules/catalog/store/product/mutation-types'
+import { ORDER_LAST_ORDER_WITH_CONFIRMATION } from '@vue-storefront/core/modules/order/store/mutation-types'
+import { CART_ADD_ITEM, CART_DEL_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-types'
+
 import { isServer } from '@vue-storefront/core/helpers'
 
 export const isEnabled = (gtmId: string | null) => {
@@ -42,7 +46,7 @@ export function afterRegistration (config, store: Store<any>) {
 
     store.subscribe(({ type, payload }, state) => {
       // Adding a Product to a Shopping Cart
-      if (type === 'cart/cart/ADD') {
+      if (type === `cart/${CART_ADD_ITEM}`) {
         GTM.trackEvent({
           event: 'addToCart',
           ecommerce: {
@@ -55,7 +59,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Removing a Product from a Shopping Cart
-      if (type === 'cart/cart/DEL') {
+      if (type === `cart/${CART_DEL_ITEM}`) {
         GTM.trackEvent({
           event: 'removeFromCart',
           ecommerce: {
@@ -67,7 +71,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Measuring Views of Product Details
-      if (type === 'product/product/SET_PRODUCT_CURRENT') {
+      if (type === `product/${PRODUCT_SET_CURRENT}`) {
         GTM.trackEvent({
           ecommerce: {
             detail: {
@@ -79,7 +83,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Measuring Purchases
-      if (type === 'order/orders/LAST_ORDER_CONFIRMATION') {
+      if (type === `order/${ORDER_LAST_ORDER_WITH_CONFIRMATION}`) {
         const orderId = payload.confirmation.backendOrderId
         const products = payload.order.products.map(product => getProduct(product))
         store.dispatch(

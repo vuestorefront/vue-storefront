@@ -2,6 +2,61 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.12 -> 1.13
+
+### Multistore
+
+`storeCode` is now required for storeView
+`url` is now responsible for creating internal prefix. So `appendStoreCode` is not needed anymore (It is left for compatibility)
+For example:
+```
+{
+  storeCode: 'de',
+  appendStoreCode: true
+}
+```
+Results in `/de` prefix for routes. Same thing can be done with:
+```
+{
+  storeCode: 'de',
+  url: '/de'
+}
+```
+We can also create different url (https://github.com/DivanteLtd/vue-storefront/issues/3614) then `/${storeCode}`:
+```
+{
+  storeCode: 'de',
+  url: '/de_de'
+}
+```
+
+Previously `mapStoreUrlsFor` needed to has same values as storeViews object props **and** storeCode. Now its changed and it's only related with storeViews object props.
+Prev:
+```
+    "storeViews": {
+      "mapStoreUrlsFor": ["de"],// 1. this need to match 2. and 3.
+      "de": { // 2.
+        "storeCode": "de" // 3.
+      }
+    }
+```
+Now:
+```
+    "storeViews": {
+      "mapStoreUrlsFor": ["german"],// 1. this need to match 2.
+      "german": { // 2.
+        "storeCode": "de" // 3.
+      }
+    }
+```
+`mapStoreUrlsFor` is only used to disable storeView.
+
+`defaultStoreCode` it is recommended to set some value for it. It is used only used when `multistore` is enabled. You can think about `defaultStoreCode` as fallback for multistore. For example: if you define German store on `"url": "/de"` and Italian store on `"url": "/it"`. Then you can decide which of those stores will be default one and will be reached on `"/"`. If you set `"defaultStoreCode": "de"` then on `"/"` you will have German store.
+
+`removeStoreCodeFromRoute` is replaced by `removeLocalization`
+
+### `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.

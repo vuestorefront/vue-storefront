@@ -1,5 +1,3 @@
-import doPlatformPricesSync from './doPlatformPricesSync'
+import getAndCallAsyncDefault from '@vue-storefront/core/helpers/getAndCallAsyncDefault';
 
-export {
-  doPlatformPricesSync
-}
+export const doPlatformPricesSync = getAndCallAsyncDefault(() => import(/* webpackChunkName: "vsf-catalog-helper-doPlatformPricesSync" */ './doPlatformPricesSync'))

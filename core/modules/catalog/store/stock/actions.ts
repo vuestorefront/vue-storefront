@@ -8,7 +8,7 @@ import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<StockState, RootState> = {
-  async queueCheck ({ dispatch }, { product }) {
+  async queueCheck (_, { product }) {
     const checkStatus = {
       qty: product.stock ? product.stock.qty : 0,
       status: getStatus(product, 'ok')
@@ -31,7 +31,7 @@ const actions: ActionTree<StockState, RootState> = {
       status: getStatus(product, 'volatile')
     }
   },
-  async check (context, { product }) {
+  async check (_, { product }) {
     if (config.stock.synchronize) {
       const { result, task_id } = await StockService.check(product.sku)
 

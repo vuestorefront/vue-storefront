@@ -55,19 +55,33 @@ We're building the following integrations within Next architecture:
 -   Salesforce Commerce Cloud
 
 You can learn more about Vue Storefront Next from the README on the  `next`  branch and  [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s)  video
-
+<table>
+  <tbody>
+    <tr>
+      <td><img src="https://user-images.githubusercontent.com/15185752/93322154-4beb4b80-f813-11ea-9e94-1666141ba4a6.png" width="160" />
+</td>
+      <td>If you want to learn more about Vue Storefront Next, contribute or build an integration reach to <b>Filip Rakowski</b> on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
+    </tr>
+  </tbody>
+  </table>
+  
 ## About Vue Storefront 1.x
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
-If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our [Slack](https://slack.vuestorefront.io/):
-- `@Filip Rakowski` (frontend and best practices)
-- `@pkarw` (integrations and backend)
-- `@ptomczyk` (frontend and best practices)
-- `@lukeromanowicz` (testing, magento, backend)
-- `@degi` Degi Kwag (docs)
+<table>
+  <tbody>
+    <tr>
+      <td><img src="https://user-images.githubusercontent.com/15185752/93321206-3b86a100-f812-11ea-97ac-35572ba9e0de.png" width="150" />
+</td>
+      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
+    </tr>
+  </tbody>
+  </table>
 
-Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
+
+
+Want to invest some time in building the future of eCommerce? we are looking for agencies and developers willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 

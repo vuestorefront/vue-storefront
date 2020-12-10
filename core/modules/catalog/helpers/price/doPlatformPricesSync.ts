@@ -4,7 +4,7 @@ import flattenDeep from 'lodash-es/flattenDeep'
 import union from 'lodash-es/union'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import { ProductService } from '@vue-storefront/core/data-resolver'
 import syncProductPrice from './syncProductPrice'
 
 /**
