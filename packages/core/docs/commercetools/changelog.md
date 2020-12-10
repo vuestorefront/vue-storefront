@@ -8,6 +8,8 @@
 - added missing order getter to get item price ([#5231](https://github.com/DivanteLtd/vue-storefront/issues/5231))
 - retry updating the cart with new version if previous request failed due to a version mismatch ([#5264](https://github.com/DivanteLtd/vue-storefront/issues/5264))
 - removed logging level from nuxt.config.js to use defaults from core ([#5304](https://github.com/DivanteLtd/vue-storefront/issues/5304))
+- fixed broken focus in login form ([#5273](https://github.com/DivanteLtd/vue-storefront/issues/5273))
+- fixed select for changing variant on product page ([#5281](https://github.com/DivanteLtd/vue-storefront/issues/5281))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 
 ## 0.2.6
