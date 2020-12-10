@@ -1,8 +1,9 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Vue from 'vue';
 import { once } from '@vue-storefront/core/helpers'
+import checkAndInjectResults from './util/checkAndInjectResults';
 
-export const DeviceModule: StorefrontModule = async function ({ router }) {
+const DeviceModule: StorefrontModule = async function ({ router }) {
   once('__VUE_DEVICE_MIXIN__', () => {
     Vue.mixin({
       computed: {
@@ -19,4 +20,9 @@ export const DeviceModule: StorefrontModule = async function ({ router }) {
 //     component: () => import(/* webpackChunkName: "device-mod-test" */ './pages/TestMode.vue')
 //   }
 // ])
+}
+
+export {
+  checkAndInjectResults,
+  DeviceModule
 }

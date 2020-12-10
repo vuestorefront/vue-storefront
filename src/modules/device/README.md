@@ -61,7 +61,7 @@ checkAndInjectResults({
 ```
 You can import it at the top of the file like that:
 ```js
-import checkAndInjectResults from 'src/modules/device/util/checkAndInjectResults';
+import { checkAndInjectResults } from 'src/modules/device';
 ```
 4. Check **Cache** part below.
 
