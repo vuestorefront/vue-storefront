@@ -122,7 +122,8 @@ module.exports = {
 						['/general/architecture', 'Architecture'],
 						['/general/i18n', 'i18n'],
 						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance']
+						['/general/performance', 'Performance'],
+						['/general/context', 'Application Context']
 					]
         },
         {
@@ -158,6 +159,7 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/ecommerce', 'eCommerce'],
+						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
 						['/integrate/api-middleware', 'API middleware'],
 					]
@@ -170,7 +172,9 @@ module.exports = {
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
-						['/contributing/changelog', 'Core Changelog']
+						['/contributing/changelog', 'Core Changelog'],
+						['/contributing/migration-to-2', 'Migration from X to 2']
+
 					]
 				},
 			],

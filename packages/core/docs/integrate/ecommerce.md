@@ -1,4 +1,4 @@
-# Integrating eCommerce platform 
+# Integrating eCommerce platform
 
 
 ::: warning Want to build an integration?
@@ -86,12 +86,3 @@ Vue Storefront will require **at least** the following features from your eComme
 - facet filtering
 - order notifications
 
-## How to start?
-
-Copy `packages/boilerplate` folder and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package. 
-
-::: tip Test with default theme
-Default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
-:::
-
-Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folder to see if everything works.
