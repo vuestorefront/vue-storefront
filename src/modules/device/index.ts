@@ -1,18 +1,20 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Vue from 'vue';
 import { once } from '@vue-storefront/core/helpers'
-import checkAndInjectResults from './util/checkAndInjectResults';
+import { createDeviceTests } from './util/createDeviceTests';
+import { injectDeviceTests } from './util/injectDeviceTests';
+
+once('__VUE_DEVICE_MIXIN__', () => {
+  Vue.mixin({
+    computed: {
+      $device () {
+        return this.$root.$deviceRoot;
+      }
+    }
+  })
+})
 
 const DeviceModule: StorefrontModule = async function ({ router }) {
-  once('__VUE_DEVICE_MIXIN__', () => {
-    Vue.mixin({
-      computed: {
-        $device () {
-          return this.$root.$deviceRoot;
-        }
-      }
-    })
-  })
 // router.addRoutes([
 //   {
 //     name: 'device-mod-test',
@@ -23,6 +25,7 @@ const DeviceModule: StorefrontModule = async function ({ router }) {
 }
 
 export {
-  checkAndInjectResults,
+  createDeviceTests,
+  injectDeviceTests,
   DeviceModule
 }

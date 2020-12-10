@@ -40,7 +40,7 @@ Example config:
 In addition when we are using installer script. I've added multiselect so we could pick which tests we want to have.
 
 I've tested it with `curl -A "some user agent" http://localhost:3000 and it worked.
-I prepared `test.js` testing script. If you want to make tests in your website, please uncomment `router.addRoutes` part in module's index.ts - it will add route with values of tests. You also should enable every test. Then just run:
+I prepared `test.js` testing script. If you want to make tests in your website, please uncomment `router.addRoutes` part in module's index.ts and register module in `src/modules/client.ts` - it will add route with values of tests. You also should enable every test. Then just run:
 ```sh
 node test.js
 ```
@@ -50,18 +50,21 @@ Anyway we should use media queries whenever we can. However, sometimes we have m
 
 ## How to install
 1. Setup config
-2. Enable module in `src/modules/client.ts`
+2. Import module in `src/modules/client.ts` just like (for using test.js script you need to register module with `registerModule` method):
+```js
+import './device/index';
+```
 3. In `initTheme` inside `index.js` of your theme add:
 ```js
-checkAndInjectResults({
-    config,
-    app,
-    ssrContext
-  })
+injectDeviceTests({
+  config,
+  app,
+  ssrContext
+})
 ```
 You can import it at the top of the file like that:
 ```js
-import { checkAndInjectResults } from 'src/modules/device';
+import { injectDeviceTests } from 'src/modules/device';
 ```
 4. Check **Cache** part below.
 

@@ -3,18 +3,28 @@ import deviceLibrary from '../logic';
 
 const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36'
 
-export default ({
+interface DeviceTests {
+  isMobile?: boolean,
+  isMobileOrTablet?: boolean,
+  isTablet?: boolean,
+  isDesktop?: boolean,
+  isDesktopOrTablet?: boolean,
+  isIos?: boolean,
+  isWindows?: boolean,
+  isMacOS?: boolean
+};
+
+export const createDeviceTests = ({
   config,
-  ssrContext,
-  app
-}) => {
+  ssrContext
+}): DeviceTests => {
   let headersOrUserAgent
   if (isServer) {
     headersOrUserAgent = ssrContext.server.request.headers['user-agent'] || DEFAULT_USER_AGENT
   } else {
     headersOrUserAgent = window.navigator.userAgent || DEFAULT_USER_AGENT
   }
-  if (config.device && config.device.appendToInstance && config.device.tests && config.device.tests.length) {
+  if (config.device.tests && config.device.tests.length) {
     let userAgent = typeof headersOrUserAgent === 'string'
       ? headersOrUserAgent
       : headersOrUserAgent['user-agent']
@@ -30,6 +40,7 @@ export default ({
         deviceTests.isMobileOrTablet = true
       }
     }
-    app.$deviceRoot = deviceTests;
+    return deviceTests;
   }
+  return {};
 }
