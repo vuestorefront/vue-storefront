@@ -1,13 +1,10 @@
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
 
-const utils = jest.requireActual('../src/utils');
-
 Vue.use(VueCompositionApi);
 jest.mock('lodash-es/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
 
 jest.mock('../src/utils', () => ({
-  ...utils,
   Logger: {
     debug: () => {},
     info: () => {},
