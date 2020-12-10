@@ -42,14 +42,12 @@
 
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue';
-import uiState from '~/assets/ui-state';
+import { useUiState } from '~/composables';
 import { useCart, useWishlist, cartGetters, useSearch } from '@vue-storefront/about-you';
 import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from './SearchResults';
-
-const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = uiState;
 
 export default {
   components: {
@@ -59,6 +57,7 @@ export default {
     LocaleSelector
   },
   setup() {
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const { search, searchResults } = useSearch();

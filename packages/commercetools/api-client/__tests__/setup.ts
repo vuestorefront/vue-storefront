@@ -1,4 +1,4 @@
-import { setup } from './../src/index';
+import { createApiClient } from './../src/index';
 
 jest.mock('./../src/helpers/createCommerceToolsLink');
 jest.mock('./../src/api/updateCart', () => jest.fn((arg) => arg));
@@ -7,7 +7,7 @@ jest.mock('apollo-client');
 jest.mock('@commercetools/sdk-auth');
 jest.mock('./../src/helpers/createAccessToken', () => jest.fn());
 
-setup({
+export default createApiClient({
   api: {} as any,
   locale: 'en',
   acceptLanguage: ['en', 'de'],

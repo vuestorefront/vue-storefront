@@ -1,5 +1,4 @@
 import createCart from '../../../src/api/createCart';
-import { apolloClient } from '../../../src/index';
 import defaultMutation from '../../../src/api/createCart/defaultMutation';
 
 describe('[commercetools-api-client] createCart', () => {
@@ -14,19 +13,28 @@ describe('[commercetools-api-client] createCart', () => {
       }
     };
 
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
 
-      return {
-        data: {
-          items: [],
-          id: 'cart-id'
+          return {
+            data: {
+              items: [],
+              id: 'cart-id'
+            }
+          };
         }
-      };
-    });
+      }
+    };
 
-    const { data } = await createCart({
+    const { data } = await createCart(context, {
       items: [],
       id: 'cart-id'
     } as any);
@@ -46,16 +54,25 @@ describe('[commercetools-api-client] createCart', () => {
       }
     };
 
-    (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(mutation).toEqual(defaultMutation);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        mutate: ({ variables, mutation }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(mutation).toEqual(defaultMutation);
 
-      return {
-        data: {}
-      };
-    });
+          return {
+            data: {}
+          };
+        }
+      }
+    };
 
-    const { data } = await createCart();
+    const { data } = await createCart(context);
 
     expect(data).toEqual({});
   });

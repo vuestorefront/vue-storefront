@@ -11,7 +11,7 @@ const factoryParams = {
   refreshUser: jest.fn()
 };
 
-const { useUser, setUser } = useUserFactory(factoryParams);
+const { useUser } = useUserFactory(factoryParams);
 const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {
@@ -38,6 +38,7 @@ describe('[CORE - factories] useUserFactory', () => {
     });
 
     it('set given user property', () => {
+      const { setUser } = useUser();
       setUser({ username: 'test' });
       expect(sharedRef).toHaveBeenCalled();
     });

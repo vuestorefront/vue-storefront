@@ -35,7 +35,7 @@ describe('[CORE - factories] useContentFactory', () => {
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
     await search(searchParams);
 
-    expect(params.search).toBeCalledWith(searchParams);
+    expect(params.search).toBeCalledWith({ context: null }, searchParams);
     expect(params.search).toBeCalledTimes(1);
   });
 });

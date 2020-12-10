@@ -28,6 +28,7 @@
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
 import { extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
@@ -94,16 +95,15 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang='scss' scoped>
 .message,
 .notice {
   font-family: var(--font-family--primary);
   line-height: 1.6;
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   font-size: var(--font-size--base);
   &__label {
     font-weight: 400;

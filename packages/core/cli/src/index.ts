@@ -10,10 +10,12 @@ export const cli = async (args) => {
   }
 
   try {
+    // eslint-disable-next-line global-require
     const commandFn = require(path.join(__dirname, `./commands/${command}.ts`));
     return commandFn.default(args.slice(3));
   } catch (err) {
     try {
+      // eslint-disable-next-line global-require
       const commandFn = require(path.join(__dirname, `./commands/${command}.js`));
       return commandFn.default(args.slice(3));
     } catch (err) {

@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import getCategory from '../../../src/api/getCategory';
-import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getCategory/defaultQuery';
 
 describe('[commercetools-api-client] getCategory', () => {
@@ -9,14 +8,23 @@ describe('[commercetools-api-client] getCategory', () => {
       acceptLanguage: ['en', 'de']
     };
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
 
-      return { data: 'category response' };
-    });
+          return { data: 'category response' };
+        }
+      }
+    };
 
-    const { data } = await getCategory(null);
+    const { data } = await getCategory(context, null);
 
     expect(data).toBe('category response');
   });
@@ -27,14 +35,23 @@ describe('[commercetools-api-client] getCategory', () => {
       acceptLanguage: ['en', 'de']
     };
 
-    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
-      expect(variables).toEqual(givenVariables);
-      expect(query).toEqual(defaultQuery);
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ variables, query }) => {
+          expect(variables).toEqual(givenVariables);
+          expect(query).toEqual(defaultQuery);
 
-      return { data: 'category response' };
-    });
+          return { data: 'category response' };
+        }
+      }
+    };
 
-    const { data } = await getCategory({ catId: '724b250d-9805-4657-ae73-3c02a63a9a13' });
+    const { data } = await getCategory(context, { catId: '724b250d-9805-4657-ae73-3c02a63a9a13' });
 
     expect(data).toBe('category response');
   });
@@ -71,14 +88,22 @@ describe('[commercetools-api-client] getCategory', () => {
       };
     };
 
-    (apolloClient.query as any).mockImplementation(({ query, variables }) => {
-      return { query, variables };
-    });
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD'
+      },
+      client: {
+        query: ({ query, variables }) => {
+          return { query, variables };
+        }
+      }
+    };
 
-    const data: any = await getCategory({ catId: '724b250d-9805-4657-ae73-3c02a63a9a13' }, customQuery);
+    const data: any = await getCategory(context, { catId: '724b250d-9805-4657-ae73-3c02a63a9a13' }, customQuery);
 
     expect(data.query).toBe(newQuery);
     expect(data.variables).toBe(newVariables);
-
   });
 });

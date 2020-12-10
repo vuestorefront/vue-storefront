@@ -24,6 +24,7 @@ const updatePackageVersion = (pckg: string, gradation: RELEASE_GRADATIONS, opera
   oldFiles: {}
 }): OperationsData => {
   const filePath = `${BASE}/${pckg}/package.json`;
+  // eslint-disable-next-line global-require
   const packageJson = require(filePath);
   if (!packageJson) {
     return operationsData;

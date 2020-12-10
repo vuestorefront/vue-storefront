@@ -92,8 +92,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
-
 .form {
   &__element {
     display: block;
@@ -115,9 +113,8 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-2xl);
+        margin-right: var(--spacer-lg);
       }
-
       &:last-child {
         margin-right: 0;
       }

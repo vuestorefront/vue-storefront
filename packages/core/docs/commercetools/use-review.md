@@ -2,7 +2,7 @@
 platform: Commercetools
 ---
 
-# useReview composable
+# Reviews
 
 ::: warning Paid feature
 This feature is part of the Enterprise version. Please [contact our team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.

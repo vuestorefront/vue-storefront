@@ -11,6 +11,37 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
   });
 
   it('updates cart shipping details', async () => {
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: () => ({
+          actions: [
+            {
+              setShippingAddress: {
+                address: {
+                  firstName: 'John',
+                  lastName: 'Doe',
+                  phone: '123',
+                  country: 'US',
+                  city: 'New York',
+                  postalCode: '11-111',
+                  streetName: 'Street 1',
+                  streetNumber: ''
+                }
+              }
+            }
+          ],
+          id: 1,
+          version: 1
+        })
+      }
+    };
+
     const shippingDetails = {
       firstName: 'John',
       lastName: 'Doe',
@@ -22,7 +53,7 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       streetNumber: ''
     } as any;
 
-    const response = await updateShippingDetails(cart, shippingDetails);
+    const response = await updateShippingDetails(context, cart, shippingDetails);
 
     expect(response).toEqual({
       id: 1,
@@ -47,6 +78,36 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
   });
 
   it('updates cart shipping details without contact info', async () => {
+    const context = {
+      config: {
+        locale: 'en',
+        acceptLanguage: ['en', 'de'],
+        currency: 'USD',
+        country: 'UK'
+      },
+      client: {
+        mutate: () => ({
+          actions: [
+            {
+              setShippingAddress: {
+                address: {
+                  firstName: 'John',
+                  lastName: 'Doe',
+                  country: 'US',
+                  city: 'New York',
+                  postalCode: '11-111',
+                  streetName: 'Street 1',
+                  streetNumber: ''
+                }
+              }
+            }
+          ],
+          id: 1,
+          version: 1
+        })
+      }
+    };
+
     const shippingDetails = {
       firstName: 'John',
       lastName: 'Doe',
@@ -57,7 +118,7 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       streetNumber: ''
     } as any;
 
-    const response = await updateShippingDetails(cart, shippingDetails);
+    const response = await updateShippingDetails(context, cart, shippingDetails);
 
     expect(response).toEqual({
       id: 1,

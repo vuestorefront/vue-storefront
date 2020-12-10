@@ -1,10 +1,10 @@
 import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
-import { AgnosticFacet } from '@vue-storefront/core';
+import { AgnosticFacet, useVSFContext } from '@vue-storefront/core';
 
 const nonFilters = ['page', 'sort', 'term', 'itemsPerPage'];
 
-const getContext = () => {
+const getInstance = () => {
   const vm = getCurrentInstance();
   return vm.$root as any;
 };
@@ -27,10 +27,11 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 };
 
 const useUiHelpers = () => {
-  const context = getContext();
+  const instance = getInstance();
+  const context = useVSFContext();
 
   const getFacetsFromURL = () => {
-    const { query, params } = context.$router.history.current;
+    const { query, params } = instance.$router.history.current;
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
 
     return {
@@ -38,43 +39,43 @@ const useUiHelpers = () => {
       categorySlug,
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
-      filters: getFiltersDataFromUrl(context, true),
+      filters: getFiltersDataFromUrl(instance, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
       term: query.term
     };
   };
 
   const getCatLink = (category: Category): string => {
-    return `/c/${context.$route.params.slug_1}/${category.slug}`;
+    return `/c/${instance.$route.params.slug_1}/${category.slug}`;
   };
 
   const changeSorting = (sort: string) => {
-    const { query } = context.$router.history.current;
-    context.$router.push({ query: { ...query, sort } });
+    const { query } = instance.$router.history.current;
+    instance.$router.push({ query: { ...query, sort } });
   };
 
   const changeFilters = (filters: any) => {
-    context.$router.push({
+    instance.$router.push({
       query: {
-        ...getFiltersDataFromUrl(context, false),
+        ...getFiltersDataFromUrl(instance, false),
         ...filters
       }
     });
   };
 
   const changeItemsPerPage = (itemsPerPage: number) => {
-    context.$router.push({
+    instance.$router.push({
       query: {
-        ...getFiltersDataFromUrl(context, false),
+        ...getFiltersDataFromUrl(instance, false),
         itemsPerPage
       }
     });
   };
 
   const changeSearchTerm = (term: string) => {
-    context.$router.push({
+    instance.$router.push({
       query: {
-        ...getFiltersDataFromUrl(context, false),
+        ...getFiltersDataFromUrl(instance, false),
         term: term || undefined
       }
     });
@@ -84,7 +85,17 @@ const useUiHelpers = () => {
 
   const isFacetCheckbox = (): boolean => false;
 
+  const formatPrice = (price: number): string => {
+    if (!price) {
+      return null;
+    }
+    const { locale, currency } = context.$ct.config;
+
+    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+  };
+
   return {
+    formatPrice,
     getFacetsFromURL,
     getCatLink,
     changeSorting,

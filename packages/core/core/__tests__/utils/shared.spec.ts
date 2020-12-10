@@ -1,10 +1,12 @@
 
 import { sharedRef } from '../../src/utils/shared';
-import { vsfRef } from '../../src/utils';
+import { vsfRef, useVSFContext } from '../../src/utils';
 
 describe('[CORE - utils] shared', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    const $sharedRefsMap = new Map();
+    (useVSFContext as any).mockImplementation(() => ({ $sharedRefsMap }));
   });
 
   it('returns same instance', () => {

@@ -11,6 +11,7 @@
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
 import { SfTabs, SfLink } from '@storefront-ui/vue';
 export default {
@@ -18,9 +19,8 @@ export default {
   components: { SfTabs, SfLink }
 };
 </script>
-<style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang='scss' scoped>
 .tab-orphan {
   @include for-mobile {
     --tabs-title-display: none;
@@ -30,9 +30,12 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family-iprimary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
     &__link {
     color: var(--c-primary);
+    --link-weight: var(--font-weight--medium);
+    --link-font-family: var(--font-family--primary);
+    --link-font-size: var(--font-size--base);
     text-decoration: none;
     &:hover {
       color: var(--c-text);
