@@ -5,8 +5,10 @@ export const injectDeviceTests = ({
   config,
   ssrContext
 }) => {
-  app.$deviceRoot = createDeviceTests({
-    config,
-    ssrContext
-  })
+  if (config.device && config.device.appendToInstance) {
+    app.$deviceRoot = createDeviceTests({
+      config,
+      ssrContext
+    })
+  }
 }

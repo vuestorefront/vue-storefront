@@ -37,6 +37,8 @@ Example config:
   }
   ```
 
+`appendToInstance` decides whether module will inject `$device` to Vue instances or not.
+
 In addition when we are using installer script. I've added multiselect so we could pick which tests we want to have.
 
 I've tested it with `curl -A "some user agent" http://localhost:3000 and it worked.
