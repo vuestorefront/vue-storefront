@@ -67,3 +67,12 @@ Start app in production mode:
 ```sh
 yarn start:sp
 ```
+
+## Virtocommerce
+```sh
+yarn build:vc
+```
+then run the app
+```sh
+yarn dev:vc
+```
