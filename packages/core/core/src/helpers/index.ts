@@ -10,6 +10,9 @@ const markMethodDeprecated = (message: string, newOne: Function, oldOne?: Functi
 };
 
 const markCustomQueryDeprecated = (customQuery: CustomQuery, message = 'customQuery in third argument is deprecated. Please move it to the second argument inside the object'): CustomQuery => {
+  if (typeof customQuery !== 'function') {
+    return customQuery;
+  }
   return (query, variables) => {
     console.warn(message);
     return customQuery(query, variables);

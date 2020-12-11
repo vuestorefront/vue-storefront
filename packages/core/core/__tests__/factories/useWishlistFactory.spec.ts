@@ -83,7 +83,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.addToWishlist).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
     });
@@ -95,7 +95,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.removeFromWishlist).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
     });

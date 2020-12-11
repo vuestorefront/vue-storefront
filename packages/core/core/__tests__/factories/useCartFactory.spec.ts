@@ -5,6 +5,8 @@ import { sharedRef } from './../../src/utils';
 let useCart: () => UseCart<any, any, any, any>;
 let params: UseCartFactoryParams<any, any, any, any>;
 
+const customQuery = undefined;
+
 function createComposable() {
   params = {
     load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
@@ -91,7 +93,7 @@ describe('[CORE - factories] useCartFactory', () => {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
-        });
+        }, customQuery);
         expect(cart.value).toEqual({ id: 'mocked_added_cart' });
       });
     });
@@ -103,7 +105,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.removeFromCart).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' }
-        });
+        }, customQuery);
         expect(cart.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });
@@ -128,7 +130,7 @@ describe('[CORE - factories] useCartFactory', () => {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
-        });
+        }, customQuery);
         expect(cart.value).toEqual({ id: 'mocked_updated_quantity_cart' });
       });
     });
@@ -149,7 +151,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.applyCoupon).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           couponCode: 'qwerty'
-        });
+        }, customQuery);
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
       });
     });
@@ -162,7 +164,7 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.removeCoupon).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           coupon
-        });
+        }, customQuery);
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
       });
 
