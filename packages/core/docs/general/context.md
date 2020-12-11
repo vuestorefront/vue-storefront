@@ -82,7 +82,7 @@ API functions that are available under the `api` field have already applied cont
 
 ## Context composable function
 
-To reach anything that's in the context, you have to use `useVSFContext` which implementation you can provide always by yourself.
+To reach anything that's in the context, you have to to use `useVSFContext` method where you can define the custom implementation you need
 
 ```js
 import { configureContext } from '@vue-storefront/core'
