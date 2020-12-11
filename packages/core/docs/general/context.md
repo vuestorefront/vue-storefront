@@ -26,151 +26,44 @@ $vsf {
 - `config` - field that always keep configuration for given integration
 - others - depending on the needs you can put into the context any field you want (under the corresponding key)
 
-## API-client creation
 
-Since the API-client can be used as a separated unit, and it's responsible for communication with the given integration, it is also related to the context API.
+## Context composable
 
-Each API function has a context in the first argument that contains information about `client` and the `config`.
-
-In terms of creation of context API, we need to pass each API-function to the factory params of `apiClientFactory` along with `tag` for the integration and `onSetup` function (if it's needed):
+To use context or access your integration API, you can use dedicated composable `useVSFContext`. It returns a integration keys of all of the integrations you have registered in the Vue Storefront (prefixed by `$` sign).
 
 ```js
-import { apiClientFactory } from '@vue-storefront/core';
-import getProduct from './api/getProduct';
-import getCategory from './api/getCategory';
-
-const onSetup = (settings) => {
-  const client = new ApolloClient({
-    link: apolloLink,
-    cache: new InMemoryCache(),
-  });
-
-  return {
-    config,
-    client
-  };
-};
-
-const { createApiClient } = apiClientFactory({
-  tag: 'ct',
-  onSetup,
-  api: {
-    getProduct,
-    getCategory,
-  }
-});
-
-export { createApiClient }
-```
-
-The `tag` in the configuration is sort of identifier what will be used as a context key.
-
-Inside of `onSetup` function you can put the creation of the connection or anything else that's needed for preparing an API connection - remember, `onSetup` must always return the `client` and `config`.
-
-## API client usage
-
-If you want to use API-client as a separated unit, you can create an API connection and just use the API calls:
-
-```js
-const { api } = createApiClient({ url: '/graphql' })
-
-api.getProduct({ id: 1 })
-```
-
-API functions that are available under the `api` field have already applied context (first argument in the ones you have created). You don't have to pass it again, instead, you can skip the first argument, and use it as a regular function.
-
-
-## Context composable function
-
-To reach anything that's in the context, you have to to use `useVSFContext` method where you can define the custom implementation you need
-
-```js
-import { configureContext } from '@vue-storefront/core'
-
-configureContext({
-  useVSFContext: () => {
-    // your own implementation
-  }
-});
-```
-
-Remember that we also use Nuxt (plugins) to provide and store each integration in the context. if you want to go with your own implementation, you must provide this as well.
-
-By default, we are providing an implementation for Nuxt.js, so you can skip that process if you are using our core Nuxt module.
-
-The `useVSFContext` always returns the keys of integrations you have created before.
-
-```js
-const { $ct } = useVSFContext();
+const { $ct, $other } = useVSFContext();
 
 $ct.api.getProduct({ id: 1 })
+$other.client.get('/othet-integration')
 ```
 
-## Factory params usage
+## Context plugin
 
-In the factory params you have straight access to the context, always in the first argument.
-This context gives you an access to all of the properties of given integration (`client`, `api`, `config`), and also to the multiple integrations (if you need it).
+If for some reason you don't want to use integration nuxt modules, you have to configure the integration by yourself. For that purpose, each integration expose a integration plugin where you can configure everything you want.
 
 ```js
-const factoryParams = {
-  addToCart: async (context, { product, quantity }) => {
-    const { data } = await context.$ct.api.addToCart(product, quantity);
+// plugins/integration.js
+import { integrationPlugin } from '@vue-storefront/commercetools'
 
-    return data.cart;
-  },
-}
+export default integrationPlugin(({ app, integration }) => {
+  const settings = { api: '/graphql', user: 'root' }
+
+  integration.configure({ ...settings })
+});
 ```
 
-## Dependencies between composables
-
-Sometimes there is a need to create a dependency between composables. To do this, you have to implement a special function called `provide`. This function is being called on the composable itself and the returned properties will be available in the context of the `factoryParams` functions.
-
-
-```js
-const factoryParams = {
-  provide () {
-    return useUser();
-  },
-  loadUser: async (context) => {
-    const { data } = await context.$ct.api.getMe();
-
-    context.setCart(data.activeCart)
-
-    return data.user;
-  },
-}
-```
-
-## Generating context in your own composables without core factories
-
-Sometimes, you want to avoid using core factories and you want to go with creating your own composable from scratch or maybe your own factory. Of course, that can come with creating and using a context.
+Of course each integration has predefined set of API functions, that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function, or use a name of existing one, the Vue Storefront will automatically apply it to the app.
 
 
 ```js
-import { generateContext, vsfRef } from '@vue-storefront/core';
+// plugins/integration.js
+import { integrationPlugin } from '@vue-storefront/commercetools'
+import { getMe } from '@vue-storefeont/your-integration';
 
-const checkoutFactory = (factoryParams) => {
-  const useCheckout = () => {
-    const context = generateContext(factoryParams)
-    const order = vsfRef(null, 'custom-checkout-order')
+export default integrationPlugin(({ app, integration }) => {
+  const settings = { api: '/graphql', user: 'root' }
 
-    const placeOrder = async (params) => {
-      order.value = factoryParams.placeOrder(context, params)
-    }
-
-    return { order, placeOrder }
-  }
-
-  return useContext
-}
-
-const factoryParams = {
-  placeOrder: async (context, params) => {
-    const order = context.$ct.placeOrder(params)
-
-    return order;
-  }
-}
-
-const useContext = checkoutFactory(factoryParams);
+  integration.configure({ ...settings }, { getMe })
+});
 ```
