@@ -300,7 +300,7 @@ As you always have pure response in the first field you need another layer to be
 Getters are the pure functions that are reading something from given response and returning an agnostic or primitive type.
 
 ```js
-// coposables/src/getters/index.js
+// composables/src/getters/index.js
 import { CartGetters, AgnosticPrice } from '@vue-storefront/core';
 
 interface LineItem { /* ... */}
