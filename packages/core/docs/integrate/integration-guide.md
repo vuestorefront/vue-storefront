@@ -294,7 +294,7 @@ Each function inside of factory params has the context in the very first argumen
 Sometimes there is a need to use other composable inside of new one as dependency. We also allow you to do this by using special function in the factory params - `setup`. This function is being called inside of the composable and the return values are available in the context:
 
 ```ts
-import { useCart } from '@vue-storefront/comemrcetools';
+import { useCart } from '@vue-storefront/commercetools';
 
 interface UserContext extends Context {
   setUser: (user) => void;
