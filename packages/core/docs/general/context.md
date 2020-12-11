@@ -65,7 +65,7 @@ export { createApiClient }
 
 The `tag` in the configuration is sort of identifier what will be used as a context key.
 
-Inside of `onSetup` function you can put a creation of the connection or anything else that's needed for preparing an api connection - remember, onSetup must always return the `client` and `config`.
+Inside of `onSetup` function you can put the creation of the connection or anything else that's needed for preparing an API connection - remember, `onSetup` must always return the `client` and `config`.
 
 ## API client usage
 
