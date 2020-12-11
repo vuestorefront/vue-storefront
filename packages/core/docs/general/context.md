@@ -28,11 +28,11 @@ $vsf {
 
 ## API-client creation
 
-Since the api-client can be used as separated unity, and it's responsible for communication with the given integration, it is also related to the context API.
+Since the API-client can be used as a separated unit, and it's responsible for communication with the given integration, it is also related to the context API.
 
-Each api function has context in the first argument that contains information about `client` and the `config`.
+Each API function has a context in the first argument that contains information about `client` and the `config`.
 
-In terms of creation of context api, we need to pass each api-function to the factory params of `apiClientFactory` along with `tag` for the integration and `onSetup` function (if it's needed):
+In terms of creation of context API, we need to pass each API-function to the factory params of `apiClientFactory` along with `tag` for the integration and `onSetup` function (if it's needed):
 
 ```js
 import { apiClientFactory } from '@vue-storefront/core';
@@ -69,7 +69,7 @@ Inside of `onSetup` function you can put the creation of the connection or anyth
 
 ## API client usage
 
-If you want to use api-client as a separated unit. You can simply create an api connection and just use the api calls:
+If you want to use API-client as a separated unit, you can create an API connection and just use the API calls:
 
 ```js
 const { api } = createApiClient({ url: '/graphql' })
@@ -77,7 +77,7 @@ const { api } = createApiClient({ url: '/graphql' })
 api.getProduct({ id: 1 })
 ```
 
-Api function that are available under the `api` field have already applied context (first argument in the ones you have created), so you don't have to pass it again, instead - you can skip the first argument, and use it as a regular function.
+API functions that are available under the `api` field have already applied context (first argument in the ones you have created). You don't have to pass it again, instead, you can skip the first argument, and use it as a regular function.
 
 
 ## Context composable function
@@ -94,9 +94,9 @@ configureContext({
 });
 ```
 
-Remember that we also use Nuxt (plugins) to provide and store each integration in the context, if you want to go with your own implementation, you must provide this as well.
+Remember that we also use Nuxt (plugins) to provide and store each integration in the context. if you want to go with your own implementation, you must provide this as well.
 
-By default, we are providing an implementation for Nuxt.js, so you can skip that process if you are using our core nuxt module.
+By default, we are providing an implementation for Nuxt.js, so you can skip that process if you are using our core Nuxt module.
 
 The `useVSFContext` always returns the keys of integrations you have created before.
 
@@ -123,7 +123,7 @@ const factoryParams = {
 
 ## Dependencies between composables
 
-Sometimes there is a need to create a dependency between composables. To do this, you have to implement special function called `provide`. This function is being called on the composable itself and the returned properties will be available in the context of the factoryParams functions.
+Sometimes there is a need to create a dependency between composables. To do this, you have to implement a special function called `provide`. This function is being called on the composable itself and the returned properties will be available in the context of the `factoryParams` functions.
 
 
 ```js
@@ -143,7 +143,7 @@ const factoryParams = {
 
 ## Generating context in your own composables without core factories
 
-Sometimes, you want to avoid using core factories and you want to go with creating your own composable from scratch or maybe your own factory. Of course that can come with creating and using a context.
+Sometimes, you want to avoid using core factories and you want to go with creating your own composable from scratch or maybe your own factory. Of course, that can come with creating and using a context.
 
 
 ```js

@@ -88,7 +88,8 @@ Vue Storefront will require **at least** the following features from your eComme
 - order notifications
 
 
-## Getting stared
+## Getting started
+
 Copy `packages/boilerplate` folder and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
 
 ::: tip Test with default theme
@@ -103,7 +104,7 @@ Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folde
 Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your api connection, write your api functions, and expose generated api client to the users.
 
 ### 1.1 Configuration
-The creation of api client starts with the configuration:
+The creation of an API client starts with the configuration:
 
 ```ts
 // api-client/src/configuration.js
@@ -150,13 +151,13 @@ import { createApiClient } from './configuration';
 export { createApiClient }
 ```
 
-To create api-client you need to call `apiClientFactory`. As a parameters to this deliver a few things:
+To create `api-client` you need to call `apiClientFactory`. As parameters to this deliver a few things:
 - `tag` - that's the short name of your integration which will be used to distinguish it among of others
-- `onSetup` - optional function that will be called during the creating your api. In this place you can call everything you need to create a connection to the api, such as creating sdk (eg. axios creation), merge given config with the defaults etc.
+- `onSetup` - an optional function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. `axios` creation), merge given config with the defaults etc.
 - `api` - this is the section where you need to pass all of the api function you have created
 
-### 1.2 Api functions
-Once you have your configuration created, you can proceed with api functions:
+### 1.2 API functions
+Once you have your configuration created, you can proceed with API functions:
 
 ```ts
 // api-client/src/api/getProduct.js
@@ -167,15 +168,15 @@ const getProduct = (context, params) => {
 }
 ```
 
-Each api function always contains `context` as a first parameter. This is the place where you always have access to the client and config of your api connection. Obviously, during the using api client, you will be using these functions without thinking about the context - the vsf core handles this. At the end, you need to provide that function to the api creation logic (section above)
+Each API function always contains `context` as a first parameter. This is the place where you always have access to the client and config of your API connection. Usually, during the using API client, you will be using these functions without thinking about the context - the VSF core handles this. In the end, you need to provide that function to the API creation logic (section above)
 
 ## 2. Creating composables
 
-Composables are the major part of integration. That exactly the place where the business logic comes in. We always serving this package as a integration along with corresponding nuxt module.
+Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
 
 ### 2.1 Exposing integration plugin wrapper
 
-The first thing that you do, is exposing a nuxt plugin wrapper for creation and configuring your integration by nuxt environment. Within your composables package you have to add these few lines:
+The first thing that you do, is exposing a Nuxt plugin wrapper for the creation and configuring your integration by Nuxt environment. Within your composables package you have to add these few lines:
 
 ```ts
 // composables/src/index.js
@@ -185,15 +186,15 @@ import { createApiClient } from '@vue-storefront/commercetools-api';
 export const integrationPlugin = integrationPluginFactory(createApiClient);
 ```
 
-That will expose the integration plugin wrapper, so the nuxt will be able to create your integration within the context or extend already existing one, using a plugin
+That will expose the integration plugin wrapper, so the Nuxt will be able to create your integration within the context or extend already existing one, using a plugin
 
 ### 2.2 Creating nuxt module
 
-Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory we need to place our nuxt module. The nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into build process, creating some aliases and more. In the basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
+Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
 
 Example of plugin
 ```js
-// coposables/nuxt/plugin.js
+// composables/nuxt/plugin.js
 import { integrationPlugin } from '@vue-storefront/commercetools'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
@@ -207,7 +208,7 @@ export default integrationPlugin(({ app, integration }) => {
 
 The module:
 ```js
-// coposables/nuxt/index.js
+// composables/nuxt/index.js
 export default function (moduleOptions) {
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
@@ -221,13 +222,13 @@ export default function (moduleOptions) {
 
 ### 2.3 Writing factory params
 
-Once you have done the essential configuration of nuxt module and plugin, you can proceed to write composable. Obviously you don't have to build it from scratch we do most of the job for you!. Instead, you have to fill required functions and properties called `factoryParams`.
+Once you have done the essential configuration of the Nuxt module and plugin, you can proceed to write composable. A good thing to know is you don't have to build it from scratch, we do most of the job for you! Instead, you have to fill in the required functions and properties called `factoryParams`.
 
 The `factoryParams` are including functions that you have to implement to provide functionality of implementing composable, such a fetching something from the API, or triggering other actions.
 
 
 ```ts
-// coposables/src/useCart/index.js
+// composables/src/useCart/index.js
 
 import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
@@ -257,22 +258,22 @@ export default useCart;
 ```
 
 ```ts
-// coposables/src/index.js
+// composables/src/index.js
 import useCart from './useCart';
 
 export { useCart }
 ```
 
-Each function inside of factory params has the context in the very first argument. The second argument contains always the given parameters to the function (eg. product data in adding to cart function)
+Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
 ### 2.3b Creating composables without our factories
 
-Sometimes there is a need when you want to omit using our factories. You can have a really complex integration or you want to follow totally your way of implementing this. In this case, you can still stay stick to the Vue Storefront architecture and create your own composable, by creating your own factory, or even ordinary composable by yourself.
+Sometimes there you need to omit using our factories. You can have a really complex integration or you want to follow totally your way of implementing this. In this case, you can still stay stick to the Vue Storefront architecture and create your own composable, by creating your own factory, or even ordinary composable by yourself.
 
-However, you have to keep in mind that you need to handle context and reactive properties as well - Of course you have helpers for that.
+However, you have to keep in mind that you need to handle context and reactive properties as well - of course you have helpers for that.
 
 ```ts
-// coposables/src/useCart/index.js
+// composables/src/useCart/index.js
 import { vsfRef, generateContext } from '@vue-storefront/core';
 
 const useCart = () => {
@@ -289,7 +290,7 @@ const useCart = () => {
 
 ## 3. Getters
 
-Our composables always return the properties:
+Our composables always return the following properties:
 
 - a field that contains the response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose eg. cart, products, category etc.
 - `loading` - field that indicates loading state
