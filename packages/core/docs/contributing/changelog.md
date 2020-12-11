@@ -24,6 +24,7 @@
 - added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
 - added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
 - [BREAKING] loadWishlist, loadUser, loadCart renamed to `load` ([#5285](https://github.com/DivanteLtd/vue-storefront/issues/5285))
+- [BREAKING] customQuery is or is in object in the second argument. If used in the third one it will be marked as deprecated ([#5285](https://github.com/DivanteLtd/vue-storefront/issues/5285))
 
 ## 2.0.12
 

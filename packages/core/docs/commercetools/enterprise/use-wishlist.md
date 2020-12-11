@@ -98,17 +98,17 @@ import { useWishlist, wishlistGetters } from '@vsf-enterprise/ct-wishlist';
 
 export default {
   setup() {
-    const { load } = useWishlist();
+    const { load: loadWishlist } = useWishlist();
 
     const wishlistItems = computed(() => wishlistGetters.getItems());
 
     // If you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
-      await load();
+      await loadWishlist();
     });
 
     return {
-      load,
+      loadWishlist,
       wishlistItems
     };
   }

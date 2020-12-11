@@ -19,7 +19,7 @@ export default {
     const { 
       isOnCart,
       addToCart,
-      load,
+      load: loadCart,
       removeFromCart,
       clearCart,
       updateQuantity,
@@ -29,7 +29,7 @@ export default {
      } = useCart()
     
     onSSR(async () => {
-      await load()
+      await loadCart()
     })
 
     return {

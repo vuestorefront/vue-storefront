@@ -22,11 +22,11 @@ export default {
       removeFromWishlist,
       clearWishlist,
       isOnWishlist,
-      load
+      load: loadWishlist
      } = useWishlist()
     
     onSSR(async () => {
-      await load()
+      await loadWishlist()
     })
 
     return {
