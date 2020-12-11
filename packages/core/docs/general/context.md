@@ -21,7 +21,7 @@ $vsf {
 
 - `$vsf` - general key that keeps vue storefront context
 - `$ct` - integration key
-- `api` - field that always keep api functions for given integration
+- `api` - field that always keeps API functions for a given integration
 - `client` - field that always keep api client/connection for given integration
 - `config` - field that always keep configuration for given integration
 - others - depending on the needs you can put into the context any field you want (under the corresponding key)
