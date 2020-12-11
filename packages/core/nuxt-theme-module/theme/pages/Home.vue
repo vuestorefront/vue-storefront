@@ -1,57 +1,70 @@
 <template>
   <div id="home">
-    <SfHero class="section">
-      <SfHeroItem
-        v-for="(hero, i) in heroes"
-        :key="i"
-        :title="hero.title"
-        :subtitle="hero.subtitle"
-        :button-text="hero.buttonText"
-        :background="hero.background"
-        :image="hero.image"
-        :class="hero.className"
-      />
-    </SfHero>
-    <SfBannerGrid :banner-grid="1" class="section banner-grid">
-      <template v-for="item in banners" v-slot:[item.slot]>
-        <SfBanner
-          :key="item.slot"
-          :title="item.title"
-          :subtitle="item.subtitle"
-          :description="item.description"
-          :button-text="item.buttonText"
-          :image="item.image"
-          :class="item.class"
+    <LazyHydrate when-idle>
+      <SfHero class="section">
+        <SfHeroItem
+          v-for="(hero, i) in heroes"
+          :key="i"
+          :title="hero.title"
+          :subtitle="hero.subtitle"
+          :button-text="hero.buttonText"
+          :background="hero.background"
+          :image="hero.image"
+          :class="hero.className"
         />
-      </template>
-    </SfBannerGrid>
-    <SfCallToAction
-      title="Subscribe to Newsletters"
-      button-text="Subscribe"
-      description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-      image="/homepage/newsletter.webp"
-      class="call-to-action"
-    />
-    <SfSection title-heading="Best Sellers" class="section">
-      <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
-        <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
-          <SfProductCard
-            data-cy="home-url_product"
-            :title="product.title"
-            :image="product.image"
-            :regular-price="product.price.regular"
-            :max-rating="product.rating.max"
-            :score-rating="product.rating.score"
-            :show-add-to-cart-button="true"
-            :is-on-wishlist="product.isOnWishlist"
-            link="/"
-            class="carousel__item__product"
-            @click:wishlist="toggleWishlist(i)"
+      </SfHero>
+    </LazyHydrate>
+
+    <LazyHydrate never>
+      <SfBannerGrid :banner-grid="1" class="section banner-grid">
+        <template v-for="item in banners" v-slot:[item.slot]>
+          <SfBanner
+            :key="item.slot"
+            :title="item.title"
+            :subtitle="item.subtitle"
+            :description="item.description"
+            :button-text="item.buttonText"
+            :image="item.image"
+            :class="item.class"
           />
-        </SfCarouselItem>
-      </SfCarousel>
-    </SfSection>
-    <InstagramFeed />
+        </template>
+      </SfBannerGrid>
+    </LazyHydrate>
+
+    <LazyHydrate never>
+      <SfCallToAction
+        title="Subscribe to Newsletters"
+        button-text="Subscribe"
+        description="Be aware of upcoming sales and events. Receive gifts and special offers!"
+        image="/homepage/newsletter.webp"
+        class="call-to-action"
+      />
+    </LazyHydrate>
+    <LazyHydrate when-visible>
+      <SfSection title-heading="Best Sellers" class="section">
+        <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
+          <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
+            <SfProductCard
+              data-cy="home-url_product"
+              :title="product.title"
+              :image="product.image"
+              :regular-price="product.price.regular"
+              :max-rating="product.rating.max"
+              :score-rating="product.rating.score"
+              :show-add-to-cart-button="true"
+              :is-on-wishlist="product.isOnWishlist"
+              link="/"
+              class="carousel__item__product"
+              @click:wishlist="toggleWishlist(i)"
+            />
+          </SfCarouselItem>
+        </SfCarousel>
+      </SfSection>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <InstagramFeed />
+    </LazyHydrate>
   </div>
 </template>
 <script>
@@ -66,10 +79,12 @@ import {
   SfBannerGrid
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
   components: {
+    LazyHydrate,
     InstagramFeed,
     SfHero,
     SfBanner,
