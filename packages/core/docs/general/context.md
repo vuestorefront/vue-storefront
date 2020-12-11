@@ -26,7 +26,7 @@ $vsf {
 - `config` - field that always keep configuration for given integration
 - others - depending on the needs you can put into the context any field you want (under the corresponding key)
 
-## Api-client creation
+## API-client creation
 
 Since the api-client can be used as separated unity, and it's responsible for communication with the given integration, it is also related to the context API.
 
