@@ -154,7 +154,7 @@ export { createApiClient }
 To create `api-client` you need to call `apiClientFactory`. As parameters to this deliver a few things:
 - `tag` - that's the short name of your integration which will be used to distinguish it among of others
 - `onSetup` - an optional function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. `axios` creation), merge given config with the defaults etc.
-- `api` - this is the section where you need to pass all of the api function you have created
+- `api` - this is the section where you need to pass all of the API function you have created
 
 ### 1.2 API functions
 Once you have your configuration created, you can proceed with API functions:
