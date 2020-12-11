@@ -1,8 +1,9 @@
+import { Logger } from '../utils';
 import { CustomQuery } from '../types';
 
 const markMethodDeprecated = (message: string, newOne: Function, oldOne?: Function) => {
   if (typeof oldOne === 'function') {
-    console.warn(message);
+    Logger.warn(message);
     return oldOne;
   }
 
@@ -14,7 +15,7 @@ const markCustomQueryDeprecated = (customQuery: CustomQuery, message = 'customQu
     return customQuery;
   }
   return (query, variables) => {
-    console.warn(message);
+    Logger.warn(message);
     return customQuery(query, variables);
   };
 };
