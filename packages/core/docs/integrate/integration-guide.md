@@ -325,7 +325,7 @@ const cartGetters: CartGetters = {
 ```
 
 ```ts
-// coposables/src/index.js
+// composables/src/index.js
 import cartGetters from './getters';
 
 export { cartGetters }
