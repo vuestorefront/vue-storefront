@@ -3,13 +3,13 @@
 ## When to use it?
 
 Use `useUser` to:
-- manage user authentication 
-- manage authentication data like email address, login or password. 
+- manage user authentication
+- manage authentication data like email address, login or password.
 
-If you want to fetch/save other user data you should use the following composables: 
-- [`useUserBilling`](./use-user-billing.md) 
-- [`useUserShipping`](./use-user-shipping.md) 
-- [`useUserOrders`](./use-user-orders.md) 
+If you want to fetch/save other user data you should use the following composables:
+- [`useUserBilling`](./use-user-billing.md)
+- [`useUserShipping`](./use-user-shipping.md)
+- [`useUserOrders`](./use-user-orders.md)
 
 ## How to use it in your project?
 
@@ -19,25 +19,24 @@ import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
-    const { 
+    const {
       user,
+      isAuthenticated,
       updateUser,
       register,
       login,
       logout,
-      isAuthenticated,
       changePassword,
       load,
       loading
      } = useUser()
-    
+
     onSSR(async () => {
-      await load() 
+      await load()
     })
 
     return {
-      products,
-      totalProducts,
+      user,
       loading
     }
   }
