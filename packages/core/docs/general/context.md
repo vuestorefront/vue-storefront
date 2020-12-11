@@ -2,7 +2,7 @@
 
 The application context is essential when it comes to sharing something across the app. A runtime config, current connection to the API, API tokens, user session, and everything else that's related to the current request should be stored within the context.
 
-The common solution that may come to your mind in such a case is using one global object to store everything you need in the app, but you definitely can't do this as you will be sharing this not only over the app but also across all of the incoming requests - that will cause lots of issues and your app won't be able to handle a ordinary traffic.
+The common solution that may come to your mind in such a case is using one global object to store everything you need in the app. However, by doing this you would be sharing data not only over the app but also across all of the incoming requests. That would cause lots of issues and your app won't be able to handle ordinary traffic.
 
 ## Context data structure
 
