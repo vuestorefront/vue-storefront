@@ -333,7 +333,7 @@ export { cartGetters }
 
 ## 4. Usage in theme
 
-Well done, you have created everything you need to be integrated with an external API. Now you are able to test it with the UI and display something to the user.
+Well done, you have created everything you need to be integrated with an external API! Now you are able to test it with the UI and display something to the user.
 
 ```js
 <template>
