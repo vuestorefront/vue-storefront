@@ -291,7 +291,7 @@ const useCart = () => {
 
 Our composables always return the properties:
 
-- a field that contains the response - always when you load or modify the state of the given feature, we generate a new response which is being returned by composable. It always has a proper name that refers to the its purpose eg. cart, products, category etc.
+- a field that contains the response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose eg. cart, products, category etc.
 - `loading` - field that indicates loading state
 - `error` - field that contains errors
 
