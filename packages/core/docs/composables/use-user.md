@@ -21,6 +21,7 @@ export default {
   setup () {
     const {
       user,
+      isAuthenticated,
       updateUser,
       register,
       login,
