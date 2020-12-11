@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-api",
-  "version": "0.2.7-lc.16",
+  "version": "1.0.0-rc.1",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.2.9",
     "@commercetools/sdk-auth": "^3.0.1",
-    "@vue-storefront/core": "2.0.12-lc.16",
+    "@vue-storefront/core": "2.1.0-rc.1",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",

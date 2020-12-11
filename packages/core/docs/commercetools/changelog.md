@@ -1,15 +1,18 @@
 # Changelog
 
-## 0.2.7 - not released
-
-- [BREAKING] removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
-- [IMPORTANT] removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
+## 1.0.0-rc.1
+- removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
+- removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
 - enabled "modern mode" in `yarn build` command ([#5203](https://github.com/DivanteLtd/vue-storefront/issues/5203))
 - added missing order getter to get item price ([#5231](https://github.com/DivanteLtd/vue-storefront/issues/5231))
 - retry updating the cart with new version if previous request failed due to a version mismatch ([#5264](https://github.com/DivanteLtd/vue-storefront/issues/5264))
 - removed logging level from nuxt.config.js to use defaults from core ([#5304](https://github.com/DivanteLtd/vue-storefront/issues/5304))
 - fixed broken focus in login form ([#5273](https://github.com/DivanteLtd/vue-storefront/issues/5273))
 - fixed select for changing variant on product page ([#5281](https://github.com/DivanteLtd/vue-storefront/issues/5281))
+- added token re-try strategy ([#5295](https://github.com/DivanteLtd/vue-storefront/pull/5295))
+- added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
+- added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
+- added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
 
 ## 0.2.6
 
