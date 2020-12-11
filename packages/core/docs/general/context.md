@@ -6,7 +6,7 @@ The common solution that may come to your mind in such a case is using one globa
 
 ## Context data structure
 
-In Vue Storefront, each integration has common structure of the context object. A root of the context starts with key `$vsf`. Everything that's under this key are the integration keys which are storing the data for corresponding integration using the specific, predefined format.
+In Vue Storefront, each integration has a common structure of the context object. A root of the context starts with the `$vsf` key. Everything that's under this key is the integration keys which are storing the data for corresponding integration using the specific, predefined format.
 
 ```js
 $vsf {
