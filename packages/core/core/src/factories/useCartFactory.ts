@@ -1,7 +1,7 @@
 import { CustomQuery, UseCart, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
-import { markDeprecated } from '../helpers';
+import { markMethodDeprecated, markCustomQueryDeprecated } from '../helpers';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
   loadCart?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
@@ -13,20 +13,23 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
       product: PRODUCT;
       quantity: any;
       customQuery?: CustomQuery;
-    }
+    },
+    oldCustomQuery?: CustomQuery
   ) => Promise<CART>;
-  removeFromCart: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }) => Promise<CART>;
+  removeFromCart: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CART>;
   updateQuantity: (
     context: Context,
     params: { currentCart: CART; product: CART_ITEM; quantity: number; customQuery?: CustomQuery },
+    oldCustomQuery?: CustomQuery
   ) => Promise<CART>;
   clearCart: (context: Context, params: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
+  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     context: Context,
-    params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
+    params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery },
+    oldCustomQuery?: CustomQuery
   ) => Promise<{ updatedCart: CART }>;
-  isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT; customQuery?: CustomQuery }) => boolean;
+  isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
 interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
@@ -58,7 +61,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
           product,
           quantity,
           customQuery
-        }
+        },
+        markCustomQueryDeprecated(customQuery)
       );
       cart.value = updatedCart;
       loading.value = false;
@@ -74,7 +78,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
           currentCart: cart.value,
           product,
           customQuery
-        }
+        },
+        markCustomQueryDeprecated(customQuery)
       );
       cart.value = updatedCart;
       loading.value = false;
@@ -92,7 +97,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
             product,
             quantity,
             customQuery
-          }
+          },
+          markCustomQueryDeprecated(customQuery)
         );
         cart.value = updatedCart;
         loading.value = false;
@@ -113,7 +119,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
       loading.value = true;
-      cart.value = await markDeprecated(
+      cart.value = await markMethodDeprecated(
         '\'loadCart\' is deprecated, use \'load\' in your integration instead',
         factoryParams.load,
         factoryParams.loadCart
@@ -146,7 +152,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
           currentCart: cart.value,
           couponCode,
           customQuery
-        });
+        },
+        markCustomQueryDeprecated(customQuery));
         cart.value = updatedCart;
       } catch (e) {
         Logger.error('useCart.applyCoupon', e);
@@ -167,7 +174,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
             currentCart: cart.value,
             coupon,
             customQuery
-          }
+          },
+          markCustomQueryDeprecated(customQuery)
         );
         cart.value = updatedCart;
         loading.value = false;
