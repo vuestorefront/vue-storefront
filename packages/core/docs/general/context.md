@@ -67,7 +67,7 @@ The `tag` in the configuration is sort of identifier what will be used as a cont
 
 Inside of `onSetup` function you can put a creation of the connection or anything else that's needed for preparing an api connection - remember, onSetup must always return the `client` and `config`.
 
-## Api client usage
+## API client usage
 
 If you want to use api-client as a separated unit. You can simply create an api connection and just use the api calls:
 
