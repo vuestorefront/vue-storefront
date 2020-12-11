@@ -295,7 +295,7 @@ Our composables always return the properties:
 - `loading` - field that indicates loading state
 - `error` - field that contains errors
 
-As you always have pure response in the first field you need another layer to be agnostic of the platform. We do this by using getters.
+As you always have a pure response in the first field you need another layer to be agnostic of the platform. We do this by using getters.
 
 Getters are the pure functions that are reading something from given response and returning an agnostic or primitive type.
 
