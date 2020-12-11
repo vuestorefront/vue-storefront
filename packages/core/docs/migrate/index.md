@@ -1,6 +1,6 @@
 # Migration guide
 
-This guide contains a list of changes, in order to upgrade your VSF next to the RC version.
+This guide contains a list of changes, in order to upgrade your VSF next to the RC.1 version.
 
 ## The general overview
 
@@ -26,3 +26,45 @@ For more information, please read the section [Application Context](/general/con
 
 - [Changes for integrators](/migrate/integrators)
 - [Changes for projects](/migrate/projects)
+
+
+## Common problems
+
+### Composition API already installed
+
+```
+[vue-composition-api] already installed. Vue.use(VueCompositionAPI) should be called only once.
+```
+
+**Solution**: Please make sure that you have everywhere the same version of vue composition api as the one we use in the core
+
+### Using Composition API before is being installed
+
+```
+Uncaught Error: [vue-composition-api] must call Vue.use(plugin) before using any function.
+```
+**Solution**: if you are using compositon API (eg. `ref`) above the component, please make sure that you have `vue-composition-api` installed, or move these calls inside of the `setup` function.
+
+### Some of our package doesn't work, the context doesn't return anything or has missing data
+
+**Solution**: Please make sure that you put package in the raw sources section, and if the integration has nuxt module and extend an existing one, should be aded before our core nuxt module and the one with integration
+
+```js
+{
+  ['@vue-storefront/some-new-integration/nuxt', {}], // 2
+  ['@vue-storefront/nuxt', {
+    coreDevelopment: true,
+    useRawSource: {
+      dev: [
+        '@vue-storefront/core'
+        '@vue-storefront/other-package' // 1
+      ],
+      prod: [
+        '@vue-storefront/core',
+        '@vue-storefront/other-package' // 1
+      ]
+    }
+  }],
+  ['@vue-storefront/some-integration/nuxt', {}]
+}
+```

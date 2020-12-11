@@ -15,11 +15,11 @@ module.exports = {
 		sidebar: {
 			'/migrate/': [
 				{
-					title: 'Migration guide',
+					title: 'Migration guide RC.1',
 					children: [
 						['/migrate/', 'Overview'],
-						['/migrate/integrators', 'Integrators'],
-						['/migrate/projects', 'Projects'],
+						['/migrate/integrators-rc1', 'Integrators'],
+						['/migrate/projects-rc1', 'Projects'],
 					]
 				}
 			],
