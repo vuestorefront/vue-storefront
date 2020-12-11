@@ -29,14 +29,14 @@
     </SfBannerGrid>
     <div class="similar-products">
       <SfHeading title="Match with it" :level="3"/>
-      <SfLink :link="localePath('/c/women')" class="smartphone-only">See all</SfLink>
+      <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
     </div>
     <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
       <template #prev="{go}">
         <SfArrow
-          aria-label="next"
+          aria-label="prev"
           class="sf-arrow--left sf-arrow--long"
-          @click="go('next')"
+          @click="go('prev')"
         />
       </template>
       <template #next="{go}">
@@ -83,7 +83,6 @@ import {
   SfProductCard,
   SfImage,
   SfBannerGrid,
-  SfLink,
   SfHeading,
   SfArrow,
   SfButton
@@ -103,7 +102,6 @@ export default {
     SfProductCard,
     SfImage,
     SfBannerGrid,
-    SfLink,
     SfHeading,
     SfArrow,
     SfButton,
@@ -270,17 +268,16 @@ export default {
   @include for-desktop {
     margin: var(--spacer-xl) auto var(--spacer-2xl);
   }
-}
-
-.sf-hero-item {
-  &:nth-child(even) {
-    --hero-item-background-position: left;
-    @include for-mobile {
-      --hero-item-background-position: 30%;
-      --hero-item-wrapper-text-align: right;
-      --hero-item-subtitle-width: 100%;
-      --hero-item-title-width: 100%;
-      --hero-item-wrapper-padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
+  .sf-hero-item {
+    &:nth-child(even) {
+      --hero-item-background-position: left;
+      @include for-mobile {
+        --hero-item-background-position: 30%;
+        --hero-item-wrapper-text-align: right;
+        --hero-item-subtitle-width: 100%;
+        --hero-item-title-width: 100%;
+        --hero-item-wrapper-padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
+      }
     }
   }
 }

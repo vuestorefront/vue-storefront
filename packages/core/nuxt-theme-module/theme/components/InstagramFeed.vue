@@ -3,28 +3,29 @@
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage class="smartphone-only" src="/homepage/imageAm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage class="desktop-only" src="/homepage/imageAd.webp" :width="470" :height="470">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageAm.webp" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageAd.webp" :width="470" :height="470">katherina_trn</SfImage>
         </div>
         <div class="grid__col small">
-          <SfImage class="smartphone-only" src="/homepage/imageBm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage class="desktop-only" src="/homepage/imageCd.webp" :width="470" :height="160">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageBm.webp" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageCd.webp" :width="470" :height="160">katherina_trn</SfImage>
         </div>
       </div>
       <div class="grid__row">
         <div class="grid__col small">
-          <SfImage class="smartphone-only" src="/homepage/imageCm.webp" :width="160" :height="160">katherina_trn</SfImage>
-           <SfImage class="desktop-only" src="/homepage/imageBd.webp" :width="470" :height="160">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageCm.webp" :width="160" :height="160">katherina_trn</SfImage>
+           <SfImage v-else src="/homepage/imageBd.webp" :width="470" :height="160">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage class="smartphone-only" src="/homepage/imageDm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage class="desktop-only" src="/homepage/imageDd.webp" :width="470" :height="470">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageDm.webp" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageDd.webp" :width="470" :height="470">katherina_trn</SfImage>
         </div>
       </div>
     </div>
   </SfSection>
 </template>
 <script>
+import { ref, onMounted, onBeforeUnmount} from '@vue/composition-api';
 import {
   SfSection,
   SfImage
@@ -34,6 +35,30 @@ export default {
   components: {
     SfSection,
     SfImage
+  },
+  setup() {
+    const isMobile = ref(false);
+
+    const mobileHandler = (event) => {
+      isMobile.value = event.matches;
+    };
+
+    onMounted(() => {
+      isMobile.value =
+      Math.max(document.documentElement.clientWidth, window.innerWidth) <=
+      1023;
+      window.matchMedia('(max-width: 1023px)').addListener(mobileHandler);
+    });
+
+    onBeforeUnmount(() => {
+      window
+        .matchMedia('(max-width: 1023px)')
+        .removeListener(mobileHandler);
+    });
+
+    return {
+      isMobile
+    };
   }
 };
 </script>
