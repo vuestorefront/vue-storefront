@@ -289,7 +289,33 @@ export { useCart }
 
 Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
-### 2.3b Creating composables without our factories
+### 2.3b Composable dependencies
+
+Sometimes there is a need to use other composable inside of new one as dependency. We also allow you to do this by using special function in the factory params - `setup`. This function is being called inside of the composable and the return values are available in the context:
+
+```ts
+import { useCart } from '@vue-storefront/comemrcetools';
+
+interface UserContext extends Context {
+  setUser: (user) => void;
+}
+
+const factoryParams: UseUserFactoryParams = {
+  setup() {
+    return useCart();
+  },
+  loadUser: async (context: UserContext) => {
+    const { data } = await context.$ct.api.getUser();
+
+    context.setCart(data.activeCart);
+
+    return data.user;
+  },
+
+};
+```
+
+### 2.3c Creating composables without our factories
 
 Sometimes there you need to omit using our factories. You can have a really complex integration or you want to follow totally your way of implementing this. In this case, you can still stay stick to the Vue Storefront architecture and create your own composable, by creating your own factory, or even ordinary composable by yourself.
 
