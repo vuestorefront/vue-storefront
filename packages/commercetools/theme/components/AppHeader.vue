@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SfOverlay :visible="!!currentHoveredCategorySlug" />
+    <SfOverlay :visible="!!hovered" />
     <SfHeader
       data-cy="app-header"
       @click:cart="toggleCartSidebar"
@@ -25,16 +25,16 @@
             v-for="(category, index) in categories"
             :key="index"
             :label="category.name"
-            @mouseenter="currentHoveredCategorySlug = category.slug"
-            @mouseleave="currentHoveredCategorySlug = ''"
-            @click="currentHoveredCategorySlug = ''"
+            @mouseenter="hovered = category.slug; fetchSubCategory()"
+            @mouseleave="hovered = ''"
+            @click="hovered = ''"
             :link="localePath(`/c/${category.slug}`)"
           >
             <SfMegaMenu
               :is-absolute="true"
-              :visible="currentHoveredCategorySlug === category.slug"
+              :visible="hovered === category.slug"
               :title="category.name"
-              @close="currentHoveredCategorySlug = ''"
+              @close="hovered = ''"
               v-if="category.childCount && !subCategoriesLoading"
             >
               <SfMegaMenuColumn
@@ -86,11 +86,11 @@
 import { SfHeader, SfImage, SfMegaMenu, SfList, SfLink, SfMenuItem, SfBanner, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, useCategory, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, watch } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
-import rootCategoriesMenuWithoutChildrenQuery from '../queries/rootCategoriesMenuWithoutChildrenQuery';
+import { menuCatQuery } from '../queries/topCategories';
 
 export default {
   components: {
@@ -113,7 +113,7 @@ export default {
     const { categories, search } = useCategory('menu-categories');
     const { categories: subCategories, search: subCategoriesSearch, loading: subCategoriesLoading } = useCategory('menu-subCategories');
     const term = ref(getFacetsFromURL().term);
-    const currentHoveredCategorySlug = ref('');
+    const hovered = ref('');
     const categoriesWithBanners = ref(['new']);
 
     const cartTotalItems = computed(() => {
@@ -123,7 +123,7 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    const isCategoryWithBanners = computed(() => categoriesWithBanners.value.includes(currentHoveredCategorySlug.value));
+    const isCategoryWithBanners = computed(() => categoriesWithBanners.value.includes(hovered.value));
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
@@ -134,15 +134,15 @@ export default {
       toggleLoginModal();
     };
 
+    const fetchSubCategory = async () => {
+      await subCategoriesSearch({ slug: hovered.value });
+    };
+
     onSSR(async () => {
       await load();
       await loadCart();
       await loadWishlist();
-      await search({ rootOnly: true }, (query, variables) => ({ query: rootCategoriesMenuWithoutChildrenQuery, variables }));
-    });
-
-    watch(currentHoveredCategorySlug, async () => {
-      if (currentHoveredCategorySlug.value) await subCategoriesSearch({ slug: currentHoveredCategorySlug.value });
+      await search({}, menuCatQuery);
     });
 
     return {
@@ -153,11 +153,12 @@ export default {
       toggleWishlistSidebar,
       changeSearchTerm,
       term,
-      currentHoveredCategorySlug,
+      hovered,
       categoriesWithBanners,
       isCategoryWithBanners,
       categories,
       subCategories,
+      fetchSubCategory,
       subCategoriesLoading
     };
   },

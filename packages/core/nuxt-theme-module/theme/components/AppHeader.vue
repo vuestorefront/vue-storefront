@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SfOverlay :visible="!!currentHoveredCategory" />
+    <SfOverlay :visible="!!hovered" />
     <SfHeader
       data-cy="app-header"
       @click:cart="toggleCartSidebar"
@@ -25,16 +25,16 @@
             v-for="(category, index) in categories"
             :key="index"
             :label="category.name"
-            @mouseenter="currentHoveredCategory = category.name"
-            @mouseleave="currentHoveredCategory = ''"
-            @click="currentHoveredCategory = ''"
+            @mouseenter="hovered = category.slug"
+            @mouseleave="hovered = ''"
+            @click="hovered = ''"
             :link="localePath(`/c/${category.slug}`)"
           >
             <SfMegaMenu
               :is-absolute="true"
-              :visible="currentHoveredCategory === category.name"
+              :visible="hovered === category.slug"
               :title="category.name"
-              @close="currentHoveredCategory = ''"
+              @close="hovered = ''"
               v-if="category && category.children.length"
             >
               <SfMegaMenuColumn
@@ -111,8 +111,8 @@ export default {
     const { loadWishlist } = useWishlist();
     const { categories, search } = useCategory('menu-categories');
     const term = ref(getFacetsFromURL().term);
-    const currentHoveredCategory = ref('');
-    const categoriesWithBanners = ref(['New']);
+    const hovered = ref('');
+    const categoriesWithBanners = ref(['new']);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -121,7 +121,7 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    const isCategoryWithBanners = computed(() => categoriesWithBanners.value.includes(currentHoveredCategory.value));
+    const isCategoryWithBanners = computed(() => categoriesWithBanners.value.includes(hovered.value));
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
@@ -136,7 +136,7 @@ export default {
       await load();
       await loadCart();
       await loadWishlist();
-      await search({ rootOnly: true });
+      await search({});
     });
 
     return {
@@ -147,7 +147,7 @@ export default {
       toggleWishlistSidebar,
       changeSearchTerm,
       term,
-      currentHoveredCategory,
+      hovered,
       categoriesWithBanners,
       isCategoryWithBanners,
       categories

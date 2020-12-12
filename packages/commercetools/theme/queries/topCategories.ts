@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+const customQuery = gql`
   fragment DefaultCategory on Category {
     id
     slug(acceptLanguage: $acceptLanguage)
@@ -32,3 +32,15 @@ export default gql`
     }
   }
 `;
+
+export const menuCatQuery = (query, variables) => {
+  const customVariables = {
+    ...variables,
+    where: 'parent is not defined'
+  };
+
+  return {
+    query: customQuery,
+    variables: customVariables
+  };
+};
