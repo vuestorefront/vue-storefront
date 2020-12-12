@@ -91,6 +91,7 @@ import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import { menuCatQuery } from '../queries/topCategories';
+import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -134,9 +135,9 @@ export default {
       toggleLoginModal();
     };
 
-    const fetchSubCategory = async () => {
-      await subCategoriesSearch({ slug: hovered.value });
-    };
+    const fetchSubCategory = debounce(async () => {
+      if (hovered.value) await subCategoriesSearch({ slug: hovered.value });
+    }, 100);
 
     onSSR(async () => {
       await load();

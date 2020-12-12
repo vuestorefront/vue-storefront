@@ -22,6 +22,7 @@
     "access": "public"
   },
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2"
   }
 }
