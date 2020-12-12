@@ -1,7 +1,10 @@
 import gql from 'graphql-tag';
+import { CategoryFragment } from '@vue-storefront/commercetools-api';
 
 const customQuery = gql`
-  fragment DefaultCategory on Category {
+  ${CategoryFragment}
+
+  fragment Children on Category {
     id
     slug(acceptLanguage: $acceptLanguage)
     name(acceptLanguage: $acceptLanguage)
@@ -14,20 +17,7 @@ const customQuery = gql`
       count
       total
       results {
-        id
-        slug(acceptLanguage: $acceptLanguage)
-        name(acceptLanguage: $acceptLanguage)
-        description(acceptLanguage: $acceptLanguage)
-        childCount
-        parent {
-          ...DefaultCategory
-          parent {
-            ...DefaultCategory
-            parent {
-              ...DefaultCategory
-            }
-          }
-        }
+        ...DefaultCategory
       }
     }
   }

@@ -1,27 +1,14 @@
 import gql from 'graphql-tag';
+import { CategoryFragment } from './../../fragments';
 
-export default gql`
+export default gql`    
+  ${CategoryFragment}
+  
   fragment Children on Category {
     id
     slug(acceptLanguage: $acceptLanguage)
     name(acceptLanguage: $acceptLanguage)
     childCount
-  }
-
-  fragment DefaultCategory on Category {
-    id
-    slug(acceptLanguage: $acceptLanguage)
-    name(acceptLanguage: $acceptLanguage)
-    childCount
-    children {
-      ...Children
-      children {
-        ...Children
-        children {
-          ...Children
-        }
-      }
-    }
   }
 
   query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $acceptLanguage: [Locale!]) {

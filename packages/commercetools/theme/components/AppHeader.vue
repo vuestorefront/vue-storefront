@@ -26,7 +26,7 @@
             :key="index"
             :label="category.name"
             @mouseenter="hovered = category.slug; fetchSubCategory()"
-            @mouseleave="hovered = ''"
+            @mouseleave="hovered = ''; fetchSubCategory()"
             @click="hovered = ''"
             :link="localePath(`/c/${category.slug}`)"
           >
@@ -35,28 +35,30 @@
               :visible="hovered === category.slug"
               :title="category.name"
               @close="hovered = ''"
-              v-if="category.childCount && !subCategoriesLoading"
+              v-if="category.childCount"
             >
               <SfMegaMenuColumn
                 v-for="(subCategory, subIndex) in subCategories && subCategories[0] && subCategories[0].children"
                 :key="subIndex"
                 :title="subCategory.name"
               >
-                <SfList>
-                  <SfListItem
-                    v-for="(subCategoryChild, childIndex) in subCategory.children"
-                    :key="childIndex"
-                  >
-                    <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
-                      <SfLink>
-                        {{ subCategoryChild.name }}
-                      </SfLink>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
+                <SfLoader :loading="subCategoriesLoading">
+                  <SfList>
+                    <SfListItem
+                      v-for="(subCategoryChild, childIndex) in subCategory.children"
+                      :key="childIndex"
+                    >
+                      <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
+                        <SfLink>
+                          {{ subCategoryChild.name }}
+                        </SfLink>
+                      </SfMenuItem>
+                    </SfListItem>
+                  </SfList>
+                </SfLoader>
               </SfMegaMenuColumn>
               <SfMegaMenuColumn
-                v-if="isCategoryWithBanners"
+                v-if="isCategoryWithBanners && !subCategoriesLoading"
                 title="Featured"
                 class="sf-mega-menu-column--pined-content-on-mobile sf-mega-menu-column--hide-header-on-mobile sb-mega-menu__featured"
               >
@@ -83,7 +85,7 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfMegaMenu, SfList, SfLink, SfMenuItem, SfBanner, SfOverlay } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfMegaMenu, SfList, SfLink, SfMenuItem, SfBanner, SfOverlay, SfLoader } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, useCategory, cartGetters } from '@vue-storefront/commercetools';
 import { computed, ref } from '@vue/composition-api';
@@ -100,6 +102,7 @@ export default {
     SfMegaMenu,
     SfList,
     SfLink,
+    SfLoader,
     SfBanner,
     SfMenuItem,
     SfOverlay,
@@ -135,9 +138,9 @@ export default {
       toggleLoginModal();
     };
 
-    const fetchSubCategory = debounce(async () => {
-      if (hovered.value) await subCategoriesSearch({ slug: hovered.value });
-    }, 100);
+    const fetchSubCategory = debounce(() => {
+      if (hovered.value) subCategoriesSearch({ slug: hovered.value });
+    }, 200);
 
     onSSR(async () => {
       await load();
