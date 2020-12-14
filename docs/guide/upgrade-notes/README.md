@@ -57,6 +57,22 @@ Now:
 
 ### `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
 
+### Device module
+Since this version module does not work by registering it inside `src/modules/client.ts`. You have to import `injectDeviceTests` from `src/modules/device` inside your theme's `index.js`. Call it inside `initTheme` method like that:
+```js
+injectDeviceTests({
+  config,
+  app,
+  ssrContext
+})
+```
+
+Then you will have access to the `this.$device`. However, you cannot access it via `Vue.prototype.$device` anymore. That's why, it is possible you will need to move some parts of asyncData to Vue 2.6's `serverPrefetch`. 
+
+Another part you should keep in mind is Cache Key. If you render different components based on some data from user agent then you have to build proper cache key based one that. Otherwise, you might end up in situation when mobile SSR Output is being served for desktop users.
+
+I created dedicated hook to resolve this problem. You can find how to use it in `src/modules/device/README.md`. You also have commented example of usage in `src/modules/device/server.ts`.
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
