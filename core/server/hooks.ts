@@ -64,6 +64,11 @@ const {
 } = createListenerHook<Exception>()
 
 const {
+  hook: beforeBuildCacheKeyHook,
+  executor: beforeBuildCacheKeyExecutor
+} = createMutatorHook<{ currentKey: string, req: any, site: string }, string>()
+
+const {
   hook: beforeOutputRenderedResponseHook,
   executor: beforeOutputRenderedResponseExecutor
 } = createMutatorHook<any, string | { output: string, [key: string]: any }>();
@@ -82,7 +87,8 @@ const serverHooksExecutors = {
   beforeOutputRenderedResponse: beforeOutputRenderedResponseExecutor,
   afterOutputRenderedResponse: afterOutputRenderedResponseExecutor,
   beforeCacheInvalidated: beforeCacheInvalidatedExecutor,
-  afterCacheInvalidated: afterCacheInvalidatedExecutor
+  afterCacheInvalidated: afterCacheInvalidatedExecutor,
+  beforeBuildCacheKey: beforeBuildCacheKeyExecutor
 }
 
 const serverHooks = {
@@ -99,7 +105,8 @@ const serverHooks = {
   beforeOutputRenderedResponse: beforeOutputRenderedResponseHook,
   afterOutputRenderedResponse: afterOutputRenderedResponseHook,
   beforeCacheInvalidated: beforeCacheInvalidatedHook,
-  afterCacheInvalidated: afterCacheInvalidatedHook
+  afterCacheInvalidated: afterCacheInvalidatedHook,
+  beforeBuildCacheKey: beforeBuildCacheKeyHook
 }
 
 export {

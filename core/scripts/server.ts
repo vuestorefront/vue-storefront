@@ -184,8 +184,14 @@ app.get('*', (req, res, next) => {
     }
   }
 
-  const site = req.headers['x-vs-store-code'] || 'main'
-  const cacheKey = `page:${site}:${req.url}`
+  const site = req.headers['x-vs-store-code'] || 'main';
+  const defaultCacheKey = `page:${site}:${req.url}`;
+  const newCacheKey = serverHooksExecutors.beforeBuildCacheKey({
+    currentKey: defaultCacheKey,
+    req,
+    site
+  })
+  const cacheKey = typeof newCacheKey === 'string' ? newCacheKey : defaultCacheKey;
 
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
