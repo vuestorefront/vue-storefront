@@ -1,18 +1,20 @@
-export const injectInContext = (inject, { tag, props }) => {
-  const key = 'vsf' + tag.toUpperCase();
-  inject(key, props);
-};
+import { nuxtContextFactory } from './nuxtContextFactory';
 
-export const createIntegrationPlugin = (createApiClientFn) => (pluginFn) => (nuxtCtx, inject) => {
-  const $configure = (givenSettings, customApi = {}) => {
-    const { tag, api, client, settings } = createApiClientFn(givenSettings, customApi);
+export const integrationPluginFactory = (createApiClientFn) => (pluginFn) => (nuxtCtx, inject) => {
+  const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClientFn.tag, nuxtCtx, inject });
+
+  const configure = (givenSettings, customApi = {}) => {
+    const { api, client, settings } = createApiClientFn(givenSettings, customApi);
     const props = { api, client, config: settings };
-    injectInContext(inject, { tag, props });
+
+    injectInContext(props);
   };
 
-  const $addCustomOptions = (props) => {
-    injectInContext(inject, { tag: 'custom', props });
+  const extend = (props) => {
+    extendContext(props);
   };
 
-  pluginFn({ ...nuxtCtx, $configure, $addCustomOptions }, inject);
+  const integration = { configure, extend };
+
+  pluginFn({ ...nuxtCtx, integration }, inject);
 };

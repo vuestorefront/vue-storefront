@@ -5,13 +5,6 @@
       class="form"
       @submit.prevent="handleSubmit(submitForm)"
     >
-      <SfCheckbox
-        data-cy="billing-details-checkbox_isDefault"
-        v-model="form.isDefault"
-        name="isDefault"
-        label="Set as default"
-        class="form__checkbox-isDefault"
-      />
       <div class="form__horizontal">
         <ValidationProvider
           rules="required|min:2"
@@ -123,8 +116,7 @@
           <SfSelect
             data-cy="billing-details-select_country"
             class="form__select sf-select--underlined"
-            :value="form.country"
-            @selected="form.country = $event"
+            v-model="form.country"
             name="country"
             label="Country"
             required
@@ -156,6 +148,13 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
+      <SfCheckbox
+        data-cy="billing-details-checkbox_isDefault"
+        v-model="form.isDefault"
+        name="isDefault"
+        label="Set as default"
+        class="form__checkbox-isDefault"
+      />
       <SfButton data-cy="billing-details-btn_update" class="form__button">
         {{ isNew ? "Add the address" : "Update the address" }}
       </SfButton>
@@ -173,7 +172,7 @@ import {
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@vue/composition-api';
-import { useContext } from '@vue-storefront/core';
+import { useVSFContext } from '@vue-storefront/core';
 
 extend('required', {
   ...required,
@@ -226,7 +225,7 @@ export default {
   },
 
   setup(props, { emit }) {
-    const { $ct: { config } } = useContext();
+    const { $ct: { config } } = useVSFContext();
     const form = reactive({
       id: props.address.id,
       firstName: props.address.firstName,
@@ -263,9 +262,8 @@ export default {
 .form {
   &__element {
     display: block;
-    margin: var(--spacer-xl) 0;
+    margin-bottom: var(--spacer-base);
   }
-
   &__select {
     display: flex;
     align-items: center;
@@ -277,24 +275,21 @@ export default {
       font-weight: var(--font-weight--normal);
     }
   }
-
   &__button {
     display: block;
+    margin-top: var(--spacer-lg);
   }
-
   &__horizontal {
     @include for-desktop {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
     }
-
     .form__element {
       @include for-desktop {
         flex: 1;
         margin-right: var(--spacer-lg);
       }
-
       &:last-child {
         margin-right: 0;
       }

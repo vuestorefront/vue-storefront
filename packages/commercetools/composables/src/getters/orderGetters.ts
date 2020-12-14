@@ -24,6 +24,8 @@ export const getOrderItemName = (item: LineItem): string => item?.name || '';
 
 export const getOrderItemQty = (item: LineItem): number => item?.quantity || 0;
 
+export const getOrderItemPrice = (item: LineItem): number => item ? item.price.value.centAmount / 100 : 0;
+
 export const getFormattedPrice = (price: number) => price as any as string;
 
 const orderGetters: UserOrderGetters<Order, LineItem> = {
@@ -35,6 +37,7 @@ const orderGetters: UserOrderGetters<Order, LineItem> = {
   getItemSku: getOrderItemSku,
   getItemName: getOrderItemName,
   getItemQty: getOrderItemQty,
+  getItemPrice: getOrderItemPrice,
   getFormattedPrice
 };
 

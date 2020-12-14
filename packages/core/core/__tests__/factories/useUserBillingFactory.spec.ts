@@ -39,9 +39,9 @@ describe('[CORE - factories] useUserBillingFactory', () => {
 
       it('throws error', async () => {
         factoryParams.addAddress.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error;
         });
-        await expect(useUserBillingMethods.addAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.addAddress('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {
@@ -59,9 +59,9 @@ describe('[CORE - factories] useUserBillingFactory', () => {
 
       it('throws error', async () => {
         factoryParams.deleteAddress.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error();
         });
-        await expect(useUserBillingMethods.deleteAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.deleteAddress('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {
@@ -79,9 +79,9 @@ describe('[CORE - factories] useUserBillingFactory', () => {
 
       it('throws error', async () => {
         factoryParams.updateAddress.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error();
         });
-        await expect(useUserBillingMethods.updateAddress('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.updateAddress('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {
@@ -99,9 +99,9 @@ describe('[CORE - factories] useUserBillingFactory', () => {
 
       it('throws error', async () => {
         factoryParams.load.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error();
         });
-        await expect(useUserBillingMethods.load()).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.load()).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {
@@ -119,9 +119,9 @@ describe('[CORE - factories] useUserBillingFactory', () => {
 
       it('throws error', async () => {
         factoryParams.setDefault.mockImplementationOnce(() => {
-          throw 'Error';
+          throw new Error();
         });
-        await expect(useUserBillingMethods.setDefault('' as any)).rejects.toThrow('Error');
+        await expect(useUserBillingMethods.setDefault('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {

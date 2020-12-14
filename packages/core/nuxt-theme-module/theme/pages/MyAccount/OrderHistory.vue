@@ -4,38 +4,37 @@
       <div v-if="currentOrder">
         <SfButton data-cy="order-history-btn_orders" class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
         <div class="highlighted highlighted--total">
-        <SfProperty
-          name="Order ID"
-          :value="orderGetters.getId(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
-        />
-        <SfProperty
-          name="Date"
-          :value="orderGetters.getDate(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
-        />
-        <SfProperty
-          name="Status"
-          :value="orderGetters.getStatus(currentOrder)"
-          class="sf-property--full-width sf-property--large property"
-        />
-        <SfProperty
-          name="Total"
-          :value="orderGetters.getFormattedPrice(orderGetters.getPrice(currentOrder))"
-          class="sf-property--full-width sf-property--large property"
-        />
+          <SfProperty
+            name="Order ID"
+            :value="orderGetters.getId(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Date"
+            :value="orderGetters.getDate(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Status"
+            :value="orderGetters.getStatus(currentOrder)"
+            class="sf-property--full-width property"
+          />
+          <SfProperty
+            name="Total"
+            :value="formatPrice(orderGetters.getPrice(currentOrder))"
+            class="sf-property--full-width property"
+          />
         </div>
-
         <SfTable class="products">
           <SfTableHeading>
-            <SfTableHeader>Product</SfTableHeader>
+            <SfTableHeader class="products__name">Product</SfTableHeader>
             <SfTableHeader>Quantity</SfTableHeader>
             <SfTableHeader>Price</SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
-            <SfTableData><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
-            <SfTableData>{{orderGetters.getFormattedPrice(orderGetters.getItemPrice(item))}}</SfTableData>
+            <SfTableData class="products__name"><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
+            <SfTableData>{{formatPrice(orderGetters.getItemPrice(item))}}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
@@ -54,7 +53,7 @@
               v-for="tableHeader in tableHeaders"
               :key="tableHeader"
               >{{ tableHeader }}</SfTableHeader>
-            <SfTableHeader>
+            <SfTableHeader class="orders__element--right">
               <span class="smartphone-only">Download</span>
               <SfButton
                 data-cy="order-history-btn_download-all"
@@ -68,13 +67,13 @@
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ orderGetters.getFormattedPrice(orderGetters.getPrice(order)) }}</SfTableData>
+            <SfTableData>{{ formatPrice(orderGetters.getPrice(order)) }}</SfTableData>
             <SfTableData>
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
-            <SfTableData class="orders__view">
+            <SfTableData class="orders__view orders__element--right">
               <SfButton data-cy="order-history-btn_download" class="sf-button--text smartphone-only" @click="downloadOrder(order)">Download</SfButton>
-              <SfButton data-cy="order-history-btn_view" class="sf-button--text desktop-only" @click="currentOrder = order">VIEW</SfButton>
+              <SfButton data-cy="order-history-btn_view" class="sf-button--text desktop-only" @click="currentOrder = order">View details</SfButton>
             </SfTableData>
           </SfTableRow>
         </SfTable>
@@ -100,6 +99,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers } from '~/composables';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -114,6 +114,7 @@ export default {
   },
   setup() {
     const { orders, searchOrders } = useUserOrders();
+    const { formatPrice } = useUiHelpers();
     const currentOrder = ref(null);
 
     onSSR(async () => {
@@ -166,7 +167,8 @@ export default {
       orderGetters,
       downloadOrder,
       downloadOrders,
-      currentOrder
+      currentOrder,
+      formatPrice
     };
   }
 };
@@ -186,14 +188,12 @@ export default {
   }
 }
 .orders {
-  &__download-all {
-    --button-padding: 0;
-    --button-font-size: var(--font-size--base);
-    white-space: nowrap;
-  }
-  &__view {
-    @include for-desktop {
-      text-align: center;
+  @include for-desktop {
+    &__element {
+      &--right {
+        --table-column-flex: 0;
+        text-align: right;
+      }
     }
   }
 }
@@ -201,10 +201,13 @@ export default {
   --button-padding: var(--spacer-base) 0;
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
-  font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--secondary);
+  margin: 0 0 var(--spacer-xl) 0;
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   &__link {
-    color: var(--c-text-muted);
+    color: var(--c-primary);
+    --link-weight: var(--font-weight--medium);
+    --link-font-family: var(--font-family--primary);
+    --link-font-size: var(--font-size--base);
     text-decoration: none;
     &:hover {
       color: var(--c-text);
@@ -231,16 +234,40 @@ export default {
     color: var(--c-text);
   }
 }
+.products {
+  --table-column-flex: 1;
+  &__name {
+    margin-right: var(--spacer-sm);
+    @include for-desktop {
+      --table-column-flex: 2;
+    }
+  }
+}
 .highlighted {
   box-sizing: border-box;
   width: 100%;
   background-color: var(--c-light);
-  padding: var(--spacer-xl);
+  padding: var(--spacer-sm);
+  --property-value-font-size: var(--font-size--base);
+  --property-name-font-size: var(--font-size--base);
   &:last-child {
     margin-bottom: 0;
   }
+  ::v-deep .sf-property__name {
+    white-space: nowrap;
+  }
+  ::v-deep .sf-property__value {
+    text-align: right;
+  }
   &--total {
     margin-bottom: var(--spacer-sm);
+  }
+  @include for-desktop {
+    padding: var(--spacer-xl);
+    --property-name-font-size: var(--font-size--lg);
+    --property-name-font-weight: var(--font-weight--medium);
+    --property-value-font-size: var(--font-size--lg);
+    --property-value-font-weight: var(--font-weight--semibold);
   }
 }
 

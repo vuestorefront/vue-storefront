@@ -30,9 +30,7 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/boilerplate.js'
-  ],
+  plugins: [],
   buildModules: [
     // to core
     '@nuxt/typescript-build',

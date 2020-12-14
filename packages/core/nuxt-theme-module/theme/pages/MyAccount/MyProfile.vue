@@ -103,7 +103,7 @@ export default {
   line-height: 1.6;
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   font-size: var(--font-size--base);
   &__label {
     font-weight: 400;

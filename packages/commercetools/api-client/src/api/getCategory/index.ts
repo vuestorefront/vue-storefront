@@ -6,7 +6,7 @@ import { buildCategoryWhere } from '../../helpers/search';
 import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
 
-interface CategoryData {
+export interface CategoryData {
   categories: CategoryQueryResult;
 }
 

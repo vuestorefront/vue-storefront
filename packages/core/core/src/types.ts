@@ -284,7 +284,9 @@ export interface CartGetters<CART, CART_ITEM> {
   getShippingPrice: (cart: CART) => number;
   getTotalItems: (cart: CART) => number;
   getFormattedPrice: (price: number) => string;
+  // @deprecated - use getDiscounts instead
   getCoupons: (cart: CART) => AgnosticCoupon[];
+  getDiscounts: (cart: CART) => AgnosticDiscount[];
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -333,6 +335,7 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemSku: (item: ORDER_ITEM) => string;
   getItemName: (item: ORDER_ITEM) => string;
   getItemQty: (item: ORDER_ITEM) => number;
+  getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
@@ -391,6 +394,7 @@ export interface AgnosticPrice {
 export interface AgnosticTotals {
   total: number;
   subtotal: number;
+  special?: number;
   [x: string]: unknown;
 }
 
@@ -509,10 +513,25 @@ export interface VSFLogger {
   error(message?: any, ...args: any): void;
 }
 
-export interface Context {
+export interface AgnosticDiscount {
+  id: string;
+  name: string;
+  description: string;
+  value: number;
+  code?: string;
+}
+
+export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
+  client: CLIENT;
+  config: CONFIG;
+  api: API;
   [x: string]: any;
 }
 
+export interface Context {
+  [x: string]: IntegrationContext | any;
+}
+
 export interface FactoryParams {
-  setup?: <T = any>(context: Context) => T;
+  setup?: (context: Context) => any;
 }

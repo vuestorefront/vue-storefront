@@ -13,8 +13,8 @@
       />
     </template>
     <transition name="sf-fade" mode="out-in">
-      <div v-if="isLogin" key="log-in">
-        <ValidationObserver v-slot="{ handleSubmit }">
+      <div v-if="isLogin">
+        <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
@@ -65,8 +65,8 @@
           <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">Register today</SfButton>
         </div>
       </div>
-      <div v-else key="sign-up" class="form">
-        <ValidationObserver v-slot="{ handleSubmit }">
+      <div v-else class="form">
+        <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
           <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput

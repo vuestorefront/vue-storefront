@@ -64,7 +64,7 @@ export default {
 }
 .form {
   &__element {
-    margin: 0 0 var(--spacer-sm) 0;
+    margin: 0 0 var(--spacer-base) 0;
     &:last-child {
       margin: 0;
     }
@@ -73,8 +73,7 @@ export default {
     margin: 0 0 var(--spacer-xl) 0;
   }
   &__title {
-    margin: 0 0 var(--spacer-xl) 0;
-    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
+    margin: 0 0 var(--spacer-base) 0;
   }
   &__button {
     --button-width: 100%;
@@ -85,17 +84,14 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
-  &__label {
-    font-weight: 500;
-  }
+  color: var(--c-dark-variant);
 }
 .notice {
-  margin: var(--spacer-xl) 0 0 0;
-  font: var(--font-weight--light) var(--font-size--sm) / 1.6 var(--font-family--primary);
+  margin: var(--spacer-base) 0 0 0;
+  font-size: var(--font-size--xs);
   &__link {
-    color: var(--c-text-muted);
-    text-decoration: none;
+  color: var(--c-primary);
+  text-decoration: none;
     &:hover {
       color: var(--c-text);
     }
