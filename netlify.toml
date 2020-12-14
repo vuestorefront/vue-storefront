@@ -1,0 +1,2 @@
+[build.environment]
+  YARN_FLAGS = "--network-concurrency 1"
