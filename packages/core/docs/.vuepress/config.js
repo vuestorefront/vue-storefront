@@ -183,8 +183,7 @@ module.exports = {
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
-						['/contributing/changelog', 'Core Changelog'],
-						['/contributing/migration-to-2', 'Migration from X to 2']
+						['/contributing/changelog', 'Core Changelog']
 					]
 				},
 			],
