@@ -5,7 +5,10 @@
       :breadcrumbs="breadcrumbs"
     />
     <div class="product">
-      <SfGallery :images="productGallery" class="product__gallery" />
+      <LazyHydrate when-idle>
+        <SfGallery :images="productGallery" class="product__gallery" />
+      </LazyHydrate>
+
       <div class="product__info">
         <div class="product__header">
           <SfHeading
@@ -89,100 +92,112 @@
             Add to compare
           </SfButton>
         </div>
-        <SfTabs :open-tab="1" class="product__tabs">
-          <SfTab data-cy="product-tab_description" title="Description">
-            <div class="product__description">
-                The Karissa V-Neck Tee features a semi-fitted shape that's
-                flattering for every figure. You can hit the gym with
-                confidence while it hugs curves and hides common "problem"
-                areas. Find stunning women's cocktail dresses and party
-                dresses.
-            </div>
-            <SfProperty
-              v-for="(property, i) in properties"
-              :key="i"
-              :name="property.name"
-              :value="property.value"
-              class="product__property"
+
+        <LazyHydrate when-idle>
+          <SfTabs :open-tab="1" class="product__tabs">
+            <SfTab data-cy="product-tab_description" title="Description">
+              <div class="product__description">
+                  The Karissa V-Neck Tee features a semi-fitted shape that's
+                  flattering for every figure. You can hit the gym with
+                  confidence while it hugs curves and hides common "problem"
+                  areas. Find stunning women's cocktail dresses and party
+                  dresses.
+              </div>
+              <SfProperty
+                v-for="(property, i) in properties"
+                :key="i"
+                :name="property.name"
+                :value="property.value"
+                class="product__property"
+              >
+                <template v-if="property.name === 'Category'" #value>
+                  <SfButton class="product__property__button sf-button--text">
+                    {{ property.value }}
+                  </SfButton>
+                </template>
+              </SfProperty>
+            </SfTab>
+            <SfTab title="Read reviews" data-cy="product-tab_reviews">
+              <SfReview
+                v-for="review in reviews"
+                :key="reviewGetters.getReviewId(review)"
+                :author="reviewGetters.getReviewAuthor(review)"
+                :date="reviewGetters.getReviewDate(review)"
+                :message="reviewGetters.getReviewMessage(review)"
+                :max-rating="5"
+                :rating="reviewGetters.getReviewRating(review)"
+                :char-limit="250"
+                read-more-text="Read more"
+                hide-full-text="Read less"
+                class="product__review"
+              />
+            </SfTab>
+            <SfTab
+              title="Additional Information"
+              data-cy="product-tab_additional"
+              class="product__additional-info"
             >
-              <template v-if="property.name === 'Category'" #value>
-                <SfButton class="product__property__button sf-button--text">
-                  {{ property.value }}
-                </SfButton>
-              </template>
-            </SfProperty>
-          </SfTab>
-          <SfTab title="Read reviews" data-cy="product-tab_reviews">
-            <SfReview
-              v-for="review in reviews"
-              :key="reviewGetters.getReviewId(review)"
-              :author="reviewGetters.getReviewAuthor(review)"
-              :date="reviewGetters.getReviewDate(review)"
-              :message="reviewGetters.getReviewMessage(review)"
-              :max-rating="5"
-              :rating="reviewGetters.getReviewRating(review)"
-              :char-limit="250"
-              read-more-text="Read more"
-              hide-full-text="Read less"
-              class="product__review"
-            />
-          </SfTab>
-          <SfTab
-            title="Additional Information"
-            data-cy="product-tab_additional"
-            class="product__additional-info"
-          >
-          <div class="product__additional-info">
-            <p class="product__additional-info__title">Brand</p>
-            <p>{{ brand }}</p>
-            <p class="product__additional-info__title">Take care of me</p>
-            <p class="product__additional-info__paragraph">
-              Just here for the care instructions?
-            </p>
-            <p class="product__additional-info__paragraph">
-              Yeah, we thought so
-            </p>
-            <p>{{ careInstructions }}</p>
-          </div>
-          </SfTab>
-        </SfTabs>
+            <div class="product__additional-info">
+              <p class="product__additional-info__title">Brand</p>
+              <p>{{ brand }}</p>
+              <p class="product__additional-info__title">Take care of me</p>
+              <p class="product__additional-info__paragraph">
+                Just here for the care instructions?
+              </p>
+              <p class="product__additional-info__paragraph">
+                Yeah, we thought so
+              </p>
+              <p>{{ careInstructions }}</p>
+            </div>
+            </SfTab>
+          </SfTabs>
+        </LazyHydrate>
       </div>
     </div>
-    <RelatedProducts
-      :products="relatedProducts"
-      :loading="relatedLoading"
-      title="Match it with"
-    />
-    <InstagramFeed />
-    <SfBanner
-      image="/homepage/bannerD.png"
-      subtitle="Fashion to Take Away"
-      title="Download our application to your mobile"
-      class="sf-banner--left desktop-only banner-app"
-    >
-    <template #call-to-action>
-        <div class="banner-app__call-to-action">
-          <SfButton
-            class="banner-app__button"
-            aria-label="Go to Apple Product"
-            @click="() => {}"
-          >
-            <SfImage
-              src="/homepage/apple.png"
-            />
-          </SfButton>
-          <SfButton
-            class="banner-app__button"
-            aria-label="Go to Google Product"
-            @click="() => {}"
-          >
-            <SfImage
-              src="/homepage/google.png"
-            />
-          </SfButton>
-        </div>
-      </template>
-    </SfBanner>
+
+    <LazyHydrate when-visible>
+      <RelatedProducts
+        :products="relatedProducts"
+        :loading="relatedLoading"
+        title="Match it with"
+      />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <InstagramFeed />
+    </LazyHydrate>
+
+    <LazyHydrate never>
+      <SfBanner
+        image="/homepage/bannerD.png"
+        subtitle="Fashion to Take Away"
+        title="Download our application to your mobile"
+        class="sf-banner--left desktop-only banner-app"
+      >
+        <template #call-to-action>
+          <div class="banner-app__call-to-action">
+            <SfButton
+              class="banner-app__button"
+              aria-label="Go to Apple Product"
+              @click="() => {}"
+            >
+              <SfImage
+                src="/homepage/apple.png"
+              />
+            </SfButton>
+            <SfButton
+              class="banner-app__button"
+              aria-label="Go to Google Product"
+              @click="() => {}"
+            >
+              <SfImage
+                src="/homepage/google.png"
+              />
+            </SfButton>
+          </div>
+        </template>
+      </SfBanner>
+    </LazyHydrate>
   </div>
 </template>
 <script>
@@ -211,6 +226,7 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Product',
@@ -290,7 +306,8 @@ export default {
     SfBreadcrumbs,
     SfButton,
     InstagramFeed,
-    RelatedProducts
+    RelatedProducts,
+    LazyHydrate
   },
   data() {
     return {

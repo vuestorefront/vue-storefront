@@ -1,6 +1,6 @@
 <template>
   <SfModal
-    :visible="isLoginModalOpen"
+    :visible="true"
     class="modal"
     @close="toggleLoginModal"
   >
@@ -203,7 +203,6 @@ export default {
       isLogin,
       createAccount,
       rememberMe,
-      isLoginModalOpen,
       toggleLoginModal,
       handleLogin,
       handleRegister

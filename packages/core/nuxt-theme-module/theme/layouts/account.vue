@@ -5,8 +5,8 @@
       <AppHeader />
       <nuxt />
       <BottomNavigation />
-      <CartSidebar />
-      <LoginModal />
+      <CartSidebar v-if="isCartSidebarOpen" />
+      <LoginModal v-if="isLoginModalOpen" />
     </div>
   </div>
 </template>
@@ -15,16 +15,23 @@
 import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import TopBar from '~/components/TopBar.vue';
-import CartSidebar from '~/components/CartSidebar.vue';
-import LoginModal from '~/components/LoginModal.vue';
+import { useUiState } from '~/composables';
 
 export default {
   components: {
     TopBar,
     AppHeader,
     BottomNavigation,
-    CartSidebar,
-    LoginModal
+    CartSidebar: () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue'),
+    LoginModal: () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+  },
+  setup() {
+    const { isCartSidebarOpen, isLoginModalOpen } = useUiState();
+
+    return {
+      isCartSidebarOpen,
+      isLoginModalOpen
+    };
   }
 };
 </script>

@@ -5,9 +5,13 @@
     </LazyHydrate>
 
     <div id="layout">
-      <AppHeader />
+      <LazyHydrate when-idle>
+        <AppHeader />
+      </LazyHydrate>
 
-      <nuxt :key="$route.fullPath"/>
+      <LazyHydrate when-idle>
+        <nuxt :key="$route.fullPath"/>
+      </LazyHydrate>
 
       <LazyHydrate when-visible>
         <BottomNavigation />
@@ -17,9 +21,9 @@
         <AppFooter />
       </LazyHydrate>
 
-      <CartSidebar />
-      <WishlistSidebar />
-      <LoginModal />
+      <CartSidebar v-if="isCartSidebarOpen" />
+      <WishlistSidebar v-if="isWishlistSidebarOpen" />
+      <LoginModal v-if="isLoginModalOpen" />
     </div>
   </div>
 </template>
@@ -29,12 +33,8 @@ import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';
-import CartSidebar from '~/components/CartSidebar.vue';
-import WishlistSidebar from '~/components/WishlistSidebar.vue';
-import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-// const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
-// const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+import { useUiState } from '~/composables';
 
 export default {
   components: {
@@ -43,9 +43,18 @@ export default {
     AppHeader,
     BottomNavigation,
     AppFooter,
-    CartSidebar,
-    WishlistSidebar,
-    LoginModal
+    CartSidebar: () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue'),
+    WishlistSidebar: () => import(/* webpackChunkName: "WishlistSidebar" */ '~/components/WishlistSidebar.vue'),
+    LoginModal: () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+  },
+  setup() {
+    const { isCartSidebarOpen, isWishlistSidebarOpen, isLoginModalOpen } = useUiState();
+
+    return {
+      isCartSidebarOpen,
+      isWishlistSidebarOpen,
+      isLoginModalOpen
+    };
   }
 };
 </script>

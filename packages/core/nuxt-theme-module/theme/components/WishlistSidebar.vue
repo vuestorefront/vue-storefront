@@ -1,7 +1,7 @@
 <template>
   <div id="wishlist">
     <SfSidebar
-      :visible="isWishlistSidebarOpen"
+      :visible="true"
       :button="false"
       title="My Wishlist"
       @close="toggleWishlistSidebar"
@@ -96,7 +96,7 @@ export default {
     SfCollectedProduct
   },
   setup() {
-    const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
+    const { toggleWishlistSidebar } = useUiState();
     const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
@@ -111,7 +111,6 @@ export default {
       isAuthenticated,
       products,
       removeFromWishlist,
-      isWishlistSidebarOpen,
       toggleWishlistSidebar,
       totals,
       totalItems,
