@@ -2231,11 +2231,20 @@
     webpack-node-externals "^2.5.2"
     webpackbar "^4.0.0"
 
-"@nuxtjs/composition-api@https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
-  version "0.16.4"
-  resolved "https://github.com/andrzejewsky/composition-api.git#60a4061db56715be09df2e633d2bf000905a529c"
+"@nuxtjs/composition-api@0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.17.0.tgz#533402f82dc860cbed17d9612ac8b41333789b26"
+  integrity sha512-hc/1amRpu1sr4/0jkb4T0N37YgvM00jcBTQeur5ymdUd52eJExKiOu+EwbWvTPRFz8IU29x6PhdLZ5LcJT6FgA==
   dependencies:
-    "@vue/composition-api" "1.0.0-beta.20"
+    "@vue/composition-api" "1.0.0-beta.21"
+    defu "^3.2.2"
+    normalize-path "^3.0.0"
+
+"@nuxtjs/composition-api@git+https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
+  version "0.16.4"
+  resolved "git+https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.21"
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
@@ -2955,12 +2964,59 @@
     lodash-es "^4.17.15"
     vue "^2.6.11"
 
+"@vue-storefront/core@^2.1.0-rc.1":
+  version "2.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.1.0-rc.1.tgz#775cae6fd278cf756f47370d54fa78df851e9cc5"
+  integrity sha512-OCJu7L582l5JaoAV58F453oXr1OHXGy9HWXGwgdLSfYgMXwpKEdjlFqpCInsjYTanRhMcAb1BRbmLxGM3zdyKg==
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.20"
+    express "^4.17.1"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
 "@vue-storefront/nuxt-theme@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.3.tgz#3f0f03bad13aa9ac4855c65872b19e9baad783ce"
   integrity sha512-H0xeRgvhWZUyPVig6YlWM++xtkTGzgYQ9lUBBhQuJ0or5Ader1zykeaeDbFHCrGXwzzAiTP4F3HZapIRiI9Tlg==
   dependencies:
     lodash.merge "^4.6.2"
+
+"@vue-storefront/nuxt-theme@^2.1.0-rc.1":
+  version "2.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-2.1.0-rc.1.tgz#63d256c7143695bfb01d432edf5107a38f19771a"
+  integrity sha512-Lc2bgADXooKl1ZzdnmIyQlC7BAeroWAehx6YHs1kBeDahqx6zfZkg5qmubZ0Xq1NL6IRTxrbFZKZztk9kBIsbw==
+  dependencies:
+    lodash.merge "^4.6.2"
+
+"@vue-storefront/nuxt@0.0.12-lc.16":
+  version "0.0.12-lc.16"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.12-lc.16.tgz#aa9a3089780d6e52901dbd26a3b7d96c91dd841b"
+  integrity sha512-+Ewdp1f9Lq89djw9YSPDC1S8+rHnV9p62bWxKdgtpzwf0mPt45rJqJHPg0dKM9uMs/BG+FlRYA1SoM4WCy8fJw==
+  dependencies:
+    "@nuxt/typescript-build" "^2.0.0"
+    "@nuxtjs/composition-api" "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
+    "@nuxtjs/style-resources" "^1.0.0"
+    "@vue/composition-api" "1.0.0-beta.20"
+    chalk "^2.4.2"
+    chokidar "^3.3.1"
+    consola "^2.10.1"
+    lodash "^4.17.15"
+    nuxt-purgecss "^1.0.0"
+
+"@vue-storefront/nuxt@^2.1.0-rc.1":
+  version "2.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-2.1.0-rc.1.tgz#7891c2882438b1a8304d60564f722da65902154b"
+  integrity sha512-Up5gSbUY3J2YdJMZWI9AxVKYnTSkmv3BlJZd+3U+oidtmSS3l+RvhWuB1NWgbhaRWeweoq27mEX6hx7jMf44jg==
+  dependencies:
+    "@nuxt/typescript-build" "^2.0.0"
+    "@nuxtjs/composition-api" "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
+    "@nuxtjs/style-resources" "^1.0.0"
+    "@vue/composition-api" "1.0.0-beta.20"
+    chalk "^2.4.2"
+    chokidar "^3.3.1"
+    consola "^2.10.1"
+    lodash "^4.17.15"
+    nuxt-purgecss "^1.0.0"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
@@ -3111,6 +3167,13 @@
   version "1.0.0-beta.20"
   resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.20.tgz#9909ed5844b7bf565a220b26d85b9f0158856dd7"
   integrity sha512-Lpaxt9+3cy97QJoCJ81qNe6TeGg092iHtqilKdbE5NapHqoSwiuYUSHX2ANIaO+C1Q1J7bITv1/saLUMNuwQOg==
+  dependencies:
+    tslib "^2.0.1"
+
+"@vue/composition-api@1.0.0-beta.21":
+  version "1.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.21.tgz#d5a3c68afc8b569dfc3eccd69998388bb7f6a16c"
+  integrity sha512-tgbvDpLvKQ1GrII424wsoyzPCsG0oTFf38emMq495SfLY7RmUqhVIl81pvnC5489PPrCxDkbauJHJrhlcXfbTQ==
   dependencies:
     tslib "^2.0.1"
 
