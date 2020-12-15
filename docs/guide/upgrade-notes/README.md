@@ -21,47 +21,49 @@ The `amp-renderer` module has been disabled by default to save the bundle size; 
 Cart optimization was earlier disabled automatically if entity optimization was disabled. Now they can be used independently from each other. If you don't want to use cart optimization, make sure that the `entities.optimizeShoppingCart` configuration entry is disabled explicitly.
 
 **deprecated actions and helpers**
-Product module has been refactored, here is list of actions that are not used anymore and you can remove them to reduce bundle.
-deprecated actions:
-product/reset
-product/setupBreadcrumbs
-product/syncPlatformPricesOver
-product/setupAssociated
-product/loadConfigurableAttributes
-product/setupVariants
-product/filterUnavailableVariants
-product/list
-product/preConfigureAssociated
-product/preConfigureProduct
-product/configureLoadedProducts
-product/configureBundleAsync
-product/configureGroupedAsync
-product/configure
-product/setCurrentOption
-product/setCurrentErrors
-product/setOriginal
-product/loadProductAttributes
-category/list (new action is category-next/fetchMenuCategories)
 
-deprecated helpers:
-configureProductAsync
-populateProductConfigurationAsync
-setConfigurableProductOptionsAsync
+Product module has been refactored, here is list of actions that are not used anymore and you can remove them to reduce bundle.
+
+- deprecated actions:
+  - product/reset
+  - product/setupBreadcrumbs
+  - product/syncPlatformPricesOver
+  - product/setupAssociated
+  - product/loadConfigurableAttributes
+  - product/setupVariants
+  - product/filterUnavailableVariants
+  - product/list
+  - product/preConfigureAssociated
+  - product/preConfigureProduct
+  - product/configureLoadedProducts
+  - product/configureBundleAsync
+  - product/configureGroupedAsync
+  - product/configure
+  - product/setCurrentOption
+  - product/setCurrentErrors
+  - product/setOriginal
+  - product/loadProductAttributes
+  - category/list (new action is category-next/fetchMenuCategories)
+
+- deprecated helpers:
+  - configureProductAsync
+  - populateProductConfigurationAsync
+  - setConfigurableProductOptionsAsync
 
 Here is list of actions that are used from 1.12 in product module:
-product/doPlatformPricesSync
-product/single
-product/checkConfigurableParent
-product/findProducts
-product/findConfigurableParent
-product/setCustomOptions
-product/setBundleOptions
-product/setCurrent
-product/loadProduct
-product/addCustomOptionValidator
-product/setProductGallery
-product/loadProductBreadcrumbs
-product/getProductVariant
+- product/doPlatformPricesSync
+- product/single
+- product/checkConfigurableParent
+- product/findProducts
+- product/findConfigurableParent
+- product/setCustomOptions
+- product/setBundleOptions
+- product/setCurrent
+- product/loadProduct
+- product/addCustomOptionValidator
+- product/setProductGallery
+- product/loadProductBreadcrumbs
+- product/getProductVariant
 
 All of those actions and helpers that are deprecated, can be removed so you will have smaller bundle.
 Comment those lines:
