@@ -95,7 +95,7 @@ We managed to do this by making extensive use of the browser cache. 
 - **For the static assets** (only prod) we use the [sw-precache](https://github.com/GoogleChromeLabs/sw-precache) plugin (config can be found in `core/build/webpack.prod.sw.config.js` ). They are cached in Service Worker and can be inspected under the `Application/Cache Storage` tab of your Developer Tools.
 
 ![cache](https://cdn-images-1.medium.com/max/1200/1*BHVzt7oCIxcM3bNPZriKmw.png)
-*Here you can find cached static assets. Please notice that Service Worker works only in production mode.*
+*Here you can find cached static assets.*
 
 :::warning
 Please note that Service Worker works only in production mode.
@@ -116,7 +116,7 @@ You may not believe me but this is all you need to know to start working with Vu
 - [Project structure explained](https://docs.vuestorefront.io/guide/basics/project-structure.html)
 - [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
 - [Extending Vue Storefront](https://docs.vuestorefront.io/guide/extensions/introduction.html)
-- [How to contribute](https://docs.vuestorefront.io/guide/basics/contributing.html#branches)
+- [How to contribute](https://docs.vuestorefront.io/guide/basics/contributing.html#how-to-contribute)
 
 ## Video with training
 You can also watch a video recording from 4th Vue Storefront hackathon with free introduction training
