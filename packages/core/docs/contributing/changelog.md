@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.1-rc.1
+- updated version of nuxt composition-api
+
 ## 2.1.0-rc.1
 - removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
 - removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
