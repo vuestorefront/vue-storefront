@@ -1,16 +1,25 @@
 # Changelog
 
-## 2.0.13 - not released
+## 2.1.1-rc.1
+- updated version of nuxt composition-api
 
-- [BREAKING] removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
-- [IMPORTANT] removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
+## 2.1.0-rc.1
+- removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
+- removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
 - added new performance options to `@vue-storefront/nuxt` package ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
 - open active category and highlight current subcategory on the Category page ([#5244](https://github.com/DivanteLtd/vue-storefront/issues/5244))
 - added missing order getter to get item price ([#5231](https://github.com/DivanteLtd/vue-storefront/issues/5231))
 - changed default logging level to 'warn' and 'error' in development and production mode respectively ([#5304](https://github.com/DivanteLtd/vue-storefront/issues/5304))
 - fixed broken focus in login form ([#5273](https://github.com/DivanteLtd/vue-storefront/issues/5273))
 - fixed select for changing variant on product page ([#5281](https://github.com/DivanteLtd/vue-storefront/issues/5281))
-
+- fixed checkboxes in filters sidebar are not clickable on mobile ([#5246](https://github.com/DivanteLtd/vue-storefront/pull/5246))
+- fixed no option to close a login modal ([#5243](https://github.com/DivanteLtd/vue-storefront/pull/5243))
+- fixed category page for mobile ([#5238](https://github.com/DivanteLtd/vue-storefront/pull/5238))
+- fixed issue with CSS waterfall ([#5229](https://github.com/DivanteLtd/vue-storefront/pull/5229))
+- added support for HTTP/2 push for JS assets ([#5179](https://github.com/DivanteLtd/vue-storefront/pull/5179))
+- added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
+- added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
+- added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
 ## 2.0.12
 
 - fix ssr implementation, transition on client-side ([#5103](https://github.com/DivanteLtd/vue-storefront/pull/5103))
