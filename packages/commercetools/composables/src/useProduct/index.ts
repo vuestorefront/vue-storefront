@@ -3,7 +3,7 @@ import { ProductVariant } from './../types/GraphQL';
 import { enhanceProduct, mapPaginationParams } from './../helpers/internals';
 import { useProductFactory, ProductsSearchResult, UseProduct, Context } from '@vue-storefront/core';
 
-const productsSearch = async (context: Context, { searchParams, customQuery }): Promise<ProductsSearchResult<ProductVariant>> => {
+const productsSearch = async (context: Context, { customQuery, ...searchParams }): Promise<ProductsSearchResult<ProductVariant>> => {
   const apiSearchParams = {
     ...searchParams,
     ...mapPaginationParams(searchParams)

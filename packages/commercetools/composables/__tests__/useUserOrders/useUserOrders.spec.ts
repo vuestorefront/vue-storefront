@@ -36,7 +36,7 @@ describe('[commercetools-composables] useUserOrders', () => {
   it('loads user orders with criteria', async () => {
     const { searchOrders } = useUserOrders() as any;
 
-    const response = await searchOrders(context, { searchParams: { param: 'param1' } });
+    const response = await searchOrders(context, { param: 'param1' });
 
     expect(response).toEqual({
       data: ['order1', 'order2', 'order3'],
@@ -62,7 +62,7 @@ describe('[commercetools-composables] useUserOrders', () => {
 
     const { searchOrders } = useUserOrders() as any;
 
-    const response = await searchOrders(context, { searchParams: { param: 'param1' } });
+    const response = await searchOrders(context, { param: 'param1' });
 
     expect(response).toEqual({
       data: [],

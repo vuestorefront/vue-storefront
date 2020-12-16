@@ -7,7 +7,7 @@ import {
 import { Category } from './../types/GraphQL';
 
 const params: UseCategoryFactoryParams<Category, any> = {
-  categorySearch: async (context: Context, { searchParams, customQuery }) => {
+  categorySearch: async (context: Context, { customQuery, ...searchParams }) => {
     const categoryResponse = await context.$ct.api.getCategory(searchParams, customQuery);
     return categoryResponse.data.categories.results;
   }

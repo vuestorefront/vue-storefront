@@ -45,7 +45,7 @@ describe('[commercetools-composables] useProduct', () => {
   it('loads product variants', async () => {
     const { productsSearch } = useProduct('test-product') as any;
 
-    const response = await productsSearch(context, { searchParams: { id: 'product-id' } });
+    const response = await productsSearch(context, { id: 'product-id' });
 
     expect(response).toEqual({
       data: [product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')],
