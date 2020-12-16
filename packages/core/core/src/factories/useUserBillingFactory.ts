@@ -26,7 +26,7 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
-  setDefault: (
+  setDefaultAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
@@ -116,17 +116,17 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const setDefault = async (address: USER_BILLING_ITEM) => {
-      Logger.debug('useUserBilling.setDefault');
+    const setDefaultAddress = async (address: USER_BILLING_ITEM) => {
+      Logger.debug('useUserBilling.setDefaultAddress');
 
       loading.value = true;
       try {
-        billing.value = await factoryParams.setDefault(context, {
+        billing.value = await factoryParams.setDefaultAddress(context, {
           address,
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.setDefault', err);
+        Logger.error('useUserBilling.setDefaultAddress', err);
 
         throw err;
       } finally {
@@ -141,7 +141,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       deleteAddress,
       updateAddress,
       load,
-      setDefault
+      setDefaultAddress
     };
   };
 

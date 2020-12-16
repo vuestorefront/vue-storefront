@@ -85,7 +85,7 @@ describe('[CORE - factories] useCartFactory', () => {
       });
     });
 
-    describe('addToCart', () => {
+    describe('addItem', () => {
       it('should invoke adding to cart', async () => {
         const { addItem, cart } = useCart();
         await addItem({ id: 'productId' }, 2);
@@ -98,7 +98,7 @@ describe('[CORE - factories] useCartFactory', () => {
       });
     });
 
-    describe('removeFromCart', () => {
+    describe('removeItem', () => {
       it('should invoke adding to cart', async () => {
         const { removeItem, cart } = useCart();
         await removeItem({ id: 'productId' });
@@ -110,7 +110,7 @@ describe('[CORE - factories] useCartFactory', () => {
       });
     });
 
-    describe('updateQuantity', () => {
+    describe('updateItemQty', () => {
       it('should not invoke quantity update if quantity is not provided', async () => {
         const { updateItemQty } = useCart();
         await updateItemQty({ id: 'productId' });
@@ -135,8 +135,8 @@ describe('[CORE - factories] useCartFactory', () => {
       });
     });
 
-    describe('clearCart', () => {
-      it('should invoke clearCart', async () => {
+    describe('clear', () => {
+      it('should invoke clear', async () => {
         const { clear, cart } = useCart();
         await clear();
         expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentCart: null });

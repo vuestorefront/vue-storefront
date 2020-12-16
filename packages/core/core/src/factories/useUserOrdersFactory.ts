@@ -19,8 +19,8 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
     const context = generateContext(factoryParams);
 
-    const searchOrders = async (searchParams?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useUserOrders.searchOrders', searchParams);
+    const search = async (searchParams?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useUserOrders.search', searchParams);
 
       loading.value = true;
       try {
@@ -28,7 +28,7 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
         orders.value = data;
         totalOrders.value = total;
       } catch (err) {
-        Logger.error('useUserOrders.searchOrders', err);
+        Logger.error('useUserOrders.search', err);
 
         throw err;
       } finally {
@@ -39,7 +39,7 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
     return {
       orders: computed(() => orders.value),
       totalOrders: computed(() => totalOrders.value),
-      searchOrders,
+      search,
       loading: computed(() => loading.value)
     };
   };

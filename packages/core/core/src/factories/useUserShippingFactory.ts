@@ -26,7 +26,7 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     params: {
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
-  setDefault: (
+  setDefaultAddress: (
     context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
@@ -115,17 +115,17 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const setDefault = async (address: USER_SHIPPING_ITEM) => {
-      Logger.debug('useUserShipping.setDefault', address);
+    const setDefaultAddress = async (address: USER_SHIPPING_ITEM) => {
+      Logger.debug('useUserShipping.setDefaultAddress', address);
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.setDefault(context, {
+        shipping.value = await factoryParams.setDefaultAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.setDefault', err);
+        Logger.error('useUserShipping.setDefaultAddress', err);
 
         throw err;
       } finally {
@@ -140,7 +140,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       deleteAddress,
       updateAddress,
       load,
-      setDefault
+      setDefaultAddress
     };
   };
 

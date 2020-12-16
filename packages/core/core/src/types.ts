@@ -68,8 +68,8 @@ export interface UseUserOrdersSearchParams {
 export interface UseUserOrders<ORDER> {
   orders: ComputedProperty<ORDER[]>;
   totalOrders: ComputedProperty<number>;
-  searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
-  searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
+  search(params: UseUserOrdersSearchParams): Promise<void>;
+  search(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -89,7 +89,7 @@ export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   deleteAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
   updateAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  setDefaultAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -120,7 +120,7 @@ export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
+  setDefaultAddress: (address: USER_BILLING_ITEM) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 

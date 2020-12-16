@@ -5,7 +5,7 @@ const factoryParams = {
   deleteAddress: jest.fn(),
   updateAddress: jest.fn(),
   load: jest.fn(),
-  setDefault: jest.fn()
+  setDefaultAddress: jest.fn()
 };
 
 const { useUserBilling } = useUserBillingFactory(factoryParams);
@@ -109,19 +109,19 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
     });
 
-    describe('setDefault', () => {
+    describe('setDefaultAddress', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
-        factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.setDefault(paramsToUpdate);
+        factoryParams.setDefaultAddress.mockReturnValueOnce(paramsToUpdate);
+        await useUserBillingMethods.setDefaultAddress(paramsToUpdate);
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
-        factoryParams.setDefault.mockImplementationOnce(() => {
+        factoryParams.setDefaultAddress.mockImplementationOnce(() => {
           throw new Error();
         });
-        await expect(useUserBillingMethods.setDefault('' as any)).rejects.toThrow();
+        await expect(useUserBillingMethods.setDefaultAddress('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {
