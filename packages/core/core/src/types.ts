@@ -186,13 +186,13 @@ export interface UseWishlist
 > {
   wishlist: ComputedProperty<WISHLIST>;
   loading: ComputedProperty<boolean>;
-  addToWishlist(product: PRODUCT): Promise<void>;
-  addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
-  removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
-  removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
+  addItem(product: PRODUCT): Promise<void>;
+  addItem(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
+  removeItem(product: WISHLIST_ITEM): Promise<void>;
+  removeItem(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
   load(): Promise<void>;
   load(customQuery?: CustomQuery): Promise<void>;
-  clearWishlist(): Promise<void>;
+  clear(): Promise<void>;
   isOnWishlist(product: PRODUCT): boolean;
 }
 

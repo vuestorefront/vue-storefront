@@ -17,15 +17,15 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async (context: Context, { currentWishlist, product }) => {
+  addItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async (context: Context, { currentWishlist, product }) => {
+  removeItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async (context: Context, { currentWishlist }) => {
+  clear: async (context: Context, { currentWishlist }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

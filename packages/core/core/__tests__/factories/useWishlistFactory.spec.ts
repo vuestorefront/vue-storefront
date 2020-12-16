@@ -11,10 +11,10 @@ const customQuery = undefined;
 function createComposable() {
   params = {
     load: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
-    addToWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
     isOnWishlist: jest.fn().mockReturnValueOnce(true),
-    clearWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
-    removeFromWishlist: jest
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' })
   };
@@ -76,11 +76,11 @@ describe('[CORE - factories] useWishlistFactory', () => {
       });
     });
 
-    describe('addToWishlist', () => {
+    describe('addItem', () => {
       it('should invoke adding to wishlist', async () => {
-        const { addToWishlist, wishlist } = useWishlist();
-        await addToWishlist({ id: 'productId' });
-        expect(params.addToWishlist).toHaveBeenCalledWith({ context: null }, {
+        const { addItem, wishlist } = useWishlist();
+        await addItem({ id: 'productId' });
+        expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
         }, customQuery);
@@ -88,11 +88,11 @@ describe('[CORE - factories] useWishlistFactory', () => {
       });
     });
 
-    describe('removeFromWishlist', () => {
+    describe('removeItem', () => {
       it('should invoke adding to wishlist', async () => {
-        const { removeFromWishlist, wishlist } = useWishlist();
-        await removeFromWishlist({ id: 'productId' });
-        expect(params.removeFromWishlist).toHaveBeenCalledWith({ context: null }, {
+        const { removeItem, wishlist } = useWishlist();
+        await removeItem({ id: 'productId' });
+        expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
         }, customQuery);
@@ -100,11 +100,11 @@ describe('[CORE - factories] useWishlistFactory', () => {
       });
     });
 
-    describe('clearWishlist', () => {
-      it('should invoke clearWishlist', async () => {
-        const { clearWishlist, wishlist } = useWishlist();
-        await clearWishlist();
-        expect(params.clearWishlist).toHaveBeenCalledWith({ context: null }, { currentWishlist: null });
+    describe('clear', () => {
+      it('should invoke clear', async () => {
+        const { clear, wishlist } = useWishlist();
+        await clear();
+        expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentWishlist: null });
         expect(wishlist.value).toEqual({ id: 'mocked_cleared_wishlist' });
       });
     });

@@ -6,7 +6,7 @@ import { markCustomQueryDeprecated, markMethodDeprecated } from '../helpers';
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
   load?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
   loadWishlist?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
-  addToWishlist: (
+  addItem: (
     context: Context,
     params: {
       currentWishlist: WISHLIST;
@@ -14,7 +14,7 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
       customQuery?: CustomQuery;
     },
     oldCustomQuery?: CustomQuery) => Promise<WISHLIST>;
-  removeFromWishlist: (
+  removeItem: (
     context: Context,
     params: {
       currentWishlist: WISHLIST;
@@ -22,7 +22,7 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
       customQuery?: CustomQuery;
     },
     oldCustomQuery?: CustomQuery) => Promise<WISHLIST>;
-  clearWishlist: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
+  clear: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
 
@@ -44,11 +44,11 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const context = generateContext(factoryParams);
 
-    const addToWishlist = async (product: PRODUCT, customQuery?: CustomQuery) => {
+    const addItem = async (product: PRODUCT, customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.addToWishlist', product);
 
       loading.value = true;
-      const updatedWishlist = await factoryParams.addToWishlist(
+      const updatedWishlist = await factoryParams.addItem(
         context,
         {
           currentWishlist: wishlist.value,
@@ -61,11 +61,11 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       loading.value = false;
     };
 
-    const removeFromWishlist = async (product: WISHLIST_ITEM, customQuery?: CustomQuery) => {
+    const removeItem = async (product: WISHLIST_ITEM, customQuery?: CustomQuery) => {
       Logger.debug('useWishlist.removeFromWishlist', product);
 
       loading.value = true;
-      const updatedWishlist = await factoryParams.removeFromWishlist(
+      const updatedWishlist = await factoryParams.removeItem(
         context,
         {
           currentWishlist: wishlist.value,
@@ -92,11 +92,11 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       loading.value = false;
     };
 
-    const clearWishlist = async () => {
+    const clear = async () => {
       Logger.debug('useWishlist.clearWishlist');
 
       loading.value = true;
-      const updatedWishlist = await factoryParams.clearWishlist(context, {
+      const updatedWishlist = await factoryParams.clear(context, {
         currentWishlist: wishlist.value
       });
       wishlist.value = updatedWishlist;
@@ -115,10 +115,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     return {
       wishlist: computed(() => wishlist.value),
       isOnWishlist,
-      addToWishlist,
+      addItem,
       load,
-      removeFromWishlist,
-      clearWishlist,
+      removeItem,
+      clear,
       loading: computed(() => loading.value)
     };
   };
