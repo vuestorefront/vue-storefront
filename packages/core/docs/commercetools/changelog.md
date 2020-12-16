@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.2-rc.1 (not released)
+## 1.0.1-rc.2 (not released)
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 
 ## 1.0.1-rc.1
