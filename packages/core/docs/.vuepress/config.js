@@ -8,9 +8,21 @@ module.exports = {
 		logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
 		nav: [
 			{ text: 'Home', link: '/' },
-			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
+			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
+			{ text: 'Migration guide', link: '/migrate/' }
+
 		],
 		sidebar: {
+			'/migrate/': [
+				{
+					title: 'Migration guide RC.1',
+					children: [
+						['/migrate/', 'Overview'],
+						['/migrate/integrators-rc1', 'Integrators'],
+						['/migrate/projects-rc1', 'Projects'],
+					]
+				}
+			],
 			'/commercetools/': [
 				{
 					title: 'Essentials',
@@ -122,7 +134,8 @@ module.exports = {
 						['/general/architecture', 'Architecture'],
 						['/general/i18n', 'i18n'],
 						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance']
+						['/general/performance', 'Performance'],
+						['/general/context', 'Application Context']
 					]
         },
         {
@@ -157,7 +170,7 @@ module.exports = {
 					title: 'Build integration',
 					collapsable: true,
 					children: [
-						['/integrate/ecommerce', 'eCommerce'],
+						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
 						['/integrate/api-middleware', 'API middleware'],
 					]
@@ -170,7 +183,8 @@ module.exports = {
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
-						['/contributing/changelog', 'Core Changelog']
+						['/contributing/changelog', 'Core Changelog'],
+						['/contributing/migration-to-2', 'Migration from X to 2']
 					]
 				},
 			],

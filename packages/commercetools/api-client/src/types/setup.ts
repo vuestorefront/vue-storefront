@@ -1,5 +1,11 @@
 /* eslint-disable camelcase */
+import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
+
+export interface ClientInstance extends ApolloClient<any> {
+  sdkAuth?: SdkAuth;
+  tokenProvider?: TokenProvider;
+}
 
 export interface ApiConfig {
   uri: string;

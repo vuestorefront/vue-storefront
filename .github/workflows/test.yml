@@ -99,6 +99,7 @@ jobs:
     needs: validate_core
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         integration:
           # - about-you
