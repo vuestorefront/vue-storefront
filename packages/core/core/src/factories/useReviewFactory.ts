@@ -32,12 +32,12 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       }
     };
 
-    const addReview = async (addParams: REVIEW_ADD_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useReview.addReview', addParams);
+    const addReview = async (params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+      Logger.debug('useReview.addReview', params);
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.addReview(context, { ...addParams, customQuery }, markCustomQueryDeprecated(customQuery));
+        reviews.value = await factoryParams.addReview(context, { ...params, customQuery }, markCustomQueryDeprecated(customQuery));
       } catch (addError) {
         Logger.error('useReview.addReview', addError);
 
