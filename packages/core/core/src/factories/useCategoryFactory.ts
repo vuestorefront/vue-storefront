@@ -4,7 +4,7 @@ import { sharedRef, Logger, generateContext } from '../utils';
 import { markCustomQueryDeprecated } from '../helpers';
 
 export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> extends FactoryParams {
-  categorySearch: (context: Context, params: { searchParams: CATEGORY_SEARCH_PARAMS; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CATEGORY[]>;
+  categorySearch: (context: Context, params: CATEGORY_SEARCH_PARAMS & { customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CATEGORY[]>;
 }
 
 export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
@@ -19,7 +19,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
       Logger.debug('useCategory.search', searchParams);
 
       loading.value = true;
-      categories.value = await factoryParams.categorySearch(context, { searchParams, customQuery }, markCustomQueryDeprecated(customQuery));
+      categories.value = await factoryParams.categorySearch(context, { ...searchParams, customQuery }, markCustomQueryDeprecated(customQuery));
       loading.value = false;
     };
 

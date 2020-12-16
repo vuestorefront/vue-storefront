@@ -36,7 +36,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
         const { categories, search } = useCategory();
         expect(categories.value).toEqual([]);
         await search({ someparam: 'qwerty' });
-        expect(params.categorySearch).toBeCalledWith({ context: null }, { searchParams: { someparam: 'qwerty' } }, customQuery);
+        expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' }, customQuery);
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });
