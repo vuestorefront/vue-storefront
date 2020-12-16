@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.0.1-rc.2 (not released)
+## 1.1.0 (not released)
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
+- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 
 ## 1.0.1-rc.1
 - updated version of core
