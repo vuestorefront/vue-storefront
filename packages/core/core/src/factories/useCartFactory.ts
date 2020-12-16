@@ -6,7 +6,7 @@ import { markMethodDeprecated, markCustomQueryDeprecated } from '../helpers';
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
   loadCart?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
   load?: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
-  addToCart: (
+  addItem: (
     context: Context,
     params: {
       currentCart: CART;
@@ -16,13 +16,13 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
     },
     oldCustomQuery?: CustomQuery
   ) => Promise<CART>;
-  removeFromCart: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CART>;
-  updateQuantity: (
+  removeItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CART>;
+  updateItemQty: (
     context: Context,
     params: { currentCart: CART; product: CART_ITEM; quantity: number; customQuery?: CustomQuery },
     oldCustomQuery?: CustomQuery
   ) => Promise<CART>;
-  clearCart: (context: Context, params: { currentCart: CART }) => Promise<CART>;
+  clear: (context: Context, params: { currentCart: CART }) => Promise<CART>;
   applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     context: Context,
@@ -50,11 +50,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       Logger.debug('useCartFactory.setCart', newCart);
     };
 
-    const addToCart = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
+    const addItem = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
       Logger.debug('useCart.addToCart', { product, quantity });
 
       loading.value = true;
-      const updatedCart = await factoryParams.addToCart(
+      const updatedCart = await factoryParams.addItem(
         context,
         {
           currentCart: cart.value,
@@ -68,11 +68,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
+    const removeItem = async (product: CART_ITEM, customQuery?: CustomQuery) => {
       Logger.debug('useCart.removeFromCart', { product });
 
       loading.value = true;
-      const updatedCart = await factoryParams.removeFromCart(
+      const updatedCart = await factoryParams.removeItem(
         context,
         {
           currentCart: cart.value,
@@ -85,12 +85,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const updateQuantity = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
+    const updateItemQty = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
       Logger.debug('useCart.updateQuantity', { product, quantity });
 
       if (quantity && quantity > 0) {
         loading.value = true;
-        const updatedCart = await factoryParams.updateQuantity(
+        const updatedCart = await factoryParams.updateItemQty(
           context,
           {
             currentCart: cart.value,
@@ -127,11 +127,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const clearCart = async () => {
+    const clear = async () => {
       Logger.debug('useCart.clearCart');
 
       loading.value = true;
-      const updatedCart = await factoryParams.clearCart(context, { currentCart: cart.value });
+      const updatedCart = await factoryParams.clear(context, { currentCart: cart.value });
       cart.value = updatedCart;
       loading.value = false;
     };
@@ -191,11 +191,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       setCart,
       cart: computed(() => cart.value),
       isOnCart,
-      addToCart,
+      addItem,
       load,
-      removeFromCart,
-      clearCart,
-      updateQuantity,
+      removeItem,
+      clear,
+      updateItemQty,
       applyCoupon,
       removeCoupon,
       loading: computed(() => loading.value)

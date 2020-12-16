@@ -10,14 +10,14 @@ const customQuery = undefined;
 function createComposable() {
   params = {
     load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
-    addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
-    removeFromCart: jest
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_cart' }),
-    updateQuantity: jest
+    updateItemQty: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_updated_quantity_cart' }),
-    clearCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
     applyCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_apply_coupon_cart' },
       updatedCoupon: 'appliedCouponMock'
@@ -87,9 +87,9 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('addToCart', () => {
       it('should invoke adding to cart', async () => {
-        const { addToCart, cart } = useCart();
-        await addToCart({ id: 'productId' }, 2);
-        expect(params.addToCart).toHaveBeenCalledWith({ context: null }, {
+        const { addItem, cart } = useCart();
+        await addItem({ id: 'productId' }, 2);
+        expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -100,9 +100,9 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('removeFromCart', () => {
       it('should invoke adding to cart', async () => {
-        const { removeFromCart, cart } = useCart();
-        await removeFromCart({ id: 'productId' });
-        expect(params.removeFromCart).toHaveBeenCalledWith({ context: null }, {
+        const { removeItem, cart } = useCart();
+        await removeItem({ id: 'productId' });
+        expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' }
         }, customQuery);
@@ -112,21 +112,21 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('updateQuantity', () => {
       it('should not invoke quantity update if quantity is not provided', async () => {
-        const { updateQuantity } = useCart();
-        await updateQuantity({ id: 'productId' });
-        expect(params.updateQuantity).not.toBeCalled();
+        const { updateItemQty } = useCart();
+        await updateItemQty({ id: 'productId' });
+        expect(params.updateItemQty).not.toBeCalled();
       });
 
       it('should not invoke quantity update if quantity is lower than 1', async () => {
-        const { updateQuantity } = useCart();
-        await updateQuantity({ id: 'productId' }, 0);
-        expect(params.updateQuantity).not.toBeCalled();
+        const { updateItemQty } = useCart();
+        await updateItemQty({ id: 'productId' }, 0);
+        expect(params.updateItemQty).not.toBeCalled();
       });
 
       it('should invoke quantity update', async () => {
-        const { updateQuantity, cart } = useCart();
-        await updateQuantity({ id: 'productId' }, 2);
-        expect(params.updateQuantity).toHaveBeenCalledWith({ context: null }, {
+        const { updateItemQty, cart } = useCart();
+        await updateItemQty({ id: 'productId' }, 2);
+        expect(params.updateItemQty).toHaveBeenCalledWith({ context: null }, {
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -137,9 +137,9 @@ describe('[CORE - factories] useCartFactory', () => {
 
     describe('clearCart', () => {
       it('should invoke clearCart', async () => {
-        const { clearCart, cart } = useCart();
-        await clearCart();
-        expect(params.clearCart).toHaveBeenCalledWith({ context: null }, { currentCart: null });
+        const { clear, cart } = useCart();
+        await clear();
+        expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentCart: null });
         expect(cart.value).toEqual({ id: 'mocked_cleared_cart' });
       });
     });

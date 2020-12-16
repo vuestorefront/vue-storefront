@@ -48,17 +48,17 @@ describe('[commercetools-composables] useCart', () => {
   // });
 
   it('adds to cart', async () => {
-    const { addToCart } = useCart() as any;
-    const response = await addToCart(context, { currentCart: 'current cart', product: 'product1', quantity: 3 });
+    const { addItem } = useCart() as any;
+    const response = await addItem(context, { currentCart: 'current cart', product: 'product1', quantity: 3 });
 
     expect(response).toEqual('some cart');
     expect(context.$ct.api.addToCart).toBeCalledWith('current cart', 'product1', 3, customQuery);
   });
 
   it('creates a new cart and add an item', async () => {
-    const { addToCart } = useCart() as any;
+    const { addItem } = useCart() as any;
     (loadCurrentCart as any).mockReturnValue('some cart');
-    const response = await addToCart(context, { currentCart: null, product: 'product1', quantity: 3 });
+    const response = await addItem(context, { currentCart: null, product: 'product1', quantity: 3 });
     expect(loadCurrentCart).toBeCalled();
 
     expect(response).toEqual('some cart');
@@ -66,16 +66,16 @@ describe('[commercetools-composables] useCart', () => {
   });
 
   it('removes from cart', async () => {
-    const { removeFromCart } = useCart() as any;
-    const response = await removeFromCart(context, { currentCart: 'current cart', product: 'product1' });
+    const { removeItem } = useCart() as any;
+    const response = await removeItem(context, { currentCart: 'current cart', product: 'product1' });
 
     expect(response).toEqual('some cart');
     expect(context.$ct.api.removeFromCart).toBeCalledWith('current cart', 'product1', customQuery);
   });
 
   it('updates quantity', async () => {
-    const { updateQuantity } = useCart() as any;
-    const response = await updateQuantity(context, {
+    const { updateItemQty } = useCart() as any;
+    const response = await updateItemQty(context, {
       currentCart: 'current cart',
       product: { name: 'product1' },
       quantity: 5
@@ -86,8 +86,8 @@ describe('[commercetools-composables] useCart', () => {
   });
 
   it('clears cart', async () => {
-    const { clearCart } = useCart() as any;
-    const response = await clearCart(context, { currentCart: 'current cart' });
+    const { clear } = useCart() as any;
+    const response = await clear(context, { currentCart: 'current cart' });
 
     expect(response).toEqual('current cart');
   });

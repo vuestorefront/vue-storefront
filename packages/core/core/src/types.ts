@@ -161,14 +161,14 @@ export interface UseCart
   > {
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
-  addToCart(product: PRODUCT, quantity?: number): Promise<void>;
-  addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
+  addItem(product: PRODUCT, quantity?: number): Promise<void>;
+  addItem(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
   isOnCart: (product: PRODUCT) => boolean;
-  removeFromCart(product: CART_ITEM): Promise<void>;
-  removeFromCart(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
-  updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
-  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
-  clearCart(): Promise<void>;
+  removeItem(product: CART_ITEM): Promise<void>;
+  removeItem(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
+  updateItemQty(product: CART_ITEM, quantity?: number): Promise<void>;
+  updateItemQty(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
+  clear(): Promise<void>;
   applyCoupon(coupon: string): Promise<void>;
   applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
   removeCoupon(coupon: COUPON): Promise<void>;

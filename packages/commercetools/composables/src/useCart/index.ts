@@ -29,25 +29,25 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
 
     return profileData.me.activeCart;
   },
-  addToCart: async (context: Context, { currentCart, product, quantity, customQuery }) => {
+  addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
     const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
     return data.cart;
   },
-  removeFromCart: async (context: Context, { currentCart, product, customQuery }) => {
+  removeItem: async (context: Context, { currentCart, product, customQuery }) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
     const { data } = await context.$ct.api.removeFromCart(loadedCart, product, customQuery);
     return data.cart;
   },
-  updateQuantity: async (context: Context, { currentCart, product, quantity, customQuery }) => {
+  updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     const loadedCart = await getCurrentCart(context, currentCart);
 
     const { data } = await context.$ct.api.updateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
     return data.cart;
   },
-  clearCart: async (context: Context, { currentCart }) => {
+  clear: async (context: Context, { currentCart }) => {
     return currentCart;
   },
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
