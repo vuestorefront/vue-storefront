@@ -51,7 +51,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const addItem = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
-      Logger.debug('useCart.addToCart', { product, quantity });
+      Logger.debug('useCart.addItem', { product, quantity });
 
       loading.value = true;
       const updatedCart = await factoryParams.addItem(
@@ -69,7 +69,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const removeItem = async (product: CART_ITEM, customQuery?: CustomQuery) => {
-      Logger.debug('useCart.removeFromCart', { product });
+      Logger.debug('useCart.removeItem', { product });
 
       loading.value = true;
       const updatedCart = await factoryParams.removeItem(
@@ -86,7 +86,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const updateItemQty = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
-      Logger.debug('useCart.updateQuantity', { product, quantity });
+      Logger.debug('useCart.updateItemQty', { product, quantity });
 
       if (quantity && quantity > 0) {
         loading.value = true;
@@ -128,7 +128,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const clear = async () => {
-      Logger.debug('useCart.clearCart');
+      Logger.debug('useCart.clear');
 
       loading.value = true;
       const updatedCart = await factoryParams.clear(context, { currentCart: cart.value });
