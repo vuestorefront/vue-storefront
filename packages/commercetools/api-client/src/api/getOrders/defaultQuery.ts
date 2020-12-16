@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { OrderFragment } from './../../fragments';
+import { OrderFragment } from '../../fragments';
 
 export default gql`
   ${OrderFragment}
