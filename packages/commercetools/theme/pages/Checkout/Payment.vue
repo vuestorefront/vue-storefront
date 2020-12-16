@@ -235,7 +235,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { billing, load: loadUserBilling, setDefault } = useUserBilling();
+    const { billing, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -305,7 +305,7 @@ export default {
         if (!chosenAddress || !chosenAddress.length) {
           return;
         }
-        await setDefault(chosenAddress[0]);
+        await setDefaultAddress(chosenAddress[0]);
       }
       addressIsModified.value = false;
     };

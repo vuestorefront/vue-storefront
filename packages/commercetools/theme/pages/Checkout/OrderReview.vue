@@ -177,7 +177,7 @@ export default {
   setup(props, context) {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
-    const { cart, removeFromCart } = useCart();
+    const { cart, removeItem } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -212,7 +212,7 @@ export default {
       billingSameAsShipping,
       terms,
       totals,
-      removeFromCart,
+      removeItem,
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
