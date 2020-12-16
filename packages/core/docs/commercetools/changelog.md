@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.0.1-rc.2 (not released)
+## 1.1.0 (not released)
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
+- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 
 ## 1.0.1-rc.1
 - updated version of core
@@ -15,7 +16,6 @@
 - removed logging level from nuxt.config.js to use defaults from core ([#5304](https://github.com/DivanteLtd/vue-storefront/issues/5304))
 - fixed broken focus in login form ([#5273](https://github.com/DivanteLtd/vue-storefront/issues/5273))
 - fixed select for changing variant on product page ([#5281](https://github.com/DivanteLtd/vue-storefront/issues/5281))
-- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 - added token re-try strategy ([#5295](https://github.com/DivanteLtd/vue-storefront/pull/5295))
 - added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
 - added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))

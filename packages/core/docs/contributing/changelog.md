@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0 (not released)
+- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
+
 ## 2.1.1-rc.1
 - updated version of nuxt composition-api
 
@@ -12,7 +15,6 @@
 - changed default logging level to 'warn' and 'error' in development and production mode respectively ([#5304](https://github.com/DivanteLtd/vue-storefront/issues/5304))
 - fixed broken focus in login form ([#5273](https://github.com/DivanteLtd/vue-storefront/issues/5273))
 - fixed select for changing variant on product page ([#5281](https://github.com/DivanteLtd/vue-storefront/issues/5281))
-- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 - fixed checkboxes in filters sidebar are not clickable on mobile ([#5246](https://github.com/DivanteLtd/vue-storefront/pull/5246))
 - fixed no option to close a login modal ([#5243](https://github.com/DivanteLtd/vue-storefront/pull/5243))
 - fixed category page for mobile ([#5238](https://github.com/DivanteLtd/vue-storefront/pull/5238))
