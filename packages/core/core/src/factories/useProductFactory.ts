@@ -2,21 +2,15 @@ import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams }
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface ProductsSearchResult<PRODUCT> {
-  data: PRODUCT[];
-  total: number;
+export interface UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
+  productsSearch: (context: Context, searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<PRODUCTS>;
 }
 
-export interface UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
-  productsSearch: (context: Context, searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<ProductsSearchResult<PRODUCT>>;
-}
-
-export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
-  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS>
+export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
+  factoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCT> {
-    const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
-    const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
+  return function useProduct(id: string): UseProduct<PRODUCTS> {
+    const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const context = generateContext(factoryParams);
 
@@ -25,9 +19,7 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
 
       loading.value = true;
       try {
-        const { data, total } = await factoryParams.productsSearch(context, params, customQuery);
-        products.value = data;
-        totalProducts.value = total;
+        products.value = await factoryParams.productsSearch(context, params, customQuery);
       } catch (e) {
         Logger.error('useProduct.search', e);
         throw e;
@@ -39,7 +31,6 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
     return {
       search,
       products: computed(() => products.value),
-      totalProducts: computed(() => totalProducts.value),
       loading: computed(() => loading.value)
     };
   };

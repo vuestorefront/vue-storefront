@@ -38,10 +38,7 @@ describe('[commercetools-composables] useUserOrders', () => {
 
     const response = await searchOrders(context, { param: 'param1' });
 
-    expect(response).toEqual({
-      data: ['order1', 'order2', 'order3'],
-      total: 3
-    });
+    expect(response).toEqual(['order1', 'order2', 'order3']);
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 
@@ -50,10 +47,7 @@ describe('[commercetools-composables] useUserOrders', () => {
 
     const response = await searchOrders(context);
 
-    expect(response).toEqual({
-      data: ['order1', 'order2', 'order3'],
-      total: 3
-    });
+    expect(response).toEqual(['order1', 'order2', 'order3']);
     expect(context.$ct.api.getOrders).toBeCalled();
   });
 
@@ -64,10 +58,7 @@ describe('[commercetools-composables] useUserOrders', () => {
 
     const response = await searchOrders(context, { param: 'param1' });
 
-    expect(response).toEqual({
-      data: [],
-      total: 0
-    });
+    expect(response).toEqual([]);
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 });

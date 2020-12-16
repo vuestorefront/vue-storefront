@@ -20,20 +20,18 @@ describe('[CORE - factories] useUserOrderFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial props', () => {
-      const { loading, orders, totalOrders } = useUserOrders();
+      const { loading, orders } = useUserOrders();
       expect(loading.value).toEqual(false);
       expect(orders.value).toEqual([]);
-      expect(totalOrders.value).toEqual(0);
     });
   });
 
   describe('methods', () => {
     describe('search', () => {
       it('should set search results', async () => {
-        const { searchOrders, orders, totalOrders } = useUserOrders();
+        const { searchOrders, orders } = useUserOrders();
         await searchOrders({});
         expect(orders.value).toEqual(['first', 'second']);
-        expect(totalOrders.value).toEqual(10);
       });
 
       it('should disable loading flag on error', async () => {

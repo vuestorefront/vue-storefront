@@ -10,28 +10,25 @@ const useProduct: (cacheId: string) => UseProduct<any> = useProductFactory<any, 
 
 describe('[CORE - factories] useProductFactory', () => {
   it('creates properties', () => {
-    const { products, loading, totalProducts } = useProduct('test-product');
+    const { products, loading } = useProduct('test-product');
 
     expect(products.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(totalProducts.value).toEqual(0);
   });
 
   it('returns product response', async () => {
-    const { search, products, totalProducts } = useProduct('test-use-product');
+    const { search, products } = useProduct('test-use-product');
 
     await search({ slug: 'product-slug' });
 
     expect(products.value).toEqual([{name: 'product product-slug' }]);
-    expect(totalProducts.value).toEqual(1);
   });
 
   it('returns product response with ssr', async () => {
-    const { search, products, totalProducts } = useProduct('test-use-product');
+    const { search, products } = useProduct('test-use-product');
 
     await search({ slug: 'product-slug' });
 
     expect(products.value).toEqual([{name: 'product product-slug' }]);
-    expect(totalProducts.value).toEqual(1);
   });
 });

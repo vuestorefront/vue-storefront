@@ -18,9 +18,8 @@ export interface ProductsSearchParams {
   [x: string]: any;
 }
 
-export interface UseProduct<PRODUCT> {
-  products: ComputedProperty<PRODUCT[]>;
-  totalProducts: ComputedProperty<number>;
+export interface UseProduct<PRODUCTS> {
+  products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   search(params: ProductsSearchParams): Promise<void>;
   search(params: ProductsSearchParams, customQuery?: CustomQuery): Promise<void>;
@@ -65,9 +64,8 @@ export interface UseUserOrdersSearchParams {
   [x: string]: any;
 }
 
-export interface UseUserOrders<ORDER> {
-  orders: ComputedProperty<ORDER[]>;
-  totalOrders: ComputedProperty<number>;
+export interface UseUserOrders<ORDERS> {
+  orders: ComputedProperty<ORDERS>;
   searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
   searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
   loading: ComputedProperty<boolean>;
