@@ -1,5 +1,4 @@
 import { Ref, computed } from '@vue/composition-api';
-import { markCustomQueryDeprecated } from '../helpers';
 import { CustomQuery, UseUserOrders, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -9,7 +8,7 @@ export interface OrdersSearchResult<ORDER> {
 }
 
 export interface UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> extends FactoryParams {
-  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
+  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<OrdersSearchResult<ORDER>>;
 }
 
 export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
@@ -24,7 +23,7 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
 
       loading.value = true;
       try {
-        const { data, total } = await factoryParams.searchOrders(context, { ...searchParams, customQuery }, markCustomQueryDeprecated(customQuery));
+        const { data, total } = await factoryParams.searchOrders(context, { ...searchParams, customQuery });
         orders.value = data;
         totalOrders.value = total;
       } catch (err) {

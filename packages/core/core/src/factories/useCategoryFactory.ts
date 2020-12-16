@@ -1,10 +1,9 @@
 import { CustomQuery, UseCategory, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
-import { markCustomQueryDeprecated } from '../helpers';
 
 export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> extends FactoryParams {
-  categorySearch: (context: Context, params: CATEGORY_SEARCH_PARAMS & { customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<CATEGORY[]>;
+  categorySearch: (context: Context, params: CATEGORY_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<CATEGORY[]>;
 }
 
 export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
@@ -19,7 +18,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
       Logger.debug('useCategory.search', searchParams);
 
       loading.value = true;
-      categories.value = await factoryParams.categorySearch(context, { ...searchParams, customQuery }, markCustomQueryDeprecated(customQuery));
+      categories.value = await factoryParams.categorySearch(context, { ...searchParams, customQuery });
       loading.value = false;
     };
 

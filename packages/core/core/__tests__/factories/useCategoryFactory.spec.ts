@@ -4,8 +4,6 @@ import { UseCategory } from '../../src/types';
 let useCategory: (cacheId?: string) => UseCategory<any>;
 let params: UseCategoryFactoryParams<any, any>;
 
-const customQuery = undefined;
-
 function createComposable() {
   params = {
     categorySearch: jest
@@ -36,7 +34,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
         const { categories, search } = useCategory();
         expect(categories.value).toEqual([]);
         await search({ someparam: 'qwerty' });
-        expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' }, customQuery);
+        expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });

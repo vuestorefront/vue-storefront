@@ -1,11 +1,10 @@
 import { Ref, computed } from '@vue/composition-api';
-import { markCustomQueryDeprecated } from '../helpers';
 import { CustomQuery, UseReview, Context, FactoryParams } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
-  searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS & { customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<REVIEW>;
-  addReview: (context: Context, params: REVIEW_ADD_PARAMS & { customQuery?: CustomQuery }, oldCustomQuery?: CustomQuery) => Promise<REVIEW>;
+  searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<REVIEW>;
+  addReview: (context: Context, params: REVIEW_ADD_PARAMS & { customQuery?: CustomQuery }) => Promise<REVIEW>;
 }
 
 export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
@@ -22,7 +21,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.searchReviews(context, { ...searchParams, customQuery }, markCustomQueryDeprecated(customQuery));
+        reviews.value = await factoryParams.searchReviews(context, { ...searchParams, customQuery });
       } catch (searchError) {
         Logger.error('useReview.search', searchError);
 
@@ -37,7 +36,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.addReview(context, { ...params, customQuery }, markCustomQueryDeprecated(customQuery));
+        reviews.value = await factoryParams.addReview(context, { ...params, customQuery });
       } catch (addError) {
         Logger.error('useReview.addReview', addError);
 

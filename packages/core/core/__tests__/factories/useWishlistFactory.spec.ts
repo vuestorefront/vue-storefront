@@ -5,7 +5,6 @@ import { sharedRef } from './../../src/utils';
 let useWishlist: () => UseWishlist<any, any, any>;
 let setWishlist = null;
 let params: UseWishlistFactoryParams<any, any, any>;
-
 const customQuery = undefined;
 
 function createComposable() {
@@ -83,7 +82,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
-        }, customQuery);
+        });
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
     });
@@ -95,7 +94,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
-        }, customQuery);
+        });
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
     });

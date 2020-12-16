@@ -1,27 +1,23 @@
 import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
-import { markCustomQueryDeprecated, markMethodDeprecated } from '../helpers';
 
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
-  load?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
-  loadWishlist?: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
+  load: (context: Context, customQuery?: CustomQuery) => Promise<WISHLIST>;
   addItem: (
     context: Context,
     params: {
       currentWishlist: WISHLIST;
       product: PRODUCT;
       customQuery?: CustomQuery;
-    },
-    oldCustomQuery?: CustomQuery) => Promise<WISHLIST>;
+    }) => Promise<WISHLIST>;
   removeItem: (
     context: Context,
     params: {
       currentWishlist: WISHLIST;
       product: WISHLIST_ITEM;
       customQuery?: CustomQuery;
-    },
-    oldCustomQuery?: CustomQuery) => Promise<WISHLIST>;
+    }) => Promise<WISHLIST>;
   clear: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
@@ -54,8 +50,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
           currentWishlist: wishlist.value,
           product,
           customQuery
-        },
-        markCustomQueryDeprecated(customQuery)
+        }
       );
       wishlist.value = updatedWishlist;
       loading.value = false;
@@ -71,8 +66,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
           currentWishlist: wishlist.value,
           product,
           customQuery
-        },
-        markCustomQueryDeprecated(customQuery)
+        }
       );
       wishlist.value = updatedWishlist;
       loading.value = false;
@@ -84,11 +78,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       if (wishlist.value) return;
 
       loading.value = true;
-      wishlist.value = await markMethodDeprecated(
-        '\'loadWishlist\' is deprecated, use \'load\' in your integration instead',
-        factoryParams.load,
-        factoryParams.loadWishlist
-      )(context, customQuery);
+      wishlist.value = await factoryParams.load(context, customQuery);
       loading.value = false;
     };
 
