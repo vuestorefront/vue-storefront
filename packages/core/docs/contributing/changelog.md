@@ -2,6 +2,7 @@
 
 ## 2.2.0 (not released)
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
+- fixed pagination and per page on category page ([#5327](https://github.com/DivanteLtd/vue-storefront/issues/5327))
 
 ## 2.1.1-rc.1
 - updated version of nuxt composition-api
