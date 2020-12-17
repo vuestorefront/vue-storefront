@@ -310,7 +310,7 @@ app.get('*', async (req, res, next) => {
       })
       await Promise.all(configPromises)
 
-      if (config.server.dynamicConfigReloadWithEachRequest) {
+      if (!config.server.dynamicConfigReloadWithEachRequest) {
         globalContextConfig = config.util.extendDeep({}, requestContextConfig)
       }
     }
