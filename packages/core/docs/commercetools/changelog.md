@@ -3,6 +3,8 @@
 ## 1.1.0 (not released)
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
+- [BREAKING] refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
+- [BREAKING] changed signatures of factory methods to always 2 arguments, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
 
 ## 1.0.1-rc.1
 - updated version of core
@@ -20,8 +22,6 @@
 - added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
 - added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
 - added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
-- [BREAKING] loadWishlist, loadUser, loadCart renamed to `load` ([#5285](https://github.com/DivanteLtd/vue-storefront/issues/5285))
-- [BREAKING] customQuery is or is in object in the second argument ([#5285](https://github.com/DivanteLtd/vue-storefront/issues/5285))
 
 ## 0.2.6
 
