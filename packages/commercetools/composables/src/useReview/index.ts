@@ -4,12 +4,12 @@ import { useReviewFactory, UseReview, UseReviewFactoryParams, Context } from '@v
 
 const params: UseReviewFactoryParams<any, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchReviews: async (context: Context, { customQuery, ...searchParams }) => {
+  searchReviews: async (context: Context, params) => {
     console.log('Mocked: searchReviews');
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addReview: async (context: Context, { customQuery, ...params }) => {
+  addReview: async (context: Context, params) => {
     console.log('Mocked: addReview');
     return {};
   }

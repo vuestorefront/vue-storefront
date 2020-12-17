@@ -18,7 +18,6 @@ export default {
     const { 
       wishlist,
       addToWishlist,
-      load,
       removeFromWishlist,
       clearWishlist,
       isOnWishlist,
