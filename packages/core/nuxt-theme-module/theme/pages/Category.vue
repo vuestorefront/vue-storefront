@@ -157,8 +157,8 @@
               :isAddedToCart="isOnCart(product)"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="addToWishlist(product)"
-              @click:add-to-cart="addToCart(product, 1)"
+              @click:wishlist="addItemToWishlist(product)"
+              @click:add-to-cart="addItemToCart(product, 1)"
             />
           </transition-group>
           <transition-group
@@ -182,7 +182,7 @@
               :score-rating="3"
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
-              @click:wishlist="addToWishlist(product)"
+              @click:wishlist="addItemToWishlist(product)"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -352,8 +352,8 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addToCart, isOnCart } = useCart();
-    const { addToWishlist } = useWishlist();
+    const { addItem: addItemToCart, isOnCart } = useCart();
+    const { addItem: addItemToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
@@ -431,8 +431,8 @@ export default {
       sortBy,
       facets,
       breadcrumbs,
-      addToWishlist,
-      addToCart,
+      addItemToWishlist,
+      addItemToCart,
       isOnCart,
       isFacetColor,
       selectFilter,

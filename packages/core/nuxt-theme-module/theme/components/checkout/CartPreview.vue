@@ -90,7 +90,7 @@ export default {
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
@@ -108,8 +108,8 @@ export default {
       totals,
       promoCode,
       showPromoCode,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       checkoutGetters,
       cartGetters,
       applyCoupon,
