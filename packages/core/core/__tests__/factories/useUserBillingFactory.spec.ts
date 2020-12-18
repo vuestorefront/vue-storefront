@@ -33,7 +33,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.addAddress(paramsToUpdate);
+        await useUserBillingMethods.addAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
@@ -53,7 +53,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.deleteAddress(paramsToUpdate);
+        await useUserBillingMethods.deleteAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
@@ -73,7 +73,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.updateAddress(paramsToUpdate);
+        await useUserBillingMethods.updateAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
@@ -113,7 +113,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefaultAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.setDefaultAddress(paramsToUpdate);
+        await useUserBillingMethods.setDefaultAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 

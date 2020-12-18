@@ -1,7 +1,7 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../../src/factories';
 import { UseCategory } from '../../src/types';
 
-let useCategory: (cacheId?: string) => UseCategory<any>;
+let useCategory: (cacheId?: string) => UseCategory<any, any>;
 let params: UseCategoryFactoryParams<any, any>;
 
 function createComposable() {

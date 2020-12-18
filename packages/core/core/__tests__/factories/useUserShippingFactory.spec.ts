@@ -33,7 +33,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.addAddress(paramsToUpdate);
+        await useUserShippingMethods.addAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -53,7 +53,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.deleteAddress(paramsToUpdate);
+        await useUserShippingMethods.deleteAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -73,7 +73,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.updateAddress(paramsToUpdate);
+        await useUserShippingMethods.updateAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -113,7 +113,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.setDefaultAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.setDefaultAddress(paramsToUpdate);
+        await useUserShippingMethods.setDefaultAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 

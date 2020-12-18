@@ -2,7 +2,7 @@ import { UseUserOrders } from '../../src/types';
 import { UseUserOrdersFactoryParams, useUserOrdersFactory, OrdersSearchResult } from '../../src/factories';
 import { Ref } from '@vue/composition-api';
 
-let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>>;
+let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>, any>;
 let params: UseUserOrdersFactoryParams<any, any>;
 
 function createComposable(): void {
