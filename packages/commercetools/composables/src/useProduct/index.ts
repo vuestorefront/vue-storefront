@@ -19,7 +19,7 @@ const productsSearch = async (context: Context, { customQuery, ...searchParams }
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<ProductVariant> = useProductFactory<ProductVariant, ProductsSearchParams>({
+const useProduct: (cacheId: string) => UseProduct<ProductVariant, ProductsSearchParams> = useProductFactory<ProductVariant, ProductsSearchParams>({
   productsSearch
 });
 

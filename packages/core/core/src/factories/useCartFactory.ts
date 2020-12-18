@@ -3,7 +3,7 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
-  load: (context: Context, customQuery?: CustomQuery) => Promise<CART>;
+  load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
   addItem: (
     context: Context,
     params: {
@@ -111,7 +111,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
       loading.value = true;
-      cart.value = await factoryParams.load(context, customQuery);
+      cart.value = await factoryParams.load(context, { customQuery });
       loading.value = false;
     };
 

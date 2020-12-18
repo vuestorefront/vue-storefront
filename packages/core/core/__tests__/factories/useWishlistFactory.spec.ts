@@ -70,7 +70,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
 
         const { load, wishlist } = useWishlist();
         await load();
-        expect(params.load).toHaveBeenCalledWith({ context: null }, customQuery);
+        expect(params.load).toHaveBeenCalledWith({ context: null }, { customQuery });
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
     });

@@ -1,6 +1,6 @@
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+import {AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context} from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
@@ -16,14 +16,14 @@ const getCurrentCart = async (context: Context, currentCart) => {
 };
 
 const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
-  load: async (context: Context, customQueryFn?: any) => {
+  load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
 
     if ($ct.api.isGuest()) {
       return null;
     }
 
-    const { user } = customQueryFn ? customQueryFn() : { user: null };
+    const { user } = customQuery ? customQuery() : { user: null };
 
     const { data: profileData } = await context.$ct.api.getMe({ customer: false }, user);
 
