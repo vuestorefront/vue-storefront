@@ -44,7 +44,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const context = generateContext(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
 
-    const addAddress = async (address: USER_SHIPPING_ITEM) => {
+    const addAddress = async ({ address }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
 
       loading.value = true;
@@ -62,7 +62,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const deleteAddress = async (address: USER_SHIPPING_ITEM) => {
+    const deleteAddress = async ({ address }) => {
       Logger.debug('useUserShipping.deleteAddress', address);
 
       loading.value = true;
@@ -80,7 +80,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const updateAddress = async (address: USER_SHIPPING_ITEM) => {
+    const updateAddress = async ({ address }) => {
       Logger.debug('useUserShipping.updateAddress', address);
 
       loading.value = true;
@@ -115,7 +115,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const setDefaultAddress = async (address: USER_SHIPPING_ITEM) => {
+    const setDefaultAddress = async ({ address }) => {
       Logger.debug('useUserShipping.setDefaultAddress', address);
 
       loading.value = true;

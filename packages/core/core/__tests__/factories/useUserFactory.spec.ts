@@ -33,7 +33,7 @@ describe('[CORE - factories] useUserFactory', () => {
       factoryParams.logIn.mockReturnValueOnce(
         userToLogin
       );
-      await useUserMethods.login(userToLogin);
+      await useUserMethods.login({ user: userToLogin });
       expect(isAuthenticated.value).toBe(true);
     });
 
@@ -48,7 +48,7 @@ describe('[CORE - factories] useUserFactory', () => {
       it('return updated user data', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateUser.mockReturnValueOnce(paramsToUpdate);
-        await useUserMethods.updateUser(paramsToUpdate);
+        await useUserMethods.updateUser({ user: paramsToUpdate });
         expect(useUserMethods.user.value).toEqual(paramsToUpdate);
       });
 
@@ -67,7 +67,7 @@ describe('[CORE - factories] useUserFactory', () => {
       it('return registered user', async () => {
         const userToRegister = { email: 'John', password: '123456', firstName: 'Diego', lastName: 'Ramirez'};
         factoryParams.register.mockReturnValueOnce(userToRegister);
-        await useUserMethods.register(userToRegister);
+        await useUserMethods.register({ user: userToRegister });
         expect(useUserMethods.user.value).toEqual(userToRegister);
       });
       it('throws error', async () => {
@@ -86,7 +86,7 @@ describe('[CORE - factories] useUserFactory', () => {
         factoryParams.logIn.mockReturnValueOnce(
           userToLogin
         );
-        await useUserMethods.login(userToLogin);
+        await useUserMethods.login({ user: userToLogin });
         expect(useUserMethods.user.value).toEqual(userToLogin);
       });
       it('throws error', async () => {
@@ -137,14 +137,14 @@ describe('[CORE - factories] useUserFactory', () => {
       it('return logout user', async () => {
         const changePasswordData = {currentUser: {email: 'tonny@dot.com', password: '123456'}, currentPassword: '123456', newPassword: '654321'};
         factoryParams.changePassword.mockReturnValueOnce(changePasswordData);
-        await useUserMethods.changePassword(changePasswordData.currentPassword, changePasswordData.newPassword);
+        await useUserMethods.changePassword({ current: changePasswordData.currentPassword, new: changePasswordData.newPassword });
         expect(useUserMethods.user.value).toEqual(changePasswordData);
       });
       it('throws error', async () => {
         factoryParams.changePassword.mockImplementationOnce(() => {
           throw new Error('Error');
         });
-        await expect(useUserMethods.changePassword(null as any, null as any)).rejects.toThrow('Error');
+        await expect(useUserMethods.changePassword({ current: null as any, new: null as any })).rejects.toThrow('Error');
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);

@@ -45,7 +45,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
-    const addAddress = async (address: USER_BILLING_ITEM) => {
+    const addAddress = async ({ address }) => {
       Logger.debug('useUserBilling.addAddress', address);
 
       loading.value = true;
@@ -63,7 +63,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const deleteAddress = async (address: USER_BILLING_ITEM) => {
+    const deleteAddress = async ({ address }) => {
       Logger.debug('useUserBilling.deleteAddress', address);
 
       loading.value = true;
@@ -81,7 +81,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const updateAddress = async (address: USER_BILLING_ITEM) => {
+    const updateAddress = async ({ address }) => {
       Logger.debug('useUserBilling.updateAddress', address);
 
       loading.value = true;
@@ -116,7 +116,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const setDefaultAddress = async (address: USER_BILLING_ITEM) => {
+    const setDefaultAddress = async ({ address }) => {
       Logger.debug('useUserBilling.setDefaultAddress');
 
       loading.value = true;

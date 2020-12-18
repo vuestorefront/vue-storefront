@@ -53,7 +53,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
     describe('isOnWishlist', () => {
       it('should invoke implemented isOnWishlist method', () => {
         const { isOnWishlist } = useWishlist();
-        const result = isOnWishlist({ id: 'productId' });
+        const result = isOnWishlist({ product: { id: 'productId' } });
         expect(result).toEqual(true);
         expect(params.isOnWishlist).toBeCalledWith({ context: null }, {
           currentWishlist: null,
@@ -78,7 +78,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
     describe('addItem', () => {
       it('should invoke adding to wishlist', async () => {
         const { addItem, wishlist } = useWishlist();
-        await addItem({ id: 'productId' });
+        await addItem({ product: { id: 'productId' } });
         expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }
@@ -90,7 +90,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
     describe('removeItem', () => {
       it('should invoke adding to wishlist', async () => {
         const { removeItem, wishlist } = useWishlist();
-        await removeItem({ id: 'productId' });
+        await removeItem({ product: { id: 'productId' } });
         expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
           currentWishlist: null,
           product: { id: 'productId' }

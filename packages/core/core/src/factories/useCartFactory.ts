@@ -45,7 +45,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       Logger.debug('useCartFactory.setCart', newCart);
     };
 
-    const addItem = async (product: PRODUCT, quantity: number, customQuery?: CustomQuery) => {
+    const addItem = async ({ product, quantity, customQuery }) => {
       Logger.debug('useCart.addItem', { product, quantity });
 
       loading.value = true;
@@ -62,7 +62,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const removeItem = async (product: CART_ITEM, customQuery?: CustomQuery) => {
+    const removeItem = async ({ product, customQuery }) => {
       Logger.debug('useCart.removeItem', { product });
 
       loading.value = true;
@@ -78,7 +78,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const updateItemQty = async (product: CART_ITEM, quantity?: number, customQuery?: CustomQuery) => {
+    const updateItemQty = async ({ product, quantity, customQuery }) => {
       Logger.debug('useCart.updateItemQty', { product, quantity });
 
       if (quantity && quantity > 0) {
@@ -97,7 +97,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const load = async (customQuery?: CustomQuery) => {
+    const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useCart.load');
 
       if (cart.value) {
@@ -124,14 +124,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading.value = false;
     };
 
-    const isOnCart = (product: PRODUCT) => {
+    const isOnCart = ({ product }) => {
       return factoryParams.isOnCart(context, {
         currentCart: cart.value,
         product
       });
     };
 
-    const applyCoupon = async (couponCode: string, customQuery?: CustomQuery) => {
+    const applyCoupon = async ({ couponCode, customQuery }) => {
       Logger.debug('useCart.applyCoupon');
 
       try {
@@ -150,7 +150,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const removeCoupon = async (coupon: COUPON, customQuery?: CustomQuery) => {
+    const removeCoupon = async ({ coupon, customQuery }) => {
       Logger.debug('useCart.removeCoupon');
 
       try {

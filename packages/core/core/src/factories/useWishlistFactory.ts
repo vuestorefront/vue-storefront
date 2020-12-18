@@ -40,7 +40,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const context = generateContext(factoryParams);
 
-    const addItem = async (product: PRODUCT, customQuery?: CustomQuery) => {
+    const addItem = async ({ product, customQuery }) => {
       Logger.debug('useWishlist.addToWishlist', product);
 
       loading.value = true;
@@ -56,7 +56,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       loading.value = false;
     };
 
-    const removeItem = async (product: WISHLIST_ITEM, customQuery?: CustomQuery) => {
+    const removeItem = async ({ product, customQuery }) => {
       Logger.debug('useWishlist.removeFromWishlist', product);
 
       loading.value = true;
@@ -72,7 +72,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       loading.value = false;
     };
 
-    const load = async (customQuery?: CustomQuery) => {
+    const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useWishlist.load');
 
       if (wishlist.value) return;
@@ -93,7 +93,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       loading.value = false;
     };
 
-    const isOnWishlist = (product: PRODUCT) => {
+    const isOnWishlist = ({ product }) => {
       Logger.debug('useWishlist.isOnWishlist', product);
 
       return factoryParams.isOnWishlist(context, {

@@ -16,12 +16,12 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     const error: Ref<string | null> = sharedRef(null, `useReviews-error-${id}`);
     const context = generateContext(factoryParams);
 
-    const search = async (searchParams?: REVIEWS_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+    const search = async (searchParams): Promise<void> => {
       Logger.debug('useReview.search', searchParams);
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.searchReviews(context, { ...searchParams, customQuery });
+        reviews.value = await factoryParams.searchReviews(context, searchParams);
       } catch (searchError) {
         Logger.error('useReview.search', searchError);
 
@@ -31,12 +31,12 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       }
     };
 
-    const addReview = async (params: REVIEW_ADD_PARAMS, customQuery?: CustomQuery): Promise<void> => {
+    const addReview = async (params): Promise<void> => {
       Logger.debug('useReview.addReview', params);
 
       try {
         loading.value = true;
-        reviews.value = await factoryParams.addReview(context, { ...params, customQuery });
+        reviews.value = await factoryParams.addReview(context, params);
       } catch (addError) {
         Logger.error('useReview.addReview', addError);
 

@@ -14,18 +14,18 @@ export interface UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends 
 export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS>(
   factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCT> {
+  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_SEARCH_PARAMS> {
     const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
     const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const context = generateContext(factoryParams);
 
-    const search = async (searchParams: PRODUCT_SEARCH_PARAMS, customQuery?: CustomQuery) => {
+    const search = async (searchParams) => {
       Logger.debug('useProduct.search', searchParams);
 
       loading.value = true;
       try {
-        const { data, total } = await factoryParams.productsSearch(context, { ...searchParams, customQuery });
+        const { data, total } = await factoryParams.productsSearch(context, searchParams);
         products.value = data;
         totalProducts.value = total;
       } catch (e) {
