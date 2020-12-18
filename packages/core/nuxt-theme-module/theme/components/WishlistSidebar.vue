@@ -31,7 +31,7 @@
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                @click:remove="removeItem(product)"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                <template #configuration>

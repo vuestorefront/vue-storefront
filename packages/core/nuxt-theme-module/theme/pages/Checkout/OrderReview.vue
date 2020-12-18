@@ -111,7 +111,7 @@
               color="#BEBFC4"
               role="button"
               class="button"
-              @click="removeItem(product)"
+              @click="removeItem({ product })"
             />
           </SfTableData>
         </SfTableRow>

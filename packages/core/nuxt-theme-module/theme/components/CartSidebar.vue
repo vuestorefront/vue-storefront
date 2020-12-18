@@ -28,8 +28,8 @@
                 :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
                 :stock="99999"
                 :qty="cartGetters.getItemQty(product)"
-                @input="updateItemQty(product, $event)"
-                @click:remove="removeItem(product)"
+                @input="updateItemQty({ product, quantity: $event })"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                 <template #configuration>

@@ -157,8 +157,8 @@
               :isAddedToCart="isOnCart(product)"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="addItemToWishlist(product)"
-              @click:add-to-cart="addItemToCart(product, 1)"
+              @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
           </transition-group>
           <transition-group
@@ -182,7 +182,7 @@
               :score-rating="3"
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
-              @click:wishlist="addItemToWishlist(product)"
+              @click:wishlist="addItemToWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
