@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SfOverlay :visible="!!hovered" />
+    <SfOverlay :visible="!!isOverlayVisible" />
     <SfHeader
       data-cy="app-header"
       @click:cart="toggleCartSidebar"
@@ -20,7 +20,7 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <TopMenu @setOverlay="hovered = $event" />
+        <TopMenu @setOverlay="isOverlayVisible = $event" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -55,7 +55,7 @@ export default {
     const { cart, loadCart } = useCart();
     const { loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
-    const hovered = ref(false);
+    const isOverlayVisible = ref(false);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -87,7 +87,7 @@ export default {
       toggleWishlistSidebar,
       changeSearchTerm,
       term,
-      hovered
+      isOverlayVisible
     };
   }
 };
