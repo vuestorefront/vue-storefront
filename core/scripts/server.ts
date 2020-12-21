@@ -1,6 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 
-let config = require('config')
+const config = require('config')
 const path = require('path')
 const glob = require('glob')
 const fs = require('fs')
@@ -159,7 +159,9 @@ function cacheVersion (req, res) {
 
 app.get('/cache-version.json', cacheVersion)
 
-app.get('*', (req, res, next) => {
+let globalContextConfig: any = null;
+
+app.get('*', async (req, res, next) => {
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
     apiStatus(res, 'Vue Storefront: Resource is not found', 404)
     return
@@ -186,7 +188,7 @@ app.get('*', (req, res, next) => {
   const site = req.headers['x-vs-store-code'] || 'main'
   const cacheKey = `page:${site}:${req.url}`
 
-  const dynamicRequestHandler = renderer => {
+  const dynamicRequestHandler = (renderer, config) => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
       res.status(202).end(HTMLContent)
@@ -252,7 +254,7 @@ app.get('*', (req, res, next) => {
       })
   }
 
-  const dynamicCacheHandler = () => {
+  const dynamicCacheHandler = (config) => {
     if (config.server.useOutputCache && cache) {
       cache.get(
         cacheKey
@@ -280,47 +282,43 @@ app.get('*', (req, res, next) => {
         } else {
           res.setHeader('X-VS-Cache', 'Miss')
           console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-          dynamicRequestHandler(renderer) // render response
+          dynamicRequestHandler(renderer, config) // render response
         }
       }).catch(errorHandler)
     } else {
-      dynamicRequestHandler(renderer)
+      dynamicRequestHandler(renderer, config)
     }
   }
 
-  if (config.server.dynamicConfigReload) {
-    const cachedConfigModule = require.cache[require.resolve('config')]
-    if (cachedConfigModule) {
-      delete cachedConfigModule.parent.children
-      delete require.cache[require.resolve('config')]
-    }
-    config = require('config') // reload config
+  let requestContextConfig: any = config.util.extendDeep({}, config);
+
+  if (config.server.dynamicConfigReload && !globalContextConfig) {
     if (configProviders.length > 0) {
+      const configPromises = [];
       configProviders.forEach(configProvider => {
         if (typeof configProvider === 'function') {
-          configProvider(req).then(loadedConfig => {
-            config = config.util.extendDeep(config, loadedConfig)
-            dynamicCacheHandler()
-          }).catch(error => {
-            if (config.server.dynamicConfigContinueOnError) {
-              dynamicCacheHandler()
-            } else {
-              console.log('config provider error:', error)
+          configPromises.push(configProvider(req).then(loadedConfig => {
+            requestContextConfig = config.util.extendDeep(requestContextConfig, loadedConfig)
+          }).catch(() => {
+            if (!config.server.dynamicConfigContinueOnError) {
               if (req.url !== '/error') {
                 res.redirect('/error')
               }
-              dynamicCacheHandler()
             }
-          })
+          }))
         }
       })
-    } else {
-      config = require('config') // reload config
-      dynamicCacheHandler()
+      await Promise.all(configPromises)
+
+      if (!config.server.dynamicConfigReloadWithEachRequest) {
+        globalContextConfig = config.util.extendDeep({}, requestContextConfig)
+      }
     }
-  } else {
-    dynamicCacheHandler()
+  } else if (globalContextConfig) {
+    requestContextConfig = config.util.extendDeep({}, globalContextConfig)
   }
+
+  dynamicCacheHandler(requestContextConfig)
 })
 
 let port = process.env.PORT || config.server.port
