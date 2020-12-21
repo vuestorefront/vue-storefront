@@ -95,8 +95,8 @@
         <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
         <SfTableData class="table__data price">
           <SfPrice
-            :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-            :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+            :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
+            :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
             class="product-price"
           />
         </SfTableData>
@@ -107,12 +107,12 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="checkoutGetters.getFormattedPrice(totals.special > 0 ? totals.special : totals.subtotal)"
+            :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
             name="Shipping"
-            :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+            :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
