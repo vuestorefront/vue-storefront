@@ -9,7 +9,7 @@ Vue Storefront supports Magento Multistore installations
 
 ## Multiwebsite indexing
 
-Multiwebsite support starts with the Elasticsearch indexing. Basically, each store has its own Elasticsearch index and should be populated using the [Magento2 VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) tool.
+Multiwebsite support starts with the Elasticsearch indexing. Basically, each store has its own Elasticsearch index and should be populated using the [Magento2 VSBridge Indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) tool.
 
 :::warning
 
@@ -220,7 +220,7 @@ export default function(app, router, store) {
 Another option is to create a separate theme for a specific storeview. Runtime theme changes are not possible, as themes are compiled in the JS bundles by webpack during the page build process. In that case, you should run separate instances of `vue-storefront` having the proper theme set in the `config/local.json` file.
 
 ## Multi Source Inventory (MSI) support
-To support this custom feature you should take care of 2 things. At first please install [Magento2 VSBridge Indexer MSI Extension](https://github.com/DivanteLtd/magento2-vsbridge-indexer-msi). Then in `config/local.json` of your VSF-API add part like:
+To support this custom feature you should take care of 2 things. At first please install [Magento2 VSBridge Indexer MSI Extension](https://github.com/vuestorefront/magento2-vsbridge-indexer-msi). Then in `config/local.json` of your VSF-API add part like:
 ```js
 "msi": {
   "enabled": true,

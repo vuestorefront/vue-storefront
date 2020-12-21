@@ -11590,7 +11590,7 @@ macos-release@^2.2.0:
 
 "magento2-rest-client@github:DivanteLtd/magento2-rest-client":
   version "0.0.12"
-  resolved "https://codeload.github.com/DivanteLtd/magento2-rest-client/tar.gz/29cfac4c4f9982f99b7832621820f93dcf6f9dd4"
+  resolved "https://codeload.github.com/vuestorefront/magento2-rest-client/tar.gz/29cfac4c4f9982f99b7832621820f93dcf6f9dd4"
   dependencies:
     humps "^1.1.0"
     oauth-1.0a "^1.0.1"
@@ -15641,9 +15641,9 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-"storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
+"storefront-query-builder@https://github.com/vuestorefront/storefront-query-builder.git":
   version "1.0.1"
-  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#0ef1f9760eb44edce5b9464a9145ce0a7517a419"
+  resolved "https://github.com/vuestorefront/storefront-query-builder.git#0ef1f9760eb44edce5b9464a9145ce0a7517a419"
   dependencies:
     "@typescript-eslint/parser" "^2.26.0"
     clone-deep "^4.0.1"

@@ -240,14 +240,14 @@ The Checkout Store is designed to handle the passage from user's cart to actual 
   }
 ```
 
-The state of the Checkout module contains both the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
+The state of the Checkout module contains both the [Order object](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
 
-The state is modified by [`placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
+The state is modified by [`placeOrder`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
 
 The category state data:
 
-- `order` - this is the last order to be placed, the [schema is defined](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) in Ajv compliant format
-- `shippingDetails`, `paymentDetails` - the address information provided by the user during the [Checkout](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Checkout.vue).
+- `order` - this is the last order to be placed, the [schema is defined](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json) in Ajv compliant format
+- `shippingDetails`, `paymentDetails` - the address information provided by the user during the [Checkout](https://github.com/vuestorefront/vue-storefront/blob/master/core/pages/Checkout.vue).
 
 ### Actions
 
@@ -255,7 +255,7 @@ The cart store provides following public actions:
 
 #### `placeOrder (context, { order })`
 
-Action called by `Checkout.vue` to complete the order. Data object is validated against the [order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json), stored within the `localForage` collection by subseqent call of [`order/placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/order/actions.js#L12)
+Action called by `Checkout.vue` to complete the order. Data object is validated against the [order schema](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json), stored within the `localForage` collection by subseqent call of [`order/placeOrder`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/order/actions.js#L12)
 
 #### `savePersonalDetails ({ commit }, personalDetails)`
 

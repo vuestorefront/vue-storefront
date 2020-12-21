@@ -49,5 +49,5 @@ After official theme installation, you need to copy it and place it in `src/them
 and run `yarn` to make [Lerna](https://github.com/lerna/lerna) linking (which we use for monorepos).
 
 ## Our official themes:
-- [Capybara](https://github.com/DivanteLtd/vsf-capybara)
-- [Default](https://github.com/DivanteLtd/vsf-default)
+- [Capybara](https://github.com/vuestorefront/vsf-capybara)
+- [Default](https://github.com/vuestorefront/vsf-default)

@@ -6,7 +6,7 @@ Vue Storefront stores most of the catalog data within the Elasticsearch data sto
 
 ![Architecture diagram](../images/Vue-storefront-architecture.png).
 
-To properly access Elasticsearch data, you should implement a specific Vuex action. Here is an example of [vuex action for getting the data](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/store/category/actions.ts#L40) :
+To properly access Elasticsearch data, you should implement a specific Vuex action. Here is an example of [vuex action for getting the data](https://github.com/vuestorefront/vue-storefront/blob/master/core/modules/catalog/store/category/actions.ts#L40) :
 
 ```js
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
@@ -44,7 +44,7 @@ import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helper
   },
 ```
 
-As You may see, we're using [quickSearchByQuery](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/search.ts#L31) for executing search. This method is pretty interesting because:
+As You may see, we're using [quickSearchByQuery](https://github.com/vuestorefront/vue-storefront/blob/master/core/lib/search.ts#L31) for executing search. This method is pretty interesting because:
 
 - It uses the `searchQuery` query object, which has an ability to apply filters in common way.
 - It does cache the received data into `localForage` collection, named `elasticCache`; the next call with the same queryObject will return the data directly from browser storage, not hitting the server.
