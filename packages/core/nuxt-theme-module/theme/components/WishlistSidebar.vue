@@ -26,8 +26,8 @@
                 :key="wishlistGetters.getItemSku(product)"
                 :image="wishlistGetters.getItemImage(product)"
                 :title="wishlistGetters.getItemName(product)"
-                :regular-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).regular)"
-                :special-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).special)"
+                :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
+                :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
@@ -49,7 +49,7 @@
               <span class="my-wishlist__total-price-label">Total price:</span>
             </template>
             <template #value>
-              <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
+              <SfPrice :regular="$n(totals.subtotal, 'currency')" />
             </template>
           </SfProperty>
           </div>

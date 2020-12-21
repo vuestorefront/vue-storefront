@@ -108,7 +108,7 @@
           <template #label="{label}">
             <div class="sf-radio__label shipping__label">
               <div>{{ label }}</div>
-              <div>${{ checkoutGetters.getShippingMethodPrice(item) }}</div>
+              <div>${{ $n(checkoutGetters.getShippingMethodPrice(item), 'currency') }}</div>
             </div>
           </template>
           <template #description="{description}">
