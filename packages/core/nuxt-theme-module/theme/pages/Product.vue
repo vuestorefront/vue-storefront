@@ -22,8 +22,8 @@
         </div>
         <div class="product__price-and-rating">
           <SfPrice
-            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
+            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
           <div>
             <div class="product__rating">

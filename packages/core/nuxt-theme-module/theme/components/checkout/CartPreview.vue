@@ -15,29 +15,29 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
+        :value="$n(totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large', { discounted: totals.special > 0 }]"
       />
       <SfProperty
         v-for="discount in discounts"
         :key="discount.id"
         :name="discount.name + (discount.code && ` (${discount.code})`)"
-        :value="'-' + checkoutGetters.getFormattedPrice(discount.value)"
+        :value="'-' + $n(discount.value, 'currency')"
         class="sf-property--full-width sf-property--small"
       />
      <SfProperty
         v-if="totals.special > 0"
-        :value="checkoutGetters.getFormattedPrice(totals.special)"
+        :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
         name="Shipping"
-        :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Total"
-        :value="checkoutGetters.getFormattedPrice(totals.total)"
+        :value="$n(totals.total, 'currency')"
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>

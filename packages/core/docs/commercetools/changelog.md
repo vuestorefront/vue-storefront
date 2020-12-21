@@ -6,6 +6,7 @@
 - [BREAKING] refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
 - [BREAKING] changed signatures of factory methods to always 2 arguments, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
 - [BREAKING] removed `totalOrders` and `totalProducts` ([#5330](https://github.com/vuestorefront/vue-storefront/pull/5330))
+- removed `formatPrice` from `useUiHelpers`, replaced by vue18n `$n` function ([#5339](https://github.com/vuestorefront/vue-storefront/pull/5339))
 
 ## 1.0.1-rc.1
 - updated version of core

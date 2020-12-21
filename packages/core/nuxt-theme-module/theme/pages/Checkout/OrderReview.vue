@@ -98,8 +98,8 @@
           <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
           <SfTableData class="table__data">
             <SfPrice
-              :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-              :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+              :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
+              :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
               class="product-price"
             />
           </SfTableData>
@@ -122,19 +122,19 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="cartGetters.getFormattedPrice(totals.subtotal)"
+            :value="$n(totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
             name="Shipping"
-            :value="cartGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+            :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
         <SfDivider />
         <SfProperty
           name="Total price"
-          :value="cartGetters.getFormattedPrice(totals.total)"
+          :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">

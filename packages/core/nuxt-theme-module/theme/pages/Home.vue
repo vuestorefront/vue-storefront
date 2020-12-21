@@ -39,7 +39,7 @@
             data-cy="home-url_product"
             :title="product.title"
             :image="product.image"
-            :regular-price="product.price.regular"
+            :regular-price="$n(product.price.regular, 'currency')"
             :max-rating="product.rating.max"
             :score-rating="product.rating.score"
             :show-add-to-cart-button="true"
