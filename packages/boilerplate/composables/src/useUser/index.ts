@@ -47,6 +47,4 @@ const params: UseUserFactoryParams<User, any, any> = {
   }
 };
 
-const { useUser } = useUserFactory<User, any, any>(params);
-
-export default useUser;
+export default useUserFactory<User, any, any>(params);

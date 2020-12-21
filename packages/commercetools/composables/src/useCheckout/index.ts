@@ -8,7 +8,7 @@ import createSetPersonalDetails from './createSetPersonalDetails';
 import createSetPaymentMethod from './createSetPaymentMethod';
 import createPlaceOrder from './createPlaceOrder';
 import createLoadDetails from './createLoadDetails';
-import { useCart } from './../useCart';
+import useCart from './../useCart';
 import initFields from './initFields';
 import { computed } from '@vue/composition-api';
 import { sharedRef, generateContext } from '@vue-storefront/core';

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 (not released)
+- added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
+- [BREAKING] refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
+- [BREAKING] changed signatures of factory methods to always 2 arguments, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
+- [BREAKING] composables are always returning one field for the response, removed `totalOrders` and `totalProducts`, `useCartFactory` and `useUserFactory` are returning only composables ([#5330](https://github.com/vuestorefront/vue-storefront/pull/5330))
+
 ## 2.1.1-rc.1
 - updated version of nuxt composition-api
 
@@ -20,6 +26,7 @@
 - added discounts api getter ([#5154](https://github.com/DivanteLtd/vue-storefront/pull/5154))
 - added context implementation ([#5218](https://github.com/DivanteLtd/vue-storefront/pull/5218))
 - added context typings ([5290](https://github.com/DivanteLtd/vue-storefront/pull/5290))
+
 ## 2.0.12
 
 - fix ssr implementation, transition on client-side ([#5103](https://github.com/DivanteLtd/vue-storefront/pull/5103))

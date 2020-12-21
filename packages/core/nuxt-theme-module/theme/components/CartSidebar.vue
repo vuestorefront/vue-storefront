@@ -28,8 +28,8 @@
                 :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
                 :stock="99999"
                 :qty="cartGetters.getItemQty(product)"
-                @input="updateQuantity(product, $event)"
-                @click:remove="removeFromCart(product)"
+                @input="updateItemQty({ product, quantity: $event })"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                 <template #configuration>
@@ -137,7 +137,7 @@ export default {
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -150,8 +150,8 @@ export default {
     return {
       isAuthenticated,
       products,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       isCartSidebarOpen,
       toggleCartSidebar,
       totals,

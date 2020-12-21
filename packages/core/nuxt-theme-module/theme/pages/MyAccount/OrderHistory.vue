@@ -113,12 +113,12 @@ export default {
     SfLink
   },
   setup() {
-    const { orders, searchOrders } = useUserOrders();
+    const { orders, search } = useUserOrders();
     const { formatPrice } = useUiHelpers();
     const currentOrder = ref(null);
 
     onSSR(async () => {
-      await searchOrders();
+      await search();
     });
 
     const tableHeaders = [

@@ -86,12 +86,13 @@ export default {
 
 <style lang="scss">
 .sf-footer {
-  &__container {
-    --footer-margin: var(--spacer-sm);
-    @include for-desktop {
-      --footer-margin: var(--spacer-3xl) auto var(--spacer-xl);
-      --footer-padding: 0;
-    }
+  --footer-margin: var(--spacer-sm) 0 var(--spacer-xl);
+  --footer-display: block;
+  --footer-padding: 0 0 var(--spacer-sm) 0;
+  @include for-desktop {
+    --footer-display: flex;
+    --footer-margin: var(--spacer-3xl) auto var(--spacer-xl);
+    --footer-padding: 0;
   }
 }
 .footer {

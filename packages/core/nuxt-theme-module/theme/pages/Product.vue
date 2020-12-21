@@ -80,7 +80,7 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addToCart(product, parseInt(qty))"
+            @click="addItem(product, parseInt(qty))"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
             Save for later
@@ -220,7 +220,7 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading } = useCart();
+    const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
@@ -265,7 +265,7 @@ export default {
       relatedLoading,
       options,
       qty,
-      addToCart,
+      addItem,
       loading,
       productGetters,
       productGallery

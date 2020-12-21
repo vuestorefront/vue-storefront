@@ -2,7 +2,7 @@ import { UseUserOrders } from '../../src/types';
 import { UseUserOrdersFactoryParams, useUserOrdersFactory, OrdersSearchResult } from '../../src/factories';
 import { Ref } from '@vue/composition-api';
 
-let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>>;
+let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>, any>;
 let params: UseUserOrdersFactoryParams<any, any>;
 
 function createComposable(): void {
@@ -29,8 +29,8 @@ describe('[CORE - factories] useUserOrderFactory', () => {
   describe('methods', () => {
     describe('search', () => {
       it('should set search results', async () => {
-        const { searchOrders, orders } = useUserOrders();
-        await searchOrders({});
+        const { search, orders } = useUserOrders();
+        await search({});
         expect(orders.value).toEqual(['first', 'second']);
       });
 
@@ -38,8 +38,8 @@ describe('[CORE - factories] useUserOrderFactory', () => {
         params.searchOrders = jest.fn().mockImplementationOnce(() => {
           throw new Error();
         });
-        const { searchOrders, loading, orders } = useUserOrders();
-        await expect(searchOrders({})).rejects.toThrow();
+        const { search, loading, orders } = useUserOrders();
+        await expect(search({})).rejects.toThrow();
 
         expect(loading.value).toEqual(false);
         expect(orders.value).toEqual([]);

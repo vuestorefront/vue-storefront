@@ -49,7 +49,7 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button" @click="() => applyCoupon(promoCode)">Apply</SfButton>
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">Apply</SfButton>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -90,7 +90,7 @@ export default {
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
@@ -108,8 +108,8 @@ export default {
       totals,
       promoCode,
       showPromoCode,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       checkoutGetters,
       cartGetters,
       applyCoupon,

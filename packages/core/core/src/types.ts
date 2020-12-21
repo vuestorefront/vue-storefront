@@ -4,6 +4,8 @@ import { Ref } from '@vue/composition-api';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
+export type ComposableFunctionArgs <T> = T & { customQuery?: CustomQuery }
+
 export type CustomQuery<T = any> = (query: any, variables: T) => {
   query?: any;
   variables?: T;
@@ -18,11 +20,10 @@ export interface ProductsSearchParams {
   [x: string]: any;
 }
 
-export interface UseProduct<PRODUCTS> {
+export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
-  search(params: ProductsSearchParams): Promise<void>;
-  search(params: ProductsSearchParams, customQuery?: CustomQuery): Promise<void>;
+  search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
 }
 
@@ -47,11 +48,11 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
-  updateUser: (params: UPDATE_USER_PARAMS) => Promise<void>;
-  register: (user: UseUserRegisterParams) => Promise<void>;
-  login: (user: UseUserLoginParams) => Promise<void>;
+  updateUser: ({ user: UPDATE_USER_PARAMS }) => Promise<void>;
+  register: ({ user: UseUserRegisterParams }) => Promise<void>;
+  login: ({ user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
-  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  changePassword: (params: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
@@ -64,10 +65,9 @@ export interface UseUserOrdersSearchParams {
   [x: string]: any;
 }
 
-export interface UseUserOrders<ORDERS> {
+export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
-  searchOrders(params: UseUserOrdersSearchParams): Promise<void>;
-  searchOrders(params: UseUserOrdersSearchParams, customQuery: CustomQuery): Promise<void>;
+  search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -83,11 +83,11 @@ export interface UseUserAddress<ADDRESS> {
 
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
-  deleteAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
-  updateAddress: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  addAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  deleteAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  updateAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: USER_SHIPPING_ITEM) => Promise<void>;
+  setDefaultAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -114,11 +114,11 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
 
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: (address: USER_BILLING_ITEM) => Promise<void>;
-  deleteAddress: (address: USER_BILLING_ITEM) => Promise<void>;
-  updateAddress: (address: USER_BILLING_ITEM) => Promise<void>;
+  addAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  deleteAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  updateAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefault: (address: USER_BILLING_ITEM) => Promise<void>;
+  setDefaultAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -143,10 +143,9 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
-export interface UseCategory<CATEGORY> {
+export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
-  search(params: Record<string, any>): Promise<void>;
-  search(params: Record<string, any>, customQuery: CustomQuery): Promise<void>;
+  search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -159,20 +158,15 @@ export interface UseCart
   > {
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
-  addToCart(product: PRODUCT, quantity?: number): Promise<void>;
-  addToCart(product: PRODUCT, quantity?: number, customQuery?: CustomQuery): Promise<void>;
-  isOnCart: (product: PRODUCT) => boolean;
-  removeFromCart(product: CART_ITEM): Promise<void>;
-  removeFromCart(product: CART_ITEM, customQuery: CustomQuery): Promise<void>;
-  updateQuantity(product: CART_ITEM, quantity?: number): Promise<void>;
-  updateQuantity(product: CART_ITEM, quantity?: number, customQuery?: CustomQuery): Promise<void>;
-  clearCart(): Promise<void>;
-  applyCoupon(coupon: string): Promise<void>;
-  applyCoupon(coupon: string, customQuery: CustomQuery): Promise<void>;
-  removeCoupon(coupon: COUPON): Promise<void>;
-  removeCoupon(coupon: COUPON, customQuery: CustomQuery): Promise<void>;
-  loadCart(): Promise<void>;
-  loadCart(customQuery: CustomQuery): Promise<void>;
+  addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
+  isOnCart: ({ product: PRODUCT }) => boolean;
+  removeItem(params: { product: CART_ITEM; customQuery?: CustomQuery }): Promise<void>;
+  updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
+  clear(): Promise<void>;
+  applyCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
+  removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -184,14 +178,12 @@ export interface UseWishlist
 > {
   wishlist: ComputedProperty<WISHLIST>;
   loading: ComputedProperty<boolean>;
-  addToWishlist(product: PRODUCT): Promise<void>;
-  addToWishlist(product: PRODUCT, customQuery?: CustomQuery): Promise<void>;
-  removeFromWishlist(product: WISHLIST_ITEM): Promise<void>;
-  removeFromWishlist(product: WISHLIST_ITEM, customQuery?: CustomQuery): Promise<void>;
-  loadWishlist(): Promise<void>;
-  loadWishlist(customQuery?: CustomQuery): Promise<void>;
-  clearWishlist(): Promise<void>;
-  isOnWishlist(product: PRODUCT): boolean;
+  addItem(params: { product: PRODUCT; customQuery?: CustomQuery }): Promise<void>;
+  removeItem(params: { product: WISHLIST_ITEM; customQuery?: CustomQuery }): Promise<void>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  clear(): Promise<void>;
+  isOnWishlist({ product: PRODUCT }): boolean;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -225,10 +217,8 @@ export interface UseCheckout
 }
 
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
-  search(params: REVIEWS_SEARCH_PARAMS): Promise<void>;
-  search(params: REVIEWS_SEARCH_PARAMS, customQuery: CustomQuery): Promise<void>;
-  addReview(params: REVIEW_ADD_PARAMS): Promise<void>;
-  addReview(params: REVIEW_ADD_PARAMS, customQuery: CustomQuery): Promise<void>;
+  search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
+  addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;

@@ -60,6 +60,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-const { useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
-
-export default useCart;
+export default useCartFactory<Cart, CartItem, Product, Coupon>(params);

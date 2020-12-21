@@ -2,9 +2,9 @@
 
 import useCategory from './useCategory';
 import useProduct from './useProduct';
-import { useCart } from './useCart';
+import useCart from './useCart';
 import useCheckout from './useCheckout';
-import { useUser } from './useUser';
+import useUser from './useUser';
 import useUserOrders from './useUserOrders';
 import { useReview } from './useReview';
 import useFacet from './useFacet';
