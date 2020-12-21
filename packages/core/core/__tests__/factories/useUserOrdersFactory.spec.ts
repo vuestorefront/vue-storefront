@@ -1,13 +1,13 @@
 import { UseUserOrders } from '../../src/types';
-import { UseUserOrdersFactoryParams, useUserOrdersFactory, OrdersSearchResult } from '../../src/factories';
+import { UseUserOrdersFactoryParams, useUserOrdersFactory } from '../../src/factories';
 import { Ref } from '@vue/composition-api';
 
-let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<OrdersSearchResult<any>>>>, any>;
+let useUserOrders: () => UseUserOrders<Readonly<Ref<Readonly<any>>>, any>;
 let params: UseUserOrdersFactoryParams<any, any>;
 
 function createComposable(): void {
   params = {
-    searchOrders: jest.fn().mockResolvedValueOnce({ data: ['first', 'second'], total: 10 })
+    searchOrders: jest.fn().mockResolvedValueOnce(['first', 'second'])
   };
   useUserOrders = useUserOrdersFactory<any, any>(params);
 }

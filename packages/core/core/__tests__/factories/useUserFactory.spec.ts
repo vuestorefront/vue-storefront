@@ -11,7 +11,7 @@ const factoryParams = {
   refreshUser: jest.fn()
 };
 
-const { useUser } = useUserFactory(factoryParams);
+const useUser = useUserFactory(factoryParams);
 const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {
@@ -20,7 +20,7 @@ describe('[CORE - factories] useUserFactory', () => {
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
-      const { useUser } = useUserFactory(factoryParams);
+      const useUser = useUserFactory(factoryParams);
       const { user, isAuthenticated } = useUser();
 
       expect(user.value).toEqual(null);

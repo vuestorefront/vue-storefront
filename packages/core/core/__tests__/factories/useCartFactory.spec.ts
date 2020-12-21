@@ -25,8 +25,7 @@ function createComposable() {
     }),
     isOnCart: jest.fn().mockReturnValueOnce(true)
   };
-  const factory = useCartFactory<any, any, any, any>(params);
-  useCart = factory.useCart;
+  useCart = useCartFactory<any, any, any, any>(params);
 }
 
 describe('[CORE - factories] useCartFactory', () => {
