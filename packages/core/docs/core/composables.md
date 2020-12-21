@@ -14,7 +14,7 @@ Each of this function works independently and combined they are covering all the
 
 Every composable is exposing more or less following properties:
 - **Main data object** - a single, readonly object that the rest of the composition function interacts with or depends on. For example in `useProduct` it's a `products` object that `search()` function interacts with.
-- **Main function that interacts with data object** which usually calls the API and updates the main data object, For example in `useProduct` and `useCategory` it's a `search` method, in `useCart` it's a `loadCart()` method etc.
+- **Main function that interacts with data object** which usually calls the API and updates the main data object, For example in `useProduct` and `useCategory` it's a `search` method, in `useCart` it's a `load()` method etc.
 - **Supportive data objects** which are depending directly on indirectly on the main data object, for example, `loading`, `error` or `isAuthenticated` from `useUser` that is depending on `user` object.
 
 Let's see an example of how Vue Storefront Composable could look like. This is how you can perform a product search:

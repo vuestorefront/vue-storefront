@@ -31,7 +31,7 @@
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                @click:remove="removeFromWishlist(product)"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                <template #configuration>
@@ -97,7 +97,7 @@ export default {
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
+    const { wishlist, removeItem, load: loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
@@ -110,7 +110,7 @@ export default {
     return {
       isAuthenticated,
       products,
-      removeFromWishlist,
+      removeItem,
       isWishlistSidebarOpen,
       toggleWishlistSidebar,
       totals,

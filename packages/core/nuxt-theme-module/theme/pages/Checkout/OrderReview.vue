@@ -111,7 +111,7 @@
               color="#BEBFC4"
               role="button"
               class="button"
-              @click="removeFromCart(product)"
+              @click="removeItem({ product })"
             />
           </SfTableData>
         </SfTableRow>
@@ -196,7 +196,7 @@ export default {
     context.emit('changeStep', 3);
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
-    const { cart, removeFromCart, loadCart } = useCart();
+    const { cart, removeItem, load: loadCart } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -227,7 +227,7 @@ export default {
       billingSameAsShipping,
       terms,
       totals,
-      removeFromCart,
+      removeItem,
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,

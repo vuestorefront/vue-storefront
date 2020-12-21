@@ -141,7 +141,7 @@ export default {
     });
     const handleFormSubmit = async () => {
       if (createAccount.value) {
-        await register(personalDetails.value);
+        await register({ user: personalDetails.value });
         context.root.$router.push('/checkout/shipping');
         return;
       }

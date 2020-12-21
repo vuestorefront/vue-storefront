@@ -233,7 +233,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { shipping, load: loadShipping, setDefault } = useUserShipping();
+    const { shipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -274,7 +274,7 @@ export default {
 
     onMounted(async () => {
       if (isAuthenticated.value) {
-        await loadShipping();
+        await loadUserShipping();
         const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
         if (!shippingAddresses || !shippingAddresses.length) {
           return;
@@ -295,7 +295,7 @@ export default {
         if (!chosenAddress || !chosenAddress.length) {
           return;
         }
-        await setDefault(chosenAddress[0]);
+        await setDefaultAddress(chosenAddress[0]);
       }
       addressIsModified.value = false;
     };
