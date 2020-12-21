@@ -27,15 +27,10 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
   isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
-interface UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> {
-  useCart: () => UseCart<CART, CART_ITEM, PRODUCT, COUPON>;
-}
-
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
-): UseCartFactory<CART, CART_ITEM, PRODUCT, COUPON> => {
-
-  const useCart = (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> => {
+) => {
+  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const context = generateContext(factoryParams);
@@ -187,6 +182,4 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       loading: computed(() => loading.value)
     };
   };
-
-  return { useCart };
 };

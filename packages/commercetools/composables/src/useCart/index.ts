@@ -67,6 +67,4 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   }
 };
 
-const { useCart } = useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
-
-export { useCart };
+export default useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);

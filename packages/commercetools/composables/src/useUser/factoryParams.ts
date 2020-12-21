@@ -1,7 +1,7 @@
 import { CustomQuery, UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
 import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
 import { authenticate } from './authenticate';
-import { useCart } from '../useCart';
+import useCart from '../useCart';
 
 type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
@@ -23,7 +23,7 @@ const getCurrentUser = async (context: Context, currentUser) => {
 };
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
-  setup() {
+  provide() {
     return useCart();
   },
   load,

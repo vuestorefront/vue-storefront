@@ -1,4 +1,4 @@
-import { useCart } from './../../src/useCart';
+import useCart from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
 
 const context = {
@@ -17,9 +17,7 @@ const context = {
 
 jest.mock('./../../src/useCart/currentCart');
 jest.mock('@vue-storefront/core', () => ({
-  useCartFactory: (params) => ({
-    useCart: () => params
-  })
+  useCartFactory: (params) => () => params
 }));
 
 const customQuery = undefined;
@@ -28,24 +26,6 @@ describe('[commercetools-composables] useCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-
-  // it('loads current cart when there is user session', async () => {
-  //   (isTokenUserSession as any).mockReturnValue(true);
-  //   const { loadCart } = useCart() as any;
-
-  //   loadCart();
-
-  //   expect(loadCurrentCart).toBeCalled();
-  // });
-
-  // it('does not loads cart without user session', async () => {
-  //   (isTokenUserSession as any).mockReturnValue(false);
-  //   const { loadCart } = useCart() as any;
-
-  //   loadCart();
-
-  //   expect(loadCurrentCart).not.toBeCalled();
-  // });
 
   it('adds to cart', async () => {
     const { addItem } = useCart() as any;

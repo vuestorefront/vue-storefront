@@ -20,9 +20,8 @@ export interface ProductsSearchParams {
   [x: string]: any;
 }
 
-export interface UseProduct<PRODUCT, PRODUCT_SEARCH_PARAMS> {
-  products: ComputedProperty<PRODUCT[]>;
-  totalProducts: ComputedProperty<number>;
+export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
+  products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
@@ -66,9 +65,8 @@ export interface UseUserOrdersSearchParams {
   [x: string]: any;
 }
 
-export interface UseUserOrders<ORDER, ORDER_SEARCH_PARAMS> {
-  orders: ComputedProperty<ORDER[]>;
-  totalOrders: ComputedProperty<number>;
+export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
+  orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
 }
@@ -523,5 +521,5 @@ export interface Context {
 }
 
 export interface FactoryParams {
-  setup?: (context: Context) => any;
+  provide?: (context: Context) => any;
 }

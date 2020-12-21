@@ -1,10 +1,8 @@
 import { params } from '../../src/useUser/factoryParams';
 import { authenticate } from '../../src/useUser/authenticate';
-import { useCart } from '../../src/useCart';
+import useCart from '../../src/useCart';
 
-jest.mock('../../src/useCart', () => ({
-  useCart: jest.fn(() => {})
-}));
+jest.mock('../../src/useCart', () => jest.fn(() => {}));
 
 jest.mock('../../src/useUser/authenticate', () => ({
   authenticate: jest.fn()

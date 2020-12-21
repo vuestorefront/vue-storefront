@@ -1,9 +1,9 @@
 import { ProductsSearchParams } from '../types';
 import { ProductVariant } from './../types/GraphQL';
 import { enhanceProduct, mapPaginationParams } from './../helpers/internals';
-import { useProductFactory, ProductsSearchResult, UseProduct, Context } from '@vue-storefront/core';
+import { useProductFactory, UseProduct, Context } from '@vue-storefront/core';
 
-const productsSearch = async (context: Context, { customQuery, ...searchParams }): Promise<ProductsSearchResult<ProductVariant>> => {
+const productsSearch = async (context: Context, { customQuery, ...searchParams }): Promise<ProductVariant[]> => {
   const apiSearchParams = {
     ...searchParams,
     ...mapPaginationParams(searchParams)
@@ -13,13 +13,10 @@ const productsSearch = async (context: Context, { customQuery, ...searchParams }
   const enhancedProductResponse = enhanceProduct(productResponse);
   const products = (enhancedProductResponse.data as any)._variants;
 
-  return {
-    data: products,
-    total: productResponse.data.products.total
-  };
+  return products;
 };
 
-const useProduct: (cacheId: string) => UseProduct<ProductVariant, ProductsSearchParams> = useProductFactory<ProductVariant, ProductsSearchParams>({
+const useProduct: (cacheId: string) => UseProduct<ProductVariant[], ProductsSearchParams> = useProductFactory<ProductVariant[], ProductsSearchParams>({
   productsSearch
 });
 

@@ -11,15 +11,11 @@ export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PA
   changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
 }
 
-interface UseUserFactory<USER, UPDATE_USER_PARAMS> {
-  useUser: () => UseUser<USER, UPDATE_USER_PARAMS>;
-}
-
 export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
-): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
+) => {
 
-  const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
+  return function useUser (): UseUser<USER, UPDATE_USER_PARAMS> {
     const user: Ref<USER> = sharedRef(null, 'useUser-user');
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
@@ -135,6 +131,4 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading: computed(() => loading.value)
     };
   };
-
-  return { useUser };
 };
