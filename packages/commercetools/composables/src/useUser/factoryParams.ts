@@ -23,7 +23,7 @@ const getCurrentUser = async (context: Context, currentUser) => {
 };
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
-  setup() {
+  provide() {
     return useCart();
   },
   load,

@@ -17,7 +17,7 @@ import { sharedRef, generateContext } from '@vue-storefront/core';
 const useCheckoutFactory = (factoryParams) => {
   const useCheckout = () => {
     const context = generateContext({
-      setup() {
+      provide() {
         return useCart();
       }
     });

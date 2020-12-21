@@ -521,5 +521,5 @@ export interface Context {
 }
 
 export interface FactoryParams {
-  setup?: (context: Context) => any;
+  provide?: (context: Context) => any;
 }
