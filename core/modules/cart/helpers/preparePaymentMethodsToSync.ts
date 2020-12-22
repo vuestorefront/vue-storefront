@@ -11,7 +11,7 @@ const preparePaymentMethodsToSync = (
   const uniqueBackendMethods = []
 
   // Check if the variable is iterable before to enter in the for...of loop
-  if (typeof backendPaymentMethods[Symbol.iterator] === 'function') {
+  if (Array.isArray(backendPaymentMethods)) {
     for (const backendPaymentMethod of backendPaymentMethods) {
       if (isPaymentMethodNotExist(backendPaymentMethod, currentPaymentMethods)) {
         const backendMethod = {
