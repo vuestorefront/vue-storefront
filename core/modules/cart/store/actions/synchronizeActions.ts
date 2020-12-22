@@ -48,7 +48,7 @@ const synchronizeActions = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
-    const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
+    const shouldUpdateClientState = (config.cart.forceUpdateStateClientInCheckout !== false && rootGetters['checkout/isUserInCheckout']) || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.CART_SET_SYNC)
