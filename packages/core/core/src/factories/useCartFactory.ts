@@ -124,6 +124,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
           * temporary issue related with cpapi plugin
           */
         loading.value = false;
+        error.value.load = null;
         cart.value = { ...cart.value };
         return;
       }
