@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
 - Bump dependencies versions (#4715, #4696, #4951)
+- Improved Bundlesize by handling Polyfills differently (#5331, #4612, #4637)
 
 ## [1.12.2] - 2020.07.28
 
