@@ -1,7 +1,6 @@
 import {
   Context,
   CustomQuery,
-  UseCategory,
   useCategoryFactory,
   UseCategoryFactoryParams
 } from '@vue-storefront/core';
@@ -13,6 +12,4 @@ const params: UseCategoryFactoryParams<Category, any> = {
   }
 };
 
-const useCategory: (id: string) => UseCategory<Category> = useCategoryFactory<Category, any>(params);
-
-export default useCategory;
+export default useCategoryFactory<Category, any>(params);
