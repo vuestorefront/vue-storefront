@@ -1,16 +1,16 @@
-import { CustomQuery, UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
+import { UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
 import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import useCart from '../useCart';
 
 type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
-const load = async (context: Context, customQuery?: CustomQuery) => {
+const load = async (context: Context) => {
   if (context.$ct.api.isGuest()) {
     return null;
   }
 
-  const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
+  const profile = await context.$ct.api.getMe({ customer: true });
   return profile.data.me.customer;
 };
 

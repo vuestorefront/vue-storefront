@@ -2,7 +2,6 @@
 
 import {
   Context,
-  CustomQuery,
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
@@ -12,7 +11,7 @@ import { User } from '../types';
 
 const params: UseUserFactoryParams<User, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadUser: async (context: Context, customQuery?: CustomQuery) => {
+  load: async (context: Context) => {
     console.log('Mocked: loadUser');
     return {};
   },
@@ -47,6 +46,4 @@ const params: UseUserFactoryParams<User, any, any> = {
   }
 };
 
-const { useUser } = useUserFactory<User, any, any>(params);
-
-export default useUser;
+export default useUserFactory<User, any, any>(params);
