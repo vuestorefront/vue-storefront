@@ -80,6 +80,7 @@ import {
   SfBannerGrid
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
@@ -92,7 +93,8 @@ export default {
     SfCarousel,
     SfProductCard,
     SfImage,
-    SfBannerGrid
+    SfBannerGrid,
+    LazyHydrate
   },
   data() {
     return {
