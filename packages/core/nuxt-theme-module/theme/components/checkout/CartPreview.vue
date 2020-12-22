@@ -15,29 +15,29 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
+        :value="$n(totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large', { discounted: totals.special > 0 }]"
       />
       <SfProperty
         v-for="discount in discounts"
         :key="discount.id"
         :name="discount.name + (discount.code && ` (${discount.code})`)"
-        :value="'-' + checkoutGetters.getFormattedPrice(discount.value)"
+        :value="'-' + $n(discount.value, 'currency')"
         class="sf-property--full-width sf-property--small"
       />
      <SfProperty
         v-if="totals.special > 0"
-        :value="checkoutGetters.getFormattedPrice(totals.special)"
+        :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
         name="Shipping"
-        :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Total"
-        :value="checkoutGetters.getFormattedPrice(totals.total)"
+        :value="$n(totals.total, 'currency')"
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
@@ -49,7 +49,7 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button" @click="() => applyCoupon(promoCode)">Apply</SfButton>
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">Apply</SfButton>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -90,7 +90,7 @@ export default {
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
@@ -108,8 +108,8 @@ export default {
       totals,
       promoCode,
       showPromoCode,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       checkoutGetters,
       cartGetters,
       applyCoupon,

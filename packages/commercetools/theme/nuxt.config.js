@@ -148,7 +148,19 @@ export default {
     seo: true,
     langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: 'en'
+      fallbackLocale: 'en',
+      numberFormats: {
+        en: {
+          currency: {
+            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          }
+        },
+        de: {
+          currency: {
+            style: 'currency', currency: 'EUR', currencyDisplay: 'symbol'
+          }
+        }
+      }
     },
     detectBrowserLanguage: {
       cookieKey: 'vsf-locale'

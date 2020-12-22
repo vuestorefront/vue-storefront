@@ -20,8 +20,8 @@ const applyContextForApi = (api, context) =>
 const generateContext = (factoryParams) => {
   const context = useVSFContext();
 
-  if (factoryParams.setup) {
-    const generatedSetup = factoryParams.setup();
+  if (factoryParams.provide) {
+    const generatedSetup = factoryParams.provide();
 
     return { ...context.$vsf, ...generatedSetup };
   }

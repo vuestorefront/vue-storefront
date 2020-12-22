@@ -40,6 +40,7 @@
         class="call-to-action"
       />
     </LazyHydrate>
+
     <LazyHydrate when-visible>
       <SfSection title-heading="Best Sellers" class="section">
         <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
@@ -48,7 +49,7 @@
               data-cy="home-url_product"
               :title="product.title"
               :image="product.image"
-              :regular-price="product.price.regular"
+              :regular-price="$n(product.price.regular, 'currency')"
               :max-rating="product.rating.max"
               :score-rating="product.rating.score"
               :show-add-to-cart-button="true"
@@ -79,12 +80,10 @@ import {
   SfBannerGrid
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
-import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
   components: {
-    LazyHydrate,
     InstagramFeed,
     SfHero,
     SfBanner,

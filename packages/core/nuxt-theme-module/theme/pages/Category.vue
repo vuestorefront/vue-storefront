@@ -164,17 +164,17 @@
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
               :image="productGetters.getCoverImage(product)"
-              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+              :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
-              :isAddedToCart="isOnCart(product)"
+              :isAddedToCart="isOnCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="addToWishlist(product)"
-              @click:add-to-cart="addToCart(product, 1)"
+              @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
           </transition-group>
           <transition-group
@@ -192,13 +192,13 @@
               :title="productGetters.getName(product)"
               :description="productGetters.getDescription(product)"
               :image="productGetters.getCoverImage(product)"
-              :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-              :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+              :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
               :score-rating="3"
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
-              @click:wishlist="addToWishlist(product)"
+              @click:wishlist="addItemToWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -378,8 +378,8 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addToCart, isOnCart } = useCart();
-    const { addToWishlist } = useWishlist();
+    const { addItem: addItemToCart, isOnCart } = useCart();
+    const { addItem: addItemToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
@@ -457,8 +457,8 @@ export default {
       sortBy,
       facets,
       breadcrumbs,
-      addToWishlist,
-      addToCart,
+      addItemToWishlist,
+      addItemToCart,
       isOnCart,
       isFacetColor,
       selectFilter,
