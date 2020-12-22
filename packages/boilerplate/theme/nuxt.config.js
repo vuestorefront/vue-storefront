@@ -19,13 +19,20 @@ export default {
         href: '/favicon.ico'
       },
       {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'crossorigin'
+      },
+      {
         rel: 'preload',
         href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
         as: 'style'
       },
       {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com'
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
+        media: 'print',
+        onload: 'this.media=\'all\''
       }
     ]
   },

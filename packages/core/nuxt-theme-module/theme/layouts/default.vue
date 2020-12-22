@@ -9,9 +9,7 @@
         <AppHeader />
       </LazyHydrate>
 
-      <LazyHydrate when-idle>
-        <nuxt :key="$route.fullPath"/>
-      </LazyHydrate>
+      <nuxt :key="$route.fullPath"/>
 
       <LazyHydrate when-visible>
         <BottomNavigation />
@@ -21,9 +19,9 @@
         <AppFooter />
       </LazyHydrate>
 
-      <CartSidebar v-if="isCartSidebarOpen" />
-      <WishlistSidebar v-if="isWishlistSidebarOpen" />
-      <LoginModal v-if="isLoginModalOpen" />
+      <CartSidebar />
+      <WishlistSidebar />
+      <LoginModal />
     </div>
   </div>
 </template>
@@ -34,7 +32,6 @@ import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-import { useUiState } from '~/composables';
 
 export default {
   components: {
@@ -46,15 +43,6 @@ export default {
     CartSidebar: () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue'),
     WishlistSidebar: () => import(/* webpackChunkName: "WishlistSidebar" */ '~/components/WishlistSidebar.vue'),
     LoginModal: () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
-  },
-  setup() {
-    const { isCartSidebarOpen, isWishlistSidebarOpen, isLoginModalOpen } = useUiState();
-
-    return {
-      isCartSidebarOpen,
-      isWishlistSidebarOpen,
-      isLoginModalOpen
-    };
   }
 };
 </script>

@@ -167,7 +167,7 @@
       <InstagramFeed />
     </LazyHydrate>
 
-    <LazyHydrate never>
+    <LazyHydrate when-visible>
       <SfBanner
         image="/homepage/bannerD.png"
         subtitle="Fashion to Take Away"

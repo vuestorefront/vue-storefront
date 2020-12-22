@@ -1,7 +1,7 @@
 <template>
   <div id="cart">
     <SfSidebar
-      :visible="true"
+      :visible="isCartSidebarOpen"
       title="My Cart"
       class="sf-sidebar--right"
       @close="toggleCartSidebar"
@@ -136,7 +136,7 @@ export default {
     SfImage
   },
   setup() {
-    const { toggleCartSidebar } = useUiState();
+    const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -152,6 +152,7 @@ export default {
       products,
       removeFromCart,
       updateQuantity,
+      isCartSidebarOpen,
       toggleCartSidebar,
       totals,
       totalItems,

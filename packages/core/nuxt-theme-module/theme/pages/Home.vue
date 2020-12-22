@@ -15,7 +15,7 @@
       </SfHero>
     </LazyHydrate>
 
-    <LazyHydrate never>
+    <LazyHydrate when-visible>
       <SfBannerGrid :banner-grid="1" class="section banner-grid">
         <template v-for="item in banners" v-slot:[item.slot]>
           <SfBanner
@@ -31,7 +31,7 @@
       </SfBannerGrid>
     </LazyHydrate>
 
-    <LazyHydrate never>
+    <LazyHydrate when-visible>
       <SfCallToAction
         title="Subscribe to Newsletters"
         button-text="Subscribe"
