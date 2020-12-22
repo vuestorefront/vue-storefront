@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import TopBar from '~/components/TopBar.vue';
 import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
+import TopBar from '~/components/TopBar.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
 
