@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **IMPORTANT** for security reasons we added new config `users.allowModification`.
-  This can help to dissallow modifying fields that shouldn't be changed by user.
+  This can help to dissallow modifying fields that should not be changed by user.
 - Add helmet - enabled by default, you can pass configuration by adding `config.server.helmet.config`.
   More info about helmet configuration https://helmetjs.github.io/docs/
 - Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
@@ -92,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unified fetch in mappingFallback for all searched entities - @gibkigonzo (#3942)
 - add npm-run-all for parallel build - @gibkigonzo (#3819)
 - Add OutputCaching support for x-vs-store-code - @benjick (#3979)
-- The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend - @pkarw - #2167
+- The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend - @pkarw - #2167
 - This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70% - @pkarw
 - The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 - Reset Password confirmation page - @Fifciu (#2576)
@@ -153,7 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
 - Homepage, new products query, uses now `new` attribute - @mdanilwoicz
 - Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
-- Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
+- Move default theme to separate repository https://github.com/vuestorefront/vsf-default - @gibkigonzo (#4255)
 - add two numbers after dot to price by default, calculate default price for bundle or grouped main product, update typing, add fallback to attribute options - @gibkigonzo (#4476)
 - udpate yarn and filter shipping methods for instant checkout - @gibkigonzo (#4480)
 - add attribute metadata search query, add parentId - @gibkigonzo (#4491)
@@ -931,7 +931,7 @@ This is hot-fix release for fixing the payment methods switching issue when both
 
 ## [1.8.0] - 2019-02-07
 
-Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
+Additional migration tips are available [here](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
 
 ### Added
 
@@ -1111,7 +1111,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
+- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read [more on this change](https://github.com/vuestorefront/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/vuestorefront/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
 - ProductSlider, ProductLinks, ProductListing moved to theme.
 - Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
@@ -1136,7 +1136,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
+- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
 
 ### Fixed
 
@@ -1163,7 +1163,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- Please check the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
+- Please check the [Upgrade notes](https://github.com/vuestorefront/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
 
 ### Fixed
 
@@ -1181,8 +1181,8 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Added
 
-- TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
-- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
+- TypeScript support - please check [TypeScript Action Plan](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
+- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
 - Price tier's support #1625
 - Qty field on product page #1617
 - Offline orders confirmation dialog has been added #1430
@@ -1233,7 +1233,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ## [1.1.0] - 2018-07-02
 
-Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
+Please keep an eye on the **[UPGRADE NOTES](https://github.com/vuestorefront/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
 
 ### Fixed
 

@@ -19,7 +19,7 @@ Let's go!
 If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 yarn
 yarn installer
@@ -96,10 +96,10 @@ Your project should contain 2 folders at this moment: `vue-storefront` and `vue-
 
 ### Install the vue-storefront-api
 
-You need to use [https://github.com/DivanteLtd/vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api). It's the ultimate API backend for this application.
+You need to use [https://github.com/vuestorefront/vue-storefront-api](https://github.com/vuestorefront/vue-storefront-api). It's the ultimate API backend for this application.
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
+git clone https://github.com/vuestorefront/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
 ```
 
@@ -139,7 +139,7 @@ cp config/default.json config/local.json
 nano config/local.json
 ```
 
-The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
+The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/vuestorefront/vue-storefront/wiki/Config-file-format-for-vue-storefront).
 
 :::tip NOTE
 We're using the powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config).
@@ -184,10 +184,10 @@ Now, it's the time to install the frontend itself.
 
 ### Install the vue-storefront
 
-First step is to clone [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
+First step is to clone [vue-storefront](https://github.com/vuestorefront/vue-storefront)
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 ```
 

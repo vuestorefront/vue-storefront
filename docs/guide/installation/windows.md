@@ -13,10 +13,10 @@ Vue Storefront is based on open-source technologies, which should (in theory) wo
 ## Installation of vue-storefront-api
 
 1. Open your command line of choice with [Git](https://git-scm.com/download/win) access or use Github desktop.
-2. Clone the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) project:
+2. Clone the [vue-storefront-api](https://github.com/vuestorefront/vue-storefront-api) project:
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
+git clone https://github.com/vuestorefront/vue-storefront-api.git vue-storefront-api
 ```
 
 3. Go to `vue-storefront-api` in dir:
@@ -58,10 +58,10 @@ yarn dev
 ## Installation of vue-storefront
 
 1. Open your command line of choice with [Git](https://git-scm.com/download/win) access or use Github desktop.
-2. Clone the [vue-storefront](https://github.com/DivanteLtd/vue-storefront) project:
+2. Clone the [vue-storefront](https://github.com/vuestorefront/vue-storefront) project:
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
 ```
 
 3. Go to `vue-storefront` directory:

@@ -47,7 +47,7 @@ By default, the cart and totals sync is disabled. To make it work, you just need
 	},
 ```
 
-Please check the [`conf/default.json`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json) for the reference.
+Please check the [`conf/default.json`](https://github.com/vuestorefront/vue-storefront-api/blob/master/config/default.json) for the reference.
 
 3. Move to your `vue-storefront` installation catalog and modify the `config/local.json`. You need to change the `cart` section to switch the `synchronize` and `synchronize_totals` flags to true:
 
@@ -67,7 +67,7 @@ Please check the [`conf/default.json`](https://github.com/DivanteLtd/vue-storefr
     },
 ```
 
-Please check the [`conf/default.json`](https://github.com/DivanteLtd/vue-storefront/blob/1302ed84561a514beb8c35e45ae1d0aa4dc9f74a/config/default.json#L8) for a reference.
+Please check the [`conf/default.json`](https://github.com/vuestorefront/vue-storefront/blob/1302ed84561a514beb8c35e45ae1d0aa4dc9f74a/config/default.json#L8) for a reference.
 
 ## Prices sync
 
@@ -81,7 +81,7 @@ One of the cool features of Vue Storefront is queued order sync. This means when
 
 On the server side, the `vue-storefront-api` is the first line that the order is crossing on its way back to Magento 2. No matter if the shopping cart was synchronized (as described above) or not, the order will be converted to a Magento 2 object. 
 
-The server API stores the order in the queue where it's processed by the [`order_2_magento`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) worker process. We do support multiple types of orders: for guest users and logged in, with already synchronized carts or not, etc.
+The server API stores the order in the queue where it's processed by the [`order_2_magento`](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) worker process. We do support multiple types of orders: for guest users and logged in, with already synchronized carts or not, etc.
 
 This process doesn't require much additional configuration:
 

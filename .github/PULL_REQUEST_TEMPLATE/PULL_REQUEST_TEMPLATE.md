@@ -32,7 +32,7 @@ Check your case. In case of any doubts please read about [Release Cycle](https:/
 
 - [ ] No upgrade steps required (100% backward compatibility and no breaking changes)
 - [ ] I've updated the Upgrade notes and Changelog
-<!-- For VSF 1 ttps://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/upgrade-notes/README.md) and https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md) -->
+<!-- For VSF 1 ttps://github.com/vuestorefront/vue-storefront/blob/develop/docs/guide/upgrade-notes/README.md) and https://github.com/vuestorefront/vue-storefront/blob/develop/CHANGELOG.md) -->
 - [ ] I updated the documentation
 - [ ] My code is covered with unit tests
 
@@ -41,4 +41,4 @@ Check your case. In case of any doubts please read about [Release Cycle](https:/
 ### Contribution and currently important rules acceptance
 <!-- Please get familiar with following info -->
 
-- [ ] I read and followed [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
+- [ ] I read and followed [contribution rules](https://github.com/vuestorefront/vue-storefront/blob/master/CONTRIBUTING.md)

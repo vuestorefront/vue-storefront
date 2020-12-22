@@ -63,7 +63,7 @@
 "The product, category or CMS page is not available in Offline mode. Redirecting to Home.","Antud toode, kategooria või sisuleht ei ole kahjuks ilma internetiühenduseta saadaval. Suuname ümber esilehele."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Antud toodet ostetakse väga palju ja me ei ole laoseisu osas kindlad. Toode on ostukorvi lisatud ja Teie jaoks broneeritud."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Interneti ühendus puudub. Saad sellegi poolest tellimuse luua. Kontrollime interneti ühenduse taastudes tellitud toodete laoseisu üle. Anname märku, kui mõni tellitud toodetest vahepeal otsa on saanud. "
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Sellist funktsionaalsust ei ole veel lisatud. Saad meie arendusplaanidega tutvuda https://github.com/DivanteLtd/vue-storefront/issues."
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Sellist funktsionaalsust ei ole veel lisatud. Saad meie arendusplaanidega tutvuda https://github.com/vuestorefront/vue-storefront/issues."
 "Type what you are looking for...","Otsi ..."
 "Unexpected authorization error. Check your Network conection.","Internetiühenduse viga. Palun kontrollige oma internetiühendust."
 "Unhandled error, wrong response format!","Vale päringu formaat"

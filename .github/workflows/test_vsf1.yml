@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
@@ -103,7 +103,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Run build
         run: yarn build
