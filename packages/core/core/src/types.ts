@@ -11,6 +11,8 @@ export type CustomQuery<T = any> = (query: any, variables: T) => {
   variables?: T;
 };
 
+export type ComposableErrors = Record<string, Error>;
+
 export interface ProductsSearchParams {
   perPage?: number;
   page?: number;
@@ -167,7 +169,7 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
-  error: ComputedProperty<Record<string, Error>>;
+  error: ComputedProperty<ComposableErrors>;
   loading: ComputedProperty<boolean>;
 }
 
