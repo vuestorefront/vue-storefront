@@ -496,6 +496,7 @@
       "width": 150,
       "height": 150
     },
+    "forceUpdateStateClientInCheckout": true,
     "serverMergeByDefault": true,
     "serverSyncCanRemoveLocalItems": false,
     "serverSyncCanModifyLocalItems": false,
