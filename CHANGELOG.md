@@ -31,13 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   move pick allowed modification just before sending data to task managment
   add 'beforeUserProfileUpdate' which allows to modify user object before update - gibkigonzo (#4427)
 - replace lodash with lodash-es for client files - gibkigonzo (#5019)
-- add default personal detail loading on shipment step in checkout when user is logged - (#5040)  
-- Got rid of inifnity redirect or page-not-found on refresh category/product view  
+- add default personal detail loading on shipment step in checkout when user is logged - (#5040)
+- Got rid of inifnity redirect or page-not-found on refresh category/product view
 
 ### Changed / Improved
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
 - Bump dependencies versions (#4715, #4696, #4951)
+- Improved Bundlesize by handling Polyfills differently (#5331, #4612, #4637)
 
 ## [1.12.2] - 2020.07.28
 
