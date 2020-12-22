@@ -2240,9 +2240,9 @@
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
-"@nuxtjs/composition-api@https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
+"@nuxtjs/composition-api@git+https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
   version "0.16.4"
-  resolved "https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
+  resolved "git+https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
   dependencies:
     "@vue/composition-api" "1.0.0-beta.21"
     defu "^3.2.2"
@@ -2972,32 +2972,10 @@
   dependencies:
     lodash.merge "^4.6.2"
 
-"@vue-storefront/nuxt-theme@^2.1.0-rc.1":
-  version "2.1.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-2.1.0-rc.1.tgz#63d256c7143695bfb01d432edf5107a38f19771a"
-  integrity sha512-Lc2bgADXooKl1ZzdnmIyQlC7BAeroWAehx6YHs1kBeDahqx6zfZkg5qmubZ0Xq1NL6IRTxrbFZKZztk9kBIsbw==
-  dependencies:
-    lodash.merge "^4.6.2"
-
 "@vue-storefront/nuxt@0.0.12-lc.16":
   version "0.0.12-lc.16"
   resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.12-lc.16.tgz#aa9a3089780d6e52901dbd26a3b7d96c91dd841b"
   integrity sha512-+Ewdp1f9Lq89djw9YSPDC1S8+rHnV9p62bWxKdgtpzwf0mPt45rJqJHPg0dKM9uMs/BG+FlRYA1SoM4WCy8fJw==
-  dependencies:
-    "@nuxt/typescript-build" "^2.0.0"
-    "@nuxtjs/composition-api" "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
-    "@nuxtjs/style-resources" "^1.0.0"
-    "@vue/composition-api" "1.0.0-beta.20"
-    chalk "^2.4.2"
-    chokidar "^3.3.1"
-    consola "^2.10.1"
-    lodash "^4.17.15"
-    nuxt-purgecss "^1.0.0"
-
-"@vue-storefront/nuxt@^2.1.0-rc.1":
-  version "2.1.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-2.1.0-rc.1.tgz#7891c2882438b1a8304d60564f722da65902154b"
-  integrity sha512-Up5gSbUY3J2YdJMZWI9AxVKYnTSkmv3BlJZd+3U+oidtmSS3l+RvhWuB1NWgbhaRWeweoq27mEX6hx7jMf44jg==
   dependencies:
     "@nuxt/typescript-build" "^2.0.0"
     "@nuxtjs/composition-api" "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
