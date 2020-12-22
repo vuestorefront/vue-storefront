@@ -937,9 +937,9 @@ At [`vue-storefront/config/default.json`](https://github.com/vuestorefront/vue-s
     You may take a look at [SSR Cache](/guide/basics/ssr-cache.html) in order to grab the idea of *Output Cache* in *Vue Storefront*
     :::
 
-  - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request or only first request (configurable by setting below).  [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L295)
-  - `dynamicConfigReloadWithEachRequest` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L313)
-  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L240)
+  - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request or only first request (configurable by setting below).  [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L295)
+  - `dynamicConfigReloadWithEachRequest` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L313)
+  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L240)
   - `dynamicConfigExclude`
   - `dynamicConfigInclude`
   - `elasticCacheQuota`
