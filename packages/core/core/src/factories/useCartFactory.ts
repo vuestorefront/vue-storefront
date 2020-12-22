@@ -59,7 +59,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         cart.value = updatedCart;
       } catch (err) {
         error.value.addItem = err;
-        Logger.error('useCart/addToCart', err);
+        Logger.error('useCart/addItem', err);
       } finally {
         loading.value = false;
       }
