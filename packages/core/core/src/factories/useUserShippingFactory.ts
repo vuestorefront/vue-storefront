@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping, Context, FactoryParams } from '../types';
+import { UseUserShipping, Context, FactoryParams, ComposableErrors } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
@@ -43,20 +43,21 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
     const context = generateContext(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
+    const error: Ref<ComposableErrors> = sharedRef({}, 'useUserShipping-error');
 
     const addAddress = async ({ address }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.addAddress = null;
         shipping.value = await factoryParams.addAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.addAddress', err);
-
-        throw err;
+        error.value.addAddress = err;
+        Logger.error('useUserShipping/addAddress', err);
       } finally {
         loading.value = false;
       }
@@ -65,16 +66,16 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const deleteAddress = async ({ address }) => {
       Logger.debug('useUserShipping.deleteAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.deleteAddress = null;
         shipping.value = await factoryParams.deleteAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.deleteAddress', err);
-
-        throw err;
+        error.value.deleteAddress = err;
+        Logger.error('useUserShipping/deleteAddress', err);
       } finally {
         loading.value = false;
       }
@@ -83,16 +84,16 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const updateAddress = async ({ address }) => {
       Logger.debug('useUserShipping.updateAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.updateAddress = null;
         shipping.value = await factoryParams.updateAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.updateAddress', address);
-
-        throw err;
+        error.value.updateAddress = err;
+        Logger.error('useUserShipping/updateAddress', err);
       } finally {
         loading.value = false;
       }
@@ -101,15 +102,15 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const load = async () => {
       Logger.debug('useUserShipping.load');
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.load = null;
         shipping.value = await factoryParams.load(context, {
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.load', err);
-
-        throw err;
+        error.value.load = err;
+        Logger.error('useUserShipping/load', err);
       } finally {
         loading.value = false;
       }
@@ -118,16 +119,16 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const setDefaultAddress = async ({ address }) => {
       Logger.debug('useUserShipping.setDefaultAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.setDefaultAddress = null;
         shipping.value = await factoryParams.setDefaultAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.setDefaultAddress', err);
-
-        throw err;
+        error.value.setDefaultAddress = err;
+        Logger.error('useUserShipping/setDefaultAddress', err);
       } finally {
         loading.value = false;
       }
@@ -136,6 +137,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     return {
       shipping: computed(() => shipping.value),
       loading: computed(() => loading.value),
+      error: computed(() => error.value),
       addAddress,
       deleteAddress,
       updateAddress,

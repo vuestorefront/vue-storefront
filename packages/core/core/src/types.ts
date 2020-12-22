@@ -92,6 +92,7 @@ export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   load: () => Promise<void>;
   setDefaultAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<ComposableErrors>;
 }
 
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
@@ -123,6 +124,7 @@ export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   load: () => Promise<void>;
   setDefaultAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<ComposableErrors>;
 }
 
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
