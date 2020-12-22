@@ -149,6 +149,7 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<ComposableErrors>;
 }
 
 export interface UseCart
