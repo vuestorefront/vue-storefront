@@ -167,6 +167,7 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
+  error: ComputedProperty<Record<string, Error>>;
   loading: ComputedProperty<boolean>;
 }
 
