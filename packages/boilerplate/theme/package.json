@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.9.1",
-    "@vue-storefront/boilerplate": "^0.0.1",
-    "@vue-storefront/boilerplate-api": "^0.0.1",
+    "@vue-storefront/boilerplate": "0.0.1",
     "@vue-storefront/nuxt": "^2.1.1-rc.1",
     "@vue-storefront/nuxt-theme": "^2.1.1-rc.1",
     "@nuxtjs/style-resources": "^1.0.0",

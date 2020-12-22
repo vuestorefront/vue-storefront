@@ -12,31 +12,31 @@ import { Cart, CartItem, Coupon, Product } from '../types';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadCart: async (context: Context, customQuery?: CustomQuery) => {
+  load: async (context: Context) => {
     console.log('Mocked: loadCart');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToCart: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQuery) => {
+  addItem: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQuery) => {
     console.log('Mocked: addToCart');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromCart: async (context: Context, { currentCart, product }, customQuery?: CustomQuery) => {
+  removeItem: async (context: Context, { currentCart, product }, customQuery?: CustomQuery) => {
     console.log('Mocked: removeFromCart');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateQuantity: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQuery) => {
+  updateItemQty: async (context: Context, { currentCart, product, quantity }, customQuery?: CustomQuery) => {
     console.log('Mocked: updateQuantity');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearCart: async (context: Context, { currentCart }) => {
+  clear: async (context: Context, { currentCart }) => {
     console.log('Mocked: clearCart');
     return {};
   },
@@ -60,6 +60,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-const { useCart } = useCartFactory<Cart, CartItem, Product, Coupon>(params);
-
-export default useCart;
+export default useCartFactory<Cart, CartItem, Product, Coupon>(params);
