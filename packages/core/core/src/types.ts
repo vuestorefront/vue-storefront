@@ -51,14 +51,15 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
-  updateUser: ({ user: UPDATE_USER_PARAMS }) => Promise<void>;
-  register: ({ user: UseUserRegisterParams }) => Promise<void>;
-  login: ({ user: UseUserLoginParams }) => Promise<void>;
+  updateUser: (params: { user: UPDATE_USER_PARAMS }) => Promise<void>;
+  register: (params: { user: UseUserRegisterParams }) => Promise<void>;
+  login: (params: { user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (params: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<ComposableErrors>;
 }
 
 export interface UseUserOrdersSearchParams {
