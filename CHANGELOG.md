@@ -31,8 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   move pick allowed modification just before sending data to task managment
   add 'beforeUserProfileUpdate' which allows to modify user object before update - gibkigonzo (#4427)
 - replace lodash with lodash-es for client files - gibkigonzo (#5019)
-- add default personal detail loading on shipment step in checkout when user is logged - (#5040)
-- Got rid of inifnity redirect or page-not-found on refresh category/product view
+- add default personal detail loading on shipment step in checkout when user is logged - (#5040)  
+- Got rid of inifnity redirect or page-not-found on refresh category/product view  
+- Got rid of memory leak related to dynamic config - tomasz-duda (#4768)
 
 ### Changed / Improved
 
