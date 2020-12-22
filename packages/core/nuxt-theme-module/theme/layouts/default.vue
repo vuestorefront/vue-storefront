@@ -27,11 +27,14 @@
 </template>
 
 <script>
+import TopBar from '~/components/TopBar.vue';
 import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
-import TopBar from '~/components/TopBar.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import CartSidebar from '~/components/CartSidebar.vue';
+import WishlistSidebar from '~/components/WishlistSidebar.vue';
+import LoginModal from '~/components/LoginModal.vue';
 
 export default {
   components: {
@@ -40,9 +43,9 @@ export default {
     AppHeader,
     BottomNavigation,
     AppFooter,
-    CartSidebar: () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue'),
-    WishlistSidebar: () => import(/* webpackChunkName: "WishlistSidebar" */ '~/components/WishlistSidebar.vue'),
-    LoginModal: () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+    CartSidebar,
+    WishlistSidebar,
+    LoginModal
   }
 };
 </script>
