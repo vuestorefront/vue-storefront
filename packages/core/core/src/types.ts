@@ -239,7 +239,7 @@ export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<string | null>;
+  error: ComputedProperty<ComposableErrors>;
 }
 
 export interface RenderComponent {
