@@ -144,5 +144,5 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     };
   };
 
-  return { useUserShipping };
+  return useUserShipping;
 };

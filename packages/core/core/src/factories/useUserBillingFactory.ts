@@ -145,5 +145,5 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     };
   };
 
-  return { useUserBilling };
+  return useUserBilling;
 };

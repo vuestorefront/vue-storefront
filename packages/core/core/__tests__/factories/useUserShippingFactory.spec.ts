@@ -8,7 +8,7 @@ const factoryParams = {
   setDefaultAddress: jest.fn()
 };
 
-const { useUserShipping } = useUserShippingFactory(factoryParams);
+const useUserShipping = useUserShippingFactory(factoryParams);
 const useUserShippingMethods = useUserShipping();
 
 describe('[CORE - factories] useUserShippingFactory', () => {
@@ -18,7 +18,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
   });
 
   it('should have proper initial properties', () => {
-    const { useUserShipping } = useUserShippingFactory(factoryParams);
+    const useUserShipping = useUserShippingFactory(factoryParams);
     const {
       shipping,
       loading

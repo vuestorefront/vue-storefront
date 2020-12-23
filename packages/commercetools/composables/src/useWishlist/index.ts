@@ -34,6 +34,4 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   }
 };
 
-const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);
-
-export { setWishlist, useWishlist};
+export default useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);

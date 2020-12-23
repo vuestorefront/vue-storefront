@@ -134,6 +134,4 @@ const params: UseUserShippingFactoryParams<any, any> = {
   }
 };
 
-const { useUserShipping } = useUserShippingFactory<any, any>(params);
-
-export default useUserShipping;
+export default useUserShippingFactory<any, any>(params);

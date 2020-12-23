@@ -8,7 +8,7 @@ const factoryParams = {
   setDefaultAddress: jest.fn()
 };
 
-const { useUserBilling } = useUserBillingFactory(factoryParams);
+const useUserBilling = useUserBillingFactory(factoryParams);
 const useUserBillingMethods = useUserBilling();
 
 describe('[CORE - factories] useUserBillingFactory', () => {
@@ -18,7 +18,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
   });
 
   it('should have proper initial properties', () => {
-    const { useUserBilling } = useUserBillingFactory(factoryParams);
+    const useUserBilling = useUserBillingFactory(factoryParams);
     const {
       billing,
       loading
