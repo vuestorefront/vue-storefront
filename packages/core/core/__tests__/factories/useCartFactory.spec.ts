@@ -103,7 +103,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await load();
 
-        expect(factoryParams.load).toHaveBeenCalledWith({ context: null }, {});
         expect(error.value.load).toBe(err);
       });
     });
@@ -129,11 +128,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await addItem({ product: { id: 'productId' }, quantity: 1 });
 
-        expect(factoryParams.addItem).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null,
-          product: { id: 'productId' },
-          quantity: 1
-        });
         expect(error.value.addItem).toBe(err);
       });
     });
@@ -158,10 +152,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await removeItem({ product: { id: 'productId' } });
 
-        expect(factoryParams.removeItem).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null,
-          product: { id: 'productId' }
-        });
         expect(error.value.removeItem).toBe(err);
       });
     });
@@ -199,11 +189,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await updateItemQty({ product: { id: 'productId' }, quantity: 1 });
 
-        expect(factoryParams.updateItemQty).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null,
-          product: { id: 'productId' },
-          quantity: 1
-        });
         expect(error.value.updateItemQty).toBe(err);
       });
     });
@@ -225,9 +210,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await clear();
 
-        expect(factoryParams.clear).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null
-        });
         expect(error.value.clear).toBe(err);
       });
     });
@@ -252,10 +234,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await applyCoupon({ couponCode: 'qwerty' });
 
-        expect(factoryParams.applyCoupon).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null,
-          couponCode: 'qwerty'
-        });
         expect(error.value.applyCoupon).toBe(err);
       });
     });
@@ -282,10 +260,6 @@ describe('[CORE - factories] useCartFactory', () => {
 
         await removeCoupon({ coupon });
 
-        expect(factoryParams.removeCoupon).toHaveBeenCalledWith({ context: null }, {
-          currentCart: null,
-          coupon
-        });
         expect(error.value.removeCoupon).toBe(err);
       });
 

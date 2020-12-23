@@ -53,7 +53,6 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
         await search({ someparam: 'qwerty' });
 
-        expect(factoryParams.categorySearch).toHaveBeenCalledWith({ context: null }, { someparam: 'qwerty' });
         expect(error.value.search).toBe(err);
       });
     });

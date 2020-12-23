@@ -44,7 +44,6 @@ describe('[CORE - factories] useProductFactory', () => {
 
     await search({ someparam: 'qwerty' });
 
-    expect(factoryParams.productsSearch).toHaveBeenCalledWith({ context: null }, { someparam: 'qwerty' });
     expect(error.value.search).toBe(err);
   });
 });
