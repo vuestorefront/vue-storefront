@@ -1,4 +1,5 @@
 import { cartCacheHandlerFactory } from './cartCacheHandler'
+import { totalsCacheHandlerFactory } from './totalsCacheHandler'
 import optimizeProduct from './optimizeProduct'
 import prepareProductsToAdd from './prepareProductsToAdd'
 import productChecksum from './productChecksum'
@@ -19,6 +20,7 @@ import * as syncCartWhenLocalStorageChange from './syncCartWhenLocalStorageChang
 
 export {
   cartCacheHandlerFactory,
+  totalsCacheHandlerFactory,
   optimizeProduct,
   prepareProductsToAdd,
   productChecksum,
