@@ -4,6 +4,12 @@ import { UseCategory } from '../../src/types';
 let useCategory: (cacheId?: string) => UseCategory<any, any>;
 let params: UseCategoryFactoryParams<any, any>;
 
+const factoryParams = {
+  categorySearch: jest.fn()
+};
+
+const useCategoryMock = useCategoryFactory(factoryParams);
+
 function createComposable() {
   params = {
     categorySearch: jest
@@ -36,6 +42,19 @@ describe('[CORE - factories] useCategoryFactory', () => {
         await search({ someparam: 'qwerty' });
         expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.categorySearch.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { search, error } = useCategoryMock('a');
+
+        await search({ someparam: 'qwerty' });
+
+        expect(factoryParams.categorySearch).toHaveBeenCalledWith({ context: null }, { someparam: 'qwerty' });
+        expect(error.value.search).toBe(err);
       });
     });
   });

@@ -17,6 +17,12 @@ describe('[CORE - factories] useContentFactory', () => {
     useContent = useContentFactory<any, any>(params);
   };
 
+  const factoryParams = {
+    search: jest.fn()
+  };
+
+  const useContentMock = useContentFactory(factoryParams);
+
   beforeEach(() => {
     jest.clearAllMocks();
     createContentFactoryMock();
@@ -37,6 +43,19 @@ describe('[CORE - factories] useContentFactory', () => {
 
     expect(params.search).toBeCalledWith({ context: null }, searchParams);
     expect(params.search).toBeCalledTimes(1);
+  });
+
+  it('should set error if factory method throwed', async () => {
+    const err = new Error('zxczxcx');
+    factoryParams.search.mockImplementationOnce(() => {
+      throw err;
+    });
+    const { search, error } = useContentMock('a');
+
+    await search({ someparam: 'qwerty' });
+
+    expect(factoryParams.search).toHaveBeenCalledWith({ context: null }, { someparam: 'qwerty' });
+    expect(error.value.search).toBe(err);
   });
 });
 
