@@ -21,7 +21,7 @@
           />
           <SfProperty
             name="Total"
-            :value="formatPrice(orderGetters.getPrice(currentOrder))"
+            :value="$n(orderGetters.getPrice(currentOrder), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
@@ -34,7 +34,7 @@
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
             <SfTableData class="products__name"><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
-            <SfTableData>{{formatPrice(orderGetters.getItemPrice(item))}}</SfTableData>
+            <SfTableData>{{$n(orderGetters.getItemPrice(item), 'currency')}}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
@@ -67,7 +67,7 @@
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ formatPrice(orderGetters.getPrice(order)) }}</SfTableData>
+            <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
             <SfTableData>
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
@@ -99,7 +99,6 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers } from '~/composables';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -113,12 +112,11 @@ export default {
     SfLink
   },
   setup() {
-    const { orders, searchOrders } = useUserOrders();
-    const { formatPrice } = useUiHelpers();
+    const { orders, search } = useUserOrders();
     const currentOrder = ref(null);
 
     onSSR(async () => {
-      await searchOrders();
+      await search();
     });
 
     const tableHeaders = [
@@ -167,8 +165,7 @@ export default {
       orderGetters,
       downloadOrder,
       downloadOrders,
-      currentOrder,
-      formatPrice
+      currentOrder
     };
   }
 };

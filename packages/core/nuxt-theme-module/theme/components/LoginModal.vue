@@ -189,7 +189,7 @@ export default {
     });
 
     const handleForm = (fn) => async () => {
-      await fn(form.value);
+      await fn({ user: form.value });
       toggleLoginModal();
     };
 

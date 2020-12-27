@@ -11,25 +11,25 @@ export const wishlist: Ref<Wishlist> = ref(null);
 
 const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadWishlist: async (context: Context) => {
+  load: async (context: Context) => {
     console.log('Mocked: loadWishlist');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async (context: Context, { currentWishlist, product }) => {
+  addItem: async (context: Context, { currentWishlist, product }) => {
     console.log('Mocked: addToWishlist');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async (context: Context, { currentWishlist, product }) => {
+  removeItem: async (context: Context, { currentWishlist, product }) => {
     console.log('Mocked: removeFromWishlist');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async (context: Context, { currentWishlist }) => {
+  clear: async (context: Context, { currentWishlist }) => {
     console.log('Mocked: clearWishlist');
     return {};
   },

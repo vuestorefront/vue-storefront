@@ -8,7 +8,7 @@
       <AppHeader />
     </LazyHydrate>
 
-    <div id="layout" >
+    <div id="layout">
       <nuxt :key="$route.fullPath"/>
 
       <LazyHydrate when-visible>

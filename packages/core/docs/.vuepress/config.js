@@ -9,7 +9,7 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-			{ text: 'Migration guide', link: '/migrate' }
+			{ text: 'Migration guide', link: '/migrate/' }
 
 		],
 		sidebar: {
