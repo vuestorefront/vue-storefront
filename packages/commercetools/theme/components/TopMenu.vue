@@ -96,7 +96,7 @@ export default {
     }, 200);
 
     onSSR(async () => {
-      await search({}, menuCatQuery);
+      await search({ customQuery: menuCatQuery });
     });
 
     return {
