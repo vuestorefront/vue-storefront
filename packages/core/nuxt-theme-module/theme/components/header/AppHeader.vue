@@ -20,7 +20,7 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <TopMenu @setOverlay="isOverlayVisible = $event" />
+        <HeaderNav @setOverlay="isOverlayVisible = $event" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -36,8 +36,8 @@ import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate
 import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
-import LocaleSelector from './LocaleSelector';
-import TopMenu from './TopMenu';
+import LocaleSelector from '../LocaleSelector';
+import HeaderNav from './HeaderNav';
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
     SfLink,
     SfOverlay,
     LocaleSelector,
-    TopMenu
+    HeaderNav
   },
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();

@@ -23,7 +23,7 @@ const customQuery = gql`
   }
 `;
 
-export const menuCatQuery = (query, variables) => {
+export const rootCategoriesQuery = (query, variables) => {
   const customVariables = {
     ...variables,
     where: 'parent is not defined'

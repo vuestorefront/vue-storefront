@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AppHeader from '~/components/AppHeader.vue';
+import AppHeader from '~/components/header/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';
