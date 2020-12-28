@@ -5,7 +5,7 @@ function getItemsFromStorage ({ key }) {
   if (key === 'shop/cart/current-cart') {
     rootStore.dispatch('cart/syncCartWhenLocalStorageChange', { items: value })
   } else if (key === 'shop/cart/current-totals') {
-    rootStore.dispatch('cart/syncTotalsWhenLocalStorageChange', value)
+    rootStore.dispatch('cart/updateTotals', value)
   }
 }
 
