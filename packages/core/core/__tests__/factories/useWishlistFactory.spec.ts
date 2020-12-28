@@ -27,7 +27,7 @@ const factoryParams = {
   isOnWishlist: jest.fn()
 };
 
-const { useWishlist: useWishlistMock } = useWishlistFactory<any, any, any>(factoryParams);
+const useWishlistMock = useWishlistFactory<any, any, any>(factoryParams);
 
 describe('[CORE - factories] useWishlistFactory', () => {
   beforeEach(() => {
