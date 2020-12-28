@@ -1,8 +1,7 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { cartStore } from './store'
-import { cartCacheHandlerFactory, totalsCacheHandlerFactory } from './helpers';
+import { cartCacheHandlerPlugin, totalsCacheHandlerPlugin } from './helpers';
 import { isServer } from '@vue-storefront/core/helpers'
-import Vue from 'vue'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const CartModule: StorefrontModule = function ({ store }) {
@@ -11,6 +10,6 @@ export const CartModule: StorefrontModule = function ({ store }) {
   store.registerModule('cart', cartStore)
 
   if (!isServer) store.dispatch('cart/load')
-  store.subscribe(cartCacheHandlerFactory(Vue))
-  store.subscribe(totalsCacheHandlerFactory);
+  store.subscribe(cartCacheHandlerPlugin);
+  store.subscribe(totalsCacheHandlerPlugin);
 }

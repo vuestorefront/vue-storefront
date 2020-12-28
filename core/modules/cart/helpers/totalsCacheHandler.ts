@@ -3,7 +3,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const totalsCacheHandlerFactory = (mutation, state) => {
+export const totalsCacheHandlerPlugin = (mutation, state) => {
   const type = mutation.type;
 
   if (
