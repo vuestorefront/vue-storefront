@@ -5,9 +5,10 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './store/mutation-types'
+import config from 'config'
 
 export const UserModule: StorefrontModule = async function ({ store }) {
-  StorageManager.init('user')
+  StorageManager.init('user', !config.storeViews.commonUserCache)
   store.registerModule('user', userStore)
   if (!isServer) {
     EventBus.$on('user-before-logout', () => {

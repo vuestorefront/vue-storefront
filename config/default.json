@@ -185,7 +185,8 @@
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
-    "commonCache": false
+    "commonCache": false,
+    "commonUserCache": false
   },
   "entities": {
     "optimize": true,
