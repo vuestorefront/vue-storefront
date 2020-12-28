@@ -2,12 +2,12 @@
   <SfTabs :open-tab="1" class="tab-orphan">
     <SfTab data-cy="my-reviews-tab" title="My reviews">
       <p class="message">
-        {{ $t('Feature is not implemented') }}
+         This feature is not implemented yet! Please take a look at
         <br />
         <SfLink class="message__link" href="#"
           >https://github.com/DivanteLtd/vue-storefront/issues </SfLink
         >
-        {{ $t('For our Roadmap') }}
+        for our Roadmap!
       </p>
     </SfTab>
   </SfTabs>

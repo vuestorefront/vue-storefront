@@ -84,10 +84,10 @@
     </SfTab>
     <SfTab data-cy="order-history-tab_returns" title="Returns">
       <p class="message">
-        {{ $t('Feature is not implemented') }}
+        This feature is not implemented yet! Please take a look at
         <br />
         <SfLink class="message__link" href="#">https://github.com/DivanteLtd/vue-storefront/issues</SfLink>
-        {{ $t('For our Roadmap') }}
+        for our Roadmap!
       </p>
     </SfTab>
   </SfTabs>

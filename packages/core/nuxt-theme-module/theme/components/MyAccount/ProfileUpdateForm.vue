@@ -1,5 +1,5 @@
 <template>
-  <b>{{ $t('Please implement vendor specific ProfileUpdateForm') }}</b>
+  <b>Please implement vendor specific ProfileUpdateForm component in 'components/MyAccount' directory</b>
 </template>
 
 <script>
