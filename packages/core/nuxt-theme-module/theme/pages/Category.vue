@@ -6,47 +6,60 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <SfHeading :level="3" :title="$t('Categories')" class="navbar__title" />
+        <LazyHydrate never>
+          <SfHeading
+            :level="3"
+            :title="$t('Categories')"
+            class="navbar__title" />
+        </LazyHydrate>
       </div>
+
       <div class="navbar__main">
-        <SfButton
-          class="sf-button--text navbar__filters-button"
-          data-cy="category-btn_filters"
-          aria-label="Filters"
-          @click="toggleFilterSidebar"
-        >
-          <SfIcon
-            size="24px"
-            color="dark-secondary"
-            icon="filter2"
-            class="navbar__filters-icon"
-            data-cy="category-icon_"
-          />
-           {{ $t('Filters') }}
-        </SfButton>
+        <LazyHydrate on-interaction>
+          <SfButton
+            class="sf-button--text navbar__filters-button"
+            data-cy="category-btn_filters"
+            aria-label="Filters"
+            @click="toggleFilterSidebar"
+          >
+            <SfIcon
+              size="24px"
+              color="dark-secondary"
+              icon="filter2"
+              class="navbar__filters-icon"
+              data-cy="category-icon_"
+            />
+            {{ $t('Filters') }}
+          </SfButton>
+        </LazyHydrate>
+
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">{{ $t('Sort by') }}:</span>
-          <SfSelect
-            :value="sortBy.selected"
-            placeholder="Select sorting"
-            data-cy="category-select_sortBy"
-            class="navbar__select"
-            @input="th.changeSorting"
-          >
-            <SfSelectOption
-              v-for="option in sortBy.options"
-              :key="option.id"
-              :value="option.id"
-              class="sort-by__option"
-              >{{ option.value }}</SfSelectOption
+          <LazyHydrate on-interaction>
+            <SfSelect
+              :value="sortBy.selected"
+              placeholder="Select sorting"
+              data-cy="category-select_sortBy"
+              class="navbar__select"
+              @input="th.changeSorting"
             >
-          </SfSelect>
+              <SfSelectOption
+                v-for="option in sortBy.options"
+                :key="option.id"
+                :value="option.id"
+                class="sort-by__option"
+                >{{ option.value }}</SfSelectOption
+              >
+            </SfSelect>
+          </LazyHydrate>
         </div>
+
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <span class="desktop-only">{{ pagination.totalItems }}</span>
           <span class="navbar__label smartphone-only">{{ pagination.totalItems }} {{ $t('Items') }}</span>
         </div>
+
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
@@ -74,63 +87,66 @@
         </div>
       </div>
     </div>
+
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfLoader
-        :class="{ loading }"
-        :loading="loading">
-          <SfAccordion
-            :open="activeCategory"
-            :show-chevron="true"
-          >
-            <SfAccordionItem
-              v-for="(cat, i) in categoryTree && categoryTree.items"
-              :key="i"
-              :header="cat.label"
+        <LazyHydrate when-idle>
+          <SfLoader
+          :class="{ loading }"
+          :loading="loading">
+            <SfAccordion
+              :open="activeCategory"
+              :show-chevron="true"
             >
-              <template>
-                <SfList class="list">
-                  <SfListItem class="list__item">
-                    <SfMenuItem
-                      :count="cat.count || ''"
-                      :data-cy="`category-link_subcategory_${cat.slug}`"
-                      :label="cat.label"
+              <SfAccordionItem
+                v-for="(cat, i) in categoryTree && categoryTree.items"
+                :key="i"
+                :header="cat.label"
+              >
+                <template>
+                  <SfList class="list">
+                    <SfListItem class="list__item">
+                      <SfMenuItem
+                        :count="cat.count || ''"
+                        :data-cy="`category-link_subcategory_${cat.slug}`"
+                        :label="cat.label"
+                      >
+                        <template #label>
+                          <nuxt-link
+                            :to="localePath(th.getCatLink(cat))"
+                            :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
+                          >
+                            All
+                          </nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                    <SfListItem
+                      class="list__item"
+                      v-for="(subCat, j) in cat.items"
+                      :key="j"
                     >
-                      <template #label>
-                        <nuxt-link
-                          :to="localePath(th.getCatLink(cat))"
-                          :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
-                        >
-                          All
-                        </nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem
-                    class="list__item"
-                    v-for="(subCat, j) in cat.items"
-                    :key="j"
-                  >
-                    <SfMenuItem
-                      :count="subCat.count || ''"
-                      :data-cy="`category-link_subcategory_${subCat.slug}`"
-                      :label="subCat.label"
-                    >
-                      <template #label="{ label }">
-                        <nuxt-link
-                          :to="localePath(th.getCatLink(subCat))"
-                          :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
-                        >
-                          {{ label }}
-                        </nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </template>
-            </SfAccordionItem>
-          </SfAccordion>
-        </SfLoader>
+                      <SfMenuItem
+                        :count="subCat.count || ''"
+                        :data-cy="`category-link_subcategory_${subCat.slug}`"
+                        :label="subCat.label"
+                      >
+                        <template #label="{ label }">
+                          <nuxt-link
+                            :to="localePath(th.getCatLink(subCat))"
+                            :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
+                          >
+                            {{ label }}
+                          </nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                  </SfList>
+                </template>
+              </SfAccordionItem>
+            </SfAccordion>
+          </SfLoader>
+        </LazyHydrate>
       </div>
       <SfLoader :class="{ loading }" :loading="loading">
         <div class="products" v-if="!loading">
@@ -212,113 +228,122 @@
               </template>
             </SfProductCardHorizontal>
           </transition-group>
-          <SfPagination
-            v-if="!loading"
-            data-cy="category-pagination"
-            class="products__pagination desktop-only"
-            v-show="pagination.totalPages > 1"
-            :current="pagination.currentPage"
-            :total="pagination.totalPages"
-            :visible="5"
-          />
+
+          <LazyHydrate on-interaction>
+            <SfPagination
+              v-if="!loading"
+              data-cy="category-pagination"
+              class="products__pagination desktop-only"
+              v-show="pagination.totalPages > 1"
+              :current="pagination.currentPage"
+              :total="pagination.totalPages"
+              :visible="5"
+            />
+          </LazyHydrate>
+
           <div
             v-show="pagination.totalPages > 1"
             class="products__show-on-page"
           >
-            <span class="products__show-on-page__label">{{ $t('Show on page') }}:</span>
-            <SfSelect
-              :value="pagination.itemsPerPage"
-              class="products__items-per-page"
-              @input="th.changeItemsPerPage"
-            >
-              <SfSelectOption
-                v-for="option in pagination.pageOptions"
-                :key="option"
-                :value="option"
-                class="products__items-per-page__option"
+            <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
+            <LazyHydrate on-interaction>
+              <SfSelect
+                :value="pagination.itemsPerPage"
+                class="products__items-per-page"
+                @input="th.changeItemsPerPage"
               >
-                {{ option }}
-              </SfSelectOption>
-            </SfSelect>
+                <SfSelectOption
+                  v-for="option in pagination.pageOptions"
+                  :key="option"
+                  :value="option"
+                  class="products__items-per-page__option"
+                >
+                  {{ option }}
+                </SfSelectOption>
+              </SfSelect>
+            </LazyHydrate>
           </div>
         </div>
       </SfLoader>
     </div>
-    <SfSidebar
-      :visible="isFilterSidebarOpen"
-      title="Filters"
-      class="sidebar-filters"
-      @close="toggleFilterSidebar"
-    >
-      <div class="filters desktop-only">
-        <div v-for="(facet, i) in facets" :key="i">
-          <SfHeading
-            :level="4"
-            :title="facet.label"
-            class="filters__title sf-heading--left"
-            :key="`filter-title-${facet.id}`"
-          />
-            <div
-              v-if="isFacetColor(facet)"
-              class="filters__colors"
-              :key="`${facet.id}-colors`"
+
+    <LazyHydrate when-visible>
+      <SfSidebar
+        :visible="isFilterSidebarOpen"
+        title="Filters"
+        class="sidebar-filters"
+        @close="toggleFilterSidebar"
+      >
+        <div class="filters desktop-only">
+          <div v-for="(facet, i) in facets" :key="i">
+            <SfHeading
+              :level="4"
+              :title="facet.label"
+              class="filters__title sf-heading--left"
+              :key="`filter-title-${facet.id}`"
+            />
+              <div
+                v-if="isFacetColor(facet)"
+                class="filters__colors"
+                :key="`${facet.id}-colors`"
+              >
+                <SfColor
+                  v-for="option in facet.options"
+                  :key="`${facet.id}-${option.value}`"
+                  :data-cy="`category-filter_color_${option.value}`"
+                  :color="option.value"
+                  :selected="isFilterSelected(facet, option)"
+                  class="filters__color"
+                  @click="() => selectFilter(facet, option)"
+                />
+              </div>
+              <div v-else>
+                <SfFilter
+                  v-for="option in facet.options"
+                  :key="`${facet.id}-${option.value}`"
+                  :data-cy="`category-filter_${facet.id}_${option.value}`"
+                  :label="option.id + `${option.count ? ` (${option.count})` : ''}`"
+                  :selected="isFilterSelected(facet, option)"
+                  class="filters__item"
+                  @change="() => selectFilter(facet, option)"
+                />
+              </div>
+          </div>
+        </div>
+        <SfAccordion class="filters smartphone-only">
+          <div v-for="(facet, i) in facets" :key="i">
+            <SfAccordionItem
+              :key="`filter-title-${facet.id}`"
+              :header="facet.label"
+              class="filters__accordion-item"
             >
-              <SfColor
-                v-for="option in facet.options"
-                :key="`${facet.id}-${option.value}`"
-                :data-cy="`category-filter_color_${option.value}`"
-                :color="option.value"
-                :selected="isFilterSelected(facet, option)"
-                class="filters__color"
-                @click="() => selectFilter(facet, option)"
-              />
-            </div>
-            <div v-else>
-              <SfFilter
-                v-for="option in facet.options"
-                :key="`${facet.id}-${option.value}`"
-                :data-cy="`category-filter_${facet.id}_${option.value}`"
-                :label="option.id + `${option.count && ` (${option.count})`}`"
-                :selected="isFilterSelected(facet, option)"
-                class="filters__item"
-                @change="() => selectFilter(facet, option)"
-              />
-            </div>
+            <SfFilter
+              v-for="option in facet.options"
+              :key="`${facet.id}-${option.id}`"
+              :label="option.id"
+              :selected="isFilterSelected(facet, option)"
+              class="filters__item"
+              @change="() => selectFilter(facet, option)"
+            />
+          </SfAccordionItem>
         </div>
-      </div>
-      <SfAccordion class="filters smartphone-only">
-        <div v-for="(facet, i) in facets" :key="i">
-          <SfAccordionItem
-            :key="`filter-title-${facet.id}`"
-            :header="facet.label"
-            class="filters__accordion-item"
-          >
-          <SfFilter
-            v-for="option in facet.options"
-            :key="`${facet.id}-${option.id}`"
-            :label="option.id"
-            :selected="isFilterSelected(facet, option)"
-            class="filters__item"
-            @change="() => selectFilter(facet, option)"
-          />
-        </SfAccordionItem>
-      </div>
-      </SfAccordion>
-      <template #content-bottom>
-        <div class="filters__buttons">
-          <SfButton
-            class="sf-button--full-width"
-            @click="applyFilters"
-            >{{ $t('Done') }}</SfButton
-          >
-          <SfButton
-            class="sf-button--full-width filters__button-clear"
-            @click="clearFilters"
-            >{{ $t('Clear all') }}</SfButton
-          >
-        </div>
-      </template>
-    </SfSidebar>
+        </SfAccordion>
+        <template #content-bottom>
+          <div class="filters__buttons">
+            <SfButton
+              class="sf-button--full-width"
+              @click="applyFilters"
+              >{{ $t('Done') }}</SfButton
+            >
+            <SfButton
+              class="sf-button--full-width filters__button-clear"
+              @click="clearFilters"
+              >{{ $t('Clear all') }}</SfButton
+            >
+          </div>
+        </template>
+      </SfSidebar>
+    </LazyHydrate>
   </div>
 </template>
 
@@ -345,6 +370,7 @@ import { ref, computed, onMounted } from '@vue/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
+import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
 export default {
@@ -458,7 +484,8 @@ export default {
     SfLoader,
     SfColor,
     SfHeading,
-    SfProperty
+    SfProperty,
+    LazyHydrate
   }
 };
 </script>

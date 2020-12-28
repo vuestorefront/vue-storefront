@@ -1,7 +1,6 @@
 import {
   Context,
   useReviewFactory,
-  UseReview,
   UseReviewFactoryParams
 } from '@vue-storefront/core';
 import { Review } from '../types';
@@ -20,6 +19,4 @@ const params: UseReviewFactoryParams<any, any, any> = {
   }
 };
 
-const useReview: (cacheId: string) => UseReview<Review, any, any> = useReviewFactory<Review, any, any>(params);
-
-export default useReview;
+export default useReviewFactory<Review, any, any>(params);
