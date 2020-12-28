@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { RenderComponent, UseContent, Context, FactoryParams, ComposableErrors } from '../types';
+import { RenderComponent, UseContent, Context, FactoryParams, UseContentComposableErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
@@ -13,7 +13,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
-    const error: Ref<ComposableErrors> = sharedRef({}, `useContent-error-${id}`);
+    const error: Ref<UseContentComposableErrors> = sharedRef({}, `useContent-error-${id}`);
     const context = generateContext(factoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {

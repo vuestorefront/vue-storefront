@@ -1,4 +1,4 @@
-import { CustomQuery, UseCart, Context, FactoryParams, ComposableErrors } from '../types';
+import { CustomQuery, UseCart, Context, FactoryParams, UseCartComposableErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -34,7 +34,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const context = generateContext(factoryParams);
-    const error: Ref<ComposableErrors> = sharedRef({}, 'useCart-error');
+    const error: Ref<UseCartComposableErrors> = sharedRef({}, 'useCart-error');
 
     const setCart = (newCart: CART) => {
       cart.value = newCart;

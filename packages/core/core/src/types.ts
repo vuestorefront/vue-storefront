@@ -150,13 +150,25 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
+export interface UseCategoryComposableErrors {
+  search?: Error;
+}
 export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseCategoryComposableErrors>;
 }
 
+export interface UseCartComposableErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  updateItemQty?: Error;
+  load?: Error;
+  clear?: Error;
+  applyCoupon: Error;
+  removeCoupon?: Error;
+}
 export interface UseCart
 <
   CART,
@@ -175,7 +187,7 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseCartComposableErrors>;
   loading: ComputedProperty<boolean>;
 }
 
@@ -242,12 +254,14 @@ export interface UseFacet<SEARCH_DATA> {
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
   error: ComputedProperty<ComposableErrors>;
 }
-
+export interface UseContentComposableErrors {
+  search?: Error;
+}
 export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseContentComposableErrors>;
 }
 
 export interface RenderComponent {
