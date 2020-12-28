@@ -3,7 +3,6 @@ import { UseWishlist } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
 let useWishlist: () => UseWishlist<any, any, any>;
-let setWishlist = null;
 let params: UseWishlistFactoryParams<any, any, any>;
 const customQuery = undefined;
 
@@ -17,9 +16,7 @@ function createComposable() {
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' })
   };
-  const factory = useWishlistFactory<any, any, any>(params);
-  useWishlist = factory.useWishlist;
-  setWishlist = factory.setWishlist;
+  useWishlist = useWishlistFactory<any, any, any>(params);
 }
 
 describe('[CORE - factories] useWishlistFactory', () => {
@@ -42,7 +39,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       expect(params.load).not.toBeCalled();
     });
     it('set given wishlist', () => {
-      const { wishlist } = useWishlist();
+      const { wishlist, setWishlist } = useWishlist();
       expect(wishlist.value).toEqual(null);
       setWishlist({ wishlist: 'test' });
       expect(sharedRef).toHaveBeenCalled();

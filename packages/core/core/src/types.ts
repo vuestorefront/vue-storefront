@@ -183,6 +183,7 @@ export interface UseWishlist
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
+  setWishlist: (wishlist: WISHLIST) => void;
   isOnWishlist({ product: PRODUCT }): boolean;
 }
 
