@@ -36,8 +36,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
-      includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields,
+      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
       size: pageSize,
       configuration: searchQuery.filters,
       options: {
@@ -72,8 +72,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
-      includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields,
+      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
       configuration: searchQuery.filters,
       options: {
         populateRequestCacheTags: true,
