@@ -10,7 +10,7 @@
         data-cy="billing-details-tab_change"
         :title="isNewAddress ? 'Add the address' : 'Update the address'">
         <p class="message">
-          Keep your addresses and contact details updated.
+          {{ $t('Contact details updated') }}
         </p>
 
         <BillingAddressForm
@@ -27,9 +27,7 @@
       class="tab-orphan">
       <SfTab data-cy="billing-details-tab_details" title="Billing details">
         <p class="message">
-          Manage all the billing addresses you want (work place, home address
-          ...) This way you won"t have to enter the billing address manually
-          with each order.
+          {{ $t('Manage billing addresses') }}
         </p>
         <transition-group tag="div" name="fade" class="billing-list">
           <div
@@ -54,14 +52,14 @@
               <SfButton
                 data-cy="billing-details-btn_change"
                 @click="changeAddress(address)">
-                Change
+                {{ $t('Change') }}
               </SfButton>
 
               <SfButton
                 data-cy="billing-details-btn_delete"
                 class="color-light billing__button-delete desktop-only"
                 @click="removeAddress(address)">
-                Delete
+                {{ $t('Delete') }}
               </SfButton>
             </div>
           </div>
@@ -70,7 +68,7 @@
           data-cy="billing-details-btn_add"
           class="action-button"
           @click="changeAddress()">
-          Add new address
+          {{ $t('Add new address') }}
         </SfButton>
       </SfTab>
     </SfTabs>

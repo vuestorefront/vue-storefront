@@ -2,11 +2,12 @@
   <SfTabs :open-tab="1" class="tab-orphan">
     <SfTab data-cy="loyalty-card-tab" title="Loyalty Card">
       <p class="message">
-        This feature is not implemented yet! Please take a look at<br />
+        {{ $t('Feature is not implemented') }}
+        <br />
         <SfLink class="message__link" href="#"
           >https://github.com/DivanteLtd/vue-storefront/issues </SfLink
         >
-        for our Roadmap!
+        {{ $t('For our Roadmap') }}
       </p>
     </SfTab>
   </SfTabs>

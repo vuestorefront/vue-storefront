@@ -132,7 +132,7 @@
         type="submit"
         @click.native="canAddNewAddress = true"
       >
-        Add new address
+        {{ $t('Add new address') }}
       </SfButton>
     <SfHeading
       v-if="canContinueToReview"
@@ -161,12 +161,14 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
+        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">
+          {{ $t('Go back') }}
+        </nuxt-link>
         <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToReview">
-          Review my order
+          {{ $t('Review my order') }}
         </SfButton>
         <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-else>
-          Select payment method
+          {{ $t('Select payment method') }}
         </SfButton>
       </div>
     </div>

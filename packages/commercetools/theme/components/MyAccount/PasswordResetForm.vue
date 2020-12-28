@@ -39,7 +39,7 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton data-cy="my-profile-btn_update-password" class="form__button">Update password</SfButton>
+      <SfButton data-cy="my-profile-btn_update-password" class="form__button">{{ $t('Update password') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>

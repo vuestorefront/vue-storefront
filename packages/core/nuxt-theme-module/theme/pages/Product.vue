@@ -35,7 +35,7 @@
                 ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text">Read all reviews</SfButton>
+            <SfButton data-cy="product-btn_read-all" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
@@ -43,7 +43,7 @@
             {{ description }}
           </p>
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
-            Size guide
+            {{ $t('Size guide') }}
           </SfButton>
           <SfSelect
             data-cy="product-select_size"
@@ -63,7 +63,7 @@
             </SfSelectOption>
           </SfSelect>
           <div v-if="options.color" class="product__colors desktop-only">
-            <p class="product__color-label">Color:</p>
+            <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               data-cy="product-color_update"
               v-for="(color, i) in options.color"
@@ -83,20 +83,16 @@
             @click="addItem(product, parseInt(qty))"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            Save for later
+            {{ $t('Save for later') }}
           </SfButton>
           <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            Add to compare
+            {{ $t('Add to compare') }}
           </SfButton>
         </div>
         <SfTabs :open-tab="1" class="product__tabs">
           <SfTab data-cy="product-tab_description" title="Description">
             <div class="product__description">
-                The Karissa V-Neck Tee features a semi-fitted shape that's
-                flattering for every figure. You can hit the gym with
-                confidence while it hugs curves and hides common "problem"
-                areas. Find stunning women's cocktail dresses and party
-                dresses.
+                {{ $t('Product description') }}
             </div>
             <SfProperty
               v-for="(property, i) in properties"
@@ -133,14 +129,14 @@
             class="product__additional-info"
           >
           <div class="product__additional-info">
-            <p class="product__additional-info__title">Brand</p>
+            <p class="product__additional-info__title">{{ $t('Brand') }}</p>
             <p>{{ brand }}</p>
-            <p class="product__additional-info__title">Take care of me</p>
+            <p class="product__additional-info__title">{{ $t('Instruction1') }}</p>
             <p class="product__additional-info__paragraph">
-              Just here for the care instructions?
+              {{ $t('Instruction2') }}
             </p>
             <p class="product__additional-info__paragraph">
-              Yeah, we thought so
+              {{ $t('Instruction3') }}
             </p>
             <p>{{ careInstructions }}</p>
           </div>

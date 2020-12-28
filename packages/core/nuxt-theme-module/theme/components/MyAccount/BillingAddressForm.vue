@@ -1,5 +1,5 @@
 <template>
-  <b>Please implement vendor specific BillingAddressForm component in 'components/MyAccount' directory</b>
+  <b>{{ $t('Please implement vendor specific BillingAddressForm') }}</b>
 </template>
 
 <script>
