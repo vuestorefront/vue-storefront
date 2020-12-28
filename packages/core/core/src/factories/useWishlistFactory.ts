@@ -22,23 +22,18 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
 
-interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
-  useWishlist: () => UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT>;
-  setWishlist: (wishlist: WISHLIST) => void;
-}
-
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
-): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-  const setWishlist = (newWishlist: WISHLIST) => {
-    sharedRef('useWishlist-wishlist').value = newWishlist;
-    Logger.debug('useWishlistFactory.setWishlist', newWishlist);
-  };
-
+) => {
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const context = generateContext(factoryParams);
+
+    const setWishlist = (newWishlist: WISHLIST) => {
+      wishlist.value = newWishlist;
+      Logger.debug('useWishlistFactory.setWishlist', newWishlist);
+    };
 
     const addItem = async ({ product, customQuery }) => {
       Logger.debug('useWishlist.addToWishlist', product);
@@ -109,10 +104,11 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       load,
       removeItem,
       clear,
+      setWishlist,
       loading: computed(() => loading.value)
     };
   };
 
-  return { useWishlist, setWishlist };
+  return useWishlist;
 };
 

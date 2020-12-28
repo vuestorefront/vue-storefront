@@ -10,7 +10,7 @@ import { useReview } from './useReview';
 import useFacet from './useFacet';
 import useUserShipping from './useUserShipping';
 import useUserBilling from './useUserBilling';
-import { setWishlist, useWishlist } from './useWishlist';
+import useWishlist from './useWishlist';
 import { createApiClient } from '@vue-storefront/commercetools-api';
 import { track, integrationPluginFactory } from '@vue-storefront/core';
 
@@ -29,7 +29,6 @@ export {
   useUserBilling,
   useWishlist,
   useUserShipping,
-  setWishlist,
   useReview,
   useFacet
 };

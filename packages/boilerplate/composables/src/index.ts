@@ -11,7 +11,7 @@ import useUser from './useUser';
 import useUserBilling from './useUserBilling';
 import useUserOrders from './useUserOrders';
 import useUserShipping from './useUserShipping';
-import { useWishlist, setWishlist } from './useWishlist';
+import useWishlist from './useWishlist';
 import { createApiClient } from '@vue-storefront/boilerplate-api';
 import { integrationPluginFactory } from '@vue-storefront/core';
 
@@ -30,8 +30,7 @@ export {
   useUserBilling,
   useUserOrders,
   useUserShipping,
-  useWishlist,
-  setWishlist
+  useWishlist
 };
 
 export * from './getters';
