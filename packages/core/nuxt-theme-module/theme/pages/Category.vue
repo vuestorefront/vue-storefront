@@ -57,7 +57,7 @@
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <span class="desktop-only">{{ pagination.totalItems }}</span>
-          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} Items</span>
+          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} {{ $t('Items') }}</span>
         </div>
 
         <div class="navbar__view">
@@ -216,14 +216,14 @@
                   style="margin: 0 0 1rem auto; display: block;"
                   @click="() => {}"
                 >
-                  Save for later
+                  {{ $t('Save for later') }}
                 </SfButton>
                 <SfButton
                   class="sf-button--text desktop-only"
                   style="margin: 0 0 0 auto; display: block;"
                   @click="() => {}"
                 >
-                  Add to compare
+                  {{ $t('Add to compare') }}
                 </SfButton>
               </template>
             </SfProductCardHorizontal>
@@ -245,7 +245,7 @@
             v-show="pagination.totalPages > 1"
             class="products__show-on-page"
           >
-            <span class="products__show-on-page__label">Show on page:</span>
+            <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
                 :value="pagination.itemsPerPage"
@@ -333,12 +333,12 @@
             <SfButton
               class="sf-button--full-width"
               @click="applyFilters"
-              >Done</SfButton
+              >{{ $t('Done') }}</SfButton
             >
             <SfButton
               class="sf-button--full-width filters__button-clear"
               @click="clearFilters"
-              >Clear all</SfButton
+              >{{ $t('Clear all') }}</SfButton
             >
           </div>
         </template>

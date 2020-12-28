@@ -2,9 +2,9 @@
   <div>
     <div class="log-in desktop-only">
       <SfButton class="log-in__button color-secondary" @click="toggleLoginModal">
-        Log in to your account
+        {{ $t('Log into your account') }}
       </SfButton>
-      <p class="log-in__info">or fill the details below:</p>
+      <p class="log-in__info">{{ $t('or fill the details below') }}:</p>
     </div>
     <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
     <ValidationObserver v-slot="{ handleSubmit }">
@@ -47,7 +47,7 @@
         </ValidationProvider>
         <div class="info">
           <p class="info__heading">
-            Enjoy these perks with your free account!
+            {{ $t('Enjoy your free account') }}
           </p>
           <SfCharacteristic
             v-for="(characteristic, key) in characteristics"
@@ -80,9 +80,9 @@
           </ValidationProvider>
         </transition>
         <div class="form__action">
-          <nuxt-link to="/" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
+          <nuxt-link to="/" class="sf-button color-secondary form__back-button">{{ $t('Go back') }}</nuxt-link>
           <SfButton class="form__action-button" type="submit" :disabled="loading.personalDetails">
-            Continue to shipping
+            {{ $t('Continue to shipping') }}
           </SfButton>
         </div>
       </form>
