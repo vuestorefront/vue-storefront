@@ -11,8 +11,6 @@ export type CustomQuery<T = any> = (query: any, variables: T) => {
   variables?: T;
 };
 
-export type ComposableErrors = Record<string, Error>;
-
 export interface ProductsSearchParams {
   perPage?: number;
   page?: number;
@@ -21,11 +19,13 @@ export interface ProductsSearchParams {
   filters?: any;
   [x: string]: any;
 }
-
+export interface UseProductComposableErrors {
+  search?: Error;
+}
 export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseProductComposableErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
 }
@@ -43,7 +43,14 @@ export interface UseUserLoginParams {
   password: string;
   [x: string]: any;
 }
-
+export interface UseUserComposableErrors {
+  updateUser?: Error;
+  register?: Error;
+  login?: Error;
+  logout?: Error;
+  changePassword?: Error;
+  load?: Error;
+}
 export interface UseUser
 <
   USER,
@@ -59,7 +66,7 @@ export interface UseUser
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseUserComposableErrors>;
 }
 
 export interface UseUserOrdersSearchParams {
@@ -68,12 +75,14 @@ export interface UseUserOrdersSearchParams {
   perPage?: number;
   [x: string]: any;
 }
-
+export interface UseUserOrdersComposableErrors {
+  search?: Error;
+}
 export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseUserOrdersComposableErrors>;
 }
 
 export interface UseUserAddress<ADDRESS> {
@@ -85,16 +94,22 @@ export interface UseUserAddress<ADDRESS> {
   searchAddresses: (params?: { [x: string]: any }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseUserShippingComposableErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseUserShippingComposableErrors>;
 }
 
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
@@ -118,15 +133,22 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
+export interface UseUserBillingComposableErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseUserBillingComposableErrors>;
 }
 
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
@@ -190,7 +212,12 @@ export interface UseCart
   error: ComputedProperty<UseCartComposableErrors>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseWishlistComposableErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  load?: Error;
+  clear?: Error;
+}
 export interface UseWishlist
 <
   WISHLIST,
@@ -206,7 +233,7 @@ export interface UseWishlist
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
   isOnWishlist({ product: PRODUCT }): boolean;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseWishlistComposableErrors>;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -238,21 +265,26 @@ export interface UseCheckout
   placeOrder: PLACE_ORDER;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseReviewComposableErrors {
+  search?: Error;
+  addReview?: Error;
+}
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseReviewComposableErrors>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
-
+export interface UseFacetComposableErrors {
+  search?: Error;
+}
 export interface UseFacet<SEARCH_DATA> {
   result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
   loading: ComputedProperty<boolean>;
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
-  error: ComputedProperty<ComposableErrors>;
+  error: ComputedProperty<UseFacetComposableErrors>;
 }
 export interface UseContentComposableErrors {
   search?: Error;

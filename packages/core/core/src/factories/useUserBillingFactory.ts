@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context, FactoryParams, ComposableErrors } from '../types';
+import { UseUserBilling, Context, FactoryParams, UseUserBillingComposableErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
@@ -42,7 +42,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
     const context = generateContext(factoryParams);
-    const error: Ref<ComposableErrors> = sharedRef({}, 'useUserBilling-error');
+    const error: Ref<UseUserBillingComposableErrors> = sharedRef({}, 'useUserBilling-error');
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 

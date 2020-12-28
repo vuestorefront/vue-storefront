@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseUserOrders, Context, FactoryParams, ComposableErrors } from '../types';
+import { CustomQuery, UseUserOrders, Context, FactoryParams, UseUserOrdersComposableErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseUserOrdersFactoryParams<ORDERS, ORDER_SEARCH_PARAMS> extends FactoryParams {
@@ -11,7 +11,7 @@ export function useUserOrdersFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams:
     const orders: Ref<ORDERS> = sharedRef([], 'useUserOrders-orders');
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
     const context = generateContext(factoryParams);
-    const error: Ref<ComposableErrors> = sharedRef({}, 'useUserOrders-error');
+    const error: Ref<UseUserOrdersComposableErrors> = sharedRef({}, 'useUserOrders-error');
 
     const search = async (searchParams): Promise<void> => {
       Logger.debug('useUserOrders.search', searchParams);

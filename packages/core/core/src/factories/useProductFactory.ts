@@ -1,4 +1,4 @@
-import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams, ComposableErrors } from '../types';
+import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams, UseProductComposableErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 export interface UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
@@ -12,7 +12,7 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const context = generateContext(factoryParams);
-    const error: Ref<ComposableErrors> = sharedRef({}, `useProduct-error-${id}`);
+    const error: Ref<UseProductComposableErrors> = sharedRef({}, `useProduct-error-${id}`);
 
     const search = async (searchParams) => {
       Logger.debug('useProduct.search', searchParams);
