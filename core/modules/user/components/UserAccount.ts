@@ -1,7 +1,6 @@
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
-import { userHooks } from '@vue-storefront/core/modules/user/hooks'
 const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
@@ -148,8 +147,10 @@ export const UserAccount = {
       if (!updatedProfile && this.password) {
         this.changePasswordEmit();
       }
-      updatedProfile = pick(updatedProfile, config.users.allowModification)
-      this.exitSection(null, updatedProfile)
+      if (updatedProfile) {
+        updatedProfile = pick(updatedProfile, config.users.allowModification)
+        this.exitSection(null, updatedProfile)
+      }
     },
     changePasswordEmit () {
       this.$bus.$emit('myAccount-before-changePassword', {
