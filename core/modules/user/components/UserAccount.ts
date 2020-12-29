@@ -144,12 +144,12 @@ export const UserAccount = {
           })
         }
       }
-      if (!updatedProfile && this.password) {
+      if (!updatedProfile && this.changePassword && this.password) {
         this.changePasswordEmit();
       }
       if (updatedProfile) {
         updatedProfile = pick(updatedProfile, config.users.allowModification)
-        this.exitSection(null, updatedProfile)
+        this.exitSection(null, updatedProfile, this.changePassword)
       }
     },
     changePasswordEmit () {
@@ -158,7 +158,7 @@ export const UserAccount = {
         newPassword: this.password
       })
     },
-    exitSection (event, updatedProfile) {
+    exitSection (event, updatedProfile, changePassword) {
       this.$bus.$emit('myAccount-before-updateUser', {
         updatedProfile,
         callback: event => {
@@ -186,7 +186,7 @@ export const UserAccount = {
             }, { root: true })
           }
 
-          if (this.password) {
+          if (changePassword && this.password) {
             this.changePasswordEmit();
           }
         }
