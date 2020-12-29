@@ -40,10 +40,11 @@ export default {
     onBeforeChangePassword (passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
     },
-    onBeforeUpdateUser (updatedData) {
-      if (updatedData) {
+    async onBeforeUpdateUser ({ updatedProfile, callback }) {
+      if (updatedProfile) {
         try {
-          this.$store.dispatch('user/update', { customer: updatedData })
+          const event = await this.$store.dispatch('user/update', { customer: updatedProfile })
+          if (callback) return callback(event)
         } catch (err) {
           this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
           Logger.error(err)()

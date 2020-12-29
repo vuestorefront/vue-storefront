@@ -169,7 +169,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async update (_, profile: UserProfile) {
     profile = userHooksExecutors.beforeUserProfileUpdate(profile)
-    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
+    return UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
   async handleUpdateProfile ({ dispatch }, event: Task) {
     if (event.resultCode === 200) {

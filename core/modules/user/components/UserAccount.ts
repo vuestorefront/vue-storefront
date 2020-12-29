@@ -145,40 +145,49 @@ export const UserAccount = {
           })
         }
       }
-      if (this.password) {
-        this.$bus.$emit('myAccount-before-changePassword', {
-          currentPassword: this.oldPassword,
-          newPassword: this.password
-        })
+      if (!updatedProfile && this.password) {
+        this.changePasswordEmit();
       }
       updatedProfile = pick(updatedProfile, config.users.allowModification)
       this.exitSection(null, updatedProfile)
     },
+    changePasswordEmit () {
+      this.$bus.$emit('myAccount-before-changePassword', {
+        currentPassword: this.oldPassword,
+        newPassword: this.password
+      })
+    },
     exitSection (event, updatedProfile) {
-      this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
-      userHooks.afterUserProfileUpdated(event => {
-        if (event.resultCode === 200) {
-          if (!updatedProfile) {
-            this.currentUser = Object.assign({}, this.$store.state.user.current)
-            this.userCompany = this.getUserCompany()
-            this.changePassword = false
-            this.oldPassword = ''
-            this.password = ''
-            this.rPassword = ''
-            if (!this.userCompany.company) {
-              this.addCompany = false
+      this.$bus.$emit('myAccount-before-updateUser', {
+        updatedProfile,
+        callback: event => {
+          if (event.resultCode === 200) {
+            if (!updatedProfile) {
+              this.currentUser = Object.assign({}, this.$store.state.user.current)
+              this.userCompany = this.getUserCompany()
+              this.changePassword = false
+              this.oldPassword = ''
+              this.password = ''
+              this.rPassword = ''
+              if (!this.userCompany.company) {
+                this.addCompany = false
+              }
+              this.remainInEditMode = false
             }
-            this.remainInEditMode = false
+            if (!this.remainInEditMode) {
+              this.isEdited = false
+            }
+          } else {
+            this.$store.dispatch('notification/spawnNotification', {
+              type: 'error',
+              message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+              action1: { label: this.$t('OK') }
+            }, { root: true })
           }
-          if (!this.remainInEditMode) {
-            this.isEdited = false
+
+          if (this.password) {
+            this.changePasswordEmit();
           }
-        } else {
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
-            action1: { label: this.$t('OK') }
-          }, { root: true })
         }
       })
     },
