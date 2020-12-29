@@ -1,5 +1,5 @@
 
-<img src="https://d9hhrg4mnvzow.cloudfront.net/www.vuestorefront.io/280b19d0-logo-vs_0by02c0by02c000000.jpg"></img>
+<img src="https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5f804e14e571f5c30d9ffff8_Vue%20Storefront%20Logotype.png" height="100"></img>
 
 # Vue Storefront - Headless PWA for any eCommerce
 
