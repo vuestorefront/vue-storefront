@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `category-next/loadCategoryProducts` and `category-next/loadMoreCategoryProducts` module actions to respect `config.entities.optimize` config option.- @hcmlopes (#5070)
 - Use `queryString` library in `task/getUrl` - @cewald (#5263)
 - Changing email & password at once - Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
- ### Changed / Improved
+### Changed / Improved
 
 - Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
 - Add support for boolean filter aggregations in ES7 - @cewald (#4887)
