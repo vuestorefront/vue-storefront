@@ -73,6 +73,9 @@ Another part you should keep in mind is Cache Key. If you render different compo
 
 I created dedicated hook to resolve this problem. You can find how to use it in `src/modules/device/README.md`. You also have commented example of usage in `src/modules/device/server.ts`.
 
+### core/pages/MyAccount.js
+`onBeforeUpdateUser` changes signature from `(updatedProfile)` to `({ updatedProfile, callback })`. Callback is being called just after `user/update` actions sucesfully finishes.
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
