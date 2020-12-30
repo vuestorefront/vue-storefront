@@ -2,11 +2,14 @@
   "name": "@vue-storefront/commercetools-api",
   "version": "1.1.0",
   "sideEffects": false,
+  "direct": "direct/index.js",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rimraf lib && rollup -c",
+    "build:main": "rimraf lib && rollup -c rollup-main.config.js",
+    "build:direct": "rimraf direct && rollup -c rollup-direct.config.js",
+    "build": "yarn build:main && yarn build:direct",
     "dev": "rollup -c -w",
     "test": "cross-env APP_ENV=test jest --rootDir .",
     "prepublish": "yarn build"

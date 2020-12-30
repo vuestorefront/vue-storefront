@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
+import { isAnonymousSession, isUserSession, getAccessToken } from './../../helpers/utils';
 import { isAnonymousOperation, isUserOperation } from './restrictedOperations';
 
 export const handleBeforeAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken }) => {

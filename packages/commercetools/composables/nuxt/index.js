@@ -35,9 +35,14 @@ export default function (moduleOptions) {
   });
 
   this.addPlugin({
-    src: path.resolve(__dirname, './plugin.js'),
+    src: path.resolve(__dirname, './pluginProxy.js'),
     options
   });
+
+  // this.addPlugin({
+  //   src: path.resolve(__dirname, './plugin.js'),
+  //   options
+  // });
 
   if (moduleOptions.apiMiddleware !== false) {
     this.addServerMiddleware(middleware);

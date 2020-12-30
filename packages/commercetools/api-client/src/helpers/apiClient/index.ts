@@ -1,27 +1,9 @@
-/* istanbul ignore file */
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { apiClientFactory } from '@vue-storefront/core';
-import * as api from '../../api';
-import { Config, ClientInstance } from '../../types/setup';
-import { createCommerceToolsConnection } from '../../helpers/commercetoolsLink';
+import { apiClientFactory, integrationPluginFactory } from '@vue-storefront/core';
+import { defaultSettings } from './../../helpers/apiClient/defaultSettings';
+// import isGuest from './../../api/isGuest';
+import * as api from './../../api';
 
-const defaultSettings = {
-  locale: 'en',
-  acceptLanguage: ['en'],
-  auth: {
-    onTokenChange: () => {},
-    onTokenRead: () => '',
-    onTokenRemove: () => {}
-  },
-  cookies: {
-    currencyCookieName: 'vsf-currency',
-    countryCookieName: 'vsf-country',
-    localeCookieName: 'vsf-locale'
-  }
-};
-
-const onSetup = (settings: Config): { config: Config; client: ClientInstance } => {
+const onProxySetup = (settings: any) => {
   const languageMap = settings.languageMap || {};
   const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
   const locale = settings.locale || defaultSettings.locale;
@@ -32,44 +14,21 @@ const onSetup = (settings: Config): { config: Config; client: ClientInstance } =
     languageMap,
     acceptLanguage: languageMap[locale] || acceptLanguage,
     auth: settings.auth || defaultSettings.auth
-  } as any as Config;
+  } as any;
 
-  if (settings.client) {
-    return { client: settings.client, config };
-  }
-
-  if (settings.customOptions && settings.customOptions.link) {
-    return {
-      client: new ApolloClient({
-        cache: new InMemoryCache(),
-        ...settings.customOptions
-      }),
-      config
-    };
-  }
-
-  const { apolloLink, sdkAuth, tokenProvider } = createCommerceToolsConnection(config);
-
-  const client = new ApolloClient({
-    link: apolloLink,
-    cache: new InMemoryCache(),
-    ...settings.customOptions
-  });
-  (client as ClientInstance).sdkAuth = sdkAuth;
-  (client as ClientInstance).tokenProvider = tokenProvider;
-
-  return {
-    config,
-    client
-  };
+  return { config };
 };
 
-const { createApiClient } = apiClientFactory<Config, any>({
+const { createApiClient: createProxyApiClient } = apiClientFactory<any, any>({
   tag: 'ct',
-  onSetup,
-  api
+  onSetup: onProxySetup,
+  api: Object.keys(api),
+  isProxy: true
 });
 
+const integrationProxyPlugin = integrationPluginFactory(createProxyApiClient);
+
 export {
-  createApiClient
+  createProxyApiClient,
+  integrationProxyPlugin
 };

@@ -18,7 +18,7 @@ export const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
       };
       nuxtCtx.$vsf[integrationKey].api = {
         ...current.api,
-        ...applyContextForApi((props.api || {}), { client, config })
+        ...applyContextForApi((props.api || {}), { client, config }, config.extensions)
       };
     }
 

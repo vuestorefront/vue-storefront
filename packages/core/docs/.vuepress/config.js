@@ -193,6 +193,8 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
+						['/integrate/integration-guidev2', 'Integration guide v2'],
+
 						['/general/cms', 'CMS'],
 					]
 				},

@@ -4,7 +4,8 @@ export const integrationPluginFactory = (createApiClientFn) => (pluginFn) => (nu
   const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClientFn.tag, nuxtCtx, inject });
 
   const configure = (givenSettings, customApi = {}) => {
-    const { api, client, settings } = createApiClientFn(givenSettings, customApi);
+    const headers = nuxtCtx.req ? nuxtCtx.req.headers : {};
+    const { api, client, settings } = createApiClientFn(givenSettings, customApi, headers);
     const props = { api, client, config: settings };
 
     injectInContext(props);

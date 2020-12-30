@@ -56,6 +56,9 @@ export default {
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
+      logger: {
+        verbosity: 'debug'
+      },
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
@@ -108,7 +111,12 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    ['@vue-storefront/middleware', {
+      apiClient: {
+        ct: '@vue-storefront/commercetools-api'
+      }
+    }]
   ],
   i18n: {
     currency: 'USD',
