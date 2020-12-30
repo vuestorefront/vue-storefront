@@ -31,15 +31,9 @@ export const UserAccount = {
   },
   beforeMount () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$on('myAccount-before-remainInEditMode', block => {
-      if (block === 'MyProfile') {
-        this.remainInEditMode = true
-      }
-    })
   },
   beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -161,7 +155,10 @@ export const UserAccount = {
     async exitSection (updatedProfile) {
       try {
         if (updatedProfile) {
-          var event = await this.$store.dispatch('user/update', { customer: updatedProfile })
+          const event = await this.$store.dispatch('user/update', { customer: updatedProfile })
+          if (event.code !== 200) {
+            throw event;
+          }
         }
         if (this.changePassword && this.password) {
           this.$bus.$emit('myAccount-before-changePassword', {
@@ -171,16 +168,13 @@ export const UserAccount = {
         }
         this.remainInEditMode = false
         this.resetFormValues(updatedProfile);
-      } catch (err) {
+      } catch (event) {
         this.remainInEditMode = true
-        // this.$store.dispatch('notification/spawnNotification', {
-        //   type: 'error',
-        //   message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
-        //   action1: { label: this.$t('OK') }
-        // })
-        console.log(err, 'err')
-        console.log(event, 'event')
-        throw new Error(err);
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+          action1: { label: this.$t('OK') }
+        })
       }
     },
     getUserCompany () {

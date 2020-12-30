@@ -20,7 +20,6 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   async mounted () {
@@ -31,23 +30,11 @@ export default {
     }
   },
   destroyed () {
-    this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   methods: {
     onBeforeChangePassword (passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
-    },
-    async onBeforeUpdateUser ({ updatedProfile, callback }) {
-      if (updatedProfile) {
-        try {
-          const event = await this.$store.dispatch('user/update', { customer: updatedProfile })
-          if (callback) return callback(event)
-        } catch (err) {
-          this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
-          Logger.error(err)()
-        }
-      }
     }
   },
   metaInfo () {
