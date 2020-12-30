@@ -73,8 +73,13 @@ Another part you should keep in mind is Cache Key. If you render different compo
 
 I created dedicated hook to resolve this problem. You can find how to use it in `src/modules/device/README.md`. You also have commented example of usage in `src/modules/device/server.ts`.
 
+### core/data-resolver/UserService.ts
+`updateProfile` uses `TaskQueue.execute` instead of `TaskQueue.queue`
+
 ### core/pages/MyAccount.js
 `onBeforeUpdateUser` changes signature from `(updatedProfile)` to `({ updatedProfile, callback })`. Callback is being called just after `user/update` actions sucesfully finishes.
+
+Got rid of `myAccount-before-remainInEditMode`, `myAccount-before-updateUser` events, and`onBeforeUpdateUser` method as a part of this issue [#5315](https://github.com/vuestorefront/vue-storefront/issues/5315). Thanks to that we simplified developer API
 
 ## 1.11 -> 1.12
 
