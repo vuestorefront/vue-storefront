@@ -2,11 +2,10 @@
   <SfTabs :open-tab="1" class="tab-orphan">
     <SfTab data-cy="my-newsletter-tab" title="My newsletter">
       <p class="message">
-        Set up your newsletter and we will send you information about new
-        products and trends from the sections you selected every week.
+        {{ $t('Set up newsletter') }}
       </p>
       <div class="form">
-        <p class="form__title">Sections that interest you</p>
+        <p class="form__title">{{ $t('Sections that interest you') }}</p>
         <div class="form__checkbox-group">
           <SfCheckbox
             v-model="newsletter"
@@ -27,12 +26,11 @@
             class="form__element"
           />
         </div>
-        <SfButton data-cy="newsletter-btn_join" class="form__button">Save changes</SfButton>
+        <SfButton data-cy="newsletter-btn_join" class="form__button">{{ $t('Save changes') }}</SfButton>
       </div>
       <p class="notice">
-        I have read and understand the <SfLink class="notice__link" href="#">Privacy</SfLink> and
-        <SfLink class="notice__link" href="#">Cookies Policy</SfLink> and agree to receive personalized
-        commercial information from Brand name by email.
+        {{ $t('Read and understand') }} <SfLink class="notice__link" href="#">{{ $t('Privacy') }}</SfLink> and
+        <SfLink class="notice__link" href="#">{{ $t('Cookies Policy') }}</SfLink> {{ $t('Commercial information') }}
       </p>
     </SfTab>
   </SfTabs>

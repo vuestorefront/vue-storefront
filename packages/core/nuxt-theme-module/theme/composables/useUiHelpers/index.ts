@@ -52,15 +52,7 @@ const useUiHelpers = () => {
     return false;
   };
 
-  // eslint-disable-next-line
-  const formatPrice = (price: number): string => {
-    console.warn('[VSF] please implement useUiHelpers.formatPrice.');
-
-    return '00';
-  };
-
   return {
-    formatPrice,
     getFacetsFromURL,
     getCatLink,
     changeSorting,

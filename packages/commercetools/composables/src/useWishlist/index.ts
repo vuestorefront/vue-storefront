@@ -13,19 +13,19 @@ export const wishlist: Ref<Wishlist> = ref(null);
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadWishlist: async (context: Context) => {
+  load: async (context: Context) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async (context: Context, { currentWishlist, product }) => {
+  addItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async (context: Context, { currentWishlist, product }) => {
+  removeItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async (context: Context, { currentWishlist }) => {
+  clear: async (context: Context, { currentWishlist }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,6 +34,4 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   }
 };
 
-const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);
-
-export { setWishlist, useWishlist};
+export default useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);

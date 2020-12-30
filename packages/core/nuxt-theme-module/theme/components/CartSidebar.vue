@@ -24,12 +24,12 @@
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"
-                :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-                :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+                :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
+                :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
                 :qty="cartGetters.getItemQty(product)"
-                @input="updateQuantity(product, $event)"
-                @click:remove="removeFromCart(product)"
+                @input="updateItemQty({ product, quantity: $event })"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                 <template #configuration>
@@ -45,12 +45,12 @@
                 <template #actions>
                   <div class="desktop-only collected-product__actions">
                     <SfButton class="sf-button--text collected-product__save">
-                      Save for later
+                      {{ $t('Save for later') }}
                     </SfButton>
                     <SfButton
                       class="sf-button--text collected-product__compare"
                     >
-                      Add to compare
+                      {{ $t('Add to compare') }}
                     </SfButton>
                   </div>
                 </template>
@@ -83,7 +83,7 @@
               class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
-                <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
+                <SfPrice :regular="$n(totals.subtotal, 'currency')" />
               </template>
             </SfProperty>
             <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
@@ -91,7 +91,7 @@
               class="sf-button--full-width color-secondary"
               @click="toggleCartSidebar"
               >
-                Go to checkout
+                {{ $t('Go to checkout') }}
               </SfButton>
             </nuxt-link>
           </div>
@@ -99,7 +99,7 @@
             <SfButton
               class="sf-button--full-width color-primary"
               @click="toggleCartSidebar"
-              >Go back shopping</SfButton
+              >{{ $t('Go back shopping') }}</SfButton
             >
           </div>
         </transition>
@@ -137,7 +137,7 @@ export default {
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeFromCart, updateQuantity, loadCart } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -150,8 +150,8 @@ export default {
     return {
       isAuthenticated,
       products,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       isCartSidebarOpen,
       toggleCartSidebar,
       totals,

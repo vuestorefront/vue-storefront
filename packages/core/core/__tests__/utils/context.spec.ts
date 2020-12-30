@@ -70,7 +70,7 @@ describe('context', () => {
       a: 1
     };
     const factoryParams = {
-      setup () {
+      provide () {
         return {
           b: 2,
           c: 3

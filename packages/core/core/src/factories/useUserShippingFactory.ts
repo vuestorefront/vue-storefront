@@ -5,7 +5,7 @@ import { sharedRef, Logger, mask, generateContext } from '../utils';
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
   addAddress: (
     context: Context,
-      params: {
+    params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
@@ -17,7 +17,7 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     }) => Promise<USER_SHIPPING>;
   updateAddress: (
     context: Context,
-      params: {
+    params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
@@ -26,7 +26,7 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     params: {
       shipping: Readonly<USER_SHIPPING>;
     }) => Promise<USER_SHIPPING>;
-  setDefault: (
+  setDefaultAddress: (
     context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
@@ -44,7 +44,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const context = generateContext(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
 
-    const addAddress = async (address: USER_SHIPPING_ITEM) => {
+    const addAddress = async ({ address }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
 
       loading.value = true;
@@ -62,7 +62,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const deleteAddress = async (address: USER_SHIPPING_ITEM) => {
+    const deleteAddress = async ({ address }) => {
       Logger.debug('useUserShipping.deleteAddress', address);
 
       loading.value = true;
@@ -80,7 +80,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const updateAddress = async (address: USER_SHIPPING_ITEM) => {
+    const updateAddress = async ({ address }) => {
       Logger.debug('useUserShipping.updateAddress', address);
 
       loading.value = true;
@@ -115,17 +115,17 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       }
     };
 
-    const setDefault = async (address: USER_SHIPPING_ITEM) => {
-      Logger.debug('useUserShipping.setDefault', address);
+    const setDefaultAddress = async ({ address }) => {
+      Logger.debug('useUserShipping.setDefaultAddress', address);
 
       loading.value = true;
       try {
-        shipping.value = await factoryParams.setDefault(context, {
+        shipping.value = await factoryParams.setDefaultAddress(context, {
           address,
           shipping: readonlyShipping
         });
       } catch (err) {
-        Logger.error('useUserShipping.setDefault', err);
+        Logger.error('useUserShipping.setDefaultAddress', err);
 
         throw err;
       } finally {
@@ -140,9 +140,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       deleteAddress,
       updateAddress,
       load,
-      setDefault
+      setDefaultAddress
     };
   };
 
-  return { useUserShipping };
+  return useUserShipping;
 };

@@ -18,11 +18,10 @@ export default {
     const { 
       wishlist,
       addToWishlist,
-      loadWishlist,
       removeFromWishlist,
       clearWishlist,
       isOnWishlist,
-      loadWishlist
+      load: loadWishlist
      } = useWishlist()
     
     onSSR(async () => {

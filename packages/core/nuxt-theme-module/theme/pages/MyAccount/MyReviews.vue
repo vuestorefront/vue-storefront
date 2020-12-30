@@ -2,7 +2,8 @@
   <SfTabs :open-tab="1" class="tab-orphan">
     <SfTab data-cy="my-reviews-tab" title="My reviews">
       <p class="message">
-        This feature is not implemented yet! Please take a look at<br />
+         This feature is not implemented yet! Please take a look at
+        <br />
         <SfLink class="message__link" href="#"
           >https://github.com/DivanteLtd/vue-storefront/issues </SfLink
         >

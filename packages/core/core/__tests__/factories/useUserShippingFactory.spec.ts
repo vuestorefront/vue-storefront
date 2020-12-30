@@ -5,10 +5,10 @@ const factoryParams = {
   deleteAddress: jest.fn(),
   updateAddress: jest.fn(),
   load: jest.fn(),
-  setDefault: jest.fn()
+  setDefaultAddress: jest.fn()
 };
 
-const { useUserShipping } = useUserShippingFactory(factoryParams);
+const useUserShipping = useUserShippingFactory(factoryParams);
 const useUserShippingMethods = useUserShipping();
 
 describe('[CORE - factories] useUserShippingFactory', () => {
@@ -18,7 +18,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
   });
 
   it('should have proper initial properties', () => {
-    const { useUserShipping } = useUserShippingFactory(factoryParams);
+    const useUserShipping = useUserShippingFactory(factoryParams);
     const {
       shipping,
       loading
@@ -33,7 +33,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.addAddress(paramsToUpdate);
+        await useUserShippingMethods.addAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -53,7 +53,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.deleteAddress(paramsToUpdate);
+        await useUserShippingMethods.deleteAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -73,7 +73,7 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.updateAddress(paramsToUpdate);
+        await useUserShippingMethods.updateAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
@@ -109,19 +109,19 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
     });
 
-    describe('setDefault', () => {
+    describe('setDefaultAddress', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
-        factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
-        await useUserShippingMethods.setDefault(paramsToUpdate);
+        factoryParams.setDefaultAddress.mockReturnValueOnce(paramsToUpdate);
+        await useUserShippingMethods.setDefaultAddress({ address: paramsToUpdate });
         expect(useUserShippingMethods.shipping.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
-        factoryParams.setDefault.mockImplementationOnce(() => {
+        factoryParams.setDefaultAddress.mockImplementationOnce(() => {
           throw new Error();
         });
-        await expect(useUserShippingMethods.setDefault('' as any)).rejects.toThrow();
+        await expect(useUserShippingMethods.setDefaultAddress('' as any)).rejects.toThrow();
       });
 
       it('finally loading go to false', () => {

@@ -52,17 +52,21 @@
               :disabled="loading"
             >
               <SfLoader :class="{ loader: loading }" :loading="loading">
-                <div>Login</div>
+                <div>{{ $t('Login') }}</div>
               </SfLoader>
             </SfButton>
           </form>
         </ValidationObserver>
         <div class="action">
-          <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">Forgotten password?</SfButton>
+          <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">
+            {{ $t('Forgotten password?') }}
+          </SfButton>
         </div>
         <div class="bottom">
-          <p class="bottom__paragraph">Don't have an account yet?</p>
-          <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">Register today</SfButton>
+          <p class="bottom__paragraph">{{ $t('No account') }}</p>
+          <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">
+            {{ $t('Register today') }}
+          </SfButton>
         </div>
       </div>
       <div v-else class="form">
@@ -130,14 +134,16 @@
               :disabled="loading"
             >
               <SfLoader :class="{ loader: loading }" :loading="loading">
-                <div>Create an account</div>
+                <div>{{ $t('Create an account') }}</div>
               </SfLoader>
             </SfButton>
           </form>
         </ValidationObserver>
         <div class="action">
-          or
-          <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="isLogin = true">login in to your account</SfButton>
+          {{ $t('or') }}
+          <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="isLogin = true">
+            {{ $t('login in to your account') }}
+          </SfButton>
         </div>
       </div>
     </transition>
@@ -189,7 +195,7 @@ export default {
     });
 
     const handleForm = (fn) => async () => {
-      await fn(form.value);
+      await fn({ user: form.value });
       toggleLoginModal();
     };
 
