@@ -24,8 +24,18 @@ const { createApiClient } = apiClientFactory<Config, any>({
 
 const integrationPlugin = integrationPluginFactory(createApiClient);
 
-const middlewareExtensions = {};
+const middlewareExtensions = {
+  commercetoolsTokenExtension: (req, res) => ({
+    beforeSetup: (config) => ({
+      return { ...config }
+    }),
+    afterSetup: () => {
 
+    },
+    beforeCall: () => {},
+    afterCall: () => {}
+  })
+};
 export {
   createApiClient,
   integrationPlugin,
