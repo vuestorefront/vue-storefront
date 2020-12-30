@@ -59,7 +59,7 @@ const onProxySetup = (settings: any) => {
 const { createApiClient: createProxyApiClient } = apiClientFactory<any, any>({
   tag: 'ct',
   onSetup: onProxySetup,
-  api: Object.keys(api),
+  api: { functionThatYouWantToKeep },
   isProxy: true
 });
 
