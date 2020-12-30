@@ -2,7 +2,29 @@
 
 A flexible way of error handling is essential for a framework like Vue Storefront. As factories of composables are hearth of our core - we decided to put there whole error handling mechanism.
 
-Each factory returns `error` computed property. It is an object which has names of async functions from factory as keys and Error instance or null as a value. There is a dedicated type for each factory, e.g:
+Each factory returns `error` computed property. It is an object which has names of async functions from factory as keys and Error instance or null as a value. 
+
+Example usage:
+```vue
+<template>
+  <button @click="addToCart(product)">Add to cart</button>
+  <div v-if="error.addToCart">{{ error.addToCart.message }}</dIv>
+</template>
+
+<script>
+export default {
+  setup () {
+    const { addToCart, error } = useCart()
+
+    return {
+      error
+    }
+  }
+}
+</script>
+```
+
+There is a dedicated interface for each factory, example one for the `useCart`:
 ```ts
 export interface UseCartComposableErrors {
   addItem?: Error;
@@ -14,6 +36,25 @@ export interface UseCartComposableErrors {
   removeCoupon?: Error;
 }
 ```
+
+## How to listen for errors?
+Let's imagine you have some global components for error notifications. You want to send information about each new error to this component. But how to know when new error appears? You can observe error object with a simple watcher!
+
+```ts
+const { cart, error } = useCart()
+
+watch(error, (error, prevError) => {
+  if (error.value.addItem && error.value.addItem !== prevError.value.addItem) sendInAppNotification('error', error.value.addItem.message)
+  if (error.value.removeItem && error.value.removeItem !== prevError.value.removeItem) sendInAppNotification('error', error.value.removeItem.message)
+})
+```
+
+## Where can I find interface of the error property from a certain factory?
+When you are writing a code inside a script part of the Vue's component, your IDE should give you hints dedicated for each type of composable. That's why you probably do not need to check these interfaces in the core's code.
+
+However, if somewhy you still want to do that, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts). Just search for `UseCartComposableErrors` with your IDE inside.
+
+Feel free to replace `UseCart` part with other composable name - `UseFacetComposableErrors`, `UseWishlistComposableErrors`, `UseProductComposableErrors` etc.
 
 ## Where does error come from?
 Inside each factory's async method we are clearing the current error before integration's method call and setting it in catch block.
@@ -41,39 +82,4 @@ const addItem = async ({ product, quantity, customQuery }) => {
     loading.value = false;
   }
 };
-```
-
-## Where can I find interface of the error property from a certain factory?
-You shouldn't need it, IDE should give you hints. But if so....
-
-# Best practices and common issues (?)
-
-## How to listen for errors?
-```ts
-const { cart, error: cartError } = useCart()
-
-watch(cartError => {
-  if (cartError.value.addItem) sendInAppNotification('error', cartError.value.addItem.message)
-  if (cartError.value.removeItem) sendInAppNotification('error', cartError.value.removeItem.message)
-})
-```
-
-## How to use error ref?
-```vue
-<template>
- <button @click="addToCart(product)">Add to cart</button>
- <div v-if="cartError.addToCart">{{ cartError.addToCart.message }}</dIv>
-</template>
-
-<script>
-export default {
-  setup () {
-    const { addToCart, error } = useCart()
-
-    return {
-      cartError: error
-    }
-  }
-}
-</script>
 ```
