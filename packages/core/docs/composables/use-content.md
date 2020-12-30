@@ -2,7 +2,8 @@
 
 `useContent` is typically a composable used for a CMS integration and is user together with `<RenderContent>` component.
 
-You can use them to
+## When to use it?
+
 - fetch a single CMS content entity or a list
 - render Vue Components from your project based on the fetched content
 
