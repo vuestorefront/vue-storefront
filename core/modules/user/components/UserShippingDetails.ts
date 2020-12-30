@@ -129,16 +129,6 @@ export const UserShippingDetails = {
       } finally {
         this.isEdited = this.remainInEditMode
       }
-
-      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
-      if (!updatedShippingDetails) {
-        this.shippingDetails = this.getShippingDetails()
-        this.useCompanyAddress = false
-        this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
-      }
     },
     fillCompanyAddress () {
       if (this.useCompanyAddress) {
