@@ -144,52 +144,9 @@ export const UserAccount = {
           })
         }
       }
-      if (!updatedProfile && this.changePassword && this.password) {
-        this.changePasswordEmit();
-      }
-      if (updatedProfile) {
-        this.exitSection(null, updatedProfile, this.changePassword)
-      }
+      return this.exitSection(updatedProfile)
     },
-    changePasswordEmit () {
-      this.$bus.$emit('myAccount-before-changePassword', {
-        currentPassword: this.oldPassword,
-        newPassword: this.password
-      })
-    },
-    exitSection (event, updatedProfile, changePassword) {
-      this.$bus.$emit('myAccount-before-updateUser', {
-        updatedProfile,
-        callback: event => {
-          if (event.resultCode === 200) {
-            if (!updatedProfile) {
-              this.currentUser = Object.assign({}, this.$store.state.user.current)
-              this.userCompany = this.getUserCompany()
-              this.changePassword = false
-              this.oldPassword = ''
-              this.password = ''
-              this.rPassword = ''
-              if (!this.userCompany.company) {
-                this.addCompany = false
-              }
-              this.remainInEditMode = false
-            }
-            if (!this.remainInEditMode) {
-              this.isEdited = false
-            }
-          } else {
-            this.$store.dispatch('notification/spawnNotification', {
-              type: 'error',
-              message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
-              action1: { label: this.$t('OK') }
-            }, { root: true })
-          }
-
-          if (changePassword && this.password) {
-            this.changePasswordEmit();
-          }
-        }
-      })
+    resetFormValues (updatedProfile) {
       if (!updatedProfile) {
         this.currentUser = Object.assign({}, this.$store.state.user.current)
         this.userCompany = this.getUserCompany()
@@ -197,13 +154,33 @@ export const UserAccount = {
         this.oldPassword = ''
         this.password = ''
         this.rPassword = ''
-        if (!this.userCompany.company) {
-          this.addCompany = false
+        this.addCompany = !!this.userCompany.company
+      }
+      this.isEdited = this.remainInEditMode
+    },
+    async exitSection (updatedProfile) {
+      try {
+        if (updatedProfile) {
+          var event = await this.$store.dispatch('user/update', { customer: updatedProfile })
+        }
+        if (this.changePassword && this.password) {
+          this.$bus.$emit('myAccount-before-changePassword', {
+            currentPassword: this.oldPassword,
+            newPassword: this.password
+          })
         }
         this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
+        this.resetFormValues(updatedProfile);
+      } catch (err) {
+        this.remainInEditMode = true
+        // this.$store.dispatch('notification/spawnNotification', {
+        //   type: 'error',
+        //   message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+        //   action1: { label: this.$t('OK') }
+        // })
+        console.log(err, 'err')
+        console.log(event, 'event')
+        throw new Error(err);
       }
     },
     getUserCompany () {
