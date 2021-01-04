@@ -33,7 +33,7 @@ Our default theme is based on [Storefront UI](http://storefrontui.io/) - a desig
 
 <img src="https://camo.githubusercontent.com/5e44d945fe332e31a78af2f8345cdb3aae2de666aa3619ca81f67da7ff2187f8/68747470733a2f2f692e6962622e636f2f37534b627a354b2f3132333435372e706e67" />
 
-With Storefront UI you're getting both [Vue.js components]((https://storybook.storefrontui.io/)) and [Figma designs](figma.com/file/N0Ct95cSAoODNv7zYS01ng/Storefront-UI-%7C-Design-System?node-id=0%3A1) that match them so it's straightforward for your design team to customize it. The library works great for multi-tenancy model as a shared UI library that can be customized differently for each tenant.
+With Storefront UI you're getting both [Vue.js components]((https://storybook.storefrontui.io/)) and [Figma designs](figma.com/file/N0Ct95cSAoODNv7zYS01ng/Storefront-UI-%7C-Design-System?node-id=0%3A1) that match them so it's straightforward for your design team to customize them. The library works great for multi-tenancy model as a shared UI library that can be customized differently for each tenant.
 
 To learn more about Storefront UI please check:
 - [Storybook](https://storybook.storefrontui.io/) where you can find a list of all it's available components
