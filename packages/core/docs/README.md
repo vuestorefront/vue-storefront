@@ -40,7 +40,7 @@ No matter how great your products are slow and unresponsive shop will make your 
 - Pages that were already visited are cached so next time user enters them they will load instantly.
 - Resources that might be needed in the future are precached so when the user clicks the link it loads immediately.
 - When network connectivity is slow or temporarily lost you can stil browse the product catalog. In many cases its unnoticeable for the user.
-- Majority of JavaScript code is hosted and executed on the server side so your users are downloading only the code that drives the UI. Because of this the page renders much faster and is much lighter compared to traditional SPA.
+- Majority of JavaScript code is hosted and executed on the server side so your users download only the code that drives the UI. Because of this the page renders much faster and is much lighter compared to traditional SPA.
 
 Not only page load time but also __responsiveness as a whole from the page is almost instant and seamless__ just as you would expect from a native app, if not better.
 
