@@ -1,6 +1,6 @@
 # Internationalization
 
-By default we are using `nuxt-i18n` module for handling internationalization, but it's not mandatory to use it even if you are using Nuxt.
+By default we are using [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling internationalization, but it's not mandatory to use it even if you are using Nuxt.
 
 In order to provide unified way of configuring i18n across the application for different modules and integrations, we have introduced field `i18n` in each modules configuration that has same format as `nuxt-i18n` options. Clearly, it's possible to add there any configuration if there is a necessity and it will be propagated to all other Vue Storefront modules.
 
@@ -8,14 +8,34 @@ By default all Vue Storefront modules have `useNuxtI18nModule` property set to `
 
 ```js
 // nuxt.config.js
-['@vue-storefront/{INTEGRATION}/nuxt', {
-  api: {
-    // api client configuration
-  },
-  i18n: {
-    useNuxtI18nModule: true
-  }
-}]
+modules: [
+  ['@vue-storefront/{INTEGRATION}/nuxt', {
+    api: {
+      // api client configuration
+    },
+    i18n: {
+      useNuxtI18nModule: true
+    }
+  }]
+],
+i18n: {
+  locales: [
+    {
+      code: 'en',
+      label: 'English',
+      file: 'en.js',
+      iso: 'en'
+    },
+    {
+      code: 'de',
+      label: 'German',
+      file: 'de.js',
+      iso: 'de'
+    }
+  ],
+  defaultLocale: 'en'
+}
+
 ```
 
 ## Custom configuration
