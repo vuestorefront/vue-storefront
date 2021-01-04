@@ -46,9 +46,9 @@ export default {
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load } = useUser();
-    const { cart, loadCart } = useCart();
-    const { loadWishlist } = useWishlist();
+    const { isAuthenticated, load: loadUser } = useUser();
+    const { cart, load: loadCart } = useCart();
+    const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
 
     const cartTotalItems = computed(() => {
@@ -68,7 +68,7 @@ export default {
     };
 
     onSSR(async () => {
-      await load();
+      await loadUser();
       await loadCart();
       await loadWishlist();
     });

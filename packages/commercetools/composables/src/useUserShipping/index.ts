@@ -116,8 +116,8 @@ const params: UseUserShippingFactoryParams<any, any> = {
     return Promise.resolve(shipping);
   },
 
-  setDefault: async (context: Context, params?) => {
-    console.log('Mocked: setDefault');
+  setDefaultAddress: async (context: Context, params?) => {
+    console.log('Mocked: setDefaultAddress');
     const isDefault = id => addresses[0].id === id;
 
     if (!isDefault(params.address.id)) {
@@ -134,6 +134,4 @@ const params: UseUserShippingFactoryParams<any, any> = {
   }
 };
 
-const { useUserShipping } = useUserShippingFactory<any, any>(params);
-
-export default useUserShipping;
+export default useUserShippingFactory<any, any>(params);

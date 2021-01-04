@@ -1,6 +1,22 @@
 import { VSFLogger } from './../../types';
 import defaultLogger from './defaultLogger';
 
+const defaultModes = {
+  // Test
+  test: 'none',
+
+  // Development
+  dev: 'warn',
+  development: 'warn',
+
+  // Production
+  prod: 'error',
+  production: 'error',
+
+  // Fallback
+  default: 'warn'
+};
+
 let Logger: VSFLogger = defaultLogger;
 
 type LoggerImplementation = VSFLogger | ((verbosity: string) => VSFLogger);
@@ -52,7 +68,7 @@ const registerLogger = (loggerImplementation: LoggerImplementation, verbosity: s
   }
 };
 
-registerLogger(defaultLogger, 'error');
+registerLogger(defaultLogger, defaultModes[process.env.NODE_ENV] || defaultModes.default);
 
 export {
   Logger,

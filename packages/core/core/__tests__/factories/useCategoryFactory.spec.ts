@@ -1,7 +1,7 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../../src/factories';
 import { UseCategory } from '../../src/types';
 
-let useCategory: (cacheId?: string) => UseCategory<any>;
+let useCategory: (cacheId?: string) => UseCategory<any, any>;
 let params: UseCategoryFactoryParams<any, any>;
 
 function createComposable() {
@@ -34,7 +34,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
         const { categories, search } = useCategory();
         expect(categories.value).toEqual([]);
         await search({ someparam: 'qwerty' });
-        expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' }, undefined);
+        expect(params.categorySearch).toBeCalledWith({ context: null }, { someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
       });
     });

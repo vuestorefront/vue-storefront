@@ -1,76 +1,94 @@
 <template>
   <div id="home">
-    <SfHero class="hero">
-      <SfHeroItem
-        v-for="(hero, i) in heroes"
-        :key="i"
-        :title="hero.title"
-        :subtitle="hero.subtitle"
-        :button-text="hero.buttonText"
-        :link="localePath(hero.link)"
-        :background="hero.background"
-        :image="hero.image"
-        :class="hero.className"
+    <LazyHydrate when-idle>
+      <SfHero class="hero">
+        <SfHeroItem
+          v-for="(hero, i) in heroes"
+          :key="i"
+          :title="hero.title"
+          :subtitle="hero.subtitle"
+          :button-text="hero.buttonText"
+          :background="hero.background"
+          :image="hero.image"
+          :class="hero.className"
+        />
+      </SfHero>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <SfBannerGrid :banner-grid="1" class="banner-grid">
+        <template v-for="item in banners" v-slot:[item.slot]>
+          <SfBanner
+            :key="item.slot"
+            :title="item.title"
+            :subtitle="item.subtitle"
+            :description="item.description"
+            :button-text="item.buttonText"
+            :image="item.image"
+            :class="item.class"
+          />
+        </template>
+      </SfBannerGrid>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <div class="similar-products">
+        <SfHeading title="Match with it" :level="3"/>
+        <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
+      </div>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+        <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
+          <template #prev="{go}">
+            <SfArrow
+              aria-label="prev"
+              class="sf-arrow--left sf-arrow--long"
+              @click="go('prev')"
+            />
+          </template>
+          <template #next="{go}">
+            <SfArrow
+              aria-label="next"
+              class="sf-arrow--right sf-arrow--long"
+              @click="go('next')"
+            />
+          </template>
+          <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
+            <SfProductCard
+              data-cy="home-url_product"
+              :title="product.title"
+              :image="product.image"
+              :regular-price="product.price.regular"
+              :max-rating="product.rating.max"
+              :score-rating="product.rating.score"
+              :show-add-to-cart-button="true"
+              :is-on-wishlist="product.isOnWishlist"
+              link="/"
+              class="carousel__item__product"
+              @click:wishlist="toggleWishlist(i)"
+            />
+          </SfCarouselItem>
+        </SfCarousel>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <SfCallToAction
+        title="Subscribe to Newsletters"
+        button-text="Subscribe"
+        description="Be aware of upcoming sales and events. Receive gifts and special offers!"
+        image="/homepage/newsletter.webp"
+        class="call-to-action"
       />
-    </SfHero>
-    <SfBannerGrid :banner-grid="1" class="banner-grid">
-      <template v-for="item in banners" v-slot:[item.slot]>
-        <SfBanner
-          :key="item.slot"
-          :title="item.title"
-          :subtitle="item.subtitle"
-          :description="item.description"
-          :link="localePath(item.link)"
-          :button-text="item.buttonText"
-          :image="item.image"
-          :class="item.class"
-        />
-      </template>
-    </SfBannerGrid>
-    <div class="similar-products">
-      <SfHeading title="Match with it" :level="3"/>
-      <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
-    </div>
-    <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
-      <template #prev="{go}">
-        <SfArrow
-          aria-label="prev"
-          class="sf-arrow--left sf-arrow--long"
-          @click="go('prev')"
-        />
-      </template>
-      <template #next="{go}">
-        <SfArrow
-          aria-label="next"
-          class="sf-arrow--right sf-arrow--long"
-          @click="go('next')"
-        />
-      </template>
-      <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
-        <SfProductCard
-          data-cy="home-url_product"
-          :title="product.title"
-          :image="product.image"
-          :regular-price="product.price.regular"
-          :max-rating="product.rating.max"
-          :score-rating="product.rating.score"
-          :show-add-to-cart-button="true"
-          :is-on-wishlist="product.isOnWishlist"
-          link="/"
-          class="carousel__item__product"
-          @click:wishlist="toggleWishlist(i)"
-        />
-      </SfCarouselItem>
-    </SfCarousel>
-    <SfCallToAction
-      title="Subscribe to Newsletters"
-      button-text="Subscribe"
-      description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-      image="/homepage/newsletter.webp"
-      class="call-to-action"
-    />
-    <InstagramFeed/>
-    <MobileStoreBanner/>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <InstagramFeed />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <MobileStoreBanner/>
+    </LazyHydrate>
   </div>
 </template>
 <script>
@@ -89,6 +107,7 @@ import {
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
@@ -105,7 +124,8 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
-    MobileStoreBanner
+    MobileStoreBanner,
+    LazyHydrate
   },
   data() {
     return {

@@ -10,7 +10,7 @@
         data-cy="shipping-details-tab_change"
         :title="isNewAddress ? 'Add the address' : 'Update the address'">
         <p class="message">
-          Keep your addresses and contact details updated.
+          {{ $t('Contact details updated') }}
         </p>
 
         <ShippingAddressForm
@@ -27,9 +27,7 @@
       class="tab-orphan">
       <SfTab data-cy="shipping-details-tab_details" title="Shipping details">
         <p class="message">
-          Manage all the shipping addresses you want (work place, home address
-          ...) This way you won"t have to enter the shipping address manually
-          with each order.
+          {{ $t('Manage shipping addresses') }}
         </p>
         <transition-group tag="div" name="fade" class="shipping-list">
           <div
@@ -54,14 +52,14 @@
               <SfButton
                 data-cy="shipping-details-btn_change"
                 @click="changeAddress(address)">
-                Change
+                {{ $t('Change') }}
               </SfButton>
 
               <SfButton
                 data-cy="shipping-details-btn_delete"
                 class="color-light shipping__button-delete desktop-only"
                 @click="removeAddress(address)">
-                Delete
+                {{ $t('Delete') }}
               </SfButton>
             </div>
           </div>
@@ -70,7 +68,7 @@
           data-cy="shipping-details-btn_add"
           class="action-button"
           @click="changeAddress()">
-          Add new address
+          {{ $t('Add new address') }}
         </SfButton>
       </SfTab>
     </SfTabs>
@@ -98,7 +96,7 @@ export default {
     ShippingAddressForm
   },
   setup() {
-    const { shipping, load, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
     const edittingAddress = ref(false);
     const activeAddress = ref(undefined);
@@ -109,12 +107,12 @@ export default {
       edittingAddress.value = true;
     };
 
-    const removeAddress = address => deleteAddress(address);
+    const removeAddress = address => deleteAddress({ address });
 
     const saveAddress = async ({ form, onComplete, onError }) => {
       try {
         const actionMethod = isNewAddress.value ? addAddress : updateAddress;
-        const data = await actionMethod(form);
+        const data = await actionMethod({ address: form });
         edittingAddress.value = false;
         activeAddress.value = undefined;
         await onComplete(data);
@@ -124,7 +122,7 @@ export default {
     };
 
     onSSR(async () => {
-      await load();
+      await loadUserShipping();
     });
 
     return {

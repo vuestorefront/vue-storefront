@@ -12,20 +12,18 @@ import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
-    const { 
-      products, 
-      totalProducts, 
-      search, 
-      loading 
+    const {
+      products,
+      search,
+      loading
     } = useProduct('<UNIQUE_ID>')
-    
+
     onSSR(async () => {
-      await search({ slug: 'super-t-shirt' }) 
+      await search({ slug: 'super-t-shirt' })
     })
 
     return {
       products,
-      totalProducts,
       loading
     }
   }

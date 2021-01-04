@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon } from '@vue-storefront/core';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
 import { Cart, LineItem } from '@vue-storefront/boilerplate-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,6 +65,9 @@ export const getFormattedPrice = (price: number) => String(price);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCoupons = (cart: Cart): AgnosticCoupon[] => [];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getDiscounts = (cart: Cart): AgnosticDiscount[] => [];
+
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
@@ -77,7 +80,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemSku: getCartItemSku,
   getFormattedPrice: getFormattedPrice,
   getTotalItems: getCartTotalItems,
-  getCoupons
+  getCoupons,
+  getDiscounts
 };
 
 export default cartGetters;

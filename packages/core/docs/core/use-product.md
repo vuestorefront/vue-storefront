@@ -17,6 +17,4 @@
 
 - `products` - a main data object that contains an array of products fetched by `search` method,
 
-- `totalProducts` - number of all products in the shop,
-
 - `loading` - a reactive object containing information about loading state of your `search` method.

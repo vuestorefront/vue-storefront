@@ -37,7 +37,7 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton data-cy="my-profile-btn_update" class="form__button">Update personal data</SfButton>
+      <SfButton data-cy="my-profile-btn_update" class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>

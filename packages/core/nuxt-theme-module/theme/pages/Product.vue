@@ -5,7 +5,10 @@
       :breadcrumbs="breadcrumbs"
     />
     <div class="product">
-      <SfGallery :images="productGallery" class="product__gallery" />
+      <LazyHydrate when-idle>
+        <SfGallery :images="productGallery" class="product__gallery" />
+      </LazyHydrate>
+
       <div class="product__info">
         <div class="product__header">
           <SfHeading
@@ -22,8 +25,8 @@
         </div>
         <div class="product__price-and-rating">
           <SfPrice
-            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
+            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
           <div>
             <div class="product__rating">
@@ -35,7 +38,7 @@
                 ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text">Read all reviews</SfButton>
+            <SfButton data-cy="product-btn_read-all" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
@@ -43,12 +46,13 @@
             {{ description }}
           </p>
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
-            Size guide
+            {{ $t('Size guide') }}
           </SfButton>
           <SfSelect
             data-cy="product-select_size"
             v-if="options.size"
-            v-model="configuration.size"
+            :value="configuration.size"
+            @input="size => updateFilter({ size })"
             label="Size"
             class="sf-select--underlined product__select-size"
             :required="true"
@@ -62,7 +66,7 @@
             </SfSelectOption>
           </SfSelect>
           <div v-if="options.color" class="product__colors desktop-only">
-            <p class="product__color-label">Color:</p>
+            <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               data-cy="product-color_update"
               v-for="(color, i) in options.color"
@@ -79,81 +83,90 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addToCart(product, parseInt(qty))"
+            @click="addItem(product, parseInt(qty))"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            Save for later
+            {{ $t('Save for later') }}
           </SfButton>
           <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            Add to compare
+            {{ $t('Add to compare') }}
           </SfButton>
         </div>
-        <SfTabs :open-tab="1" class="product__tabs">
-          <SfTab data-cy="product-tab_description" title="Description">
-            <div class="product__description">
-                The Karissa V-Neck Tee features a semi-fitted shape that's
-                flattering for every figure. You can hit the gym with
-                confidence while it hugs curves and hides common "problem"
-                areas. Find stunning women's cocktail dresses and party
-                dresses.
-            </div>
-            <SfProperty
-              v-for="(property, i) in properties"
-              :key="i"
-              :name="property.name"
-              :value="property.value"
-              class="product__property"
+
+        <LazyHydrate when-idle>
+          <SfTabs :open-tab="1" class="product__tabs">
+            <SfTab data-cy="product-tab_description" title="Description">
+              <div class="product__description">
+                  {{ $t('Product description') }}
+              </div>
+              <SfProperty
+                v-for="(property, i) in properties"
+                :key="i"
+                :name="property.name"
+                :value="property.value"
+                class="product__property"
+              >
+                <template v-if="property.name === 'Category'" #value>
+                  <SfButton class="product__property__button sf-button--text">
+                    {{ property.value }}
+                  </SfButton>
+                </template>
+              </SfProperty>
+            </SfTab>
+            <SfTab title="Read reviews" data-cy="product-tab_reviews">
+              <SfReview
+                v-for="review in reviews"
+                :key="reviewGetters.getReviewId(review)"
+                :author="reviewGetters.getReviewAuthor(review)"
+                :date="reviewGetters.getReviewDate(review)"
+                :message="reviewGetters.getReviewMessage(review)"
+                :max-rating="5"
+                :rating="reviewGetters.getReviewRating(review)"
+                :char-limit="250"
+                read-more-text="Read more"
+                hide-full-text="Read less"
+                class="product__review"
+              />
+            </SfTab>
+            <SfTab
+              title="Additional Information"
+              data-cy="product-tab_additional"
+              class="product__additional-info"
             >
-              <template v-if="property.name === 'Category'" #value>
-                <SfButton class="product__property__button sf-button--text">
-                  {{ property.value }}
-                </SfButton>
-              </template>
-            </SfProperty>
-          </SfTab>
-          <SfTab title="Read reviews" data-cy="product-tab_reviews">
-            <SfReview
-              v-for="review in reviews"
-              :key="reviewGetters.getReviewId(review)"
-              :author="reviewGetters.getReviewAuthor(review)"
-              :date="reviewGetters.getReviewDate(review)"
-              :message="reviewGetters.getReviewMessage(review)"
-              :max-rating="5"
-              :rating="reviewGetters.getReviewRating(review)"
-              :char-limit="250"
-              read-more-text="Read more"
-              hide-full-text="Read less"
-              class="product__review"
-            />
-          </SfTab>
-          <SfTab
-            title="Additional Information"
-            data-cy="product-tab_additional"
-            class="product__additional-info"
-          >
-          <div class="product__additional-info">
-            <p class="product__additional-info__title">Brand</p>
-            <p>{{ brand }}</p>
-            <p class="product__additional-info__title">Take care of me</p>
-            <p class="product__additional-info__paragraph">
-              Just here for the care instructions?
-            </p>
-            <p class="product__additional-info__paragraph">
-              Yeah, we thought so
-            </p>
-            <p>{{ careInstructions }}</p>
-          </div>
-          </SfTab>
-        </SfTabs>
+            <div class="product__additional-info">
+              <p class="product__additional-info__title">{{ $t('Brand') }}</p>
+              <p>{{ brand }}</p>
+              <p class="product__additional-info__title">{{ $t('Instruction1') }}</p>
+              <p class="product__additional-info__paragraph">
+                {{ $t('Instruction2') }}
+              </p>
+              <p class="product__additional-info__paragraph">
+                {{ $t('Instruction3') }}
+              </p>
+              <p>{{ careInstructions }}</p>
+            </div>
+            </SfTab>
+          </SfTabs>
+        </LazyHydrate>
       </div>
     </div>
-    <RelatedProducts
-      :products="relatedProducts"
-      :loading="relatedLoading"
-      title="Match it with"
-    />
-    <InstagramFeed />
-    <MobileStoreBanner />
+
+    <LazyHydrate when-visible>
+      <RelatedProducts
+        :products="relatedProducts"
+        :loading="relatedLoading"
+        title="Match it with"
+      />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <InstagramFeed />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <MobileStoreBanner />
+    </LazyHydrate>
+
   </div>
 </template>
 <script>
@@ -183,6 +196,7 @@ import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Product',
@@ -192,7 +206,7 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading } = useCart();
+    const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
@@ -237,7 +251,7 @@ export default {
       relatedLoading,
       options,
       qty,
-      addToCart,
+      addItem,
       loading,
       productGetters,
       productGallery
@@ -263,7 +277,8 @@ export default {
     SfButton,
     InstagramFeed,
     RelatedProducts,
-    MobileStoreBanner
+    MobileStoreBanner,
+    LazyHydrate
   },
   data() {
     return {

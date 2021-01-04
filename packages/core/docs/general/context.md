@@ -1,6 +1,12 @@
 # Context API
 
-## Structure
+The application context is essential when it comes to sharing something across the app. A runtime config, current connection to the API, API tokens, user session, and everything else that's related to the current request should be stored within the context.
+
+The common solution that may come to your mind in such a case is using one global object to store everything you need in the app. However, by doing this you would be sharing data not only over the app but also across all of the incoming requests. That would cause lots of issues and your app won't be able to handle ordinary traffic.
+
+## Context data structure
+
+In Vue Storefront, each integration has a common structure of the context object. A root of the context starts with the `$vsf` key. Everything that's under this key is the integration keys which are storing the data for corresponding integration using the specific, predefined format.
 
 ```js
 $vsf {
@@ -12,137 +18,52 @@ $vsf {
   ...
 }
 ```
+
 - `$vsf` - general key that keeps vue storefront context
 - `$ct` - integration key
-- `api` - field that always keep api function for given integration
+- `api` - field that always keeps API functions for a given integration
 - `client` - field that always keep api client/connection for given integration
 - `config` - field that always keep configuration for given integration
 - others - depending on the needs you can put into the context any field you want (under the corresponding key)
 
-## Usage in api client functions
-IMPORTANT: The api-client context is not the one within the entire app, it gives you only access to configuration and connection, it doesn't know anything about the application logic
+
+## Context composable
+
+To use context or access your integration API, you can use dedicated composable `useVSFContext`. It returns a integration keys of all of the integrations you have registered in the Vue Storefront (prefixed by `$` sign).
 
 ```js
-const createCart = async ({ config, client }, cartDraft, customQueryFn?) => {
-  // config - access to current config
-  // client - access to current api connection / client
+const { $ct, $other } = useVSFContext();
 
-  const { locale, acceptLanguage, currency } = config;
-
-  const request = await client.mutate({
-    mutation: gql`${query}`,
-    variables: { locale, acceptLanguage, currency },
-    fetchPolicy: 'no-cache'
-  });
-
-  return request;
-};
+$ct.api.getProduct({ id: 1 })
+$other.client.get('/othet-integration')
 ```
 
-## Usage in components
+## Context plugin
+
+If for some reason you don't want to use integration nuxt modules, you have to configure the integration by yourself. For that purpose, each integration expose a integration plugin where you can configure everything you want.
 
 ```js
-import { useVSFContext } from '@vue-storefront/core'
-
-setup () {
-  const { $ct } = useVSFContext();
-
-  // $ct.api
-  // $ct.client
-  // $ct.config
-}
-```
-
-## Usage in factory params
-
-```js
-const factoryParams = {
-  addToCart: async (context, { product, quantity }, customQuery?) => {
-    const { data } = await context.$ct.api.addToCart(product, quantity, customQuery);
-
-    return data.cart;
-  },
-}
-```
-
-## Usage in nuxt middlewares
-
-```js
-export default async ({ app, $vsf }) => {
-  const { data: { me: { activeCart } } } = await $vsf.$ct.api.getMe();
-
-  if (activeCart) {
-    app.context.redirect('/checkout');
-  }
-};
-```
-
-## Creating api client for integration
-
-```js
-import getProduct from './api/getProduct';
-import getCategory from './api/getCategory';
-import { apiClientFactory } from '@vue-storefront/core';
-
-const onSetup = (config) => {
-  const client = new EcommerceAPI(config)
-
-  return {
-    config,
-    client
-  };
-};
-
-const { createApiClient } = apiClientFactory({
-  tag: 'ct',
-  onSetup,
-  api: {
-    getProduct,
-    getCategory,
-  }
-});
-```
-
-## Exposing an integation plugin for nuxt
-
-```js
-import { createApiClient } from '@vue-storefront/commercetools-api';
-
-
-// exposing an integration plugin for nuxt
-export const integrationPlugin = integrationPluginFactory(createApiClient);
-```
-
-
-## Registering integration (nuxt plugin)
-
-```js
+// plugins/integration.js
 import { integrationPlugin } from '@vue-storefront/commercetools'
 
 export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }
 
-  integration.configure(settings)
+  integration.configure({ ...settings })
 });
 ```
 
-## Extending integration (nuxt plugin)
+Of course each integration has predefined set of API functions, that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function, or use a name of existing one, the Vue Storefront will automatically apply it to the app.
+
 
 ```js
+// plugins/integration.js
 import { integrationPlugin } from '@vue-storefront/commercetools'
-import productProjection from './api/productProjection';
+import { getMe } from '@vue-storefeont/your-integration';
 
 export default integrationPlugin(({ app, integration }) => {
-  const props = {
-    api: {
-      productProjection // will merge previous api with a new one, context will be applied to the given function
-    },
-    config: {
-      facetingUrl: '/faceting' // will merge previous config with a new one
-    },
-    hasPromoCookie: app.$cookies.get('promo') // that will just add a new field under the $ct key
-  }
+  const settings = { api: '/graphql', user: 'root' }
 
-  integration.extend(props)
+  integration.configure({ ...settings }, { getMe })
 });
 ```
