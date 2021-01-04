@@ -20,7 +20,7 @@ By default, all Vue Storefront modules have `useNuxtI18nModule` property set to 
 
 ## Custom configuration
 
-You are always able to provide your own i18n configuration just for a specific module by setting `useNuxtI18nModule` to false.
+You always can provide your own i18n configuration just for a specific module by setting `useNuxtI18nModule` to false.
 
 ```js
 ['@vue-storefront/{INTEGRATION}/nuxt', {
