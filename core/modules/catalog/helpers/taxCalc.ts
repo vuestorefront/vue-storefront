@@ -1,4 +1,5 @@
 import camelCase from 'lodash-es/camelCase'
+import dayjs from 'dayjs'
 
 // this is the mirror copy of taxcalc.js from VSF API
 
@@ -7,20 +8,20 @@ function isSpecialPriceActive (fromDate, toDate) {
     return true
   }
 
-  const now = new Date()
-  fromDate = fromDate ? new Date(fromDate) : false
-  toDate = toDate ? new Date(toDate) : false
+  const now = dayjs(new Date())
+  fromDate = fromDate ? dayjs(fromDate) : false
+  toDate = toDate ? dayjs(toDate) : false
 
   if (fromDate && toDate) {
-    return fromDate < now && toDate > now
+    return fromDate.isBefore(now) && now.isBefore(toDate)
   }
 
   if (fromDate && !toDate) {
-    return fromDate < now
+    return fromDate.isBefore(now)
   }
 
   if (!fromDate && toDate) {
-    return toDate > now
+    return now.isBefore(toDate)
   }
 }
 
@@ -81,6 +82,7 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
     product.hasOwnProperty('original_final_price') &&
     product.hasOwnProperty('original_special_price')
   )
+
   // build objects with original price and tax
   // for first calculation use `price`, for next one use `original_price`
   const priceWithTax = createSinglePrice(parseFloat(product.original_price || product.price), rate_factor, sourcePriceInclTax && !hasOriginalPrices)
