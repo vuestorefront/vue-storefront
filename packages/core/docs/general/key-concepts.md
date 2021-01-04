@@ -65,7 +65,7 @@ Routes are injected via `@vue-storefront/nuxt-theme` module. Use [`extendRoutes`
 
 ## Internationalization
 
-By default we're using `nuxt-i18n` module for internationalization. You can read more about i18n in Vue Storefront [here](guide/internationalization).
+By default we're using `nuxt-i18n` module for internationalization. You can read more about i18n in Vue Storefront [here](/guide/internationalization).
 
 <!-- ## Agnostic data formats and interfaces
 -->

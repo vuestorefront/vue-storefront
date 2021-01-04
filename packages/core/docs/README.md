@@ -26,7 +26,7 @@ The main purpose of any software is to solve problems. Vue Storefront is no diff
 
 ### Long time to market
 
-Headless eCommerce frontends are complex and devloping them can take a lot of time. 
+Headless eCommerce frontends are complex and developing them can take a lot of time. 
 
 **Solution** With Vue Storefront you're getting a working headless frontend connected to eCommerce, CMS and other third-party services of your choice out of the box along with a hundreds of ready-to-use Vue Storefront and Nuxt modules for all common functionalities! Because of that you're saving hundreds (or even thousands) of working hours so you can focus more on details and polishments while leaving the heavy lifting to us!
 
@@ -40,7 +40,7 @@ No matter how great your products are slow and unresponsive shop will make your 
 - Pages that were already visited are cached so next time user enters them they will load instantly.
 - Resources that might be needed in the future are precached so when the user clicks the link it loads immediately.
 - When network connectivity is slow or temporarily lost you can stil browse the product catalog. In many cases its unnoticeable for the user.
-- Majority of JavaScript code is hosted and executed on the server side so your users are downloading only the code that drives the UI. Because of this the page renders much faster and is much lighter compared to traditional SPA.
+- Majority of JavaScript code is hosted and executed on the server side so your users download only the code that drives the UI. Because of this the page renders much faster and is much lighter compared to traditional SPA.
 
 Not only page load time but also __responsiveness as a whole from the page is almost instant and seamless__ just as you would expect from a native app, if not better.
 
@@ -55,7 +55,7 @@ How painful was it when you had to meticulously fix tremendous amount of changes
 
 How frustrated was it when you learned the other backend platform you didn't choose turned out better solution for your business, a lot better on many levels, but the cost of switching is even greater than the benefit of it you just learned? You were literally locked-in by tentative choices you made while you were naive.
 
-**Solution** Vue storefront is backend-agnostic which means all eCommerce backends are integrated on the frontend under common interfaces. All these technologies are completely different on the backend but they're very similar from the frotnend perspective. We just made use of that fact and came up with abstractions that will make your migrations painless and almost instantaneous.
+**Solution** Vue Storefront is backend-agnostic which means all eCommerce backends are integrated on the frontend under common interfaces. All these technologies are completely different on the backend but they're very similar from the frontend perspective. We just made use of that fact and came up with abstractions that will make your migrations painless and almost instantaneous.
 
 ### Lack of platform-specific competences
 
@@ -90,7 +90,7 @@ We will walk you with details of each integration in its dedicated guide.
 - Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
 - Server Side Rendereing
 - Progressive Web App features
-- Limitless flexibility in changing third-party services thanks to agnostic data formats
+- Unlimited flexibility in changing third-party services thanks to agnostic data formats
 
 ## Tech stack
 - [Vue.js](https://vuejs.org/v2/guide/)
