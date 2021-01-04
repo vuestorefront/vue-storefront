@@ -55,7 +55,7 @@ How painful was it when you had to meticulously fix tremendous amount of changes
 
 How frustrated was it when you learned the other backend platform you didn't choose turned out better solution for your business, a lot better on many levels, but the cost of switching is even greater than the benefit of it you just learned? You were literally locked-in by tentative choices you made while you were naive.
 
-**Solution** Vue storefront is backend-agnostic which means all eCommerce backends are integrated on the frontend under common interfaces. All these technologies are completely different on the backend but they're very similar from the frotnend perspective. We just made use of that fact and came up with abstractions that will make your migrations painless and almost instantaneous.
+**Solution** Vue Storefront is backend-agnostic which means all eCommerce backends are integrated on the frontend under common interfaces. All these technologies are completely different on the backend but they're very similar from the frontend perspective. We just made use of that fact and came up with abstractions that will make your migrations painless and almost instantaneous.
 
 ### Lack of platform-specific competences
 
