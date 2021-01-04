@@ -90,7 +90,7 @@ We will walk you with details of each integration in its dedicated guide.
 - Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
 - Server Side Rendereing
 - Progressive Web App features
-- Limitless flexibility in changing third-party services thanks to agnostic data formats
+- Unlimited flexibility in changing third-party services thanks to agnostic data formats
 
 ## Tech stack
 - [Vue.js](https://vuejs.org/v2/guide/)
