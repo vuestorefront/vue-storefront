@@ -77,9 +77,12 @@ I created dedicated hook to resolve this problem. You can find how to use it in 
 `updateProfile` uses `TaskQueue.execute` instead of `TaskQueue.queue`
 
 ### core/pages/MyAccount.js
-`onBeforeUpdateUser` changes signature from `(updatedProfile)` to `({ updatedProfile, callback })`. Callback is being called just after `user/update` actions sucesfully finishes.
+Got rid of `myAccount-before-remainInEditMode`, `myAccount-before-updateUser` events, and `onBeforeUpdateUser` method as a part of this issue [#5315](https://github.com/vuestorefront/vue-storefront/issues/5315). Thanks to that we simplified developer API
 
-Got rid of `myAccount-before-remainInEditMode`, `myAccount-before-updateUser` events, and`onBeforeUpdateUser` method as a part of this issue [#5315](https://github.com/vuestorefront/vue-storefront/issues/5315). Thanks to that we simplified developer API
+### core/modules/user/components/UserAccount.ts 
+Changed signature of an `exitSection` method from the `(event, updatedProfile)` to the `(updatedProfile)`
+### core/modules/user/components/UserShippingDetails.ts 
+Changed signature of an `exitSection` method from the `(event, updatedShippingDetails)` to the `(updatedShippingDetails)`
 
 ## 1.11 -> 1.12
 
