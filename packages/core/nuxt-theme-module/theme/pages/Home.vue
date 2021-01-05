@@ -128,9 +128,6 @@ export default {
     MobileStoreBanner,
     LazyHydrate
   },
-  async asyncData ({ req }) {
-    return { headers: req.headers };
-  },
   data() {
     return {
       heroes: [
