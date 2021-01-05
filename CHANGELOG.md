@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump dependencies versions (#4715, #4696, #4951)
 - Improved Bundlesize by handling Polyfills differently (#5331, #4612, #4637)
 - Using dayjs for dates in taxCalc.ts to make it work properly in Safari (#5364)
-
+- Awaiting addItem action call inside mergeServerItem action (#5165)
 ## [1.12.2] - 2020.07.28
 
 ### Added
