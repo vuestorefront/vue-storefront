@@ -38,11 +38,16 @@ export interface BaseConfig {
   extensions?: ApiExtension[];
 }
 
-const compose = (createApiClient, factoryParams) => {
-  createApiClient.tag = factoryParams.tag;
-  const integrationPlugin = integrationPluginFactory(createApiClient);
+const compose = ({ createApiClient, createApiProxy, factoryParams }: any) => {
+  if (createApiClient) {
+    createApiClient.tag = factoryParams.tag;
+    const integrationPlugin = integrationPluginFactory(createApiClient);
+    return { createApiClient, integrationPlugin };
+  }
 
-  return { createApiClient, integrationPlugin };
+  createApiProxy.tag = factoryParams.tag;
+  const integrationPlugin = integrationPluginFactory(createApiProxy);
+  return { createApiProxy, integrationPlugin };
 };
 
 const createAxiosInstance = (config, givenHeaders) => {
@@ -94,7 +99,7 @@ export const apiClientFactory = <ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>
     };
   }
 
-  return compose(createApiClient, factoryParams);
+  return compose({ createApiClient, factoryParams });
 };
 
 export const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ProxyFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) => {
@@ -104,6 +109,7 @@ export const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: Prox
     const client = createAxiosInstance(config, givenHeaders);
 
     const settings = { client, config };
+    (settings as any).isProxy = true;
 
     Logger.debug('apiProxyFactory.setup', settings);
 
@@ -118,6 +124,6 @@ export const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: Prox
     };
   }
 
-  return compose(createApiProxy, factoryParams);
+  return compose({ createApiProxy, factoryParams });
 };
 

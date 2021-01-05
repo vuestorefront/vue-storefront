@@ -8,7 +8,7 @@ type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Con
 const load = async (context: Context) => {
 
   const isGuest = await context.$ct.api.isGuest();
-
+  console.log({ isGuest });
   if (isGuest) {
     return null;
   }
