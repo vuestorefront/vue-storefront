@@ -164,36 +164,9 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfBanner
-        image="/homepage/bannerD.png"
-        subtitle="Fashion to Take Away"
-        title="Download our application to your mobile"
-        class="sf-banner--left desktop-only banner-app"
-      >
-        <template #call-to-action>
-          <div class="banner-app__call-to-action">
-            <SfButton
-              class="banner-app__button"
-              aria-label="Go to Apple Product"
-              @click="() => {}"
-            >
-              <SfImage
-                src="/homepage/apple.png"
-              />
-            </SfButton>
-            <SfButton
-              class="banner-app__button"
-              aria-label="Go to Google Product"
-              @click="() => {}"
-            >
-              <SfImage
-                src="/homepage/google.png"
-              />
-            </SfButton>
-          </div>
-        </template>
-      </SfBanner>
+      <MobileStoreBanner />
     </LazyHydrate>
+
   </div>
 </template>
 <script>
@@ -222,6 +195,7 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
+import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -303,6 +277,7 @@ export default {
     SfButton,
     InstagramFeed,
     RelatedProducts,
+    MobileStoreBanner,
     LazyHydrate
   },
   data() {
@@ -510,34 +485,6 @@ export default {
 }
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
-}
-.banner-app {
-  --banner-container-width: 100%;
-  --banner-title-margin: var(--spacer-base) 0 var(--spacer-xl) 0;
-  --banner-padding: 0 var(--spacer-2xl);
-  --banner-title-font-size: var(--h1-font-size);
-  --banner-subtitle-font-size: var(--font-size--xl);
-  --banner-title-font-weight: var(--font-weight--semibold);
-  --banner-subtitle-font-weight: var(--font-weight--medium);
-  --banner-title-text-transform: capitalize;
-  --banner-subtitle-text-transform: capitalize;
-  display: block;
-  min-height: 26.25rem;
-  max-width: 65rem;
-  margin: 0 auto;
-  padding: 0 calc(25% + var(--spacer-2xl)) 0 var(--spacer-xl);
-  &__call-to-action {
-    --button-background: transparent;
-    display: flex;
-  }
-  &__button {
-    --image-width: 8.375rem;
-    --image-height: 2.75rem;
-    --button-padding: 0;
-    & + & {
-      margin: 0 0 0 calc(var(--spacer-xl) / 2);
-    }
-  }
 }
 @keyframes moveicon {
   0% {
