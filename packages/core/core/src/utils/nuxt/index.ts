@@ -2,7 +2,6 @@ import { nuxtContextFactory } from './nuxtContextFactory';
 
 const getBaseUrl = (nuxtCtx) => {
   if (!nuxtCtx.req) return '';
-
   const isHttps = require('is-https')(nuxtCtx.req);
   const scheme = isHttps ? 'https' : 'http';
 
