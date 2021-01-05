@@ -4,11 +4,11 @@
       <TopBar class="desktop-only" />
     </LazyHydrate>
 
-    <LazyHydrate when-idle>
-      <AppHeader />
-    </LazyHydrate>
-
     <div id="layout">
+      <LazyHydrate when-idle>
+        <AppHeader />
+      </LazyHydrate>
+
       <nuxt :key="$route.fullPath"/>
 
       <LazyHydrate when-visible>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AppHeader from '~/components/header/AppHeader.vue';
+import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';

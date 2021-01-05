@@ -1,52 +1,47 @@
 <template>
-  <div>
-    <SfOverlay :visible="!!isOverlayVisible" />
-    <SfHeader
-      data-cy="app-header"
-      @click:cart="toggleCartSidebar"
-      @click:wishlist="toggleWishlistSidebar"
-      @click:account="handleAccountClick"
-      @enter:search="changeSearchTerm"
-      @change:search="p => term = p"
-      :searchValue="term"
-      :cartItemsQty="cartTotalItems"
-      :accountIcon="accountIcon"
-      class="sf-header--has-mobile-search"
-    >
-      <!-- TODO: add mobile view buttons after SFUI team PR -->
-      <template #logo>
-        <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
-          <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
-        </nuxt-link>
-      </template>
-      <template #navigation>
-        <HeaderNav @setOverlay="isOverlayVisible = $event" />
-      </template>
-      <template #aside>
-        <LocaleSelector class="smartphone-only" />
-      </template>
-    </SfHeader>
-  </div>
+  <SfHeader
+    data-cy="app-header"
+    @click:cart="toggleCartSidebar"
+    @click:wishlist="toggleWishlistSidebar"
+    @click:account="handleAccountClick"
+    @enter:search="changeSearchTerm"
+    @change:search="p => term = p"
+    :searchValue="term"
+    :cartItemsQty="cartTotalItems"
+    :accountIcon="accountIcon"
+    class="sf-header--has-mobile-search"
+  >
+    <!-- TODO: add mobile view buttons after SFUI team PR -->
+    <template #logo>
+      <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
+        <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
+      </nuxt-link>
+    </template>
+    <template #navigation>
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
+      <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
+    </template>
+    <template #aside>
+      <LocaleSelector class="smartphone-only" />
+    </template>
+  </SfHeader>
 </template>
 
 <script>
-import { SfHeader, SfImage, SfLink, SfOverlay } from '@storefront-ui/vue';
+import { SfHeader, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
-import LocaleSelector from '../LocaleSelector';
-import HeaderNav from './HeaderNav';
+import LocaleSelector from './LocaleSelector';
 
 export default {
   components: {
     SfHeader,
     SfImage,
-    SfLink,
-    SfOverlay,
-    LocaleSelector,
-    HeaderNav
+    LocaleSelector
   },
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
@@ -55,7 +50,6 @@ export default {
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
-    const isOverlayVisible = ref(false);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -86,8 +80,7 @@ export default {
       toggleCartSidebar,
       toggleWishlistSidebar,
       changeSearchTerm,
-      term,
-      isOverlayVisible
+      term
     };
   }
 };
@@ -98,10 +91,9 @@ export default {
   --header-padding:  var(--spacer-sm);
   @include for-desktop {
     --header-padding: 0;
-    z-index: var(--header-wrapper-z-index, 1);
   }
   &__logo-image {
-    height: 100%;
+      height: 100%;
   }
 }
 
