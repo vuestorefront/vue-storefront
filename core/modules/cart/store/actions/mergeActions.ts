@@ -156,7 +156,7 @@ const mergeActions = {
     const productToAdd = await dispatch('getProductVariant', { serverItem })
 
     if (productToAdd) {
-      dispatch('addItem', { productToAdd, forceServerSilence: true })
+      await dispatch('addItem', { productToAdd, forceServerSilence: true })
       Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
     }
 
