@@ -5,25 +5,70 @@ export default async function getCategory(context, params, customQuery?: CustomQ
   return Promise.resolve([
     {
       id: 1,
+      name: 'New',
+      slug: 'new',
+      children: [
+        {
+          id: 15,
+          name: 'Women',
+          slug: 'new-women',
+          children: [
+            {
+              id: 16,
+              name: 'Clothing',
+              slug: 'new-women-clothing',
+              children: []
+            },
+            {
+              id: 17,
+              name: 'Shoes',
+              slug: 'new-women-shoes',
+              children: []
+            }
+          ]
+        },
+        {
+          id: 11,
+          name: 'Men',
+          slug: 'new-men',
+          children: [
+            {
+              id: 18,
+              name: 'Clothing',
+              slug: 'new-men-clothing',
+              children: []
+            },
+            {
+              id: 19,
+              name: 'Shoes',
+              slug: 'new-men-shoes',
+              children: []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
       name: 'Women',
       slug: 'women',
-      items: [
+      children: [
         {
           id: 4,
           name: 'Women jackets',
           slug: 'women-jackets',
-          items: [
+          children: [
             {
               id: 9,
               name: 'Winter jackets',
               slug: 'winter-jackets',
-              items: []
+              children: []
             },
             {
               id: 10,
               name: 'Autumn jackets',
               slug: 'autmun-jackets',
-              items: []
+              children: []
             }
           ]
         },
@@ -31,44 +76,44 @@ export default async function getCategory(context, params, customQuery?: CustomQ
           id: 5,
           name: 'Skirts',
           slug: 'skirts',
-          items: []
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Men',
-      slug: 'men',
-      items: [
-        {
-          id: 6,
-          name: 'Men T-shirts',
-          slug: 'men-tshirts',
-          items: []
+          children: []
         }
       ]
     },
     {
       id: 3,
+      name: 'Men',
+      slug: 'men',
+      children: [
+        {
+          id: 6,
+          name: 'Men T-shirts',
+          slug: 'men-tshirts',
+          children: []
+        }
+      ]
+    },
+    {
+      id: 4,
       name: 'Kids',
       slug: 'kids',
-      items: [
+      children: [
         {
           id: 7,
           name: 'Toys',
           slug: 'toys',
-          items: [
+          children: [
             {
               id: 8,
               name: 'Toy Cars',
               slug: 'toy-cars',
-              items: []
+              children: []
             },
             {
               id: 8,
               name: 'Dolls',
               slug: 'dolls',
-              items: []
+              children: []
             }
           ]
         }
