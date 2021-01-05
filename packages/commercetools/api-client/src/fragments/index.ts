@@ -297,3 +297,20 @@ export const OrderFragment = `
   }
 `;
 
+export const CategoryFragment = `
+  fragment DefaultCategory on Category {
+    id
+    slug(acceptLanguage: $acceptLanguage)
+    name(acceptLanguage: $acceptLanguage)
+    childCount
+    children {
+      ...Children
+      children {
+        ...Children
+        children {
+          ...Children
+        }
+      }
+    }
+  }
+`;
