@@ -29,7 +29,7 @@ export default {
       this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   methods: {
