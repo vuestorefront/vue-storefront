@@ -8,7 +8,7 @@ function isSpecialPriceActive (fromDate, toDate) {
     return true
   }
 
-  const now = dayjs(new Date())
+  const now = dayjs()
   fromDate = fromDate ? dayjs(fromDate) : false
   toDate = toDate ? dayjs(toDate) : false
 
