@@ -55,6 +55,7 @@ const tokenExtension = (req, res) => ({
     ...config,
     auth: {
       onTokenChange: (newToken) => {
+        console.log('extension works 1');
         const currentToken = req.cookies['vsf-commercetools-token'] ? JSON.parse(req.cookies['vsf-commercetools-token']) : null;
 
         if (!currentToken || currentToken.access_token !== newToken.access_token) {
@@ -62,6 +63,8 @@ const tokenExtension = (req, res) => ({
         }
       },
       onTokenRead: () => {
+        console.log('extension works 2');
+
         res.cookie('vsf-commercetools-token', req.cookies['vsf-commercetools-token']);
         return req.cookies['vsf-commercetools-token'] ? JSON.parse(req.cookies['vsf-commercetools-token']) : null;
       },
