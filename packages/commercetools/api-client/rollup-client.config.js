@@ -2,10 +2,10 @@ import pkg from './package.json';
 import typescript from 'rollup-plugin-typescript2';
 
 export default {
-  input: 'src/direct/index.ts',
+  input: 'src/index.client.ts',
   output: [
     {
-      file: pkg.direct,
+      file: pkg.client,
       format: 'cjs',
       sourcemap: true
     }

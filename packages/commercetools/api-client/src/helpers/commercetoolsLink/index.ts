@@ -7,9 +7,9 @@ import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import { asyncMap } from '@apollo/client/utilities';
 import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
-import { Config, ApiConfig } from './../../types/setup';
+import { Config, ApiConfig } from '../../types/setup';
 import { handleBeforeAuth, handleAfterAuth, handleRetry } from './linkHandlers';
-import { isAnonymousSession, isUserSession, getAccessToken } from './../../helpers/utils';
+import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
 
 const createAuthClient = (config: ApiConfig): SdkAuth => {
   return new SdkAuth({

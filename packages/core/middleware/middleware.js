@@ -5,31 +5,36 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+function getIntegrationConfigFromModule (moduleName, nuxtOptions) {
+  const integrationModule = nuxtOptions.buildModules.find(module =>
+    Array.isArray(module) && module[0] === moduleName
+  );
+
+  return integrationModule ? integrationModule[1] : {};
+}
+
+function loadApiClient (apiClientPackageName, { req, res }) {
+  const apiClientPackage = require(apiClientPackageName);
+  const context = { middleware: { req, res } };
+  const createApiClient = apiClientPackage.createApiClient.bind(context);
+
+  return { ...apiClientPackage, createApiClient };
+}
+
 function createProxyMiddleware (moduleOptions, nuxtOptions) {
   app.post('/:integrationName/:functionName', async (req, res) => {
     const { integrationName, functionName } = req.params;
-    const apiPackageName = moduleOptions.apiClient[integrationName];
-    const modulePackageName = apiPackageName.replace('-api', '') + '/nuxt';
+    const integration = moduleOptions.integrations[integrationName];
 
-    const integrationModule = nuxtOptions.buildModules.find(module =>
-      Array.isArray(module) && module[0] === modulePackageName
-    );
+    const initialConifguration = getIntegrationConfigFromModule(integration.module, nuxtOptions);
 
-    const integrationModuleConfiguration = integrationModule ? integrationModule[1] : {};
-
-    const { createApiClient, middlewareExtensions } = require(moduleOptions.apiClient[integrationName] + '/direct');
-
-    const extensions = middlewareExtensions
-      // eslint-disable-next-line
-      ? Object.entries(middlewareExtensions).map(([_, extensionFn]) => extensionFn(req, res))
-      : [];
+    const { createApiClient } = loadApiClient(integration.api, { req, res });
 
     const apiClient = createApiClient({
-      ...integrationModuleConfiguration,
+      ...initialConifguration,
       locale: 'en',
       country: 'US',
-      currency: 'USD',
-      extensions
+      currency: 'USD'
     });
 
     const apiFunction = apiClient.api[functionName];

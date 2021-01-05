@@ -10,7 +10,7 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const applyContextForApi = (api, context, extensions) =>
+const applyContextForApi = (api, context, extensions = []) =>
   Object.entries(api)
     .reduce((prev, [key, fn]: any) => ({
       ...prev,
