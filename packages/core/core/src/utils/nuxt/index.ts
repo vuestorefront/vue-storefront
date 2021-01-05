@@ -2,10 +2,12 @@ import { nuxtContextFactory } from './nuxtContextFactory';
 
 const getBaseUrl = (nuxtCtx) => {
   if (!nuxtCtx.req) return '';
+  const { headers } = nuxtCtx.req;
   const isHttps = require('is-https')(nuxtCtx.req);
   const scheme = isHttps ? 'https' : 'http';
+  const host = headers['x-forwarded-host'] || headers.host;
 
-  return `${scheme}://${nuxtCtx.req.headers.host}`;
+  return `${scheme}://${host}`;
 };
 
 export const integrationPluginFactory = (createApiClientFn) => (pluginFn) => (nuxtCtx, inject) => {
