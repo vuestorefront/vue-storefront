@@ -50,27 +50,38 @@ const onSetup = (settings: Config): { config: Config; client: ClientInstance } =
   };
 };
 
-const tokenExtension = (req, res) => ({
-  beforeSetup: (config) => ({
-    ...config,
-    auth: {
-      onTokenChange: (newToken) => {
-        const currentToken = req.cookies['vsf-commercetools-token'] ? JSON.parse(req.cookies['vsf-commercetools-token']) : null;
+const parseToken = (rawToken) => {
+  try {
+    return JSON.parse(rawToken);
+  } catch (e) {
+    return null;
+  }
+};
 
-        if (!currentToken || currentToken.access_token !== newToken.access_token) {
-          res.cookie('vsf-commercetools-token', JSON.stringify(newToken));
+const tokenExtension = (req, res) => {
+  const rawCurrentToken = req.cookies['vsf-commercetools-token'];
+  const currentToken = parseToken(rawCurrentToken);
+
+  return {
+    beforeSetup: (config) => ({
+      ...config,
+      auth: {
+        onTokenChange: (newToken) => {
+          if (!currentToken || currentToken.access_token !== newToken.access_token) {
+            res.cookie('vsf-commercetools-token', JSON.stringify(newToken));
+          }
+        },
+        onTokenRead: () => {
+          res.cookie('vsf-commercetools-token', rawCurrentToken);
+          return currentToken;
+        },
+        onTokenRemove: () => {
+          delete req.cookies['vsf-commercetools-token'];
         }
-      },
-      onTokenRead: () => {
-        res.cookie('vsf-commercetools-token', req.cookies['vsf-commercetools-token']);
-        return req.cookies['vsf-commercetools-token'] ? JSON.parse(req.cookies['vsf-commercetools-token']) : null;
-      },
-      onTokenRemove: () => {
-        delete req.cookies['vsf-commercetools-token'];
       }
-    }
-  })
-});
+    })
+  };
+};
 
 const { createApiClient, integrationPlugin } = apiClientFactory({
   tag: 'ct',
