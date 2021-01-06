@@ -52,7 +52,7 @@ const compose = ({ createApiClient, createApiProxy, factoryParams }: any) => {
 
 const createAxiosInstance = (config, givenHeaders) => {
   const axiosConfig = config.axios || {};
-  axiosConfig.headers = { ...givenHeaders, ...axiosConfig.headers };
+  axiosConfig.headers = { cookie: givenHeaders.cookie || '' };
   axiosConfig.baseURL = config.axios.baseURL ? `${config.axios.baseURL}/api/` : '/api/';
 
   return axios.create(axiosConfig);
