@@ -28,7 +28,7 @@ The main purpose of any software is to solve problems. Vue Storefront is no diff
 
 Headless eCommerce frontends are complex and developing them can take a lot of time. 
 
-**Solution** With Vue Storefront you're getting a working headless frontend connected to eCommerce, CMS and other third-party services of your choice out of the box along with a hundreds of ready-to-use Vue Storefront and Nuxt modules for all common functionalities! Because of that you're saving hundreds (or even thousands) of working hours so you can focus more on details and polishments while leaving the heavy lifting to us!
+**Solution** With Vue Storefront you're getting a working headless frontend connected to eCommerce, CMS and other third-party services of your choice out of the box along with a hundreds of ready-to-use Vue Storefront and Nuxt modules for all common functionalities! Because of that you're saving hundreds (or even thousands) of working hours so you can focus more on details and polishing while leaving the heavy lifting to us!
 
 ### Slow, unresponsive online shop
 
