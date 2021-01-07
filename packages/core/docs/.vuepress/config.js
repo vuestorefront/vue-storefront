@@ -138,7 +138,6 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/general/architecture', 'Architecture'],
-						['/general/i18n', 'i18n'],
 						['/general/error-handling', 'Error Handling'],
 						['/general/logging', 'Logging'],
 						['/general/performance', 'Performance'],
@@ -150,8 +149,7 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/internationalization', 'Internationalization'],
-
+						['/guide/internationalization', 'Internationalization']
 					]
 				},
         {
@@ -199,7 +197,7 @@ module.exports = {
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
-						['/contributing/changelog', 'Core Changelog'],
+						['/contributing/changelog', 'Core Changelog']
 					]
 				},
 			],
