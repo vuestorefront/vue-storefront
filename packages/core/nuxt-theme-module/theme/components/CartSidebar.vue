@@ -75,9 +75,9 @@
               </template>
             </SfProperty>
             <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
-            <SfButton
-              class="sf-button--full-width color-secondary"
-              @click="toggleCartSidebar"
+              <SfButton
+                class="sf-button--full-width color-secondary"
+                @click="toggleCartSidebar"
               >
                 {{ $t('Go to checkout') }}
               </SfButton>
@@ -87,7 +87,7 @@
             <SfButton
               class="sf-button--full-width color-primary"
               @click="toggleCartSidebar"
-              >{{ $t('Go back shopping') }}</SfButton
+            >{{ $t('Go back shopping') }}</SfButton
             >
           </div>
         </transition>
@@ -106,9 +106,9 @@ import {
   SfCollectedProduct,
   SfImage
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, watch } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { useUiState } from '~/composables';
+import { useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -123,16 +123,32 @@ export default {
     SfCollectedProduct,
     SfImage
   },
-  setup() {
+  setup(_, { root }) {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
+    const { send } = useUiNotification();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
     onSSR(async () => {
       await loadCart();
+    });
+
+    watch(totalItems, () => {
+      send({
+        type: 'info',
+        message: `Total items: ${totalItems.value}`,
+        action: {
+          text: 'Go to checkout',
+          onClick: () => {
+            root.$router.push('/checkout/personal-details');
+          }
+        },
+        persist: true,
+        icon: 'heart'
+      });
     });
 
     return {
