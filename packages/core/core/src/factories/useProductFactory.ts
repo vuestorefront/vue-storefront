@@ -15,7 +15,7 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
     const error: Ref<UseProductErrors> = sharedRef({}, `useProduct-error-${id}`);
 
     const search = async (searchParams) => {
-      Logger.debug('useProduct.search', searchParams);
+      Logger.debug(`useProduct/${id}/search`, searchParams);
 
       try {
         loading.value = true;
