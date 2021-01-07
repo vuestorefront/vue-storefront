@@ -1,9 +1,9 @@
 import useUiHelpers from './useUiHelpers';
 import useUiState from './useUiState';
-import useUINotification from './useUINotification';
+import useUiNotification from './useUiNotification';
 
 export {
   useUiHelpers,
   useUiState,
-  useUINotification
+  useUiNotification
 };

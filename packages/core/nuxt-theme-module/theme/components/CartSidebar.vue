@@ -120,7 +120,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, watch } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { useUiState, useUINotification } from '~/composables';
+import { useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -139,7 +139,7 @@ export default {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
-    const { spawnNotification } = useUINotification();
+    const { spawnNotification } = useUiNotification();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -152,17 +152,14 @@ export default {
       spawnNotification({
         type: 'info',
         message: `Total items: ${totalItems.value}`,
-        title: 'title',
         action: {
           text: 'test action',
           onClick: () => {
             root.$router.push('/');
           }
         },
-        options: {
-          persist: true,
-          icon: 'heart'
-        }
+        persist: true,
+        icon: 'heart'
       });
     });
 

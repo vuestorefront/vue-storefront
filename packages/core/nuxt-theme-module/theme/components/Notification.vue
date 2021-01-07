@@ -20,7 +20,7 @@
 
 <script>
 import { SfNotification, SfIcon } from '@storefront-ui/vue';
-import { useUINotification } from '~/composables';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Notification',
@@ -29,7 +29,7 @@ export default {
     SfIcon
   },
   setup () {
-    const { notifications, removeNotification } = useUINotification();
+    const { notifications, removeNotification } = useUiNotification();
 
     return {
       notifications,

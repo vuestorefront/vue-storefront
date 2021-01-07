@@ -1,47 +1,42 @@
 import { computed, reactive } from '@vue/composition-api';
 
-interface Options {
-  persist: boolean;
-  timeToLive?: number;
-  icon?: string;
-  iconColor?: string;
-}
+type Type = 'info' | 'success' | 'warning' | 'danger'
 
 interface Action {
   text: string;
   onClick?: Function;
 }
 
-interface Notification {
-  type: string;
-  title?: string;
+interface UiNotification {
   message: string;
   action: Action;
-  options?: Options;
+  type: Type;
+  icon: string;
+  persist: boolean;
 }
 
 const state = reactive({
   notifications: []
 });
 
-const useUINotification = () => {
+const useUiNotification = () => {
   const removeNotification = (id: symbol) => {
     const index = state.notifications.findIndex(notification => notification.id === id);
 
     if (index !== -1) state.notifications.splice(index, 1);
   };
 
-  const spawnNotification = (notification: Notification) => {
+  const spawnNotification = (notification: UiNotification) => {
     const id = Symbol();
     const newNotification = { id, ...notification };
 
     state.notifications.push(newNotification);
     if (state.notifications.length > 3) state.notifications.shift();
 
-    if (!notification.options?.persist) {
+    if (!notification.persist) {
       setTimeout(() => {
         removeNotification(id);
-      }, notification.options?.timeToLive || 3000);
+      }, 3000);
     }
   };
 
@@ -52,4 +47,4 @@ const useUINotification = () => {
   };
 };
 
-export default useUINotification;
+export default useUiNotification;
