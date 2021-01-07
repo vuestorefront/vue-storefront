@@ -31,16 +31,15 @@ const createProxy = ({ givenApi, client, factoryParams }) => new Proxy(givenApi,
 const getCookies = (context) => (context && context.req && context.req.headers.cookie) || '';
 
 const getConfig = ({ context, factoryParams, givenConfig }) => {
-  const initialConfig = {
+  const cookie = getCookies(context);
+  const initialConfig = merge({
     axios: {
       baseURL: getBaseUrl(context && context.req),
       headers: {
-        cookie: getCookies(context)
+        ...(cookie ? { cookie } : {})
       }
     }
-  };
-
-  initialConfig.axios = merge(initialConfig.axios, givenConfig.axios);
+  }, givenConfig);
 
   if (factoryParams.onSetup) {
     return factoryParams.onSetup(initialConfig).config;

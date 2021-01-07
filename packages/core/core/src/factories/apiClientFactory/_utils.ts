@@ -1,13 +1,13 @@
 import { integrationPluginFactory } from './../../utils';
 
 export const compose = ({ createApiClient, createApiProxy, factoryParams }: any) => {
-  if (createApiClient) {
-    createApiClient.tag = factoryParams.tag;
-    const integrationPlugin = integrationPluginFactory(createApiClient);
-    return { createApiClient, integrationPlugin };
-  }
+  const createFn = createApiClient || createApiProxy;
+  createFn.tag = factoryParams.tag;
+  const integrationPlugin = integrationPluginFactory(createFn);
+  const name = createApiClient ? 'createApiClient' : 'createApiProxy';
 
-  createApiProxy.tag = factoryParams.tag;
-  const integrationPlugin = integrationPluginFactory(createApiProxy);
-  return { createApiProxy, integrationPlugin };
+  return {
+    [name]: createFn,
+    integrationPlugin
+  };
 };
