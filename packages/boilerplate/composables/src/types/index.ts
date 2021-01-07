@@ -1,39 +1,43 @@
-import { UseCategory, UseProduct } from '@vue-storefront/core';
+export { UseCategory, UseProduct } from '@vue-storefront/core';
 
-type Product = {}
-type Category = {}
-type User = {
+export type ProductsResponse = {
+  data: Product[];
+  total: number;
+};
+
+export type OrdersResponse = {
+  data: any[];
+  total: number;
+};
+
+export type OrderSearchParams = Record<string, any>;
+
+export type Category = {};
+
+export type User = {
   firstName?: string;
   lastName?: string;
   email?: string;
-}
-type UserAddress = {}
-type Cart = {}
-type CartItem = {}
-type Coupon = {}
-type Order = {}
-type OrderItem = {}
-type OrderSearchParams = {}
-type Review = {};
-type ShippingMethod = {}
-type WishlistProduct = {}
-type Wishlist = {}
-
-export {
-  Cart,
-  CartItem,
-  Category,
-  Coupon,
-  Order,
-  OrderItem,
-  OrderSearchParams,
-  Product,
-  Review,
-  ShippingMethod,
-  User,
-  UserAddress,
-  Wishlist,
-  WishlistProduct,
-  UseCategory,
-  UseProduct
 };
+
+export type UserAddress = {};
+
+export type Cart = {};
+
+export type CartItem = {};
+
+export type Coupon = {};
+
+export type Order = {};
+
+export type OrderItem = {};
+
+export type Product = {};
+
+export type Review = {};
+
+export type ShippingMethod = {};
+
+export type WishlistProduct = {};
+
+export type Wishlist = {};

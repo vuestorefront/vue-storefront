@@ -1,8 +1,8 @@
-import getOrders from '../../src/api/getMyOrders';
-import defaultQuery from '../../src/api/getMyOrders/defaultQuery';
+import getOrders from '../../src/api/getOrders';
+import defaultQuery from '../../src/api/getOrders/defaultQuery';
 import { OrderWhereSearch } from '../../src/types/Api';
 
-describe('[commercetools-api-client] getMyOrders', () => {
+describe('[commercetools-api-client] getOrders', () => {
   const params: OrderWhereSearch = {
     id: 'fvdrt8gaw4r',
     limit: 10,

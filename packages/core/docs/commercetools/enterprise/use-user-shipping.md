@@ -32,17 +32,17 @@ platform: Commercetools
 
 <Content slot-key="update-params" />
 
-- `setDefault` - function for settings an existing shipping address as default.
+- `setDefaultAddress` - function for settings an existing shipping address as default.
 
 ::: tip
-If `isDefault` property is passed to `addAddress` or `updateAddress`, there is no need to call `setDefault` separately.
+If `isDefault` property is passed to `addAddress` or `updateAddress`, there is no need to call `setDefaultAddress` separately.
 :::
 
 <Content slot-key="set-default-params" />
 
 - `shipping` - reactive data object containing response from the backend.
 
-- `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefault` methods.
+- `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
 
 ## Getters
 
@@ -177,7 +177,6 @@ Providing custom GraphQL query and variables:
 await addAddress(addParams, (query, variables) => ({ query, variables }));
 await deleteAddress(deleteParams, (query, variables) => ({ query, variables }));
 await updateAddress(updateParams, (query, variables) => ({ query, variables }));
-await setDefault(setDefaultParams, (query, variables) => ({ query, variables }));
 ```
 
 <!---------------------------------------------------- SLOTS ---------------------------------------------------->
