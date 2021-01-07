@@ -8,7 +8,7 @@
       :message="notification.message"
       :action="notification.action && notification.action.text"
       :type="notification.type"
-      @click:close="removeNotification(notification.id)"
+      @click:close="remove(notification.id)"
       @click:action="notification.action && notification.action.onClick()"
     >
       <template #icon="{icon}" v-if="notification.icon">
@@ -29,11 +29,11 @@ export default {
     SfIcon
   },
   setup () {
-    const { notifications, removeNotification } = useUiNotification();
+    const { notifications, remove } = useUiNotification();
 
     return {
       notifications,
-      removeNotification
+      remove
     };
   }
 };
