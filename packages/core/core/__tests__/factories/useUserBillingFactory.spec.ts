@@ -38,10 +38,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('zxczxcx');
         factoryParams.addAddress.mockImplementationOnce(() => {
-          throw new Error;
+          throw err;
         });
-        await expect(useUserBillingMethods.addAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.addAddress('' as any);
+        expect(useUserBillingMethods.error.value.addAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -58,10 +60,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('87878dfdf');
         factoryParams.deleteAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.deleteAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.deleteAddress('' as any);
+        expect(useUserBillingMethods.error.value.deleteAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -78,10 +82,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('23232323');
         factoryParams.updateAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.updateAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.updateAddress('' as any);
+        expect(useUserBillingMethods.error.value.updateAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -98,10 +104,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('cvcvc');
         factoryParams.load.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.load()).rejects.toThrow();
+        await useUserBillingMethods.load();
+        expect(useUserBillingMethods.error.value.load).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -118,10 +126,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('adsd');
         factoryParams.setDefaultAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.setDefaultAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.setDefaultAddress('' as any);
+        expect(useUserBillingMethods.error.value.setDefaultAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {

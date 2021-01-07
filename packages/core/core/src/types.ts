@@ -19,10 +19,13 @@ export interface ProductsSearchParams {
   filters?: any;
   [x: string]: any;
 }
-
+export interface UseProductErrors {
+  search?: Error;
+}
 export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
 }
@@ -40,7 +43,14 @@ export interface UseUserLoginParams {
   password: string;
   [x: string]: any;
 }
-
+export interface UseUserErrors {
+  updateUser?: Error;
+  register?: Error;
+  login?: Error;
+  logout?: Error;
+  changePassword?: Error;
+  load?: Error;
+}
 export interface UseUser
 <
   USER,
@@ -48,14 +58,15 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
-  updateUser: ({ user: UPDATE_USER_PARAMS }) => Promise<void>;
-  register: ({ user: UseUserRegisterParams }) => Promise<void>;
-  login: ({ user: UseUserLoginParams }) => Promise<void>;
+  updateUser: (params: { user: UPDATE_USER_PARAMS }) => Promise<void>;
+  register: (params: { user: UseUserRegisterParams }) => Promise<void>;
+  login: (params: { user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (params: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserErrors>;
 }
 
 export interface UseUserOrdersSearchParams {
@@ -64,11 +75,14 @@ export interface UseUserOrdersSearchParams {
   perPage?: number;
   [x: string]: any;
 }
-
+export interface UseUserOrdersErrors {
+  search?: Error;
+}
 export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserOrdersErrors>;
 }
 
 export interface UseUserAddress<ADDRESS> {
@@ -80,15 +94,22 @@ export interface UseUserAddress<ADDRESS> {
   searchAddresses: (params?: { [x: string]: any }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseUserShippingErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserShippingErrors>;
 }
 
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
@@ -112,14 +133,22 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
+export interface UseUserBillingErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserBillingErrors>;
 }
 
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
@@ -143,12 +172,25 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
+export interface UseCategoryErrors {
+  search?: Error;
+}
 export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseCategoryErrors>;
 }
 
+export interface UseCartErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  updateItemQty?: Error;
+  load?: Error;
+  clear?: Error;
+  applyCoupon: Error;
+  removeCoupon?: Error;
+}
 export interface UseCart
 <
   CART,
@@ -167,9 +209,15 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
+  error: ComputedProperty<UseCartErrors>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseWishlistErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  load?: Error;
+  clear?: Error;
+}
 export interface UseWishlist
 <
   WISHLIST,
@@ -185,6 +233,7 @@ export interface UseWishlist
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
   isOnWishlist({ product: PRODUCT }): boolean;
+  error: ComputedProperty<UseWishlistErrors>;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -216,26 +265,35 @@ export interface UseCheckout
   placeOrder: PLACE_ORDER;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseReviewErrors {
+  search?: Error;
+  addReview?: Error;
+}
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
+  error: ComputedProperty<UseReviewErrors>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
-
+export interface UseFacetErrors {
+  search?: Error;
+}
 export interface UseFacet<SEARCH_DATA> {
   result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
   loading: ComputedProperty<boolean>;
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
+  error: ComputedProperty<UseFacetErrors>;
 }
-
+export interface UseContentErrors {
+  search?: Error;
+}
 export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<string | null>;
+  error: ComputedProperty<UseContentErrors>;
 }
 
 export interface RenderComponent {

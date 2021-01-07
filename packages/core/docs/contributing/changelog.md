@@ -11,6 +11,7 @@
 - optimize loading of fonts and their stylesheets from Google Fonts and introduce lazy hydration to improve performance ([#5326](https://github.com/DivanteLtd/vue-storefront/pull/5326))
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
 - fix adding to cart button on product page ([#5375](https://github.com/vuestorefront/vue-storefront/pull/5375))
+- typed error ref for each core's factory ([#4956](https://github.com/vuestorefront/vue-storefront/issues/4956))
 
 
 ## 2.1.1-rc.1

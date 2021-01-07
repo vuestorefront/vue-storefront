@@ -28,6 +28,19 @@ function createComposable() {
   useCart = useCartFactory<any, any, any, any>(params);
 }
 
+const factoryParams = {
+  addItem: jest.fn(() => null),
+  removeItem: jest.fn(),
+  updateItemQty: jest.fn(),
+  load: jest.fn(),
+  clear: jest.fn(),
+  applyCoupon: jest.fn(),
+  removeCoupon: jest.fn(),
+  isOnCart: jest.fn()
+};
+
+const useCartMock = useCartFactory(factoryParams);
+
 describe('[CORE - factories] useCartFactory', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -80,6 +93,18 @@ describe('[CORE - factories] useCartFactory', () => {
         expect(params.load).toHaveBeenCalled();
         expect(cart.value).toEqual({ id: 'mocked_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.load.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { load, error } = useCartMock();
+
+        await load();
+
+        expect(error.value.load).toBe(err);
+      });
     });
 
     describe('addItem', () => {
@@ -93,6 +118,18 @@ describe('[CORE - factories] useCartFactory', () => {
         });
         expect(cart.value).toEqual({ id: 'mocked_added_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.addItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { addItem, error } = useCartMock();
+
+        await addItem({ product: { id: 'productId' }, quantity: 1 });
+
+        expect(error.value.addItem).toBe(err);
+      });
     });
 
     describe('removeItem', () => {
@@ -104,6 +141,18 @@ describe('[CORE - factories] useCartFactory', () => {
           product: { id: 'productId' }
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.removeItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { removeItem, error } = useCartMock();
+
+        await removeItem({ product: { id: 'productId' } });
+
+        expect(error.value.removeItem).toBe(err);
       });
     });
 
@@ -130,6 +179,18 @@ describe('[CORE - factories] useCartFactory', () => {
         });
         expect(cart.value).toEqual({ id: 'mocked_updated_quantity_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.updateItemQty.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { updateItemQty, error } = useCartMock();
+
+        await updateItemQty({ product: { id: 'productId' }, quantity: 1 });
+
+        expect(error.value.updateItemQty).toBe(err);
+      });
     });
 
     describe('clear', () => {
@@ -138,6 +199,18 @@ describe('[CORE - factories] useCartFactory', () => {
         await clear();
         expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentCart: null });
         expect(cart.value).toEqual({ id: 'mocked_cleared_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.clear.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { clear, error } = useCartMock();
+
+        await clear();
+
+        expect(error.value.clear).toBe(err);
       });
     });
 
@@ -151,6 +224,18 @@ describe('[CORE - factories] useCartFactory', () => {
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.applyCoupon.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { applyCoupon, error } = useCartMock();
+
+        await applyCoupon({ couponCode: 'qwerty' });
+
+        expect(error.value.applyCoupon).toBe(err);
+      });
     });
 
     describe('removeCoupon', () => {
@@ -163,6 +248,19 @@ describe('[CORE - factories] useCartFactory', () => {
           coupon
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.removeCoupon.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { removeCoupon, error } = useCartMock();
+        const coupon = 'some-coupon-code-12321231';
+
+        await removeCoupon({ coupon });
+
+        expect(error.value.removeCoupon).toBe(err);
       });
 
       // TODO

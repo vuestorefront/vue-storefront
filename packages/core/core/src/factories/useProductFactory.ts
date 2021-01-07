@@ -1,4 +1,4 @@
-import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams } from '../types';
+import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams, UseProductErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 export interface UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
@@ -12,16 +12,18 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const context = generateContext(factoryParams);
+    const error: Ref<UseProductErrors> = sharedRef({}, `useProduct-error-${id}`);
 
     const search = async (searchParams) => {
       Logger.debug('useProduct.search', searchParams);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.search = null;
         products.value = await factoryParams.productsSearch(context, searchParams);
-      } catch (e) {
-        Logger.error('useProduct.search', e);
-        throw e;
+      } catch (err) {
+        error.value.search = err;
+        Logger.error(`useProduct/${id}/search`, err);
       } finally {
         loading.value = false;
       }
@@ -30,7 +32,8 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
     return {
       search,
       products: computed(() => products.value),
-      loading: computed(() => loading.value)
+      loading: computed(() => loading.value),
+      error: computed(() => error.value)
     };
   };
 }
