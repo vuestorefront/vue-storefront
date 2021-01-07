@@ -1,16 +1,9 @@
 import { computed, reactive } from '@vue/composition-api';
 
-type Type = 'info' | 'success' | 'warning' | 'danger'
-
-interface Action {
-  text: string;
-  onClick?: Function;
-}
-
 interface UiNotification {
   message: string;
-  action: Action;
-  type: Type;
+  action: { text: string; onCLick: Function };
+  type: 'danger' | 'success' | 'info';
   icon: string;
   persist: boolean;
 }
