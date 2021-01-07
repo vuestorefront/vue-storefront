@@ -139,7 +139,7 @@ export default {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
     const { isAuthenticated } = useUser();
-    const { spawnNotification } = useUiNotification();
+    const { send } = useUiNotification();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -149,7 +149,7 @@ export default {
     });
 
     watch(totalItems, () => {
-      spawnNotification({
+      send({
         type: 'info',
         message: `Total items: ${totalItems.value}`,
         action: {

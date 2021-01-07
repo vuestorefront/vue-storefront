@@ -13,13 +13,13 @@ const state = reactive({
 });
 
 const useUiNotification = () => {
-  const removeNotification = (id: symbol) => {
+  const remove = (id: symbol) => {
     const index = state.notifications.findIndex(notification => notification.id === id);
 
     if (index !== -1) state.notifications.splice(index, 1);
   };
 
-  const spawnNotification = (notification: UiNotification) => {
+  const send = (notification: UiNotification) => {
     const id = Symbol();
     const newNotification = { id, ...notification };
 
@@ -28,14 +28,14 @@ const useUiNotification = () => {
 
     if (!notification.persist) {
       setTimeout(() => {
-        removeNotification(id);
+        remove(id);
       }, 3000);
     }
   };
 
   return {
-    spawnNotification,
-    removeNotification,
+    send,
+    remove,
     notifications: computed(() => state.notifications)
   };
 };
