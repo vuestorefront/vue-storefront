@@ -16,7 +16,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     const error: Ref<UseFacetErrors> = sharedRef({}, `useFacet-error-${id}`);
 
     const search = async (params?: AgnosticFacetSearchParams) => {
-      Logger.debug(`useFacet/${id}/search`, params);
+      Logger.debug(`useFacet/${ssrKey}/search`, params);
 
       result.value.input = params;
       try {
@@ -25,7 +25,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
         result.value.data = await factoryParams.search(context, result.value);
       } catch (err) {
         error.value.search = err;
-        Logger.error(`useFacet/${id}/search`, err);
+        Logger.error(`useFacet/${ssrKey}/search`, err);
       } finally {
         loading.value = false;
       }
