@@ -10,6 +10,8 @@
 - change `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` to return composable, move `setWishlist` inside of composable ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
 - optimize loading of fonts and their stylesheets from Google Fonts and introduce lazy hydration to improve performance ([#5326](https://github.com/DivanteLtd/vue-storefront/pull/5326))
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
+- fix adding to cart button on product page ([#5375](https://github.com/vuestorefront/vue-storefront/pull/5375))
+
 
 ## 2.1.1-rc.1
 - updated version of nuxt composition-api

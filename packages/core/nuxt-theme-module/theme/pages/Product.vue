@@ -83,7 +83,7 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addItem(product, parseInt(qty))"
+            @click="addItem({ product, quantity: parseInt(qty) })"
           />
           <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
             {{ $t('Save for later') }}
