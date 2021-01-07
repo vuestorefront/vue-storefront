@@ -1,8 +1,8 @@
 # Error handling
 
-A flexible way of error handling is essential for a framework like Vue Storefront. As factories of composables are hearth of our core - we decided to put there whole error handling mechanism.
+A flexible way of error handling is essential for a framework like Vue Storefront. As composables are hearth of our app - we decided to put there whole error handling mechanism.
 
-Each factory returns `error` computed property. It is an object which has names of async functions from factory as keys and Error instance or null as a value. 
+Each composable returns `error` - computed property. It is an object which has names of async functions from composable as keys and Error instance or null as a value. 
 
 Example usage:
 ```vue
@@ -24,7 +24,7 @@ export default {
 </script>
 ```
 
-There is a dedicated interface for each factory, example one for the `useCart`:
+There is a dedicated interface for each composable, example one for the `useCart`:
 ```ts
 export interface UseCartErrors {
   addItem?: Error;
@@ -49,14 +49,16 @@ watch(error, (error, prevError) => {
 })
 ```
 
-## Where can I find interface of the error property from a certain factory?
+## Where can I find interface of the error property from a certain composable?
 When you are writing a code inside a script part of the Vue's component, your IDE should give you hints dedicated for each type of composable. That's why you probably do not need to check these interfaces in the core's code.
 
 However, if somewhy you still want to do that, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts). Just search for `UseCartErrors` with your IDE inside.
 
-Feel free to replace `UseCart` part with other composable name - `UseFacetErrors`, `UseWishlistErrors`, `UseProductErrors` etc.
+Feel free to replace `UseCartErrors` with other composable name - `UseFacetErrors`, `UseWishlistErrors`, `UseProductErrors` etc.
 
 ## Where does error come from?
+To better understand this part you should know what are factories of composables in our core.   
+
 Inside each factory's async method we are clearing the current error before integration's method call and setting it in catch block.
 ```ts
 const addItem = async ({ product, quantity, customQuery }) => {
