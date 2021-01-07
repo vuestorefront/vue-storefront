@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-    {{ headers }}
     <LazyHydrate when-idle>
       <SfHero class="hero">
         <SfHeroItem
@@ -127,9 +126,6 @@ export default {
     SfButton,
     MobileStoreBanner,
     LazyHydrate
-  },
-  async asyncData({ req }) {
-    return { headers: req.headers };
   },
   data() {
     return {
