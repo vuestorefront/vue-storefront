@@ -24,7 +24,7 @@ export default {
 </script>
 ```
 
-There is a dedicated interface for each composable, example one for the `useCart`:
+There is a dedicated interface for each composable. Take a look at this one from `useCart`:
 ```ts
 export interface UseCartErrors {
   addItem?: Error;
