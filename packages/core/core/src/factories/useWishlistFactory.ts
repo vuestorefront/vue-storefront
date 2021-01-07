@@ -1,4 +1,4 @@
-import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistComposableErrors } from '../types';
+import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -29,7 +29,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const context = generateContext(factoryParams);
-    const error: Ref<UseWishlistComposableErrors> = sharedRef({}, 'useWishlist-error');
+    const error: Ref<UseWishlistErrors> = sharedRef({}, 'useWishlist-error');
 
     const setWishlist = (newWishlist: WISHLIST) => {
       wishlist.value = newWishlist;

@@ -26,7 +26,7 @@ export default {
 
 There is a dedicated interface for each factory, example one for the `useCart`:
 ```ts
-export interface UseCartComposableErrors {
+export interface UseCartErrors {
   addItem?: Error;
   removeItem?: Error;
   updateItemQty?: Error;
@@ -52,9 +52,9 @@ watch(error, (error, prevError) => {
 ## Where can I find interface of the error property from a certain factory?
 When you are writing a code inside a script part of the Vue's component, your IDE should give you hints dedicated for each type of composable. That's why you probably do not need to check these interfaces in the core's code.
 
-However, if somewhy you still want to do that, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts). Just search for `UseCartComposableErrors` with your IDE inside.
+However, if somewhy you still want to do that, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts). Just search for `UseCartErrors` with your IDE inside.
 
-Feel free to replace `UseCart` part with other composable name - `UseFacetComposableErrors`, `UseWishlistComposableErrors`, `UseProductComposableErrors` etc.
+Feel free to replace `UseCart` part with other composable name - `UseFacetErrors`, `UseWishlistErrors`, `UseProductErrors` etc.
 
 ## Where does error come from?
 Inside each factory's async method we are clearing the current error before integration's method call and setting it in catch block.

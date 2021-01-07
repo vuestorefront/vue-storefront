@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseReview, Context, FactoryParams, UseReviewComposableErrors } from '../types';
+import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
@@ -13,7 +13,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
-    const error: Ref<UseReviewComposableErrors> = sharedRef({}, `useProduct-error-${id}`);
+    const error: Ref<UseReviewErrors> = sharedRef({}, `useProduct-error-${id}`);
     const context = generateContext(factoryParams);
 
     const search = async (searchParams): Promise<void> => {

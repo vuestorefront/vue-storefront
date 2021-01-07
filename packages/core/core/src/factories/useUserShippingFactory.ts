@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping, Context, FactoryParams, UseUserShippingComposableErrors } from '../types';
+import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
@@ -43,7 +43,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
     const context = generateContext(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
-    const error: Ref<UseUserShippingComposableErrors> = sharedRef({}, 'useUserShipping-error');
+    const error: Ref<UseUserShippingErrors> = sharedRef({}, 'useUserShipping-error');
 
     const addAddress = async ({ address }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));

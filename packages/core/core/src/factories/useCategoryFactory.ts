@@ -1,4 +1,4 @@
-import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryComposableErrors } from '../types';
+import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -13,7 +13,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const categories: Ref<CATEGORY[]> = sharedRef([], `useCategory-categories-${id}`);
     const loading = sharedRef(false, `useCategory-loading-${id}`);
     const context = generateContext(factoryParams);
-    const error: Ref<UseCategoryComposableErrors> = sharedRef({}, `useCategory-error-${id}`);
+    const error: Ref<UseCategoryErrors> = sharedRef({}, `useCategory-error-${id}`);
 
     const search = async (searchParams) => {
       Logger.debug('useCategory.search', searchParams);

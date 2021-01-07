@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUser, Context, FactoryParams, UseUserComposableErrors } from '../types';
+import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
 import { sharedRef, Logger, mask, generateContext } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
@@ -20,7 +20,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
     const context = generateContext(factoryParams);
-    const error: Ref<UseUserComposableErrors> = sharedRef({}, 'useUser-error');
+    const error: Ref<UseUserErrors> = sharedRef({}, 'useUser-error');
 
     const setUser = (newUser: USER) => {
       user.value = newUser;
