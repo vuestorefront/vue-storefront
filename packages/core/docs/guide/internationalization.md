@@ -1,10 +1,23 @@
 # Internationalization
 
-By default we are using [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling internationalization, but it's not mandatory to use it even if you are using Nuxt.
+If you're building a shop for an international brand you want it being translated to different languages and using different currencies. In this doc you will learn how we're approaching i18n (internationalization) in Vue Storefront.
 
-In order to provide a unified way of configuring i18n across the application for different modules and integrations, we have introduced the field `i18n` in each module's configuration that has the same format as `nuxt-i18n` options. Clearly, it's possible to add there any configuration if there is a necessity and it will be propagated to all other Vue Storefront modules.
+::: tip i18n is not multi-tenancy!
+This document explains only how to make a single shop instance available for multiple countries. If you need to build a system for multiple tenants we suggest creating an instance of Vue Storefront for each tenant and sharing common resources through an NPM package.
+:::
 
-By default, all Vue Storefront modules have `useNuxtI18nModule` property set to `true`. It means that they will use the same configuration as you provided for `nuxt-i18n` in `i18n` field of your `nuxt.config.js`
+## Default setup
+By default we are using [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling both translations and currencies. 
+
+In the theme `nuxt-i18n` is using `$t('key')` to translate strings and `$n(number)` to add the currency sign. You can find the translation keys in `lang` directory of your project.
+
+::: tip
+Even though the module is included into the default theme it's not mandatory for your app to work and [you can always get rid of it.](#custom-configuration).
+:::
+
+In order to provide a unified way of configuring i18n across the application for different modules and integrations, we have introduced the field `i18n` in each module's configuration that has the same format as `nuxt-i18n` options. Add there any configuration if there is a necessity and it will be propagated to all other Vue Storefront modules.
+
+All Vue Storefront integrations have `useNuxtI18nModule` property set to `true`. It means that they will use the same configuration as you provided for `nuxt-i18n` in `i18n` field of your `nuxt.config.js`
 
 ```js
 // nuxt.config.js
