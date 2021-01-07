@@ -11,8 +11,8 @@
       @click:close="removeNotification(notification.id)"
       @click:action="notification.action && notification.action.onClick()"
     >
-      <template #icon="{icon}" v-if="notification.options && notification.options.icon">
-        <SfIcon :icon="notification.options.icon" :color="notification.options.iconColor || 'white'"/>
+      <template #icon="{icon}" v-if="notification.icon">
+        <SfIcon :icon="notification.icon" color="white"/>
       </template>
     </SfNotification>
   </div>

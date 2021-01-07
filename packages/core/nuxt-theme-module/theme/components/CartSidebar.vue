@@ -153,9 +153,9 @@ export default {
         type: 'info',
         message: `Total items: ${totalItems.value}`,
         action: {
-          text: 'test action',
+          text: 'Go to checkout',
           onClick: () => {
-            root.$router.push('/');
+            root.$router.push('/checkout/personal-details');
           }
         },
         persist: true,
