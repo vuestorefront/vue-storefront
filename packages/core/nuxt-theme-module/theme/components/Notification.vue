@@ -1,5 +1,5 @@
 <template>
-  <transition-group tag='div' class="notifications" name='sf-fade'>
+  <transition-group tag="div" class="notifications" :name="isMobile ? 'slide' : 'sf-fade'">
     <SfNotification
       v-for="notification in notifications"
       :key="notification.id"
@@ -10,7 +10,7 @@
       @click:close="remove(notification.id)"
       @click:action="notification.action && notification.action.onClick()"
     >
-      <template #icon="{icon}" v-if="notification.icon">
+      <template #icon v-if="notification.icon">
         <SfIcon :icon="notification.icon" color="white"/>
       </template>
     </SfNotification>
@@ -20,6 +20,7 @@
 <script>
 import { SfNotification, SfIcon } from '@storefront-ui/vue';
 import { useUiNotification } from '~/composables';
+import { ref, onMounted, onBeforeUnmount} from '@vue/composition-api';
 
 export default {
   name: 'Notification',
@@ -29,10 +30,29 @@ export default {
   },
   setup () {
     const { notifications, remove } = useUiNotification();
+    const isMobile = ref(false);
+
+    const mobileHandler = (event) => {
+      isMobile.value = event.matches;
+    };
+
+    onMounted(() => {
+      isMobile.value =
+        Math.max(document.documentElement.clientWidth, window.innerWidth) <=
+        1023;
+      window.matchMedia('(max-width: 1023px)').addListener(mobileHandler);
+    });
+
+    onBeforeUnmount(() => {
+      window
+        .matchMedia('(max-width: 1023px)')
+        .removeListener(mobileHandler);
+    });
 
     return {
       notifications,
-      remove
+      remove,
+      isMobile
     };
   }
 };
@@ -43,11 +63,13 @@ export default {
   position: fixed;
   width: 100%;
   left: 0;
+  bottom: 0;
   right: 0;
-  bottom: var(--bottom-navigation-height, 3.75rem);
   z-index: 9;
   @include for-desktop {
+    top: 100px;
     left: auto;
+    bottom: auto;
     right: 5%;
     width: 320px;
   }
@@ -58,8 +80,27 @@ export default {
   &:first-child {
     margin-top: 0;
   }
+  @include for-mobile {
+    --notification-border-radius: 0;
+    --notification-max-width: 100%;
+    --notification-background: var(--c-link);
+    --notification-font-size: var(--font-size--sm);
+    --notification-font-family: var(--font-family--primary);
+    --notification-font-weight: var(--font-weight--normal);
+    --notification-padding: var(--spacer-base) var(--spacer-lg);
+  }
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;
   }
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s;
+}
+.slide-enter {
+  transform: translateY(40px);
+}
+.slide-leave-to {
+  transform: translateY(80px);
 }
 </style>
