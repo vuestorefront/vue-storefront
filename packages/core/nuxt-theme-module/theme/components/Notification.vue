@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications">
+  <transition-group tag='div' class="notifications" name='sf-fade'>
     <SfNotification
       v-for="notification in notifications"
       :key="notification.id"
@@ -14,7 +14,7 @@
         <SfIcon :icon="notification.icon" color="white"/>
       </template>
     </SfNotification>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -53,7 +53,11 @@ export default {
   }
 }
 .sf-notification {
-  margin: 0 auto var(--spacer-xs) auto;
+  max-width: 100%;
+  margin: var(--spacer-xs) auto 0 auto;
+  &:first-child {
+    margin-top: 0;
+  }
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;
   }
