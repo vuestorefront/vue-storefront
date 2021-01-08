@@ -63,6 +63,13 @@ Vue Storefront is the only truly Open Source eCommerce frontend framework with a
     10. Removing saved payment instruments
     11. Support for channels
     12. Possible to provide a custom reference for the payment
+- Adyen
+    1. Payments with Credit Card supported by Frames' SDK with 3DS Support
+    2. Saving Credit Cards, paying with them, and removing them from storage (you have to create own UI here)
+    3. Possible to force providing CVV/CVC each time while paying with Saved Card
+    4. Payments with PayPal
+    5. Payments with Sofort
+    6. Payments with Klarna Pay Later 
 ### Loyalty & Discounts
 - Talon.one
     1. Applying discount assigned to a single campaign by discount code
