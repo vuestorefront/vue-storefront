@@ -4,7 +4,6 @@
       v-for="notification in notifications"
       :key="notification.id"
       :visible="!!notification.id"
-      :title="notification.title"
       :message="notification.message"
       :action="notification.action && notification.action.text"
       :type="notification.type"
