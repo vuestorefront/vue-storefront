@@ -198,7 +198,7 @@ Vue Storefront is the only truly Open Source eCommerce frontend framework with a
 
 ### User Authentication
 
-<img style="filter: drop-shadow(0 0 0.75rem rgba(0,0,0,.2)); margin: 20px 0"src="https://i.paste.pics/df6c20e1e03d0e54d5191db8625d9f91.png">
+<img style="filter: drop-shadow(0 0 0.75rem rgba(0,0,0,.2)); margin: 20px 0" src="https://i.paste.pics/df6c20e1e03d0e54d5191db8625d9f91.png">
 
 - Log in with email and password
 - Create a new account
