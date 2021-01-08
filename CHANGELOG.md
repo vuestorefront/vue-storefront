@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Display default placeholder on the Product page (#5088)
+- Removed `visibilitychange` eventlistener on microcart beforeDestroy hook (#5293)
 - Device module fix for shared instance. Vue.prototype.$device isn't accessible anymore (#5297)
 - Added `beforeBuildCacheKey` server hook (#5297)
 
