@@ -31,15 +31,9 @@ export const UserAccount = {
   },
   beforeMount () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$on('myAccount-before-remainInEditMode', block => {
-      if (block === 'MyProfile') {
-        this.remainInEditMode = true
-      }
-    })
   },
   beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -144,16 +138,9 @@ export const UserAccount = {
           })
         }
       }
-      if (this.password) {
-        this.$bus.$emit('myAccount-before-changePassword', {
-          currentPassword: this.oldPassword,
-          newPassword: this.password
-        })
-      }
-      this.exitSection(null, updatedProfile)
+      return this.exitSection(updatedProfile)
     },
-    exitSection (event, updatedProfile) {
-      this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
+    resetFormValues (updatedProfile) {
       if (!updatedProfile) {
         this.currentUser = Object.assign({}, this.$store.state.user.current)
         this.userCompany = this.getUserCompany()
@@ -161,13 +148,33 @@ export const UserAccount = {
         this.oldPassword = ''
         this.password = ''
         this.rPassword = ''
-        if (!this.userCompany.company) {
-          this.addCompany = false
+        this.addCompany = !!this.userCompany.company
+      }
+      this.isEdited = this.remainInEditMode
+    },
+    async exitSection (updatedProfile) {
+      try {
+        if (updatedProfile) {
+          const event = await this.$store.dispatch('user/update', { customer: updatedProfile })
+          if (event.code !== 200) {
+            throw event;
+          }
+        }
+        if (this.changePassword && this.password) {
+          this.$bus.$emit('myAccount-before-changePassword', {
+            currentPassword: this.oldPassword,
+            newPassword: this.password
+          })
         }
         this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
+        this.resetFormValues(updatedProfile);
+      } catch (event) {
+        this.remainInEditMode = true
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+          action1: { label: this.$t('OK') }
+        })
       }
     },
     getUserCompany () {

@@ -22,12 +22,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lazy loading services - @Fifciu (#5208)
 - Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
 - Lazy loading async catalog helpers - @Fifciu (#5208)
+- Check if the variable backendPaymentMethods is iterable before the for...of loop - @rozzilla [(#5289)](https://github.com/vuestorefront/vue-storefront/pull/5289)
 
 ### Fixed
 
 - Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
 - Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
-
+- Fixed `category-next/loadCategoryProducts` and `category-next/loadMoreCategoryProducts` module actions to respect `config.entities.optimize` config option.- @hcmlopes (#5070)
+- Use `queryString` library in `task/getUrl` - @cewald (#5263)
+- Changing email & password at once - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
 ### Changed / Improved
 
 - Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
@@ -38,10 +41,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
 - Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
 - Got rid of lodash as we are using lodash-es - @Fifciu
+- Removed `myAccount-before-updateUser` and `myAccount-before-remainInEditMode` - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
 
 ### Fixed
 - Display default placeholder on the Product page (#5088)
 - Removed `visibilitychange` eventlistener on microcart beforeDestroy hook (#5293)
+- Device module fix for shared instance. Vue.prototype.$device isn't accessible anymore (#5297)
+- Added `beforeBuildCacheKey` server hook (#5297)
 
 ## [1.12.2] - 2020.07.28
 

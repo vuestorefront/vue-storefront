@@ -27,15 +27,9 @@ export const UserShippingDetails = {
   },
   beforeMount () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$on('myAccount-before-remainInEditMode', block => {
-      if (block === 'MyShippingDetails') {
-        this.remainInEditMode = true
-      }
-    })
   },
   beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.shippingDetails = this.getShippingDetails()
@@ -79,7 +73,7 @@ export const UserShippingDetails = {
       }
       return true
     },
-    updateDetails () {
+    async updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
         updatedShippingDetails = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), config.users.allowModification)
@@ -111,17 +105,29 @@ export const UserShippingDetails = {
           })
         }
       }
-      this.exitSection(null, updatedShippingDetails)
+      return this.exitSection(updatedShippingDetails)
     },
-    exitSection (event, updatedShippingDetails) {
-      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
-      if (!updatedShippingDetails) {
-        this.shippingDetails = this.getShippingDetails()
-        this.useCompanyAddress = false
+    async exitSection (updatedShippingDetails) {
+      try {
+        if (updatedShippingDetails) {
+          const event = await this.$store.dispatch('user/update', { customer: updatedShippingDetails })
+          if (event.code !== 200) {
+            throw event;
+          }
+        } else {
+          this.shippingDetails = this.getShippingDetails()
+          this.useCompanyAddress = false
+        }
         this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
+      } catch (event) {
+        this.remainInEditMode = true
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+          action1: { label: this.$t('OK') }
+        })
+      } finally {
+        this.isEdited = this.remainInEditMode
       }
     },
     fillCompanyAddress () {
