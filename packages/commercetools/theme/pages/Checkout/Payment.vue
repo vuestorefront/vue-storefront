@@ -96,8 +96,8 @@
         </ValidationProvider>
         <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selectedValue="billingDetails.country"
-            @selected="country => setBillingDetailsAndUnpickAddress({ country })"
+            :value="billingDetails.country"
+            @input="country => setBillingDetailsAndUnpickAddress({ country })"
             label="Country"
             class="form__element form__element--half form__select sf-select--underlined"
             required
