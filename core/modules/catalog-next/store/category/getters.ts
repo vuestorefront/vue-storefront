@@ -143,6 +143,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getMenuCategories (state, getters, rootState, rootGetters) {
     return state.menuCategories || rootGetters['category/getCategories']
+  },
+  getAggregations: (state, getters) => {
+    const categoryId = get(getters.getCurrentCategory, 'id', null)
+    return state.aggregations[categoryId] || {}
   }
 }
 

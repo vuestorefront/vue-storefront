@@ -184,7 +184,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (categoryMappedFilters && filtersKeys.length) {
       resultFilters = Object.assign(cloneDeep(categoryMappedFilters), cloneDeep(omit(aggregationFilters, filtersKeys)))
     }
-    commit(types.CATEGORY_SET_CATEGORY_FILTERS, { category, filters: resultFilters })
+    commit(types.CATEGORY_SET_CATEGORY_FILTERS, { category, filters: resultFilters, aggregations })
   },
 
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {

@@ -13,7 +13,8 @@ export const categoryModule: Module<CategoryState, RootState> = {
     filtersMap: {},
     products: [],
     searchProductsStats: {},
-    menuCategories: []
+    menuCategories: [],
+    aggregations: {}
   },
   getters,
   actions,
