@@ -134,22 +134,24 @@ module.exports = {
 					]
         },
 				{
-					title: 'General',
-					collapsable: false,
-					children: [
-						['/general/architecture', 'Architecture'],
-						['/general/error-handling', 'Error Handling'],
-						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance'],
-						['/general/context', 'Application Context']
-					]
-				},
-				{
 					title: 'Guide [WIP]',
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/internationalization', 'Internationalization']
+						['/guide/error-handling', 'Error Handling']
+					]
+				},
+				{
+					title: 'Advanced [WIP]',
+					collapsable: false,
+					children: [
+						['/advanced/context', 'Application Context'],
+						['/advanced/internationalization', 'Internationalization'],
+						['/advanced/performance', 'Performance'],
+						['/advanced/caching', 'Caching'],
+						['/advanced/logging', 'Logging'],
+						['/advanced/architecture', 'Architecture']
+
 					]
 				},
         {
