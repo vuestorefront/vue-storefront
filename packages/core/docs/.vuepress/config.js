@@ -186,7 +186,6 @@ module.exports = {
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
-						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
 				{
