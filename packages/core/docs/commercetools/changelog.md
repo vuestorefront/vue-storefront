@@ -9,6 +9,8 @@
 - removed `formatPrice` from `useUiHelpers`, replaced by vue18n `$n` function ([#5339](https://github.com/vuestorefront/vue-storefront/pull/5339))
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
 - use updated factories `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
+- use updated factories `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
+- fix selecting country on checkout payment and shipping ([5386](https://github.com/vuestorefront/vue-storefront/pull/5386))
 
 ## 1.0.1-rc.1
 - updated version of core
