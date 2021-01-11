@@ -2,13 +2,18 @@ import { computed, reactive } from '@vue/composition-api';
 
 interface UiNotification {
   message: string;
-  action: { text: string; onCLick: Function };
+  action: { text: string; onClick: Function };
   type: 'danger' | 'success' | 'info';
   icon: string;
   persist: boolean;
+  id?: symbol;
 }
 
-const state = reactive({
+interface Notifications {
+  notifications: Array<UiNotification>;
+}
+
+const state = reactive<Notifications>({
   notifications: []
 });
 
@@ -35,7 +40,6 @@ const useUiNotification = () => {
 
   return {
     send,
-    remove,
     notifications: computed(() => state.notifications)
   };
 };
