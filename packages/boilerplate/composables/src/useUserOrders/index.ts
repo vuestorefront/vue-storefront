@@ -7,11 +7,9 @@ import {
 } from '@vue-storefront/core';
 import { OrdersResponse, OrderSearchParams } from '../types';
 
-// @todo userOrders
-
 const params: UseUserOrdersFactoryParams<OrdersResponse, OrderSearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchOrders: async (context: Context, params: OrderSearchParams = {}): Promise<OrdersResponse> => {
+  searchOrders: async (context: Context, params: OrderSearchParams): Promise<OrdersResponse> => {
     console.log('Mocked: searchOrders');
 
     return {
