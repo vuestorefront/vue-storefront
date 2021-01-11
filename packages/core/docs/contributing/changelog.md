@@ -12,6 +12,7 @@
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
 - fix adding to cart button on product page ([#5375](https://github.com/vuestorefront/vue-storefront/pull/5375))
 - typed error ref for each core's factory ([#4956](https://github.com/vuestorefront/vue-storefront/issues/4956))
+- added ID to Loggers in core factories ([#5351](https://github.com/vuestorefront/vue-storefront/issues/5351))
 
 
 ## 2.1.1-rc.1
