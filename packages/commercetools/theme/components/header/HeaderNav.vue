@@ -46,7 +46,7 @@
 import { SfMegaMenu, SfMenuItem, SfList, SfBanner, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { computed, ref } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { rootCategoriesQuery } from '../../queries/topCategories';
 import debounce from 'lodash.debounce';
 
@@ -69,8 +69,8 @@ export default {
       if (currentCatSlug.value) return;
 
       currentCatSlug.value = slug;
-      const catChild = computed(() => categories.value.find(category => category.slug === currentCatSlug.value));
-      emit('setOverlay', Boolean(catChild.value.childCount));
+      const catChild = categories.value.find(category => category.slug === currentCatSlug.value);
+      emit('setOverlay', Boolean(catChild.childCount));
       subCategoriesSearch({ slug });
     }, 200);
 

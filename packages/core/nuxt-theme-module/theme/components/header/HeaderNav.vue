@@ -44,7 +44,7 @@
 import { SfMegaMenu, SfMenuItem, SfList } from '@storefront-ui/vue';
 import { useCategory } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
-import { computed, ref } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 
 export default {
   name: 'HeaderNav',
@@ -62,8 +62,8 @@ export default {
       if (currentCatSlug.value) return;
 
       currentCatSlug.value = slug;
-      const catChild = computed(() => categories.value.find(category => category.slug === currentCatSlug.value));
-      emit('setOverlay', Boolean(catChild.value.childCount));
+      const catChild = categories.value.find(category => category.slug === currentCatSlug.value);
+      emit('setOverlay', Boolean(catChild.childCount));
     };
 
     const handleMouseLeave = () => {
