@@ -1,6 +1,5 @@
 import {
   Context,
-  CustomQuery,
   useProductFactory,
   ProductsSearchParams,
   UseProductFactoryParams
@@ -8,8 +7,10 @@ import {
 import { ProductsResponse } from '../types';
 
 const params: UseProductFactoryParams<ProductsResponse, any> = {
-  productsSearch: async (context: Context, params: ProductsSearchParams, customQuery?: CustomQuery): Promise<ProductsResponse> => {
-    return await context.$boilerplate.api.getProduct(params, customQuery);
+  productsSearch: async (context: Context, params: ProductsSearchParams): Promise<ProductsResponse> => {
+    const { customQuery, ...searchParams } = params;
+
+    return await context.$boilerplate.api.getProduct(searchParams, customQuery);
   }
 };
 
