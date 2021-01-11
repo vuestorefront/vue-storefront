@@ -3,7 +3,7 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
-  load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<WISHLIST>;
+  load: (context: Context, params: { customQuery?: any }) => Promise<WISHLIST>;
   addItem: (
     context: Context,
     params: {
@@ -84,7 +84,6 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
     const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useWishlist.load');
-
       if (wishlist.value) return;
 
       try {
