@@ -1,10 +1,12 @@
 # Logging
 
-In Vue Storefront we're providing all the debugging information, warnings, and errors from composables out of the box so you won't miss anything that happens inside your application.  In this document you will learn how to use Logger in your app and how to connect it with external services.
+In Vue Storefront we're providing all the debugging information, warnings, and errors from composables out of the box so you won't miss anything that happens inside your application.  In this document you will learn how to use our logger in your app and how to connect it with external services.
 
-## Using Logger in your app
+## Using logger in your app
 
-To make use of Vue Storefront Logger in your application simply import it from the core and use one of 4 available types of messages
+By default logger is used by every Composable but you can freely use it in other parts of your app as well.
+
+To make use of Vue Storefront logger simply import it from the core and use one of 4 available types of messages
 
 ```js
 import { Logger } from '@vue-storefront/core'
@@ -17,7 +19,7 @@ Logger.debug('debug message')
 
 ## Changing Verbosity
 
-Configuration of Logger happens through `logger` property of `@vue-storefront/nuxt` module. 
+Configuration of logger happens through `logger` property of `@vue-storefront/nuxt` module. 
 
 You can set the `verbosity` level which tells the app, what you want to log and what communications you want to ignore. By default we have the following verbosity levels:
 
@@ -35,18 +37,18 @@ You can set the `verbosity` level which tells the app, what you want to log and 
 }]
 ```
 
-If not explicitely changed, logging level depends on current environment variable `NODE_ENV`:
+If not explicitly changed, logging level depends on current environment variable `NODE_ENV`:
 
 - `development` or `dev` defaults to `warn`,
 - `production` or `prod` defaults to `error`,
 - `test` defaults to `none`,
 - any other defaults to `warn`
 
-## Writing custom Loggers
+## Writing custom loggers
 
-By default we're printing all the events happening in the app in the console  but you can easily write a new Logger and use a third-party library (like `consola`) or pass the logs to external service like `Sentry.io`
+By default we're printing all the events happening in the app in the console  but you can easily write a new logger and use a third-party library (like `consola`) or pass the logs to external service like `Sentry.io`
 
-To override the default Logger simply pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level.
+To override the default logger simply pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level.
 
 If you are using our nuxt module, setting up the logger is much simpler. All you have to do is just provide the configuration to the module:
 
@@ -56,6 +58,7 @@ If you are using our nuxt module, setting up the logger is much simpler. All you
   logger: { 
     verbosity: 'error',
     customLogger: (verbosity) => {
+      console.log('Current verbosity level is:', verbosity)
       return {
         debug: (message: any, ...args) => console.debug('[VSF][debug]', message, ...args),
         info: (message: any, ...args) => console.info('[VSF][info]', message, ...args),
@@ -66,9 +69,8 @@ If you are using our nuxt module, setting up the logger is much simpler. All you
   }
 }]
 ```
-
 ::: details Configuring logger outside Vue Storefront Nuxt module
-If for some reason you can't configure Logger through `@vue-storefront/nuxt` module you can explicitly use `registerLogger` function:
+If for some reason you can't configure logger through `@vue-storefront/nuxt` module you can explicitly use `registerLogger` function:
 
 ```ts
 import { registerLogger } from '@vue-storefront/core'
