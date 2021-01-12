@@ -138,6 +138,7 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
+						['/guide/configuration', 'Configuration'],
 						['/guide/error-handling', 'Error Handling']
 					]
 				},
@@ -187,7 +188,7 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/general/cms', 'CMS'],
+						['/integrate/cms', 'CMS'],
 						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
