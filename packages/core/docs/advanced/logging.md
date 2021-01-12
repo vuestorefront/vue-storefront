@@ -4,8 +4,6 @@ In Vue Storefront we're providing all the debugging information, warnings, and e
 
 ## Using logger in your app
 
-By default logger is used by every Composable but you can freely use it in other parts of your app as well.
-
 To make use of Vue Storefront logger simply import it from the core and use one of 4 available types of messages
 
 ```js
