@@ -9,7 +9,8 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-			{ text: 'Migration guide', link: '/migrate/' }
+			{ text: 'Migration guide', link: '/migrate/' },
+			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
 
 		],
 		sidebar: {
@@ -138,6 +139,7 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
+						['/guide/configuration', 'Configuration'],
 						['/guide/error-handling', 'Error Handling']
 					]
 				},
@@ -187,7 +189,7 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/general/cms', 'CMS'],
+						['/integrate/cms', 'CMS'],
 						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
