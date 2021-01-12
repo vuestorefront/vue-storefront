@@ -2,7 +2,8 @@
   <SfTabs :open-tab="1" class="tab-orphan">
     <SfTab data-cy="loyalty-card-tab" title="Loyalty Card">
       <p class="message">
-        This feature is not implemented yet! Please take a look at<br />
+        This feature is not implemented yet! Please take a look at
+        <br />
         <SfLink class="message__link" href="#"
           >https://github.com/DivanteLtd/vue-storefront/issues </SfLink
         >
@@ -30,9 +31,12 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-2xl) 0;
-  font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family-iprimary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
     &__link {
     color: var(--c-primary);
+    --link-weight: var(--font-weight--medium);
+    --link-font-family: var(--font-family--primary);
+    --link-font-size: var(--font-size--base);
     text-decoration: none;
     &:hover {
       color: var(--c-text);

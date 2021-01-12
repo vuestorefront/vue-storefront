@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context, FactoryParams } from '../types';
+import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
@@ -26,7 +26,7 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       billing: Readonly<USER_BILLING>;
     }) => Promise<USER_BILLING>;
-  setDefault: (
+  setDefaultAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
@@ -42,58 +42,59 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
     const context = generateContext(factoryParams);
+    const error: Ref<UseUserBillingErrors> = sharedRef({}, 'useUserBilling-error');
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
-    const addAddress = async (address: USER_BILLING_ITEM) => {
+    const addAddress = async ({ address }) => {
       Logger.debug('useUserBilling.addAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.addAddress = null;
         billing.value = await factoryParams.addAddress(context, {
           address,
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.addAddress', err);
-
-        throw new Error(err);
+        error.value.addAddress = err;
+        Logger.error('useUserBilling/addAddress', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const deleteAddress = async (address: USER_BILLING_ITEM) => {
+    const deleteAddress = async ({ address }) => {
       Logger.debug('useUserBilling.deleteAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.deleteAddress = null;
         billing.value = await factoryParams.deleteAddress(context, {
           address,
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.deleteAddress', err);
-
-        throw new Error(err);
+        error.value.deleteAddress = err;
+        Logger.error('useUserBilling/deleteAddress', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const updateAddress = async (address: USER_BILLING_ITEM) => {
+    const updateAddress = async ({ address }) => {
       Logger.debug('useUserBilling.updateAddress', address);
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.updateAddress = null;
         billing.value = await factoryParams.updateAddress(context, {
           address,
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.updateAddress', err);
-
-        throw new Error(err);
+        error.value.updateAddress = err;
+        Logger.error('useUserBilling/updateAddress', err);
       } finally {
         loading.value = false;
       }
@@ -102,33 +103,33 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     const load = async () => {
       Logger.debug('useUserBilling.load');
 
-      loading.value = true;
       try {
+        loading.value = true;
+        error.value.load = null;
         billing.value = await factoryParams.load(context, {
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.load', err);
-
-        throw new Error(err);
+        error.value.load = err;
+        Logger.error('useUserBilling/load', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const setDefault = async (address: USER_BILLING_ITEM) => {
-      Logger.debug('useUserBilling.setDefault');
+    const setDefaultAddress = async ({ address }) => {
+      Logger.debug('useUserBilling.setDefaultAddress');
 
-      loading.value = true;
       try {
-        billing.value = await factoryParams.setDefault(context, {
+        loading.value = true;
+        error.value.setDefaultAddress = null;
+        billing.value = await factoryParams.setDefaultAddress(context, {
           address,
           billing: readonlyBilling
         });
       } catch (err) {
-        Logger.error('useUserBilling.setDefault', err);
-
-        throw new Error(err);
+        error.value.setDefaultAddress = err;
+        Logger.error('useUserBilling/setDefaultAddress', err);
       } finally {
         loading.value = false;
       }
@@ -137,13 +138,14 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     return {
       billing: computed(() => billing.value),
       loading: computed(() => loading.value),
+      error: computed(() => error.value),
       addAddress,
       deleteAddress,
       updateAddress,
       load,
-      setDefault
+      setDefaultAddress
     };
   };
 
-  return { useUserBilling };
+  return useUserBilling;
 };

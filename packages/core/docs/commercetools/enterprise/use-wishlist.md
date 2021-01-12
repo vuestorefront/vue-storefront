@@ -19,7 +19,7 @@ platform: Commercetools
 
 `useWishlist` contains following properties:
 
-- `loadWishlist` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property.
+- `load` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property.
 
 - `addToWishlist` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information.
 
@@ -98,7 +98,7 @@ import { useWishlist, wishlistGetters } from '@vsf-enterprise/ct-wishlist';
 
 export default {
   setup() {
-    const { loadWishlist } = useWishlist();
+    const { load: loadWishlist } = useWishlist();
 
     const wishlistItems = computed(() => wishlistGetters.getItems());
 

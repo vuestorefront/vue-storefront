@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "0.0.12-lc.13",
+  "version": "2.1.1-rc.1",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
@@ -10,8 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
-    "@vue/composition-api": "1.0.0-beta.19",
-    "@nuxtjs/composition-api": "0.15.1",
+    "@vue/composition-api": "1.0.0-beta.21",
+    "@nuxtjs/composition-api": "0.17.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",

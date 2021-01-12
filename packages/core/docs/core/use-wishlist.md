@@ -6,7 +6,7 @@
 
 <Content slot-key="wishlist-interface" />
 
-- `loadWishlist` - function required to fetch wishlist from a server or create brand new if it doesn't exist.  
+- `load` - function required to fetch wishlist from a server or create brand new if it doesn't exist.  
 - `addToWishlist` - function for adding products to the wishlist
 - `removeFromWishlist` - function for removing a product that currently is in the wishlist
 - `isOnWishlist` - function for checking if a product is currently in the wishlist
@@ -16,8 +16,8 @@
 ## Wishlist initialization
 
 Wishlist composable is a service designed for supporting a single wishlist and access it everywhere with ease. 
-Initialization of a wishlist requires using `loadWishlist()` when calling `useWishlist()` for the first time. Keep in mind that upon
-execution of `loadWishlist`, the wishlist will get loaded only once, if a wishlist has already been loaded, nothing happens.  
+Initialization of a wishlist requires using `load()` when calling `useWishlist()` for the first time. Keep in mind that upon
+execution of `load`, the wishlist will get loaded only once, if a wishlist has already been loaded, nothing happens.  
 
 <Content slot-key="wishlist-initialization" />
 

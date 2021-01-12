@@ -1,33 +1,28 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseUserOrders, Context, FactoryParams } from '../types';
+import { CustomQuery, UseUserOrders, Context, FactoryParams, UseUserOrdersErrors } from '../types';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface OrdersSearchResult<ORDER> {
-  data: ORDER[];
-  total: number;
+export interface UseUserOrdersFactoryParams<ORDERS, ORDER_SEARCH_PARAMS> extends FactoryParams {
+  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<ORDERS>;
 }
 
-export interface UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS> extends FactoryParams {
-  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery) => Promise<OrdersSearchResult<ORDER>>;
-}
-
-export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDER, ORDER_SEARCH_PARAMS>) {
-  return function useUserOrders(): UseUserOrders<ORDER> {
-    const orders: Ref<ORDER[]> = sharedRef([], 'useUserOrders-orders');
-    const totalOrders: Ref<number> = sharedRef(0, 'useUserOrders-totalOrders');
+export function useUserOrdersFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDERS, ORDER_SEARCH_PARAMS>) {
+  return function useUserOrders(): UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
+    const orders: Ref<ORDERS> = sharedRef([], 'useUserOrders-orders');
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
     const context = generateContext(factoryParams);
+    const error: Ref<UseUserOrdersErrors> = sharedRef({}, 'useUserOrders-error');
 
-    const searchOrders = async (params?: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery): Promise<void> => {
-      Logger.debug('useUserOrders.searchOrders', params);
+    const search = async (searchParams): Promise<void> => {
+      Logger.debug('useUserOrders.search', searchParams);
 
-      loading.value = true;
       try {
-        const { data, total } = await factoryParams.searchOrders(context, params, customQuery);
-        orders.value = data;
-        totalOrders.value = total;
+        loading.value = true;
+        error.value.search = null;
+        orders.value = await factoryParams.searchOrders(context, searchParams);
       } catch (err) {
-        Logger.error('useUserOrders.searchOrders', err);
+        error.value.search = err;
+        Logger.error('useUserOrders/search', err);
       } finally {
         loading.value = false;
       }
@@ -35,9 +30,9 @@ export function useUserOrdersFactory<ORDER, ORDER_SEARCH_PARAMS>(factoryParams: 
 
     return {
       orders: computed(() => orders.value),
-      totalOrders: computed(() => totalOrders.value),
-      searchOrders,
-      loading: computed(() => loading.value)
+      search,
+      loading: computed(() => loading.value),
+      error: computed(() => error.value)
     };
   };
 }

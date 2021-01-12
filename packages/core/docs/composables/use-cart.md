@@ -19,7 +19,7 @@ export default {
     const { 
       isOnCart,
       addToCart,
-      loadCart,
+      load: loadCart,
       removeFromCart,
       clearCart,
       updateQuantity,

@@ -1,5 +1,6 @@
 import merge from 'lodash-es/merge';
 import { Logger } from './../utils';
+import { applyContextForApi } from './../utils/context';
 
 interface FactoryParams<T, F = any> {
   tag: string;
@@ -11,7 +12,6 @@ export interface ApiClientInstance {
   api: any;
   client: any;
   settings: any;
-  tag: string;
 }
 
 export interface BaseConfig {
@@ -20,26 +20,22 @@ export interface BaseConfig {
 }
 
 export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
-  return {
-    createApiClient (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance {
-      const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
-      Logger.debug('apiClientFactory.setup', settings);
+  const createApiClient = (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance => {
+    const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
 
-      const apis = { ...factoryParams.api, ...customApi };
+    Logger.debug('apiClientFactory.setup', settings);
 
-      const api = Object.entries(apis)
-        .reduce((prev, [key, fn]: any) => ({
-          ...prev,
-          [key]: (...args) => fn(settings, ...args)
-        }), {}) as ALL_FUNCTIONS;
+    const api = applyContextForApi({ ...factoryParams.api, ...customApi }, settings);
 
-      return {
-        api,
-        client: settings.client,
-        settings: settings.config,
-        tag: factoryParams.tag
-      };
-    }
+    return {
+      api,
+      client: settings.client,
+      settings: settings.config
+    };
   };
+
+  createApiClient.tag = factoryParams.tag;
+
+  return { createApiClient };
 }

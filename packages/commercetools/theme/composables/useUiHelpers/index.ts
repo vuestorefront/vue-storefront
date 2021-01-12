@@ -1,6 +1,6 @@
 import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
-import { AgnosticFacet, useContext } from '@vue-storefront/core';
+import { AgnosticFacet } from '@vue-storefront/core';
 
 const nonFilters = ['page', 'sort', 'term', 'itemsPerPage'];
 
@@ -28,7 +28,6 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 
 const useUiHelpers = () => {
   const instance = getInstance();
-  const context = useContext();
 
   const getFacetsFromURL = () => {
     const { query, params } = instance.$router.history.current;
@@ -85,17 +84,7 @@ const useUiHelpers = () => {
 
   const isFacetCheckbox = (): boolean => false;
 
-  const formatPrice = (price: number): string => {
-    if (!price) {
-      return null;
-    }
-    const { locale, currency } = context.$ct.config;
-
-    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
-  };
-
   return {
-    formatPrice,
     getFacetsFromURL,
     getCatLink,
     changeSorting,

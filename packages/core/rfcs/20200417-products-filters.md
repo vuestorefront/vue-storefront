@@ -13,7 +13,6 @@ Since there are several factors that the filters depend on (product's type, cate
 ```ts
 export interface UseProduct<PRODUCT, PRODUCT_FILTERS> {
   products: ComputedProperty<PRODUCT[]>;
-  totalProducts: ComputedProperty<number>;
   availableFilters: ComputedProperty<PRODUCT_FILTERS>;
   search: (params: {
     perPage?: number;

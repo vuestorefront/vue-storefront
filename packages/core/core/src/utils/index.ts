@@ -5,8 +5,8 @@ import { sharedRef } from './shared';
 import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
-import { useContext, configureContext, generateContext } from './context';
-import { createIntegrationPlugin, injectInContext } from './nuxt';
+import { useVSFContext, configureContext, generateContext } from './context';
+import { integrationPluginFactory } from './nuxt';
 
 export {
   wrap,
@@ -18,8 +18,7 @@ export {
   registerLogger,
   mask,
   configureContext,
-  useContext,
+  useVSFContext,
   generateContext,
-  createIntegrationPlugin,
-  injectInContext
+  integrationPluginFactory
 };

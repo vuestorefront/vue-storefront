@@ -1,29 +1,37 @@
 import { Context } from './../../types';
 
 interface ContextConfiguration {
-  useContext: () => Context;
+  useVSFContext: () => Context;
 }
 
-let useContext = () => ({}) as Context;
+let useVSFContext = () => ({}) as Context;
 
 const configureContext = (config: ContextConfiguration) => {
-  useContext = config.useContext || useContext;
+  useVSFContext = config.useVSFContext || useVSFContext;
 };
 
+const applyContextForApi = (api, context) =>
+  Object.entries(api)
+    .reduce((prev, [key, fn]: any) => ({
+      ...prev,
+      [key]: (...args) => fn(context, ...args)
+    }), {});
+
 const generateContext = (factoryParams) => {
-  const context = useContext();
+  const context = useVSFContext();
 
-  if (factoryParams.setup) {
-    const generatedSetup = factoryParams.setup();
+  if (factoryParams.provide) {
+    const generatedSetup = factoryParams.provide();
 
-    return { ...context, ...generatedSetup };
+    return { ...context.$vsf, ...generatedSetup };
   }
 
-  return context;
+  return context.$vsf;
 };
 
 export {
   generateContext,
-  useContext,
-  configureContext
+  useVSFContext,
+  configureContext,
+  applyContextForApi
 };
