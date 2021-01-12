@@ -30,7 +30,7 @@ You can set the `verbosity` level which tells the app, what you want to log and 
 ```js
 ['@vue-storefront/nuxt', {
   logger: {
-    verbosity: 'error' // verbosity
+    verbosity: 'error'
   }
 }]
 ```
@@ -68,7 +68,7 @@ If you are using our nuxt module, setting up the logger is much simpler. All you
 ```
 
 ::: details Configuring logger outside Vue Storefront Nuxt module
-If for some reason you can't configure Logger through `@vue-storefront/nuxt`  module you can explicitly use `registerLogger` function:
+If for some reason you can't configure Logger through `@vue-storefront/nuxt` module you can explicitly use `registerLogger` function:
 
 ```ts
 import { registerLogger } from '@vue-storefront/core'

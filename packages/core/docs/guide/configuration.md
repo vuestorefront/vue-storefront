@@ -17,7 +17,7 @@ There are some features and behaviors that are specific to Vue Storefront only y
 Below you can find its default configuration:
 
 ::: danger
-It's unsafe and not recommended to remove  `@vue-storefront/nuxt`  from your project as many integrations and other modules rely on it.
+It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your project as many integrations and other modules rely on it.
 :::
 ```js
 // nuxt.config.js
