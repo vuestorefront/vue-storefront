@@ -42,18 +42,6 @@
                     />
                   </div>
                 </template>
-                <template #actions>
-                  <div class="desktop-only collected-product__actions">
-                    <SfButton class="sf-button--text collected-product__save">
-                      {{ $t('Save for later') }}
-                    </SfButton>
-                    <SfButton
-                      class="sf-button--text collected-product__compare"
-                    >
-                      {{ $t('Add to compare') }}
-                    </SfButton>
-                  </div>
-                </template>
               </SfCollectedProduct>
             </transition-group>
           </div>

@@ -199,6 +199,7 @@
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
               @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -217,13 +218,6 @@
                   @click="() => {}"
                 >
                   {{ $t('Save for later') }}
-                </SfButton>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 0 auto; display: block;"
-                  @click="() => {}"
-                >
-                  {{ $t('Add to compare') }}
                 </SfButton>
               </template>
             </SfProductCardHorizontal>
@@ -248,7 +242,7 @@
             <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination.itemsPerPage"
+                :value="pagination.itemsPerPage.toString()"
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
@@ -373,6 +367,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
+// TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
   setup(props, context) {
@@ -387,7 +382,7 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const pagination = computed(() => facetGetters.getPagination(result.value));
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
