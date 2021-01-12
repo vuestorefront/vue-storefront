@@ -46,7 +46,7 @@ If not explicitely changed, logging level depends on current environment variabl
 
 By default we're printing all the events happening in the app in the console  but you can easily write a new Logger and use a third-party library (like `consola`) or pass the logs to external service like `Sentry.io`
 
-To override the default Logger simply pass  a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level.
+To override the default Logger simply pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level.
 
 If you are using our nuxt module, setting up the logger is much simpler. All you have to do is just provide the configuration to the module:
 
