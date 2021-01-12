@@ -1,6 +1,6 @@
 # Configuration
 
-Usually the first thing to do after setting up a fresh Vue Storefront project is configuring it. You have to at least provide the API credentials for your integrations but in most cases you will also want to configure app behavior to match your business requirements. 
+Usually, the first thing to do after setting up a fresh Vue Storefront project is configuring it. The bare minimum is to provide the API credentials for your integrations but in most cases, you will also want to configure app behavior to match your business requirements.
 
 All project configuration happens through Nuxt modules (and plugins they register) so you should start your journey with Vue Storefront in `nuxt.config.js`.
 
@@ -59,6 +59,5 @@ Below you can find links to configs of the official eCommerce integrations:
  commercetools="/commercetools/api-client.html"
  shopify="/shopify/api-client.html"
 />
-
 
 
