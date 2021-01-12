@@ -15,7 +15,7 @@ Logger.warn('warn message')
 Logger.debug('debug message')
 ```
 
-## Changing Verbosity
+## Changing verbosity
 
 Configuration of logger happens through `logger` property of `@vue-storefront/nuxt` module. 
 
