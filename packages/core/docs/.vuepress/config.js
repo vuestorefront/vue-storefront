@@ -9,7 +9,8 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-			{ text: 'Migration guide', link: '/migrate/' }
+			{ text: 'Migration guide', link: '/migrate/' },
+			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
 
 		],
 		sidebar: {
