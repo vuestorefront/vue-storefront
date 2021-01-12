@@ -7,7 +7,8 @@ This document explains only how to make a single shop instance available for mul
 :::
 
 ## How it works by default?
-By default we are using [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling both translations and currencies. It is preinstalled in the default theme and configured for English and German translations out of the box. 
+
+By default, we are using [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling both translations and currencies. It is preinstalled in the default theme and configured for English and German translations out of the box. 
 
 In the theme `nuxt-i18n` is using `$t('key')` to translate strings and `$n(number)` to add the currency sign. You can find the translation keys in `lang` directory of your project and configuration for currencies in `nuxt.config.js`.
 
