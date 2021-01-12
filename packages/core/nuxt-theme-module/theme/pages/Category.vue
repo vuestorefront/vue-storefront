@@ -199,6 +199,7 @@
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
               @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -217,13 +218,6 @@
                   @click="() => {}"
                 >
                   {{ $t('Save for later') }}
-                </SfButton>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 0 auto; display: block;"
-                  @click="() => {}"
-                >
-                  {{ $t('Add to compare') }}
                 </SfButton>
               </template>
             </SfProductCardHorizontal>
@@ -373,6 +367,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
+// TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
   setup(props, context) {
