@@ -242,7 +242,7 @@
             <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination.itemsPerPage"
+                :value="pagination.itemsPerPage.toString()"
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
@@ -382,7 +382,7 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const pagination = computed(() => facetGetters.getPagination(result.value));
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
