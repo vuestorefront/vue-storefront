@@ -17,9 +17,17 @@ module.exports = {
 				{
 					title: 'Migration guide RC.1',
 					children: [
-						['/migrate/', 'Overview'],
+						['/migrate/rc1', 'Overview'],
 						['/migrate/integrators-rc1', 'Integrators'],
 						['/migrate/projects-rc1', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.2.0',
+					children: [
+						['/migrate/2.2.0', 'Overview'],
+						['/migrate/integrators-2.2.0', 'Integrators'],
+						['/migrate/projects-2.2.0', 'Projects'],
 					]
 				}
 			],
@@ -186,7 +194,6 @@ module.exports = {
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
-						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
 				{
