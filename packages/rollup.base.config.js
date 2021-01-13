@@ -16,7 +16,8 @@ export function generateBaseConfig(pkg) {
       }
     ],
     external: [
-      ...Object.keys(pkg.dependencies || {})
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {})
     ],
     plugins: [
       typescript({

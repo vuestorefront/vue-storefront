@@ -1,5 +1,8 @@
 # Changelog
 
+# 2.2.1
+- fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` and improved typings in Boilerplate ([#5403](https://github.com/DivanteLtd/vue-storefront/issues/5403))
+
 ## 2.2.0
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 - [BREAKING] refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
