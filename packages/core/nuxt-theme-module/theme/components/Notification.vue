@@ -1,13 +1,13 @@
 <template>
   <transition-group tag="div" class="notifications" :name="isMobile ? 'slide' : 'sf-fade'">
     <SfNotification
-      v-for="(notification, index) in notifications"
+      v-for="notification in notifications"
       :key="notification.id"
       :visible="true"
       :message="notification.message"
       :action="notification.action && notification.action.text"
       :type="notification.type"
-      @click:close="remove(index)"
+      @click:close="notification.dismiss()"
       @click:action="notification.action && notification.action.onClick()"
     >
       <template #icon v-if="notification.icon">
@@ -32,8 +32,6 @@ export default {
     const { notifications } = useUiNotification();
     const isMobile = ref(false);
 
-    const remove = (index) => notifications.value.splice(index, 1);
-
     const mobileHandler = (event) => {
       isMobile.value = event.matches;
     };
@@ -53,7 +51,6 @@ export default {
 
     return {
       notifications,
-      remove,
       isMobile
     };
   }

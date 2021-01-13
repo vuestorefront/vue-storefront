@@ -6,7 +6,8 @@ interface UiNotification {
   type: 'danger' | 'success' | 'info';
   icon: string;
   persist: boolean;
-  id?: symbol;
+  id: symbol;
+  dismiss: () => void;
 }
 
 interface Notifications {
@@ -18,22 +19,27 @@ const state = reactive<Notifications>({
 });
 
 const useUiNotification = () => {
-  const remove = (id: symbol) => {
-    const index = state.notifications.findIndex(notification => notification.id === id);
-
-    if (index !== -1) state.notifications.splice(index, 1);
-  };
-
   const send = (notification: UiNotification) => {
     const id = Symbol();
-    const newNotification = { id, ...notification };
+
+    const dismiss = () => {
+      const index = state.notifications.findIndex(notification => notification.id === id);
+
+      if (index !== -1) state.notifications.splice(index, 1);
+    };
+
+    const newNotification = {
+      ...notification,
+      id,
+      dismiss
+    };
 
     state.notifications.push(newNotification);
     if (state.notifications.length > 3) state.notifications.shift();
 
     if (!notification.persist) {
       setTimeout(() => {
-        remove(id);
+        dismiss();
       }, 3000);
     }
   };
