@@ -15,6 +15,10 @@
     <transition name="sf-fade" mode="out-in">
       <div v-if="isLogin">
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
+          <SfAlert
+            v-if="serverError && serverError.fieldName === null"
+            type="danger"
+            :message="serverError && $t(serverError.displayMessage)" />
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
@@ -71,13 +75,17 @@
       </div>
       <div v-else class="form">
         <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
+          <SfAlert
+            v-if="serverError && serverError.fieldName === null"
+            type="danger"
+            :message="serverError && $t(serverError.displayMessage)" />
           <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
                 data-cy="login-input_email"
                 v-model="form.email"
-                :valid="!errors[0]"
-                :errorMessage="errors[0]"
+                :valid="serverError && serverError.fieldName === 'email' ? false : !errors[0]"
+                :errorMessage="serverError && serverError.fieldName === 'email' ? $t(serverError.displayMessage) : errors[0]"
                 name="email"
                 label="Your email"
                 class="form__element"
@@ -151,9 +159,9 @@
 </template>
 <script>
 import { ref, watch } from '@vue/composition-api';
-import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, email } from 'vee-validate/dist/rules';
+import { SfAlert, SfBar, SfButton, SfCheckbox, SfInput, SfLoader, SfModal } from '@storefront-ui/vue';
+import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
+import { email, required } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
@@ -183,20 +191,49 @@ export default {
   setup() {
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
+    const serverError = ref({});
     const isLogin = ref(false);
     const createAccount = ref(false);
     const rememberMe = ref(false);
-    const { register, login, loading } = useUser();
+    const { register, login, loading, error } = useUser();
 
-    watch(isLoginModalOpen, () => {
+    watch([isLoginModalOpen, isLogin], (newValue, prevValues) => {
       if (isLoginModalOpen) {
         form.value = {};
+        serverError.value = {};
       }
+      if (newValue[1] !== prevValues[1]) serverError.value = {};
     });
+
+    const handleError = ({ email }) => {
+      const knownErrors = [
+        {
+          originalMessage: `There is already an existing customer with the email '"${email}"'.`,
+          displayMessage: 'There is already an existing customer with the email.',
+          fieldName: 'email'
+        },
+        {
+          originalMessage: 'Account with the given credentials not found.',
+          displayMessage: 'Account with the given credentials not found.',
+          fieldName: null
+        },
+        {
+          originalMessage: 'Network error: Customer account with the given credentials not found.',
+          displayMessage: 'Customer account with the given credentials not found.',
+          fieldName: null
+        }
+      ];
+      const activeModal = isLogin.value ? 'login' : 'register';
+      const currErr = error.value[activeModal];
+      if (!currErr) return;
+      serverError.value = knownErrors.find(knowError => knowError.originalMessage === currErr.message);
+    };
 
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
-      toggleLoginModal();
+      handleError(form.value);
+      if (isLogin.value && !error.value.login) toggleLoginModal();
+      if (!isLogin.value && !error.value.register) toggleLoginModal();
     };
 
     const handleRegister = async () => handleForm(register)();
@@ -209,6 +246,8 @@ export default {
       isLogin,
       createAccount,
       rememberMe,
+      error,
+      serverError,
       isLoginModalOpen,
       toggleLoginModal,
       handleLogin,

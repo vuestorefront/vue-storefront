@@ -119,4 +119,7 @@ export default {
   'Search results': 'Search results',
   'Product suggestions': 'Product suggestions',
   'Search for items': 'Search for items'
+  'There is already an existing customer with the email.': 'There is already an existing customer with the email.',
+  'Account with the given credentials not found.': 'Account with the given credentials not found.',
+  'Customer account with the given credentials not found.': 'Customer account with the given credentials not found.'
 };
