@@ -31,7 +31,6 @@
     "core-js": "^2.6.5",
     "nuxt": "^2.13.3",
     "cookie-universal-nuxt": "^2.1.3",
-    "@vue-storefront/nuxt": "^2.2.1",
-    "@vue-storefront/nuxt-theme": "^2.2.1"
+    "@vue-storefront/nuxt": "^2.2.0"
   }
 }
