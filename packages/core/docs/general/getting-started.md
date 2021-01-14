@@ -16,7 +16,7 @@ npm i -g @vue-storefront/cli@next
 </code-block>
 </code-group>
 
-Once installed, you can use Vue Storefront CLU to set up the project with:
+Once installed, you can use Vue Storefront CLI to set up the project with:
 
 ```bash
 vsf init <project_name>
