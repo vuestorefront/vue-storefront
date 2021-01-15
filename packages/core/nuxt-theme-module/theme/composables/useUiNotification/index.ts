@@ -17,6 +17,8 @@ interface Notifications {
 const state = reactive<Notifications>({
   notifications: []
 });
+const maxVisibleNotifications = 3;
+const timeToLive = 3000;
 
 const useUiNotification = () => {
   const send = (notification: UiNotification) => {
@@ -35,12 +37,10 @@ const useUiNotification = () => {
     };
 
     state.notifications.push(newNotification);
-    if (state.notifications.length > 3) state.notifications.shift();
+    if (state.notifications.length > maxVisibleNotifications) state.notifications.shift();
 
     if (!notification.persist) {
-      setTimeout(() => {
-        dismiss();
-      }, 3000);
+      setTimeout(dismiss, timeToLive);
     }
   };
 

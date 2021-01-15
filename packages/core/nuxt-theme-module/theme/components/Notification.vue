@@ -3,12 +3,12 @@
     <SfNotification
       v-for="notification in notifications"
       :key="notification.id"
-      :visible="true"
       :message="notification.message"
       :action="notification.action && notification.action.text"
       :type="notification.type"
-      @click:close="notification.dismiss()"
+      @click:close="notification.dismiss"
       @click:action="notification.action && notification.action.onClick()"
+      visible
     >
       <template #icon v-if="notification.icon">
         <SfIcon :icon="notification.icon" color="white"/>
@@ -31,6 +31,7 @@ export default {
   setup () {
     const { notifications } = useUiNotification();
     const isMobile = ref(false);
+    const maxMobileWidth = 1023;
 
     const mobileHandler = (event) => {
       isMobile.value = event.matches;
@@ -39,13 +40,13 @@ export default {
     onMounted(() => {
       isMobile.value =
         Math.max(document.documentElement.clientWidth, window.innerWidth) <=
-        1023;
-      window.matchMedia('(max-width: 1023px)').addListener(mobileHandler);
+        maxMobileWidth;
+      window.matchMedia(`(max-width: ${maxMobileWidth})`).addListener(mobileHandler);
     });
 
     onBeforeUnmount(() => {
       window
-        .matchMedia('(max-width: 1023px)')
+        .matchMedia(`(max-width: ${maxMobileWidth})`)
         .removeListener(mobileHandler);
     });
 
