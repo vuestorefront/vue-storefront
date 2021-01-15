@@ -47,7 +47,7 @@ const useUiHelpers = () => {
 
   // eslint-disable-next-line
   const isFacetCheckbox = (facet): boolean => {
-    console.warn('[VSF] please implement createThemeHelpers.isFacetCheckbox.');
+    console.warn('[VSF] please implement useUiHelpers.isFacetCheckbox.');
 
     return false;
   };

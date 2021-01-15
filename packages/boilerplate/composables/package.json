@@ -13,8 +13,11 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/boilerplate-api": "^0.0.1",
-    "@vue-storefront/core": "2.0.12"
+    "@vue-storefront/boilerplate-api": "0.0.1",
+    "@vue-storefront/core": "^2.2.0"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "1.0.0-beta.21"
   },
   "files": [
     "lib/**/*"

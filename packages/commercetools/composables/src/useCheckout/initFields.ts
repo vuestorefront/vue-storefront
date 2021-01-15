@@ -1,4 +1,6 @@
-import {
+import { Cart } from '../types/GraphQL';
+
+const initFields = (cart: Cart, {
   personalDetails,
   shippingDetails,
   billingDetails,
@@ -7,10 +9,7 @@ import {
   isBillingAddressCompleted,
   isPersonalDetailsCompleted,
   chosenShippingMethod
-} from './shared';
-import { Cart } from '../types/GraphQL';
-
-const initFields = (cart: Cart) => {
+}) => {
   personalDetails.value.email = cart.customerEmail;
   shippingDetails.value = { ...initialDetails, ...shippingDetails.value, ...cart.shippingAddress };
   billingDetails.value = cart.billingAddress || initialDetails;

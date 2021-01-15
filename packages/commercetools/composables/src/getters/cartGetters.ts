@@ -1,7 +1,7 @@
-import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals, AgnosticDiscount } from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
-import { createPrice, createFormatPrice } from './_utils';
+import { createPrice } from './_utils';
 import { getCouponsFromCart } from '../helpers/internals';
 
 export const getCartItems = (cart: Cart): LineItem[] => {
@@ -29,7 +29,8 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (!cart) {
     return {
       total: 0,
-      subtotal: 0
+      subtotal: 0,
+      special: 0
     };
   }
 
@@ -38,7 +39,8 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
 
   return {
     total: (shipping + subtotalPrice) / 100,
-    subtotal: subtotalPrice / 100
+    subtotal: subtotalPrice / 100,
+    special: 0
   };
 };
 
@@ -52,10 +54,15 @@ export const getCartTotalItems = (cart: Cart): number => {
   return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
 };
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
   return getCouponsFromCart(cart);
+};
+
+// eslint-disable-next-line
+export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
+  return [];
 };
 
 const cartGetters: CartGetters<Cart, LineItem> = {
@@ -70,7 +77,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
   getFormattedPrice,
-  getCoupons
+  getCoupons,
+  getDiscounts
 };
 
 export default cartGetters;

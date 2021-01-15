@@ -35,7 +35,25 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   });
 
   log.info('Starting Vue Storefront Nuxt Module');
-  
+
+  // Enable HTTP/2 push for JS files
+  if (options.performance.httpPush) {
+    this.options.render = merge(this.options.render, {
+      http2: {
+        push: true,
+        pushAssets: (request, response, publicPath, preloadFiles) => {
+          return preloadFiles
+            .filter(({ asType }) => asType === 'script')
+            .map(({ file, asType }) => `<${publicPath}${file}>; rel=preload; as=${asType}`);
+        }
+      }
+    });
+  }
+
+  // Context plugin
+  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'))
+  log.success('Installed Vue Storefront Context plugin');
+
   // SSR plugin
   this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'));
   log.success('Installed Vue Storefront SSR plugin');

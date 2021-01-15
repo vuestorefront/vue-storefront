@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "2.0.9",
+  "version": "2.2.0",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -17,10 +17,10 @@
     "inquirer": "^7.3.3",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
-    "@vue-storefront/nuxt-theme": "0.0.6"
+    "@vue-storefront/nuxt-theme": "^2.2.0"
   },
   "devDependencies": {
-    "@vue-storefront/commercetools-theme": "0.2.0"
+    "@vue-storefront/commercetools-theme": "^1.1.0"
   },
   "author": "Filip Jędrasik",
   "license": "MIT"

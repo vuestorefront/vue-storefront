@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
+import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 
@@ -12,27 +12,26 @@ export const wishlist: Ref<Wishlist> = ref(null);
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
 const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
-  loadWishlist: async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  load: async (context: Context) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async ({ currentWishlist, product }) => {
+  addItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async ({ currentWishlist, product }) => {
+  removeItem: async (context: Context, { currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async ({ currentWishlist }) => {
+  clear: async (context: Context, { currentWishlist }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: ({ currentWishlist }) => {
+  isOnWishlist: (context: Context, { currentWishlist }) => {
     return false;
   }
 };
 
-const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);
-
-export { setWishlist, useWishlist};
+export default useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);

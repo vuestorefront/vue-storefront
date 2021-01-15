@@ -39,7 +39,7 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton data-cy="my-profile-btn_update-password" class="form__button">Update password</SfButton>
+      <SfButton data-cy="my-profile-btn_update-password" class="form__button">{{ $t('Update password') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
@@ -113,9 +113,8 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: var(--spacer-2xl);
+        margin-right: var(--spacer-lg);
       }
-
       &:last-child {
         margin-right: 0;
       }

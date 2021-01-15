@@ -96,8 +96,8 @@
         </ValidationProvider>
         <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selected="billingDetails.country"
-            @change="country => setBillingDetailsAndUnpickAddress({ country })"
+            :value="billingDetails.country"
+            @input="country => setBillingDetailsAndUnpickAddress({ country })"
             label="Country"
             class="form__element form__element--half form__select sf-select--underlined"
             required
@@ -115,7 +115,7 @@
         </ValidationProvider>
         <ValidationProvider name="phone" rules="required|min:2" v-slot="{ errors }" slim>
           <SfInput
-            :value="billingDetails.contactInfo.phone"
+            :value="billingDetails.phone"
             @input="phone => setBillingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
             name="phone"
@@ -132,7 +132,7 @@
         type="submit"
         @click.native="canAddNewAddress = true"
       >
-        Add new address
+        {{ $t('Add new address') }}
       </SfButton>
     <SfHeading
       v-if="canContinueToReview"
@@ -161,12 +161,14 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
+        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">
+          {{ $t('Go back') }}
+        </nuxt-link>
         <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToReview">
-          Review my order
+          {{ $t('Review my order') }}
         </SfButton>
         <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-else>
-          Select payment method
+          {{ $t('Select payment method') }}
         </SfButton>
       </div>
     </div>
@@ -235,7 +237,7 @@ export default {
       loadDetails,
       loading
     } = useCheckout();
-    const { billing, load: loadBilling, setDefault } = useUserBilling();
+    const { billing, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -280,7 +282,7 @@ export default {
 
     onMounted(async () => {
       if (isAuthenticated.value) {
-        await loadBilling();
+        await loadUserBilling();
         const billingAddresses = userBillingGetters.getAddresses(billing.value);
         if (!billingAddresses || !billingAddresses.length) {
           return;
@@ -305,7 +307,7 @@ export default {
         if (!chosenAddress || !chosenAddress.length) {
           return;
         }
-        await setDefault(chosenAddress[0]);
+        await setDefaultAddress(chosenAddress[0]);
       }
       addressIsModified.value = false;
     };

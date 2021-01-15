@@ -1,11 +1,24 @@
 <template>
   <div>
-    <TopBar class="desktop-only" />
-    <div id="layout" >
-      <AppHeader />
+    <LazyHydrate when-visible>
+      <TopBar class="desktop-only" />
+    </LazyHydrate>
+
+    <div id="layout">
+      <LazyHydrate when-idle>
+        <AppHeader />
+      </LazyHydrate>
+
       <nuxt :key="$route.fullPath"/>
-      <BottomNavigation />
-      <AppFooter />
+
+      <LazyHydrate when-visible>
+        <BottomNavigation />
+      </LazyHydrate>
+
+      <LazyHydrate when-visible>
+        <AppFooter />
+      </LazyHydrate>
+
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
@@ -21,11 +34,11 @@ import TopBar from '~/components/TopBar.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import WishlistSidebar from '~/components/WishlistSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
-// const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
-// const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   components: {
+    LazyHydrate,
     TopBar,
     AppHeader,
     BottomNavigation,

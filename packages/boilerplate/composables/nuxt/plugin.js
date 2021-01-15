@@ -1,7 +1,11 @@
-import { setup } from '@vue-storefront/boilerplate-api';
+import { integrationPlugin } from '@vue-storefront/boilerplate';
 
-export default function init() {
-  // const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
-  setup({});
-}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+export default integrationPlugin(({ app, integration }) => {
+  integration.configure({
+    ...moduleOptions
+    // other options
+  });
+});
