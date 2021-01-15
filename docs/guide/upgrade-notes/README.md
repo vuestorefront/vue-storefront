@@ -73,6 +73,17 @@ Another part you should keep in mind is Cache Key. If you render different compo
 
 I created dedicated hook to resolve this problem. You can find how to use it in `src/modules/device/README.md`. You also have commented example of usage in `src/modules/device/server.ts`.
 
+### core/data-resolver/UserService.ts
+`updateProfile` uses `TaskQueue.execute` instead of `TaskQueue.queue`
+
+### core/pages/MyAccount.js
+Got rid of `myAccount-before-remainInEditMode`, `myAccount-before-updateUser` events, and `onBeforeUpdateUser` method as a part of this issue [#5315](https://github.com/vuestorefront/vue-storefront/issues/5315). Thanks to that we simplified developer API
+
+### core/modules/user/components/UserAccount.ts 
+Changed signature of an `exitSection` method from the `(event, updatedProfile)` to the `(updatedProfile)`
+### core/modules/user/components/UserShippingDetails.ts 
+Changed signature of an `exitSection` method from the `(event, updatedShippingDetails)` to the `(updatedShippingDetails)`
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
