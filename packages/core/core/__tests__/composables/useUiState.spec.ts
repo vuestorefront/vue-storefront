@@ -3,12 +3,12 @@ import { useUiState } from '../../../nuxt-theme-module/theme/composables';
 const {
   isCartSidebarOpen,
   isWishlistSidebarOpen,
-  isLoginModalOpen,
+  isAuthModalOpen,
   isCategoryGridView,
   isFilterSidebarOpen,
   toggleCartSidebar,
   toggleWishlistSidebar,
-  toggleLoginModal,
+  toggleAuthModal,
   toggleCategoryGridView,
   toggleFilterSidebar
 } = useUiState();
@@ -31,11 +31,11 @@ describe('useUiState', () => {
   });
 
   it('Login Modal', () => {
-    const expectedIsLoginModalOpen = !isLoginModalOpen.value;
+    const expectedIsAuthModalOpen = !isAuthModalOpen.value;
 
-    toggleLoginModal();
+    toggleAuthModal();
 
-    expect(expectedIsLoginModalOpen).toBe(isLoginModalOpen.value);
+    expect(expectedIsAuthModalOpen).toBe(isAuthModalOpen.value);
   });
 
   it('Grid View', () => {

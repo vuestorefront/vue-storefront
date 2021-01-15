@@ -1,15 +1,15 @@
 <template>
   <SfModal
-    :visible="isLoginModalOpen"
+    :visible="isAuthModalOpen"
     class="modal"
-    @close="toggleLoginModal"
+    @close="toggleAuthModal"
   >
     <template #modal-bar>
       <SfBar
         class="sf-modal__bar smartphone-only"
         :close="true"
         :title="isLogin ? 'Log in' : 'Sign in'"
-        @click:close="toggleLoginModal"
+        @click:close="toggleAuthModal"
       />
     </template>
     <transition name="sf-fade" mode="out-in">
@@ -177,7 +177,7 @@ extend('required', {
 });
 
 export default {
-  name: 'LoginModal',
+  name: 'AuthModal',
   components: {
     SfModal,
     SfInput,
@@ -190,7 +190,7 @@ export default {
     SfBar
   },
   setup(_, context) {
-    const { isLoginModalOpen, toggleLoginModal } = useUiState();
+    const { isAuthModalOpen, toggleAuthModal } = useUiState();
     const form = ref({});
     const serverError = ref({});
     const isLogin = ref(false);
@@ -198,8 +198,8 @@ export default {
     const rememberMe = ref(false);
     const { register, login, loading, error } = useUser();
 
-    watch([isLoginModalOpen, isLogin], (newValue, prevValues) => {
-      if (isLoginModalOpen) {
+    watch([isAuthModalOpen, isLogin], (newValue, prevValues) => {
+      if (isAuthModalOpen) {
         form.value = {};
         serverError.value = {};
       }
@@ -207,19 +207,19 @@ export default {
     });
 
     const handleError = ({ email }) => {
-      const authErrors = knownErrors(context, email);
       const activeModal = isLogin.value ? 'login' : 'register';
       const currErr = error.value[activeModal];
       if (!currErr) return;
 
+      const authErrors = knownErrors(context, email);
       serverError.value = authErrors.find(authError => authError.originalMessage === currErr.message);
     };
 
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
       handleError(form.value);
-      if (isLogin.value && !error.value.login) toggleLoginModal();
-      if (!isLogin.value && !error.value.register) toggleLoginModal();
+      if (isLogin.value && !error.value.login) toggleAuthModal();
+      if (!isLogin.value && !error.value.register) toggleAuthModal();
     };
 
     const handleRegister = async () => handleForm(register)();
@@ -234,8 +234,8 @@ export default {
       rememberMe,
       error,
       serverError,
-      isLoginModalOpen,
-      toggleLoginModal,
+      isAuthModalOpen,
+      toggleAuthModal,
       handleLogin,
       handleRegister
     };

@@ -88,7 +88,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser } from '@vue-storefront/shopify';
 
 export default {
-  name: 'LoginModal',
+  name: 'AuthModal',
     components: {
       SfInput,
       SfButton,

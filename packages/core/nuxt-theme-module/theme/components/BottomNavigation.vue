@@ -39,14 +39,14 @@ export default {
     SfCircleIcon
   },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleAuthModal } = useUiState();
     const { isAuthenticated } = useUser();
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
         return root.$router.push('/my-account');
       }
-      toggleLoginModal();
+      toggleAuthModal();
     };
 
     return {
