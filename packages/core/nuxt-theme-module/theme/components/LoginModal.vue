@@ -18,7 +18,7 @@
           <SfAlert
             v-if="serverError && serverError.fieldName === null"
             type="danger"
-            :message="serverError && $t(serverError.displayMessage)" />
+            :message="serverError && serverError.displayMessage" />
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
@@ -78,14 +78,14 @@
           <SfAlert
             v-if="serverError && serverError.fieldName === null"
             type="danger"
-            :message="serverError && $t(serverError.displayMessage)" />
+            :message="serverError && serverError.displayMessage" />
           <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
                 data-cy="login-input_email"
                 v-model="form.email"
                 :valid="serverError && serverError.fieldName === 'email' ? false : !errors[0]"
-                :errorMessage="serverError && serverError.fieldName === 'email' ? $t(serverError.displayMessage) : errors[0]"
+                :errorMessage="serverError && serverError.fieldName === 'email' ? serverError.displayMessage : errors[0]"
                 name="email"
                 label="Your email"
                 class="form__element"
@@ -164,6 +164,7 @@ import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
 import { email, required } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
+import { knownErrors } from '~/helpers/errors';
 
 extend('email', {
   ...email,
@@ -188,7 +189,7 @@ export default {
     ValidationObserver,
     SfBar
   },
-  setup() {
+  setup(_, context) {
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const serverError = ref({});
@@ -206,27 +207,12 @@ export default {
     });
 
     const handleError = ({ email }) => {
-      const knownErrors = [
-        {
-          originalMessage: `There is already an existing customer with the email '"${email}"'.`,
-          displayMessage: 'There is already an existing customer with the email.',
-          fieldName: 'email'
-        },
-        {
-          originalMessage: 'Account with the given credentials not found.',
-          displayMessage: 'Account with the given credentials not found.',
-          fieldName: null
-        },
-        {
-          originalMessage: 'Network error: Customer account with the given credentials not found.',
-          displayMessage: 'Customer account with the given credentials not found.',
-          fieldName: null
-        }
-      ];
+      const authErrors = knownErrors(context, email);
       const activeModal = isLogin.value ? 'login' : 'register';
       const currErr = error.value[activeModal];
       if (!currErr) return;
-      serverError.value = knownErrors.find(knowError => knowError.originalMessage === currErr.message);
+
+      serverError.value = authErrors.find(authError => authError.originalMessage === currErr.message);
     };
 
     const handleForm = (fn) => async () => {
