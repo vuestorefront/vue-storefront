@@ -19,7 +19,7 @@ Composable is a function that uses Vue.js Composition API under the hood. It's c
 
 **Composables are the main public API of Vue Storefront** and in many cases the only API except configuration you'll work with.
 
-You can treat each composable as an independent micro-application. They manage theyir own state, handle SSR and in most cases don't interact with each other (`useUser` and `useCart` are exceptions).
+You can treat each composable as an independent micro-application. They manage their own state, handle SSR and in most cases don't interact with each other (`useUser` and `useCart` are exceptions).
 
 ```js
 const { search, product, loading, error } = useProduct()
