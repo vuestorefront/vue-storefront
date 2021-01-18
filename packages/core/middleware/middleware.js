@@ -21,7 +21,7 @@ function loadApiClient (apiClientPackageName, { req, res }) {
   return { ...apiClientPackage, createApiClient };
 }
 
-function createProxyMiddleware (moduleOptions, nuxtOptions) {
+function createProxyEndpoint (moduleOptions, nuxtOptions) {
   app.post('/:integrationName/:functionName', async (req, res) => {
     const { integrationName, functionName } = req.params;
     const integration = moduleOptions.integrations[integrationName];
@@ -50,5 +50,5 @@ function createProxyMiddleware (moduleOptions, nuxtOptions) {
   };
 }
 
-module.exports = createProxyMiddleware;
+module.exports = createProxyEndpoint;
 

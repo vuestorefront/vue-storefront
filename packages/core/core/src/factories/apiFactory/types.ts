@@ -1,7 +1,7 @@
 import { IntegrationPlugin } from './../../utils/nuxt';
 export interface ApiExtensionInstance {
-  beforeSetup?: (config, headers?: Record<string, string>) => any;
-  afterSetup?: ({ config, client }, headers?: Record<string, string>) => { config; client };
+  beforeCreate?: (config, headers?: Record<string, string>) => any;
+  afterCreate?: ({ config, client }, headers?: Record<string, string>) => { config; client };
   beforeCall?: ({ config, functionName, params }) => any;
   afterCall?: ({ config, functionName, params }) => any;
 }
@@ -14,13 +14,13 @@ export interface BaseApiFactoryParams<T, F = any> {
   isProxy?: boolean;
 }
 
-export interface ApiFactoryParams<T, F = any> extends BaseApiFactoryParams<T, F> {
-  onSetup: (config: T, headers?: Record<string, string>) => { config: T; client: any };
+export interface ApiClientFactoryParams<T, F = any> extends BaseApiFactoryParams<T, F> {
+  onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
   extensions?: ApiExtension[];
 }
 
 export interface ApiProxyFactoryParams<T, F = any> extends BaseApiFactoryParams<T, F> {
-  onSetup: (config: T, headers?: Record<string, string>) => { config: T };
+  onCreate: (config: T, headers?: Record<string, string>) => { config: T };
 }
 
 export interface ApiInstance {

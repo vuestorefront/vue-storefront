@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
-import { integrationPlugin } from '@vue-storefront/commercetools-api/<%= options.useMiddleware ? "client" : "server" %>'
+import { integrationPlugin } from '@vue-storefront/commercetools-api/<%= options.useMiddleware === false ? "server" : "client" %>'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 

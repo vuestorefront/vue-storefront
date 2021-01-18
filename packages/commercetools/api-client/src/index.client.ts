@@ -2,7 +2,7 @@ import { apiProxyFactory } from '@vue-storefront/core';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
 import isGuest from './api/isGuest';
 
-const onSetup = (settings: any) => {
+const onCreate = (settings: any) => {
   const languageMap = settings.languageMap || {};
   const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
   const locale = settings.locale || defaultSettings.locale;
@@ -20,7 +20,7 @@ const onSetup = (settings: any) => {
 
 const { createApiProxy, integrationPlugin } = apiProxyFactory({
   tag: 'ct',
-  onSetup,
+  onCreate,
   api: { isGuest }
 });
 

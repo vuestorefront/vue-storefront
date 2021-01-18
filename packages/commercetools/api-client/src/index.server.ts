@@ -7,7 +7,7 @@ import { createCommerceToolsConnection } from './helpers/commercetoolsLink';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
 import { apiClientFactory } from '@vue-storefront/core';
 
-const onSetup = (settings: Config): { config: Config; client: ClientInstance } => {
+const onCreate = (settings: Config): { config: Config; client: ClientInstance } => {
   const languageMap = settings.languageMap || {};
   const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
   const locale = settings.locale || defaultSettings.locale;
@@ -63,7 +63,7 @@ const tokenExtension = (req, res) => {
   const currentToken = parseToken(rawCurrentToken);
 
   return {
-    beforeSetup: (config) => ({
+    beforeCreate: (config) => ({
       ...config,
       auth: {
         onTokenChange: (newToken) => {
@@ -85,7 +85,7 @@ const tokenExtension = (req, res) => {
 
 const { createApiClient, integrationPlugin } = apiClientFactory({
   tag: 'ct',
-  onSetup,
+  onCreate,
   api,
   extensions: [tokenExtension]
 });

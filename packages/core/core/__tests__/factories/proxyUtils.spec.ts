@@ -31,7 +31,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     };
     const factoryParams = { tag: 'ct' };
 
-    const proxiedApi = utils.createProxy({ givenApi, client, factoryParams });
+    const proxiedApi = utils.createProxiedApi({ givenApi, client, factoryParams });
 
     proxiedApi.getProduct({ product: 1 });
     proxiedApi.getCategory({ category: 1 });
@@ -51,7 +51,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getConfig({
+    expect(utils.getIntegrationConfig({
       context: null,
       factoryParams: {},
       givenConfig: { someGivenOption: 1 }
@@ -68,7 +68,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getConfig({
+    expect(utils.getIntegrationConfig({
       context: null,
       factoryParams: {},
       givenConfig: {}
@@ -82,15 +82,15 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     });
   });
 
-  it('it cobines config with the current one and calls onSetup', () => {
+  it('it cobines config with the current one and calls onCreate', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue(null);
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    const onSetup = jest.fn((config) => ({ config }));
+    const onCreate = jest.fn((config) => ({ config }));
 
-    const result = utils.getConfig({
+    const result = utils.getIntegrationConfig({
       context: null,
-      factoryParams: { onSetup },
+      factoryParams: { onCreate },
       givenConfig: {}
     });
 
@@ -101,6 +101,6 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
       }
     });
 
-    expect(onSetup).toBeCalledWith(result);
+    expect(onCreate).toBeCalledWith(result);
   });
 });

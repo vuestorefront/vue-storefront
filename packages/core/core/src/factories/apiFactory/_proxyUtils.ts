@@ -10,7 +10,7 @@ export const getBaseUrl = (req) => {
   return `${scheme}://${host}/api/`;
 };
 
-export const createProxy = ({ givenApi, client, factoryParams }) => new Proxy(givenApi, {
+export const createProxiedApi = ({ givenApi, client, factoryParams }) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
     const functionName = String(prop);
     if (Reflect.has(target, functionName)) {
@@ -25,7 +25,7 @@ export const createProxy = ({ givenApi, client, factoryParams }) => new Proxy(gi
 
 export const getCookies = (context) => (context && context.req && context.req.headers.cookie) || '';
 
-export const getConfig = ({ context, factoryParams, givenConfig }) => {
+export const getIntegrationConfig = ({ context, factoryParams, givenConfig }) => {
   const cookie = getCookies(context);
   const initialConfig = merge({
     axios: {
@@ -36,8 +36,8 @@ export const getConfig = ({ context, factoryParams, givenConfig }) => {
     }
   }, givenConfig);
 
-  if (factoryParams.onSetup) {
-    return factoryParams.onSetup(initialConfig).config;
+  if (factoryParams.onCreate) {
+    return factoryParams.onCreate(initialConfig).config;
   }
 
   return initialConfig;

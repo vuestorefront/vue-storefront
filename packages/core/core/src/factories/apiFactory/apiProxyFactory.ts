@@ -1,23 +1,23 @@
 import axios from 'axios';
-import { applyContextForApi } from './../../utils/context';
+import { applyContextToApi } from './../../utils/context';
 import { Logger } from './../../utils';
-import { createInstance } from './_utils';
+import { createApiInstance } from './_utils';
 import { ApiProxyFactoryParams, ApiInstance, ProxyFactoryInstance } from './types';
-import { getConfig, createProxy } from './_proxyUtils';
+import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
 
 const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ApiProxyFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ProxyFactoryInstance => {
   function createApiProxy (config: any, customApi: any = {}): ApiInstance {
-    const _config = getConfig({ context: this, factoryParams, givenConfig: config });
+    const _config = getIntegrationConfig({ context: this, factoryParams, givenConfig: config });
     const client = axios.create(_config.axios);
     const settings = { client, config: _config };
 
     (settings as any).isProxy = true;
 
-    Logger.debug('apiProxyFactory.setup', settings);
+    Logger.debug('apiProxyFactory.create', settings);
 
-    const givenApi = applyContextForApi({ ...factoryParams.api, ...customApi }, settings);
+    const givenApi = applyContextToApi({ ...factoryParams.api, ...customApi }, settings);
 
-    const api = createProxy({ givenApi, client, factoryParams });
+    const api = createProxiedApi({ givenApi, client, factoryParams });
 
     return {
       api,
@@ -26,7 +26,7 @@ const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ApiProxyFac
     };
   }
 
-  return createInstance<ProxyFactoryInstance>({ createApiProxy }, factoryParams);
+  return createApiInstance<ProxyFactoryInstance>({ createApiProxy }, factoryParams);
 };
 
 export default apiProxyFactory;

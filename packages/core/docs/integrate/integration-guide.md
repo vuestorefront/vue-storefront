@@ -122,14 +122,14 @@ The creation of an API client starts with the configuration. As we use middlewar
 // index.client.ts
 import { apiProxyFactory } from '@vue-storefront/core';
 
-const onSetup = (config) => {
+const onCreate = (config) => {
   // ...
   return { config };
 };
 
 const { createApiProxy, integrationPlugin } = apiProxyFactory({
   tag: 'ct',
-  onSetup,
+  onCreate,
   api: { isGuest }
 });
 
@@ -145,7 +145,7 @@ export {
 import * as api from './api';
 import { apiClientFactory } from '@vue-storefront/core';
 
-const onSetup = (settings) => {
+const onCreate = (settings) => {
   const config = { ..setings }
   const client = new ApiConnection()
 
@@ -156,7 +156,7 @@ const onSetup = (settings) => {
 
 const { createApiClient, integrationPlugin } = apiClientFactory({
   tag: 'ct',
-  onSetup,
+  onCreate,
   api,
   extensions: []
 });
@@ -175,7 +175,7 @@ export * from './types/Api';
 To create `api-client` instances you have to use correspoing factory, depending on what api you are creating: proxy or direct one. The creation in both cases in pretty similar, with small differences in the used fields:
 
 - `tag` - that's the short name of your integration which will be used to distinguish it among of others 
-- `onSetup` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc.. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
+- `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc.. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
 - `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
 - `extensions` - section available only in the direct connection api-client. It allows you to add an api backend extenstions for the api taht can add additiona features to the integrated platform
 

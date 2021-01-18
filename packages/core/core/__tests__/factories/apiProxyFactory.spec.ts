@@ -1,23 +1,23 @@
 import axios from 'axios';
 import apiProxyFactory from './../../src/factories/apiFactory/apiProxyFactory';
-import { getConfig, createProxy } from './../../src/factories/apiFactory/_proxyUtils';
-import { applyContextForApi } from './../../src/utils/context';
+import { getIntegrationConfig, createProxiedApi } from './../../src/factories/apiFactory/_proxyUtils';
+import { applyContextToApi } from './../../src/utils/context';
 
 jest.mock('axios', () => ({
   create: jest.fn(() => 'api-client connection')
 }));
 
 jest.mock('./../../src/factories/apiFactory/_utils', () => ({
-  createInstance: jest.fn((arg1, factoryParams) => ({ ...arg1, factoryParams }))
+  createApiInstance: jest.fn((arg1, factoryParams) => ({ ...arg1, factoryParams }))
 }));
 
 jest.mock('./../../src/factories/apiFactory/_proxyUtils', () => ({
-  getConfig: jest.fn(() => ({ configOption: 1, axios: { host: 'some-host' } })),
-  createProxy: jest.fn(() => ({ getProduct: 'get-product-fn' }))
+  getIntegrationConfig: jest.fn(() => ({ configOption: 1, axios: { host: 'some-host' } })),
+  createProxiedApi: jest.fn(() => ({ getProduct: 'get-product-fn' }))
 }));
 
 jest.mock('./../../src/utils/context', () => ({
-  applyContextForApi: jest.fn(() => ({ getCategory: 'get-category-fn' }))
+  applyContextToApi: jest.fn(() => ({ getCategory: 'get-category-fn' }))
 }));
 
 describe('[CORE - factories] apiProxyFactory', () => {
@@ -33,9 +33,9 @@ describe('[CORE - factories] apiProxyFactory', () => {
     const result = apiProxyFactory(factoryParams);
     result.createApiProxy.bind(context)(givenConfig);
 
-    expect(getConfig).toBeCalledWith({ context, factoryParams, givenConfig });
+    expect(getIntegrationConfig).toBeCalledWith({ context, factoryParams, givenConfig });
     expect(axios.create).toBeCalledWith({ host: 'some-host' });
-    expect(applyContextForApi).toBeCalledWith(
+    expect(applyContextToApi).toBeCalledWith(
       { ...factoryParams.api },
       {
         client: 'api-client connection',
@@ -43,7 +43,7 @@ describe('[CORE - factories] apiProxyFactory', () => {
         isProxy: true
       }
     );
-    expect(createProxy).toBeCalledWith({
+    expect(createProxiedApi).toBeCalledWith({
       client: 'api-client connection',
       givenApi: { getCategory: 'get-category-fn' },
       factoryParams

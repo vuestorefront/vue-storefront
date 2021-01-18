@@ -4,7 +4,7 @@ import getCategory from './api/getCategory';
 
 const defaultSettings = {};
 
-const onSetup = (settings) => ({
+const onCreate = (settings) => ({
   config: {
     ...defaultSettings,
     ...settings
@@ -14,7 +14,7 @@ const onSetup = (settings) => ({
 
 const { createApiClient } = apiClientFactory<any, any>({
   tag: 'boilerplate',
-  onSetup,
+  onCreate,
   api: {
     getProduct,
     getCategory

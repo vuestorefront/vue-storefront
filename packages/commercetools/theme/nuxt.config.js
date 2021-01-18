@@ -56,9 +56,6 @@ export default {
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
-      logger: {
-        verbosity: 'debug'
-      },
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
@@ -84,7 +81,6 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      useMiddleware: true,
       api: {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',
@@ -113,7 +109,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    ['@vue-storefront/middleware', {
+    ['@vue-storefront/middleware/nuxt', {
       integrations: {
         ct: {
           api: '@vue-storefront/commercetools-api/server',

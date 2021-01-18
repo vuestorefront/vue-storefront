@@ -6,7 +6,7 @@ interface CreatorFunctions {
   createApiProxy?: CreateApiProxyFn;
 }
 
-export const createInstance = <T>(creatorFunctions: CreatorFunctions, factoryParams: any) => {
+export const createApiInstance = <T>(creatorFunctions: CreatorFunctions, factoryParams: any) => {
   const { createApiClient, createApiProxy } = creatorFunctions;
   const createFn = createApiClient || createApiProxy;
   (createFn as any).tag = factoryParams.tag;
