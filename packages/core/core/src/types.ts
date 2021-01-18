@@ -289,8 +289,14 @@ export interface UseCheckoutShippingErrors {
   load?: Error;
   save?: Error;
 }
+export interface UseCheckoutShippingMethodErrors {
+  load?: Error;
+  save?: Error;
+}
 export interface UseCheckoutShippingMethod<SHIPPING_METHODS, SHIPPING_METHOD_PARAMS> {
-  shippingMethods: SHIPPING_METHODS;
+  shippingMethods: ComputedProperty<SHIPPING_METHODS>;
+  error: ComputedProperty<UseCheckoutShippingErrors>;
+  loading: ComputedProperty<boolean>;
   load: () => Promise<void>;
   save: (params: SHIPPING_METHOD_PARAMS) => Promise<void>;
 }
