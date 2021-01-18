@@ -200,12 +200,10 @@ Composables are a major part of the integration. That exactly the place where th
 
 Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
 
-The plugin should also handle the option `useMiddleware` which is responsible for loading certain api-client. When `useMiddleware` is set to true, we need to load proxy version of api-client and start redirecting the traffic. Otherwise, we use direct connection.
-
 Example of plugin
 ```js
 // composables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools-api/<%= options.useMiddleware ? "client" : "server" %>'
+import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
