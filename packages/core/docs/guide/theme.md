@@ -1,6 +1,36 @@
 # Theme
 
-If you [use our CLI to set up your project](./general/getting-started) you will end up with a fully functional eCommerce theme connected to your eCommerce backend and a bunch of other services.
+If you [use our CLI to set up your project](./general/getting-started) you will end up with a fully functional eCommerce theme connected to your eCommerce backend and a bunch of other services based on [Nuxt.js](https://nuxtjs.org/)
+
+## High-level overview
+
+Your theme out of the box will have following features:
+
+**Pages**
+- Home Page
+- Product Listing Page
+- Product Details Page
+- Mini Cart
+- Mini Wishlist <Badge text="Enterprise" type="info" />
+- User Authentication
+- User Profile <Badge text="Enterprise" type="info" />
+- Checkout
+- Custom 404 page
+
+**Integrations**
+- eCommerce full scope <Badge text="Enterprise" type="info" /> / eCommerce basic scope
+- CMS integration <Badge text="Enterprise" type="info" />
+  - Home Page
+  - Custom CMS Page
+  - Header
+  - Footer
+- Payment integration <Badge text="Enterprise" type="info" />
+
+**Other**
+- Progressive Web App features
+- internationalization
+
+A full list of features (for Enterprise version) can be found [here](/enterprise/feature-list.html).
 
 ## Directory structure
 
@@ -22,6 +52,7 @@ If you're familiar with Nuxt you will quickly notice that the directory structur
 ├─ static/
 └─ nuxt.config.js
 ```
+
 
 ## Storefront UI
 

@@ -1,6 +1,8 @@
 # Caching
 
-Overview here
+::: warning
+This feature is still not ready and stable
+:::
 
 ## Installation
 ```sh
