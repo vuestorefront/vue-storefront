@@ -1,3 +1,5 @@
+import type { integrationPluginFactory } from './../../utils';
+
 export interface ApiExtensionInstance {
   beforeSetup?: (config, headers?: Record<string, string>) => any;
   afterSetup?: ({ config, client }, headers?: Record<string, string>) => { config; client };
@@ -22,10 +24,25 @@ export interface ApiProxyFactoryParams<T, F = any> extends BaseApiFactoryParams<
   onSetup: (config: T, headers?: Record<string, string>) => { config: T };
 }
 
-export interface ApiClientInstance {
+export interface ApiInstance {
   api: any;
   client: any;
   settings: any;
+}
+
+export interface FactoryInstance {
+  integrationPluginFactory: typeof integrationPluginFactory;
+}
+
+export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+
+export interface ProxyFactoryInstance extends FactoryInstance {
+  createApiProxy: CreateApiProxyFn;
+}
+
+export interface ClientFactoryInstance extends FactoryInstance {
+  createApiClient: CreateApiClientFn;
 }
 
 export interface BaseConfig {
