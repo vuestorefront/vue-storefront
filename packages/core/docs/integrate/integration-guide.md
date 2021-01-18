@@ -105,9 +105,9 @@ Each integration starts with `api-client`. This is one of the packages which is 
 
 Our api client has two parts: the proxy layer (that talks to our middleware) and a direct connection and as result, package of api-client always shares three entrypoints (treeshaking reasons):
 
-- `@vue-storefront/integration/client` - shares the `createProxyClient` and `integrationPlugin` for proxy
-- `@vue-storefront/integration/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
-- `@vue-storefront/integration` - shares other library stuff, such a helpers, types etc.
+- `@vue-storefront/{INTEGRATION}/client` - shares the `createProxyClient` and `integrationPlugin` for proxy
+- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
+- `@vue-storefront/{INTEGRATION}` - shares other library stuff, such a helpers, types etc.
 
 
 ### 1.1 Configuration
