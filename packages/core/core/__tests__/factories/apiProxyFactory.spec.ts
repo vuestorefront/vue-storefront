@@ -1,17 +1,17 @@
 import axios from 'axios';
-import apiProxyFactory from './../../src/factories/apiClientFactory/apiProxyFactory';
-import { getConfig, createProxy } from './../../src/factories/apiClientFactory/_proxyUtils';
+import apiProxyFactory from './../../src/factories/apiFactory/apiProxyFactory';
+import { getConfig, createProxy } from './../../src/factories/apiFactory/_proxyUtils';
 import { applyContextForApi } from './../../src/utils/context';
 
 jest.mock('axios', () => ({
   create: jest.fn(() => 'api-client connection')
 }));
 
-jest.mock('./../../src/factories/apiClientFactory/_utils', () => ({
-  compose: jest.fn(arg => arg)
+jest.mock('./../../src/factories/apiFactory/_utils', () => ({
+  createInstance: jest.fn((arg1, factoryParams) => ({ ...arg1, factoryParams }))
 }));
 
-jest.mock('./../../src/factories/apiClientFactory/_proxyUtils', () => ({
+jest.mock('./../../src/factories/apiFactory/_proxyUtils', () => ({
   getConfig: jest.fn(() => ({ configOption: 1, axios: { host: 'some-host' } })),
   createProxy: jest.fn(() => ({ getProduct: 'get-product-fn' }))
 }));

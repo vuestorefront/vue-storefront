@@ -1,14 +1,13 @@
 import { integrationPluginFactory } from './../../utils';
 import { CreateApiProxyFn, CreateApiClientFn } from './types';
 
-interface ComposeParams {
+interface CreatorFunctions {
   createApiClient?: CreateApiClientFn;
   createApiProxy?: CreateApiProxyFn;
-  factoryParams: any;
 }
 
-export const compose = <T>(composeParams: ComposeParams) => {
-  const { createApiClient, createApiProxy, factoryParams } = composeParams;
+export const createInstance = <T>(creatorFunctions: CreatorFunctions, factoryParams: any) => {
+  const { createApiClient, createApiProxy } = creatorFunctions;
   const createFn = createApiClient || createApiProxy;
   (createFn as any).tag = factoryParams.tag;
 

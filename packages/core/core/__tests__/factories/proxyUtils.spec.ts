@@ -1,10 +1,10 @@
 
-import * as utils from './../../src/factories/apiClientFactory/_proxyUtils';
+import * as utils from './../../src/factories/apiFactory/_proxyUtils';
 import isHttps from 'is-https';
 
 jest.mock('is-https');
 
-describe('[CORE - factories] apiClientFactory/_proxyUtils', () => {
+describe('[CORE - factories] apiFactory/_proxyUtils', () => {
   it('returns base url based on incomming headers', () => {
     expect(utils.getBaseUrl(null)).toEqual('/api/')
 
