@@ -99,8 +99,5 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"
-  },
-  "dependencies": {
-    "is-https": "^3.0.2"
   }
 }
