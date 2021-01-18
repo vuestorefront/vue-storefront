@@ -18,6 +18,9 @@
     "ts-loader": "^8.0.3",
     "vue": "^2.6.11"
   },
+  "dependencies": {
+    "lodash.merge": "^4.6.2"
+  },
   "publishConfig": {
     "access": "public"
   }
