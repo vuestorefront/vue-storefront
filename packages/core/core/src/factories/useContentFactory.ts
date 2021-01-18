@@ -17,7 +17,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
     const context = generateContext(factoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
-      Logger.debug('useContent.search', params);
+      Logger.debug(`useContent/${id}/search`, params);
 
       try {
         loading.value = true;

@@ -16,7 +16,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const error: Ref<UseCategoryErrors> = sharedRef({}, `useCategory-error-${id}`);
 
     const search = async (searchParams) => {
-      Logger.debug('useCategory.search', searchParams);
+      Logger.debug(`useCategory/${id}/search`, searchParams);
 
       try {
         loading.value = true;
