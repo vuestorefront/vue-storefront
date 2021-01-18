@@ -1,6 +1,8 @@
 import { nuxtContextFactory } from './nuxtContextFactory';
 
-export const integrationPluginFactory = (createApiClient) => (pluginFn) => (nuxtCtx, inject) => {
+export type IntegrationPlugin = (pluginFn) => (nuxtCtx, inject) => void
+
+export const integrationPluginFactory = (createApiClient): IntegrationPlugin => (pluginFn) => (nuxtCtx, inject) => {
   const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClient.tag, nuxtCtx, inject });
 
   const configure = (givenSettings, customApi = {}) => {

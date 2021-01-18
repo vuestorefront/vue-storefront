@@ -1,5 +1,4 @@
-import type { integrationPluginFactory } from './../../utils';
-
+import { IntegrationPlugin } from './../../utils/nuxt';
 export interface ApiExtensionInstance {
   beforeSetup?: (config, headers?: Record<string, string>) => any;
   afterSetup?: ({ config, client }, headers?: Record<string, string>) => { config; client };
@@ -31,7 +30,7 @@ export interface ApiInstance {
 }
 
 export interface FactoryInstance {
-  integrationPluginFactory: typeof integrationPluginFactory;
+  integrationPlugin: IntegrationPlugin;
 }
 
 export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
