@@ -278,6 +278,48 @@ export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
+export interface UseCheckoutShipping<SHIPPING, SHIPPING_PARAMS> {
+  shipping: ComputedProperty<SHIPPING>;
+  error: ComputedProperty<UseCheckoutShippingErrors>;
+  loading: ComputedProperty<boolean>;
+  load: () => Promise<void>;
+  save: (params: SHIPPING_PARAMS) => Promise<void>;
+}
+export interface UseCheckoutShippingErrors {
+  load?: Error;
+  save?: Error;
+}
+export interface UseCheckoutShippingMethod<SHIPPING_METHODS, SHIPPING_METHOD_PARAMS> {
+  shippingMethods: SHIPPING_METHODS;
+  load: () => Promise<void>;
+  save: (params: SHIPPING_METHOD_PARAMS) => Promise<void>;
+}
+export interface UseCheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHIPPING_METHOD_ITEM> {
+  getAddresses: (billing: SHIPPING, criteria?: Record<string, any>) => SHIPPING_ADDRESS_ITEM[];
+  getMethods: (billing: SHIPPING, criteria?: Record<string, any>) => SHIPPING_METHOD_ITEM[];
+  getAddressPostCode: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressStreetName: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressStreetNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
+  getAddressCity: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressFirstName: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressLastName: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressCountry: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressPhone: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressEmail: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressProvince: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressCompanyName: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressTaxNumber: (address: SHIPPING_ADDRESS_ITEM) => string;
+  getAddressApartmentNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
+  isAddressDefault: (address: SHIPPING_ADDRESS_ITEM) => boolean;
+}
+
+export interface UseCheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_MEDHOD_ITEM> {
+  getShippingMethods: (methods: SHIPPING_METHODS, criteria?: Record<string, any>) => SHIPPING_MEDHOD_ITEM[];
+  getMethodName: (method: SHIPPING_MEDHOD_ITEM) => string;
+  getMethodDescription: (method: SHIPPING_MEDHOD_ITEM) => string;
+  getMethodPrice: (method: SHIPPING_MEDHOD_ITEM) => AgnosticPrice;
+  isMethodDefault: (method: SHIPPING_MEDHOD_ITEM) => boolean;
+}
 export interface UseFacetErrors {
   search?: Error;
 }
