@@ -15,17 +15,17 @@ const params: UseCheckoutShippingParams<any, any> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, params) => {
+  save: async (context: Context, { shippingMethod }) => {
     const cartResponse = await context.$ct.api.updateCart({
       id: context.cart.cart.value.id,
       version: context.cart.cart.value.version,
       actions: [
-        cartActions.setShippingMethodAction(params.method.id)
+        cartActions.setShippingMethodAction(shippingMethod.id)
       ]
     });
 
     context.cart.setCart(cartResponse.data.cart);
-    return cartResponse;
+    return cartResponse.data.cart.shippingInfo;
   }
 };
 
