@@ -27,6 +27,7 @@ const params: UseCheckoutShippingParams<any, any> = {
       ]
     });
 
+    context.cart.setCart(cartResponse.data.cart);
     return cartResponse.data.cart;
   }
 };
