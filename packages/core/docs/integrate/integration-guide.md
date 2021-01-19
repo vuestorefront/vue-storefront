@@ -177,7 +177,7 @@ To create `api-client` instances you have to use correspoing factory, depending 
 - `tag` - that's the short name of your integration which will be used to distinguish it among of others 
 - `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc.. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
 - `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
-- `extensions` - section available only in the direct connection api-client. It allows you to add an api backend extenstions for the api taht can add additiona features to the integrated platform
+- `extensions` - section available only in the direct connection api-client. It allows you to add an api backend extenstions for the api that can add additional features to the integrated platform
 
 ### 1.2 API functions
 Once you have your configuration created, you can proceed with API functions:
