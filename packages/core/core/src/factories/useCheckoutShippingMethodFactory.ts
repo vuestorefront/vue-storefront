@@ -2,17 +2,18 @@ import { UseCheckoutShippingMethod, Context, FactoryParams, UseCheckoutShippingM
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface UseCheckoutShippingMethodParams<SHIPPING_METHODS, SHIPPING_METHOD_PARAMS> extends FactoryParams {
-  load: (context: Context) => Promise<SHIPPING_METHODS>;
-  save: (context: Context, params: SHIPPING_METHOD_PARAMS) => Promise<SHIPPING_METHODS>;
+export interface UseCheckoutShippingMethodParams<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> extends FactoryParams {
+  load: (context: Context) => Promise<SHIPPING_METHOD[]>;
+  save: (context: Context, params: SHIPPING_METHOD_PARAMS) => Promise<SHIPPING_METHOD>;
 }
 
-export const useCheckoutShippingMethodFactory = <SHIPPING_METHODS, SHIPPING_METHOD_PARAMS>(
-  factoryParams: UseCheckoutShippingMethodParams<SHIPPING_METHODS, SHIPPING_METHOD_PARAMS>
+export const useCheckoutShippingMethodFactory = <SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>(
+  factoryParams: UseCheckoutShippingMethodParams<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>
 ) => {
-  return function useCheckoutShippingMethod (): UseCheckoutShippingMethod<SHIPPING_METHODS, SHIPPING_METHOD_PARAMS> {
+  return function useCheckoutShippingMethod (): UseCheckoutShippingMethod<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
     const loading: Ref<boolean> = sharedRef(false, 'useCheckoutShippingMethod-loading');
-    const shippingMethods: Ref<SHIPPING_METHODS> = sharedRef(null, 'useCheckoutShippingMethod-shipping');
+    const shippingMethods: Ref<SHIPPING_METHOD[]> = sharedRef(null, 'useCheckoutShippingMethod-shippingMethods');
+    const selectedShippingMethod: Ref<SHIPPING_METHOD> = sharedRef(null, 'useCheckoutShippingMethod-selectedShippingMethod');
     const context = generateContext(factoryParams);
     const error: Ref<UseCheckoutShippingMethodErrors> = sharedRef({}, 'useCheckoutShippingMethod-error');
 
@@ -44,7 +45,7 @@ export const useCheckoutShippingMethodFactory = <SHIPPING_METHODS, SHIPPING_METH
           context,
           params
         );
-        shippingMethods.value = shippingInfo;
+        selectedShippingMethod.value = shippingInfo;
       } catch (err) {
         error.value.save = err;
         Logger.error('useCheckoutShippingMethod/save', err);
@@ -55,6 +56,7 @@ export const useCheckoutShippingMethodFactory = <SHIPPING_METHODS, SHIPPING_METH
 
     return {
       shippingMethods: computed(() => shippingMethods.value),
+      selectedShippingMethod: computed(() => selectedShippingMethod.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value),
       load,
