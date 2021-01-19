@@ -5,7 +5,7 @@ import * as api from './api';
 import { Config, ClientInstance } from './types/setup';
 import { createCommerceToolsConnection } from './helpers/commercetoolsLink';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
-import { apiClientFactory, ApiExtension } from '@vue-storefront/core';
+import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
 
 const onCreate = (settings: Config): { config: Config; client: ClientInstance } => {
   const languageMap = settings.languageMap || {};
@@ -58,7 +58,7 @@ const parseToken = (rawToken) => {
   }
 };
 
-const tokenExtension: ApiExtension = (req, res) => {
+const tokenExtension: ApiClientExtension = (req, res) => {
   const rawCurrentToken = req.cookies['vsf-commercetools-token'];
   const currentToken = parseToken(rawCurrentToken);
 

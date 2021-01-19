@@ -1,12 +1,12 @@
 import { IntegrationPlugin } from './../../utils/nuxt';
-export interface ApiExtensionInstance {
+export interface ApiClientExtensionLifecycle {
   beforeCreate?: (config, headers?: Record<string, string>) => any;
   afterCreate?: ({ config, client }, headers?: Record<string, string>) => { config; client };
   beforeCall?: ({ config, functionName, params }) => any;
   afterCall?: ({ config, functionName, params }) => any;
 }
 
-export type ApiExtension = (req: any, res: any) => ApiExtensionInstance;
+export type ApiClientExtension = (req: any, res: any) => ApiClientExtensionLifecycle;
 
 export interface BaseApiFactoryParams<T, F = any> {
   tag: string;
@@ -16,7 +16,7 @@ export interface BaseApiFactoryParams<T, F = any> {
 
 export interface ApiClientFactoryParams<T, F = any> extends BaseApiFactoryParams<T, F> {
   onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
-  extensions?: ApiExtension[];
+  extensions?: ApiClientExtension[];
 }
 
 export interface ApiProxyFactoryParams<T, F = any> extends BaseApiFactoryParams<T, F> {
@@ -36,16 +36,16 @@ export interface FactoryInstance {
 export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
 export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
 
-export interface ProxyFactoryInstance extends FactoryInstance {
+export interface ApiProxyFactory extends FactoryInstance {
   createApiProxy: CreateApiProxyFn;
 }
 
-export interface ClientFactoryInstance extends FactoryInstance {
+export interface ApiClientFactory extends FactoryInstance {
   createApiClient: CreateApiClientFn;
 }
 
-export interface BaseConfig {
+export interface ApiClientConfig {
   [x: string]: any;
   client?: any;
-  extensions?: ApiExtension[];
+  extensions?: ApiClientExtension[];
 }

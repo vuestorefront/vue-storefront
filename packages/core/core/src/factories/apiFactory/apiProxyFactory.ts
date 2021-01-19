@@ -2,10 +2,10 @@ import axios from 'axios';
 import { applyContextToApi } from './../../utils/context';
 import { Logger } from './../../utils';
 import { createApiInstance } from './_utils';
-import { ApiProxyFactoryParams, ApiInstance, ProxyFactoryInstance } from './types';
+import { ApiProxyFactoryParams, ApiInstance, ApiProxyFactory } from './types';
 import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
 
-const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ApiProxyFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ProxyFactoryInstance => {
+const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ApiProxyFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiProxyFactory => {
   function createApiProxy (config: any, customApi: any = {}): ApiInstance {
     const _config = getIntegrationConfig({ context: this, factoryParams, givenConfig: config });
     const client = axios.create(_config.axios);
@@ -26,7 +26,7 @@ const apiProxyFactory = <ALL_SETTINGS, ALL_FUNCTIONS>(factoryParams: ApiProxyFac
     };
   }
 
-  return createApiInstance<ProxyFactoryInstance>({ createApiProxy }, factoryParams);
+  return createApiInstance<ApiProxyFactory>({ createApiProxy }, factoryParams);
 };
 
 export default apiProxyFactory;

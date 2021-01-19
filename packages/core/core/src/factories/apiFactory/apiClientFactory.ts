@@ -1,9 +1,9 @@
-import { ApiClientFactoryParams, BaseConfig, ApiInstance, ClientFactoryInstance } from './types';
+import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory } from './types';
 import { applyContextToApi } from './../../utils/context';
 import { createApiInstance } from './_utils';
 import { Logger } from './../../utils';
 
-const apiClientFactory = <ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ClientFactoryInstance => {
+const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
     const extensions = factoryParams.extensions && this && this.middleware
     // eslint-disable-next-line
@@ -31,7 +31,7 @@ const apiClientFactory = <ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factor
     };
   }
 
-  return createApiInstance<ClientFactoryInstance>({ createApiClient }, factoryParams);
+  return createApiInstance<ApiClientFactory>({ createApiClient }, factoryParams);
 };
 
 export default apiClientFactory;
