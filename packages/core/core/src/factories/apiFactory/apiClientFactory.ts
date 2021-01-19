@@ -7,7 +7,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
     const extensions = factoryParams.extensions && this && this.middleware
     // eslint-disable-next-line
-    ? Object.entries(factoryParams.extensions).map(([_, extensionFn]) => extensionFn(this.middleware.req, this.middleware.res))
+    ? Object.values(factoryParams.extensions).map((extensionFn) => extensionFn(this.middleware.req, this.middleware.res))
       : [];
 
     const _config = extensions
