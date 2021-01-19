@@ -1,7 +1,9 @@
 # Changelog
 
 ## 2.3.0 (not relased)
-- added useUiNotification composable ([#5363](https://github.com/vuestorefront/vue-storefront/issues/5363))
+
+-  added useUiNotification composable ([#5363](https://github.com/vuestorefront/vue-storefront/issues/5363)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
 
 ## 2.2.0
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
