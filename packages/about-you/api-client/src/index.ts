@@ -6,7 +6,7 @@ let apiClient: BapiClient | null = null;
 
 const { setup, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {},
-  onCreate: (setupConfig: SetupConfig) => {
+  onSetup: (setupConfig: SetupConfig) => {
     // todo: add possibility to override
     apiClient = new BapiClient({
       host: setupConfig.api.host,
