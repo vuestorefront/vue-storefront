@@ -1,7 +1,9 @@
 # Changelog
 
 ## 2.3.0 (not relased)
-- added MegaMenu to theme ([#5267](https://github.com/vuestorefront/vue-storefront/issues/5267))
+
+-  added MegaMenu to theme ([#5267](https://github.com/vuestorefront/vue-storefront/issues/5267)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
 
 ## 2.2.0
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
