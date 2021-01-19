@@ -34,7 +34,7 @@ export const useCheckoutShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       }
     };
 
-    const save = async (params: SHIPPING_PARAMS) => {
+    const save = async ({ params, shippingDetails }: { params: SHIPPING_PARAMS; shippingDetails: any }) => {
       Logger.debug('useCheckoutShipping.save');
 
       try {
@@ -42,7 +42,10 @@ export const useCheckoutShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
         error.value.save = null;
         const shippingInfo = await factoryParams.save(
           context,
-          params
+          {
+            ...params,
+            shippingDetails
+          }
         );
         shipping.value = shippingInfo;
       } catch (err) {

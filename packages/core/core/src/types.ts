@@ -283,7 +283,7 @@ export interface UseCheckoutShipping<SHIPPING, SHIPPING_PARAMS> {
   error: ComputedProperty<UseCheckoutShippingErrors>;
   loading: ComputedProperty<boolean>;
   load: () => Promise<void>;
-  save: (params: SHIPPING_PARAMS) => Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: any }) => Promise<void>;
 }
 export interface UseCheckoutShippingErrors {
   load?: Error;

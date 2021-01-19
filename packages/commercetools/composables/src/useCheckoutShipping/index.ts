@@ -1,14 +1,33 @@
 import { useCheckoutShippingFactory, UseCheckoutShippingParams, Context } from '@vue-storefront/core';
+import useCart from '../useCart';
+import { cartActions } from '@vue-storefront/commercetools-api';
 
 const params: UseCheckoutShippingParams<any, any> = {
+  provide() {
+    return {
+      cart: useCart()
+    };
+  },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    return Promise.resolve({});
+    if (!context.cart.cart?.value?.shippingAddress) {
+      await context.cart.load();
+    }
+    return context.cart.cart.value.shippingAddress;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, params) => {
-    return Promise.resolve({});
+  save: async (context: Context, { shippingDetails }) => {
+    const cartResponse = await context.$ct.api.updateCart({
+      id: context.cart.cart.value.id,
+      version: context.cart.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(),
+        cartActions.setShippingAddressAction(shippingDetails)
+      ]
+    });
+
+    return cartResponse.data.cart;
   }
 };
 
