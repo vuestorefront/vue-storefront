@@ -23,13 +23,13 @@ export const createProxiedApi = ({ givenApi, client, factoryParams }) => new Pro
   }
 });
 
-export const getCookies = (context) => (context && context.req && context.req.headers.cookie) || '';
+export const getCookies = (context) => context?.req?.headers?.cookie ?? '';
 
 export const getIntegrationConfig = ({ context, factoryParams, givenConfig }) => {
   const cookie = getCookies(context);
   const initialConfig = merge({
     axios: {
-      baseURL: getBaseUrl(context && context.req),
+      baseURL: getBaseUrl(context?.req),
       headers: {
         ...(cookie ? { cookie } : {})
       }
