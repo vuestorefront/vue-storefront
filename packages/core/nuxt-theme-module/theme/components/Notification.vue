@@ -1,5 +1,5 @@
 <template>
-  <transition-group tag="div" class="notifications" :name="isMobile ? 'slide' : 'sf-fade'">
+  <transition-group tag="div" class="notifications" name="slide-fade">
     <SfNotification
       v-for="notification in notifications"
       :key="notification.id"
@@ -20,7 +20,6 @@
 <script>
 import { SfNotification, SfIcon } from '@storefront-ui/vue';
 import { useUiNotification } from '~/composables';
-import { ref, onMounted, onBeforeUnmount} from '@vue/composition-api';
 
 export default {
   name: 'Notification',
@@ -30,29 +29,9 @@ export default {
   },
   setup () {
     const { notifications } = useUiNotification();
-    const isMobile = ref(false);
-    const maxMobileWidth = 1023;
-
-    const mobileHandler = (event) => {
-      isMobile.value = event.matches;
-    };
-
-    onMounted(() => {
-      isMobile.value =
-        Math.max(document.documentElement.clientWidth, window.innerWidth) <=
-        maxMobileWidth;
-      window.matchMedia(`(max-width: ${maxMobileWidth})`).addListener(mobileHandler);
-    });
-
-    onBeforeUnmount(() => {
-      window
-        .matchMedia(`(max-width: ${maxMobileWidth})`)
-        .removeListener(mobileHandler);
-    });
 
     return {
-      notifications,
-      isMobile
+      notifications
     };
   }
 };
@@ -93,14 +72,23 @@ export default {
     margin: 0 0 var(--spacer-xs) 0;
   }
 }
-.slide-enter-active,
-.slide-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   transition: all 0.3s;
+  @include for-desktop {
+    transition: opacity 0.25s linear;
+  }
 }
-.slide-enter {
+.slide-fade-enter {
   transform: translateY(40px);
+  @include for-desktop {
+    opacity: 0;
+  }
 }
-.slide-leave-to {
+.slide-fade-leave-to {
   transform: translateY(80px);
+  @include for-desktop {
+    opacity: 0;
+  }
 }
 </style>
