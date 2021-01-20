@@ -77,7 +77,7 @@ export default {
   ],
   devtool: 'source-map',
   entry: {
-    app: ['./core/client-entry.ts']
+    app: ['@babel/polyfill', './core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
