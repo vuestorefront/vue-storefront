@@ -409,7 +409,7 @@ This change does not involve any required actions to port the code, but please b
 
 #### Reviews
 
-We added Reviews support, however, Magento 2 is still lacking Reviews support in the REST API. To have reviews up and running, please add the https://github.com/vuestorefront/magento2-review-api to your Magento 2 instance.
+We added Reviews support, however, Magento 2 is still lacking Reviews support in the REST API. To have reviews up and running, please add the https://github.com/divanteLtd/magento2-review-api to your Magento 2 instance.
 
 #### Microcart
 

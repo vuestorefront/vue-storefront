@@ -38,7 +38,7 @@ The API connector works in two phases:
 
 VueStorefront works seamlessly with your backend platform while two integration phases are managed as above.
 
-Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/mage2vuestorefront), [Magento 1](https://github.com/vuestorefront/magento1-vsbridge), [CoreShop](https://github.com/vuestorefront/coreshop-vsbridge), [BigCommerce](https://github.com/vuestorefront/bigcommerce2vuestorefront), [WooCommerce](https://github.com/vuestorefront/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/vuestorefront/vue-storefront-integration-boilerplate).
+Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/mage2vuestorefront), [Magento 1](https://github.com/divanteLtd/magento1-vsbridge), [CoreShop](https://github.com/divanteLtd/coreshop-vsbridge), [BigCommerce](https://github.com/divanteLtd/bigcommerce2vuestorefront), [WooCommerce](https://github.com/divanteLtd/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/divanteLtd/vue-storefront-integration-boilerplate).
 
 The blue parts on the diagram are responsible for offline cache and will be explained later in the article.
 

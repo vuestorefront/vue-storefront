@@ -428,7 +428,7 @@ node --harmony cli.js pages
 ```
 
 :::tip NOTE
-API endpoints for _reviews_, _blocks_ and _pages_ from Magento are not available out of the box. You should install additional modules for them on your own. [review](https://github.com/vuestorefront/magento2-review-api), [cms](https://github.com/SnowdogApps/magento2-cms-api)
+API endpoints for _reviews_, _blocks_ and _pages_ from Magento are not available out of the box. You should install additional modules for them on your own. [review](https://github.com/divanteLtd/magento2-review-api), [cms](https://github.com/SnowdogApps/magento2-cms-api)
 :::
 
 Now you are ready to launch your Vue Storefront shop powered by _Elasticsearch 7_. 

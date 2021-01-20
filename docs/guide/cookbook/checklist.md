@@ -137,7 +137,7 @@ X-VS-Cache-Tags: P1852 P198 C20
 The tags can be used to invalidate the Varnish cache if you use it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
- All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/vuestorefront/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. 
+ All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. 
 
  If the cache is enabled in both API and Vue Storefront frontend app, please make sure you properly use the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
@@ -658,7 +658,7 @@ Although many Vue Storefornt projects are being developed using [mage2vuestorefr
 Because of this limitation we created a set of [native indexers](https://medium.com/the-vue-storefront-journal/native-magento-data-indexer-aec3c9ebfb).
 
 The indexers are available for:
-- [Magento 1](https://github.com/vuestorefront/magento1-vsbridge-indexer)
+- [Magento 1](https://github.com/divanteLtd/magento1-vsbridge-indexer)
 - [Magento 2](https://github.com/vuestorefront/magento2-vsbridge-indexer)
 
 The native indexer updates the Elasticsearch index in the very same format as the `mage2vuestorefront`. Our intention was to speed up the indexation process and make it more reliable. With native indexer, we were able to use the Magento 2 ORM and events to optimize the indexation process. Please do use this module instead of `mage2vuestorefront` if you experience any issue regarding indexing performance. Both projects are currently officially supported by the Vue Storefront Core team.
@@ -673,7 +673,7 @@ This URL requires you to pass the invalidation token set in the [config](https:/
 The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
-All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/vuestorefront/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
 
 <br />
