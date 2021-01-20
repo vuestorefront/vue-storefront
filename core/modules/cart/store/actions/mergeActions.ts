@@ -73,7 +73,7 @@ const mergeActions = {
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
 
       if (dryRun) return diffLog
-      if (forceClientState || !(config.cart.serverSyncCanRemoveLocalItems && authorize)) {
+      if (!authorize) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
         return diffLog.merge(updateServerItemDiffLog)
       }
@@ -86,7 +86,7 @@ const mergeActions = {
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
       if (dryRun) return diffLog
-      if (forceClientState || !(config.cart.serverSyncCanModifyLocalItems && authorize)) {
+      if (!authorize) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true, mergeQty })
 
         return diffLog.merge(updateServerItemDiffLog)

@@ -551,8 +551,6 @@
       "height": 150
     },
     "serverMergeByDefault": true,
-    "serverSyncCanRemoveLocalItems": false,
-    "serverSyncCanModifyLocalItems": false,
     "synchronize": true,
     "synchronize_totals": true,
     "setCustomProductOptions": true,
