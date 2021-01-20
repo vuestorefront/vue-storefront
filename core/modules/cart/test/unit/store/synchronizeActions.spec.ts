@@ -144,7 +144,8 @@ describe('Cart synchronizeActions', () => {
       dryRun: false,
       forceClientState: true,
       serverItems: [],
-      mergeQty: false
+      mergeQty: false,
+      authorize: false
     })
   })
 
@@ -171,7 +172,7 @@ describe('Cart synchronizeActions', () => {
     });
 
     await (cartActions as any).sync(contextMock, {});
-    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: true })
+    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: true, authorize: false })
   })
 
   it('removes product when there is out of stock', async () => {

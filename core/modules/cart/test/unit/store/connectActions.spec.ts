@@ -117,7 +117,7 @@ describe('Cart connectActions', () => {
     })
 
     await (cartActions as any).authorize(contextMock)
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'connect', { guestCart: false, mergeQty: true });
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'connect', { guestCart: false, mergeQty: true, authorize: true });
   })
 
   it('creates cart token', async () => {
@@ -137,7 +137,7 @@ describe('Cart connectActions', () => {
 
     await (cartActions as any).connect(contextMock, {})
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, 'server-cart-token')
-    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: false })
+    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: false, authorize: false })
   })
 
   it('attempts bypassing guest cart', async () => {
@@ -161,7 +161,7 @@ describe('Cart connectActions', () => {
 
     await (cartActions as any).connect(contextMock, {})
     expect(contextMock.commit).toBeCalledWith(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
-    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: true })
+    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: true, authorize: false })
   })
   it('Create cart token when there are products in cart and we don\'t have token already', async () => {
     const contextMock = {
