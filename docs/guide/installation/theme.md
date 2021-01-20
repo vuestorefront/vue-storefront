@@ -6,11 +6,13 @@ The easiest way to create your own theme is to create a copy from one of our off
 
 ### Use vsf-cli
 
-If you have already setup vsf and you just want to install theme, then you can use [vsf-cli](https://www.npmjs.com/package/%40vue-storefront/cli). First install vsf-cli:
+If you have already setup VSF and you just want to install the theme, then you can use [vsf-cli](https://www.npmjs.com/package/%40vue-storefront/cli). First install vsf-cli:
 
 ```
-// min version 0.2.0
-npm i -g @vue-storefront/cli
+// You have to us 0.x.x version for VSF1
+npm i -g @vue-storefront/cli@0.2.1
+// or via yarn
+yarn global add @vue-storefront/cli@0.2.1
 ```
 
 Then run command in your project directory:
