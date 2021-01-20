@@ -83,12 +83,14 @@ export default {
   transform: translateY(40px);
   @include for-desktop {
     opacity: 0;
+    transform: translateY(0);
   }
 }
 .slide-fade-leave-to {
   transform: translateY(80px);
   @include for-desktop {
     opacity: 0;
+    transform: translateY(0);
   }
 }
 </style>

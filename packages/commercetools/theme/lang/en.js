@@ -130,5 +130,7 @@ export default {
   'Payment': 'Payment',
   'Order summary': 'Order summary',
   'Products': 'Products',
-  'Total': 'Total'
+  'Total': 'Total',
+  'Go to Checkout': 'Go to Checkout',
+  'Successfully added {PRODUCT_NAME} to the cart': 'Successfully added {PRODUCT_NAME} to the cart'
 };

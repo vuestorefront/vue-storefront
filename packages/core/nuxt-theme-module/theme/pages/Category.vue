@@ -353,8 +353,8 @@ import {
   SfProperty
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@vue/composition-api';
-import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers, useUiState } from '~/composables';
+import { useCart, useWishlist, productGetters, useFacet, facetGetters, useUser } from '<%= options.generate.replace.composables %>';
+import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
@@ -365,9 +365,12 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addItem: addItemToCart, isInCart } = useCart();
+    const { send } = useUiNotification();
+    const { isAuthenticated } = useUser();
+    const { addItem: addItemToCart, isInCart, error } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
+    const { $router, $i18n } = context.root;
 
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
@@ -432,6 +435,26 @@ export default {
       changeFilters(selectedFilters.value);
     };
 
+    const handleAddItemToCart = async (product, quantity) => {
+      await addItemToCart({ product, quantity });
+      if (error.value.addItem) {
+        send({
+          type: 'danger',
+          message: error.value.addItem.message
+        });
+      } else {
+        send({
+          type: 'success',
+          message: $i18n.t('Successfully added {PRODUCT_NAME} to the cart', { PRODUCT_NAME: product._name }),
+          persist: true,
+          action: {
+            text: $i18n.t('Go to Checkout'),
+            onClick: () => $router.push(`/checkout/${isAuthenticated.value ? 'shipping' : 'personal-details'}`)
+          }
+        });
+      }
+    };
+
     return {
       ...uiState,
       th,
@@ -454,7 +477,8 @@ export default {
       isFilterSelected,
       selectedFilters,
       clearFilters,
-      applyFilters
+      applyFilters,
+      handleAddItemToCart
     };
   },
   components: {
