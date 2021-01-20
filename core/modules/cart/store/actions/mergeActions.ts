@@ -65,7 +65,7 @@ const mergeActions = {
 
     return diffLog
   },
-  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
+  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty, authorize }) {
     const diffLog = createDiffLog()
 
     if (!serverItem) {
@@ -73,7 +73,7 @@ const mergeActions = {
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
 
       if (dryRun) return diffLog
-      if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
+      if (forceClientState || !(config.cart.serverSyncCanRemoveLocalItems && authorize)) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
         return diffLog.merge(updateServerItemDiffLog)
       }
@@ -86,7 +86,7 @@ const mergeActions = {
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
       if (dryRun) return diffLog
-      if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
+      if (forceClientState || !(config.cart.serverSyncCanModifyLocalItems && authorize)) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true, mergeQty })
 
         return diffLog.merge(updateServerItemDiffLog)
@@ -186,7 +186,7 @@ const mergeActions = {
 
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
-  async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
+  async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false, authorize = false }) {
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
 
     const diffLog = createDiffLog()
@@ -195,7 +195,8 @@ const mergeActions = {
       serverItems: hookResult.serverItems,
       forceClientState,
       dryRun,
-      mergeQty
+      mergeQty,
+      authorize
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)

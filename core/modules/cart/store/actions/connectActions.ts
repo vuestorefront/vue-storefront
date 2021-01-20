@@ -34,13 +34,13 @@ const connectActions = {
       await dispatch('removeCoupon', { sync: false })
     }
 
-    await dispatch('connect', { guestCart: false, mergeQty: true })
+    await dispatch('connect', { guestCart: false, mergeQty: true, authorize: true })
 
     if (coupon) {
       await dispatch('applyCoupon', coupon)
     }
   },
-  async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
+  async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false, authorize = false }) {
     if (!getters.isCartSyncEnabled) return
     const { result, resultCode } = await CartService.getCartToken(guestCart, forceClientState)
 
@@ -48,14 +48,14 @@ const connectActions = {
       Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty })
+      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty, authorize })
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
       Logger.log('Bypassing with guest cart' + getters.bypassCounter, 'cart')()
       commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
       Logger.error(result, 'cart')()
-      return dispatch('connect', { guestCart: true })
+      return dispatch('connect', { guestCart: true, authorize })
     }
 
     Logger.warn('Cart sync is disabled by the config', 'cart')()
