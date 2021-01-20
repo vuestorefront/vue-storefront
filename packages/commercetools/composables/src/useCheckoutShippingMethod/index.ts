@@ -1,8 +1,8 @@
-import { useCheckoutShippingFactory, UseCheckoutShippingParams, Context } from '@vue-storefront/core';
+import { useCheckoutShippingMethodFactory, UseCheckoutShippingMethodParams, Context } from '@vue-storefront/core';
 import useCart from '../useCart';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
-const params: UseCheckoutShippingParams<any, any> = {
+const params: UseCheckoutShippingMethodParams<any, any> = {
   provide() {
     return {
       cart: useCart()
@@ -11,7 +11,7 @@ const params: UseCheckoutShippingParams<any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
     const shippingMethodsResponse = await context.$ct.api.getShippingMethods(context.cart.cart.value.id);
-    return shippingMethodsResponse.shippingMethods;
+    return (shippingMethodsResponse as any).data.shippingMethods;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,4 +29,4 @@ const params: UseCheckoutShippingParams<any, any> = {
   }
 };
 
-export default useCheckoutShippingFactory<any, any>(params);
+export default useCheckoutShippingMethodFactory<any, any>(params);
