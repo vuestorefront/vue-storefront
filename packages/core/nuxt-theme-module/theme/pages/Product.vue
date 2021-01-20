@@ -65,7 +65,7 @@
               {{size.label}}
             </SfSelectOption>
           </SfSelect>
-          <div v-if="options.color" class="product__colors desktop-only">
+          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
             <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               data-cy="product-color_update"
@@ -85,12 +85,6 @@
             class="product__add-to-cart"
             @click="addItem({ product, quantity: parseInt(qty) })"
           />
-          <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            {{ $t('Save for later') }}
-          </SfButton>
-          <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            {{ $t('Add to compare') }}
-          </SfButton>
         </div>
 
         <LazyHydrate when-idle>

@@ -17,7 +17,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     const context = generateContext(factoryParams);
 
     const search = async (searchParams): Promise<void> => {
-      Logger.debug('useReview.search', searchParams);
+      Logger.debug(`useReview/${id}/search`, searchParams);
 
       try {
         loading.value = true;
@@ -32,7 +32,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     };
 
     const addReview = async (params): Promise<void> => {
-      Logger.debug('useReview.addReview', params);
+      Logger.debug(`useReview/${id}/addReview`, params);
 
       try {
         loading.value = true;

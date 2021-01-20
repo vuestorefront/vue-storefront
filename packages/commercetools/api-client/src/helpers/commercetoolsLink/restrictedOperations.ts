@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 const restrictedOperations = {
   anonymous: [
-    'createCart'
+    'createCart',
+    'createMyShoppingList'
   ],
   user: [
     'customerSignMeIn',

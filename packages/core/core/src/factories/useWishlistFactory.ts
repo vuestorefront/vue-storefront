@@ -84,7 +84,6 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
     const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useWishlist.load');
-
       if (wishlist.value) return;
 
       try {
