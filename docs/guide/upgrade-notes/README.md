@@ -8,7 +8,7 @@ Most of the changes added to 1.12 are backward compatible. To enable the new fea
 
 **Remove bodybuilder and compact API responses**
 
-The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend.
+The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend.
 
 This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70%.
 
@@ -76,10 +76,10 @@ Comment those lines:
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
 - `src/modules/index.ts` was renamed to `client.ts`, exported property was renamed to `registerClientModules`
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/server.ts` configuration
-- The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
+- The [`formatCategoryLink`](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
 - `DroppointShipping` and `magento-2-cms `modules were deleted
-- example modules moved to https://github.com/DivanteLtd/vsf-samples
+- example modules moved to https://github.com/vuestorefront/vsf-samples
 - `core/helpers/initCacheStorage.ts` merged with `StorageManager.ts` (import path alias for backward compatibility added)
 - Old extensions mechanism (before VS 1.4) was finally removed after being deprecated for almost a year (`src/extensions` removal)
 - Cache collections were reorganized. In most cases Local Storage keys remained untouched, only collection keys were unified. also they're used only in the core. Posting changes in case someone is using those collections in their modules;
@@ -149,7 +149,7 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
 - Authentication guard was moved from user module router to `MyAccount` pages mixin.
 - The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
-- Translations for "Order #", "Price ", "Select size ", "You are logged in as" and "items" changed, they now include a placeholder for the value. Please refer to [this commit](https://github.com/DivanteLtd/vue-storefront/pull/3550/commits/366d31bf28a1e27a7f14b222369cba8fe0a6d3e0) in order to adjust them, otherwise they might get lost.
+- Translations for "Order #", "Price ", "Select size ", "You are logged in as" and "items" changed, they now include a placeholder for the value. Please refer to [this commit](https://github.com/vuestorefront/vue-storefront/pull/3550/commits/366d31bf28a1e27a7f14b222369cba8fe0a6d3e0) in order to adjust them, otherwise they might get lost.
 - `i18n.currencySignPlacement` config value is replaced by `i18n.priceFormat` so price format becomes more flexible
 - Theme initialization needs to be modified in customized themes
   - Delete the line `RouterManager.addRoutes(routes, router, true)`. This is now handled in `setupMultistoreRoutes`, including the default store.
@@ -209,12 +209,12 @@ const module = createModule(moduleConfig)
 - Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
 
 ### Troubleshooting
-- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
+- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/vuestorefront/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
 
 - In case of app crashing, especially when opening `vue devtools` in browser, try setting `storeViews.commonCache` to `false`.
 
 ## 1.7 -> 1.8
-Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
+Full changelog is available [here](https://github.com/vuestorefront/vue-storefront/blob/master/CHANGELOG.md)
 
 - `store/types` have moved to new module named `core/types`.
 - `store/lib/search` has been moved to `core/lib/search`.
@@ -244,13 +244,13 @@ Backward compatibility: To reverse to the 1.0–1.6 behavior:
 
 **NOTE:** Offline mode may not work properly in development mode (localhost) because of Service Workers and lack of bundle prefetching (bundles lazy loading).
 
-With 1.7, the number of attribute descriptors that are loaded on the product page is limited and dynamically adjusted to the fields used in the product. This behavior shouldn't have any negative impact on your app; however, if you haven’t used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6), this may cause problems. You can switch off the dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/DivanteLtd/vue-storefront/pull/2137/files)
+With 1.7, the number of attribute descriptors that are loaded on the product page is limited and dynamically adjusted to the fields used in the product. This behavior shouldn't have any negative impact on your app; however, if you haven’t used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6), this may cause problems. You can switch off the dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/vuestorefront/vue-storefront/pull/2137/files)
 
 Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7, we added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). TThis option switches the way the category tree is being fetched. Previously, we were fetching the full categories tree. In some cases, it can generate even a few MB of payload. Currently with this option in place, we're pre-fetching the categories on demand while the user is browsing the category tree.
 
-**NOTE:** Since we're no longer generating `category.slug` client-side, we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
+**NOTE:** Since we're no longer generating `category.slug` client-side, we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
 
-With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/DivanteLtd/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](https://docs.vuestorefront.io/guide/modules/introduction.html).
+With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/vuestorefront/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](/guide/modules/introduction.html).
 
 
 ## 1.5 -> 1.6
@@ -261,7 +261,7 @@ Due to architectural changes, `core/components` and `core/store/modules` folders
 
 Overall, the theme upgrade for the default theme requires 105 files to be changed, but 85% of these changes are just a new import paths for the core component, which makes this update time-consuming, but easy to follow and not risky.
 
-[Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as an upgrade commit with notes) about what needs to be changed in the theme to support VS 1.6.
+[Here](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as an upgrade commit with notes) about what needs to be changed in the theme to support VS 1.6.
 
 #### Global changes
 - Notifications are now based on Vuex Store instead of Event Bus. We also pulled hardcoded notifications from core to theme.
@@ -286,7 +286,7 @@ and make sure you are importing `rootStore`.
 
 - Lazy loading for non-SSR routes is now available.
 
-You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from the default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
+You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from the default theme [here](https://github.com/vuestorefront/vue-storefront/tree/develop/src/themes/default/router)
 
 - Extensions are now rewritten to modules (and the extensions system will be depreciated in 1.7).
 
@@ -300,84 +300,84 @@ Change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/
 
 Required action: Change the import path. In case of additional changes click on a component name to see how to update.
 
-- [`AddToCart.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-16a4dd1cbf1aaf74e001e6541fb27725)
-- [`Breadcrumbs.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fa33732560b7c39ea7854f701c4187bf)
-- [`ColorSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-551ae89c6d9e297a662749ee02676d45)
-- [`GenericSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-cbd08cdda068c587e3146bb3441e2161)
-- [`NewsletterPopup.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7b6cae3e664a647ff7397d6692e61cd6)
-- [`Notification.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d91127b094ff36e25dd94834c3aded6a) + `exec` changed to `execAction`, added `execAction`
-- [`Overlay.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a3ae90ace32b95ebe4513c496f76ce)
-- [`PriceSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f564bd3cf6c2687c23c442d1363fe97b)
-- [`ProductAttribute.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b9783243d8666d5b2e46df608e6ace48)
-- [`ProductCustomOptions.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-14db476c8821b640e674f1e655340de5)
-- [`ProductGallery.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a4dfcf61217934307df12e9e3f14c6)
-- [`SizeSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
-- [`SortBy.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5dab270f8342facd10835e828e5d7509) + change from dropdown to select
-- [`ValidationError.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e80a538151f16af10b20efa810ae0bc3)
-- [`Login.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-3ac818c5cd6c41a9c9d7a3acba41cdb5)
-- [`Category/Sidebar.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-88e78ea0dd0f96c15c4a00d29922e44c) + added possibility to clear all filters
-- [`CartSummary.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bacd489920bede6d60bc9ce0b165e517)
-- [`OrderReview.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-958fa5f4d0d271422146a86119bde82d) + notifications moved from core to theme
-- [`Payment.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-878b5e4180d8f997d0b57a7dc5d28154)
-- [`PersonalDetails.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8651354142bff547c667cdab2e87a9f)
-- [`Checkout/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a08ecdd137cc1b32d02d458e3ae22079)
-- [`Shipping.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
-- [`AccountIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b25a4326cbb2102f3293084aefe6d4c8)
-- [`CompareIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4180179a247fd8ebb816f4d8e94e6c5b)
-- [`HamburgerIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-39d690ab85a291546f5ebe1606250fb5)
-- [`MicrocartIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ddcf89d0ca46b06824190f07c87f6031)
-- [`Returnicon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-68dfc0097a84464e2f8196d0948b4a03)
-- [`WishlistIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fabd1714a4872a2bcf26619adbe0709c)
-- [`Microcart.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ffba5dcba1456c20f565e314790cd450)
-- [`Microcart/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5715f58dacfe621ce8d056e382f1be8b)
-- [`MyNewsletter.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-48b9d7ff2e2e8e6cf6965fd582e51957)
-- [`MyOrder.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a8dbaeacd2cf4fb6440959d7827372fa)
-- [`MyOrders.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4d60c889f1362249fc19756d60f8f9b1)
-- [`MyProfile.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-677b7e3129afc1c974c3bd08069662c7)
-- [`MyShippingDetails.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5ed705e03a497368b98d9ce41ec378de)
-- [`Related.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c1703e08c80fcacd8135eeb6d707aa95) + `refreshList` method changed
-- [`SearchPanel.gql.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-2020399a5c1abfc37c176bfcc5912293)
-- [`SearchPanel.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2ff52db282530838ffce57893ed4a77)
-- [`SidebarMenu.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c341122656ef878fc532a5c34348a1ec) + bugfix (hide longer menus that are below currently active one), direct router link instead of event
-- [`Wishlist/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7c0514d730223832fd2e1fae9d5f2068)
-- [`Wishlist.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8dc4f61d36ae2b2ffc2a4c4603e844b8)
-- [`Collection.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-26a650b112a3b01efd1ff3a5c752aba1)
-- [`Home.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-91bc0c9fe9fa95dd88900beff8975200)
+- [`AddToCart.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-16a4dd1cbf1aaf74e001e6541fb27725)
+- [`Breadcrumbs.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fa33732560b7c39ea7854f701c4187bf)
+- [`ColorSelector.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-551ae89c6d9e297a662749ee02676d45)
+- [`GenericSelector.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-cbd08cdda068c587e3146bb3441e2161)
+- [`NewsletterPopup.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7b6cae3e664a647ff7397d6692e61cd6)
+- [`Notification.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d91127b094ff36e25dd94834c3aded6a) + `exec` changed to `execAction`, added `execAction`
+- [`Overlay.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a3ae90ace32b95ebe4513c496f76ce)
+- [`PriceSelector.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f564bd3cf6c2687c23c442d1363fe97b)
+- [`ProductAttribute.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b9783243d8666d5b2e46df608e6ace48)
+- [`ProductCustomOptions.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-14db476c8821b640e674f1e655340de5)
+- [`ProductGallery.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a4dfcf61217934307df12e9e3f14c6)
+- [`SizeSelector.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
+- [`SortBy.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5dab270f8342facd10835e828e5d7509) + change from dropdown to select
+- [`ValidationError.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e80a538151f16af10b20efa810ae0bc3)
+- [`Login.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-3ac818c5cd6c41a9c9d7a3acba41cdb5)
+- [`Category/Sidebar.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-88e78ea0dd0f96c15c4a00d29922e44c) + added possibility to clear all filters
+- [`CartSummary.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bacd489920bede6d60bc9ce0b165e517)
+- [`OrderReview.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-958fa5f4d0d271422146a86119bde82d) + notifications moved from core to theme
+- [`Payment.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-878b5e4180d8f997d0b57a7dc5d28154)
+- [`PersonalDetails.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8651354142bff547c667cdab2e87a9f)
+- [`Checkout/Product.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a08ecdd137cc1b32d02d458e3ae22079)
+- [`Shipping.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
+- [`AccountIcon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b25a4326cbb2102f3293084aefe6d4c8)
+- [`CompareIcon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4180179a247fd8ebb816f4d8e94e6c5b)
+- [`HamburgerIcon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-39d690ab85a291546f5ebe1606250fb5)
+- [`MicrocartIcon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ddcf89d0ca46b06824190f07c87f6031)
+- [`Returnicon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-68dfc0097a84464e2f8196d0948b4a03)
+- [`WishlistIcon.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fabd1714a4872a2bcf26619adbe0709c)
+- [`Microcart.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ffba5dcba1456c20f565e314790cd450)
+- [`Microcart/Product.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5715f58dacfe621ce8d056e382f1be8b)
+- [`MyNewsletter.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-48b9d7ff2e2e8e6cf6965fd582e51957)
+- [`MyOrder.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a8dbaeacd2cf4fb6440959d7827372fa)
+- [`MyOrders.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4d60c889f1362249fc19756d60f8f9b1)
+- [`MyProfile.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-677b7e3129afc1c974c3bd08069662c7)
+- [`MyShippingDetails.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5ed705e03a497368b98d9ce41ec378de)
+- [`Related.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c1703e08c80fcacd8135eeb6d707aa95) + `refreshList` method changed
+- [`SearchPanel.gql.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-2020399a5c1abfc37c176bfcc5912293)
+- [`SearchPanel.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2ff52db282530838ffce57893ed4a77)
+- [`SidebarMenu.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c341122656ef878fc532a5c34348a1ec) + bugfix (hide longer menus that are below currently active one), direct router link instead of event
+- [`Wishlist/Product.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7c0514d730223832fd2e1fae9d5f2068)
+- [`Wishlist.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8dc4f61d36ae2b2ffc2a4c4603e844b8)
+- [`Collection.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-26a650b112a3b01efd1ff3a5c752aba1)
+- [`Home.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-91bc0c9fe9fa95dd88900beff8975200)
 
 #### Components that were moved from core to theme
 
 Required action: Add moved content and remove core import. In case of additional changes, click on a component name to see how to update.
 
-- [`Loader.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a2791ef5c57fb2459362720b4a624e53)
-- [`Modal.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-527c2bb9d04213a2aaf1aac75673bc71) + static content removed
-- [`ProductLinks.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-9ccb222e8d3decebb067729ee935899a)
-- [`ProductListing.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-000bc323621dca4883033c0e91f9125a)
-- [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4049e5b38efd1a5d0215fd71e32136a3) + core import moved to module
-- [`ProductSlider.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-624e75f15bdb9b2f7d5f417138c9f0ec)
-- [`ForgotPass.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2fbfb707a274bea8b9f7af3e3c57032)
-- [`Register.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f5266afaec9d55f2fc93cf3b874b7288) + core import moved to module
-- [`SignUp.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-df0c798d67a63c4eef4d3141393db5f9)
-- [`BaseCheckbox.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-23e3b8989b402a011ee4cb3f985fa3ce)
-- [`BaseInput.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d209385c453bdf31b89bc51772bd2bda)
-- [`BaseRadioButton.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1493dcb05a06ce313807003d1774fa14)
-- [`BaseSelect.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c4c37e440fd8ec3deeacef085b48ed9f)
-- [`BaseTextArea.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0ea48ec8c1545db8cbdacfd348f8bf75)
-- [`Header.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5f4560c69df1a5f6d97f0b064b9b792f)
-- [`MainSlider.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-19c964e13db826a1358f30839627986b)
-- [`Reviews.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8861516b2c7dfc547b91e1066ca4755) + empty array instead of null, core import path changed
-- [`Compare.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0aa476fa2f0314806d4afd620c80be54)
+- [`Loader.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a2791ef5c57fb2459362720b4a624e53)
+- [`Modal.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-527c2bb9d04213a2aaf1aac75673bc71) + static content removed
+- [`ProductLinks.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-9ccb222e8d3decebb067729ee935899a)
+- [`ProductListing.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-000bc323621dca4883033c0e91f9125a)
+- [`ProductTile.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4049e5b38efd1a5d0215fd71e32136a3) + core import moved to module
+- [`ProductSlider.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-624e75f15bdb9b2f7d5f417138c9f0ec)
+- [`ForgotPass.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2fbfb707a274bea8b9f7af3e3c57032)
+- [`Register.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f5266afaec9d55f2fc93cf3b874b7288) + core import moved to module
+- [`SignUp.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-df0c798d67a63c4eef4d3141393db5f9)
+- [`BaseCheckbox.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-23e3b8989b402a011ee4cb3f985fa3ce)
+- [`BaseInput.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d209385c453bdf31b89bc51772bd2bda)
+- [`BaseRadioButton.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1493dcb05a06ce313807003d1774fa14)
+- [`BaseSelect.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c4c37e440fd8ec3deeacef085b48ed9f)
+- [`BaseTextArea.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0ea48ec8c1545db8cbdacfd348f8bf75)
+- [`Header.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5f4560c69df1a5f6d97f0b064b9b792f)
+- [`MainSlider.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-19c964e13db826a1358f30839627986b)
+- [`Reviews.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8861516b2c7dfc547b91e1066ca4755) + empty array instead of null, core import path changed
+- [`Compare.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0aa476fa2f0314806d4afd620c80be54)
 
 #### Other
-- [`ProductBundleOption.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-32809917812e7c8c4571be70a693d65b) - splitted single option from `ProductBundleOptions.vue` component.
-- [`ProductBundleOptions.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7ccee94c636406b1a82feddea3a7f520) - single option moved to separate component `ProductBundleOption.vue`, moved to module.
-- [`ThankYouPage.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-84c29c5b22568c31b021dc864221563f) added order id display, order confirmation, pulled notifications from core and added mail confirmation
-- [`main.scss`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c65e47159738f3552a22f16ec5c5974f) removed duplicated flexbox grid
-- [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added ` output.appendHead(), renderStyles()`
-- [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-eb709969add1ca4a266ac072cddde954) notifications moved to theme
-- [`Checkout.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1c6544c28d075f275812201fa42755de) notifications moved to theme
-- [`MyAccount.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
-- [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-174db65df8e0c43df20b73b5bf16881b) minor changes in attribute var names that may influence the markup, notifications moved to theme
-- [`Static.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) static pages are no longed using markdown files.
+- [`ProductBundleOption.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-32809917812e7c8c4571be70a693d65b) - splitted single option from `ProductBundleOptions.vue` component.
+- [`ProductBundleOptions.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7ccee94c636406b1a82feddea3a7f520) - single option moved to separate component `ProductBundleOption.vue`, moved to module.
+- [`ThankYouPage.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-84c29c5b22568c31b021dc864221563f) added order id display, order confirmation, pulled notifications from core and added mail confirmation
+- [`main.scss`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c65e47159738f3552a22f16ec5c5974f) removed duplicated flexbox grid
+- [`index.template.html`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added ` output.appendHead(), renderStyles()`
+- [`Category.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-eb709969add1ca4a266ac072cddde954) notifications moved to theme
+- [`Checkout.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1c6544c28d075f275812201fa42755de) notifications moved to theme
+- [`MyAccount.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
+- [`Product.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-174db65df8e0c43df20b73b5bf16881b) minor changes in attribute var names that may influence the markup, notifications moved to theme
+- [`Static.vue`](https://github.com/vuestorefront/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) static pages are no longed using markdown files.
 
 ## 1.4 -> 1.5
 
@@ -405,22 +405,22 @@ We added GraphQL support. Please read more on the [GraphQL Action Plan](/guide/b
 
 #### SSR: Advanced output and cache
 
-This change does not involve any required actions to port the code, but please be aware that we're supporting [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If you're using the modified version of the theme, you can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
+This change does not involve any required actions to port the code, but please be aware that we're supporting [SSR Cache](https://github.com/vuestorefront/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/vuestorefront/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If you're using the modified version of the theme, you can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
 
 #### Reviews
 
-We added Reviews support, however, Magento 2 is still lacking Reviews support in the REST API. To have reviews up and running, please add the https://github.com/DivanteLtd/magento2-review-api to your Magento 2 instance.
+We added Reviews support, however, Magento 2 is still lacking Reviews support in the REST API. To have reviews up and running, please add the https://github.com/vuestorefront/magento2-review-api to your Magento 2 instance.
 
 #### Microcart
 
 1. We moved core functionalities of coupon codes to API modules:
 
-   - **Coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   - **removeCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   - **applyCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   - **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   - **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   - **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **Coupon** computed value is now **appliedCoupon** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **removeCoupon** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **applyCoupon** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **totals** -> **cartTotals** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **shipping** -> **cartShipping** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **payment** -> **cartPayment** ([read more](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/cart.md))
 
 2. We moved/renamed methods responsible for UI to the default theme:
    - **addDiscountCoupon** - toggle coupon form
@@ -450,8 +450,8 @@ We added Reviews support, however, Magento 2 is still lacking Reviews support in
 
 ### Changes
 
-1. We removed event emit from client-entry.js with online status information. Instead, we are now using [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
-2. We removed the isOnline variable from Microcart.js. Instead, we are now using variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+1. We removed event emit from client-entry.js with online status information. Instead, we are now using [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/vuestorefront/vue-storefront/issues/1494)
+2. We removed the isOnline variable from Microcart.js. Instead, we are now using variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/vuestorefront/vue-storefront/issues/1494)
 
 ### Upgrade step-by-step
 
@@ -467,21 +467,21 @@ Import of CmsData must be changed in `CustomCmsPage.vue` component to:
 
 `import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'`
 
-## 1.1 -> 1.2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.2.0))
+## 1.1 -> 1.2 ([release notes](https://github.com/vuestorefront/vue-storefront/releases/tag/v1.2.0))
 
 There were no breaking-changes introduced. No special treatment needed 😃
 
-## 1.0 -> 1.1 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.1.0))
+## 1.0 -> 1.1 ([release notes](https://github.com/vuestorefront/vue-storefront/releases/tag/v1.1.0))
 
 ### Modifications
 
 #### Plugins registration simplified
 
-Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(pugin)` directly in this file ( [docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md) )
+Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(pugin)` directly in this file ( [docs](https://github.com/vuestorefront/vue-storefront/blob/master/doc/Working%20with%20plugins.md) )
 
 #### Microcart logic moved to API module (partially)
 
-Starting from Microcart, we are moving most of the logic to core modules along with unit testing them. [Read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
+Starting from Microcart, we are moving most of the logic to core modules along with unit testing them. [Read more](https://github.com/vuestorefront/vue-storefront/issues/1213).
 
 Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme:
 
@@ -499,23 +499,23 @@ Now it mirrors `core/` folder structure, which is desired behaviour.
 
 ### vue-storefront-api docker support has been extended
 
-We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
+We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/vuestorefront/vue-storefront-api) for more details.
 
 **PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `yarn migrate` in the `vue-storefront-api` folder.
 
 ### Default storage of the shopping carts and user data moved to localStorage
 
-Currently, there is a config option to set up the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If you like the previous behavior of storing the carts in the indexedDb, please change the config backend to `INDEXEDDB`.
+Currently, there is a config option to set up the default local storage configs: https://github.com/vuestorefront/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If you like the previous behavior of storing the carts in the indexedDb, please change the config backend to `INDEXEDDB`.
 
 ### mage2vuestorefront improvements
 
-A lot of improvements have been added to the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) importer. importer. For example, fixed special_price sync. For such changes, please update [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and re-import your products. We also added the dynamic on/demand indexing.
+A lot of improvements have been added to the [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) importer. importer. For example, fixed special_price sync. For such changes, please update [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) and re-import your products. We also added the dynamic on/demand indexing.
 
 ### New features
 
 We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme, which can be found in `App.vue` file.
 
-## 1.0RC-3 -> 1.0([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0))
+## 1.0RC-3 -> 1.0([release notes](https://github.com/vuestorefront/vue-storefront/releases/tag/v1.0.0))
 
 This is the official, stable release of Vue Storefront.
 
@@ -549,7 +549,7 @@ export default {
 
 4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled).
 
-## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
+## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/vuestorefront/vue-storefront/releases/tag/v1.0.0-rc.3))
 
 This release contains three important refactoring efforts:
 
@@ -611,13 +611,13 @@ If `optimize` is set to false, it's a fallback to the previous behaviour (gettin
 
 7.Product and Category pages got refactored. It's a massive refactoring moving all the logic to the Vuex stores, so if you played with the core `fetchData`/`loadData` functions, your code may be affected by this change.
 
-## 1.0RC -> 1.0RC-2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.2))
+## 1.0RC -> 1.0RC-2 ([release notes](https://github.com/vuestorefront/vue-storefront/releases/tag/v1.0.0-rc.2))
 
 This release brings some cool new features (Magento 1.x support, Magento 2 external checkout, My Orders, Discount Codes) together with some minor refactors.
 
 Unfortunately, with the refactors comes two manual changes that need to be applied to your custom themes after the update.
 
-Here You can check an **[example how did we migrated our own default_m1 theme to RC-2](https://github.com/DivanteLtd/vue-storefront/commit/111519c04acec272657e7eefec7ea8405da95f13)**.
+Here You can check an **[example how did we migrated our own default_m1 theme to RC-2](https://github.com/vuestorefront/vue-storefront/commit/111519c04acec272657e7eefec7ea8405da95f13)**.
 
 1. We changed `ColorButton`, `SizeButton`, `PriceButton` in the `core` to `ColorSelector`, `SizeSelector`, `PriceSelector` and added the `GenericSelector` for all other attribute types. Because of this change, the `coreComponent('ColorButton')` must be changed to `coreComponent('ColorSelector')` etc.
 

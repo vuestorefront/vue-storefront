@@ -11,7 +11,7 @@ In this chapter, we will cover :
 
 
 ## 0. Introduction
-Now you are definitely interested in **Vue Storefront**. That's why you are here. You've come across the line. You made a choice. You will have something in return, which is great. Be it developers, entrepreneurs or even marketing managers that they may want to try something new for better products in hopes of enhancing their clients or customers' experience. You chose the right path. We will explore anything you need to get you started at all with [**Vue Storefront** infrastructure](https://github.com/DivanteLtd).
+Now you are definitely interested in **Vue Storefront**. That's why you are here. You've come across the line. You made a choice. You will have something in return, which is great. Be it developers, entrepreneurs or even marketing managers that they may want to try something new for better products in hopes of enhancing their clients or customers' experience. You chose the right path. We will explore anything you need to get you started at all with [**Vue Storefront** infrastructure](https://github.com/vuestorefront).
 
 ## 1. Install with Docker
 Docker has been arguably the most sought-after, brought to the market which took the community by storm ever since its introduction. Although it's yet controversial whether it's the best choice among its peers, I have never seen such an unanimous enthusiasm over one tech product throughout the whole developers community.
@@ -40,9 +40,9 @@ That being sad, there are tips for using other platforms for docker at [Chef's S
 :::
 
 ### 2. Recipe
-1. First, start with backend, download [**Vue Storefront API**](https://github.com/DivanteLtd/vue-storefront-api) from github.
+1. First, start with backend, download [**Vue Storefront API**](https://github.com/vuestorefront/vue-storefront-api) from github.
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
+git clone https://github.com/vuestorefront/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
 ```
 
@@ -224,7 +224,7 @@ In `local.json`, you may change values for information of backend family. But if
 
 10. Install theme
 
-From version 1.12 you need to add theme into your project. [Here is more information](https://docs.vuestorefront.io/guide/installation/theme.html)
+From version 1.12 you need to add theme into your project. [Here is more information](/guide/installation/theme.html)
 
 11. Finally run the following Docker command :
 
@@ -447,7 +447,7 @@ If you want to modify `default.json`, don't edit it directly but copy the whole 
 :::
 We have 2 `local.json` files, one of which is for backend here, and we will look at [Secret 2](#secret-2-study-in-local-json-for-vue-storefront), the other for frontend .
 
-At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json) for **backend** :
+At [`vue-storefront-api/config/default.json`](https://github.com/vuestorefront/vue-storefront-api/blob/master/config/default.json) for **backend** :
 ```json
   "server": {
     "host": "localhost",
@@ -457,7 +457,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 ```
 - This is where your API backend is defined. The server will listen `server.host`:`server.port` unless it's defined otherwise in environment variables.
 
-- `server.searchEngine` is used in the integration with `graphql` so please don't change it. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/graphql/resolvers.js#L6)
+- `server.searchEngine` is used in the integration with `graphql` so please don't change it. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/graphql/resolvers.js#L6)
 ```json
   "orders": {
     "useServerQueue": false
@@ -466,10 +466,10 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     "excludeDisabledProducts": false
   },
 ```
-- `orders.useServerQueue` allows you to use queue process when `order` API is used to create an order. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/order.js#L65)
+- `orders.useServerQueue` allows you to use queue process when `order` API is used to create an order. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/order.js#L65)
 
 - `catalog.excludeDisabledProducts` allows you to skip disabled products when importing products using `mage2vs`.
-[jump to code](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/adapters/magento/product.js#L166)
+[jump to code](https://github.com/vuestorefront/mage2vuestorefront/blob/master/src/adapters/magento/product.js#L166)
 
 ```json
   "elasticsearch": {
@@ -499,7 +499,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 
   - `host`, `port`, `protocol` defines `elasticsearch` connect information.
 - `user`, `password` is default credentials of `elasticsearch`. If you changed the credentials of `elasticsearch`, please change this accordingly. [more info](https://www.elastic.co/guide/en/x-pack/current/security-getting-started.html)
-  - `min_score` sets a `min_score` when building a query for `elasticsearch`. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/graphql/elasticsearch/queryBuilder.js#L172)
+  - `min_score` sets a `min_score` when building a query for `elasticsearch`. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/graphql/elasticsearch/queryBuilder.js#L172)
     :::tip TIP
     `min_score` helps you exclude documents with `_score` less than `min_score` value.
     :::
@@ -593,8 +593,8 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 
 ```
 - `storeViews` element contains the whole information of ***additional*** stores. The default store information doesn't exist here, it exists on top level.
-- `multistore` is supposed to tell the platform if it has multiple stores to consider. For example, it is used to configure `tax` values of additional store. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L14)
-- `mapStoreUrlsFor` is used for building url routes in frontend. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts#L85)
+- `multistore` is supposed to tell the platform if it has multiple stores to consider. For example, it is used to configure `tax` values of additional store. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L14)
+- `mapStoreUrlsFor` is used for building url routes in frontend. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/lib/multistore.ts#L85)
 - `de` element contains detailed information of `de` store. You need to have this kind of element for all the additional stores you added to `availableStores` with `storeCode` as the key. `de` and `it` in the `default.json` exhibits an example you can copy & paste for other stores you need to add.
   - `storeCode` denotes store code for the store.
   - `storeId` denotes store ID of the store.
@@ -606,8 +606,8 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
   - `tax` contains tax information of the store.
     - `defaultCountry` is the code name of the country on which tax is calculated for the store.
     - `defaultRegion` is default region.
-    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/product.js#L48)
-    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
+    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/product.js#L48)
+    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
   - `i18n` connotes *internationalization*. [more info](https://en.wikipedia.org/wiki/Internationalization_and_localization)
     - `fullCountryName` is the full name of the country this `i18n` is applied to.
     - `fullLanguageName` is the full name of the language this `i18n` is applied to.
@@ -641,9 +641,9 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
   },
 ```
 - `cart`
-  - `setConfigurableProductOptions` flag determines to show either the parent item or the child item (aka selected option item) in the cart context. `true` shows parent item instead of the option item selected.  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/o2m.js#L94)
+  - `setConfigurableProductOptions` flag determines to show either the parent item or the child item (aka selected option item) in the cart context. `true` shows parent item instead of the option item selected.  [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/platform/magento2/o2m.js#L94)
 - `tax`
-  - `alwaysSyncPlatformPricesOver`  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/order.js#L49)
+  - `alwaysSyncPlatformPricesOver`  [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/order.js#L49)
   - `usePlatformTotals`
   These two options are used to determine whether to fetch prices from data source on the fly or not. If you set `alwaysSyncPlatformPricesOver` true, then it skips checking the checksum for cart items based on price.
 
@@ -659,7 +659,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 ```json
   "platform": "magento2",
 ```
-- `platform` defines which e-commerce platform is used as a source. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/order.js#L13)
+- `platform` defines which e-commerce platform is used as a source. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/order.js#L13)
 
 ```json
   "registeredExtensions": [
@@ -687,9 +687,9 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     }
   },
 ```
-- `registeredExtensions` element contains the list of supported extensions, it bootstraps entry points for those extensions [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/index.js#L45)
+- `registeredExtensions` element contains the list of supported extensions, it bootstraps entry points for those extensions [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/index.js#L45)
 
-- `extensions` contains additional configuration for extensions. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/tree/master/src/api/extensions)
+- `extensions` contains additional configuration for extensions. [jump to code](https://github.com/vuestorefront/vue-storefront-api/tree/master/src/api/extensions)
   - `mailchimp` provides `POST`, `DELETE` APIs for *Mailchimp* `subscribe` method.
     - `listId` is the ID of list you are publishing.
     - `apiKey` is API key you are assigned.
@@ -790,8 +790,8 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 ```
 - `imageable` deals with everything you need to configure when it comes to your storefront images, especially product images.
 
-  - `maxListeners` limits maximum listeners to request's socket. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/img.js#L21)
-  - `imageSizeLimit`  limits maximum image size. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/img.js#L56)
+  - `maxListeners` limits maximum listeners to request's socket. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/img.js#L21)
+  - `imageSizeLimit`  limits maximum image size. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/img.js#L56)
   - `whitelist` contains a white-list of image source domains
 
     - `allowedHosts` contains the array of white-list
@@ -808,7 +808,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 
     :::
 
-  - `cache` limits `libvips` operation cache from *Sharp*. Values hereunder are default values. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/lib/image.js#L5)
+  - `cache` limits `libvips` operation cache from *Sharp*. Values hereunder are default values. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/lib/image.js#L5)
 
     - `memory` is the maximum memory in MB to use for the cache.
     - `files` is the maximum number of files to hold open.
@@ -853,9 +853,9 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 ```
 - `entities` is used to integrate with *GraphQL* in **Vue Storefront API**.
   - `category`
-    - `includeFields` contains an array of fields to be added as `sourceInclude` [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/graphql/elasticsearch/category/resolver.js#L10)
+    - `includeFields` contains an array of fields to be added as `sourceInclude` [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/graphql/elasticsearch/category/resolver.js#L10)
   - `product`
-    - `filterFieldMapping` adds a field mapping to apply a filter in a query [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/graphql/elasticsearch/mapping.js#L19)
+    - `filterFieldMapping` adds a field mapping to apply a filter in a query [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/graphql/elasticsearch/mapping.js#L19)
       - `category.name`
 
 ```json
@@ -880,7 +880,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 
 #### Secret 2. Study in `local.json` for *Vue Storefront*
 
-At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) for **frontend** :
+At [`vue-storefront/config/default.json`](https://github.com/vuestorefront/vue-storefront/blob/master/config/default.json) for **frontend** :
 
 ```json
 "server": {
@@ -908,37 +908,37 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 
   - `port`  is the port number in which your *Vue Storefront* instance listens to.
 
-  - `protocol`  is used for *GraphQL* integration. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/search/adapter/graphql/searchAdapter.ts#L48)
+  - `protocol`  is used for *GraphQL* integration. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/lib/search/adapter/graphql/searchAdapter.ts#L48)
 
-  - `api`  determines API mode between  `api`  and `graphql`. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/resolvers/resolveGraphQL.js#L7)
+  - `api`  determines API mode between  `api`  and `graphql`. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/resolvers/resolveGraphQL.js#L7)
 
     :::tip TIP
 
     You may take a look at [*GraphQL Action Plan*](/guide/basics/graphql.html) guide to help yourself make a decision which mode you should take.
     :::
 
-  - `devServiceWorker` enables *service worker* in `develop` mode. The *service worker* is normally enabled by default for `production` mode, but not for `develop` mode. Setting this flag *true* forces to use *service worker* in `develop` mode too. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/service-worker/registration.js#L5)
+  - `devServiceWorker` enables *service worker* in `develop` mode. The *service worker* is normally enabled by default for `production` mode, but not for `develop` mode. Setting this flag *true* forces to use *service worker* in `develop` mode too. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/service-worker/registration.js#L5)
     :::tip TIP
 
     You may take a look at [Working with Service Workers](/guide/core-themes/service-workers.html) for better understanding.
     :::
 
-  - `useOutputCacheTagging` determines to allow *Output Cache Tags*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L168)
+  - `useOutputCacheTagging` determines to allow *Output Cache Tags*. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L168)
 
-  - `useOutputCache` determines to allow *Output Cache*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L64)
+  - `useOutputCache` determines to allow *Output Cache*. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L64)
 
-  - `outputCacheDefaultTtl`  defines the default timeout for *Redis Tag Cache*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/utils/cache-instance.js#L16)
+  - `outputCacheDefaultTtl`  defines the default timeout for *Redis Tag Cache*. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/utils/cache-instance.js#L16)
 
-  - `availableCacheTags`  contains a list of available cache tags. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/cache.js#L7)
+  - `availableCacheTags`  contains a list of available cache tags. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/cache.js#L7)
 
-  - `invalidateCacheKey`  is the key used for checking validity of invalidation. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L66)
+  - `invalidateCacheKey`  is the key used for checking validity of invalidation. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L66)
     :::tip TIP
 
     You may take a look at [SSR Cache](/guide/basics/ssr-cache.html) in order to grab the idea of *Output Cache* in *Vue Storefront*
     :::
 
-  - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L232)
-  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L240)
+  - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L232)
+  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L240)
   - `dynamicConfigExclude`
   - `dynamicConfigInclude`
   - `elasticCacheQuota`
@@ -1318,8 +1318,8 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   - `tax`: ...
     - `defaultCountry` is the code name of the country on which tax is calculated for the store.
     - `defaultRegion` is default region.
-    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
-    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/product.js#L48)
+    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
+    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/product.js#L48)
     - `userGroupId`: null,
     - `useOnlyDefaultUserGroupId`: false,
     - `deprecatedPriceFieldsSupport`: true,
@@ -1436,7 +1436,7 @@ We made it one step further where you just need to answer a series of questions 
 1. If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
 ```bash
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 yarn
 yarn installer

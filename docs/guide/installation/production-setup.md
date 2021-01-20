@@ -11,7 +11,7 @@ To run Vue Storefront in production mode without Docker/Kubernetes, you'll need 
 Assumptions for the rest of this tutorial:
 
 - You have root access to a Debian Linux machine.
-- We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed**, as they will be hidden behind **NGINX proxy**.
+- We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/vuestorefront/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api); the ports **should not be exposed**, as they will be hidden behind **NGINX proxy**.
 - We're using **prod.vuestorefront.io** as a domain name. Please replace it with your host URL address.
 - We assume that you have an SSL certificate for **prod.vuestorefront.io** (or your domain, of course). SSL encryption is required for PWA and Service Workers.
 
@@ -204,7 +204,7 @@ location /api/ {
 }
 ```
 
-The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under ___https://prod.vuestorefront.io/api___
+The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api) app running on `8080` port (default config). API will be available under ___https://prod.vuestorefront.io/api___
 
 ```
 location /img/ {
@@ -212,7 +212,7 @@ location /img/ {
 }
 ```
 
-The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under ___https://prod.vuestorefront.io/img___
+The last proxy is used for serving product images. It's a proxy to the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api) app running on `8080` port (default config). Images will be available under ___https://prod.vuestorefront.io/img___
 
 #### Apache2 configuration
 
@@ -247,8 +247,8 @@ You need to clone the `vue-storefront` and the `vue-storefront-api` repos accord
 ```bash
 su vuestorefront
 cd /home/www/vuestorefront
-git clone https://github.com/DivanteLtd/vue-storefront.git
-git clone https://github.com/DivanteLtd/vue-storefront-api.git
+git clone https://github.com/vuestorefront/vue-storefront.git
+git clone https://github.com/vuestorefront/vue-storefront-api.git
 ```
 
 Then, you will need to install the required node packages:
@@ -269,7 +269,7 @@ It may take a few minutes. The phantomjs dependency requires bzip2 to be install
 
 #### Vue Storefront configuration
 
-The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
+The full configuration files are available here to download: [vue-storefront](https://github.com/vuestorefront/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/vuestorefront/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
 
 Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly by copying default.json into local.json by using `cp` command:
 ```bash
@@ -342,7 +342,7 @@ If you want to see how the local.json should look like after your modifications,
 
 #### Vue Storefront API configuration
 
-The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config) requires almost no changes.
+The [provided vue-storefront-api configuration](https://github.com/vuestorefront/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config) requires almost no changes.
 
 The only lines you need to alter are:
 
@@ -405,7 +405,7 @@ yarn build
 
 #### Data import
 
-Vue Storefront needs to have some data in the Elasticsearch to properly display products and categories. Of course, you can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the Elasticsearch index whenever data is being changed in Magento. For the purpose of this tutorial, we'll just restore the data from the JSON file.
+Vue Storefront needs to have some data in the Elasticsearch to properly display products and categories. Of course, you can install [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) and configure the data pump to synchronize and update the Elasticsearch index whenever data is being changed in Magento. For the purpose of this tutorial, we'll just restore the data from the JSON file.
 
 You can easily dump your current VS index using the following command (your local installation):
 

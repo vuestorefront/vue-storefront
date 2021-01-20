@@ -428,7 +428,7 @@ node --harmony cli.js pages
 ```
 
 :::tip NOTE
-API endpoints for _reviews_, _blocks_ and _pages_ from Magento are not available out of the box. You should install additional modules for them on your own. [review](https://github.com/DivanteLtd/magento2-review-api), [cms](https://github.com/SnowdogApps/magento2-cms-api)
+API endpoints for _reviews_, _blocks_ and _pages_ from Magento are not available out of the box. You should install additional modules for them on your own. [review](https://github.com/vuestorefront/magento2-review-api), [cms](https://github.com/SnowdogApps/magento2-cms-api)
 :::
 
 Now you are ready to launch your Vue Storefront shop powered by _Elasticsearch 7_. 
@@ -506,7 +506,7 @@ In order to change which _Search Adapter_ should be in labor, please take a look
 ### 2-0 Appetizer
  0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store the information of your stores in data store, which is _Elasticsearch_ in this case, read the data whenever you need it like you want to display _offline stores_ while on checkout for customer to pick up if they live nearby.
 :::tip NOTE
-There are two ways to import your data into data store. One for using [`mage2vuestorefront`](https://github.com/DivanteLtd/mage2vuestorefront) which runs _NodeJS_ scripts to do the job while the other for using [`magento2-vsbridge-indexer`](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that is a native Magento 2 module for the job. 
+There are two ways to import your data into data store. One for using [`mage2vuestorefront`](https://github.com/vuestorefront/mage2vuestorefront) which runs _NodeJS_ scripts to do the job while the other for using [`magento2-vsbridge-indexer`](https://github.com/vuestorefront/magento2-vsbridge-indexer) that is a native Magento 2 module for the job. 
 
 In this recipe, we choose the former. But don't worry we will also look into the latter in the [Chef's secret 2](#secret-2-how-to-make-a-custom-import-using-magento2-vsbridge-indexer).
 :::
@@ -794,7 +794,7 @@ cp ../../../core/lib/search/adapter/api/searchAdapter.ts api/
  ```
 
 :::tip NOTE
-The reason you should copy the whole `searchAdapter.ts` file is, in doing so your adapter also includes default entities from `core` into custom file because your custom entities can't be added incrementally to the default. Here's [why](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/search/adapter/searchAdapterFactory.js#L12-L20)
+The reason you should copy the whole `searchAdapter.ts` file is, in doing so your adapter also includes default entities from `core` into custom file because your custom entities can't be added incrementally to the default. Here's [why](https://github.com/vuestorefront/vue-storefront/blob/master/core/lib/search/adapter/searchAdapterFactory.js#L12-L20)
 :::
 
  3. Write a function to handle adding a custom entity type in `searchAdapter.ts` you just copied and initialize it in the _constructor_ of the same class as follows : 
