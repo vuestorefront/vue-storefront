@@ -163,8 +163,8 @@ import { SfAlert, SfBar, SfButton, SfCheckbox, SfInput, SfLoader, SfModal } from
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
 import { email, required } from 'vee-validate/dist/rules';
 import { useUser } from '<%= options.generate.replace.composables %>';
-import { useUiState } from '~/composables';
-import { knownErrors } from '~/helpers/errors';
+import { useUiState, useUiNotification } from '~/composables';
+import { authErrors } from '~/helpers/errors';
 
 extend('email', {
   ...email,
@@ -196,7 +196,9 @@ export default {
     const isLogin = ref(false);
     const createAccount = ref(false);
     const rememberMe = ref(false);
+    const { $i18n } = context.root;
     const { register, login, loading, error } = useUser();
+    const { send } = useUiNotification();
 
     watch([isAuthModalOpen, isLogin], (newValue, prevValues) => {
       if (isAuthModalOpen) {
@@ -206,20 +208,32 @@ export default {
       if (newValue[1] !== prevValues[1]) serverError.value = {};
     });
 
+    const handleUiNotification = (type, message) => {
+      send({ type, message });
+    };
+
     const handleError = ({ email }) => {
       const activeModal = isLogin.value ? 'login' : 'register';
       const currErr = error.value[activeModal];
       if (!currErr) return;
 
-      const authErrors = knownErrors(context, email);
-      serverError.value = authErrors.find(authError => authError.originalMessage === currErr.message);
+      const knownErrors = authErrors(context, email);
+      serverError.value = knownErrors.find(authError => authError.originalMessage === currErr.message);
+      handleUiNotification('danger', `${$i18n.t('Something went wrong!')}`);
     };
 
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
       handleError(form.value);
-      if (isLogin.value && !error.value.login) toggleAuthModal();
-      if (!isLogin.value && !error.value.register) toggleAuthModal();
+
+      if (isLogin.value && !error.value.login) {
+        handleUiNotification('success', `${$i18n.t('Successfully logged in')}`);
+        toggleAuthModal();
+      }
+      if (!isLogin.value && !error.value.register) {
+        handleUiNotification('success', `${$i18n.t('Successfully created a new account')}`);
+        toggleAuthModal();
+      }
     };
 
     const handleRegister = async () => handleForm(register)();

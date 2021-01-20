@@ -1,5 +1,5 @@
-import { knownErrors } from './authentication';
+import { authErrors } from './authentication';
 
 export {
-  knownErrors
+  authErrors
 };

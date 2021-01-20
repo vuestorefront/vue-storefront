@@ -1,4 +1,4 @@
-export const knownErrors = (context, email) => {
+export const authErrors = (context, email) => {
   const { $i18n } = context.root;
 
   return [

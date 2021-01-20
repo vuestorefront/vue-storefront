@@ -122,5 +122,8 @@ export default {
   'There is already an existing customer with the email.': 'There is already an existing customer with the email.',
   'There is already an existing customer with this email': 'There is already an existing customer with this email',
   'Account with the given credentials not found.': 'Account with the given credentials not found.',
-  'Customer account with the given credentials not found.': 'Customer account with the given credentials not found.'
+  'Customer account with the given credentials not found.': 'Customer account with the given credentials not found.',
+  'Successfully logged in': 'Successfully logged in',
+  'Successfully created a new account': 'Successfully created a new account',
+  'Something went wrong!': 'Something went wrong!'
 };

@@ -15,7 +15,7 @@
       </LazyHydrate>
       <CartSidebar />
       <WishlistSidebar />
-      <LoginModal />
+      <AuthModal />
       <Notification />
     </div>
     <LazyHydrate when-visible>
@@ -44,7 +44,7 @@ export default {
     AppFooter,
     CartSidebar,
     WishlistSidebar,
-    LoginModal,
+    AuthModal,
     Notification
   }
 };
