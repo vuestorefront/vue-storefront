@@ -234,7 +234,11 @@ describe('Cart mergeActions', () => {
       serverSyncCanRemoveLocalItems: false
     }
 
-    const contextMock = createContextMock()
+    const contextMock = createContextMock({
+      getters: {
+        forceServerState: true
+      }
+    })
 
     await (cartActions as any).synchronizeServerItem(contextMock, { clientItem, serverItem: null });
     expect(contextMock.dispatch).toBeCalledWith('updateServerItem', { clientItem, serverItem: null, updateIds: false })
@@ -257,7 +261,11 @@ describe('Cart mergeActions', () => {
       serverSyncCanRemoveLocalItems: false
     }
 
-    const contextMock = createContextMock()
+    const contextMock = createContextMock({
+      getters: {
+        forceServerState: true
+      }
+    })
 
     await (cartActions as any).synchronizeServerItem(contextMock, { clientItem, serverItem });
     expect(contextMock.dispatch).not.toBeCalledWith('updateServerItem', { clientItem, serverItem: null, updateIds: false })
