@@ -1,7 +1,0 @@
-export declare const ProductPriceFragment = "\n  fragment DefaultProductPrice on ProductPrice {\n    discounted {\n      value {\n        type\n        currencyCode\n        centAmount\n        fractionDigits\n      }\n      discount {\n        validFrom\n        validUntil\n        isActive\n        name(acceptLanguage: $acceptLanguage)\n      }\n    }\n    value {\n      type\n      currencyCode\n      centAmount\n      fractionDigits\n    }\n  }\n";
-export declare const AddressFragment = "\n  fragment DefaultAddress on Address {\n    id\n    title\n    firstName\n    lastName\n    streetName\n    streetNumber\n    postalCode\n    city\n    country\n    state\n    region\n    company\n    apartment\n    phone\n    mobile\n  }\n";
-export declare const CustomerFragment: string;
-export declare const LineItemFragment: string;
-export declare const ShippingMethodFragment = "\n  fragment DefaultShippingMethod on ShippingMethod {\n    id\n    version\n    name\n    description\n    isDefault\n    localizedDescription(acceptLanguage: $acceptLanguage)\n    zoneRates {\n      zone {\n        id\n        name\n      }\n      shippingRates {\n        freeAbove {\n          type\n          centAmount\n        }\n        isMatching\n        price {\n          centAmount\n        }\n      }\n    }\n  }\n";
-export declare const CartFragment: string;
-export declare const OrderFragment: string;
