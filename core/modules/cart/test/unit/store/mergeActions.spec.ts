@@ -236,7 +236,7 @@ describe('Cart mergeActions', () => {
 
     const contextMock = createContextMock({
       getters: {
-        forceServerState: true
+        forceServerState: false
       }
     })
 
@@ -263,7 +263,7 @@ describe('Cart mergeActions', () => {
 
     const contextMock = createContextMock({
       getters: {
-        forceServerState: true
+        forceServerState: false
       }
     })
 
