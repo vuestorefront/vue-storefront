@@ -175,21 +175,21 @@
         <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
             v-for="item in shippingMethods"
-            :key="checkoutGetters.getShippingMethodName(item)"
-            :label="checkoutGetters.getShippingMethodName(item)"
-            :value="checkoutGetters.getShippingMethodId(item)"
+            :key="checkoutShippingMethodGetters.getMethodName(item)"
+            :label="checkoutShippingMethodGetters.getMethodName(item)"
+            :value="checkoutShippingMethodGetters.getMethodId(item)"
             :selected="
-              checkoutGetters.getShippingMethodId(chosenShippingMethod)
+              checkoutShippingMethodGetters.getMethodId(chosenShippingMethod)
             "
             @input="handleMethodSubmit(reset, item)"
             name="shippingMethod"
-            :description="checkoutGetters.getShippingMethodDescription(item)"
+            :description="checkoutShippingMethodGetters.getMethodDescription(item)"
             class="form__radio shipping"
           >
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div>${{ checkoutGetters.getShippingMethodPrice(item) }}</div>
+                <div>${{ checkoutShippingMethodGetters.getMethodPrice(item) }}</div>
               </div>
             </template>
             <template #description="{ description }">
@@ -237,7 +237,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useCheckoutShippingMethod, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckoutShippingMethod, checkoutShippingMethodGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
@@ -308,7 +308,7 @@ export default {
     return {
       shippingDetails,
       chosenShippingMethod,
-      checkoutGetters,
+      checkoutShippingMethodGetters,
       countries: config.countries,
       shippingMethods,
 

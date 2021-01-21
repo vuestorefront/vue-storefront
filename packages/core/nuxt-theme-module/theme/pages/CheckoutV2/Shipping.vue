@@ -7,7 +7,6 @@
     />
     <ShippingForm
       :address="$chShipping.shipping"
-      :method="$chShippingMethod.selectedShippingMethod"
       :isShippingDetailsCompleted="isShippingDetailsCompleted"
       :isShippingMethodCompleted="isShippingMethodCompleted"
       :isSaving="isSaving"
@@ -45,10 +44,7 @@ export default {
       method: false
     });
 
-    onSSR(async () => {
-      await $chShipping.load();
-      // await $chShippingMethod.load();
-    });
+    onSSR(async () => $chShipping.load());
 
     onMounted(async () => {
       // shippingDetails.value = $chShipping.shipping.value;
@@ -67,6 +63,9 @@ export default {
 
     const handleShippingAddressSubmit = (reset) => async (shippingDetails) => {
       await $chShipping.save({ shippingDetails });
+      if ($chShipping.error.value.save) {
+        return;
+      }
       await $chShippingMethod.load();
       reset();
       isShippingDetailsCompleted.value = true;
