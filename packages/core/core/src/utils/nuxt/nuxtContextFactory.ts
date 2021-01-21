@@ -1,4 +1,4 @@
-import { applyContextForApi } from './../context';
+import { applyContextToApi } from './../context';
 
 export const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
   const integrationKey = '$' + tag;
@@ -18,7 +18,7 @@ export const nuxtContextFactory = ({ tag, nuxtCtx, inject }) => {
       };
       nuxtCtx.$vsf[integrationKey].api = {
         ...current.api,
-        ...applyContextForApi((props.api || {}), { client, config })
+        ...applyContextToApi((props.api || {}), { client, config })
       };
     }
 

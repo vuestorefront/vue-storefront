@@ -13,7 +13,7 @@ export interface CategoryData {
 const getCategory = async (context, params, customQueryFn?: CustomQueryFn) => {
   const { acceptLanguage } = context.config;
   const defaultVariables = params ? {
-    where: buildCategoryWhere(context, params),
+    where: buildCategoryWhere(context.config, params),
     limit: params.limit,
     offset: params.offset,
     acceptLanguage

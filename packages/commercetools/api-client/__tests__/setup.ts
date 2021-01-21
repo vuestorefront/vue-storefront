@@ -1,4 +1,4 @@
-import { createApiClient } from './../src/index';
+import { createApiClient } from './../src/index.server';
 
 jest.mock('../src/helpers/createCommerceToolsLink');
 jest.mock('../src/api/updateCart', () => jest.fn((arg) => arg));

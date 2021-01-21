@@ -1,7 +1,7 @@
 import { nuxtContextFactory } from '../../../src/utils/nuxt/nuxtContextFactory';
-import { applyContextForApi } from '../../../src/utils/context';
+import { applyContextToApi } from '../../../src/utils/context';
 jest.mock('../../../src/utils/context', () => ({
-  applyContextForApi: jest.fn()
+  applyContextToApi: jest.fn()
 }));
 
 describe('nuxtContextFactory', () => {
@@ -98,7 +98,7 @@ describe('nuxtContextFactory', () => {
     expect((nuxtCtx.$vsf.$myIntegration as any).testFieldToAdd).toBe(15);
   });
 
-  it('extendContent extends api with response from applyContextForApi', () => {
+  it('extendContent extends api with response from applyContextToApi', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {
       $vsf: {
@@ -126,7 +126,7 @@ describe('nuxtContextFactory', () => {
   });
 
   it('extendContext extends api if available', () => {
-    (applyContextForApi as jest.Mock).mockImplementation((api, { client, config }) => ({
+    (applyContextToApi as jest.Mock).mockImplementation((api, { client, config }) => ({
       ...api,
       ...client,
       ...config
@@ -173,7 +173,7 @@ describe('nuxtContextFactory', () => {
   });
 
   it('extendContext extends api if available with props.api not provided', () => {
-    (applyContextForApi as jest.Mock).mockImplementation((api, { client, config }) => ({
+    (applyContextToApi as jest.Mock).mockImplementation((api, { client, config }) => ({
       ...api,
       ...client,
       ...config
