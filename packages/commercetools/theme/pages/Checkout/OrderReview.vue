@@ -25,7 +25,7 @@
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              <span class="content__label">{{ checkoutGetters.getShippingMethodName(chosenShippingMethod) }}</span><br />
+              <span class="content__label">{{ checkoutShippingMethodGetters.getMethodName(chosenShippingMethod) }}</span><br />
               {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
@@ -119,7 +119,7 @@
           />
           <SfProperty
             name="Shipping"
-            :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
+            :value="$n(checkoutShippingMethodGetters.getMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
@@ -165,7 +165,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useCart, cartGetters, checkoutShippingMethodGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -225,7 +225,7 @@ export default {
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
-      checkoutGetters
+      checkoutShippingMethodGetters
     };
   }
 };

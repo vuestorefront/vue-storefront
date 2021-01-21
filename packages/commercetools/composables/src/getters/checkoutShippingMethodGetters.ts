@@ -1,20 +1,22 @@
 import { CheckoutShippingMethodGetters } from '@vue-storefront/core';
-import { createPrice } from './_utils';
+import { ShippingMethod } from './../types/GraphQL';
 
-export const getShippingMethods = (methods: any) => methods;
-export const getMethodName = (method: any) => method.name;
-export const getMethodDescription = (method: any) => method.description;
-export const getMethodPrice = (method: any) => {
-  const matchingShippingRate = method.zoneRates[0].shippingRates.find(shippingRate => shippingRate.isMatching);
-  if (!matchingShippingRate) {
+export const getShippingMethods = (methods: ShippingMethod[]) => methods;
+export const getMethodId = (method: ShippingMethod) => method?.id;
+export const getMethodName = (method: ShippingMethod) => method.name;
+export const getMethodDescription = (method: ShippingMethod) => method.description;
+export const getMethodPrice = (method: ShippingMethod): number => {
+  if (!method || !method.zoneRates) {
     return null;
   }
-  return createPrice(matchingShippingRate);
+
+  return method.zoneRates[0].shippingRates[0].price.centAmount / 100;
 };
 export const isMethodDefault = (method: any) => method.firstName;
 
 const checkoutShippingMethodGetters: CheckoutShippingMethodGetters<any, any> = {
   getShippingMethods,
+  getMethodId,
   getMethodName,
   getMethodDescription,
   getMethodPrice,
