@@ -9,7 +9,6 @@
       :address="shipping"
       :isSaving="isSaving"
       @addressSubmit="({ callback, shippingDetails }) => handleShippingAddressSubmit(callback)(shippingDetails)"
-      @addressModify="isShippingDetailsCompleted = false"
       @methodSubmit="({ callback, shippingMethod }) => handleShippingMethodSubmit(callback)(shippingMethod)"
       @stepSubmit="handleStepSubmit"
     />
