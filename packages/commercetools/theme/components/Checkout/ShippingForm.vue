@@ -4,7 +4,7 @@
       @submit.prevent="
         handleSubmit(
           isShippingDetailsCompleted && isShippingMethodCompleted && !dirty
-            ? handleStepSubmit()
+            ? handleStepSubmit
             : handleAddressSubmit(reset)
         )
       "
@@ -294,7 +294,7 @@ export default {
       });
     };
 
-    const handleAddressSubmit = reset => {
+    const handleAddressSubmit = reset => () => {
       context.emit('addressSubmit', {
         reset,
         shippingDetails: shippingDetails.value
