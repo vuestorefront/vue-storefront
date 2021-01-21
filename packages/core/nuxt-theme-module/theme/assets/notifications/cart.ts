@@ -1,4 +1,4 @@
-import { useUiNotification } from '~/composables';
+import { useUiNotification } from '../../composables';
 
 export const addItem = ({ productName, error, onClick, $i18n }) => {
   const { send } = useUiNotification();

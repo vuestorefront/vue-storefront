@@ -4,10 +4,11 @@ interface UiNotification {
   message: string;
   action: { text: string; onClick: (...args: any) => void };
   type: 'danger' | 'success' | 'info';
-  icon: string;
-  persist: boolean;
-  id: symbol;
-  dismiss: () => void;
+  action?: { text: string; onClick: Function };
+  icon?: string;
+  persist?: boolean;
+  id?: symbol;
+  dismiss?: () => void;
 }
 
 interface Notifications {
