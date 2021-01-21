@@ -272,13 +272,14 @@ export default {
   props: {
     isShippingDetailsCompleted: Boolean,
     isShippingMethodCompleted: Boolean,
-    isSaving: Object
+    isSaving: Object,
+    address: Object
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shippingMethods } = useCheckoutShippingMethod();
 
-    const shippingDetails = ref({});
+    const shippingDetails = ref(props.address || {});
     const chosenShippingMethod = ref(null);
 
     const handleStepSubmit = () => {
@@ -300,8 +301,6 @@ export default {
       });
     };
 
-    const canContinueToPayment = dirty => props.isShippingDetailsCompleted.value && !dirty;
-
     watch(shippingDetails, () => {
       context.emit('addressModify');
     });
@@ -311,7 +310,6 @@ export default {
       chosenShippingMethod,
       checkoutGetters,
       countries: config.countries,
-      canContinueToPayment,
       shippingMethods,
 
       handleMethodSubmit,
