@@ -11,7 +11,6 @@ import {
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import { cartHooksExecutors } from './../../hooks'
-import getters from 'theme/store/cart/getters'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
@@ -66,7 +65,7 @@ const mergeActions = {
 
     return diffLog
   },
-  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
+  async synchronizeServerItem ({ dispatch, getters }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
     const diffLog = createDiffLog()
 
     if (!serverItem) {
