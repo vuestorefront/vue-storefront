@@ -278,7 +278,6 @@ export default {
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shippingMethods } = useCheckoutShippingMethod();
-
     const shippingDetails = ref(props.address || {});
     const chosenShippingMethod = ref(null);
 
@@ -303,6 +302,10 @@ export default {
 
     watch(shippingDetails, () => {
       context.emit('addressModify');
+    });
+
+    watch(() => props.address, (addr) => {
+      shippingDetails.value = addr;
     });
 
     return {
