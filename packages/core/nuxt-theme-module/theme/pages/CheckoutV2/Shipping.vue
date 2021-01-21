@@ -47,7 +47,6 @@ export default {
     onSSR(async () => $chShipping.load());
 
     onMounted(async () => {
-      // shippingDetails.value = $chShipping.shipping.value;
       // if (isAuthenticated.value) {
       //   await loadUserShipping();
       //   const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
@@ -80,6 +79,9 @@ export default {
     };
     const handleShippingMethodSubmit = (reset) => async (shippingMethod) => {
       await $chShippingMethod.save({ shippingMethod });
+      if ($chShippingMethod.error.value.save) {
+        return;
+      }
       reset();
       isShippingMethodCompleted.value = true;
     };
