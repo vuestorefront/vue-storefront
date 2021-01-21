@@ -301,9 +301,9 @@ export interface UseCheckoutShippingMethod<SHIPPING_METHOD, SHIPPING_METHOD_PARA
   load: () => Promise<void>;
   save: (params: SHIPPING_METHOD_PARAMS) => Promise<void>;
 }
-export interface UseCheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHIPPING_METHOD_ITEM> {
-  getAddresses: (billing: SHIPPING, criteria?: Record<string, any>) => SHIPPING_ADDRESS_ITEM[];
-  getMethods: (billing: SHIPPING, criteria?: Record<string, any>) => SHIPPING_METHOD_ITEM[];
+export interface CheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHIPPING_METHOD_ITEM> {
+  getAddresses: (shipping: SHIPPING, criteria?: Record<string, any>) => SHIPPING_ADDRESS_ITEM[];
+  getMethods: (shipping: SHIPPING, criteria?: Record<string, any>) => SHIPPING_METHOD_ITEM[];
   getAddressPostCode: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressStreetName: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressStreetNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
@@ -320,7 +320,7 @@ export interface UseCheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHI
   isAddressDefault: (address: SHIPPING_ADDRESS_ITEM) => boolean;
 }
 
-export interface UseCheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_MEDHOD_ITEM> {
+export interface CheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_MEDHOD_ITEM> {
   getShippingMethods: (methods: SHIPPING_METHODS, criteria?: Record<string, any>) => SHIPPING_MEDHOD_ITEM[];
   getMethodName: (method: SHIPPING_MEDHOD_ITEM) => string;
   getMethodDescription: (method: SHIPPING_MEDHOD_ITEM) => string;
