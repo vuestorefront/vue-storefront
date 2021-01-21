@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <ShippingForm
-      :address="$chShipping.shipping"
+      :address="shipping"
       :isShippingDetailsCompleted="isShippingDetailsCompleted"
       :isShippingMethodCompleted="isShippingMethodCompleted"
       :isSaving="isSaving"
@@ -34,8 +34,17 @@ export default {
     ShippingForm
   },
   setup(props, context) {
-    const $chShipping = useCheckoutShipping();
-    const $chShippingMethod = useCheckoutShippingMethod();
+    const {
+      save: saveShipping,
+      load: loadShipping,
+      error: shippingError,
+      shipping
+    } = useCheckoutShipping();
+    const {
+      save: saveShippingMethod,
+      load: loadShippingMethod,
+      error: shippingMethodError
+    } = useCheckoutShippingMethod();
 
     const isShippingDetailsCompleted = ref(false);
     const isShippingMethodCompleted = ref(false);
@@ -44,7 +53,7 @@ export default {
       method: false
     });
 
-    onSSR(async () => $chShipping.load());
+    onSSR(async () => loadShipping());
 
     onMounted(async () => {
       // if (isAuthenticated.value) {
@@ -61,11 +70,13 @@ export default {
     });
 
     const handleShippingAddressSubmit = (reset) => async (shippingDetails) => {
-      await $chShipping.save({ shippingDetails });
-      if ($chShipping.error.value.save) {
+      isSaving.details = true;
+      await saveShipping({ shippingDetails });
+      if (shippingError.value.save) {
         return;
       }
-      await $chShippingMethod.load();
+      await loadShippingMethod();
+      isSaving.details = false;
       reset();
       isShippingDetailsCompleted.value = true;
       // if (currentAddressId.value > -1 && setAsDefault.value) {
@@ -78,10 +89,12 @@ export default {
       // addressIsModified.value = false;
     };
     const handleShippingMethodSubmit = (reset) => async (shippingMethod) => {
-      await $chShippingMethod.save({ shippingMethod });
-      if ($chShippingMethod.error.value.save) {
+      isSaving.method = true;
+      await saveShippingMethod({ shippingMethod });
+      if (shippingMethodError.value.save) {
         return;
       }
+      isSaving.method = false;
       reset();
       isShippingMethodCompleted.value = true;
     };
@@ -96,11 +109,8 @@ export default {
     //   addressIsModified.value = true;
     // };
 
-    // const canContinueToPayment = dirty => isShippingAddressCompleted.value && !dirty && !addressIsModified.value;
-
     return {
-      $chShipping,
-      $chShippingMethod,
+      shipping,
       isShippingDetailsCompleted,
       isShippingMethodCompleted,
       isSaving,
