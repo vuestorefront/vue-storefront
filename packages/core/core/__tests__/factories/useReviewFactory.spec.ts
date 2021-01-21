@@ -80,7 +80,7 @@ describe('[CORE - factories] useReviews', () => {
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual(null);
+    expect(error.value).toEqual({});
   });
 
   it('returns reviews response', async () => {
@@ -89,7 +89,7 @@ describe('[CORE - factories] useReviews', () => {
     await search({});
 
     expect(reviews.value).toEqual(searchReviewResponse);
-    expect(error.value).toEqual(null);
+    expect(error.value).toEqual({ search: null });
   });
 
   it('can submit new review', async () => {
@@ -111,7 +111,7 @@ describe('[CORE - factories] useReviews', () => {
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual('Error: Couldn\'t retrieve reviews');
+    expect(error.value.search.toString()).toEqual('Error: Couldn\'t retrieve reviews');
   });
 
   it('returns error when submit fails', async () => {
@@ -121,6 +121,6 @@ describe('[CORE - factories] useReviews', () => {
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual('Error: Couldn\'t submit review');
+    expect(error.value.addReview.toString()).toEqual('Error: Couldn\'t submit review');
   });
 });

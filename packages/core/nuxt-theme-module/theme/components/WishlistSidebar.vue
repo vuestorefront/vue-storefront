@@ -57,13 +57,14 @@
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
             <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-wishlist__icon" />
-            <h3 class="empty-wishlist__label">Your bag is empty</h3>
+            <h3 class="empty-wishlist__label">{{ $t('Your bag is empty') }}</h3>
             <p class="empty-wishlist__description">
-              Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in.
+              {{ $t('Empty') }}
             </p>
           </div>
-          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+            {{ $t('Start shopping') }}
+          </SfButton>
         </div>
       </transition>
     </SfSidebar>

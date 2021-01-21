@@ -1,4 +1,4 @@
-import { isAnonymousSession, isUserSession } from '../../helpers/commercetoolsLink';
+import { isAnonymousSession, isUserSession } from '../../helpers/utils';
 
 const isGuest = (context) => {
   const { client, config } = context;
@@ -7,7 +7,7 @@ const isGuest = (context) => {
     return config.handleIsGuest(context);
   }
 
-  if (client.tokenProvider) {
+  if (client.tokenProvider || context.isProxy) {
     const token = config.auth.onTokenRead();
     return !isAnonymousSession(token) && !isUserSession(token);
   }

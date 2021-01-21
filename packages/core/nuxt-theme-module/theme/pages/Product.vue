@@ -38,7 +38,7 @@
                 ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text">Read all reviews</SfButton>
+            <SfButton data-cy="product-btn_read-all" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
@@ -46,7 +46,7 @@
             {{ description }}
           </p>
           <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
-            Size guide
+            {{ $t('Size guide') }}
           </SfButton>
           <SfSelect
             data-cy="product-select_size"
@@ -65,8 +65,8 @@
               {{size.label}}
             </SfSelectOption>
           </SfSelect>
-          <div v-if="options.color" class="product__colors desktop-only">
-            <p class="product__color-label">Color:</p>
+          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
+            <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               data-cy="product-color_update"
               v-for="(color, i) in options.color"
@@ -83,25 +83,15 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addItem(product, parseInt(qty))"
+            @click="addItem({ product, quantity: parseInt(qty) })"
           />
-          <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            Save for later
-          </SfButton>
-          <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            Add to compare
-          </SfButton>
         </div>
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
             <SfTab data-cy="product-tab_description" title="Description">
               <div class="product__description">
-                  The Karissa V-Neck Tee features a semi-fitted shape that's
-                  flattering for every figure. You can hit the gym with
-                  confidence while it hugs curves and hides common "problem"
-                  areas. Find stunning women's cocktail dresses and party
-                  dresses.
+                  {{ $t('Product description') }}
               </div>
               <SfProperty
                 v-for="(property, i) in properties"
@@ -138,14 +128,14 @@
               class="product__additional-info"
             >
             <div class="product__additional-info">
-              <p class="product__additional-info__title">Brand</p>
+              <p class="product__additional-info__title">{{ $t('Brand') }}</p>
               <p>{{ brand }}</p>
-              <p class="product__additional-info__title">Take care of me</p>
+              <p class="product__additional-info__title">{{ $t('Instruction1') }}</p>
               <p class="product__additional-info__paragraph">
-                Just here for the care instructions?
+                {{ $t('Instruction2') }}
               </p>
               <p class="product__additional-info__paragraph">
-                Yeah, we thought so
+                {{ $t('Instruction3') }}
               </p>
               <p>{{ careInstructions }}</p>
             </div>
@@ -168,36 +158,9 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfBanner
-        image="/homepage/bannerD.png"
-        subtitle="Fashion to Take Away"
-        title="Download our application to your mobile"
-        class="sf-banner--left desktop-only banner-app"
-      >
-        <template #call-to-action>
-          <div class="banner-app__call-to-action">
-            <SfButton
-              class="banner-app__button"
-              aria-label="Go to Apple Product"
-              @click="() => {}"
-            >
-              <SfImage
-                src="/homepage/apple.png"
-              />
-            </SfButton>
-            <SfButton
-              class="banner-app__button"
-              aria-label="Go to Google Product"
-              @click="() => {}"
-            >
-              <SfImage
-                src="/homepage/google.png"
-              />
-            </SfButton>
-          </div>
-        </template>
-      </SfBanner>
+      <MobileStoreBanner />
     </LazyHydrate>
+
   </div>
 </template>
 <script>
@@ -226,6 +189,7 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
+import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -307,6 +271,7 @@ export default {
     SfButton,
     InstagramFeed,
     RelatedProducts,
+    MobileStoreBanner,
     LazyHydrate
   },
   data() {
@@ -514,34 +479,6 @@ export default {
 }
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
-}
-.banner-app {
-  --banner-container-width: 100%;
-  --banner-title-margin: var(--spacer-base) 0 var(--spacer-xl) 0;
-  --banner-padding: 0 var(--spacer-2xl);
-  --banner-title-font-size: var(--h1-font-size);
-  --banner-subtitle-font-size: var(--font-size--xl);
-  --banner-title-font-weight: var(--font-weight--semibold);
-  --banner-subtitle-font-weight: var(--font-weight--medium);
-  --banner-title-text-transform: capitalize;
-  --banner-subtitle-text-transform: capitalize;
-  display: block;
-  min-height: 26.25rem;
-  max-width: 65rem;
-  margin: 0 auto;
-  padding: 0 calc(25% + var(--spacer-2xl)) 0 var(--spacer-xl);
-  &__call-to-action {
-    --button-background: transparent;
-    display: flex;
-  }
-  &__button {
-    --image-width: 8.375rem;
-    --image-height: 2.75rem;
-    --button-padding: 0;
-    & + & {
-      margin: 0 0 0 calc(var(--spacer-xl) / 2);
-    }
-  }
 }
 @keyframes moveicon {
   0% {

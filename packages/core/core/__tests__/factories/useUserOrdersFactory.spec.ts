@@ -35,11 +35,13 @@ describe('[CORE - factories] useUserOrderFactory', () => {
       });
 
       it('should disable loading flag on error', async () => {
+        const err = new Error('some-error');
         params.searchOrders = jest.fn().mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        const { search, loading, orders } = useUserOrders();
-        await expect(search({})).rejects.toThrow();
+        const { search, loading, orders, error } = useUserOrders();
+        await search({});
+        expect(error.value.search).toBe(err);
 
         expect(loading.value).toEqual(false);
         expect(orders.value).toEqual([]);

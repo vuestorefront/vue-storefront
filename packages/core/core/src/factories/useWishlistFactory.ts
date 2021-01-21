@@ -1,4 +1,4 @@
-import { UseWishlist, CustomQuery, Context, FactoryParams } from '../types';
+import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
@@ -22,75 +22,98 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
   isOnWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
 
-interface UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> {
-  useWishlist: () => UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT>;
-  setWishlist: (wishlist: WISHLIST) => void;
-}
-
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
   factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
-): UseWishlistFactory<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
-  const setWishlist = (newWishlist: WISHLIST) => {
-    sharedRef('useWishlist-wishlist').value = newWishlist;
-    Logger.debug('useWishlistFactory.setWishlist', newWishlist);
-  };
-
+) => {
   const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const context = generateContext(factoryParams);
+    const error: Ref<UseWishlistErrors> = sharedRef({}, 'useWishlist-error');
+
+    const setWishlist = (newWishlist: WISHLIST) => {
+      wishlist.value = newWishlist;
+      Logger.debug('useWishlistFactory.setWishlist', newWishlist);
+    };
 
     const addItem = async ({ product, customQuery }) => {
-      Logger.debug('useWishlist.addToWishlist', product);
+      Logger.debug('useWishlist.addItem', product);
 
-      loading.value = true;
-      const updatedWishlist = await factoryParams.addItem(
-        context,
-        {
-          currentWishlist: wishlist.value,
-          product,
-          customQuery
-        }
-      );
-      wishlist.value = updatedWishlist;
-      loading.value = false;
+      try {
+        loading.value = true;
+        error.value.addItem = null;
+        const updatedWishlist = await factoryParams.addItem(
+          context,
+          {
+            currentWishlist: wishlist.value,
+            product,
+            customQuery
+          }
+        );
+        wishlist.value = updatedWishlist;
+      } catch (err) {
+        error.value.addItem = err;
+        Logger.error('useWishlist/addItem', err);
+      } finally {
+        loading.value = false;
+      }
     };
 
     const removeItem = async ({ product, customQuery }) => {
-      Logger.debug('useWishlist.removeFromWishlist', product);
+      Logger.debug('useWishlist.removeItem', product);
 
-      loading.value = true;
-      const updatedWishlist = await factoryParams.removeItem(
-        context,
-        {
-          currentWishlist: wishlist.value,
-          product,
-          customQuery
-        }
-      );
-      wishlist.value = updatedWishlist;
-      loading.value = false;
+      try {
+        loading.value = true;
+        error.value.removeItem = null;
+        const updatedWishlist = await factoryParams.removeItem(
+          context,
+          {
+            currentWishlist: wishlist.value,
+            product,
+            customQuery
+          }
+        );
+        wishlist.value = updatedWishlist;
+      } catch (err) {
+        error.value.removeItem = err;
+        Logger.error('useWishlist/removeItem', err);
+      } finally {
+        loading.value = false;
+      }
     };
 
     const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useWishlist.load');
-
       if (wishlist.value) return;
 
-      loading.value = true;
-      wishlist.value = await factoryParams.load(context, { customQuery });
-      loading.value = false;
+      try {
+        loading.value = true;
+        error.value.load = null;
+        wishlist.value = await factoryParams.load(context, { customQuery });
+      } catch (err) {
+        error.value.load = err;
+        Logger.error('useWishlist/load', err);
+      } finally {
+        loading.value = false;
+      }
     };
 
     const clear = async () => {
-      Logger.debug('useWishlist.clearWishlist');
+      Logger.debug('useWishlist.clear');
 
-      loading.value = true;
-      const updatedWishlist = await factoryParams.clear(context, {
-        currentWishlist: wishlist.value
-      });
-      wishlist.value = updatedWishlist;
-      loading.value = false;
+      try {
+        loading.value = true;
+        error.value.clear = null;
+        const updatedWishlist = await factoryParams.clear(context, {
+          currentWishlist: wishlist.value
+        });
+        wishlist.value = updatedWishlist;
+      } catch (err) {
+        error.value.clear = err;
+        Logger.error('useWishlist/clear', err);
+      } finally {
+        loading.value = false;
+      }
     };
 
     const isOnWishlist = ({ product }) => {
@@ -109,10 +132,12 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       load,
       removeItem,
       clear,
-      loading: computed(() => loading.value)
+      setWishlist,
+      loading: computed(() => loading.value),
+      error: computed(() => error.value)
     };
   };
 
-  return { useWishlist, setWishlist };
+  return useWishlist;
 };
 

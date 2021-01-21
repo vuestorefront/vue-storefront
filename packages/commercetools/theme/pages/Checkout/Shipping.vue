@@ -90,8 +90,8 @@
           </ValidationProvider>
           <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            :selectedValue="shippingDetails.country"
-            @selected="country => setShippingDetailsAndUnpickAddress({ country })"
+            :value="shippingDetails.country"
+            @input="country => setShippingDetailsAndUnpickAddress({ country })"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -127,7 +127,7 @@
           type="submit"
           @click.native="canAddNewAddress = true"
         >
-          Add new address
+          {{ $t('Add new address') }}
         </SfButton>
         <SfHeading
           v-if="canContinueToPayment(dirty)"
@@ -166,10 +166,10 @@
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
             <SfButton class="form__action-button" type="submit" v-if="canContinueToPayment(dirty)" :disabled="!isShippingMethodCompleted || loading.shippingAddress">
-              Continue to payment
+              {{ $t('Continue to payment') }}
             </SfButton>
             <SfButton class="form__action-button" type="submit" :disabled="loading.shippingMethods" v-else>
-              Select shipping method
+              {{ $t('Select shipping method') }}
             </SfButton>
           </div>
         </div>

@@ -53,10 +53,12 @@ describe('[CORE - factories] useUserFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('test-568-08989');
         factoryParams.updateUser.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.updateUser('' as any)).rejects.toThrow('Error');
+        await useUserMethods.updateUser('' as any);
+        await expect(useUserMethods.error.value.updateUser).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -71,10 +73,12 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.user.value).toEqual(userToRegister);
       });
       it('throws error', async () => {
+        const err = new Error('test-568-5687565');
         factoryParams.register.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.register('' as any)).rejects.toThrow('Error');
+        await useUserMethods.register('' as any);
+        expect(useUserMethods.error.value.register).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
@@ -90,10 +94,12 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.user.value).toEqual(userToLogin);
       });
       it('throws error', async () => {
+        const err = new Error('test-568-232332');
         factoryParams.logIn.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.login('' as any)).rejects.toThrow('Error');
+        await useUserMethods.login('' as any);
+        expect(useUserMethods.error.value.login).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
@@ -106,10 +112,12 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(factoryParams.logOut).toHaveBeenCalled();
       });
       it('throws error', async () => {
+        const err = new Error('test-value-568-232332');
         factoryParams.logOut.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.logout()).rejects.toThrow('Error');
+        await useUserMethods.logout();
+        expect(useUserMethods.error.value.logout).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
@@ -124,10 +132,12 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.user.value).toEqual(user);
       });
       it('throws error', async () => {
+        const err = new Error('test-value-568');
         factoryParams.load.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.load()).rejects.toThrow('Error');
+        await useUserMethods.load();
+        expect(useUserMethods.error.value.load).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
@@ -141,10 +151,12 @@ describe('[CORE - factories] useUserFactory', () => {
         expect(useUserMethods.user.value).toEqual(changePasswordData);
       });
       it('throws error', async () => {
+        const err = new Error('test-value');
         factoryParams.changePassword.mockImplementationOnce(() => {
-          throw new Error('Error');
+          throw err;
         });
-        await expect(useUserMethods.changePassword({ current: null as any, new: null as any })).rejects.toThrow('Error');
+        await useUserMethods.changePassword({ current: null as any, new: null as any });
+        expect(useUserMethods.error.value.changePassword).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);

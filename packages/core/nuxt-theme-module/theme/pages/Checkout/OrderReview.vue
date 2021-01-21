@@ -16,7 +16,7 @@
               {{ personalDetails.email }}
             </p>
           </div>
-          <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
+          <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">{{ $t('Edit') }}</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
@@ -30,7 +30,7 @@
             </p>
             <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton data-cy="order-review-btn_shippin-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">Edit</SfButton
+          <SfButton data-cy="order-review-btn_shippin-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">{{ $t('Edit') }}</SfButton
           >
         </div>
       </SfAccordionItem>
@@ -38,7 +38,7 @@
         <div class="accordion__item">
           <div class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
-              Same as shipping address
+              {{ $t('Same as shipping address') }}
             </p>
             <template v-else>
               <p class="content">
@@ -50,7 +50,7 @@
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">{{ $t('Edit') }}</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Payment method">
@@ -65,7 +65,7 @@
     <SfTable class="sf-table--bordered table desktop-only">
       <thead>
         <SfTableHeading class="table__row">
-          <SfTableHeader class="table__header table__image">Item</SfTableHeader>
+          <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
           <SfTableHeader
             v-for="tableHeader in tableHeaders"
             :key="tableHeader"
@@ -140,17 +140,17 @@
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
-              I agree to <SfLink href="#">Terms and conditions</SfLink>
+              {{ $t('I agree to') }} <SfLink href="#">{{ $t('Terms and conditions') }}</SfLink>
             </div>
           </template>
         </SfCheckbox>
           <div class="summary__action">
           <!-- TODO: add nuxt link for navigating back and forward -->
           <SfButton data-cy="order-review-btn_summary-back" class="color-secondary summary__back-button">
-            Go back
+            {{ $t('Go back') }}
           </SfButton>
           <SfButton data-cy="order-review-btn_summary-conitnue" class="summary__action-button" @click="$emit('nextStep')">
-            Continue to shipping
+            {{ $t('Continue to shipping') }}
           </SfButton>
         </div>
       </div>

@@ -134,6 +134,4 @@ const params: UseUserBillingFactoryParams<any, any> = {
   }
 };
 
-const { useUserBilling } = useUserBillingFactory<any, any>(params);
-
-export default useUserBilling;
+export default useUserBillingFactory<any, any>(params);

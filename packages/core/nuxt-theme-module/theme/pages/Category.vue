@@ -57,7 +57,7 @@
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <span class="desktop-only">{{ pagination.totalItems }}</span>
-          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} Items</span>
+          <span class="navbar__label smartphone-only">{{ pagination.totalItems }} {{ $t('Items') }}</span>
         </div>
 
         <div class="navbar__view">
@@ -199,6 +199,7 @@
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
               @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -216,14 +217,7 @@
                   style="margin: 0 0 1rem auto; display: block;"
                   @click="() => {}"
                 >
-                  Save for later
-                </SfButton>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 0 auto; display: block;"
-                  @click="() => {}"
-                >
-                  Add to compare
+                  {{ $t('Save for later') }}
                 </SfButton>
               </template>
             </SfProductCardHorizontal>
@@ -245,10 +239,10 @@
             v-show="pagination.totalPages > 1"
             class="products__show-on-page"
           >
-            <span class="products__show-on-page__label">Show on page:</span>
+            <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination.itemsPerPage"
+                :value="pagination.itemsPerPage.toString()"
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
@@ -333,12 +327,12 @@
             <SfButton
               class="sf-button--full-width"
               @click="applyFilters"
-              >Done</SfButton
+              >{{ $t('Done') }}</SfButton
             >
             <SfButton
               class="sf-button--full-width filters__button-clear"
               @click="clearFilters"
-              >Clear all</SfButton
+              >{{ $t('Clear all') }}</SfButton
             >
           </div>
         </template>
@@ -373,6 +367,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
+// TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
   setup(props, context) {
@@ -387,7 +382,7 @@ export default {
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-    const pagination = computed(() => facetGetters.getPagination(result.value).toString());
+    const pagination = computed(() => facetGetters.getPagination(result.value));
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 

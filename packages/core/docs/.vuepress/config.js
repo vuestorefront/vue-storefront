@@ -17,9 +17,17 @@ module.exports = {
 				{
 					title: 'Migration guide RC.1',
 					children: [
-						['/migrate/', 'Overview'],
+						['/migrate/rc1', 'Overview'],
 						['/migrate/integrators-rc1', 'Integrators'],
 						['/migrate/projects-rc1', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.2.0',
+					children: [
+						['/migrate/2.2.0', 'Overview'],
+						['/migrate/integrators-2.2.0', 'Integrators'],
+						['/migrate/projects-2.2.0', 'Projects'],
 					]
 				}
 			],
@@ -126,18 +134,32 @@ module.exports = {
 			],
 			'/': [
 				{
-					title: 'General',
+					title: 'In a nutshell',
 					collapsable: false,
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
+					]
+        },
+				{
+					title: 'General',
+					collapsable: false,
+					children: [
 						['/general/architecture', 'Architecture'],
-						['/general/i18n', 'i18n'],
+						['/general/error-handling', 'Error Handling'],
 						['/general/logging', 'Logging'],
 						['/general/performance', 'Performance'],
 						['/general/context', 'Application Context']
 					]
-        },
+				},
+				{
+					title: 'Guide [WIP]',
+					collapsable: false,
+					children: [
+						['/guide/theme', 'Theme'],
+						['/guide/internationalization', 'Internationalization']
+					]
+				},
         {
           title: 'Composables',
           collapsable: false,
@@ -172,7 +194,6 @@ module.exports = {
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
-						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
 				{
@@ -181,10 +202,10 @@ module.exports = {
 					children: [
 						['/contributing/', 'Contributing'],
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
+						['/contributing/creating-changelog', 'Creating changelog'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
-						['/contributing/changelog', 'Core Changelog'],
-						['/contributing/migration-to-2', 'Migration from X to 2']
+						['/contributing/changelog', 'Core Changelog']
 					]
 				},
 			],

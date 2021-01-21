@@ -10,11 +10,23 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const applyContextForApi = (api, context) =>
+const applyContextToApi = (api, context, extensions = []) =>
   Object.entries(api)
     .reduce((prev, [key, fn]: any) => ({
       ...prev,
-      [key]: (...args) => fn(context, ...args)
+      [key]: async (...args) => {
+        const generatedArgs = extensions
+          .filter(e => e.beforeCall)
+          .reduce((prev, e) => e.beforeCall(prev), args);
+
+        const resp = await fn(context, ...generatedArgs);
+
+        const generatedResponse = extensions
+          .filter(e => e.afterCall)
+          .reduce((prev, e) => e.afterCall(prev), resp);
+
+        return generatedResponse;
+      }
     }), {});
 
 const generateContext = (factoryParams) => {
@@ -33,5 +45,5 @@ export {
   generateContext,
   useVSFContext,
   configureContext,
-  applyContextForApi
+  applyContextToApi
 };

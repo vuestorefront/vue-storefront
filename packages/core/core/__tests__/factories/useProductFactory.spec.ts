@@ -5,6 +5,12 @@ const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<
   productsSearch: (context, searchParams) => Promise.resolve([{ name: 'product ' + searchParams.slug }])
 });
 
+const factoryParams = {
+  productsSearch: jest.fn()
+};
+
+const useProductMock = useProductFactory<any, any>(factoryParams);
+
 describe('[CORE - factories] useProductFactory', () => {
   it('creates properties', () => {
     const { products, loading } = useProduct('test-product');
@@ -27,5 +33,17 @@ describe('[CORE - factories] useProductFactory', () => {
     await search({ slug: 'product-slug' });
 
     expect(products.value).toEqual([{name: 'product product-slug' }]);
+  });
+
+  it('should set error if factory method throwed', async () => {
+    const err = new Error('zxczxcx');
+    factoryParams.productsSearch.mockImplementationOnce(() => {
+      throw err;
+    });
+    const { search, error } = useProductMock('a');
+
+    await search({ someparam: 'qwerty' });
+
+    expect(error.value.search).toBe(err);
   });
 });
