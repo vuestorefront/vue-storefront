@@ -20,7 +20,8 @@ export const cartStore: Module<CartState, any> = {
     cartServerLastTotalsSyncDate: 0,
     cartItems: [], // TODO: check if it's properly namespaced
     connectBypassCount: 0,
-    isAddingToCart: false
+    isAddingToCart: false,
+    forceServerState: false
   },
   getters,
   actions,

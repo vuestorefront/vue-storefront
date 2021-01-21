@@ -47,7 +47,7 @@ const synchronizeActions = {
     Logger.warn('The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     return dispatch('sync', { forceClientState, dryRun })
   },
-  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false, authorize = false }) {
+  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
@@ -61,8 +61,7 @@ const synchronizeActions = {
         serverItems,
         clientItems,
         forceClientState: shouldUpdateClientState,
-        mergeQty,
-        authorize
+        mergeQty
       })
       cartHooksExecutors.afterSync(diffLog)
       return diffLog
@@ -71,7 +70,7 @@ const synchronizeActions = {
     if (bypassCounter < config.queues.maxCartBypassAttempts) {
       Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
       commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
-      await dispatch('connect', { guestCart: true, authorize })
+      await dispatch('connect', { guestCart: true })
     }
 
     Logger.error(result, 'cart')

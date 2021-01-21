@@ -11,6 +11,7 @@ import {
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import { cartHooksExecutors } from './../../hooks'
+import getters from 'theme/store/cart/getters'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
@@ -65,7 +66,7 @@ const mergeActions = {
 
     return diffLog
   },
-  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty, authorize }) {
+  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
     const diffLog = createDiffLog()
 
     if (!serverItem) {
@@ -73,7 +74,7 @@ const mergeActions = {
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
 
       if (dryRun) return diffLog
-      if (!authorize) {
+      if (!getters.forceServerState) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
         return diffLog.merge(updateServerItemDiffLog)
       }
@@ -86,7 +87,7 @@ const mergeActions = {
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
       if (dryRun) return diffLog
-      if (!authorize) {
+      if (!getters.forceServerState) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true, mergeQty })
 
         return diffLog.merge(updateServerItemDiffLog)
@@ -186,7 +187,7 @@ const mergeActions = {
 
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
-  async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false, authorize = false }) {
+  async merge ({ getters, dispatch, commit }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
 
     const diffLog = createDiffLog()
@@ -195,8 +196,7 @@ const mergeActions = {
       serverItems: hookResult.serverItems,
       forceClientState,
       dryRun,
-      mergeQty,
-      authorize
+      mergeQty
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
@@ -210,6 +210,8 @@ const mergeActions = {
 
     EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItems, clientItems: hookResult.clientItems, dryRun: dryRun })
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+
+    commit(types.CART_FORCE_SERVER_STATE, false)
 
     return diffLog
   }
