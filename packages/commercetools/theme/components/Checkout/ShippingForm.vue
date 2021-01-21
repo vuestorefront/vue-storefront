@@ -307,10 +307,6 @@ export default {
       });
     };
 
-    watch(shippingDetails, () => {
-      context.emit('addressModify');
-    });
-
     watch(() => props.address, (addr) => {
       shippingDetails.value = addr;
     });
