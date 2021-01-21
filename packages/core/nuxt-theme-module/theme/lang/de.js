@@ -119,4 +119,6 @@ export default {
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
   'Search for items': 'Nach Artikeln suchen'
+  'Go to Checkout': 'Zum Checkout gehen',
+  'Successfully added {PRODUCT_NAME} to the cart': '{PRODUCT_NAME} wurde erfolgreich in den Warenkorb gelegt'
 };
