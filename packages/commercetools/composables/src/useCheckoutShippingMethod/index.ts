@@ -25,7 +25,7 @@ const params: UseCheckoutShippingMethodParams<any, any> = {
     });
 
     context.cart.setCart(cartResponse.data.cart);
-    return cartResponse.data.cart.shippingInfo;
+    return cartResponse.data.cart.shippingInfo.shippingMethod;
   }
 };
 
