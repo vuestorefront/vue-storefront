@@ -322,9 +322,10 @@ export interface CheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHIPPI
 
 export interface CheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_MEDHOD_ITEM> {
   getShippingMethods: (methods: SHIPPING_METHODS, criteria?: Record<string, any>) => SHIPPING_MEDHOD_ITEM[];
+  getMethodId: (method: SHIPPING_MEDHOD_ITEM) => string;
   getMethodName: (method: SHIPPING_MEDHOD_ITEM) => string;
   getMethodDescription: (method: SHIPPING_MEDHOD_ITEM) => string;
-  getMethodPrice: (method: SHIPPING_MEDHOD_ITEM) => AgnosticPrice;
+  getMethodPrice: (method: SHIPPING_MEDHOD_ITEM) => number;
   isMethodDefault: (method: SHIPPING_MEDHOD_ITEM) => boolean;
 }
 export interface UseFacetErrors {
