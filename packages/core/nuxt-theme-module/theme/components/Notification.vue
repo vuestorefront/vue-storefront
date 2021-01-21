@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .notifications {
   position: fixed;
   width: 100%;
@@ -50,26 +50,30 @@ export default {
     left: auto;
     bottom: auto;
     right: 5%;
-    width: 320px;
+    width: 360px;
   }
 }
 .sf-notification {
   max-width: 100%;
   margin: var(--spacer-xs) auto 0 auto;
+  --notification-font-size: var(--font-size--sm);
   &:first-child {
     margin-top: 0;
   }
+  &__message {
+    margin: 0 var(--spacer-base) var(--spacer-2xs) 0;
+  }
   @include for-mobile {
+    background: var(--c-link);
     --notification-border-radius: 0;
     --notification-max-width: 100%;
-    --notification-background: var(--c-link);
-    --notification-font-size: var(--font-size--sm);
     --notification-font-family: var(--font-family--primary);
     --notification-font-weight: var(--font-weight--normal);
-    --notification-padding: var(--spacer-base) var(--spacer-lg);
+    --notification-padding: var(--spacer-base);
   }
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;
+    --notification-close-top: var(--spacer-sm);
   }
 }
 .slide-fade-enter-active,
