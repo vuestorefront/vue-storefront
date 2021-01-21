@@ -270,16 +270,17 @@ export default {
     ValidationObserver
   },
   props: {
-    isShippingDetailsCompleted: Boolean,
-    isShippingMethodCompleted: Boolean,
     isSaving: Object,
     address: Object
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shippingMethods } = useCheckoutShippingMethod();
+
     const shippingDetails = ref(props.address || {});
     const chosenShippingMethod = ref(null);
+    const isShippingMethodCompleted = ref(false);
+    const isShippingDetailsCompleted = ref(false);
 
     const handleStepSubmit = () => {
       context.emit('stepSubmit');
@@ -288,14 +289,20 @@ export default {
     const handleMethodSubmit = (reset, shippingMethod) => {
       chosenShippingMethod.value = shippingMethod;
       context.emit('methodSubmit', {
-        reset,
+        callback: () => {
+          reset();
+          isShippingMethodCompleted.value = true;
+        },
         shippingMethod
       });
     };
 
     const handleAddressSubmit = reset => () => {
       context.emit('addressSubmit', {
-        reset,
+        callback: () => {
+          reset();
+          isShippingDetailsCompleted.value = true;
+        },
         shippingDetails: shippingDetails.value
       });
     };
@@ -314,6 +321,9 @@ export default {
       checkoutShippingMethodGetters,
       countries: config.countries,
       shippingMethods,
+
+      isShippingMethodCompleted,
+      isShippingDetailsCompleted,
 
       handleMethodSubmit,
       handleAddressSubmit,

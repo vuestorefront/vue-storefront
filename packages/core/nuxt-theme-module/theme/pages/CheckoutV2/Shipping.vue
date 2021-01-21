@@ -7,12 +7,10 @@
     />
     <ShippingForm
       :address="shipping"
-      :isShippingDetailsCompleted="isShippingDetailsCompleted"
-      :isShippingMethodCompleted="isShippingMethodCompleted"
       :isSaving="isSaving"
-      @addressSubmit="({ reset, shippingDetails }) => handleShippingAddressSubmit(reset)(shippingDetails)"
+      @addressSubmit="({ callback, shippingDetails }) => handleShippingAddressSubmit(callback)(shippingDetails)"
       @addressModify="isShippingDetailsCompleted = false"
-      @methodSubmit="({ reset, shippingMethod }) => handleShippingMethodSubmit(reset)(shippingMethod)"
+      @methodSubmit="({ callback, shippingMethod }) => handleShippingMethodSubmit(callback)(shippingMethod)"
       @stepSubmit="handleStepSubmit"
     />
   </div>
@@ -24,7 +22,7 @@ import {
 } from '@storefront-ui/vue';
 import { useCheckoutShipping, useCheckoutShippingMethod } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { ref, reactive, onMounted } from '@vue/composition-api';
+import { reactive, onMounted } from '@vue/composition-api';
 import ShippingForm from '../../components/Checkout/ShippingForm';
 
 export default {
@@ -46,8 +44,6 @@ export default {
       error: shippingMethodError
     } = useCheckoutShippingMethod();
 
-    const isShippingDetailsCompleted = ref(false);
-    const isShippingMethodCompleted = ref(false);
     const isSaving = reactive({
       details: false,
       method: false
@@ -69,7 +65,7 @@ export default {
       // }
     });
 
-    const handleShippingAddressSubmit = (reset) => async (shippingDetails) => {
+    const handleShippingAddressSubmit = (callback) => async (shippingDetails) => {
       isSaving.details = true;
       await saveShipping({ shippingDetails });
       if (shippingError.value.save) {
@@ -77,8 +73,7 @@ export default {
       }
       await loadShippingMethod();
       isSaving.details = false;
-      reset();
-      isShippingDetailsCompleted.value = true;
+      callback();
       // if (currentAddressId.value > -1 && setAsDefault.value) {
       //   const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: currentAddressId.value });
       //   if (!chosenAddress || !chosenAddress.length) {
@@ -88,15 +83,14 @@ export default {
       // }
       // addressIsModified.value = false;
     };
-    const handleShippingMethodSubmit = (reset) => async (shippingMethod) => {
+    const handleShippingMethodSubmit = (callback) => async (shippingMethod) => {
       isSaving.method = true;
       await saveShippingMethod({ shippingMethod });
       if (shippingMethodError.value.save) {
         return;
       }
       isSaving.method = false;
-      reset();
-      isShippingMethodCompleted.value = true;
+      callback();
     };
 
     const handleStepSubmit = () => {
@@ -111,8 +105,6 @@ export default {
 
     return {
       shipping,
-      isShippingDetailsCompleted,
-      isShippingMethodCompleted,
       isSaving,
       handleShippingAddressSubmit,
       handleShippingMethodSubmit,
