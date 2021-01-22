@@ -9,15 +9,15 @@
         )
       "
     >
-      <!-- <UserShippingAddresses
+      <UserShippingAddresses
         v-if="isAuthenticated && shippingAddresses && shippingAddresses.length"
         :setAsDefault="setAsDefault"
         :shippingAddresses="shippingAddresses"
         :currentAddressId="currentAddressId"
         @setCurrentAddress="setCurrentAddress($event)"
         @changeSetAsDefault="setAsDefault = $event"
-      /> -->
-      <div class="form">
+      />
+      <div class="form" v-if="canAddNewAddress">
         <ValidationProvider
           name="firstName"
           rules="required|min:2"
@@ -165,6 +165,14 @@
           />
         </ValidationProvider>
       </div>
+      <SfButton
+        v-if="!canAddNewAddress"
+        class="color-light form__action-button form__action-button--add-address"
+        type="submit"
+        @click.native="canAddNewAddress = true"
+      >
+        {{ $t('Add new address') }}
+      </SfButton>
       <SfHeading
         v-if="isShippingDetailsCompleted && !dirty"
         :level="3"
@@ -237,11 +245,11 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useCheckoutShippingMethod, checkoutShippingMethodGetters } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, checkoutShippingMethodGetters, useUser } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch } from '@vue/composition-api';
+import { onMounted, computed, ref, watch } from '@vue/composition-api';
 
 extend('required', {
   ...required,
@@ -276,11 +284,45 @@ export default {
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shippingMethods } = useCheckoutShippingMethod();
+    const { isAuthenticated } = useUser();
+    const { shipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
     const shippingDetails = ref(props.address || {});
     const chosenShippingMethod = ref(null);
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
+
+    const currentAddressId = ref(-1);
+    const addressIsModified = ref(false);
+    const setAsDefault = ref(false);
+    const canAddNewAddress = ref(true);
+
+    const mapAbstractAddressToIntegrationAddress = address => ({
+      ...shippingDetails.value,
+      contactInfo: {
+        ...shippingDetails.value.contactInfo,
+        phone: address.phoneNumber
+      },
+      streetNumber: address.apartment,
+      city: address.city,
+      country: address.country,
+      state: address.state,
+      firstName: address.firstName,
+      lastName: address.lastName,
+      streetName: address.streetName,
+      postalCode: address.zipCode
+    });
+
+    const setCurrentAddress = async (addressId) => {
+      const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: Number(addressId) });
+      if (!chosenAddress || !chosenAddress.length) {
+        return;
+      }
+      currentAddressId.value = Number(addressId);
+      shippingDetails.value = mapAbstractAddressToIntegrationAddress(chosenAddress[0]);
+      addressIsModified.value = true;
+      isShippingDetailsCompleted.value = false;
+    };
 
     const handleStepSubmit = () => {
       context.emit('stepSubmit');
@@ -299,8 +341,15 @@ export default {
 
     const handleAddressSubmit = reset => () => {
       context.emit('addressSubmit', {
-        callback: () => {
+        callback: async () => {
           reset();
+          if (currentAddressId.value > -1 && setAsDefault.value) {
+            const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: Number(currentAddressId.value) });
+            if (!chosenAddress || !chosenAddress.length) {
+              return;
+            }
+            await setDefaultAddress({ address: chosenAddress[0] });
+          }
           isShippingDetailsCompleted.value = true;
         },
         shippingDetails: shippingDetails.value
@@ -311,12 +360,32 @@ export default {
       shippingDetails.value = addr;
     });
 
+    onMounted(async () => {
+      if (isAuthenticated.value) {
+        await loadUserShipping();
+        const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
+        if (!shippingAddresses || !shippingAddresses.length) {
+          return;
+        }
+        canAddNewAddress.value = false;
+        if (shippingAddresses[0].isDefault) {
+          setCurrentAddress(shippingAddresses[0].id);
+        }
+      }
+    });
+
     return {
+      isAuthenticated,
       shippingDetails,
       chosenShippingMethod,
       checkoutShippingMethodGetters,
       countries: config.countries,
       shippingMethods,
+      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
+      currentAddressId,
+      setAsDefault,
+      setCurrentAddress,
+      canAddNewAddress,
 
       isShippingMethodCompleted,
       isShippingDetailsCompleted,
