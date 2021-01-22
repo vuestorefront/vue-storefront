@@ -2,7 +2,7 @@
   <div>
     <SfAddressPicker
       :selected="String(currentAddressId)"
-      @input="setCurrentAddress($event)"
+      @change="setCurrentAddress($event)"
       class="shipping-addresses"
     >
       <SfAddress
