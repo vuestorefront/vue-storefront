@@ -299,10 +299,7 @@ export default {
 
     const mapAbstractAddressToIntegrationAddress = address => ({
       ...shippingDetails.value,
-      contactInfo: {
-        ...shippingDetails.value.contactInfo,
-        phone: address.phoneNumber
-      },
+      phone: address.phone,
       streetNumber: address.apartment,
       city: address.city,
       country: address.country,
@@ -310,8 +307,21 @@ export default {
       firstName: address.firstName,
       lastName: address.lastName,
       streetName: address.streetName,
-      postalCode: address.zipCode
+      postalCode: address.postalCode
     });
+
+    const addressesMatches = (savedAddress, currentAddress) => {
+      return savedAddress.city === currentAddress.city &&
+        savedAddress.company === currentAddress.company &&
+        savedAddress.country === currentAddress.country &&
+        savedAddress.firstName === currentAddress.firstName &&
+        savedAddress.lastName === currentAddress.lastName &&
+        savedAddress.phone === currentAddress.phone &&
+        savedAddress.postalCode === currentAddress.postalCode &&
+        savedAddress.state === currentAddress.state &&
+        savedAddress.streetName === currentAddress.streetName &&
+        savedAddress.apartment === currentAddress.streetNumber;
+    };
 
     const setCurrentAddress = async (addressId) => {
       const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: Number(addressId) });
@@ -368,7 +378,11 @@ export default {
           return;
         }
         canAddNewAddress.value = false;
-        if (shippingAddresses[0].isDefault) {
+
+        const matchingAddress = shippingAddresses.find(address => addressesMatches(address, shippingDetails.value));
+        if (matchingAddress) {
+          currentAddressId.value = matchingAddress.id;
+        } else if (shippingAddresses[0].isDefault) {
           setCurrentAddress(shippingAddresses[0].id);
         }
       }
