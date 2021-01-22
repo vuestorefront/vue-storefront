@@ -14,7 +14,7 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   },
   {
@@ -30,7 +30,7 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   }
 ];
