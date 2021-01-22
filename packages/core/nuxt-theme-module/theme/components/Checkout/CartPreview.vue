@@ -32,7 +32,7 @@
       />
       <SfProperty
         name="Shipping"
-        :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
+        :value="$n(checkoutShippingMethodGetters.getMethodPrice(chosenShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
@@ -75,7 +75,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCheckout, useCart, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCheckout, useCart, checkoutShippingMethodGetters, cartGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'CartPreview',
@@ -110,7 +110,7 @@ export default {
       showPromoCode,
       removeItem,
       updateItemQty,
-      checkoutGetters,
+      checkoutShippingMethodGetters,
       cartGetters,
       applyCoupon,
       characteristics: [
