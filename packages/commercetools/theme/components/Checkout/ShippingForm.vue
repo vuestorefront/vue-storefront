@@ -376,13 +376,15 @@ export default {
       }
     });
 
-    onMounted(() => {
+    onMounted(async () => {
+      if (!shipping.value?.addresses && isAuthenticated.value) {
+        await loadUserShipping();
+      }
       const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
       if (!shippingAddresses || !shippingAddresses.length) {
         return;
       }
       canAddNewAddress.value = false;
-
       const matchingAddress = shippingAddresses.find(address => addressesMatches(address, shippingDetails.value));
       if (matchingAddress) {
         currentAddressId.value = matchingAddress.id;
