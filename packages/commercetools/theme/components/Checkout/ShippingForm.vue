@@ -248,7 +248,7 @@ import {
 import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, checkoutShippingMethodGetters, useUser } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
-import { useVSFContext } from '@vue-storefront/core';
+import { useVSFContext, onSSR } from '@vue-storefront/core';
 import { onMounted, computed, ref, watch } from '@vue/composition-api';
 
 extend('required', {
@@ -370,21 +370,24 @@ export default {
       shippingDetails.value = addr;
     });
 
-    onMounted(async () => {
+    onSSR(async () => {
       if (isAuthenticated.value) {
         await loadUserShipping();
-        const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
-        if (!shippingAddresses || !shippingAddresses.length) {
-          return;
-        }
-        canAddNewAddress.value = false;
+      }
+    });
 
-        const matchingAddress = shippingAddresses.find(address => addressesMatches(address, shippingDetails.value));
-        if (matchingAddress) {
-          currentAddressId.value = matchingAddress.id;
-        } else if (shippingAddresses[0].isDefault) {
-          setCurrentAddress(shippingAddresses[0].id);
-        }
+    onMounted(() => {
+      const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
+      if (!shippingAddresses || !shippingAddresses.length) {
+        return;
+      }
+      canAddNewAddress.value = false;
+
+      const matchingAddress = shippingAddresses.find(address => addressesMatches(address, shippingDetails.value));
+      if (matchingAddress) {
+        currentAddressId.value = matchingAddress.id;
+      } else if (shippingAddresses[0].isDefault) {
+        setCurrentAddress(shippingAddresses[0].id);
       }
     });
 
