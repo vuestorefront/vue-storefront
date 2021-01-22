@@ -8,13 +8,10 @@ const params: UseCheckoutShippingMethodParams<any, any> = {
       cart: useCart()
     };
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
     const shippingMethodsResponse = await context.$ct.api.getShippingMethods(context.cart.cart.value.id);
     return (shippingMethodsResponse as any).data.shippingMethods;
   },
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   save: async (context: Context, { shippingMethod }) => {
     const cartResponse = await context.$ct.api.updateCart({
       id: context.cart.cart.value.id,
