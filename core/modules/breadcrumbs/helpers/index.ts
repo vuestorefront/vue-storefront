@@ -1,6 +1,6 @@
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
-// Duplicate of breadCrumbRoutes, to repalce it soon.
+// Duplicate of breadCrumbRoutes, to replace it soon.
 /** Parse category path for product/category  */
 export function parseCategoryPath (categoryPath) {
   let routesArray = []
