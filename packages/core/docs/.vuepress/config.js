@@ -44,6 +44,7 @@ module.exports = {
 						['/commercetools/authorization-strategy', 'Authentication'],
 						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
+						['/commercetools/api-client-reference/api-client-reference', 'API Reference'],
 						['/commercetools/changelog', 'Changelog']
 					]
 				},

@@ -5,13 +5,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./scripts/generateCtApi.js && vuepress dev",
-    "build": "node ./scripts/generateCtApi.js && vuepress build"
+    "dev": "node ./scripts/generateCtApi.js && yarn ct-api-client-reference && vuepress dev",
+    "build": "node ./scripts/generateCtApi.js && yarn ct-api-client-reference && vuepress build",
+    "ct-api-client-reference": "concat-md --toc --decrease-title-levels --file-name-as-title --dir-name-as-title ./commercetools/api-client-reference > ./commercetools/api-client-reference/api-client-reference.md"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "typedoc": "^0.17.1",
     "typescript": "^3.6.4",
+    "concat-md": "^0.3.5",
+    "typedoc": "^0.20.16",
+    "typedoc-plugin-markdown": "^3.4.3",
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",

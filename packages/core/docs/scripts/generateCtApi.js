@@ -7,16 +7,18 @@ app.options.addReader(new TypeDoc.TSConfigReader());
 app.options.addReader(new TypeDoc.TypeDocReader());
 
 app.bootstrap({
-  mode: 'modules',
-  logger: 'none',
-  target: 'ES5',
-  module: 'CommonJS',
-  experimentalDecorators: true
+  entryPoints: ['../../commercetools/api-client/src/api'],
+  tsconfig: '../../commercetools/api-client/tsconfig.json',
+  name: 'API Client Reference',
+  includeVersion: true,
+  readme: 'none',
+  hideBreadcrumbs: true,
+  hideInPageTOC: true
 });
 
-const project = app.convert(app.expandInputFiles(['../../commercetools/api-client/src/api']));
+const project = app.convert();
 
 if (project) {
-  const outputDir = '.vuepress/public/commercetools/api-client';
+  const outputDir = 'commercetools/api-client-reference';
   app.generateDocs(project, outputDir);
 }
