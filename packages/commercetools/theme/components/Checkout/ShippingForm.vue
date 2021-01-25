@@ -180,7 +180,7 @@
       <div class="form">
         <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
-            v-for="item in shippingMethods"
+            v-for="item in checkoutShippingMethodGetters.getShippingMethods(shippingMethods)"
             :key="checkoutShippingMethodGetters.getMethodName(item)"
             :label="checkoutShippingMethodGetters.getMethodName(item)"
             :value="checkoutShippingMethodGetters.getMethodId(item)"
