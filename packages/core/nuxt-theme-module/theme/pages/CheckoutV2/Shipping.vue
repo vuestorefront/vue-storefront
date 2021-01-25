@@ -21,7 +21,7 @@ import {
 } from '@storefront-ui/vue';
 import { useCheckoutShipping, useCheckoutShippingMethod } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { reactive, onMounted } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 import ShippingForm from '../../components/Checkout/ShippingForm';
 
 export default {
@@ -30,7 +30,7 @@ export default {
     SfHeading,
     ShippingForm
   },
-  setup(props, context) {
+  setup(_, context) {
     const {
       save: saveShipping,
       load: loadShipping,
@@ -50,20 +50,6 @@ export default {
 
     onSSR(async () => loadShipping());
 
-    onMounted(async () => {
-      // if (isAuthenticated.value) {
-      //   await loadUserShipping();
-      //   const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
-      //   if (!shippingAddresses || !shippingAddresses.length) {
-      //     return;
-      //   }
-      //   canAddNewAddress.value = false;
-      //   if (shippingAddresses[0].isDefault) {
-      //     setCurrentAddress(shippingAddresses[0].id);
-      //   }
-      // }
-    });
-
     const handleShippingAddressSubmit = (callback) => async (shippingDetails) => {
       isSaving.details = true;
       await saveShipping({ shippingDetails });
@@ -73,15 +59,8 @@ export default {
       await loadShippingMethod();
       isSaving.details = false;
       callback();
-      // if (currentAddressId.value > -1 && setAsDefault.value) {
-      //   const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: currentAddressId.value });
-      //   if (!chosenAddress || !chosenAddress.length) {
-      //     return;
-      //   }
-      //   await setDefaultAddress(chosenAddress[0]);
-      // }
-      // addressIsModified.value = false;
     };
+
     const handleShippingMethodSubmit = (callback) => async (shippingMethod) => {
       isSaving.method = true;
       await saveShippingMethod({ shippingMethod });
@@ -92,15 +71,7 @@ export default {
       callback();
     };
 
-    const handleStepSubmit = () => {
-      context.root.$router.push('/checkout/payment');
-    };
-
-    // const setShippingDetailsAndUnpickAddress = value => {
-    //   setShippingDetails(value);
-    //   currentAddressId.value = -1;
-    //   addressIsModified.value = true;
-    // };
+    const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
 
     return {
       shipping,
