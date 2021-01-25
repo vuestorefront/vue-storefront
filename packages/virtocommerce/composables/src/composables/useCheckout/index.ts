@@ -1,21 +1,15 @@
 /* istanbul ignore file */
 
-import { UseCheckout, sharedRef } from '@vue-storefront/core';
+import { UseCheckout, sharedRef, Context, generateContext } from '@vue-storefront/core';
 import { ref, Ref, computed } from '@vue/composition-api';
 import {
-  getCart,
-  placeOrder as placeOrderFromCart,
-  addOrUpdateCartShipment,
-  addOrUpdateCartPayment,
-  CartType,
-  AddressType,
   ShippingMethodType,
   PaymentMethodType,
   InputShipmentType,
   InputPaymentType
 } from '@vue-storefront/virtocommerce-api';
 import { User } from '../../types';
-import { useCart, setCart } from '../useCart';
+import { useCart } from '../useCart';
 import { toUnicode } from 'punycode';
 
 const cartFields: Ref<any> = ref({});
@@ -46,7 +40,7 @@ const loading = sharedRef({
   order: false
 }, 'useCheckout-loading');
 
-const setPaymentMethod = async (paymentMethod, options: any = {}) => {
+const setPaymentMethod = async (context: Context, paymentMethod, options: any = {}) => {
   chosenPaymentMethod.value = paymentMethod;
      
   if (!options.save) {
@@ -69,12 +63,12 @@ const setPaymentMethod = async (paymentMethod, options: any = {}) => {
       postalCode: billingDetails.value.postalCode,
     },
   };
-  await addOrUpdateCartPayment(cartRef.value, inputPayment);
-  const cart = await getCart();
-  await setCart(cart);
+  await context.$vc.api.addOrUpdateCartPayment(context, cartRef.value, inputPayment);
+  const cart = await context.$vc.api.getCart(context);
+  context.setCart(cart);
 };
 
-const setShippingMethod =  async (shippingMethod, options: any = {}) => {
+const setShippingMethod =  async (context: Context, shippingMethod, options: any = {}) => {
   chosenShippingMethod.value = shippingMethod;
      
   if (!options.save) {
@@ -98,9 +92,9 @@ const setShippingMethod =  async (shippingMethod, options: any = {}) => {
       postalCode: shippingDetails.value.postalCode,
     },
   };
-  await addOrUpdateCartShipment(cartRef.value, inputShipment);
-  const cart = await getCart();
-  await setCart(cart);
+  await context.$vc.api.addOrUpdateCartShipment(context, cartRef.value, inputShipment);
+  const cart = await context.$vc.api.getCart(context);
+  context.setCart(cart);
  };
 
 const setShippingDetails = async (data, options: any = {}) => {
@@ -133,7 +127,6 @@ const loadShippingMethods = async () => {
   if (!isShippingAddressCompleted.value) return;
   loading.value.shippingMethods = true;
   try {
-
     shippingMethods.value = { ...cartRef.value.availableShippingMethods };
   } finally {
     loading.value.shippingMethods = false;
@@ -150,19 +143,25 @@ const loadPaymentMethods = async () => {
     loading.value.paymentMethods = false;
   }
 };
-const loadDetails = async () => { };
-const setPersonalDetails = async () => { };
-const clean = async () => {
-
+const loadDetails = async (context: Context) => { };
+const setPersonalDetails = async (context: Context) => { };
+const clean = async (context: Context) => {
+  context.setCart(null);
 };
 
-const placeOrder = async () => {  
-  return await placeOrderFromCart(cartRef.value);
+const placeOrder = async (context: Context) => {  
+  return await context.$vc.api.placeOrder(context, cartRef.value);
 };
 
 // @todo CHECKOUT
 const useCheckout: () => UseCheckout<any, any, any, any, any, any, any, any> = () => {
 
+  const context = generateContext({
+    setup() {
+      return useCart();
+    }
+  });
+  
   cartFields.value = useCart();
 
   return {
@@ -188,7 +187,7 @@ const useCheckout: () => UseCheckout<any, any, any, any, any, any, any, any> = (
     chosenShippingMethod,
     placeOrder,
     clean,
-    loading
+    loading : computed(() => loading.value)
   };
 };
 

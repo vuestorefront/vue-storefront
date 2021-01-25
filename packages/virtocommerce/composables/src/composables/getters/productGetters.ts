@@ -61,8 +61,8 @@ export const getProductDescription = (product: Product): any => product?.descrip
 export const getProductCategoryIds = (product: Product): string[] => [];
 
 export const getProductId = (product: Product): string => product?.id || '';
-
-export const getFormattedPrice = (price: number) => formatPrice(price);
+//TODO: pass locale and currency as argument
+export const getFormattedPrice = (price: number) => formatPrice("en-US", "USD", price);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductTotalReviews = (product: Product): number => 0;

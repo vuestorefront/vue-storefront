@@ -1,20 +1,19 @@
-import { useFacetFactory, AgnosticFacetSearchParams, FacetSearchResult } from '@vue-storefront/core';
-import { searchProducts, searchCategories, Product } from '@vue-storefront/virtocommerce-api';
+import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/core';
 
 
 const factoryParams = {
-  search: async (params: FacetSearchResult<any>): Promise<any> => {
+  search: async (context: Context, params: FacetSearchResult<any>): Promise<any> => {
 
     console.log("search()");
     console.log(params);
-    const categories = await searchCategories(params);
+    const categories = await context.$vc.api.searchCategories(context, params);
     if (params.input.categorySlug) {
       var category = categories?.data?.find(x => x.slug.endsWith(params.input.categorySlug));
       if (category) {
         params.input.outline  = category.outline;
       }
     }
-    const result = await searchProducts(params);   
+    const result = await context.$vc.api.searchProducts(context, params);   
 
    
     return {

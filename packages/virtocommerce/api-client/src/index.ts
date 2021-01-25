@@ -24,55 +24,68 @@ import ClientOAuth2 from "client-oauth2";
 import { setContext } from 'apollo-link-context';
 import { VC_USER_ID, VC_AUTH_TOKEN, generateUUID } from './utils'
 
-let xApiClient: ApolloClient<NormalizedCacheObject> | null = null;
-let vcAuthClient: ClientOAuth2 | null = null;
+// let xApiClient: ApolloClient<NormalizedCacheObject> | null = null;
+// let vcAuthClient: ClientOAuth2 | null = null;
 
-const authLink = setContext((_, { headers }) => {
-  const { getAccessToken } = getSettings();
-  // get the authentication token from local storage if it exists
-  const token = getAccessToken();
-  // return the headers to the context so httpLink can read them
+const onSetup = (config: Config ): { config: Config; client: ApolloClient<NormalizedCacheObject>, authClient: ClientOAuth2 } => {
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = config.getAccessToken();
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(
+      createHttpLink({ uri: `${config.api.uri}/graphql`, fetch })
+    ),
+  });
+  const authClient = new ClientOAuth2({
+    accessTokenUri: `${config.api.uri}/connect/token`,
+    scopes: [''],
+  });
+
   return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
+    config,
+    client,
+    authClient
+  };
+};
 
-const { setup, update, getSettings } = apiClientFactory<Config, any>({
-  defaultSettings: {},
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onSetup: (config: Config) => {    
-    xApiClient = new ApolloClient({ cache: new InMemoryCache(), link: authLink.concat(createHttpLink( { uri: `${config.api.uri}/graphql`, fetch } ))});
-    vcAuthClient= new ClientOAuth2({ accessTokenUri: `${config.api.uri}/connect/token`, scopes: [""] });
+const { createApiClient } = apiClientFactory<Config, any>({
+  tag: 'vc',
+  onSetup,
+  api: {
+    getProduct,
+    getMe,
+    getMyOrders,
+    signIn,
+    searchProducts,
+    searchCategories,
+    getCategory,
+    getCart,
+    addOrUpdateCartShipment,
+    addOrUpdateCartPayment,
+    updateCartItemQuantity,
+    clearCart,
+    addToCart,
+    placeOrder,
+    removeFromCart
   }
 });
 
 export {
-  getProduct,
-  getMe,
-  getMyOrders,
-  signIn,
-  searchProducts,
-  searchCategories,
-  getCategory,
-  getCart,
-  addOrUpdateCartShipment,
-  addOrUpdateCartPayment,
-  updateCartItemQuantity,
-  clearCart,
-  addToCart,
-  placeOrder,
-  removeFromCart,
-  setup,
-  update,
-  getSettings,
-  xApiClient,
-  vcAuthClient,
+  createApiClient,
   VC_USER_ID, 
   VC_AUTH_TOKEN,
   generateUUID
 };
+
 
 export * from './graphql/types';

@@ -2,13 +2,12 @@ import { SearchProductsQuery, SearchProductsQueryVariables, GetProductByIdQueryV
 
 import searchProductsQueryDocument from './searchProductsQuery';
 
-import { xApiClient, getSettings } from '../../index';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function searchProducts(options: any): Promise<any> {
+async function searchProducts({ config, client }, options: any): Promise<any> {
 
-  const {store, getUserId, currency, locale, catalogId } = getSettings();
-  const { data } = await xApiClient.query<SearchProductsQuery, SearchProductsQueryVariables>({
+  const {store, getUserId, currency, locale, catalogId } = config;
+  const { data } = await client.query({
     query: searchProductsQueryDocument,
     variables: {
       storeId: store,

@@ -2,14 +2,12 @@ import { Product, GetProductByIdQuery, GetProductByIdQueryVariables } from '../.
 import  searchProducts from "../searchProducts";
 import getProductByIdQueryDocument from './getProductByIdQuery';
 
-import { xApiClient, getSettings } from '../../index';
-
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
- async function getProductById(options: any): Promise<Product[]> {
+ async function getProductById({ config, client }, options: any): Promise<Product[]> {
   
-  const {store, getUserId, currency, locale } = getSettings();
-  const { data } = await xApiClient.query<GetProductByIdQuery, GetProductByIdQueryVariables>({
+  const {store, getUserId, currency, locale } = config;
+  const { data } = await client.query({
     query: getProductByIdQueryDocument,
     variables: {
       id: options.id,
@@ -23,13 +21,13 @@ import { xApiClient, getSettings } from '../../index';
 }
 
 
-async function getProduct(options: GetProductByIdQueryVariables): Promise<any> {
+async function getProduct({ config, client }, options: GetProductByIdQueryVariables): Promise<any> {
   if (options.id) {
-    const data = await getProductById(options);
+    const data = await getProductById({ config, client }, options);
     const total = data.length;
     return { data, total };
   } else {
-    return await searchProducts(options);
+    return await searchProducts({ config, client }, options);
   }
 }
 

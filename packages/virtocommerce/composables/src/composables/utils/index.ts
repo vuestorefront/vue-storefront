@@ -1,10 +1,7 @@
-import { getSettings } from "@vue-storefront/virtocommerce-api"
-
-export const formatPrice = (price: number) => {
+export const formatPrice = (locale: string, currency: string,  price: number) => {
     if (!price) {
       return null;
     }
-    const { locale, currency } = getSettings();
     const result =  new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
 
     return result;

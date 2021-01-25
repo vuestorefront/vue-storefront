@@ -1,14 +1,14 @@
 // import { getProduct } from '@vue-storefront/boilerplate-api';
-import { useProductFactory, ProductsSearchResult, AgnosticSortByOption } from '@vue-storefront/core';
-import { UseProduct } from '../../types';
-import { getProduct, Product } from '@vue-storefront/virtocommerce-api';
+import { useProductFactory, ProductsSearchResult, UseProduct, Context } from '@vue-storefront/core';
+import { ProductsSearchParams} from '../../types';
+import { Product } from '@vue-storefront/virtocommerce-api';
 
 const availableSortingOptions = [
   { value: 'price-asc', label: 'Price from low to high' },
   { value: 'price-desc', label: 'Price from high to low' }
 ];
 
-const productsSearch = async (params): Promise<ProductsSearchResult<Product, any, AgnosticSortByOption[]>> => {
+const productsSearch = async (context: Context, params: any): Promise<ProductsSearchResult<Product>> => {
   // const searchParams = {
   //   ids: params.ids,
   //   with: params.term,
@@ -19,16 +19,15 @@ const productsSearch = async (params): Promise<ProductsSearchResult<Product, any
   //   term: params.term
   // };
 
-  const products = await getProduct(params);
+  const products = await context.$vc.api.getProduct(context, params);
 
   return {
     data: products.data,
     total: products.total,
-    availableSortingOptions
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product, any, AgnosticSortByOption[]> = useProductFactory<Product, any, any, AgnosticSortByOption[]>({
+const useProduct: (cacheId: string) => UseProduct<Product> = useProductFactory<Product, ProductsSearchParams>({
   productsSearch
 });
 

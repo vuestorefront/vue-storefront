@@ -32,7 +32,8 @@ export const getItemQty = (item: any): number => item?.quantity || 0;
 export const getItemPrice = (item: any): number => item?.price || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) => formatPrice(price);
+//TODO: pass locale and currency as argument
+export const getFormattedPrice = (price: number) => formatPrice("en-US", "USD", price);
 
 const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getDate,

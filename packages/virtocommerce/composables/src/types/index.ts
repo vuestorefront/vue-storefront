@@ -1,5 +1,12 @@
 import { UseCategory, UseProduct } from '@vue-storefront/core';
 
+export interface ProductsSearchParams {
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+}
+
 type Product = {}
 type Category = {}
 type User = {

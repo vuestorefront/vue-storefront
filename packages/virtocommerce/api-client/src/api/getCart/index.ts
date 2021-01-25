@@ -1,4 +1,3 @@
-import { xApiClient, getSettings } from '../../index';
 import {
   CartType,
   GetCartQuery,
@@ -6,9 +5,9 @@ import {
 } from '../../graphql/types';
 import queryDocument from './getCartQuery';
 
-const getCart = async (): Promise<CartType> => {
-  const { store, getUserId, currency, locale } = getSettings();
-  const { data } = await xApiClient.query<GetCartQuery, GetCartQueryVariables>({
+const getCart = async ({ config, client }): Promise<CartType> => {
+  const { store, getUserId, currency, locale } = config;
+  const { data } = await client.query({
     query: queryDocument,
     variables: {
       storeId: store,

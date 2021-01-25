@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon } from '@vue-storefront/core';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
 
 import { CartType, LineItemType, Product  } from '@vue-storefront/virtocommerce-api';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -46,6 +46,10 @@ export const getFormattedPrice = (price: number) => String(price);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCoupons = (cart: CartType): AgnosticCoupon[] => [];
 
+export const getDiscounts = (cart: CartType): AgnosticDiscount[] => {
+  return [];
+};
+
 const cartGetters: CartGetters<CartType, LineItemType> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
@@ -58,7 +62,8 @@ const cartGetters: CartGetters<CartType, LineItemType> = {
   getItemSku: getCartItemSku,
   getFormattedPrice: getFormattedPrice,
   getTotalItems: getCartTotalItems,
-  getCoupons
+  getCoupons,
+  getDiscounts
 };
 
 export default cartGetters;

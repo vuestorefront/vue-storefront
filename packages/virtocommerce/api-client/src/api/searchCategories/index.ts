@@ -2,13 +2,11 @@ import { SearchCategoriesQuery, SearchCategoriesQueryVariables } from '../../gra
 
 import queryDocument from './searchCategoriesQuery';
 
-import { xApiClient, getSettings } from '../../index';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function searchCategories(options: any): Promise<any> {
+async function searchCategories({ config, client }, options: any): Promise<any> {
   
-  const {store, getUserId, currency, locale } = getSettings();
-  const { data } = await xApiClient.query<SearchCategoriesQuery, SearchCategoriesQueryVariables>({
+  const {store, getUserId, currency, locale } = config;
+  const { data } = await client.query({
     query: queryDocument,
     variables: {
       filter: '', //TODO

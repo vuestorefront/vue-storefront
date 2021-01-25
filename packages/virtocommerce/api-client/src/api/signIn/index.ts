@@ -1,14 +1,14 @@
-import { vcAuthClient, getSettings, getMe } from '../../index';
+import  getMe from '../getMe';
 
-const signIn = async (username: string, password: string) => {
+const signIn = async ({ config, client, authClient }, username: string, password: string) => {
 
-  const { setAccessToken, setUserId } = getSettings();
+  const { setAccessToken, setUserId } = config;
 
-  const response = await vcAuthClient.owner.getToken(username, password);
+  const response = await authClient.owner.getToken(username, password);
 
   if (response.accessToken) {
     setAccessToken(response.accessToken);
-    const me = await getMe();
+    const me = await getMe({ config, client });
     setUserId(me.id);
   }
   return response;

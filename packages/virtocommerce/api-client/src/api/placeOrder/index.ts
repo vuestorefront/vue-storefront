@@ -1,4 +1,3 @@
-import { xApiClient, getSettings } from '../../index';
 import {
   PlaceOrderMutation,
   PlaceOrderMutationVariables,
@@ -7,9 +6,9 @@ import {
 } from '../../graphql/types';
 import mutationDocument from './placeOrderMutation';
 
-const placeOrder = async (cart: CartType): Promise<any> => {
-  const { store, getUserId, currency, locale } = getSettings();
-  const { data } = await xApiClient.mutate<PlaceOrderMutation, PlaceOrderMutationVariables>({
+const placeOrder = async ({ config, client }, cart: CartType): Promise<any> => {
+  const { store, getUserId, currency, locale } = config;
+  const { data } = await client.mutate({
     mutation: mutationDocument,
     variables: {
       command: {

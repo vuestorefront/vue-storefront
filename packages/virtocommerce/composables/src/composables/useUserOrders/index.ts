@@ -1,14 +1,13 @@
 /* istanbul ignore file */
 
-import { useUserOrdersFactory, UseUserOrdersFactoryParams, OrdersSearchResult } from '@vue-storefront/core';
+import { useUserOrdersFactory, UseUserOrdersFactoryParams, OrdersSearchResult, Context } from '@vue-storefront/core';
 import { Order, OrderSearchParams } from '../../types';
-import { getMyOrders } from '@vue-storefront/virtocommerce-api';
 // @todo userOrders
 
 const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchOrders: async (params: OrderSearchParams = {}): Promise<OrdersSearchResult<any>> => {
-    const result =  await getMyOrders(params);
+  searchOrders: async (context: Context, params: OrderSearchParams = {}): Promise<OrdersSearchResult<any>> => {
+    const result =  await context.$vc.api.getMyOrders(context, params);
     console.log(result);
     return {
       data: result.data.items,
