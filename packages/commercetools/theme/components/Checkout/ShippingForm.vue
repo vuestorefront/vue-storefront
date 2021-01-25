@@ -243,7 +243,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, checkoutShippingMethodGetters, useUser } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, checkoutShippingMethodGetters, useUser, useCheckoutShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext, onSSR } from '@vue-storefront/core';
@@ -276,16 +276,16 @@ export default {
     ValidationObserver
   },
   props: {
-    isSaving: Object,
-    address: Object
+    isSaving: Object
   },
-  setup(props, context) {
+  setup(_, context) {
     const { $ct: { config } } = useVSFContext();
+    const { shipping: address } = useCheckoutShipping();
     const { shippingMethods } = useCheckoutShippingMethod();
     const { isAuthenticated } = useUser();
-    const { shipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
+    const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
-    const shippingDetails = ref(props.address || {});
+    const shippingDetails = ref(address.value || {});
     const chosenShippingMethod = ref(null);
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
@@ -321,7 +321,7 @@ export default {
     };
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: Number(addressId) });
+      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(addressId) });
       if (!chosenAddress || !chosenAddress.length) {
         return;
       }
@@ -350,7 +350,7 @@ export default {
         callback: async () => {
           reset();
           if (currentAddressId.value > -1 && setAsDefault.value) {
-            const chosenAddress = userShippingGetters.getAddresses(shipping.value, { id: Number(currentAddressId.value) });
+            const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(currentAddressId.value) });
             if (!chosenAddress || !chosenAddress.length) {
               return;
             }
@@ -367,7 +367,7 @@ export default {
       currentAddressId.value = -1;
     };
 
-    watch(() => props.address, (addr) => {
+    watch(address, (addr) => {
       shippingDetails.value = addr;
     });
 
@@ -378,10 +378,10 @@ export default {
     });
 
     onMounted(async () => {
-      if (!shipping.value?.addresses && isAuthenticated.value) {
+      if (!userShipping.value?.addresses && isAuthenticated.value) {
         await loadUserShipping();
       }
-      const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
+      const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
       if (!shippingAddresses || !shippingAddresses.length) {
         return;
       }
@@ -401,7 +401,7 @@ export default {
       checkoutShippingMethodGetters,
       countries: config.countries,
       shippingMethods,
-      shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
+      shippingAddresses: computed(() => userShippingGetters.getAddresses(userShipping.value)),
       currentAddressId,
       setAsDefault,
       setCurrentAddress,

@@ -6,7 +6,6 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <ShippingForm
-      :address="shipping"
       :isSaving="isSaving"
       @addressSubmit="({ callback, shippingDetails }) => handleShippingAddressSubmit(callback)(shippingDetails)"
       @methodSubmit="({ callback, shippingMethod }) => handleShippingMethodSubmit(callback)(shippingMethod)"
@@ -34,8 +33,7 @@ export default {
     const {
       save: saveShipping,
       load: loadShipping,
-      error: shippingError,
-      shipping
+      error: shippingError
     } = useCheckoutShipping();
     const {
       save: saveShippingMethod,
@@ -74,7 +72,6 @@ export default {
     const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
 
     return {
-      shipping,
       isSaving,
       handleShippingAddressSubmit,
       handleShippingMethodSubmit,
