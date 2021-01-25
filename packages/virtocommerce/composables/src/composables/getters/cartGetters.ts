@@ -29,6 +29,13 @@ export const getCartItemSku = (product: any): string => product?.sku || 'some-sk
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartTotals = (cart: CartType): AgnosticTotals => {
+  if (!cart) {
+    return {
+      total: 0,
+      subtotal: 0,
+      special: 0
+    };
+  }
   return {
     total: cart.total.amount,
     subtotal: cart.subTotal.amount
@@ -39,7 +46,7 @@ export const getCartTotals = (cart: CartType): AgnosticTotals => {
 export const getCartShippingPrice = (cart: CartType): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartTotalItems = (cart: CartType): number => cart.itemsCount;
+export const getCartTotalItems = (cart: CartType): number => !cart ? 0 : cart.itemsCount;
 
 export const getFormattedPrice = (price: number) => String(price);
 

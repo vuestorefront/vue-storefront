@@ -187,7 +187,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { getSettings } from '@vue-storefront/virtocommerce-api';
+
 import { useCheckout, useUserShipping, useUser, checkoutGetters, userShippingGetters } from '@vue-storefront/virtocommerce';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
@@ -206,6 +206,18 @@ extend('digits', {
   ...digits,
   message: 'Please provide a valid phone number'
 });
+
+const COUNTRIES = [
+  { key: 'US',
+    label: 'United States' },
+  { key: 'UK',
+    label: 'United Kingdom' },
+  { key: 'IT',
+    label: 'Italy' },
+  { key: 'PL',
+    label: 'Poland' }
+];
+
 export default {
   name: 'Shipping',
   components: {
@@ -324,7 +336,7 @@ export default {
       chosenShippingMethod,
       shippingMethods,
       checkoutGetters,
-      countries: getSettings().countries,
+      countries: COUNTRIES,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       canAddNewAddress,
       addressIsModified,
@@ -339,7 +351,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;

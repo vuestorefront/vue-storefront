@@ -1,10 +1,10 @@
 import webpack from 'webpack';
 
 export default {
-  mode: 'universal',
+  ssr: true,
   server: {
     port: 3000,
-    host: '0.0.0.0'
+    host: '127.0.0.1'
   },
   head: {
     title: 'VirtoCommerce integration with Vue Storefront',
@@ -27,7 +27,11 @@ export default {
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
     ['@vue-storefront/nuxt', {
+      logger: { // new section here
+        verbosity: 'debug' // verbosity
+      },
       // @core-development-only-start
       coreDevelopment: true,
       // @core-development-only-end
@@ -57,7 +61,7 @@ export default {
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://172.19.240.1:3000/'
+        uri: 'http://127.0.0.1:3000'
       },
       store: "Electronics",
       currency: "USD",
@@ -83,13 +87,13 @@ export default {
   ],
   proxy: {
     '/graphql': {
-      target: 'https://admin-demo.virtocommerce.com/graphql',
+      target: 'http://localhost:10645/graphql',
       pathRewrite: {
         '^/graphql' : '/'
         }
       },
       '/connect/token': {
-        target: 'https://admin-demo.virtocommerce.com/connect/token',
+        target: 'http://localhost:10645/connect/token',
         pathRewrite: {
           '^/connect/token' : '/'
           }      
@@ -110,6 +114,9 @@ export default {
         }
       }
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     extend(config, ctx) {

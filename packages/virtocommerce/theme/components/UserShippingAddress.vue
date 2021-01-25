@@ -16,7 +16,17 @@
 
 <script>
 import { toRef, computed } from '@vue/composition-api';
-import { getSettings } from '@vue-storefront/virtocommerce-api';
+
+const COUNTRIES = [
+  { key: 'US',
+    label: 'United States' },
+  { key: 'UK',
+    label: 'United Kingdom' },
+  { key: 'IT',
+    label: 'Italy' },
+  { key: 'PL',
+    label: 'Poland' }
+];
 
 export default {
   props: {
@@ -41,7 +51,7 @@ export default {
 
     const country = computed(() => {
       const country = address.country;
-      return getSettings().countries.find(c => c.name === country)?.label || country;
+      return COUNTRIES.find(c => c.name === country)?.label || country;
     });
 
     return {

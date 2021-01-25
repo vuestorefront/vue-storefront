@@ -18,7 +18,7 @@
     "@graphql-codegen/cli": "1.17.8",
     "@graphql-codegen/typescript": "1.17.8",
     "@graphql-codegen/typescript-operations": "1.17.8",
-    "@vue-storefront/core": "2.0.10",
+    "@vue-storefront/core": "2.0.12-lc.16",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",

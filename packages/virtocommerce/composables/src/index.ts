@@ -12,6 +12,10 @@ import useFacet from './composables/useFacet';
 import { useWishlist, setWishlist } from './composables/useWishlist';
 import useUserShipping from './composables/useUserShipping';
 import useUserBilling from './composables/useUserBilling';
+import { integrationPluginFactory } from '@vue-storefront/core';
+
+import { createApiClient } from '@vue-storefront/virtocommerce-api';
+const integrationPlugin = integrationPluginFactory(createApiClient);
 
 import {
   cartGetters,
@@ -27,6 +31,7 @@ import {
 } from './composables/getters';
 
 export {
+  integrationPlugin,
   useCategory,
   useProduct,
   useCart,
