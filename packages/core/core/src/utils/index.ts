@@ -6,7 +6,7 @@ import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
 import mask from './logger/mask';
 import { useVSFContext, configureContext, generateContext } from './context';
-import { integrationPluginFactory } from './nuxt';
+import { integrationPluginFactory, integrationPlugin } from './nuxt';
 
 export {
   wrap,
@@ -20,5 +20,6 @@ export {
   configureContext,
   useVSFContext,
   generateContext,
-  integrationPluginFactory
+  integrationPluginFactory,
+  integrationPlugin
 };

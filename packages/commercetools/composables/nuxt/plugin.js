@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
-import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
+import { integrationPlugin } from '@vue-storefront/core'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
@@ -25,7 +25,7 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
 
-  const settings = mapConfigToSetupObject({
+  const platform = mapConfigToSetupObject({
     moduleOptions,
     app,
     additionalProperties: {
@@ -37,5 +37,5 @@ export default integrationPlugin(({ app, integration }) => {
     }
   })
 
-  integration.configure(settings)
+  integration.configure(platform)
 });
