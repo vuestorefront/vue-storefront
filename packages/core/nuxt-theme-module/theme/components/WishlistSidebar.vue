@@ -56,17 +56,21 @@
         </div>
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
-            <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-wishlist__icon" />
-            <h3 class="empty-wishlist__label">{{ $t('Your bag is empty') }}</h3>
-            <p class="empty-wishlist__description">
-              {{ $t('Empty') }}
-            </p>
+            <SfImage src="/icons/empty-cart.svg" alt="Empty bag" class="empty-wishlist__icon" />
+            <SfHeading
+              title="Your bag is empty"
+              description="Looks like you haven’t added any items to the bag yet. Start
+              shopping to fill it in."
+              class="empty-wishlist__label"
+            />
           </div>
-          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
-            {{ $t('Start shopping') }}
-          </SfButton>
         </div>
       </transition>
+      <template #content-bottom>
+        <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+          {{ $t('Start shopping') }}
+        </SfButton>
+      </template>
     </SfSidebar>
   </div>
 </template>
@@ -78,7 +82,8 @@ import {
   SfIcon,
   SfProperty,
   SfPrice,
-  SfCollectedProduct
+  SfCollectedProduct,
+  SfImage
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
@@ -94,7 +99,8 @@ export default {
     SfIcon,
     SfProperty,
     SfPrice,
-    SfCollectedProduct
+    SfCollectedProduct,
+    SfImage
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
@@ -163,22 +169,18 @@ export default {
     text-align: center;
   }
   &__label {
-    margin: var(--spacer-2xl) 0 0 0;
-    font: var(--font-weight--normal) var(--font-size--xl) / 1.6 var(--font-family--secondary);
-    color: var(--c-primary);
+    --heading-description-margin: 0 0 var(--spacer-xl) 0;
+    --heading-title-margin: 0 0 var(--spacer-xl) 0;
+    --heading-title-color: var(--c-primary);
+    --heading-title-font-weight: var(--font-weight--semibold);
+      @include for-desktop {
+      --heading-title-font-size: var(--font-size--xl);
+      --heading-title-margin: 0 0 var(--spacer-sm) 0;
   }
-  &__description {
-    margin: var(--spacer-sm) 0 0 0;
-    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
-    color: var(--c-link);
   }
   &__icon {
-    width: 18.125rem;
-    height: 12.3125rem;
-    margin-left: 50%;
-    @include for-desktop {
-      margin-left: 45%;
-    }
+    --image-width: 16rem;
+    margin: 0 0 var(--spacer-2xl) 7.5rem;
   }
 }
 .heading {
@@ -198,10 +200,6 @@ export default {
   margin: var(--spacer-base) 0;
   &__properties {
     margin: var(--spacer-sm) 0 0 0;
-  }
-  ::v-deep .sf-collected-product__remove--circle-icon {
-    --button-background: var(--c-primary);
-    --icon-color: var(--c-white);
   }
 }
 

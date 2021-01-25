@@ -214,7 +214,8 @@ export default {
     const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
       mobile: { url: img.small },
       desktop: { url: img.normal },
-      big: { url: img.big }
+      big: { url: img.big },
+      alt: product.value._name
     })));
 
     onSSR(async () => {

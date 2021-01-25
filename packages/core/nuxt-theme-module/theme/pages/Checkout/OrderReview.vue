@@ -83,7 +83,7 @@
           class="table__row"
         >
           <SfTableData class="table__image">
-            <SfImage :src="cartGetters.getItemImage(product)" />
+            <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
           </SfTableData>
           <SfTableData class="table__data table__data--left">
             <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
