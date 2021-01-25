@@ -1,6 +1,6 @@
 # Composition API
 
-In Vue 3, a new way to abstract an reuse the logic was added. It's called a Composition API and it allows you to create and observe a reactive state both inside Vue component and outside it, as a standalone function.
+Composition API is a new way to abstract and reuse the logic added in Vue 3.0. It allows you to create and observe a reactive state both inside the Vue component and outside it as a standalone function.
 
 Let's try to build functionality for submitting a form with two fields: user name and password.
 
@@ -14,7 +14,7 @@ Let's try to build functionality for submitting a form with two fields: user nam
 </template>
 ```
 
-Inside the Vue component, Composition API methods should be called inside the new component option called `setup`:
+In the Vue component, Composition API methods should be called inside the new component option called `setup`:
 
 ```html
 <script>
@@ -62,7 +62,7 @@ setup() {
 }
 ```
 
-After we returned reactive properties from the `setup`, they become available in Vue component options (such as `data` or `methods`) and in component template. `refs` returned from setup are automatically unwrapped - this means you don't need to use `.value` anymore:
+After we returned reactive properties from the `setup`, they become available in Vue component options (such as `data` or `methods`) and in component template. `refs` returned from setup are automatically unwrapped - this means you don't access the `.value` anymore:
 
 ```html
 <template>
