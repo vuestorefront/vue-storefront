@@ -12,7 +12,8 @@ export const getMethodPrice = (method: ShippingMethod): number => {
 
   return method.zoneRates[0].shippingRates[0].price.centAmount / 100;
 };
-export const isMethodDefault = (method: any) => method.firstName;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const isMethodDefault = (method: ShippingMethod) => false;
 
 const checkoutShippingMethodGetters: CheckoutShippingMethodGetters<any, any> = {
   getShippingMethods,
