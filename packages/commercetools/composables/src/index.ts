@@ -13,7 +13,6 @@ import useUserBilling from './useUserBilling';
 import useWishlist from './useWishlist';
 import useCheckoutShipping from './useCheckoutShipping';
 import useCheckoutShippingMethod from './useCheckoutShippingMethod';
-import { createApiClient } from '@vue-storefront/commercetools-api';
 import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');

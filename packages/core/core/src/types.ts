@@ -293,8 +293,8 @@ export interface UseCheckoutShippingMethodErrors {
   load?: Error;
   save?: Error;
 }
-export interface UseCheckoutShippingMethod<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
-  shippingMethods: ComputedProperty<SHIPPING_METHOD[]>;
+export interface UseCheckoutShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
+  shippingMethods: ComputedProperty<SHIPPING_METHOD_OBJECT>;
   selectedShippingMethod: ComputedProperty<SHIPPING_METHOD>;
   error: ComputedProperty<UseCheckoutShippingErrors>;
   loading: ComputedProperty<boolean>;
@@ -320,13 +320,13 @@ export interface CheckoutShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM, SHIPPI
   isAddressDefault: (address: SHIPPING_ADDRESS_ITEM) => boolean;
 }
 
-export interface CheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_MEDHOD_ITEM> {
-  getShippingMethods: (methods: SHIPPING_METHODS, criteria?: Record<string, any>) => SHIPPING_MEDHOD_ITEM[];
-  getMethodId: (method: SHIPPING_MEDHOD_ITEM) => string;
-  getMethodName: (method: SHIPPING_MEDHOD_ITEM) => string;
-  getMethodDescription: (method: SHIPPING_MEDHOD_ITEM) => string;
-  getMethodPrice: (method: SHIPPING_MEDHOD_ITEM) => number;
-  isMethodDefault: (method: SHIPPING_MEDHOD_ITEM) => boolean;
+export interface CheckoutShippingMethodGetters<SHIPPING_METHODS, SHIPPING_METHOD_ITEM> {
+  getShippingMethods: (methods: SHIPPING_METHODS, criteria?: Record<string, any>) => SHIPPING_METHOD_ITEM[];
+  getMethodId: (method: SHIPPING_METHOD_ITEM) => string;
+  getMethodName: (method: SHIPPING_METHOD_ITEM) => string;
+  getMethodDescription: (method: SHIPPING_METHOD_ITEM) => string;
+  getMethodPrice: (method: SHIPPING_METHOD_ITEM) => number;
+  isMethodDefault: (method: SHIPPING_METHOD_ITEM) => boolean;
 }
 export interface UseFacetErrors {
   search?: Error;

@@ -2,17 +2,17 @@ import { UseCheckoutShippingMethod, Context, FactoryParams, UseCheckoutShippingM
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface UseCheckoutShippingMethodParams<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> extends FactoryParams {
-  load: (context: Context) => Promise<SHIPPING_METHOD[]>;
+export interface UseCheckoutShippingMethodParams<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> extends FactoryParams {
+  load: (context: Context) => Promise<SHIPPING_METHOD_OBJECT>;
   save: (context: Context, params: SHIPPING_METHOD_PARAMS) => Promise<SHIPPING_METHOD>;
 }
 
-export const useCheckoutShippingMethodFactory = <SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>(
-  factoryParams: UseCheckoutShippingMethodParams<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>
+export const useCheckoutShippingMethodFactory = <SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>(
+  factoryParams: UseCheckoutShippingMethodParams<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>
 ) => {
-  return function useCheckoutShippingMethod (): UseCheckoutShippingMethod<SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
+  return function useCheckoutShippingMethod (): UseCheckoutShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
     const loading: Ref<boolean> = sharedRef(false, 'useCheckoutShippingMethod-loading');
-    const shippingMethods: Ref<SHIPPING_METHOD[]> = sharedRef(null, 'useCheckoutShippingMethod-shippingMethods');
+    const shippingMethods: Ref<SHIPPING_METHOD_OBJECT> = sharedRef(null, 'useCheckoutShippingMethod-shippingMethods');
     const selectedShippingMethod: Ref<SHIPPING_METHOD> = sharedRef(null, 'useCheckoutShippingMethod-selectedShippingMethod');
     const context = generateContext(factoryParams);
     const error: Ref<UseCheckoutShippingMethodErrors> = sharedRef({}, 'useCheckoutShippingMethod-error');
