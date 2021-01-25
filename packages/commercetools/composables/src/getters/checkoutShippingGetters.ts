@@ -23,7 +23,7 @@ export const getAddressApartmentNumber = (address: Address) => address?.apartmen
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isAddressDefault = (address: Address) => false;
 
-const checkoutShippingGetters: CheckoutShippingGetters<any, any, any> = {
+const checkoutShippingGetters: CheckoutShippingGetters<any, Address, any> = {
   getAddresses,
   getMethods,
   getAddressPostCode,
