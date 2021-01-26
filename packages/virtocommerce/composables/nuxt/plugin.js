@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { VC_USER_ID, VC_AUTH_TOKEN, generateUUID} from '@vue-storefront/virtocommerce-api';
 import { mapConfigToSetupObject } from '@vue-storefront/commercetools/nuxt/helpers'
-import { integrationPlugin } from '@vue-storefront/virtocommerce'
+import { integrationPlugin } from '@vue-storefront/virtocommerce-api'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 

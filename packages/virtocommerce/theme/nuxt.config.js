@@ -83,7 +83,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy'  
   ],
   proxy: {
     '/graphql': {

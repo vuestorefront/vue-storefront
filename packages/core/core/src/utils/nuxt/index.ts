@@ -18,6 +18,5 @@ export const integrationPluginFactory = (createApiClient): IntegrationPlugin => 
   };
 
   const integration = { configure, extend };
-
   pluginFn({ ...nuxtCtx, integration }, inject);
 };

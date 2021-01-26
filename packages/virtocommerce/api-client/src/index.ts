@@ -27,10 +27,10 @@ import { VC_USER_ID, VC_AUTH_TOKEN, generateUUID } from './utils'
 // let xApiClient: ApolloClient<NormalizedCacheObject> | null = null;
 // let vcAuthClient: ClientOAuth2 | null = null;
 
-const onSetup = (config: Config ): { config: Config; client: ApolloClient<NormalizedCacheObject>, authClient: ClientOAuth2 } => {
+const onCreate = (settings: Config ): { config: Config; client: ApolloClient<NormalizedCacheObject>, authClient: ClientOAuth2 } => {
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
-    const token = config.getAccessToken();
+    const token = settings.getAccessToken();
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -43,24 +43,24 @@ const onSetup = (config: Config ): { config: Config; client: ApolloClient<Normal
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: authLink.concat(
-      createHttpLink({ uri: `${config.api.uri}/graphql`, fetch })
+      createHttpLink({ uri: `${settings.api.uri}/graphql`, fetch })
     ),
   });
   const authClient = new ClientOAuth2({
-    accessTokenUri: `${config.api.uri}/connect/token`,
+    accessTokenUri: `${settings.api.uri}/connect/token`,
     scopes: [''],
   });
 
   return {
-    config,
+    config : { ...settings },
     client,
     authClient
   };
 };
 
-const { createApiClient } = apiClientFactory<Config, any>({
+const { createApiClient, integrationPlugin } = apiClientFactory<Config, any>({
   tag: 'vc',
-  onSetup,
+  onCreate,
   api: {
     getProduct,
     getMe,
@@ -82,6 +82,7 @@ const { createApiClient } = apiClientFactory<Config, any>({
 
 export {
   createApiClient,
+  integrationPlugin,
   VC_USER_ID, 
   VC_AUTH_TOKEN,
   generateUUID
