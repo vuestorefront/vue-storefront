@@ -56,6 +56,9 @@ export default {
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
+      logger: {
+        verbosity: 'warn'
+      },
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools',
