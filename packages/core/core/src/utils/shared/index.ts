@@ -9,7 +9,7 @@ function sharedRef<T>(value: T, key: string): Ref {
   const { $sharedRefsMap } = useVSFContext() as any;
   const givenKey = key || value;
 
-  if ($sharedRefsMap && $sharedRefsMap.has(givenKey)) {
+  if ($sharedRefsMap.has(givenKey)) {
     return $sharedRefsMap.get(givenKey);
   }
 
@@ -17,9 +17,9 @@ function sharedRef<T>(value: T, key: string): Ref {
     key ? value : null,
     givenKey as string
   );
-  if ($sharedRefsMap) {
+
   $sharedRefsMap.set(givenKey, newRef);
-  }
+  
 
   return newRef;
 }
