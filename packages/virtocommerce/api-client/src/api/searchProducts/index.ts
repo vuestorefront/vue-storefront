@@ -15,8 +15,8 @@ async function searchProducts({ config, client }, options: any): Promise<any> {
       currencyCode: currency,
       cultureName: locale,
       //it is workaround to get catalogId from config  need to inference catalog id from store
-      filter:  options.input.outline ? `category.subtree:${catalogId}/${options.input.outline}` : '',
-      first: options.input.itemsPerPage ?? 10,
+      filter:  options.input?.outline ? `category.subtree:${catalogId}/${options.input.outline}` : '',
+      first: options.input?.itemsPerPage ?? 10,
       after: String(options.input.page ?? 1 * options.input.itemsPerPage ?? 10)
     },
     fetchPolicy: 'no-cache'
