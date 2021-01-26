@@ -8,9 +8,29 @@ module.exports = {
 		logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
 		nav: [
 			{ text: 'Home', link: '/' },
-			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' }
+			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
+			{ text: 'Migration guide', link: '/migrate/' }
+
 		],
 		sidebar: {
+			'/migrate/': [
+				{
+					title: 'Migration guide RC.1',
+					children: [
+						['/migrate/rc1', 'Overview'],
+						['/migrate/integrators-rc1', 'Integrators'],
+						['/migrate/projects-rc1', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.2.0',
+					children: [
+						['/migrate/2.2.0', 'Overview'],
+						['/migrate/integrators-2.2.0', 'Integrators'],
+						['/migrate/projects-2.2.0', 'Projects'],
+					]
+				}
+			],
 			'/commercetools/': [
 				{
 					title: 'Essentials',
@@ -114,17 +134,32 @@ module.exports = {
 			],
 			'/': [
 				{
-					title: 'General',
+					title: 'In a nutshell',
 					collapsable: false,
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
-						['/general/architecture', 'Architecture'],
-						['/general/i18n', 'i18n'],
-						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance']
 					]
         },
+				{
+					title: 'General',
+					collapsable: false,
+					children: [
+						['/general/architecture', 'Architecture'],
+						['/general/error-handling', 'Error Handling'],
+						['/general/logging', 'Logging'],
+						['/general/performance', 'Performance'],
+						['/general/context', 'Application Context']
+					]
+				},
+				{
+					title: 'Guide [WIP]',
+					collapsable: false,
+					children: [
+						['/guide/theme', 'Theme'],
+						['/guide/internationalization', 'Internationalization']
+					]
+				},
         {
           title: 'Composables',
           collapsable: false,
@@ -157,9 +192,8 @@ module.exports = {
 					title: 'Build integration',
 					collapsable: true,
 					children: [
-						['/integrate/ecommerce', 'eCommerce'],
+						['/integrate/integration-guide', 'Integration guide'],
 						['/general/cms', 'CMS'],
-						['/integrate/api-middleware', 'API middleware'],
 					]
 				},
 				{
@@ -168,6 +202,7 @@ module.exports = {
 					children: [
 						['/contributing/', 'Contributing'],
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
+						['/contributing/creating-changelog', 'Creating changelog'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
 						['/contributing/changelog', 'Core Changelog']

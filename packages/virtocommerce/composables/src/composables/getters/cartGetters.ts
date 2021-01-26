@@ -1,4 +1,4 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticDiscount, AgnosticCoupon } from '@vue-storefront/core';
 
 import { CartType, LineItemType, Product  } from '@vue-storefront/virtocommerce-api';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

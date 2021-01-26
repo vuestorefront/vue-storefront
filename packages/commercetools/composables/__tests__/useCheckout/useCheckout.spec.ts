@@ -44,11 +44,11 @@ const resetFields = () => {
   };
 };
 
-const loadCart = jest.fn();
+const load = jest.fn();
 const setCart = jest.fn((newCart) => {
   cart.value = newCart;
 });
-const cartFields = { cart, loadCart };
+const cartFields = { cart, load };
 
 jest.mock('./../../src/useCart', jest.fn(() => ({
   useCart: () => cartFields,

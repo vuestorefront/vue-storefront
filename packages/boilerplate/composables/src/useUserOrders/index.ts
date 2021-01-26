@@ -3,16 +3,13 @@
 import {
   Context,
   useUserOrdersFactory,
-  UseUserOrdersFactoryParams,
-  OrdersSearchResult
+  UseUserOrdersFactoryParams
 } from '@vue-storefront/core';
-import { Order, OrderSearchParams } from '../types';
+import { OrdersResponse, OrderSearchParams } from '../types';
 
-// @todo userOrders
-
-const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
+const params: UseUserOrdersFactoryParams<OrdersResponse, OrderSearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchOrders: async (context: Context, params: OrderSearchParams = {}): Promise<OrdersSearchResult<Order>> => {
+  searchOrders: async (context: Context, params: OrderSearchParams): Promise<OrdersResponse> => {
     console.log('Mocked: searchOrders');
 
     return {
@@ -22,6 +19,4 @@ const params: UseUserOrdersFactoryParams<Order, OrderSearchParams> = {
   }
 };
 
-const useUserOrders: () => any = useUserOrdersFactory<Order, OrderSearchParams>(params);
-
-export default useUserOrders;
+export default useUserOrdersFactory<OrdersResponse, OrderSearchParams>(params);

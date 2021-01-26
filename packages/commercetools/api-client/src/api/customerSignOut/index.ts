@@ -1,6 +1,11 @@
+const customerSignOut = async ({ config, client }) => {
+  if (config.auth.onTokenRemove) {
+    config.auth.onTokenRemove();
+  }
 
-const customerSignOut = async (context): Promise<void> => {
-  await context.$ct.api.cleanSession();
+  if (client.tokenProvider) {
+    client.tokenProvider.invalidateTokenInfo();
+  }
 };
 
 export default customerSignOut;

@@ -10,22 +10,29 @@ export default {
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport',
-        content: 'width=device-width, initial-scale=1' },
-      { hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || '' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
-      }, {
+      },
+      {
         rel: 'preconnect',
-        href: 'https://fonts.googleapis.com'
-      }, {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com'
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'crossorigin'
+      },
+      {
+        rel: 'preload',
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
+        as: 'style'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
+        media: 'print',
+        onload: 'this.media=\'all\''
       }
     ],
     script: []
@@ -101,7 +108,15 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    ['@vue-storefront/middleware/nuxt', {
+      integrations: {
+        ct: {
+          api: '@vue-storefront/commercetools-api/server',
+          module: '@vue-storefront/commercetools/nuxt'
+        }
+      }
+    }]
   ],
   i18n: {
     currency: 'USD',
@@ -141,7 +156,19 @@ export default {
     seo: true,
     langDir: 'lang/',
     vueI18n: {
-      fallbackLocale: 'en'
+      fallbackLocale: 'en',
+      numberFormats: {
+        en: {
+          currency: {
+            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          }
+        },
+        de: {
+          currency: {
+            style: 'currency', currency: 'EUR', currencyDisplay: 'symbol'
+          }
+        }
+      }
     },
     detectBrowserLanguage: {
       cookieKey: 'vsf-locale'

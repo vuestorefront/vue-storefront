@@ -1,4 +1,4 @@
-import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams, Context, AgnosticCoupon } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 
 import { CartType, LineItemType, Product } from '@vue-storefront/virtocommerce-api';
@@ -11,40 +11,39 @@ const getLineItemItemByProduct = ({ currentCart, product }) => {
 
 // @todo: implement cart
 
-const params: UseCartFactoryParams<CartType, LineItemType, Product, any> = {
-  loadCart: async (context: Context) => {
-    console.log("getCart");
+const params: UseCartFactoryParams<CartType, LineItemType, Product, AgnosticCoupon> = {
+  
+  load: async (context: Context,  { customQuery }) => {
     const cart = await context.$vc.api.getCart(context);
     return cart;
-  },
-  
+  },  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToCart: async (context: Context, { currentCart, product, quantity }) => {
+  addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
      await context.$vc.api.addToCart(context, currentCart, product, quantity);
      return  await context.$vc.api.getCart(context);  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromCart: async (context: Context, { currentCart, product }) => {
+  removeItem: async (context: Context, { currentCart, product, customQuery }) => {
     await context.$vc.api.removeFromCart(context, currentCart, product);
     return await context.$vc.api.getCart(context);  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateQuantity: async (context: Context, { currentCart, product, quantity }) => {
+  updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     await context.$vc.api.updateCartItemQuantity(context, currentCart, product, quantity);
     return  await context.$vc.api.getCart(context);  
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearCart: async (context: Context, { currentCart }) => {
+  clear: async (context: Context, { currentCart }) => {
     await context.$vc.api.clearCart(context, currentCart);
     return await context.$vc.api.getCart(context);    
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  applyCoupon: async (context: Context, { currentCart, couponCode }) => {
+  applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     console.log('Mocked: applyCoupon');
     return {updatedCart: null, updatedCoupon: null};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async (context: Context, { currentCart, coupon }) => {
+  removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
     console.log('Mocked: removeCoupon');
     return {updatedCart: null};
   },
@@ -55,8 +54,4 @@ const params: UseCartFactoryParams<CartType, LineItemType, Product, any> = {
   }
 };
 
-
-
-const { useCart } = useCartFactory<CartType, LineItemType, Product, any>(params);
-
-export { useCart };
+export default useCartFactory<CartType, LineItemType, Product, AgnosticCoupon>(params);

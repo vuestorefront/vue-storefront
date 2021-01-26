@@ -6,19 +6,19 @@ import { Wishlist, WishlistProduct, Product } from '../../types';
 export const wishlist: Ref<Wishlist> = ref(null);
 
 const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
-  loadWishlist: async () => {
+  load: async () => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addToWishlist: async ({ currentWishlist, product }) => {
+  addItem: async ({ currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeFromWishlist: async ({ currentWishlist, product }) => {
+  removeItem: async ({ currentWishlist, product }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clearWishlist: async ({ currentWishlist }) => {
+  clear: async ({ currentWishlist }) => {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,6 +27,4 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   }
 };
 
-const {setWishlist, useWishlist } = useWishlistFactory<Wishlist, WishlistProduct, Product>(params);
-
-export { setWishlist, useWishlist};
+export default useWishlistFactory<Wishlist, WishlistProduct, Product>(params);

@@ -20,7 +20,6 @@
     <template #navigation>
       <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')" />
       <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
-      <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_kids" label="KIDS" :link="localePath('/c/kids')" />
     </template>
     <template #aside>
       <LocaleSelector class="smartphone-only" />
@@ -46,9 +45,9 @@ export default {
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load } = useUser();
-    const { cart, loadCart } = useCart();
-    const { loadWishlist } = useWishlist();
+    const { isAuthenticated, load: loadUser } = useUser();
+    const { cart, load: loadCart } = useCart();
+    const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
 
     const cartTotalItems = computed(() => {
@@ -68,7 +67,7 @@ export default {
     };
 
     onSSR(async () => {
-      await load();
+      await loadUser();
       await loadCart();
       await loadWishlist();
     });

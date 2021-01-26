@@ -1,5 +1,5 @@
 // import { getProduct } from '@vue-storefront/boilerplate-api';
-import { useProductFactory, ProductsSearchResult, UseProduct, Context } from '@vue-storefront/core';
+import { useProductFactory,  Context, UseProductFactoryParams } from '@vue-storefront/core';
 import { ProductsSearchParams} from '../../types';
 import { Product } from '@vue-storefront/virtocommerce-api';
 
@@ -8,8 +8,10 @@ const availableSortingOptions = [
   { value: 'price-desc', label: 'Price from high to low' }
 ];
 
-const productsSearch = async (context: Context, params: any): Promise<ProductsSearchResult<Product>> => {
-  // const searchParams = {
+
+const params: UseProductFactoryParams<Product, ProductsSearchParams> = {
+  productsSearch: async (context: Context, params: ProductsSearchParams): Promise<any> => {
+    // const searchParams = {
   //   ids: params.ids,
   //   with: params.term,
   //   where: params.term,
@@ -25,10 +27,7 @@ const productsSearch = async (context: Context, params: any): Promise<ProductsSe
     data: products.data,
     total: products.total,
   };
+  }
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product> = useProductFactory<Product, ProductsSearchParams>({
-  productsSearch
-});
-
-export default useProduct;
+export default useProductFactory<Product, ProductsSearchParams>(params);

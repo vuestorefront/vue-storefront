@@ -9,7 +9,7 @@ import {
   InputPaymentType
 } from '@vue-storefront/virtocommerce-api';
 import { User } from '../../types';
-import { useCart } from '../useCart';
+import useCart  from '../useCart';
 import { toUnicode } from 'punycode';
 
 const cartFields: Ref<any> = ref({});
@@ -158,11 +158,11 @@ const useCheckout: () => UseCheckout<any, any, any, any, any, any, any, any> = (
 
   const context = generateContext({
     setup() {
-      return useCart();
+      return useCart;
     }
   });
   
-  cartFields.value = useCart();
+  cartFields.value = useCart;
 
   return {
     initialDetails,

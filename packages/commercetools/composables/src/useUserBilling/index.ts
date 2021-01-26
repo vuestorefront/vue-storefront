@@ -116,8 +116,8 @@ const params: UseUserBillingFactoryParams<any, any> = {
     return Promise.resolve(billing);
   },
 
-  setDefault: async (context: Context, params?) => {
-    console.log('Mocked: setDefault');
+  setDefaultAddress: async (context: Context, params?) => {
+    console.log('Mocked: setDefaultAddress');
     const isDefault = id => addresses[0].id === id;
 
     if (!isDefault(params.address.id)) {
@@ -134,6 +134,4 @@ const params: UseUserBillingFactoryParams<any, any> = {
   }
 };
 
-const { useUserBilling } = useUserBillingFactory<any, any>(params);
-
-export default useUserBilling;
+export default useUserBillingFactory<any, any>(params);

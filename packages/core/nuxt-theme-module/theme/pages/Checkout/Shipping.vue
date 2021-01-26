@@ -108,7 +108,7 @@
           <template #label="{label}">
             <div class="sf-radio__label shipping__label">
               <div>{{ label }}</div>
-              <div>${{ checkoutGetters.getShippingMethodPrice(item) }}</div>
+              <div>${{ $n(checkoutGetters.getShippingMethodPrice(item), 'currency') }}</div>
             </div>
           </template>
           <template #description="{description}">
@@ -123,10 +123,10 @@
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
         <SfButton data-cy="shipping-btn_go-back" class="color-secondary form__back-button">
-          Go back
+          {{ $t('Go back') }}
         </SfButton>
         <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="$emit('nextStep')">
-          Continue to payment
+          {{ $t('Continue to payment') }}
         </SfButton>
       </div>
     </div>

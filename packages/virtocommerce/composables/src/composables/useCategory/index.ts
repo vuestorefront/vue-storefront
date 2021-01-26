@@ -1,11 +1,12 @@
-import { useCategoryFactory, Context } from '@vue-storefront/core';
+import { useCategoryFactory, Context, UseCategoryFactoryParams } from '@vue-storefront/core';
 import { UseCategory, Category } from '../../types';
 
-const useCategory: (id: string) => UseCategory<Category> = useCategoryFactory<Category, any>({
-  categorySearch: async (context: Context) => {
+const params: UseCategoryFactoryParams<Category, any> = {
+  categorySearch: async (context: Context, params) => {
     const categoryResponse = await context.$vc.api.getCategory(context);
     return categoryResponse;
   }
-});
+};
 
-export default useCategory;
+
+export default useCategoryFactory<Category, any>(params);

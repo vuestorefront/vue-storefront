@@ -21,31 +21,34 @@
           />
           <SfProperty
             name="Total"
-            :value="formatPrice(orderGetters.getPrice(currentOrder))"
+            :value="$n(orderGetters.getPrice(currentOrder), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
         <SfTable class="products">
           <SfTableHeading>
-            <SfTableHeader class="products__name">Product</SfTableHeader>
-            <SfTableHeader>Quantity</SfTableHeader>
-            <SfTableHeader>Price</SfTableHeader>
+            <SfTableHeader class="products__name">{{ $t('Product') }}</SfTableHeader>
+            <SfTableHeader>{{ $t('Quantity') }}</SfTableHeader>
+            <SfTableHeader>{{ $t('Price') }}</SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
-            <SfTableData class="products__name"><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
+            <SfTableData class="products__name">
+              <nuxt-link :to="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">
+                {{orderGetters.getItemName(item)}}
+              </nuxt-link>
+            </SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
-            <SfTableData>{{formatPrice(orderGetters.getItemPrice(item))}}</SfTableData>
+            <SfTableData>{{$n(orderGetters.getItemPrice(item), 'currency')}}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
       <div v-else>
         <p class="message">
-          Check the details and status of your orders in the online store. You can
-          also cancel your order or request a return.
+          {{ $t('Details and status orders') }}
         </p>
         <div v-if="orders.length === 0" class="no-orders">
-          <p class="no-orders__title">You currently have no orders</p>
-          <SfButton data-cy="order-history-btn_start" class="no-orders__button">Start shopping</SfButton>
+          <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
+          <SfButton data-cy="order-history-btn_start" class="no-orders__button">{{ $t('Start shopping') }}</SfButton>
         </div>
         <SfTable v-else class="orders">
           <SfTableHeading>
@@ -54,26 +57,30 @@
               :key="tableHeader"
               >{{ tableHeader }}</SfTableHeader>
             <SfTableHeader class="orders__element--right">
-              <span class="smartphone-only">Download</span>
+              <span class="smartphone-only">{{ $t('Download') }}</span>
               <SfButton
                 data-cy="order-history-btn_download-all"
                 class="desktop-only sf-button--text orders__download-all"
                 @click="downloadOrders()"
               >
-                Download all
+                {{ $t('Download all') }}
               </SfButton>
             </SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ formatPrice(orderGetters.getPrice(order)) }}</SfTableData>
+            <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
             <SfTableData>
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton data-cy="order-history-btn_download" class="sf-button--text smartphone-only" @click="downloadOrder(order)">Download</SfButton>
-              <SfButton data-cy="order-history-btn_view" class="sf-button--text desktop-only" @click="currentOrder = order">View details</SfButton>
+              <SfButton data-cy="order-history-btn_download" class="sf-button--text smartphone-only" @click="downloadOrder(order)">
+                {{ $t('Download') }}
+              </SfButton>
+              <SfButton data-cy="order-history-btn_view" class="sf-button--text desktop-only" @click="currentOrder = order">
+                {{ $t('View details') }}
+              </SfButton>
             </SfTableData>
           </SfTableRow>
         </SfTable>
@@ -81,9 +88,10 @@
     </SfTab>
     <SfTab data-cy="order-history-tab_returns" title="Returns">
       <p class="message">
-        This feature is not implemented yet! Please take a look at<br />
+        This feature is not implemented yet! Please take a look at
+        <br />
         <SfLink class="message__link" href="#">https://github.com/DivanteLtd/vue-storefront/issues</SfLink>
-         for our Roadmap!
+        for our Roadmap!
       </p>
     </SfTab>
   </SfTabs>
@@ -94,12 +102,10 @@ import {
   SfTabs,
   SfTable,
   SfButton,
-  SfProperty,
-  SfLink
+  SfProperty
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
-import { useUiHelpers } from '~/composables';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -109,16 +115,14 @@ export default {
     SfTabs,
     SfTable,
     SfButton,
-    SfProperty,
-    SfLink
+    SfProperty
   },
   setup() {
-    const { orders, searchOrders } = useUserOrders();
-    const { formatPrice } = useUiHelpers();
+    const { orders, search } = useUserOrders();
     const currentOrder = ref(null);
 
     onSSR(async () => {
-      await searchOrders();
+      await search();
     });
 
     const tableHeaders = [
@@ -167,8 +171,7 @@ export default {
       orderGetters,
       downloadOrder,
       downloadOrders,
-      currentOrder,
-      formatPrice
+      currentOrder
     };
   }
 };
@@ -205,9 +208,9 @@ export default {
   font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   &__link {
     color: var(--c-primary);
-    --link-weight: var(--font-weight--medium);
-    --link-font-family: var(--font-family--primary);
-    --link-font-size: var(--font-size--base);
+    font-weight: var(--font-weight--medium);
+    font-family: var(--font-family--primary);
+    font-size: var(--font-size--base);
     text-decoration: none;
     &:hover {
       color: var(--c-text);

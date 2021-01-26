@@ -5,10 +5,10 @@ const factoryParams = {
   deleteAddress: jest.fn(),
   updateAddress: jest.fn(),
   load: jest.fn(),
-  setDefault: jest.fn()
+  setDefaultAddress: jest.fn()
 };
 
-const { useUserBilling } = useUserBillingFactory(factoryParams);
+const useUserBilling = useUserBillingFactory(factoryParams);
 const useUserBillingMethods = useUserBilling();
 
 describe('[CORE - factories] useUserBillingFactory', () => {
@@ -18,7 +18,7 @@ describe('[CORE - factories] useUserBillingFactory', () => {
   });
 
   it('should have proper initial properties', () => {
-    const { useUserBilling } = useUserBillingFactory(factoryParams);
+    const useUserBilling = useUserBillingFactory(factoryParams);
     const {
       billing,
       loading
@@ -33,15 +33,17 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.addAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.addAddress(paramsToUpdate);
+        await useUserBillingMethods.addAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
+        const err = new Error('zxczxcx');
         factoryParams.addAddress.mockImplementationOnce(() => {
-          throw new Error;
+          throw err;
         });
-        await expect(useUserBillingMethods.addAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.addAddress('' as any);
+        expect(useUserBillingMethods.error.value.addAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -53,15 +55,17 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.deleteAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.deleteAddress(paramsToUpdate);
+        await useUserBillingMethods.deleteAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
+        const err = new Error('87878dfdf');
         factoryParams.deleteAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.deleteAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.deleteAddress('' as any);
+        expect(useUserBillingMethods.error.value.deleteAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -73,15 +77,17 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
         factoryParams.updateAddress.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.updateAddress(paramsToUpdate);
+        await useUserBillingMethods.updateAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
+        const err = new Error('23232323');
         factoryParams.updateAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.updateAddress('' as any)).rejects.toThrow();
+        await useUserBillingMethods.updateAddress('' as any);
+        expect(useUserBillingMethods.error.value.updateAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -98,10 +104,12 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('cvcvc');
         factoryParams.load.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserBillingMethods.load()).rejects.toThrow();
+        await useUserBillingMethods.load();
+        expect(useUserBillingMethods.error.value.load).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -109,19 +117,21 @@ describe('[CORE - factories] useUserBillingFactory', () => {
       });
     });
 
-    describe('setDefault', () => {
+    describe('setDefaultAddress', () => {
       it('updates addresses', async () => {
         const paramsToUpdate = { name: 'Test'};
-        factoryParams.setDefault.mockReturnValueOnce(paramsToUpdate);
-        await useUserBillingMethods.setDefault(paramsToUpdate);
+        factoryParams.setDefaultAddress.mockReturnValueOnce(paramsToUpdate);
+        await useUserBillingMethods.setDefaultAddress({ address: paramsToUpdate });
         expect(useUserBillingMethods.billing.value).toEqual(paramsToUpdate);
       });
 
       it('throws error', async () => {
-        factoryParams.setDefault.mockImplementationOnce(() => {
-          throw new Error();
+        const err = new Error('adsd');
+        factoryParams.setDefaultAddress.mockImplementationOnce(() => {
+          throw err;
         });
-        await expect(useUserBillingMethods.setDefault('' as any)).rejects.toThrow();
+        await useUserBillingMethods.setDefaultAddress('' as any);
+        expect(useUserBillingMethods.error.value.setDefaultAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {

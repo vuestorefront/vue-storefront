@@ -5,7 +5,7 @@ import { User } from '../../types';
 // @todo useUser
 
 const params: UseUserFactoryParams<any, any, any> = {
-  loadUser: async (context: Context) => {
+  load: async (context: Context) => {
     return await context.$vc.api.getMe(context);
   },
   logOut: async () => {
@@ -32,6 +32,4 @@ const params: UseUserFactoryParams<any, any, any> = {
   }
 };
 
-const { useUser} = useUserFactory<any, any, any>(params);
-
-export {useUser};
+export default useUserFactory<any, any, any>(params);

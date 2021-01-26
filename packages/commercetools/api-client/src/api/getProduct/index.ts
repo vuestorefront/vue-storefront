@@ -13,7 +13,7 @@ export interface ProductData {
 const getProduct = async (context, params, customQueryFn?: CustomQueryFn) => {
   const { locale, acceptLanguage, currency, country } = context.config;
   const defaultVariables = {
-    where: buildProductWhere(context, params),
+    where: buildProductWhere(context.config, params),
     skus: params.skus,
     limit: params.limit,
     offset: params.offset,
