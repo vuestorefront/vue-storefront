@@ -1,5 +1,7 @@
 # Composition API
 
+> If you already have an experience with Vue Composition API, it's safe to skip this section and start with [Vue Storefront Composables](TODO)
+
 Composition API is a new way to abstract and reuse the logic added in Vue 3.0. It allows you to create and observe a reactive state both inside the Vue component and outside it as a standalone function.
 
 Let's try to build functionality for submitting a form with two fields: user name and password.
