@@ -14,21 +14,21 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
 }))
 
 describe('price', () => {
-  it('Check if argument is not a number', () => {
-    expect(price(undefined)).toBe(undefined)
+  it('return value if it is not a number', () => {
+    expect(price(undefined, null)).toBe(undefined)
   })
 
-  it('Check if number is converted to string with sign', () => {
-    expect(price('20.99')).toBe('$20.99')
+  it('returns number with sign', () => {
+    expect(price(20.99, null)).toBe('$20.99')
   })
 
-  it('Check if i18n doesn\'t exist', () => {
+  it('returns input if i18n is not present in storeView object', () => {
     const mockedStoreView = {};
 
-    expect(price('20.99', mockedStoreView)).toBe('20.99')
+    expect(price(20.99, mockedStoreView)).toBe('20.99')
   })
 
-  it('Check if currencyDecimal is not empty string', () => {
+  it('replaces group separators if currencyGroup provided', () => {
     const mockedStoreView = {
       i18n: {
         defaultLocale: 'en-US',
@@ -40,10 +40,10 @@ describe('price', () => {
       }
     }
 
-    expect(price('20.99', mockedStoreView)).toBe('$20.99')
+    expect(price(20.99, mockedStoreView)).toBe('$20.99')
   })
 
-  it('Check if currencyGroup is not empty string', () => {
+  it('replaces decimal separators if currencyDecimal provided', () => {
     const mockedStoreView = {
       i18n: {
         defaultLocale: 'en-US',
@@ -55,10 +55,10 @@ describe('price', () => {
       }
     }
 
-    expect(price('20.99', mockedStoreView)).toBe('$200.199')
+    expect(price(20.99, mockedStoreView)).toBe('$200.199')
   })
 
-  it('Check if value is smaller than 0', () => {
-    expect(price('-9.99')).toBe('-$9.99')
+  it('adds minus if value is lower than 0', () => {
+    expect(price(-9.99, null)).toBe('-$9.99')
   })
 })

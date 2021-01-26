@@ -1,11 +1,11 @@
 import { capitalize } from '@vue-storefront/core/filters/capitalize'
 
 describe('capitalize', () => {
-  it('Check if string is capitalized', () => {
+  it('returns capitalized string', () => {
     expect(capitalize('capitalize')).toBe('Capitalize')
   });
 
-  it('Check if string is empty', () => {
-    expect(capitalize()).toBe('')
+  it('returns empty string if value is falsy ', () => {
+    expect(capitalize(false)).toBe('')
   });
 })

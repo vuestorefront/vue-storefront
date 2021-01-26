@@ -1,7 +1,7 @@
 import { date } from '@vue-storefront/core/filters/date'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: jest.fn()
+  once: jest.fn((a, b) => b())
 }));
 
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
@@ -14,11 +14,11 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
 }))
 
 describe('date', () => {
-  it('Check if date is converted to format defined in config file', () => {
-    expect(date('2020-05-10')).toBe('00:00 10/5/2020')
+  it(' returns date with format defined in config', () => {
+    expect(date('2020-05-10', null, null)).toBe('00:00 10/5/2020')
   })
 
-  it('Check if date is converted to format provided as an argument', () => {
+  it('returns date with format provided as an argument', () => {
     const mockedStoreView = {
       i18n: {
         defaultLocale: 'en-US'

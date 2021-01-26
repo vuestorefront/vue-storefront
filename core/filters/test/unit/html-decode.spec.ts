@@ -1,11 +1,11 @@
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 
 describe('html-decode', () => {
-  it('Check if string is decoded', () => {
+  it('decodes string', () => {
     expect(htmlDecode('foo &copy;')).toBe('foo ©')
   })
 
-  it('Check if string is empty', () => {
-    expect(htmlDecode()).toBe('')
+  it('returns empty string if value is falsy', () => {
+    expect(htmlDecode(false)).toBe('')
   })
 })

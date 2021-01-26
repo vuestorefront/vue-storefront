@@ -27,7 +27,7 @@ jest.mock('@vue-storefront/core/filters/product-messages', () => ({
 }))
 
 describe('index', () => {
-  it('Can be loaded', () => {
+  it('possible to import', () => {
     expect(date).toBe('mockedDateFunction')
     expect(capitalize).toBe('mockedCapitalizeFunction')
     expect(htmlDecode).toBe('mockedHtmlDecodeFunction')
