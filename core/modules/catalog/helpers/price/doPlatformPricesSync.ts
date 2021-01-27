@@ -28,7 +28,7 @@ export default function doPlatformPricesSync (products) {
           product.special_price_tax = null
           product.original_price_tax = null
 
-          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+          /** BEGIN @deprecated - inconsistent naming kept just for the backward compatibility */
           product.priceInclTax = product.price_incl_tax
           product.priceTax = product.price_tax
           product.originalPrice = product.original_price
