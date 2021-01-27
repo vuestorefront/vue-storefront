@@ -1,3 +1,6 @@
 .vuepress/dist
 api.json
 .vuepress/public/commercetools
+commercetools/api-client-reference/interfaces
+commercetools/api-client-reference/modules
+commercetools/api-client-reference/README.md

@@ -44,7 +44,7 @@ module.exports = {
 						['/commercetools/authorization-strategy', 'Authentication'],
 						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
-						['/commercetools/api-client-reference', 'API Reference'],
+						['/commercetools/api-client-reference/modules', 'API Reference'],
 						['/commercetools/changelog', 'Changelog']
 					]
 				},
@@ -58,8 +58,7 @@ module.exports = {
 						['/commercetools/use-user-billing', 'Billing addresses'],
 						['/commercetools/use-facet', 'Faceting'],
 						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist'],
-						['/commercetools/api-composables-reference', 'API Reference'],
+						['/commercetools/use-wishlist', 'Wishlist']
 					]
 				},
 				{

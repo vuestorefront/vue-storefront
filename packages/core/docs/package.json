@@ -5,14 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "yarn ct-api-client-ref && yarn ct-composables-ref && vuepress dev",
-    "build": "yarn ct-api-client-ref && yarn ct-composables-ref && vuepress build",
-    "ct-api-client-typedoc": "typedoc --tsconfig ../../commercetools/api-client/tsconfig.json --entryPoints ../../commercetools/api-client/src/api --out ./commercetools/api-client-reference --name 'API Client Reference'",
-    "ct-api-client-concat": "concat-md --decrease-title-levels --start-title-level-at 2 --dir-name-as-title ./commercetools/api-client-reference > ./commercetools/api-client-reference.md",
-    "ct-api-client-ref": "yarn ct-api-client-typedoc && yarn ct-api-client-concat && rm -r ./commercetools/api-client-reference",
-    "ct-composables-typedoc": "typedoc --tsconfig ../../commercetools/composables/tsconfig.json --entryPoints ../../commercetools/composables/src --out ./commercetools/api-composables-reference --name 'API Reference'",
-    "ct-composables-concat": "concat-md --decrease-title-levels --start-title-level-at 2 --dir-name-as-title ./commercetools/api-composables-reference > ./commercetools/api-composables-reference.md",
-    "ct-composables-ref": "yarn ct-composables-typedoc && yarn ct-composables-concat && rm -r ./commercetools/api-composables-reference"
+    "dev": "yarn ct-api-client-gen && vuepress dev",
+    "build": "yarn ct-api-client-gen && vuepress build",
+    "ct-api-client-gen": "typedoc --tsconfig ../../commercetools/api-client/tsconfig.json --entryPoints ../../commercetools/api-client/src/api --out ./commercetools/api-client-reference --name 'API Client Reference'",
+    "ct-composables-typedoc": "typedoc --tsconfig ../../commercetools/composables/tsconfig.json --entryPoints ../../commercetools/composables/src --out ./commercetools/api-composables-reference --name 'API Reference'"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
