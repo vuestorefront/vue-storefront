@@ -157,7 +157,8 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/internationalization', 'Internationalization']
+						['/guide/internationalization', 'Internationalization'],
+						['/guide/user-profile', 'User profile']
 					]
 				},
         {
@@ -174,7 +175,8 @@ module.exports = {
             ['/composables/use-user', 'useUser'],
             ['/composables/use-user-billing', 'useUserBilling'],
             ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
+            ['/composables/use-user-orders', 'useUserOrders'],
+            ['/composables/use-content', 'useContent'],
           ]
         },
 				{
