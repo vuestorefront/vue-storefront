@@ -168,6 +168,8 @@ module.exports = {
           title: 'Composables',
           collapsable: false,
           children: [
+						['/composables/composition-api', 'Composition API'],
+						['/composables/storefront-composables', 'What are Vue Storefront Composables'],
             ['/composables/rules-and-best-practices', 'Rules and best practices'],
             ['/composables/use-product', 'useProduct'],
             ['/composables/use-category', 'useCategory'],
