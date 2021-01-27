@@ -1,5 +1,5 @@
 {
-  "name": "@vuestorefront/storyblok",
+  "name": "@vue-storefront/storyblok",
   "version": "0.1.0",
   "description": "Storyblok CMS integration with Vue Storefront",
   "main": "lib/index.cjs.js",

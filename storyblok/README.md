@@ -11,13 +11,13 @@ Full documentation can be found [here](https://docs.europe-west1.gcp.storefrontc
 Install module into your app.
 
 ```bash
-npm install @vuestorefront/storyblok --save
+npm install @vue-storefront/storyblok --save
 ```
 
 or
 
 ```bash
-yarn add @vuestorefront/storyblok
+yarn add @vue-storefront/storyblok
 ```
 
 ### Setup
@@ -28,7 +28,7 @@ Register the module in the `nuxt.config` file.
 
 ```javascript
 modules: [
-  ['@vuestorefront/storyblok/nuxt', {
+  ['@vue-storefront/storyblok/nuxt', {
     accessToken: 'YOUR_PREVIEW_TOKEN',
     cacheProvider: 'memory'
   }],
