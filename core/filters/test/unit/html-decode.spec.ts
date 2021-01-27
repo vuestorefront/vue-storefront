@@ -6,6 +6,6 @@ describe('html-decode', () => {
   })
 
   it('returns empty string if value is falsy', () => {
-    expect(htmlDecode(false)).toBe('')
+    expect(htmlDecode(null)).toBe('')
   })
 })

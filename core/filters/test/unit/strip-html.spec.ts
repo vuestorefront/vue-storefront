@@ -1,11 +1,11 @@
 import { stripHTML } from '@vue-storefront/core/filters/strip-html';
 
 describe('strip-html', () => {
-  it('Check if string contains HTML tag', () => {
+  it('returns provided string without html tag', () => {
     expect(stripHTML('<b>Test</b>')).toBe('Test')
   })
 
-  it('Check if string is empty', () => {
-    expect(stripHTML()).toBe('')
+  it('returns empty string if provided value is falsy', () => {
+    expect(stripHTML(null)).toBe('')
   })
 })

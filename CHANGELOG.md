@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
 - Lazy loading async catalog helpers - @Fifciu (#5208)
 - Check if the variable backendPaymentMethods is iterable before the for...of loop - @rozzilla [(#5289)](https://github.com/vuestorefront/vue-storefront/pull/5289)
+- Unit Tests for Core filters - @lukaszjedrasik (#5036)
 
 ### Fixed
 
