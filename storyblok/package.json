@@ -1,0 +1,51 @@
+{
+  "name": "@vuestorefront/storyblok",
+  "version": "0.1.0",
+  "description": "Storyblok CMS integration with Vue Storefront",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint --ext .js,.ts --ignore-path .eslintignore .",
+    "prepublish": "yarn build"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --ext .js,.ts --ignore-path .eslintignore ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "author": "Vue Storefront",
+  "license": "MIT",
+  "dependencies": {
+    "@vue-storefront/core": "2.1.1-rc.1",
+    "axios": "latest",
+    "rollup": "latest",
+    "storyblok-js-client": "latest",
+    "tslib": "latest"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@jest/globals": "latest",
+    "@typescript-eslint/parser": "^4.14.1",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-prettier": "latest",
+    "eslint-plugin-vue": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "prettier": "latest",
+    "rollup-plugin-typescript2": "latest",
+    "storyblok-js-client": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest"
+  }
+}
