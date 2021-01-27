@@ -4,6 +4,18 @@ Usually, the first thing to do after setting up a fresh Vue Storefront project i
 
 All project configuration happens through Nuxt modules (and plugins they register) so you should start your journey with Vue Storefront in `nuxt.config.js`.
 
+
+## Configuring integrations
+
+Your app will be full of integrations and extensions. After bootstrapping your application at least you'll have an eCommerce platform, CMS and some payment provider to configure. Each of them is configurable through a dedicated Nuxt module. You can find a Nuxt module of every official Vue Storefront integration in it's `/nuxt` directory (`@vue-storefront/{integration}/nuxt`).
+
+Below you can find links to configs and setup guides of the official eCommerce integrations:
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/api-client.html"
+ shopify="/shopify/api-client.html"
+/>
+
 ## Configuring Vue Storefront and global properties
 
 So-called "general configuration" is common for all integrations and describes the overall behavior of your application. You will find there things like routes list, internationalization, performance enhancements or logging configuration.
@@ -48,16 +60,5 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
 }]
 ```
 
-
-## Configuring integrations
-
-Your app will be full of integrations and extensions. At least you'll have an eCommerce platform, CMS and some payment provider. Each of them is configurable through a dedicated Nuxt module. You can find a Nuxt module of every official Vue Storefront integration in it's `/nuxt` directory (`@vue-storefront/{integration}/nuxt`).
-
-Below you can find links to configs of the official eCommerce integrations:
-
-<CommerceIntegrationLinks 
- commercetools="/commercetools/api-client.html"
- shopify="/shopify/api-client.html"
-/>
 
 

@@ -40,6 +40,7 @@ If you're familiar with Nuxt you will quickly notice that the directory structur
 .
 ├─ components/
 ├─ composables/ // place for custom composition API functions
+│  ├─ useUiNotification/
 │  └─ useUiHelpers/ // theme-specific composition API functions
 ├─ helpers/ // utility functions
 │  ├─ category/ // getting category search params to/from url 
