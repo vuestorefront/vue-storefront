@@ -148,6 +148,7 @@ module.exports = {
 					children: [
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
+						['/guide/cart-and-wishlist', 'Cart and Wishlist'],
 						['/guide/error-handling', 'Error Handling']
 					]
 				},
