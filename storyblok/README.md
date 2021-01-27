@@ -34,3 +34,13 @@ modules: [
   }],
 ]
 ```
+
+### Rendering 
+
+---
+
+Copy the `RenderContent.vue` component from the integration package.
+
+```bash
+cp node_modules/@vue-storefront/storyblok/components/RenderContent.vue cms/
+```
