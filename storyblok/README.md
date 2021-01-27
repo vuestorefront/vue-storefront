@@ -6,6 +6,8 @@ Full documentation can be found [here](https://docs.europe-west1.gcp.storefrontc
 
 ### Installation
 
+---
+
 Install module into your app.
 
 ```bash
@@ -19,6 +21,8 @@ yarn add @vuestorefront/storyblok
 ```
 
 ### Setup
+
+---
 
 Register the module in the `nuxt.config` file.
 
