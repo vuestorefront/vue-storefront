@@ -1,4 +1,4 @@
-# Storyblok Integration Guide
+# Storyblok Integration
 
 Here you can find quick installation guide for [Storyblok](https://www.storyblok.com/) CMS integration with Vue Storefront. 
 
