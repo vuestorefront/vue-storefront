@@ -5,10 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "yarn ct-api-client-gen && vuepress dev",
-    "build": "yarn ct-api-client-gen && vuepress build",
+    "dev": "vuepress dev",
+    "build": "vuepress build",
     "ct-api-client-gen": "typedoc --tsconfig ../../commercetools/api-client/tsconfig.json --entryPoints ../../commercetools/api-client/src/api --out ./commercetools/api-client-reference --name 'API Client Reference'",
-    "ct-composables-typedoc": "typedoc --tsconfig ../../commercetools/composables/tsconfig.json --entryPoints ../../commercetools/composables/src --out ./commercetools/api-composables-reference --name 'API Reference'"
+    "ct-composables-gen": "typedoc --tsconfig ../../commercetools/composables/tsconfig.json --entryPoints ../../commercetools/composables/src --out ./commercetools/api-composables-reference --name 'API Reference'"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",

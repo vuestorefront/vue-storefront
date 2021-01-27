@@ -1,4 +1,4 @@
-# API Client Reference - v1.1.0
+# `API Client Reference - v1.1.0`
 
 ## Table of contents
 

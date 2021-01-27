@@ -58,7 +58,8 @@ module.exports = {
 						['/commercetools/use-user-billing', 'Billing addresses'],
 						['/commercetools/use-facet', 'Faceting'],
 						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist']
+						['/commercetools/use-wishlist', 'Wishlist'],
+						['/commercetools/api-composables-reference/modules', 'API Reference']
 					]
 				},
 				{
