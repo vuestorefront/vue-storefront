@@ -2,7 +2,7 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - feature/next/docs-migration
+      - docs-next
 
 jobs:
   build:
