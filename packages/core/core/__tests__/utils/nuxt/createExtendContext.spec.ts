@@ -1,50 +1,10 @@
-import { nuxtContextFactory } from '../../../src/utils/nuxt/nuxtContextFactory';
+import { createExtendContext } from '../../../src/utils/nuxt/context';
 import { applyContextToApi } from '../../../src/utils/context';
 jest.mock('../../../src/utils/context', () => ({
   applyContextToApi: jest.fn()
 }));
 
-describe('nuxtContextFactory', () => {
-  it('injectInContext uses inject if nuxtCtx.$vsf does not exist', () => {
-    const tag = 'myIntegration';
-    const nuxtCtx = {};
-    const inject = jest.fn();
-
-    const {
-      injectInContext
-    } = nuxtContextFactory({
-      tag,
-      nuxtCtx,
-      inject
-    });
-
-    injectInContext('props');
-
-    expect(inject).toHaveBeenCalledWith('vsf', expect.objectContaining({
-      [`$${tag}`]: 'props'
-    }));
-  });
-
-  it('injectInContext adds property if property does not exist in nuxtCtx.$vsf', () => {
-    const tag = 'myIntegration';
-    const nuxtCtx = {
-      $vsf: {}
-    };
-    const inject = jest.fn();
-
-    const {
-      injectInContext
-    } = nuxtContextFactory({
-      tag,
-      nuxtCtx,
-      inject
-    });
-
-    injectInContext('props');
-
-    expect(nuxtCtx.$vsf[`$${tag}`]).toBe('props');
-  });
-
+describe('createExtendContext', () => {
   it('extendContent injects vsf if not injected', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {
@@ -52,9 +12,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendContext({
       tag,
       nuxtCtx,
       inject
@@ -83,9 +41,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendContext({
       tag,
       nuxtCtx,
       inject
@@ -110,9 +66,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendContext({
       tag,
       nuxtCtx,
       inject
@@ -147,9 +101,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendContext({
       tag,
       nuxtCtx,
       inject
@@ -194,9 +146,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendContext({
       tag,
       nuxtCtx,
       inject

@@ -1,5 +1,5 @@
 
-import * as utils from './../../src/factories/apiFactory/_proxyUtils';
+import * as utils from './../../src/utils/nuxt/_proxyUtils';
 import isHttps from 'is-https';
 
 jest.mock('is-https');
@@ -29,9 +29,8 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     const client = {
       post: jest.fn(() => ({ then: jest.fn() }))
     };
-    const factoryParams = { tag: 'ct' };
 
-    const proxiedApi = utils.createProxiedApi({ givenApi, client, factoryParams });
+    const proxiedApi = utils.createProxiedApi({ givenApi, client, tag: 'ct' });
 
     proxiedApi.getProduct({ product: 1 });
     proxiedApi.getCategory({ category: 1 });
@@ -53,8 +52,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
 
     expect(utils.getIntegrationConfig({
       context: null,
-      factoryParams: {},
-      givenConfig: { someGivenOption: 1 }
+      platformConfig: { someGivenOption: 1 }
     })).toEqual({
       axios: {
         baseURL: 'some-url',
@@ -70,8 +68,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
 
     expect(utils.getIntegrationConfig({
       context: null,
-      factoryParams: {},
-      givenConfig: {}
+      platformConfig: {}
     })).toEqual({
       axios: {
         baseURL: 'some-url',
@@ -80,27 +77,5 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
         }
       }
     });
-  });
-
-  it('it cobines config with the current one and calls onCreate', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValue(null);
-    jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
-
-    const onCreate = jest.fn((config) => ({ config }));
-
-    const result = utils.getIntegrationConfig({
-      context: null,
-      factoryParams: { onCreate },
-      givenConfig: {}
-    });
-
-    expect(result).toEqual({
-      axios: {
-        baseURL: 'some-url',
-        headers: {}
-      }
-    });
-
-    expect(onCreate).toBeCalledWith(result);
   });
 });

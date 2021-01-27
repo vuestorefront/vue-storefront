@@ -37,5 +37,5 @@ export default integrationPlugin(({ app, integration }) => {
     }
   })
 
-  integration.configure(platform)
+  integration.configure('ct', platform)
 });

@@ -10,23 +10,12 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const applyContextToApi = (api, context, extensions = []) =>
+const NOP = (x) => x;
+const applyContextToApi = (api, context, { before, after } = { before: NOP, after: NOP }) =>
   Object.entries(api)
     .reduce((prev, [key, fn]: any) => ({
       ...prev,
-      [key]: async (...args) => {
-        const generatedArgs = extensions
-          .filter(e => e.beforeCall)
-          .reduce((prev, e) => e.beforeCall(prev), args);
-
-        const resp = await fn(context, ...generatedArgs);
-
-        const generatedResponse = extensions
-          .filter(e => e.afterCall)
-          .reduce((prev, e) => e.afterCall(prev), resp);
-
-        return generatedResponse;
-      }
+      [key]: async (...args) => after(await fn(context, ...before(args)))
     }), {});
 
 const generateContext = (factoryParams) => {
