@@ -35,7 +35,7 @@ modules: [
 ]
 ```
 
-### Rendering 
+### Content Rendering 
 
 ---
 
