@@ -38,10 +38,12 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/virtocommerce',
+          '@vue-storefront/virtocommerce-api',
           '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/virtocommerce',
+          '@vue-storefront/virtocommerce-api',
           '@vue-storefront/core'
         ]
       }
@@ -87,13 +89,13 @@ export default {
   ],
   proxy: {
     '/graphql': {
-      target: 'http://localhost:10645/graphql',
+      target: 'https://admin-demo.virtocommerce.com/graphql',
       pathRewrite: {
         '^/graphql' : '/'
         }
       },
       '/connect/token': {
-        target: 'http://localhost:10645/connect/token',
+        target: 'https://admin-demo.virtocommerce.com/connect/token',
         pathRewrite: {
           '^/connect/token' : '/'
           }      

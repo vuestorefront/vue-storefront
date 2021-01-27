@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build -m",
