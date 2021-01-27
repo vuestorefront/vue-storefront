@@ -78,7 +78,7 @@ With setting it `false`, the [Stateful Singletons](https://github.com/DivanteLtd
 
 #### 5. Static pages generator
 
-We do have **Static Pages Generator** - currently experimental feature - that can generate the whole site into a set of static HTML files so they could be served even directly from cloud provider/CDN - no memory leaks possible; waht you need to take care of in this mode is cache invalidation (not currently supported but easy to add). [Read more on static page generator](https://github.com/DivanteLtd/vue-storefront/pull/3256).
+We do have **Static Pages Generator** - currently experimental feature - that can generate the whole site into a set of static HTML files so they could be served even directly from cloud provider/CDN - no memory leaks possible; what you need to take care of in this mode is cache invalidation (not currently supported but easy to add). [Read more on static page generator](https://github.com/DivanteLtd/vue-storefront/pull/3256).
 
 #### 6. Learn from core team
 In case you want to dig deeper any concern related to memory leaks, [find out how core teams have dealt with memory leaks](https://github.com/DivanteLtd/vue-storefront/pulls?utf8=%E2%9C%93&q=is%3Apr+memory+is%3Aclosed+leak) in Vue Storefront core - and check if any of those edge cases solved can be an inspiration for your project.
@@ -90,7 +90,7 @@ In case you want to dig deeper any concern related to memory leaks, [find out ho
 ## 2. SSR Output cache
 Vue Storefront supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is executed in browser (CSR; Client Side Rendering), runs on the server in order to generate the HTML markup. The markup, then, gets transfered to the browser, rendered (extremly fast as the browsers have been all optimized to ... render html text in the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). During this whole procedure the client side or say browser scripts can use exactly the same code base universally. Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremely important for SEO.
 
-Usually, Vue Storefront works pretty fast and all SSR requests are finished in between 100-300ms; However, if your database is huge or your server resources are low, or probably the traffic is extremely high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks or should I say, hide them ;)
+Usually, Vue Storefront works pretty fast and all SSR requests are finished in between 100-300ms; However, if your database is huge or your server resources are low, or probably the traffic is extremely high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks or should I say, hide them ;).
 
 ### Protip
 
@@ -104,7 +104,7 @@ The SSR cache is [pretty well documented in our docs](/guide/basics/ssr-cache.ht
 
 With the SSR Output cache mode enabled, the [`core/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L187) stores the rendered output pages along with http headers into Redis cache. If the page exists in Redis, then it gets served without even starting the Vue SSR Renderer.
 
-Vue Storefront uses Redis in order to use the [`redis-tagging`](https://www.npmjs.com/package/redis-tagging) library. Naming and caching are two most ddifficult areas of software development. Cache tagging helps us to deal with cache invalidation.
+Vue Storefront uses Redis in order to use the [`redis-tagging`](https://www.npmjs.com/package/redis-tagging) library. Naming and caching are two most difficult areas of software development. Cache tagging helps us to deal with cache invalidation.
 
 Vue Storefront tags the output pages with [product](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/helpers/search.ts#L69) and [category](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/store/category/actions.ts#L121) tags. Then all the indexers including: `magento1-vsbridge-indexer`, `mage2vuestorefront` and `magento2-vsbridge-indexer` will invalidate the cache, by specific _product_ or _category_ _ID_. It means the [`invalidate`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L156) method will clear out the cache pages tagged with this specific _product id_. 
 
@@ -176,7 +176,7 @@ Check if the way [Vue Storefront syncs the price](https://github.com/DivanteLtd/
 
 The `alwaysSyncPlatformPricesOver` mode has two additional options:
 
-1. Clear the price before sync: `config.products.clearPricesBeforePlatformSync` - when set `true`, users won't see the price cached in Elasticsearch before getting the new price from Magento
+1. Clear the price before sync: `config.products.clearPricesBeforePlatformSync` - when set to `true`, users won't see the price cached in Elasticsearch before getting the new price from Magento
 2. Synchronous mode - `config.products.waitForPlatformSync` -  by default the price sync runs in parallel to displaying the product or category content, that is, _asynchronous_. We can make it synchronous (waiting for this process to finish) in order to have just the current price from Magento rendered in the HTML markup (SSR; otherwise the price in SSR will be from Elasticsearch).
 
 More than that - Vue Storefront always gets the **platform totals** (the final price visible in the shopping cart and the order summary) from Magento or any other backend. There is then no risk your customers see the product with incorrect price.
@@ -204,14 +204,14 @@ Pretty much the same case as with the price can occur with the product stocks. B
  - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed).
  - when the `filterOutUnavailableVariants` mode is on and the user a) enters the product page, b) browses the category pages.
 
- The `config.products.filterOutUnavailableVariants` mode is pretty important thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's set `true` Vue Storefront takes the stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+ The `config.products.filterOutUnavailableVariants` mode is pretty important thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's set to `true` Vue Storefront takes the stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
 
 
 #### 2. Additional options
 
 There are two additional settings for this mode on:
- - `config.prodducts.configurableChildrenStockPrefetchStatic` - when this is `true`, Vue Storefront prefetches the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`.
- - `config.prodducts.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront prefetches the stock info for any visible product; it's done in the [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - Make sure your theme supports this.
+ - `config.products.configurableChildrenStockPrefetchStatic` - when this is `true`, Vue Storefront prefetches the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`.
+ - `config.products.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront prefetches the stock info for any visible product; it's done in the [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - Make sure your theme supports this.
     
 We've got the limited support for Magento MSI in the default implementation. [Make sure you've got it enabled when on Magento 2.3.x](https://github.com/DivanteLtd/vue-storefront-api/pull/226).
 
@@ -289,7 +289,7 @@ We've got the following price fields priority in the VSF:
 
 - `final_price` - if set, depending on the `config.tax.finalPriceIncludesTax` - it's taken as final price or Net final price,
 - `special_price` - if it's set and lower than `price` it will replace the `price` and the `price` value will be set into `original_price` property,
-- `price` - if set, dedending on the `config.tax.sourcePriceIncludesTax` - it's taken as final price or Net final price.
+- `price` - if set, depending on the `config.tax.sourcePriceIncludesTax` - it's taken as final price or Net final price.
 
 Depending on the `config.tax.finalPriceIncludesTax` and `config.tax.sourcePriceIncludesTax` settings, Vue Storefront calculates the price and stores them into following fields.
 
@@ -336,7 +336,7 @@ Vue Storefront provides you with a few mechanisms to control the initial state.
 ### Protip
 
 #### 1. Filter `__INITIAL_STATE__`
-1. Vue Storefront provides you a mechanism to control the `__INITIAL_STATE__` [based on the `config.ssr.initialStateFilter`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/utils/ssr-renderer.js#L40) fields list. So you can remove the fields from `__INITIAL_STATE__` - even using the `.` notation. So you can put `attribute` on the list to remove the whole state for `attribute` Vuex module OR you can specify `attribte.list_by_code` to remove just that. By using this mechanism, you can process much more data in the SSR than are sent to the browser (see point no. 2 which is just about opposite approach to limit the set of processed information).
+1. Vue Storefront provides you a mechanism to control the `__INITIAL_STATE__` [based on the `config.ssr.initialStateFilter`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/utils/ssr-renderer.js#L40) fields list. So you can remove the fields from `__INITIAL_STATE__` - even using the `.` notation. So you can put `attribute` on the list to remove the whole state for `attribute` Vuex module OR you can specify `attribute.list_by_code` to remove just that. By using this mechanism, you can process much more data in the SSR than are sent to the browser (see point no. 2 which is just about opposite approach to limit the set of processed information).
 
 2. You might also want to use the [`config.entities.*.includeFields`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/config/default.json#L170) filter. These lists of fields are set to limit the number of fields [loaded from Elasticsearch](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/lib/search.ts#L31). If you add any new field to your entity though, please make sure you also include it in the `includeFields` list.
 
@@ -344,7 +344,7 @@ Vue Storefront provides you with a few mechanisms to control the initial state.
 With these mechanisms, you must be fully aware of the **hydration damage** they might cause. In order to prevent any hydration issues, you might use [`lazy-hydrate`](https://github.com/maoberlehner/vue-lazy-hydration) that will let you control the hydration flow for specific parts (components) on the page. Especially the [manual hydration](https://github.com/maoberlehner/vue-lazy-hydration#manually-trigger-hydration) can be useful.
 :::
 
-The general rule of thumb is that **when you remove anything from the intial state** then you shoud:
+The general rule of thumb is that **when you remove anything from the intial state** then you should:
 - load this data ASAP in the client side (eg. in `beforeMount`).
 - hydrate the component **only after** the data was loaded.
 
@@ -381,7 +381,7 @@ As you've might seen the `url/mapUrl` returns the data in a very similar format 
 This mechanism is pretty flexible as you may add the dynamic routes on the fly. There is even a [community module](https://github.com/kodbruket/vsf-mapping-fallback) letting you map the url routes programmatically.
 
 :::tip NOTE
- The [`processDynamicRoute`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching thru all the routes registered by `theme` and `modules`. Example:
+ The [`processDynamicRoute`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching through all the routes registered by `theme` and `modules`. Example:
 :::
 
 If your route data is (`routeData`):
@@ -420,7 +420,7 @@ then `processDynamicRoute` helper will return the `Route` object created by merg
 
 You can read about the [basic Multistore configuration in the official docs](https://docs.vuestorefront.io/guide/integrations/multistore.html#changing-the-ui-for-specific-store-views). Vue Storefront supports multistore based on the `StoreView` level. 
 
-`StoreView` is a configuration context object, set by the Vue Storefront per each request - accesible via [`currentStoreView()`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L33) helper from [`multistore.ts`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/lib/multistore.ts).
+`StoreView` is a configuration context object, set by the Vue Storefront per each request - accessible via [`currentStoreView()`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L33) helper from [`multistore.ts`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/lib/multistore.ts).
 
 One `StoreView` generally means a combination of Language + Currency.
 
@@ -614,7 +614,7 @@ ProxyPassReverse /it http://localhost:3002/it
 
 The HTML generated by Vue Storefront can be pretty ... well long :) We put a lot of CSS and JS in this single file. More than that there is the whole Vuex state included in the `window.__INITIAL_STATE__` dump in order to support the Client Side data hydration.
 
-To minimze the time the browser will need to download the initial SSR-rendered HTML, there are a few tricks to be implemented.
+To minimize the time the browser will need to download the initial SSR-rendered HTML, there are a few tricks to be implemented.
 
 ### Protip
 
@@ -622,7 +622,7 @@ To minimze the time the browser will need to download the initial SSR-rendered H
 
 You might want to enable the `gzip/deflate` or `brotli` compression in the first-line HTTP Server of your choice: `nginx`, `varnish` or `apache`. The good news is that Vue Storefront supports the `gzip` compression as well using the [`compression` Express.js middleware](https://github.com/expressjs/compression). It's enabled by default [in the production mode](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts).
 
-#### 2. HTML Minimzation
+#### 2. HTML Minimization
 
 The second option is to minimize the HTML, CSS and JS by just removing the white characters. This option is by default on - by the [`config.server.useHtmlMinifier`](https://github.com/DivanteLtd/vue-storefront/blob/5f1e36d611c983de252ce08dea78726b6e10044d/config/default.json#L8) switch. We use the [html-minifier](https://www.npmjs.com/package/html-minifier) npm package in order to get the work done here. You might want to adjust the [`html-minifier` configuration](https://www.npmjs.com/package/html-minifier#options-quick-reference) by tweaking the `config.server.htmlMinifierOptions` property.
 
@@ -853,7 +853,7 @@ Vue Storefront contains some pretty useful config variables that are sometimes m
 <br />
 
 ## 16. Cloudflare Autopurge
-You might use CDN not only to serve dist & assets directory but also SSR Output. In this case, you would want to dynamicly purge cache in Cloudflare when it is being purged in Varnish. 
+You might use CDN not only to serve dist & assets directory but also SSR Output. In this case, you would want to dynamiclly purge cache in Cloudflare when it is being purged in Varnish. 
 There is a 3rd party module just for that! Install the module at [here](https://github.com/new-fantastic/vsf-cloudflare)
 
 
@@ -893,3 +893,14 @@ This [sample theme](https://github.com/yireo-training/vsf-yireo-theme) can help 
 
 ## 21. Optimized Webpack configuration for Vue Storefront 1 development
 The default Webpack configuration of Vue Storefront 1 allows for fully testing all features. However, because of various reasons, this leads to a slow transpilation time and therefore a bad developer experience. This [repository](https://github.com/yireo-training/vsf1-local-webpack) contains a separate Webpack
+
+## 22. Get rid of depracatedActions in VSF 1.12+
+We do not want to make **breaking changes** (only in special situation). That's why we left *depracatedActions* in product's vuex module. If you started your project in 1.12 you can be almost 100% sure that you can get rid of this file which will result in **31.75KB** less app.js bundle! In simple words, you can do that if your app does not use any of *depracatedActions*.
+
+To do that:
+1. Remove `core/modules/catalog/store/product/deprecatedActions.ts`
+2. In `core/modules/catalog/store/product/actions.ts`, remove 317-318 lines:
+```ts
+/** Below actions are not used from 1.12 and can be removed to reduce bundle */
+  ...require('./deprecatedActions').default
+``` 

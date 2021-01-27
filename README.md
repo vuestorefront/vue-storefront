@@ -74,7 +74,7 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
     <tr>
       <td><img src="https://user-images.githubusercontent.com/15185752/93321206-3b86a100-f812-11ea-97ac-35572ba9e0de.png" width="150" />
 </td>
-      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b<Filip Jędrasik</b> from the core team on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
+      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
     </tr>
   </tbody>
   </table>

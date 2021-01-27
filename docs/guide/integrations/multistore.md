@@ -61,7 +61,7 @@ As you can see, it's just an **IT** or **DE** store code that is added to the ba
 In the result, you should get:
 
 - _vue_storefront_catalog_it_ - populated with the "it" store data
-- _vue_storefront_catalog_de_ - populated with the "it" store data
+- _vue_storefront_catalog_de_ - populated with the "de" store data
 - _vue_storefront_catalog_ - populated with the "default" store data
 
 Then, to use these indices in Vue Storefront, you should index the database schema using the `vue-storefront-api` db tool (use only if using mage2vuestorefront!):
@@ -190,7 +190,7 @@ By default, the language / store is switched by the URL prefix:
 
 - `http://localhost:3000` is for the default store
 - `http://localhost:3000/it` will switch the store to the Italian one
-- `http://localhost:3000/de` will switch the store to the German one one
+- `http://localhost:3000/de` will switch the store to the German one
 
 General URL format is:
 `http://localhost:3000/{storeCode}`
