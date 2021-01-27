@@ -2,7 +2,6 @@
 platform: Commercetools
 ---
 
-
 <IncludeContent content-key="use-product" />
 
 ::: slot search-params

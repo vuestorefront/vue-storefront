@@ -1,83 +1,61 @@
-import { CustomQuery, UseUserFactoryParams } from '@vue-storefront/core';
-import { Customer } from '../types/GraphQL';
+import { UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
+import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
 import { authenticate } from './authenticate';
-import {
-  customerSignMeUp as apiCustomerSignMeUp,
-  customerSignMeIn as apiCustomerSignMeIn,
-  customerSignOut as apiCustomerSignOut,
-  customerUpdateMe as apiCustomerUpdateMe,
-  getMe as apiGetMe,
-  createCart,
-  customerChangeMyPassword as apiCustomerChangeMyPassword,
-  getSettings,
-  isTokenUserSession
-} from '@vue-storefront/commercetools-api';
-import { setCart } from '../useCart';
-import { setUser } from '../useUser';
+import useCart from '../useCart';
 
-const loadUser = async (customQuery?: CustomQuery) => {
-  const settings = getSettings();
+type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
-  if (!isTokenUserSession(settings.currentToken)) {
+const load = async (context: Context) => {
+  if (context.$ct.api.isGuest()) {
     return null;
   }
 
-  try {
-    const profile = await apiGetMe({ customer: true }, customQuery);
-    return profile.data.me.customer;
-  } catch (err) {
-    const errorMessage = err?.graphQLErrors?.[0].message || err.message;
-
-    if (errorMessage.includes('Resource Owner Password Credentials Grant')) {
-      return null;
-    }
-
-    err.message = errorMessage;
-    throw err;
-  }
+  const profile = await context.$ct.api.getMe({ customer: true });
+  return profile.data.me.customer;
 };
 
-const getCurrentUser = async (currentUser) => {
+const getCurrentUser = async (context: Context, currentUser) => {
   if (!currentUser) {
-    return loadUser();
+    return load(context);
   }
 
   return currentUser;
 };
 
 export const params: UseUserFactoryParams<Customer, any, any> = {
-  loadUser,
-  logOut: async () => {
-    await apiCustomerSignOut();
-    const cartResponse = await createCart();
-    setCart(cartResponse.data.cart);
+  provide() {
+    return useCart();
   },
-  updateUser: async ({ currentUser, updatedUserData }) => {
-    const loadedUser = await getCurrentUser(currentUser);
-    const { user } = await apiCustomerUpdateMe(loadedUser, updatedUserData);
-    setUser(user);
+  load,
+  logOut: async (context: UserContext) => {
+    await context.$ct.api.customerSignOut();
+    context.setCart(null);
+  },
+  updateUser: async (context: UserContext, { currentUser, updatedUserData }) => {
+    const loadedUser = await getCurrentUser(context, currentUser);
+    const { user } = await context.$ct.api.customerUpdateMe(loadedUser, updatedUserData);
 
     return user;
   },
-  register: async ({email, password, firstName, lastName}) => {
-    const { customer, cart } = await authenticate({email, password, firstName, lastName}, apiCustomerSignMeUp);
-    setCart(cart);
+  register: async (context: UserContext, { email, password, firstName, lastName }) => {
+    const { customer, cart } = await authenticate({email, password, firstName, lastName}, context.$ct.api.customerSignMeUp);
+    context.setCart(cart);
 
     return customer;
   },
-  logIn: async ({ username, password }) => {
+  logIn: async (context: UserContext, { username, password }) => {
     const customerLogin = { email: username, password };
-    const { customer, cart } = await authenticate(customerLogin, apiCustomerSignMeIn);
-    setCart(cart);
+    const { customer, cart } = await authenticate(customerLogin, context.$ct.api.customerSignMeIn);
+    context.setCart(cart);
 
     return customer;
   },
-  changePassword: async function changePassword({ currentUser, currentPassword, newPassword }) {
-    const loadedUser = await getCurrentUser(currentUser);
-    const userResponse = await apiCustomerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
+  changePassword: async function changePassword(context: UserContext, { currentUser, currentPassword, newPassword }) {
+    const loadedUser = await getCurrentUser(context, currentUser);
+    const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-    await this.logOut();
-    return await params.logIn({ username: userResponse.data.user.email, password: newPassword });
+    await this.logOut(context);
+    return await params.logIn(context, { username: userResponse.data.user.email, password: newPassword });
   }
 };
 

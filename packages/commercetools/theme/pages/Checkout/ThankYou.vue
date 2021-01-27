@@ -10,7 +10,7 @@
     >
       <template #description>
         <div class="banner__order-number">
-          <span>Order No.</span>
+          <span>{{ $t('Order No.') }}</span>
           <strong>{{ order.number }}</strong>
         </div>
       </template>
@@ -23,10 +23,7 @@
           :level="3"
         />
         <p class="order__paragraph paragraph">
-          You have successfully placed the order. You can check status of your
-          order by using our delivery status feature. You will receive an order
-          confirmation e-mail with details of your order and a link to track its
-          progress.
+          {{ $t('Successful placed order') }}
         </p>
         <div class="order__contact">
           <SfHeading
@@ -42,7 +39,7 @@
           </div>
         </div>
         <SfButton class="order__notifications-button button-size"
-          >Allow order notifications</SfButton
+          >{{ $t('Allow order notifications') }}</SfButton
         >
       </div>
       <div class="additional-info">
@@ -53,9 +50,7 @@
             :level="3"
           />
           <p class="paragraph">
-            You can log to your account using e-mail and password defined
-            earlier. On your account you can edit your profile data, check
-            history of transactions, edit subscription to newsletter.
+            {{ $t('Info after order') }}
           </p>
         </div>
         <div>
@@ -65,16 +60,16 @@
             :level="3"
           />
           <p class="paragraph">
-            Your feedback is important to us. Let us know what we could improve.
+            {{ $t('Feedback') }}
           </p>
           <SfButton
             class="feedback-button color-secondary sf-button--full-width button-size"
-            >Send my feedback</SfButton
+            >{{ $t('Send my feedback') }}</SfButton
           >
         </div>
       </div>
     </section>
-    <nuxt-link to="/" class="sf-button back-button color-primary button-size">Go back to shop</nuxt-link>
+    <SfButton link="/" class="sf-button back-button color-secondary button-size">{{ $t('Back to homepage') }}</SfButton>
   </div>
 </template>
 
@@ -103,13 +98,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 #thank-you {
   box-sizing: border-box;
   @include for-desktop {
     max-width: 1240px;
-    padding: 0 var(--spacer-sm);
+    padding: 0;
     margin: 0 auto;
   }
 }

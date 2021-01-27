@@ -37,7 +37,7 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton data-cy="my-profile-btn_update" class="form__button">Update personal data</SfButton>
+      <SfButton data-cy="my-profile-btn_update" class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
@@ -93,8 +93,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
-
 .form {
   &__element {
     display: block;

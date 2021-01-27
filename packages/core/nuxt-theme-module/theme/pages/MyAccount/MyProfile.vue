@@ -3,24 +3,22 @@
     <!-- Personal data update -->
     <SfTab data-cy="my-profile-tab_personal-data" title="Personal data">
       <p class="message">
-        Feel free to edit any of your details below so your account is always up to date
+        {{ $t('Feel free to edit') }}
       </p>
 
       <ProfileUpdateForm @submit="updatePersonalData" />
 
       <p class="notice">
-        At Brand name, we attach great importance to privacy issues and are
-        committed to protecting the personal data of our users. Learn more about
-        how we care and use your personal data in the
-        <a href="">Privacy Policy.</a>
+        {{ $t('Use your personal data') }}
+        <a href="">{{ $t('Privacy Policy') }}</a>
       </p>
     </SfTab>
 
     <!-- Password reset -->
     <SfTab data-cy="my-profile-tab_password-change" title="Password change">
       <p class="message">
-        If you want to change the password to access your account, enter the
-        following information:<br />Your current email address is
+        {{ $t('Change password your account') }}:<br />
+        {{ $t('Your current email address is') }}
         <span class="message__label">example@email.com</span>
       </p>
 
@@ -28,6 +26,7 @@
     </SfTab>
   </SfTabs>
 </template>
+
 <script>
 import { extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
@@ -84,8 +83,8 @@ export default {
       }
     };
 
-    const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser(form.value), onComplete, onError);
-    const updatePassword = ({ form, onComplete, onError }) => formHandler(() => changePassword(form.value.currentPassword, form.value.newPassword), onComplete, onError);
+    const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser({ user: form.value }), onComplete, onError);
+    const updatePassword = ({ form, onComplete, onError }) => formHandler(() => changePassword({ current: form.value.currentPassword, new: form.value.newPassword }), onComplete, onError);
 
     return {
       updatePersonalData,
@@ -94,16 +93,15 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang='scss' scoped>
 .message,
 .notice {
   font-family: var(--font-family--primary);
   line-height: 1.6;
 }
 .message {
-  margin: 0 0 var(--spacer-2xl) 0;
+  margin: 0 0 var(--spacer-xl) 0;
   font-size: var(--font-size--base);
   &__label {
     font-weight: 400;

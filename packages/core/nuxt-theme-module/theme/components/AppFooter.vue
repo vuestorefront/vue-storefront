@@ -85,13 +85,11 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
-
 .sf-footer {
   &__container {
     --footer-margin: var(--spacer-sm);
     @include for-desktop {
-      --footer-margin: 0 auto;
+      --footer-margin: var(--spacer-2xl) auto var(--spacer-xl);
       --footer-padding: 0;
     }
   }

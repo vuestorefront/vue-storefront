@@ -1,0 +1,181 @@
+name: Run tests
+
+on:
+  push:
+    branches:
+      - next
+  pull_request:
+    branches:
+      - next
+
+jobs:
+  prepare_dependencies:
+    name: Prepare dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn --network-concurrency 1 --frozen-lockfile
+
+  lint:
+    name: Lint
+    needs: prepare_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Run linter
+        run: yarn lint
+
+  validate_core:
+    name: Validate core
+    needs: prepare_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build core
+        run: yarn build:core
+
+      - name: Test core
+        run: yarn test:core --coverage
+
+      - name: Test CLI
+        run: yarn test:cli --coverage
+
+      - name: Post core coverage data
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: packages/core/coverage/lcov.info
+          flag-name: core
+
+      - name: Post CLI coverage data
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: packages/core/cli/coverage/lcov.info
+          flag-name: core-cli
+
+  validate_integrations:
+    name: Validate ${{ matrix.integration }}
+    needs: validate_core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        integration:
+          # - about-you
+          - boilerplate
+          - commercetools
+          # - shopify
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build core
+        run: yarn build:core
+
+      - name: Build api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn build
+
+      - name: Test api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
+
+      - name: Build composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn build
+
+      - name: Test composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
+
+      - name: Build theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn build
+
+      - name: Test theme
+        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
+
+      - name: api-client coverage file
+        id: api-coverage
+        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info && echo 'true') || echo 'false')"
+
+      - name: composables coverage file
+        id: composables-coverage
+        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo 'true') || echo 'false')"
+
+      - name: Post api-client coverage data
+        if: steps.api-coverage.outputs.exists == 'true'
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: packages/${{ matrix.integration }}/api-client/coverage/lcov.info
+          parallel: true
+          flag-name: ${{ matrix.integration }}-api-client
+
+      - name: Post composables coverage data
+        if: steps.composables-coverage.outputs.exists == 'true'
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: packages/${{ matrix.integration }}/composables/coverage/lcov.info
+          parallel: true
+          flag-name: ${{ matrix.integration }}-composables
+
+  finish:
+    name: Finish
+    needs: validate_integrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true

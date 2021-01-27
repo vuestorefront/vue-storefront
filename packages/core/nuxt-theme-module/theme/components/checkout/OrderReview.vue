@@ -6,16 +6,16 @@
         class="sf-heading--left sf-heading--no-underline title"
       />
       <div class="highlighted__header">
-        <h3 class="highlighted__title">Personal details</h3>
-        <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text" @click="$emit('click:edit', 0)">Edit</SfButton>
+        <h3 class="highlighted__title">{{ $t('Personal details') }}</h3>
+        <SfButton data-cy="order-review-btn_personal-edit" class="sf-button--text" @click="$emit('click:edit', 0)">{{ $t('Edit') }}</SfButton>
       </div>
       <p class="content">{{ personalDetails.firstName }} {{ personalDetails.lastName }}<br /></p>
       <p class="content">{{ personalDetails.email }}</p>
     </div>
     <div class="highlighted">
       <div class="highlighted__header">
-        <h3 class="highlighted__title">Shipping details</h3>
-        <SfButton data-cy="order-review-btn_shipping-edit" class="sf-button--text" @click="$emit('click:edit', 1)">Edit</SfButton>
+        <h3 class="highlighted__title">{{ $t('Shipping details') }}</h3>
+        <SfButton data-cy="order-review-btn_shipping-edit" class="sf-button--text" @click="$emit('click:edit', 1)">{{ $t('Edit') }}</SfButton>
       </div>
       <p class="content">
         <span class="content__label">{{ checkoutGetters.getShippingMethodName(chosenShippingMethod) }}</span><br />
@@ -26,10 +26,10 @@
     </div>
     <div class="highlighted">
       <div class="highlighted__header">
-        <h3 class="highlighted__title">Billing address</h3>
-        <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
+        <h3 class="highlighted__title">{{ $t('Billing address') }}</h3>
+        <SfButton data-cy="order-review-btn_billing-edit" class="sf-button--text" @click="$emit('click:edit', 2)">{{ $t('Edit') }}</SfButton>
       </div>
-      <p v-if="billingSameAsShipping" class="content">Same as shipping address</p>
+      <p v-if="billingSameAsShipping" class="content">{{ $t('Same as shipping address') }}</p>
       <template v-else>
         <p class="content">
           <span class="content__label">{{ chosenPaymentMethod }}</span><br />
@@ -41,8 +41,8 @@
     </div>
     <div class="highlighted">
       <div class="highlighted__header">
-        <h3 class="highlighted__title">Payment method</h3>
-        <SfButton data-cy="order-review-btn_payment-edit" class="sf-button--text" @click="$emit('click:edit', 2)">Edit</SfButton>
+        <h3 class="highlighted__title">{{ $t('Payment method') }}</h3>
+        <SfButton data-cy="order-review-btn_payment-edit" class="sf-button--text" @click="$emit('click:edit', 2)">{{ $t('Edit') }}</SfButton>
       </div>
       <p class="content">{{ paymentMethod.label }}</p>
     </div>
@@ -72,9 +72,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 .highlighted {
   box-sizing: border-box;
   width: 100%;

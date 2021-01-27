@@ -26,12 +26,12 @@
                 :key="wishlistGetters.getItemSku(product)"
                 :image="wishlistGetters.getItemImage(product)"
                 :title="wishlistGetters.getItemName(product)"
-                :regular-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).regular)"
-                :special-price="wishlistGetters.getFormattedPrice(wishlistGetters.getItemPrice(product).special)"
+                :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
+                :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
                 image-width="180"
                 image-height="200"
-                @click:remove="removeFromWishlist(product)"
+                @click:remove="removeItem({ product })"
                 class="collected-product"
               >
                <template #configuration>
@@ -49,7 +49,7 @@
               <span class="my-wishlist__total-price-label">Total price:</span>
             </template>
             <template #value>
-              <SfPrice :regular="wishlistGetters.getFormattedPrice(totals.subtotal)" />
+              <SfPrice :regular="$n(totals.subtotal, 'currency')" />
             </template>
           </SfProperty>
           </div>
@@ -57,13 +57,14 @@
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
             <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-wishlist__icon" />
-            <h3 class="empty-wishlist__label">Your bag is empty</h3>
+            <h3 class="empty-wishlist__label">{{ $t('Your bag is empty') }}</h3>
             <p class="empty-wishlist__description">
-              Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in.
+              {{ $t('Empty') }}
             </p>
           </div>
-          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+            {{ $t('Start shopping') }}
+          </SfButton>
         </div>
       </transition>
     </SfSidebar>
@@ -97,7 +98,7 @@ export default {
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeFromWishlist, loadWishlist } = useWishlist();
+    const { wishlist, removeItem, load: loadWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
@@ -110,7 +111,7 @@ export default {
     return {
       isAuthenticated,
       products,
-      removeFromWishlist,
+      removeItem,
       isWishlistSidebarOpen,
       toggleWishlistSidebar,
       totals,
@@ -122,8 +123,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
-
 .sidebar {
   --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);

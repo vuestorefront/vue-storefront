@@ -1,5 +1,4 @@
 import useUserOrders from '../../src/useUserOrders';
-import { getOrders } from '@vue-storefront/commercetools-api';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({
@@ -12,8 +11,22 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 }));
 
 jest.mock('@vue-storefront/core', () => ({
-  useUserOrdersFactory: (params) => () => params
+  useUserOrdersFactory: ({ searchOrders }) => () => ({ search: searchOrders })
 }));
+
+const context = {
+  $ct: {
+    api: {
+      getOrders: jest.fn(async () => ({
+        data: {
+          me: {
+            orders: { results: ['order1', 'order2', 'order3'], total: 3 }
+          }
+        }
+      }))
+    }
+  }
+};
 
 describe('[commercetools-composables] useUserOrders', () => {
   beforeEach(() => {
@@ -21,41 +34,32 @@ describe('[commercetools-composables] useUserOrders', () => {
   });
 
   it('loads user orders with criteria', async () => {
-    const { searchOrders } = useUserOrders() as any;
+    const { search } = useUserOrders() as any;
 
-    const response = await searchOrders({ param: 'param1' });
+    const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual({
-      data: ['order1', 'order2', 'order3'],
-      total: 3
-    });
-    expect(getOrders).toBeCalledWith({ param: 'param1' }, undefined);
+    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 
   it('loads user all orders', async () => {
-    const { searchOrders } = useUserOrders() as any;
+    const { search } = useUserOrders() as any;
 
-    const response = await searchOrders();
+    const response = await search(context);
 
-    expect(response).toEqual({
-      data: ['order1', 'order2', 'order3'],
-      total: 3
-    });
-    expect(getOrders).toBeCalled();
+    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(context.$ct.api.getOrders).toBeCalled();
   });
 
   it('loads user orders with empty response', async () => {
-    (getOrders as jest.Mock).mockReturnValue({ data: null });
+    (context.$ct.api.getOrders as jest.Mock).mockReturnValue({ data: null });
 
-    const { searchOrders } = useUserOrders() as any;
+    const { search } = useUserOrders() as any;
 
-    const response = await searchOrders({ param: 'param1' });
+    const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual({
-      data: [],
-      total: 0
-    });
-    expect(getOrders).toBeCalledWith({ param: 'param1' }, undefined);
+    expect(response).toEqual([]);
+    expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 });
 

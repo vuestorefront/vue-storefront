@@ -1,54 +1,49 @@
 import { useProductFactory } from '../../src/factories';
 import { UseProduct } from '../../src/types';
 
-const useProduct: (cacheId: string) => UseProduct<any, any, any> = useProductFactory<any, any, any, any>({
-  productsSearch: searchParams => Promise.resolve({
-    data: [{ name: 'product ' + searchParams.slug }],
-    total: 1,
-    availableFilters: null,
-    availableSortingOptions: [
-      {value: 'price-up', label: 'Price from low to hight'},
-      {value: 'price-down', label: 'Price from hight to low'}
-    ]
-  })
+const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any>({
+  productsSearch: (context, searchParams) => Promise.resolve([{ name: 'product ' + searchParams.slug }])
 });
+
+const factoryParams = {
+  productsSearch: jest.fn()
+};
+
+const useProductMock = useProductFactory<any, any>(factoryParams);
 
 describe('[CORE - factories] useProductFactory', () => {
   it('creates properties', () => {
-    const { products, loading, totalProducts, availableFilters } = useProduct('test-product');
+    const { products, loading } = useProduct('test-product');
 
     expect(products.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(totalProducts.value).toEqual(0);
-    expect(availableFilters.value).toEqual(null);
   });
 
   it('returns product response', async () => {
-    const { search, products, totalProducts } = useProduct('test-use-product');
+    const { search, products } = useProduct('test-use-product');
 
     await search({ slug: 'product-slug' });
 
     expect(products.value).toEqual([{name: 'product product-slug' }]);
-    expect(totalProducts.value).toEqual(1);
   });
 
   it('returns product response with ssr', async () => {
-    const { search, products, totalProducts } = useProduct('test-use-product');
+    const { search, products } = useProduct('test-use-product');
 
     await search({ slug: 'product-slug' });
 
     expect(products.value).toEqual([{name: 'product product-slug' }]);
-    expect(totalProducts.value).toEqual(1);
   });
 
-  it('returns computed product sorting options from params', async () => {
-    const { availableSortingOptions, search } = useProduct('test-use-product');
+  it('should set error if factory method throwed', async () => {
+    const err = new Error('zxczxcx');
+    factoryParams.productsSearch.mockImplementationOnce(() => {
+      throw err;
+    });
+    const { search, error } = useProductMock('a');
 
-    await search({ slug: 'product-slug' });
+    await search({ someparam: 'qwerty' });
 
-    expect(availableSortingOptions.value).toEqual([
-      {value: 'price-up', label: 'Price from low to hight'},
-      {value: 'price-down', label: 'Price from hight to low'}
-    ]);
+    expect(error.value.search).toBe(err);
   });
 });

@@ -1,33 +1,41 @@
 import merge from 'lodash-es/merge';
 import { Logger } from './../utils';
+import { applyContextForApi } from './../utils/context';
 
-interface FactoryParams<T> {
-  defaultSettings: any;
-  onSetup: (config: T) => void;
+interface FactoryParams<T, F = any> {
+  tag: string;
+  onSetup: (config: T) => { config: T; client: any };
+  api: F;
 }
 
-export function apiClientFactory<ALL_SETTINGS, CONFIGURABLE_SETTINGS>(factoryParams: FactoryParams<ALL_SETTINGS>) {
-  let settings = { ...factoryParams.defaultSettings };
-  let setupCalled = false;
-  return {
-    setup (config: ALL_SETTINGS) {
-      settings = merge(factoryParams.defaultSettings, config);
-      factoryParams.onSetup(settings);
+export interface ApiClientInstance {
+  api: any;
+  client: any;
+  settings: any;
+}
 
-      Logger.debug('apiClientFactory.setup', settings);
+export interface BaseConfig {
+  [x: string]: any;
+  client?: any;
+}
 
-      // @ts-ignore
-      if (setupCalled && __DEV__) {
-        Logger.warn('"setup" function is being called multiple times. If you want to update config, please use "update" instead.');
-      }
-      setupCalled = true;
-    },
-    update (config: CONFIGURABLE_SETTINGS) {
-      settings = merge(settings, config);
-      factoryParams.onSetup(settings);
+export function apiClientFactory<ALL_SETTINGS extends BaseConfig, ALL_FUNCTIONS>(factoryParams: FactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>) {
 
-      Logger.debug('apiClientFactory.update', settings);
-    },
-    getSettings: (): ALL_SETTINGS => Object.freeze({ ...settings })
+  const createApiClient = (config: ALL_SETTINGS, customApi: any = {}): ApiClientInstance => {
+    const settings = factoryParams.onSetup ? merge(config, factoryParams.onSetup(config)) as ALL_SETTINGS : { config, client: config.client };
+
+    Logger.debug('apiClientFactory.setup', settings);
+
+    const api = applyContextForApi({ ...factoryParams.api, ...customApi }, settings);
+
+    return {
+      api,
+      client: settings.client,
+      settings: settings.config
+    };
   };
+
+  createApiClient.tag = factoryParams.tag;
+
+  return { createApiClient };
 }

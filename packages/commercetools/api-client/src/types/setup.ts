@@ -1,5 +1,11 @@
 /* eslint-disable camelcase */
+import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
+
+export interface ClientInstance extends ApolloClient<any> {
+  sdkAuth?: SdkAuth;
+  tokenProvider?: TokenProvider;
+}
 
 export interface ApiConfig {
   uri: string;
@@ -32,12 +38,12 @@ export interface LocaleItem {
 
 export interface Auth {
   onTokenChange?: (token: Token) => void;
+  onTokenRead?: () => string;
   onTokenRemove?: () => void;
 }
 
 export interface SetupConfig<TCacheShape> {
   api?: ApiConfig;
-  currentToken?: Token;
   customOptions?: ApolloClientOptions<TCacheShape>;
   currency?: string;
   locale?: string;
@@ -57,12 +63,9 @@ export interface CustomerCredentials {
   password: string;
 }
 
-// --
-
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
-  currentToken?: Token;
   customOptions?: ApolloClientOptions<any>;
   currency: string;
   locale: string;
@@ -76,19 +79,4 @@ export interface Config<T = any> {
   auth?: Auth;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
-}
-
-export interface ConfigurableConfig {
-  api?: ApiConfig;
-  currentToken?: Token;
-  customOptions?: ApolloClientOptions<any>;
-  currency?: string;
-  locale?: string;
-  country?: string;
-  countries?: LocaleItem[];
-  currencies?: LocaleItem[];
-  locales?: LocaleItem[];
-  languageMap?: object;
-  acceptLanguage?: string[];
-  forceToken?: boolean;
 }

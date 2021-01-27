@@ -1,27 +1,23 @@
-import { useCart } from './../../src/useCart';
+import useCart from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
-import {
-  addToCart as apiAddToCart,
-  removeFromCart as apiRemoveFromCart,
-  updateCartQuantity as apiUpdateCartQuantity,
-  isTokenUserSession
-} from '@vue-storefront/commercetools-api';
+
+const context = {
+  $ct: {
+    api: {
+      addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
+      removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
+      updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
+      applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
+      removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } })),
+      getSettings: jest.fn(() => ({ currentToken: 1 })),
+      isTokenUserSession: jest.fn()
+    }
+  }
+};
 
 jest.mock('./../../src/useCart/currentCart');
-jest.mock('@vue-storefront/commercetools-api', () => ({
-  addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
-  removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } })),
-  getSettings: jest.fn(() => ({ currentToken: 1 })),
-  isTokenUserSession: jest.fn()
-}));
-
 jest.mock('@vue-storefront/core', () => ({
-  useCartFactory: (params) => ({
-    useCart: () => params
-  })
+  useCartFactory: (params) => () => params
 }));
 
 const customQuery = undefined;
@@ -31,79 +27,61 @@ describe('[commercetools-composables] useCart', () => {
     jest.clearAllMocks();
   });
 
-  it('loads current cart when there is user session', async () => {
-    (isTokenUserSession as any).mockReturnValue(true);
-    const { loadCart } = useCart() as any;
-
-    loadCart();
-
-    expect(loadCurrentCart).toBeCalled();
-  });
-
-  it('does not loads cart without user session', async () => {
-    (isTokenUserSession as any).mockReturnValue(false);
-    const { loadCart } = useCart() as any;
-
-    loadCart();
-
-    expect(loadCurrentCart).not.toBeCalled();
-  });
-
   it('adds to cart', async () => {
-    const { addToCart } = useCart() as any;
-    const response = await addToCart({ currentCart: 'current cart', product: 'product1', quantity: 3 });
+    const { addItem } = useCart() as any;
+    const response = await addItem(context, { currentCart: 'current cart', product: 'product1', quantity: 3 });
 
     expect(response).toEqual('some cart');
-    expect(apiAddToCart).toBeCalledWith('current cart', 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith('current cart', 'product1', 3, customQuery);
   });
 
   it('creates a new cart and add an item', async () => {
-    const { addToCart } = useCart() as any;
+    const { addItem } = useCart() as any;
     (loadCurrentCart as any).mockReturnValue('some cart');
-    const response = await addToCart({ currentCart: null, product: 'product1', quantity: 3 });
+    const response = await addItem(context, { currentCart: null, product: 'product1', quantity: 3 });
     expect(loadCurrentCart).toBeCalled();
 
     expect(response).toEqual('some cart');
-    expect(apiAddToCart).toBeCalledWith('some cart', 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith('some cart', 'product1', 3, customQuery);
   });
 
   it('removes from cart', async () => {
-    const { removeFromCart } = useCart() as any;
-    const response = await removeFromCart({ currentCart: 'current cart', product: 'product1' });
+    const { removeItem } = useCart() as any;
+    const response = await removeItem(context, { currentCart: 'current cart', product: 'product1' });
 
     expect(response).toEqual('some cart');
-    expect(apiRemoveFromCart).toBeCalledWith('current cart', 'product1', customQuery);
+    expect(context.$ct.api.removeFromCart).toBeCalledWith('current cart', 'product1', customQuery);
   });
 
   it('updates quantity', async () => {
-    const { updateQuantity } = useCart() as any;
-    const response = await updateQuantity({
+    const { updateItemQty } = useCart() as any;
+    const response = await updateItemQty(context, {
       currentCart: 'current cart',
       product: { name: 'product1' },
       quantity: 5
     });
 
     expect(response).toEqual('some cart');
-    expect(apiUpdateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 }, customQuery);
+    expect(context.$ct.api.updateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 }, customQuery);
   });
 
   it('clears cart', async () => {
-    const { clearCart } = useCart() as any;
-    const response = await clearCart({ currentCart: 'current cart' });
+    const { clear } = useCart() as any;
+    const response = await clear(context, { currentCart: 'current cart' });
 
     expect(response).toEqual('current cart');
   });
 
   it('applies coupon', async () => {
     const { applyCoupon } = useCart() as any;
-    const response = await applyCoupon({ currentCart: 'current cart', coupon: 'X123' });
+    const response = await applyCoupon(context, { currentCart: 'current cart', coupon: 'X123' });
 
     expect(response).toEqual({ updatedCart: 'some cart' });
   });
 
   it('removes coupon', async () => {
     const { removeCoupon } = useCart() as any;
-    const response = await removeCoupon({
+    const response = await removeCoupon(context, {
       currentCart: {
         discountCodes: [
           {
@@ -133,7 +111,7 @@ describe('[commercetools-composables] useCart', () => {
         _id: 123
       };
 
-      expect(isOnCart({ currentCart, product })).toEqual(false);
+      expect(isOnCart(context, { currentCart, product })).toEqual(false);
     });
 
     it('returns true if product exists in cart', () => {
@@ -147,7 +125,7 @@ describe('[commercetools-composables] useCart', () => {
         _id: 123
       };
 
-      expect(isOnCart({ currentCart, product })).toEqual(true);
+      expect(isOnCart(context, { currentCart, product })).toEqual(true);
     });
   });
 

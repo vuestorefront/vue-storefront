@@ -205,7 +205,7 @@ export default {
       shippingMethods
     } = useCheckout();
 
-    const { shipping, load: loadShipping, setDefault } = useUserShipping();
+    const { shipping, load: loadUserShipping, setDefault } = useUserShipping();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -246,7 +246,7 @@ export default {
 
     onMounted(async () => {
       if (isAuthenticated.value) {
-        await loadShipping();
+        await loadUserShipping();
         const shippingAddresses = userShippingGetters.getAddresses(shipping.value);
         if (!shippingAddresses || !shippingAddresses.length) {
           return;
@@ -301,7 +301,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

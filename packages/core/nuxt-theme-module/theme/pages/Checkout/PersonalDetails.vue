@@ -2,9 +2,9 @@
   <div>
     <div class="log-in desktop-only">
       <SfButton data-cy="personal-details-btn_login" class="log-in__button color-secondary"
-        >Log into your account</SfButton
+        >{{ $t('Log into your account') }}</SfButton
       >
-      <p class="log-in__info">or fill the details below:</p>
+      <p class="log-in__info">{{ $t('or fill the details below') }}:</p>
     </div>
     <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
     <div class="form">
@@ -34,7 +34,7 @@
       />
       <div class="info">
         <p class="info__heading">
-          Enjoy these perks with your free account!
+          {{ $t('Enjoy your free account') }}
         </p>
         <SfCharacteristic
           v-for="(characteristic, key) in characteristics"
@@ -66,10 +66,10 @@
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
         <SfButton data-cy="personal-details-btn_go-back" class="color-secondary form__back-button">
-          Go back
+          {{ $t('Go back') }}
         </SfButton>
         <SfButton data-cy="personal-details-btn_continue" class="form__action-button" @click="$emit('nextStep')">
-          Continue to shipping
+          {{ $t('Continue to shipping') }}
         </SfButton>
       </div>
     </div>
@@ -125,7 +125,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

@@ -120,10 +120,10 @@
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
         <SfButton data-cy="payment-btn_go-back" class="color-secondary form__back-button">
-          Go back
+          {{ $t('Go back') }}
         </SfButton>
         <SfButton data-cy="payment-btn_review" class="form__action-button" @click="$emit('nextStep')">
-          Pay for order
+          {{ $t('Pay for order') }}
         </SfButton>
       </div>
     </div>
@@ -195,7 +195,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

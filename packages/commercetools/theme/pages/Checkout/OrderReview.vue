@@ -16,7 +16,9 @@
               {{ personalDetails.email }}
             </p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
+          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">
+            {{ $t('Edit') }}
+          </SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
@@ -30,15 +32,16 @@
             </p>
             <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">Edit</SfButton
-          >
+          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">
+            {{ $t('Edit') }}
+          </SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Billing address">
         <div class="accordion__item">
           <div class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
-              Same as shipping address
+              {{ $t('Same as shipping address') }}
             </p>
             <template v-else>
               <p class="content">
@@ -50,7 +53,9 @@
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">
+            {{ $t('Edit') }}
+          </SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Payment method">
@@ -58,13 +63,15 @@
           <div class="accordion__content">
             <p class="content">{{ chosenPaymentMethod.label }}</p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">
+            {{ $t('Edit') }}
+          </SfButton>
         </div>
       </SfAccordionItem>
     </SfAccordion>
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
-        <SfTableHeader class="table__header table__image">Item</SfTableHeader>
+        <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
         <SfTableHeader
           v-for="tableHeader in tableHeaders"
           :key="tableHeader"
@@ -95,8 +102,8 @@
         <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
         <SfTableData class="table__data price">
           <SfPrice
-            :regular="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-            :special="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+            :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
+            :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
             class="product-price"
           />
         </SfTableData>
@@ -107,12 +114,12 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="totals.subtotal"
+            :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
             name="Shipping"
-            :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+            :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
@@ -125,14 +132,16 @@
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
-              I agree to <SfLink href="#">Terms and conditions</SfLink>
+              {{ $t('I agree to') }} <SfLink href="#"> {{ $t('Terms and conditions') }}</SfLink>
             </div>
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">Go back</nuxt-link>
+          <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">
+            {{ $t('Go back') }}
+          </nuxt-link>
           <SfButton class="summary__action-button" @click="processOrder" :disabled="loading.order">
-            Make an order
+            {{ $t('Make an order') }}
           </SfButton>
         </div>
       </div>
@@ -158,6 +167,7 @@ import {
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart, cartGetters, checkoutGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+
 export default {
   name: 'ReviewOrder',
   components: {
@@ -176,7 +186,7 @@ export default {
   setup(props, context) {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
-    const { cart, removeFromCart } = useCart();
+    const { cart, removeItem } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const {
@@ -211,7 +221,7 @@ export default {
       billingSameAsShipping,
       terms,
       totals,
-      removeFromCart,
+      removeItem,
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
@@ -222,7 +232,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

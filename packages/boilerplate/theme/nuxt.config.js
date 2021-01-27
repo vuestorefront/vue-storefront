@@ -10,25 +10,38 @@ export default {
     title: 'Vue Storefront',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport',
-        content: 'width=device-width, initial-scale=1' },
-      { hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || '' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
       { rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico' }
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'crossorigin'
+      },
+      {
+        rel: 'preload',
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
+        as: 'style'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
+        media: 'print',
+        onload: 'this.media=\'all\''
+      }
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/boilerplate.js'
-  ],
+  plugins: [],
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -79,6 +92,9 @@ export default {
         }
       }
     }
+  },
+  styleResources: {
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
     transpile: [

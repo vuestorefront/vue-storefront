@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt-theme",
-  "version": "0.0.4",
+  "version": "2.2.0",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "Vue Storefront",
   "license": "MIT",
   "devDependencies": {
-    "@vue/composition-api": "1.0.0-beta.14",
+    "@vue/composition-api": "1.0.0-beta.21",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
@@ -22,6 +22,7 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "vue-lazy-hydration": "^2.0.0-beta.4"
   }
 }

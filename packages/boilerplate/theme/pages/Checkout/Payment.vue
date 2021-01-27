@@ -204,7 +204,7 @@ export default {
     const { billingDetails, shippingDetails, paymentMethods, chosenPaymentMethod } = useCheckout();
     const sameAsShipping = ref(false);
 
-    const { billing, load: loadBilling, setDefault } = useUserBilling();
+    const { billing, load: loadUserBilling, setDefault } = useUserBilling();
     const { isAuthenticated } = useUser();
 
     const canAddNewAddress = ref(true);
@@ -246,7 +246,7 @@ export default {
 
     onMounted(async () => {
       if (isAuthenticated.value) {
-        await loadBilling();
+        await loadUserBilling();
         const billingAddresses = userBillingGetters.getAddresses(billing.value);
         if (!billingAddresses || !billingAddresses.length) {
           return;
@@ -310,7 +310,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   @include for-desktop {

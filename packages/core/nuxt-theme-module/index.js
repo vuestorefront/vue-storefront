@@ -29,6 +29,7 @@ module.exports = async function DefaultThemeModule(moduleOptions) {
 
   if (moduleOptions.generate) {
     log.info('Watching changes in @vue-storefront/nuxt-theme-module and used platform theme directory');
+    // eslint-disable-next-line global-require
     const generate = require('./generate').default;
 
     generate.call(this, {

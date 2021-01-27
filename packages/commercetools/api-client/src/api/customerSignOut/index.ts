@@ -1,8 +1,11 @@
-import { getSettings } from './../../index';
+const customerSignOut = async ({ config, client }) => {
+  if (config.auth.onTokenRemove) {
+    config.auth.onTokenRemove();
+  }
 
-const customerSignOut = async (): Promise<void> => {
-  const { auth } = getSettings();
-  auth.onTokenRemove();
+  if (client.tokenProvider) {
+    client.tokenProvider.invalidateTokenInfo();
+  }
 };
 
 export default customerSignOut;

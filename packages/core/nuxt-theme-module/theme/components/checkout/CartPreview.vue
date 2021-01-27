@@ -15,17 +15,29 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="checkoutGetters.getFormattedPrice(totals.subtotal)"
-        class="sf-property--full-width sf-property--large property"
+        :value="$n(totals.subtotal, 'currency')"
+        :class="['sf-property--full-width', 'sf-property--large', { discounted: totals.special > 0 }]"
+      />
+      <SfProperty
+        v-for="discount in discounts"
+        :key="discount.id"
+        :name="discount.name + (discount.code && ` (${discount.code})`)"
+        :value="'-' + $n(discount.value, 'currency')"
+        class="sf-property--full-width sf-property--small"
+      />
+     <SfProperty
+        v-if="totals.special > 0"
+        :value="$n(totals.special, 'currency')"
+        class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
         name="Shipping"
-        :value="checkoutGetters.getFormattedPrice(checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="$n(checkoutGetters.getShippingMethodPrice(chosenShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
         name="Total"
-        :value="checkoutGetters.getFormattedPrice(totals.total + checkoutGetters.getShippingMethodPrice(chosenShippingMethod))"
+        :value="$n(totals.total, 'currency')"
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
@@ -37,7 +49,7 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button">Apply</SfButton>
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -63,7 +75,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, useCheckout, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCheckout, useCart, checkoutGetters, cartGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'CartPreview',
@@ -78,15 +90,17 @@ export default {
   },
   setup() {
     const { chosenShippingMethod } = useCheckout();
-    const { cart, removeFromCart, updateQuantity, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
+    const discounts = computed(() => cartGetters.getDiscounts(cart.value));
 
     return {
+      discounts,
       totalItems,
       listIsHidden,
       products,
@@ -94,8 +108,8 @@ export default {
       totals,
       promoCode,
       showPromoCode,
-      removeFromCart,
-      updateQuantity,
+      removeItem,
+      updateItemQty,
       checkoutGetters,
       cartGetters,
       applyCoupon,
@@ -121,9 +135,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 .highlighted {
   box-sizing: border-box;
   width: 100%;
@@ -166,6 +179,21 @@ export default {
   &__input {
     --input-background: var(--c-white);
     flex: 1;
+  }
+}
+
+.discounted {
+  &::v-deep .sf-property__value {
+    color: var(--c-danger);
+    text-decoration: line-through;
+  }
+}
+
+.special-price {
+  justify-content: flex-end;
+
+  &::v-deep .sf-property__name {
+    display: none;
   }
 }
 

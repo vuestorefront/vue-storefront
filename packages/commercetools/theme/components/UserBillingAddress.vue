@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="name">{{ address.firstName }} {{ address.lastName }}</p>
+    <p>{{ address.firstName }} {{ address.lastName }}</p>
     <p>{{ street }}</p>
 
     <p>
@@ -10,13 +10,13 @@
     </p>
 
     <p>{{ country }}</p>
-    <p v-if="address.phone">T: {{ address.phone }}</p>
+    <p v-if="address.phone" class="phone">{{ address.phone }}</p>
   </div>
 </template>
 
 <script>
 import { toRef, computed } from '@vue/composition-api';
-import { getSettings } from '@vue-storefront/commercetools-api';
+import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   props: {
@@ -27,6 +27,7 @@ export default {
   },
 
   setup(props) {
+    const { $ct: { config } } = useVSFContext();
     const address = toRef(props, 'address');
 
     const street = computed(() => {
@@ -41,7 +42,7 @@ export default {
 
     const country = computed(() => {
       const country = address.country;
-      return getSettings().countries.find(c => c.name === country)?.label || country;
+      return config.countries.find(c => c.name === country)?.label || country;
     });
 
     return {
@@ -56,8 +57,7 @@ export default {
 p {
   margin: 0;
 }
-
-.name {
-  font-weight: var(--font-weight--semibold);
+.phone {
+  margin-top: var(--spacer-base);
 }
 </style>

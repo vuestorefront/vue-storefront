@@ -10,8 +10,8 @@
           <SfProductCard
             :title="productGetters.getName(product)"
             :image="productGetters.getCoverImage(product)"
-            :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special-price="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+            :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
           />
         </SfCarouselItem>
@@ -49,9 +49,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 .section {
   margin-top: var(--spacer-base);
 }
