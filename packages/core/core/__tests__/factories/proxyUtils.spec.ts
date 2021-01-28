@@ -9,16 +9,16 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     expect(utils.getBaseUrl(null)).toEqual('/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } })).toEqual('https://some-domain/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('https://some-domain/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(false);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } })).toEqual('http://some-domain/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('http://some-domain/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } })).toEqual('https://forwarded-host/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('https://forwarded-host/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(false);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } })).toEqual('http://forwarded-host/api/');
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('http://forwarded-host/api/');
   });
 
   it('returns proxy for defined api', () => {
@@ -41,9 +41,9 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
 
   it('reads cookies from incomming request', () => {
     expect(utils.getCookies(null)).toEqual('');
-    expect(utils.getCookies({})).toEqual('');
-    expect(utils.getCookies({ req: { headers: {} } })).toEqual('');
-    expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } })).toEqual({ someCookie: 1 });
+    expect(utils.getCookies({} as any)).toEqual('');
+    expect(utils.getCookies({ req: { headers: {} } } as any)).toEqual('');
+    expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } } as any)).toEqual({ someCookie: 1 });
   });
 
   it('it cobines config with the current one', () => {
