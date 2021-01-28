@@ -25,7 +25,7 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
 
-  const platform = mapConfigToSetupObject({
+  const settings = mapConfigToSetupObject({
     moduleOptions,
     app,
     additionalProperties: {
@@ -37,5 +37,5 @@ export default integrationPlugin(({ app, integration }) => {
     }
   })
 
-  integration.configure('ct', platform)
+  integration.configure('ct', settings)
 });

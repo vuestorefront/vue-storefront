@@ -1,6 +1,9 @@
 import { applyContextToApi } from './../context';
 
-export const createExtendContext = ({ tag, nuxtCtx, inject }) => (props) => {
+/**
+ * It extends given integartion, defined by `tag` in the context.
+ */
+export const createExtendIntegrationInCtx = ({ tag, nuxtCtx, inject }) => (integrationProperties) => {
   const integrationKey = '$' + tag;
 
   if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
@@ -8,33 +11,36 @@ export const createExtendContext = ({ tag, nuxtCtx, inject }) => (props) => {
   }
 
   if (nuxtCtx.$vsf[integrationKey].api) {
-    const current = nuxtCtx.$vsf[integrationKey];
-    const client = current.client;
+    const integrationCtx = nuxtCtx.$vsf[integrationKey];
+    const client = integrationCtx.client;
 
     const config = {
-      ...current.config,
-      ...(props.config || {})
+      ...integrationCtx.config,
+      ...(integrationProperties.config || {})
     };
     nuxtCtx.$vsf[integrationKey].api = {
-      ...current.api,
-      ...applyContextToApi((props.api || {}), { client, config })
+      ...integrationCtx.api,
+      ...applyContextToApi((integrationProperties.api || {}), { client, config })
     };
   }
 
-  Object.keys(props)
+  Object.keys(integrationProperties)
     .filter(k => !['api', 'client', 'config'].includes(k))
     .forEach(key => {
-      nuxtCtx.$vsf[integrationKey][key] = props[key];
+      nuxtCtx.$vsf[integrationKey][key] = integrationProperties[key];
     });
 };
 
-export const createInjectInContext = ({ tag, nuxtCtx, inject }) => (props) => {
+/**
+ * It creates a function that adds an integration to the context under the given name, defined by `tag`.
+ */
+export const createAddIntegrationToCtx = ({ tag, nuxtCtx, inject }) => (integrationProperties) => {
   const integrationKey = '$' + tag;
 
   if (nuxtCtx.$vsf && !nuxtCtx.$vsf[integrationKey]) {
-    nuxtCtx.$vsf[integrationKey] = props;
+    nuxtCtx.$vsf[integrationKey] = integrationProperties;
     return;
   }
 
-  inject('vsf', { [integrationKey]: props });
+  inject('vsf', { [integrationKey]: integrationProperties });
 };

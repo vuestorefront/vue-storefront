@@ -50,10 +50,10 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getIntegrationConfig({
-      context: null,
-      platformConfig: { someGivenOption: 1 }
-    })).toEqual({
+    expect(utils.getIntegrationConfig(
+      null,
+      { someGivenOption: 1 }
+    )).toEqual({
       axios: {
         baseURL: 'some-url',
         headers: {}
@@ -66,10 +66,10 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getIntegrationConfig({
-      context: null,
-      platformConfig: {}
-    })).toEqual({
+    expect(utils.getIntegrationConfig(
+      null,
+      {}
+    )).toEqual({
       axios: {
         baseURL: 'some-url',
         headers: {

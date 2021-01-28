@@ -2,11 +2,11 @@ import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory 
 import { applyContextToApi } from './../utils/context';
 import { Logger } from './../utils';
 
-export const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
+const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
     const extensions = factoryParams.extensions && this && this.middleware
     // eslint-disable-next-line
-    ? Object.values(factoryParams.extensions).map((extensionFn: any) => extensionFn(this.middleware.req, this.middleware.res))
+    ? Object.values(factoryParams.extensions).map((extensionFn) => extensionFn(this.middleware.req, this.middleware.res))
       : [];
 
     const _config = extensions
@@ -46,3 +46,4 @@ export const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCT
   return { createApiClient };
 };
 
+export { apiClientFactory };

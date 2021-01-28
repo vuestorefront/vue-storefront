@@ -1,10 +1,10 @@
-import { createExtendContext } from '../../../src/utils/nuxt/context';
+import { createExtendIntegrationInCtx } from '../../../src/utils/nuxt/context';
 import { applyContextToApi } from '../../../src/utils/context';
 jest.mock('../../../src/utils/context', () => ({
   applyContextToApi: jest.fn()
 }));
 
-describe('createExtendContext', () => {
+describe('createExtendIntegrationInCtx', () => {
   it('extendContent injects vsf if not injected', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {
@@ -12,7 +12,7 @@ describe('createExtendContext', () => {
     };
     const inject = jest.fn();
 
-    const extendContext = createExtendContext({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -41,7 +41,7 @@ describe('createExtendContext', () => {
     };
     const inject = jest.fn();
 
-    const extendContext = createExtendContext({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -66,7 +66,7 @@ describe('createExtendContext', () => {
     };
     const inject = jest.fn();
 
-    const extendContext = createExtendContext({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -101,7 +101,7 @@ describe('createExtendContext', () => {
     };
     const inject = jest.fn();
 
-    const extendContext = createExtendContext({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -146,7 +146,7 @@ describe('createExtendContext', () => {
     };
     const inject = jest.fn();
 
-    const extendContext = createExtendContext({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
