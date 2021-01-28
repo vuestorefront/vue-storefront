@@ -583,6 +583,8 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
+// TODO: Implement proper typing
+// https://github.com/vuestorefront/vue-storefront/issues/5431
 export interface ApiClientExtensionLifecycle {
   beforeCreate?: (config, headers?: Record<string, string>) => any;
   afterCreate?: ({ config, client }, headers?: Record<string, string>) => { config; client };
