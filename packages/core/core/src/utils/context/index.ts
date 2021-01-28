@@ -4,6 +4,11 @@ interface ContextConfiguration {
   useVSFContext: () => Context;
 }
 
+interface ApplyingContextHooks {
+  before: (args: any[]) => any[];
+  after: (response: any) => any;
+}
+
 let useVSFContext = () => ({}) as Context;
 
 const configureContext = (config: ContextConfiguration) => {
@@ -11,11 +16,15 @@ const configureContext = (config: ContextConfiguration) => {
 };
 
 const NOP = (x) => x;
-const applyContextToApi = (api, context, { before, after } = { before: NOP, after: NOP }) =>
+const applyContextToApi = (
+  api: Record<string, Function>,
+  context: any,
+  hooks: ApplyingContextHooks = { before: NOP, after: NOP }
+) =>
   Object.entries(api)
     .reduce((prev, [key, fn]: any) => ({
       ...prev,
-      [key]: async (...args) => after(await fn(context, ...before(args)))
+      [key]: async (...args) => hooks.after(await fn(context, ...hooks.before(args)))
     }), {});
 
 const generateContext = (factoryParams) => {
