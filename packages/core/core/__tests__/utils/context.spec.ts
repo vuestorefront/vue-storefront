@@ -2,7 +2,7 @@ import {
   generateContext,
   useVSFContext,
   configureContext,
-  applyContextForApi
+  applyContextToApi
 } from '../../src/utils/context';
 import { Context } from '../../src/types';
 
@@ -33,7 +33,7 @@ describe('context', () => {
     expect(myFn).toBe(useVSFContext);
   });
 
-  it('applyContextForApi adds context as first argument to api functions', () => {
+  it('applyContextToApi adds context as first argument to api functions', () => {
     const api = {
       firstFunc: jest.fn(),
       secondFunc: jest.fn(),
@@ -41,7 +41,7 @@ describe('context', () => {
     };
     const context = 123;
 
-    const apiWithContext: any = applyContextForApi(api, context);
+    const apiWithContext: any = applyContextToApi(api, context);
 
     apiWithContext.firstFunc();
     apiWithContext.secondFunc('TEST');

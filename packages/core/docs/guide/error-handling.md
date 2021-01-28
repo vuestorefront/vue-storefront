@@ -79,9 +79,10 @@ Let's imagine you have some global components for error notifications. You want 
 
 ```ts
 const { cart, error } = useCart()
+const { send } = useUiNotification();
 
 watch(error, (error, prevError) => {
-  if (error.value.addItem && error.value.addItem !== prevError.value.addItem) sendInAppNotification('error', error.value.addItem.message)
-  if (error.value.removeItem && error.value.removeItem !== prevError.value.removeItem) sendInAppNotification('error', error.value.removeItem.message)
+  if (error.value.addItem && error.value.addItem !== prevError.value.addItem) send({ type: 'danger', message: error.value.addItem.message })
+  if (error.value.removeItem && error.value.removeItem !== prevError.value.removeItem) send({ type: 'danger', message: error.value.removeItem.message })
 })
 ```
