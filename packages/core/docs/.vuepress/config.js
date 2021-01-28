@@ -1,5 +1,6 @@
 module.exports = {
   title: 'Vue Storefront Next',
+  base: '/v2/',
   description: 'Vue Storefront 2 documentation',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
@@ -152,8 +153,8 @@ module.exports = {
           collapsable: false,
           children: [
             ['/guide/theme', 'Theme'],
-            ['/guide/configuration', 'Configuration'],
-            {
+						['/guide/configuration', 'Configuration'],
+						{
               title: 'Composables',
               collapsable: false,
               children: [
@@ -163,7 +164,7 @@ module.exports = {
                   'What are Vue Storefront Composables'
                 ]
               ]
-            },
+						}
             ['/guide/error-handling', 'Error Handling']
           ]
         },
