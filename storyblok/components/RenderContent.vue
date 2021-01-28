@@ -8,7 +8,6 @@
     />
   </div>
 </template>
-ł
 
 <script lang="ts">
 import Vue from 'vue'
