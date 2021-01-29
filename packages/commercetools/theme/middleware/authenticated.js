@@ -1,5 +1,5 @@
-export default async ({ $vsf, redirect }) => {
-  if (await $vsf.$ct.api.isGuest()) {
+export default async ({ app, redirect }) => {
+  if (!app.$cookies.get('vsf-commercetools-token')?.scope?.includes('customer_id')) {
     return redirect('/');
   }
 };
