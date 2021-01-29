@@ -1,4 +1,4 @@
 This module is not finished.
 
-So far it's save to use in:
+So far it's safe to use in:
 - Product page
