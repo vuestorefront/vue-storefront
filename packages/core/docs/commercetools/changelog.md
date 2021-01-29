@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+- fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
+
 ## 1.1.0
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
