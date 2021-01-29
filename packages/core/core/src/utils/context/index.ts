@@ -19,6 +19,12 @@ const NOP = (x) => x;
 const applyContextToApi = (
   api: Record<string, Function>,
   context: any,
+
+  /**
+   * By default we use NOP function for returning the same parameters as they come.
+   * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
+   * in that case, we use default function, to handle that scenario - NOP
+   */
   hooks: ApplyingContextHooks = { before: NOP, after: NOP }
 ) =>
   Object.entries(api)
