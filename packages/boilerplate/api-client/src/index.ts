@@ -13,7 +13,6 @@ const onCreate = (settings) => ({
 });
 
 const { createApiClient } = apiClientFactory<any, any>({
-  tag: 'boilerplate',
   onCreate,
   api: {
     getProduct,

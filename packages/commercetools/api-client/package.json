@@ -8,10 +8,9 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build:client": "rimraf client && rollup -c rollup-client.config.js",
     "build:server": "rimraf server && rollup -c rollup-server.config.js",
     "build:universal": "rimraf lib && rollup -c rollup-main.config.js",
-    "build": "yarn build:universal && yarn build:client && yarn build:server",
+    "build": "yarn build:universal && yarn build:server",
     "dev": "rollup -c -w",
     "test": "cross-env APP_ENV=test jest --rootDir .",
     "prepublish": "yarn build"

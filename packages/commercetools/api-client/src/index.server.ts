@@ -83,14 +83,12 @@ const tokenExtension: ApiClientExtension = (req, res) => {
   };
 };
 
-const { createApiClient, integrationPlugin } = apiClientFactory({
-  tag: 'ct',
+const { createApiClient } = apiClientFactory({
   onCreate,
   api,
   extensions: [tokenExtension]
 });
 
 export {
-  createApiClient,
-  integrationPlugin
+  createApiClient
 };
