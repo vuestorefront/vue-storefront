@@ -3,7 +3,7 @@
 ## Introduction
 
 This document will guide you all the way to fully implement cart and wishlist modules, which will let you use these common features in your application in the best possible way. 
-UseCart and useWishlist are both composables which let you manage items by its properties and getters which you can import from the certain integration.  
+Customer's cart and wishlist can be managed using `useCart` and `useWishlist` composables respectively, provided by every integration. Data can be accessed using `cartGetters` and `wishlistGetters`. 
 
 
 ## Using cart
