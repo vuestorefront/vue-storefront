@@ -37,7 +37,7 @@ export default {
 
 ## Loading current user
 
-When you confirmed that the user is logged in, you may safely access its data.
+When you confirmed that the user is logged in, you may safely access user data.
 
 ```js{8,18}
 import { useUser } from '{INTEGRATION}';
