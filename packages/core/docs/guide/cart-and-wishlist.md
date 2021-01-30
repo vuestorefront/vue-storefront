@@ -39,6 +39,8 @@ First thing you need to do to start using cart in your application is importing 
 
      * adding an item
 
+The basic thing that user wants to while interacting with the cart is adding an item to it. So having example application, we use `addToCart` function in order to allow user to add new product or additional items of product that is already added.   
+
 ```js
 <template>
   <ProductList>
@@ -51,7 +53,6 @@ First thing you need to do to start using cart in your application is importing 
 </template>    
 <script>     
   import { useCart } from '@vue-storefront/{INTEGRATION}';
-  import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
       const {
@@ -67,11 +68,12 @@ First thing you need to do to start using cart in your application is importing 
   };
 </script>
 ```
+After importing the `useCart` you need to get proper function and pass the product and quantity of items. `loading` is the element which include the state of loading element.   
 
 
      * removing an item from a cart and update quantity
 
-
+The product in the cart of your application need to have some kind of remove button, so adding `removeFromCart`is needed. It can be done similarly like other properties. 
 
 ```js
 <template>
@@ -117,6 +119,9 @@ First thing you need to do to start using cart in your application is importing 
   };
 </script>
 ```
+In above example you can see getters used for getting values: all products already in cart, total price, and items in cart.  
+
+
      * checking if an item is on a cart
 
 ```js
