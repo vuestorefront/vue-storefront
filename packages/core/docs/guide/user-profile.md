@@ -62,7 +62,7 @@ export default {
 }
 ```
 
-As with all composables, it's important to remember to not directly access `user` properties, but use `userGetters`. This will ensure that your code is integration-agnostic and proof to (some) future changes.
+Similar to other composables, it's important to remember to not directly access `user` properties, but use `userGetters`. This will ensure that your code is integration-agnostic and proof to (some) future changes.
 
 ```js{1,3,17,22}
 import { useUser, userGetters } from '{INTEGRATION}';
