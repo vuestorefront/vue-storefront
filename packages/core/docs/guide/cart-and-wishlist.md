@@ -12,7 +12,7 @@ Customer's cart and wishlist can be managed using `useCart` and `useWishlist` co
 
 ### loading cart in your application
 
-First thing you need to do to start using cart in your application is importing useCart from your ecommerce integration. In order to that `load`function must be used and all it does is fetching cart from server and create new in your application if it doesn't already exist. Basing on that you can start using `cart` object which structure depends on the ecommerce implementation you are using. 
+The first thing that you need to do to start using the cart in your application is importing `useCart` from your ecommerce integration. Import `load`function which fetch the cart from a server and create new one in your application if it doesn't already exist. Basing on that you can start using `cart` object which structure depends on the ecommerce implementation you are using. 
 
 
 ```js
@@ -40,9 +40,9 @@ First thing you need to do to start using cart in your application is importing 
 
 ### basic usage scenarios:
 
-     * adding an item
+  * adding an item
 
-The basic thing that user wants to do while interacting with the cart is adding an item to it. So having example application, we use `addToCart` function in order to allow user to add new product or additional items of product that is already added.   
+The basic thing that a user can do in ecommerce application is adding an item to it. So having example application, we use `addToCart` function in order to allow user to add new product or additional items of product that is already added.   
 
 ```js
 <template>
@@ -74,9 +74,9 @@ The basic thing that user wants to do while interacting with the cart is adding 
 After importing the `useCart` you need to get proper function and pass the product and quantity of items. `loading` is the object which includes the loading state of the element.   
 
 
-     * removing an item from a cart and update quantity
+  * removing an item from a cart and update quantity
 
-The product in the cart of your application need to have some kind of remove button, so adding `removeFromCart`is needed. It can be done similarly like other `useCart` properties. 
+The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly like other `useCart` properties. 
 
 ```js
 <template>
@@ -124,10 +124,10 @@ The product in the cart of your application need to have some kind of remove but
   };
 </script>
 ```
-In above example you can see the we use getters to pass the values to the component: all products already in cart, total price, and items in cart. It's the best way to access `cart` object properties. TO make them work you need to import `cartGetters` object and use proper getter function as the computed value.   
+In above example you can see that we use getters to pass the values to the component: all products already in cart, total price, and items in cart. It's the way to access `cart` object properties and to make them work you need to import `cartGetters` object and use proper getter function as the computed value.    
 
 
-     * checking if an item is on a cart
+  * checking if an item is on a cart
 
 You can inform the user of your application if the product that he sees is already in his cart by using `isAddedToCart` and e.g. show the proper icon signalizing it.
 
@@ -158,9 +158,9 @@ You can inform the user of your application if the product that he sees is alrea
 </script>
 ```
 
-     * cleaning a cart
+  * cleaning a cart
 
-Adding cleaning cart feature means that you should use `clear` function like in following example:
+Implementing cleaning feature means that you should use `clear` function like in following example:
 
 ```js
 <template>
@@ -197,7 +197,8 @@ Adding cleaning cart feature means that you should use `clear` function like in 
 
 
 ### other scenarios:
-     * applying and removing coupons from a cart
+
+  * applying and removing coupons from a cart
 
 Using Vue Storefront allows you to apply promotional coupons to you applicaton and use also third party software to handle that. Using `applyCoupon` function you can pass the code for further handling.  
 
@@ -244,13 +245,15 @@ Using Vue Storefront allows you to apply promotional coupons to you applicaton a
 </script>
 ```
 
-     * guest carts 
- 
+  * guest carts 
 
+  [TO DO]
+ 
 ## Using wishlist
+
 1. loading useWishlist into your application 
 
-In order to use wishlist in your application, it needs to be loaded first. So you can load it only once and it will exist. 
+In order to use wishlist in your application, it needs to be loaded first. So you can use `load` function only once and it will exist. 
 
 ```js
 <script>
@@ -275,12 +278,14 @@ In order to use wishlist in your application, it needs to be loaded first. So yo
   }
 </script>
 ```
+
+
+### The basic usage scenarios
+
+   * adding items to a wishlist
+
 The product can be added to the wishlist similarly like to the cart but using `addToWishlist` function:
 
-### basic usage scenarios:
-
-
-   * adding 
 ```js
 <template>
    <ProductList>
@@ -310,8 +315,8 @@ The product can be added to the wishlist similarly like to the cart but using `a
 
    * removing the item from the wishlist
 
-The `wishlist` can be accessed by `wishlistGetters` object which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
-You can add possibility to remove products by `removeFromWishlist` function. 
+The `wishlist` can be accessed by `wishlistGetters` object which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
+You can add the possibility to remove products by `removeFromWishlist` function. 
 
 ```js
 <template>
@@ -362,7 +367,7 @@ You can add possibility to remove products by `removeFromWishlist` function.
 </script>
 ```
 
-   * checking if the item is added to the wishlist 
+  * checking if the item is added to the wishlist 
 
 If you want to show that product is already added to `wishlist`, use `isOnWishlist` function like so:
 
@@ -392,9 +397,9 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 </script>
 ```
 
-   * deleting all items added to wishlist
+  * deleting all items added to wishlist
 
-Cleaning the wishlist can be achived by `clearWishlist` property.
+Cleaning the wishlist can be achieved by `clearWishlist` property.
 
 ```js
 <template>
@@ -433,7 +438,7 @@ Cleaning the wishlist can be achived by `clearWishlist` property.
 
 ### common usage example
 
-In the following two examples you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used In three main components: product list, cart and wishlist. It can be your basis for building real life application implementation.    
+In the following two examples you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart and a wishlist. It can be your basis for building real-life application implementation.    
 
 ```js
 <template>
@@ -485,7 +490,7 @@ In the following two examples you can analyze how both composables are used in t
 </script>
 ```
 
-The cart and the wishlist components:
+The cart and the the wishlist components:
 
 ```js
 <template>
@@ -514,7 +519,7 @@ The cart and the wishlist components:
     />
   </CartComponent>
 
-  /* Similar features you cn use on wishlist component */
+  /* Similar features you can use on wishlist component */
 
   <WishlistComponent>
     <ProductsList>
@@ -588,41 +593,39 @@ The cart and the wishlist components:
 ```
 
 ### list of available properties and getters
-[list of properties and getters for useCart and useWishlist, in form of the table]
+
+Properties:
+
+| useCart              | useWishlist         | 
+|----------------------|---------------------|
+| cart                 | wishlist            |   
+| isOnCart             | isOnWishlist        |   
+| addToCart            | addToWishlist       | 
+| load: loadCart       | load: loadWishlist  |
+| removeFromCart       |removeFromWishlist   | 
+| clear                | clearWishlist       | 
+| updateQuantity       |                     | 
+| coupon               |                     | 
+| applyCoupon          |                     | 
+| removeCoupon         |                     | 
+| loading              |                     | 
 
 
-Properties
+Getters:
 
-| useCart                                      | useWishlist                         | 
-|----------------------------------------------|-------------------------------------|
-| cart          | wishlist                 |   
-| isOnCart          | isOnWishlist          |   
-| addToCart         | addToWishlist                 | 
-| load: loadCart | load: loadWishlist  |
-| removeFromCart |removeFromWishlist  | 
-| clear  | clearWishlist                                   | 
-| updateQuantity   |                                    | 
-| coupon   |                                    | 
-| applyCoupon|  | 
-| removeCoupon  |                                    | 
-| loading  |                                     | 
-
-
-Getters
-
-| useCart                                      | useWishlist                         | 
-|----------------------------------------------|-------------------------------------|
-| getTotals          | getTotals                 |   
-| getShippingPrice         | getShippingPrice                 | 
-| getItems | getItems |
-| getItemName | getItemName | 
-| getItemImage  | getItemImage                                   | 
-| getItemPrice   | getItemPrice                                    | 
-| getItemQty| getItemQty | 
-| getItemAttributes  | getItemAttributes                                   | 
-| getItemSku  | getItemSku                                    | 
-| getTotalItems   | getTotalItems                                  | 
-| getFormattedPrice  | getFormattedPrice    |
-| getCoupons  |    |
-| getDiscounts  |    |
+| useCart              | useWishlist         | 
+|----------------------|---------------------|
+| getTotals            | getTotals           |   
+| getShippingPrice     | getShippingPrice    | 
+| getItems             | getItems            |
+| getItemName          | getItemName         | 
+| getItemImage         | getItemImage        | 
+| getItemPrice         | getItemPrice        | 
+| getItemQty           | getItemQty          | 
+| getItemAttributes    | getItemAttributes   | 
+| getItemSku           | getItemSku          | 
+| getTotalItems        | getTotalItems       | 
+| getFormattedPrice    | getFormattedPrice   |
+| getCoupons           |                     |
+| getDiscounts         |                     |
   
