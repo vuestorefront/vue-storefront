@@ -1,6 +1,6 @@
 import { computed, reactive } from '@vue/composition-api';
 
-interface UiNotification {
+interface UseUiNotification {
   message: string;
   action: { text: string; onClick: (...args: any) => void };
   type: 'danger' | 'success' | 'info';
@@ -11,8 +11,10 @@ interface UiNotification {
   dismiss?: () => void;
 }
 
+type SendUiNotificationParams = Omit<UseUiNotification, 'id'>;
+
 interface Notifications {
-  notifications: Array<UiNotification>;
+  notifications: Array<UseUiNotification>;
 }
 
 const state = reactive<Notifications>({
@@ -22,7 +24,7 @@ const maxVisibleNotifications = 3;
 const timeToLive = 3000;
 
 const useUiNotification = () => {
-  const send = (notification: UiNotification) => {
+  const send = (notification: SendUiNotificationParams) => {
     const id = Symbol();
 
     const dismiss = () => {
