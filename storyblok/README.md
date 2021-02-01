@@ -2,7 +2,7 @@
 
 Here you can find quick installation guide for [Storyblok](https://www.storyblok.com/) CMS integration with Vue Storefront. 
 
-Full documentation can be found [here](https://docs.europe-west1.gcp.storefrontcloud.io/v2-cms-storyblok/).
+Full documentation can be found [here](https://docs.vuestorefront.io/storyblok).
 
 ### Installation
 
@@ -35,7 +35,7 @@ modules: [
 ]
 ```
 
-### Rendering 
+### Content Rendering 
 
 ---
 
