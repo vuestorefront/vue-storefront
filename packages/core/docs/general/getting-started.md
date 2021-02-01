@@ -4,18 +4,16 @@ If you want to get started with Vue Storefront the easiest way to do this is to 
 
 To make use of Vue Storefront CLI simply install it globally through NPM:
 
-
-
 <code-group>
 <code-block title="YARN">
 ```bash
-yarn global add @vue-storefront/cli@next
+yarn global add @vue-storefront/cli@latest
 ```
 </code-block>
 
 <code-block title="NPM">
 ```bash
-npm i -g @vue-storefront/cli@next
+npm i -g @vue-storefront/cli@latest
 ```
 </code-block>
 </code-group>
