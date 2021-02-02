@@ -7,13 +7,13 @@ To make use of Vue Storefront CLI simply install it globally through NPM:
 <code-group>
 <code-block title="YARN">
 ```bash
-yarn global add @vue-storefront/cli@latest
+yarn global add @vue-storefront/cli
 ```
 </code-block>
 
 <code-block title="NPM">
 ```bash
-npm i -g @vue-storefront/cli@latest
+npm i -g @vue-storefront/cli
 ```
 </code-block>
 </code-group>
