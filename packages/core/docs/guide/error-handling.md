@@ -16,9 +16,9 @@ export default {
     const { addToCart, error } = useCart();
 
     return {
-      error,
+      error
     };
-  },
+  }
 };
 </script>
 ```
@@ -39,29 +39,13 @@ export interface UseCartErrors {
 
 :::details Where does the error come from?
 
-Inside each async method, we are clearing the current error before an integration's method call and setting it in the `catch` block.
+Inside each async method, we are catching errors when they occur and save them to the reactive property called `errors` under the key corresponding to the triggered method:
 
 ```ts
-const addItem = async ({ product, quantity, customQuery }) => {
-  Logger.debug('useCart.addItem', { product, quantity });
+const { addToCart, errors } = useCart();
 
-  try {
-    loading.value = true;
-    error.value.addItem = null; // Clearing the current error
-    const updatedCart = await factoryParams.addItem(context, {
-      currentCart: cart.value,
-      product,
-      quantity,
-      customQuery,
-    });
-    cart.value = updatedCart;
-  } catch (err) {
-    error.value.addItem = err; // Setting a new error
-    Logger.error('useCart/addItem', err);
-  } finally {
-    loading.value = false;
-  }
-};
+addToCart({ product: null }); // triggers an error
+errors.addToCart; // here you have error raised by addToCart function
 ```
 
 :::
