@@ -32,9 +32,9 @@ You can set the `verbosity` level which tells the app what do you want to log an
   '@vue-storefront/nuxt',
   {
     logger: {
-      verbosity: 'error',
-    },
-  },
+      verbosity: 'error'
+    }
+  }
 ];
 ```
 
@@ -49,9 +49,7 @@ If not explicitly changed, logging level depends on the current environment vari
 
 By default, we're printing all the events happening in the app in the console but you can easily write a new logger and use a third-party library (like [consola](https://github.com/nuxt-contrib/consola)) or pass the logs to the external service like [Sentry](https://sentry.io/welcome/)
 
-To override the default logger, pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level.
-
-If you are using our Nuxt module, setting up the logger is much simpler. All you have to do is just provide the configuration to the module:
+To override the default logger, pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object and as an argument, you have access to the `verbosity` level:
 
 ```js
 [
@@ -69,11 +67,11 @@ If you are using our Nuxt module, setting up the logger is much simpler. All you
           warn: (message: any, ...args) =>
             console.warn('[VSF][warn]', message, ...args),
           error: (message: any, ...args) =>
-            console.error('[VSF][error]', message, ...args),
+            console.error('[VSF][error]', message, ...args)
         };
-      },
-    },
-  },
+      }
+    }
+  }
 ];
 ```
 
@@ -91,7 +89,7 @@ const myLogger = {
   warn: (message: any, ...args) =>
     console.warn('[VSF][warn]', message, ...args),
   error: (message: any, ...args) =>
-    console.error('[VSF][error]', message, ...args),
+    console.error('[VSF][error]', message, ...args)
 };
 
 const verbosity = 'error';
