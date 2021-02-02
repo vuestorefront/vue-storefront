@@ -75,8 +75,8 @@ All user related data is stored in the original eCommerce CMS/Magento and the mo
 
 The user state data:
 
-- `token` - this is the current user token got from the [`user/login`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L64). It's used to authorize all subsequent calls with the current user identity. If this token is not empty it does mean that the user is authorized.
-- `current` - this is the current user object received from [`user/me`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L105) - immediately called after the login action.
+- `token` - this is the current user token got from the [`user/login`](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L64). It's used to authorize all subsequent calls with the current user identity. If this token is not empty it does mean that the user is authorized.
+- `current` - this is the current user object received from [`user/me`](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L105) - immediately called after the login action.
 
 The user data format:
 
@@ -145,8 +145,8 @@ The user data format:
 
 The following events are published from `user` store:
 
-- `EventBus.$emit('session-after-started')` - executed just [after the application has been loaded](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L22) and the User UI session has started
-- `EventBus.$emit('user-after-loggedin', res)` - executed after the successful [`user/me` action call](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L123) - so the user has been authorized and the profile loaded
+- `EventBus.$emit('session-after-started')` - executed just [after the application has been loaded](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L22) and the User UI session has started
+- `EventBus.$emit('user-after-loggedin', res)` - executed after the successful [`user/me` action call](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L123) - so the user has been authorized and the profile loaded
 
 ### Actions
 
@@ -174,7 +174,7 @@ Loads the user profile from eCommerce CMS; when `userCache` is set to true the r
 
 #### `update (context, userData)`
 
-This action is used to update various user profile data. Please check the [user schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/user/userProfile.schema.json) for the data format details.
+This action is used to update various user profile data. Please check the [user schema](https://github.com/vuestorefront/vue-storefront/blob/master/core/store/modules/user/userProfile.schema.json) for the data format details.
 
 #### `changePassword (context, passwordData)`
 

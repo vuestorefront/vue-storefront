@@ -80,7 +80,7 @@ yarn cache clear -- --tag=*
 Available tag keys are set in the `config.server.availableCacheTags` (by default: `"product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"`)
 
 
-**Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) supports output cache invalidation. Output cache is tagged with the product and categories ID (products and categories used on a specific page). Mage2vuestorefront can invalidate the cache of a product and category pages if you set the following ENV variables:
+**Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) supports output cache invalidation. Output cache is tagged with the product and categories ID (products and categories used on a specific page). Mage2vuestorefront can invalidate the cache of a product and category pages if you set the following ENV variables:
 
 ```bash
 export VS_INVALIDATE_CACHE_URL=http://localhost:3000/invalidate?key=SECRETKEY&tag=
@@ -88,7 +88,7 @@ export VS_INVALIDATE_CACHE=1
 ```
 
 :::warning Caution !
-All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it should be forwarded. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it should be forwarded. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
 
 For `magento1-vsbridge-indexer` and `magento2-vsbridge-indexer` please do use the proper settings in the Magento admin panel.
