@@ -18,7 +18,7 @@ If you're starting a new Vue Storefront project and you're ok with using Nuxt us
 This is the easiest and fastest way of bootstrapping new Vue Storefront project. With Vue Storefront CLI you can generate preconfigured, working boilerplate shop in one minute! 
 
 ```bash
-npm i -g @vue-storefront/cli@next
+npm i -g @vue-storefront/cli
 ```
 
 ```bash
