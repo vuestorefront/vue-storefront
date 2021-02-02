@@ -7,15 +7,15 @@
   "scripts": {
     "dev": "vuepress dev",
     "build": "vuepress build",
-    "ct-api-client-gen": "typedoc --tsconfig ../../commercetools/api-client/tsconfig.json --entryPoints ../../commercetools/api-client/src/api --out ./commercetools/api-client-reference --name 'API Client Reference'",
-    "ct-composables-gen": "typedoc --tsconfig ../../commercetools/composables/tsconfig.json --entryPoints ../../commercetools/composables/src --out ./commercetools/api-composables-reference --name 'API Reference'"
+    "ct-api-client-gen": "node ./scripts/generateCtApiRef",
+    "ct-composables-gen": "node ./scripts/generateCtComposablesRef"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "typescript": "^3.6.4",
     "concat-md": "^0.3.5",
-    "typedoc": "^0.20.16",
-    "typedoc-plugin-markdown": "^3.4.3",
+    "typedoc": "^0.20.20",
+    "typedoc-plugin-markdown": "^3.4.5",
+    "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
