@@ -12,7 +12,7 @@ Customer's cart and wishlist can be managed using `useCart` and `useWishlist` co
 
 ### loading cart in your application
 
-The first thing that you need to do to start using the cart in your application is importing `useCart` from your ecommerce integration. Import `load`function which fetch the cart from a server and create new one in your application if it doesn't already exist. Basing on that you can start using `cart` object which structure depends on the ecommerce implementation you are using. 
+The first thing that you need to do to start using the cart in your application is importing `useCart` from your ecommerce integration. Import `load`function which fetch the cart from a server and create a new one in your application if it doesn't already exist. Based on that, you can start using `cart` object, which structure depends on the ecommerce implementation you are using. 
 
 
 ```js
@@ -71,12 +71,12 @@ The basic thing that a user can do in ecommerce application is adding an item to
   };
 </script>
 ```
-After importing the `useCart` you need to get proper function and pass the product and quantity of items. `loading` is the object which includes the loading state of the element.   
+After importing the `useCart`, you need to get proper function and pass the product and quantity of items. `loading` is the object which includes the loading state of the element.   
 
 
   * removing an item from a cart and update quantity
 
-The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly like other `useCart` properties. 
+The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly to other `useCart` properties. 
 
 ```js
 <template>
@@ -124,7 +124,7 @@ The product in the cart of your application needs to have some kind of remove bu
   };
 </script>
 ```
-In above example you can see that we use getters to pass the values to the component: all products already in cart, total price, and items in cart. It's the way to access `cart` object properties and to make them work you need to import `cartGetters` object and use proper getter function as the computed value.    
+As you can see in the above example, we use getters to pass the values to the component: all products already in a cart, total price, and items in cart. It's the way to access `cart` object properties and to make them work you need to import `cartGetters` object and use a proper getter function as the computed value.    
 
 
   * checking if an item is on a cart
@@ -200,7 +200,7 @@ Implementing cleaning feature means that you should use `clear` function like in
 
   * applying and removing coupons from a cart
 
-Using Vue Storefront allows you to apply promotional coupons to you applicaton and use also third party software to handle that. Using `applyCoupon` function you can pass the code for further handling.  
+Using Vue Storefront allows you to apply promotional coupons to your application and also use third-party software to handle that. Using `applyCoupon` function, you can pass the code for further handling.  
 
 ```js
 <template>
@@ -251,9 +251,9 @@ Using Vue Storefront allows you to apply promotional coupons to you applicaton a
  
 ## Using wishlist
 
-1. loading useWishlist into your application 
+### loading useWishlist into your application 
 
-In order to use wishlist in your application, it needs to be loaded first. So you can use `load` function only once and it will exist. 
+In order to use wishlist in your application, it needs to be loaded first. So you can use `load` function only once, and it will exist. 
 
 ```js
 <script>
@@ -315,7 +315,7 @@ The product can be added to the wishlist similarly like to the cart but using `a
 
    * removing the item from the wishlist
 
-The `wishlist` can be accessed by `wishlistGetters` object which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
+The `wishlist` can be accessed by `wishlistGetters` object, which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
 You can add the possibility to remove products by `removeFromWishlist` function. 
 
 ```js
@@ -438,7 +438,7 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
 
 ### common usage example
 
-In the following two examples you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart and a wishlist. It can be your basis for building real-life application implementation.    
+In the following two examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
 
 ```js
 <template>
@@ -490,7 +490,7 @@ In the following two examples you can analyze how both composables are used in t
 </script>
 ```
 
-The cart and the the wishlist components:
+The cart and the wishlist components:
 
 ```js
 <template>
