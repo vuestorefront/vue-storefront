@@ -12,7 +12,7 @@ Many interactions in the application are only available or look different if the
 
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
-```js{8,18}
+```js{8,17}
 import { useUser } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
@@ -37,9 +37,9 @@ export default {
 
 ## Loading current user
 
-When you confirmed that the user is logged in, you may safely access user data.
+To access data of currently logged-in user, we can use other property of `useUser` called simply `user`.
 
-```js{8,18}
+```js{8,17}
 import { useUser } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
@@ -62,33 +62,41 @@ export default {
 }
 ```
 
-Similar to other composables, it's important to remember to not directly access `user` properties, but use `userGetters`. This will ensure that your code is integration-agnostic and proof to (some) future changes.
+`user` property will return `null` if used is not logged-in. `userGetters` should handle such cases and return empty data like `''`, `[]` etc. depending on expected return data type. To prevent empty elements in the template, it's a good practice to check if user is logged-in before using getters.
 
-```js{1,3,17,22}
+```vue{3-5}
+<template>
+  ...
+    <p v-if="isAuthenticated">
+      {{ userGetters(user) }}
+    </p>
+  ...
+</template>
+
+<script>
 import { useUser, userGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
 
 export default {
   setup () {
     const {
       load,
-      user
+      user,
+      isAuthenticated
     } = useUser();
 
     onSSR(async () => {
       await load();
     });
 
-    const firstName = computed(() => userGetters.getFirstName(user.value));
-
     return {
       load,
-      user,
-      firstName
+      isAuthenticated,
+      userGetters
     }
   }
 }
+</script>
 ```
 
 ## Modifying user credentials
