@@ -157,15 +157,144 @@ export default {
 
 ## Managing addresses (billing and shipping)
 
-Managing billing and shipping addresses is done using dedicated [useUserBilling](../composables/use-user-billing.md) and [useUserShipping](../composables/use-user-shipping.md) composables.
+Managing billing and shipping addresses is done using [useUserBilling](../composables/use-user-billing.md) and [useUserShipping](../composables/use-user-shipping.md) composables.
 
-For more information, please refer to their documentation.
+Both have almost identical signature (properties, methods and getters), so examples below will only show usage of `useUserBilling`.
+
+### Getting a list of addresses
+
+To get a list of addresses, use `load` and `billing` or `shipping` properties and `getAddresses` method on corresponding getter.
+
+```vue
+<template>
+  ...
+    <div
+      v-if="address in userBillingGetters.getAddresses(billing)"
+      :key="userBillingGetters.getId(address)"
+    >
+      {{ userBillingGetters.getPostCode(address) }}
+    </div>
+  ...
+</template>
+
+<script>
+import { useUserBilling, userBillingGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      billing,
+      load,
+    } = useUserBilling();
+
+    onSSR(async () => {
+      await load();
+    });
+
+    return {
+      billing,
+      userBillingGetters
+    };
+  }
+}
+</script>
+```
+
+### Managing addresses
+
+`useUserBilling` and `useUserShipping` composables expose number of methods to manage addresses:
+
+* `addAddress`
+* `deleteAddress`
+* `updateAddress`
+* `setDefault`
+
+Below is the example of using `deleteAddress` method.
+
+```vue{7-9,23,32}
+<template>
+  ...
+    <div
+      v-if="address in userBillingGetters.getAddresses(billing)"
+      :key="userBillingGetters.getId(address)"
+    >
+      <button @click="deleteAddress({ address })">
+        Delete address
+      </button>
+    </div>
+  ...
+</template>
+
+<script>
+import { useUserBilling, userBillingGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      billing,
+      load,
+      deleteAddress,
+    } = useUserBilling();
+
+    onSSR(async () => {
+      await load();
+    });
+
+    return {
+      billing,
+      deleteAddress,
+      userBillingGetters
+    };
+  }
+}
+</script>
+```
+
+For more information, please refer to documentation for [useUserBilling](../composables/use-user-billing.md) and [useUserShipping](../composables/use-user-shipping.md) composables.
 
 ## Listing user orders
 
-Listing user orders is done using dedicated [useUserOrders](../composables/use-user-orders.md) composable.
+To get a list of orders, use `search` and `orders` properties and `getItems` method on `orderGetters`.
 
-For more information, please refer to its documentation.
+```vue
+<template>
+  ...
+    <div
+      v-if="order in orderGetters.getItems(orders)"
+      :key="orderGetters.getId(order)"
+    >
+      {{ orderGetters.getOrderStatus(order) }}
+    </div>
+  ...
+</template>
+
+<script>
+import { useUserOrders, orderGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      orders,
+      search,
+    } = useUserOrders();
+
+    onSSR(async () => {
+      await search();
+    });
+
+    return {
+      orders,
+      orderGetters
+    };
+  }
+}
+</script>
+```
+
+For more information, please refer to documentation for [useUserOrders](../composables/use-user-orders.md) composable.
 
 ## Protecting user profile routes
 
