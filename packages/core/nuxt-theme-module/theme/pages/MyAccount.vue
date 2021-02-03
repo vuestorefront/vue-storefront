@@ -73,7 +73,7 @@ export default {
     MyReviews
   },
   middleware: [
-    'authenticated'
+    'is-authenticated'
   ],
   setup(props, context) {
     const { $router, $route } = context.root;

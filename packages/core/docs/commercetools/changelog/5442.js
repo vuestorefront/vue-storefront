@@ -1,7 +1,7 @@
 module.exports = {
-  description: 'Added `authenticated` middleware to protect user profile routes from guest access',
+  description: 'Added `is-authenticated` middleware to protect user profile routes from guest access',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/5442',
-  isBreaking: false,
+  isBreaking: true,
   breakingChanges: [],
   author: 'Filip Sobol',
   linkToGitHubAccount: 'https://github.com/filipsobol'
