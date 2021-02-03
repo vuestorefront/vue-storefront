@@ -254,7 +254,7 @@ export default {
 
 For more information, please refer to documentation for [useUserBilling](../composables/use-user-billing.md) and [useUserShipping](../composables/use-user-shipping.md) composables.
 
-## Listing user orders
+## Displaying user orders
 
 To get a list of orders, use `search` and `orders` properties and `getItems` method on `orderGetters`.
 
