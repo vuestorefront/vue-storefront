@@ -59,7 +59,7 @@ export default {
   },
 ```
 
-And to you template add the paypal button before `button-full`:
+And to your template add the paypal button before `button-full`:
 
 ```html
 <paypal-button v-if="payment.paymentMethod === 'paypal_express'"/>
