@@ -91,7 +91,7 @@ export default {
 }
 ```
 
-## Modifying user
+## Modifying user credentials
 
 Updating user data (except for the current password, which is described in the [Changing password](#changing-password) section) can be done using `updateUser` method in `useUser` composable.
 
@@ -159,45 +159,14 @@ Listing user orders is done using dedicated [useUserOrders](../composables/use-u
 
 For more information, please refer to its documentation.
 
-## Customizing addresses and forms in the user profile
-
-In default theme, components used to display addresses and containing forms for updating user information are blank. This is due to the fact that each integration might use different data formats and properties.
-
-If you are using already made integration, you don't have to worry about this, because it already should be provided for you.
-
-If you are making an integration however, you will need to create couple of Vue components:
-
-| Component                                    | Props                               | Emits event |
-|----------------------------------------------|-------------------------------------|-------------|
-| components/UserBillingAddress.vue            | { address: Object }                 |             |
-| components/UserShippingAddress.vue           | { address: Object }                 |             |
-| components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
-| components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
-| components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
-| components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
-
-Components that emit events are forms. Event should be in the following format:
-
-```js
-emit('submit', {
-  form: Object,
-  onComplete: (data: any) => {},
-  onError: (error: Error) => {}
-})
-```
-
-When such event is sent, application will handle communication with the API. If request is succesful, `onComplete` callback will be called with response from the API. Otherwise `onError` will be called with error caught.
-
 ## Protecting user profile routes
 
-If you are using already made integration and there is a page that should be accessible only to logged-in users, such as user profile, you can use `authenticated` middleware in page component:
+If there is a page that should be accessible only to logged-in users, such as user profile, you can use `is-authenticated` middleware in the page-level component:
 
 ```js
 export default {
   middleware: [
-    'authenticated'
+    'is-authenticated'
   ]
 }
 ```
-
-If you are making an integration however, you will need to create middleware `middleware/authenticated.js`. Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.
