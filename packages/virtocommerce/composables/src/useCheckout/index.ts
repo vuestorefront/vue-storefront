@@ -25,6 +25,7 @@ const useCheckoutFactory = (factoryParams) => {
       }
     });
     const cartFields = useCart();
+    
 
     const paymentMethods: Ref<PaymentMethodType[]> = ref([]);
     const shippingMethods: Ref<ShippingMethodType[]> = ref([]);
@@ -56,11 +57,7 @@ const useCheckoutFactory = (factoryParams) => {
       'useCheckout-loading'
     );
 
-    const setPaymentMethod = async (
-      context: Context,
-      paymentMethod,
-      options: any = {}
-    ) => {
+    const setPaymentMethod = async (paymentMethod, options: any = {}) => {
       chosenPaymentMethod.value = paymentMethod;
 
       if (!options.save) {
@@ -92,13 +89,8 @@ const useCheckoutFactory = (factoryParams) => {
       context.setCart(cart);
     };
 
-    const setShippingMethod = async (
-      context: Context,
-      shippingMethod,
-      options: any = {}
-    ) => {
+    const setShippingMethod = async (shippingMethod, options: any = {}) => {
       chosenShippingMethod.value = shippingMethod;
-
       if (!options.save) {
         return;
       }
@@ -120,10 +112,7 @@ const useCheckoutFactory = (factoryParams) => {
           postalCode: shippingDetails.value.postalCode
         }
       };
-      await context.$vc.api.addOrUpdateCartShipment(
-        cartFields.cart.value,
-        inputShipment
-      );
+      await context.$vc.api.addOrUpdateCartShipment(cartFields.cart.value, inputShipment);
       const cart = await context.$vc.api.getCart();
       context.setCart(cart);
     };
@@ -174,14 +163,13 @@ const useCheckoutFactory = (factoryParams) => {
         loading.value.paymentMethods = false;
       }
     };
-    const loadDetails = async (context: Context) => {};
-    const setPersonalDetails = async (context: Context) => {};
-    const clean = async (context: Context) => {
+    const loadDetails = async () => {};
+    const setPersonalDetails = async () => {};
+    const clean = async () => {
       context.setCart(null);
     };
 
-    const placeOrder = async (context: Context) => {
-      console.log("placeOrder", context);
+    const placeOrder = async () => {
       return await context.$vc.api.placeOrder(cartFields.cart.value);
     };
 

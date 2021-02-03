@@ -29,7 +29,7 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
     regular : regular_price,
     special: regular_price !== special_price ? special_price : null
   };
-  console.log("getProductPrice()", result);
+  
   return result;
 };
 
