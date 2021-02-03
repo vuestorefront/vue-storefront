@@ -3,17 +3,16 @@ import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/cor
 
 const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<any>): Promise<any> => {
-
-    console.log("search()");
-    console.log(params);
-    const categories = await context.$vc.api.searchCategories(context, params);
+ 
+    const categories = await context.$vc.api.searchCategories(params);
+  
     if (params.input.categorySlug) {
       var category = categories?.data?.find(x => x.slug.endsWith(params.input.categorySlug));
       if (category) {
         params.input.outline  = category.outline;
       }
     }
-    const result = await context.$vc.api.searchProducts(context, params);   
+    const result = await context.$vc.api.searchProducts(params);   
 
    
     return {

@@ -58,7 +58,7 @@ const onCreate = (settings: Config ): { config: Config; client: ApolloClient<Nor
   };
 };
 
-const { createApiClient, integrationPlugin } = apiClientFactory<Config, any>({
+const { createApiClient } = apiClientFactory<Config, any>({
   tag: 'vc',
   onCreate,
   api: {
@@ -82,11 +82,9 @@ const { createApiClient, integrationPlugin } = apiClientFactory<Config, any>({
 
 export {
   createApiClient,
-  integrationPlugin,
   VC_USER_ID, 
   VC_AUTH_TOKEN,
   generateUUID
 };
-
 
 export * from './graphql/types';

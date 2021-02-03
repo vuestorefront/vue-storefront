@@ -5,7 +5,7 @@ import searchProductsQueryDocument from './searchProductsQuery';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function searchProducts({ config, client }, options: any): Promise<any> {
-
+console.log('searchProducts()', options);
   const {store, getUserId, currency, locale, catalogId } = config;
   const { data } = await client.query({
     query: searchProductsQueryDocument,

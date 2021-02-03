@@ -1,7 +1,5 @@
-/* eslint-disable */
+import { integrationPlugin } from '@vue-storefront/virtocommerce';
 import { VC_USER_ID, VC_AUTH_TOKEN, generateUUID} from '@vue-storefront/virtocommerce-api';
-import { mapConfigToSetupObject } from '@vue-storefront/commercetools/nuxt/helpers'
-import { integrationPlugin } from '@vue-storefront/virtocommerce-api'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
@@ -13,7 +11,7 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.set(VC_AUTH_TOKEN, token);
   };
   const getUserId = () => {
-
+ 
     let result = app.$cookies.get(VC_USER_ID);
     if (!result) {
       result = generateUUID();
@@ -25,16 +23,12 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.set(VC_USER_ID, userId);
   };
 
-  const settings = mapConfigToSetupObject({
-    moduleOptions,
+  integration.configure({
+    ...moduleOptions,
     app,
-    additionalProperties: {
-        getAccessToken,
-        setAccessToken,
-        getUserId,
-        setUserId      
-    }
-  })
-
-  integration.configure(settings)
+    getAccessToken,
+    setAccessToken,
+    getUserId,
+    setUserId
+  });
 });

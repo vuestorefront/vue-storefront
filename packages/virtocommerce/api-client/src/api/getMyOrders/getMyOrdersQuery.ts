@@ -17,7 +17,7 @@ export default gql`
           sku
           name
           quantity
-          price
+          price { amount }
         }
         currency {
           code

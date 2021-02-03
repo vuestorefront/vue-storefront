@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/virtocommerce",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,9 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/virtocommerce-api": "^0.0.1",
-    "@vue-storefront/core": "^2.2.0",
-    "vue": "^2.6.x"
+    "@vue-storefront/virtocommerce-api": "0.0.1",
+    "@vue-storefront/core": "^2.2.0"
   },
   "files": [
     "lib/**/*"

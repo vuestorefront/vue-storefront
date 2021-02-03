@@ -22,12 +22,14 @@ export const getProductSlug = (product: Product): string => product.code;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
+  
   const regular_price =  product?.price?.list?.amount || 0;
   const special_price = product?.price?.actual?.amount;
   const result = {
     regular : regular_price,
     special: regular_price !== special_price ? special_price : null
   };
+  console.log("getProductPrice()", result);
   return result;
 };
 

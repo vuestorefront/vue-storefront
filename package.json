@@ -33,13 +33,11 @@
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
     "build:sp:tools": "yarn build:core && yarn build:sp:api-client && yarn build:sp:composables",
     "build:sp": "yarn build:core && yarn build:sp:tools && yarn build:sp:theme",
-    
     "build:vc:api-client": "cd packages/virtocommerce/api-client && yarn build",
     "build:vc:composables": "cd packages/virtocommerce/composables && yarn build",
     "build:vc:tools": "yarn build:core && yarn build:vc:api-client && yarn build:vc:composables",
     "build:vc:theme": "cd packages/virtocommerce/theme && yarn build",
     "build:vc": "yarn build:core && yarn build:vc:tools && yarn build:vc:theme",
-
     "test:ayc:api-client": "cd packages/about-you/api-client && yarn test",
     "test:ayc:composables": "cd packages/about-you/composables && yarn test",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",
@@ -86,7 +84,7 @@
     "eslint-plugin-vue": "^6.2.1",
     "husky": "^4.2.3",
     "jest": "^24.9.0",
-    "lerna": "^3.15.0",
+    "lerna": "^3.22.1",
     "lint-staged": "^10.0.7",
     "rimraf": "^3.0.2",
     "rollup": "^1.25.2",

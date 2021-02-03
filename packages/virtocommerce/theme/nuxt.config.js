@@ -63,7 +63,7 @@ export default {
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://127.0.0.1:3000'
+        uri: 'http://localhost:3000'
       },
       store: "Electronics",
       currency: "USD",
@@ -90,12 +90,14 @@ export default {
   proxy: {
     '/graphql': {
       target: 'https://admin-demo.virtocommerce.com/graphql',
+      secure: false,
       pathRewrite: {
         '^/graphql' : '/'
         }
       },
       '/connect/token': {
         target: 'https://admin-demo.virtocommerce.com/connect/token',
+        secure: false,
         pathRewrite: {
           '^/connect/token' : '/'
           }      
@@ -107,6 +109,18 @@ export default {
     strategy: 'no_prefix',
     vueI18n: {
       fallbackLocale: 'en',
+      numberFormats: {
+        en: {
+          currency: {
+            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          }
+        },
+        de: {
+          currency: {
+            style: 'currency', currency: 'EUR', currencyDisplay: 'symbol'
+          }
+        }
+      },
       messages: {
         en: {
           welcome: 'Welcome 1'

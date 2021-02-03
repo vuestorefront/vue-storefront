@@ -1,53 +1,36 @@
 /* istanbul ignore file */
 
-import useCategory from './composables/useCategory';
-import useProduct from './composables/useProduct';
-import useCart from './composables/useCart';
-import useCheckout from './composables/useCheckout';
-import { useReview, reviewGetters } from './composables/useReview';
-import useUser  from './composables/useUser';
-import useUserOrders from './composables/useUserOrders';
-import useContent from './composables/useContent';
-import useFacet from './composables/useFacet';
-import useWishlist from './composables/useWishlist';
-import useUserShipping from './composables/useUserShipping';
-import useUserBilling from './composables/useUserBilling';
+import useCart from './useCart';
+import useCategory from './useCategory';
+import useCheckout from './useCheckout';
+import useContent from './useContent';
+import useFacet from './useFacet';
+import useProduct from './useProduct';
+import useReview from './useReview';
+import useUser from './useUser';
+import useUserBilling from './useUserBilling';
+import useUserOrders from './useUserOrders';
+import useUserShipping from './useUserShipping';
+import useWishlist from './useWishlist';
+import { createApiClient } from '@vue-storefront/virtocommerce-api';
+import { integrationPluginFactory } from '@vue-storefront/core';
 
-import {
-  cartGetters,
-  categoryGetters,
-  checkoutGetters,
-  facetGetters,
-  productGetters,
-  userGetters,
-  userShippingGetters,
-  userBillingGetters,
-  orderGetters,
-  wishlistGetters
-} from './composables/getters';
+const integrationPlugin = integrationPluginFactory(createApiClient);
 
 export {
-  useCategory,
-  useProduct,
+  integrationPlugin,
   useCart,
+  useCategory,
   useCheckout,
-  useReview,
-  useUser,
-  useUserOrders,
   useContent,
   useFacet,
-  useWishlist,
-  useUserShipping,
+  useProduct,
+  useReview,
+  useUser,
   useUserBilling,
-  cartGetters,
-  categoryGetters,
-  checkoutGetters,
-  productGetters,
-  facetGetters,
-  reviewGetters,
-  userGetters,
-  orderGetters,
-  wishlistGetters,
-  userShippingGetters,
-  userBillingGetters
+  useUserOrders,
+  useUserShipping,
+  useWishlist
 };
+
+export * from './getters';

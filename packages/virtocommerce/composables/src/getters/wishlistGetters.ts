@@ -3,7 +3,7 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import { Wishlist, WishlistProduct } from '../../types';
+import { Wishlist, WishlistProduct } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistItems = (wishlist: Wishlist): WishlistProduct[] => [
