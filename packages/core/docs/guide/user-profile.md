@@ -8,9 +8,9 @@
 
 ## Checking if the user is logged in
 
-Many interactions in the application are only available or are different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of, if not the most, widely used composable in Vue Storefront.
+Many interactions in the application are only available or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
 
-As with all composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
+Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
 ```js{8,18}
 import { useUser } from '{INTEGRATION}';
@@ -37,7 +37,7 @@ export default {
 
 ## Loading current user
 
-When you confirmed that the user is logged in, you may safely access its data.
+When you confirmed that the user is logged in, you may safely access user data.
 
 ```js{8,18}
 import { useUser } from '{INTEGRATION}';
@@ -62,7 +62,7 @@ export default {
 }
 ```
 
-As with all composables, it's important to remember to not directly access `user` properties, but use `userGetters`. This will ensure that your code is integration-agnostic and proof to (some) future changes.
+Similar to other composables, it's important to remember to not directly access `user` properties, but use `userGetters`. This will ensure that your code is integration-agnostic and proof to (some) future changes.
 
 ```js{1,3,17,22}
 import { useUser, userGetters } from '{INTEGRATION}';
