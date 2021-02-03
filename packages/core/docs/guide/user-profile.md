@@ -201,7 +201,7 @@ export default {
 </script>
 ```
 
-### Managing addresses
+### Adding, updating, and deleting addresses
 
 `useUserBilling` and `useUserShipping` composables expose number of methods to manage addresses:
 
