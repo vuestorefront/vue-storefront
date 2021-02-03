@@ -161,7 +161,7 @@ Managing billing and shipping addresses is done using [useUserBilling](../compos
 
 Both have almost identical signature (properties, methods and getters), so examples below will only show usage of `useUserBilling`.
 
-### Getting a list of addresses
+### Displaying a list of addresses
 
 To get a list of addresses, use `load` and `billing` or `shipping` properties and `getAddresses` method on corresponding getter.
 
