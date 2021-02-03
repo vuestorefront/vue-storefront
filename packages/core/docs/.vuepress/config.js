@@ -149,17 +149,7 @@ module.exports = {
 					children: [
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
-						{
-							title: 'Composables',
-							collapsable: false,
-							children: [
-								['/guide/composition-api', 'Composition API'],
-								[
-									'/guide/storefront-composables',
-									'What are Vue Storefront Composables'
-								]
-							]
-						},
+						['/guide/composables', 'Composables'],
 						['/guide/error-handling', 'Error Handling']
 					]
 				},

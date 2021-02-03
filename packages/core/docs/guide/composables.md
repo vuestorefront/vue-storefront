@@ -1,6 +1,6 @@
-# Composition API
+## Composition API
 
-> If you already have an experience with Vue Composition API, it's safe to skip this section and start with [Vue Storefront Composables](storefront-composables.html)
+> If you already have an experience with Vue Composition API, it's safe to skip this section and start with [Vue Storefront Composables](#what-are-vue-storefront-composables)
 
 Composition API is a new way to abstract and reuse the logic added in Vue 3.0. It allows you to create and observe a reactive state both inside the Vue component and outside it as a standalone function.
 
@@ -178,4 +178,28 @@ export default {
 };
 ```
 
-Vue Storefront uses composables as its main API. We will take a look over them in the [next chapter](storefront-composables.html).
+Vue Storefront uses composables as its main API. We will take a look over them in the next section.
+
+## What are Vue Storefront composables
+
+Composable is a function that uses [Composition API](#composition-api) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
+
+You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other (except [useUser](/composables/use-user.html) and [useCart](/composables/use-cart.html)). No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
+
+To use a composable, you need to import it from an integration you are using, and call it on the component `setup` option:
+
+```js
+import { useProduct } from '{INTEGRATION}';
+
+export default {
+  setup() {
+    const { products } = useProduct('<UNIQUE_ID>');
+
+    return {
+      products
+    };
+  }
+};
+```
+
+For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)
