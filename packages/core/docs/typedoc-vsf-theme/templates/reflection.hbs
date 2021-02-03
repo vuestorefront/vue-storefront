@@ -1,0 +1,37 @@
+# `{{model.name}}`
+
+{{#with model}}
+
+{{#each children}}
+
+{{#each signatures}}
+
+{{{signatureTitle}}}
+
+{{#each parameters}}
+
+{{#if flags.isOptional}}
+
+### `{{name}}?`
+
+{{else}}
+
+### `{{name}}`
+
+{{/if}}
+
+{{#if type.name}}
+
+* Type: `{{type.name}}`
+
+{{/if}}
+
+{{/each}}
+
+{{/each}}
+
+{{/each}}
+
+{{> member.sources}}
+
+{{/with}}

@@ -29,4 +29,5 @@ const project = app.convert();
 if (project) {
   const outputDir = './commercetools/api-composables-reference';
   app.generateDocs(project, outputDir);
+  // app.generateJson(project, outputDir + '.json');
 }

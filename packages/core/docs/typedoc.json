@@ -1,7 +1,7 @@
 {
-  "includeVersion": true,
   "hideBreadcrumbs": true,
   "hideInPageTOC": true,
+  "readme": "none",
   "plugin": ["typedoc-plugin-markdown"],
-  "theme": "./mytheme"
+  "theme": "./typedoc-vsf-theme"
 }

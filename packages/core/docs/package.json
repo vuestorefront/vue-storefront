@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vuepress dev",
     "build": "vuepress build",
-    "ct-api-client-gen": "node ./scripts/generateCtApiRef",
-    "ct-composables-gen": "node ./scripts/generateCtComposablesRef"
+    "ct-api-client-gen": "node ./scripts/generateCtApiRef && concat-md --join-string '' ./commercetools/api-client-reference/modules > ./commercetools/api-client-reference.md && rm -r ./commercetools/api-client-reference",
+    "ct-composables-gen": "node ./scripts/generateCtComposablesRef && concat-md --join-string '' ./commercetools/api-composables-reference/modules > ./commercetools/api-composables-reference.md && rm -r ./commercetools/api-composables-reference",
+    "ct-api-references": "yarn ct-api-client-gen && yarn ct-composables-gen"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
