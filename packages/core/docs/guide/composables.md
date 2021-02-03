@@ -203,3 +203,13 @@ export default {
 ```
 
 For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)
+
+## Anatomy of a Composable
+
+Every Vue Storefront composable usually returns three main pieces:
+
+- main data object. This is essential data exposed by the composable, like `products` for `useProduct`
+- supportive data objects (like `loading` and `error`)
+- `search` or `load` function
+
+
