@@ -8,7 +8,9 @@
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "test": "yarn run test:unit",
+    "test:unit": "jest",
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.9.1",
@@ -24,6 +26,7 @@
     "vue-scrollto": "^2.17.1"
   },
   "devDependencies": {
+    "cypress": "^6.4.0",
     "@nuxt/types": "^0.7.9",
     "@nuxt/typescript-build": "^2.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",

@@ -1,0 +1,16 @@
+{
+  "baseUrl": "http://0.0.0.0:3000/",
+  "viewportHeight": 1080,
+  "viewportWidth": 1920,
+  "video": false,
+  "screenshotOnRunFailure": false,
+
+  "fixturesFolder": "theme/tests/e2e/fixtures",
+  "integrationFolder": "theme/tests/e2e/integration",
+  "pluginsFile": "theme/tests/e2e/plugins/index.js",
+  "supportFile": "theme/tests/e2e/support/index.js",
+
+  "downloadsFolder": "theme/tests/e2e/downloads",
+  "screenshotsFolder": "theme/tests/e2e/screenshots",
+  "videosFolder": "theme/tests/e2e/videos"
+}

@@ -5,7 +5,7 @@ import {
   useUserOrdersFactory,
   UseUserOrdersFactoryParams
 } from '@vue-storefront/core';
-import { OrdersResponse, OrderSearchParams } from '../types';
+import { OrdersResponse, OrderSearchParams } from '@vue-storefront/boilerplate-api';
 
 const params: UseUserOrdersFactoryParams<OrdersResponse, OrderSearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

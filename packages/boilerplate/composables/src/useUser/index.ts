@@ -5,7 +5,7 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { User } from '../types';
+import { User } from '@vue-storefront/boilerplate-api';
 
 // @todo useUser
 

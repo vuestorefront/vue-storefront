@@ -3,7 +3,7 @@ import {
   useReviewFactory,
   UseReviewFactoryParams
 } from '@vue-storefront/core';
-import { Review } from '../types';
+import { Review } from '@vue-storefront/boilerplate-api';
 
 const params: UseReviewFactoryParams<any, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

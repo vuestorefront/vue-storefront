@@ -28,6 +28,7 @@
     "vue-scrollto": "^2.17.1"
   },
   "devDependencies": {
+    "cypress": "^6.4.0",
     "@nuxt/types": "^0.7.9",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",

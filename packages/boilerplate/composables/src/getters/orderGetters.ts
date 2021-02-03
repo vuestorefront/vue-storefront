@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { UserOrderGetters } from '@vue-storefront/core';
-import { Order, OrderItem } from '../types';
+import { Order, OrderItem } from '@vue-storefront/boilerplate-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: any): string => order?.date || '123';

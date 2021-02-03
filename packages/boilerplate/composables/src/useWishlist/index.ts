@@ -5,7 +5,7 @@ import {
   UseWishlistFactoryParams
 } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
-import { Wishlist, WishlistProduct, Product } from '../types';
+import { Wishlist, WishlistProduct, Product } from '@vue-storefront/boilerplate-api';
 
 export const wishlist: Ref<Wishlist> = ref(null);
 

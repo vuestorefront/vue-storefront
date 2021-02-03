@@ -151,10 +151,10 @@
         <SfButton data-cy="payment-btn_go-back" class="color-secondary form__back-button">
           Go back
         </SfButton>
-        <SfButton class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToReview">
+        <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToReview">
           Review my order
         </SfButton>
-        <SfButton class="form__action-button" @click="saveBillingDetails" v-else>
+        <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="saveBillingDetails" v-else>
           Select payment method
         </SfButton>
       </div>

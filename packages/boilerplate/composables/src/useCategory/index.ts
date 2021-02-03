@@ -3,7 +3,7 @@ import {
   useCategoryFactory,
   UseCategoryFactoryParams
 } from '@vue-storefront/core';
-import { Category } from '../types';
+import { Category } from '@vue-storefront/boilerplate-api';
 
 const params: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {
