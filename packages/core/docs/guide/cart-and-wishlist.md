@@ -44,7 +44,7 @@ The first thing that you need to do to start using the cart in your application 
 
 The basic thing that a user can do in ecommerce application is adding an item to it. So having example application, we use `addToCart` function in order to allow user to add new product or additional items of product that is already added.   
 
-```js
+```vue
 <template>
   <ProductList>
     <ProductComponent>
@@ -78,7 +78,7 @@ After importing the `useCart`, you need to get proper function and pass the prod
 
 The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly to other `useCart` properties. 
 
-```js
+```vue
 <template>
   <CartComponent>
     <ProductComponent>
@@ -131,7 +131,7 @@ As you can see in the above example, we use getters to pass the values to the co
 
 You can inform the user of your application if the product that he sees is already in his cart by using `isAddedToCart` and e.g. show the proper icon signalizing it.
 
-```js
+```vue
 <template>
   <ProductList>
     <ProductComponent>
@@ -162,7 +162,7 @@ You can inform the user of your application if the product that he sees is alrea
 
 Implementing cleaning feature means that you should use `clear` function like in following example:
 
-```js
+```vue
 <template>
   <CartComponent>
     <ProductsList>
@@ -202,7 +202,7 @@ Implementing cleaning feature means that you should use `clear` function like in
 
 Using Vue Storefront allows you to apply promotional coupons to your application and also use third-party software to handle that. Using `applyCoupon` function, you can pass the code for further handling.  
 
-```js
+```vue
 <template>
   <CartComponent>
     <CouponInput
@@ -244,10 +244,6 @@ Using Vue Storefront allows you to apply promotional coupons to your application
   };
 </script>
 ```
-
-  * guest carts 
-
-  [TO DO]
  
 ## Using wishlist
 
@@ -286,7 +282,7 @@ In order to use wishlist in your application, it needs to be loaded first. So yo
 
 The product can be added to the wishlist similarly like to the cart but using `addToWishlist` function:
 
-```js
+```vue
 <template>
    <ProductList>
     <ProductComponent>
@@ -318,7 +314,7 @@ The product can be added to the wishlist similarly like to the cart but using `a
 The `wishlist` can be accessed by `wishlistGetters` object, which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
 You can add the possibility to remove products by `removeFromWishlist` function. 
 
-```js
+```vue
 <template>
   <WishlistComponent>
     <ProductComponent
@@ -371,7 +367,7 @@ You can add the possibility to remove products by `removeFromWishlist` function.
 
 If you want to show that product is already added to `wishlist`, use `isOnWishlist` function like so:
 
-```js
+```vue
 <template>
   <ProductList>
     <ProductComponent>
@@ -401,7 +397,7 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 
 Cleaning the wishlist can be achieved by `clearWishlist` property.
 
-```js
+```vue
 <template>
   <WishlistComponent>
     <ProductsList>
@@ -440,7 +436,7 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
 
 In the following two examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
 
-```js
+```vue
 <template>
   <ProductList>
     <ProductComponent
@@ -492,7 +488,7 @@ In the following two examples, you can analyze how both composables are used in 
 
 The cart and the wishlist components:
 
-```js
+```vue
 <template>
 
   /* Cart component */
