@@ -2,7 +2,7 @@
 Authentication is the operation of recognizing the user's identify. It allows us to associate incoming requests with an account or a person. To do that, provided credentials are compared with ones in the database.
 
 ## Registering a new user
-Creating a user can be done using `register` method provided by `useUser` composable. It requires different fields per each integration. Most common are email, password, first name, and last name.   
+Creating a user can be done using `register` method provided by `useUser` [composable](https://v3.vuejs.org/guide/composition-api-introduction.html#basics-of-composition-api). It requires different fields per each integration. Most common are email, password, first name, and last name.   
 ```vue
 <template>
   <form @submit.prevent="register({ user: form })">
@@ -42,7 +42,7 @@ export default {
 `loading` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if some async operation is taking place right now
 
 ## Logging in/out and sessions
-Signing in and out can be done using `login` and `logout` methods provided by `useUser` composable. `login` requires different fields per each integration. `logout` does not take any arguments.
+Signing in and out can be done using `login` and `logout` methods provided by `useUser` [composable](https://v3.vuejs.org/guide/composition-api-introduction.html#basics-of-composition-api). `login` requires different fields per each integration. `logout` does not take any arguments.
 ```vue
 <template>
   <form @submit.prevent="login({ user: form })" v-if="!isAuthenticated">
