@@ -75,9 +75,9 @@
               </template>
             </SfProperty>
             <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
-            <SfButton
-              class="sf-button--full-width color-secondary"
-              @click="toggleCartSidebar"
+              <SfButton
+                class="sf-button--full-width color-secondary"
+                @click="toggleCartSidebar"
               >
                 {{ $t('Go to checkout') }}
               </SfButton>
@@ -87,7 +87,7 @@
             <SfButton
               class="sf-button--full-width color-primary"
               @click="toggleCartSidebar"
-              >{{ $t('Go back shopping') }}</SfButton
+            >{{ $t('Go back shopping') }}</SfButton
             >
           </div>
         </transition>

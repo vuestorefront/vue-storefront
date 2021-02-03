@@ -1,5 +1,6 @@
 module.exports = {
 	title: 'Vue Storefront Next',
+	base: '/v2/',
 	description: 'Vue Storefront 2 documentation',
 	head: [
 		['link', { rel: 'icon', href: '/favicon.png' }]
@@ -11,7 +12,6 @@ module.exports = {
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
 			{ text: 'Migration guide', link: '/migrate/' },
 			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
-
 		],
 		sidebar: {
 			'/migrate/': [
@@ -63,6 +63,7 @@ module.exports = {
 					title: 'Enterprise (paid)',
 					collapsable: false,
 					children: [
+						['/commercetools/enterprise/introduction', 'Introduction'],
 						['/commercetools/enterprise/use-review', 'Reviews'],
 						['/commercetools/enterprise/user-groups', 'User groups'],
 						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
@@ -149,6 +150,17 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
 						['/guide/cart-and-wishlist', 'Cart and Wishlist'],
+						{
+							title: 'Composables',
+							collapsable: false,
+							children: [
+								['/guide/composition-api', 'Composition API'],
+								[
+									'/guide/storefront-composables',
+									'What are Vue Storefront Composables'
+								]
+							]
+						},
 						['/guide/error-handling', 'Error Handling']
 					]
 				},
@@ -207,6 +219,7 @@ module.exports = {
 					children: [
 						['/contributing/', 'Contributing'],
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
+						['/contributing/creating-changelog', 'Creating changelog'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
 						['/contributing/changelog', 'Core Changelog']

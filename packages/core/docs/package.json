@@ -11,6 +11,7 @@
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
     "typedoc": "^0.17.1",
+    "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",

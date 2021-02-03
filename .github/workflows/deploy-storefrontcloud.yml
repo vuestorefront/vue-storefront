@@ -4,6 +4,7 @@ on:
     branches:
       - next
       - release/next
+      - test/next
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,17 +16,6 @@ jobs:
         with:
           node-version: "12.x"
       - name: Build and publish docker image
-        if: github.ref == 'refs/heads/next'
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
-          registry: registry.storefrontcloud.io
-          username: ${{ secrets.CLOUD_USERNAME }}
-          password: ${{ secrets.CLOUD_PASSWORD }}
-          dockerfile: dev/docker/Dockerfile
-          buildoptions: "--compress"
-      - name: Build and publish docker image for release/next
-        if: github.ref == 'refs/heads/release/next'
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
@@ -59,6 +49,15 @@ jobs:
         if: github.ref == 'refs/heads/release/next'
         run: |
           if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"vsf-next-demo","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+            echo "Instance updated"
+          else
+            echo "Something went wrong during the update process..."
+            exit 1
+          fi
+      - name: Deploy on vsf-next-demo.europe-west1.gcp.storefrontcloud.io
+        if: github.ref == 'refs/heads/test/next'
+        run: |
+          if curl -s -H 'X-User-Id: ${{ secrets.DOCS_CLOUD_USERNAME }}' -H 'X-Api-Key: ${{ secrets.DOCS_CLOUD_PASSWORD }}' -H 'Content-Type: application/json' -X POST -d '{"code":"vsf-next-demo","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."

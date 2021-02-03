@@ -3,7 +3,7 @@
 # Integrating eCommerce platform
 
 ::: warning Want to build an integration?
-If you want to integrate any eCommerce platform with Vue Storefront please **contact the core team** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with core team is the best way to keep its quality high and make it officially recommended once its done.
+If you want to integrate any eCommerce platform with Vue Storefront please **contact the core team on our [slack](https://slack.vuestorefront.io)** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with core team is the best way to keep its quality high and make it officially recommended once its done.
 :::
 
 Integrating any eCommerce platform with Vue Storefront is a relatively simple process. The only requirement that the eCommerce platform needs to fulfill to be integrated is having a fully functional REST/GraphQL API.
@@ -90,7 +90,7 @@ Vue Storefront will require **at least** the following features from your eComme
 
 ## Getting started
 
-Copy `packages/boilerplate` folder and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
+Copy our [integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
 
 ::: tip Test with default theme
 Default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
@@ -103,58 +103,81 @@ Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folde
 
 Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your api connection, write your api functions, and expose generated api client to the users.
 
+Our api client has two parts: the proxy layer (that talks to our middleware) and a direct connection and as result, package of api-client always shares three entrypoints (treeshaking reasons):
+
+- `@vue-storefront/{INTEGRATION}/client` - shares the `createProxyClient` and `integrationPlugin` for proxy
+- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
+- `@vue-storefront/{INTEGRATION}` - shares other library stuff, such a helpers, types etc.
+
+
 ### 1.1 Configuration
-The creation of an API client starts with the configuration:
+The creation of an API client starts with the configuration. As we use middleware, this package is splited into three bundles, thus you need to create three separaded files with corresponding configuration:
+
+- `index.client.ts` - contains the creation of api client, to be used only in client side, this one will redirect the functions you created into our middleware
+- `index.server.ts` - contains the creation of api client, for direct connection to the integraded platform
+- `index.ts` - main entrypoint, that contains everythins else, such as: types, helper functions etc.
+
 
 ```ts
-// api-client/src/configuration.js
-import getProduct from './api/getProduct';
-import getCategory from './api/getCategory';
-import { apiClientFactory } from '@vue-storefront/core';
+// index.client.ts
+import { apiProxyFactory } from '@vue-storefront/core';
 
-interface Config {
+const onCreate = (config) => {
   // ...
-}
-
-interface API {
-  // ..
-}
-
-interface OnSetup {
-  config: Config;
-  client: EcommerceAPI;
-}
-
-const onSetup = (config: Config): OnSetup => {
-  const client = new EcommerceAPI(config)
-
-  return {
-    config,
-    client
-  };
+  return { config };
 };
 
-const { createApiClient } = apiClientFactory<Config, API>({
+const { createApiProxy, integrationPlugin } = apiProxyFactory({
   tag: 'ct',
-  onSetup,
-  api: {
-    getProduct,
-    getCategory,
-  }
+  onCreate,
+  api: { isGuest }
 });
+
+export {
+  createApiProxy,
+  integrationPlugin
+};
+```
+
+
+```ts
+// index.server.ts
+import * as api from './api';
+import { apiClientFactory } from '@vue-storefront/core';
+
+const onCreate = (settings) => {
+  const config = { ..setings }
+  const client = new ApiConnection()
+
+  return { config, client };
+};
+
+
+
+const { createApiClient, integrationPlugin } = apiClientFactory({
+  tag: 'ct',
+  onCreate,
+  api,
+  extensions: []
+});
+
+export {
+  createApiClient,
+  integrationPlugin
+};
 ```
 
 ```ts
-// api-client/src/index.js
-import { createApiClient } from './configuration';
-
-export { createApiClient }
+// index.ts
+export * from './types/Api';
 ```
 
-To create `api-client` you need to call `apiClientFactory`. As parameters to this deliver a few things:
-- `tag` - that's the short name of your integration which will be used to distinguish it among of others
-- `onSetup` - an optional function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. `axios` creation), merge given config with the defaults etc.
-- `api` - this is the section where you need to pass all of the API function you have created
+To create `api-client` instances you have to use correspoing factory, depending on what api you are creating: proxy or direct one. The creation in both cases in pretty similar, with small differences in the used fields:
+
+- `tag` - that's the short name of your integration which will be used to distinguish it among of others 
+- `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc.. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
+- `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
+- `extensions` - section available only in the direct connection api-client. It allows you to add an api backend extenstions for the api that can add additional features to the integrated platform
 
 ### 1.2 API functions
 Once you have your configuration created, you can proceed with API functions:
@@ -173,21 +196,6 @@ Each API function always contains `context` as a first parameter. This is the pl
 ## 2. Creating composables
 
 Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
-
-### 2.1 Exposing integration plugin wrapper
-
-The first thing that you do, is exposing a Nuxt plugin wrapper for the creation and configuring your integration by Nuxt environment. Within your composables package you have to add these few lines:
-
-```ts
-// composables/src/index.js
-import { integrationPluginFactory } from '@vue-storefront/core';
-import { createApiClient } from '@vue-storefront/commercetools-api';
-
-export const integrationPlugin = integrationPluginFactory(createApiClient);
-```
-
-That will expose the integration plugin wrapper, so the Nuxt will be able to create your integration within the context or extend already existing one, using a plugin
-
 ### 2.2 Creating nuxt module
 
 Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
@@ -195,7 +203,7 @@ Inside of the composables packages you have to create another directory, next to
 Example of plugin
 ```js
 // composables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools'
+import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
 
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
