@@ -57,7 +57,7 @@
           </ValidationProvider>
           <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_apartmanet"
+              data-cy="shipping-details-input_apartment"
               :value="shippingDetails.streetNumber"
               @input="streetNumber => setShippingDetailsAndUnpickAddress({ streetNumber })"
               label="House/Apartment number"
@@ -361,6 +361,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep label.sf-input__label {
+  z-index: -1;
+}
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

@@ -18,6 +18,14 @@ const selectors = {
       lastNameInput: '[data-cy="personal-details-input_lastName"]',
       emailInput: '[data-cy="personal-details-input_email"]'
     },
+    shipping: {
+      streetName: '[data-cy="shipping-details-input_streetName"]',
+      apartmentNumber: '[data-cy="shipping-details-input_apartment"]',
+      cityName: '[data-cy="shipping-details-input_city"]',
+      zipCode: '[data-cy="shipping-details-input_postalCode"]',
+      countryName: '[data-cy="shipping-details-select_country"]',
+      phoneNumber: '[data-cy="shipping-details-input_phone"]'
+    },
     continueButton: '[data-cy=checkout-continue-button]',
     termsCheckbox: '[data-testid="terms"]',
     submitButton: '[data-cy=order-review-btn_summary-conitnue]'
@@ -34,14 +42,14 @@ context('', () => {
     cy.url().should('include', '/c/women');
 
     // Open first product
-    cy.get(selectors.catalog.products).first().click().wait(500);
+    cy.get(selectors.catalog.products).first().click().wait(2000);
     cy.url().should('include', '/p/');
 
     // Check if cart is empty
     cy.get(selectors.cart.indicator).should('not.exist');
 
     // Add product to cart
-    cy.get(selectors.product.addToCart).click().wait(500);
+    cy.get(selectors.product.addToCart).click().wait(2000);
 
     // Check if cart is not empty
     cy.get(selectors.cart.indicator).should('exist');
@@ -64,6 +72,19 @@ context('', () => {
     // Go to shipping details
     cy.get(selectors.checkout.continueButton).click().wait(500);
     cy.url().should('include', 'checkout/shipping');
+
+    // Type shipping details
+    cy.get(selectors.checkout.shipping.streetName).type('Street');
+    cy.get(selectors.checkout.shipping.apartmentNumber).type('123');
+    cy.get(selectors.checkout.shipping.cityName).type('City');
+    cy.get(selectors.checkout.shipping.zipCode).type('12345');
+    cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
+
+    // Select first country from the dropdown
+    cy
+      .get(`${selectors.checkout.shipping.countryName} select option`)
+      .eq(0)
+      .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.value));
 
     // Select shipping method
     cy.get(selectors.checkout.continueButton).click().wait(500);

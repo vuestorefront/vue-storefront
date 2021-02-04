@@ -65,6 +65,11 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   });
   log.success('Installed VSF Logger plugin');
 
+
+  // Context plugin
+  this.addPlugin(path.resolve(__dirname, 'plugins/cypress.js'))
+  log.success('Installed Vue Storefront Cypress plugin');
+
   // Composition API plugin
   this.addModule('@nuxtjs/composition-api');
   log.success('Installed nuxt Composition API Module');

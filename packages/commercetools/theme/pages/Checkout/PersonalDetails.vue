@@ -19,6 +19,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
+            v-cypress="'personal-details-input_firstName'"
             data-cy="personal-details-input_firstName"
           />
         </ValidationProvider>
@@ -185,6 +186,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep label.sf-input__label {
+  z-index: -1;
+}
 .title {
  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }

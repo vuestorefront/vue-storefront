@@ -31,7 +31,7 @@
         required
       />
       <SfInput
-        data-cy="shipping-details-input_apartmanet"
+        data-cy="shipping-details-input_apartment"
         v-model="shippingDetails.apartment"
         label="House/Apartment number"
         name="apartment"
