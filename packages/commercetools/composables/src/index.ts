@@ -11,8 +11,8 @@ import useFacet from './useFacet';
 import useUserShipping from './useUserShipping';
 import useUserBilling from './useUserBilling';
 import useWishlist from './useWishlist';
-import useCheckoutShipping from './useCheckoutShipping';
-import useCheckoutShippingMethod from './useCheckoutShippingMethod';
+import useShipping from './useShipping';
+import useShippingMethod from './useShippingMethod';
 import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
@@ -29,8 +29,8 @@ export {
   useUserShipping,
   useReview,
   useFacet,
-  useCheckoutShipping,
-  useCheckoutShippingMethod
+  useShipping,
+  useShippingMethod
 };
 
 export * from './getters';

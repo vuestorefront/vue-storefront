@@ -1,8 +1,8 @@
-import { useCheckoutShippingFactory, UseCheckoutShippingParams, Context } from '@vue-storefront/core';
+import { useShippingFactory, UseShippingParams, Context } from '@vue-storefront/core';
 import useCart from '../useCart';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
-const params: UseCheckoutShippingParams<any, any> = {
+const params: UseShippingParams<any, any> = {
   provide() {
     return {
       cart: useCart()
@@ -29,4 +29,4 @@ const params: UseCheckoutShippingParams<any, any> = {
   }
 };
 
-export default useCheckoutShippingFactory<any, any>(params);
+export default useShippingFactory<any, any>(params);
