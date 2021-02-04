@@ -15,36 +15,36 @@ describe('[commercetools-composables] getFiltersFromProductsAttributes', () => {
   it('returns filters based on attributes', () => {
     const products: ProductVariant[] = [
       {
-        attributeList: [
+        attributesRaw: [
           {
             name: 'someAttribute',
-            __typename: 'StringAttribute',
-            stringValue: 'value'
+            attributeDefinition: { type: { name: 'text' } },
+            value: 'value'
           } as Attribute,
           {
             name: 'someAttribute',
-            __typename: 'StringAttribute',
-            stringValue: 'value2',
+            attributeDefinition: { type: { name: 'text' } },
+            value: 'value2',
             label: 'valueLabel'
           } as Attribute,
           {
             name: 'someNumberAttribute',
-            __typename: 'NumberAttribute',
-            numberValue: 1
+            attributeDefinition: { type: { name: 'number' } },
+            value: 1
           } as Attribute
         ]
       } as ProductVariant
     ];
     expect(getFiltersFromProductsAttributes(products)).toEqual({
       someAttribute: {
-        type: 'StringAttribute',
+        type: 'text',
         options: [
           { label: 'value', value: 'value', selected: false },
           { label: 'valueLabel', value: 'value2', selected: false }
         ]
       },
       someNumberAttribute: {
-        type: 'NumberAttribute',
+        type: 'number',
         options: [
           { label: null, value: 1, selected: false }
         ]

@@ -50,7 +50,7 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
   }
 
   const formatAttributes = (product: ProductVariant): AgnosticAttribute[] =>
-    formatAttributeList(product.attributeList).filter((attribute) => filterByAttributeName ? filterByAttributeName.includes(attribute.name) : attribute);
+    formatAttributeList(product.attributesRaw).filter((attribute) => filterByAttributeName ? filterByAttributeName.includes(attribute.name) : attribute);
 
   const reduceToUniques = (prev, curr) => {
     const isAttributeExist = prev.some((el) => el.name === curr.name && el.value === curr.value);

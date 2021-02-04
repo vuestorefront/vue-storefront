@@ -1,0 +1,1142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[commercetools-composables] enhanceProduct returns category response with the products inside 1`] = `
+Object {
+  "data": Object {
+    "_variants": Array [
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod1",
+        "_rating": undefined,
+        "_slug": "prod-1",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "123",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod1",
+        "_rating": undefined,
+        "_slug": "prod-1",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "456",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod1",
+        "_rating": undefined,
+        "_slug": "prod-1",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "789",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod2",
+        "_rating": undefined,
+        "_slug": "prod-2",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "123",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod2",
+        "_rating": undefined,
+        "_slug": "prod-2",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "456",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod2",
+        "_rating": undefined,
+        "_slug": "prod-2",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "789",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod3",
+        "_rating": undefined,
+        "_slug": "prod-3",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "123",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod3",
+        "_rating": undefined,
+        "_slug": "prod-3",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "456",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod3",
+        "_rating": undefined,
+        "_slug": "prod-3",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "789",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod4",
+        "_rating": undefined,
+        "_slug": "prod-4",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "123",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod4",
+        "_rating": undefined,
+        "_slug": "prod-4",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "456",
+      },
+      Object {
+        "_categoriesRef": Array [
+          "aaa",
+        ],
+        "_description": undefined,
+        "_id": undefined,
+        "_master": false,
+        "_name": "prod4",
+        "_rating": undefined,
+        "_slug": "prod-4",
+        "attributesRaw": Array [
+          Object {
+            "_translated": "34",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "number",
+              },
+            },
+            "name": "attr1",
+            "value": "34",
+          },
+          Object {
+            "_translated": "size",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "ltext",
+              },
+            },
+            "name": "attr2",
+            "value": Object {
+              "en": "size",
+            },
+          },
+          Object {
+            "_translated": "color",
+            "attributeDefinition": Object {
+              "type": Object {
+                "name": "lenum",
+              },
+            },
+            "name": "attr3",
+            "value": Object {
+              "label": Object {
+                "en": "color",
+              },
+            },
+          },
+        ],
+        "id": "789",
+      },
+    ],
+    "products": Object {
+      "results": Array [
+        Object {
+          "masterData": Object {
+            "current": Object {
+              "allVariants": Array [
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "123",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "456",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "789",
+                },
+              ],
+              "categoriesRef": Array [
+                Object {
+                  "id": "aaa",
+                },
+              ],
+              "masterVariant": Object {
+                "id": "sde213",
+              },
+              "name": "prod1",
+              "slug": "prod-1",
+            },
+          },
+        },
+        Object {
+          "masterData": Object {
+            "current": Object {
+              "allVariants": Array [
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "123",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "456",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "789",
+                },
+              ],
+              "categoriesRef": Array [
+                Object {
+                  "id": "aaa",
+                },
+              ],
+              "masterVariant": Object {
+                "id": "34s42d",
+              },
+              "name": "prod2",
+              "slug": "prod-2",
+            },
+          },
+        },
+        Object {
+          "masterData": Object {
+            "current": Object {
+              "allVariants": Array [
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "123",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "456",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "789",
+                },
+              ],
+              "categoriesRef": Array [
+                Object {
+                  "id": "aaa",
+                },
+              ],
+              "masterVariant": Object {
+                "id": "fdf334",
+              },
+              "name": "prod3",
+              "slug": "prod-3",
+            },
+          },
+        },
+        Object {
+          "masterData": Object {
+            "current": Object {
+              "allVariants": Array [
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "123",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "456",
+                },
+                Object {
+                  "attributesRaw": Array [
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "number",
+                        },
+                      },
+                      "name": "attr1",
+                      "value": "34",
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "ltext",
+                        },
+                      },
+                      "name": "attr2",
+                      "value": Object {
+                        "en": "size",
+                      },
+                    },
+                    Object {
+                      "attributeDefinition": Object {
+                        "type": Object {
+                          "name": "lenum",
+                        },
+                      },
+                      "name": "attr3",
+                      "value": Object {
+                        "label": Object {
+                          "en": "color",
+                        },
+                      },
+                    },
+                  ],
+                  "id": "789",
+                },
+              ],
+              "categoriesRef": Array [
+                Object {
+                  "id": "aaa",
+                },
+              ],
+              "masterVariant": Object {
+                "id": "dfsdf3",
+              },
+              "name": "prod4",
+              "slug": "prod-4",
+            },
+          },
+        },
+      ],
+    },
+  },
+}
+`;
