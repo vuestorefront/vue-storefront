@@ -248,6 +248,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext, onSSR } from '@vue-storefront/core';
 import { onMounted, computed, ref, watch } from '@vue/composition-api';
+import { compareAddresses } from '@/helpers/checkout/compareAddresses';
 
 extend('required', {
   ...required,
@@ -306,19 +307,6 @@ export default {
       streetName: address.streetName,
       postalCode: address.postalCode
     });
-
-    const addressesMatches = (savedAddress, currentAddress) => {
-      return savedAddress.city === currentAddress.city &&
-        savedAddress.company === currentAddress.company &&
-        savedAddress.country === currentAddress.country &&
-        savedAddress.firstName === currentAddress.firstName &&
-        savedAddress.lastName === currentAddress.lastName &&
-        savedAddress.phone === currentAddress.phone &&
-        savedAddress.postalCode === currentAddress.postalCode &&
-        savedAddress.state === currentAddress.state &&
-        savedAddress.streetName === currentAddress.streetName &&
-        savedAddress.apartment === currentAddress.streetNumber;
-    };
 
     const setCurrentAddress = async (addressId) => {
       const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(addressId) });
@@ -386,7 +374,7 @@ export default {
         return;
       }
       canAddNewAddress.value = false;
-      const matchingAddress = shippingAddresses.find(address => addressesMatches(address, shippingDetails.value));
+      const matchingAddress = shippingAddresses.find(address => compareAddresses(address, shippingDetails.value));
       if (matchingAddress) {
         currentAddressId.value = matchingAddress.id;
       } else if (shippingAddresses[0].isDefault) {
