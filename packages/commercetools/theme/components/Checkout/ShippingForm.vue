@@ -180,22 +180,22 @@
       <div class="form">
         <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
-            v-for="item in checkoutShippingMethodGetters.getShippingMethods(shippingMethods)"
-            :key="checkoutShippingMethodGetters.getMethodName(item)"
-            :label="checkoutShippingMethodGetters.getMethodName(item)"
-            :value="checkoutShippingMethodGetters.getMethodId(item)"
+            v-for="item in shippingMethodGetters.getShippingMethods(shippingMethods)"
+            :key="shippingMethodGetters.getMethodName(item)"
+            :label="shippingMethodGetters.getMethodName(item)"
+            :value="shippingMethodGetters.getMethodId(item)"
             :selected="
-              checkoutShippingMethodGetters.getMethodId(chosenShippingMethod)
+              shippingMethodGetters.getMethodId(chosenShippingMethod)
             "
             @input="handleMethodSubmit(reset, item)"
             name="shippingMethod"
-            :description="checkoutShippingMethodGetters.getMethodDescription(item)"
+            :description="shippingMethodGetters.getMethodDescription(item)"
             class="form__radio shipping"
           >
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div>${{ checkoutShippingMethodGetters.getMethodPrice(item) }}</div>
+                <div>${{ shippingMethodGetters.getMethodPrice(item) }}</div>
               </div>
             </template>
             <template #description="{ description }">
@@ -243,7 +243,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, checkoutShippingMethodGetters, useUser, useCheckoutShipping } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, shippingMethodGetters, useUser, useCheckoutShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext, onSSR } from '@vue-storefront/core';
@@ -398,7 +398,7 @@ export default {
       isAuthenticated,
       shippingDetails,
       chosenShippingMethod,
-      checkoutShippingMethodGetters,
+      shippingMethodGetters,
       countries: config.countries,
       shippingMethods,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(userShipping.value)),
