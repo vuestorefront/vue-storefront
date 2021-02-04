@@ -49,6 +49,6 @@ describe('[commercetools-composables] useProduct', () => {
 
     expect(response).toEqual([product('prod1', 'prod-1', 'xxx1'), product('prod2', 'prod-2', 'xxx2')]);
     expect(context.$ct.api.getProduct).toBeCalledWith({ id: 'product-id' }, undefined);
-    expect(enhanceProducts).toBeCalledWith(productResponse);
+    expect(enhanceProducts).toBeCalledWith(productResponse, context);
   });
 });

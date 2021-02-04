@@ -6,11 +6,11 @@ const product = {
   price: {
     value: { centAmount: 1200 }
   },
-  attributeList: [
+  attributesRaw: [
     {
       name: 'articleNumberManufacturer',
-      stringValue: 'H805 C195 85072',
-      __typename: 'StringAttribute'
+      value: 'H805 C195 85072',
+      attributeDefinition: { type: { name: 'text'} }
     }
   ],
   images: [{ url: 'imageV11/url.jpg' }, { url: 'imageV12/url.jpg' }]
@@ -22,31 +22,31 @@ describe('[commercetools-getters] getVariantByAttribute', () => {
       {
         ...product,
         _master: true,
-        attributeList: [
+        attributesRaw: [
           {
             name: 'size',
-            stringValue: '36',
-            __typename: 'StringAttribute'
+            value: '36',
+            attributeDefinition: { type: { name: 'text'} }
           },
           {
             name: 'color',
-            stringValue: 'white',
-            __typename: 'StringAttribute'
+            value: 'white',
+            attributeDefinition: { type: { name: 'text'} }
           }
         ]
       },
       {
         ...product,
-        attributeList: [
+        attributesRaw: [
           {
             name: 'size',
-            stringValue: '38',
-            __typename: 'StringAttribute'
+            value: '38',
+            attributeDefinition: { type: { name: 'text'} }
           },
           {
             name: 'color',
-            stringValue: 'black',
-            __typename: 'StringAttribute'
+            value: 'black',
+            attributeDefinition: { type: { name: 'text'} }
           }
         ]
       }
@@ -61,32 +61,32 @@ describe('[commercetools-getters] getVariantByAttribute', () => {
     expect(getVariantByAttributes(variants, {})).toEqual({
       ...product,
       _master: true,
-      attributeList: [
+      attributesRaw: [
         {
           name: 'size',
-          stringValue: '36',
-          __typename: 'StringAttribute'
+          value: '36',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'color',
-          stringValue: 'white',
-          __typename: 'StringAttribute'
+          value: 'white',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     });
 
     expect(getVariantByAttributes(variants, configuration)).toEqual({
       ...product,
-      attributeList: [
+      attributesRaw: [
         {
           name: 'size',
-          stringValue: '38',
-          __typename: 'StringAttribute'
+          value: '38',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'color',
-          stringValue: 'black',
-          __typename: 'StringAttribute'
+          value: 'black',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     });
