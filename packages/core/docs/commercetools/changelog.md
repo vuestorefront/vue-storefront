@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.1.2
+- moved from using `attributesList` to `attributesRaw`
+
 ## 1.1.1
 - fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
 
