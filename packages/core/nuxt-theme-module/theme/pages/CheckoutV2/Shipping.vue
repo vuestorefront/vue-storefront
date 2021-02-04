@@ -18,7 +18,7 @@
 import {
   SfHeading
 } from '@storefront-ui/vue';
-import { useCheckoutShipping, useCheckoutShippingMethod } from '@vue-storefront/commercetools';
+import { useShipping, useShippingMethod } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { reactive } from '@vue/composition-api';
 import ShippingForm from '../../components/Checkout/ShippingForm';
@@ -34,12 +34,12 @@ export default {
       save: saveShipping,
       load: loadShipping,
       error: shippingError
-    } = useCheckoutShipping();
+    } = useShipping();
     const {
       save: saveShippingMethod,
       load: loadShippingMethod,
       error: shippingMethodError
-    } = useCheckoutShippingMethod();
+    } = useShippingMethod();
 
     const isSaving = reactive({
       details: false,
