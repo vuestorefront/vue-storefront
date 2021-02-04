@@ -27,7 +27,7 @@ const factoryParams = {
       // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4857
       // sort: params.sort
     });
-    const enhancedProductResponse = enhanceProduct(productResponse);
+    const enhancedProductResponse = enhanceProduct(productResponse, context);
     const products = (enhancedProductResponse.data as any)._variants as ProductVariant[];
     const facets = getFiltersFromProductsAttributes(products);
 
