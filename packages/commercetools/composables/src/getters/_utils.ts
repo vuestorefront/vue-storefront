@@ -3,28 +3,25 @@ import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } f
 import { DiscountedLineItemPrice } from '../types/GraphQL';
 
 export const getAttributeValue = (attribute) => {
-  switch (attribute.__typename) {
-    case 'StringAttribute':
-      return attribute.stringValue;
-    case 'DateAttribute':
-      return attribute.dateValue;
-    case 'DateTimeAttribute':
-      return attribute.dateTimeValue;
-    case 'TimeAttribute':
-      return attribute.timeValue;
-    case 'NumberAttribute':
-      return attribute.numberValue;
-    case 'EnumAttribute':
-    case 'LocalizedEnumAttribute':
-      return attribute.key;
-    case 'LocalizedStringAttribute':
-      return attribute.localizedString;
-    case 'MoneyAttribute':
-      return attribute.centAmount;
-    case 'BooleanAttribute':
-      return attribute.booleanValue;
-    case 'ReferenceAttribute':
-      return { typeId: attribute.typeId, id: attribute.id };
+  switch (attribute.attributeDefinition.type.name) {
+    case 'text':
+    case 'boolean':
+    case 'number':
+    case 'date':
+    case 'time':
+    case 'datetime':
+      return attribute.value;
+
+    case 'lenum':
+    case 'enum':
+      return attribute.value.key;
+
+    case 'reference':
+      return { typeId: attribute.value.typeId, id: attribute.value.id };
+
+    case 'ltext':
+      return attribute.value;
+
     default:
       return null;
   }
@@ -36,7 +33,7 @@ export const formatAttributeList = (attributes: Array<any>): AgnosticAttribute[]
     return {
       name: attr.name,
       value: attrValue,
-      label: attr.label || attr.localizedLabel || ((typeof attrValue === 'string') ? attrValue : null)
+      label: attr._translated
     };
   });
 
@@ -48,7 +45,7 @@ export const getVariantByAttributes = (products: ProductVariant[] | Readonly<Pro
   const configurationKeys = Object.keys(attributes);
 
   return products.find((product) => {
-    const currentAttributes = formatAttributeList(product.attributeList);
+    const currentAttributes = formatAttributeList(product.attributesRaw);
 
     return configurationKeys.every((attrName) =>
       currentAttributes.find(({ name, value }) => attrName === name && attributes[attrName] === value)
