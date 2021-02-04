@@ -180,8 +180,8 @@
       <div class="form">
         <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
-            v-for="item in shippingMethodGetters.getShippingMethods(shippingMethods)"
-            :key="shippingMethodGetters.getMethodName(item)"
+            v-for="item in shippingMethodGetters.getMethods(shippingMethods)"
+            :key="shippingMethodGetters.getMethodId(item) || shippingMethodGetters.getMethodName(item)"
             :label="shippingMethodGetters.getMethodName(item)"
             :value="shippingMethodGetters.getMethodId(item)"
             :selected="
@@ -243,7 +243,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useCheckoutShippingMethod, shippingMethodGetters, useUser, useCheckoutShipping } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useShippingMethod, shippingMethodGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext, onSSR } from '@vue-storefront/core';
@@ -280,8 +280,8 @@ export default {
   },
   setup(_, context) {
     const { $ct: { config } } = useVSFContext();
-    const { shipping: address } = useCheckoutShipping();
-    const { shippingMethods } = useCheckoutShippingMethod();
+    const { shipping: address } = useShipping();
+    const { shippingMethods } = useShippingMethod();
     const { isAuthenticated } = useUser();
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
