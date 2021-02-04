@@ -13,7 +13,7 @@ The service-worker source code for `vue-storefront` is pre-compiled with Babel p
 
 After changing anything in `{themename}/service-worker/index.js`, despite you're in `yarn dev` auto  reloading mode, you need to do two things:
 
-1.Recompile app (which regenerates service-worker):
+1. Recompile app (which regenerates service-worker):
    `yarn build`
 
 2. Reload Service Worker in Dev Tools (in Chrome, just click **"Unregister"** and reload the page, and a new Service Worker will be installed).
