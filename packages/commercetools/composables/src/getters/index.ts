@@ -9,8 +9,8 @@ import userBillingGetters from './userBillingGetters';
 import orderGetters from './orderGetters';
 import wishlistGetters from './wishlistGetters';
 import facetGetters from './facetGetters';
-import checkoutShippingGetters from './checkoutShippingGetters';
-import checkoutShippingMethodGetters from './checkoutShippingMethodGetters';
+import shippingGetters from './shippingGetters';
+import shippingMethodGetters from './shippingMethodGetters';
 
 export {
   cartGetters,
@@ -23,6 +23,6 @@ export {
   orderGetters,
   wishlistGetters,
   facetGetters,
-  checkoutShippingGetters,
-  checkoutShippingMethodGetters
+  shippingGetters,
+  shippingMethodGetters
 };
