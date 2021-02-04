@@ -18,7 +18,7 @@ platform: Commercetools
 
 ## API
 
-`useReview` contains following properties:
+`useReview` contains the following properties:
 
 - `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property.
 
@@ -28,15 +28,15 @@ platform: Commercetools
 
 <Content slot-key="add-params" />
 
-- `reviews` - reactive data object containing response from the backend.
+- `reviews` - reactive data object containing the response from the backend.
 
 - `loading` - reactive object containing information about loading state of `search` and `addReview` methods.
 
-- `error` - reactive object containing error message, if `search` or `addReview` failed for any reason.
+- `error` - reactive object containing the error message, if `search` or `addReview` failed for any reason.
 
 ## Getters
 
-Because `reviews` property is a raw response with some additional properties, it's recommended to use `ReviewGetters` for accessing any data from it. It includes following helper functions:
+Because `reviews` property is a raw response with some additional properties, it's recommended to use `ReviewGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getItems` - returns list of reviews.
 
@@ -87,7 +87,7 @@ interface AgnosticRateCount {
 
 When you already installed `@vsf-enterprise/ct-reviews` as a dependency, there are few minor modifications required to make it work.
 
-The first step is to add `@vsf-enterprise/ct-reviews` to `build > traspile` array in `nuxt.config.js`:
+The first step is to add `@vsf-enterprise/ct-reviews` to `build > transpile` array in `nuxt.config.js`:
 
 ```javascript
 {

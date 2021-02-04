@@ -150,7 +150,8 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
-						['/guide/error-handling', 'Error Handling']
+						['/guide/error-handling', 'Error Handling'],
+            ['/guide/user-profile', 'User profile']
 					]
 				},
 				{
@@ -163,7 +164,6 @@ module.exports = {
 						['/advanced/caching', 'Caching'],
 						['/advanced/logging', 'Logging'],
 						['/advanced/architecture', 'Architecture']
-
 					]
 				},
         {
@@ -180,7 +180,8 @@ module.exports = {
             ['/composables/use-user', 'useUser'],
             ['/composables/use-user-billing', 'useUserBilling'],
             ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
+            ['/composables/use-user-orders', 'useUserOrders'],
+            ['/composables/use-content', 'useContent'],
           ]
         },
 				{
