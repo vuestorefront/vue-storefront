@@ -1,8 +1,6 @@
 # User profile
 
-<!-- TODO: Add links to 'Composition API' and 'Composables' pages when they are ready -->
-
-> This page assumes you're familiar with Composition API and Composables. Read them first if you are new to these concepts.
+> This page assumes you're familiar with [Composition API and Composables](./composables.md). Read them first if you are new to these concepts.
 
 [[toc]]
 
@@ -28,16 +26,15 @@ export default {
     });
 
     return {
-      load,
       isAuthenticated
-    }
+    };
   }
 }
 ```
 
 ## Loading current user
 
-To access data of currently logged-in user, we can use other property of `useUser` called simply `user`.
+To access data of the currently logged-in user, we can use another property of `useUser` called simply `user`.
 
 ```js{8,17}
 import { useUser } from '{INTEGRATION}';
@@ -55,20 +52,19 @@ export default {
     });
 
     return {
-      load,
       user
-    }
+    };
   }
 }
 ```
 
-`user` property will return `null` if used is not logged-in. `userGetters` should handle such cases and return empty data like `''`, `[]` etc. depending on expected return data type. To prevent empty elements in the template, it's a good practice to check if user is logged-in before using getters.
+`user` property will return `null` if the user is not logged-in. `userGetters` should handle such cases and return empty data like `''`, `[]` etc. depending on the expected return data type. To prevent empty elements in the template, it's a good practice to check if the user is logged-in before using getters.
 
 ```vue{3-5}
 <template>
   ...
     <p v-if="isAuthenticated">
-      {{ userGetters(user) }}
+      {{ userGetters.getFullName(user) }}
     </p>
   ...
 </template>
@@ -91,9 +87,10 @@ export default {
 
     return {
       load,
+      user,
       isAuthenticated,
       userGetters
-    }
+    };
   }
 }
 </script>
@@ -108,20 +105,16 @@ import { useUser } from '{INTEGRATION}';
 
 export default {
   setup () {
-    const { updateUser } = useUser();
+    const { error, updateUser } = useUser();
 
     const onSubmit = async (formData) => {
-      try {
-        await updateUser({ user: formData });
-        // 'user' property is now updated
-      } catch (error) {
-        // handle update error
-      }
+      await updateUser({ user: formData });
+      // "error.value.updateUser" should be empty if request was successful
     };
 
     return {
       onSubmit
-    }
+    };
   }
 }
 ```
@@ -135,22 +128,19 @@ import { useUser } from '{INTEGRATION}';
 
 export default {
   setup () {
-    const { changePassword } = useUser();
+    const { error, changePassword } = useUser();
 
     const onSubmit = async (formData) => {
-      try {
-        await changePassword({
-          current: formData.currentPassword,
-          new: formData.newPassword
-        });
-      } catch (error) {
-        // handle update error
-      }
+      await changePassword({
+        current: formData.currentPassword,
+        new: formData.newPassword
+      });
+      // "error.value.changePassword" should be empty if request was successful
     };
 
     return {
       onSubmit
-    }
+    };
   }
 }
 ```
@@ -169,7 +159,7 @@ To get a list of addresses, use `load` and `billing` or `shipping` properties an
 <template>
   ...
     <div
-      v-if="address in userBillingGetters.getAddresses(billing)"
+      v-for="address in userBillingGetters.getAddresses(billing)"
       :key="userBillingGetters.getId(address)"
     >
       {{ userBillingGetters.getPostCode(address) }}
@@ -185,7 +175,7 @@ export default {
   setup () {
     const {
       billing,
-      load,
+      load
     } = useUserBilling();
 
     onSSR(async () => {
@@ -216,7 +206,7 @@ Below is the example of using `deleteAddress` method.
 <template>
   ...
     <div
-      v-if="address in userBillingGetters.getAddresses(billing)"
+      v-for="address in userBillingGetters.getAddresses(billing)"
       :key="userBillingGetters.getId(address)"
     >
       <button @click="deleteAddress({ address })">
@@ -235,7 +225,7 @@ export default {
     const {
       billing,
       load,
-      deleteAddress,
+      deleteAddress
     } = useUserBilling();
 
     onSSR(async () => {
@@ -262,10 +252,10 @@ To get a list of orders, use `search` and `orders` properties and `getItems` met
 <template>
   ...
     <div
-      v-if="order in orderGetters.getItems(orders)"
+      v-for="order in orderGetters.getItems(orders)"
       :key="orderGetters.getId(order)"
     >
-      {{ orderGetters.getOrderStatus(order) }}
+      {{ orderGetters.getStatus(order) }}
     </div>
   ...
 </template>
@@ -278,7 +268,7 @@ export default {
   setup () {
     const {
       orders,
-      search,
+      search
     } = useUserOrders();
 
     onSSR(async () => {
