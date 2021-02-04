@@ -7,7 +7,7 @@
       class="tab-orphan"
     >
       <SfTab
-        data-cy="billing-details-tab_change"
+        v-cypress="'billing-details-tab_change'"
         :title="isNewAddress ? 'Add the address' : 'Update the address'">
         <p class="message">
           {{ $t('Contact details updated') }}
@@ -25,7 +25,7 @@
       :open-tab="1"
       key="address-list"
       class="tab-orphan">
-      <SfTab data-cy="billing-details-tab_details" title="Billing details">
+      <SfTab v-cypress="'billing-details-tab_details'" title="Billing details">
         <p class="message">
           {{ $t('Manage billing addresses') }}
         </p>
@@ -41,7 +41,7 @@
             </div>
             <div class="billing__actions">
               <SfIcon
-                data-cy="billing-details-icon_delete"
+                v-cypress="'billing-details-icon_delete'"
                 icon="cross"
                 color="gray"
                 size="14px"
@@ -50,13 +50,13 @@
                 @click="removeAddress(address)"
               />
               <SfButton
-                data-cy="billing-details-btn_change"
+                v-cypress="'billing-details-btn_change'"
                 @click="changeAddress(address)">
                 {{ $t('Change') }}
               </SfButton>
 
               <SfButton
-                data-cy="billing-details-btn_delete"
+                v-cypress="'billing-details-btn_delete'"
                 class="color-light billing__button-delete desktop-only"
                 @click="removeAddress(address)">
                 {{ $t('Delete') }}
@@ -65,7 +65,7 @@
           </div>
         </transition-group>
         <SfButton
-          data-cy="billing-details-btn_add"
+          v-cypress="'billing-details-btn_add'"
           class="action-button"
           @click="changeAddress()">
           {{ $t('Add new address') }}

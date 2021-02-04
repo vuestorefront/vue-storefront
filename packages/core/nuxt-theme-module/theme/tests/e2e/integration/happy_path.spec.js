@@ -1,34 +1,41 @@
 /* eslint no-undef: 0 */
 
+const element = (name) => `[data-cypress="${ name }"]`;
+
 const selectors = {
   cart: {
     icon: '[data-testid="cartIcon"]',
     indicator: '[data-testid="cartIcon"] .sf-badge',
-    items: '[data-cy=collected-product-cart-sidebar]'
+    items: element('collected-product-cart-sidebar')
   },
   catalog: {
-    products: '[data-cy="category-product-card"]'
+    products: element('category-product-card')
   },
   product: {
-    addToCart: '[data-cy=product-cart_add]'
+    addToCart: element('product-cart_add')
   },
   checkout: {
     personalDetails: {
-      firstNameInput: '[data-cy="personal-details-input_firstName"]',
-      lastNameInput: '[data-cy="personal-details-input_lastName"]',
-      emailInput: '[data-cy="personal-details-input_email"]'
+      firstNameInput: element('personal-details-input_firstName'),
+      lastNameInput: element('personal-details-input_lastName'),
+      emailInput: element('personal-details-input_email')
     },
     shipping: {
-      streetName: '[data-cy="shipping-details-input_streetName"]',
-      apartmentNumber: '[data-cy="shipping-details-input_apartment"]',
-      cityName: '[data-cy="shipping-details-input_city"]',
-      zipCode: '[data-cy="shipping-details-input_postalCode"]',
-      countryName: '[data-cy="shipping-details-select_country"]',
-      phoneNumber: '[data-cy="shipping-details-input_phone"]'
+      streetName: element('shipping-details-input_streetName'),
+      apartmentNumber: element('shipping-details-input_apartment'),
+      cityName: element('shipping-details-input_city'),
+      zipCode: element('shipping-details-input_postalCode'),
+      state: element('shipping-details-input_state'),
+      countryName: element('shipping-details-select_country'),
+      phoneNumber: element('shipping-details-input_phone')
     },
-    continueButton: '[data-cy=checkout-continue-button]',
+    payment: {
+      copyFromShipping: element('payment-copy-from-billing'),
+      paymentMethods: element('payment-radio_paymentMethod')
+    },
+    continueButton: element('checkout-continue-button'),
     termsCheckbox: '[data-testid="terms"]',
-    submitButton: '[data-cy=order-review-btn_summary-conitnue]'
+    submitButton: element('order-review-btn_summary-conitnue')
   }
 };
 
@@ -79,23 +86,27 @@ context('', () => {
     cy.get(selectors.checkout.shipping.cityName).type('City');
     cy.get(selectors.checkout.shipping.zipCode).type('12345');
     cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
+    cy.get(selectors.checkout.shipping.state).type('State');
 
     // Select first country from the dropdown
     cy
       .get(`${selectors.checkout.shipping.countryName} select option`)
       .eq(0)
-      .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.value));
+      .then(element => element.parent().select(element.value));
 
-    // Select shipping method
+    // Show shipping methods
     cy.get(selectors.checkout.continueButton).click().wait(500);
 
     // Go to payment
     cy.get(selectors.checkout.continueButton).click().wait(500);
     cy.url().should('include', 'checkout/payment');
 
-    // Select payment method
+    // Copy shipping details to payment
+    cy.get(selectors.checkout.payment.copyFromShipping).click();
+
+    // Show payment methods
     cy.get(selectors.checkout.continueButton).click().wait(500);
-    cy.get('[data-cy="payment-radio_paymentMethod"]').first().click();
+    cy.get(selectors.checkout.payment.paymentMethods).first().click();
 
     // Go to review
     cy.get(selectors.checkout.continueButton).click().wait(500);

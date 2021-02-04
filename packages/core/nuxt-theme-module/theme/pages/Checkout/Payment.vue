@@ -7,13 +7,14 @@
     />
     <div class="form">
       <SfCheckbox
+        v-cypress="'payment-copy-from-billing'"
         v-model="sameAsShipping"
         label="Copy address data from shipping"
         name="copyShippingAddress"
         class="form__element"
       />
       <SfInput
-        data-cy="payment-input_firstName"
+        v-cypress="'payment-input_firstName'"
         v-model="billingDetails.firstName"
         label="First name"
         name="firstName"
@@ -21,7 +22,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_lastName"
+        v-cypress="'payment-input_lastName'"
         v-model="billingDetails.lastName"
         label="Last name"
         name="lastName"
@@ -29,7 +30,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_streetName"
+        v-cypress="'payment-input_streetName'"
         v-model="billingDetails.streetName"
         label="Street name"
         name="streetName"
@@ -37,7 +38,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_apartment"
+        v-cypress="'payment-input_apartment'"
         v-model="billingDetails.apartment"
         label="House/Apartment number"
         name="apartment"
@@ -45,7 +46,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_"
+        v-cypress="'payment-input_'"
         v-model="billingDetails.city"
         label="City"
         name="city"
@@ -53,7 +54,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_state"
+        v-cypress="'payment-input_state'"
         v-model="billingDetails.state"
         label="State/Province"
         name="state"
@@ -61,7 +62,7 @@
         required
       />
       <SfInput
-        data-cy="payment-input_postalCode"
+        v-cypress="'payment-input_postalCode'"
         v-model="billingDetails.postalCode"
         label="Zip-code"
         name="zipCode"
@@ -69,7 +70,7 @@
         required
       />
       <SfSelect
-        data-cy="payment-select_billingDetails"
+        v-cypress="'payment-select_billingDetails'"
         v-model="billingDetails.country"
         label="Country"
         class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
@@ -84,7 +85,7 @@
         </SfSelectOption>
       </SfSelect>
       <SfInput
-        data-cy="payment-input_phone"
+        v-cypress="'payment-input_phone'"
         v-model="billingDetails.phone"
         label="Phone number"
         name="phone"
@@ -100,7 +101,7 @@
     <div class="form">
       <div class="form__element payment-methods">
         <SfRadio
-          data-cy="payment-radio_paymentMethod"
+          v-cypress="'payment-radio_paymentMethod'"
           v-for="item in paymentMethods"
           :key="item.value"
           v-model="chosenPaymentMethod"
@@ -119,10 +120,10 @@
       </div>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton data-cy="payment-btn_go-back" class="color-secondary form__back-button">
+        <SfButton v-cypress="'payment-btn_go-back'" class="color-secondary form__back-button">
           {{ $t('Go back') }}
         </SfButton>
-        <SfButton data-cy="payment-btn_review" class="form__action-button" @click="$emit('nextStep')">
+        <SfButton v-cypress="'payment-btn_review'" class="form__action-button" @click="$emit('nextStep')">
           {{ $t('Pay for order') }}
         </SfButton>
       </div>

@@ -38,18 +38,18 @@
                 ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
+            <SfButton v-cypress="'product-btn_read-all'" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
           <p class="product__description desktop-only">
             {{ description }}
           </p>
-          <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
+          <SfButton v-cypress="'product-btn_size-guide'" class="sf-button--text desktop-only product__guide">
             {{ $t('Size guide') }}
           </SfButton>
           <SfSelect
-            data-cy="product-select_size"
+            v-cypress="'product-select_size'"
             v-if="options.size"
             :value="configuration.size"
             @input="size => updateFilter({ size })"
@@ -68,7 +68,7 @@
           <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
             <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
-              data-cy="product-color_update"
+              v-cypress="'product-color_update'"
               v-for="(color, i) in options.color"
               :key="i"
               :color="color.value"
@@ -77,7 +77,7 @@
             />
           </div>
           <SfAddToCart
-            data-cy="product-cart_add"
+            v-cypress="'product-cart_add'"
             :stock="stock"
             v-model="qty"
             :disabled="loading"
@@ -89,7 +89,7 @@
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab data-cy="product-tab_description" title="Description">
+            <SfTab v-cypress="'product-tab_description'" title="Description">
               <div class="product__description">
                   {{ $t('Product description') }}
               </div>
@@ -107,7 +107,7 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <SfTab title="Read reviews" data-cy="product-tab_reviews">
+            <SfTab title="Read reviews" v-cypress="'product-tab_reviews'">
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -124,7 +124,7 @@
             </SfTab>
             <SfTab
               title="Additional Information"
-              data-cy="product-tab_additional"
+              v-cypress="'product-tab_additional'"
               class="product__additional-info"
             >
             <div class="product__additional-info">

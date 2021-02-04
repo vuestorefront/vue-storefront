@@ -12,7 +12,7 @@
           class="form__element"
         >
           <SfInput
-            data-cy="shipping-details-input_firstName"
+            v-cypress="'shipping-details-input_firstName'"
             v-model="form.firstName"
             name="firstName"
             label="First Name"
@@ -27,7 +27,7 @@
           class="form__element"
         >
           <SfInput
-            data-cy="shipping-details-input_lastName"
+            v-cypress="'shipping-details-input_lastName'"
             v-model="form.lastName"
             name="lastName"
             label="Last Name"
@@ -43,7 +43,7 @@
         class="form__element"
       >
         <SfInput
-          data-cy="shipping-details-input_streetName"
+          v-cypress="'shipping-details-input_streetName'"
           v-model="form.streetName"
           name="streetName"
           label="Street Name"
@@ -53,7 +53,7 @@
         />
       </ValidationProvider>
       <SfInput
-        data-cy="shipping-details-input_apartment"
+        v-cypress="'shipping-details-input_apartment'"
         v-model="form.apartment"
         name="apartment"
         label="House/Apartment number"
@@ -67,7 +67,7 @@
           class="form__element"
         >
           <SfInput
-            data-cy="shipping-details-input_city"
+            v-cypress="'shipping-details-input_city'"
             v-model="form.city"
             name="city"
             label="City"
@@ -82,7 +82,7 @@
           class="form__element"
         >
           <SfInput
-            data-cy="shipping-details-input_state"
+            v-cypress="'shipping-details-input_state'"
             v-model="form.state"
             name="state"
             label="State/Province"
@@ -99,7 +99,7 @@
           class="form__element"
         >
           <SfInput
-            data-cy="shipping-details-input_zipCode"
+            v-cypress="'shipping-details-input_zipCode'"
             v-model="form.postalCode"
             name="zipCode"
             label="Zip-code"
@@ -114,7 +114,7 @@
           class="form__element"
         >
           <SfSelect
-            data-cy="shipping-details-select_country"
+            v-cypress="'shipping-details-select_country'"
             class="form__select sf-select--underlined"
             v-model="form.country"
             name="country"
@@ -139,7 +139,7 @@
         class="form__element"
       >
         <SfInput
-          data-cy="shipping-details-input_phoneNumber"
+          v-cypress="'shipping-details-input_phoneNumber'"
           v-model="form.phone"
           name="phone"
           label="Phone number"

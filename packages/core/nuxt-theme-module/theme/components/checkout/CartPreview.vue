@@ -43,7 +43,7 @@
     </div>
     <div class="highlighted promo-code">
       <SfInput
-        data-cy="cart-preview-input_promoCode"
+        v-cypress="'cart-preview-input_promoCode'"
         v-model="promoCode"
         name="promoCode"
         :label="$t('Enter promo code')"

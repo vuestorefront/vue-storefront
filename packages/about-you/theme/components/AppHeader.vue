@@ -1,6 +1,6 @@
 <template>
   <SfHeader
-    data-cy="app-header"
+    v-cypress="'app-header'"
     active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
@@ -12,23 +12,23 @@
   >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
-      <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
+      <nuxt-link v-cypress="'app-header-url_logo'" :to="localePath('/')" class="sf-header__logo">
         <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
       </nuxt-link>
     </template>
     <template #navigation>
       <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_women" :to="localePath('/c/women')">
+        <nuxt-link v-cypress="'app-header-url_women'" :to="localePath('/c/women')">
           WOMEN
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_men" :to="localePath('/c/men')">
+        <nuxt-link v-cypress="'app-header-url_men'" :to="localePath('/c/men')">
           MEN
         </nuxt-link>
       </SfHeaderNavigationItem>
       <SfHeaderNavigationItem>
-        <nuxt-link data-cy="app-header-url_kids" :to="localePath('/c/kids')">
+        <nuxt-link v-cypress="'app-header-url_kids'" :to="localePath('/c/kids')">
           KIDS
         </nuxt-link>
       </SfHeaderNavigationItem>

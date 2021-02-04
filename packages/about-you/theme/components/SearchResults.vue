@@ -32,7 +32,7 @@
       <SfScrollable style="--scrollable-max-height: 630px;" show-text="" hide-text="">
         <div style="display: flex; flex-wrap: wrap;">
           <SfProductCard
-            data-cy="search-product-card"
+            v-cypress="'search-product-card'"
             v-for="(product, i) in products"
             :key="productGetters.getSlug(product)"
             :style="{ '--index': i }"

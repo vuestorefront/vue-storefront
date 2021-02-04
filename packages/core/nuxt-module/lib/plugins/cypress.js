@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
-Vue.directive('cypress', {
-  bind(element, binding) {
-    element.setAttribute(`data-cypress`, binding.value);
-  }
-});
+const cypressPlugin = (ctx) => {
+  Vue.directive('cypress', {
+    bind: (element, binding) => ctx.isDev && element.setAttribute(`data-cypress`, binding.value)
+  });
+};
+
+export default cypressPlugin;

@@ -18,7 +18,7 @@
         <LazyHydrate on-interaction>
           <SfButton
             class="sf-button--text navbar__filters-button"
-            data-cy="category-btn_filters"
+            v-cypress="'category-btn_filters'"
             aria-label="Filters"
             @click="toggleFilterSidebar"
           >
@@ -27,7 +27,7 @@
               color="dark-secondary"
               icon="filter2"
               class="navbar__filters-icon"
-              data-cy="category-icon_"
+              v-cypress="'category-icon_'"
             />
             {{ $t('Filters') }}
           </SfButton>
@@ -39,7 +39,7 @@
             <SfSelect
               :value="sortBy.selected"
               placeholder="Select sorting"
-              data-cy="category-select_sortBy"
+              v-cypress="'category-select_sortBy'"
               class="navbar__select"
               @input="th.changeSorting"
             >
@@ -63,7 +63,7 @@
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
-            data-cy="category-icon_grid-view"
+            v-cypress="'category-icon_grid-view'"
             class="navbar__view-icon"
             :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
@@ -74,7 +74,7 @@
             @click="toggleCategoryGridView"
           />
           <SfIcon
-            data-cy="category-icon_list-view"
+            v-cypress="'category-icon_list-view'"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -108,7 +108,7 @@
                     <SfListItem class="list__item">
                       <SfMenuItem
                         :count="cat.count || ''"
-                        :data-cy="`category-link_subcategory_${cat.slug}`"
+                        :v-cypress="'`category-link_subcategory_${cat.slug}`'"
                         :label="cat.label"
                       >
                         <template #label>
@@ -128,7 +128,7 @@
                     >
                       <SfMenuItem
                         :count="subCat.count || ''"
-                        :data-cy="`category-link_subcategory_${subCat.slug}`"
+                        :v-cypress="'`category-link_subcategory_${subCat.slug}`'"
                         :label="subCat.label"
                       >
                         <template #label="{ label }">
@@ -158,7 +158,7 @@
             class="products__grid"
           >
             <SfProductCard
-              data-cy="category-product-card"
+              v-cypress="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -185,7 +185,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
-              data-cy="category-product-cart_wishlist"
+              v-cypress="'category-product-cart_wishlist'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -226,7 +226,7 @@
           <LazyHydrate on-interaction>
             <SfPagination
               v-if="!loading"
-              data-cy="category-pagination"
+              v-cypress="'category-pagination'"
               class="products__pagination desktop-only"
               v-show="pagination.totalPages > 1"
               :current="pagination.currentPage"
@@ -284,7 +284,7 @@
                 <SfColor
                   v-for="option in facet.options"
                   :key="`${facet.id}-${option.value}`"
-                  :data-cy="`category-filter_color_${option.value}`"
+                  :v-cypress="'`category-filter_color_${option.value}`'"
                   :color="option.value"
                   :selected="isFilterSelected(facet, option)"
                   class="filters__color"
@@ -295,7 +295,7 @@
                 <SfFilter
                   v-for="option in facet.options"
                   :key="`${facet.id}-${option.value}`"
-                  :data-cy="`category-filter_${facet.id}_${option.value}`"
+                  :v-cypress="'`category-filter_${facet.id}_${option.value}`'"
                   :label="option.id + `${option.count ? ` (${option.count})` : ''}`"
                   :selected="isFilterSelected(facet, option)"
                   class="filters__item"

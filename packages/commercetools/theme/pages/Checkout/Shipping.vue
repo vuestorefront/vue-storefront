@@ -18,7 +18,7 @@
         <div class="form" v-if="canAddNewAddress">
           <ValidationProvider name="firstName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_firstName"
+              v-cypress="'shipping-details-input_firstName'"
               :value="shippingDetails.firstName"
               @input="firstName => setShippingDetailsAndUnpickAddress({ firstName })"
               label="First name"
@@ -31,7 +31,7 @@
           </ValidationProvider>
           <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_lastName"
+              v-cypress="'shipping-details-input_lastName'"
               :value="shippingDetails.lastName"
               @input="lastName => setShippingDetailsAndUnpickAddress({ lastName })"
               label="Last name"
@@ -44,7 +44,7 @@
           </ValidationProvider>
           <ValidationProvider name="streetName" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-            data-cy="shipping-details-input_streetName"
+            v-cypress="'shipping-details-input_streetName'"
               :value="shippingDetails.streetName"
               @input="streetName => setShippingDetailsAndUnpickAddress({ streetName })"
               label="Street name"
@@ -57,7 +57,7 @@
           </ValidationProvider>
           <ValidationProvider name="apartment" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_apartment"
+              v-cypress="'shipping-details-input_apartment'"
               :value="shippingDetails.streetNumber"
               @input="streetNumber => setShippingDetailsAndUnpickAddress({ streetNumber })"
               label="House/Apartment number"
@@ -70,7 +70,7 @@
           </ValidationProvider>
           <ValidationProvider name="city" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_city"
+              v-cypress="'shipping-details-input_city'"
               :value="shippingDetails.city"
               @input="city => setShippingDetailsAndUnpickAddress({ city })"
               label="City"
@@ -83,7 +83,7 @@
           </ValidationProvider>
           <ValidationProvider name="zipCode" rules="required|min:2" v-slot="{ errors }" slim>
             <SfInput
-              data-cy="shipping-details-input_postalCode"
+              v-cypress="'shipping-details-input_postalCode'"
               :value="shippingDetails.postalCode"
               @input="postalCode => setShippingDetailsAndUnpickAddress({ postalCode })"
               label="Zip-code"
@@ -96,7 +96,7 @@
           </ValidationProvider>
           <ValidationProvider name="country" rules="required|min:2" v-slot="{ errors }" slim>
           <SfSelect
-            data-cy="shipping-details-select_country"
+            v-cypress="'shipping-details-select_country'"
             :value="shippingDetails.country"
             @input="country => setShippingDetailsAndUnpickAddress({ country })"
             label="Country"
@@ -117,7 +117,7 @@
           </ValidationProvider>
           <ValidationProvider name="phone" rules="required|digits:9" v-slot="{ errors }" slim>
           <SfInput
-            data-cy="shipping-details-input_phone"
+            v-cypress="'shipping-details-input_phone'"
             :value="shippingDetails.contactInfo.phone"
             @input="phone => setShippingDetailsAndUnpickAddress({ contactInfo: { phone } })"
             label="Phone number"
@@ -174,7 +174,7 @@
           <div class="form__action">
             <nuxt-link to="/checkout/personal-details" class="sf-button color-secondary form__back-button">Go back</nuxt-link>
             <SfButton
-              data-cy="checkout-continue-button"
+              v-cypress="'checkout-continue-button'"
               class="form__action-button"
               type="submit"
               v-if="canContinueToPayment(dirty)"
@@ -184,7 +184,7 @@
             </SfButton>
 
             <SfButton
-              data-cy="checkout-continue-button"
+              v-cypress="'checkout-continue-button'"
               class="form__action-button"
               type="submit"
               :disabled="loading.shippingMethods"
