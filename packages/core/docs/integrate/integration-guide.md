@@ -187,7 +187,7 @@ Once you have your configuration created, you can proceed with API functions:
 
 ```ts
 // api-client/src/api/getProduct.js
-const getProduct = (context, params) => {
+const getProduct = async (context, params) => {
   const productResponse = await context.client.get(`/product/${params.id}`);
 
   return productResponse.data
