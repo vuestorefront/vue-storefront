@@ -1,5 +1,6 @@
 module.exports = {
 	title: 'Vue Storefront Next',
+	base: '/v2/',
 	description: 'Vue Storefront 2 documentation',
 	head: [
 		['link', { rel: 'icon', href: '/favicon.png' }]
@@ -9,8 +10,8 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-			{ text: 'Migration guide', link: '/migrate/' }
-
+			{ text: 'Migration guide', link: '/migrate/' },
+			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
 		],
 		sidebar: {
 			'/migrate/': [
@@ -62,6 +63,7 @@ module.exports = {
 					title: 'Enterprise (paid)',
 					collapsable: false,
 					children: [
+						['/commercetools/enterprise/introduction', 'Introduction'],
 						['/commercetools/enterprise/use-review', 'Reviews'],
 						['/commercetools/enterprise/user-groups', 'User groups'],
 						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
@@ -142,23 +144,26 @@ module.exports = {
 					]
         },
 				{
-					title: 'General',
-					collapsable: false,
-					children: [
-						['/general/architecture', 'Architecture'],
-						['/general/error-handling', 'Error Handling'],
-						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance'],
-						['/general/context', 'Application Context']
-					]
-				},
-				{
 					title: 'Guide [WIP]',
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/internationalization', 'Internationalization'],
-						['/guide/user-profile', 'User profile']
+						['/guide/configuration', 'Configuration'],
+						['/guide/composables', 'Composables'],
+						['/guide/error-handling', 'Error Handling'],
+            ['/guide/user-profile', 'User profile']
+					]
+				},
+				{
+					title: 'Advanced [WIP]',
+					collapsable: false,
+					children: [
+						['/advanced/context', 'Application Context'],
+						['/advanced/internationalization', 'Internationalization'],
+						['/advanced/performance', 'Performance'],
+						['/advanced/caching', 'Caching'],
+						['/advanced/logging', 'Logging'],
+						['/advanced/architecture', 'Architecture']
 					]
 				},
         {
@@ -195,7 +200,7 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/general/cms', 'CMS'],
+						['/integrate/cms', 'CMS']
 					]
 				},
 				{

@@ -5,7 +5,7 @@
 ## Introduction
 
 ::: warning Want to build an integration?
-If you want to integrate any eCommerce platform with Vue Storefront please **contact the core team** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with the core team is the best way to keep its quality high and make it officially recommended once it's done.
+If you want to integrate any eCommerce platform with Vue Storefront please **contact the core team on our [slack](https://slack.vuestorefront.io)** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with core team is the best way to keep its quality high and make it officially recommended once its done.
 :::
 
 Integrating any eCommerce platform with Vue Storefront is a relatively simple process. The only requirement that the eCommerce platform needs to fulfill to be integrated is having a fully functional REST/GraphQL API.
@@ -92,7 +92,8 @@ Vue Storefront will require **at least** the following features from your eComme
 
 ## Getting started
 
-Copy the `packages/boilerplate` folder and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
+
+Copy our [integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
 
 ::: tip Test with the default theme
 The default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes

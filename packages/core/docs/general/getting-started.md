@@ -1,35 +1,31 @@
 # Getting started
 
-If you want to get started with Vue Storefront the easiest way to do this is to set up your project through our CLI tool.
-
-To make use of Vue Storefront CLI simply install it globally through NPM:
-
-
+If you want to get started with Vue Storefront, the easiest way to do this is to set up your project through our CLI tool. It can be installed globally through NPM:
 
 <code-group>
 <code-block title="YARN">
 ```bash
-yarn global add @vue-storefront/cli@next
+yarn global add @vue-storefront/cli
 ```
 </code-block>
 
 <code-block title="NPM">
 ```bash
-npm i -g @vue-storefront/cli@next
+npm i -g @vue-storefront/cli
 ```
 </code-block>
 </code-group>
 
-Once installed you can use the CLI to set up the project with:
+Once installed, you can use Vue Storefront CLI to set up the project with:
 
 ```bash
-vsf init <project_name> 
+vsf init <project_name>
 ```
 
-Then you will be asked about the backend platform you wish to use. Once you choose it the CLI will create the project files in `<project_name>` directory. 
+Then you will be asked about the backend platform you wish to use. Once you choose it, the CLI will create the project files in the `<project_name>` directory.
 
 <center>
- <img src="../images/cli.png" alt="vue storefront cli" />
+  <img src="../images/cli.png" alt="vue storefront cli" />
 </center>
 
 The only thing that's left before you can start developing is to install the dependencies:
@@ -49,4 +45,4 @@ Vue Storefront can also be installed within already existing Vue and Nuxt codeba
 ## What's next?
 
 - Learn about [key concepts in Vue Storefront](./key-concepts) to confidently work with your newly created Vue Storefront project.
-- Check out the platform-specific docs in `eCommerce platforms` category to learn more about your integration.
+- Check out the platform-specific docs in the `eCommerce platforms` category to learn more about your integration.

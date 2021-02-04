@@ -16,13 +16,13 @@
     "ejs": "^3.0.2",
     "loglevel": "^1.6.7",
     "ts-loader": "^8.0.3",
-    "vue": "^2.6.11",
-    "vue-lazy-hydration": "^2.0.0-beta.4"
+    "vue": "^2.6.11"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "vue-lazy-hydration": "^2.0.0-beta.4"
   }
 }
