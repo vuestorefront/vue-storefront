@@ -1,23 +1,23 @@
-import { UseCheckoutShipping, Context, FactoryParams, UseCheckoutShippingErrors } from '../types';
+import { UseShipping, Context, FactoryParams, UseShippingErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
-export interface UseCheckoutShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
+export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
   load: (context: Context) => Promise<SHIPPING>;
   save: (context: Context, params: SHIPPING_PARAMS) => Promise<SHIPPING>;
 }
 
-export const useCheckoutShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
-  factoryParams: UseCheckoutShippingParams<SHIPPING, SHIPPING_PARAMS>
+export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
+  factoryParams: UseShippingParams<SHIPPING, SHIPPING_PARAMS>
 ) => {
-  return function useCheckoutShipping (): UseCheckoutShipping<SHIPPING, SHIPPING_PARAMS> {
-    const loading: Ref<boolean> = sharedRef(false, 'useCheckoutShipping-loading');
-    const shipping: Ref<SHIPPING> = sharedRef(null, 'useCheckoutShipping-shipping');
+  return function useShipping (): UseShipping<SHIPPING, SHIPPING_PARAMS> {
+    const loading: Ref<boolean> = sharedRef(false, 'useShipping-loading');
+    const shipping: Ref<SHIPPING> = sharedRef(null, 'useShipping-shipping');
     const context = generateContext(factoryParams);
-    const error: Ref<UseCheckoutShippingErrors> = sharedRef({}, 'useCheckoutShipping-error');
+    const error: Ref<UseShippingErrors> = sharedRef({}, 'useShipping-error');
 
     const load = async () => {
-      Logger.debug('useCheckoutShipping.load');
+      Logger.debug('useShipping.load');
 
       try {
         loading.value = true;
@@ -28,14 +28,14 @@ export const useCheckoutShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
         shipping.value = shippingInfo;
       } catch (err) {
         error.value.load = err;
-        Logger.error('useCheckoutShipping/load', err);
+        Logger.error('useShipping/load', err);
       } finally {
         loading.value = false;
       }
     };
 
     const save = async ({ params, shippingDetails }: { params: SHIPPING_PARAMS; shippingDetails: any }) => {
-      Logger.debug('useCheckoutShipping.save');
+      Logger.debug('useShipping.save');
 
       try {
         loading.value = true;
@@ -50,7 +50,7 @@ export const useCheckoutShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
         shipping.value = shippingInfo;
       } catch (err) {
         error.value.save = err;
-        Logger.error('useCheckoutShipping/save', err);
+        Logger.error('useShipping/save', err);
       } finally {
         loading.value = false;
       }
