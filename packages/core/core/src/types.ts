@@ -582,3 +582,40 @@ export interface Context {
 export interface FactoryParams {
   provide?: (context: Context) => any;
 }
+
+// TODO: Implement proper typing
+// https://github.com/vuestorefront/vue-storefront/issues/5431
+export interface ApiClientExtensionLifecycle {
+  beforeCreate?: (config, headers?: Record<string, string>) => any;
+  afterCreate?: ({ config, client }, headers?: Record<string, string>) => { config; client };
+  beforeCall?: ({ config, functionName, params }) => any;
+  afterCall?: ({ config, functionName, params }) => any;
+}
+
+export type ApiClientExtension = (req: any, res: any) => ApiClientExtensionLifecycle;
+
+export interface ApiClientFactoryParams<T, F = any> {
+  api: F;
+  isProxy?: boolean;
+  onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
+  extensions?: ApiClientExtension[];
+}
+
+export interface ApiInstance {
+  api: any;
+  client: any;
+  settings: any;
+}
+
+export interface ApiClientFactory {
+  createApiClient: CreateApiClientFn;
+}
+
+export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+
+export interface ApiClientConfig {
+  [x: string]: any;
+  client?: any;
+  extensions?: ApiClientExtension[];
+}
