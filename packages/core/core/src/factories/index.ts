@@ -10,5 +10,5 @@ export * from './apiClientFactory';
 export * from './useReviewFactory';
 export * from './useFacetFactory';
 export * from './useContentFactory';
-export * from './useCheckoutShippingFactory';
-export * from './useCheckoutShippingMethodFactory';
+export * from './useShippingFactory';
+export * from './useShippingMethodFactory';
