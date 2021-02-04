@@ -99,7 +99,7 @@ export default {
 </script>
 ```
 
-## Modifying user credentials
+## Updating user credentials
 
 Updating user data (except for the current password, which is described in the [Changing password](#changing-password) section) can be done using `updateUser` method in `useUser` composable.
 
