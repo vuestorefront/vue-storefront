@@ -274,11 +274,6 @@ export default {
   --price-font-size: var(--font-size--base);
 }
 .summary {
-  &__group {
-    @include for-desktop {
-      margin: 0 0 var(--spacer-2xl) 0;
-    }
-  }
   &__terms {
     margin: var(--spacer-base) 0 0 0;
   }

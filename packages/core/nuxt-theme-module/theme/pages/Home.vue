@@ -375,6 +375,11 @@ export default {
       --product-card-add-button-transform: translate3d(0, 30%, 0);
     }
   }
+  ::v-deep .sf-arrow--long .sf-arrow--right {
+    --arrow-icon-transform: rotate(180deg);
+     -webkit-transform-origin: center;
+     transform-origin: center;
+  }
 }
 
 </style>

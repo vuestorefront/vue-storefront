@@ -63,59 +63,44 @@
       </SfAccordionItem>
     </SfAccordion>
     <SfTable class="sf-table--bordered table desktop-only">
-      <thead>
-        <SfTableHeading class="table__row">
-          <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
-          <SfTableHeader
-            v-for="tableHeader in tableHeaders"
-            :key="tableHeader"
-            class="table__header"
-          >
-            {{ tableHeader }}
-          </SfTableHeader>
-          <SfTableHeader class="table__action"></SfTableHeader>
-        </SfTableHeading>
-      </thead>
-      <tbody>
-        <SfTableRow
-          v-for="(product, index) in products"
-          :key="index"
-          class="table__row"
+      <SfTableHeading class="table__row">
+        <SfTableHeader class="table__header">{{ $t('Item') }}</SfTableHeader>
+        <SfTableHeader
+          v-for="tableHeader in tableHeaders"
+          :key="tableHeader"
+          class="table__header"
+          :class="{ table__description: tableHeader === 'Description' }"
         >
-          <SfTableData class="table__image">
-            <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
-          </SfTableData>
-          <SfTableData class="table__data table__data--left">
-            <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
-            <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
-          </SfTableData>
-          <SfTableData
-            class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
-            :key="key"
-          >
-            {{ value }}
-          </SfTableData>
-          <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-          <SfTableData class="table__data">
-            <SfPrice
-              :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
-              :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
-              class="product-price"
-            />
-          </SfTableData>
-          <SfTableData class="table__action">
-            <SfIcon
-              data-cy="order-review-icon_remove-from-cart"
-              icon="cross"
-              size="xxs"
-              color="#BEBFC4"
-              role="button"
-              class="button"
-              @click="removeItem({ product })"
-            />
-          </SfTableData>
-        </SfTableRow>
-      </tbody>
+          {{ tableHeader }}
+        </SfTableHeader>
+      </SfTableHeading>
+      <SfTableRow
+        v-for="(product, index) in products"
+        :key="index"
+        class="table__row"
+      >
+        <SfTableData class="table__image">
+          <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
+        </SfTableData>
+        <SfTableData class="table__data table__description table__data">
+          <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
+          <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
+        </SfTableData>
+        <SfTableData
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          :key="key"
+        >
+          {{ value }}
+        </SfTableData>
+        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data price">
+          <SfPrice
+            :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
+            :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
+            class="product-price"
+          />
+        </SfTableData>
+      </SfTableRow>
     </SfTable>
     <div class="summary">
       <div class="summary__group">
@@ -243,28 +228,31 @@ export default {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
 .table {
-  margin: 0 0 var(--spacer-xl) 0;
-  &__header {
-    @include for-desktop {
+  margin: 0 0 var(--spacer-base) 0;
+  &__row {
+    justify-content: space-between;
+  }
+  @include for-desktop {
+    &__header {
+      text-align: center;
+      &:first-child {
+        margin-right: var(--spacer-xl);
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
+    &__data {
       text-align: center;
     }
-  }
-  &__data {
-    @include for-desktop {
-      text-align: center;
+    &__description {
+      text-align: left;
+      flex: 0 0 12rem;
     }
-  }
-  &__image {
-    @include for-desktop {
-      flex: 0 0 5.125rem;
-    }
-  }
-  &__action {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    @include for-desktop {
-      flex: 0 0 2.5rem;
+    &__image {
+      --image-width: 5.125rem;
+      text-align: left;
+      margin-right: var(--spacer-xs);
     }
   }
 }

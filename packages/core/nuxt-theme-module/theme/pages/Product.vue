@@ -215,7 +215,7 @@ export default {
       mobile: { url: img.small },
       desktop: { url: img.normal },
       big: { url: img.big },
-      alt: product.value._name
+      alt: product.value._name || product.value.name
     })));
 
     onSSR(async () => {
