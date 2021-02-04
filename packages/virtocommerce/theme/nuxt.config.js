@@ -65,10 +65,10 @@ export default {
       api: {
         uri: 'http://localhost:3000'
       },
-      store: "Electronics",
+      store: "Clothing",
       currency: "USD",
       locale: "en-US",
-      catalogId: "4974648a41df4e6ea67ef2ad76d7bbd4",
+      catalogId: "25f5ea1b52e54ec1aa903d44cc889324",
       countries: [
         { name: 'US',
           label: 'United States' },

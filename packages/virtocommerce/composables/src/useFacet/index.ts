@@ -7,7 +7,7 @@ const factoryParams = {
     const categories = await context.$vc.api.searchCategories(params);
   
     if (params.input.categorySlug) {
-      var category = categories?.data?.find(x => x.slug.endsWith(params.input.categorySlug));
+      var category = categories?.data?.find(x => x.slug && x.slug.endsWith(params.input.categorySlug));
       if (category) {
         params.input.outline  = category.outline;
       }

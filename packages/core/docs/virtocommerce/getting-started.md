@@ -63,7 +63,7 @@ setup({
     project-only-end */
     ['@vue-storefront/virtocommerce/nuxt', {
       api: {
-        uri: 'http://172.27.80.1:3000'
+        uri: 'http://localhost:3000'
       },
       store: "Electronics",
       currency: "USD",
@@ -84,12 +84,14 @@ setup({
   proxy: {
     '/graphql': {
       target: 'https://admin-demo.virtocommerce.com/graphql',
+      secure: false,
       pathRewrite: {
         '^/graphql' : '/'
         }
       },
       '/connect/token': {
         target: 'https://admin-demo.virtocommerce.com/connect/token',
+        secure: false,
         pathRewrite: {
           '^/connect/token' : '/'
           }      
