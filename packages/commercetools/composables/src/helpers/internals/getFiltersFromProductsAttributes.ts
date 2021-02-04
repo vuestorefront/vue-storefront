@@ -2,7 +2,7 @@ import { ProductVariant, Attribute } from '../../types/GraphQL';
 import { getAttributeValue } from '../../getters/_utils';
 import { Filter, FilterOption } from '@vue-storefront/commercetools-api';
 
-const extractAttributes = (product: ProductVariant): Attribute[] => product.attributeList;
+const extractAttributes = (product: ProductVariant): Attribute[] => product.attributesRaw;
 
 const flattenAttributes = (prev: Attribute[], curr: Attribute[]): Attribute[] => [...prev, ...(curr || [])];
 
