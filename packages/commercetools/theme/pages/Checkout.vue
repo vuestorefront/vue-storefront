@@ -7,7 +7,7 @@
             <nuxt-child />
           </SfStep>
         </SfSteps>
-        <nuxt-child v-else  />
+        <nuxt-child v-else />
       </div>
       <div class="checkout__aside desktop-only" v-if="!isThankYou">
         <transition name="fade">
@@ -18,13 +18,14 @@
     </div>
   </div>
 </template>
-<script>
 
+<script>
+import { onSSR } from '@vue-storefront/core';
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/checkout/CartPreview';
 import OrderReview from '~/components/checkout/OrderReview';
-import { ref, computed } from '@vue/composition-api';
-import { useUser } from '@vue-storefront/commercetools';
+import { ref, computed, watch } from '@vue/composition-api';
+import { useUser, useCart, cartGetters } from '@vue-storefront/commercetools';
 
 const STEPS = {
   'personal-details': 'Personal Details',
@@ -44,6 +45,7 @@ export default {
   setup(props, context) {
     const currentStep = computed(() => context.root.$route.path.split('/').pop());
     const { isAuthenticated } = useUser();
+    const { cart, load: loadCart } = useCart();
     const showCartPreview = ref(true);
     const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
     const isThankYou = computed(() => currentStep.value === 'thank-you');
@@ -52,6 +54,17 @@ export default {
       const key = Object.keys(STEPS)[stepIndex];
       context.root.$router.push(`/checkout/${key}`);
     };
+
+    onSSR(async () => {
+      await loadCart();
+    });
+
+    watch(cart, () => {
+      // Redirect to homepage when cart is cleared during checkout process
+      if (!cartGetters.getItems(cart.value).length) {
+        context.root.$router.push('/');
+      }
+    });
 
     return {
       handleStepClick,

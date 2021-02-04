@@ -23,11 +23,12 @@
   </div>
 </template>
 <script>
-
+import { ref, watch } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/checkout/CartPreview';
 import OrderReview from '~/components/checkout/OrderReview';
-import { ref } from '@vue/composition-api';
+import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 
 const STEPS = [
   { name: 'personal-details',
@@ -53,6 +54,7 @@ export default {
     OrderReview
   },
   setup(props, context) {
+    const { cart, load: loadCart } = useCart();
     const showCartPreview = ref(true);
     const currentStep = ref(0);
 
@@ -67,6 +69,17 @@ export default {
     const handleNextStep = (nextStep) => {
       context.root.$router.push(nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
     };
+
+    onSSR(async () => {
+      await loadCart();
+    });
+
+    watch(cart, () => {
+      // Redirect to homepage when cart is cleared during checkout process
+      if (!cartGetters.getItems(cart.value).length) {
+        context.root.$router.push('/');
+      }
+    });
 
     return {
       STEPS,

@@ -7,34 +7,37 @@ const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
 const canEnterReview = cart => Boolean(cart.billingAddress);
 
 export default async ({ app, $vsf }) => {
-  const currentPath = app.context.route.fullPath.split('/checkout/')[1];
+  const currentPath = app.context.route.fullPath;
 
-  if (!currentPath) return;
+  if (!currentPath.includes('/checkout/')) return;
 
   const { data } = await $vsf.$ct.api.getMe();
 
-  if (!data || !data.me.activeCart) return;
+  if (!data || !data.me.activeCart) {
+    return app.context.redirect('/');
+  }
+
   const { activeCart } = data.me;
 
   switch (currentPath) {
-    case 'personal-details':
+    case '/checkout/personal-details':
       if (!canEnterPersonalDetails(activeCart)) {
+        app.context.redirect('/');
+      }
+      break;
+    case '/checkout/shipping':
+      if (!canEnterShipping(activeCart)) {
+        app.context.redirect('/checkout/personal-details');
+      }
+      break;
+    case '/checkout/payment':
+      if (!canEnterPayment(activeCart)) {
         app.context.redirect('/checkout/shipping');
       }
       break;
-    case 'shipping':
-      if (!canEnterShipping(activeCart)) {
-        app.context.redirect('/');
-      }
-      break;
-    case 'payment':
-      if (!canEnterPayment(activeCart)) {
-        app.context.redirect('/');
-      }
-      break;
-    case 'order-review':
+    case '/checkout/order-review':
       if (!canEnterReview(activeCart)) {
-        app.context.redirect('/');
+        app.context.redirect('/checkout/payment');
       }
       break;
   }

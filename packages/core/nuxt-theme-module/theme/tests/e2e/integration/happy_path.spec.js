@@ -13,7 +13,12 @@ const selectors = {
     addToCart: '[data-cy=product-cart_add]'
   },
   checkout: {
-    continueButton: '[data-cy=shipping-btn_continue]',
+    personalDetails: {
+      firstNameInput: '[data-cy="personal-details-input_firstName"]',
+      lastNameInput: '[data-cy="personal-details-input_lastName"]',
+      emailInput: '[data-cy="personal-details-input_email"]'
+    },
+    continueButton: '[data-cy=checkout-continue-button]',
     termsCheckbox: '[data-testid="terms"]',
     submitButton: '[data-cy=order-review-btn_summary-conitnue]'
   }
@@ -29,7 +34,7 @@ context('', () => {
     cy.url().should('include', '/c/women');
 
     // Open first product
-    cy.get(selectors.catalog.products).first().click();
+    cy.get(selectors.catalog.products).first().click().wait(500);
     cy.url().should('include', '/p/');
 
     // Check if cart is empty
@@ -49,6 +54,15 @@ context('', () => {
 
     // Go to checkout
     cy.contains('Go to checkout').click().wait(500);
+    cy.url().should('include', 'checkout/personal-details');
+
+    // Type personal details
+    cy.get(selectors.checkout.personalDetails.firstNameInput).type('First');
+    cy.get(selectors.checkout.personalDetails.lastNameInput).type('Last');
+    cy.get(selectors.checkout.personalDetails.emailInput).type('fake@example.com');
+
+    // Go to shipping details
+    cy.get(selectors.checkout.continueButton).click().wait(500);
     cy.url().should('include', 'checkout/shipping');
 
     // Select shipping method

@@ -151,13 +151,13 @@
       </div>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton data-cy="shipping-btn_go-back" class="color-secondary form__back-button">
+        <SfButton data-cy="checkout-back-button" class="color-secondary form__back-button">
           Go back
         </SfButton>
-        <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToPayment">
+        <SfButton data-cy="checkout-continue-button" class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToPayment">
           Continue to payment
         </SfButton>
-        <SfButton data-cy="shipping-btn_continue" class="form__action-button" @click="saveShippingDetails" v-else>
+        <SfButton data-cy="checkout-continue-button" class="form__action-button" @click="saveShippingDetails" v-else>
           Select shipping method
         </SfButton>
       </div>

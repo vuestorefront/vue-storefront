@@ -65,10 +65,10 @@
       </transition>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
-        <SfButton data-cy="personal-details-btn_go-back" class="color-secondary form__back-button">
+        <SfButton data-cy="checkout-back-button" class="color-secondary form__back-button">
           {{ $t('Go back') }}
         </SfButton>
-        <SfButton data-cy="personal-details-btn_continue" class="form__action-button" @click="$emit('nextStep')">
+        <SfButton data-cy="checkout-continue-button" class="form__action-button" @click="$emit('nextStep')">
           {{ $t('Continue to shipping') }}
         </SfButton>
       </div>

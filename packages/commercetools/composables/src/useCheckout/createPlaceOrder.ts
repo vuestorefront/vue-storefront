@@ -3,6 +3,7 @@
 import { CustomQuery } from '@vue-storefront/core';
 
 const createPlaceOrder = ({ context, cartFields, loading }, customQuery?: CustomQuery) => async () => {
+  console.log(context);
   loading.value.order = true;
   const { id, version } = cartFields.cart.value;
 
