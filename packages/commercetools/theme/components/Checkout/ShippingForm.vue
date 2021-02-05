@@ -11,7 +11,7 @@
     >
       <UserShippingAddresses
         v-if="isAuthenticated"
-        :setAsDefault="setAsDefault"
+        :setAsDefault.sync="setAsDefault"
         :currentAddressId="shippingDetails.id || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
         @changeSetAsDefault="setAsDefault = $event"
