@@ -10,7 +10,7 @@ const productsSearch = async (context: Context, { customQuery, ...searchParams }
   };
 
   const productResponse = await context.$ct.api.getProduct(apiSearchParams, customQuery);
-  const enhancedProductResponse = enhanceProduct(productResponse);
+  const enhancedProductResponse = enhanceProduct(productResponse, context);
   const products = (enhancedProductResponse.data as any)._variants;
 
   return products;
