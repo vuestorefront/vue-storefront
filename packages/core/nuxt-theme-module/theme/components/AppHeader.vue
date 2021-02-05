@@ -1,14 +1,9 @@
 <template>
   <SfHeader
     data-cy="app-header"
-    @click:cart="toggleCartSidebar"
-    @click:wishlist="toggleWishlistSidebar"
-    @click:account="handleAccountClick"
     @enter:search="changeSearchTerm"
     @change:search="p => term = p"
     :searchValue="term"
-    :cartItemsQty="cartTotalItems"
-    :accountIcon="accountIcon"
     class="sf-header--has-mobile-search"
   >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
@@ -24,11 +19,45 @@
     <template #aside>
       <LocaleSelector class="smartphone-only" />
     </template>
+    <template #header-icons>
+      <div class="sf-header__icons">
+        <SfButton
+          class="sf-button--pure sf-header__action"
+          @click="handleAccountClick"
+        >
+          <SfIcon
+            :icon="accountIcon"
+            size="1.25rem"
+          />
+        </SfButton>
+        <SfButton
+          class="sf-button--pure sf-header__action"
+          @click="toggleWishlistSidebar"
+        >
+          <SfIcon
+            class="sf-header__icon"
+            icon="heart"
+            size="1.25rem"
+          />
+        </SfButton>
+        <SfButton
+          class="sf-button--pure sf-header__action"
+          @click="toggleCartSidebar"
+        >
+          <SfIcon
+            class="sf-header__icon"
+            icon="empty_cart"
+            size="1.25rem"
+          />
+          <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+        </SfButton>
+      </div>
+    </template>
   </SfHeader>
 </template>
 
 <script>
-import { SfHeader, SfImage } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfIcon, SfButton, SfBadge } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref } from '@vue/composition-api';
@@ -40,7 +69,10 @@ export default {
   components: {
     SfHeader,
     SfImage,
-    LocaleSelector
+    LocaleSelector,
+    SfIcon,
+    SfButton,
+    SfBadge
   },
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
@@ -98,5 +130,11 @@ export default {
 
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
+}
+
+.cart-badge {
+  position: absolute;
+  bottom: 40%;
+  left: 40%;
 }
 </style>

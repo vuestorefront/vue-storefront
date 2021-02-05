@@ -873,6 +873,13 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@cld-apis/utils@^0.1.0":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@cld-apis/utils/-/utils-0.1.1.tgz#15748cb00a7db14bab682160c800d7efa8ddff0d"
+  integrity sha512-bGE2kxO84Gj0yUn/rAsAtVMmDuXyG6liCJlnPdjy8SM0bXjxJqHBoJbXfR4ppkb9jJZZwB5tvL7e+HO9hpXjMQ==
+  dependencies:
+    lodash.snakecase "^4.1.1"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -2427,28 +2434,28 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@storefront-ui/shared@0.9.2":
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.9.2.tgz#b50d6c8baec1a479054fd4a14b786f2809f0598e"
-  integrity sha512-2JX76IgwTrP/7Ksa5mF9+r1vlaZojKiqrPh9HCDo2yznnseqNOzKVgWn9vIRKxWqofMzmZeleNdriKfoulfFoQ==
+"@storefront-ui/shared@0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
+  integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
 
 "@storefront-ui/shared@^0.7.17":
   version "0.7.17"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.17.tgz#110ab77d959565170dea8dd1cf574a0c6d2639e0"
   integrity sha512-ntSlGDK/lc6+YNMhAAx01ERlhWdMWFxoTcBREKiBLfGXGBU9zhFp3kcxPxTf+hdjAE37lMX83tpqK2bXb37SOg==
 
-"@storefront-ui/vue@0.9.2", "@storefront-ui/vue@^0.9.1":
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.9.2.tgz#56593b1cbfe62a5e03c965b5ccc2320edabbf504"
-  integrity sha512-yHaXY14fswtie4ULw64hbI8HGQ8wGOCdaGvZ1nwkcai0JJtCqLw7VWzCy0kPobZPXzc1fCFTt2KEUBbqPI342A==
+"@storefront-ui/vue@0.10.2", "@storefront-ui/vue@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.2.tgz#b592eb5bc0376d492665b4787dc8fe8eb2f5b9a1"
+  integrity sha512-ibI41X0v8EicgJaYjUlSYb2UZzHopS+ZrH4vzrSRdcUkrzsOR68kYMAvsXxjoFj5WE+/JQZcZZeqMKHvjGWzJQ==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "0.9.2"
+    "@storefront-ui/shared" "0.10.2"
     body-scroll-lock "^3.0.1"
+    cloudinary-build-url "^0.1.1"
     core-js "^3.6.5"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
-    lozad "^1.14.0"
     node-sass "^4.13.1"
     sass-loader "^8.0.2"
     simplebar-vue "^1.4.0"
@@ -4973,6 +4980,13 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
+
+cloudinary-build-url@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/cloudinary-build-url/-/cloudinary-build-url-0.1.1.tgz#1ed7a88d23b84600b001df6608ee09d9c9d48ddb"
+  integrity sha512-SlCdVyHC9THzMsMc4FnXDW6UA/N0CbgPeDoIHjTPUFxXosgPUC7Jio2uD+rc8SF/YNevPwaRzjIRhGMTznO0jA==
+  dependencies:
+    "@cld-apis/utils" "^0.1.0"
 
 co@^4.6.0:
   version "4.6.0"
@@ -8750,12 +8764,7 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@~4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
-is-https@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/is-https/-/is-https-3.0.2.tgz#4d24e002e47edd3f1b07f14bc722433354ccba49"
-  integrity sha512-jFgAKhbNF7J+lTMJxbq5z9bf1V9f8rXn9mP5RSY2GUEW5M0nOiVhVC9dNra96hQDjGpNzskIzusUnXwngqmhAA==
-
-is-https@^3.0.2:
+is-https@^3.0.0, is-https@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/is-https/-/is-https-3.0.2.tgz#4d24e002e47edd3f1b07f14bc722433354ccba49"
   integrity sha512-jFgAKhbNF7J+lTMJxbq5z9bf1V9f8rXn9mP5RSY2GUEW5M0nOiVhVC9dNra96hQDjGpNzskIzusUnXwngqmhAA==
@@ -9955,6 +9964,11 @@ lodash.set@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
   integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
+
+lodash.snakecase@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
+  integrity sha1-OdcUo1NXFHg3rv1ktdy7Fr7Nj40=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

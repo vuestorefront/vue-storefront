@@ -14,16 +14,14 @@
       <LazyHydrate when-visible>
         <BottomNavigation />
       </LazyHydrate>
-
-      <LazyHydrate when-visible>
-        <AppFooter />
-      </LazyHydrate>
-
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
       <Notification />
     </div>
+    <LazyHydrate when-visible>
+      <AppFooter />
+    </LazyHydrate>
   </div>
 </template>
 
