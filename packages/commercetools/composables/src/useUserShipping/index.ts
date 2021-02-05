@@ -2,7 +2,7 @@ import { useUserShippingFactory, UseUserShippingFactoryParams, Context } from '@
 
 const addresses: any[] = [
   {
-    id: 1,
+    id: '_1231231253623423',
     firstName: 'John',
     lastName: 'Doe',
     streetName: 'Warsawska',
@@ -18,7 +18,7 @@ const addresses: any[] = [
     isDefault: true
   },
   {
-    id: 2,
+    id: '_245463456456356',
     firstName: 'Jonatan',
     lastName: 'Doe',
     streetName: 'Starachowicka',
