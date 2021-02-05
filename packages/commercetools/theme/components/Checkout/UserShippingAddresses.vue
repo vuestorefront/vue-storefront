@@ -15,6 +15,7 @@
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
+      v-show="currentAddressId"
       data-cy="shipping-details-checkbox_isDefault"
       :selected="setAsDefault"
       @change="$emit('changeSetAsDefault', $event)"
@@ -37,7 +38,7 @@ export default {
   name: 'UserShippingAddresses',
   props: {
     currentAddressId: {
-      type: Number,
+      type: String,
       required: true
     },
     setAsDefault: {
@@ -59,7 +60,7 @@ export default {
     });
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(addressId) });
+      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
       if (!chosenAddress || !chosenAddress.length) {
         return;
       }

@@ -249,7 +249,7 @@ import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
-const NOT_SELECTED_ADDRESS = -1;
+const NOT_SELECTED_ADDRESS = '';
 
 extend('required', {
   ...required,
@@ -308,19 +308,18 @@ export default {
 
     const handleAddressSubmit = (reset) => async () => {
       await props.handleShippingAddressSubmit(shippingDetails.value);
-      if (shippingDetails.value.id > -1 && setAsDefault.value) {
+      if (shippingDetails.value.id !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
         const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(shippingDetails.value.id) });
-        if (!chosenAddress || !chosenAddress.length) {
-          return;
+        if (chosenAddress && chosenAddress.length) {
+          await setDefaultAddress({ address: chosenAddress[0] });
         }
-        await setDefaultAddress({ address: chosenAddress[0] });
       }
       reset();
       isShippingDetailsCompleted.value = true;
     };
 
     const handleAddNewAddress = () => {
-      shippingDetails.value.id = -1;
+      shippingDetails.value.id = NOT_SELECTED_ADDRESS;
       canAddNewAddress.value = true;
     };
 
@@ -332,7 +331,7 @@ export default {
 
     const changedDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      shippingDetails.value.id = -1;
+      shippingDetails.value.id = NOT_SELECTED_ADDRESS;
     };
 
     watch(address, (addr) => {
