@@ -10,6 +10,7 @@ export const getAttributeValue = (attribute) => {
     case 'date':
     case 'time':
     case 'datetime':
+    case 'money':
       return attribute.value;
 
     case 'lenum':

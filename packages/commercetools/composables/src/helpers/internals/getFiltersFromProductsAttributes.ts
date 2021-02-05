@@ -9,7 +9,7 @@ const flattenAttributes = (prev: Attribute[], curr: Attribute[]): Attribute[] =>
 const getFilterFromAttribute = (attribute: Attribute, prev) => {
   const attrValue = getAttributeValue(attribute);
   const filter = prev[attribute.name] || {
-    type: (attribute as any).__typename,
+    type: (attribute as any).attributeDefinition.type.name,
     options: []
   };
   const option: FilterOption = {
