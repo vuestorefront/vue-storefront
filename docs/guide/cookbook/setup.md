@@ -435,7 +435,7 @@ This looks like by and large the same with *Vue Storefront API* with a few chang
 `app` service describes options for *Vue Storefront* frontend application.
 - `network_mode` allows you to modify values for `--network` option of docker client. `host` option allows your designated container to open to host network. For example, if you bind your container in host's `80` port, then the container will be accessible at host's `<IP address>:80` from the internet. In other words, the container is not isolated. [more info](https://docs.docker.com/network/host/)
 
-If you take a closer look inside `Dockerfile`s, you will notice they install all the dependencies of the project from `package.json` not to mention required OS features including `git`, `wget` and certificates. You don't have to worry what to do because we made it do for you.
+If you take a closer look inside `Dockerfile's`, you will notice they install all the dependencies of the project from `package.json` not to mention required OS features including `git`, `wget` and certificates. You don't have to worry what to do because we made it do for you.
 
 Next, you might want to import your goods data. Please jump to [Data imports](./data-import.md) if you don't want to stop.
 
