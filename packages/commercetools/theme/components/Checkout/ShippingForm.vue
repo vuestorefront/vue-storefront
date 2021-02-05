@@ -10,11 +10,10 @@
       "
     >
       <UserShippingAddresses
-        v-if="isAuthenticated && shippingAddresses && shippingAddresses.length"
+        v-if="isAuthenticated"
         :setAsDefault="setAsDefault"
-        :shippingAddresses="shippingAddresses"
-        :currentAddressId="currentAddressId"
-        @setCurrentAddress="setCurrentAddress($event)"
+        :currentAddressId="shippingDetails.id || NOT_SELECTED_ADDRESS"
+        @setCurrentAddress="handleSetCurrentAddress"
         @changeSetAsDefault="setAsDefault = $event"
       />
       <div class="form" v-if="canAddNewAddress">
@@ -167,7 +166,7 @@
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="submit"
-        @click.native="canAddNewAddress = true"
+        @click.native="handleAddNewAddress"
       >
         {{ $t('Add new address') }}
       </SfButton>
@@ -246,9 +245,11 @@ import {
 import { useUserShipping, userShippingGetters, useShippingMethod, shippingMethodGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
-import { useVSFContext, onSSR } from '@vue-storefront/core';
-import { onMounted, computed, ref, watch } from '@vue/composition-api';
-import { compareAddresses } from '@/helpers/checkout/compareAddresses';
+import { useVSFContext } from '@vue-storefront/core';
+import { ref, watch, onMounted } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
+
+const NOT_SELECTED_ADDRESS = -1;
 
 extend('required', {
   ...required,
@@ -277,9 +278,11 @@ export default {
     ValidationObserver
   },
   props: {
-    isSaving: Object
+    isSaving: Object,
+    handleShippingMethodSubmit: Function,
+    handleShippingAddressSubmit: Function
   },
-  setup(_, context) {
+  setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: address } = useShipping();
     const { shippingMethods } = useShippingMethod();
@@ -291,68 +294,45 @@ export default {
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
 
-    const currentAddressId = ref(-1);
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
 
-    const mapAbstractAddressToIntegrationAddress = address => ({
-      ...shippingDetails.value,
-      phone: address.phone,
-      streetNumber: address.apartment,
-      city: address.city,
-      country: address.country,
-      state: address.state,
-      firstName: address.firstName,
-      lastName: address.lastName,
-      streetName: address.streetName,
-      postalCode: address.postalCode
-    });
+    const handleStepSubmit = () => context.emit('stepSubmit');
 
-    const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(addressId) });
-      if (!chosenAddress || !chosenAddress.length) {
-        return;
-      }
-      currentAddressId.value = Number(addressId);
-      shippingDetails.value = mapAbstractAddressToIntegrationAddress(chosenAddress[0]);
-      isShippingDetailsCompleted.value = false;
-    };
-
-    const handleStepSubmit = () => {
-      context.emit('stepSubmit');
-    };
-
-    const handleMethodSubmit = (reset, shippingMethod) => {
+    const handleMethodSubmit = async (reset, shippingMethod) => {
       chosenShippingMethod.value = shippingMethod;
-      context.emit('methodSubmit', {
-        callback: () => {
-          reset();
-          isShippingMethodCompleted.value = true;
-        },
-        shippingMethod
-      });
+      await props.handleShippingMethodSubmit(shippingMethod);
+      reset();
+      isShippingMethodCompleted.value = true;
     };
 
-    const handleAddressSubmit = reset => () => {
-      context.emit('addressSubmit', {
-        callback: async () => {
-          reset();
-          if (currentAddressId.value > -1 && setAsDefault.value) {
-            const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(currentAddressId.value) });
-            if (!chosenAddress || !chosenAddress.length) {
-              return;
-            }
-            await setDefaultAddress({ address: chosenAddress[0] });
-          }
-          isShippingDetailsCompleted.value = true;
-        },
-        shippingDetails: shippingDetails.value
-      });
+    const handleAddressSubmit = (reset) => async () => {
+      await props.handleShippingAddressSubmit(shippingDetails.value);
+      if (shippingDetails.value.id > -1 && setAsDefault.value) {
+        const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(shippingDetails.value.id) });
+        if (!chosenAddress || !chosenAddress.length) {
+          return;
+        }
+        await setDefaultAddress({ address: chosenAddress[0] });
+      }
+      reset();
+      isShippingDetailsCompleted.value = true;
+    };
+
+    const handleAddNewAddress = () => {
+      shippingDetails.value.id = -1;
+      canAddNewAddress.value = true;
+    };
+
+    const handleSetCurrentAddress = address => {
+      shippingDetails.value = address;
+      isShippingDetailsCompleted.value = false;
+      canAddNewAddress.value = false;
     };
 
     const changedDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      currentAddressId.value = -1;
+      shippingDetails.value.id = -1;
     };
 
     watch(address, (addr) => {
@@ -374,25 +354,18 @@ export default {
         return;
       }
       canAddNewAddress.value = false;
-      const matchingAddress = shippingAddresses.find(address => compareAddresses(address, shippingDetails.value));
-      if (matchingAddress) {
-        currentAddressId.value = matchingAddress.id;
-      } else if (shippingAddresses[0].isDefault) {
-        setCurrentAddress(shippingAddresses[0].id);
-      }
     });
 
     return {
+      NOT_SELECTED_ADDRESS,
+
       isAuthenticated,
       shippingDetails,
       chosenShippingMethod,
       shippingMethodGetters,
       countries: config.countries,
       shippingMethods,
-      shippingAddresses: computed(() => userShippingGetters.getAddresses(userShipping.value)),
-      currentAddressId,
       setAsDefault,
-      setCurrentAddress,
       canAddNewAddress,
 
       isShippingMethodCompleted,
@@ -401,6 +374,8 @@ export default {
       handleMethodSubmit,
       handleAddressSubmit,
       handleStepSubmit,
+      handleAddNewAddress,
+      handleSetCurrentAddress,
 
       changedDetails
     };

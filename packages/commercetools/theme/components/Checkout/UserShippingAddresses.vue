@@ -31,7 +31,7 @@ import {
   SfAddressPicker
 } from '@storefront-ui/vue';
 import UserShippingAddress from '~/components/UserShippingAddress';
-import { userShippingGetters } from '@vue-storefront/commercetools';
+import { userShippingGetters, useUserShipping } from '@vue-storefront/commercetools';
 
 export default {
   name: 'UserShippingAddresses',
@@ -43,10 +43,6 @@ export default {
     setAsDefault: {
       type: Boolean,
       required: true
-    },
-    shippingAddresses: {
-      type: Array,
-      required: true
     }
   },
   components: {
@@ -55,9 +51,23 @@ export default {
     UserShippingAddress
   },
   setup (_, { emit }) {
-    const setCurrentAddress = $event => emit('setCurrentAddress', $event);
+    const { shipping: userShipping } = useUserShipping();
+
+    const mapAbstractAddressToIntegrationAddress = address => ({
+      ...address,
+      streetNumber: address.apartment
+    });
+
+    const setCurrentAddress = async (addressId) => {
+      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: Number(addressId) });
+      if (!chosenAddress || !chosenAddress.length) {
+        return;
+      }
+      emit('setCurrentAddress', mapAbstractAddressToIntegrationAddress(chosenAddress[0]));
+    };
 
     return {
+      shippingAddresses: userShippingGetters.getAddresses(userShipping.value),
       setCurrentAddress,
       userShippingGetters
     };
