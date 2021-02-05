@@ -7,8 +7,8 @@
     />
     <ShippingForm
       :isSaving="isSaving"
-      @addressSubmit="({ callback, shippingDetails }) => handleShippingAddressSubmit(callback)(shippingDetails)"
-      @methodSubmit="({ callback, shippingMethod }) => handleShippingMethodSubmit(callback)(shippingMethod)"
+      :handleShippingMethodSubmit="handleShippingMethodSubmit"
+      :handleShippingAddressSubmit="handleShippingAddressSubmit"
       @stepSubmit="handleStepSubmit"
     />
   </div>
@@ -48,7 +48,7 @@ export default {
 
     onSSR(async () => loadShipping());
 
-    const handleShippingAddressSubmit = (callback) => async (shippingDetails) => {
+    const handleShippingAddressSubmit = async shippingDetails => {
       isSaving.details = true;
       await saveShipping({ shippingDetails });
       if (shippingError.value.save) {
@@ -56,17 +56,15 @@ export default {
       }
       await loadShippingMethod();
       isSaving.details = false;
-      callback();
     };
 
-    const handleShippingMethodSubmit = (callback) => async (shippingMethod) => {
+    const handleShippingMethodSubmit = async shippingMethod => {
       isSaving.method = true;
       await saveShippingMethod({ shippingMethod });
       if (shippingMethodError.value.save) {
         return;
       }
       isSaving.method = false;
-      callback();
     };
 
     const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
