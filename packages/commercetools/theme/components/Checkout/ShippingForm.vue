@@ -10,11 +10,10 @@
       "
     >
       <UserShippingAddresses
-        v-if="isAuthenticated"
+        v-if="isAuthenticated && hasSavedShippingAddress"
         :setAsDefault.sync="setAsDefault"
         :currentAddressId="shippingDetails.id || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
-        @changeSetAsDefault="setAsDefault = $event"
       />
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider
@@ -166,7 +165,7 @@
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="submit"
-        @click.native="handleAddNewAddress"
+        @click.native="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
       </SfButton>
@@ -246,7 +245,7 @@ import { useUserShipping, userShippingGetters, useShippingMethod, shippingMethod
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, onMounted } from '@vue/composition-api';
+import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -297,8 +296,15 @@ export default {
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
 
-    const handleStepSubmit = () => context.emit('stepSubmit');
+    const hasSavedShippingAddress = computed(() => {
+      if (!isAuthenticated.value || !userShipping.value) {
+        return false;
+      }
+      const addresses = userShippingGetters.getAddresses(userShipping.value);
+      return Boolean(addresses?.length);
+    });
 
+    const handleStepSubmit = () => context.emit('stepSubmit');
     const handleMethodSubmit = async (reset, shippingMethod) => {
       chosenShippingMethod.value = shippingMethod;
       await props.handleShippingMethodSubmit(shippingMethod);
@@ -319,7 +325,7 @@ export default {
       isShippingDetailsCompleted.value = true;
     };
 
-    const handleAddNewAddress = () => {
+    const handleAddNewAddressBtnClick = () => {
       shippingDetails.value.id = NOT_SELECTED_ADDRESS;
       canAddNewAddress.value = true;
     };
@@ -339,6 +345,7 @@ export default {
       shippingDetails.value.id = NOT_SELECTED_ADDRESS;
     };
 
+    // Update local state if we have new address' response from the backend
     watch(address, (addr) => {
       shippingDetails.value = addr;
     });
@@ -372,13 +379,14 @@ export default {
       setAsDefault,
       canAddNewAddress,
 
+      hasSavedShippingAddress,
       isShippingMethodCompleted,
       isShippingDetailsCompleted,
 
       handleMethodSubmit,
       handleAddressSubmit,
       handleStepSubmit,
-      handleAddNewAddress,
+      handleAddNewAddressBtnClick,
       handleSetCurrentAddress,
 
       changedDetails
