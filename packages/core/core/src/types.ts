@@ -290,7 +290,7 @@ export interface UseShippingErrors {
   save?: Error;
 }
 export interface ShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM> {
-  getAddress: (shipping: SHIPPING, criteria?: Record<string, any>) => SHIPPING_ADDRESS_ITEM;
+  getAddress: (shipping: SHIPPING) => SHIPPING_ADDRESS_ITEM;
   getAddressPostCode: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressStreetName: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressStreetNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
