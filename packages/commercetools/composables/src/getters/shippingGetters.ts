@@ -1,9 +1,7 @@
 import { ShippingGetters } from '@vue-storefront/core';
 import { Address } from './../types/GraphQL';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getAddress = (shipping: any, criteria?: Record<string, any>) => shipping;
-
+export const getAddress = (shipping: any) => shipping;
 export const getAddressPostCode = (address: Address) => address?.postalCode;
 export const getAddressStreetName = (address: Address) => address?.streetName;
 export const getAddressStreetNumber = (address: Address) => address?.streetNumber;
@@ -18,8 +16,6 @@ export const getAddressCompanyName = (address: Address) => address?.company;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAddressTaxNumber = (address: Address) => '';
 export const getAddressApartmentNumber = (address: Address) => address?.apartment;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const isAddressDefault = (address: Address) => false;
 
 const shippingGetters: ShippingGetters<any, Address> = {
   getAddress,
