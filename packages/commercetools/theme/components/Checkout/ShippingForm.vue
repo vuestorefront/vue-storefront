@@ -12,7 +12,7 @@
       <UserShippingAddresses
         v-if="isAuthenticated && hasSavedShippingAddress"
         :setAsDefault.sync="setAsDefault"
-        :currentAddressId="shippingDetails.id || NOT_SELECTED_ADDRESS"
+        :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
       />
       <div class="form" v-if="canAddNewAddress">
@@ -74,8 +74,8 @@
           slim
         >
           <SfInput
-            :value="shippingDetails.streetNumber"
-            @input="streetNumber => changeDetails('streetNumber', streetNumber)"
+            :value="shippingDetails.apartment"
+            @input="apartment => changeDetails('apartment', apartment)"
             label="House/Apartment number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
@@ -292,6 +292,7 @@ export default {
     const chosenShippingMethod = ref(null);
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
+    const currentAddressId = ref(NOT_SELECTED_ADDRESS);
 
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
@@ -313,7 +314,7 @@ export default {
     };
 
     const handleAddressSubmit = (reset) => async () => {
-      const addressId = shippingDetails.value.id;
+      const addressId = currentAddressId.value;
       await props.handleShippingAddressSubmit(shippingDetails.value);
       if (addressId !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
         const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
@@ -326,12 +327,13 @@ export default {
     };
 
     const handleAddNewAddressBtnClick = () => {
-      shippingDetails.value.id = NOT_SELECTED_ADDRESS;
+      currentAddressId.value = NOT_SELECTED_ADDRESS;
       canAddNewAddress.value = true;
     };
 
     const handleSetCurrentAddress = address => {
-      shippingDetails.value = address;
+      shippingDetails.value = {...address};
+      currentAddressId.value = address.id;
       canAddNewAddress.value = false;
       chosenShippingMethod.value = null;
       isShippingDetailsCompleted.value = false;
@@ -342,7 +344,14 @@ export default {
       shippingDetails.value[field] = value;
       chosenShippingMethod.value = null;
       isShippingMethodCompleted.value = false;
-      shippingDetails.value.id = NOT_SELECTED_ADDRESS;
+      currentAddressId.value = NOT_SELECTED_ADDRESS;
+    };
+
+    const selectDefaultAddress = () => {
+      const defaultAddress = userShippingGetters.getAddresses(userShipping.value, { isDefault: true });
+      if (defaultAddress && defaultAddress.length) {
+        handleSetCurrentAddress(defaultAddress[0]);
+      }
     };
 
     // Update local state if we have new address' response from the backend
@@ -364,6 +373,11 @@ export default {
       if (!shippingAddresses || !shippingAddresses.length) {
         return;
       }
+      const hasEmptyShippingDetails = !shippingDetails.value || Object.keys(shippingDetails.value).length === 0;
+      if (hasEmptyShippingDetails) {
+        selectDefaultAddress();
+        return;
+      }
       canAddNewAddress.value = false;
     });
 
@@ -378,6 +392,7 @@ export default {
       shippingMethods,
       setAsDefault,
       canAddNewAddress,
+      currentAddressId,
 
       hasSavedShippingAddress,
       isShippingMethodCompleted,
