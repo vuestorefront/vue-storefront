@@ -1,5 +1,4 @@
 import path from 'path';
-import { createMiddleware } from '@vue-storefront/core/server';
 
 const mapI18nSettings = (i18n) => ({
   locale: i18n.defaultLocale,
@@ -18,8 +17,6 @@ const getMissingFields = (options) =>
     .filter(o => options[o] === undefined);
 
 export default function (moduleOptions) {
-  const { middleware } = createMiddleware(moduleOptions);
-
   const options = isNuxtI18nUsed(moduleOptions)
     ? { ...moduleOptions, ...mapI18nSettings(this.options.i18n) }
     : moduleOptions;
@@ -30,6 +27,15 @@ export default function (moduleOptions) {
     throw new Error(`Please provide missing i18n fields: (${missingFields.join(', ')})`);
   }
 
+  this.nuxt.registerIntegration('ct', {
+    apiClientPackage: '@vue-storefront/commercetools-api/server',
+    modulePackage: '@vue-storefront/commercetools/nuxt',
+    configuration: options,
+    extensions: [
+      '@vue-storefront/commercetools'
+    ]
+  });
+
   this.extendBuild(config => {
     config.resolve.alias['@vue-storefront/commercetools-api$'] = require.resolve('@vue-storefront/commercetools-api');
   });
@@ -39,7 +45,4 @@ export default function (moduleOptions) {
     options
   });
 
-  if (moduleOptions.apiMiddleware !== false) {
-    this.addServerMiddleware(middleware);
-  }
 }

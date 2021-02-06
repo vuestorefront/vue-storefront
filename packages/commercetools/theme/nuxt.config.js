@@ -81,6 +81,28 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
+      middleware: {
+        extensions: [
+          {
+            extendApi: {
+              // eslint-disable-next-line
+              testFunction: async (context) => {
+                console.log('test function called');
+                return { test: 1 };
+              }
+            },
+            // eslint-disable-next-line
+            lifecycle: (req, res) => ({ beforeCall: ({ callName, args }) => {
+
+              if (callName === 'getCategory') {
+                console.log(args);
+              }
+
+              return args;
+            } })
+          }
+        ]
+      },
       api: {
         uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
         authHost: 'https://auth.sphere.io',
@@ -109,14 +131,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    ['@vue-storefront/middleware/nuxt', {
-      integrations: {
-        ct: {
-          api: '@vue-storefront/commercetools-api/server',
-          module: '@vue-storefront/commercetools/nuxt'
-        }
-      }
-    }]
+    ['@vue-storefront/middleware/nuxt']
   ],
   i18n: {
     currency: 'USD',

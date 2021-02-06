@@ -5,8 +5,8 @@ interface ContextConfiguration {
 }
 
 interface ApplyingContextHooks {
-  before: (args: any[]) => any[];
-  after: (response: any) => any;
+  before: ({ callName, args }) => any[];
+  after: ({ callName, args, response }) => any;
 }
 
 let useVSFContext = () => ({}) as Context;
@@ -28,9 +28,15 @@ const applyContextToApi = (
   hooks: ApplyingContextHooks = { before: NOP, after: NOP }
 ) =>
   Object.entries(api)
-    .reduce((prev, [key, fn]: any) => ({
+    .reduce((prev, [callName, fn]: any) => ({
       ...prev,
-      [key]: async (...args) => hooks.after(await fn(context, ...hooks.before(args)))
+      [callName]: async (...args) => {
+        const transformedArgs = hooks.before({ callName, args });
+        const response = await fn(context, ...transformedArgs);
+        const transformedResponse = hooks.after({ callName, args, response });
+
+        return transformedResponse;
+      }
     }), {});
 
 const generateContext = (factoryParams) => {

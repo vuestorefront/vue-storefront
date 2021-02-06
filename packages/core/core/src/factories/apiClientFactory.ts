@@ -4,34 +4,38 @@ import { Logger } from './../utils';
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
-    const extensions = factoryParams.extensions && this && this.middleware
-    // eslint-disable-next-line
-    ? Object.values(factoryParams.extensions).map((extensionFn) => extensionFn(this.middleware.req, this.middleware.res))
-      : [];
+    const predefinedExtensions = factoryParams.extensions || [];
+    const incommingExtensions = this?.middleware?.extensions || [];
+    const rawExtensions = [...predefinedExtensions, ...incommingExtensions];
+    const lifecycles = Object.values(rawExtensions)
+      .filter(ext => typeof ext.lifecycle === 'function')
+      .map(({ lifecycle }) => lifecycle(this?.middleware?.req, this?.middleware?.res));
+    const extendedApis = Object.keys(rawExtensions)
+      .reduce((prev, curr) => ({ ...prev, ...rawExtensions[curr].extendApi }), customApi);
 
-    const _config = extensions
+    const _config = lifecycles
       .filter(ext => ext.beforeCreate)
-      .reduce((prev, curr) => curr.beforeCreate(prev), config);
+      .reduce((prev, curr) => curr.beforeCreate({ config: prev }), config);
 
     const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
 
     Logger.debug('apiClientFactory.create', settings);
 
-    settings.config = extensions
+    settings.config = lifecycles
       .filter(ext => ext.afterCreate)
-      .reduce((prev, curr) => curr.afterCreate(prev), settings.config);
+      .reduce((prev, curr) => curr.afterCreate({ config: prev }), settings.config);
 
     const extensionHooks = {
-      before: (args) => extensions
+      before: (params) => lifecycles
         .filter(e => e.beforeCall)
-        .reduce((prev, e) => e.beforeCall(prev), args),
-      after: (resp) => extensions
+        .reduce((args, e) => e.beforeCall({ ...params, args}), params.args),
+      after: (params) => lifecycles
         .filter(e => e.afterCall)
-        .reduce((prev, e) => e.afterCall(prev), resp)
+        .reduce((response, e) => e.afterCall({ ...params, response }), params.response)
     };
 
     const api = applyContextToApi(
-      { ...factoryParams.api, ...customApi },
+      { ...factoryParams.api, ...extendedApis },
       settings,
       extensionHooks
     );
