@@ -24,7 +24,7 @@
         >
           <SfInput
             :value="shippingDetails.firstName"
-            @input="firstName => changedDetails('firstName', firstName)"
+            @input="firstName => changeDetails('firstName', firstName)"
             label="First name"
             name="firstName"
             class="form__element form__element--half"
@@ -41,7 +41,7 @@
         >
           <SfInput
             :value="shippingDetails.lastName"
-            @input="lastName => changedDetails('lastName', lastName)"
+            @input="lastName => changeDetails('lastName', lastName)"
             label="Last name"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
@@ -58,7 +58,7 @@
         >
           <SfInput
             :value="shippingDetails.streetName"
-            @input="streetName => changedDetails('streetName', streetName)"
+            @input="streetName => changeDetails('streetName', streetName)"
             label="Street name"
             name="streetName"
             class="form__element form__element--half"
@@ -75,7 +75,7 @@
         >
           <SfInput
             :value="shippingDetails.streetNumber"
-            @input="streetNumber => changedDetails('streetNumber', streetNumber)"
+            @input="streetNumber => changeDetails('streetNumber', streetNumber)"
             label="House/Apartment number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
@@ -92,7 +92,7 @@
         >
           <SfInput
             :value="shippingDetails.city"
-            @input="city => changedDetails('city', city)"
+            @input="city => changeDetails('city', city)"
             label="City"
             name="city"
             class="form__element form__element--half"
@@ -109,7 +109,7 @@
         >
           <SfInput
             :value="shippingDetails.postalCode"
-            @input="postalCode => changedDetails('postalCode', postalCode)"
+            @input="postalCode => changeDetails('postalCode', postalCode)"
             label="Zip-code"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
@@ -126,7 +126,7 @@
         >
           <SfSelect
             :value="shippingDetails.country"
-            @input="country => changedDetails('country', country)"
+            @input="country => changeDetails('country', country)"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -151,7 +151,7 @@
         >
           <SfInput
             :value="shippingDetails.phone"
-            @input="phone => changedDetails('phone', phone)"
+            @input="phone => changeDetails('phone', phone)"
             label="Phone number"
             name="phone"
             class="form__element form__element--half form__element--half-even"
@@ -338,7 +338,7 @@ export default {
       isShippingMethodCompleted.value = false;
     };
 
-    const changedDetails = (field, value) => {
+    const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
       chosenShippingMethod.value = null;
       isShippingMethodCompleted.value = false;
@@ -389,7 +389,7 @@ export default {
       handleAddNewAddressBtnClick,
       handleSetCurrentAddress,
 
-      changedDetails
+      changeDetails
     };
   }
 };
