@@ -328,10 +328,14 @@ export default {
       shippingDetails.value = address;
       isShippingDetailsCompleted.value = false;
       canAddNewAddress.value = false;
+      isShippingMethodCompleted.value = false;
+      chosenShippingMethod.value = null;
     };
 
     const changedDetails = (field, value) => {
       shippingDetails.value[field] = value;
+      chosenShippingMethod.value = null;
+      isShippingMethodCompleted.value = false;
       shippingDetails.value.id = NOT_SELECTED_ADDRESS;
     };
 
