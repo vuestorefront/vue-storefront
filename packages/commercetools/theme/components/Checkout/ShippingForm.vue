@@ -326,10 +326,10 @@ export default {
 
     const handleSetCurrentAddress = address => {
       shippingDetails.value = address;
-      isShippingDetailsCompleted.value = false;
       canAddNewAddress.value = false;
-      isShippingMethodCompleted.value = false;
       chosenShippingMethod.value = null;
+      isShippingDetailsCompleted.value = false;
+      isShippingMethodCompleted.value = false;
     };
 
     const changedDetails = (field, value) => {
