@@ -4,7 +4,7 @@ import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
   load: (context: Context) => Promise<SHIPPING>;
-  save: (context: Context, params: SHIPPING_PARAMS) => Promise<SHIPPING>;
+  save: (context: Context, params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => Promise<SHIPPING>;
 }
 
 export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
@@ -34,7 +34,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       }
     };
 
-    const save = async ({ params, shippingDetails }: { params: SHIPPING_PARAMS; shippingDetails: any }) => {
+    const save = async ({ params, shippingDetails }: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => {
       Logger.debug('useShipping.save');
 
       try {
@@ -43,7 +43,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
         const shippingInfo = await factoryParams.save(
           context,
           {
-            ...params,
+            params,
             shippingDetails
           }
         );
