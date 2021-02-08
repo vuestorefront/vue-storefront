@@ -91,10 +91,15 @@ interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
 
 ```js
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
+import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
     const { products, search, loading, error } = useProduct('<UNIQUE_ID>');
+
+    onSSR(async () => {
+      await search({ slug: 'super-t-shirt' })
+    })
 
     return {
       loading,
