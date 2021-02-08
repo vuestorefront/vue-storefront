@@ -8,7 +8,7 @@ export default {
   data () {
     return {
       pagination: {
-        perPage: 20,
+        perPage: 10,
         current: 1,
         enabled: false
       },
