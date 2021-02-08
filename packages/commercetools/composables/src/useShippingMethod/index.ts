@@ -3,7 +3,7 @@ import useCart from '../useCart';
 import { cartActions, ShippingMethod } from '@vue-storefront/commercetools-api';
 import { ShippingMethodData } from '@vue-storefront/commercetools-api/lib/api/getShippingMethods';
 
-const params: UseShippingMethodParams<ShippingMethodData, ShippingMethod, any> = {
+const params: UseShippingMethodParams<ShippingMethodData, ShippingMethod, {}> = {
   provide() {
     return {
       cart: useCart()

@@ -283,7 +283,7 @@ export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   loading: ComputedProperty<boolean>;
   shipping: ComputedProperty<SHIPPING>;
   load: () => Promise<void>;
-  save: (params: { params: SHIPPING_PARAMS; shippingDetails: any }) => Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => Promise<void>;
 }
 export interface UseShippingErrors {
   load?: Error;
@@ -305,12 +305,12 @@ export interface ShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM> {
   getAddressTaxNumber: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressApartmentNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
 }
-export interface UseShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD_PARAMS> {
+export interface UseShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
   shippingMethods: ComputedProperty<SHIPPING_METHOD_OBJECT>;
   error: ComputedProperty<UseShippingMethodErrors>;
   loading: ComputedProperty<boolean>;
   load: () => Promise<void>;
-  save: (params: SHIPPING_METHOD_PARAMS) => Promise<void>;
+  save: ({ params, shippingMethod }: { params: SHIPPING_METHOD_PARAMS; shippingMethod: SHIPPING_METHOD }) => Promise<void>;
 }
 export interface UseShippingMethodErrors {
   load?: Error;
