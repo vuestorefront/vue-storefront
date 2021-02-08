@@ -27,8 +27,8 @@ export default {
   methods: {
     onBottomScroll () {
       ++this.pagination.current
-      let total_count = this.$store.state.user.orders_history.total_count ? this.$store.state.user.orders_history.total_count : 0
-      if (Math.ceil(total_count / this.pagination.perPage) >= this.pagination.current) {
+      const totalCount = this.$store.state.user.orders_history.totalCount ? this.$store.state.user.orders_history.totalCount : 0
+      if (Math.ceil(totalCount / this.pagination.perPage) >= this.pagination.current) {
         this.getHistory({ currentPage: this.pagination.current, refresh: true })
       }
     },
