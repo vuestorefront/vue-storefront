@@ -80,6 +80,33 @@ module.exports = {
 					children: [
 						['/commercetools/auth-middleware', 'Auth Middleware']
 					],
+				},
+				{
+					title: 'API Client Reference',
+					collapsable: true,
+					children: [
+						['/commercetools/api-client-reference/modules/addtocart', 'addtocart'],
+						['/commercetools/api-client-reference/modules/applycartcoupon', 'applycartcoupon'],
+						['/commercetools/api-client-reference/modules/createcart', 'createcart'],
+						['/commercetools/api-client-reference/modules/createmyorderfromcart', 'createmyorderfromcart'],
+						['/commercetools/api-client-reference/modules/customerchangemypassword', 'customerchangemypassword'],
+						['/commercetools/api-client-reference/modules/customersignmein', 'customersignmein'],
+						['/commercetools/api-client-reference/modules/customersignmeup', 'customersignmeup'],
+						['/commercetools/api-client-reference/modules/customersignout', 'customersignout'],
+						['/commercetools/api-client-reference/modules/customerupdateme', 'customerupdateme'],
+						['/commercetools/api-client-reference/modules/getcart', 'getcart'],
+						['/commercetools/api-client-reference/modules/getcategory', 'getcategory'],
+						['/commercetools/api-client-reference/modules/getme', 'getme'],
+						['/commercetools/api-client-reference/modules/getorders', 'getorders'],
+						['/commercetools/api-client-reference/modules/getproduct', 'getproduct'],
+						['/commercetools/api-client-reference/modules/getshippingmethods', 'getshippingmethods'],
+						['/commercetools/api-client-reference/modules/isguest', 'isguest'],
+						['/commercetools/api-client-reference/modules/removecartcoupon', 'removecartcoupon'],
+						['/commercetools/api-client-reference/modules/removefromcart', 'removefromcart'],
+						['/commercetools/api-client-reference/modules/updatecart', 'updatecart'],
+						['/commercetools/api-client-reference/modules/updatecartquantity', 'updatecartquantity'],
+						['/commercetools/api-client-reference/modules/updateshippingdetails', 'updateshippingdetails']
+					]
 				}
 			],
 			'/aboutyou/': [
