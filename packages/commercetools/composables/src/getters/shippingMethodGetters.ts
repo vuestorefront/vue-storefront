@@ -2,7 +2,15 @@ import { ShippingMethodGetters } from '@vue-storefront/core';
 import { ShippingMethod } from './../types/GraphQL';
 import { ShippingMethodData } from '@vue-storefront/commercetools-api/lib/api/getShippingMethods';
 
-export const getMethods = (shippingMethods: ShippingMethodData) => shippingMethods.shippingMethods;
+export const getMethods = (shippingMethods: ShippingMethodData, criteria?: Record<string, any>) => {
+  const methods = shippingMethods.shippingMethods;
+  if (!criteria || !Object.keys(criteria).length) {
+    return methods;
+  }
+
+  const entries = Object.entries(criteria);
+  return methods.filter(address => entries.every(([key, value]) => address[key] === value));
+};
 // How to figure out it?
 export const getCurrentMethod = (shippingMethods: ShippingMethodData) => shippingMethods.shippingMethods[0];
 export const getMethodId = (method: ShippingMethod) => method?.id || '';
