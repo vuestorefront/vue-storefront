@@ -275,7 +275,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     if (!resolvedFromCache) {
-      Promise.resolve(resp.code === 200 ? resp : null)
+     return Promise.resolve(resp.code === 200 ? resp : null)
     }
 
     return resp
