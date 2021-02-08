@@ -208,8 +208,46 @@ For some composables (like `useProduct` ) you will need to pass a unique ID as a
 
 Every Vue Storefront composable usually returns three main pieces:
 
-- main data object. This is essential data exposed by the composable, like `products` for `useProduct`
-- supportive data objects (like `loading` and `error`)
-- `search` or `load` function
+- **Main data object**. This is a single, read-only object that the rest of the composition function interacts with or depends on. For example in `useProduct` it's a `products` object that `search()` function interacts with.
+- **Supportive data objects** which are depending directly on indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user` object.
+- **Main function that interacts with data object**. This function usually calls the API and updates the main data object. For example in `useProduct` and `useCategory` it's a `search` method,in `useCart` it's a `load()` method etc. The rule of thumb here is to use `search` when you need to pass some search parameters. `load` is usually called when you need to load some content based on cookies or `localStorage`
 
+```js
+import { useProduct } from '{INTEGRATION}';
 
+const { products, search, loading } = useProduct('<UNIQUE_ID>');
+
+search({ slug: 'super-t-shirt' });
+
+return { products, search, loading };
+```
+
+However, the example above won't work without `onSSR` helper. Let's take a look at it
+
+### Using `onSSR` for server-side rendering
+
+By default, Vue Storefront supports SSR and shared-state using Nuxt.js features. Furthermore, we can't use asynchronous that depend on each other calls in the `setup` function(e.g. loading products by the id of category that you have to fetch first). To solve this issue, we provide a temporary solution - `onSSR`:
+
+```js
+import { useProduct } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup() {
+    const { products, search, loading } = useProduct('<UNIQUE_ID>');
+
+    onSSR(async () => {
+      await search({ slug: 'super-t-shirt' });
+    });
+
+    return {
+      products,
+      loading
+    };
+  }
+};
+```
+
+`onSSR` accepts a callback where we should call our `search` or `load` method asynchronously. This will change `loading` state to `true`. Once the API call is done, the `products` object will be populated with the result, and `loading` will become `false` again.
+
+In the future, Vue 3 will provide an async setup and `onSSR` won't be needed anymore.
