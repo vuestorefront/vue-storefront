@@ -2,35 +2,33 @@ import { useUserBillingFactory, UseUserBillingFactoryParams, Context } from '@vu
 
 const addresses: any[] = [
   {
-    id: 1,
+    id: '_1231231253623423',
     firstName: 'John',
     lastName: 'Doe',
     streetName: 'Warsawska',
-    streetNumber: '24',
-    apartment: '193A',
+    streetNumber: '193A',
     city: 'Phoenix',
     state: null,
     postalCode: '26-620',
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   },
   {
-    id: 2,
+    id: '_245463456456356',
     firstName: 'Jonatan',
     lastName: 'Doe',
     streetName: 'Starachowicka',
-    streetNumber: '20',
-    apartment: '193A',
+    streetNumber: '193A',
     city: 'Atlanta',
     state: null,
     postalCode: '53-603',
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   }
 ];

@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 
+import useBilling from './useBilling';
 import useCategory from './useCategory';
 import useProduct from './useProduct';
 import useCart from './useCart';
@@ -17,6 +18,7 @@ import { track } from '@vue-storefront/core';
 track('VSFCommercetools');
 
 export {
+  useBilling,
   useCategory,
   useProduct,
   useCart,

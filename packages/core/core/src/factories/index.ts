@@ -1,3 +1,4 @@
+export * from './useBillingFactory';
 export * from './useCartFactory';
 export * from './useWishlistFactory';
 export * from './useCategoryFactory';
