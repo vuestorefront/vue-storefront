@@ -13,6 +13,7 @@ export const getAddressPhone = (address: Address) => address?.phone || '';
 export const getAddressEmail = (address: Address) => address?.email || '';
 export const getAddressProvince = (address: Address) => address?.state || '';
 export const getAddressCompanyName = (address: Address) => address?.company || '';
+// Field does not exist in CT. It is available only for customer in cart.customer.vatId
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAddressTaxNumber = (address: Address) => '';
 export const getAddressApartmentNumber = (address: Address) => address?.apartment || '';
