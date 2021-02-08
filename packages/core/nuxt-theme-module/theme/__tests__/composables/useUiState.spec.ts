@@ -1,4 +1,4 @@
-import { useUiState } from '../../../nuxt-theme-module/theme/composables';
+import { useUiState } from '../../composables';
 
 const {
   isCartSidebarOpen,
