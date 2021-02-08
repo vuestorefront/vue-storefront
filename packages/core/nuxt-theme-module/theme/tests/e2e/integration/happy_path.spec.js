@@ -4,8 +4,8 @@ const element = (name) => `[data-cypress="${ name }"]`;
 
 const selectors = {
   cart: {
-    icon: '[data-testid="cartIcon"]',
-    indicator: '[data-testid="cartIcon"] .sf-badge',
+    icon: element('header-minicart'),
+    indicator: element('header-minicart-indicator'),
     items: element('collected-product-cart-sidebar')
   },
   catalog: {
@@ -86,13 +86,20 @@ context('', () => {
     cy.get(selectors.checkout.shipping.cityName).type('City');
     cy.get(selectors.checkout.shipping.zipCode).type('12345');
     cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
-    cy.get(selectors.checkout.shipping.state).type('State');
+    cy.ifElementExists(selectors.checkout.shipping.state, element => element.type('State'));
 
     // Select first country from the dropdown
     cy
-      .get(`${selectors.checkout.shipping.countryName} select option`)
-      .eq(0)
-      .then(element => element.parent().select(element.value));
+      .get(`${selectors.checkout.shipping.countryName} option:first-child`)
+      .then(element => {
+        console.log({
+          value: element.val(),
+          parent: element.parent()
+        });
+
+        return element.parent().select(element.val());
+      })
+      .wait(500);
 
     // Show shipping methods
     cy.get(selectors.checkout.continueButton).click().wait(500);

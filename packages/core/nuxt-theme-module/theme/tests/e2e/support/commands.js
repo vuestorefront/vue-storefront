@@ -25,3 +25,9 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('ifElementExists', (selector, cb) => {
+  cy
+    .get('body')
+    .then(body => body.find(selector).length && cb(cy.get(selector)));
+});
