@@ -262,7 +262,7 @@ const actions: ActionTree<UserState, RootState> = {
     const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
-      let oldOrders = getters.getOrdersHistory;
+      const oldOrders = getters.getOrdersHistory;
       let orders = resp.result;
       if (oldOrders && orders.items) {
         orders.items = [
