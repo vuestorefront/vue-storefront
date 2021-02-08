@@ -1,7 +1,7 @@
 import { ShippingGetters } from '@vue-storefront/core';
 import { Address } from './../types/GraphQL';
 
-export const getAddress = (shipping: any) => shipping;
+export const getAddress = (shipping: Address) => shipping;
 export const getAddressPostCode = (address: Address) => address?.postalCode || '';
 export const getAddressStreetName = (address: Address) => address?.streetName || '';
 export const getAddressStreetNumber = (address: Address) => address?.streetNumber || '';
@@ -17,7 +17,7 @@ export const getAddressCompanyName = (address: Address) => address?.company || '
 export const getAddressTaxNumber = (address: Address) => '';
 export const getAddressApartmentNumber = (address: Address) => address?.apartment || '';
 
-const shippingGetters: ShippingGetters<any, Address> = {
+const shippingGetters: ShippingGetters<Address, Address> = {
   getAddress,
   getAddressPostCode,
   getAddressStreetName,

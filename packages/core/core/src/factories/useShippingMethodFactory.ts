@@ -4,13 +4,13 @@ import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseShippingMethodParams<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> extends FactoryParams {
   load: (context: Context) => Promise<SHIPPING_METHOD_OBJECT>;
-  save: (context: Context, params: SHIPPING_METHOD_PARAMS) => Promise<SHIPPING_METHOD>;
+  save: (context: Context, params: { params: SHIPPING_METHOD_PARAMS; shippingMethod: SHIPPING_METHOD }) => Promise<SHIPPING_METHOD>;
 }
 
 export const useShippingMethodFactory = <SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>(
   factoryParams: UseShippingMethodParams<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS>
 ) => {
-  return function useShippingMethod (): UseShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD_PARAMS> {
+  return function useShippingMethod (): UseShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
     const loading: Ref<boolean> = sharedRef(false, 'useShippingMethod-loading');
     const shippingMethods: Ref<SHIPPING_METHOD_OBJECT> = sharedRef(null, 'useShippingMethod-shippingMethods');
     const context = generateContext(factoryParams);
@@ -34,7 +34,7 @@ export const useShippingMethodFactory = <SHIPPING_METHOD_OBJECT, SHIPPING_METHOD
       }
     };
 
-    const save = async (params: SHIPPING_METHOD_PARAMS) => {
+    const save = async ({ params, shippingMethod }: { params: SHIPPING_METHOD_PARAMS; shippingMethod: SHIPPING_METHOD }) => {
       Logger.debug('useShippingMethod.save');
 
       try {
@@ -42,7 +42,10 @@ export const useShippingMethodFactory = <SHIPPING_METHOD_OBJECT, SHIPPING_METHOD
         error.value.save = null;
         const shippingInfo = await factoryParams.save(
           context,
-          params
+          {
+            params,
+            shippingMethod
+          }
         );
         console.log(shippingInfo, 'what to do with this shippingInfo? ShippingMethodFactory.save');
       } catch (err) {
