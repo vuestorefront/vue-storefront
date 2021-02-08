@@ -53,6 +53,7 @@ module.exports = {
 					children: [
 						['/commercetools/use-product', 'Products'],
 						['/commercetools/use-review', 'Reviews'],
+						['/commercetools/use-user', 'User'],
 						['/commercetools/use-user-shipping', 'Shipping addresses'],
 						['/commercetools/use-user-billing', 'Billing addresses'],
 						['/commercetools/use-facet', 'Faceting'],
