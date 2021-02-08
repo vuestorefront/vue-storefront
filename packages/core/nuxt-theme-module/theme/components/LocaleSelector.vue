@@ -5,7 +5,7 @@
       class="container__lang container__lang--selected"
       @click="isLangModalOpen = !isLangModalOpen"
     >
-      <SfImage :src="`/icons/langs/${locale}.webp`" width="20" />
+      <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
     <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
@@ -16,7 +16,7 @@
                 <span>{{ lang.label }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/${lang.code}.webp`" />
+                <SfImage :src="`/icons/langs/${lang.code}.webp`" width="20" alt="Flag" class="language__flag" />
               </template>
             </SfCharacteristic>
           </a>
@@ -67,7 +67,6 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   position: relative;
-
   .sf-bottom-modal {
     z-index: 2;
     left: 0;
@@ -75,26 +74,19 @@ export default {
       --bottom-modal-height: 100vh;
     }
   }
-
   .sf-list {
     .language {
-      padding: var(--spacer-sm) 0;
+      padding: var(--spacer-sm);
+      &__flag {
+        margin-right: var(--spacer-sm);
+      }
     }
-
     @include for-desktop {
       display: flex;
     }
-
-    .sf-image {
-      --image-width: 20px;
-      margin-right: 1rem;
-      border: 1px solid var(--c-light);
-      border-radius: 50%;
-    }
   }
-
   &__lang {
-    --image-width: 20px;
+    width: 20px;
     --button-box-shadow: none;
     background: none;
     padding: 0 5px;

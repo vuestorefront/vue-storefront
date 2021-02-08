@@ -21,11 +21,12 @@ const product = {
   _slug: 'variant-1',
   _id: 1234,
   price: 12,
-  attributeList: [
+  attributesRaw: [
     {
       name: 'articleNumberManufacturer',
-      stringValue: 'H805 C195 85072',
-      __typename: 'StringAttribute'
+      value: 'H805 C195 85072',
+      _translated: 'H805 C195 85072',
+      attributeDefinition: { type: { name: 'text'} }
     }
   ],
   images: [{ url: 'imageV11/url.jpg' }, { url: 'imageV12/url.jpg' }],
@@ -120,31 +121,35 @@ describe('[commercetools-getters] product getters', () => {
   it('returns product by given attributes', () => {
     const variant1 = {
       ...product,
-      attributeList: [
+      attributesRaw: [
         {
           name: 'size',
-          stringValue: '36',
-          __typename: 'StringAttribute'
+          value: '36',
+          _translated: '26',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'color',
-          stringValue: 'white',
-          __typename: 'StringAttribute'
+          value: 'white',
+          _translated: 'white',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     };
     const variant2 = {
       ...product,
-      attributeList: [
+      attributesRaw: [
         {
           name: 'size',
-          stringValue: '38',
-          __typename: 'StringAttribute'
+          value: '38',
+          _translated: '38',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'color',
-          stringValue: 'black',
-          __typename: 'StringAttribute'
+          value: 'black',
+          _translated: 'black',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     };
@@ -172,16 +177,18 @@ describe('[commercetools-getters] product getters', () => {
   it('returns product unique attributes', () => {
     const prod = {
       ...product,
-      attributeList: [
+      attributesRaw: [
         {
           name: 'articleNumberManufacturer',
-          stringValue: 'H805 C195 85072',
-          __typename: 'StringAttribute'
+          value: 'H805 C195 85072',
+          _translated: 'H805 C195 85072',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'articleNumberManufacturer',
-          stringValue: 'H805 C195 85072',
-          __typename: 'StringAttribute'
+          value: 'H805 C195 85072',
+          _translated: 'H805 C195 85072',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     } as any;
@@ -194,16 +201,18 @@ describe('[commercetools-getters] product getters', () => {
 
   it('returns filtered product attributes', () => {
     const product = {
-      attributeList: [
+      attributesRaw: [
         {
           name: 'articleNumberManufacturer',
-          stringValue: 'H805 C195 85072',
-          __typename: 'StringAttribute'
+          value: 'H805 C195 85072',
+          _translated: 'H805 C195 85072',
+          attributeDefinition: { type: { name: 'text'} }
         },
         {
           name: 'color',
-          stringValue: 'H805 C195 85072',
-          __typename: 'StringAttribute'
+          value: 'H805 C195 85072',
+          _translated: 'H805 C195 85072',
+          attributeDefinition: { type: { name: 'text'} }
         }
       ]
     } as any;

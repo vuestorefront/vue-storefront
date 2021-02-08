@@ -1,5 +1,7 @@
 import { AgnosticCoupon } from '@vue-storefront/core';
 
+export { UseCategory, UseProduct } from '@vue-storefront/core';
+
 export type ProductsResponse = {
   data: Product[];
   total: number;
@@ -18,6 +20,8 @@ export type Category = {
   slug: string;
   items: Category[];
 }
+
+export type CategoryFilter = Record<string, any>;
 
 export type User = {
   firstName?: string;
@@ -66,7 +70,3 @@ export type ProductVariant = {
     current: number;
   };
 }
-
-export type CategoryFilter = Record<string, any>;
-
-export { UseCategory, UseProduct } from '@vue-storefront/core';

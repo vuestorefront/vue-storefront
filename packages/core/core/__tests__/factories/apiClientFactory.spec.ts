@@ -1,4 +1,4 @@
-import { apiClientFactory } from '../../src/factories/apiFactory';
+import { apiClientFactory } from '../../src/factories/apiClientFactory';
 
 jest.mock('../../src/utils', () => ({
   integrationPluginFactory: jest.fn(),

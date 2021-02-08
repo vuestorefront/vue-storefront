@@ -195,12 +195,8 @@ export default {
     padding: 0 var(--spacer-base);
   }
   &__image {
-    --image-width: 13.1875rem;
-    margin: 0 0 var(--spacer-xl) 7.5rem;
-    @include for-desktop {
-      --image-width: 23.3125rem;
-      margin: 0 0 var(--spacer-2xl) 7.5rem;
-    }
+    --image-width: 16rem;
+    margin: 0 0 var(--spacer-2xl) 7.5rem;
   }
   @include for-desktop {
     --heading-title-font-size: var(--font-size--xl);
@@ -212,7 +208,6 @@ export default {
 }
 .collected-product {
   margin: 0 0 var(--spacer-sm) 0;
-  --image-height: 12.5rem;
   &__properties {
     margin: var(--spacer-xs) 0 0 0;
     display: flex;

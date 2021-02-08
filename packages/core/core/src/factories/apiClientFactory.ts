@@ -1,7 +1,6 @@
-import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory } from './types';
-import { applyContextToApi } from './../../utils/context';
-import { createApiInstance } from './_utils';
-import { Logger } from './../../utils';
+import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory } from './../types';
+import { applyContextToApi } from './../utils/context';
+import { Logger } from './../utils';
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
@@ -22,7 +21,20 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
       .filter(ext => ext.afterCreate)
       .reduce((prev, curr) => curr.afterCreate(prev), settings.config);
 
-    const api = applyContextToApi({ ...factoryParams.api, ...customApi }, settings, extensions);
+    const extensionHooks = {
+      before: (args) => extensions
+        .filter(e => e.beforeCall)
+        .reduce((prev, e) => e.beforeCall(prev), args),
+      after: (resp) => extensions
+        .filter(e => e.afterCall)
+        .reduce((prev, e) => e.afterCall(prev), resp)
+    };
+
+    const api = applyContextToApi(
+      { ...factoryParams.api, ...customApi },
+      settings,
+      extensionHooks
+    );
 
     return {
       api,
@@ -31,7 +43,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
     };
   }
 
-  return createApiInstance<ApiClientFactory>({ createApiClient }, factoryParams);
+  return { createApiClient };
 };
 
-export default apiClientFactory;
+export { apiClientFactory };
