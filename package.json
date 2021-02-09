@@ -40,6 +40,7 @@
     "test:core": "jest -c ./packages/core/jest.config.js",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
     "test:e2e": "cd packages/core/nuxt-theme-module && cypress open --config-file theme/tests/e2e/cypress.json",
+    "test:e2e:headless": "cd packages/core/nuxt-theme-module && cypress run --headless --config-file theme/tests/e2e/cypress.json",
     "test:cli": "cd packages/core/cli && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",

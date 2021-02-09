@@ -169,8 +169,8 @@ jobs:
           parallel: true
           flag-name: ${{ matrix.integration }}-composables
 
-  finish:
-    name: Finish
+  finish_coveralls:
+    name: Finish coveralls
     needs: validate_integrations
     runs-on: ubuntu-latest
     steps:
@@ -179,3 +179,44 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
+
+  validate_integrations:
+    name: Validate ${{ matrix.integration }}
+    needs: validate_core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        integration:
+          # - about-you
+          # - boilerplate
+          - commercetools
+          # - shopify
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build api-client
+        run: cd packages/${{ matrix.integration }}/api-client && yarn build
+
+      - name: Build composables
+        run: cd packages/${{ matrix.integration }}/composables && yarn build
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          start: cd packages/${{ matrix.integration }}/theme && yarn dev
+          wait-on: 'http://0.0.0.0:3000/'
+          command: yarn run test:e2e:headless
