@@ -11,4 +11,3 @@ export * from './useReviewFactory';
 export * from './useFacetFactory';
 export * from './useContentFactory';
 export * from './useShippingFactory';
-export * from './useShippingMethodFactory';
