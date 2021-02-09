@@ -51,27 +51,17 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
-						['/commercetools/use-product', 'Products'],
-						['/commercetools/use-review', 'Reviews'],
-						['/commercetools/use-user', 'User'],
-						['/commercetools/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/use-user-billing', 'Billing addresses'],
-						['/commercetools/use-facet', 'Faceting'],
-						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist'],
-						['/commercetools/use-category', 'Category']
-					]
-				},
-				{
-					title: 'Enterprise (paid)',
-					collapsable: false,
-					children: [
-						['/commercetools/enterprise/introduction', 'Introduction'],
-						['/commercetools/enterprise/use-review', 'Reviews'],
-						['/commercetools/enterprise/user-groups', 'User groups'],
-						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/enterprise/use-user-billing', 'Billing addresses'],
-						['/commercetools/enterprise/use-wishlist', 'Wishlist']
+						['/commercetools/use-product', 'useProduct'],
+						['/commercetools/use-review', 'useReview '],
+						['/commercetools/use-user', 'useUser'],
+						['/commercetools/use-user-shipping', 'useUserShipping'],
+						['/commercetools/use-user-billing', 'useUserBilling'],
+						['/commercetools/use-facet', 'useFacet'],
+						['/commercetools/use-cart', 'useCart'],
+						['/commercetools/use-wishlist', 'useWishlist'],
+						['/commercetools/use-category', 'useCategory'],
+						['/commercetools/user-groups', 'User groups'],
+						['/commercetools/enterprise/introduction', 'Enterprise (paid)']
 					]
 				},
 				{
@@ -85,27 +75,7 @@ module.exports = {
 					title: 'API Client Reference',
 					collapsable: true,
 					children: [
-						['/commercetools/api-client-reference/modules/addtocart', 'addtocart'],
-						['/commercetools/api-client-reference/modules/applycartcoupon', 'applycartcoupon'],
-						['/commercetools/api-client-reference/modules/createcart', 'createcart'],
-						['/commercetools/api-client-reference/modules/createmyorderfromcart', 'createmyorderfromcart'],
-						['/commercetools/api-client-reference/modules/customerchangemypassword', 'customerchangemypassword'],
-						['/commercetools/api-client-reference/modules/customersignmein', 'customersignmein'],
-						['/commercetools/api-client-reference/modules/customersignmeup', 'customersignmeup'],
-						['/commercetools/api-client-reference/modules/customersignout', 'customersignout'],
-						['/commercetools/api-client-reference/modules/customerupdateme', 'customerupdateme'],
-						['/commercetools/api-client-reference/modules/getcart', 'getcart'],
-						['/commercetools/api-client-reference/modules/getcategory', 'getcategory'],
-						['/commercetools/api-client-reference/modules/getme', 'getme'],
-						['/commercetools/api-client-reference/modules/getorders', 'getorders'],
-						['/commercetools/api-client-reference/modules/getproduct', 'getproduct'],
-						['/commercetools/api-client-reference/modules/getshippingmethods', 'getshippingmethods'],
-						['/commercetools/api-client-reference/modules/isguest', 'isguest'],
-						['/commercetools/api-client-reference/modules/removecartcoupon', 'removecartcoupon'],
-						['/commercetools/api-client-reference/modules/removefromcart', 'removefromcart'],
-						['/commercetools/api-client-reference/modules/updatecart', 'updatecart'],
-						['/commercetools/api-client-reference/modules/updatecartquantity', 'updatecartquantity'],
-						['/commercetools/api-client-reference/modules/updateshippingdetails', 'updateshippingdetails']
+						['/commercetools/api-client-reference', 'API Client Reference']
 					]
 				}
 			],

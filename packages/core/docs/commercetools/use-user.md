@@ -2,7 +2,7 @@
 platform: Commercetools
 ---
 
-# User
+# useUser
 
 [[toc]]
 

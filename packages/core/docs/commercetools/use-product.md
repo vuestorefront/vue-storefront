@@ -2,7 +2,7 @@
 platform: Commercetools
 ---
 
-# Products
+# useProduct
 
 [[toc]]
 
