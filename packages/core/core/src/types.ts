@@ -305,26 +305,6 @@ export interface ShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM> {
   getAddressTaxNumber: (address: SHIPPING_ADDRESS_ITEM) => string;
   getAddressApartmentNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
 }
-export interface UseShippingMethod<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD, SHIPPING_METHOD_PARAMS> {
-  shippingMethods: ComputedProperty<SHIPPING_METHOD_OBJECT>;
-  error: ComputedProperty<UseShippingMethodErrors>;
-  loading: ComputedProperty<boolean>;
-  load: () => Promise<void>;
-  save: ({ params, shippingMethod }: { params: SHIPPING_METHOD_PARAMS; shippingMethod: SHIPPING_METHOD }) => Promise<void>;
-}
-export interface UseShippingMethodErrors {
-  load?: Error;
-  save?: Error;
-}
-export interface ShippingMethodGetters<SHIPPING_METHOD_OBJECT, SHIPPING_METHOD_ITEM> {
-  getMethods: (methods: SHIPPING_METHOD_OBJECT, criteria?: Record<string, any>) => SHIPPING_METHOD_ITEM[];
-  getCurrentMethod: (methods: SHIPPING_METHOD_OBJECT) => SHIPPING_METHOD_ITEM;
-  getMethodId: (method: SHIPPING_METHOD_ITEM) => string;
-  getMethodName: (method: SHIPPING_METHOD_ITEM) => string;
-  getMethodDescription: (method: SHIPPING_METHOD_ITEM) => string;
-  getMethodPrice: (method: SHIPPING_METHOD_ITEM) => number;
-  isMethodDefault: (method: SHIPPING_METHOD_ITEM) => boolean;
-}
 export interface UseFacetErrors {
   search?: Error;
 }

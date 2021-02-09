@@ -25,7 +25,7 @@
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              <span class="content__label">{{ shippingMethodGetters.getMethodName(chosenShippingMethod) }}</span><br />
+              <span class="content__label">{{ chosenShippingMethod.name }}</span><br />
               {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
@@ -119,7 +119,8 @@
           />
           <SfProperty
             name="Shipping"
-            :value="$n(shippingMethodGetters.getMethodPrice(chosenShippingMethod), 'currency')"
+            v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
+            :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
@@ -165,8 +166,9 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, useCart, cartGetters, shippingMethodGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useCart, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
+import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
   name: 'ReviewOrder',
@@ -225,7 +227,7 @@ export default {
       processOrder,
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
-      shippingMethodGetters
+      getShippingMethodPrice
     };
   }
 };
