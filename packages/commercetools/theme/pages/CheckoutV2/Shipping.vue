@@ -7,7 +7,6 @@
     />
     <ShippingForm
       :isSaving="isSaving"
-      :handleShippingMethodSubmit="handleShippingMethodSubmit"
       :handleShippingAddressSubmit="handleShippingAddressSubmit"
       @stepSubmit="handleStepSubmit"
     />
@@ -18,7 +17,7 @@
 import {
   SfHeading
 } from '@storefront-ui/vue';
-import { useShipping, useShippingMethod } from '@vue-storefront/commercetools';
+import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { reactive } from '@vue/composition-api';
 import ShippingForm from '@/components/Checkout/ShippingForm';
@@ -35,11 +34,6 @@ export default {
       load: loadShipping,
       error: shippingError
     } = useShipping();
-    const {
-      save: saveShippingMethod,
-      load: loadShippingMethod,
-      error: shippingMethodError
-    } = useShippingMethod();
 
     const isSaving = reactive({
       details: false,
@@ -56,25 +50,25 @@ export default {
       if (shippingError.value.save) {
         return;
       }
-      await loadShippingMethod();
+      // await loadShippingMethod();
       isSaving.details = false;
     };
 
-    const handleShippingMethodSubmit = async shippingMethod => {
-      isSaving.method = true;
-      await saveShippingMethod({ shippingMethod });
-      if (shippingMethodError.value.save) {
-        return;
-      }
-      isSaving.method = false;
-    };
+    // const handleShippingMethodSubmit = async shippingMethod => {
+    //   isSaving.method = true;
+    //   await saveShippingMethod({ shippingMethod });
+    //   if (shippingMethodError.value.save) {
+    //     return;
+    //   }
+    //   isSaving.method = false;
+    // };
 
     const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
 
     return {
       isSaving,
       handleShippingAddressSubmit,
-      handleShippingMethodSubmit,
+      // handleShippingMethodSubmit,
       handleStepSubmit
     };
   }
