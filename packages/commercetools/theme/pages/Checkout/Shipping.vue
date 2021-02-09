@@ -144,7 +144,11 @@
           class="sf-heading--left sf-heading--no-underline title"
         />
         <div class="form">
-          <div class="form__radio-group" v-if="canContinueToPayment(dirty)">
+          <div
+            v-if="canContinueToPayment(dirty)"
+            v-cypress="'shipping-methods'"
+            class="form__radio-group"
+          >
             <SfRadio
               v-for="item in shippingMethods"
               :key="checkoutGetters.getShippingMethodName(item)"

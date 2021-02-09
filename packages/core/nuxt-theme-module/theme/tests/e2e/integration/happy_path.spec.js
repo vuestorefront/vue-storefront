@@ -27,7 +27,8 @@ const selectors = {
       zipCode: element('shipping-details-input_postalCode'),
       state: element('shipping-details-input_state'),
       countryName: element('shipping-details-select_country'),
-      phoneNumber: element('shipping-details-input_phone')
+      phoneNumber: element('shipping-details-input_phone'),
+      methods: element('shipping-methods')
     },
     payment: {
       copyFromShipping: element('payment-copy-from-billing'),
@@ -90,19 +91,13 @@ context('', () => {
 
     // Select first country from the dropdown
     cy
-      .get(`${selectors.checkout.shipping.countryName} option:first-child`)
-      .then(element => {
-        console.log({
-          value: element.val(),
-          parent: element.parent()
-        });
-
-        return element.parent().select(element.val());
-      })
-      .wait(500);
+      .get(`${selectors.checkout.shipping.countryName} option`)
+      .eq(0)
+      .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.val()));
 
     // Show shipping methods
     cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(`${selectors.checkout.shipping.methods} label`).first().click();
 
     // Go to payment
     cy.get(selectors.checkout.continueButton).click().wait(500);
