@@ -178,22 +178,20 @@
       <div class="form">
         <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
-            v-for="item in shippingMethodGetters.getMethods(shippingMethods)"
-            :key="shippingMethodGetters.getMethodId(item) || shippingMethodGetters.getMethodName(item)"
-            :label="shippingMethodGetters.getMethodName(item)"
-            :value="shippingMethodGetters.getMethodId(item)"
-            :selected="
-              shippingMethodGetters.getMethodId(chosenShippingMethod)
-            "
+            v-for="item in shippingMethods.shippingMethods"
+            :key="item.id || item.name"
+            :label="item.name"
+            :value="item.id"
+            :selected="chosenShippingMethod.id"
             @input="handleMethodSubmit(reset, item)"
             name="shippingMethod"
-            :description="shippingMethodGetters.getMethodDescription(item)"
+            :description="item.description"
             class="form__radio shipping"
           >
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div>${{ shippingMethodGetters.getMethodPrice(item) }}</div>
+                <div v-if="item && item.zoneRates">${{ getShippingMethodPrice(item) }}</div>
               </div>
             </template>
             <template #description="{ description }">
@@ -241,12 +239,13 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useShippingMethod, shippingMethodGetters, useUser, useShipping } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useShippingMethod, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -387,12 +386,12 @@ export default {
       isAuthenticated,
       shippingDetails,
       chosenShippingMethod,
-      shippingMethodGetters,
       countries: config.countries,
       shippingMethods,
       setAsDefault,
       canAddNewAddress,
       currentAddressId,
+      getShippingMethodPrice,
 
       hasSavedShippingAddress,
       isShippingMethodCompleted,

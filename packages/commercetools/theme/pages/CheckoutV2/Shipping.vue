@@ -21,7 +21,7 @@ import {
 import { useShipping, useShippingMethod } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { reactive } from '@vue/composition-api';
-import ShippingForm from '../../components/Checkout/ShippingForm';
+import ShippingForm from '@/components/Checkout/ShippingForm';
 
 export default {
   name: 'Shipping',
@@ -46,7 +46,9 @@ export default {
       method: false
     });
 
-    onSSR(async () => loadShipping());
+    onSSR(async () => {
+      await loadShipping();
+    });
 
     const handleShippingAddressSubmit = async shippingDetails => {
       isSaving.details = true;
