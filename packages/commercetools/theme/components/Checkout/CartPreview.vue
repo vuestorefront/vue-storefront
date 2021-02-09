@@ -32,6 +32,7 @@
       />
       <SfProperty
         name="Shipping"
+        v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
         :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
@@ -75,7 +76,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCheckout, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCheckout, useCart, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
