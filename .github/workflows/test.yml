@@ -171,7 +171,7 @@ jobs:
 
   finish_coveralls:
     name: Finish coveralls
-    needs: validate_integrations
+    needs: unit_test_integrations
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls Finished
