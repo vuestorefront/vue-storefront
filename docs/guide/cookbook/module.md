@@ -834,14 +834,16 @@ That's it, now we are able to filter by a complex query in only one line inside 
 
 ## 7. Working with translations in module
 
-Translations are provided in `core/i18n/resource/i18n/en-US.csv` file and can be extended / overridden in `src/modules/{my-module}/resource/i18n/en-US.csv` accordingly.
+Translations are provided in `core/i18n/resource/i18n/{your-locale}.csv` file and can be extended or overridden in `src/modules/{my-module}/resource/i18n/{your-locale}.csv` accordingly.
+
+Remember, translations from `src/module/{my-module}/resource/i18n` are overridden by translation from `src/themes/{my-theme}/resource/i18n`.
 
 ### Example
 
 Here's an example of `en-US.csv` for `en-US` locale:
 
 ```csv
-"customMessage","Here is the core message. that can be overwritten in the module"
+"customMessage","Here is the core message that can be overwritten in the module"
 ```
 
 When you create the `en-US.csv` file within your `src/modules/{my-module}/resource/i18n/` folder and override some messages like:
@@ -850,14 +852,18 @@ When you create the `en-US.csv` file within your `src/modules/{my-module}/resour
 "customMessage","You can define or override translation messages here."
 ```
 
-... you may expect that `$t('customMessage)` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the module`.
+... you may expect that `$t('customMessage')` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the module`.
 
 ## 8. Tests in module
 
 Our jest config allows you to write tests for each module which you have created:
 
-`'<rootDir>/src/modules/**/test/unit/**/*.spec.(js|ts)'`
+`src/modules/{my-module}/test/unit/{my-test}.spec.(js|ts)`
+
+That means all you have to do is create test file inside `src/modules/{my-module}/test/unit/`. That's all.
 
 ### Example
 
-That means all you have to do is create test file in `src/modules/{my-module}/test/unit/`. That's all.
+Imagine that you have a helpers folder inside your custom module and you want to add some test.
+
+You should create js or ts test file inside `src/modules/{my-modules}/test/unit/helpers`.
