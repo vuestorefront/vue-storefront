@@ -102,10 +102,8 @@ jobs:
       fail-fast: false
       matrix:
         integration:
-          # - about-you
           - boilerplate
           - commercetools
-          # - shopify
 
     steps:
       - name: Checkout code
@@ -182,16 +180,14 @@ jobs:
 
   e2e_test_integrations:
     name: Run E2E tests on ${{ matrix.integration }}
-    needs: validate_core
+    # needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         integration:
-          # - about-you
           # - boilerplate
           - commercetools
-          # - shopify
 
     steps:
       - name: Checkout code
@@ -207,6 +203,9 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build core
+        run: yarn build:core
 
       - name: Build api-client
         run: cd packages/${{ matrix.integration }}/api-client && yarn build
