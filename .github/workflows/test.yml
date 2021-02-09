@@ -214,7 +214,7 @@ jobs:
         run: cd packages/${{ matrix.integration }}/composables && yarn build
 
       - name: Cypress run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           start: cd packages/${{ matrix.integration }}/theme && yarn dev
           wait-on: 'http://0.0.0.0:3000/'
