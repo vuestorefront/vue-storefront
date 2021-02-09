@@ -27,15 +27,6 @@ export default function (moduleOptions) {
     throw new Error(`Please provide missing i18n fields: (${missingFields.join(', ')})`);
   }
 
-  this.nuxt.registerIntegration('ct', {
-    apiClientPackage: '@vue-storefront/commercetools-api/server',
-    modulePackage: '@vue-storefront/commercetools/nuxt',
-    configuration: options,
-    extensions: [
-      '@vue-storefront/commercetools'
-    ]
-  });
-
   this.extendBuild(config => {
     config.resolve.alias['@vue-storefront/commercetools-api$'] = require.resolve('@vue-storefront/commercetools-api');
   });

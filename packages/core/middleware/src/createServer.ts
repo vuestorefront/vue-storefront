@@ -1,23 +1,15 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
-const lookUpConfiguration = (integrationConfig, nuxtInstance) => {
-  const integrationModule = nuxtInstance.options.buildModules.find(module =>
-    Array.isArray(module) && module[0] === integrationConfig.modulePackage
-  );
-
-  return integrationModule ? integrationModule[1] : {};
-};
-
-const registerIntegrations = (integrations, nuxtInstance) =>
+const registerIntegrations = (integrations) =>
   Object.entries(integrations).reduce((prev, [tag, integrationConfig]: any) => {
-    const { middleware, ...rest } = lookUpConfiguration(integrationConfig, nuxtInstance);
-    const configuration = { ...rest, ...integrationConfig.configuration };
-    const rawExtensions = [...middleware.extensions || [], ...integrationConfig.extensions || []];
+    const rawExtensions = integrationConfig.extensions || [];
     const extensions = rawExtensions.reduce((prev, curr) => {
       if (typeof curr === 'string') {
         console.log('loading...', curr);
@@ -34,7 +26,7 @@ const registerIntegrations = (integrations, nuxtInstance) =>
       ...prev,
       [tag]: {
         apiClient: require(integrationConfig.apiClientPackage),
-        configuration,
+        configuration: integrationConfig.configuration,
         extensions
       }
     };
@@ -48,13 +40,12 @@ const getApiClient = (apiClientPackage, { req, res, extensions }) => {
 };
 
 function createServer (config) {
-  const integrations = registerIntegrations(config.integrations, this);
+  const integrations = registerIntegrations(config.integrations);
 
   app.post('/:integrationName/:functionName', async (req, res) => {
     const { integrationName, functionName } = req.params;
     const { apiClient, configuration, extensions } = integrations[integrationName];
     const { createApiClient } = getApiClient(apiClient, { req, res, extensions });
-
     const apiClientInstance = createApiClient(configuration);
     const apiFunction = apiClientInstance.api[functionName];
     const platformResponse = await apiFunction(...req.body);

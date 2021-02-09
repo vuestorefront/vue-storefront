@@ -7,13 +7,8 @@ const resolveDependency = require('./helpers/resolveDependency');
 const performanceModule = require('./modules/performance');
 const storefrontUiModule = require('./modules/storefront-ui');
 const rawSourcesModule = require('./modules/raw-sources-loader');
-const { createMemory } = require('@vue-storefront/core/server');
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
-  const { save, read } = createMemory(this.nuxt.options.buildDir + '/../')
-  this.nuxt.registerIntegration = (tag, config) => save({ [tag]: config })
-  this.nuxt.readMemory = read
-
   const defaultOptions = {
     coreDevelopment: false,
     performance : {

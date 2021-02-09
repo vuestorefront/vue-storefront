@@ -10,8 +10,14 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
   const configure = (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
+    const { middlewareUrl } = (nuxtCtx as any).$config;
+
+    if (middlewareUrl) {
+      config.axios.baseURL = middlewareUrl;
+    }
+
     const client = axios.create(config.axios);
-    const api = createProxiedApi({ givenApi: configuration.api, client, tag });
+    const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
     injectInContext({ api, client, config });
   };

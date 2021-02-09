@@ -1,6 +1,9 @@
 import webpack from 'webpack';
 
 export default {
+  publicRuntimeConfig: {
+    middlewareUrl: 'http://172.21.127.16:8181/'
+  },
   mode: 'universal',
   server: {
     port: 3000,
@@ -81,47 +84,6 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      middleware: {
-        extensions: [
-          {
-            extendApi: {
-              // eslint-disable-next-line
-              testFunction: async (context) => {
-                console.log('test function called');
-                return { test: 1 };
-              }
-            },
-            // eslint-disable-next-line
-            lifecycle: (req, res) => ({ beforeCall: ({ callName, args }) => {
-
-              if (callName === 'getCategory') {
-                console.log(args);
-              }
-
-              return args;
-            } })
-          }
-        ]
-      },
-      api: {
-        uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
-        authHost: 'https://auth.sphere.io',
-        projectKey: 'vsf-ct-dev',
-        clientId: 'RT4iJGDbDzZe4b2E6RyeNe9s',
-        clientSecret: '5eBt3yfZJWw1j7V6kXjfKXpuFP-YQXpg',
-        scopes: [
-          'manage_products:vsf-ct-dev',
-          'create_anonymous_token:vsf-ct-dev',
-          'manage_my_profile:vsf-ct-dev',
-          'manage_customer_groups:vsf-ct-dev',
-          'view_categories:vsf-ct-dev',
-          'introspect_oauth_tokens:vsf-ct-dev',
-          'manage_my_payments:vsf-ct-dev',
-          'manage_my_orders:vsf-ct-dev',
-          'manage_my_shopping_lists:vsf-ct-dev',
-          'view_published_products:vsf-ct-dev'
-        ]
-      },
       i18n: {
         useNuxtI18nConfig: true
       }
@@ -130,8 +92,8 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt',
-    ['@vue-storefront/middleware/nuxt']
+    'vue-scrollto/nuxt'
+    // ['@vue-storefront/middleware/nuxt']
   ],
   i18n: {
     currency: 'USD',
