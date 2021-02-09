@@ -94,8 +94,8 @@ jobs:
           path-to-lcov: packages/core/cli/coverage/lcov.info
           flag-name: core-cli
 
-  validate_integrations:
-    name: Validate ${{ matrix.integration }}
+  unit_test_integrations:
+    name: Run unit tests on ${{ matrix.integration }}
     needs: validate_core
     runs-on: ubuntu-latest
     strategy:
@@ -180,8 +180,8 @@ jobs:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
 
-  validate_integrations:
-    name: Validate ${{ matrix.integration }}
+  e2e_test_integrations:
+    name: Run E2E tests on ${{ matrix.integration }}
     needs: validate_core
     runs-on: ubuntu-latest
     strategy:
