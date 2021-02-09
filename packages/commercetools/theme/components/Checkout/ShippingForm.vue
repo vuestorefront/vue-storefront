@@ -176,7 +176,7 @@
         class="sf-heading--left sf-heading--no-underline title"
       />
       <div class="form">
-        <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
+        <!-- <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
           <SfRadio
             v-for="item in shippingMethods.shippingMethods"
             :key="item.id || item.name"
@@ -202,7 +202,7 @@
               </div>
             </template>
           </SfRadio>
-        </div>
+        </div> -->
         <div class="form__action">
           <nuxt-link
             to="/checkout/personal-details"
@@ -239,7 +239,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useShippingMethod, useUser, useShipping } from '@vue-storefront/commercetools';
+import { useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
@@ -277,13 +277,12 @@ export default {
   },
   props: {
     isSaving: Object,
-    handleShippingMethodSubmit: Function,
+    // handleShippingMethodSubmit: Function,
     handleShippingAddressSubmit: Function
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: address } = useShipping();
-    const { shippingMethods } = useShippingMethod();
     const { isAuthenticated } = useUser();
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
@@ -305,12 +304,12 @@ export default {
     });
 
     const handleStepSubmit = () => context.emit('stepSubmit');
-    const handleMethodSubmit = async (reset, shippingMethod) => {
-      chosenShippingMethod.value = shippingMethod;
-      await props.handleShippingMethodSubmit(shippingMethod);
-      reset();
-      isShippingMethodCompleted.value = true;
-    };
+    // const handleMethodSubmit = async (reset, shippingMethod) => {
+    //   chosenShippingMethod.value = shippingMethod;
+    //   await props.handleShippingMethodSubmit(shippingMethod);
+    //   reset();
+    //   isShippingMethodCompleted.value = true;
+    // };
 
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
@@ -387,7 +386,6 @@ export default {
       shippingDetails,
       chosenShippingMethod,
       countries: config.countries,
-      shippingMethods,
       setAsDefault,
       canAddNewAddress,
       currentAddressId,
@@ -397,7 +395,7 @@ export default {
       isShippingMethodCompleted,
       isShippingDetailsCompleted,
 
-      handleMethodSubmit,
+      // handleMethodSubmit,
       handleAddressSubmit,
       handleStepSubmit,
       handleAddNewAddressBtnClick,
