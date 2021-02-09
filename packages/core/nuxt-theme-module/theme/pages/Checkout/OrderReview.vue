@@ -134,7 +134,7 @@
           <SfButton v-cypress="'order-review-btn_summary-back'" class="color-secondary summary__back-button">
             {{ $t('Go back') }}
           </SfButton>
-          <SfButton v-cypress="'order-review-btn_summary-conitnue'" class="summary__action-button" @click="$emit('nextStep')">
+          <SfButton v-cypress="'order-review-btn_summary-continue'" class="summary__action-button" @click="$emit('nextStep')">
             {{ $t('Continue to shipping') }}
           </SfButton>
         </div>

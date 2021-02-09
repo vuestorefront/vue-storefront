@@ -11,9 +11,9 @@
     query-string "^6.2.0"
 
 "@apollo/client@^3.2.9":
-  version "3.3.7"
-  resolved "https://registrynpm.storefrontcloud.io/@apollo%2fclient/-/client-3.3.7.tgz#f15bf961dc0c2bee37a47bf86b8881fdc6183810"
-  integrity sha512-Cb0OqqvlehlRHtHIXRIS/Pe5WYU4hHl1FznXTRSxBAN42WmBUM3zy/Unvw183RdWMyV6Kc2pFKOEuaG1K7JTAQ==
+  version "3.3.8"
+  resolved "https://registrynpm.storefrontcloud.io/@apollo%2fclient/-/client-3.3.8.tgz#79e18978dbf2383e2d17eedf33bf905b89b4fb43"
+  integrity sha512-nYKoTfz2ivwzVee+uVHUSWS+xK166m4ycgxM7INq1kR1PD8o3WjBLmCmlajnqSx6KSZCFaTnH75PsfHvtUi1iA==
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -29,31 +29,31 @@
     tslib "^1.10.0"
     zen-observable "^0.8.14"
 
-"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.11", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcode-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
-  integrity sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==
+"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcode-frame/-/code-frame-7.12.13.tgz#dcfc826beef65e75c50e21d3837d7d95798dd658"
+  integrity sha512-HV1Cm0Q3ZrpCR93tkWOYiuYIgLxZXZFVG2VgK+MBWjUqZTundupbfx2aXarXuw5Ko5aMcjtJgbSs4vUGBS5v6g==
   dependencies:
-    "@babel/highlight" "^7.10.4"
+    "@babel/highlight" "^7.12.13"
 
-"@babel/compat-data@^7.12.5", "@babel/compat-data@^7.12.7":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcompat-data/-/compat-data-7.12.7.tgz#9329b4782a7d6bbd7eef57e11addf91ee3ef1e41"
-  integrity sha512-YaxPMGs/XIWtYqrdEOZOCPsVWfEoriXopnsz3/i7apYPXQ3698UFhS6dVT1KN5qOsWmVgw/FOrmQgpRaZayGsw==
+"@babel/compat-data@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcompat-data/-/compat-data-7.12.13.tgz#27e19e0ed3726ccf54067ced4109501765e7e2e8"
+  integrity sha512-U/hshG5R+SIoW7HVWIdmy1cB7s3ki+r3FpyEZiCgpi4tFgPnX/vynY80ZGSASOIrUM6O7VxOgCZgdt7h97bUGg==
 
 "@babel/core@^7.1.0", "@babel/core@^7.10.5", "@babel/core@^7.11.0", "@babel/core@^7.12.9", "@babel/core@^7.8.4":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcore/-/core-7.12.10.tgz#b79a2e1b9f70ed3d84bbfb6d8c4ef825f606bccd"
-  integrity sha512-eTAlQKq65zHfkHZV0sIVODCPGVgoo1HdBlbSLi9CqOzuZanMv2ihzY+4paiKr1mH+XmYESMAmJ/dpZ68eN6d8w==
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fcore/-/core-7.12.13.tgz#b73a87a3a3e7d142a66248bf6ad88b9ceb093425"
+  integrity sha512-BQKE9kXkPlXHPeqissfxo0lySWJcYdEP0hdtJOH/iJfDdhOCcgtNCjftCJg3qqauB4h+lz2N6ixM++b9DN1Tcw==
   dependencies:
-    "@babel/code-frame" "^7.10.4"
-    "@babel/generator" "^7.12.10"
-    "@babel/helper-module-transforms" "^7.12.1"
-    "@babel/helpers" "^7.12.5"
-    "@babel/parser" "^7.12.10"
-    "@babel/template" "^7.12.7"
-    "@babel/traverse" "^7.12.10"
-    "@babel/types" "^7.12.10"
+    "@babel/code-frame" "^7.12.13"
+    "@babel/generator" "^7.12.13"
+    "@babel/helper-module-transforms" "^7.12.13"
+    "@babel/helpers" "^7.12.13"
+    "@babel/parser" "^7.12.13"
+    "@babel/template" "^7.12.13"
+    "@babel/traverse" "^7.12.13"
+    "@babel/types" "^7.12.13"
     convert-source-map "^1.7.0"
     debug "^4.1.0"
     gensync "^1.0.0-beta.1"
@@ -62,164 +62,155 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/generator@^7.12.10", "@babel/generator@^7.12.11", "@babel/generator@^7.4.0":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fgenerator/-/generator-7.12.11.tgz#98a7df7b8c358c9a37ab07a24056853016aba3af"
-  integrity sha512-Ggg6WPOJtSi8yYQvLVjG8F/TlpWDlKx0OpS4Kt+xMQPs5OaGYWy+v1A+1TvxI6sAMGZpKWWoAQ1DaeQbImlItA==
+"@babel/generator@^7.12.13", "@babel/generator@^7.4.0":
+  version "7.12.15"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fgenerator/-/generator-7.12.15.tgz#4617b5d0b25cc572474cc1aafee1edeaf9b5368f"
+  integrity sha512-6F2xHxBiFXWNSGb7vyCUTBF8RCLY66rS0zEPcP8t/nQyXjha5EuK4z7H5o7fWG8B4M7y6mqVWq1J+1PuwRhecQ==
   dependencies:
-    "@babel/types" "^7.12.11"
+    "@babel/types" "^7.12.13"
     jsesc "^2.5.1"
     source-map "^0.5.0"
 
-"@babel/helper-annotate-as-pure@^7.10.4":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-annotate-as-pure/-/helper-annotate-as-pure-7.12.10.tgz#54ab9b000e60a93644ce17b3f37d313aaf1d115d"
-  integrity sha512-XplmVbC1n+KY6jL8/fgLVXXUauDIB+lD5+GsQEh6F6GBF1dq1qy4DP4yXWzDKcoqXB3X58t61e85Fitoww4JVQ==
+"@babel/helper-annotate-as-pure@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-annotate-as-pure/-/helper-annotate-as-pure-7.12.13.tgz#0f58e86dfc4bb3b1fcd7db806570e177d439b6ab"
+  integrity sha512-7YXfX5wQ5aYM/BOlbSccHDbuXXFPxeoUmfWtz8le2yTkTZc+BxsiEnENFoi2SlmA8ewDkG2LgIMIVzzn2h8kfw==
   dependencies:
-    "@babel/types" "^7.12.10"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-builder-binary-assignment-operator-visitor@^7.10.4":
-  version "7.10.4"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.10.4.tgz#bb0b75f31bf98cbf9ff143c1ae578b87274ae1a3"
-  integrity sha512-L0zGlFrGWZK4PbT8AszSfLTM5sDU1+Az/En9VrdT8/LmEiJt4zXt+Jve9DCAnQcbqDhCI+29y/L93mrDzddCcg==
+"@babel/helper-builder-binary-assignment-operator-visitor@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.12.13.tgz#6bc20361c88b0a74d05137a65cac8d3cbf6f61fc"
+  integrity sha512-CZOv9tGphhDRlVjVkAgm8Nhklm9RzSmWpX2my+t7Ua/KT616pEzXsQCjinzvkRvHWJ9itO4f296efroX23XCMA==
   dependencies:
-    "@babel/helper-explode-assignable-expression" "^7.10.4"
-    "@babel/types" "^7.10.4"
+    "@babel/helper-explode-assignable-expression" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-compilation-targets@^7.12.5", "@babel/helper-compilation-targets@^7.9.6":
-  version "7.12.5"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-compilation-targets/-/helper-compilation-targets-7.12.5.tgz#cb470c76198db6a24e9dbc8987275631e5d29831"
-  integrity sha512-+qH6NrscMolUlzOYngSBMIOQpKUGPPsc61Bu5W10mg84LxZ7cmvnBHzARKbDoFxVvqqAbj6Tg6N7bSrWSPXMyw==
+"@babel/helper-compilation-targets@^7.12.13", "@babel/helper-compilation-targets@^7.12.5", "@babel/helper-compilation-targets@^7.9.6":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-compilation-targets/-/helper-compilation-targets-7.12.13.tgz#d689cdef88810aa74e15a7a94186f26a3d773c98"
+  integrity sha512-dXof20y/6wB5HnLOGyLh/gobsMvDNoekcC+8MCV2iaTd5JemhFkPD73QB+tK3iFC9P0xJC73B6MvKkyUfS9cCw==
   dependencies:
-    "@babel/compat-data" "^7.12.5"
-    "@babel/helper-validator-option" "^7.12.1"
+    "@babel/compat-data" "^7.12.13"
+    "@babel/helper-validator-option" "^7.12.11"
     browserslist "^4.14.5"
     semver "^5.5.0"
 
-"@babel/helper-create-class-features-plugin@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-create-class-features-plugin/-/helper-create-class-features-plugin-7.12.1.tgz#3c45998f431edd4a9214c5f1d3ad1448a6137f6e"
-  integrity sha512-hkL++rWeta/OVOBTRJc9a5Azh5mt5WgZUGAKMD8JM141YsE08K//bp1unBBieO6rUKkIPyUE0USQ30jAy3Sk1w==
+"@babel/helper-create-class-features-plugin@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-create-class-features-plugin/-/helper-create-class-features-plugin-7.12.13.tgz#0f1707c2eec1a4604f2a22a6fb209854ef2a399a"
+  integrity sha512-Vs/e9wv7rakKYeywsmEBSRC9KtmE7Px+YBlESekLeJOF0zbGUicGfXSNi3o+tfXSNS48U/7K9mIOOCR79Cl3+Q==
   dependencies:
-    "@babel/helper-function-name" "^7.10.4"
-    "@babel/helper-member-expression-to-functions" "^7.12.1"
-    "@babel/helper-optimise-call-expression" "^7.10.4"
-    "@babel/helper-replace-supers" "^7.12.1"
-    "@babel/helper-split-export-declaration" "^7.10.4"
+    "@babel/helper-function-name" "^7.12.13"
+    "@babel/helper-member-expression-to-functions" "^7.12.13"
+    "@babel/helper-optimise-call-expression" "^7.12.13"
+    "@babel/helper-replace-supers" "^7.12.13"
+    "@babel/helper-split-export-declaration" "^7.12.13"
 
-"@babel/helper-create-regexp-features-plugin@^7.12.1":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-create-regexp-features-plugin/-/helper-create-regexp-features-plugin-7.12.7.tgz#2084172e95443fa0a09214ba1bb328f9aea1278f"
-  integrity sha512-idnutvQPdpbduutvi3JVfEgcVIHooQnhvhx0Nk9isOINOIGYkZea1Pk2JlJRiUnMefrlvr0vkByATBY/mB4vjQ==
+"@babel/helper-create-regexp-features-plugin@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-create-regexp-features-plugin/-/helper-create-regexp-features-plugin-7.12.13.tgz#0996d370a92896c612ae41a4215544bd152579c0"
+  integrity sha512-XC+kiA0J3at6E85dL5UnCYfVOcIZ834QcAY0TIpgUVnz0zDzg+0TtvZTnJ4g9L1dPRGe30Qi03XCIS4tYCLtqw==
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.10.4"
+    "@babel/helper-annotate-as-pure" "^7.12.13"
     regexpu-core "^4.7.1"
 
-"@babel/helper-define-map@^7.10.4":
-  version "7.10.5"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-define-map/-/helper-define-map-7.10.5.tgz#b53c10db78a640800152692b13393147acb9bb30"
-  integrity sha512-fMw4kgFB720aQFXSVaXr79pjjcW5puTCM16+rECJ/plGS+zByelE8l9nCpV1GibxTnFVmUuYG9U8wYfQHdzOEQ==
+"@babel/helper-explode-assignable-expression@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-explode-assignable-expression/-/helper-explode-assignable-expression-7.12.13.tgz#0e46990da9e271502f77507efa4c9918d3d8634a"
+  integrity sha512-5loeRNvMo9mx1dA/d6yNi+YiKziJZFylZnCo1nmFF4qPU4yJ14abhWESuSMQSlQxWdxdOFzxXjk/PpfudTtYyw==
   dependencies:
-    "@babel/helper-function-name" "^7.10.4"
-    "@babel/types" "^7.10.5"
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-function-name@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-function-name/-/helper-function-name-7.12.13.tgz#93ad656db3c3c2232559fd7b2c3dbdcbe0eb377a"
+  integrity sha512-TZvmPn0UOqmvi5G4vvw0qZTpVptGkB1GL61R6lKvrSdIxGm5Pky7Q3fpKiIkQCAtRCBUwB0PaThlx9vebCDSwA==
+  dependencies:
+    "@babel/helper-get-function-arity" "^7.12.13"
+    "@babel/template" "^7.12.13"
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-get-function-arity@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-get-function-arity/-/helper-get-function-arity-7.12.13.tgz#bc63451d403a3b3082b97e1d8b3fe5bd4091e583"
+  integrity sha512-DjEVzQNz5LICkzN0REdpD5prGoidvbdYk1BVgRUOINaWJP2t6avB27X1guXK1kXNrX0WMfsrm1A/ZBthYuIMQg==
+  dependencies:
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-hoist-variables@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-hoist-variables/-/helper-hoist-variables-7.12.13.tgz#13aba58b7480b502362316ea02f52cca0e9796cd"
+  integrity sha512-KSC5XSj5HreRhYQtZ3cnSnQwDzgnbdUDEFsxkN0m6Q3WrCRt72xrnZ8+h+pX7YxM7hr87zIO3a/v5p/H3TrnVw==
+  dependencies:
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-member-expression-to-functions@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-member-expression-to-functions/-/helper-member-expression-to-functions-7.12.13.tgz#c5715695b4f8bab32660dbdcdc2341dec7e3df40"
+  integrity sha512-B+7nN0gIL8FZ8SvMcF+EPyB21KnCcZHQZFczCxbiNGV/O0rsrSBlWGLzmtBJ3GMjSVMIm4lpFhR+VdVBuIsUcQ==
+  dependencies:
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.10.4", "@babel/helper-module-imports@^7.12.13", "@babel/helper-module-imports@^7.8.3":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-module-imports/-/helper-module-imports-7.12.13.tgz#ec67e4404f41750463e455cc3203f6a32e93fcb0"
+  integrity sha512-NGmfvRp9Rqxy0uHSSVP+SRIW1q31a7Ji10cLBcqSDUngGentY4FRiHOFZFE1CLU5eiL0oE8reH7Tg1y99TDM/g==
+  dependencies:
+    "@babel/types" "^7.12.13"
+
+"@babel/helper-module-transforms@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-module-transforms/-/helper-module-transforms-7.12.13.tgz#01afb052dcad2044289b7b20beb3fa8bd0265bea"
+  integrity sha512-acKF7EjqOR67ASIlDTupwkKM1eUisNAjaSduo5Cz+793ikfnpe7p4Q7B7EWU2PCoSTPWsQkR7hRUWEIZPiVLGA==
+  dependencies:
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/helper-replace-supers" "^7.12.13"
+    "@babel/helper-simple-access" "^7.12.13"
+    "@babel/helper-split-export-declaration" "^7.12.13"
+    "@babel/helper-validator-identifier" "^7.12.11"
+    "@babel/template" "^7.12.13"
+    "@babel/traverse" "^7.12.13"
+    "@babel/types" "^7.12.13"
     lodash "^4.17.19"
 
-"@babel/helper-explode-assignable-expression@^7.10.4":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-explode-assignable-expression/-/helper-explode-assignable-expression-7.12.1.tgz#8006a466695c4ad86a2a5f2fb15b5f2c31ad5633"
-  integrity sha512-dmUwH8XmlrUpVqgtZ737tK88v07l840z9j3OEhCLwKTkjlvKpfqXVIZ0wpK3aeOxspwGrf/5AP5qLx4rO3w5rA==
+"@babel/helper-optimise-call-expression@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-optimise-call-expression/-/helper-optimise-call-expression-7.12.13.tgz#5c02d171b4c8615b1e7163f888c1c81c30a2aaea"
+  integrity sha512-BdWQhoVJkp6nVjB7nkFWcn43dkprYauqtk++Py2eaf/GRDFm5BxRqEIZCiHlZUGAVmtwKcsVL1dC68WmzeFmiA==
   dependencies:
-    "@babel/types" "^7.12.1"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-function-name@^7.10.4", "@babel/helper-function-name@^7.12.11":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-function-name/-/helper-function-name-7.12.11.tgz#1fd7738aee5dcf53c3ecff24f1da9c511ec47b42"
-  integrity sha512-AtQKjtYNolKNi6nNNVLQ27CP6D9oFR6bq/HPYSizlzbp7uC1M59XJe8L+0uXjbIaZaUJF99ruHqVGiKXU/7ybA==
+"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-plugin-utils/-/helper-plugin-utils-7.12.13.tgz#174254d0f2424d8aefb4dd48057511247b0a9eeb"
+  integrity sha512-C+10MXCXJLiR6IeG9+Wiejt9jmtFpxUc3MQqCmPY8hfCjyUGl9kT+B2okzEZrtykiwrc4dbCPdDoz0A/HQbDaA==
+
+"@babel/helper-remap-async-to-generator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-remap-async-to-generator/-/helper-remap-async-to-generator-7.12.13.tgz#170365f4140e2d20e5c88f8ba23c24468c296878"
+  integrity sha512-Qa6PU9vNcj1NZacZZI1Mvwt+gXDH6CTfgAkSjeRMLE8HxtDK76+YDId6NQR+z7Rgd5arhD2cIbS74r0SxD6PDA==
   dependencies:
-    "@babel/helper-get-function-arity" "^7.12.10"
-    "@babel/template" "^7.12.7"
-    "@babel/types" "^7.12.11"
+    "@babel/helper-annotate-as-pure" "^7.12.13"
+    "@babel/helper-wrap-function" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-get-function-arity@^7.12.10":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-get-function-arity/-/helper-get-function-arity-7.12.10.tgz#b158817a3165b5faa2047825dfa61970ddcc16cf"
-  integrity sha512-mm0n5BPjR06wh9mPQaDdXWDoll/j5UpCAPl1x8fS71GHm7HA6Ua2V4ylG1Ju8lvcTOietbPNNPaSilKj+pj+Ag==
+"@babel/helper-replace-supers@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-replace-supers/-/helper-replace-supers-7.12.13.tgz#00ec4fb6862546bd3d0aff9aac56074277173121"
+  integrity sha512-pctAOIAMVStI2TMLhozPKbf5yTEXc0OJa0eENheb4w09SrgOWEs+P4nTOZYJQCqs8JlErGLDPDJTiGIp3ygbLg==
   dependencies:
-    "@babel/types" "^7.12.10"
+    "@babel/helper-member-expression-to-functions" "^7.12.13"
+    "@babel/helper-optimise-call-expression" "^7.12.13"
+    "@babel/traverse" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-hoist-variables@^7.10.4":
-  version "7.10.4"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-hoist-variables/-/helper-hoist-variables-7.10.4.tgz#d49b001d1d5a68ca5e6604dda01a6297f7c9381e"
-  integrity sha512-wljroF5PgCk2juF69kanHVs6vrLwIPNp6DLD+Lrl3hoQ3PpPPikaDRNFA+0t81NOoMt2DL6WW/mdU8k4k6ZzuA==
+"@babel/helper-simple-access@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-simple-access/-/helper-simple-access-7.12.13.tgz#8478bcc5cacf6aa1672b251c1d2dde5ccd61a6c4"
+  integrity sha512-0ski5dyYIHEfwpWGx5GPWhH35j342JaflmCeQmsPWcrOQDtCN6C1zKAVRFVbK53lPW2c9TsuLLSUDf0tIGJ5hA==
   dependencies:
-    "@babel/types" "^7.10.4"
-
-"@babel/helper-member-expression-to-functions@^7.12.1", "@babel/helper-member-expression-to-functions@^7.12.7":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-member-expression-to-functions/-/helper-member-expression-to-functions-7.12.7.tgz#aa77bd0396ec8114e5e30787efa78599d874a855"
-  integrity sha512-DCsuPyeWxeHgh1Dus7APn7iza42i/qXqiFPWyBDdOFtvS581JQePsc1F/nD+fHrcswhLlRc2UpYS1NwERxZhHw==
-  dependencies:
-    "@babel/types" "^7.12.7"
-
-"@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.10.4", "@babel/helper-module-imports@^7.12.1", "@babel/helper-module-imports@^7.12.5", "@babel/helper-module-imports@^7.8.3":
-  version "7.12.5"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-module-imports/-/helper-module-imports-7.12.5.tgz#1bfc0229f794988f76ed0a4d4e90860850b54dfb"
-  integrity sha512-SR713Ogqg6++uexFRORf/+nPXMmWIn80TALu0uaFb+iQIUoR7bOC7zBWyzBs5b3tBBJXuyD0cRu1F15GyzjOWA==
-  dependencies:
-    "@babel/types" "^7.12.5"
-
-"@babel/helper-module-transforms@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-module-transforms/-/helper-module-transforms-7.12.1.tgz#7954fec71f5b32c48e4b303b437c34453fd7247c"
-  integrity sha512-QQzehgFAZ2bbISiCpmVGfiGux8YVFXQ0abBic2Envhej22DVXV9nCFaS5hIQbkyo1AdGb+gNME2TSh3hYJVV/w==
-  dependencies:
-    "@babel/helper-module-imports" "^7.12.1"
-    "@babel/helper-replace-supers" "^7.12.1"
-    "@babel/helper-simple-access" "^7.12.1"
-    "@babel/helper-split-export-declaration" "^7.11.0"
-    "@babel/helper-validator-identifier" "^7.10.4"
-    "@babel/template" "^7.10.4"
-    "@babel/traverse" "^7.12.1"
-    "@babel/types" "^7.12.1"
-    lodash "^4.17.19"
-
-"@babel/helper-optimise-call-expression@^7.10.4", "@babel/helper-optimise-call-expression@^7.12.10":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-optimise-call-expression/-/helper-optimise-call-expression-7.12.10.tgz#94ca4e306ee11a7dd6e9f42823e2ac6b49881e2d"
-  integrity sha512-4tpbU0SrSTjjt65UMWSrUOPZTsgvPgGG4S8QSTNHacKzpS51IVWGDj0yCwyeZND/i+LSN2g/O63jEXEWm49sYQ==
-  dependencies:
-    "@babel/types" "^7.12.10"
-
-"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
-  version "7.10.4"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-plugin-utils/-/helper-plugin-utils-7.10.4.tgz#2f75a831269d4f677de49986dff59927533cf375"
-  integrity sha512-O4KCvQA6lLiMU9l2eawBPMf1xPP8xPfB3iEQw150hOVTqj/rfXz0ThTb4HEzqQfs2Bmo5Ay8BzxfzVtBrr9dVg==
-
-"@babel/helper-remap-async-to-generator@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-remap-async-to-generator/-/helper-remap-async-to-generator-7.12.1.tgz#8c4dbbf916314f6047dc05e6a2217074238347fd"
-  integrity sha512-9d0KQCRM8clMPcDwo8SevNs+/9a8yWVVmaE80FGJcEP8N1qToREmWEGnBn8BUlJhYRFz6fqxeRL1sl5Ogsed7A==
-  dependencies:
-    "@babel/helper-annotate-as-pure" "^7.10.4"
-    "@babel/helper-wrap-function" "^7.10.4"
-    "@babel/types" "^7.12.1"
-
-"@babel/helper-replace-supers@^7.12.1":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-replace-supers/-/helper-replace-supers-7.12.11.tgz#ea511658fc66c7908f923106dd88e08d1997d60d"
-  integrity sha512-q+w1cqmhL7R0FNzth/PLLp2N+scXEK/L2AHbXUyydxp828F4FEa5WcVoqui9vFRiHDQErj9Zof8azP32uGVTRA==
-  dependencies:
-    "@babel/helper-member-expression-to-functions" "^7.12.7"
-    "@babel/helper-optimise-call-expression" "^7.12.10"
-    "@babel/traverse" "^7.12.10"
-    "@babel/types" "^7.12.11"
-
-"@babel/helper-simple-access@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-simple-access/-/helper-simple-access-7.12.1.tgz#32427e5aa61547d38eb1e6eaf5fd1426fdad9136"
-  integrity sha512-OxBp7pMrjVewSSC8fXDFrHrBcJATOOFssZwv16F3/6Xtc138GHybBfPbm9kfiqQHKhYQrlamWILwlDCeyMFEaA==
-  dependencies:
-    "@babel/types" "^7.12.1"
+    "@babel/types" "^7.12.13"
 
 "@babel/helper-skip-transparent-expression-wrappers@^7.12.1":
   version "7.12.1"
@@ -228,89 +219,81 @@
   dependencies:
     "@babel/types" "^7.12.1"
 
-"@babel/helper-split-export-declaration@^7.10.4", "@babel/helper-split-export-declaration@^7.11.0", "@babel/helper-split-export-declaration@^7.12.11":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-split-export-declaration/-/helper-split-export-declaration-7.12.11.tgz#1b4cc424458643c47d37022223da33d76ea4603a"
-  integrity sha512-LsIVN8j48gHgwzfocYUSkO/hjYAOJqlpJEc7tGXcIm4cubjVUf8LGW6eWRyxEu7gA25q02p0rQUWoCI33HNS5g==
+"@babel/helper-split-export-declaration@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-split-export-declaration/-/helper-split-export-declaration-7.12.13.tgz#e9430be00baf3e88b0e13e6f9d4eaf2136372b05"
+  integrity sha512-tCJDltF83htUtXx5NLcaDqRmknv652ZWCHyoTETf1CXYJdPC7nohZohjUgieXhv0hTJdRf2FjDueFehdNucpzg==
   dependencies:
-    "@babel/types" "^7.12.11"
+    "@babel/types" "^7.12.13"
 
-"@babel/helper-validator-identifier@^7.10.4", "@babel/helper-validator-identifier@^7.12.11":
+"@babel/helper-validator-identifier@^7.12.11":
   version "7.12.11"
   resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-validator-identifier/-/helper-validator-identifier-7.12.11.tgz#c9a1f021917dcb5ccf0d4e453e399022981fc9ed"
   integrity sha512-np/lG3uARFybkoHokJUmf1QfEvRVCPbmQeUQpKow5cQ3xWrV9i3rUHodKDJPQfTVX61qKi+UdYk8kik84n7XOw==
 
-"@babel/helper-validator-option@^7.12.1", "@babel/helper-validator-option@^7.12.11":
+"@babel/helper-validator-option@^7.12.11":
   version "7.12.11"
   resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-validator-option/-/helper-validator-option-7.12.11.tgz#d66cb8b7a3e7fe4c6962b32020a131ecf0847f4f"
   integrity sha512-TBFCyj939mFSdeX7U7DDj32WtzYY7fDcalgq8v3fBZMNOJQNn7nOYzMaUCiPxPYfCup69mtIpqlKgMZLvQ8Xhw==
 
-"@babel/helper-wrap-function@^7.10.4":
-  version "7.12.3"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-wrap-function/-/helper-wrap-function-7.12.3.tgz#3332339fc4d1fbbf1c27d7958c27d34708e990d9"
-  integrity sha512-Cvb8IuJDln3rs6tzjW3Y8UeelAOdnpB8xtQ4sme2MSZ9wOxrbThporC0y/EtE16VAtoyEfLM404Xr1e0OOp+ow==
+"@babel/helper-wrap-function@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelper-wrap-function/-/helper-wrap-function-7.12.13.tgz#e3ea8cb3ee0a16911f9c1b50d9e99fe8fe30f9ff"
+  integrity sha512-t0aZFEmBJ1LojdtJnhOaQEVejnzYhyjWHSsNSNo8vOYRbAJNh6r6GQF7pd36SqG7OKGbn+AewVQ/0IfYfIuGdw==
   dependencies:
-    "@babel/helper-function-name" "^7.10.4"
-    "@babel/template" "^7.10.4"
-    "@babel/traverse" "^7.10.4"
-    "@babel/types" "^7.10.4"
+    "@babel/helper-function-name" "^7.12.13"
+    "@babel/template" "^7.12.13"
+    "@babel/traverse" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/helpers@^7.12.5":
-  version "7.12.5"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelpers/-/helpers-7.12.5.tgz#1a1ba4a768d9b58310eda516c449913fe647116e"
-  integrity sha512-lgKGMQlKqA8meJqKsW6rUnc4MdUk35Ln0ATDqdM1a/UpARODdI4j5Y5lVfUScnSNkJcdCRAaWkspykNoFg9sJA==
+"@babel/helpers@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhelpers/-/helpers-7.12.13.tgz#3c75e993632e4dadc0274eae219c73eb7645ba47"
+  integrity sha512-oohVzLRZ3GQEk4Cjhfs9YkJA4TdIDTObdBEZGrd6F/T0GPSnuV6l22eMcxlvcvzVIPH3VTtxbseudM1zIE+rPQ==
   dependencies:
-    "@babel/template" "^7.10.4"
-    "@babel/traverse" "^7.12.5"
-    "@babel/types" "^7.12.5"
+    "@babel/template" "^7.12.13"
+    "@babel/traverse" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/highlight@^7.10.4":
-  version "7.10.4"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhighlight/-/highlight-7.10.4.tgz#7d1bdfd65753538fabe6c38596cdb76d9ac60143"
-  integrity sha512-i6rgnR/YgPEQzZZnbTHHuZdlE8qyoBNalD6F+q4vAFlcMEcqmkoG+mPqJYJCo63qPf74+Y1UZsl3l6f7/RIkmA==
+"@babel/highlight@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fhighlight/-/highlight-7.12.13.tgz#8ab538393e00370b26271b01fa08f7f27f2e795c"
+  integrity sha512-kocDQvIbgMKlWxXe9fof3TQ+gkIPOUSEYhJjqUjvKMez3krV7vbzYCDq39Oj11UAVK7JqPVGQPlgE85dPNlQww==
   dependencies:
-    "@babel/helper-validator-identifier" "^7.10.4"
+    "@babel/helper-validator-identifier" "^7.12.11"
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.12.10", "@babel/parser@^7.12.11", "@babel/parser@^7.12.7", "@babel/parser@^7.4.3", "@babel/parser@^7.5.5", "@babel/parser@^7.9.6":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fparser/-/parser-7.12.11.tgz#9ce3595bcd74bc5c466905e86c535b8b25011e79"
-  integrity sha512-N3UxG+uuF4CMYoNj8AhnbAcJF0PiuJ9KHuy1lQmkYsxTer/MAH9UBNHsBoAX/4s6NvlDD047No8mYVGGzLL4hg==
+"@babel/parser@^7.1.0", "@babel/parser@^7.12.13", "@babel/parser@^7.4.3", "@babel/parser@^7.5.5", "@babel/parser@^7.9.6":
+  version "7.12.15"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fparser/-/parser-7.12.15.tgz#2b20de7f0b4b332d9b119dd9c33409c538b8aacf"
+  integrity sha512-AQBOU2Z9kWwSZMd6lNjCX0GUgFonL1wAM1db8L8PMk9UDaGsRCArBkU4Sc+UCM3AE4hjbXx+h58Lb3QT4oRmrA==
 
-"@babel/plugin-proposal-async-generator-functions@^7.12.1":
-  version "7.12.12"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.12.12.tgz#04b8f24fd4532008ab4e79f788468fd5a8476566"
-=======
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.12.12.tgz#04b8f24fd4532008ab4e79f788468fd5a8476566"
->>>>>>> origin/next
-  integrity sha512-nrz9y0a4xmUrRq51bYkWJIO5SBZyG2ys2qinHsN0zHDHVsUaModrkpyWWWXfGqYQmOL3x9sQIcTNN/pBGpo09A==
+"@babel/plugin-proposal-async-generator-functions@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.12.13.tgz#d1c6d841802ffb88c64a2413e311f7345b9e66b5"
+  integrity sha512-1KH46Hx4WqP77f978+5Ye/VUbuwQld2hph70yaw2hXS2v7ER2f3nlpNMu909HO2rbvP0NKLlMVDPh9KXklVMhA==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-remap-async-to-generator" "^7.12.1"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-remap-async-to-generator" "^7.12.13"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
 
-"@babel/plugin-proposal-class-properties@^7.12.1", "@babel/plugin-proposal-class-properties@^7.8.3":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-class-properties/-/plugin-proposal-class-properties-7.12.1.tgz#a082ff541f2a29a4821065b8add9346c0c16e5de"
-  integrity sha512-cKp3dlQsFsEs5CWKnN7BnSHOd0EOW8EKpEjkoz1pO2E5KzIDNV9Ros1b0CnmbVgAGXJubOYVBOGCT1OmJwOI7w==
+"@babel/plugin-proposal-class-properties@^7.12.1", "@babel/plugin-proposal-class-properties@^7.12.13", "@babel/plugin-proposal-class-properties@^7.8.3":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-class-properties/-/plugin-proposal-class-properties-7.12.13.tgz#3d2ce350367058033c93c098e348161d6dc0d8c8"
+  integrity sha512-8SCJ0Ddrpwv4T7Gwb33EmW1V9PY5lggTO+A8WjyIwxrSHDUyBw4MtF96ifn1n8H806YlxbVCoKXbbmzD6RD+cA==
   dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-create-class-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/plugin-proposal-decorators@^7.12.1", "@babel/plugin-proposal-decorators@^7.8.3":
-  version "7.12.12"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-decorators/-/plugin-proposal-decorators-7.12.12.tgz#067a6d3d6ca86d54cf56bb183239199c20daeafe"
-=======
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-decorators/-/plugin-proposal-decorators-7.12.12.tgz#067a6d3d6ca86d54cf56bb183239199c20daeafe"
->>>>>>> origin/next
-  integrity sha512-fhkE9lJYpw2mjHelBpM2zCbaA11aov2GJs7q4cFaXNrWx0H3bW58H9Esy2rdtYOghFBEYUDRIpvlgi+ZD+AvvQ==
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-decorators/-/plugin-proposal-decorators-7.12.13.tgz#d4c89b40c2b7a526b0d394de4f4def36191e413e"
+  integrity sha512-x2aOr5w4ARJoYHFKoG2iEUL/Xe99JAJXjAasHijXp3/KgaetJXGE62SmHgsW3Tia/XUT5AxF2YC0F+JyhPY/0Q==
   dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/plugin-syntax-decorators" "^7.12.1"
+    "@babel/helper-create-class-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/plugin-syntax-decorators" "^7.12.13"
 
 "@babel/plugin-proposal-dynamic-import@^7.12.1":
   version "7.12.1"
@@ -320,87 +303,87 @@
     "@babel/helper-plugin-utils" "^7.10.4"
     "@babel/plugin-syntax-dynamic-import" "^7.8.0"
 
-"@babel/plugin-proposal-export-namespace-from@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-export-namespace-from/-/plugin-proposal-export-namespace-from-7.12.1.tgz#8b9b8f376b2d88f5dd774e4d24a5cc2e3679b6d4"
-  integrity sha512-6CThGf0irEkzujYS5LQcjBx8j/4aQGiVv7J9+2f7pGfxqyKh3WnmVJYW3hdrQjyksErMGBPQrCnHfOtna+WLbw==
+"@babel/plugin-proposal-export-namespace-from@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-export-namespace-from/-/plugin-proposal-export-namespace-from-7.12.13.tgz#393be47a4acd03fa2af6e3cde9b06e33de1b446d"
+  integrity sha512-INAgtFo4OnLN3Y/j0VwAgw3HDXcDtX+C/erMvWzuV9v71r7urb6iyMXu7eM9IgLr1ElLlOkaHjJ0SbCmdOQ3Iw==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-export-namespace-from" "^7.8.3"
 
-"@babel/plugin-proposal-json-strings@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-json-strings/-/plugin-proposal-json-strings-7.12.1.tgz#d45423b517714eedd5621a9dfdc03fa9f4eb241c"
-  integrity sha512-GoLDUi6U9ZLzlSda2Df++VSqDJg3CG+dR0+iWsv6XRw1rEq+zwt4DirM9yrxW6XWaTpmai1cWJLMfM8qQJf+yw==
+"@babel/plugin-proposal-json-strings@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-json-strings/-/plugin-proposal-json-strings-7.12.13.tgz#ced7888a2db92a3d520a2e35eb421fdb7fcc9b5d"
+  integrity sha512-v9eEi4GiORDg8x+Dmi5r8ibOe0VXoKDeNPYcTTxdGN4eOWikrJfDJCJrr1l5gKGvsNyGJbrfMftC2dTL6oz7pg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-json-strings" "^7.8.0"
 
-"@babel/plugin-proposal-logical-assignment-operators@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-logical-assignment-operators/-/plugin-proposal-logical-assignment-operators-7.12.1.tgz#f2c490d36e1b3c9659241034a5d2cd50263a2751"
-  integrity sha512-k8ZmVv0JU+4gcUGeCDZOGd0lCIamU/sMtIiX3UWnUc5yzgq6YUGyEolNYD+MLYKfSzgECPcqetVcJP9Afe/aCA==
+"@babel/plugin-proposal-logical-assignment-operators@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-logical-assignment-operators/-/plugin-proposal-logical-assignment-operators-7.12.13.tgz#575b5d9a08d8299eeb4db6430da6e16e5cf14350"
+  integrity sha512-fqmiD3Lz7jVdK6kabeSr1PZlWSUVqSitmHEe3Z00dtGTKieWnX9beafvavc32kjORa5Bai4QNHgFDwWJP+WtSQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-logical-assignment-operators" "^7.10.4"
 
-"@babel/plugin-proposal-nullish-coalescing-operator@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.12.1.tgz#3ed4fff31c015e7f3f1467f190dbe545cd7b046c"
-  integrity sha512-nZY0ESiaQDI1y96+jk6VxMOaL4LPo/QDHBqL+SF3/vl6dHkTwHlOI8L4ZwuRBHgakRBw5zsVylel7QPbbGuYgg==
+"@babel/plugin-proposal-nullish-coalescing-operator@^7.12.1", "@babel/plugin-proposal-nullish-coalescing-operator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.12.13.tgz#24867307285cee4e1031170efd8a7ac807deefde"
+  integrity sha512-Qoxpy+OxhDBI5kRqliJFAl4uWXk3Bn24WeFstPH0iLymFehSAUR8MHpqU7njyXv/qbo7oN6yTy5bfCmXdKpo1Q==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.0"
 
-"@babel/plugin-proposal-numeric-separator@^7.12.7":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-numeric-separator/-/plugin-proposal-numeric-separator-7.12.7.tgz#8bf253de8139099fea193b297d23a9d406ef056b"
-  integrity sha512-8c+uy0qmnRTeukiGsjLGy6uVs/TFjJchGXUeBqlG4VWYOdJWkhhVPdQ3uHwbmalfJwv2JsV0qffXP4asRfL2SQ==
+"@babel/plugin-proposal-numeric-separator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-numeric-separator/-/plugin-proposal-numeric-separator-7.12.13.tgz#bd9da3188e787b5120b4f9d465a8261ce67ed1db"
+  integrity sha512-O1jFia9R8BUCl3ZGB7eitaAPu62TXJRHn7rh+ojNERCFyqRwJMTmhz+tJ+k0CwI6CLjX/ee4qW74FSqlq9I35w==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-numeric-separator" "^7.10.4"
 
-"@babel/plugin-proposal-object-rest-spread@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.12.1.tgz#def9bd03cea0f9b72283dac0ec22d289c7691069"
-  integrity sha512-s6SowJIjzlhx8o7lsFx5zmY4At6CTtDvgNQDdPzkBQucle58A6b/TTeEBYtyDgmcXjUTM+vE8YOGHZzzbc/ioA==
+"@babel/plugin-proposal-object-rest-spread@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.12.13.tgz#f93f3116381ff94bc676fdcb29d71045cd1ec011"
+  integrity sha512-WvA1okB/0OS/N3Ldb3sziSrXg6sRphsBgqiccfcQq7woEn5wQLNX82Oc4PlaFcdwcWHuQXAtb8ftbS8Fbsg/sg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-object-rest-spread" "^7.8.0"
-    "@babel/plugin-transform-parameters" "^7.12.1"
+    "@babel/plugin-transform-parameters" "^7.12.13"
 
-"@babel/plugin-proposal-optional-catch-binding@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.12.1.tgz#ccc2421af64d3aae50b558a71cede929a5ab2942"
-  integrity sha512-hFvIjgprh9mMw5v42sJWLI1lzU5L2sznP805zeT6rySVRA0Y18StRhDqhSxlap0oVgItRsB6WSROp4YnJTJz0g==
+"@babel/plugin-proposal-optional-catch-binding@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.12.13.tgz#4640520afe57728af14b4d1574ba844f263bcae5"
+  integrity sha512-9+MIm6msl9sHWg58NvqpNpLtuFbmpFYk37x8kgnGzAHvX35E1FyAwSUt5hIkSoWJFSAH+iwU8bJ4fcD1zKXOzg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.0"
 
-"@babel/plugin-proposal-optional-chaining@^7.12.7":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.12.7.tgz#e02f0ea1b5dc59d401ec16fb824679f683d3303c"
-  integrity sha512-4ovylXZ0PWmwoOvhU2vhnzVNnm88/Sm9nx7V8BPgMvAzn5zDou3/Awy0EjglyubVHasJj+XCEkr/r1X3P5elCA==
+"@babel/plugin-proposal-optional-chaining@^7.12.13", "@babel/plugin-proposal-optional-chaining@^7.12.7":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.12.13.tgz#63a7d805bc8ce626f3234ee5421a2a7fb23f66d9"
+  integrity sha512-0ZwjGfTcnZqyV3y9DSD1Yk3ebp+sIUpT2YDqP8hovzaNZnQq2Kd7PEqa6iOIUDBXBt7Jl3P7YAcEIL5Pz8u09Q==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/helper-skip-transparent-expression-wrappers" "^7.12.1"
     "@babel/plugin-syntax-optional-chaining" "^7.8.0"
 
-"@babel/plugin-proposal-private-methods@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-private-methods/-/plugin-proposal-private-methods-7.12.1.tgz#86814f6e7a21374c980c10d38b4493e703f4a389"
-  integrity sha512-mwZ1phvH7/NHK6Kf8LP7MYDogGV+DKB1mryFOEwx5EBNQrosvIczzZFTUmWaeujd5xT6G1ELYWUz3CutMhjE1w==
+"@babel/plugin-proposal-private-methods@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-private-methods/-/plugin-proposal-private-methods-7.12.13.tgz#ea78a12554d784ecf7fc55950b752d469d9c4a71"
+  integrity sha512-sV0V57uUwpauixvR7s2o75LmwJI6JECwm5oPUY5beZB1nBl2i37hc7CJGqB5G+58fur5Y6ugvl3LRONk5x34rg==
   dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-create-class-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-proposal-unicode-property-regex@^7.12.1", "@babel/plugin-proposal-unicode-property-regex@^7.4.4":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-unicode-property-regex/-/plugin-proposal-unicode-property-regex-7.12.1.tgz#2a183958d417765b9eae334f47758e5d6a82e072"
-  integrity sha512-MYq+l+PvHuw/rKUz1at/vb6nCnQ2gmJBNaM62z0OgH7B2W1D9pvkpYtlti9bGtizNIU1K3zm4bZF9F91efVY0w==
+"@babel/plugin-proposal-unicode-property-regex@^7.12.13", "@babel/plugin-proposal-unicode-property-regex@^7.4.4":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-proposal-unicode-property-regex/-/plugin-proposal-unicode-property-regex-7.12.13.tgz#bebde51339be829c17aaaaced18641deb62b39ba"
+  integrity sha512-XyJmZidNfofEkqFV5VC/bLabGmO5QzenPO/YOfGuEbgU+2sSwMmio3YLb4WtBgcmmdwZHyVyv8on77IUjQ5Gvg==
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-create-regexp-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/plugin-syntax-async-generators@^7.8.0":
   version "7.8.4"
@@ -409,19 +392,19 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-class-properties@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-class-properties/-/plugin-syntax-class-properties-7.12.1.tgz#bcb297c5366e79bebadef509549cd93b04f19978"
-  integrity sha512-U40A76x5gTwmESz+qiqssqmeEsKvcSyvtgktrm0uzcARAmM9I1jR221f6Oq+GmHrcD+LvZDag1UTOTe2fL3TeA==
+"@babel/plugin-syntax-class-properties@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-class-properties/-/plugin-syntax-class-properties-7.12.13.tgz#b5c987274c4a3a82b89714796931a6b53544ae10"
+  integrity sha512-fm4idjKla0YahUNgFNLCB0qySdsoPiZP3iQE3rky0mBUtMZ23yDJ9SJdg6dXTSDnulOVqiF3Hgr9nbXvXTQZYA==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-syntax-decorators@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-decorators/-/plugin-syntax-decorators-7.12.1.tgz#81a8b535b284476c41be6de06853a8802b98c5dd"
-  integrity sha512-ir9YW5daRrTYiy9UJ2TzdNIJEZu8KclVzDcfSt4iEmOtwQ4llPtWInNKJyKnVXp1vE4bbVd5S31M/im3mYMO1w==
+"@babel/plugin-syntax-decorators@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-decorators/-/plugin-syntax-decorators-7.12.13.tgz#fac829bf3c7ef4a1bc916257b403e58c6bdaf648"
+  integrity sha512-Rw6aIXGuqDLr6/LoBBYE57nKOzQpz/aDkKlMqEwH+Vp0MXbG6H/TfRjaY343LKxzAKAMXIHsQ8JzaZKuDZ9MwA==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
@@ -445,11 +428,11 @@
     "@babel/helper-plugin-utils" "^7.8.0"
 
 "@babel/plugin-syntax-jsx@^7.0.0", "@babel/plugin-syntax-jsx@^7.2.0", "@babel/plugin-syntax-jsx@^7.8.3":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-jsx/-/plugin-syntax-jsx-7.12.1.tgz#9d9d357cc818aa7ae7935917c1257f67677a0926"
-  integrity sha512-1yRi7yAtB0ETgxdY9ti/p2TivUxJkTdhu/ZbF9MshVGqOx1TdB3b7xCXs49Fupgg50N45KcAsRP/ZqWjs9SRjg==
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-jsx/-/plugin-syntax-jsx-7.12.13.tgz#044fb81ebad6698fe62c478875575bcbb9b70f15"
+  integrity sha512-d4HM23Q1K7oq/SLNmG6mRt85l2csmQ0cHRaxRXjKW0YFdEXqlZ5kzFQKH5Uc3rDJECgu+yCRgPkG04Mm98R/1g==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/plugin-syntax-logical-assignment-operators@^7.10.4":
   version "7.10.4"
@@ -493,300 +476,295 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-top-level-await@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-top-level-await/-/plugin-syntax-top-level-await-7.12.1.tgz#dd6c0b357ac1bb142d98537450a319625d13d2a0"
-  integrity sha512-i7ooMZFS+a/Om0crxZodrTzNEPJHZrlMVGMTEpFAj6rYY/bKCddB0Dk/YxfPuYXOopuhKk/e1jV6h+WUU9XN3A==
+"@babel/plugin-syntax-top-level-await@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-syntax-top-level-await/-/plugin-syntax-top-level-await-7.12.13.tgz#c5f0fa6e249f5b739727f923540cf7a806130178"
+  integrity sha512-A81F9pDwyS7yM//KwbCSDqy3Uj4NMIurtplxphWxoYtNPov7cJsDkAFNNyVlIZ3jwGycVsurZ+LtOA8gZ376iQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-arrow-functions@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.12.1.tgz#8083ffc86ac8e777fbe24b5967c4b2521f3cb2b3"
-  integrity sha512-5QB50qyN44fzzz4/qxDPQMBCTHgxg3n0xRBLJUmBlLoU/sFvxVWGZF/ZUfMVDQuJUKXaBhbupxIzIfZ6Fwk/0A==
+"@babel/plugin-transform-arrow-functions@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.12.13.tgz#eda5670b282952100c229f8a3bd49e0f6a72e9fe"
+  integrity sha512-tBtuN6qtCTd+iHzVZVOMNp+L04iIJBpqkdY42tWbmjIT5wvR2kx7gxMBsyhQtFzHwBbyGi9h8J8r9HgnOpQHxg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-async-to-generator@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.12.1.tgz#3849a49cc2a22e9743cbd6b52926d30337229af1"
-  integrity sha512-SDtqoEcarK1DFlRJ1hHRY5HvJUj5kX4qmtpMAm2QnhOlyuMC4TMdCRgW6WXpv93rZeYNeLP22y8Aq2dbcDRM1A==
+"@babel/plugin-transform-async-to-generator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.12.13.tgz#fed8c69eebf187a535bfa4ee97a614009b24f7ae"
+  integrity sha512-psM9QHcHaDr+HZpRuJcE1PXESuGWSCcbiGFFhhwfzdbTxaGDVzuVtdNYliAwcRo3GFg0Bc8MmI+AvIGYIJG04A==
   dependencies:
-    "@babel/helper-module-imports" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-remap-async-to-generator" "^7.12.1"
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-remap-async-to-generator" "^7.12.13"
 
-"@babel/plugin-transform-block-scoped-functions@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-block-scoped-functions/-/plugin-transform-block-scoped-functions-7.12.1.tgz#f2a1a365bde2b7112e0a6ded9067fdd7c07905d9"
-  integrity sha512-5OpxfuYnSgPalRpo8EWGPzIYf0lHBWORCkj5M0oLBwHdlux9Ri36QqGW3/LR13RSVOAoUUMzoPI/jpE4ABcHoA==
+"@babel/plugin-transform-block-scoped-functions@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-block-scoped-functions/-/plugin-transform-block-scoped-functions-7.12.13.tgz#a9bf1836f2a39b4eb6cf09967739de29ea4bf4c4"
+  integrity sha512-zNyFqbc3kI/fVpqwfqkg6RvBgFpC4J18aKKMmv7KdQ/1GgREapSJAykLMVNwfRGO3BtHj3YQZl8kxCXPcVMVeg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-block-scoping@^7.12.11":
-  version "7.12.12"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-block-scoping/-/plugin-transform-block-scoping-7.12.12.tgz#d93a567a152c22aea3b1929bb118d1d0a175cdca"
-=======
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-block-scoping/-/plugin-transform-block-scoping-7.12.12.tgz#d93a567a152c22aea3b1929bb118d1d0a175cdca"
->>>>>>> origin/next
-  integrity sha512-VOEPQ/ExOVqbukuP7BYJtI5ZxxsmegTwzZ04j1aF0dkSypGo9XpDHuOrABsJu+ie+penpSJheDJ11x1BEZNiyQ==
+"@babel/plugin-transform-block-scoping@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-block-scoping/-/plugin-transform-block-scoping-7.12.13.tgz#f36e55076d06f41dfd78557ea039c1b581642e61"
+  integrity sha512-Pxwe0iqWJX4fOOM2kEZeUuAxHMWb9nK+9oh5d11bsLoB0xMg+mkDpt0eYuDZB7ETrY9bbcVlKUGTOGWy7BHsMQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-classes@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-classes/-/plugin-transform-classes-7.12.1.tgz#65e650fcaddd3d88ddce67c0f834a3d436a32db6"
-  integrity sha512-/74xkA7bVdzQTBeSUhLLJgYIcxw/dpEpCdRDiHgPJ3Mv6uC11UhjpOhl72CgqbBCmt1qtssCyB2xnJm1+PFjog==
+"@babel/plugin-transform-classes@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-classes/-/plugin-transform-classes-7.12.13.tgz#9728edc1838b5d62fc93ad830bd523b1fcb0e1f6"
+  integrity sha512-cqZlMlhCC1rVnxE5ZGMtIb896ijL90xppMiuWXcwcOAuFczynpd3KYemb91XFFPi3wJSe/OcrX9lXoowatkkxA==
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.10.4"
-    "@babel/helper-define-map" "^7.10.4"
-    "@babel/helper-function-name" "^7.10.4"
-    "@babel/helper-optimise-call-expression" "^7.10.4"
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-replace-supers" "^7.12.1"
-    "@babel/helper-split-export-declaration" "^7.10.4"
+    "@babel/helper-annotate-as-pure" "^7.12.13"
+    "@babel/helper-function-name" "^7.12.13"
+    "@babel/helper-optimise-call-expression" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-replace-supers" "^7.12.13"
+    "@babel/helper-split-export-declaration" "^7.12.13"
     globals "^11.1.0"
 
-"@babel/plugin-transform-computed-properties@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-computed-properties/-/plugin-transform-computed-properties-7.12.1.tgz#d68cf6c9b7f838a8a4144badbe97541ea0904852"
-  integrity sha512-vVUOYpPWB7BkgUWPo4C44mUQHpTZXakEqFjbv8rQMg7TC6S6ZhGZ3otQcRH6u7+adSlE5i0sp63eMC/XGffrzg==
+"@babel/plugin-transform-computed-properties@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-computed-properties/-/plugin-transform-computed-properties-7.12.13.tgz#6a210647a3d67f21f699cfd2a01333803b27339d"
+  integrity sha512-dDfuROUPGK1mTtLKyDPUavmj2b6kFu82SmgpztBFEO974KMjJT+Ytj3/oWsTUMBmgPcp9J5Pc1SlcAYRpJ2hRA==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-destructuring@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-destructuring/-/plugin-transform-destructuring-7.12.1.tgz#b9a570fe0d0a8d460116413cb4f97e8e08b2f847"
-  integrity sha512-fRMYFKuzi/rSiYb2uRLiUENJOKq4Gnl+6qOv5f8z0TZXg3llUwUhsNNwrwaT/6dUhJTzNpBr+CUvEWBtfNY1cw==
+"@babel/plugin-transform-destructuring@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-destructuring/-/plugin-transform-destructuring-7.12.13.tgz#fc56c5176940c5b41735c677124d1d20cecc9aeb"
+  integrity sha512-Dn83KykIFzjhA3FDPA1z4N+yfF3btDGhjnJwxIj0T43tP0flCujnU8fKgEkf0C1biIpSv9NZegPBQ1J6jYkwvQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-dotall-regex@^7.12.1", "@babel/plugin-transform-dotall-regex@^7.4.4":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-dotall-regex/-/plugin-transform-dotall-regex-7.12.1.tgz#a1d16c14862817b6409c0a678d6f9373ca9cd975"
-  integrity sha512-B2pXeRKoLszfEW7J4Hg9LoFaWEbr/kzo3teWHmtFCszjRNa/b40f9mfeqZsIDLLt/FjwQ6pz/Gdlwy85xNckBA==
+"@babel/plugin-transform-dotall-regex@^7.12.13", "@babel/plugin-transform-dotall-regex@^7.4.4":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-dotall-regex/-/plugin-transform-dotall-regex-7.12.13.tgz#3f1601cc29905bfcb67f53910f197aeafebb25ad"
+  integrity sha512-foDrozE65ZFdUC2OfgeOCrEPTxdB3yjqxpXh8CH+ipd9CHd4s/iq81kcUpyH8ACGNEPdFqbtzfgzbT/ZGlbDeQ==
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-create-regexp-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-duplicate-keys@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-duplicate-keys/-/plugin-transform-duplicate-keys-7.12.1.tgz#745661baba295ac06e686822797a69fbaa2ca228"
-  integrity sha512-iRght0T0HztAb/CazveUpUQrZY+aGKKaWXMJ4uf9YJtqxSUe09j3wteztCUDRHs+SRAL7yMuFqUsLoAKKzgXjw==
+"@babel/plugin-transform-duplicate-keys@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-duplicate-keys/-/plugin-transform-duplicate-keys-7.12.13.tgz#6f06b87a8b803fd928e54b81c258f0a0033904de"
+  integrity sha512-NfADJiiHdhLBW3pulJlJI2NB0t4cci4WTZ8FtdIuNc2+8pslXdPtRRAEWqUY+m9kNOk2eRYbTAOipAxlrOcwwQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-exponentiation-operator@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.12.1.tgz#b0f2ed356ba1be1428ecaf128ff8a24f02830ae0"
-  integrity sha512-7tqwy2bv48q+c1EHbXK0Zx3KXd2RVQp6OC7PbwFNt/dPTAV3Lu5sWtWuAj8owr5wqtWnqHfl2/mJlUmqkChKug==
+"@babel/plugin-transform-exponentiation-operator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.12.13.tgz#4d52390b9a273e651e4aba6aee49ef40e80cd0a1"
+  integrity sha512-fbUelkM1apvqez/yYx1/oICVnGo2KM5s63mhGylrmXUxK/IAXSIf87QIxVfZldWf4QsOafY6vV3bX8aMHSvNrA==
   dependencies:
-    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.10.4"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-for-of@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-for-of/-/plugin-transform-for-of-7.12.1.tgz#07640f28867ed16f9511c99c888291f560921cfa"
-  integrity sha512-Zaeq10naAsuHo7heQvyV0ptj4dlZJwZgNAtBYBnu5nNKJoW62m0zKcIEyVECrUKErkUkg6ajMy4ZfnVZciSBhg==
+"@babel/plugin-transform-for-of@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-for-of/-/plugin-transform-for-of-7.12.13.tgz#561ff6d74d9e1c8879cb12dbaf4a14cd29d15cf6"
+  integrity sha512-xCbdgSzXYmHGyVX3+BsQjcd4hv4vA/FDy7Kc8eOpzKmBBPEOTurt0w5fCRQaGl+GSBORKgJdstQ1rHl4jbNseQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-function-name@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-function-name/-/plugin-transform-function-name-7.12.1.tgz#2ec76258c70fe08c6d7da154003a480620eba667"
-  integrity sha512-JF3UgJUILoFrFMEnOJLJkRHSk6LUSXLmEFsA23aR2O5CSLUxbeUX1IZ1YQ7Sn0aXb601Ncwjx73a+FVqgcljVw==
+"@babel/plugin-transform-function-name@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-function-name/-/plugin-transform-function-name-7.12.13.tgz#bb024452f9aaed861d374c8e7a24252ce3a50051"
+  integrity sha512-6K7gZycG0cmIwwF7uMK/ZqeCikCGVBdyP2J5SKNCXO5EOHcqi+z7Jwf8AmyDNcBgxET8DrEtCt/mPKPyAzXyqQ==
   dependencies:
-    "@babel/helper-function-name" "^7.10.4"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-function-name" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-literals@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-literals/-/plugin-transform-literals-7.12.1.tgz#d73b803a26b37017ddf9d3bb8f4dc58bfb806f57"
-  integrity sha512-+PxVGA+2Ag6uGgL0A5f+9rklOnnMccwEBzwYFL3EUaKuiyVnUipyXncFcfjSkbimLrODoqki1U9XxZzTvfN7IQ==
+"@babel/plugin-transform-literals@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-literals/-/plugin-transform-literals-7.12.13.tgz#2ca45bafe4a820197cf315794a4d26560fe4bdb9"
+  integrity sha512-FW+WPjSR7hiUxMcKqyNjP05tQ2kmBCdpEpZHY1ARm96tGQCCBvXKnpjILtDplUnJ/eHZ0lALLM+d2lMFSpYJrQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-member-expression-literals@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-member-expression-literals/-/plugin-transform-member-expression-literals-7.12.1.tgz#496038602daf1514a64d43d8e17cbb2755e0c3ad"
-  integrity sha512-1sxePl6z9ad0gFMB9KqmYofk34flq62aqMt9NqliS/7hPEpURUCMbyHXrMPlo282iY7nAvUB1aQd5mg79UD9Jg==
+"@babel/plugin-transform-member-expression-literals@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-member-expression-literals/-/plugin-transform-member-expression-literals-7.12.13.tgz#5ffa66cd59b9e191314c9f1f803b938e8c081e40"
+  integrity sha512-kxLkOsg8yir4YeEPHLuO2tXP9R/gTjpuTOjshqSpELUN3ZAg2jfDnKUvzzJxObun38sw3wm4Uu69sX/zA7iRvg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-modules-amd@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-amd/-/plugin-transform-modules-amd-7.12.1.tgz#3154300b026185666eebb0c0ed7f8415fefcf6f9"
-  integrity sha512-tDW8hMkzad5oDtzsB70HIQQRBiTKrhfgwC/KkJeGsaNFTdWhKNt/BiE8c5yj19XiGyrxpbkOfH87qkNg1YGlOQ==
+"@babel/plugin-transform-modules-amd@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-amd/-/plugin-transform-modules-amd-7.12.13.tgz#43db16249b274ee2e551e2422090aa1c47692d56"
+  integrity sha512-JHLOU0o81m5UqG0Ulz/fPC68/v+UTuGTWaZBUwpEk1fYQ1D9LfKV6MPn4ttJKqRo5Lm460fkzjLTL4EHvCprvA==
   dependencies:
-    "@babel/helper-module-transforms" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-module-transforms" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-commonjs@^7.12.1", "@babel/plugin-transform-modules-commonjs@^7.2.0":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.12.1.tgz#fa403124542636c786cf9b460a0ffbb48a86e648"
-  integrity sha512-dY789wq6l0uLY8py9c1B48V8mVL5gZh/+PQ5ZPrylPYsnAvnEMjqsUXkuoDVPeVK+0VyGar+D08107LzDQ6pag==
+"@babel/plugin-transform-modules-commonjs@^7.12.13", "@babel/plugin-transform-modules-commonjs@^7.2.0":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.12.13.tgz#5043b870a784a8421fa1fd9136a24f294da13e50"
+  integrity sha512-OGQoeVXVi1259HjuoDnsQMlMkT9UkZT9TpXAsqWplS/M0N1g3TJAn/ByOCeQu7mfjc5WpSsRU+jV1Hd89ts0kQ==
   dependencies:
-    "@babel/helper-module-transforms" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-simple-access" "^7.12.1"
+    "@babel/helper-module-transforms" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-simple-access" "^7.12.13"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-systemjs@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.12.1.tgz#663fea620d593c93f214a464cd399bf6dc683086"
-  integrity sha512-Hn7cVvOavVh8yvW6fLwveFqSnd7rbQN3zJvoPNyNaQSvgfKmDBO9U1YL9+PCXGRlZD9tNdWTy5ACKqMuzyn32Q==
+"@babel/plugin-transform-modules-systemjs@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.12.13.tgz#351937f392c7f07493fc79b2118201d50404a3c5"
+  integrity sha512-aHfVjhZ8QekaNF/5aNdStCGzwTbU7SI5hUybBKlMzqIMC7w7Ho8hx5a4R/DkTHfRfLwHGGxSpFt9BfxKCoXKoA==
   dependencies:
-    "@babel/helper-hoist-variables" "^7.10.4"
-    "@babel/helper-module-transforms" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-validator-identifier" "^7.10.4"
+    "@babel/helper-hoist-variables" "^7.12.13"
+    "@babel/helper-module-transforms" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-validator-identifier" "^7.12.11"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-umd@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-umd/-/plugin-transform-modules-umd-7.12.1.tgz#eb5a218d6b1c68f3d6217b8fa2cc82fec6547902"
-  integrity sha512-aEIubCS0KHKM0zUos5fIoQm+AZUMt1ZvMpqz0/H5qAQ7vWylr9+PLYurT+Ic7ID/bKLd4q8hDovaG3Zch2uz5Q==
+"@babel/plugin-transform-modules-umd@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-modules-umd/-/plugin-transform-modules-umd-7.12.13.tgz#26c66f161d3456674e344b4b1255de4d530cfb37"
+  integrity sha512-BgZndyABRML4z6ibpi7Z98m4EVLFI9tVsZDADC14AElFaNHHBcJIovflJ6wtCqFxwy2YJ1tJhGRsr0yLPKoN+w==
   dependencies:
-    "@babel/helper-module-transforms" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-module-transforms" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-named-capturing-groups-regex@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-named-capturing-groups-regex/-/plugin-transform-named-capturing-groups-regex-7.12.1.tgz#b407f5c96be0d9f5f88467497fa82b30ac3e8753"
-  integrity sha512-tB43uQ62RHcoDp9v2Nsf+dSM8sbNodbEicbQNA53zHz8pWUhsgHSJCGpt7daXxRydjb0KnfmB+ChXOv3oADp1Q==
+"@babel/plugin-transform-named-capturing-groups-regex@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-named-capturing-groups-regex/-/plugin-transform-named-capturing-groups-regex-7.12.13.tgz#2213725a5f5bbbe364b50c3ba5998c9599c5c9d9"
+  integrity sha512-Xsm8P2hr5hAxyYblrfACXpQKdQbx4m2df9/ZZSQ8MAhsadw06+jW7s9zsSw6he+mJZXRlVMyEnVktJo4zjk1WA==
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.12.1"
+    "@babel/helper-create-regexp-features-plugin" "^7.12.13"
 
-"@babel/plugin-transform-new-target@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-new-target/-/plugin-transform-new-target-7.12.1.tgz#80073f02ee1bb2d365c3416490e085c95759dec0"
-  integrity sha512-+eW/VLcUL5L9IvJH7rT1sT0CzkdUTvPrXC2PXTn/7z7tXLBuKvezYbGdxD5WMRoyvyaujOq2fWoKl869heKjhw==
+"@babel/plugin-transform-new-target@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-new-target/-/plugin-transform-new-target-7.12.13.tgz#e22d8c3af24b150dd528cbd6e685e799bf1c351c"
+  integrity sha512-/KY2hbLxrG5GTQ9zzZSc3xWiOy379pIETEhbtzwZcw9rvuaVV4Fqy7BYGYOWZnaoXIQYbbJ0ziXLa/sKcGCYEQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-object-super@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-object-super/-/plugin-transform-object-super-7.12.1.tgz#4ea08696b8d2e65841d0c7706482b048bed1066e"
-  integrity sha512-AvypiGJH9hsquNUn+RXVcBdeE3KHPZexWRdimhuV59cSoOt5kFBmqlByorAeUlGG2CJWd0U+4ZtNKga/TB0cAw==
+"@babel/plugin-transform-object-super@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-object-super/-/plugin-transform-object-super-7.12.13.tgz#b4416a2d63b8f7be314f3d349bd55a9c1b5171f7"
+  integrity sha512-JzYIcj3XtYspZDV8j9ulnoMPZZnF/Cj0LUxPOjR89BdBVx+zYJI9MdMIlUZjbXDX+6YVeS6I3e8op+qQ3BYBoQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
-    "@babel/helper-replace-supers" "^7.12.1"
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/helper-replace-supers" "^7.12.13"
 
-"@babel/plugin-transform-parameters@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-parameters/-/plugin-transform-parameters-7.12.1.tgz#d2e963b038771650c922eff593799c96d853255d"
-  integrity sha512-xq9C5EQhdPK23ZeCdMxl8bbRnAgHFrw5EOC3KJUsSylZqdkCaFEXxGSBuTSObOpiiHHNyb82es8M1QYgfQGfNg==
+"@babel/plugin-transform-parameters@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-parameters/-/plugin-transform-parameters-7.12.13.tgz#461e76dfb63c2dfd327b8a008a9e802818ce9853"
+  integrity sha512-e7QqwZalNiBRHCpJg/P8s/VJeSRYgmtWySs1JwvfwPqhBbiWfOcHDKdeAi6oAyIimoKWBlwc8oTgbZHdhCoVZA==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-property-literals@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-property-literals/-/plugin-transform-property-literals-7.12.1.tgz#41bc81200d730abb4456ab8b3fbd5537b59adecd"
-  integrity sha512-6MTCR/mZ1MQS+AwZLplX4cEySjCpnIF26ToWo942nqn8hXSm7McaHQNeGx/pt7suI1TWOWMfa/NgBhiqSnX0cQ==
+"@babel/plugin-transform-property-literals@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-property-literals/-/plugin-transform-property-literals-7.12.13.tgz#4e6a9e37864d8f1b3bc0e2dce7bf8857db8b1a81"
+  integrity sha512-nqVigwVan+lR+g8Fj8Exl0UQX2kymtjcWfMOYM1vTYEKujeyv2SkMgazf2qNcK7l4SDiKyTA/nHCPqL4e2zo1A==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-regenerator@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-regenerator/-/plugin-transform-regenerator-7.12.1.tgz#5f0a28d842f6462281f06a964e88ba8d7ab49753"
-  integrity sha512-gYrHqs5itw6i4PflFX3OdBPMQdPbF4bj2REIUxlMRUFk0/ZOAIpDFuViuxPjUL7YC8UPnf+XG7/utJvqXdPKng==
+"@babel/plugin-transform-regenerator@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-regenerator/-/plugin-transform-regenerator-7.12.13.tgz#b628bcc9c85260ac1aeb05b45bde25210194a2f5"
+  integrity sha512-lxb2ZAvSLyJ2PEe47hoGWPmW22v7CtSl9jW8mingV4H2sEX/JOcrAj2nPuGWi56ERUm2bUpjKzONAuT6HCn2EA==
   dependencies:
     regenerator-transform "^0.14.2"
 
-"@babel/plugin-transform-reserved-words@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-reserved-words/-/plugin-transform-reserved-words-7.12.1.tgz#6fdfc8cc7edcc42b36a7c12188c6787c873adcd8"
-  integrity sha512-pOnUfhyPKvZpVyBHhSBoX8vfA09b7r00Pmm1sH+29ae2hMTKVmSp4Ztsr8KBKjLjx17H0eJqaRC3bR2iThM54A==
+"@babel/plugin-transform-reserved-words@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-reserved-words/-/plugin-transform-reserved-words-7.12.13.tgz#7d9988d4f06e0fe697ea1d9803188aa18b472695"
+  integrity sha512-xhUPzDXxZN1QfiOy/I5tyye+TRz6lA7z6xaT4CLOjPRMVg1ldRf0LHw0TDBpYL4vG78556WuHdyO9oi5UmzZBg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/plugin-transform-runtime@^7.11.0", "@babel/plugin-transform-runtime@^7.12.1":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-runtime/-/plugin-transform-runtime-7.12.10.tgz#af0fded4e846c4b37078e8e5d06deac6cd848562"
-  integrity sha512-xOrUfzPxw7+WDm9igMgQCbO3cJKymX7dFdsgRr1eu9n3KjjyU4pptIXbXPseQDquw+W+RuJEJMHKHNsPNNm3CA==
+  version "7.12.15"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-runtime/-/plugin-transform-runtime-7.12.15.tgz#4337b2507288007c2b197059301aa0af8d90c085"
+  integrity sha512-OwptMSRnRWJo+tJ9v9wgAf72ydXWfYSXWhnQjZing8nGZSDFqU1MBleKM3+DriKkcbv7RagA8gVeB0A1PNlNow==
   dependencies:
-    "@babel/helper-module-imports" "^7.12.5"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
     semver "^5.5.1"
 
-"@babel/plugin-transform-shorthand-properties@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.12.1.tgz#0bf9cac5550fce0cfdf043420f661d645fdc75e3"
-  integrity sha512-GFZS3c/MhX1OusqB1MZ1ct2xRzX5ppQh2JU1h2Pnfk88HtFTM+TWQqJNfwkmxtPQtb/s1tk87oENfXJlx7rSDw==
+"@babel/plugin-transform-shorthand-properties@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.12.13.tgz#db755732b70c539d504c6390d9ce90fe64aff7ad"
+  integrity sha512-xpL49pqPnLtf0tVluuqvzWIgLEhuPpZzvs2yabUHSKRNlN7ScYU7aMlmavOeyXJZKgZKQRBlh8rHbKiJDraTSw==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-spread@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-spread/-/plugin-transform-spread-7.12.1.tgz#527f9f311be4ec7fdc2b79bb89f7bf884b3e1e1e"
-  integrity sha512-vuLp8CP0BE18zVYjsEBZ5xoCecMK6LBMMxYzJnh01rxQRvhNhH1csMMmBfNo5tGpGO+NhdSNW2mzIvBu3K1fng==
+"@babel/plugin-transform-spread@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-spread/-/plugin-transform-spread-7.12.13.tgz#ca0d5645abbd560719c354451b849f14df4a7949"
+  integrity sha512-dUCrqPIowjqk5pXsx1zPftSq4sT0aCeZVAxhdgs3AMgyaDmoUT0G+5h3Dzja27t76aUEIJWlFgPJqJ/d4dbTtg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/helper-skip-transparent-expression-wrappers" "^7.12.1"
 
-"@babel/plugin-transform-sticky-regex@^7.12.7":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-sticky-regex/-/plugin-transform-sticky-regex-7.12.7.tgz#560224613ab23987453948ed21d0b0b193fa7fad"
-  integrity sha512-VEiqZL5N/QvDbdjfYQBhruN0HYjSPjC4XkeqW4ny/jNtH9gcbgaqBIXYEZCNnESMAGs0/K/R7oFGMhOyu/eIxg==
+"@babel/plugin-transform-sticky-regex@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-sticky-regex/-/plugin-transform-sticky-regex-7.12.13.tgz#760ffd936face73f860ae646fb86ee82f3d06d1f"
+  integrity sha512-Jc3JSaaWT8+fr7GRvQP02fKDsYk4K/lYwWq38r/UGfaxo89ajud321NH28KRQ7xy1Ybc0VUE5Pz8psjNNDUglg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-template-literals@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-template-literals/-/plugin-transform-template-literals-7.12.1.tgz#b43ece6ed9a79c0c71119f576d299ef09d942843"
-  integrity sha512-b4Zx3KHi+taXB1dVRBhVJtEPi9h1THCeKmae2qP0YdUHIFhVjtpqqNfxeVAa1xeHVhAy4SbHxEwx5cltAu5apw==
+"@babel/plugin-transform-template-literals@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-template-literals/-/plugin-transform-template-literals-7.12.13.tgz#655037b07ebbddaf3b7752f55d15c2fd6f5aa865"
+  integrity sha512-arIKlWYUgmNsF28EyfmiQHJLJFlAJNYkuQO10jL46ggjBpeb2re1P9K9YGxNJB45BqTbaslVysXDYm/g3sN/Qg==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-typeof-symbol@^7.12.10":
-  version "7.12.10"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-typeof-symbol/-/plugin-transform-typeof-symbol-7.12.10.tgz#de01c4c8f96580bd00f183072b0d0ecdcf0dec4b"
-  integrity sha512-JQ6H8Rnsogh//ijxspCjc21YPd3VLVoYtAwv3zQmqAt8YGYUtdo5usNhdl4b9/Vir2kPFZl6n1h0PfUz4hJhaA==
+"@babel/plugin-transform-typeof-symbol@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-typeof-symbol/-/plugin-transform-typeof-symbol-7.12.13.tgz#785dd67a1f2ea579d9c2be722de8c84cb85f5a7f"
+  integrity sha512-eKv/LmUJpMnu4npgfvs3LiHhJua5fo/CysENxa45YCQXZwKnGCQKAg87bvoqSW1fFT+HA32l03Qxsm8ouTY3ZQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-unicode-escapes@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-unicode-escapes/-/plugin-transform-unicode-escapes-7.12.1.tgz#5232b9f81ccb07070b7c3c36c67a1b78f1845709"
-  integrity sha512-I8gNHJLIc7GdApm7wkVnStWssPNbSRMPtgHdmH3sRM1zopz09UWPS4x5V4n1yz/MIWTVnJ9sp6IkuXdWM4w+2Q==
+"@babel/plugin-transform-unicode-escapes@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-unicode-escapes/-/plugin-transform-unicode-escapes-7.12.13.tgz#840ced3b816d3b5127dd1d12dcedc5dead1a5e74"
+  integrity sha512-0bHEkdwJ/sN/ikBHfSmOXPypN/beiGqjo+o4/5K+vxEFNPRPdImhviPakMKG4x96l85emoa0Z6cDflsdBusZbw==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-transform-unicode-regex@^7.12.1":
-  version "7.12.1"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.12.1.tgz#cc9661f61390db5c65e3febaccefd5c6ac3faecb"
-  integrity sha512-SqH4ClNngh/zGwHZOOQMTD+e8FGWexILV+ePMyiDJttAWRh5dhDL8rcl5lSgU3Huiq6Zn6pWTMvdPAb21Dwdyg==
+"@babel/plugin-transform-unicode-regex@^7.12.13":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fplugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.12.13.tgz#b52521685804e155b1202e83fc188d34bb70f5ac"
+  integrity sha512-mDRzSNY7/zopwisPZ5kM9XKCfhchqIYwAKRERtEnhYscZB79VRekuRSoYbN0+KVe3y8+q1h6A4svXtP7N+UoCA==
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.12.1"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/helper-create-regexp-features-plugin" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
 
 "@babel/preset-env@^7.11.0", "@babel/preset-env@^7.12.7":
-  version "7.12.11"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fpreset-env/-/preset-env-7.12.11.tgz#55d5f7981487365c93dbbc84507b1c7215e857f9"
-  integrity sha512-j8Tb+KKIXKYlDBQyIOy4BLxzv1NUOwlHfZ74rvW+Z0Gp4/cI2IMDPBWAgWceGcE7aep9oL/0K9mlzlMGxA8yNw==
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fpreset-env/-/preset-env-7.12.13.tgz#3aa2d09cf7d255177538dff292ac9af29ad46525"
+  integrity sha512-JUVlizG8SoFTz4LmVUL8++aVwzwxcvey3N0j1tRbMAXVEy95uQ/cnEkmEKHN00Bwq4voAV3imQGnQvpkLAxsrw==
   dependencies:
-    "@babel/compat-data" "^7.12.7"
-    "@babel/helper-compilation-targets" "^7.12.5"
-    "@babel/helper-module-imports" "^7.12.5"
-    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/compat-data" "^7.12.13"
+    "@babel/helper-compilation-targets" "^7.12.13"
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/helper-plugin-utils" "^7.12.13"
     "@babel/helper-validator-option" "^7.12.11"
-    "@babel/plugin-proposal-async-generator-functions" "^7.12.1"
-    "@babel/plugin-proposal-class-properties" "^7.12.1"
+    "@babel/plugin-proposal-async-generator-functions" "^7.12.13"
+    "@babel/plugin-proposal-class-properties" "^7.12.13"
     "@babel/plugin-proposal-dynamic-import" "^7.12.1"
-    "@babel/plugin-proposal-export-namespace-from" "^7.12.1"
-    "@babel/plugin-proposal-json-strings" "^7.12.1"
-    "@babel/plugin-proposal-logical-assignment-operators" "^7.12.1"
-    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.12.1"
-    "@babel/plugin-proposal-numeric-separator" "^7.12.7"
-    "@babel/plugin-proposal-object-rest-spread" "^7.12.1"
-    "@babel/plugin-proposal-optional-catch-binding" "^7.12.1"
-    "@babel/plugin-proposal-optional-chaining" "^7.12.7"
-    "@babel/plugin-proposal-private-methods" "^7.12.1"
-    "@babel/plugin-proposal-unicode-property-regex" "^7.12.1"
+    "@babel/plugin-proposal-export-namespace-from" "^7.12.13"
+    "@babel/plugin-proposal-json-strings" "^7.12.13"
+    "@babel/plugin-proposal-logical-assignment-operators" "^7.12.13"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.12.13"
+    "@babel/plugin-proposal-numeric-separator" "^7.12.13"
+    "@babel/plugin-proposal-object-rest-spread" "^7.12.13"
+    "@babel/plugin-proposal-optional-catch-binding" "^7.12.13"
+    "@babel/plugin-proposal-optional-chaining" "^7.12.13"
+    "@babel/plugin-proposal-private-methods" "^7.12.13"
+    "@babel/plugin-proposal-unicode-property-regex" "^7.12.13"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
-    "@babel/plugin-syntax-class-properties" "^7.12.1"
+    "@babel/plugin-syntax-class-properties" "^7.12.13"
     "@babel/plugin-syntax-dynamic-import" "^7.8.0"
     "@babel/plugin-syntax-export-namespace-from" "^7.8.3"
     "@babel/plugin-syntax-json-strings" "^7.8.0"
@@ -796,41 +774,41 @@
     "@babel/plugin-syntax-object-rest-spread" "^7.8.0"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.0"
     "@babel/plugin-syntax-optional-chaining" "^7.8.0"
-    "@babel/plugin-syntax-top-level-await" "^7.12.1"
-    "@babel/plugin-transform-arrow-functions" "^7.12.1"
-    "@babel/plugin-transform-async-to-generator" "^7.12.1"
-    "@babel/plugin-transform-block-scoped-functions" "^7.12.1"
-    "@babel/plugin-transform-block-scoping" "^7.12.11"
-    "@babel/plugin-transform-classes" "^7.12.1"
-    "@babel/plugin-transform-computed-properties" "^7.12.1"
-    "@babel/plugin-transform-destructuring" "^7.12.1"
-    "@babel/plugin-transform-dotall-regex" "^7.12.1"
-    "@babel/plugin-transform-duplicate-keys" "^7.12.1"
-    "@babel/plugin-transform-exponentiation-operator" "^7.12.1"
-    "@babel/plugin-transform-for-of" "^7.12.1"
-    "@babel/plugin-transform-function-name" "^7.12.1"
-    "@babel/plugin-transform-literals" "^7.12.1"
-    "@babel/plugin-transform-member-expression-literals" "^7.12.1"
-    "@babel/plugin-transform-modules-amd" "^7.12.1"
-    "@babel/plugin-transform-modules-commonjs" "^7.12.1"
-    "@babel/plugin-transform-modules-systemjs" "^7.12.1"
-    "@babel/plugin-transform-modules-umd" "^7.12.1"
-    "@babel/plugin-transform-named-capturing-groups-regex" "^7.12.1"
-    "@babel/plugin-transform-new-target" "^7.12.1"
-    "@babel/plugin-transform-object-super" "^7.12.1"
-    "@babel/plugin-transform-parameters" "^7.12.1"
-    "@babel/plugin-transform-property-literals" "^7.12.1"
-    "@babel/plugin-transform-regenerator" "^7.12.1"
-    "@babel/plugin-transform-reserved-words" "^7.12.1"
-    "@babel/plugin-transform-shorthand-properties" "^7.12.1"
-    "@babel/plugin-transform-spread" "^7.12.1"
-    "@babel/plugin-transform-sticky-regex" "^7.12.7"
-    "@babel/plugin-transform-template-literals" "^7.12.1"
-    "@babel/plugin-transform-typeof-symbol" "^7.12.10"
-    "@babel/plugin-transform-unicode-escapes" "^7.12.1"
-    "@babel/plugin-transform-unicode-regex" "^7.12.1"
+    "@babel/plugin-syntax-top-level-await" "^7.12.13"
+    "@babel/plugin-transform-arrow-functions" "^7.12.13"
+    "@babel/plugin-transform-async-to-generator" "^7.12.13"
+    "@babel/plugin-transform-block-scoped-functions" "^7.12.13"
+    "@babel/plugin-transform-block-scoping" "^7.12.13"
+    "@babel/plugin-transform-classes" "^7.12.13"
+    "@babel/plugin-transform-computed-properties" "^7.12.13"
+    "@babel/plugin-transform-destructuring" "^7.12.13"
+    "@babel/plugin-transform-dotall-regex" "^7.12.13"
+    "@babel/plugin-transform-duplicate-keys" "^7.12.13"
+    "@babel/plugin-transform-exponentiation-operator" "^7.12.13"
+    "@babel/plugin-transform-for-of" "^7.12.13"
+    "@babel/plugin-transform-function-name" "^7.12.13"
+    "@babel/plugin-transform-literals" "^7.12.13"
+    "@babel/plugin-transform-member-expression-literals" "^7.12.13"
+    "@babel/plugin-transform-modules-amd" "^7.12.13"
+    "@babel/plugin-transform-modules-commonjs" "^7.12.13"
+    "@babel/plugin-transform-modules-systemjs" "^7.12.13"
+    "@babel/plugin-transform-modules-umd" "^7.12.13"
+    "@babel/plugin-transform-named-capturing-groups-regex" "^7.12.13"
+    "@babel/plugin-transform-new-target" "^7.12.13"
+    "@babel/plugin-transform-object-super" "^7.12.13"
+    "@babel/plugin-transform-parameters" "^7.12.13"
+    "@babel/plugin-transform-property-literals" "^7.12.13"
+    "@babel/plugin-transform-regenerator" "^7.12.13"
+    "@babel/plugin-transform-reserved-words" "^7.12.13"
+    "@babel/plugin-transform-shorthand-properties" "^7.12.13"
+    "@babel/plugin-transform-spread" "^7.12.13"
+    "@babel/plugin-transform-sticky-regex" "^7.12.13"
+    "@babel/plugin-transform-template-literals" "^7.12.13"
+    "@babel/plugin-transform-typeof-symbol" "^7.12.13"
+    "@babel/plugin-transform-unicode-escapes" "^7.12.13"
+    "@babel/plugin-transform-unicode-regex" "^7.12.13"
     "@babel/preset-modules" "^0.1.3"
-    "@babel/types" "^7.12.11"
+    "@babel/types" "^7.12.13"
     core-js-compat "^3.8.0"
     semver "^5.5.0"
 
@@ -846,57 +824,49 @@
     esutils "^2.0.2"
 
 "@babel/runtime@^7.11.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.8.4":
-  version "7.12.5"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2fruntime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
-  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2fruntime/-/runtime-7.12.13.tgz#0a21452352b02542db0ffb928ac2d3ca7cb6d66d"
+  integrity sha512-8+3UMPBrjFa/6TtKi/7sehPKqfAm4g6K+YQjyyFOLUTxzOngcRZTlAVY8sc2CORJYqdHQY8gRPHmn+qo15rCBw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/template@^7.0.0", "@babel/template@^7.10.4", "@babel/template@^7.12.7", "@babel/template@^7.4.0":
-  version "7.12.7"
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftemplate/-/template-7.12.7.tgz#c817233696018e39fbb6c491d2fb684e05ed43bc"
-  integrity sha512-GkDzmHS6GV7ZeXfJZ0tLRBhZcMcY0/Lnb+eEbXDBfCAcZCjrZKe6p3J4we/D24O9Y8enxWAg1cWwof59yLh2ow==
+"@babel/template@^7.0.0", "@babel/template@^7.12.13", "@babel/template@^7.4.0":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftemplate/-/template-7.12.13.tgz#530265be8a2589dbb37523844c5bcb55947fb327"
+  integrity sha512-/7xxiGA57xMo/P2GVvdEumr8ONhFOhfgq2ihK3h1e6THqzTAkHbkXgB0xI9yeTfIUoH3+oAeHhqm/I43OTbbjA==
   dependencies:
-    "@babel/code-frame" "^7.10.4"
-    "@babel/parser" "^7.12.7"
-    "@babel/types" "^7.12.7"
+    "@babel/code-frame" "^7.12.13"
+    "@babel/parser" "^7.12.13"
+    "@babel/types" "^7.12.13"
 
-"@babel/traverse@^7.0.0", "@babel/traverse@^7.1.0", "@babel/traverse@^7.10.4", "@babel/traverse@^7.12.1", "@babel/traverse@^7.12.10", "@babel/traverse@^7.12.5", "@babel/traverse@^7.4.3", "@babel/traverse@^7.5.5":
-  version "7.12.12"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftraverse/-/traverse-7.12.12.tgz#d0cd87892704edd8da002d674bc811ce64743376"
-=======
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.12.12.tgz#d0cd87892704edd8da002d674bc811ce64743376"
->>>>>>> origin/next
-  integrity sha512-s88i0X0lPy45RrLM8b9mz8RPH5FqO9G9p7ti59cToE44xFm1Q+Pjh5Gq4SXBbtb88X7Uy7pexeqRIQDDMNkL0w==
+"@babel/traverse@^7.0.0", "@babel/traverse@^7.1.0", "@babel/traverse@^7.12.13", "@babel/traverse@^7.4.3", "@babel/traverse@^7.5.5":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftraverse/-/traverse-7.12.13.tgz#689f0e4b4c08587ad26622832632735fb8c4e0c0"
+  integrity sha512-3Zb4w7eE/OslI0fTp8c7b286/cQps3+vdLW3UcwC8VSJC6GbKn55aeVVu2QJNuCDoeKyptLOFrPq8WqZZBodyA==
   dependencies:
-    "@babel/code-frame" "^7.12.11"
-    "@babel/generator" "^7.12.11"
-    "@babel/helper-function-name" "^7.12.11"
-    "@babel/helper-split-export-declaration" "^7.12.11"
-    "@babel/parser" "^7.12.11"
-    "@babel/types" "^7.12.12"
+    "@babel/code-frame" "^7.12.13"
+    "@babel/generator" "^7.12.13"
+    "@babel/helper-function-name" "^7.12.13"
+    "@babel/helper-split-export-declaration" "^7.12.13"
+    "@babel/parser" "^7.12.13"
+    "@babel/types" "^7.12.13"
     debug "^4.1.0"
     globals "^11.1.0"
     lodash "^4.17.19"
 
-"@babel/types@^7.0.0", "@babel/types@^7.10.4", "@babel/types@^7.10.5", "@babel/types@^7.12.1", "@babel/types@^7.12.10", "@babel/types@^7.12.11", "@babel/types@^7.12.12", "@babel/types@^7.12.5", "@babel/types@^7.12.7", "@babel/types@^7.3.0", "@babel/types@^7.4.0", "@babel/types@^7.4.4":
-  version "7.12.12"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftypes/-/types-7.12.12.tgz#4608a6ec313abbd87afa55004d373ad04a96c299"
-=======
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.12.12.tgz#4608a6ec313abbd87afa55004d373ad04a96c299"
->>>>>>> origin/next
-  integrity sha512-lnIX7piTxOH22xE7fDXDbSHg9MM1/6ORnafpJmov5rs0kX5g4BZxeXNJLXsMRiO0U5Rb8/FvMS6xlTnTHvxonQ==
+"@babel/types@^7.0.0", "@babel/types@^7.12.1", "@babel/types@^7.12.13", "@babel/types@^7.3.0", "@babel/types@^7.4.0", "@babel/types@^7.4.4":
+  version "7.12.13"
+  resolved "https://registrynpm.storefrontcloud.io/@babel%2ftypes/-/types-7.12.13.tgz#8be1aa8f2c876da11a9cf650c0ecf656913ad611"
+  integrity sha512-oKrdZTld2im1z8bDwTOQvUbxKwE+854zc16qWZQlcTqMN00pWxHQ4ZeOq0yDMnisOpRykH2/5Qqcrk/OlbAjiQ==
   dependencies:
     "@babel/helper-validator-identifier" "^7.12.11"
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
 "@cld-apis/utils@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@cld-apis/utils/-/utils-0.1.1.tgz#15748cb00a7db14bab682160c800d7efa8ddff0d"
-  integrity sha512-bGE2kxO84Gj0yUn/rAsAtVMmDuXyG6liCJlnPdjy8SM0bXjxJqHBoJbXfR4ppkb9jJZZwB5tvL7e+HO9hpXjMQ==
+  version "0.1.3"
+  resolved "https://registrynpm.storefrontcloud.io/@cld-apis%2futils/-/utils-0.1.3.tgz#a12d26bef6955d4c3e501fb84ad4bf544f07aa10"
+  integrity sha512-e50vj4qE6PLYrado/ypwH+AVHwMRCevvpAz8sqDhRMow9MPiWNTuY9+jnLU8K/ewmX7rgdBsxxqBpMtF/OwhIw==
   dependencies:
     lodash.snakecase "^4.1.1"
 
@@ -1932,11 +1902,7 @@
 
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@nodelib%2ffs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
-=======
-  resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
->>>>>>> origin/next
   integrity sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA==
   dependencies:
     "@nodelib/fs.stat" "2.0.4"
@@ -1944,11 +1910,7 @@
 
 "@nodelib/fs.stat@2.0.4", "@nodelib/fs.stat@^2.0.2":
   version "2.0.4"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@nodelib%2ffs.stat/-/fs.stat-2.0.4.tgz#a3f2dd61bab43b8db8fa108a121cfffe4c676655"
-=======
-  resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-2.0.4.tgz#a3f2dd61bab43b8db8fa108a121cfffe4c676655"
->>>>>>> origin/next
   integrity sha512-IYlHJA0clt2+Vg7bccq+TzRdJvv19c2INqBSsoOLp1je7xjtr7J26+WXR72MCdvU9q1qTzIWDfhMf+DRvQJK4Q==
 
 "@nodelib/fs.stat@^1.1.2":
@@ -1958,11 +1920,7 @@
 
 "@nodelib/fs.walk@^1.2.3":
   version "1.2.6"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@nodelib%2ffs.walk/-/fs.walk-1.2.6.tgz#cce9396b30aa5afe9e3756608f5831adcb53d063"
-=======
-  resolved "https://registry.yarnpkg.com/@nodelib/fs.walk/-/fs.walk-1.2.6.tgz#cce9396b30aa5afe9e3756608f5831adcb53d063"
->>>>>>> origin/next
   integrity sha512-8Broas6vTtW4GIXTAHDoE32hnN2M5ykgCpWGbuXHQ15vEMqr23pB76e/GZcYsZCHALv50ktd24qhEyKr6wBtow==
   dependencies:
     "@nodelib/fs.scandir" "2.1.4"
@@ -2036,15 +1994,9 @@
     wrap-ansi "^6.2.0"
 
 "@nuxt/components@^1.2.2":
-<<<<<<< HEAD
   version "1.2.6"
   resolved "https://registrynpm.storefrontcloud.io/@nuxt%2fcomponents/-/components-1.2.6.tgz#69399599aedaeffe79e1847c9495f4ab79284393"
   integrity sha512-PUXP26xCr7fhSSSZfQsoh7BuLIT71cpMms18ZckR117UgjXi/ZYhKBZkn/bYGv8qI7ECqmOrMi6hOcKghAwWFw==
-=======
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@nuxt/components/-/components-1.2.5.tgz#0120d567d1c381312a9e88ee2375ca0fbf773aa5"
-  integrity sha512-OgLO45JNYBus7+fh+nimniLlpD09ABHKLp7+ShrOAkWP8KmXTlZAj2IvYQX3Areau6sWepV2+3vg1SyErh/Fow==
->>>>>>> origin/next
   dependencies:
     chalk "^4.1.0"
     chokidar "^3.5.1"
@@ -2165,15 +2117,9 @@
     server-destroy "^1.0.1"
 
 "@nuxt/telemetry@^1.3.0":
-<<<<<<< HEAD
   version "1.3.3"
   resolved "https://registrynpm.storefrontcloud.io/@nuxt%2ftelemetry/-/telemetry-1.3.3.tgz#beefa94c6032a1312c7dc9c8784c6b8cc3aa42ae"
   integrity sha512-ElnoAJo1n/Ui0j9i3xqhXajoGJdEwmkEtsWftlZUpQNJxdfoz+623qnt9XHMYa0X5Nf1PXYdcUKa2u4AASXOjA==
-=======
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@nuxt/telemetry/-/telemetry-1.3.2.tgz#a642888dd5d5e24b44b42028d2a10187348a88a1"
-  integrity sha512-Hx16EwlKo1sjsyz6qhsBYp/IC/82vXwqLp71QIf2IXyLhFPSiqXzHMY3/BxGiLr1o92C9s8hct3EwuSFTiex8w==
->>>>>>> origin/next
   dependencies:
     arg "^5.0.0"
     chalk "^4.1.0"
@@ -2187,11 +2133,7 @@
     git-url-parse "^11.4.3"
     inquirer "^7.3.3"
     is-docker "^2.1.1"
-<<<<<<< HEAD
     jiti "^1.3.0"
-=======
-    jiti "^1.0.0"
->>>>>>> origin/next
     nanoid "^3.1.20"
     node-fetch "^2.6.1"
     parse-git-config "^3.0.0"
@@ -2234,11 +2176,7 @@
 
 "@nuxt/ufo@^0.5.0":
   version "0.5.4"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@nuxt%2fufo/-/ufo-0.5.4.tgz#2e1428e2c947cc559d566c27786525bf0f40fbc8"
-=======
-  resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.5.4.tgz#2e1428e2c947cc559d566c27786525bf0f40fbc8"
->>>>>>> origin/next
   integrity sha512-JZOGDlt2BvLCBmLhrchhRJ6tP9PBfSWLdsHC+JVJ5Qp8/hT/2u61cSsLS30zUOwcPRaQ3y2oHNkEiKJ5v90iEQ==
 
 "@nuxt/utils@2.14.12":
@@ -2353,15 +2291,9 @@
     normalize-path "^3.0.0"
 
 "@nuxtjs/pwa@^3.2.2":
-<<<<<<< HEAD
   version "3.3.5"
   resolved "https://registrynpm.storefrontcloud.io/@nuxtjs%2fpwa/-/pwa-3.3.5.tgz#db7c905536ebe8a464a347b6ae3215810642c044"
   integrity sha512-8tTmW8DBspWxlJwTimOHTkwfkwPpL9wIcGmy75Gcmin+c9YtX2Ehxmhgt/TLFOC9XsLAqojqynw3/Agr/9OE1w==
-=======
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.3.4.tgz#557a7a57bc3713bcc820bc88942069af263fd045"
-  integrity sha512-aDw9xnTIPdqknvgm5uOtuhcmMedtCy8HALQ4lSb30UqLQzY0z6yOyGSq+6ShybtDW2FjaBeyhs/ooEIP0XZZ9A==
->>>>>>> origin/next
   dependencies:
     clone-deep "^4.0.1"
     defu "^3.2.2"
@@ -2407,17 +2339,10 @@
     is-plain-object "^5.0.0"
     universal-user-agent "^6.0.0"
 
-<<<<<<< HEAD
-"@octokit/openapi-types@^3.4.1":
-  version "3.4.1"
-  resolved "https://registrynpm.storefrontcloud.io/@octokit%2fopenapi-types/-/openapi-types-3.4.1.tgz#317f78cede7f387046e6bad2041e01ddf9607e96"
-  integrity sha512-7Sjm3UwEAM11f+ck9+qlyEfgl8hCk5sSZBU2qcWY8+8ibowjqcwxhhtvY0/pjHPF8mcvmedFpGmmIYs2qM9/+Q==
-=======
-"@octokit/openapi-types@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-2.2.0.tgz#123e0438a0bc718ccdac3b5a2e69b3dd00daa85b"
-  integrity sha512-274lNUDonw10kT8wHg8fCcUc1ZjZHbWv0/TbAwb0ojhBQqZYc1cQ/4yqTVTtPMDeZ//g7xVEYe/s3vURkRghPg==
->>>>>>> origin/next
+"@octokit/openapi-types@^4.0.0":
+  version "4.0.1"
+  resolved "https://registrynpm.storefrontcloud.io/@octokit%2fopenapi-types/-/openapi-types-4.0.1.tgz#bafd3d173974827ba0b733fcca7f1860cb71a9aa"
+  integrity sha512-k2hRcfcLRyPJjtYfJLzg404n7HZ6sUpAWAR/uNI8tf96NgatWOpw1ocdF+WFfx/trO1ivBh7ckynO1rn+xAw/Q==
 
 "@octokit/plugin-enterprise-rest@^6.0.1":
   version "6.0.1"
@@ -2505,21 +2430,12 @@
   dependencies:
     "@types/node" ">= 8"
 
-<<<<<<< HEAD
 "@octokit/types@^6.0.3", "@octokit/types@^6.7.1":
-  version "6.7.1"
-  resolved "https://registrynpm.storefrontcloud.io/@octokit%2ftypes/-/types-6.7.1.tgz#01fdc5bbc67bf10ab0ca0aa2461d19ff9dd67fb7"
-  integrity sha512-OzRXbizUfixgzTjlSZQj+yuo0J9vAMOLtpsIm3JjQUsI3CcLXZnVaxRIWtYD+iwHznnvG9fJlPHM6SRp77fUcw==
+  version "6.8.2"
+  resolved "https://registrynpm.storefrontcloud.io/@octokit%2ftypes/-/types-6.8.2.tgz#ce4872e038d6df38b2d3c21bc12329af0b10facb"
+  integrity sha512-RpG0NJd7OKSkWptiFhy1xCLkThs5YoDIKM21lEtDmUvSpbaIEfrxzckWLUGDFfF8RydSyngo44gDv8m2hHruUg==
   dependencies:
-    "@octokit/openapi-types" "^3.4.1"
-=======
-"@octokit/types@^6.0.0", "@octokit/types@^6.0.3":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.2.1.tgz#7f881fe44475ab1825776a4a59ca1ae082ed1043"
-  integrity sha512-jHs9OECOiZxuEzxMZcXmqrEO8GYraHF+UzNVH2ACYh8e/Y7YoT+hUf9ldvVd6zIvWv4p3NdxbQ0xx3ku5BnSiA==
-  dependencies:
-    "@octokit/openapi-types" "^2.2.0"
->>>>>>> origin/next
+    "@octokit/openapi-types" "^4.0.0"
     "@types/node" ">= 8"
 
 "@rollup/plugin-babel@^5.1.0":
@@ -2559,34 +2475,20 @@
   resolved "https://registrynpm.storefrontcloud.io/@sindresorhus%2fis/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-<<<<<<< HEAD
-"@storefront-ui/shared@0.9.2":
-  version "0.9.2"
-  resolved "https://registrynpm.storefrontcloud.io/@storefront-ui%2fshared/-/shared-0.9.2.tgz#b50d6c8baec1a479054fd4a14b786f2809f0598e"
-  integrity sha512-2JX76IgwTrP/7Ksa5mF9+r1vlaZojKiqrPh9HCDo2yznnseqNOzKVgWn9vIRKxWqofMzmZeleNdriKfoulfFoQ==
-=======
 "@storefront-ui/shared@0.10.2":
   version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
+  resolved "https://registrynpm.storefrontcloud.io/@storefront-ui%2fshared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
   integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
->>>>>>> origin/next
 
 "@storefront-ui/shared@^0.7.17":
   version "0.7.17"
   resolved "https://registrynpm.storefrontcloud.io/@storefront-ui%2fshared/-/shared-0.7.17.tgz#110ab77d959565170dea8dd1cf574a0c6d2639e0"
   integrity sha512-ntSlGDK/lc6+YNMhAAx01ERlhWdMWFxoTcBREKiBLfGXGBU9zhFp3kcxPxTf+hdjAE37lMX83tpqK2bXb37SOg==
 
-<<<<<<< HEAD
-"@storefront-ui/vue@0.9.2", "@storefront-ui/vue@^0.9.1":
-  version "0.9.2"
-  resolved "https://registrynpm.storefrontcloud.io/@storefront-ui%2fvue/-/vue-0.9.2.tgz#56593b1cbfe62a5e03c965b5ccc2320edabbf504"
-  integrity sha512-yHaXY14fswtie4ULw64hbI8HGQ8wGOCdaGvZ1nwkcai0JJtCqLw7VWzCy0kPobZPXzc1fCFTt2KEUBbqPI342A==
-=======
 "@storefront-ui/vue@0.10.2", "@storefront-ui/vue@^0.10.2":
   version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.2.tgz#b592eb5bc0376d492665b4787dc8fe8eb2f5b9a1"
+  resolved "https://registrynpm.storefrontcloud.io/@storefront-ui%2fvue/-/vue-0.10.2.tgz#b592eb5bc0376d492665b4787dc8fe8eb2f5b9a1"
   integrity sha512-ibI41X0v8EicgJaYjUlSYb2UZzHopS+ZrH4vzrSRdcUkrzsOR68kYMAvsXxjoFj5WE+/JQZcZZeqMKHvjGWzJQ==
->>>>>>> origin/next
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.10.2"
@@ -2723,11 +2625,7 @@
 
 "@types/estree@*":
   version "0.0.46"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2festree/-/estree-0.0.46.tgz#0fb6bfbbeabd7a30880504993369c4bf1deab1fe"
-=======
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.46.tgz#0fb6bfbbeabd7a30880504993369c4bf1deab1fe"
->>>>>>> origin/next
   integrity sha512-laIjwTQaD+5DukBZaygQ79K1Z0jb1bPEMRrkXSLjtCcZm+abyp5YbrqpSLzD42FwWW6gK/aS4NYpJ804nG2brg==
 
 "@types/estree@0.0.39":
@@ -2744,11 +2642,7 @@
 
 "@types/express-serve-static-core@^4.17.18":
   version "4.17.18"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fexpress-serve-static-core/-/express-serve-static-core-4.17.18.tgz#8371e260f40e0e1ca0c116a9afcd9426fa094c40"
-=======
-  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.18.tgz#8371e260f40e0e1ca0c116a9afcd9426fa094c40"
->>>>>>> origin/next
   integrity sha512-m4JTwx5RUBNZvky/JJ8swEJPKFd8si08pPF2PfizYjGZOKr/svUWPcoUmLow6MmPzhasphB7gSTINY67xn3JNA==
   dependencies:
     "@types/node" "*"
@@ -2757,11 +2651,7 @@
 
 "@types/express@*":
   version "4.17.11"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fexpress/-/express-4.17.11.tgz#debe3caa6f8e5fcda96b47bd54e2f40c4ee59545"
-=======
-  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.11.tgz#debe3caa6f8e5fcda96b47bd54e2f40c4ee59545"
->>>>>>> origin/next
   integrity sha512-no+R6rW60JEc59977wIxreQVsIEOAYwgCqldrA/vkpCnbD7MqTefO97lmoBe4WE0F156bC4uLSP1XHDOySnChg==
   dependencies:
     "@types/body-parser" "*"
@@ -2827,11 +2717,7 @@
 
 "@types/jest@26.x":
   version "26.0.20"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fjest/-/jest-26.0.20.tgz#cd2f2702ecf69e86b586e1f5223a60e454056307"
-=======
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.20.tgz#cd2f2702ecf69e86b586e1f5223a60e454056307"
->>>>>>> origin/next
   integrity sha512-9zi2Y+5USJRxd0FsahERhBwlcvFh6D2GLQnY2FH2BzK8J9s9omvNHIbvABwIluXa0fD8XVKMLTO0aOEuUfACAA==
   dependencies:
     jest-diff "^26.0.0"
@@ -2889,25 +2775,14 @@
     "@types/node" "*"
 
 "@types/node@*", "@types/node@>= 8", "@types/node@>=6":
-<<<<<<< HEAD
-  version "14.14.22"
-  resolved "https://registrynpm.storefrontcloud.io/@types%2fnode/-/node-14.14.22.tgz#0d29f382472c4ccf3bd96ff0ce47daf5b7b84b18"
-  integrity sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
+  version "14.14.25"
+  resolved "https://registrynpm.storefrontcloud.io/@types%2fnode/-/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
+  integrity sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ==
 
 "@types/node@^12.12.14", "@types/node@^12.12.47":
-  version "12.19.15"
-  resolved "https://registrynpm.storefrontcloud.io/@types%2fnode/-/node-12.19.15.tgz#0de7e978fb43db62da369db18ea088a63673c182"
-  integrity sha512-lowukE3GUI+VSYSu6VcBXl14d61Rp5hA1D+61r16qnwC0lYNSqdxcvRh0pswejorHfS+HgwBasM8jLXz0/aOsw==
-=======
-  version "14.14.20"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.20.tgz#f7974863edd21d1f8a494a73e8e2b3658615c340"
-  integrity sha512-Y93R97Ouif9JEOWPIUyU+eyIdyRqQR0I8Ez1dzku4hDx34NWh4HbtIc3WNzwB1Y9ULvNGeu5B8h8bVL5cAk4/A==
-
-"@types/node@^12.12.14", "@types/node@^12.12.47":
-  version "12.19.13"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.19.13.tgz#888e2b34159fb91496589484ec169618212b51b7"
-  integrity sha512-qdixo2f0U7z6m0UJUugTJqVF94GNDkdgQhfBtMs8t5898JE7G/D2kJYw4rc1nzjIPLVAsDkY2MdABnLAP5lM1w==
->>>>>>> origin/next
+  version "12.19.16"
+  resolved "https://registrynpm.storefrontcloud.io/@types%2fnode/-/node-12.19.16.tgz#15753af35cbef636182d8d8ca55b37c8583cecb3"
+  integrity sha512-7xHmXm/QJ7cbK2laF+YYD7gb5MggHIIQwqyjin3bpEGiSuvScMQ5JZZXPvRipi1MwckTQbJZROMns/JxdnIL1Q==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2916,11 +2791,7 @@
 
 "@types/optimize-css-assets-webpack-plugin@^5.0.1":
   version "5.0.2"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2foptimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-5.0.2.tgz#37afc6ca5eecae865551e86d1fd3012aedc40798"
-=======
-  resolved "https://registry.yarnpkg.com/@types/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-5.0.2.tgz#37afc6ca5eecae865551e86d1fd3012aedc40798"
->>>>>>> origin/next
   integrity sha512-kOeZHQyoeau/6Obelj5/iow7uo5rH2KpbdWPEGCqbC4bxkiteg794tU4LqKFlQKdM5QGCp5Hbapl+zDdQzBNkQ==
   dependencies:
     "@types/webpack" "*"
@@ -2997,9 +2868,9 @@
     terser "^4.3.9"
 
 "@types/uglify-js@*":
-  version "3.11.1"
-  resolved "https://registrynpm.storefrontcloud.io/@types%2fuglify-js/-/uglify-js-3.11.1.tgz#97ff30e61a0aa6876c270b5f538737e2d6ab8ceb"
-  integrity sha512-7npvPKV+jINLu1SpSYVWG8KvyJBhBa8tmzMMdDoVc2pWUYHN8KIXlPJhjJ4LT97c4dXJA2SHL/q6ADbDriZN+Q==
+  version "3.12.0"
+  resolved "https://registrynpm.storefrontcloud.io/@types%2fuglify-js/-/uglify-js-3.12.0.tgz#2bb061c269441620d46b946350c8f16d52ef37c5"
+  integrity sha512-sYAF+CF9XZ5cvEBkI7RtrG9g2GtMBkviTnBxYYyq+8BWvO4QtXfwwR6a2LFwCi4evMKZfpv6U43ViYvv17Wz3Q==
   dependencies:
     source-map "^0.6.1"
 
@@ -3009,19 +2880,15 @@
   integrity sha512-+/DsiV4CxXl6ZWefwHZDXSe1Slitz21tom38qPCaG0DYCS1NnDPIQDTKcmQ/tvK/edJUKkmuIDBJbmKDiB0r/g==
 
 "@types/webpack-bundle-analyzer@^3.8.0":
-  version "3.9.0"
-  resolved "https://registrynpm.storefrontcloud.io/@types%2fwebpack-bundle-analyzer/-/webpack-bundle-analyzer-3.9.0.tgz#bf2f3fd7f1fe6a71dff8968afeb12785d1ce737b"
-  integrity sha512-O4Dsmml4T+emssdk3t6/N1vwtYRx1VfWCx0Oph4jRY62DZGNOL9IAS6mSX0XG1LdZuFSX0g42DXj1otQuPXRGQ==
+  version "3.9.1"
+  resolved "https://registrynpm.storefrontcloud.io/@types%2fwebpack-bundle-analyzer/-/webpack-bundle-analyzer-3.9.1.tgz#27a8923a4e71c13ac5f043f34f12136d8c99cf8e"
+  integrity sha512-AmRIHpxByb9Hm7AZE1Ya0v6/Ek9t6MKBl/7l7ay+WeFqE6dedOJFL/7OuUzFxjUA+iDUM71yRNrzrkkq4pmX2A==
   dependencies:
     "@types/webpack" "*"
 
 "@types/webpack-dev-middleware@^3.7.1":
   version "3.7.3"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fwebpack-dev-middleware/-/webpack-dev-middleware-3.7.3.tgz#2b0aa70b19f30ead7e6ff8c2789d6930e2298c7b"
-=======
-  resolved "https://registry.yarnpkg.com/@types/webpack-dev-middleware/-/webpack-dev-middleware-3.7.3.tgz#2b0aa70b19f30ead7e6ff8c2789d6930e2298c7b"
->>>>>>> origin/next
   integrity sha512-g6Q1Gom9kGZv8Sme2gNCrxKdxDi68FX3jW4u2Abntx/5ejX1g2tpI95+3ObdXkTHm8XEFpVcmZbmhlcZbVqEeg==
   dependencies:
     "@types/connect" "*"
@@ -3048,11 +2915,7 @@
 
 "@types/webpack@*", "@types/webpack@^4.41.17", "@types/webpack@^4.41.8":
   version "4.41.26"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fwebpack/-/webpack-4.41.26.tgz#27a30d7d531e16489f9c7607c747be6bc1a459ef"
-=======
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.26.tgz#27a30d7d531e16489f9c7607c747be6bc1a459ef"
->>>>>>> origin/next
   integrity sha512-7ZyTfxjCRwexh+EJFwRUM+CDB2XvgHl4vfuqf1ZKrgGvcS5BrNvPQqJh3tsZ0P6h6Aa1qClVHaJZszLPzpqHeA==
   dependencies:
     "@types/anymatch" "*"
@@ -3064,11 +2927,7 @@
 
 "@types/yargs-parser@*":
   version "20.2.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fyargs-parser/-/yargs-parser-20.2.0.tgz#dd3e6699ba3237f0348cd085e4698780204842f9"
-=======
-  resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-20.2.0.tgz#dd3e6699ba3237f0348cd085e4698780204842f9"
->>>>>>> origin/next
   integrity sha512-37RSHht+gzzgYeobbG+KWryeAW8J33Nhr69cjTqSYymXVZEN9NbRYWoYlRtDhHKPVT1FyNKwaTPC1NynKZpzRA==
 
 "@types/yargs@^13.0.0":
@@ -3092,11 +2951,7 @@
 
 "@types/zen-observable@^0.8.0":
   version "0.8.2"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@types%2fzen-observable/-/zen-observable-0.8.2.tgz#808c9fa7e4517274ed555fa158f2de4b4f468e71"
-=======
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.2.tgz#808c9fa7e4517274ed555fa158f2de4b4f468e71"
->>>>>>> origin/next
   integrity sha512-HrCIVMLjE1MOozVoD86622S7aunluLb2PJdPfb3nYiEtohm8mIB/vyv0Fd37AdeMFrTUQXEunw78YloMA3Qilg==
 
 "@typescript-eslint/eslint-plugin@^2.20.0":
@@ -3198,38 +3053,22 @@
   resolved "https://registrynpm.storefrontcloud.io/@vue%2fbabel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
   integrity sha512-QOi5OW45e2R20VygMSNhyQHvpdUwQZqGPc748JLGCYEy+yp8fNFNdbNIGAgZmi9e+2JHPd6i6idRuqivyicIkA==
 
-<<<<<<< HEAD
 "@vue/babel-helper-vue-transform-on@^1.0.2":
   version "1.0.2"
   resolved "https://registrynpm.storefrontcloud.io/@vue%2fbabel-helper-vue-transform-on/-/babel-helper-vue-transform-on-1.0.2.tgz#9b9c691cd06fc855221a2475c3cc831d774bc7dc"
   integrity sha512-hz4R8tS5jMn8lDq6iD+yWL6XNB699pGIVLk7WSJnn1dbpjaazsjZQkieJoRX6gW5zpYSCFqQ7jUquPNY65tQYA==
 
 "@vue/babel-plugin-jsx@^1.0.0-0":
-  version "1.0.2"
-  resolved "https://registrynpm.storefrontcloud.io/@vue%2fbabel-plugin-jsx/-/babel-plugin-jsx-1.0.2.tgz#6bfd8e39c48e53391a56705649f81a35fe20b6a1"
-  integrity sha512-1uZlQCLCeuqJgDYLCmg3qfsvTVtOQiXh278ES4bvPTYYbv2Bi/rElLETK6AdjI9xxzyTUf5n1QEiH8Xxz0eZrg==
-=======
-"@vue/babel-helper-vue-transform-on@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-transform-on/-/babel-helper-vue-transform-on-1.0.0.tgz#8cbec6bbcae53626ad70139061be5e73403c9a62"
-  integrity sha512-svFuKPoXP92TJ76ztENOglOsLjcMGUXkdeQhYDxl6KBnZCpqFjqx6RodUPWFg1bj4zsUVsfoIh1RibLO86fUUQ==
-
-"@vue/babel-plugin-jsx@^1.0.0-0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@vue/babel-plugin-jsx/-/babel-plugin-jsx-1.0.1.tgz#8ece4e521888fabe2c96adca428606e5cea55f54"
-  integrity sha512-pE1YlINZBzqaLeSNfrvo0nNvYjtWTBU+sXUrx65sLW7DL+nDCZcAVeVkMFDcpT1jIahx4hI3EzOcGZE6oLPLoA==
->>>>>>> origin/next
+  version "1.0.3"
+  resolved "https://registrynpm.storefrontcloud.io/@vue%2fbabel-plugin-jsx/-/babel-plugin-jsx-1.0.3.tgz#ad5ee86ebc9fc40900add9914534e223c719eace"
+  integrity sha512-+52ZQFmrM0yh61dQlgwQlfHZXmYbswbQEL25SOSt9QkjegAdfIGu87oELw0l8H6cuJYazZCiNjPR9eU++ZIbxg==
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
     "@babel/plugin-syntax-jsx" "^7.0.0"
     "@babel/template" "^7.0.0"
     "@babel/traverse" "^7.0.0"
     "@babel/types" "^7.0.0"
-<<<<<<< HEAD
     "@vue/babel-helper-vue-transform-on" "^1.0.2"
-=======
-    "@vue/babel-helper-vue-transform-on" "^1.0.0"
->>>>>>> origin/next
     camelcase "^6.0.0"
     html-tags "^3.1.0"
     svg-tags "^1.0.0"
@@ -3247,15 +3086,9 @@
     svg-tags "^1.0.0"
 
 "@vue/babel-preset-app@^4.1.2":
-<<<<<<< HEAD
   version "4.5.11"
   resolved "https://registrynpm.storefrontcloud.io/@vue%2fbabel-preset-app/-/babel-preset-app-4.5.11.tgz#f677bc10472e418f71f61f10dde5a79976a215b8"
   integrity sha512-9VoFlm/9vhynKNGM+HA7qBsoQSUEnuG5i5kcFI9vTLLrh8A0fxrwUyVLLppO6T1sAZ6vrKdQFnEkjL+RkRAwWQ==
-=======
-  version "4.5.10"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-4.5.10.tgz#359180d8c720e30a09214d534aa208dbfc399d7f"
-  integrity sha512-IHOyfWqgNNM863NjGmX6s2MIF+ILkJZardHcr7bGrxu5mNBT+p0GOGRQU4sN/adDkEQ9cyAxokm/GIeeoRrnOg==
->>>>>>> origin/next
   dependencies:
     "@babel/core" "^7.11.0"
     "@babel/helper-compilation-targets" "^7.9.6"
@@ -3382,9 +3215,9 @@
     vue-eslint-parser "^7.0.0"
 
 "@vue/test-utils@^1.0.0-beta.27", "@vue/test-utils@^1.0.0-beta.30":
-  version "1.1.2"
-  resolved "https://registrynpm.storefrontcloud.io/@vue%2ftest-utils/-/test-utils-1.1.2.tgz#fdb487448dceefeaf3d01d465f7c836a3d666dbc"
-  integrity sha512-utbIL7zn9c+SjhybPwh48lpWCiluFCbP1yyRNAy1fQsw/6hiNFioaWy05FoVAFIZXC5WwBf+5r4ypfM1j/nI4A==
+  version "1.1.3"
+  resolved "https://registrynpm.storefrontcloud.io/@vue%2ftest-utils/-/test-utils-1.1.3.tgz#747f5683d8d4633c85a385fe2e02c1bb35bec153"
+  integrity sha512-BAY1Cwe9JpkJseimC295EW3YlAmgIJI9OPkg2FSP62+PHZooB0B+wceDi9TYyU57oqzL0yLbcP73JKFpKiLc9A==
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -3392,11 +3225,7 @@
 
 "@vuepress/core@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fcore/-/core-1.8.0.tgz#b5450cdd33d7fc1e1d21a1590806d429c92d0dc9"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/core/-/core-1.8.0.tgz#b5450cdd33d7fc1e1d21a1590806d429c92d0dc9"
->>>>>>> origin/next
   integrity sha512-DrHx3gXa5rUDdvjcUHhmZg1DccMwc3kiYpgtbKCuJpHksz9eAVuOxbcy/b6TGRbbY4Q5EA2Fs3kI9hvPjYdCrQ==
   dependencies:
     "@babel/core" "^7.8.4"
@@ -3440,11 +3269,7 @@
 
 "@vuepress/markdown-loader@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fmarkdown-loader/-/markdown-loader-1.8.0.tgz#0d7493995869f974953b1aa47c7a791943d1d835"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/markdown-loader/-/markdown-loader-1.8.0.tgz#0d7493995869f974953b1aa47c7a791943d1d835"
->>>>>>> origin/next
   integrity sha512-ykYTNe4mC/0CxyEfyM9+oYJqFvOMZWw5qiNZVfg2t+Ip8nVR2pFhQ6fJe07Pbtc59eT4awKSEd8/kcjhTpfeZA==
   dependencies:
     "@vuepress/markdown" "1.8.0"
@@ -3453,11 +3278,7 @@
 
 "@vuepress/markdown@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fmarkdown/-/markdown-1.8.0.tgz#2fb0a9f6011d2543a4dc7d6a2ae976b9f49873ef"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/markdown/-/markdown-1.8.0.tgz#2fb0a9f6011d2543a4dc7d6a2ae976b9f49873ef"
->>>>>>> origin/next
   integrity sha512-f2yhoIHTD6gaPeLLidkxuytKGQCT6Gopm0fpyKZwfFZaWWz5+RPPGevq5UTmTb+5vvO2Li44HJc1EV7QONOw9Q==
   dependencies:
     "@vuepress/shared-utils" "1.8.0"
@@ -3470,64 +3291,40 @@
 
 "@vuepress/plugin-active-header-links@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fplugin-active-header-links/-/plugin-active-header-links-1.8.0.tgz#1e3f9c1057a58f3bc849d0eebbcd492975f63a88"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.8.0.tgz#1e3f9c1057a58f3bc849d0eebbcd492975f63a88"
->>>>>>> origin/next
   integrity sha512-0SqdkJLJSQqhPTgGccu/ev5zRCfeKKMkyPnUMJYsQe4zGhSosmwLcfB7LDo/VLqLhRipipzBnONESr12OgI4SQ==
   dependencies:
     lodash.debounce "^4.0.8"
 
 "@vuepress/plugin-last-updated@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fplugin-last-updated/-/plugin-last-updated-1.8.0.tgz#a0fcd2906a4dcae107634013f7c49ddd05e0de87"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-last-updated/-/plugin-last-updated-1.8.0.tgz#a0fcd2906a4dcae107634013f7c49ddd05e0de87"
->>>>>>> origin/next
   integrity sha512-fBwtlffAabpTTalUMPSaJy/5fp3WpIA1FdWOfFcQ12X6179tupZB8fnueNsVJGBvGcdw8fbyzh5C9yKAq9lR/w==
   dependencies:
     cross-spawn "^6.0.5"
 
 "@vuepress/plugin-nprogress@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fplugin-nprogress/-/plugin-nprogress-1.8.0.tgz#8fd3d5415d4c8326ca569118e935b875e5fd7bb5"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-nprogress/-/plugin-nprogress-1.8.0.tgz#8fd3d5415d4c8326ca569118e935b875e5fd7bb5"
->>>>>>> origin/next
   integrity sha512-JmjeJKKWhbF/8z+EnY8BCWHoHKhUWfqXjXOfV+xifITl6BJlf53I/jLFpX7Sij8Whe+SKjH7kNvc+hioUdwJQw==
   dependencies:
     nprogress "^0.2.0"
 
 "@vuepress/plugin-register-components@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fplugin-register-components/-/plugin-register-components-1.8.0.tgz#cb23c8b54865926f16e81fdf5fa6ccf0dec17c0e"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-register-components/-/plugin-register-components-1.8.0.tgz#cb23c8b54865926f16e81fdf5fa6ccf0dec17c0e"
->>>>>>> origin/next
   integrity sha512-ztafaAxn7XFS4F8z51d+QQB6DNAUG54wBSdfKydfnHbAYgtxoALzPlJW7FKQdxvZKxqGrJa9e4rkoZsat13KRQ==
   dependencies:
     "@vuepress/shared-utils" "1.8.0"
 
 "@vuepress/plugin-search@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fplugin-search/-/plugin-search-1.8.0.tgz#d10cc04cff7467829b2e2e896b7e72a5ebc27ce1"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-1.8.0.tgz#d10cc04cff7467829b2e2e896b7e72a5ebc27ce1"
->>>>>>> origin/next
   integrity sha512-LlOCPg7JJ3I9WEpiBU8vCEFp6I5sa3OBu6SFHk+uK9iyKHwJYdRs4VK9x+igG40Rt/OIDRDo3c9SbLX/E/kqeA==
 
 "@vuepress/shared-utils@1.8.0", "@vuepress/shared-utils@^1.2.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2fshared-utils/-/shared-utils-1.8.0.tgz#b1187c764f4c2dee018b83f3560a14067d931240"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/shared-utils/-/shared-utils-1.8.0.tgz#b1187c764f4c2dee018b83f3560a14067d931240"
->>>>>>> origin/next
   integrity sha512-CVNMiYBntQyb4CuyS4KzmglDqsuBpj8V4QMzL9gCSoMv0VmwKx05fZedu+r0G5OcxYN4qjnu99yl9G6zWhOU9w==
   dependencies:
     chalk "^2.3.2"
@@ -3542,11 +3339,7 @@
 
 "@vuepress/theme-default@1.8.0":
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/@vuepress%2ftheme-default/-/theme-default-1.8.0.tgz#5bcca542bc61099498f5d99a9928f0ff66e6e382"
-=======
-  resolved "https://registry.yarnpkg.com/@vuepress/theme-default/-/theme-default-1.8.0.tgz#5bcca542bc61099498f5d99a9928f0ff66e6e382"
->>>>>>> origin/next
   integrity sha512-CueCaANfICFbLnEL78YxSjgCHXL7mkgQI/cfyEHBgxlr247cYJQ+9IFDQIS0fJNuzHdLRy9UFUvVrCu6go8PUg==
   dependencies:
     "@vuepress/plugin-active-header-links" "1.8.0"
@@ -4518,11 +4311,7 @@ binary-extensions@^1.0.0:
 
 binary-extensions@^2.0.0:
   version "2.2.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
-=======
-  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
->>>>>>> origin/next
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
 bindings@^1.5.0:
@@ -4549,7 +4338,7 @@ bluebird@^3.1.1, bluebird@^3.5.1, bluebird@^3.5.3, bluebird@^3.5.5, bluebird@^3.
   resolved "https://registrynpm.storefrontcloud.io/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.4.0:
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.9:
   version "4.11.9"
   resolved "https://registrynpm.storefrontcloud.io/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
   integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
@@ -4642,7 +4431,7 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-brorand@^1.0.1:
+brorand@^1.0.1, brorand@^1.1.0:
   version "1.1.0"
   resolved "https://registrynpm.storefrontcloud.io/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
@@ -4720,7 +4509,6 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-<<<<<<< HEAD
 browserslist@*, browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4.16.1, browserslist@^4.6.4:
   version "4.16.3"
   resolved "https://registrynpm.storefrontcloud.io/browserslist/-/browserslist-4.16.3.tgz#340aa46940d7db878748567c5dea24a48ddf3717"
@@ -4731,18 +4519,6 @@ browserslist@*, browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.14.5,
     electron-to-chromium "^1.3.649"
     escalade "^3.1.1"
     node-releases "^1.1.70"
-=======
-browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4.16.0, browserslist@^4.6.4:
-  version "4.16.1"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.16.1.tgz#bf757a2da376b3447b800a16f0f1c96358138766"
-  integrity sha512-UXhDrwqsNcpTYJBTZsbGATDxZbiVDsx6UjpmRUmtnP10pr8wAYr5LgFoEFw9ixriQH2mv/NX2SfGzE/o8GndLA==
-  dependencies:
-    caniuse-lite "^1.0.30001173"
-    colorette "^1.2.1"
-    electron-to-chromium "^1.3.634"
-    escalade "^3.1.1"
-    node-releases "^1.1.69"
->>>>>>> origin/next
 
 bs-logger@0.x:
   version "0.2.6"
@@ -4937,7 +4713,6 @@ cacheable-request@^6.0.0:
     normalize-url "^4.1.0"
     responselike "^1.0.2"
 
-<<<<<<< HEAD
 cachedir@^2.3.0:
   version "2.3.0"
   resolved "https://registrynpm.storefrontcloud.io/cachedir/-/cachedir-2.3.0.tgz#0c75892a052198f0b21c7c1804d8331edfcae0e8"
@@ -4946,11 +4721,6 @@ cachedir@^2.3.0:
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
   resolved "https://registrynpm.storefrontcloud.io/call-bind/-/call-bind-1.0.2.tgz#b1d4e89e688119c3c9a903ad30abb2f6a919be3c"
-=======
-call-bind@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/call-bind/-/call-bind-1.0.2.tgz#b1d4e89e688119c3c9a903ad30abb2f6a919be3c"
->>>>>>> origin/next
   integrity sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==
   dependencies:
     function-bind "^1.1.1"
@@ -5062,17 +4832,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-<<<<<<< HEAD
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001164, caniuse-lite@^1.0.30001181:
-  version "1.0.30001183"
-  resolved "https://registrynpm.storefrontcloud.io/caniuse-lite/-/caniuse-lite-1.0.30001183.tgz#7a57ba9d6584119bb5f2bc76d3cc47ba9356b3e2"
-  integrity sha512-7JkwTEE1hlRKETbCFd8HDZeLiQIUcl8rC6JgNjvHCNaxOeNmQ9V4LvQXRUsKIV2CC73qKxljwVhToaA3kLRqTw==
-=======
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001164, caniuse-lite@^1.0.30001173:
-  version "1.0.30001177"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001177.tgz#2c3b384933aafda03e29ccca7bb3d8c3389e1ece"
-  integrity sha512-6Ld7t3ifCL02jTj3MxPMM5wAYjbo4h/TAQGFTgv1inihP1tWnWp8mxxT4ut4JBEHLbpFXEXJJQ119JCJTBkYDw==
->>>>>>> origin/next
+  version "1.0.30001185"
+  resolved "https://registrynpm.storefrontcloud.io/caniuse-lite/-/caniuse-lite-1.0.30001185.tgz#3482a407d261da04393e2f0d61eefbc53be43b95"
+  integrity sha512-Fpi4kVNtNvJ15H0F6vwmXtb3tukv3Zg3qhKkOGUq7KJ1J6b9kf4dnNgtEAFXhRsJo0gNj9W60+wBvn0JcTvdTg==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5156,17 +4919,10 @@ chokidar@^2.0.3, chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-<<<<<<< HEAD
 chokidar@^3.3.1, chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.4.3, chokidar@^3.5.1:
   version "3.5.1"
   resolved "https://registrynpm.storefrontcloud.io/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
   integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
-=======
-chokidar@^3.3.1, chokidar@^3.4.1, chokidar@^3.4.3:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.0.tgz#458a4816a415e9d3b3caa4faec2b96a6935a9e65"
-  integrity sha512-JgQM9JS92ZbFR4P90EvmzNpSGhpPBGBSj10PILeDyYFwp4h2/D9OM03wsJ4zW1fEp4ka2DGrnUeD7FuvQ2aZ2Q==
->>>>>>> origin/next
   dependencies:
     anymatch "~3.1.1"
     braces "~3.0.2"
@@ -5342,7 +5098,7 @@ clone@^1.0.2:
 
 cloudinary-build-url@^0.1.1:
   version "0.1.1"
-  resolved "https://registry.yarnpkg.com/cloudinary-build-url/-/cloudinary-build-url-0.1.1.tgz#1ed7a88d23b84600b001df6608ee09d9c9d48ddb"
+  resolved "https://registrynpm.storefrontcloud.io/cloudinary-build-url/-/cloudinary-build-url-0.1.1.tgz#1ed7a88d23b84600b001df6608ee09d9c9d48ddb"
   integrity sha512-SlCdVyHC9THzMsMc4FnXDW6UA/N0CbgPeDoIHjTPUFxXosgPUC7Jio2uD+rc8SF/YNevPwaRzjIRhGMTznO0jA==
   dependencies:
     "@cld-apis/utils" "^0.1.0"
@@ -5597,9 +5353,9 @@ consola@^1.4.5:
     std-env "^1.1.0"
 
 consola@^2.10.0, consola@^2.10.1, consola@^2.15.0, consola@^2.4.0, consola@^2.6.0, consola@^2.9.0:
-  version "2.15.1"
-  resolved "https://registrynpm.storefrontcloud.io/consola/-/consola-2.15.1.tgz#6c9141d97798537551e5b411a1423e39e4a7abd6"
-  integrity sha512-uNINF19d9f1/Pza5aNmQ/JlrmY4uPOW0BxID3Xvw5iOP6diJArUXp+JgcIQ4fR56qV+HB9o/ZRUnrnYd92LxZw==
+  version "2.15.3"
+  resolved "https://registrynpm.storefrontcloud.io/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
+  integrity sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==
 
 console-browserify@^1.1.0:
   version "1.2.0"
@@ -5674,11 +5430,7 @@ conventional-changelog-preset-loader@^2.1.1:
 
 conventional-changelog-writer@^4.0.6:
   version "4.1.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/conventional-changelog-writer/-/conventional-changelog-writer-4.1.0.tgz#1ca7880b75aa28695ad33312a1f2366f4b12659f"
-=======
-  resolved "https://registry.yarnpkg.com/conventional-changelog-writer/-/conventional-changelog-writer-4.1.0.tgz#1ca7880b75aa28695ad33312a1f2366f4b12659f"
->>>>>>> origin/next
   integrity sha512-WwKcUp7WyXYGQmkLsX4QmU42AZ1lqlvRW9mqoyiQzdD+rJWbTepdWoKJuwXTS+yq79XKnQNa93/roViPQrAQgw==
   dependencies:
     compare-func "^2.0.0"
@@ -5814,19 +5566,11 @@ copy-webpack-plugin@^5.0.2:
     webpack-log "^2.0.0"
 
 core-js-compat@^3.6.5, core-js-compat@^3.8.0:
-<<<<<<< HEAD
   version "3.8.3"
   resolved "https://registrynpm.storefrontcloud.io/core-js-compat/-/core-js-compat-3.8.3.tgz#9123fb6b9cad30f0651332dc77deba48ef9b0b3f"
   integrity sha512-1sCb0wBXnBIL16pfFG1Gkvei6UzvKyTNYpiC41yrdjEv0UoJoq9E/abTMzyYJ6JpTkAj15dLjbqifIzEBDVvog==
   dependencies:
     browserslist "^4.16.1"
-=======
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.8.2.tgz#3717f51f6c3d2ebba8cbf27619b57160029d1d4c"
-  integrity sha512-LO8uL9lOIyRRrQmZxHZFl1RV+ZbcsAkFWTktn5SmH40WgLtSNYN4m4W2v9ONT147PxBY/XrRhrWq8TlvObyUjQ==
-  dependencies:
-    browserslist "^4.16.0"
->>>>>>> origin/next
     semver "7.0.0"
 
 core-js@^2.5.3, core-js@^2.6.5:
@@ -5835,15 +5579,9 @@ core-js@^2.5.3, core-js@^2.6.5:
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-js@^3.0.1, core-js@^3.6.4, core-js@^3.6.5:
-<<<<<<< HEAD
   version "3.8.3"
   resolved "https://registrynpm.storefrontcloud.io/core-js/-/core-js-3.8.3.tgz#c21906e1f14f3689f93abcc6e26883550dd92dd0"
   integrity sha512-KPYXeVZYemC2TkNEkX/01I+7yd+nX3KddKwZ1Ww7SKWdI2wQprSgLmrTddT8nw92AjEklTsPBoSdQBhbI1bQ6Q==
-=======
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.8.2.tgz#0a1fd6709246da9ca8eff5bb0cbd15fba9ac7044"
-  integrity sha512-FfApuSRgrR6G5s58casCBd9M2k+4ikuu4wbW6pJyYU7bd9zvFc9qf7vr5xmrZOhT9nn+8uwlH1oRR9jTnFoA3A==
->>>>>>> origin/next
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -6780,41 +6518,34 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 ejs@^3.0.2:
-  version "3.1.5"
-  resolved "https://registrynpm.storefrontcloud.io/ejs/-/ejs-3.1.5.tgz#aed723844dc20acb4b170cd9ab1017e476a0d93b"
-  integrity sha512-dldq3ZfFtgVTJMLjOe+/3sROTzALlL9E34V4/sDtUd/KlBSS0s6U1/+WPE1B4sj9CXHJpL1M6rhNJnc9Wbal9w==
+  version "3.1.6"
+  resolved "https://registrynpm.storefrontcloud.io/ejs/-/ejs-3.1.6.tgz#5bfd0a0689743bb5268b3550cceeebbc1702822a"
+  integrity sha512-9lt9Zse4hPucPkoP7FHDF0LQAlGyF9JVpnClFLFH3aSSbxmyoqINRpp/9wePWJTUl4KOQwRL72Iw3InHPDkoGw==
   dependencies:
     jake "^10.6.1"
 
-<<<<<<< HEAD
 electron-to-chromium@^1.3.649:
-  version "1.3.650"
-  resolved "https://registrynpm.storefrontcloud.io/electron-to-chromium/-/electron-to-chromium-1.3.650.tgz#24e821fff2ed61fd71fee092f2a0631b3c0c22a6"
-  integrity sha512-j6pRuNylFBbroG6NB8Lw/Im9oDY74s2zWHBP5TmdYg73cBuL6cz//SMgolVa0gIJk/DSL+kO7baJ1DSXW1FUZg==
+  version "1.3.659"
+  resolved "https://registrynpm.storefrontcloud.io/electron-to-chromium/-/electron-to-chromium-1.3.659.tgz#479eb1a80044ad3664ebd548e7b225fefe06a914"
+  integrity sha512-VPc1LcvuQYGjam6k7JcB6uJFTMo2YNlJ6rSbwbxApZQdow7X81kh/vDB6LB5B8DNmvkbKnpZkLmpKmnvoKA+Gw==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registrynpm.storefrontcloud.io/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
   integrity sha1-2wQ1IcldfjA/2PNFvtwzSc+wcp4=
-=======
-electron-to-chromium@^1.3.634:
-  version "1.3.639"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.639.tgz#0a27e3018ae3acf438a14a1dd4e41db4b8ab764e"
-  integrity sha512-bwl6/U6xb3d3CNufQU9QeO1L32ueouFwW4bWANSwdXR7LVqyLzWjNbynoKNfuC38QFB5Qn7O0l2KLqBkcXnC3Q==
->>>>>>> origin/next
 
 elliptic@^6.5.3:
-  version "6.5.3"
-  resolved "https://registrynpm.storefrontcloud.io/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
-  integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==
+  version "6.5.4"
+  resolved "https://registrynpm.storefrontcloud.io/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"
+  integrity sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==
   dependencies:
-    bn.js "^4.4.0"
-    brorand "^1.0.1"
+    bn.js "^4.11.9"
+    brorand "^1.1.0"
     hash.js "^1.0.0"
-    hmac-drbg "^1.0.0"
-    inherits "^2.0.1"
-    minimalistic-assert "^1.0.0"
-    minimalistic-crypto-utils "^1.0.0"
+    hmac-drbg "^1.0.1"
+    inherits "^2.0.4"
+    minimalistic-assert "^1.0.1"
+    minimalistic-crypto-utils "^1.0.1"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -6857,11 +6588,7 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
 
 enhanced-resolve@^4.0.0, enhanced-resolve@^4.1.1, enhanced-resolve@^4.5.0:
   version "4.5.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/enhanced-resolve/-/enhanced-resolve-4.5.0.tgz#2f3cfd84dbe3b487f18f2db2ef1e064a571ca5ec"
-=======
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.5.0.tgz#2f3cfd84dbe3b487f18f2db2ef1e064a571ca5ec"
->>>>>>> origin/next
   integrity sha512-Nv9m36S/vxpsI+Hc4/ZGRs0n9mXqSWGGq49zxb/cJfPAQMbUtttJAlNPS4AQzaBdw/pKskw5bMbekT/Y7W/Wlg==
   dependencies:
     graceful-fs "^4.1.2"
@@ -7201,9 +6928,9 @@ esprima@^4.0.0, esprima@^4.0.1:
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
 esquery@^1.0.1:
-  version "1.3.1"
-  resolved "https://registrynpm.storefrontcloud.io/esquery/-/esquery-1.3.1.tgz#b78b5828aa8e214e29fb74c4d5b752e1c033da57"
-  integrity sha512-olpvt9QG0vniUBZspVRN6lwB7hOZoTRtT+jzR+tS4ffYx2mzbw+z0XCOk44aaLYKApNX5nMm+E+P6o25ip/DHQ==
+  version "1.4.0"
+  resolved "https://registrynpm.storefrontcloud.io/esquery/-/esquery-1.4.0.tgz#2148ffc38b82e8c7057dfed48425b3e61f0f24a5"
+  integrity sha512-cCDispWt5vHHtwMY2YrAQ4ibFkAL8RbH5YGBnZBc90MolvvfkkQcJro/aZiAQUlQ3qgrYS6D6v8Gc5G5CQsc9w==
   dependencies:
     estraverse "^5.1.0"
 
@@ -7634,9 +7361,9 @@ file-uri-to-path@1.0.0:
   integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
 
 filelist@^1.0.1:
-  version "1.0.1"
-  resolved "https://registrynpm.storefrontcloud.io/filelist/-/filelist-1.0.1.tgz#f10d1a3ae86c1694808e8f20906f43d4c9132dbb"
-  integrity sha512-8zSK6Nu0DQIC08mUC46sWGXi+q3GGpKydAG36k+JDba6VRpkevvOWUW5a/PhShij4+vHT9M+ghgG7eM+a9JDUQ==
+  version "1.0.2"
+  resolved "https://registrynpm.storefrontcloud.io/filelist/-/filelist-1.0.2.tgz#80202f21462d4d1c2e214119b1807c1bc0380e5b"
+  integrity sha512-z7O0IS8Plc39rTCq6i6iHxk43duYOn8uFJiWSewIq0Bww1RNybVHSCjahmcC87ZqAm4OTvFzlzeGu3XAzG1ctQ==
   dependencies:
     minimatch "^3.0.4"
 
@@ -7725,11 +7452,7 @@ find-up@^4.0.0, find-up@^4.1.0:
 
 find-up@^5.0.0:
   version "5.0.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/find-up/-/find-up-5.0.0.tgz#4c92819ecb7083561e4f4a240a86be5198f536fc"
-=======
-  resolved "https://registry.yarnpkg.com/find-up/-/find-up-5.0.0.tgz#4c92819ecb7083561e4f4a240a86be5198f536fc"
->>>>>>> origin/next
   integrity sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==
   dependencies:
     locate-path "^6.0.0"
@@ -7737,11 +7460,7 @@ find-up@^5.0.0:
 
 find-versions@^4.0.0:
   version "4.0.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/find-versions/-/find-versions-4.0.0.tgz#3c57e573bf97769b8cb8df16934b627915da4965"
-=======
-  resolved "https://registry.yarnpkg.com/find-versions/-/find-versions-4.0.0.tgz#3c57e573bf97769b8cb8df16934b627915da4965"
->>>>>>> origin/next
   integrity sha512-wgpWy002tA+wgmO27buH/9KzyEOQnKsG/R0yrcjPT9BOFm0zRBVQbZ95nRGXWMywS8YR5knRbpohio0bcJABxQ==
   dependencies:
     semver-regex "^3.1.2"
@@ -7793,13 +7512,6 @@ follow-redirects@^1.0.0, follow-redirects@^1.10.0:
 for-each@^0.3.3:
   version "0.3.3"
   resolved "https://registrynpm.storefrontcloud.io/for-each/-/for-each-0.3.3.tgz#69b447e88a0a5d32c3e7084f3f1710034b21376e"
-  integrity sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==
-  dependencies:
-    is-callable "^1.1.3"
-
-for-each@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/for-each/-/for-each-0.3.3.tgz#69b447e88a0a5d32c3e7084f3f1710034b21376e"
   integrity sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==
   dependencies:
     is-callable "^1.1.3"
@@ -7947,13 +7659,9 @@ fsevents@^1.2.7:
     nan "^2.12.1"
 
 fsevents@~2.3.1:
-  version "2.3.1"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/fsevents/-/fsevents-2.3.1.tgz#b209ab14c61012636c8863507edf7fb68cc54e9f"
-=======
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.1.tgz#b209ab14c61012636c8863507edf7fb68cc54e9f"
->>>>>>> origin/next
-  integrity sha512-YR47Eg4hChJGAB1O3yEAOkGO+rlzutoICGqGo9EZ4lKWokzZRSyIW1QmTzqjtw8MJdj9srP869CuWw/hyzSiBw==
+  version "2.3.2"
+  resolved "https://registrynpm.storefrontcloud.io/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 fstream@^1.0.0, fstream@^1.0.12:
   version "1.0.12"
@@ -8012,15 +7720,9 @@ get-caller-file@^2.0.1:
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 get-intrinsic@^1.0.1, get-intrinsic@^1.0.2:
-<<<<<<< HEAD
-  version "1.1.0"
-  resolved "https://registrynpm.storefrontcloud.io/get-intrinsic/-/get-intrinsic-1.1.0.tgz#892e62931e6938c8a23ea5aaebcfb67bd97da97e"
-  integrity sha512-M11rgtQp5GZMZzDL7jLTNxbDfurpzuau5uqRWDPvlHjfvg3TdScAZo96GLvhMjImrmR8uAt0FS2RLoMrfWGKlg==
-=======
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/get-intrinsic/-/get-intrinsic-1.0.2.tgz#6820da226e50b24894e08859469dc68361545d49"
-  integrity sha512-aeX0vrFm21ILl3+JpFFRNe9aUvp6VFZb2/CTbgLb8j75kOhvoNYjt9d8KA/tJG4gSo8nzEDedRl0h7vDmBYRVg==
->>>>>>> origin/next
+  version "1.1.1"
+  resolved "https://registrynpm.storefrontcloud.io/get-intrinsic/-/get-intrinsic-1.1.1.tgz#15f59f376f855c446963948f0d24cd3637b4abc6"
+  integrity sha512-kWZrnVM42QCiEA2Ig1bG8zjoIMOgxWwYCEeNdwY6Tv/cOSeGpcoX4pXHfKUxNKVoArnrEr2e9srnAxxGIraS9Q==
   dependencies:
     function-bind "^1.1.1"
     has "^1.0.3"
@@ -8138,15 +7840,9 @@ git-up@^4.0.0:
     parse-url "^5.0.0"
 
 git-url-parse@^11.1.2, git-url-parse@^11.4.3:
-<<<<<<< HEAD
   version "11.4.4"
   resolved "https://registrynpm.storefrontcloud.io/git-url-parse/-/git-url-parse-11.4.4.tgz#5d747debc2469c17bc385719f7d0427802d83d77"
   integrity sha512-Y4o9o7vQngQDIU9IjyCmRJBin5iYjI5u9ZITnddRZpD7dcCFQj2sL2XuMNbLRE4b4B/4ENPsp2Q8P44fjAZ0Pw==
-=======
-  version "11.4.3"
-  resolved "https://registry.yarnpkg.com/git-url-parse/-/git-url-parse-11.4.3.tgz#1610284edf1f14964180f5b3399ec68b692cfd87"
-  integrity sha512-LZTTk0nqJnKN48YRtOpR8H5SEfp1oM2tls90NuZmBxN95PnCvmuXGzqQ4QmVirBgKx2KPYfPGteX3/raWjKenQ==
->>>>>>> origin/next
   dependencies:
     git-up "^4.0.0"
 
@@ -8224,15 +7920,9 @@ globals@^12.1.0:
   dependencies:
     type-fest "^0.8.1"
 
-<<<<<<< HEAD
 globby@^11.0.1, globby@^11.0.2:
   version "11.0.2"
   resolved "https://registrynpm.storefrontcloud.io/globby/-/globby-11.0.2.tgz#1af538b766a3b540ebfb58a32b2e2d5897321d83"
-=======
-globby@^11.0.1:
-  version "11.0.2"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-11.0.2.tgz#1af538b766a3b540ebfb58a32b2e2d5897321d83"
->>>>>>> origin/next
   integrity sha512-2ZThXDvvV8fYFRVIxnrMQBipZQDr7MxKAmQK1vujaj9/7eF0efG7BPUKJ7jP7G5SLF37xKDXvO4S/KKLj/Z0og==
   dependencies:
     array-union "^2.1.0"
@@ -8313,9 +8003,9 @@ got@^9.6.0:
     url-parse-lax "^3.0.0"
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.2, graceful-fs@^4.2.4:
-  version "4.2.4"
-  resolved "https://registrynpm.storefrontcloud.io/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
-  integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
+  version "4.2.5"
+  resolved "https://registrynpm.storefrontcloud.io/graceful-fs/-/graceful-fs-4.2.5.tgz#bc18864a6c9fc7b303f2e2abdb9155ad178fbe29"
+  integrity sha512-kBBSQbz2K0Nyn+31j/w36fUfxkBW9/gfwRWdUY1ULReH3iokVJgddZAFcD1D0xlgTmFxJCbUkUclAlc6/IDJkw==
 
 graphql-tag@^2.10.1, graphql-tag@^2.11.0, graphql-tag@^2.2.2:
   version "2.11.0"
@@ -8543,15 +8233,11 @@ hex-color-regex@^1.1.0:
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
 highlight.js@^10.0.0:
-  version "10.5.0"
-<<<<<<< HEAD
-  resolved "https://registrynpm.storefrontcloud.io/highlight.js/-/highlight.js-10.5.0.tgz#3f09fede6a865757378f2d9ebdcbc15ba268f98f"
-=======
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.5.0.tgz#3f09fede6a865757378f2d9ebdcbc15ba268f98f"
->>>>>>> origin/next
-  integrity sha512-xTmvd9HiIHR6L53TMC7TKolEj65zG1XU+Onr8oi86mYa+nLcIbxTTWkpW7CsEwv/vK7u1zb8alZIMLDqqN6KTw==
+  version "10.6.0"
+  resolved "https://registrynpm.storefrontcloud.io/highlight.js/-/highlight.js-10.6.0.tgz#0073aa71d566906965ba6e1b7be7b2682f5e18b6"
+  integrity sha512-8mlRcn5vk/r4+QcqerapwBYTe+iPL5ih6xrNylxrnBdHQiijDETfXX7VIxC3UiCRiINBJfANBAsPzAvRQj8RpQ==
 
-hmac-drbg@^1.0.0:
+hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registrynpm.storefrontcloud.io/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
   integrity sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
@@ -8685,11 +8371,7 @@ html-tags@^3.1.0:
 
 html-webpack-plugin@^4.5.0:
   version "4.5.1"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/html-webpack-plugin/-/html-webpack-plugin-4.5.1.tgz#40aaf1b5cb78f2f23a83333999625c20929cda65"
-=======
-  resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.5.1.tgz#40aaf1b5cb78f2f23a83333999625c20929cda65"
->>>>>>> origin/next
   integrity sha512-yzK7RQZwv9xB+pcdHNTjcqbaaDZ+5L0zJHXfi89iWIZmb/FtzxhLk0635rmJihcQbs3ZUF27Xp4oWGx6EK56zg==
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
@@ -8763,11 +8445,7 @@ http-errors@~1.7.2:
 
 http-parser-js@>=0.5.1:
   version "0.5.3"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
-=======
-  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
->>>>>>> origin/next
   integrity sha512-t7hjvef/5HEK7RWTdUzVUhl8zkEu+LlaE0IYzdMuvbSDipxBRpOn4Uhw8ZyECEa808iVT8XCjzo6xmYt4CiLZg==
 
 http-proxy-agent@^2.1.0:
@@ -8837,15 +8515,9 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 husky@^4.2.3:
-<<<<<<< HEAD
   version "4.3.8"
   resolved "https://registrynpm.storefrontcloud.io/husky/-/husky-4.3.8.tgz#31144060be963fd6850e5cc8f019a1dfe194296d"
   integrity sha512-LCqqsB0PzJQ/AlCgfrfzRe3e3+NvmefAdKQhRYpxS4u6clblBoDdzzvHi8fmxKRzvMxPY/1WZWzomPZww0Anow==
-=======
-  version "4.3.7"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-4.3.7.tgz#ca47bbe6213c1aa8b16bbd504530d9600de91e88"
-  integrity sha512-0fQlcCDq/xypoyYSJvEuzbDPHFf8ZF9IXKJxlrnvxABTSzK1VPT2RKYQKrcgJ+YD39swgoB6sbzywUqFxUiqjw==
->>>>>>> origin/next
   dependencies:
     chalk "^4.0.0"
     ci-info "^2.0.0"
@@ -9187,15 +8859,9 @@ is-buffer@^2.0.2:
   integrity sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==
 
 is-callable@^1.1.3, is-callable@^1.1.4, is-callable@^1.2.2:
-<<<<<<< HEAD
   version "1.2.3"
   resolved "https://registrynpm.storefrontcloud.io/is-callable/-/is-callable-1.2.3.tgz#8b1e0500b73a1d76c70487636f368e519de8db8e"
   integrity sha512-J1DcMe8UYTBSrKezuIUTUwjXsho29693unXM2YhJUTR2txK/eG47bvNa/wipPFmZFgr/N6f1GA66dv0mEyTIyQ==
-=======
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.2.tgz#c7c6715cd22d4ddb48d3e19970223aceabb080d9"
-  integrity sha512-dnMqspv5nU3LoewK2N/y7KLtxtakvTuaCsU9FU50/QDmdbHNy/4/JuRtMHqRU22o3q+W89YQndQEeCVwK+3qrA==
->>>>>>> origin/next
 
 is-ci@^1.1.0:
   version "1.2.1"
@@ -10035,7 +9701,6 @@ jimp-compact@^0.16.1:
 
 jiti@^0.1.17:
   version "0.1.20"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/jiti/-/jiti-0.1.20.tgz#5fc8d4793f0e04e552f35c4a058ea62023e1bd36"
   integrity sha512-nlsuibooCG5yEjmGSVqxhjULy3rO1Gl0LDP+HpUMbzOSLcz5s1Gf5cPnjvHiei0JCG3SXX761HQArDzNIfdz4Q==
 
@@ -10043,15 +9708,6 @@ jiti@^1.3.0:
   version "1.3.0"
   resolved "https://registrynpm.storefrontcloud.io/jiti/-/jiti-1.3.0.tgz#9c6b8bde5744f732f33c1aa27108fd03b9a49d0d"
   integrity sha512-CrRtGy3v7PE5dGWtMBe+FMaViXX2eUa7I+Cyo0WmyggVm61lfpEs1orBQalHx9KDIp0Kl5mNaXGHZCMgTpNDXw==
-=======
-  resolved "https://registry.yarnpkg.com/jiti/-/jiti-0.1.20.tgz#5fc8d4793f0e04e552f35c4a058ea62023e1bd36"
-  integrity sha512-nlsuibooCG5yEjmGSVqxhjULy3rO1Gl0LDP+HpUMbzOSLcz5s1Gf5cPnjvHiei0JCG3SXX761HQArDzNIfdz4Q==
-
-jiti@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.2.0.tgz#15187ac6c49fb5ee4e04700bc05c1d5caed58546"
-  integrity sha512-9YR5zusNf4qmOZAIMqja5pTeuojl5mG2sE4IGogwBoxyclX+Wm2yBZDo2nvuwkUOzUg/nmXwiI2Hz7d/d1UCyw==
->>>>>>> origin/next
 
 js-base64@^2.1.8:
   version "2.6.4"
@@ -10059,15 +9715,9 @@ js-base64@^2.1.8:
   integrity sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ==
 
 js-beautify@^1.6.12:
-<<<<<<< HEAD
   version "1.13.5"
   resolved "https://registrynpm.storefrontcloud.io/js-beautify/-/js-beautify-1.13.5.tgz#a08a97890cae55daf1d758d3f6577bd4a64d7014"
   integrity sha512-MsXlH6Z/BiRYSkSRW3clNDqDjSpiSNOiG8xYVUBXt4k0LnGvDhlTGOlHX1VFtAdoLmtwjxMG5qiWKy/g+Ipv5w==
-=======
-  version "1.13.4"
-  resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.13.4.tgz#1cad80b9e89cfc455b3a14f0eaf4dc10b6ae1206"
-  integrity sha512-M5yEWwonlEO3kPcCZ3K3KBSpFRZAEO3FAWC6wtbIGeyg7dusStxvF0WG+HRLBoMZqREXSRSxkkqClDE865x1sg==
->>>>>>> origin/next
   dependencies:
     config-chain "^1.1.12"
     editorconfig "^0.15.3"
@@ -10371,9 +10021,9 @@ linkify-it@^2.0.0:
     uc.micro "^1.0.1"
 
 lint-staged@^10.0.7:
-  version "10.5.3"
-  resolved "https://registrynpm.storefrontcloud.io/lint-staged/-/lint-staged-10.5.3.tgz#c682838b3eadd4c864d1022da05daa0912fb1da5"
-  integrity sha512-TanwFfuqUBLufxCc3RUtFEkFraSPNR3WzWcGF39R3f2J7S9+iF9W0KTVLfSy09lYGmZS5NDCxjNvhGMSJyFCWg==
+  version "10.5.4"
+  resolved "https://registrynpm.storefrontcloud.io/lint-staged/-/lint-staged-10.5.4.tgz#cd153b5f0987d2371fc1d2847a409a2fe705b665"
+  integrity sha512-EechC3DdFic/TdOPgj/RB3FicqE6932LTHCUm0Y2fsD9KGlLB+RwJl2q1IYBIvEsKzDOgn0D4gll+YxG5RsrKg==
   dependencies:
     chalk "^4.1.0"
     cli-truncate "^2.1.0"
@@ -10555,11 +10205,7 @@ locate-path@^5.0.0:
 
 locate-path@^6.0.0:
   version "6.0.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
-=======
-  resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
->>>>>>> origin/next
   integrity sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==
   dependencies:
     p-locate "^5.0.0"
@@ -10626,7 +10272,7 @@ lodash.set@^4.3.2:
 
 lodash.snakecase@^4.1.1:
   version "4.1.1"
-  resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
+  resolved "https://registrynpm.storefrontcloud.io/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
   integrity sha1-OdcUo1NXFHg3rv1ktdy7Fr7Nj40=
 
 lodash.sortby@^4.7.0:
@@ -10989,11 +10635,7 @@ meow@^4.0.0:
 
 meow@^8.0.0:
   version "8.1.2"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/meow/-/meow-8.1.2.tgz#bcbe45bda0ee1729d350c03cffc8395a36c4e897"
-=======
-  resolved "https://registry.yarnpkg.com/meow/-/meow-8.1.2.tgz#bcbe45bda0ee1729d350c03cffc8395a36c4e897"
->>>>>>> origin/next
   integrity sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==
   dependencies:
     "@types/minimist" "^1.2.0"
@@ -11077,11 +10719,7 @@ mime-db@1.45.0, "mime-db@>= 1.43.0 < 2":
 
 mime-types@^2.1.12, mime-types@^2.1.19, mime-types@~2.1.17, mime-types@~2.1.19, mime-types@~2.1.24:
   version "2.1.28"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/mime-types/-/mime-types-2.1.28.tgz#1160c4757eab2c5363888e005273ecf79d2a0ecd"
-=======
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.28.tgz#1160c4757eab2c5363888e005273ecf79d2a0ecd"
->>>>>>> origin/next
   integrity sha512-0TO2yJ5YHYr7M2zzT7gDU1tbwHxEUWBCLt0lscSNpcdAfFyJOVEpRYNS7EXVcTLNj/25QO8gulHC5JtTzSE2UQ==
   dependencies:
     mime-db "1.45.0"
@@ -11138,7 +10776,7 @@ minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   resolved "https://registrynpm.storefrontcloud.io/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
   integrity sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==
 
-minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
+minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registrynpm.storefrontcloud.io/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
@@ -11477,15 +11115,9 @@ node-gyp@^5.0.2:
     which "^1.3.1"
 
 node-html-parser@^2.0.0:
-<<<<<<< HEAD
   version "2.1.0"
   resolved "https://registrynpm.storefrontcloud.io/node-html-parser/-/node-html-parser-2.1.0.tgz#36345804d743a5a1f672d4821a53f6b0e60629a9"
   integrity sha512-kbCNfqjrwHAbG+mevL8aqjwVtF0Qv66XurWHoGLOc5G9rPR1L3k602jfeczAUUBldLNnCrdsDmO5G5nqAoMW+g==
-=======
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-2.0.2.tgz#168c9cfb77ae58fe4038d84862a0fc8f2ad8e3fd"
-  integrity sha512-N2000Ho9dkabvRZcyiwm6zOpdiAzxAxcJ0Z0WNoh/yXHG0YCuiK2WpNQfN+9vheLNY/h/It11Gk7uwT4QTfk9Q==
->>>>>>> origin/next
   dependencies:
     he "1.2.0"
 
@@ -11544,17 +11176,10 @@ node-object-hash@^1.2.0:
   resolved "https://registrynpm.storefrontcloud.io/node-object-hash/-/node-object-hash-1.4.2.tgz#385833d85b229902b75826224f6077be969a9e94"
   integrity sha512-UdS4swXs85fCGWWf6t6DMGgpN/vnlKeSGEQ7hJcrs7PBFoxoKLmibc3QRb7fwiYsjdL7PX8iI/TMSlZ90dgHhQ==
 
-<<<<<<< HEAD
 node-releases@^1.1.70:
   version "1.1.70"
   resolved "https://registrynpm.storefrontcloud.io/node-releases/-/node-releases-1.1.70.tgz#66e0ed0273aa65666d7fe78febe7634875426a08"
   integrity sha512-Slf2s69+2/uAD79pVVQo8uSiC34+g8GWY8UH2Qtqv34ZfhYrxpYpfzs9Js9d6O0mbDmALuxaTlplnBTnSELcrw==
-=======
-node-releases@^1.1.69:
-  version "1.1.69"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.69.tgz#3149dbde53b781610cd8b486d62d86e26c3725f6"
-  integrity sha512-DGIjo79VDEyAnRlfSqYTsy+yoHd2IOjJiKUozD2MV2D85Vso6Bug56mb9tT/fY5Urt0iqk01H7x+llAruDR2zA==
->>>>>>> origin/next
 
 node-res@^5.0.1:
   version "5.0.1"
@@ -11786,15 +11411,9 @@ number-is-nan@^1.0.0:
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
 nuxt-i18n@^6.5.0:
-<<<<<<< HEAD
-  version "6.19.0"
-  resolved "https://registrynpm.storefrontcloud.io/nuxt-i18n/-/nuxt-i18n-6.19.0.tgz#7419f0f52dd4e3527d7bfdbea6abfdf5c730b742"
-  integrity sha512-hDIsdTX19cWlRjzG1VddFnRKmvXwwZr8FtLBoGzT2cyX7vLT/TDndcGqz0IOIAxn4A6p07LKRPHFxXIae6sWrA==
-=======
-  version "6.18.0"
-  resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.18.0.tgz#e15d2fece238d03445366208dec017c43b203ff5"
-  integrity sha512-38pkBKyXC0UbI7KeBqD5XnKABtBXai1KzhQ/TL0fnlFgrLfrVpDnnnAEyAtfWpGyYOoVBqPB1yNnmqmhA5eitg==
->>>>>>> origin/next
+  version "6.20.0"
+  resolved "https://registrynpm.storefrontcloud.io/nuxt-i18n/-/nuxt-i18n-6.20.0.tgz#09d7839c56b2f4eec6b37e55ee7be0b0d18563d4"
+  integrity sha512-R6NrAskfaaUvs7xAvApZ+Piakqx3x50EAF5wOsxQZLc2Yx2/pN0C3sktxlFhrf0lr9lD1F9WhgUwz3GJV1ul3A==
   dependencies:
     "@babel/parser" "^7.5.5"
     "@babel/traverse" "^7.5.5"
@@ -12098,11 +11717,7 @@ p-limit@^2.0.0, p-limit@^2.2.0, p-limit@^2.2.1, p-limit@^2.3.0:
 
 p-limit@^3.0.2:
   version "3.1.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
-=======
-  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
->>>>>>> origin/next
   integrity sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==
   dependencies:
     yocto-queue "^0.1.0"
@@ -12130,11 +11745,7 @@ p-locate@^4.1.0:
 
 p-locate@^5.0.0:
   version "5.0.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/p-locate/-/p-locate-5.0.0.tgz#83c8315c6785005e3bd021839411c9e110e6d834"
-=======
-  resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-5.0.0.tgz#83c8315c6785005e3bd021839411c9e110e6d834"
->>>>>>> origin/next
   integrity sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==
   dependencies:
     p-limit "^3.0.2"
@@ -12303,11 +11914,7 @@ parse-json@^5.0.0:
 
 parse-path@^4.0.0:
   version "4.0.3"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/parse-path/-/parse-path-4.0.3.tgz#82d81ec3e071dcc4ab49aa9f2c9c0b8966bb22bf"
-=======
-  resolved "https://registry.yarnpkg.com/parse-path/-/parse-path-4.0.3.tgz#82d81ec3e071dcc4ab49aa9f2c9c0b8966bb22bf"
->>>>>>> origin/next
   integrity sha512-9Cepbp2asKnWTJ9x2kpw6Fe8y9JDbqwahGCTvklzd/cEq5C5JC59x2Xb0Kx+x0QZ8bvNquGO8/BWP0cwBHzSAA==
   dependencies:
     is-ssh "^1.3.0"
@@ -12516,11 +12123,7 @@ pkg-dir@^4.1.0:
 
 pkg-dir@^5.0.0:
   version "5.0.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/pkg-dir/-/pkg-dir-5.0.0.tgz#a02d6aebe6ba133a928f74aec20bafdfe6b8e760"
-=======
-  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-5.0.0.tgz#a02d6aebe6ba133a928f74aec20bafdfe6b8e760"
->>>>>>> origin/next
   integrity sha512-NPE8TDbzl/3YQYY7CSS228s3g2ollTFnc+Qi3tqmqJp9Vg2ovUpixcJEo2HJScN2Ez+kEaal6y70c0ehqJBJeA==
   dependencies:
     find-up "^5.0.0"
@@ -13255,11 +12858,7 @@ prettier@^1.18.2:
 
 pretty-bytes@^5.4.1:
   version "5.5.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/pretty-bytes/-/pretty-bytes-5.5.0.tgz#0cecda50a74a941589498011cf23275aa82b339e"
-=======
-  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.5.0.tgz#0cecda50a74a941589498011cf23275aa82b339e"
->>>>>>> origin/next
   integrity sha512-p+T744ZyjjiaFlMUZZv6YPC5JrkNj8maRmPaQCWFJFplUAzpIUTRaTcS+7wmZtUoFXHtESJb23ISliaWyz3SHA==
 
 pretty-error@^2.0.2, pretty-error@^2.1.1:
@@ -13306,11 +12905,7 @@ pretty@^2.0.0:
 
 prismjs@^1.13.0:
   version "1.23.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
-=======
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
->>>>>>> origin/next
   integrity sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA==
   optionalDependencies:
     clipboard "^2.0.0"
@@ -13506,11 +13101,7 @@ qs@6.7.0:
 
 qs@^6.9.4:
   version "6.9.6"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
-=======
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
->>>>>>> origin/next
   integrity sha512-TIRk4aqYLNoJUbd+g2lEdz5kLWIuTMRagAXxl78Q0RiVjAOugHmeKNGdd3cwo/ktpf9aL9epCfFqWDEKysUlLQ==
 
 qs@~6.5.2:
@@ -13542,11 +13133,7 @@ query-string@^5.0.1:
 
 query-string@^6.13.8, query-string@^6.2.0:
   version "6.13.8"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/query-string/-/query-string-6.13.8.tgz#8cf231759c85484da3cf05a851810d8e825c1159"
-=======
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.13.8.tgz#8cf231759c85484da3cf05a851810d8e825c1159"
->>>>>>> origin/next
   integrity sha512-jxJzQI2edQPE/NPUOusNjO/ZOGqr1o2OBa/3M00fU76FsLXDVbJDv/p7ng5OdQyorKrkRz1oqfwmbe5MAMePQg==
   dependencies:
     decode-uri-component "^0.2.0"
@@ -13935,15 +13522,9 @@ regjsgen@^0.5.1:
   integrity sha512-OFFT3MfrH90xIW8OOSyUrk6QHD5E9JOTeGodiJeBS3J6IwlgzJMNE/1bZklWz5oTg+9dCMyEetclvCVXOPoN3A==
 
 regjsparser@^0.6.4:
-<<<<<<< HEAD
   version "0.6.7"
   resolved "https://registrynpm.storefrontcloud.io/regjsparser/-/regjsparser-0.6.7.tgz#c00164e1e6713c2e3ee641f1701c4b7aa0a7f86c"
   integrity sha512-ib77G0uxsA2ovgiYbCVGx4Pv3PSttAx2vIwidqQzbL2U5S4Q+j00HdSAneSBuyVcMvEnTXMjiGgB+DlXozVhpQ==
-=======
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.6.6.tgz#6d8c939d1a654f78859b08ddcc4aa777f3fa800a"
-  integrity sha512-jjyuCp+IEMIm3N1H1LLTJW1EISEJV9+5oHdEyrt43Pg9cDSb6rrLZei2cVWpl0xTjmmlpec/lEQGYgM7xfpGCQ==
->>>>>>> origin/next
   dependencies:
     jsesc "~0.5.0"
 
@@ -13959,11 +13540,7 @@ remove-trailing-separator@^1.0.1:
 
 renderkid@^2.0.4:
   version "2.0.5"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/renderkid/-/renderkid-2.0.5.tgz#483b1ac59c6601ab30a7a596a5965cabccfdd0a5"
-=======
-  resolved "https://registry.yarnpkg.com/renderkid/-/renderkid-2.0.5.tgz#483b1ac59c6601ab30a7a596a5965cabccfdd0a5"
->>>>>>> origin/next
   integrity sha512-ccqoLg+HLOHq1vdfYNm4TBeaCDIi1FLt3wGojTDSvdewUv65oTmI3cnT2E4hRjl1gzKZIPK+KZrXzlUYKnR+vQ==
   dependencies:
     css-select "^2.0.2"
@@ -14428,11 +14005,7 @@ semver-diff@^3.1.1:
 
 semver-regex@^3.1.2:
   version "3.1.2"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/semver-regex/-/semver-regex-3.1.2.tgz#34b4c0d361eef262e07199dbef316d0f2ab11807"
-=======
-  resolved "https://registry.yarnpkg.com/semver-regex/-/semver-regex-3.1.2.tgz#34b4c0d361eef262e07199dbef316d0f2ab11807"
->>>>>>> origin/next
   integrity sha512-bXWyL6EAKOJa81XG1OZ/Yyuq+oT0b2YLlxx7c+mrdYPaPbnj6WgVULXhinMIeZGufuUBu/eVRqXEhiv4imfwxA==
 
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@^5.4.1, semver@^5.5, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0, semver@^5.7.0, semver@^5.7.1:
@@ -14761,11 +14334,7 @@ snapdragon@^0.8.1:
 
 sockjs-client@^1.5.0:
   version "1.5.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/sockjs-client/-/sockjs-client-1.5.0.tgz#2f8ff5d4b659e0d092f7aba0b7c386bd2aa20add"
-=======
-  resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.5.0.tgz#2f8ff5d4b659e0d092f7aba0b7c386bd2aa20add"
->>>>>>> origin/next
   integrity sha512-8Dt3BDi4FYNrCFGTL/HtwVzkARrENdwOUf1ZoW/9p3M8lZdFT35jVdrHza+qgxuG9H3/shR4cuX/X9umUrjP8Q==
   dependencies:
     debug "^3.2.6"
@@ -14777,11 +14346,7 @@ sockjs-client@^1.5.0:
 
 sockjs@^0.3.21:
   version "0.3.21"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/sockjs/-/sockjs-0.3.21.tgz#b34ffb98e796930b60a0cfa11904d6a339a7d417"
-=======
-  resolved "https://registry.yarnpkg.com/sockjs/-/sockjs-0.3.21.tgz#b34ffb98e796930b60a0cfa11904d6a339a7d417"
->>>>>>> origin/next
   integrity sha512-DhbPFGpxjc6Z3I+uX07Id5ZO2XwYsWOrYjaSeieES78cq+JaJvVe5q/m1uvjIQhXinhIeCFRH6JgXe+mvVMyXw==
   dependencies:
     faye-websocket "^0.11.3"
@@ -15734,9 +15299,9 @@ ts-invariant@^0.6.0:
     tslib "^1.9.3"
 
 ts-jest@26.x:
-  version "26.5.0"
-  resolved "https://registrynpm.storefrontcloud.io/ts-jest/-/ts-jest-26.5.0.tgz#3e3417d91bc40178a6716d7dacc5b0505835aa21"
-  integrity sha512-Ya4IQgvIFNa2Mgq52KaO8yBw2W8tWp61Ecl66VjF0f5JaV8u50nGoptHVILOPGoI7SDnShmEqnYQEmyHdQ+56g==
+  version "26.5.1"
+  resolved "https://registrynpm.storefrontcloud.io/ts-jest/-/ts-jest-26.5.1.tgz#4d53ee4481552f57c1624f0bd3425c8b17996150"
+  integrity sha512-G7Rmo3OJMvlqE79amJX8VJKDiRcd7/r61wh9fnvvG8cAjhA9edklGw/dCxRSQmfZ/z8NDums5srSVgwZos1qfg==
   dependencies:
     "@types/jest" "26.x"
     bs-logger "0.x"
@@ -15766,16 +15331,10 @@ ts-jest@^24.2.0:
     semver "^5.5"
     yargs-parser "10.x"
 
-<<<<<<< HEAD
 ts-loader@^8.0.14, ts-loader@^8.0.3:
-  version "8.0.14"
-  resolved "https://registrynpm.storefrontcloud.io/ts-loader/-/ts-loader-8.0.14.tgz#e46ac1f8dcb88808d0b1335d2eae65b74bd78fe8"
-=======
-ts-loader@^8.0.3:
-  version "8.0.14"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-8.0.14.tgz#e46ac1f8dcb88808d0b1335d2eae65b74bd78fe8"
->>>>>>> origin/next
-  integrity sha512-Jt/hHlUnApOZjnSjTmZ+AbD5BGlQFx3f1D0nYuNKwz0JJnuDGHJas6az+FlWKwwRTu+26GXpv249A8UAnYUpqA==
+  version "8.0.16"
+  resolved "https://registrynpm.storefrontcloud.io/ts-loader/-/ts-loader-8.0.16.tgz#a60311f01f015518e1cfbb5698e6ca8830cd2391"
+  integrity sha512-Cr9ywsgg1n8cjGjIogHLPlqe3WJUHzuJaqwNo5I596KpIqekKzxvSENbrXeOypHcXSPPsr8hV6mglngyXvcKrg==
   dependencies:
     chalk "^4.1.0"
     enhanced-resolve "^4.0.0"
@@ -15816,7 +15375,6 @@ tslib@^1.10.0, tslib@^1.14.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
 
 tslib@^2.0.1, tslib@^2.0.3:
   version "2.1.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
@@ -15824,15 +15382,6 @@ tsutils@^3.17.1:
   version "3.20.0"
   resolved "https://registrynpm.storefrontcloud.io/tsutils/-/tsutils-3.20.0.tgz#ea03ea45462e146b53d70ce0893de453ff24f698"
   integrity sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg==
-=======
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
-  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
-
-tsutils@^3.17.1:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.19.1.tgz#d8566e0c51c82f32f9c25a4d367cd62409a547a9"
-  integrity sha512-GEdoBf5XI324lu7ycad7s6laADfnAqCw6wLGI+knxvw9vsIYBaJfYdmeCEG3FMMUiSm3OGgNb+m6utsWf5h9Vw==
->>>>>>> origin/next
   dependencies:
     tslib "^1.8.1"
 
@@ -15957,15 +15506,9 @@ uglify-js@3.4.x:
     source-map "~0.6.1"
 
 uglify-js@^3.1.4, uglify-js@^3.5.1:
-<<<<<<< HEAD
-  version "3.12.6"
-  resolved "https://registrynpm.storefrontcloud.io/uglify-js/-/uglify-js-3.12.6.tgz#f884584fcc42e10bca70db5cb32e8625c2c42535"
-  integrity sha512-aqWHe3DfQmZUDGWBbabZ2eQnJlQd1fKlMUu7gV+MiTuDzdgDw31bI3wA2jLLsV/hNcDP26IfyEgSVoft5+0SVw==
-=======
-  version "3.12.4"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.12.4.tgz#93de48bb76bb3ec0fc36563f871ba46e2ee5c7ee"
-  integrity sha512-L5i5jg/SHkEqzN18gQMTWsZk3KelRsfD1wUVNqtq0kzqWQqcJjyL8yc1o8hJgRrWqrAl2mUFbhfznEIoi7zi2A==
->>>>>>> origin/next
+  version "3.12.7"
+  resolved "https://registrynpm.storefrontcloud.io/uglify-js/-/uglify-js-3.12.7.tgz#be4f06142a67bd91ef868b4e111dc241e151bff3"
+  integrity sha512-SIZhkoh+U/wjW+BHGhVwE9nt8tWJspncloBcFapkpGRwNPqcH8pzX36BXe3TPBjzHWPMUZotpCigak/udWNr1Q==
 
 uid-number@0.0.6:
   version "0.0.6"
@@ -16127,11 +15670,7 @@ upper-case@^1.1.1:
 
 uri-js@^4.2.2:
   version "4.4.1"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
-=======
-  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
->>>>>>> origin/next
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
@@ -16209,11 +15748,7 @@ util.promisify@1.0.0:
 
 util.promisify@^1.0.0:
   version "1.1.1"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/util.promisify/-/util.promisify-1.1.1.tgz#77832f57ced2c9478174149cae9b96e9918cd54b"
-=======
-  resolved "https://registry.yarnpkg.com/util.promisify/-/util.promisify-1.1.1.tgz#77832f57ced2c9478174149cae9b96e9918cd54b"
->>>>>>> origin/next
   integrity sha512-/s3UsZUrIfa6xDhr7zZhnE9SLQ5RIXyYfiVnMMyMDzOc8WhWN4Nbh36H842OyurKbCDAesZOJaVyvmSl6fhGQw==
   dependencies:
     call-bind "^1.0.0"
@@ -16345,15 +15880,9 @@ vue-hot-reload-api@^2.3.0:
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
 vue-i18n@^8.18.1:
-<<<<<<< HEAD
   version "8.22.4"
   resolved "https://registrynpm.storefrontcloud.io/vue-i18n/-/vue-i18n-8.22.4.tgz#255cbdab4ffa7337c5819b82dd171208af74e385"
   integrity sha512-XLI5s0AdqMP2Lf4I4CmdmOq8kjb5DDFGR77wAuxCfpEuYSfhTRyyx6MetgZMiL6Lxa0DasjBOiOcciU3NkL3/Q==
-=======
-  version "8.22.3"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.22.3.tgz#4ac0fdc3e71d4fe188938c40a9ffca32cde60732"
-  integrity sha512-Vhyx7sZEmmW/aZLkzSlXei08Rv3hTondx4J9wbOjnThocTIK1QiXV6QRdT4BTnhT24JixDSf6kGkxqCXSaJ3Jw==
->>>>>>> origin/next
 
 vue-jest@^4.0.0-0:
   version "4.0.0-rc.1"
@@ -16482,11 +16011,7 @@ vuepress-plugin-smooth-scroll@^0.0.3:
 
 vuepress@^1.2.0:
   version "1.8.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/vuepress/-/vuepress-1.8.0.tgz#0139d466b33fbfdb628abb76d555368b85cf9772"
-=======
-  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-1.8.0.tgz#0139d466b33fbfdb628abb76d555368b85cf9772"
->>>>>>> origin/next
   integrity sha512-YvNitvoEc+JSJRv1W+IoRnvOTFyTWyUMuGuF2kTIbiSwIHb1hNinc3lqNSeBQJy7IBqyEzK5fnTq1mlynh4gwA==
   dependencies:
     "@vuepress/core" "1.8.0"
@@ -16600,11 +16125,7 @@ webpack-dev-middleware@^3.7.2:
 
 webpack-dev-server@^3.5.1:
   version "3.11.2"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/webpack-dev-server/-/webpack-dev-server-3.11.2.tgz#695ebced76a4929f0d5de7fd73fafe185fe33708"
-=======
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.11.2.tgz#695ebced76a4929f0d5de7fd73fafe185fe33708"
->>>>>>> origin/next
   integrity sha512-A80BkuHRQfCiNtGBS1EMf2ChTUs0x+B3wGDFmOeT4rmJOHhHTCH2naNxIHhmkr0/UillP4U3yeIyv1pNp+QDLQ==
   dependencies:
     ansi-html "0.0.7"
@@ -16681,11 +16202,7 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-
 
 webpack@^4.42.1, webpack@^4.44.2, webpack@^4.8.1:
   version "4.46.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/webpack/-/webpack-4.46.0.tgz#bf9b4404ea20a073605e0a011d188d77cb6ad542"
-=======
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.46.0.tgz#bf9b4404ea20a073605e0a011d188d77cb6ad542"
->>>>>>> origin/next
   integrity sha512-6jJuJjg8znb/xRItk7bkT0+Q7AHCYjjFnvKIWQPkNIOyRqoCGvkOs0ipeQzrqz4l5FtN5ZI/ukEHroeX/o1/5Q==
   dependencies:
     "@webassemblyjs/ast" "1.9.0"
@@ -17130,11 +16647,7 @@ yn@3.1.1:
 
 yocto-queue@^0.1.0:
   version "0.1.0"
-<<<<<<< HEAD
   resolved "https://registrynpm.storefrontcloud.io/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
-=======
-  resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
->>>>>>> origin/next
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zen-observable-ts@^0.8.21:

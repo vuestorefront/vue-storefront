@@ -15,6 +15,7 @@
       @changeSetAsDefault="setAsDefault = $event"
     />
     <SfCheckbox
+      v-cypress="'payment-copy-from-billing'"
       :selected="sameAsShipping"
       @change="handleCheckSameAddress"
       label="Copy address data from shipping"
@@ -143,6 +144,7 @@
     <div class="form">
       <div class="form__element payment-methods" v-if="canContinueToReview">
         <SfRadio
+          v-cypress="'payment-radio_paymentMethod'"
           v-for="item in paymentMethods"
           :key="item.value"
           :selected="chosenPaymentMethod.value"
@@ -161,13 +163,30 @@
         </SfRadio>
       </div>
       <div class="form__action">
-        <nuxt-link to="/checkout/shipping" class="sf-button color-secondary form__back-button">
+        <nuxt-link
+          v-cypress="'payment-btn_go-back'"
+          to="/checkout/shipping"
+          class="sf-button color-secondary form__back-button">
           {{ $t('Go back') }}
         </nuxt-link>
-        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-if="canContinueToReview">
+
+        <SfButton
+          v-if="canContinueToReview"
+          v-cypress="'checkout-continue-button'"
+          :disabled="loading.billingAddress"
+          class="form__action-button"
+          type="submit"
+        >
           {{ $t('Review my order') }}
         </SfButton>
-        <SfButton class="form__action-button" type="submit" :disabled="loading.billingAddress" v-else>
+
+        <SfButton
+          v-else
+          v-cypress="'checkout-continue-button'"
+          :disabled="loading.billingAddress"
+          class="form__action-button"
+          type="submit"
+        >
           {{ $t('Select payment method') }}
         </SfButton>
       </div>

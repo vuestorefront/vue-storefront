@@ -52,7 +52,6 @@
           />
           <SfBadge
             v-if="cartTotalItems"
-            v-cypress="'header-minicart-indicator'"
             class="sf-badge--number cart-badge"
           >
             {{ cartTotalItems }}

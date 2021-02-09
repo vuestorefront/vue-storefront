@@ -137,10 +137,16 @@
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">
+          <nuxt-link
+            to="/checkout/payment"
+            class="sf-button color-secondary summary__back-button">
             {{ $t('Go back') }}
           </nuxt-link>
-          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading.order">
+          <SfButton
+            v-cypress="'order-review-btn_summary-continue'"
+            :disabled="loading.order"
+            class="summary__action-button"
+            @click="processOrder">
             {{ $t('Make an order') }}
           </SfButton>
         </div>
@@ -201,10 +207,12 @@ export default {
       loadDetails,
       clean
     } = useCheckout();
+
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
+
     const processOrder = async () => {
       const order = await placeOrder();
       context.root.$router.push(`/checkout/thank-you?order=${order.id}`);

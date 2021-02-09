@@ -5,7 +5,8 @@ const element = (name) => `[data-cypress="${ name }"]`;
 const selectors = {
   cart: {
     icon: element('header-minicart'),
-    indicator: element('header-minicart-indicator'),
+    // Can't use v-cypress directive because of https://github.com/vuejs/vue-loader/issues/1433
+    indicator: `${ element('header-minicart') } .cart-badge`,
     items: element('collected-product-cart-sidebar')
   },
   catalog: {
@@ -36,7 +37,7 @@ const selectors = {
     },
     continueButton: element('checkout-continue-button'),
     termsCheckbox: '[data-testid="terms"]',
-    submitButton: element('order-review-btn_summary-conitnue')
+    submitButton: element('order-review-btn_summary-continue')
   }
 };
 
