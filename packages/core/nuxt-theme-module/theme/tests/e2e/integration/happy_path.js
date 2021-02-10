@@ -47,7 +47,7 @@ context('', () => {
     cy.visit('/');
 
     // Open 'Women' category
-    cy.contains('WOMEN').click();
+    cy.contains('WOMEN').click().wait(2000);
     cy.url().should('include', '/c/women');
 
     // Open first product
