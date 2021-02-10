@@ -287,7 +287,7 @@ export default {
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
     const shippingDetails = ref(address.value || {});
-    const chosenShippingMethod = ref(null);
+    // const chosenShippingMethod = ref(null);
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
@@ -333,14 +333,14 @@ export default {
       shippingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      chosenShippingMethod.value = null;
+      // chosenShippingMethod.value = null;
       isShippingDetailsCompleted.value = false;
       isShippingMethodCompleted.value = false;
     };
 
     const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      chosenShippingMethod.value = null;
+      // chosenShippingMethod.value = null;
       isShippingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
@@ -384,7 +384,7 @@ export default {
 
       isAuthenticated,
       shippingDetails,
-      chosenShippingMethod,
+      // chosenShippingMethod,
       countries: config.countries,
       setAsDefault,
       canAddNewAddress,
