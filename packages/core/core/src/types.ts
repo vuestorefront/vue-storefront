@@ -299,22 +299,6 @@ export interface UseBillingErrors {
   load?: Error;
   save?: Error;
 }
-export interface BillingGetters<BILLING, BILLING_ADDRESS_ITEM> {
-  getAddress: (shipping: BILLING) => BILLING_ADDRESS_ITEM;
-  getAddressPostCode: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressStreetName: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressStreetNumber: (address: BILLING_ADDRESS_ITEM) => string | number;
-  getAddressCity: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressFirstName: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressLastName: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressCountry: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressPhone: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressEmail: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressProvince: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressCompanyName: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressTaxNumber: (address: BILLING_ADDRESS_ITEM) => string;
-  getAddressApartmentNumber: (address: BILLING_ADDRESS_ITEM) => string | number;
-}
 export interface UseFacetErrors {
   search?: Error;
 }
