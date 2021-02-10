@@ -8,7 +8,10 @@ app.options.addReader(new TypeDoc.TypeDocReader());
 
 app.bootstrap({
   tsconfig: '../../commercetools/api-client/tsconfig.json',
-  entryPoints: ['../../commercetools/api-client/src/api'],
+  entryPoints: [
+    '../../commercetools/api-client/src/api',
+    '../../commercetools/api-client/src/types'
+  ],
   name: 'API Client Reference'
 });
 
