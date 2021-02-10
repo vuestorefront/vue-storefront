@@ -24,7 +24,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            ~/.cache/Cypress
+            '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
@@ -46,7 +48,10 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: 
+          path: |
+            ~/.cache/Cypress
+            '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run linter
@@ -68,7 +73,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            ~/.cache/Cypress
+            '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Build core
@@ -117,7 +124,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            ~/.cache/Cypress
+            '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Build core
@@ -201,7 +210,9 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            ~/.cache/Cypress
+            '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Build core
