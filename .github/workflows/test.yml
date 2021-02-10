@@ -220,7 +220,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2.8.2
         with:
-          start: yarn dev:${{ matrix.integration }}
+          start: yarn build:${{ matrix.integration }} && yarn start:${{ matrix.integration }}
           wait-on: 'http://localhost:3000/'
           command: yarn run test:e2e:headless
           config-file: packages/core/nuxt-theme-module/theme/tests/e2e/cypress.json
