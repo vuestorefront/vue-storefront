@@ -208,7 +208,7 @@ jobs:
         run: yarn build:${{ matrix.integration }}:tools
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v2.8.2
         with:
           start: yarn dev:${{ matrix.integration }}
           wait-on: 'http://localhost:3000/'
