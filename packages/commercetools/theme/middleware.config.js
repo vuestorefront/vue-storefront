@@ -1,29 +1,7 @@
 module.exports = {
   integrations: {
     ct: {
-      apiClientPackage: '@vue-storefront/commercetools-api/server',
-      modulePackage: '@vue-storefront/commercetools/nuxt',
-      extensions: [
-        // '@vue-storefront/commercetools',
-        {
-          extendApi: {
-            // eslint-disable-next-line
-            testFunction: async (context) => {
-              console.log('test function called');
-              return { test: 1 };
-            }
-          },
-          // eslint-disable-next-line
-          lifecycle: (req, res) => ({ beforeCall: ({ callName, args }) => {
-
-            if (callName === 'getCategory') {
-              console.log(args);
-            }
-
-            return args;
-          } })
-        }
-      ],
+      location: '@vue-storefront/commercetools-api/server',
       configuration: {
         api: {
           uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
@@ -45,18 +23,17 @@ module.exports = {
           ]
         },
         currency: 'USD',
-        country: 'US',
-        countries: [
-          { name: 'US', label: 'United States' },
-          { name: 'AT', label: 'Austria' },
-          { name: 'DE', label: 'Germany' },
-          { name: 'NL', label: 'Netherlands' }
-        ],
-        currencies: [
-          { name: 'EUR', label: 'Euro' },
-          { name: 'USD', label: 'Dollar' }
-        ]
+        country: 'US'
       }
     }
   }
 };
+
+/**
+extensions -> function: (extensions) => extensions +
+extendApi -> extendApiMethods
+lifecycle: before / after: config -> configuration
+apiClientPackage -> location
+add `name` do extension type
+lifecycle -> hooks
+*/

@@ -59,13 +59,14 @@ const parseToken = (rawToken) => {
 };
 
 const tokenExtension: ApiClientExtension = {
-  lifecycle: (req, res) => {
+  name: 'tokenExtension',
+  hooks: (req, res) => {
     const rawCurrentToken = req.cookies['vsf-commercetools-token'];
     const currentToken = parseToken(rawCurrentToken);
 
     return {
-      beforeCreate: ({ config }) => ({
-        ...config,
+      beforeCreate: ({ configuration }) => ({
+        ...configuration,
         auth: {
           onTokenChange: (newToken) => {
             if (!currentToken || currentToken.access_token !== newToken.access_token) {

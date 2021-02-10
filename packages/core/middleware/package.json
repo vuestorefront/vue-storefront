@@ -11,6 +11,7 @@
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
+    "consola": "2.15.3",
     "express": "^4.17.1",
     "cookie-parser": "^1.4.5",
     "is-https": "^3.0.2",

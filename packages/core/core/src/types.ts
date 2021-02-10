@@ -584,15 +584,16 @@ export interface FactoryParams {
 }
 
 export interface ApiClientExtensionLifecycle {
-  beforeCreate?: ({ config }) => any;
-  afterCreate?: ({ config }) => any;
-  beforeCall?: ({ config, callName, args }) => any;
-  afterCall?: ({ config, callName, args }) => any;
+  beforeCreate?: ({ configuration }) => any;
+  afterCreate?: ({ configuration }) => any;
+  beforeCall?: ({ configuration, callName, args }) => any;
+  afterCall?: ({ configuration, callName, args }) => any;
 }
 
 export interface ApiClientExtension {
-  extendApi?: Record<string, Function>;
-  lifecycle?: (req: any, res: any) => ApiClientExtensionLifecycle;
+  name: string;
+  extendApiMethods?: Record<string, Function>;
+  hooks?: (req: any, res: any) => ApiClientExtensionLifecycle;
 }
 export interface ApiClientFactoryParams<T, F = any> {
   api: F;

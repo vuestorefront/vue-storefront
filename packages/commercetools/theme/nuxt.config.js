@@ -1,9 +1,6 @@
 import webpack from 'webpack';
 
 export default {
-  publicRuntimeConfig: {
-    middlewareUrl: 'http://172.21.127.16:8181/'
-  },
   mode: 'universal',
   server: {
     port: 3000,
@@ -92,8 +89,8 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
-    // ['@vue-storefront/middleware/nuxt']
+    'vue-scrollto/nuxt',
+    '@vue-storefront/middleware/nuxt'
   ],
   i18n: {
     currency: 'USD',
