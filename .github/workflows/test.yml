@@ -222,7 +222,7 @@ jobs:
         with:
           start: yarn dev:${{ matrix.integration }}
           wait-on: 'http://localhost:3000/'
-          command: cd packages/core/nuxt-theme-module && cypress run
+          command: yarn run test:e2e:headless
           config-file: packages/core/nuxt-theme-module/theme/tests/e2e/cypress.json
           browser: chrome
           headless: true
