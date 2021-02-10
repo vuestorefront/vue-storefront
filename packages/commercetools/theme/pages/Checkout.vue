@@ -22,8 +22,8 @@
 <script>
 import { onSSR } from '@vue-storefront/core';
 import { SfSteps, SfButton } from '@storefront-ui/vue';
-import CartPreview from '~/components/checkout/CartPreview';
-import OrderReview from '~/components/checkout/OrderReview';
+import CartPreview from '~/components/Checkout/CartPreview';
+import OrderReview from '~/components/Checkout/OrderReview';
 import { ref, computed } from '@vue/composition-api';
 import { useUser, useCart } from '@vue-storefront/commercetools';
 

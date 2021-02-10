@@ -26,9 +26,9 @@
 import { ref, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { SfSteps, SfButton } from '@storefront-ui/vue';
-import CartPreview from '~/components/checkout/CartPreview';
-import OrderReview from '~/components/checkout/OrderReview';
 import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import CartPreview from '~/components/Checkout/CartPreview';
+import OrderReview from '~/components/Checkout/OrderReview';
 
 const STEPS = [
   { name: 'personal-details',
