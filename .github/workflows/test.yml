@@ -186,8 +186,8 @@ jobs:
       fail-fast: false
       matrix:
         integration:
-          # - boilerplate
-          - commercetools
+          # - bp
+          - ct
 
     steps:
       - name: Checkout code
@@ -205,17 +205,11 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Build core
-        run: yarn build:core
-
-      - name: Build api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn build
-
-      - name: Build composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn build
+        run: yarn build:${{ matrix.integration }}:tools
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: cd packages/${{ matrix.integration }}/theme && yarn dev
+          start: yarn dev:${{ matrix.integration }}
           wait-on: 'http://localhost:3000/'
           command: yarn run test:e2e:headless
