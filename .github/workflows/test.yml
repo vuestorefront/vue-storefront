@@ -48,7 +48,6 @@ jobs:
       - name: Get cached dependencies
         uses: actions/cache@v2
         with:
-          path: 
           path: |
             ~/.cache/Cypress
             '**/node_modules'
@@ -227,3 +226,4 @@ jobs:
           config-file: packages/core/nuxt-theme-module/theme/tests/e2e/cypress.json
           browser: chrome
           headless: true
+          install: false
