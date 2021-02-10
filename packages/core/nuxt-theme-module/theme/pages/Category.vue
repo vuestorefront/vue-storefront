@@ -92,7 +92,7 @@
       <div class="sidebar desktop-only">
         <LazyHydrate when-idle>
           <SfLoader
-          :class="{ loading }"
+          :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
               :open="activeCategory"
@@ -744,6 +744,11 @@ export default {
   margin: var(--spacer-3xl) auto;
   @include for-desktop {
     margin-top: 6.25rem;
+  }
+  &--categories {
+    @include for-desktop {
+      margin-top: 3.75rem;
+    }
   }
 }
 ::v-deep .sf-sidebar__aside {
