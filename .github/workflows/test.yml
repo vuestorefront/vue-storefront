@@ -190,7 +190,7 @@ jobs:
     name: Run E2E tests on ${{ matrix.integration }}
     env:
       NUXT_ENV_CYPRESS: true
-    # needs: validate_core
+    needs: validate_core
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
