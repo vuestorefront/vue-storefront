@@ -210,6 +210,10 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          install-command: yarn --frozen-lockfile
           start: yarn dev:${{ matrix.integration }}
           wait-on: 'http://localhost:3000/'
-          command: yarn run test:e2e:headless
+          command: cd packages/core/nuxt-theme-module && cypress run
+          config-file: packages/core/nuxt-theme-module/theme/tests/e2e/cypress.json
+          browser: chrome
+          headless: true
