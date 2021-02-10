@@ -190,10 +190,15 @@ To use a composable, you need to import it from an integration you are using, an
 
 ```js
 import { useProduct } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-    const { products } = useProduct('<UNIQUE_ID>');
+    const { products, search} = useProduct('<UNIQUE_ID>');
+
+    onSSR(async () => {
+      await search(searchParams)
+    })
 
     return {
       products
@@ -201,5 +206,6 @@ export default {
   }
 };
 ```
+> `onSSR` is used to perform an asynchronous request on the server side and convey the received data to the client. You will learn more about it very soon.
 
 For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)

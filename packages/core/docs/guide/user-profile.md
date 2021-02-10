@@ -1,9 +1,5 @@
 # User profile
 
-> This page assumes you're familiar with [Composition API and Composables](./composables.md). Read them first if you are new to these concepts.
-
-[[toc]]
-
 ## Checking if the user is logged in
 
 Many interactions in the application are only available or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
