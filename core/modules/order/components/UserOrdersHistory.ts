@@ -28,8 +28,9 @@ export default {
     onBottomScroll () {
       ++this.pagination.current
       const totalCount = this.$store.state.user.orders_history.totalCount ? this.$store.state.user.orders_history.totalCount : 0
-      if (Math.ceil(totalCount / this.pagination.perPage) >= this.pagination.current) {
-        this.getHistory({ currentPage: this.pagination.current, refresh: true })
+      const isLastPage = this.pagination.current > Math.ceil(totalCount / this.pagination.perPage);
+      if (!isLastPage) {
+        this.appendNewOrders({ currentPage: this.pagination.current, refresh: true })
       }
     },
     ...mapActions({
