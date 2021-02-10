@@ -10,7 +10,7 @@ Many interactions in the application are only available or look different if the
 
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
-```js{8,17}
+```js{8,16}
 import { useUser } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
@@ -36,7 +36,7 @@ export default {
 
 To access data of the currently logged-in user, we can use another property of `useUser` called simply `user`.
 
-```js{8,17}
+```js{8,16}
 import { useUser } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
