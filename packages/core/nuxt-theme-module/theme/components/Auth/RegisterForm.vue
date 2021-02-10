@@ -123,10 +123,17 @@ export default {
 
     const handleError = ({ email }) => {
       const currErr = error.value.register;
-      if (!currErr) return;
+      if (!currErr) {
+        send({
+          type: 'success',
+          message: $i18n.t('Successfully created a new account')
+        });
+        toggleAuthModal();
+        return;
+      }
 
       const knownErrors = authErrors(context, email);
-      serverError.value = knownErrors.find(authError => authError.originalMessage === currErr.message);
+      serverError.value = knownErrors.find(knownError => knownError.originalMessage === currErr.message);
       send({
         type: 'danger',
         message: $i18n.t('Something went wrong!')
@@ -136,14 +143,6 @@ export default {
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
       handleError(form.value);
-
-      if (!error.value.register) {
-        send({
-          type: 'success',
-          message: $i18n.t('Successfully created a new account')
-        });
-        toggleAuthModal();
-      }
     };
 
     const handleRegister = async () => handleForm(register)();

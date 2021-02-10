@@ -100,12 +100,19 @@ export default {
     const form = ref({});
     const { $i18n } = context.root;
 
-    const handleError = ({ email }) => {
+    const handleError = () => {
       const currErr = error.value.login;
-      if (!currErr) return;
+      if (!currErr) {
+        send({
+          type: 'success',
+          message: $i18n.t('Successfully logged in')
+        });
+        toggleAuthModal();
+        return;
+      }
 
-      const knownErrors = authErrors(context, email);
-      serverError.value = knownErrors.find(authError => authError.originalMessage === currErr.message);
+      const knownErrors = authErrors(context);
+      serverError.value = knownErrors.find(knownError => knownError.originalMessage === currErr.message);
       send({
         type: 'danger',
         message: $i18n.t('Something went wrong!')
@@ -114,15 +121,7 @@ export default {
 
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
-      handleError(form.value);
-
-      if (!error.value.login) {
-        send({
-          type: 'success',
-          message: $i18n.t('Successfully logged in')
-        });
-        toggleAuthModal();
-      }
+      handleError();
     };
 
     const handleLogin = async () => handleForm(login)();
