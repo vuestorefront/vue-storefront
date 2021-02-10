@@ -214,9 +214,6 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Build core
-        run: yarn build:${{ matrix.integration }}:tools
-
       - name: Cypress run
         uses: cypress-io/github-action@v2.8.2
         with:
