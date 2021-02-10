@@ -290,7 +290,7 @@ export default {
         }
         oldBilling = {...billingDetails.value};
         billingDetails.value = {...shippingDetails.value};
-        currentAddressId.value = -1;
+        currentAddressId.value = NOT_SELECTED_ADDRESS;
         setAsDefault.value = false;
         isBillingDetailsCompleted.value = false;
         return;
@@ -332,6 +332,7 @@ export default {
       // chosenBillingMethod.value = null;
       isBillingDetailsCompleted.value = false;
       isBillingMethodCompleted.value = false;
+      sameAsShipping.value = false;
     };
 
     const changeDetails = (field, value) => {
@@ -461,6 +462,14 @@ export default {
         order: -1;
         --button-margin: 0;
         text-align: left;
+      }
+    }
+     &--add-address {
+      width: 100%;
+      margin: 0;
+      @include for-desktop {
+        margin: 0 0 var(--spacer-lg) 0;
+        width: auto;
       }
     }
   }
