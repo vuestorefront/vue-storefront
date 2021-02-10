@@ -16,7 +16,7 @@ import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import TopBar from '~/components/TopBar.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
-import AuthModal from '~/components/AuthModal.vue';
+import AuthModal from '~/components/Auth/AuthModal.vue';
 
 export default {
   components: {

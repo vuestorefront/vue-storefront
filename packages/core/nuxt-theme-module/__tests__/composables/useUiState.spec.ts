@@ -1,4 +1,4 @@
-import { useUiState } from '../../composables';
+import { useUiState } from '../../theme/composables';
 
 const {
   isCartSidebarOpen,
@@ -6,11 +6,13 @@ const {
   isAuthModalOpen,
   isCategoryGridView,
   isFilterSidebarOpen,
+  currentAuthModal,
   toggleCartSidebar,
   toggleWishlistSidebar,
   toggleAuthModal,
   toggleCategoryGridView,
-  toggleFilterSidebar
+  toggleFilterSidebar,
+  switchAuthModal
 } = useUiState();
 
 describe('useUiState', () => {
@@ -30,12 +32,21 @@ describe('useUiState', () => {
     expect(expectedIsWishlistSidebarOpen).toBe(isWishlistSidebarOpen.value);
   });
 
-  it('Login Modal', () => {
+  it('Auth Modal', () => {
     const expectedIsAuthModalOpen = !isAuthModalOpen.value;
 
     toggleAuthModal();
 
     expect(expectedIsAuthModalOpen).toBe(isAuthModalOpen.value);
+  });
+
+  it('switches modal to register', () => {
+
+    const expectedCurrentAuthModal = 'register';
+
+    switchAuthModal('register');
+
+    expect(expectedCurrentAuthModal).toBe(currentAuthModal.value);
   });
 
   it('Grid View', () => {

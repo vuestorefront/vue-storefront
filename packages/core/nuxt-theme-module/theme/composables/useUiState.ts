@@ -9,7 +9,8 @@ const state = reactive({
   isWishlistSidebarOpen: false,
   isAuthModalOpen: false,
   isCategoryGridView: true,
-  isFilterSidebarOpen: false
+  isFilterSidebarOpen: false,
+  currentAuthModal: ''
 });
 
 const useUiState = () => {
@@ -24,9 +25,11 @@ const useUiState = () => {
   };
 
   const isAuthModalOpen = computed(() => state.isAuthModalOpen);
+  const currentAuthModal = computed(() => state.currentAuthModal);
   const toggleAuthModal = () => {
     state.isAuthModalOpen = !state.isAuthModalOpen;
   };
+  const switchAuthModal = (auth: string) => state.currentAuthModal = auth;
 
   const isCategoryGridView = computed(() => state.isCategoryGridView);
   const toggleCategoryGridView = () => {
@@ -44,11 +47,13 @@ const useUiState = () => {
     isAuthModalOpen,
     isCategoryGridView,
     isFilterSidebarOpen,
+    currentAuthModal,
     toggleCartSidebar,
     toggleWishlistSidebar,
     toggleAuthModal,
     toggleCategoryGridView,
-    toggleFilterSidebar
+    toggleFilterSidebar,
+    switchAuthModal
   };
 };
 
