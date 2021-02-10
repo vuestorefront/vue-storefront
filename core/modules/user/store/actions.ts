@@ -263,11 +263,11 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (resp.code === 200) {
       const oldOrders = getters.getOrdersHistory;
-      let orders = resp.result;
+      const orders = resp.result;
       if (oldOrders && orders.items) {
         orders.items = [
           ...oldOrders,
-          ...resp.result.items
+          ...orders.items
         ]
       }
       commit(types.USER_ORDERS_HISTORY_LOADED, orders) // this also stores the current user to localForage
@@ -275,7 +275,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     if (!resolvedFromCache) {
-     return Promise.resolve(resp.code === 200 ? resp : null)
+      return Promise.resolve(resp.code === 200 ? resp : null)
     }
 
     return resp
