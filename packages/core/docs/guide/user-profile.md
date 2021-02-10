@@ -1,8 +1,9 @@
 # User profile
 
+
 ## Checking if the user is logged in
 
-Many interactions in the application are only available or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
+Many interactions in the application are only available ( `useUserX` functions) or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
 
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
