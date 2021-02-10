@@ -246,8 +246,6 @@ export type Address = {
   additionalAddressInfo?: Maybe<Scalars["String"]>;
   externalId?: Maybe<Scalars["String"]>;
   key?: Maybe<Scalars["String"]>;
-  phone?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
 };
 
 export type AddressContactInfo = {
