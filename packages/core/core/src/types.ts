@@ -289,22 +289,6 @@ export interface UseShippingErrors {
   load?: Error;
   save?: Error;
 }
-export interface ShippingGetters<SHIPPING, SHIPPING_ADDRESS_ITEM> {
-  getAddress: (shipping: SHIPPING) => SHIPPING_ADDRESS_ITEM;
-  getAddressPostCode: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressStreetName: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressStreetNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
-  getAddressCity: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressFirstName: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressLastName: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressCountry: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressPhone: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressEmail: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressProvince: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressCompanyName: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressTaxNumber: (address: SHIPPING_ADDRESS_ITEM) => string;
-  getAddressApartmentNumber: (address: SHIPPING_ADDRESS_ITEM) => string | number;
-}
 export interface UseFacetErrors {
   search?: Error;
 }
