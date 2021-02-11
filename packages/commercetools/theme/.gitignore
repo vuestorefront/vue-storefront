@@ -67,7 +67,6 @@ typings/
 
 # nuxt.js build output
 .nuxt
-.vsf
 
 # theme
 _theme

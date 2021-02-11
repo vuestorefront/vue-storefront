@@ -15,19 +15,7 @@ import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
 
-const extensions = [
-  {
-    extendApi: {
-      testFunction2: async (context) => {
-        console.log('test function2 called', context);
-        return { test: 2 };
-      }
-    }
-  }
-];
-
 export {
-  extensions,
   useCategory,
   useProduct,
   useCart,

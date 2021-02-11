@@ -28,12 +28,3 @@ module.exports = {
     }
   }
 };
-
-/**
-extensions -> function: (extensions) => extensions +
-extendApi -> extendApiMethods
-lifecycle: before / after: config -> configuration
-apiClientPackage -> location
-add `name` do extension type
-lifecycle -> hooks
-*/
