@@ -583,17 +583,18 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
-// TODO: Implement proper typing
-// https://github.com/vuestorefront/vue-storefront/issues/5431
 export interface ApiClientExtensionLifecycle {
-  beforeCreate?: (config, headers?: Record<string, string>) => any;
-  afterCreate?: ({ config, client }, headers?: Record<string, string>) => { config; client };
-  beforeCall?: ({ config, functionName, params }) => any;
-  afterCall?: ({ config, functionName, params }) => any;
+  beforeCreate?: ({ configuration }) => any;
+  afterCreate?: ({ configuration }) => any;
+  beforeCall?: ({ configuration, callName, args }) => any;
+  afterCall?: ({ configuration, callName, args }) => any;
 }
 
-export type ApiClientExtension = (req: any, res: any) => ApiClientExtensionLifecycle;
-
+export interface ApiClientExtension {
+  name: string;
+  extendApiMethods?: Record<string, Function>;
+  hooks?: (req: any, res: any) => ApiClientExtensionLifecycle;
+}
 export interface ApiClientFactoryParams<T, F = any> {
   api: F;
   isProxy?: boolean;
