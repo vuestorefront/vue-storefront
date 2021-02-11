@@ -1,10 +1,14 @@
 {{#unless hasOwnDocument}}
 
-{{#if name}}
+{{#ifCond name '==' 'default'}}
 
-### {{#ifNamedAnchors}}<a id="{{anchor}}" name="{{this.anchor}}"></a> {{/ifNamedAnchors}}{{ escape name }}
+{{#ifNamedAnchors}}<a id="{{anchor}}" name="{{this.anchor}}"></a> {{/ifNamedAnchors}}
 
-{{/if}}
+{{else}}
+
+## `{{#ifNamedAnchors}}<a id="{{anchor}}" name="{{this.anchor}}"></a> {{/ifNamedAnchors}}{{ escape name }}`
+
+{{/ifCond}}
 
 {{/unless}}
 
