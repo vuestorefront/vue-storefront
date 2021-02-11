@@ -37,7 +37,6 @@ export default {
 }
 </script>
 ```
-`useUser` [composable](https://v3.vuejs.org/guide/composition-api-introduction.html#basics-of-composition-api) - returns bunch of utility methods for user-related operations   
 `register` method - takes care of whole signing up process and signs in at the end, shape of `form` object depends on integration    
 `loading` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if some async operation is taking place right now
 
