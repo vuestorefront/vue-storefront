@@ -67,13 +67,5 @@ export default {
 `isAuthenticated` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if user is signed in   
 `user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`   
 
-## What auth strategies do we follow?
-Based on integration we might use different auth strategies, for example:
-- [JWT Token](https://jwt.io/introduction)
-- [Basic HTTP Token](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
-- [OAuth 2 Bearer](https://oauth.net/2/bearer-tokens/)
-
-We prefer to store token inside the cookie as we might want to use it both client and server side.
-
-## Detailed strategies per integration
-- **Commercetools** - We are following [HTTP Authorization guide](https://docs.commercetools.com/api/authorization) from Commercetools documentation, using their library - [TokenProvider](https://commercetools.github.io/nodejs/sdk/api/sdkAuth.html)
+## Authorization strategies
+- [Commercetools](/commercetools/authorization-strategy.html)
