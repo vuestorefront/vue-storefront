@@ -2,8 +2,8 @@ import consola from 'consola';
 
 const createRawExtensions = (apiClient, integrationConfig) => {
   const extensionsCreateFn = integrationConfig.extensions;
-  const prederinedExtensions = apiClient.createApiClient._predefinedExtensions;
-  return extensionsCreateFn ? extensionsCreateFn(prederinedExtensions) : prederinedExtensions;
+  const predefinedExtensions = apiClient.createApiClient._predefinedExtensions;
+  return extensionsCreateFn ? extensionsCreateFn(predefinedExtensions) : predefinedExtensions;
 };
 
 const lookUpExternal = (curr) => typeof curr === 'string' ? require(curr) : [curr];
