@@ -76,4 +76,4 @@ Based on integration we might use different auth strategies, for example:
 We prefer to store token inside the cookie as we might want to use it both client and server side.
 
 ## Detailed strategies per integration
-- Commercetools - OAuth 2 Bearer - We are following [HTTP Authorization guide](https://docs.commercetools.com/api/authorization) from Commercetools documentation, using their library - [TokenProvider](https://commercetools.github.io/nodejs/sdk/api/sdkAuth.html)
+- **Commercetools** - We are following [HTTP Authorization guide](https://docs.commercetools.com/api/authorization) from Commercetools documentation, using their library - [TokenProvider](https://commercetools.github.io/nodejs/sdk/api/sdkAuth.html)
