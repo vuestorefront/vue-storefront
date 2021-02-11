@@ -16,7 +16,8 @@
     "vue": "^2.6.11",
     "lodash-es": "^4.17.15",
     "express": "^4.17.1",
-    "axios": "0.21.1"
+    "axios": "0.21.1",
+    "is-https": "^3.0.2"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
