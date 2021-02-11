@@ -7,10 +7,8 @@
   "mainServer": "server/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "build:client": "rollup -c rollup-client.config.js",
-    "build:server": "rollup -c rollup-server.config.js",
-    "build": "yarn build:client && yarn build:server",
-    "dev": "rollup -c rollup-client.config.js -w",
+    "build": "rimraf lib && rollup -c rollup.config.js",
+    "dev": "rimraf lib && rollup -c rollup.config.js -w",
     "prepublish": "yarn build"
   },
   "dependencies": {

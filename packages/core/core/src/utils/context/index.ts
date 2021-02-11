@@ -15,7 +15,9 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const NOP = (x) => x;
+const nopBefore = ({ args }) => args;
+const nopAfter = ({ response }) => response;
+
 const applyContextToApi = (
   api: Record<string, Function>,
   context: any,
@@ -25,7 +27,7 @@ const applyContextToApi = (
    * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
    * in that case, we use default function, to handle that scenario - NOP
    */
-  hooks: ApplyingContextHooks = { before: NOP, after: NOP }
+  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter }
 ) =>
   Object.entries(api)
     .reduce((prev, [callName, fn]: any) => ({
