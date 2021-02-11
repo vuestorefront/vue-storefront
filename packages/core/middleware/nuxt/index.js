@@ -1,4 +1,4 @@
-const { createServer } = require('@vue-storefront/middleware');
+const { createServer } = require('./../lib/index.es');
 
 module.exports = function VueStorefrontMiddleware () {
   const { integrations } = require(this.nuxt.options.rootDir + '/middleware.config.js');
