@@ -38,7 +38,6 @@ export default {
 </script>
 ```
 `register` method - takes care of whole signing up process and signs in at the end, shape of `form` object depends on integration    
-`loading` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if some async operation is taking place right now
 
 ## Logging in/out and sessions
 Signing in and out can be done using `login` and `logout` methods provided by `useUser` [composable](https://v3.vuejs.org/guide/composition-api-introduction.html#basics-of-composition-api). `login` requires different fields per each integration. `logout` does not take any arguments.
