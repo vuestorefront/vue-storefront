@@ -55,6 +55,7 @@ export default {
 @import "~@storefront-ui/vue/styles";
 
 #layout {
+  overflow-x: hidden;
   box-sizing: border-box;
   @include for-desktop {
     max-width: 1240px;
@@ -65,10 +66,8 @@ export default {
 // Reset CSS
 html {
   width: auto;
-  overflow-x: hidden;
 }
 body {
-  overflow-x: hidden;
   color: var(--c-text);
   font-size: var(--font-size--base);
   font-family: var(--font-family--primary);
