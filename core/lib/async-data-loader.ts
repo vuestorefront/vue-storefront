@@ -35,7 +35,8 @@ export const AsyncDataLoader = {
   },
   flush: function (actionContext: AsyncDataLoaderActionContext) {
     if (!actionContext.category) actionContext.category = DEFAULT_ACTION_CATEGORY
-    const actionsToExecute = this.queue.filter(ac => (!ac.category || !actionContext.category) || (ac.category === actionContext.category && (!ac.executedAt))).map(ac => {
+    const actionsWithDefaultCategory = this.queue.filter(ac => (!ac.category || !actionContext.category) || (ac.category === actionContext.category && (!ac.executedAt)));
+    const actionsToExecute = actionsWithDefaultCategory.map(ac => {
       ac.executedAt = new Date()
       return ac.execute(actionContext) // function must return Promise
     })
