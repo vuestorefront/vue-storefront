@@ -70,4 +70,5 @@ export default {
 ## Authorization strategies
 <CommerceIntegrationLinks 
  commercetools="/commercetools/authorization-strategy.html"
+ shopify="WIP"
 />
