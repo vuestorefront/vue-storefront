@@ -200,7 +200,8 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/integrate/cms', 'CMS']
+						['/integrate/cms', 'CMS'],
+						['/integrate/cache-driver', 'Cache driver']
 					]
 				},
 				{
