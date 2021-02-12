@@ -6,7 +6,7 @@ import { Logger } from '@vue-storefront/core';
  * Adds endpoint to invalidate cache
  */
 function createInvalidationEndpoint (driver, options) {
-  if (!options) {
+  if (!options || !options.endpoint || !options.key) {
     return;
   }
 
@@ -93,15 +93,23 @@ export default function cacheModule (options) {
   // Create renderer
   createRenderer.call(this, async (route, context, render) => {
     const getTags = () => {
-      if (context.req.$vsfCache && context.req.$vsfCache.tagsSet) {
-        return Array.from(context.req.$vsfCache.tagsSet);
-      }
-
-      return [];
+      const tags = context.req.$vsfCache?.tagsSet
+        ? Array.from(context.req.$vsfCache.tagsSet)
+        : [];
+      
+      return tags.map(({ prefix, value }) => `${prefix}${value}`);
     }
 
+    const key = `page:${ route }`;
+
     try {
-      return await driver.invoke({ route, context, render, getTags });
+      return await driver.invoke({
+        key,
+        route,
+        context,
+        render,
+        getTags
+      });
     } catch (err) {
       Logger.error('Cache driver thrown an error when fetching cache! Server will render fresh page.');
       Logger.error(err);
