@@ -224,6 +224,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
+    commit(types.USER_ORDERS_HISTORY_LOADED, null)
     if (isModuleRegistered('WishlistModule')) dispatch('wishlist/clear', null, { root: true })
     if (isModuleRegistered('CompareModule')) dispatch('compare/clear', null, { root: true })
     dispatch('checkout/savePersonalDetails', {}, { root: true })
@@ -269,16 +270,24 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+  async refreshOrdersHistory ({ commit, getters }, { resolvedFromCache, pageSize = 10, currentPage = 1 }) {
     const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
-      commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-      EventBus.$emit('user-after-loaded-orders', resp.result)
+      const oldOrders = getters.getOrdersHistory;
+      const orders = resp.result;
+      if (oldOrders && orders.items) {
+        orders.items = [
+          ...oldOrders,
+          ...orders.items
+        ]
+      }
+      commit(types.USER_ORDERS_HISTORY_LOADED, orders) // this also stores the current user to localForage
+      EventBus.$emit('user-after-loaded-orders', orders)
     }
 
     if (!resolvedFromCache) {
-      Promise.resolve(resp.code === 200 ? resp : null)
+      return Promise.resolve(resp.code === 200 ? resp : null)
     }
 
     return resp

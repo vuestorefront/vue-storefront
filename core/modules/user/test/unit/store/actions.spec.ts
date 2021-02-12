@@ -467,7 +467,10 @@ describe('User actions', () => {
       );
 
       const contextMock = {
-        commit: jest.fn()
+        commit: jest.fn(),
+        getters: {
+          getOrdersHistory: () => []
+        }
       }
       const resolvedFromCache = data.resolvedFromCache;
       const pageSize = data.pageSize;

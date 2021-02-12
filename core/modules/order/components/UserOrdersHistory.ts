@@ -1,5 +1,6 @@
 import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'UserOrdersHistory',
@@ -26,6 +27,14 @@ export default {
   methods: {
     onBottomScroll () {
       ++this.pagination.current
-    }
+      const totalCount = this.$store.state.user.orders_history.totalCount ? this.$store.state.user.orders_history.totalCount : 0
+      const isLastPage = this.pagination.current > Math.ceil(totalCount / this.pagination.perPage);
+      if (!isLastPage) {
+        this.appendNewOrders({ currentPage: this.pagination.current, refresh: true })
+      }
+    },
+    ...mapActions({
+      getHistory: 'user/getOrdersHistory'
+    })
   }
 }
