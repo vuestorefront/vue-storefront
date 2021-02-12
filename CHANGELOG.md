@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Check if the variable backendPaymentMethods is iterable before the for...of loop - @rozzilla [(#5289)](https://github.com/vuestorefront/vue-storefront/pull/5289)
 - Unit Tests for Core filters - @lukaszjedrasik (#5036)
 - Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
+- Added unit test for async-data-loader.ts - @lukaszjedrasik [(#5051)](https://github.com/vuestorefront/vue-storefront/issues/5051)
 
 ### Fixed
 
