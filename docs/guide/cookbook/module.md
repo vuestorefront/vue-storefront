@@ -831,3 +831,29 @@ Inside `check` we tell the filter to just be applied if the attribute is named e
 Inside `filter` we extend the Elasticsearch query-chain by our desired filters, using the `bodybuilder` library syntax.
 
 That's it, now we are able to filter by a complex query in only one line inside VSF.
+
+## 7. Working with translations in module
+
+Translations are provided in `core/i18n/resource/i18n/{your-locale}.csv` file and can be extended or overridden in `src/modules/{my-module}/resource/i18n/{your-locale}.csv` accordingly, but translations from `src/themes/{my-theme}/resource/i18n` have a bigger priority than translations from `src/module/{my-module}/resource/i18n`.
+
+### Example
+
+Here's an example of `en-US.csv` for `en-US` locale:
+
+```csv
+"customMessage","Here is the core message that can be overwritten in the module"
+```
+
+When you create the `en-US.csv` file within your `src/modules/{my-module}/resource/i18n/` folder and override some messages like:
+
+```csv
+"customMessage","You can define or override translation messages here."
+```
+
+... you may expect that `$t('customMessage')` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the module`.
+
+## 8. Tests in module
+
+Our jest config allows you to write tests for each module which you have created.
+
+To create a test, you have to create a file inside `src/modules/{my-module}/test/unit/`. The file has to end with `.spec.ts` or `.spec.js`. Generally, it has to match this pattern: `src/modules/{my-module}/test/unit/{my-test}.spec.(js|ts)`.
