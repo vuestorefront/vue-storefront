@@ -3,6 +3,7 @@
     <SfImage
       class="image"
       src="/error/error.svg"
+      alt="leaves"
     />
     <SfHeading
       :title="error.statusCode === 404 ? 'Page not found' : 'An error occured'"

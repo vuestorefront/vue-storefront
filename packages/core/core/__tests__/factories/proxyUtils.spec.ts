@@ -1,5 +1,5 @@
 
-import * as utils from './../../src/factories/apiFactory/_proxyUtils';
+import * as utils from './../../src/utils/nuxt/_proxyUtils';
 import isHttps from 'is-https';
 
 jest.mock('is-https');
@@ -9,16 +9,16 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     expect(utils.getBaseUrl(null)).toEqual('/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } })).toEqual('https://some-domain/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('https://some-domain/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(false);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } })).toEqual('http://some-domain/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('http://some-domain/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } })).toEqual('https://forwarded-host/api/')
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('https://forwarded-host/api/')
 
     ;(isHttps as jest.Mock).mockReturnValue(false);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } })).toEqual('http://forwarded-host/api/');
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('http://forwarded-host/api/');
   });
 
   it('returns proxy for defined api', () => {
@@ -29,9 +29,8 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     const client = {
       post: jest.fn(() => ({ then: jest.fn() }))
     };
-    const factoryParams = { tag: 'ct' };
 
-    const proxiedApi = utils.createProxiedApi({ givenApi, client, factoryParams });
+    const proxiedApi = utils.createProxiedApi({ givenApi, client, tag: 'ct' });
 
     proxiedApi.getProduct({ product: 1 });
     proxiedApi.getCategory({ category: 1 });
@@ -42,20 +41,19 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
 
   it('reads cookies from incomming request', () => {
     expect(utils.getCookies(null)).toEqual('');
-    expect(utils.getCookies({})).toEqual('');
-    expect(utils.getCookies({ req: { headers: {} } })).toEqual('');
-    expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } })).toEqual({ someCookie: 1 });
+    expect(utils.getCookies({} as any)).toEqual('');
+    expect(utils.getCookies({ req: { headers: {} } } as any)).toEqual('');
+    expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } } as any)).toEqual({ someCookie: 1 });
   });
 
   it('it cobines config with the current one', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getIntegrationConfig({
-      context: null,
-      factoryParams: {},
-      givenConfig: { someGivenOption: 1 }
-    })).toEqual({
+    expect(utils.getIntegrationConfig(
+      null,
+      { someGivenOption: 1 }
+    )).toEqual({
       axios: {
         baseURL: 'some-url',
         headers: {}
@@ -68,11 +66,10 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
-    expect(utils.getIntegrationConfig({
-      context: null,
-      factoryParams: {},
-      givenConfig: {}
-    })).toEqual({
+    expect(utils.getIntegrationConfig(
+      null,
+      {}
+    )).toEqual({
       axios: {
         baseURL: 'some-url',
         headers: {
@@ -80,27 +77,5 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
         }
       }
     });
-  });
-
-  it('it cobines config with the current one and calls onCreate', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValue(null);
-    jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
-
-    const onCreate = jest.fn((config) => ({ config }));
-
-    const result = utils.getIntegrationConfig({
-      context: null,
-      factoryParams: { onCreate },
-      givenConfig: {}
-    });
-
-    expect(result).toEqual({
-      axios: {
-        baseURL: 'some-url',
-        headers: {}
-      }
-    });
-
-    expect(onCreate).toBeCalledWith(result);
   });
 });
