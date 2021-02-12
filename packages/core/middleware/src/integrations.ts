@@ -1,23 +1,38 @@
 import consola from 'consola';
+import {
+  Integration,
+  ApiClientFactory,
+  ApiClientExtension,
+  IntegrationsSection
+} from '@vue-storefront/core';
 
-const createRawExtensions = (apiClient, integrationConfig) => {
-  const extensionsCreateFn = integrationConfig.extensions;
-  const predefinedExtensions = apiClient.createApiClient._predefinedExtensions;
+export interface IntegrationLoaded {
+  apiClient: ApiClientFactory;
+  configuration: any;
+  extensions: ApiClientExtension[];
+}
+
+type IntegrationsLoaded = Record<string, IntegrationLoaded>
+
+const createRawExtensions = (apiClient: ApiClientFactory, integration: Integration): ApiClientExtension[] => {
+  const extensionsCreateFn = integration.extensions;
+  const predefinedExtensions = (apiClient.createApiClient as any)._predefinedExtensions;
   return extensionsCreateFn ? extensionsCreateFn(predefinedExtensions) : predefinedExtensions;
 };
 
-const lookUpExternal = (curr) => typeof curr === 'string' ? require(curr) : [curr];
+const lookUpExternal = (curr: string | ApiClientExtension): ApiClientExtension[] =>
+  typeof curr === 'string' ? require(curr) : [curr];
 
-const createExtensions = (rawExtensions) => rawExtensions
+const createExtensions = (rawExtensions: ApiClientExtension[]): ApiClientExtension[] => rawExtensions
   .reduce((prev, curr) => [...prev, ...lookUpExternal(curr)], []);
 
-const registerIntegrations = (integrations) =>
-  Object.entries(integrations).reduce((prev, [tag, integrationConfig]: any) => {
-    consola.info(`- Loading: ${tag} ${integrationConfig.location}`);
+const registerIntegrations = (integrations: IntegrationsSection): IntegrationsLoaded =>
+  Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
+    consola.info(`- Loading: ${tag} ${integration.location}`);
 
-    const apiClient = require(integrationConfig.location);
-    const rawExtensions = createRawExtensions(apiClient, integrationConfig);
-    const extensions = createExtensions(rawExtensions);
+    const apiClient: ApiClientFactory = require(integration.location);
+    const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
+    const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
 
     extensions.forEach(({ name }) => {
       consola.info(`- Loading: ${tag} extension: ${name}`);
@@ -29,7 +44,7 @@ const registerIntegrations = (integrations) =>
       ...prev,
       [tag]: {
         apiClient,
-        configuration: integrationConfig.configuration,
+        configuration: integration.configuration,
         extensions
       }
     };

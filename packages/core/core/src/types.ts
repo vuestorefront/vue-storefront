@@ -583,18 +583,50 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
-export interface ApiClientExtensionLifecycle {
-  beforeCreate?: ({ configuration }) => any;
-  afterCreate?: ({ configuration }) => any;
-  beforeCall?: ({ configuration, callName, args }) => any;
-  afterCall?: ({ configuration, callName, args }) => any;
+interface HookParams<C> {
+  configuration: C;
+}
+
+interface CallHookParams<C> extends HookParams<C> {
+  callName: string;
+}
+
+type BeforeCallArgs = any;
+type AfterCallArgs = any;
+
+interface BeforeCallParams< C> extends CallHookParams<C> {
+  args: BeforeCallArgs;
+}
+
+interface AfterCallParams<C> extends CallHookParams<C> {
+  response: AfterCallArgs;
+}
+
+interface ApiClientExtensionHooks<C = any> {
+  beforeCreate?: (params: HookParams<C>) => C;
+  afterCreate?: (params: HookParams<C>) => C;
+  beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
+  afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
 }
 
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, Function>;
-  hooks?: (req: any, res: any) => ApiClientExtensionLifecycle;
+  hooks?: (req: any, res: any) => ApiClientExtensionHooks;
 }
+
+export interface Integration {
+  location: string;
+  configuration: any;
+  extensions: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+}
+
+export type IntegrationsSection = Record<string, Integration>
+
+export interface MiddlewareConfig {
+  integrations: Record<string, Integration>;
+}
+
 export interface ApiClientFactoryParams<T, F = any> {
   api: F;
   isProxy?: boolean;
