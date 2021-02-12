@@ -68,4 +68,6 @@ export default {
 `user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`   
 
 ## Authorization strategies
-- [Commercetools](/commercetools/authorization-strategy.html)
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/authorization-strategy.html"
+/>
