@@ -1,26 +1,38 @@
 /* eslint-disable */
-import path from 'path';
+import { isAbsolute, resolve } from 'path';
 import { Logger } from '@vue-storefront/core';
 
 /**
  * Adds endpoint to invalidate cache
  */
-function createInvalidationEndpoint (path, driver) {
-  if (!path) {
+function createInvalidationEndpoint (driver, options) {
+  if (!options) {
     return;
   }
 
   this.addServerMiddleware({
-    path,
-    handler: async (req, res, next) => {
+    path: options.endpoint,
+    handler: async (request, response) => {
       try {
-        await driver.invalidate({ req, res });
+        // Remove leading slash and get URL params
+        const params = new URLSearchParams(request.url.replace(/^\//, ''));
+        const tags = params.get('tags').split(',');
+
+        if (params.get('key') !== options.key) {
+          throw new Error('Invalid or missing invalidation key.');
+        }
+
+        await driver.invalidate({ request, response, tags });
+
+        response.writeHead(200);
       } catch (error) {
         Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
-        Logger.error(err);
+        Logger.error(error);
+
+        response.writeHead(500);
       }
 
-      next();
+      response.end();
     }
   });
 }
@@ -42,9 +54,17 @@ function createRenderer (renderFn) {
  * Loads driver using path provided in the configuration.
  */
 function createDriver (driver) {
+  const resolveDriverPath = name => {
+    if (isAbsolute(name) || name.startsWith('.')) {
+      return resolve(process.cwd(), name);
+    }
+    
+    return require.resolve(driver[0], { paths: [ process.cwd() ] });
+  };
+
   return Array.isArray(driver)
-    ? require(path.resolve(driver[0])).default(driver[1])
-    : require(path.resolve(driver)).default({});
+    ? require(resolveDriverPath(driver[0])).default(driver[1])
+    : require(resolveDriverPath(driver)).default({});
 }
 
 /**
@@ -55,7 +75,7 @@ export default function cacheModule (options) {
 
   // This part must be before the condition below
   this.addPlugin({
-    src: path.resolve(__dirname, './plugin.js'),
+    src: resolve(__dirname, './plugin.js'),
     mode: 'server',
     options
   });
@@ -68,7 +88,7 @@ export default function cacheModule (options) {
   const driver = createDriver(options.driver)
 
   // Create invalidation endpoint if necessary
-  createInvalidationEndpoint.call(this, options.invalidateEndpoint, driver);
+  createInvalidationEndpoint.call(this, driver, options.invalidation);
 
   // Create renderer
   createRenderer.call(this, async (route, context, render) => {
@@ -81,7 +101,7 @@ export default function cacheModule (options) {
     }
 
     try {
-      return await driver.invoke({ route, context, getTags, render });
+      return await driver.invoke({ route, context, render, getTags });
     } catch (err) {
       Logger.error('Cache driver thrown an error when fetching cache! Server will render fresh page.');
       Logger.error(err);
