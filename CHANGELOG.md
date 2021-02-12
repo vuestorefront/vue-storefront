@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.13.0] - UNRELEASED
 
+### Added
+- Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
+
 ### Fixed
 - Fixed some typo in docs (#5071)
 
