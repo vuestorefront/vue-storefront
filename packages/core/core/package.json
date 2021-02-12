@@ -7,10 +7,8 @@
   "mainServer": "server/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
-    "build:client": "rollup -c rollup-client.config.js",
-    "build:server": "rollup -c rollup-server.config.js",
-    "build": "yarn build:client && yarn build:server",
-    "dev": "rollup -c rollup-client.config.js -w",
+    "build": "rimraf lib && rollup -c rollup.config.js",
+    "dev": "rimraf lib && rollup -c rollup.config.js -w",
     "prepublish": "yarn build"
   },
   "dependencies": {
@@ -18,7 +16,8 @@
     "vue": "^2.6.11",
     "lodash-es": "^4.17.15",
     "express": "^4.17.1",
-    "axios": "0.21.1"
+    "axios": "0.21.1",
+    "is-https": "^3.0.2"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
