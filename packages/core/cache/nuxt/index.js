@@ -93,18 +93,16 @@ export default function cacheModule (options) {
   // Create renderer
   createRenderer.call(this, async (route, context, render) => {
     const getTags = () => {
-      const tags = context.req.$vsfCache?.tagsSet
+      const tags = context.req.$vsfCache && context.req.$vsfCache.tagsSet
         ? Array.from(context.req.$vsfCache.tagsSet)
         : [];
       
       return tags.map(({ prefix, value }) => `${prefix}${value}`);
     }
 
-    const key = `page:${ route }`;
-
     try {
       return await driver.invoke({
-        key,
+        key: `page:${ route }`,
         route,
         context,
         render,
