@@ -2,6 +2,7 @@
 
 # 1.1.2
 - moved from using `attributesList` to `attributesRaw`
+- add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
 
 ## 1.1.1
 - fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
