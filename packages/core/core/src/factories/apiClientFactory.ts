@@ -1,37 +1,41 @@
-import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory } from './../types';
+import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory, ApiClientExtension } from './../types';
 import { applyContextToApi } from './../utils/context';
 import { Logger } from './../utils';
 
+const isFn = (x) => typeof x === 'function';
+
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
-    const extensions = factoryParams.extensions && this && this.middleware
-    // eslint-disable-next-line
-    ? Object.values(factoryParams.extensions).map((extensionFn) => extensionFn(this.middleware.req, this.middleware.res))
-      : [];
+    const rawExtensions: ApiClientExtension[] = this?.middleware?.extensions || [];
+    const lifecycles = Object.values(rawExtensions)
+      .filter(ext => isFn(ext.hooks))
+      .map(({ hooks }) => hooks(this?.middleware?.req, this?.middleware?.res));
+    const extendedApis = Object.keys(rawExtensions)
+      .reduce((prev, curr) => ({ ...prev, ...rawExtensions[curr].extendApiMethods }), customApi);
 
-    const _config = extensions
-      .filter(ext => ext.beforeCreate)
-      .reduce((prev, curr) => curr.beforeCreate(prev), config);
+    const _config = lifecycles
+      .filter(ext => isFn(ext.beforeCreate))
+      .reduce((prev, curr) => curr.beforeCreate({ configuration: prev }), config);
 
     const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
 
     Logger.debug('apiClientFactory.create', settings);
 
-    settings.config = extensions
-      .filter(ext => ext.afterCreate)
-      .reduce((prev, curr) => curr.afterCreate(prev), settings.config);
+    settings.config = lifecycles
+      .filter(ext => isFn(ext.afterCreate))
+      .reduce((prev, curr) => curr.afterCreate({ configuration: prev }), settings.config);
 
     const extensionHooks = {
-      before: (args) => extensions
-        .filter(e => e.beforeCall)
-        .reduce((prev, e) => e.beforeCall(prev), args),
-      after: (resp) => extensions
-        .filter(e => e.afterCall)
-        .reduce((prev, e) => e.afterCall(prev), resp)
+      before: (params) => lifecycles
+        .filter(e => isFn(e.beforeCall))
+        .reduce((args, e) => e.beforeCall({ ...params, configuration: settings.config, args}), params.args),
+      after: (params) => lifecycles
+        .filter(e => isFn(e.afterCall))
+        .reduce((response, e) => e.afterCall({ ...params, configuration: settings.config, response }), params.response)
     };
 
     const api = applyContextToApi(
-      { ...factoryParams.api, ...customApi },
+      { ...factoryParams.api, ...extendedApis },
       settings,
       extensionHooks
     );
@@ -42,6 +46,8 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
       settings: settings.config
     };
   }
+
+  (createApiClient as any)._predefinedExtensions = factoryParams.extensions || [];
 
   return { createApiClient };
 };
