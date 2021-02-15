@@ -32,15 +32,17 @@ export default {
 </script>
 ```
 
-## Logging in/out and sessions
-Signing in and out can be done using `login` and `logout` methods. `logout` does not take any arguments.
+## Logging in and session
+Signing in can be done using `login` method.
 ```vue
 <template>
   <form @submit.prevent="login({ user: form })" v-if="!isAuthenticated">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Login</button>
   </form>
-  <button v-else @click="logout" :disabled="loading">Logout</button>
+  <div v-else>
+    Hello {{ user }}
+  </div>
 </template>
 
 <script>
@@ -49,12 +51,11 @@ import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
-    const { login, logout, isAuthenticated, user, loading } = useUser();
+    const { login, isAuthenticated, user, loading } = useUser();
     const form = ref(/* object for login user */)
 
     return {
       login,
-      logout,
       form,
       user,
       isAuthenticated,
@@ -65,9 +66,43 @@ export default {
 </script>
 ```  
 `isAuthenticated` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if user is signed in   
-`user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`   
+`user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
 
-## Authorization strategies
+## Logging out
+Signing out can be done using `logout` method.
+```vue
+<template>
+  <button 
+    v-if="isAuthenticated"
+    :disabled="loading"
+    @click="logout"
+  >
+    Logout
+  </button>
+</template>
+
+<script>
+import { useUser } from '{INTEGRATION}';
+import { ref } from '@vue/composition-api';
+
+export default {
+  setup () {
+    const { logout, isAuthenticated, loading } = useUser();
+
+    return {
+      logout,
+      isAuthenticated,
+      loading
+    }
+  }
+}
+</script>
+```  
+`isAuthenticated` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if user is signed in   
+`user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
+
+## How it works in integrations?
+Below you can find detailed information on how we're handling authentication in different integrations.
 <CommerceIntegrationLinks 
  commercetools="/commercetools/authorization-strategy.html"
  shopify="WIP"
