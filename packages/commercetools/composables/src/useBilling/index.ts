@@ -20,8 +20,7 @@ const params: UseBillingParams<Address, {}> = {
       id: context.cart.cart.value.id,
       version: context.cart.cart.value.version,
       actions: [
-        cartActions.setShippingMethodAction(),
-        cartActions.setShippingAddressAction(billingDetails)
+        cartActions.setBillingAddressAction(billingDetails)
       ]
     });
 
