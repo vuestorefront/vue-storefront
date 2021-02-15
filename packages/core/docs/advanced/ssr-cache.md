@@ -65,7 +65,7 @@ Refer to the [Tags](#tags) section for more information.
 
 ## How it works?
 
-When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If there is, it will serve the cached version. Otherwise, current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
+When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If there is, it will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
 
 <center>
  <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
@@ -73,7 +73,7 @@ When the page is requested, the cache driver checks if there is an already rende
 
 ## Tags
 
-Tags are strings associated with the rendered page and represent elements of the page that are dynamic and can change in the future. Each tag consist of a prefix and unique ID associated with the dynamic element.
+Tags are strings associated with the rendered page and represent elements of the page that are dynamic and can change in the future. Each tag consists of a prefix and unique ID associated with the dynamic element.
 For example category with the ID of 1337 would create a tag `C1337`.
 
 A typical category page would have tags for:
@@ -96,7 +96,7 @@ Additionally, all modifiers changing what is displayed on the page, such as pagi
 Don't use tags on pages, components, or composables specific to the current user, such as user profile pages or cart components.
 :::
 
-### How to use tags?
+### Using tags
 
 Tags should be registered in Vue components or composables. During Server Side Rendering, tags registered in the current route are associated with the rendered page.
 
@@ -121,7 +121,7 @@ export default {
 };
 ```
 
-## Invalidating cache
+### Invalidating tags
 
 As mentioned in [Configuration](#configuration) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
 
