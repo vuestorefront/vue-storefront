@@ -6,6 +6,10 @@ If you want to integrate with Vue Storefront, please **contact the core team on 
 
 ## Introduction
 
+::: warning Before you get started
+This page assumes you are familiar with caching in Vue Storefront. Please [see this page](../advanced/ssr-cache.md) for more information.
+:::
+
 Cache driver is not a standalone plugin, but an extension depending on `@vue-storefront/cache` module that does the heavy lifting.
 
 It's a function that returns an object containing two properties.

@@ -6,7 +6,7 @@ This feature is part of the Enterprise version. Please [contact our team](https:
 
 ## Introduction
 
-This package provides integration with [Redis](https://redis.io/). For more information about this topic, please refer to [Caching](../advanced/caching.md) page.
+This package provides integration with [Redis](https://redis.io/). For more information about this topic, please refer to [SSR Cache](../advanced/ssr-cache.md) page.
 
 ## Installation
 
@@ -47,7 +47,7 @@ export default {
 
 We can break down package configuration into two pieces:
 
-* `invalidation` - please refer to [Caching configuration](../advanced/caching.md#configuration) page.
+* `invalidation` - please refer to [SSR Cache configuration](../advanced/ssr-cache.md#configuration) page.
 * `driver` - object containing:
   * `defaultTimeout` - number of seconds until records expire, even if not invalidated;
   * `redis` - object directly passed to [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options);

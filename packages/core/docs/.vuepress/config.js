@@ -161,7 +161,7 @@ module.exports = {
 						['/advanced/context', 'Application Context'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
-						['/advanced/caching', 'Caching'],
+						['/advanced/ssr-cache', 'SSR Cache'],
 						['/advanced/logging', 'Logging'],
 						['/advanced/architecture', 'Architecture']
 					]

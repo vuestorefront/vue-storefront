@@ -1,10 +1,16 @@
-# Caching
+# Server Side Rendering Cache
 
 ## Introduction
 
-Caching allows saving rendered pages for later use to avoid computationally expensive rendering of the page on the server. This is especially useful when the application has pages that require a lot of computation, many API calls, or change infrequently. It not only reduces the load on the server but also greatly improves performance.
+Caching allows saving pages rendered on the server for later use, to avoid computationally expensive rendering from scratch. This is especially useful when the application has pages that require a lot of computation, many API calls, or change infrequently. It not only reduces the load on the server but also greatly improves performance.
 
-Vue Storefront team provides integration with [Redis](../integrations/redis-cache.md).
+Caching in Vue Storefront requires two packages:
+* `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-cache), and hooks into the render cycle. 
+* **the driver** - thin layer on top of `@vue-storefront/cache` that integrates with caching solutions, such as [Redis](https://redis.io/) or [Memcached](https://memcached.org/).
+
+Vue Storefront team provides [integration with Redis](../integrations/redis-cache.md).
+
+If you'd like to know how to build your own driver, please [see this page](../integrate/cache-driver.md).
 
 ## Installation
 
@@ -21,7 +27,7 @@ yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
 
 The next step is to register `@vue-storefront/cache` package as a module in `nuxt.config.js` with driver and invalidation configuration.
 
-::: warning
+::: warning Be careful
 Make sure this package is added to the `modules` array, not `buildModules`.
 :::
 
@@ -67,6 +73,31 @@ When the page is requested, the cache driver checks if there is an already rende
 
 ## Using tags
 
+Tags are strings associated with the rendered page and represent elements of the page that are dynamic and can change in the future. They consist of prefix and unique ID associated with the dynamic element.
+For example category with the ID of 1337 would create a tag `C1337`.
+
+Typical category page would have tags for:
+* current category,
+* all visible subcategories,
+* all visible products.
+
+**But why do we need them?**
+
+When at least one tag associated with the given page is [invalidated](#invalidating-cache), the whole page is removed from the cache. For example, if one of the products is modified or disabled, we should invalidate cache for pages where this product is visible:
+* Product page for this particular product.
+* Other product pages, where this product is listed (upsell or cross-sell).
+* Homepage, if the product is displayed in the carousel or listed as a popular item.
+* Category page, where this product is listed.
+* Search page, where this product is part of the results.
+
+Additionally, all modifiers changing what is displayed on the page, such as pagination, filtering, and sorting options should be added as URL queries (for example `?sort=price-up&size=36&page=3`). This will cause different modifier combinations to be treated as different routes, and thus, cached separately.
+
+::: warning
+Don't use tags on pages, components, or composables specific to the current user, such as user profile pages or cart components.
+:::
+
+### How to use tags?
+
 Tags should be registered in Vue components or composables. During Server Side Rendering, tags registered in the current route are associated with the rendered page.
 
 To add tags, use `useCache` composable from `@vue-storefront/cache` package.
@@ -89,26 +120,6 @@ export default {
   }
 };
 ```
-
-Tags should be added for all dynamic parts of the page. For example on the category page, tags should be added for:
-  * current category,
-  * all visible subcategories,
-  * all visible products.
-
-**But why?**
-
-When at least one tag associated with the given page is [invalidated](#invalidating-cache), the whole page is removed from the cache. For example, if one of the products is modified or disabled, we should invalidate cache for pages where it's visible:
-* Product page for this product.
-* Other product pages, where this product is listed (upsell or cross-sell).
-* Homepage, if the product is displayed in the carousel or listed as a popular item.
-* Category page, where this product is listed.
-* Search page, where this product is part of the results.
-
-Additionally, all modifiers changing what is displayed on the page, such as pagination, filtering, and sorting options should be added as URL queries (for example `?sort=price-up&size=36&page=3`). This will cause different modifier combinations to be treated as different routes, and thus, caching them separately.
-
-::: warning
-Don't use tags on pages, components, or composables specific to the current user, such as user profile pages or cart components.
-:::
 
 ## Invalidating cache
 
