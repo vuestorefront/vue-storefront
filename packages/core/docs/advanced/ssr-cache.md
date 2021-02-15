@@ -8,11 +8,68 @@ Caching SSR output in Vue Storefront requires two packages:
 * `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-cache), and hooks into the render cycle. 
 * **the driver** - thin layer on top of `@vue-storefront/cache` that integrates with specific caching solution, such as [Redis](https://redis.io/) or [Memcached](https://memcached.org/).
 
-Vue Storefront team provides [integration with Redis](../integrations/redis-cache.md). If you'd like to know how to build your own driver, please [see this page](../integrate/cache-driver.md).
+Vue Storefront team provides [integration with Redis](../integrations/redis-cache.md).
+
+If you'd like to know how to build your own driver, [see this page](../integrate/cache-driver.md).
+
+## Installation
+
+### Add dependencies
+
+To enable caching in Vue Storefront you will need two packages - `@vue-storefront/cache` and driver package.
+
+```sh
+yarn add @vue-storefront/cache
+yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
+```
+
+### Configure Nuxt
+
+The next step is to register `@vue-storefront/cache` package as a module in `nuxt.config.js` with driver and invalidation configuration.
+
+::: warning Be careful
+Make sure this package is added to the `modules` array, not `buildModules`.
+:::
+
+```javascript
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@vue-storefront/cache/nuxt', {
+      invalidation: {
+        endpoint: '/cache-invalidate',
+        key: 'CHANGE_THIS'
+      },
+      driver: [
+        '<DRIVER NAME>',
+        {
+          driverConfig
+        }
+      ]
+    }]
+  ]
+};
+```
+
+We can break down package configuration into two pieces:
+
+* `invalidation` (optional object) - contains URL to invalidate cache and key used to prevent unauthorized access. Refer to the [Invalidating cache](#invalidating-cache) section for more information.
+* `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
+
+###  Add tags
+
+If you follow the above steps and run the application, you won't see any performance difference. This is because only pages with tags are cached.
+
+Refer to the [Tags](#tags) section for more information.
 
 ## How it works?
 
 When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If there is, it will serve the cached version. Otherwise, current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
+
+<center>
+ <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
+</center>
 
 ## Tags
 
@@ -63,57 +120,6 @@ export default {
   }
 };
 ```
-
-## Installation
-
-### Add dependencies
-
-To enable caching in Vue Storefront you will need two packages - `@vue-storefront/cache` and driver package.
-
-```sh
-yarn add @vue-storefront/cache
-yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
-```
-
-### Configure Nuxt
-
-The next step is to register `@vue-storefront/cache` package as a module in `nuxt.config.js` with driver and invalidation configuration.
-
-::: warning Be careful
-Make sure this package is added to the `modules` array, not `buildModules`.
-:::
-
-```javascript
-// nuxt.config.js
-
-export default {
-  modules: [
-    ['@vue-storefront/cache/nuxt', {
-      invalidation: {
-        endpoint: '/cache-invalidate',
-        key: 'CHANGE_THIS'
-      },
-      driver: [
-        '<DRIVER NAME>',
-        {
-          driverConfig
-        }
-      ]
-    }]
-  ]
-};
-```
-
-We can break down package configuration into two pieces:
-
-* `invalidation` (optional object) - contains URL to invalidate cache and key used to prevent unauthorized access.
-* `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Please refer to the documentation of the driver you are using for more information.
-
-###  Add tags
-
-If you follow the above steps and run the application, you won't see any performance difference. This is because only pages with tags are cached.
-
-Please refer to the [Tags](#tags) section for more information.
 
 ## Invalidating cache
 
