@@ -32,7 +32,35 @@ export default {
 </script>
 ```
 
-## Logging in and session
+## Checking if the user is logged in
+
+Many interactions in the application are only available ( `useUserX` functions) or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
+
+Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
+
+```js{8,16}
+import { useUser } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      load,
+      isAuthenticated
+    } = useUser();
+
+    onSSR(async () => {
+      await load();
+    });
+
+    return {
+      isAuthenticated
+    };
+  }
+}
+```
+
+## Logging in
 Signing in can be done using `login` method.
 ```vue
 <template>
@@ -65,7 +93,6 @@ export default {
 }
 </script>
 ```  
-`isAuthenticated` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if user is signed in   
 `user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
 
 ## Logging out
