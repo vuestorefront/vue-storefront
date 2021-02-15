@@ -28,7 +28,7 @@ Vue Storefront manages to be platform-agnostic thanks to the [vue-storefront-api
 It's a great strategy for migrations since you can easily migrate from one platform to another (or one version to another, e.g. Magento 1 to 2) without touching your frontend.
 
 
-![Architecture diagram](https://raw.githubusercontent.com/vuestorefront/vue-storefront/master/docs/.vuepress/public/GitHub-Architecture-VS.png)
+![Architecture diagram](https://raw.githubusercontent.com/vuestorefront/vue-storefront/update-vsf1-infra-schema/docs/.vuepress/public/GitHub-Architecture-VS.png)
 
 The API connector works in two phases:
 - **data pump** ([mage2nosql](https://github.com/vuestorefront/mage2vuestorefront) in the image)  is pulling static data (catalog, orders, etc.) from your eCommerce platform to Vue Storefront Elasticsearch and changes its format to the one consumed by vue-storefront-api. Once finished pulling the data, you can display the product catalog in Vue Storefront. After pumping the data into Elasticsearch is done, it will stay in sync with changes made on the backend platform and update its content accordingly.
