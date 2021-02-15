@@ -102,20 +102,15 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          name="zipCode"
-          rules="required|min:2"
-          v-slot="{ errors }"
+          name="state"
           slim
         >
           <SfInput
-            :value="shippingDetails.postalCode"
-            @input="postalCode => changeDetails('postalCode', postalCode)"
-            label="Zip-code"
-            name="zipCode"
+            :value="shippingDetails.state"
+            @input="state => changeDetails('state', state)"
+            label="State/Province"
+            name="state"
             class="form__element form__element--half form__element--half-even"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
           />
         </ValidationProvider>
         <ValidationProvider
@@ -144,6 +139,23 @@
           </SfSelect>
         </ValidationProvider>
         <ValidationProvider
+          name="zipCode"
+          rules="required|min:2"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfInput
+            :value="shippingDetails.postalCode"
+            @input="postalCode => changeDetails('postalCode', postalCode)"
+            label="Zip-code"
+            name="zipCode"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+        <ValidationProvider
           name="phone"
           rules="required|digits:9"
           v-slot="{ errors }"
@@ -154,7 +166,7 @@
             @input="phone => changeDetails('phone', phone)"
             label="Phone number"
             name="phone"
-            class="form__element form__element--half form__element--half-even"
+            class="form__element form__element--half"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
