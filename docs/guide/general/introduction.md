@@ -9,7 +9,7 @@ Vue Storefront is a rather complex solution with a lot of possibilities. Learnin
 Vue Storefront is a headless and backend-agnostic eCommerce [Progressive Web App (PWA)](https://developers.google.com/web/progressive-web-apps/) written in Vue.js. The fact that it's using headless architecture allows Vue Storefront to connect with any eCommerce platform so it can be a frontend PWA for Magento, Shopify, BigCommerce, WooCommerce and etc.
 
  It's a very popular [Open Source project](https://github.com/vuestorefront/vue-storefront) with a strong and growing community.
- 
+
 **Key features of Vue Storefront:**
 - Platform-agnostic
 - Focus on performance
@@ -28,7 +28,7 @@ Vue Storefront manages to be platform-agnostic thanks to the [vue-storefront-api
 It's a great strategy for migrations since you can easily migrate from one platform to another (or one version to another, e.g. Magento 1 to 2) without touching your frontend.
 
 
-![Architecture diagram](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/master/docs/.vuepress/public/GitHub-Architecture-VS.png)
+![Architecture diagram](https://raw.githubusercontent.com/vuestorefront/vue-storefront/update-vsf1-infra-schema/docs/.vuepress/public/GitHub-Architecture-VS.png)
 
 The API connector works in two phases:
 - **data pump** ([mage2nosql](https://github.com/vuestorefront/mage2vuestorefront) in the image)  is pulling static data (catalog, orders, etc.) from your eCommerce platform to Vue Storefront Elasticsearch and changes its format to the one consumed by vue-storefront-api. Once finished pulling the data, you can display the product catalog in Vue Storefront. After pumping the data into Elasticsearch is done, it will stay in sync with changes made on the backend platform and update its content accordingly.
@@ -78,7 +78,7 @@ For your own implementation you should create a `local.json` file in the same di
 ## Building themes in Vue Storefront
 ![themes structure](https://cdn-images-1.medium.com/max/1200/1*jMel95nhs5UTIi2DQdeq4Q.png)
 
-While making themes in Vue Storefront, in most cases, all you need to do is create your own HTML and CSS markup. All the required business logic is exposed by the core with its core modules and can be easily injected into any of the theme components. 
+While making themes in Vue Storefront, in most cases, all you need to do is create your own HTML and CSS markup. All the required business logic is exposed by the core with its core modules and can be easily injected into any of the theme components.
 ![biz-logic](https://cdn-images-1.medium.com/max/1200/1*tMwC0smduKIwKh82jTiJmw.png)
 *The business logic from the core component can be easily injected into any theme component as a Vue.js mixin.*
 
