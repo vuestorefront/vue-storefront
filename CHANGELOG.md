@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
 - Got rid of lodash as we are using lodash-es - @Fifciu
 - Removed `myAccount-before-updateUser` and `myAccount-before-remainInEditMode` - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
+- Removed `VueObserveVisibility` from core - @lukaszjedrasik ([#4998](https://github.com/vuestorefront/vue-storefront/issues/4998))
 
 ### Fixed
 - Display default placeholder on the Product page (#5088)
