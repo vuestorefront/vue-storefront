@@ -1,7 +1,7 @@
 # What's authentication?
 Authentication is the operation of recognizing the user's identify. It allows us to associate incoming requests with an account or a person. To do that, provided credentials are compared with ones in the database.
 
-The whole logic related to this process can be handled with methods shared by `useUser` [composable](https://v3.vuejs.org/guide/composition-api-introduction.html#basics-of-composition-api).
+The whole logic related to this process can be handled with methods shared by `useUser` composable
 
 ## Registering a new user
 Creating a user can be done using `register` method.  
