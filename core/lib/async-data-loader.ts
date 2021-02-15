@@ -5,7 +5,7 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { Context } from './../scripts/utils/types'
 
-const DEFAULT_ACTION_CATEGORY = 'asyncData'
+export const DEFAULT_ACTION_CATEGORY = 'asyncData'
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
 export interface AsyncDataLoaderActionContext {
   category?: string,
@@ -34,17 +34,18 @@ export const AsyncDataLoader = {
     this.queue.push(action)
   },
   flush: function (actionContext: AsyncDataLoaderActionContext) {
-    if (!actionContext.category) actionContext.category = DEFAULT_ACTION_CATEGORY
-    const actionsWithDefaultCategory = this.queue.filter(ac => (!ac.category || !actionContext.category) || (ac.category === actionContext.category && (!ac.executedAt)));
-    const actionsToExecute = actionsWithDefaultCategory.map(ac => {
+    const notExecutedActions = this.queue.filter(ac => {
+      const isCategoryEmpty = (!ac.category || !actionContext.category)
+      const sameCategoryNotExecuted = (ac.category === actionContext.category && (!ac.executedAt))
+      return isCategoryEmpty || sameCategoryNotExecuted;
+    });
+    const actionsExecutePromises = notExecutedActions.map(ac => {
       ac.executedAt = new Date()
       return ac.execute(actionContext) // function must return Promise
     })
-    if (actionsToExecute.length > 0) {
-      Logger.info('Executing data loader actions(' + actionsToExecute.length + ')', 'dataloader')()
+    if (actionsExecutePromises.length > 0) {
+      Logger.info(`Executing data loader actions(${actionsExecutePromises.length})`, 'dataloader')()
     }
-    return Promise.all(actionsToExecute).then(results => {
-      return results
-    })
+    return Promise.all(actionsExecutePromises)
   }
 }
