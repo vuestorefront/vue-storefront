@@ -197,14 +197,14 @@
             class="form__action-button"
             type="submit"
             v-if="isShippingDetailsCompleted && !dirty"
-            :disabled="!isShippingMethodCompleted || isSaving.method"
+            :disabled="!isShippingMethodCompleted"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="isSaving.details"
+            :disabled="loading"
             v-else
           >
             {{ $t('Select shipping method') }}
@@ -261,12 +261,11 @@ export default {
     ValidationObserver
   },
   props: {
-    isSaving: Object,
     handleShippingAddressSubmit: Function
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
-    const { shipping: address } = useShipping();
+    const { shipping: address, loading } = useShipping();
     const { isAuthenticated } = useUser();
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
@@ -373,7 +372,8 @@ export default {
       handleAddNewAddressBtnClick,
       handleSetCurrentAddress,
 
-      changeDetails
+      changeDetails,
+      loading
     };
   }
 };
