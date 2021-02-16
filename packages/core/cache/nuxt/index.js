@@ -3,28 +3,42 @@ import { isAbsolute, resolve } from 'path';
 import { Logger } from '@vue-storefront/core';
 
 /**
+ * Helper function that imports default handler by package name
+ */
+function requirePackage (name) {
+  const path = isAbsolute(name) || name.startsWith('.')
+    ? resolve(process.cwd(), name)
+    : require.resolve(name, { paths: [ process.cwd() ] });
+
+  return require(path).default;
+}
+
+/**
  * Adds endpoint to invalidate cache
  */
 function createInvalidationEndpoint (driver, options) {
-  if (!options || !options.endpoint || !options.key) {
+  if (!options || !options.endpoint || !options.invalidators) {
     return;
   }
 
   const handler = async (request, response) => {
     try {
-      // Remove leading slash and get URL params
-      const params = new URLSearchParams(request.url.replace(/^\//, ''));
-      const tags = params.get('tags').split(',');
+      // Resolve invalidator paths to packages
+      const invalidators = options.invalidators.map(invalidator => {
+        return typeof invalidator === 'string'
+          ? requirePackage(invalidator)
+          : invalidator;
+      });
 
-      if (params.get('key') !== options.key) {
-        throw new Error('Invalid or missing invalidation key.');
-      }
+      // Get tags from all invalidators
+      const tags = invalidators.reduce((tags, invalidator) => {
+        const newTags = invalidator({ request, response, options });
+        return tags.concat(newTags);
+      }, []);
 
-      const handler = tags.includes('*')
-        ? driver.invalidateAll
-        : driver.invalidate;
 
-      await handler({
+      // Call driver invalidator with all tags
+      await driver.invalidate({
         request,
         response,
         tags
@@ -64,17 +78,9 @@ function createRenderer (renderFn) {
  * Loads driver using path provided in the configuration.
  */
 function createDriver (driver) {
-  const resolveDriverPath = name => {
-    if (isAbsolute(name) || name.startsWith('.')) {
-      return resolve(process.cwd(), name);
-    }
-    
-    return require.resolve(driver[0], { paths: [ process.cwd() ] });
-  };
-
   return Array.isArray(driver)
-    ? require(resolveDriverPath(driver[0])).default(driver[1])
-    : require(resolveDriverPath(driver)).default({});
+    ? requirePackage(driver[0])(driver[1])
+    : requirePackage(driver)();
 }
 
 /**
@@ -98,7 +104,7 @@ export default function cacheModule (options) {
   const driver = createDriver(options.driver)
 
   // Create invalidation endpoint if necessary
-  createInvalidationEndpoint.call(this, driver, options.invalidation);
+  createInvalidationEndpoint.call(this, driver, options.server);
 
   // Create renderer
   createRenderer.call(this, async (route, context, render) => {
@@ -112,7 +118,6 @@ export default function cacheModule (options) {
 
     try {
       return await driver.invoke({
-        key: `page:${ route }`,
         route,
         context,
         render,
