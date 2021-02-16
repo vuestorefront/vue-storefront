@@ -96,6 +96,7 @@ export default {
 `user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
 
 ## Logging out
+
 Signing out can be done using `logout` method.
 ```vue
 <template>
