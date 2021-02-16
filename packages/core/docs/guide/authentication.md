@@ -61,6 +61,7 @@ export default {
 ```
 
 ## Logging in
+
 Signing in can be done using `login` method.
 ```vue
 <template>
