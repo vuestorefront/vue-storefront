@@ -41,6 +41,7 @@ module.exports = {
 						['/commercetools/getting-started', 'Getting Started'],
 						['/commercetools/api-client', 'API Client'],
 						['/commercetools/composables', 'Composables'],
+						['/commercetools/authorization-strategy', 'Authorization Strategy'],
 						['https://www.notion.so/vuestorefront/6017d5a553904d0bbdcdf0f37d388c2b?v=a618b57067f34e68944145ade66da3a3', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
@@ -148,20 +149,12 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/configuration', 'Configuration'],
+						['/guide/configuration', 'Configuration'],						
+						['/guide/composables', 'Composables'],
+						['/guide/error-handling', 'Error Handling'],
+						['/guide/user-profile', 'User profile'],
 						['/guide/cart-and-wishlist', 'Cart and Wishlist'],
-						{
-							title: 'Composables',
-							collapsable: false,
-							children: [
-								['/guide/composition-api', 'Composition API'],
-								[
-									'/guide/storefront-composables',
-									'What are Vue Storefront Composables'
-								]
-							]
-						},
-						['/guide/error-handling', 'Error Handling']
+                        ['/guide/authentication', 'Authentication']
 					]
 				},
 				{
@@ -174,7 +167,6 @@ module.exports = {
 						['/advanced/caching', 'Caching'],
 						['/advanced/logging', 'Logging'],
 						['/advanced/architecture', 'Architecture']
-
 					]
 				},
         {
@@ -191,7 +183,8 @@ module.exports = {
             ['/composables/use-user', 'useUser'],
             ['/composables/use-user-billing', 'useUserBilling'],
             ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
+            ['/composables/use-user-orders', 'useUserOrders'],
+            ['/composables/use-content', 'useContent'],
           ]
         },
 				{

@@ -17,7 +17,7 @@ The first thing that you need to do to start using the cart in your application 
 
 ```js
 <script>
-  import { useCart } from '@vue-storefront/{INTEGRATION}';
+  import { useCart } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -38,11 +38,9 @@ The first thing that you need to do to start using the cart in your application 
 ```
 
 
-### basic usage scenarios:
+### Adding an item
 
-  * adding an item
-
-The basic thing that a user can do in ecommerce application is adding an item to it. So having example application, we use `addToCart` function in order to allow user to add new product or additional items of product that is already added.   
+To add the product to the cart you need to apply `AddToCart` method in the following way:  
 
 ```vue
 <template>
@@ -55,7 +53,7 @@ The basic thing that a user can do in ecommerce application is adding an item to
   </ProductList>
 </template>    
 <script>     
-  import { useCart } from '@vue-storefront/{INTEGRATION}';
+  import { useCart } from '{INTEGRATION}';
   export default {
     setup() {
       const {
@@ -71,10 +69,10 @@ The basic thing that a user can do in ecommerce application is adding an item to
   };
 </script>
 ```
-After importing the `useCart`, you need to get proper function and pass the product and quantity of items. `loading` is the object which includes the loading state of the element.   
+`loading` is the object which includes the loading state of the element.   
 
 
-  * removing an item from a cart and update quantity
+### Removing an item from a cart and update quantity
 
 The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly to other `useCart` properties. 
 
@@ -98,7 +96,7 @@ The product in the cart of your application needs to have some kind of remove bu
   </CartComponent>
 </template>   
 <script>
-  import { useCart, cartGetters } from '@vue-storefront/{INTEGRATION}';
+  import { useCart, cartGetters } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -124,10 +122,10 @@ The product in the cart of your application needs to have some kind of remove bu
   };
 </script>
 ```
-As you can see in the above example, we use getters to pass the values to the component: all products already in a cart, total price, and items in cart. It's the way to access `cart` object properties and to make them work you need to import `cartGetters` object and use a proper getter function as the computed value.    
+As you can see in the above example, we use getters to pass the values to the component: all products already in a cart, total price, and items in cart. It's the way to access `cart` object properties and, to make them work, you need to import `cartGetters` object and use a proper getter function as the computed value.    
 
 
-  * checking if an item is on a cart
+### Checking if an item is on a cart
 
 You can inform the user of your application if the product that he sees is already in his cart by using `isAddedToCart` and e.g. show the proper icon signalizing it.
 
@@ -142,7 +140,7 @@ You can inform the user of your application if the product that he sees is alrea
   </ProductList>
 </template>    
 <script>
-  import { useCart } from '@vue-storefront/{INTEGRATION}';
+  import { useCart } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -158,7 +156,7 @@ You can inform the user of your application if the product that he sees is alrea
 </script>
 ```
 
-  * cleaning a cart
+### Cleaning a cart
 
 Implementing cleaning feature means that you should use `clear` function like in following example:
 
@@ -176,7 +174,7 @@ Implementing cleaning feature means that you should use `clear` function like in
   </CartComponent>
 </template>   
 <script>      
-  import { useCart } from '@vue-storefront/{INTEGRATION}';
+  import { useCart } from '{INTEGRATION}';
   export default {
     setup() {
       const {
@@ -196,9 +194,7 @@ Implementing cleaning feature means that you should use `clear` function like in
 ```
 
 
-### other scenarios:
-
-  * applying and removing coupons from a cart
+### Applying and removing coupons from a cart
 
 Using Vue Storefront allows you to apply promotional coupons to your application and also use third-party software to handle that. Using `applyCoupon` function, you can pass the code for further handling.  
 
@@ -221,7 +217,7 @@ Using Vue Storefront allows you to apply promotional coupons to your application
   </CartComponent>
 </template>   
 <script>      
-  import { useCart } from '@vue-storefront/{INTEGRATION}';
+  import { useCart } from '{INTEGRATION}';
   export default {
     setup() {
       const {
@@ -247,9 +243,9 @@ Using Vue Storefront allows you to apply promotional coupons to your application
  
 ## Using wishlist
 
-### loading useWishlist into your application 
+### Loading useWishlist into your application 
 
-In order to use wishlist in your application, it needs to be loaded first. So you can use `load` function only once, and it will exist. 
+To use wishlist in your application, it needs to be loaded first. So you can use `load` function only once, and it will exist. 
 
 ```js
 <script>
@@ -276,9 +272,7 @@ In order to use wishlist in your application, it needs to be loaded first. So yo
 ```
 
 
-### The basic usage scenarios
-
-   * adding items to a wishlist
+### Adding items to a wishlist
 
 The product can be added to the wishlist similarly like to the cart but using `addToWishlist` function:
 
@@ -309,7 +303,7 @@ The product can be added to the wishlist similarly like to the cart but using `a
 </script>
 ```
 
-   * removing the item from the wishlist
+### Removing the item from the wishlist
 
 The `wishlist` can be accessed by `wishlistGetters` object, which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
 You can add the possibility to remove products by `removeFromWishlist` function. 
@@ -333,7 +327,7 @@ You can add the possibility to remove products by `removeFromWishlist` function.
   </WishlistComponent>
 </template>   
 <script>
-  import { useWishlist, wishlistGetters } from '@vue-storefront/{INTEGRATION}';
+  import { useWishlist, wishlistGetters } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -363,7 +357,7 @@ You can add the possibility to remove products by `removeFromWishlist` function.
 </script>
 ```
 
-  * checking if the item is added to the wishlist 
+### Checking if the item is added to the wishlist 
 
 If you want to show that product is already added to `wishlist`, use `isOnWishlist` function like so:
 
@@ -378,7 +372,7 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
   </ProductList>
 </template>    
 <script>
-  import { useWishlist } from '@vue-storefront/{INTEGRATION}';
+  import { useWishlist } from '{INTEGRATION}';
   export default {
     setup() {
       const {
@@ -393,7 +387,7 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 </script>
 ```
 
-  * deleting all items added to wishlist
+### Deleting all items added to wishlist
 
 Cleaning the wishlist can be achieved by `clearWishlist` property.
 
@@ -411,7 +405,7 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
   </WishlistComponent>
 </template>   
 <script>      
-  import { useWishlist } from '@vue-storefront/{INTEGRATION}';
+  import { useWishlist } from '{INTEGRATION}';
 
   export default {
     setup() {
@@ -432,7 +426,7 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
 
 ## Summary
 
-### common usage example
+### Common usage example
 
 In the following two examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
 
@@ -458,7 +452,7 @@ In the following two examples, you can analyze how both composables are used in 
   </ProductList>
 </template>    
 <script>     
-  import { useCart, useWishlist } from '@vue-storefront/{INTEGRATION}';
+  import { useCart, useWishlist } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -539,7 +533,7 @@ The cart and the wishlist components:
   </WishlistComponent>
 </template>   
 <script>      
-  import { useCart, cartGetters, useWishlist, wishlistGetters } from '@vue-storefront/{INTEGRATION}';
+  import { useCart, cartGetters, useWishlist, wishlistGetters } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -587,41 +581,3 @@ The cart and the wishlist components:
   };
 </script>
 ```
-
-### list of available properties and getters
-
-Properties:
-
-| useCart              | useWishlist         | 
-|----------------------|---------------------|
-| cart                 | wishlist            |   
-| isOnCart             | isOnWishlist        |   
-| addToCart            | addToWishlist       | 
-| load: loadCart       | load: loadWishlist  |
-| removeFromCart       |removeFromWishlist   | 
-| clear                | clearWishlist       | 
-| updateQuantity       |                     | 
-| coupon               |                     | 
-| applyCoupon          |                     | 
-| removeCoupon         |                     | 
-| loading              |                     | 
-
-
-Getters:
-
-| useCart              | useWishlist         | 
-|----------------------|---------------------|
-| getTotals            | getTotals           |   
-| getShippingPrice     | getShippingPrice    | 
-| getItems             | getItems            |
-| getItemName          | getItemName         | 
-| getItemImage         | getItemImage        | 
-| getItemPrice         | getItemPrice        | 
-| getItemQty           | getItemQty          | 
-| getItemAttributes    | getItemAttributes   | 
-| getItemSku           | getItemSku          | 
-| getTotalItems        | getTotalItems       | 
-| getFormattedPrice    | getFormattedPrice   |
-| getCoupons           |                     |
-| getDiscounts         |                     |
-  

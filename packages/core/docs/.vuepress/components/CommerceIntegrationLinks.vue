@@ -1,14 +1,19 @@
 <template>
   <ul>
     <li>
-      <router-link :to="commercetools">
-        Commercetools
-      </router-link>
+      <CommerceIntegrationLink 
+        :url="commercetools"
+        :wipValue="WIP"
+        label="Commercetools"
+      />
     </li>
     <li>
-      <router-link :to="shopify">
-        Shopify <Badge text="beta" type="info" />
-      </router-link>
+      <CommerceIntegrationLink 
+        :url="shopify"
+        :wipValue="WIP"
+        label="Shopify"
+        badge="beta"
+      />
     </li>
   </ul>
 </template>
@@ -16,13 +21,34 @@
 <script>
 // this component will yell if you forgot to put a link for some specific integration
 // this way it's harder to forget ;)
+import CommerceIntegrationLink from './CommerceIntegrationLink';
+
+const props = {
+  commercetools: {
+    required: true
+  },
+  shopify: {
+    required: true
+  }
+};
+
+const WIP = 'WIP';
+
 export default {
-  props: {
-    commercetools: {
-      required: true
-    },
-    shopify: {
-      required: true
+  data () {
+    return {
+      WIP
+    }
+  },
+  props,
+  components: {
+    CommerceIntegrationLink
+  },
+  mounted () {
+    for (let integration of Object.keys(props)) {
+      if (this[integration] === WIP) {
+        console.warn(`${integration} integration is being developed`)
+      }
     }
   }
 }
