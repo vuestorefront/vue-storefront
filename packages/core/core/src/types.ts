@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
+import type { Request, Response } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -612,7 +613,7 @@ export interface ApiClientExtensionHooks<C = any> {
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, Function>;
-  hooks?: (req: any, res: any) => ApiClientExtensionHooks;
+  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
 export interface Integration {
