@@ -11,7 +11,7 @@
             data-cy="login-input_email"
             v-model="form.email"
             :valid="serverError && serverError.fieldName === 'email' ? false : !errors[0]"
-            :errorMessage="serverError && serverError.fieldName === 'email' ? $t(serverError.displayMessage) : errors[0]"
+            :errorMessage="serverError && serverError.fieldName === 'email' ? `${ $t(serverError.displayMessage) } ${form.email}` : errors[0]"
             name="email"
             label="Your email"
             class="form__element"
@@ -88,8 +88,7 @@ import { SfAlert, SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui
 import { email, required } from 'vee-validate/dist/rules';
 import { ref } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
-import { useUiState, useUiNotification } from '~/composables';
-import { getFriendlyError } from '~/helpers/errors';
+import { useUiState, useUiNotification, useUiHelpers } from '~/composables';
 
 extend('email', {
   ...email,
@@ -116,6 +115,7 @@ export default {
     const { register, loading, error } = useUser();
     const { toggleAuthModal, switchAuthModal } = useUiState();
     const { send } = useUiNotification();
+    const { getFriendlyError } = useUiHelpers();
     const serverError = ref({});
     const form = ref({});
     const createAccount = ref(false);

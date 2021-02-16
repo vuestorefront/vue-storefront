@@ -68,8 +68,7 @@ import { SfAlert, SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui
 import { email, required } from 'vee-validate/dist/rules';
 import { ref } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
-import { useUiState, useUiNotification } from '~/composables';
-import { getFriendlyError } from '~/helpers/errors';
+import { useUiState, useUiNotification, useUiHelpers } from '~/composables';
 
 extend('email', {
   ...email,
@@ -96,6 +95,7 @@ export default {
     const { login, loading, error } = useUser();
     const { isAuthModalOpen, toggleAuthModal, switchAuthModal } = useUiState();
     const { send } = useUiNotification();
+    const { getFriendlyError } = useUiHelpers();
     const serverError = ref({});
     const rememberMe = ref(false);
     const form = ref({});
