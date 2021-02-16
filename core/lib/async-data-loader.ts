@@ -34,12 +34,12 @@ export const AsyncDataLoader = {
     this.queue.push(action)
   },
   flush: function (actionContext: AsyncDataLoaderActionContext) {
-    const notExecutedActions = this.queue.filter(ac => {
-      const actionsToExecute = !ac.category || !actionContext.category
+    const actionsToExecute = this.queue.filter(ac => {
+      const isCategoryEmpty = !ac.category || !actionContext.category
       const categoryMatchesAndNotExecuted = ac.category === actionContext.category && !ac.executedAt
-      return actionsToExecute || categoryMatchesAndNotExecuted;
+      return isCategoryEmpty || categoryMatchesAndNotExecuted;
     });
-    const actionsExecutePromises = notExecutedActions.map(ac => {
+    const actionsExecutePromises = actionsToExecute.map(ac => {
       ac.executedAt = new Date()
       return ac.execute(actionContext) // function must return Promise
     })
