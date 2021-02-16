@@ -10,30 +10,40 @@ function createInvalidationEndpoint (driver, options) {
     return;
   }
 
-  this.addServerMiddleware({
-    path: options.endpoint,
-    handler: async (request, response) => {
-      try {
-        // Remove leading slash and get URL params
-        const params = new URLSearchParams(request.url.replace(/^\//, ''));
-        const tags = params.get('tags').split(',');
+  const handler = async (request, response) => {
+    try {
+      // Remove leading slash and get URL params
+      const params = new URLSearchParams(request.url.replace(/^\//, ''));
+      const tags = params.get('tags').split(',');
 
-        if (params.get('key') !== options.key) {
-          throw new Error('Invalid or missing invalidation key.');
-        }
-
-        await driver.invalidate({ request, response, tags });
-
-        response.writeHead(200);
-      } catch (error) {
-        Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
-        Logger.error(error);
-
-        response.writeHead(500);
+      if (params.get('key') !== options.key) {
+        throw new Error('Invalid or missing invalidation key.');
       }
 
-      response.end();
+      const handler = tags.includes('*')
+        ? driver.invalidateAll
+        : driver.invalidate;
+
+      await handler({
+        request,
+        response,
+        tags
+      });
+
+      response.writeHead(200);
+    } catch (error) {
+      Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
+      Logger.error(error);
+
+      response.writeHead(500);
     }
+
+    response.end();
+  };
+
+  this.addServerMiddleware({
+    path: options.endpoint,
+    handler
   });
 }
 
