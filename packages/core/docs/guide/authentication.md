@@ -129,6 +129,7 @@ export default {
 `user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
 
 ## How does it work in integrations?
+
 Below you can find detailed information on how we're handling authentication in different integrations.
 <CommerceIntegrationLinks 
  commercetools="/commercetools/authorization-strategy.html"
