@@ -70,19 +70,15 @@ Because calling `render()` is computationally expensive, it's the step we want t
 
 ## Invalidating cache
 
-Invalidation methods are called when the cache invalidation page is visited and the invalidation key is confirmed There are two invalidation methods:
-* `invalidateAll` - called when `*` is passed as a tag,
-* `invalidate` - called in all other cases.
-
-Both are called with following parameters:
+`invalidate` method is called when the cache invalidation page is visited. It is called with following parameters:
 
 * `request` (object) - Node.js HTTP request object;
 * `response` (object) - Node.js HTTP response object;
 * `tags` (array) - Array containing tags to invalidate;
 
-By default, `@vue-storefront/cache` calls one of those methods and returns an empty response with `200 OK` or in case of error `500 Internal Server Error` HTTP code.
+By default, `@vue-storefront/cache` calls it and returns an empty response with `200 OK` or in case of error `500 Internal Server Error` HTTP code.
 
-Because they have access to `response` object, they can optionally modify it to add custom HTTP headers or response, like JSON or a text.
+`response` object passed to it can optionally be modified to add body (like JSON or a text) and custom HTTP headers.
 
 ```javascript
 {
