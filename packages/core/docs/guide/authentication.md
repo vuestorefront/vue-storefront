@@ -1,5 +1,6 @@
 # What's authentication?
-Authentication is the operation of recognizing the user's identify. It allows us to associate incoming requests with an account or a person. To do that, provided credentials are compared with ones in the database.
+
+Authentication is the operation of recognizing the user's identity. It allows us to associate incoming requests with an account or a person. To do that, provided credentials are compared with ones in the database.
 
 The whole logic related to this process can be handled with methods shared by `useUser` composable
 
