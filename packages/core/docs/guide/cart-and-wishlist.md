@@ -1,7 +1,5 @@
 # Cart and wishlist
 
-> This page assumes you're familiar with Composition API and Composables. Read them first if you are new to these concepts.
-
 ## Introduction
 
 This document will guide you all the way to fully implement cart and wishlist modules, which will let you use these common features in your application in the best possible way. 
