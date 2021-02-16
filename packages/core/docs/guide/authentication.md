@@ -129,8 +129,6 @@ export default {
 }
 </script>
 ```  
-`isAuthenticated` boolean [ref](https://v3.vuejs.org/api/refs-api.html#ref) - tells if user is signed in   
-`user` [ref](https://v3.vuejs.org/api/refs-api.html#ref) either contains an object of the signed-in user or equals `null`
 
 ## How does it work in integrations?
 
