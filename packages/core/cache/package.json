@@ -21,6 +21,10 @@
   "directories": {
     "lib": "lib"
   },
+  "files": [
+    "lib/**/*",
+    "defaultInvalidator/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuestorefront/vue-storefront.git"
