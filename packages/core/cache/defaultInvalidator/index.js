@@ -3,11 +3,11 @@ export default ({ request, options }) => {
   const params = new URLSearchParams(request.url.replace(/^\//, ''));
 
   if (params.get('key') !== options.key) {
-    throw new Error('Invalid or missing invalidation key.');
+    return [];
   }
 
   if (!params.get('tags') || !params.get('tags').length) {
-    throw new Error('Missing invalidation tags.');
+    return [];
   }
 
   return params.get('tags').split(',');
