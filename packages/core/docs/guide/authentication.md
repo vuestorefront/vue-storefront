@@ -93,7 +93,7 @@ export default {
 }
 </script>
 ```  
-`user` User [ref](https://v3.vuejs.org/api/refs-api.html#ref) - contains object of signed in user or it equals `null`
+`user` [ref](https://v3.vuejs.org/api/refs-api.html#ref) either contains an object of the signed-in user or equals `null`
 
 ## Logging out
 
