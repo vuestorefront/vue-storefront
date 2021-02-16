@@ -7,7 +7,7 @@ module.exports = {
       module: '@vue-storefront/cache',
       before: '-',
       after: '-',
-      comment: 'Please see \'Advanced > SSR Cache\' and \'Build integration > Cache drive\' docs for more information.'
+      comment: 'Please see "Advanced > SSR Cache" and "Build integration > Cache drive" pages in the documentation for more information.'
     }
   ],
   author: 'Filip Sobol',
