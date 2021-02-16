@@ -1,13 +1,17 @@
 <template>
   <div class="register-form form">
     <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
+      <SfAlert
+        v-if="serverError && serverError.fieldName === null"
+        type="danger"
+        :message="serverError && $t(serverError.displayMessage)" />
       <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
         <ValidationProvider rules="required|email" v-slot="{ errors }">
           <SfInput
             data-cy="login-input_email"
             v-model="form.email"
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
+            :valid="serverError && serverError.fieldName === 'email' ? false : !errors[0]"
+            :errorMessage="serverError && serverError.fieldName === 'email' ? $t(serverError.displayMessage) : errors[0]"
             name="email"
             label="Your email"
             class="form__element"
@@ -80,11 +84,12 @@
 
 <script>
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
-import { SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui/vue';
+import { SfAlert, SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui/vue';
 import { email, required } from 'vee-validate/dist/rules';
 import { ref } from '@vue/composition-api';
-import { useUser } from '<%= options.generate.replace.composables %>';
+import { useUser } from '@vue-storefront/commercetools';
 import { useUiState, useUiNotification } from '~/composables';
+import { getFriendlyError } from '~/helpers/errors';
 
 extend('email', {
   ...email,
@@ -101,6 +106,7 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    SfAlert,
     SfButton,
     SfCheckbox,
     SfInput,
@@ -110,11 +116,12 @@ export default {
     const { register, loading, error } = useUser();
     const { toggleAuthModal, switchAuthModal } = useUiState();
     const { send } = useUiNotification();
+    const serverError = ref({});
     const form = ref({});
     const createAccount = ref(false);
     const { $i18n } = context.root;
 
-    const handleError = () => {
+    const handleError = ({ email }) => {
       const currErr = error.value.register;
       if (!currErr) {
         send({
@@ -125,6 +132,7 @@ export default {
         return;
       }
 
+      serverError.value = getFriendlyError(currErr.message, email);
       send({
         type: 'danger',
         message: $i18n.t('Something went wrong!')
@@ -139,6 +147,7 @@ export default {
     const handleRegister = async () => handleForm(register)();
 
     return {
+      serverError,
       loading,
       error,
       form,
@@ -151,11 +160,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.modal {
-  --modal-index: 3;
-  --overlay-z-index: 3;
-}
 .form {
   margin-top: var(--spacer-sm);
   &__element {

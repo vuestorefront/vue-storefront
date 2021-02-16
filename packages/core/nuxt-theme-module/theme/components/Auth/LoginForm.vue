@@ -1,10 +1,6 @@
 <template>
   <div class='login-form'>
     <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
-      <SfAlert
-        v-if="serverError && serverError.fieldName === null"
-        type="danger"
-        :message="serverError && serverError.displayMessage" />
       <form class="form" @submit.prevent="handleSubmit(handleLogin)">
         <ValidationProvider rules="required|email" v-slot="{ errors }">
           <SfInput
@@ -63,12 +59,11 @@
 
 <script>
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
-import { SfAlert, SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui/vue';
+import { SfButton, SfCheckbox, SfInput, SfLoader } from '@storefront-ui/vue';
 import { email, required } from 'vee-validate/dist/rules';
 import { ref } from '@vue/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import { useUiState, useUiNotification } from '~/composables';
-import { authErrors } from '~/helpers/errors';
 
 extend('email', {
   ...email,
@@ -85,7 +80,6 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    SfAlert,
     SfButton,
     SfCheckbox,
     SfInput,
@@ -95,7 +89,6 @@ export default {
     const { login, loading, error } = useUser();
     const { isAuthModalOpen, toggleAuthModal, switchAuthModal } = useUiState();
     const { send } = useUiNotification();
-    const serverError = ref({});
     const rememberMe = ref(false);
     const form = ref({});
     const { $i18n } = context.root;
@@ -111,8 +104,6 @@ export default {
         return;
       }
 
-      const knownErrors = authErrors(context);
-      serverError.value = knownErrors.find(knownError => knownError.originalMessage === currErr.message);
       send({
         type: 'danger',
         message: $i18n.t('Something went wrong!')
@@ -127,7 +118,6 @@ export default {
     const handleLogin = async () => handleForm(login)();
 
     return {
-      serverError,
       rememberMe,
       loading,
       error,
