@@ -35,9 +35,9 @@ export const AsyncDataLoader = {
   },
   flush: function (actionContext: AsyncDataLoaderActionContext) {
     const notExecutedActions = this.queue.filter(ac => {
-      const isCategoryEmpty = (!ac.category || !actionContext.category)
-      const sameCategoryNotExecuted = (ac.category === actionContext.category && (!ac.executedAt))
-      return isCategoryEmpty || sameCategoryNotExecuted;
+      const actionsToExecute = !ac.category || !actionContext.category
+      const categoryMatchesAndNotExecuted = ac.category === actionContext.category && !ac.executedAt
+      return actionsToExecute || categoryMatchesAndNotExecuted;
     });
     const actionsExecutePromises = notExecutedActions.map(ac => {
       ac.executedAt = new Date()

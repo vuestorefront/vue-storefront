@@ -48,7 +48,7 @@ describe('AsyncDataLoader', () => {
     expect(AsyncDataLoader.queue[0].execute).toBe(expectedMock.execute)
   })
 
-  it('does not execute action', async () => {
+  it('does not execute if actionContext has other category than action', async () => {
     const actionContextMock = {
       context: null,
       route: jest.fn(),
@@ -65,7 +65,7 @@ describe('AsyncDataLoader', () => {
     expect(AsyncDataLoader.queue[0].executedAt).not.toBeDefined();
   })
 
-  it('executes action', async () => {
+  it('executes action if categories are default', async () => {
     const actionContextMock = {
       context: null,
       route: jest.fn(),
@@ -96,23 +96,39 @@ describe('AsyncDataLoader', () => {
       store: jest.fn(),
       category: 'test'
     }
-    const actionMock = {
+    const firstActionMock = {
       execute: jest.fn(),
       category: 'test'
     }
 
-    AsyncDataLoader.push(actionMock);
-    await AsyncDataLoader.flush(actionContextMock)
-
-    const expectedMock = {
-      execute: actionMock.execute,
-      category: 'test',
-      scheduledAt: (actionMock as AsyncDataLoaderAction).scheduledAt,
-      executedAt: (actionMock as AsyncDataLoaderAction).executedAt
+    const secondActionMock = {
+      execute: jest.fn(),
+      category: 'test'
     }
 
-    expect(AsyncDataLoader.queue[0].executedAt).toBe(expectedMock.executedAt);
-    expect(AsyncDataLoader.queue[0].category).toBe(expectedMock.category);
+    AsyncDataLoader.push(firstActionMock);
+    AsyncDataLoader.push(secondActionMock);
+    await AsyncDataLoader.flush(actionContextMock)
+
+    const firstExpectedMock = {
+      execute: firstActionMock.execute,
+      category: 'test',
+      scheduledAt: (firstActionMock as AsyncDataLoaderAction).scheduledAt,
+      executedAt: (firstActionMock as AsyncDataLoaderAction).executedAt
+    }
+
+    const secondExpectedMock = {
+      execute: secondActionMock.execute,
+      category: 'test',
+      scheduledAt: (secondActionMock as AsyncDataLoaderAction).scheduledAt,
+      executedAt: (secondActionMock as AsyncDataLoaderAction).executedAt
+    }
+
+    expect(AsyncDataLoader.queue[0].executedAt).toBe(firstExpectedMock.executedAt);
+    expect(AsyncDataLoader.queue[0].category).toBe(firstExpectedMock.category);
     expect(AsyncDataLoader.queue[0].execute).toHaveBeenCalledWith(actionContextMock);
+    expect(AsyncDataLoader.queue[1].executedAt).toBe(secondExpectedMock.executedAt);
+    expect(AsyncDataLoader.queue[1].category).toBe(secondExpectedMock.category);
+    expect(AsyncDataLoader.queue[1].execute).toHaveBeenCalledWith(actionContextMock);
   })
 })
