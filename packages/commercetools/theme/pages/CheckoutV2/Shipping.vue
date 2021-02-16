@@ -50,25 +50,14 @@ export default {
       if (shippingError.value.save) {
         return;
       }
-      // await loadShippingMethod();
       isSaving.details = false;
     };
-
-    // const handleShippingMethodSubmit = async shippingMethod => {
-    //   isSaving.method = true;
-    //   await saveShippingMethod({ shippingMethod });
-    //   if (shippingMethodError.value.save) {
-    //     return;
-    //   }
-    //   isSaving.method = false;
-    // };
 
     const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
 
     return {
       isSaving,
       handleShippingAddressSubmit,
-      // handleShippingMethodSubmit,
       handleStepSubmit
     };
   }

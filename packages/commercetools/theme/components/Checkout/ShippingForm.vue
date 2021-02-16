@@ -188,33 +188,6 @@
         class="sf-heading--left sf-heading--no-underline title"
       />
       <div class="form">
-        <!-- <div class="form__radio-group" v-if="isShippingDetailsCompleted && !dirty">
-          <SfRadio
-            v-for="item in shippingMethods.shippingMethods"
-            :key="item.id || item.name"
-            :label="item.name"
-            :value="item.id"
-            :selected="chosenShippingMethod.id"
-            @input="handleMethodSubmit(reset, item)"
-            name="shippingMethod"
-            :description="item.description"
-            class="form__radio shipping"
-          >
-            <template #label="{ label }">
-              <div class="sf-radio__label shipping__label">
-                <div>{{ label }}</div>
-                <div v-if="item && item.zoneRates">${{ getShippingMethodPrice(item) }}</div>
-              </div>
-            </template>
-            <template #description="{ description }">
-              <div class="sf-radio__description shipping__description">
-                <div class="shipping__info">
-                  {{ description }}
-                </div>
-              </div>
-            </template>
-          </SfRadio>
-        </div> -->
         <div class="form__action">
           <nuxt-link
             to="/checkout/personal-details"
@@ -289,7 +262,6 @@ export default {
   },
   props: {
     isSaving: Object,
-    // handleShippingMethodSubmit: Function,
     handleShippingAddressSubmit: Function
   },
   setup(props, context) {
@@ -299,7 +271,6 @@ export default {
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
     const shippingDetails = ref(address.value || {});
-    // const chosenShippingMethod = ref(null);
     const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
@@ -316,13 +287,6 @@ export default {
     });
 
     const handleStepSubmit = () => context.emit('stepSubmit');
-    // const handleMethodSubmit = async (reset, shippingMethod) => {
-    //   chosenShippingMethod.value = shippingMethod;
-    //   await props.handleShippingMethodSubmit(shippingMethod);
-    //   reset();
-    //   isShippingMethodCompleted.value = true;
-    // };
-
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
       await props.handleShippingAddressSubmit(shippingDetails.value);
@@ -345,14 +309,12 @@ export default {
       shippingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      // chosenShippingMethod.value = null;
       isShippingDetailsCompleted.value = false;
       isShippingMethodCompleted.value = false;
     };
 
     const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      // chosenShippingMethod.value = null;
       isShippingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
@@ -396,7 +358,6 @@ export default {
 
       isAuthenticated,
       shippingDetails,
-      // chosenShippingMethod,
       countries: config.countries,
       setAsDefault,
       canAddNewAddress,
@@ -407,7 +368,6 @@ export default {
       isShippingMethodCompleted,
       isShippingDetailsCompleted,
 
-      // handleMethodSubmit,
       handleAddressSubmit,
       handleStepSubmit,
       handleAddNewAddressBtnClick,
