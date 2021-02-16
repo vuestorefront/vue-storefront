@@ -26,8 +26,7 @@ export default {
   modules: [
     ['@vue-storefront/cache/nuxt', {
       invalidation: {
-        endpoint: '/cache-invalidate',
-        key: 'CHANGE_THIS'
+        // Invalidation options
       },
       driver: [
         '@vsf-enterprise/redis-cache',
@@ -47,7 +46,7 @@ export default {
 
 We can break down package configuration into two pieces:
 
-* `invalidation` - please refer to [SSR Cache configuration](../advanced/ssr-cache.md#configuration) page.
+* `invalidation` - please refer to [SSR Cache configuration](../advanced/ssr-cache.md) page.
 * `driver` - object containing:
   * `defaultTimeout` - number of seconds until records expire, even if not invalidated;
   * `redis` - object directly passed to [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options);

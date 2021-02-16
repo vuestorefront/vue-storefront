@@ -56,7 +56,7 @@ export default {
 
 We can break down package configuration into two pieces:
 
-* `invalidation` (optional object) - contains URL to invalidate cache and key used to prevent unauthorized access. Refer to the [Invalidating cache](#invalidating-cache) section for more information.
+* `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-cache) section for more information.
 * `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
 
 ###  Add tags
@@ -130,7 +130,7 @@ export default {
 
 As mentioned in [Configuration](#configuration) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
 
-Because each integration may pass data in a different format, we need invalidators. Please see the documentation for your e-commerce integration to see if it provides any invalidators.
+We need invalidators, because each integration may pass data in a different format or multiple invalidation strategies may be needed at the same time. Please see the documentation for your e-commerce integration to see if it provides any invalidators.
 
 ```javascript
 server: {
@@ -191,10 +191,10 @@ function ({ request, response, options }) {
   return tags;
 };
 ```
-Invalidator should prevent unauthorized users from clearing the cache. One way of doing it is adding `key` to the configuration like in [default invalidator](#default-invalidator) and checking if `request` contains `options.key` in queries or body.
+Invalidator should prevent unauthorized users from clearing the cache. One way of doing it is adding `key` to the configuration like in [default invalidator](#default-invalidator) and checking if `request` contains `options.key` in the URL queries or body.
 
 ::: tip Don't throw errors in invalidators
-Because invalidations handling different data formats can be used at the same time, they should not throw errors. Throwing an error from the invalidator drops the request, which might have been handled by another invalidator.
+Because multiple invalidators can be used at the same time to handle different data formats, they should not throw errors. Throwing an error from the invalidator drops the request, which may be handled by another invalidator.
 
 If one of the properties is missing or the validation key is wrong, return an empty array. 
 :::

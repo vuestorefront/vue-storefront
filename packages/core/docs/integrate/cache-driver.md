@@ -12,18 +12,16 @@ This page assumes you are familiar with caching in Vue Storefront. Please [see t
 
 Cache driver is not a standalone plugin, but an extension depending on `@vue-storefront/cache` module that does the heavy lifting.
 
-It's a function that returns an object containing following properties.
+It's a function that returns an object containing the following properties.
 
 ```javascript
 function CacheDriver (options) {
   const client = new Driver(options);
 
   return {
-    async invoke({ key, route, context, render, getTags }) {},
+    async invoke({ route, context, render, getTags }) {},
 
     async invalidate({ request, response, tags }) {}
-
-    async invalidateAll({ request, response, tags }) {}
   };
 };
 ```
@@ -32,7 +30,6 @@ function CacheDriver (options) {
 
 `invoke` method is called every time a route is rendered on the server. It's called with following parameters:
 
-* `key` (string) - unique identifier for current route;
 * `route` (object) - contains information about the current route;
 * `context` (object) - contains information about the current context;
 * `render` (function) - function to render the page, returns a Promise with HTML;
@@ -42,29 +39,29 @@ Because calling `render()` is computationally expensive, it's the step we want t
 
 ```javascript
 {
-  async invoke({ key, route, context, render, getTags }) {
-    const cachedResponse = await client.getCache(key);
+  async invoke({ route, render, getTags }) {
+    const key = `page:${ route }`;
+    const cachedResponse = await client.get(key);
 
     if (cachedResponse) {
-      // Page is already cached
       return cachedResponse;
     }
 
     const content = await render();
+    const tags = getTags();
 
     if (!tags.length) {
-      // Rendered page doesn't have any tags
       return content;
     }
 
-    await client.setCache(
+    await client.set(
       key,
       content,
-      getTags()
+      tags
     );
 
     return content;
-  },
+  }
 }
 ```
 
@@ -80,11 +77,18 @@ By default, `@vue-storefront/cache` calls it and returns an empty response with 
 
 `response` object passed to it can optionally be modified to add body (like JSON or a text) and custom HTTP headers.
 
+This method should be able to delete all tags when `*` is one of the keys passed to the `tags` array.
+
 ```javascript
 {
   async invalidate({ request, response, tags }) {
-    await client.invalidate(tags);
-    // Optionally add custom HTTP headers or response
+    if (tags.includes('*')) {
+      // invalidate all tags
+      await client.invalidateAll();
+    } else {
+      // invalidate provided tags
+      await client.invalidate(tags);
+    }
   }
 }
 ```
