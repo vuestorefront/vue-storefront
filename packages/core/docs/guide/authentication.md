@@ -4,6 +4,7 @@ Authentication is the operation of recognizing the user's identify. It allows us
 The whole logic related to this process can be handled with methods shared by `useUser` composable
 
 ## Registering a new user
+
 Registering a new user can be done using `register` method.  
 ```vue
 <template>
