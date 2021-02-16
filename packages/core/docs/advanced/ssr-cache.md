@@ -73,7 +73,7 @@ When the page is requested, the cache driver checks if there is an already rende
 
 ## Tags
 
-Tags are strings associated with the rendered page and represent elements of the page that are dynamic and can change in the future. Each tag consists of a prefix and unique ID associated with the dynamic element.
+Tags are strings associated with the rendered page and represent elements of the page that are dynamic and can change in the future. Each tag consists of a prefix and a unique ID associated with the dynamic element.
 For example category with the ID of 1337 would create a tag `C1337`.
 
 A typical category page would have tags for:
@@ -104,19 +104,22 @@ To add tags, use `useCache` composable from `@vue-storefront/cache` package.
 
 ```javascript
 // pages/Category.vue
+import { onSSR } from '@vue-storefront/core';
 import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
 
 export default {
   setup() {
     const { addTags } = useCache();
 
-    addTags([
-      { prefix: CacheTagPrefix.View, value: 'category' },
-      { prefix: CacheTagPrefix.Category, value: id },
-      // or
-      { prefix: 'V', value: 'category' },
-      { prefix: 'C', value: id },
-    ]);
+    onSSR(() => {
+      addTags([
+        { prefix: CacheTagPrefix.View, value: 'category' },
+        { prefix: CacheTagPrefix.Category, value: id },
+        // or
+        { prefix: 'V', value: 'category' },
+        { prefix: 'C', value: id },
+      ]);
+    })
   }
 };
 ```
@@ -134,11 +137,17 @@ invalidation: {
 
 To invalidate the cache, visit an URL provided in the configuration with two query strings:
 
-* `key` - specified in the configuration and used to prevent unauthorized users from clearing the application's cache. For this reason, you should use long and hard to guess keys.
+* `key` - specified in the configuration and used to prevent unauthorized users from clearing the application's cache. For this reason, you should use long and hard-to-guess keys.
 * `tags` - comma (`,`) separated tags to be invalidated. Internally `prefix` and `value` provided to `addTags` method are combined into one string, so `{ prefix: 'V', value: 'category' }` becomes `Vcategory` and `{ prefix: 'C', value: 1337 }` becomes `C1337`.
 
 Using settings above and default Vue Storefront configuration, the invalidation URL should look like this:
 
 ```
 http://localhost:3000/cache-invalidate?key=myUniqueKey&tags=Vcategory,C1337
+```
+
+To invalidate all keys, pass `*` as a `key` value:
+
+```
+http://localhost:3000/cache-invalidate?key=myUniqueKey&tags=*
 ```

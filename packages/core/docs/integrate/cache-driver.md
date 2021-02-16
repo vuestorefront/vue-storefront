@@ -12,16 +12,18 @@ This page assumes you are familiar with caching in Vue Storefront. Please [see t
 
 Cache driver is not a standalone plugin, but an extension depending on `@vue-storefront/cache` module that does the heavy lifting.
 
-It's a function that returns an object containing two properties.
+It's a function that returns an object containing following properties.
 
 ```javascript
 function CacheDriver (options) {
   const client = new Driver(options);
 
   return {
-    invoke: async ({ key, route, context, render, getTags }) => {},
+    async invoke({ key, route, context, render, getTags }) {},
 
-    invalidate: async ({ request, response, tags }) => {}
+    async invalidate({ request, response, tags }) {}
+
+    async invalidateAll({ request, response, tags }) {}
   };
 };
 ```
@@ -40,7 +42,7 @@ Because calling `render()` is computationally expensive, it's the step we want t
 
 ```javascript
 {
-  invoke: async ({ key, route, context, render, getTags }) => {
+  async invoke({ key, route, context, render, getTags }) {
     const cachedResponse = await client.getCache(key);
 
     if (cachedResponse) {
@@ -68,19 +70,23 @@ Because calling `render()` is computationally expensive, it's the step we want t
 
 ## Invalidating cache
 
-`invalidate` method is called when the cache invalidation page is visited and the invalidation key is confirmed. It's called with following parameters:
+Invalidation methods are called when the cache invalidation page is visited and the invalidation key is confirmed There are two invalidation methods:
+* `invalidateAll` - called when `*` is passed as a tag,
+* `invalidate` - called in all other cases.
+
+Both are called with following parameters:
 
 * `request` (object) - Node.js HTTP request object;
 * `response` (object) - Node.js HTTP response object;
 * `tags` (array) - Array containing tags to invalidate;
 
-By default, `@vue-storefront/cache` calls `invalidate` and returns an empty response with `200 OK` or in case of error `500 Internal Server Error` HTTP code.
+By default, `@vue-storefront/cache` calls one of those methods and returns an empty response with `200 OK` or in case of error `500 Internal Server Error` HTTP code.
 
-`invalidate` method should invalidate provided tags and optionally modify the response object to add custom HTTP headers or some response, like JSON or a text.
+Because they have access to `response` object, they can optionally modify it to add custom HTTP headers or response, like JSON or a text.
 
 ```javascript
 {
-  invalidate: async ({ request, response, tags }) => {
+  async invalidate({ request, response, tags }) {
     await client.invalidate(tags);
     // Optionally add custom HTTP headers or response
   }
