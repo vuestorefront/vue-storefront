@@ -6,7 +6,7 @@ import {
   IntegrationsSection
 } from '@vue-storefront/core';
 
-export interface IntegrationLoaded {
+interface IntegrationLoaded {
   apiClient: ApiClientFactory;
   configuration: any;
   extensions: ApiClientExtension[];

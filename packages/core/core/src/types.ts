@@ -583,26 +583,26 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
-interface HookParams<C> {
+export interface HookParams<C> {
   configuration: C;
 }
 
-interface CallHookParams<C> extends HookParams<C> {
+export interface CallHookParams<C> extends HookParams<C> {
   callName: string;
 }
 
-type BeforeCallArgs = any;
-type AfterCallArgs = any;
+export type BeforeCallArgs = any;
+export type AfterCallArgs = any;
 
-interface BeforeCallParams< C> extends CallHookParams<C> {
+export interface BeforeCallParams< C> extends CallHookParams<C> {
   args: BeforeCallArgs;
 }
 
-interface AfterCallParams<C> extends CallHookParams<C> {
+export interface AfterCallParams<C> extends CallHookParams<C> {
   response: AfterCallArgs;
 }
 
-interface ApiClientExtensionHooks<C = any> {
+export interface ApiClientExtensionHooks<C = any> {
   beforeCreate?: (params: HookParams<C>) => C;
   afterCreate?: (params: HookParams<C>) => C;
   beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
