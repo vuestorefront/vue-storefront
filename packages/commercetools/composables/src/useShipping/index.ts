@@ -26,7 +26,7 @@ const params: UseShippingParams<Address, {}> = {
     });
 
     context.cart.setCart(cartResponse.data.cart);
-    return cartResponse.data.cart.shippingAddress;
+    return context.cart.cart.value.shippingAddress;
   }
 };
 
