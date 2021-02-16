@@ -30,9 +30,9 @@ export default {
   },
   setup(_, context) {
     const {
-      save: saveShipping,
-      load: loadShipping,
-      error: shippingError
+      save,
+      load,
+      error
     } = useShipping();
 
     const isSaving = reactive({
@@ -41,13 +41,13 @@ export default {
     });
 
     onSSR(async () => {
-      await loadShipping();
+      await load();
     });
 
     const handleShippingAddressSubmit = async shippingDetails => {
       isSaving.details = true;
-      await saveShipping({ shippingDetails });
-      if (shippingError.value.save) {
+      await save({ shippingDetails });
+      if (error.value.save) {
         return;
       }
       isSaving.details = false;
