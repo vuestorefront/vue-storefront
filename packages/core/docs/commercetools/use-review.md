@@ -63,20 +63,20 @@ Because `reviews` property is a raw response with some additional properties, it
 Interface for the above getter looks like this:
 
 ```typescript
-interface ReviewGetters<REVIEW, REVIEW_ITEM> {
+interface ReviewGetters<Review, ReviewItem> {
   // Getters for 'review' data object
-  getItems: (review: REVIEW) => REVIEW_ITEM[];
-  getTotalReviews: (review: REVIEW) => number;
-  getAverageRating: (review: REVIEW) => number;
-  getRatesCount: (review: REVIEW) => AgnosticRateCount[];
-  getReviewsPage: (review: REVIEW) => number;
+  getItems: (review: Review) => ReviewItem[];
+  getTotalReviews: (review: Review) => number;
+  getAverageRating: (review: Review) => number;
+  getRatesCount: (review: Review) => AgnosticRateCount[];
+  getReviewsPage: (review: Review) => number;
 
   // Getters for individual review items
-  getReviewId: (item: REVIEW_ITEM) => string;
-  getReviewAuthor: (item: REVIEW_ITEM) => string;
-  getReviewMessage: (item: REVIEW_ITEM) => string;
-  getReviewRating: (item: REVIEW_ITEM) => number;
-  getReviewDate: (item: REVIEW_ITEM) => string;
+  getReviewId: (item: ReviewItem) => string;
+  getReviewAuthor: (item: ReviewItem) => string;
+  getReviewMessage: (item: ReviewItem) => string;
+  getReviewRating: (item: ReviewItem) => number;
+  getReviewDate: (item: ReviewItem) => string;
 }
 
 interface AgnosticRateCount {
