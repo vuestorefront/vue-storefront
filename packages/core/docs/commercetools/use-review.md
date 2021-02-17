@@ -1,14 +1,10 @@
----
-platform: Commercetools
----
-
 # useReview <Badge text="Enterprise" type="info" />
 
 > This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
 ## Features
 
-`useReview` composition function can be used to:
+`useReview` composable can be used to:
 
 * fetch:
     * reviews list,
@@ -20,8 +16,10 @@ platform: Commercetools
 
 `useReview` contains the following properties:
 
-- `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property.
+- `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property. This method accepts a single params object. The `params` has the following options:
 
+  - `searchParams`: ReviewSearchParams
+  
 <Content slot-key="search-params" />
 
 - `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information.
@@ -35,8 +33,6 @@ platform: Commercetools
 - `error` - reactive object containing the error message, if `search` or `addReview` failed for any reason.
 
 ## Getters
-
-Because `reviews` property is a raw response with some additional properties, it's recommended to use `ReviewGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getItems` - returns list of reviews.
 
@@ -58,18 +54,13 @@ Because `reviews` property is a raw response with some additional properties, it
 
 - `getReviewDate` - returns creation date from an individual review item.
 
-Interface for the above getter looks like this:
-
 ```typescript
 interface ReviewGetters {
-  // Getters for 'review' data object
   getItems: (review: ReviewResponse) => Review[];
   getTotalReviews: (review: ReviewResponse) => number;
   getAverageRating: (review: ReviewResponse) => number;
   getRatesCount: (review: ReviewResponse) => AgnosticRateCount[];
   getReviewsPage: (review: ReviewResponse) => number;
-
-  // Getters for individual review items
   getReviewId: (item: Review) => string;
   getReviewAuthor: (item: Review) => string;
   getReviewMessage: (item: Review) => string;
@@ -94,34 +85,7 @@ interface AgnosticRateCount {
 }
 ```
 
-## Usage
-
-When you already installed `@vsf-enterprise/ct-reviews` as a dependency, there are few minor modifications required to make it work.
-
-The first step is to add `@vsf-enterprise/ct-reviews` to `build > transpile` array in `nuxt.config.js`:
-
-```javascript
-{
-    build: {
-      transpile: [
-        '@vsf-enterprise/ct-reviews'
-      ]
-    }
-}
-```
-
-Then we need to replace the import of `useReview` and `reviewGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-reviews`:
-
-```javascript
-// Before
-import { /* other imports */, useReview, reviewGetters } from '@vue-storefront/commercetools';
-
-// After
-import { /* other imports */ } from '@vue-storefront/commercetools';
-import { useReview, reviewGetters } from '@vsf-enterprise/ct-reviews';
-```
-
-## Examples
+## Example
 
 Fetching reviews for a single product:
 
