@@ -89,8 +89,7 @@ Because `shipping` property is a raw response, it's recommended to use `UserShip
 Interface for the above getter looks like this:
 
 ```typescript
-
-export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
+interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   // Getters for 'shipping' data object
   getAddresses: (shipping: USER_SHIPPING, criteria?: Record<string, any>) => USER_SHIPPING_ITEM[];
   getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
