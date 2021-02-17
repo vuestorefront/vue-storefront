@@ -198,3 +198,5 @@ const logger = new Logger(
 )
 
 export { logger as Logger }
+
+export default Logger
