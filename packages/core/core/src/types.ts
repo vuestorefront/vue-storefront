@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
+import type { Request, Response } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -583,18 +584,50 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
-export interface ApiClientExtensionLifecycle {
-  beforeCreate?: ({ configuration }) => any;
-  afterCreate?: ({ configuration }) => any;
-  beforeCall?: ({ configuration, callName, args }) => any;
-  afterCall?: ({ configuration, callName, args }) => any;
+export interface HookParams<C> {
+  configuration: C;
+}
+
+export interface CallHookParams<C> extends HookParams<C> {
+  callName: string;
+}
+
+export type BeforeCallArgs = any;
+export type AfterCallArgs = any;
+
+export interface BeforeCallParams< C> extends CallHookParams<C> {
+  args: BeforeCallArgs;
+}
+
+export interface AfterCallParams<C> extends CallHookParams<C> {
+  response: AfterCallArgs;
+}
+
+export interface ApiClientExtensionHooks<C = any> {
+  beforeCreate?: (params: HookParams<C>) => C;
+  afterCreate?: (params: HookParams<C>) => C;
+  beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
+  afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
 }
 
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, Function>;
-  hooks?: (req: any, res: any) => ApiClientExtensionLifecycle;
+  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
+
+export interface Integration {
+  location: string;
+  configuration: any;
+  extensions: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+}
+
+export type IntegrationsSection = Record<string, Integration>
+
+export interface MiddlewareConfig {
+  integrations: Record<string, Integration>;
+}
+
 export interface ApiClientFactoryParams<T, F = any> {
   api: F;
   isProxy?: boolean;
