@@ -1,6 +1,7 @@
 
 declare module 'config' {
   import baseConfig = require('config/index')
+  import Logger from 'core/lib/logger'
   // Merging config types with VSF config types
   var coreConfig: CoreConfig
   export default coreConfig
@@ -10,7 +11,7 @@ declare module 'config' {
     initialResources: InitialResource[],
     staticPages: StaticPages,
     seo: Seo,
-    console: Console,
+    console: Partial<Logger>,
     redis: Redis,
     graphql: Graphql,
     api: Api,
@@ -116,11 +117,6 @@ declare module 'config' {
     useUrlDispatcher: boolean,
     disableUrlRoutesPersistentCache: boolean,
     defaultTitle: string
-  }
-
-  interface Console {
-    showErrorOnProduction: boolean,
-    verbosityLevel: string
   }
 
   interface Redis {
