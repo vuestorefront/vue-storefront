@@ -17,31 +17,25 @@ function requirePackage (name) {
  * Adds endpoint to invalidate cache
  */
 function createInvalidationEndpoint (driver, options) {
-  if (!options || !options.endpoint || !options.invalidators) {
+  if (!options || !options.endpoint || !options.handlers) {
     return;
   }
 
   const handler = async (request, response) => {
     try {
-      // Resolve invalidator paths to packages
-      const invalidators = options.invalidators.map(invalidator => {
-        return typeof invalidator === 'string'
-          ? requirePackage(invalidator)
-          : invalidator;
-      });
-
-      // Get tags from all invalidators
-      const tags = invalidators.reduce((tags, invalidator) => {
-        const newTags = invalidator({ request, response, options });
-        return tags.concat(newTags);
-      }, []);
-
+      // Resolve handlers paths
+      const tags = options.handlers
+        .map(handler => typeof handler === 'string' ? requirePackage(handler) : handler)
+        .reduce((tags, handler) => {
+          const newTags = handler({ request, response, options });
+          return tags.concat(newTags);
+        }, []);
 
       // Call driver invalidator with all tags
       await driver.invalidate({
         request,
         response,
-        tags
+        tags: [...new Set(tags)] // Removes duplicates
       });
 
       response.writeHead(200);
@@ -104,7 +98,7 @@ export default function cacheModule (options) {
   const driver = createDriver(options.driver)
 
   // Create invalidation endpoint if necessary
-  createInvalidationEndpoint.call(this, driver, options.server);
+  createInvalidationEndpoint.call(this, driver, options.invalidation);
 
   // Create renderer
   createRenderer.call(this, async (route, context, render) => {
