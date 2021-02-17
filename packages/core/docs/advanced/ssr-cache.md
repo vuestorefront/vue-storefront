@@ -25,7 +25,7 @@ yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
 
 ### Configure Nuxt
 
-The next step is to register `@vue-storefront/cache` package as a module in `nuxt.config.js` with driver and invalidation configuration.
+The next step is to register Nuxt module from `@vue-storefront/cache` package in `nuxt.config.js` with driver and invalidation configuration.
 
 ::: warning Be careful
 Make sure this package is added to the `modules` array, not `buildModules`.
@@ -37,10 +37,10 @@ Make sure this package is added to the `modules` array, not `buildModules`.
 export default {
   modules: [
     ['@vue-storefront/cache/nuxt', {
-      server: {
+      invalidation: {
         endpoint: '/cache-invalidate',
-        invalidators: [
-          // Invalidators
+        handlers: [
+          // Handlers
         ]
       },
       driver: [
@@ -128,30 +128,36 @@ export default {
 
 ### Invalidating tags
 
+::: tip
+Check the documentation for your e-commerce integration to see if it provides any invalidation handlers.
+:::
+
 As mentioned in [Configuration](#configuration) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
 
-We need invalidators, because each integration may pass data in a different format or multiple invalidation strategies may be needed at the same time. Please see the documentation for your e-commerce integration to see if it provides any invalidators.
+Because each integration may pass data in a different format or multiple invalidation strategies may be needed at the same time, we need **invalidation handlers**. Each handler may return tags, which are later combined and passed to the driver for invalidation.
+
+Internally `prefix` and `value` provided to `addTags` method are combined into one string, so `{ prefix: 'V', value: 'category' }` becomes `Vcategory` and `{ prefix: 'C', value: 1337 }` becomes `C1337`.
 
 ```javascript
-server: {
+invalidation: {
   endpoint: '/cache-invalidate',
-  invalidators: [
-    // Integration specific invalidators
+  handlers: [
+    // Integration specific handlers
   ]
 }
 ```
 
-#### Default invalidator
+#### Default invalidation handler
 
-We provide a default invalidator that can be enabled using following configuration:
+`@vue-storefront/cache` package provides a default handler that can be enabled using following configuration:
 
 ```javascript
 ['@vue-storefront/cache/nuxt', {
-  server: {
+  invalidation: {
     endpoint: '/cache-invalidate',
     key: 'uniqueKey',
-    invalidators: [
-      '@vue-storefront/cache/defaultInvalidator'
+    handlers: [
+      '@vue-storefront/cache/defaultHandler'
     ]
   },
   driver: [
@@ -163,7 +169,7 @@ We provide a default invalidator that can be enabled using following configurati
 To invalidate the cache using it, visit an URL provided in the configuration with two query strings:
 
 * `key` - specified in the configuration and used to prevent unauthorized users from clearing the application's cache. For this reason, you should use long and hard-to-guess keys.
-* `tags` - comma (`,`) separated tags to be invalidated. Internally `prefix` and `value` provided to `addTags` method are combined into one string, so `{ prefix: 'V', value: 'category' }` becomes `Vcategory` and `{ prefix: 'C', value: 1337 }` becomes `C1337`.
+* `tags` - comma (`,`) separated tags to be invalidated.
 
 Using settings above and default Vue Storefront configuration, the invalidation URL should look like this:
 
@@ -177,13 +183,13 @@ To invalidate all keys, pass `*` as a `key` value:
 http://localhost:3000/cache-invalidate?key=myUniqueKey&tags=*
 ```
 
-#### Creating an invalidator
+#### Creating an invalidation handler
 
-Invalidator is a function that returns an array of tags. It accepts an object with the following properties:
+Invalidation handler is a function that returns an array of tags. It accepts an object with the following properties:
 
 * `request` (object) - Node.js HTTP request object;
 * `response` (object) - Node.js HTTP response object;
-* `options` (array) - `server` object passed in `@vue-storefront/cache/nuxt` configuration;
+* `options` (array) - `invalidation` object in `@vue-storefront/cache/nuxt` configuration;
 
 ```javascript
 function ({ request, response, options }) {
@@ -191,10 +197,11 @@ function ({ request, response, options }) {
   return tags;
 };
 ```
-Invalidator should prevent unauthorized users from clearing the cache. One way of doing it is adding `key` to the configuration like in [default invalidator](#default-invalidator) and checking if `request` contains `options.key` in the URL queries or body.
 
-::: tip Don't throw errors in invalidators
-Because multiple invalidators can be used at the same time to handle different data formats, they should not throw errors. Throwing an error from the invalidator drops the request, which may be handled by another invalidator.
+The handler should prevent unauthorized users from clearing the cache. One way of doing it is adding `key` to the configuration like in the [default invalidation handler](#default-invalidation-handler) and checking if `request` contains `options.key` in the URL queries or body.
+
+::: tip Don't throw errors in handlers
+Because multiple handlers can be used at the same time to add support for different data formats, they should not throw errors. Throwing an error from the handler drops the request, which may be processed by another handler.
 
 If one of the properties is missing or the validation key is wrong, return an empty array. 
 :::
