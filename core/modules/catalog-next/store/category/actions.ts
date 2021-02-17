@@ -10,7 +10,6 @@ import { localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
-import { products, entities } from 'config'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
@@ -27,17 +26,17 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
-    const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
+    const areFiltersInQuery = !!Object.keys(route[config.products.routerFiltersSource]).length
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
     }
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
+    const searchQuery = getters.getCurrentFiltersFrom(route[config.products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
-      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
-      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
-      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
+      sort: searchQuery.sort || `${config.products.defaultSortBy.attribute}:${config.products.defaultSortBy.order}`,
+      includeFields: config.entities.productList.includeFields,
+      excludeFields: config.entities.productList.excludeFields,
       size: pageSize,
       configuration: searchQuery.filters,
       options: {
@@ -69,11 +68,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const searchResult = await dispatch('product/findProducts', {
       query: filterQr,
-      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
+      sort: searchQuery.sort || `${config.products.defaultSortBy.attribute}:${config.products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
-      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
-      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
+      includeFields: config.entities.productList.includeFields,
+      excludeFields: config.entities.productList.excludeFields,
       configuration: searchQuery.filters,
       options: {
         populateRequestCacheTags: true,
@@ -100,7 +99,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
 
     const searchCategory = getters.getCategoryFrom(route.path) || {}
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
+    const searchQuery = getters.getCurrentFiltersFrom(route[config.products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
     const cachedProductsResponse = await dispatch('product/findProducts', {
@@ -111,7 +110,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         prefetchGroupProducts: false
       }
     }, { root: true })
-    if (products.filterUnavailableVariants) { // prefetch the stock items
+    if (config.products.filterUnavailableVariants) { // prefetch the stock items
       const skus = prefetchStockItems(cachedProductsResponse, rootState.stock.cache)
 
       for (const chunkItem of chunk(skus, 15)) {
@@ -188,7 +187,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
 
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
-    let currentQuery = router.currentRoute[products.routerFiltersSource]
+    let currentQuery = router.currentRoute[config.products.routerFiltersSource]
     filterVariants.forEach(filterVariant => {
       currentQuery = changeFilterQuery({ currentQuery, filterVariant })
     })
@@ -198,7 +197,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('changeRouterFilterParameters', {})
   },
   async changeRouterFilterParameters (context, query) {
-    router.push({ [products.routerFiltersSource]: query })
+    router.push({ [config.products.routerFiltersSource]: query })
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return
