@@ -1,12 +1,8 @@
----
-platform: Commercetools
----
-
-# Cart
+# `useCart`
 
 ## Features
 
-`useCart` composition function can be used to:
+`useCart` composable can be used to:
 
 * load cart information,
 * add, update and remove items in the cart,
@@ -18,7 +14,7 @@ platform: Commercetools
 - `cart` - a main data object
 
 ```ts
-type Cart = Versioned & {
+type Cart = {
   __typename?: "Cart";
   customerId?: Maybe<Scalars["String"]>;
   customer?: Maybe<Customer>;
@@ -49,9 +45,7 @@ type Cart = Versioned & {
   store?: Maybe<Store>;
   itemShippingAddresses: Array<Address>;
   cartState: CartState;
-  /** This field contains non-typed data. Consider using `customFields` as a typed alternative. */
   customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  /** This field would contain type data */
   customFields?: Maybe<Type>;
   custom?: Maybe<CustomFieldsType>;
   deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
@@ -61,7 +55,6 @@ type Cart = Versioned & {
   lastModifiedAt: Scalars["DateTime"];
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
-  /** Custom fields are returned as a list instead of an object structure. */
   customFieldList?: Maybe<Array<CustomField>>;
 };
 ```  
@@ -86,8 +79,6 @@ type Cart = Versioned & {
 - `loading` - a reactive object containing information about loading state of the cart
 
 ## Getters
-
-Because `cart` property is a raw response with some additional properties, it's recommended to use `cartGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getTotals` - returns cart totals.
 
@@ -114,8 +105,6 @@ Because `cart` property is a raw response with some additional properties, it's 
 - `getCoupons` - returns applied coupons.
 
 - `getDiscounts` - returns all discounts.
-
-Interface for the above getter looks like this:
 
 ```ts
 interface CartGetters {
@@ -168,7 +157,7 @@ interface AgnosticDiscount {
 }
 ```
 
-## Examples
+## Example
 
 ```js
 import { useCart, cartGetters } from '@vue-storefront/commercetools';
@@ -192,7 +181,3 @@ export default {
   }
 }
 ```
-
-:::tip
-Because in commercetools each interaction with the cart (such as adding or removing items) triggers token recreation, cart is loaded only when it's really needed. For more information please visit [commercetools documentation](https://docs.commercetools.com/http-api-authorization#create-anonymous-sessions-only-once-necessary).
-:::
