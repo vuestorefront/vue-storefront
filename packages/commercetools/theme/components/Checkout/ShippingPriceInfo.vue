@@ -17,6 +17,7 @@ export default {
     SfProperty
   },
   setup () {
+    // TODO: Implement real source of data
     const chosenShippingMethod = ref(0);
     return {
       getShippingMethodPrice,
