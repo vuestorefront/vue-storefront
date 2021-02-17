@@ -31,6 +31,27 @@ interface ProductsSearchParams {
 ```
 - `products` - a main data object that contains an array of products fetched by `search` method,
 
+```ts
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  /** Returns a single price based on the price selection rules. */
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  /** This field contains non-typed data. Consider using `attributes` as a typed alternative. */
+  attributesRaw: Array<RawProductAttribute>;
+  /** Product attributes */
+  attributes: ProductType;
+  /** Product attributes are returned as a list instead of an object structure. */
+  attributeList: Array<Attribute>;
+}
+```
+
 - `loading` - a reactive object containing information about loading state of your `search` method.
 
 - `error` - reactive object containing the error message, if `search` failed for any reason.
@@ -68,22 +89,20 @@ Because `product` property is a raw response, it's recommended to use `productGe
 Interface for the above getter looks like this:
 
 ```ts
-interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
-  getName: (product: PRODUCT) => string;
-  getSlug: (product: PRODUCT) => string;
-  getPrice: (product: PRODUCT) => AgnosticPrice;
-  getGallery: (product: PRODUCT) => AgnosticMediaGalleryItem[];
-  getCoverImage: (product: PRODUCT) => string;
-  getFiltered: (products: PRODUCT[], filters?: PRODUCT_FILTER) => PRODUCT[];
-  getAttributes: (products: PRODUCT[] | PRODUCT, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
-  getDescription: (product: PRODUCT) => string;
-  getCategoryIds: (product: PRODUCT) => string[];
-  getId: (product: PRODUCT) => string;
+interface ProductGetters<ProductVariant, ProductVariantFilters> {
+  getName: (product: ProductVariant | Readonly<ProductVariant>) => string;
+  getSlug: (product: ProductVariant | Readonly<ProductVariant>) => string;
+  getPrice: (product: ProductVariant | Readonly<ProductVariant>) => AgnosticPrice;
+  getGallery: (product: ProductVariant) => AgnosticMediaGalleryItem[];
+  getCoverImage: (product: ProductVariant) => string;
+  getFiltered: (products: ProductVariant[], filters: ProductVariantFilters | any = {}) => ProductVariant[];
+  getAttributes: (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>;
+  getDescription: (product: ProductVariant) => string;
+  getCategoryIds: (product: ProductVariant) => string[];
+  getId: (product: ProductVariant) => string;
   getFormattedPrice: (price: number) => string;
-  getTotalReviews: (product: PRODUCT) => number;
-  getAverageRating: (product: PRODUCT) => number;
-  getBreadcrumbs?: (product: PRODUCT) => AgnosticBreadcrumb[];
-  [getterName: string]: any;
+  getTotalReviews: (product: ProductVariant) => number;
+  getAverageRating: (product: ProductVariant) => number;
 }
 ```
 
