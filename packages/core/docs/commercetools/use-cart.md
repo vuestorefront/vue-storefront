@@ -11,13 +11,13 @@ platform: Commercetools
 `useCart` composition function can be used to:
 
 * load cart information,
-* add, update and remove items to the cart,
+* add, update and remove items in the cart,
 * applying and removing coupons,
 * checking if product is already added to the cart.
 
 ## API
 
-- `cart` - a main data object that contains cart structure in platform specific structure
+- `cart` - a main data object
 
 ```ts
 type Cart = Versioned & {
@@ -120,22 +120,20 @@ Because `cart` property is a raw response with some additional properties, it's 
 Interface for the above getter looks like this:
 
 ```ts
-interface CartGetters<CART, CART_ITEM> {
-  getItems: (cart: CART) => CART_ITEM[];
-  getItemName: (cartItem: CART_ITEM) => string;
-  getItemImage: (cartItem: CART_ITEM) => string;
-  getItemPrice: (cartItem: CART_ITEM) => AgnosticPrice;
-  getItemQty: (cartItem: CART_ITEM) => number;
-  getItemAttributes: (cartItem: CART_ITEM, filters?: Array<string>) => Record<string, AgnosticAttribute | string>;
-  getItemSku: (cartItem: CART_ITEM) => string;
-  getTotals: (cart: CART) => AgnosticTotals;
-  getShippingPrice: (cart: CART) => number;
-  getTotalItems: (cart: CART) => number;
+interface CartGetters<Cart, LineItem> {
+  getTotals: (cart: Cart) => AgnosticTotals;
+  getShippingPrice: (cart: Cart) => number;
+  getItems: (cart: Cart) => LineItem;
+  getItemName: (product: LineItem) => string;
+  getItemImage: (product: LineItem) => string;
+  getItemPrice: (product: LineItem) => AgnosticPrice;
+  getItemQty: (product: LineItem) => number;
+  getItemAttributes: (product: LineItem, filterByAttributeName?: Array<string>) => Record<string, AgnosticAttribute | string>;
+  getItemSku: (product: LineItem) => string;
+  getTotalItems: (cart: Cart) => number;
   getFormattedPrice: (price: number) => string;
-  // @deprecated - use getDiscounts instead
-  getCoupons: (cart: CART) => AgnosticCoupon[];
-  getDiscounts: (cart: CART) => AgnosticDiscount[];
-  [getterName: string]: (element: any, options?: any) => unknown;
+  getCoupons: (cart: Cart) => AgnosticCoupon[];
+  getDiscounts: (cart: Cart) => AgnosticDiscount[];
 }
 ```
 
