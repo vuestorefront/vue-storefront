@@ -15,9 +15,6 @@
     - `customQuery`: CustomQuery
   
 ```ts
-type Maybe<T> = T | null;
-
-
 interface ProductsSearchParams {
   perPage?: number;
   page?: number;
@@ -30,9 +27,9 @@ interface ProductsSearchParams {
   id?: string;
 }
 
-type CustomQuery<T = any> = (query: any, variables: T) => {
-  query?: any;
-  variables?: T;
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
 }
 ```
 - `products` - a main data object that contains an array of products fetched by `search` method,
