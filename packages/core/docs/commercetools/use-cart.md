@@ -133,6 +133,39 @@ interface CartGetters {
   getCoupons: (cart: Cart) => AgnosticCoupon[];
   getDiscounts: (cart: Cart) => AgnosticDiscount[];
 }
+
+interface AgnosticTotals {
+  total: number;
+  subtotal: number;
+  special?: number;
+  [x: string]: unknown;
+}
+
+interface AgnosticPrice {
+  regular: number | null;
+  special?: number | null;
+}
+
+interface AgnosticAttribute {
+  name?: string;
+  value: string | Record<string, any>;
+  label: string;
+}
+
+interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
+}
+
+interface AgnosticDiscount {
+  id: string;
+  name: string;
+  description: string;
+  value: number;
+  code?: string;
+}
 ```
 
 ## Examples

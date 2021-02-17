@@ -102,6 +102,28 @@ interface ProductGetters {
   getTotalReviews: (product: ProductVariant) => number;
   getAverageRating: (product: ProductVariant) => number;
 }
+
+interface AgnosticPrice {
+  regular: number | null;
+  special?: number | null;
+}
+
+interface AgnosticMediaGalleryItem {
+  small: string;
+  normal: string;
+  big: string;
+}
+
+interface AgnosticAttribute {
+  name?: string;
+  value: string | Record<string, any>;
+  label: string;
+}
+
+interface ProductVariantFilters {
+  master?: boolean;
+  attributes?: Record<string, string>;
+}
 ```
 
 ## Examples

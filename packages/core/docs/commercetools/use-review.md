@@ -77,6 +77,17 @@ interface ReviewGetters {
   getReviewDate: (item: Review) => string;
 }
 
+type ReviewResponse = {
+  results: Review[],
+  total: number;
+  limit: number;
+  offset: number;
+  averageRating: number;
+  ratingsDistribution: {
+    [rating: number]: number;
+  };
+}
+
 interface AgnosticRateCount {
   rate: number;
   count: number;

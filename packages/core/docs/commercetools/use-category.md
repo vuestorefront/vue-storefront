@@ -76,6 +76,15 @@ Interface for the above getter looks like this:
 interface CategoryGetters {
   getTree: (category: Category) => AgnosticCategoryTree | null;
 }
+
+interface AgnosticCategoryTree {
+  label: string;
+  slug?: string;
+  items: AgnosticCategoryTree[];
+  isCurrent: boolean;
+  count?: number;
+  [x: string]: unknown;
+}
 ```
 
 ## Examples
