@@ -25,7 +25,7 @@ const params: UseBillingParams<Address, {}> = {
     });
 
     context.cart.setCart(cartResponse.data.cart);
-    return cartResponse.data.cart.billingAddress;
+    return context.cart.cart.value.billingAddress;
   }
 };
 
