@@ -12,7 +12,7 @@ module.exports = {
 
     // Ignore mocked composables
     'Billing',
-    'Shipping',
+    'UserShipping',
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/5136
     '<rootDir>/src/getters/cartGetters.ts',
