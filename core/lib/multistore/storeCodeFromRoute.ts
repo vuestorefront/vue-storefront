@@ -1,9 +1,9 @@
 import { RawLocation } from 'vue-router'
-import { storeViews } from 'config'
 import { LocalizedRoute, StoreView } from './../types'
 import { getNormalizedPath, getUrl } from './helpers'
 import { getExtendedStoreviewConfig } from '.'
 import cloneDeep from 'lodash-es/cloneDeep'
+const config = require('config')
 
 const isMatchingByPath = (matchedRouteOrUrl: LocalizedRoute | string, store: StoreView): boolean => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
@@ -22,11 +22,11 @@ const isMatchingWithAppendStoreCode = (matchedRouteOrUrl: LocalizedRoute | strin
 }
 
 const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string => {
-  const { multistore, mapStoreUrlsFor = [] } = storeViews
+  const { multistore, mapStoreUrlsFor = [] } = config.storeViews
   if (!matchedRouteOrUrl || !multistore) return ''
 
   for (let storeViewProp of mapStoreUrlsFor) {
-    const storeView = getExtendedStoreviewConfig(storeViews[storeViewProp])
+    const storeView = getExtendedStoreviewConfig(config.storeViews[storeViewProp])
 
     if (!storeView) continue
 

@@ -9,8 +9,8 @@ function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, 
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDrivers = [].concat(
     config.localForage && config.localForage.defaultDrivers[key]
-    ? config.localForage.defaultDrivers[key]
-    : 'LOCALSTORAGE'
+      ? config.localForage.defaultDrivers[key]
+      : 'LOCALSTORAGE'
   )
 
   return new UniversalStorage(localForage.createInstance({
