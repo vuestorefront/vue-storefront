@@ -1,20 +1,23 @@
----
-platform: Commercetools
----
-
-# useProduct
+# `useProduct`
 
 ## Features
 
-`useProduct` composition API function is responsible for fetching a list of products.
+`useProduct` composable is responsible for fetching a list of products.
 
 ## API
 
 `useProduct` contains following properties:
 
-- `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+- `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
+    
+    - `searchParams`: ProductsSearchParams,
+      
+    - `customQuery`: CustomQuery
   
 ```ts
+type Maybe<T> = T | null;
+
+
 interface ProductsSearchParams {
   perPage?: number;
   page?: number;
@@ -26,6 +29,11 @@ interface ProductsSearchParams {
   slug?: string;
   id?: string;
 }
+
+type CustomQuery<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+}
 ```
 - `products` - a main data object that contains an array of products fetched by `search` method,
 
@@ -36,16 +44,12 @@ type ProductVariant = {
   key?: Maybe<Scalars["String"]>;
   sku?: Maybe<Scalars["String"]>;
   prices?: Maybe<Array<ProductPrice>>;
-  /** Returns a single price based on the price selection rules. */
   price?: Maybe<ProductPrice>;
   images: Array<Image>;
   assets: Array<Asset>;
   availability?: Maybe<ProductVariantAvailabilityWithChannels>;
-  /** This field contains non-typed data. Consider using `attributes` as a typed alternative. */
   attributesRaw: Array<RawProductAttribute>;
-  /** Product attributes */
   attributes: ProductType;
-  /** Product attributes are returned as a list instead of an object structure. */
   attributeList: Array<Attribute>;
 }
 ```
@@ -55,8 +59,6 @@ type ProductVariant = {
 - `error` - reactive object containing the error message, if `search` failed for any reason.
 
 ## Getters
-
-Because `product` property is a raw response, it's recommended to use `productGetters` for accessing any data from it. It includes following helper functions:
 
 - `getName` - returns product name.
 
@@ -83,8 +85,6 @@ Because `product` property is a raw response, it's recommended to use `productGe
 - `getTotalReviews` - returns total number of reviews product has. 
 
 - `getAverageRating` - returns average rating from all reviews.
-
-Interface for the above getter looks like this:
 
 ```ts
 interface ProductGetters {
@@ -126,7 +126,7 @@ interface ProductVariantFilters {
 }
 ```
 
-## Examples
+## Example
 
 ```js
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
