@@ -1,7 +1,5 @@
 # Faceting
 
-[[toc]]
-
 ## Features
 
 A composable responsible for (basic) faceting. This implementation rely on GraphQL api which means it not 100% complete faceting as commercetools provide in their dedicated rest-based faceting api. This one based on product and category query provided by `getProduct` and `getCategory` functions from `@vue-storefront/commercetools-api`. For more info regarding faceting and how it works, please read the core factory documentation available [here](/vsf-core/faceting).

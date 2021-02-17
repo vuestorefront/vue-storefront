@@ -4,8 +4,6 @@ platform: Commercetools
 
 # useProduct
 
-[[toc]]
-
 ## Features
 
 `useProduct` composition API function is responsible for fetching a list of products.

@@ -4,8 +4,6 @@ platform: Commercetools
 
 # useUser
 
-[[toc]]
-
 ## Features
 
 `useUser` composition function can be used to:

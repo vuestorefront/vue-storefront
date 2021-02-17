@@ -4,8 +4,6 @@ platform: Commercetools
 
 # Category
 
-[[toc]]
-
 ## Features
 
 `useCategory` composition API function is responsible for fetching a list of categories. A common usage scenario for this composable is navigation.

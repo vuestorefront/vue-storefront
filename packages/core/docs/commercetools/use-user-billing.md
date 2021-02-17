@@ -6,8 +6,6 @@ platform: Commercetools
 
 > This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
-[[toc]]
-
 ## Features
 
 `useUserBilling` composition function can be used to:
