@@ -16,7 +16,7 @@ platform: Commercetools
 
 - `search` - a main querying function that is used to query categories from eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
 
-- `categories` - a main data object that contains an array of categories fetched by `search` method,
+- `categories` - a main data object that contains an array of categories fetched by `search` method.
 
 ```ts
 type Category = Versioned & {
