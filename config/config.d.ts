@@ -32,10 +32,10 @@ declare module 'config' {
     images: Images,
     install: Install,
     demomode: boolean,
-    tax: Tax3,
+    tax: Tax,
     shipping: Shipping,
     syncTasks: SyncTasks,
-    i18n: I18N3,
+    i18n: I18N,
     expireHeaders: ExpireHeaders,
     newsletter: Newsletter,
     mailer: Mailer,
@@ -64,6 +64,8 @@ declare module 'config' {
     devServiceWorker: boolean,
     useHtmlMinifier: boolean,
     htmlMinifierOptions: HtmlMinifierOptions,
+    http2ServerPush: boolean,
+    compression: boolean,
     useOutputCacheTagging: boolean,
     useOutputCache: boolean,
     outputCacheDefaultTtl: number,
@@ -103,9 +105,9 @@ declare module 'config' {
 
   interface InitialResource {
     filters: string[],
-    type: string,
     onload: boolean,
-    rel: string
+    type?: string,
+    rel?: string
   }
 
   interface StaticPages {
@@ -217,83 +219,7 @@ declare module 'config' {
 
   interface StoreViews {
     multistore: boolean,
-    commonCache: boolean,
-    mapStoreUrlsFor: string[],
-    de: De,
-    it: It
-  }
-
-  interface De {
-    storeCode: string,
-    storeId: number,
-    name: string,
-    url: string,
-    appendStoreCode: boolean,
-    elasticsearch: Elasticsearch2,
-    tax: Tax,
-    i18n: I18N,
-    seo: Seo2
-  }
-
-  interface Elasticsearch2 {
-    host: string,
-    index: string
-  }
-
-  interface Tax {
-    sourcePriceIncludesTax: boolean,
-    defaultCountry: string,
-    defaultRegion: string,
-    calculateServerSide: boolean
-  }
-
-  interface I18N {
-    fullCountryName: string,
-    fullLanguageName: string,
-    defaultLanguage: string,
-    defaultCountry: string,
-    defaultLocale: string,
-    currencyCode: string,
-    currencySign: string,
-    dateFormat: string
-  }
-
-  interface Seo2 {
-    defaultTitle: string
-  }
-
-  interface It {
-    extend: string,
-    storeCode: string,
-    storeId: number,
-    name: string,
-    url: string,
-    appendStoreCode: boolean,
-    elasticsearch: Elasticsearch3,
-    tax: Tax2,
-    i18n: I18N2,
-    seo: Seo3
-  }
-
-  interface Elasticsearch3 {
-    host: string,
-    index: string
-  }
-
-  interface Tax2 {
-    defaultCountry: string
-  }
-
-  interface I18N2 {
-    fullCountryName: string,
-    fullLanguageName: string,
-    defaultCountry: string,
-    defaultLanguage: string,
-    defaultLocale: string
-  }
-
-  interface Seo3 {
-    defaultTitle: string
+    commonCache: boolean
   }
 
   interface Entities {
@@ -387,6 +313,7 @@ declare module 'config' {
   }
 
   interface Products {
+    fieldsToCompress: string[],
     fieldsToCompact: FieldsToCompact,
     disablePersistentProductsCache: boolean,
     useMagentoUrlKeys: boolean,
@@ -553,7 +480,9 @@ declare module 'config' {
     me_endpoint: string,
     refresh_endpoint: string,
     allowModification: string[],
-    tokenInHeader: boolean
+    tokenInHeader: boolean,
+    tokenHeaderName: string,
+    tokenAuthScheme: string
   }
 
   interface Stock {
@@ -579,7 +508,7 @@ declare module 'config' {
     backend_dir: string
   }
 
-  interface Tax3 {
+  interface Tax {
     defaultCountry: string,
     defaultRegion: string,
     sourcePriceIncludesTax: boolean,
@@ -608,7 +537,7 @@ declare module 'config' {
     disablePersistentTaskQueue: boolean
   }
 
-  interface I18N3 {
+  interface I18N {
     defaultCountry: string,
     defaultLanguage: string,
     availableLocale: string[],
@@ -749,5 +678,4 @@ declare module 'config' {
   interface Varnish {
     enabled: boolean
   }
-
 }
