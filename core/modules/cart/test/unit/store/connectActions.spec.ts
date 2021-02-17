@@ -1,9 +1,9 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import config from 'config';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
+const config = require('config')
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),

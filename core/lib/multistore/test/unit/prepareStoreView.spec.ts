@@ -1,6 +1,6 @@
 import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
 import rootStore from '@vue-storefront/core/store';
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),

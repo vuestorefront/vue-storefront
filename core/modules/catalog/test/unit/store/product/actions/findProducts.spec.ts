@@ -1,8 +1,8 @@
 import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver';
 import productActions from '@vue-storefront/core/modules/catalog/store/product/actions';
-import config from 'config';
 import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
 import { registerProductsMapping, setRequestCacheTags } from '@vue-storefront/core/modules/catalog/helpers'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()

@@ -1,7 +1,7 @@
 import productActions from '@vue-storefront/core/modules/catalog/store/product/actions';
-import config from 'config';
 import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()

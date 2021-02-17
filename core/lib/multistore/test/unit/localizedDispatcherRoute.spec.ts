@@ -1,8 +1,8 @@
 import {
   localizedDispatcherRoute
 } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),

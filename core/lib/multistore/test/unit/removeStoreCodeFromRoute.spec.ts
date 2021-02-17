@@ -1,5 +1,5 @@
 import { removeStoreCodeFromRoute } from './../../'
-import config from 'config'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn()

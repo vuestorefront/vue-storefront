@@ -1,6 +1,6 @@
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { Compare } from '../../../components/Compare'
-import config from 'config'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: jest.fn()

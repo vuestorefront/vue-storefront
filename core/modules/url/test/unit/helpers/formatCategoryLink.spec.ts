@@ -1,7 +1,7 @@
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
-import config from 'config';
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/router-manager', () => jest.fn());

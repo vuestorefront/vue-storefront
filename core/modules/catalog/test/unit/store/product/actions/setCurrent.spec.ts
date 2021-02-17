@@ -1,7 +1,7 @@
 import productActions from '@vue-storefront/core/modules/catalog/store/product/actions';
-import config from 'config';
 import * as mutationTypes from '@vue-storefront/core/modules/catalog/store/product/mutation-types'
 import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()

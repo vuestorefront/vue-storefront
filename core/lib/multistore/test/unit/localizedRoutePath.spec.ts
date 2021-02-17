@@ -1,7 +1,7 @@
 import {
   localizedRoutePath
 } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),

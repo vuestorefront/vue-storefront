@@ -1,5 +1,5 @@
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
-import config from 'config';
+const config = require('config')
 
 describe('prefetchStockItems method', () => {
   describe('default configurableChildrenStockPrefetchStaticPrefetchCount', () => {

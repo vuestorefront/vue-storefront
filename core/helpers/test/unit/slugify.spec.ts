@@ -1,5 +1,5 @@
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
-import config from 'config'
+const config = require('config')
 
 jest.clearAllMocks()
 jest.mock('config', () => ({}))

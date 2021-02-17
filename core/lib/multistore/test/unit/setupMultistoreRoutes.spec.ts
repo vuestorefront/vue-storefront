@@ -1,9 +1,9 @@
-import config from 'config'
 import { router } from '@vue-storefront/core/app';
 import { RouteConfig } from 'vue-router'
 import {
   setupMultistoreRoutes
 } from '@vue-storefront/core/lib/multistore'
+const config = require('config')
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
