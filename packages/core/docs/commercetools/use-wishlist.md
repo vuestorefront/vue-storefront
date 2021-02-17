@@ -56,7 +56,7 @@ Because `wishlist` property is a raw response with some additional properties, i
 Interface for the above getter looks like this:
 
 ```typescript
-interface WishlistGetters<Wishlist, ShoppingListLineItem> {
+interface WishlistGetters {
   getTotals: getWishlistTotals,
   getShippingPrice: getWishlistShippingPrice,
   getItems: getWishlistItems,

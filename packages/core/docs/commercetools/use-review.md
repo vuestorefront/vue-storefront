@@ -61,7 +61,7 @@ Because `reviews` property is a raw response with some additional properties, it
 Interface for the above getter looks like this:
 
 ```typescript
-interface ReviewGetters<ReviewResponse, Review> {
+interface ReviewGetters {
   // Getters for 'review' data object
   getItems: (review: ReviewResponse) => Review[];
   getTotalReviews: (review: ReviewResponse) => number;

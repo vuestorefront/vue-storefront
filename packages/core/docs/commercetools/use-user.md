@@ -100,7 +100,7 @@ Because `user` property is a raw response, it's recommended to use `userGetters`
 Interface for the above getter looks like this:
 
 ```ts
-interface UserGetters<Customer> {
+interface UserGetters {
   getFirstName: (user: Customer) => string;
   getLastName: (user: Customer) => string;
   getFullName: (user: Customer) => string;

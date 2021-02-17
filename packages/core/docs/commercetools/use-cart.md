@@ -118,7 +118,7 @@ Because `cart` property is a raw response with some additional properties, it's 
 Interface for the above getter looks like this:
 
 ```ts
-interface CartGetters<Cart, LineItem> {
+interface CartGetters {
   getTotals: (cart: Cart) => AgnosticTotals;
   getShippingPrice: (cart: Cart) => number;
   getItems: (cart: Cart) => LineItem;

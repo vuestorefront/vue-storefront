@@ -73,7 +73,7 @@ Because `categories` property is a raw response, it's recommended to use `catego
 Interface for the above getter looks like this:
 
 ```ts
-interface CategoryGetters<Category> {
+interface CategoryGetters {
   getTree: (category: Category) => AgnosticCategoryTree | null;
 }
 ```

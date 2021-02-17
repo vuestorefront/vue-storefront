@@ -23,7 +23,7 @@ interface ProductsSearchParams {
 ## Getters
 
 ```ts
-interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
+interface FacetsGetters {
   // returns all available facets
   getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
 

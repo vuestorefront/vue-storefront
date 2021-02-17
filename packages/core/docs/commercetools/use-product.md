@@ -87,7 +87,7 @@ Because `product` property is a raw response, it's recommended to use `productGe
 Interface for the above getter looks like this:
 
 ```ts
-interface ProductGetters<ProductVariant, ProductVariantFilters> {
+interface ProductGetters {
   getName: (product: ProductVariant | Readonly<ProductVariant>) => string;
   getSlug: (product: ProductVariant | Readonly<ProductVariant>) => string;
   getPrice: (product: ProductVariant | Readonly<ProductVariant>) => AgnosticPrice;

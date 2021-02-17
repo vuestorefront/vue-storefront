@@ -88,7 +88,7 @@ Interface for the above getter looks like this:
 
 ```typescript
 
-export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
+interface UserBillingGetters {
   // Getters for 'billing' data object
   getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
   getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
