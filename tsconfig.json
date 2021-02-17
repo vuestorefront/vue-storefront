@@ -12,6 +12,7 @@
     "resolveJsonModule": false,
     "sourceMap": true,
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "types": [
       "reflect-metadata",
@@ -26,7 +27,7 @@
     },
     "lib": ["es2017", "dom"]
   },
-  "files": ["shims.d.ts"],
+  "files": ["shims.d.ts", "./config/config.d.ts"],
   "include": [
     "src/**/*.ts",
     "src/**/*.vue",
