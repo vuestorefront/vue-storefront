@@ -72,6 +72,9 @@ export default {
     OrderHistory,
     MyReviews
   },
+  middleware: [
+    'is-authenticated'
+  ],
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
