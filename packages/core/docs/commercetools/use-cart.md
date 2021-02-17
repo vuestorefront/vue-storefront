@@ -123,6 +123,37 @@ interface CartGetters {
   getDiscounts: (cart: Cart) => AgnosticDiscount[];
 }
 
+type LineItem = {
+  __typename?: "LineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  productSlug?: Maybe<Scalars["String"]>;
+  productType?: Maybe<ProductTypeDefinition>;
+  productTypeRef?: Maybe<Reference>;
+  variant?: Maybe<ProductVariant>;
+  price: ProductPrice;
+  taxedPrice?: Maybe<TaxedItemPrice>;
+  totalPrice?: Maybe<Money>;
+  quantity: Scalars["Long"];
+  state: Array<ItemState>;
+  taxRate?: Maybe<TaxRate>;
+  supplyChannel?: Maybe<Channel>;
+  supplyChannelRef?: Maybe<Reference>;
+  distributionChannel?: Maybe<Channel>;
+  distributionChannelRef?: Maybe<Reference>;
+  discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
+  lineItemMode: LineItemMode;
+  priceMode: LineItemPriceMode;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  shippingDetails?: Maybe<ItemShippingDetails>;
+  inventoryMode?: Maybe<ItemShippingDetails>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
 interface AgnosticTotals {
   total: number;
   subtotal: number;
