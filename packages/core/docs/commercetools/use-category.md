@@ -1,23 +1,30 @@
----
-platform: Commercetools
----
-
-# Category
+# `useCategory`
 
 ## Features
 
-`useCategory` composition API function is responsible for fetching a list of categories. A common usage scenario for this composable is navigation.
+`useCategory` composable is responsible for fetching a list of categories. A common usage scenario for this composable is navigation.
 
 ## API
 
 `useCategory` contains the following properties:
 
-- `search` - a main querying function that is used to query categories from eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+- `search` - a main querying function that is used to query categories from eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
 
-- `categories` - a main data object that contains an array of categories fetched by `search` method.
+    - `searchParams`,
+    
+    - `customQuery?`: CustomQuery
+    
+```ts
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
+
+- `categories: Category[]` - a main data object that contains an array of categories fetched by `search` method.
 
 ```ts
-type Category = Versioned & {
+type Category = {
   __typename?: "Category";
   id: Scalars["String"];
   key?: Maybe<Scalars["String"]>;
@@ -37,25 +44,18 @@ type Category = Versioned & {
   metaTitle?: Maybe<Scalars["String"]>;
   metaKeywords?: Maybe<Scalars["String"]>;
   metaDescription?: Maybe<Scalars["String"]>;
-  /** Number of a products in the category subtree. */
   productCount: Scalars["Int"];
-  /** Number of staged products in the category subtree. */
   stagedProductCount: Scalars["Int"];
-  /** Number of direct child categories. */
   childCount: Scalars["Int"];
-  /** Direct child categories. */
   children?: Maybe<Array<Category>>;
   createdAt: Scalars["DateTime"];
   lastModifiedAt: Scalars["DateTime"];
   assets: Array<Asset>;
-  /** This field contains non-typed data. Consider using `customFields` as a typed alternative. */
   customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  /** This field would contain type data */
   customFields?: Maybe<Type>;
   custom?: Maybe<CustomFieldsType>;
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
-  /** Custom fields are returned as a list instead of an object structure. */
   customFieldList?: Maybe<Array<CustomField>>;
 }
 ```
@@ -66,11 +66,7 @@ type Category = Versioned & {
 
 ## Getters
 
-Because `categories` property is a raw response, it's recommended to use `categoryGetters` for accessing any data from it. It includes following helper functions:
-
 - `getTree` - returns category tree.
-
-Interface for the above getter looks like this:
 
 ```ts
 interface CategoryGetters {
@@ -87,7 +83,7 @@ interface AgnosticCategoryTree {
 }
 ```
 
-## Examples
+## Example
 
 ```js
 import { useCategory } from '@vue-storefront/commercetools';

@@ -1,12 +1,8 @@
----
-platform: Commercetools
----
-
-# useUser
+# `useUser`
 
 ## Features
 
-`useUser` composition function can be used to:
+`useUser` composable can be used to:
 
 - manage user authentication
 - manage authentication data like email address, login or password.
@@ -53,9 +49,7 @@ type Customer = Versioned & {
   billingAddresses: Array<Address>;
   storesRef: Array<KeyReference>;
   stores: Array<Store>;
-  /** This field contains non-typed data. Consider using `customFields` as a typed alternative. */
   customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  /** This field would contain type data */
   customFields?: Maybe<Type>;
   custom?: Maybe<CustomFieldsType>;
   id: Scalars["String"];
@@ -64,7 +58,6 @@ type Customer = Versioned & {
   lastModifiedAt: Scalars["DateTime"];
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
-  /** Custom fields are returned as a list instead of an object structure. */
   customFieldList?: Maybe<Array<CustomField>>;
 }
 ```
@@ -87,8 +80,6 @@ type Customer = Versioned & {
 
 ## Getters
 
-Because `user` property is a raw response, it's recommended to use `userGetters` for accessing any data from it. It includes following helper functions:
-
 - `getFirstName` - returns user first name.
 
 - `getLastName` - returns user last name.
@@ -108,7 +99,7 @@ interface UserGetters {
 }
 ```
 
-## Examples
+## Example
 
 ```js
 import { useUser } from '@vue-storefront/commercetools';

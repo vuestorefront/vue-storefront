@@ -1,14 +1,10 @@
----
-platform: Commercetools
----
-
-# useUserBilling <Badge text="Enterprise" type="info" />
+# `useUserBilling` <Badge text="Enterprise" type="info" />
 
 > This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
 ## Features
 
-`useUserBilling` composition function can be used to:
+`useUserBilling` composable can be used to:
 
 * fetch existing billing addresses,
 * submit new billing addresses,
@@ -34,10 +30,6 @@ platform: Commercetools
 
 - `setDefaultAddress` - function for settings an existing billing address as default.
 
-::: tip
-If `isDefault` property is passed to `addAddress` or `updateAddress`, there is no need to call `setDefaultAddress` separately.
-:::
-
 <Content slot-key="set-default-params" />
 
 - `billing` - reactive data object containing response from the backend.
@@ -45,8 +37,6 @@ If `isDefault` property is passed to `addAddress` or `updateAddress`, there is n
 - `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
 
 ## Getters
-
-Because `billing` property is a raw response, it's recommended to use `UserBillingGetters` for accessing any data from it. It includes following helper functions:
 
 - `getAddresses` - returns list of billing addresses.
 
@@ -89,58 +79,28 @@ Interface for the above getter looks like this:
 ```typescript
 
 interface UserBillingGetters {
-  // Getters for 'billing' data object
-  getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
-  getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
-  getTotal: (billing: USER_BILLING) => number;
-
-  // Getters for individual addresses
-  getId: (address: USER_BILLING_ITEM) => string | number;
-  getPostCode: (address: USER_BILLING_ITEM) => string;
-  getStreetName: (address: USER_BILLING_ITEM) => string;
-  getStreetNumber: (address: USER_BILLING_ITEM) => string | number;
-  getCity: (address: USER_BILLING_ITEM) => string;
-  getFirstName: (address: USER_BILLING_ITEM) => string;
-  getLastName: (address: USER_BILLING_ITEM) => string;
-  getCountry: (address: USER_BILLING_ITEM) => string;
-  getPhone: (address: USER_BILLING_ITEM) => string;
-  getEmail: (address: USER_BILLING_ITEM) => string;
-  getProvince: (address: USER_BILLING_ITEM) => string;
-  getCompanyName: (address: USER_BILLING_ITEM) => string;
-  getTaxNumber: (address: USER_BILLING_ITEM) => string;
-  getApartmentNumber: (address: USER_BILLING_ITEM) => string | number;
-  isDefault: (address: USER_BILLING_ITEM) => boolean;
+  getAddresses: (billing, criteria?: Record<string, any>) => [];
+  getDefault: (billing) => any;
+  getTotal: (billing) => number;
+  getId: (address) => string | number;
+  getPostCode: (address) => string;
+  getStreetName: (address) => string;
+  getStreetNumber: (address) => string | number;
+  getCity: (address) => string;
+  getFirstName: (address) => string;
+  getLastName: (address) => string;
+  getCountry: (address) => string;
+  getPhone: (address) => string;
+  getEmail: (address) => string;
+  getProvince: (address) => string;
+  getCompanyName: (address) => string;
+  getTaxNumber: (address) => string;
+  getApartmentNumber: (address) => string | number;
+  isDefault: (address) => boolean;
 }
 ```
 
-## Usage
-
-When you already installed `@vsf-enterprise/ct-billing` as a dependency, there are few minor modifications required to make it work.
-
-The first step is to add `@vsf-enterprise/ct-billing` to `build > traspile` array in `nuxt.config.js`:
-
-```javascript
-{
-    build: {
-      transpile: [
-        '@vsf-enterprise/ct-billing'
-      ]
-    }
-}
-```
-
-Then we need to replace the import of `useUserBilling` and `userBillingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-billing`:
-
-```javascript
-// Before
-import { /* other imports */, useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
-
-// After
-import { /* other imports */ } from '@vue-storefront/commercetools';
-import { useUserBilling, userBillingGetters } from '@vsf-enterprise/ct-billing';
-```
-
-## Examples
+## Example
 
 Fetching billing addresses for currently logged-in user:
 

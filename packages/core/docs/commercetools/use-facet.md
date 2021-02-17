@@ -1,4 +1,4 @@
-# Faceting
+# `useFacet`
 
 ## Features
 
@@ -48,7 +48,7 @@ interface FacetsGetters {
 }
 ```
 
-## Examples
+## Example
 
 Example of the category page browsing.
 

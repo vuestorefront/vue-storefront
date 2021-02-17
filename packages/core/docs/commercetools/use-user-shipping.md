@@ -1,14 +1,10 @@
----
-platform: Commercetools
----
-
-# useUserShipping <Badge text="Enterprise" type="info" />
+# `useUserShipping` <Badge text="Enterprise" type="info" />
 
 > This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
 ## Features
 
-`useUserShipping` composition function can be used to:
+`useUserShipping` composable can be used to:
 
 * fetch existing shipping addresses,
 * submit new shipping addresses,
@@ -34,10 +30,6 @@ platform: Commercetools
 
 - `setDefaultAddress` - function for settings an existing shipping address as default.
 
-::: tip
-If `isDefault` property is passed to `addAddress` or `updateAddress`, there is no need to call `setDefaultAddress` separately.
-:::
-
 <Content slot-key="set-default-params" />
 
 - `shipping` - reactive data object containing response from the backend.
@@ -45,8 +37,6 @@ If `isDefault` property is passed to `addAddress` or `updateAddress`, there is n
 - `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
 
 ## Getters
-
-Because `shipping` property is a raw response, it's recommended to use `UserShippingGetters` for accessing any data from it. It includes following helper functions:
 
 - `getAddresses` - returns list of shipping addresses.
 
@@ -84,62 +74,30 @@ Because `shipping` property is a raw response, it's recommended to use `UserShip
 
 - `isDefault` - return information if address is current default.
 
-Interface for the above getter looks like this:
-
 ```typescript
 interface UserShippingGetters {
-  // Getters for 'shipping' data object
-  getAddresses: (shipping: USER_SHIPPING, criteria?: Record<string, any>) => USER_SHIPPING_ITEM[];
-  getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
-  getTotal: (shipping: USER_SHIPPING) => number;
-
-  // Getters for individual addresses
-  getId: (address: USER_SHIPPING_ITEM) => string | number;
-  getPostCode: (address: USER_SHIPPING_ITEM) => string;
-  getStreetName: (address: USER_SHIPPING_ITEM) => string;
-  getStreetNumber: (address: USER_SHIPPING_ITEM) => string | number;
-  getCity: (address: USER_SHIPPING_ITEM) => string;
-  getFirstName: (address: USER_SHIPPING_ITEM) => string;
-  getLastName: (address: USER_SHIPPING_ITEM) => string;
-  getCountry: (address: USER_SHIPPING_ITEM) => string;
-  getPhone: (address: USER_SHIPPING_ITEM) => string;
-  getEmail: (address: USER_SHIPPING_ITEM) => string;
-  getProvince: (address: USER_SHIPPING_ITEM) => string;
-  getCompanyName: (address: USER_SHIPPING_ITEM) => string;
-  getTaxNumber: (address: USER_SHIPPING_ITEM) => string;
-  getApartmentNumber: (address: USER_SHIPPING_ITEM) => string | number;
-  isDefault: (address: USER_SHIPPING_ITEM) => boolean;
+  getAddresses: (shipping, criteria?: Record<string, any>) => [];
+  getDefault: (shipping) => any;
+  getTotal: (shipping) => number;
+  getId: (address) => string | number;
+  getPostCode: (address) => string;
+  getStreetName: (address) => string;
+  getStreetNumber: (address) => string | number;
+  getCity: (address) => string;
+  getFirstName: (address) => string;
+  getLastName: (address) => string;
+  getCountry: (address) => string;
+  getPhone: (address) => string;
+  getEmail: (address) => string;
+  getProvince: (address) => string;
+  getCompanyName: (address) => string;
+  getTaxNumber: (address) => string;
+  getApartmentNumber: (address) => string | number;
+  isDefault: (address) => boolean;
 }
 ```
 
-## Usage
-
-When you already installed `@vsf-enterprise/ct-shipping` as a dependency, there are few minor modifications required to make it work.
-
-The first step is to add `@vsf-enterprise/ct-shipping` to `build > traspile` array in `nuxt.config.js`:
-
-```javascript
-{
-    build: {
-      transpile: [
-        '@vsf-enterprise/ct-shipping'
-      ]
-    }
-}
-```
-
-Then we need to replace the import of `useUserShipping` and `userShippingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-shipping`:
-
-```javascript
-// Before
-import { /* other imports */, useUserShipping, userShippingGetters } from '@vue-storefront/commercetools';
-
-// After
-import { /* other imports */ } from '@vue-storefront/commercetools';
-import { useUserShipping, userShippingGetters } from '@vsf-enterprise/ct-shipping';
-```
-
-## Examples
+## Example
 
 Fetching shipping addresses for currently logged-in user:
 

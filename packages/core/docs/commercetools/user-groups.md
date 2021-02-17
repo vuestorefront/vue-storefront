@@ -1,8 +1,4 @@
----
-platform: Commercetools
----
-
-# User groups <Badge text="Enterprise" type="info" />
+# `User groups` <Badge text="Enterprise" type="info" />
 
 > This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
