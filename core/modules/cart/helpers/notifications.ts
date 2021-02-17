@@ -7,6 +7,8 @@ const proceedToCheckoutAction = () => ({
   label: i18n.t('Proceed to checkout'),
   action: () => router.push(localizedRoute('/checkout', currentStoreView().storeCode))
 });
+
+// @ts-ignore `externalCheckout` it doesn't exist in the default config schema, either add it or fix this.
 const checkoutAction = () => !config.externalCheckout ? proceedToCheckoutAction() : null;
 
 const productAddedToCart = () => ({
