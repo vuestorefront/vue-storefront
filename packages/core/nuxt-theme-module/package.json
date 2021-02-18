@@ -19,7 +19,8 @@
     "vue": "^2.6.11"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "vue-lazy-hydration": "^2.0.0-beta.4"
   },
   "publishConfig": {
     "access": "public"
