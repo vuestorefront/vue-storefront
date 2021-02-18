@@ -12,8 +12,6 @@
 
 ## API
 
-`useUserShipping` contains following properties:
-
 - `load` - function for fetching user addresses. When invoked, it requests data from the API and populates `shipping` property.
 
 - `addAddress` - function for posting new shipping address.
@@ -98,8 +96,6 @@ interface UserShippingGetters {
 ```
 
 ## Example
-
-Fetching shipping addresses for currently logged-in user:
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';

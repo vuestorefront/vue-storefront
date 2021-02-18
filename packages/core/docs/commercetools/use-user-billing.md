@@ -12,8 +12,6 @@
 
 ## API
 
-`useUserBilling` contains following properties:
-
 - `load` - function for fetching user addresses. When invoked, it requests data from the API and populates `billing` property.
 
 - `addAddress` - function for posting new billing address.
@@ -101,8 +99,6 @@ interface UserBillingGetters {
 ```
 
 ## Example
-
-Fetching billing addresses for currently logged-in user:
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';

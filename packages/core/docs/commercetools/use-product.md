@@ -6,8 +6,6 @@
 
 ## API
 
-`useProduct` contains following properties:
-
 - `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
     
     - `searchParams`: ProductsSearchParams,

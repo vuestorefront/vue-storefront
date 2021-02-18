@@ -14,8 +14,6 @@ If you want to fetch/save other user data you should use the following composabl
 
 ## API
 
-`useUser` contains following properties:
-
 - `user` - reactive object containing information about current user.
 
 ```ts
@@ -87,8 +85,6 @@ type Customer = Versioned & {
 - `getFullName` - returns full user name.
 
 - `getEmailAddress` - returns user email address.
-
-Interface for the above getter looks like this:
 
 ```ts
 interface UserGetters {

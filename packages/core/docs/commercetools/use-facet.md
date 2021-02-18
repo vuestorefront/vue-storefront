@@ -50,8 +50,6 @@ interface FacetsGetters {
 
 ## Example
 
-Example of the category page browsing.
-
 ```js
 import { useFacet, facetGetters } from '@vue-storefront/your-integration';
 

@@ -14,8 +14,6 @@
 
 ## API
 
-`useReview` contains the following properties:
-
 - `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property. This method accepts a single params object. The `params` has the following options:
 
   - `searchParams`: ReviewSearchParams
@@ -86,8 +84,6 @@ interface AgnosticRateCount {
 ```
 
 ## Example
-
-Fetching reviews for a single product:
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
