@@ -204,14 +204,14 @@
             class="form__action-button"
             type="submit"
             v-if="isBillingDetailsCompleted && !dirty"
-            :disabled="!isBillingMethodCompleted || isSaving.method"
+            :disabled="!isBillingMethodCompleted"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="isSaving.details"
+            :disabled="loading"
             v-else
           >
             {{ $t('Select payment method') }}
@@ -237,7 +237,9 @@ import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+
 const NOT_SELECTED_ADDRESS = '';
+
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -250,6 +252,7 @@ extend('digits', {
   ...digits,
   message: 'Please provide a valid phone number'
 });
+
 export default {
   name: 'BillingForm',
   components: {
@@ -264,18 +267,16 @@ export default {
     ValidationObserver
   },
   props: {
-    isSaving: Object,
-    // handleBillingMethodSubmit: Function,
     handleBillingAddressSubmit: Function
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: shippingDetails, load: loadShipping } = useShipping();
-    const { billing: address } = useBilling();
+    const { billing: address, loading } = useBilling();
     const { isAuthenticated } = useUser();
     const { billing: userBilling, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const billingDetails = ref(address.value || {});
-    // const chosenBillingMethod = ref(null);
+
     const isBillingMethodCompleted = ref(false);
     const isBillingDetailsCompleted = ref(false);
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
@@ -283,6 +284,7 @@ export default {
     const canAddNewAddress = ref(true);
     const sameAsShipping = ref(false);
     let oldBilling = null;
+
     const hasSavedBillingAddress = computed(() => {
       if (!isAuthenticated.value || !userBilling.value) {
         return false;
@@ -290,6 +292,7 @@ export default {
       const addresses = userBillingGetters.getAddresses(userBilling.value);
       return Boolean(addresses?.length);
     });
+
     const handleCheckSameAddress = async () => {
       sameAsShipping.value = !sameAsShipping.value;
       if (sameAsShipping.value) {
@@ -305,13 +308,9 @@ export default {
       }
       billingDetails.value = oldBilling;
     };
+
     const handleStepSubmit = () => context.emit('stepSubmit');
-    // const handleMethodSubmit = async (reset, billingMethod) => {
-    //   chosenBillingMethod.value = billingMethod;
-    //   await props.handleBillingMethodSubmit(billingMethod);
-    //   reset();
-    //   isBillingMethodCompleted.value = true;
-    // };
+
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
       await props.handleBillingAddressSubmit(billingDetails.value);
@@ -324,40 +323,45 @@ export default {
       reset();
       isBillingDetailsCompleted.value = true;
     };
+
     const handleAddNewAddressBtnClick = () => {
       currentAddressId.value = NOT_SELECTED_ADDRESS;
       canAddNewAddress.value = true;
     };
+
     const handleSetCurrentAddress = address => {
       billingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      // chosenBillingMethod.value = null;
       isBillingDetailsCompleted.value = false;
       isBillingMethodCompleted.value = false;
       sameAsShipping.value = false;
     };
+
     const changeDetails = (field, value) => {
       billingDetails.value[field] = value;
-      // chosenBillingMethod.value = null;
       isBillingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
+
     const selectDefaultAddress = () => {
       const defaultAddress = userBillingGetters.getAddresses(userBilling.value, { isDefault: true });
       if (defaultAddress && defaultAddress.length) {
         handleSetCurrentAddress(defaultAddress[0]);
       }
     };
+
     // Update local state if we have new address' response from the backend
     watch(address, (addr) => {
       billingDetails.value = addr;
     });
+
     onSSR(async () => {
       if (isAuthenticated.value) {
         await loadUserBilling();
       }
     });
+
     onMounted(async () => {
       if (!userBilling.value?.addresses && isAuthenticated.value) {
         await loadUserBilling();
@@ -373,11 +377,11 @@ export default {
       }
       canAddNewAddress.value = false;
     });
+
     return {
       NOT_SELECTED_ADDRESS,
       isAuthenticated,
       billingDetails,
-      // chosenBillingMethod,
       countries: config.countries,
       setAsDefault,
       canAddNewAddress,
@@ -385,7 +389,6 @@ export default {
       hasSavedBillingAddress,
       isBillingMethodCompleted,
       isBillingDetailsCompleted,
-      // handleMethodSubmit,
       handleAddressSubmit,
       handleStepSubmit,
       handleAddNewAddressBtnClick,
@@ -393,7 +396,8 @@ export default {
       handleCheckSameAddress,
       changeDetails,
       sameAsShipping,
-      shippingDetails
+      shippingDetails,
+      loading
     };
   }
 };

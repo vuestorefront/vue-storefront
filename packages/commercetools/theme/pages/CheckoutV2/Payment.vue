@@ -6,7 +6,6 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <BillingForm
-      :isSaving="isSaving"
       :handleBillingAddressSubmit="handleBillingAddressSubmit"
       @stepSubmit="handleStepSubmit"
     />
@@ -19,7 +18,6 @@ import {
 } from '@storefront-ui/vue';
 import { useBilling } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { reactive } from '@vue/composition-api';
 import BillingForm from '@/components/Checkout/BillingForm';
 
 export default {
@@ -30,32 +28,20 @@ export default {
   },
   setup(_, context) {
     const {
-      save: saveBilling,
-      load: loadBilling,
-      error: billingError
+      save,
+      load
     } = useBilling();
 
-    const isSaving = reactive({
-      details: false,
-      method: false
-    });
-
     onSSR(async () => {
-      await loadBilling();
+      await load();
     });
 
     const handleBillingAddressSubmit = async billingDetails => {
-      isSaving.details = true;
-      await saveBilling({ billingDetails });
-      if (billingError.value.save) {
-        return;
-      }
-      isSaving.details = false;
+      await save({ billingDetails });
     };
 
     const handleStepSubmit = () => context.root.$router.push('/checkout/order-review');
     return {
-      isSaving,
       handleBillingAddressSubmit,
       handleStepSubmit
     };
