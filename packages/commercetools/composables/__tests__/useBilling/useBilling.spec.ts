@@ -45,7 +45,7 @@ describe('[commercetools-composables] useBilling', () => {
       }
     };
 
-    const response = await load(context);
+    const response = await load(context, {});
 
     expect(response).toBe(loadedBillingAddress);
     expect(context.cart.load).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('[commercetools-composables] useBilling', () => {
       }
     };
 
-    const response = await load(context);
+    const response = await load(context, {});
 
     expect(response).toBe(loadedBillingAddress);
     expect(context.cart.load).not.toHaveBeenCalled();

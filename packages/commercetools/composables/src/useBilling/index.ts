@@ -15,7 +15,7 @@ const params: UseBillingParams<Address, {}> = {
     }
     return context.cart.cart.value.billingAddress;
   },
-  save: async (context: Context, { billingDetails, customQuery}) => {
+  save: async (context: Context, { billingDetails, customQuery }) => {
     const cartResponse = await context.$ct.api.updateCart({
       id: context.cart.cart.value.id,
       version: context.cart.cart.value.version,
