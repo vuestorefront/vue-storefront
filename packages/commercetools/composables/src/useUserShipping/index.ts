@@ -2,11 +2,11 @@ import { useUserShippingFactory, UseUserShippingFactoryParams, Context } from '@
 
 const addresses: any[] = [
   {
-    id: 1,
+    id: '_1231231253623423',
     firstName: 'John',
     lastName: 'Doe',
     streetName: 'Warsawska',
-    streetNumber: '24',
+    streetNumber: '193A',
     apartment: '193A',
     city: 'Phoenix',
     state: null,
@@ -14,15 +14,15 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   },
   {
-    id: 2,
+    id: '_245463456456356',
     firstName: 'Jonatan',
     lastName: 'Doe',
     streetName: 'Starachowicka',
-    streetNumber: '20',
+    streetNumber: '193A',
     apartment: '193A',
     city: 'Atlanta',
     state: null,
@@ -30,7 +30,7 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   }
 ];

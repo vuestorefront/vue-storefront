@@ -278,6 +278,18 @@ export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
+export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
+  error: ComputedProperty<UseShippingErrors>;
+  loading: ComputedProperty<boolean>;
+  shipping: ComputedProperty<SHIPPING>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
+}
+export interface UseShippingErrors {
+  load?: Error;
+  save?: Error;
+}
 export interface UseFacetErrors {
   search?: Error;
 }
