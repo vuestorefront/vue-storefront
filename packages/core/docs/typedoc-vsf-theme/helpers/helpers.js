@@ -1,5 +1,7 @@
 const Handlebars = require('handlebars');
 
 Handlebars.registerHelper('split', (string) => {
-  return string.split('/')[1];
+  const re = /(api\/|types\/)/g;
+  if (string.search(re) !== -1) return string.split('/')[1];
+  else return string;
 });
