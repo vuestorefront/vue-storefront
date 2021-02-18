@@ -43,10 +43,29 @@ const selectors = {
 
 context('', () => {
   it('test', () => {
+    const getMe = [];
+
+    cy.fixture('getMe.json').then(fixture => getMe.push(fixture));
+    cy.fixture('getMe_after_addToCart.json').then(fixture => getMe.push(fixture));
+    cy.fixture('getMe_after_personalDetails.json').then(fixture => getMe.push(fixture));
+    cy.fixture('getMe_after_shippingStep.json').then(fixture => getMe.push(fixture));
+    cy.fixture('getMe_after_paymentStep.json').then(fixture => getMe.push(fixture, fixture));
+    cy.fixture('getMe_after_order.json').then(fixture => getMe.push(fixture, fixture));
+
+    const updateCart = [];
+
+    cy.fixture('updateCart_after_personalDetails.json').then(fixture => updateCart.push(fixture));
+    cy.fixture('updateCart_after_shipping.json').then(fixture => updateCart.push(fixture));
+    cy.fixture('updateCart_after_shippingMethods.json').then(fixture => updateCart.push(fixture));
+    cy.fixture('updateCart_after_shippingStep.json').then(fixture => updateCart.push(fixture));
+    cy.fixture('updateCart_after_payment.json').then(fixture => updateCart.push(fixture));
+    cy.fixture('updateCart_after_paymentMethods.json').then(fixture => updateCart.push(fixture));
+
     // Mock api
+    cy.intercept('POST', 'api/ct/getMe', (req) => req.reply(getMe.shift()));
+    cy.intercept('POST', 'api/ct/updateCart', (req) => req.reply(updateCart.shift()));
     cy.intercept('POST', 'api/ct/getCategory', { fixture: 'getCategory.json' });
     cy.intercept('POST', 'api/ct/getProduct', { fixture: 'getProduct.json' });
-    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe.json' });
     cy.intercept('POST', 'api/ct/createCart', { fixture: 'createCart.json' });
     cy.intercept('POST', 'api/ct/addToCart', { fixture: 'addToCart.json' });
     cy.intercept('POST', 'api/ct/getShippingMethods', { fixture: 'getShippingMethods.json' });
@@ -79,8 +98,6 @@ context('', () => {
     // Check if product is listen in minicart
     cy.get(selectors.cart.items).should('have.length', 1);
 
-    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_addToCart.json' });
-
     // Go to checkout
     cy.contains('Go to checkout').click().wait(100);
     cy.url().should('include', 'checkout/personal-details');
@@ -89,9 +106,6 @@ context('', () => {
     cy.get(selectors.checkout.personalDetails.firstNameInput).type('First');
     cy.get(selectors.checkout.personalDetails.lastNameInput).type('Last');
     cy.get(selectors.checkout.personalDetails.emailInput).type('fake@example.com');
-
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_personalDetails.json' });
-    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_personalDetails.json' });
 
     // Go to shipping details
     cy.get(selectors.checkout.continueButton).click().wait(100);
@@ -111,17 +125,9 @@ context('', () => {
       .eq(0)
       .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.val()));
 
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shipping.json' });
-
     // Show shipping methods
     cy.get(selectors.checkout.continueButton).click().wait(100);
-
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shippingMethods.json' });
-
     cy.get(`${selectors.checkout.shipping.methods} label`).first().click();
-
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shippingStep.json' });
-    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_shippingStep.json' });
 
     // Go to payment
     cy.get(selectors.checkout.continueButton).click().wait(100);
@@ -130,19 +136,13 @@ context('', () => {
     // Copy shipping details to payment
     cy.get(selectors.checkout.payment.copyFromShipping).click();
 
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_payment.json' });
-
     // Show payment methods
     cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.get(selectors.checkout.payment.paymentMethods).first().click();
 
-    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_paymentMethods.json' });
-
     // Go to review
     cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.url().should('include', 'checkout/order-review');
-
-    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_order.json' });
 
     // Complete order
     cy.get(selectors.checkout.termsCheckbox).click().wait(100);

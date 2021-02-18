@@ -266,7 +266,24 @@
           "mobile": null,
           "__typename": "Address"
         },
-        "billingAddress": null,
+        "billingAddress": {
+          "id": null,
+          "title": null,
+          "firstName": "First",
+          "lastName": "Last",
+          "streetName": "Street",
+          "streetNumber": "123",
+          "postalCode": "12345",
+          "city": "City",
+          "country": "US",
+          "state": null,
+          "region": null,
+          "company": null,
+          "apartment": null,
+          "phone": "123456789",
+          "mobile": null,
+          "__typename": "Address"
+        },
         "customer": null,
         "taxedPrice": {
           "totalNet": {
@@ -321,7 +338,7 @@
         "refusedGifts": [],
         "custom": null,
         "cartState": "Active",
-        "version": 11,
+        "version": 13,
         "__typename": "Cart"
       },
       "__typename": "Me"

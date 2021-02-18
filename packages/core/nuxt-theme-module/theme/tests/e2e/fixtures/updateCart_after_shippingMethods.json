@@ -1,12 +1,12 @@
 {
   "data": {
     "cart": {
-      "id": "f8102470-125a-41cb-92b6-ab643fcb7feb",
+      "id": "0da0f7ce-8ef2-4219-bbad-d16af979ab7d",
       "customerId": null,
-      "customerEmail": "example@example.com",
+      "customerEmail": "fake@example.com",
       "lineItems": [
         {
-          "id": "b3d3f60c-7743-4ddf-898c-dacae412a5d6",
+          "id": "a6a2caec-f91e-46e0-863f-0e5115001442",
           "productId": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
           "name": "Shirt Aspesi white test MM",
           "productSlug": "aspesi-shirt-h805-white",
@@ -253,7 +253,7 @@
         "firstName": "First",
         "lastName": "Last",
         "streetName": "Street",
-        "streetNumber": "House",
+        "streetNumber": "123",
         "postalCode": "12345",
         "city": "City",
         "country": "US",
@@ -320,7 +320,7 @@
       "refusedGifts": [],
       "custom": null,
       "cartState": "Active",
-      "version": 14,
+      "version": 10,
       "__typename": "Cart"
     }
   },
