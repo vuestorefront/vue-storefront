@@ -17,7 +17,7 @@
             <SfColor
               v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.name}`"
-              :v-cypress="'`category-filter_color_${option.name}`'"
+              :v-e2e="'`category-filter_color_${option.name}`'"
               :color="option.name"
               :selected="option.selected"
               class="filters__color"
@@ -47,7 +47,7 @@
             <SfFilter
               v-for="option in filters[filterName].options"
               :key="`${filterName}-${option.name}`"
-              :v-cypress="'`category-filter_${filterName}_${option.name}`'"
+              :v-e2e="'`category-filter_${filterName}_${option.name}`'"
               :label="filters[filterName].type == 'boolean' ? option.name == true ? 'yes' : 'no' : option.name"
               :selected="option.selected"
               class="filters__item"

@@ -16,7 +16,7 @@
               {{ personalDetails.email }}
             </p>
           </div>
-          <SfButton v-cypress="'order-review-btn_personal-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">{{ $t('Edit') }}</SfButton>
+          <SfButton v-e2e="'order-review-btn_personal-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">{{ $t('Edit') }}</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
@@ -30,7 +30,7 @@
             </p>
             <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton v-cypress="'order-review-btn_shippin-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">{{ $t('Edit') }}</SfButton
+          <SfButton v-e2e="'order-review-btn_shippin-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">{{ $t('Edit') }}</SfButton
           >
         </div>
       </SfAccordionItem>
@@ -50,7 +50,7 @@
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton v-cypress="'order-review-btn_billing-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">{{ $t('Edit') }}</SfButton>
+          <SfButton v-e2e="'order-review-btn_billing-edit'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">{{ $t('Edit') }}</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Payment method">
@@ -58,7 +58,7 @@
           <div class="accordion__content">
             <p class="content">{{ chosenPaymentMethod.label }}</p>
           </div>
-          <SfButton v-cypress="'order-review-btn_payment-edit2'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
+          <SfButton v-e2e="'order-review-btn_payment-edit2'" class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
         </div>
       </SfAccordionItem>
     </SfAccordion>
@@ -131,10 +131,10 @@
         </SfCheckbox>
           <div class="summary__action">
           <!-- TODO: add nuxt link for navigating back and forward -->
-          <SfButton v-cypress="'order-review-btn_summary-back'" class="color-secondary summary__back-button">
+          <SfButton v-e2e="'order-review-btn_summary-back'" class="color-secondary summary__back-button">
             {{ $t('Go back') }}
           </SfButton>
-          <SfButton v-cypress="'order-review-btn_summary-continue'" class="summary__action-button" @click="$emit('nextStep')">
+          <SfButton v-e2e="'order-review-btn_summary-continue'" class="summary__action-button" @click="$emit('nextStep')">
             {{ $t('Continue to shipping') }}
           </SfButton>
         </div>

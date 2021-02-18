@@ -1,8 +1,8 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab v-cypress="'order-history-tab_my-orders'" title="My orders">
+    <SfTab v-e2e="'order-history-tab_my-orders'" title="My orders">
       <div v-if="currentOrder">
-        <SfButton v-cypress="'order-history-btn_orders'" class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
+        <SfButton v-e2e="'order-history-btn_orders'" class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
         <div class="highlighted highlighted--total">
           <SfProperty
             name="Order ID"
@@ -48,7 +48,7 @@
         </p>
         <div v-if="orders.length === 0" class="no-orders">
           <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
-          <SfButton v-cypress="'order-history-btn_start'" class="no-orders__button">{{ $t('Start shopping') }}</SfButton>
+          <SfButton v-e2e="'order-history-btn_start'" class="no-orders__button">{{ $t('Start shopping') }}</SfButton>
         </div>
         <SfTable v-else class="orders">
           <SfTableHeading>
@@ -59,7 +59,7 @@
             <SfTableHeader class="orders__element--right">
               <span class="smartphone-only">{{ $t('Download') }}</span>
               <SfButton
-                v-cypress="'order-history-btn_download-all'"
+                v-e2e="'order-history-btn_download-all'"
                 class="desktop-only sf-button--text orders__download-all"
                 @click="downloadOrders()"
               >
@@ -75,10 +75,10 @@
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton v-cypress="'order-history-btn_download'" class="sf-button--text smartphone-only" @click="downloadOrder(order)">
+              <SfButton v-e2e="'order-history-btn_download'" class="sf-button--text smartphone-only" @click="downloadOrder(order)">
                 {{ $t('Download') }}
               </SfButton>
-              <SfButton v-cypress="'order-history-btn_view'" class="sf-button--text desktop-only" @click="currentOrder = order">
+              <SfButton v-e2e="'order-history-btn_view'" class="sf-button--text desktop-only" @click="currentOrder = order">
                 {{ $t('View details') }}
               </SfButton>
             </SfTableData>
@@ -86,7 +86,7 @@
         </SfTable>
       </div>
     </SfTab>
-    <SfTab v-cypress="'order-history-tab_returns'" title="Returns">
+    <SfTab v-e2e="'order-history-tab_returns'" title="Returns">
       <p class="message">
         This feature is not implemented yet! Please take a look at
         <br />

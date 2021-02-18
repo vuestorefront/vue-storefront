@@ -28,7 +28,7 @@
       </SfAddress>
     </SfAddressPicker>
     <SfCheckbox
-      v-cypress="'shipping-details-checkbox_isDefault'"
+      v-e2e="'shipping-details-checkbox_isDefault'"
       :selected="setAsDefault"
       @change="$emit('changeSetAsDefault', $event)"
       name="setAsDefault"

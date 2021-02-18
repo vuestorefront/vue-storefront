@@ -1,0 +1,27 @@
+{
+  "data": {
+    "cart": {
+      "id": "f8102470-125a-41cb-92b6-ab643fcb7feb",
+      "customerId": null,
+      "customerEmail": null,
+      "lineItems": [],
+      "totalPrice": {
+        "centAmount": 0,
+        "__typename": "Money"
+      },
+      "shippingAddress": null,
+      "billingAddress": null,
+      "customer": null,
+      "taxedPrice": null,
+      "paymentInfo": null,
+      "shippingInfo": null,
+      "discountCodes": [],
+      "refusedGifts": [],
+      "custom": null,
+      "cartState": "Active",
+      "version": 1,
+      "__typename": "Cart"
+    }
+  },
+  "errors": []
+}

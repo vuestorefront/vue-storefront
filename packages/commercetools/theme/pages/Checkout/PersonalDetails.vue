@@ -19,7 +19,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
-            v-cypress="'personal-details-input_firstName'"
+            v-e2e="'personal-details-input_firstName'"
           />
         </ValidationProvider>
         <ValidationProvider name="lastName" rules="required|min:2" v-slot="{ errors }" slim>
@@ -32,7 +32,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
-            v-cypress="'personal-details-input_lastName'"
+            v-e2e="'personal-details-input_lastName'"
           />
         </ValidationProvider>
         <ValidationProvider name="email" rules="required|email" v-slot="{ errors }" slim>
@@ -45,7 +45,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
-            v-cypress="'personal-details-input_email'"
+            v-e2e="'personal-details-input_email'"
           />
         </ValidationProvider>
         <div class="info">
@@ -85,7 +85,7 @@
         <div class="form__action">
           <nuxt-link to="/" class="sf-button color-secondary form__back-button">{{ $t('Go back') }}</nuxt-link>
           <SfButton
-            v-cypress="'checkout-continue-button'"
+            v-e2e="'checkout-continue-button'"
             class="form__action-button"
             type="submit"
             :disabled="loading.personalDetails"

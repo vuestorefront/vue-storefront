@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="log-in desktop-only">
-      <SfButton v-cypress="'personal-details-btn_login'" class="log-in__button color-secondary"
+      <SfButton v-e2e="'personal-details-btn_login'" class="log-in__button color-secondary"
         >{{ $t('Log into your account') }}</SfButton
       >
       <p class="log-in__info">{{ $t('or fill the details below') }}:</p>
@@ -9,7 +9,7 @@
     <SfHeading :level="3" title="Personal details" class="sf-heading--left sf-heading--no-underline title" />
     <div class="form">
       <SfInput
-        v-cypress="'personal-details-input_firstName'"
+        v-e2e="'personal-details-input_firstName'"
         v-model="personalDetails.firstName"
         label="First name"
         name="firstName"
@@ -17,7 +17,7 @@
         required
       />
       <SfInput
-        v-cypress="'personal-details-input_lastName'"
+        v-e2e="'personal-details-input_lastName'"
         v-model="personalDetails.lastName"
         label="Last name"
         name="lastName"
@@ -25,7 +25,7 @@
         required
       />
       <SfInput
-        v-cypress="'personal-details-input_email'"
+        v-e2e="'personal-details-input_email'"
         v-model="personalDetails.email"
         label="Your email"
         name="email"
@@ -54,7 +54,7 @@
       </div>
       <transition name="fade">
         <SfInput
-          v-cypress="'personal-details-input_password'"
+          v-e2e="'personal-details-input_password'"
           v-if="createAccount"
           v-model="personalDetails.password"
           type="password"
@@ -65,10 +65,10 @@
       </transition>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to home page -->
-        <SfButton v-cypress="'checkout-back-button'" class="color-secondary form__back-button">
+        <SfButton v-e2e="'checkout-back-button'" class="color-secondary form__back-button">
           {{ $t('Go back') }}
         </SfButton>
-        <SfButton v-cypress="'checkout-continue-button'" class="form__action-button" @click="$emit('nextStep')">
+        <SfButton v-e2e="'checkout-continue-button'" class="form__action-button" @click="$emit('nextStep')">
           {{ $t('Continue to shipping') }}
         </SfButton>
       </div>

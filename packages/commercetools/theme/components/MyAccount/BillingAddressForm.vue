@@ -12,7 +12,7 @@
           class="form__element"
         >
           <SfInput
-            v-cypress="'billing-details-input_firstName'"
+            v-e2e="'billing-details-input_firstName'"
             v-model="form.firstName"
             name="firstName"
             label="First Name"
@@ -27,7 +27,7 @@
           class="form__element"
         >
           <SfInput
-            v-cypress="'billing-details-input_lastName'"
+            v-e2e="'billing-details-input_lastName'"
             v-model="form.lastName"
             name="lastName"
             label="Last Name"
@@ -43,7 +43,7 @@
         class="form__element"
       >
         <SfInput
-          v-cypress="'billing-details-input_streetName'"
+          v-e2e="'billing-details-input_streetName'"
           v-model="form.streetName"
           name="streetName"
           label="Street Name"
@@ -53,7 +53,7 @@
         />
       </ValidationProvider>
       <SfInput
-        v-cypress="'billing-details-input_apartment'"
+        v-e2e="'billing-details-input_apartment'"
         v-model="form.apartment"
         name="apartment"
         label="House/Apartment number"
@@ -67,7 +67,7 @@
           class="form__element"
         >
           <SfInput
-            v-cypress="'billing-details-input_city'"
+            v-e2e="'billing-details-input_city'"
             v-model="form.city"
             name="city"
             label="City"
@@ -82,7 +82,7 @@
           class="form__element"
         >
           <SfInput
-            v-cypress="'billing-details-input_state'"
+            v-e2e="'billing-details-input_state'"
             v-model="form.state"
             name="state"
             label="State/Province"
@@ -99,7 +99,7 @@
           class="form__element"
         >
           <SfInput
-            v-cypress="'billing-details-input_zipCode'"
+            v-e2e="'billing-details-input_zipCode'"
             v-model="form.postalCode"
             name="zipCode"
             label="Zip-code"
@@ -114,7 +114,7 @@
           class="form__element"
         >
           <SfSelect
-            v-cypress="'billing-details-select_country'"
+            v-e2e="'billing-details-select_country'"
             class="form__select sf-select--underlined"
             v-model="form.country"
             name="country"
@@ -139,7 +139,7 @@
         class="form__element"
       >
         <SfInput
-          v-cypress="'billing-details-input_phoneNumber'"
+          v-e2e="'billing-details-input_phoneNumber'"
           v-model="form.phone"
           name="phone"
           label="Phone number"
@@ -149,13 +149,13 @@
         />
       </ValidationProvider>
       <SfCheckbox
-        v-cypress="'billing-details-checkbox_isDefault'"
+        v-e2e="'billing-details-checkbox_isDefault'"
         v-model="form.isDefault"
         name="isDefault"
         label="Set as default"
         class="form__checkbox-isDefault"
       />
-      <SfButton v-cypress="'billing-details-btn_update'" class="form__button">
+      <SfButton v-e2e="'billing-details-btn_update'" class="form__button">
         {{ isNew ? "Add the address" : "Update the address" }}
       </SfButton>
     </form>

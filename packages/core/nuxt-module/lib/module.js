@@ -67,8 +67,8 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
 
   // Context plugin
-  this.addPlugin(path.resolve(__dirname, 'plugins/cypress.js'))
-  log.success('Installed Vue Storefront Cypress plugin');
+  this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'))
+  log.success('Installed Vue Storefront E2E testing plugin');
 
   // Composition API plugin
   this.addModule('@nuxtjs/composition-api');

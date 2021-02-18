@@ -25,7 +25,7 @@
 
         <template v-if="canAddNewAddress">
           <SfInput
-            v-cypress="'shipping-details-input_firstName'"
+            v-e2e="'shipping-details-input_firstName'"
             v-model="shippingDetails.firstName"
             label="First name"
             name="firstName"
@@ -34,7 +34,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_lastName'"
+            v-e2e="'shipping-details-input_lastName'"
             v-model="shippingDetails.lastName"
             label="Last name"
             name="lastName"
@@ -43,7 +43,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_streetName'"
+            v-e2e="'shipping-details-input_streetName'"
             v-model="shippingDetails.streetName"
             label="Street name"
             name="streetName"
@@ -52,7 +52,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_apartment'"
+            v-e2e="'shipping-details-input_apartment'"
             v-model="shippingDetails.apartment"
             label="House/Apartment number"
             name="apartment"
@@ -61,7 +61,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_city'"
+            v-e2e="'shipping-details-input_city'"
             v-model="shippingDetails.city"
             label="City"
             name="city"
@@ -70,7 +70,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_state'"
+            v-e2e="'shipping-details-input_state'"
             v-model="shippingDetails.state"
             label="State/Province"
             name="state"
@@ -79,7 +79,7 @@
             required
           />
           <SfInput
-            v-cypress="'shipping-details-input_postalCode'"
+            v-e2e="'shipping-details-input_postalCode'"
             v-model="shippingDetails.postalCode"
             label="Zip-code"
             name="zipCode"
@@ -88,7 +88,7 @@
             required
           />
           <SfSelect
-            v-cypress="'shipping-details-select_country'"
+            v-e2e="'shipping-details-select_country'"
             v-model="shippingDetails.country"
             label="Country"
             class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
@@ -104,7 +104,7 @@
             </SfSelectOption>
           </SfSelect>
           <SfInput
-            v-cypress="'shipping-details-input_phone'"
+            v-e2e="'shipping-details-input_phone'"
             v-model="shippingDetails.phone"
             label="Phone number"
             name="phone"
@@ -123,7 +123,7 @@
     <div class="form">
       <div class="form__radio-group">
         <SfRadio
-          v-cypress="'shipping-details-radio_shippingMethod'"
+          v-e2e="'shipping-details-radio_shippingMethod'"
           v-for="item in shippingMethods"
           :key="checkoutGetters.getShippingMethodName(item)"
           :label="checkoutGetters.getShippingMethodName(item)"
@@ -151,13 +151,13 @@
       </div>
       <div class="form__action">
         <!-- TODO: add nuxt link for returning to personal details -->
-        <SfButton v-cypress="'checkout-back-button'" class="color-secondary form__back-button">
+        <SfButton v-e2e="'checkout-back-button'" class="color-secondary form__back-button">
           Go back
         </SfButton>
-        <SfButton v-cypress="'checkout-continue-button'" class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToPayment">
+        <SfButton v-e2e="'checkout-continue-button'" class="form__action-button" @click="$emit('nextStep')" v-if="canContinueToPayment">
           Continue to payment
         </SfButton>
-        <SfButton v-cypress="'checkout-continue-button'" class="form__action-button" @click="saveShippingDetails" v-else>
+        <SfButton v-e2e="'checkout-continue-button'" class="form__action-button" @click="saveShippingDetails" v-else>
           Select shipping method
         </SfButton>
       </div>

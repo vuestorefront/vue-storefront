@@ -1,0 +1,11 @@
+{
+  "data": {
+    "me": {
+      "activeCart": null,
+      "__typename": "Me"
+    }
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false
+}

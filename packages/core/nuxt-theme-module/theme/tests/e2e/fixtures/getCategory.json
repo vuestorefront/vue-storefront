@@ -1,0 +1,261 @@
+{
+  "data": {
+    "categories": {
+      "offset": 0,
+      "count": 1,
+      "total": 1,
+      "results": [
+        {
+          "id": "1e7b4da2-0432-4951-9f3a-ed17fb0e3444",
+          "slug": "women",
+          "name": "Women",
+          "description": null,
+          "childCount": 4,
+          "parent": null,
+          "children": [
+            {
+              "id": "6a8ee00e-2d72-4605-8b25-f059fd1eaeba",
+              "slug": "women-clothing",
+              "name": "Clothing",
+              "childCount": 10,
+              "children": [
+                {
+                  "id": "cc463d91-88c3-4b36-a50a-a52c02380366",
+                  "slug": "women-clothing-jackets",
+                  "name": "Jackets",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "c738b1f3-de56-4703-b06b-40cc70d0dce3",
+                  "slug": "women-clothing-blazer",
+                  "name": "Blazer",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "10051bd8-ff87-4360-bc68-15c9a7c8bebe",
+                  "slug": "women-clothing-tops",
+                  "name": "Tops",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "a4c2208f-4216-43c1-b555-4b164c26444f",
+                  "slug": "women-clothing-shirts",
+                  "name": "Shirts",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "f02ee281-b861-4990-acaf-9cc0986806bf",
+                  "slug": "women-clothing-t-shirts",
+                  "name": "T-shirts",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "35110eeb-9d46-4b94-94ab-329b4ecf2005",
+                  "slug": "women-clothing-jeans",
+                  "name": "Jeans",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "4e110900-2a11-4c75-99d5-a7cba77c871b",
+                  "slug": "women-clothing-trouser",
+                  "name": "Trouser",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "1c9348d4-b819-4cd2-8652-1803def63dc5",
+                  "slug": "women-clothing-skirts",
+                  "name": "Skirts",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "efdc713c-5ccf-4a2d-a4a4-a3d40a0dd396",
+                  "slug": "women-clothing-dresses",
+                  "name": "Dresses",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "da87d21d-9304-4b64-86fc-aed47e6c3bb2",
+                  "slug": "women-clothing-swimwear",
+                  "name": "Swimwear",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                }
+              ],
+              "__typename": "Category"
+            },
+            {
+              "id": "e75fde85-23da-4f1f-b3e7-4ef05c75f669",
+              "slug": "women-shoes",
+              "name": "Shoes",
+              "childCount": 9,
+              "children": [
+                {
+                  "id": "766793d7-dc18-4e8f-929d-7dc8dfb87e05",
+                  "slug": "women-shoes-sneakers",
+                  "name": "Sneakers",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "f4e29f46-6ced-4e5a-80cb-9d4d609c9865",
+                  "slug": "women-shoes-boots",
+                  "name": "Boots",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "7bd34b83-def6-4ffe-a359-5c7cf62783bd",
+                  "slug": "women-shoes-ankle-boots",
+                  "name": "Ankle boots",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "e9f54c2b-98e2-492e-8681-5e3e0f83a562",
+                  "slug": "women-shoes-pumps",
+                  "name": "Pumps",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "c61c3d26-99d5-49be-825d-5db740d2348b",
+                  "slug": "women-shoes-ballerinas",
+                  "name": "Ballerinas",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "34ca47d5-2548-450d-94bd-d8f6336aab4d",
+                  "slug": "women-shoes-lace-up-shoes",
+                  "name": "Lace-up shoes",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "d50c61e0-e03b-43c6-b1c5-98433ee72b2e",
+                  "slug": "women-shoes-loafers",
+                  "name": "Loafers",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "302622fa-0d81-49c2-9c14-82d9601bb15c",
+                  "slug": "women-shoes-sandals",
+                  "name": "Sandals",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "8866b97e-9e14-4e49-b5fc-466212a5d848",
+                  "slug": "women-shoes-winterboots",
+                  "name": "Winterboots",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                }
+              ],
+              "__typename": "Category"
+            },
+            {
+              "id": "898fcd4d-23f5-46ad-b442-e7ee755de9d6",
+              "slug": "women-bags",
+              "name": "Bags",
+              "childCount": 6,
+              "children": [
+                {
+                  "id": "e773b0a5-6233-4cd9-a8b3-b9cd49892c04",
+                  "slug": "women-bags-clutches",
+                  "name": "Clutches",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "6a52511b-2ecd-40e0-9007-37e85c8f2988",
+                  "slug": "women-bags-shoulder-bags",
+                  "name": "Shoulder bags",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "81fa13bc-059d-4dc3-a098-84754ffd8a47",
+                  "slug": "women-bags-shopper",
+                  "name": "Shopper",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "1eb5be38-3221-4ab1-a261-4fa3c5ac4f77",
+                  "slug": "women-bags-handbag",
+                  "name": "Handbag",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "638a4313-cc5d-42bc-a365-52d9e10d74e6",
+                  "slug": "women-bags-wallets",
+                  "name": "Wallets",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                },
+                {
+                  "id": "c0eebe79-2fc2-416c-aced-8f610d20fa58",
+                  "slug": "women-bags-bucket-and-packbag",
+                  "name": "Bucketbag & packbag",
+                  "childCount": 0,
+                  "__typename": "Category",
+                  "children": []
+                }
+              ],
+              "__typename": "Category"
+            },
+            {
+              "id": "5893f64a-5543-4f47-8300-41578a59a500",
+              "slug": "women-looks",
+              "name": "Looks",
+              "childCount": 0,
+              "children": [],
+              "__typename": "Category"
+            }
+          ],
+          "__typename": "Category"
+        }
+      ],
+      "__typename": "CategoryQueryResult"
+    }
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false
+}

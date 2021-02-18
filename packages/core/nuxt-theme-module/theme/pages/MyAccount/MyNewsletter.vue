@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1" class="tab-orphan">
-    <SfTab v-cypress="'my-newsletter-tab'" title="My newsletter">
+    <SfTab v-e2e="'my-newsletter-tab'" title="My newsletter">
       <p class="message">
         {{ $t('Set up newsletter') }}
       </p>
@@ -26,7 +26,7 @@
             class="form__element"
           />
         </div>
-        <SfButton v-cypress="'newsletter-btn_join'" class="form__button">{{ $t('Save changes') }}</SfButton>
+        <SfButton v-e2e="'newsletter-btn_join'" class="form__button">{{ $t('Save changes') }}</SfButton>
       </div>
       <p class="notice">
         {{ $t('Read and understand') }} <SfLink class="notice__link" href="#">{{ $t('Privacy') }}</SfLink> and

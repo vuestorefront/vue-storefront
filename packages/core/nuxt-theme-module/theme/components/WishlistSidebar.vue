@@ -10,7 +10,7 @@
       <template #title>
         <div class="heading__wrapper">
           <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
-          <SfButton v-cypress="'wishlist-sidebar-button_toggle-wishlist'" class="heading__close-button sf-button--pure" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
+          <SfButton v-e2e="'wishlist-sidebar-button_toggle-wishlist'" class="heading__close-button sf-button--pure" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
             <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </SfButton>
         </div>
@@ -21,7 +21,7 @@
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
-                v-cypress="'collected-product-wishlist-sidebar'"
+                v-e2e="'collected-product-wishlist-sidebar'"
                 v-for="product in products"
                 :key="wishlistGetters.getItemSku(product)"
                 :image="wishlistGetters.getItemImage(product)"

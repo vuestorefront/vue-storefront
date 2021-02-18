@@ -1,0 +1,300 @@
+{
+  "data": {
+    "order": {
+      "lineItems": [
+        {
+          "id": "b3d3f60c-7743-4ddf-898c-dacae412a5d6",
+          "productId": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
+          "name": "Shirt Aspesi white test MM",
+          "productSlug": "aspesi-shirt-h805-white",
+          "quantity": 1,
+          "discountedPricePerQuantity": [],
+          "variant": {
+            "id": 1,
+            "sku": "M0E20000000ED0W",
+            "price": {
+              "tiers": null,
+              "value": {
+                "centAmount": 16625,
+                "__typename": "Money"
+              },
+              "discounted": null,
+              "__typename": "ProductPrice"
+            },
+            "images": [
+              {
+                "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg",
+                "label": null,
+                "__typename": "Image"
+              }
+            ],
+            "attributesRaw": [
+              {
+                "name": "articleNumberManufacturer",
+                "value": "H805 C195 85072",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "Manufacturer AID",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "articleNumberMax",
+                "value": "81223",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "AID Maximilian",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "matrixId",
+                "value": "M0E20000000ED0W",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "Matrix ID",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "baseId",
+                "value": "81223",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "BaseID",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "designer",
+                "value": {
+                  "key": "aspesi",
+                  "label": "Aspesi"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "enum",
+                    "__typename": "EnumAttributeDefinitionType"
+                  },
+                  "label": "Designer",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "madeInItaly",
+                "value": {
+                  "key": "no",
+                  "label": "no"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "enum",
+                    "__typename": "EnumAttributeDefinitionType"
+                  },
+                  "label": "Made in Italy",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "commonSize",
+                "value": {
+                  "key": "xxs",
+                  "label": "XXS"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "enum",
+                    "__typename": "EnumAttributeDefinitionType"
+                  },
+                  "label": "Filtersize",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "size",
+                "value": "34",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "Size",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "color",
+                "value": {
+                  "key": "white",
+                  "label": {
+                    "it": "blanco",
+                    "de": "weiss",
+                    "en": "white"
+                  }
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "lenum",
+                    "__typename": "LocalizableEnumAttributeDefinitionType"
+                  },
+                  "label": "Filtercolor",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "colorFreeDefinition",
+                "value": {
+                  "en": "white",
+                  "de": "weiß"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "ltext",
+                    "__typename": "LocalizableTextAttributeDefinitionType"
+                  },
+                  "label": "Color Description",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "style",
+                "value": {
+                  "key": "business",
+                  "label": "business"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "enum",
+                    "__typename": "EnumAttributeDefinitionType"
+                  },
+                  "label": "Style",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "gender",
+                "value": {
+                  "key": "women",
+                  "label": "Damen"
+                },
+                "attributeDefinition": {
+                  "type": {
+                    "name": "enum",
+                    "__typename": "EnumAttributeDefinitionType"
+                  },
+                  "label": "Gender",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              },
+              {
+                "name": "season",
+                "value": "s15",
+                "attributeDefinition": {
+                  "type": {
+                    "name": "text",
+                    "__typename": "TextAttributeDefinitionType"
+                  },
+                  "label": "Season",
+                  "__typename": "AttributeDefinition"
+                },
+                "__typename": "RawProductAttribute"
+              }
+            ],
+            "__typename": "ProductVariant"
+          },
+          "price": {
+            "discounted": null,
+            "value": {
+              "type": "centPrecision",
+              "currencyCode": "USD",
+              "centAmount": 16625,
+              "fractionDigits": 2,
+              "__typename": "Money"
+            },
+            "__typename": "ProductPrice"
+          },
+          "__typename": "LineItem"
+        }
+      ],
+      "totalPrice": {
+        "centAmount": 17625,
+        "__typename": "Money"
+      },
+      "orderState": "Open",
+      "id": "9aeefd25-3658-4ea2-b36b-4d365a8d609c",
+      "orderNumber": null,
+      "version": 1,
+      "createdAt": "2021-02-17T14:02:26.540Z",
+      "customerEmail": "example@example.com",
+      "shipmentState": null,
+      "paymentState": null,
+      "shippingAddress": {
+        "id": null,
+        "title": null,
+        "firstName": "First",
+        "lastName": "Last",
+        "streetName": "Street",
+        "streetNumber": "House",
+        "postalCode": "12345",
+        "city": "City",
+        "country": "US",
+        "state": null,
+        "region": null,
+        "company": null,
+        "apartment": null,
+        "phone": "123456789",
+        "mobile": null,
+        "__typename": "Address"
+      },
+      "billingAddress": {
+        "id": null,
+        "title": null,
+        "firstName": "First",
+        "lastName": "Last",
+        "streetName": "Street",
+        "streetNumber": "House",
+        "postalCode": "12345",
+        "city": "City",
+        "country": "US",
+        "state": null,
+        "region": null,
+        "company": null,
+        "apartment": null,
+        "phone": "123456789",
+        "mobile": null,
+        "__typename": "Address"
+      },
+      "cart": {
+        "id": "f8102470-125a-41cb-92b6-ab643fcb7feb",
+        "version": 18,
+        "__typename": "Cart"
+      },
+      "__typename": "Order"
+    }
+  },
+  "errors": []
+}

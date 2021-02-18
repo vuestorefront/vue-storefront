@@ -1,6 +1,6 @@
 /* eslint no-undef: 0 */
 
-const element = (name) => `[data-cypress="${ name }"]`;
+const element = (name) => `[data-e2e="${ name }"]`;
 
 const selectors = {
   cart: {
@@ -43,22 +43,32 @@ const selectors = {
 
 context('', () => {
   it('test', () => {
+    // Mock api
+    cy.intercept('POST', 'api/ct/getCategory', { fixture: 'getCategory.json' });
+    cy.intercept('POST', 'api/ct/getProduct', { fixture: 'getProduct.json' });
+    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe.json' });
+    cy.intercept('POST', 'api/ct/createCart', { fixture: 'createCart.json' });
+    cy.intercept('POST', 'api/ct/addToCart', { fixture: 'addToCart.json' });
+    cy.intercept('POST', 'api/ct/getShippingMethods', { fixture: 'getShippingMethods.json' });
+    cy.intercept('POST', 'api/ct/isGuest', { fixture: 'isGuest.json' });
+    cy.intercept('POST', 'api/ct/createMyOrderFromCart', { fixture: 'createMyOrderFromCart.json' });
+
     // Homepage
     cy.visit('/');
 
     // Open 'Women' category
-    cy.contains('WOMEN').click().wait(2000);
+    cy.contains('WOMEN').click().wait(100);
     cy.url().should('include', '/c/women');
 
     // Open first product
-    cy.get(selectors.catalog.products).first().click().wait(2000);
+    cy.get(selectors.catalog.products).first().click().wait(100);
     cy.url().should('include', '/p/');
 
     // Check if cart is empty
     cy.get(selectors.cart.indicator).should('not.exist');
 
     // Add product to cart
-    cy.get(selectors.product.addToCart).click().wait(2000);
+    cy.get(selectors.product.addToCart).click().wait(100);
 
     // Check if cart is not empty
     cy.get(selectors.cart.indicator).should('exist');
@@ -69,8 +79,10 @@ context('', () => {
     // Check if product is listen in minicart
     cy.get(selectors.cart.items).should('have.length', 1);
 
+    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_addToCart.json' });
+
     // Go to checkout
-    cy.contains('Go to checkout').click().wait(500);
+    cy.contains('Go to checkout').click().wait(100);
     cy.url().should('include', 'checkout/personal-details');
 
     // Type personal details
@@ -78,8 +90,11 @@ context('', () => {
     cy.get(selectors.checkout.personalDetails.lastNameInput).type('Last');
     cy.get(selectors.checkout.personalDetails.emailInput).type('fake@example.com');
 
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_personalDetails.json' });
+    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_personalDetails.json' });
+
     // Go to shipping details
-    cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.url().should('include', 'checkout/shipping');
 
     // Type shipping details
@@ -96,28 +111,42 @@ context('', () => {
       .eq(0)
       .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.val()));
 
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shipping.json' });
+
     // Show shipping methods
-    cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(selectors.checkout.continueButton).click().wait(100);
+
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shippingMethods.json' });
+
     cy.get(`${selectors.checkout.shipping.methods} label`).first().click();
 
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_shippingStep.json' });
+    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_shippingStep.json' });
+
     // Go to payment
-    cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.url().should('include', 'checkout/payment');
 
     // Copy shipping details to payment
     cy.get(selectors.checkout.payment.copyFromShipping).click();
 
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_payment.json' });
+
     // Show payment methods
-    cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.get(selectors.checkout.payment.paymentMethods).first().click();
 
+    cy.intercept('POST', 'api/ct/updateCart', { fixture: 'updateCart_after_paymentMethods.json' });
+
     // Go to review
-    cy.get(selectors.checkout.continueButton).click().wait(500);
+    cy.get(selectors.checkout.continueButton).click().wait(100);
     cy.url().should('include', 'checkout/order-review');
 
+    cy.intercept('POST', 'api/ct/getMe', { fixture: 'getMe_after_order.json' });
+
     // Complete order
-    cy.get(selectors.checkout.termsCheckbox).click().wait(500);
-    cy.get(selectors.checkout.submitButton).click().wait(500);
+    cy.get(selectors.checkout.termsCheckbox).click().wait(100);
+    cy.get(selectors.checkout.submitButton).click().wait(100);
     cy.url().should('include', 'checkout/thank-you');
   });
 });

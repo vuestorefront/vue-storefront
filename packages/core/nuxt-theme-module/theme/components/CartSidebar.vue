@@ -19,7 +19,7 @@
           <div class="collected-product-list">
             <transition-group name="sf-fade" tag="div">
               <SfCollectedProduct
-                v-cypress="'collected-product-cart-sidebar'"
+                v-e2e="'collected-product-cart-sidebar'"
                 v-for="product in products"
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"

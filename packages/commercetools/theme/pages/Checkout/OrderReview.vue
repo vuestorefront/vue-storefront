@@ -143,7 +143,7 @@
             {{ $t('Go back') }}
           </nuxt-link>
           <SfButton
-            v-cypress="'order-review-btn_summary-continue'"
+            v-e2e="'order-review-btn_summary-continue'"
             :disabled="loading.order"
             class="summary__action-button"
             @click="processOrder">

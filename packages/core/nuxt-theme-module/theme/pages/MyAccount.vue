@@ -5,45 +5,45 @@
       :breadcrumbs="breadcrumbs"
     />
     <SfContentPages
-      v-cypress="'my-account_content-pages'"
+      v-e2e="'my-account_content-pages'"
       title="My Account"
       :active="activePage"
       class="my-account"
       @click:change="changeActivePage"
     >
       <SfContentCategory title="Personal Details">
-        <SfContentPage v-cypress="'my-account-page_my-profile'" title="My profile">
+        <SfContentPage v-e2e="'my-account-page_my-profile'" title="My profile">
           <MyProfile />
         </SfContentPage>
 
-        <SfContentPage v-cypress="'my-account-page_shipping-details'" title="Shipping details">
+        <SfContentPage v-e2e="'my-account-page_shipping-details'" title="Shipping details">
           <ShippingDetails />
         </SfContentPage>
 
-        <SfContentPage v-cypress="'my-account-page_billing-details'" title="Billing details">
+        <SfContentPage v-e2e="'my-account-page_billing-details'" title="Billing details">
           <BillingDetails />
         </SfContentPage>
 
-        <SfContentPage v-cypress="'my-account-page_loyalty-card'" title="Loyalty card">
+        <SfContentPage v-e2e="'my-account-page_loyalty-card'" title="Loyalty card">
           <LoyaltyCard />
         </SfContentPage>
 
-        <SfContentPage v-cypress="'my-account-page_my-newsletter'" title="My newsletter">
+        <SfContentPage v-e2e="'my-account-page_my-newsletter'" title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
       </SfContentCategory>
 
       <SfContentCategory title="Order details">
-        <SfContentPage v-cypress="'my-account-page_order-history'" title="Order history">
+        <SfContentPage v-e2e="'my-account-page_order-history'" title="Order history">
           <OrderHistory />
         </SfContentPage>
 
-        <SfContentPage v-cypress="'my-account-page_my-reviews'" title="My reviews">
+        <SfContentPage v-e2e="'my-account-page_my-reviews'" title="My reviews">
           <MyReviews />
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentPage v-cypress="'my-account-page_log-out'" title="Log out" />
+      <SfContentPage v-e2e="'my-account-page_log-out'" title="Log out" />
     </SfContentPages>
   </div>
 </template>

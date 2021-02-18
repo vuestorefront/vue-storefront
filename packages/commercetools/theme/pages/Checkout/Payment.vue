@@ -15,7 +15,7 @@
       @changeSetAsDefault="setAsDefault = $event"
     />
     <SfCheckbox
-      v-cypress="'payment-copy-from-billing'"
+      v-e2e="'payment-copy-from-billing'"
       :selected="sameAsShipping"
       @change="handleCheckSameAddress"
       label="Copy address data from shipping"
@@ -144,7 +144,7 @@
     <div class="form">
       <div class="form__element payment-methods" v-if="canContinueToReview">
         <SfRadio
-          v-cypress="'payment-radio_paymentMethod'"
+          v-e2e="'payment-radio_paymentMethod'"
           v-for="item in paymentMethods"
           :key="item.value"
           :selected="chosenPaymentMethod.value"
@@ -164,7 +164,7 @@
       </div>
       <div class="form__action">
         <nuxt-link
-          v-cypress="'payment-btn_go-back'"
+          v-e2e="'payment-btn_go-back'"
           to="/checkout/shipping"
           class="sf-button color-secondary form__back-button">
           {{ $t('Go back') }}
@@ -172,7 +172,7 @@
 
         <SfButton
           v-if="canContinueToReview"
-          v-cypress="'checkout-continue-button'"
+          v-e2e="'checkout-continue-button'"
           :disabled="loading.billingAddress"
           class="form__action-button"
           type="submit"
@@ -182,7 +182,7 @@
 
         <SfButton
           v-else
-          v-cypress="'checkout-continue-button'"
+          v-e2e="'checkout-continue-button'"
           :disabled="loading.billingAddress"
           class="form__action-button"
           type="submit"

@@ -1,14 +1,14 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="smartphone-only">
-    <nuxt-link v-cypress="'bottom-navigation-url_home'" to="/">
+    <nuxt-link v-e2e="'bottom-navigation-url_home'" to="/">
       <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
     </nuxt-link>
-    <SfBottomNavigationItem v-cypress="'bottom-navigation-url_menu'" icon="menu" size="20px" label="Menu"/>
-    <SfBottomNavigationItem v-cypress="'bottom-navigation-url_wishlist'" icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
-    <SfBottomNavigationItem v-cypress="'bottom-navigation-url_account'" icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
+    <SfBottomNavigationItem v-e2e="'bottom-navigation-url_menu'" icon="menu" size="20px" label="Menu"/>
+    <SfBottomNavigationItem v-e2e="'bottom-navigation-url_wishlist'" icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
+    <SfBottomNavigationItem v-e2e="'bottom-navigation-url_account'" icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
-    <SfBottomNavigationItem v-cypress="'bottom-navigation-url_add-to-cart'"
+    <SfBottomNavigationItem v-e2e="'bottom-navigation-url_add-to-cart'"
       label="Basket"
       icon="add_to_cart"
       @click="toggleCartSidebar"

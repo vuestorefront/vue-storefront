@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <SfButton
-      v-cypress="'locale-select_change-langauge'"
+      v-e2e="'locale-select_change-langauge'"
       class="container__lang container__lang--selected"
       @click="isLangModalOpen = !isLangModalOpen"
     >

@@ -1,0 +1,73 @@
+{
+  "data": {
+    "shippingMethods": [
+      {
+        "id": "0fe5d773-33b1-4ed6-9a53-a900fd6bfeed",
+        "version": 1,
+        "name": "Express US",
+        "description": "Same day delivery",
+        "isDefault": false,
+        "localizedDescription": null,
+        "zoneRates": [
+          {
+            "zone": {
+              "id": "c3c46cab-fe7f-4dc3-a78e-7065c6e6621e",
+              "name": "United States",
+              "__typename": "Zone"
+            },
+            "shippingRates": [
+              {
+                "freeAbove": null,
+                "isMatching": true,
+                "price": {
+                  "centAmount": 1000,
+                  "__typename": "Money"
+                },
+                "__typename": "ShippingRate"
+              }
+            ],
+            "__typename": "ZoneRate"
+          }
+        ],
+        "__typename": "ShippingMethod"
+      },
+      {
+        "id": "89933401-f9dc-4f80-b1f8-d27593cf474e",
+        "version": 1,
+        "name": "Standard US",
+        "description": "Delivery in 5-6 working days",
+        "isDefault": false,
+        "localizedDescription": null,
+        "zoneRates": [
+          {
+            "zone": {
+              "id": "c3c46cab-fe7f-4dc3-a78e-7065c6e6621e",
+              "name": "United States",
+              "__typename": "Zone"
+            },
+            "shippingRates": [
+              {
+                "freeAbove": {
+                  "type": "centPrecision",
+                  "centAmount": 20000,
+                  "__typename": "Money"
+                },
+                "isMatching": true,
+                "price": {
+                  "centAmount": 300,
+                  "__typename": "Money"
+                },
+                "__typename": "ShippingRate"
+              }
+            ],
+            "__typename": "ZoneRate"
+          }
+        ],
+        "__typename": "ShippingMethod"
+      }
+    ]
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false
+}
