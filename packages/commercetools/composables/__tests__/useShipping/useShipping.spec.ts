@@ -46,7 +46,7 @@ describe('[commercetools-composables] useShipping', () => {
       }
     };
 
-    const response = await load(context);
+    const response = await load(context, {});
 
     expect(response).toBe(loadedShippingAddress);
     expect(context.cart.load).toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe('[commercetools-composables] useShipping', () => {
       }
     };
 
-    const response = await load(context);
+    const response = await load(context, {});
 
     expect(response).toBe(loadedShippingAddress);
     expect(context.cart.load).not.toHaveBeenCalled();
