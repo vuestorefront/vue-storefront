@@ -9,13 +9,13 @@ const params: UseShippingParams<Address, {}> = {
       cart: useCart()
     };
   },
-  load: async (context: Context) => {
+  load: async (context: Context, { customQuery }) => {
     if (!context.cart.cart?.value?.shippingAddress) {
-      await context.cart.load();
+      await context.cart.load({ customQuery });
     }
     return context.cart.cart.value.shippingAddress;
   },
-  save: async (context: Context, { shippingDetails }) => {
+  save: async (context: Context, { shippingDetails, customQuery }) => {
     const cartResponse = await context.$ct.api.updateCart({
       id: context.cart.cart.value.id,
       version: context.cart.cart.value.version,
@@ -23,7 +23,7 @@ const params: UseShippingParams<Address, {}> = {
         cartActions.setShippingMethodAction(),
         cartActions.setShippingAddressAction(shippingDetails)
       ]
-    });
+    }, customQuery);
 
     context.cart.setCart(cartResponse.data.cart);
     return context.cart.cart.value.shippingAddress;

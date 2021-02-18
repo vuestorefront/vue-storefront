@@ -1,10 +1,10 @@
-import { UseShipping, Context, FactoryParams, UseShippingErrors } from '../types';
+import { UseShipping, Context, FactoryParams, UseShippingErrors, CustomQuery } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
-  load: (context: Context) => Promise<SHIPPING>;
-  save: (context: Context, params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => Promise<SHIPPING>;
+  load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<SHIPPING>;
+  save: (context: Context, params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<SHIPPING>;
 }
 
 export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
@@ -16,14 +16,17 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
     const context = generateContext(factoryParams);
     const error: Ref<UseShippingErrors> = sharedRef({}, 'useShipping-error');
 
-    const load = async () => {
+    const load = async ({ customQuery = null } = {}) => {
       Logger.debug('useShipping.load');
 
       try {
         loading.value = true;
         error.value.load = null;
         const shippingInfo = await factoryParams.load(
-          context
+          context,
+          {
+            customQuery
+          }
         );
         shipping.value = shippingInfo;
       } catch (err) {
@@ -34,7 +37,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       }
     };
 
-    const save = async ({ params, shippingDetails }: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => {
+    const save = async (saveParams) => {
       Logger.debug('useShipping.save');
 
       try {
@@ -42,10 +45,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
         error.value.save = null;
         const shippingInfo = await factoryParams.save(
           context,
-          {
-            params,
-            shippingDetails
-          }
+          saveParams
         );
         shipping.value = shippingInfo;
       } catch (err) {

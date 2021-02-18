@@ -282,8 +282,9 @@ export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   error: ComputedProperty<UseShippingErrors>;
   loading: ComputedProperty<boolean>;
   shipping: ComputedProperty<SHIPPING>;
-  load: () => Promise<void>;
-  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING }) => Promise<void>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
 }
 export interface UseShippingErrors {
   load?: Error;
