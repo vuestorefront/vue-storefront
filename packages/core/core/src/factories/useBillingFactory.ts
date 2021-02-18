@@ -1,10 +1,10 @@
-import { UseBilling, Context, FactoryParams, UseBillingErrors } from '../types';
+import { UseBilling, Context, FactoryParams, UseBillingErrors, CustomQuery } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, generateContext } from '../utils';
 
 export interface UseBillingParams<BILLING, BILLING_PARAMS> extends FactoryParams {
-  load: (context: Context) => Promise<BILLING>;
-  save: (context: Context, params: { params: BILLING_PARAMS; billingDetails: BILLING }) => Promise<BILLING>;
+  load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<BILLING>;
+  save: (context: Context, params: { params: BILLING_PARAMS; billingDetails: BILLING; customQuery?: CustomQuery }) => Promise<BILLING>;
 }
 
 export const useBillingFactory = <BILLING, BILLING_PARAMS>(
@@ -16,14 +16,17 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
     const context = generateContext(factoryParams);
     const error: Ref<UseBillingErrors> = sharedRef({}, 'useBilling-error');
 
-    const load = async () => {
+    const load = async ({ customQuery = null } = {}) => {
       Logger.debug('useBilling.load');
 
       try {
         loading.value = true;
         error.value.load = null;
         const billingInfo = await factoryParams.load(
-          context
+          context,
+          {
+            customQuery
+          }
         );
         billing.value = billingInfo;
       } catch (err) {
@@ -34,7 +37,7 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
       }
     };
 
-    const save = async ({ params, billingDetails }: { params: BILLING_PARAMS; billingDetails: BILLING }) => {
+    const save = async (saveParams) => {
       Logger.debug('useBilling.save');
 
       try {
@@ -42,10 +45,7 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
         error.value.save = null;
         const billingInfo = await factoryParams.save(
           context,
-          {
-            params,
-            billingDetails
-          }
+          saveParams
         );
         billing.value = billingInfo;
       } catch (err) {

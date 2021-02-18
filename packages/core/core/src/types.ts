@@ -292,8 +292,9 @@ export interface UseBilling<BILLING, BILLING_PARAMS> {
   error: ComputedProperty<UseBillingErrors>;
   loading: ComputedProperty<boolean>;
   billing: ComputedProperty<BILLING>;
-  load: () => Promise<void>;
-  save: (params: { params: BILLING_PARAMS; billingDetails: BILLING }) => Promise<void>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: BILLING_PARAMS; billingDetails: BILLING; customQuery?: CustomQuery }) => Promise<void>;
 }
 export interface UseBillingErrors {
   load?: Error;
