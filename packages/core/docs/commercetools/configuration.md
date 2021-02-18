@@ -1,8 +1,6 @@
 # Configuration
 
 ```javascript
-import { createApiClient } from '@vue-storefront/commercetools-api'
-
 ['@vue-storefront/commercetools/nuxt', {
   /* configuration */
 }]
