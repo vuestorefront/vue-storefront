@@ -10,6 +10,8 @@
 
     - `searchParams`
     
+      - `id: string` - The id of the category to fetch.
+    
     - `customQuery?: CustomQuery` 
     
 ```ts
