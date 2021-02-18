@@ -1,35 +1,12 @@
----
-platform: Commercetools
----
+# Configuration
 
-
-<IncludeContent content-key="api-client" />
-
-<!-- Code example for setup method -->
-::: slot setup
 ```javascript
 import { createApiClient } from '@vue-storefront/commercetools-api'
 
-const { client, api, config } = createApiClient({
-  api: {
-    uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
-    authHost: 'https://auth.sphere.io',
-    projectKey: 'vsf-ct-dev',
-    clientId: 'xlea3xo3vcavMN5kmDlFP4nu',
-    clientSecret: process.env.CT_CLIENT_SECRET,
-    scopes: [
-      'create_anonymous_token:vsf-ct-dev',
-      'manage_my_orders:vsf-ct-dev',
-      'manage_my_profile:vsf-ct-dev',
-      'manage_my_shopping_lists:vsf-ct-dev',
-      'manage_my_payments:vsf-ct-dev',
-      'view_products:vsf-ct-dev',
-      'view_published_products:vsf-ct-dev'
-    ]
-  }
-})
+['@vue-storefront/commercetools/nuxt', {
+  /* configuration */
+}]
 ```
-**`createApiClient`** accepts following properties:
 
 - `api: ApiConfig`
 ```js
