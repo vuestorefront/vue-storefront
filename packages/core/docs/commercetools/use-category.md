@@ -8,9 +8,9 @@
 
 - `search` - a main querying function that is used to query categories from eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
 
-    - `searchParams`,
+    - `searchParams`
     
-    - `customQuery?`: CustomQuery
+    - `customQuery?: CustomQuery` 
     
 ```ts
 type CustomQuery = (query, variables) => {
