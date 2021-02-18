@@ -306,6 +306,7 @@ export default {
         isBillingDetailsCompleted.value = false;
         return;
       }
+      isBillingDetailsCompleted.value = false;
       billingDetails.value = oldBilling;
     };
 
