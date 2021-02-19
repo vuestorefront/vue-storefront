@@ -92,7 +92,7 @@
       <div class="sidebar desktop-only">
         <LazyHydrate when-idle>
           <SfLoader
-          :class="{ loading }"
+          :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
               :open="activeCategory"
@@ -673,7 +673,7 @@ export default {
   flex: 1;
   margin: 0;
   &__grid {
-    justify-content: space-between;
+    justify-content: center;
     @include for-desktop {
       justify-content: flex-start;
     }
@@ -696,6 +696,12 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+    @include for-mobile {
+      ::v-deep .sf-image {
+      --image-width: 5.3125rem;
+      --image-height: 7.0625rem;
+      }
+    }
   }
   &__slide-enter {
     opacity: 0;
@@ -738,6 +744,11 @@ export default {
   margin: var(--spacer-3xl) auto;
   @include for-desktop {
     margin-top: 6.25rem;
+  }
+  &--categories {
+    @include for-desktop {
+      margin-top: 3.75rem;
+    }
   }
 }
 ::v-deep .sf-sidebar__aside {

@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
+import type { Request, Response } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -276,6 +277,18 @@ export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
+}
+export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
+  error: ComputedProperty<UseShippingErrors>;
+  loading: ComputedProperty<boolean>;
+  shipping: ComputedProperty<SHIPPING>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
+}
+export interface UseShippingErrors {
+  load?: Error;
+  save?: Error;
 }
 export interface UseFacetErrors {
   search?: Error;
@@ -581,4 +594,74 @@ export interface Context {
 
 export interface FactoryParams {
   provide?: (context: Context) => any;
+}
+
+export interface HookParams<C> {
+  configuration: C;
+}
+
+export interface CallHookParams<C> extends HookParams<C> {
+  callName: string;
+}
+
+export type BeforeCallArgs = any;
+export type AfterCallArgs = any;
+
+export interface BeforeCallParams< C> extends CallHookParams<C> {
+  args: BeforeCallArgs;
+}
+
+export interface AfterCallParams<C> extends CallHookParams<C> {
+  response: AfterCallArgs;
+}
+
+export interface ApiClientExtensionHooks<C = any> {
+  beforeCreate?: (params: HookParams<C>) => C;
+  afterCreate?: (params: HookParams<C>) => C;
+  beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
+  afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
+}
+
+export interface ApiClientExtension {
+  name: string;
+  extendApiMethods?: Record<string, Function>;
+  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
+}
+
+export interface Integration {
+  location: string;
+  configuration: any;
+  extensions: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+}
+
+export type IntegrationsSection = Record<string, Integration>
+
+export interface MiddlewareConfig {
+  integrations: Record<string, Integration>;
+}
+
+export interface ApiClientFactoryParams<T, F = any> {
+  api: F;
+  isProxy?: boolean;
+  onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
+  extensions?: ApiClientExtension[];
+}
+
+export interface ApiInstance {
+  api: any;
+  client: any;
+  settings: any;
+}
+
+export interface ApiClientFactory {
+  createApiClient: CreateApiClientFn;
+}
+
+export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+
+export interface ApiClientConfig {
+  [x: string]: any;
+  client?: any;
+  extensions?: ApiClientExtension[];
 }

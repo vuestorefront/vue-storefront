@@ -293,17 +293,25 @@ export default {
       --hero-item-background-position: left;
       @include for-mobile {
         --hero-item-background-position: 30%;
-        --hero-item-wrapper-text-align: right;
-        --hero-item-subtitle-width: 100%;
-        --hero-item-title-width: 100%;
-        --hero-item-wrapper-padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
+       ::v-deep .sf-hero-item__wrapper {
+         &.sf-button {
+            align-items: flex-end;
+            text-align: right;
+            padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
+         }
+        }
+        ::v-deep .sf-hero-item__subtitle,
+        ::v-deep .sf-hero-item__title {
+          width: 100%;
+        }
       }
     }
   }
-}
-
-::v-deep .sf-hero__controls {
-  --hero-controls-display: none;
+  ::v-deep .sf-hero__control {
+    &--right, &--left {
+      display: none;
+    }
+  }
 }
 
 .banner-grid {
@@ -366,6 +374,11 @@ export default {
     &__product {
       --product-card-add-button-transform: translate3d(0, 30%, 0);
     }
+  }
+  ::v-deep .sf-arrow--long .sf-arrow--right {
+    --arrow-icon-transform: rotate(180deg);
+     -webkit-transform-origin: center;
+     transform-origin: center;
   }
 }
 

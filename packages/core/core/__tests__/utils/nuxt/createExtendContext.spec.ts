@@ -1,50 +1,10 @@
-import { nuxtContextFactory } from '../../../src/utils/nuxt/nuxtContextFactory';
-import { applyContextForApi } from '../../../src/utils/context';
+import { createExtendIntegrationInCtx } from '../../../src/utils/nuxt/context';
+import { applyContextToApi } from '../../../src/utils/context';
 jest.mock('../../../src/utils/context', () => ({
-  applyContextForApi: jest.fn()
+  applyContextToApi: jest.fn()
 }));
 
-describe('nuxtContextFactory', () => {
-  it('injectInContext uses inject if nuxtCtx.$vsf does not exist', () => {
-    const tag = 'myIntegration';
-    const nuxtCtx = {};
-    const inject = jest.fn();
-
-    const {
-      injectInContext
-    } = nuxtContextFactory({
-      tag,
-      nuxtCtx,
-      inject
-    });
-
-    injectInContext('props');
-
-    expect(inject).toHaveBeenCalledWith('vsf', expect.objectContaining({
-      [`$${tag}`]: 'props'
-    }));
-  });
-
-  it('injectInContext adds property if property does not exist in nuxtCtx.$vsf', () => {
-    const tag = 'myIntegration';
-    const nuxtCtx = {
-      $vsf: {}
-    };
-    const inject = jest.fn();
-
-    const {
-      injectInContext
-    } = nuxtContextFactory({
-      tag,
-      nuxtCtx,
-      inject
-    });
-
-    injectInContext('props');
-
-    expect(nuxtCtx.$vsf[`$${tag}`]).toBe('props');
-  });
-
+describe('createExtendIntegrationInCtx', () => {
   it('extendContent injects vsf if not injected', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {
@@ -52,9 +12,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -83,9 +41,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -98,7 +54,7 @@ describe('nuxtContextFactory', () => {
     expect((nuxtCtx.$vsf.$myIntegration as any).testFieldToAdd).toBe(15);
   });
 
-  it('extendContent extends api with response from applyContextForApi', () => {
+  it('extendContent extends api with response from applyContextToApi', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {
       $vsf: {
@@ -110,9 +66,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -126,7 +80,7 @@ describe('nuxtContextFactory', () => {
   });
 
   it('extendContext extends api if available', () => {
-    (applyContextForApi as jest.Mock).mockImplementation((api, { client, config }) => ({
+    (applyContextToApi as jest.Mock).mockImplementation((api, { client, config }) => ({
       ...api,
       ...client,
       ...config
@@ -147,9 +101,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject
@@ -173,7 +125,7 @@ describe('nuxtContextFactory', () => {
   });
 
   it('extendContext extends api if available with props.api not provided', () => {
-    (applyContextForApi as jest.Mock).mockImplementation((api, { client, config }) => ({
+    (applyContextToApi as jest.Mock).mockImplementation((api, { client, config }) => ({
       ...api,
       ...client,
       ...config
@@ -194,9 +146,7 @@ describe('nuxtContextFactory', () => {
     };
     const inject = jest.fn();
 
-    const {
-      extendContext
-    } = nuxtContextFactory({
+    const extendContext = createExtendIntegrationInCtx({
       tag,
       nuxtCtx,
       inject

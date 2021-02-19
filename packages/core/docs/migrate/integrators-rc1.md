@@ -27,7 +27,7 @@ import { apiClientFactory } from '@vue-storefront/core';
 
 let apiClient = null;
 
-const onSetup = (setupConfig) => {
+const onCreate = (setupConfig) => {
     apiClient = new SomeConnection({
       host: setupConfig.api.host,
       auth: {
@@ -40,7 +40,7 @@ const onSetup = (setupConfig) => {
 
 const { setup, update, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {},
-  onSetup
+  onCreate
 });
 
 export {
@@ -57,7 +57,7 @@ export {
 import { apiClientFactory } from '@vue-storefront/core';
 import getProduct from './api/getProduct';
 
-const onSetup = (setupConfig) => {
+const onCreate = (setupConfig) => {
   const apiClient = new SomeConnection({
     host: setupConfig.api.host,
     auth: {
@@ -76,7 +76,7 @@ const onSetup = (setupConfig) => {
 const { createApiClient } = apiClientFactory<any, any>({
   tag: 'tag',
   defaultSettings: {},
-  onSetup,
+  onCreate,
   api: {
     getProduct
   }
