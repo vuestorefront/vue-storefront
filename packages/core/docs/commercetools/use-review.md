@@ -17,12 +17,31 @@
 - `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property. This method accepts a single params object. The `params` has the following options:
 
   - `searchParams`: ReviewSearchParams
-  
-<Content slot-key="search-params" />
+
+```typescript
+interface ReviewSearchParams {
+  productId: string;
+  limit?: number;
+  offset?: number;
+}
+```
 
 - `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information.
 
-<Content slot-key="add-params" />
+```typescript
+interface ReviewAddParams {
+  productId: string;
+  limit?: number;
+  offset?: number;
+  draft: ReviewDraft;
+}
+
+interface ReviewDraft {
+  authorName: string;
+  text: string;
+  rating: number;
+}
+```
 
 - `reviews` - reactive data object containing the response from the backend.
 
@@ -122,38 +141,3 @@ Providing custom GraphQL query and variables:
 await search(searchParams, (query, variables) => ({ query, variables }));
 await addReview(addParams, (query, variables) => ({ query, variables }));
 ```
-
-<!---------------------------------------------------- SLOTS ---------------------------------------------------->
-
-<!---------------------- SLOT: search-params ---------------------->
-::: slot search-params
-
-```typescript
-interface ReviewSearchParams {
-  productId: string;
-  limit?: number;
-  offset?: number;
-}
-```
-
-:::
-
-<!---------------------- SLOT: add-params ---------------------->
-::: slot add-params
-
-```typescript
-interface ReviewAddParams {
-  productId: string;
-  limit?: number;
-  offset?: number;
-  draft: ReviewDraft;
-}
-
-interface ReviewDraft {
-  authorName: string;
-  text: string;
-  rating: number;
-}
-```
-
-:::

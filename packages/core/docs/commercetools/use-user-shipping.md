@@ -16,19 +16,62 @@
 
 - `addAddress` - function for posting new shipping address.
 
-<Content slot-key="add-params" />
+```typescript
+interface ShippingAddressAddParams {
+  address: {
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
+}
+```
 
 - `deleteAddress` - function for deleting existing shipping address.
 
-<Content slot-key="delete-params" />
+```typescript
+interface ShippingAddressDeleteParams {
+  address: {
+    id: string;
+  }
+}
+```
 
 - `updateAddress` - function for updating existing shipping address.
 
-<Content slot-key="update-params" />
+```typescript
+interface ShippingAddressUpdateParams {
+  address: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
+}
+```
 
 - `setDefaultAddress` - function for settings an existing shipping address as default.
 
-<Content slot-key="set-default-params" />
+```typescript
+interface ShippingAddressSetDefaultParams {
+  address: {
+    id: string;
+  }
+}
+```
 
 - `shipping` - reactive data object containing response from the backend.
 
@@ -131,76 +174,3 @@ await addAddress(addParams, (query, variables) => ({ query, variables }));
 await deleteAddress(deleteParams, (query, variables) => ({ query, variables }));
 await updateAddress(updateParams, (query, variables) => ({ query, variables }));
 ```
-
-<!---------------------------------------------------- SLOTS ---------------------------------------------------->
-
-<!---------------------- SLOT: add-params ---------------------->
-::: slot add-params
-
-```typescript
-interface ShippingAddressAddParams {
-  address: {
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    postalCode: string;
-    city: string;
-    state: string;
-    country: string;
-    apartment: string;
-    phone: string;
-    isDefault?: boolean;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: delete-params ---------------------->
-::: slot delete-params
-
-```typescript
-interface ShippingAddressDeleteParams {
-  address: {
-    id: string;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: update-params ---------------------->
-::: slot update-params
-
-```typescript
-interface ShippingAddressUpdateParams {
-  address: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    postalCode: string;
-    city: string;
-    state: string;
-    country: string;
-    apartment: string;
-    phone: string;
-    isDefault?: boolean;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: set-default-params ---------------------->
-::: slot set-default-params
-
-```typescript
-interface ShippingAddressSetDefaultParams {
-  address: {
-    id: string;
-  }
-}
-```
-
-:::

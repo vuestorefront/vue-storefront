@@ -16,20 +16,62 @@
 
 - `addAddress` - function for posting new billing address.
 
-<Content slot-key="add-params" />
+```typescript
+interface BillingAddressAddParams {
+  address: {
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
+}
+```
 
 - `deleteAddress` - function for deleting existing billing address.
 
-<Content slot-key="delete-params" />
+```typescript
+interface BillingAddressDeleteParams {
+  address: {
+    id: string;
+  }
+}
+```
 
 - `updateAddress` - function for updating existing billing address.
 
-<Content slot-key="update-params" />
+```typescript
+interface BillingAddressUpdateParams {
+  address: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    streetName: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    apartment: string;
+    phone: string;
+    isDefault?: boolean;
+  }
+}
+```
 
 - `setDefaultAddress` - function for settings an existing billing address as default.
 
-<Content slot-key="set-default-params" />
-
+```typescript
+interface BillingAddressSetDefaultParams {
+  address: {
+    id: string;
+  }
+}
+```
 - `billing` - reactive data object containing response from the backend.
 
 - `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
@@ -134,76 +176,3 @@ await addAddress(addParams, (query, variables) => ({ query, variables }));
 await deleteAddress(deleteParams, (query, variables) => ({ query, variables }));
 await updateAddress(updateParams, (query, variables) => ({ query, variables }));
 ```
-
-<!---------------------------------------------------- SLOTS ---------------------------------------------------->
-
-<!---------------------- SLOT: add-params ---------------------->
-::: slot add-params
-
-```typescript
-interface BillingAddressAddParams {
-  address: {
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    postalCode: string;
-    city: string;
-    state: string;
-    country: string;
-    apartment: string;
-    phone: string;
-    isDefault?: boolean;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: delete-params ---------------------->
-::: slot delete-params
-
-```typescript
-interface BillingAddressDeleteParams {
-  address: {
-    id: string;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: update-params ---------------------->
-::: slot update-params
-
-```typescript
-interface BillingAddressUpdateParams {
-  address: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    postalCode: string;
-    city: string;
-    state: string;
-    country: string;
-    apartment: string;
-    phone: string;
-    isDefault?: boolean;
-  }
-}
-```
-
-:::
-
-<!---------------------- SLOT: set-default-params ---------------------->
-::: slot set-default-params
-
-```typescript
-interface BillingAddressSetDefaultParams {
-  address: {
-    id: string;
-  }
-}
-```
-
-:::
