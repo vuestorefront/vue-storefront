@@ -17071,11 +17071,6 @@ vue-no-ssr@^0.2.2:
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-0.2.2.tgz#e1a0ef0ba39fc54972edd71a2ae11a7988312b19"
   integrity sha512-JRiKLrefDdFCMDkDiOIGXd2kLCeLDVcUIihnMydxGtGlIphOvIyz1HolTAlD4yBYXvpVZest2Im0ku2LBFf1GA==
 
-vue-observe-visibility@^0.4.1:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
-  integrity sha512-xo0CEVdkjSjhJoDdLSvoZoQrw/H2BlzB5jrCBKGZNXN2zdZgMuZ9BKrxXDjNP2AxlcCoKc8OahI3F3r3JGLv2Q==
-
 vue-offline@^1.0.8:
   version "1.0.204"
   resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.204.tgz#9c9c0e98fc29cb3334b57848dd4c6f6cd9607d6d"
