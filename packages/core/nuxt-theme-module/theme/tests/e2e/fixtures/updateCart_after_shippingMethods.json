@@ -324,5 +324,6 @@
       "__typename": "Cart"
     }
   },
-  "errors": []
+  "errors": [],
+  "mocked": true
 }
