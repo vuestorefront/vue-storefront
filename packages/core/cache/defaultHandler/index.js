@@ -1,14 +1,11 @@
 export default ({ request, options }) => {
   // Remove leading slash and get URL params
   const params = new URLSearchParams(request.url.replace(/^\//, ''));
+  const tags = params.get('tags') || '';
 
-  if (params.get('key') !== options.key) {
+  if (params.get('key') !== options.key || !tags) {
     return [];
   }
 
-  if (!params.get('tags') || !params.get('tags').length) {
-    return [];
-  }
-
-  return params.get('tags').split(',');
+  return tags.split(',');
 };

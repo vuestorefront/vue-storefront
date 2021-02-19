@@ -1,17 +1,6 @@
-/* eslint-disable */
-import { isAbsolute, resolve } from 'path';
+import { resolve } from 'path';
 import { Logger } from '@vue-storefront/core';
-
-/**
- * Helper function that imports default handler by package name
- */
-function requirePackage (name) {
-  const path = isAbsolute(name) || name.startsWith('.')
-    ? resolve(process.cwd(), name)
-    : require.resolve(name, { paths: [ process.cwd() ] });
-
-  return require(path).default;
-}
+import { requirePackage, requireDriver } from './helpers';
 
 /**
  * Adds endpoint to invalidate cache
@@ -35,7 +24,8 @@ function createInvalidationEndpoint (driver, options) {
       await driver.invalidate({
         request,
         response,
-        tags: [...new Set(tags)] // Removes duplicates
+        // Removes duplicates
+        tags: Array.from(new Set(tags))
       });
 
       response.writeHead(200);
@@ -63,18 +53,9 @@ function createRenderer (renderFn) {
   const renderRoute = renderer.renderRoute.bind(renderer);
 
   renderer.renderRoute = (route, context) => {
-    const render = () => renderRoute(route, context)
-    return renderFn(route, context, render)
+    const render = () => renderRoute(route, context);
+    return renderFn(route, context, render);
   };
-}
-
-/**
- * Loads driver using path provided in the configuration.
- */
-function createDriver (driver) {
-  return Array.isArray(driver)
-    ? requirePackage(driver[0])(driver[1])
-    : requirePackage(driver)();
 }
 
 /**
@@ -95,7 +76,7 @@ export default function cacheModule (options) {
   }
 
   // Create cache driver
-  const driver = createDriver(options.driver)
+  const driver = requireDriver(options.driver);
 
   // Create invalidation endpoint if necessary
   createInvalidationEndpoint.call(this, driver, options.invalidation);
@@ -106,9 +87,9 @@ export default function cacheModule (options) {
       const tags = context.req.$vsfCache && context.req.$vsfCache.tagsSet
         ? Array.from(context.req.$vsfCache.tagsSet)
         : [];
-      
+
       return tags.map(({ prefix, value }) => `${prefix}${value}`);
-    }
+    };
 
     try {
       return await driver.invoke({
