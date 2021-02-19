@@ -58,6 +58,59 @@ interface WishlistGetters {
   getTotalItems: (wishlist: Wishlist) => number;
   getFormattedPrice: (price: number) => string;
 };
+
+interface AgnosticTotals {
+  total: number;
+  subtotal: number;
+  special?: number;
+  [x: string]: unknown;
+}
+
+interface AgnosticPrice {
+  regular: number | null;
+  special?: number | null;
+}
+
+type Wishlist = Versioned & {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type ShoppingListLineItem = {
+  __typename?: "ShoppingListLineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  variantId?: Maybe<Scalars["Int"]>;
+  productTypeRef: Reference;
+  productType: ProductTypeDefinition;
+  quantity: Scalars["Int"];
+  addedAt: Scalars["DateTime"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  deactivatedAt?: Maybe<Scalars["DateTime"]>;
+  custom?: Maybe<CustomFieldsType>;
+  productSlug?: Maybe<Scalars["String"]>;
+  variant?: Maybe<ProductVariant>;
+}
 ```
 
 ## Example
