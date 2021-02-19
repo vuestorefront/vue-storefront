@@ -25,39 +25,38 @@
 
 ## Getters
 
-- `getWishlistItems` - returns list of products on wishlist
+- `getItems` - returns list of products on wishlist
 
-- `getWishlistItemName` - returns product's name from wishlist.
+- `getItemName` - returns product's name from wishlist.
 
-- `getWishlistItemImage` - returns product's image from wishlist.
+- `getItemImage` - returns product's image from wishlist.
 
-- `getWishlistItemPrice` - returns product's price from wishlist.
+- `getItemPrice` - returns product's price from wishlist.
 
-- `getWishlistItemQty` - returns quantity of product which is on wishlist.
+- `getItemQty` - returns quantity of product which is on wishlist.
 
-- `getWishlistItemAttributes` - returns product variant attribute chosen by its name.
+- `getItemAttributes` - returns product variant attribute chosen by its name.
 
-- `getWishlistItemSku` - returns product's SKU code.
+- `getItemSku` - returns product's SKU code.
 
-- `getWishlistShippingPrice` - returns price of products.
+- `getTotals` - returns price of products.
 
-- `getWishlistTotalItems` - returns amount of all items that are currently on wishlist.
+- `getTotalItems` - returns amount of all items that are currently on wishlist.
 
 - `getFormattedPrice` - returns price in formatted manner taking into account local specifics.
 
 ```typescript
 interface WishlistGetters {
-  getTotals: getWishlistTotals,
-  getShippingPrice: getWishlistShippingPrice,
-  getItems: getWishlistItems,
-  getItemName: getWishlistItemName,
-  getItemImage: getWishlistItemImage,
-  getItemPrice: getWishlistItemPrice,
-  getItemQty: getWishlistItemQty,
-  getItemAttributes: getWishlistItemAttributes,
-  getItemSku: getWishlistItemSku,
-  getTotalItems: getWishlistTotalItems,
-  getFormattedPrice
+  getTotals: (wishlist: Wishlist) => AgnosticTotals;
+  getItems: (wishlist: Wishlist) => ShoppingListLineItem[];
+  getItemName: (product: ShoppingListLineItem) => string;
+  getItemImage: (product: ShoppingListLineItem) => string;
+  getItemPrice: (product: ShoppingListLineItem) => AgnosticPrice;
+  getItemQty: (product: ShoppingListLineItem) => number;
+  getItemAttributes: (product: ShoppingListLineItem, filterByAttributeName?: string[]) => ({});
+  getItemSku: (product: ShoppingListLineItem) => string;
+  getTotalItems: (wishlist: Wishlist) => number;
+  getFormattedPrice: (price: number) => string;
 };
 ```
 
