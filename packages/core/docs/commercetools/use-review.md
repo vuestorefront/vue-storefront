@@ -77,6 +77,8 @@ type ReviewResponse = {
   };
 }
 
+type Review = any;
+
 interface AgnosticRateCount {
   rate: number;
   count: number;
