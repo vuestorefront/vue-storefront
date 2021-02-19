@@ -16,8 +16,6 @@ If you'd like to know how to build your own driver, [see this page](../integrate
 
 ### Add dependencies
 
-To enable caching in Vue Storefront you will need two packages - `@vue-storefront/cache` and driver package.
-
 ```sh
 yarn add @vue-storefront/cache
 yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
