@@ -1,5 +1,9 @@
 # Changelog
 
+
+# 1.1.3
+- cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
+
 # 1.1.2
 - moved from using `attributesList` to `attributesRaw`
 - add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
