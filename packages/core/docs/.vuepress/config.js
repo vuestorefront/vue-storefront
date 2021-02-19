@@ -38,11 +38,11 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/commercetools/', 'Introduction'],
-						['/commercetools/getting-started', 'Getting Started'],
+						['/commercetools/getting-started', 'Getting started'],
 						['/commercetools/configuration', 'Configuration'],
 						['/commercetools/composables', 'Composables'],
-						['/commercetools/authorization-strategy', 'Authorization Strategy'],
-						['https://www.notion.so/vuestorefront/6017d5a553904d0bbdcdf0f37d388c2b?v=a618b57067f34e68944145ade66da3a3', 'Feature list'],
+						['/commercetools/authorization-strategy', 'Authentication'],
+						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
 					]
@@ -219,5 +219,29 @@ module.exports = {
 				},
 			],
 		}
+	}
+}
+
+
+
+// frontend
+
+const { search } = useProduct()
+
+search({ extendQuery: { getUser: 'dupa', getCart: { guest: 'dupa' } })
+search({ extendQuery: { getProduct: 'dupa' } })
+
+// config middleware
+const config = {
+	integrations: {
+		ct: {
+			extendQueries: {
+				getCart: {
+					dupa: ({ context, defaultQuery<GetProductDefaultQuery>: { query, variables }, params }) => {
+						const variables = { ...defaultQuery.variables, locale: 'it' }
+						return { query, variables }
+					}
+				}
+			}
 	}
 }

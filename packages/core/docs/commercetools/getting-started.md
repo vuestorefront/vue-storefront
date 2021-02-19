@@ -9,7 +9,7 @@ If you havn't generated your project just to play with Vue Storefront and unders
 
 You can generate credentials for Commercetools API in Commercetools Merchant Center by going into:
 
-_Settings > API clients > "Create new api Client" and picking "Mobile & single-page application client"_
+_Settings > API clients > "Create new api Client"_ and picking _"Mobile & single-page application client"_ template.
 
 Then paste those credentials into `@vue-storefront/commercetools/nuxt` module configuration in `nuxt.config.js`:
 

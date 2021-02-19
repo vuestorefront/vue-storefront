@@ -12,6 +12,8 @@ If you're using our boilerplate, you will find 3 Vue Storefront modules in your 
 - `@vue-storefront/nuxt-theme`- This module adds routing and theme-specific configuration for Nuxt.
 - `@vue-storefront/<ECOMMERCE_PLATFORM>` - This is a module of your eCommerce integration. All configuration related to the specific eCommerce platform like setting up API credentials has to happen through this module. Such module usually provides some additional functionalities like setting up the cookies.
 
+You can read more about configuration [here](/guide/configuration.html)
+
 ## Composables
 
 ::: tip Composables? Is this a French meal?
@@ -34,7 +36,6 @@ Vue Storefront integrations are exposing the following composables:
 - [useCategory](/composables/use-category) for managing category lists (but not category products)
 - [useFacet](/composables/use-facet) for complex catalog search with filtering
 - [useReview](/composables/use-review) for product reviews
-- **useInventory** <Badge text="WIP" type="error"/>
 
 #### User Profile and Authorization
 
@@ -65,20 +66,29 @@ Vue Storefront integrations are exposing the following composables:
 
 In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
 
+You can read more about Vue Storefront composables [here](guide/composables.html)
+
 ## Routing
 
 Routes are injected via `@vue-storefront/nuxt-theme` module. Use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) from `nuxt.config.js` to modify them.
 
 ## Internationalization
 
-By default we're using `nuxt-i18n` module for internationalization. You can read more about i18n in Vue Storefront [here](/guide/internationalization).
+By default, we're using `nuxt-i18n` module for internationalization. 
 
-<!-- ## Agnostic data formats and interfaces
--->
+You can read more about i18n in Vue Storefront [here](/advanced/internationalization).
 
 ## App Context
 
-Sometimes the only thing you need is to fetch some data without the overlap of a composable. You should use an API Client that is accessible through `useVSFContext` composable for that. You can read about it [here](./context)
+Sometimes the only thing you need is to fetch some data from integrations API Client without the overlap of a composable. You should use an API Client that is accessible through `useVSFContext` composable for that. 
+
+```js
+import { useVSFContext } from '@vue-storefront/core'
+// for each integration you can access it's tag - eg $ct for commercetools
+const { $ct } = useVSFContext()
+```
+
+You can read more about Vue Storefront Context [here](/advanced/context)
 
 ## Integrations
 
