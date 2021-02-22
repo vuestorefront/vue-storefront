@@ -13,7 +13,7 @@
             :label="item.name"
             :value="item.id"
             :selected="chosenShippingMethod.id"
-            @input="handleMethodSubmit(reset, item)"
+            @input="handleMethodSubmit(item)"
             name="shippingMethod"
             :description="item.description"
             class="form__radio shipping"
@@ -42,6 +42,7 @@
         <SfButton
           class="form__action-button"
           type="submit"
+          @click.native="handleStepSubmit"
           :disabled="!isShippingMethodCompleted || loading"
         >
           {{ $t('Continue to payment') }}
@@ -73,11 +74,11 @@ export default {
     SfButton,
     SfRadio
   },
-  setup () {
+  setup (_, context) {
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
-    const { load } = ShippingProviderUtils(useCart());
+    const { save, load } = ShippingProviderUtils(useCart());
 
     onMounted(async () => {
       loading.value = true;
@@ -85,10 +86,24 @@ export default {
       loading.value = false;
     });
 
+    const handleMethodSubmit = async shippingMethod => {
+      if (loading.value) {
+        return;
+      }
+      loading.value = true;
+      chosenShippingMethod.value = await save({ shippingMethod });
+      loading.value = false;
+      context.emit('update:isShippingMethodCompleted', true);
+    };
+
+    const handleStepSubmit = () => context.emit('stepSubmit');
+
     return {
       loading,
       shippingMethods,
       chosenShippingMethod,
+      handleMethodSubmit,
+      handleStepSubmit,
       getShippingMethodPrice
     };
   }

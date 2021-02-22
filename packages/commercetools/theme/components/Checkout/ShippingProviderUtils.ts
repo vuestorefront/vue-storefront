@@ -19,7 +19,7 @@ export default (cartComposable: UseCart<any, any, any, any>) => {
     });
 
     cartComposable.setCart(cartResponse.data.cart);
-    return cartResponse.data.cart.shippingInfo;
+    return cartResponse.data.cart.shippingInfo.shippingMethod;
   };
 
   return {

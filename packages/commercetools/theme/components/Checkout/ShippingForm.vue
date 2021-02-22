@@ -2,11 +2,7 @@
   <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
     <form
       @submit.prevent="
-        handleSubmit(
-          isShippingDetailsCompleted && isShippingMethodCompleted && !dirty
-            ? handleStepSubmit
-            : handleAddressSubmit(reset)
-        )
+        handleSubmit(handleAddressSubmit(reset))
       "
     >
       <UserShippingAddresses
@@ -271,7 +267,6 @@ export default {
       return Boolean(addresses?.length);
     });
 
-    const handleStepSubmit = () => context.emit('stepSubmit');
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
       await props.handleShippingAddressSubmit(shippingDetails.value);
@@ -351,7 +346,6 @@ export default {
       hasSavedShippingAddress,
 
       handleAddressSubmit,
-      handleStepSubmit,
       handleAddNewAddressBtnClick,
       handleSetCurrentAddress,
 
