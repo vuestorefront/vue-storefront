@@ -12,7 +12,7 @@
     />
     <ShippingProvider
       v-if="isShippingDetailsCompleted"
-      :isShippingMethodCompleted.sync="isShippingMethodCompleted"
+      :finished.sync="isShippingMethodCompleted"
       @stepSubmit="handleStepSubmit"
     />
   </div>

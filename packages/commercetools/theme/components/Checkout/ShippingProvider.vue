@@ -6,6 +6,12 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
+      <div v-if="error.load">
+        There was some error while trying to fetch shipping methods. We are sorry, please try with other shipping details or later.
+      </div>
+      <div v-else-if="error.save">
+        There was some error while trying to select this shipping method. We are sorry, please try with other shipping method or later.
+      </div>
       <div class="form__radio-group">
           <SfRadio
             v-for="item in shippingMethods"
@@ -82,14 +88,18 @@ export default {
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
-    const { save, load } = ShippingProviderUtils(useCart());
+    const { save, load, error } = ShippingProviderUtils(useCart());
 
     onMounted(async () => {
       loading.value = true;
       await props['methods:beforeLoad']();
       const shippingMethodsResponse = await load();
-      shippingMethods.value = shippingMethodsResponse.shippingMethods;
       loading.value = false;
+      if (error.value.load) {
+        context.emit('error', error.value.load);
+        return;
+      }
+      shippingMethods.value = shippingMethodsResponse.shippingMethods;
       context.emit('methods:afterLoad', { shippingMethods: shippingMethodsResponse });
     });
 
@@ -98,9 +108,15 @@ export default {
         return;
       }
       loading.value = true;
-      chosenShippingMethod.value = await save({ shippingMethod });
+      const newShippingMethod = await save({ shippingMethod });
       loading.value = false;
-      context.emit('methods:selected', { shippingMethod: chosenShippingMethod.value });
+      if (error.value.save) {
+        context.emit('error', error.value.save);
+        chosenShippingMethod.value = {};
+        return;
+      }
+      chosenShippingMethod.value = newShippingMethod;
+      context.emit('methods:selected', { shippingMethod: newShippingMethod });
       context.emit('update:finished', true);
     };
 
@@ -112,7 +128,8 @@ export default {
       chosenShippingMethod,
       handleMethodSubmit,
       handleStepSubmit,
-      getShippingMethodPrice
+      getShippingMethodPrice,
+      error
     };
   }
 };
