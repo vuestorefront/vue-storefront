@@ -114,8 +114,6 @@ interface BillingAddressSetDefaultParams {
 
 - `isDefault` - return information if address is current default.
 
-Interface for the above getter looks like this:
-
 ```typescript
 
 interface UserBillingGetters {
