@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'New part of checkout - hipping details, inside core and commercetools',
+  description: 'New part of checkout - shipping details, inside core and commercetools',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/5552',
   isBreaking: true,
   breakingChanges: [
