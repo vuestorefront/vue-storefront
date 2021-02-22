@@ -1,8 +1,9 @@
-import { useVSFContext, UseCart } from '@vue-storefront/core';
+import { useVSFContext, UseCart, AgnosticCoupon } from '@vue-storefront/core';
 import { cartActions } from '@vue-storefront/commercetools-api';
 import { ref, computed } from '@vue/composition-api';
+import { ProductVariant, Cart, LineItem } from '@vue-storefront/commercetools/src/types/GraphQL';
 
-export default (cartComposable: UseCart<any, any, any, any>) => {
+export default (cartComposable: UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon>) => {
   const { $ct } = useVSFContext();
   const error = ref({
     load: null,
