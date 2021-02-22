@@ -10,7 +10,7 @@ import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager';
 import queryString from 'query-string'
-import purgeConfigMethod from './build/purge-config';
+import purgeConfig from './build/purge-config/purgeConfig';
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -44,7 +44,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
         if (excludeFromConfig && excludeFromConfig.length > 0) {
           context.state.config = omit(context.state.config, excludeFromConfig)
         }
-        context.state.config = purgeConfigMethod({
+        context.state.config = purgeConfig({
           ...context.state.config,
           purgeConfig: buildTimeConfig.purgeConfig
         })
