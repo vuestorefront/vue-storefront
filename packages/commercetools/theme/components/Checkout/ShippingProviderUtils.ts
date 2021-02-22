@@ -6,7 +6,7 @@ export default (cartComposable: UseCart<any, any, any, any>) => {
   console.log(cartComposable, 'hmm');
   const load = async () => {
     const shippingMethodsResponse = await $ct.api.getShippingMethods(cartComposable.cart.value.id);
-    return (shippingMethodsResponse as any).data.shippingMethods;
+    return (shippingMethodsResponse as any).data;
   };
 
   const save = async ({ shippingMethod }) => {

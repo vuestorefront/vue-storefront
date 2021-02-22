@@ -43,7 +43,7 @@
           class="form__action-button"
           type="submit"
           @click.native="handleStepSubmit"
-          :disabled="!isShippingMethodCompleted || loading"
+          :disabled="!finished || loading"
         >
           {{ $t('Continue to payment') }}
         </SfButton>
@@ -67,14 +67,18 @@ export default {
   name: 'ShippingProvider',
   props: {
     handleShippingMethodSubmit: Function,
-    isShippingMethodCompleted: Boolean
+    'methods:beforeLoad': {
+      type: Function,
+      default: () => Promise.resolve()
+    },
+    finished: Boolean
   },
   components: {
     SfHeading,
     SfButton,
     SfRadio
   },
-  setup (_, context) {
+  setup (props, context) {
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
@@ -82,8 +86,11 @@ export default {
 
     onMounted(async () => {
       loading.value = true;
-      shippingMethods.value = await load();
+      await props['methods:beforeLoad']();
+      const shippingMethodsResponse = await load();
+      shippingMethods.value = shippingMethodsResponse.shippingMethods;
       loading.value = false;
+      context.emit('methods:afterLoad', { shippingMethods: shippingMethodsResponse });
     });
 
     const handleMethodSubmit = async shippingMethod => {
@@ -93,7 +100,8 @@ export default {
       loading.value = true;
       chosenShippingMethod.value = await save({ shippingMethod });
       loading.value = false;
-      context.emit('update:isShippingMethodCompleted', true);
+      context.emit('methods:selected', { shippingMethod: chosenShippingMethod.value });
+      context.emit('update:finished', true);
     };
 
     const handleStepSubmit = () => context.emit('stepSubmit');
