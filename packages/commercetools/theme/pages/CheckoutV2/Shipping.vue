@@ -10,7 +10,7 @@
       :isShippingMethodCompleted.sync="isShippingMethodCompleted"
       :handleShippingAddressSubmit="handleShippingAddressSubmit"
     />
-    <ShippingProvider
+    <VsfShippingProvider
       v-if="isShippingDetailsCompleted"
       :finished.sync="isShippingMethodCompleted"
       @stepSubmit="handleStepSubmit"
@@ -32,7 +32,7 @@ export default {
   components: {
     SfHeading,
     ShippingForm,
-    ShippingProvider: () => import('@/components/Checkout/ShippingProvider')
+    VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   setup(_, context) {
     const isShippingMethodCompleted = ref(false);

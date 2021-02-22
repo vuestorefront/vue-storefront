@@ -289,14 +289,22 @@ export default {
       shippingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      context.emit('update:isShippingDetailsCompleted', false);
-      context.emit('update:isShippingMethodCompleted', false);
+      if (props.isShippingDetailsCompleted) {
+        context.emit('update:isShippingDetailsCompleted', false);
+      }
+      if (props.isShippingMethodCompleted) {
+        context.emit('update:isShippingMethodCompleted', false);
+      }
     };
 
     const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      context.emit('update:isShippingDetailsCompleted', false);
-      context.emit('update:isShippingMethodCompleted', false);
+      if (props.isShippingDetailsCompleted) {
+        context.emit('update:isShippingDetailsCompleted', false);
+      }
+      if (props.isShippingMethodCompleted) {
+        context.emit('update:isShippingMethodCompleted', false);
+      }
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
