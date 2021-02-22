@@ -1,10 +1,5 @@
 <template>
   <div>
-    <SfHeading
-      :level="3"
-      title="Shipping"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
     <ShippingForm
       :isShippingDetailsCompleted.sync="isShippingDetailsCompleted"
       :isShippingMethodCompleted.sync="isShippingMethodCompleted"

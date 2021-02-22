@@ -1,5 +1,10 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
+    <SfHeading
+      :level="3"
+      title="Shipping"
+      class="sf-heading--left sf-heading--no-underline title"
+    />
     <form
       @submit.prevent="
         handleSubmit(handleAddressSubmit(reset))
@@ -204,8 +209,7 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfRadio,
-  SfCheckbox
+  SfRadio
 } from '@storefront-ui/vue';
 import { useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
@@ -237,7 +241,6 @@ export default {
     SfButton,
     SfSelect,
     SfRadio,
-    SfCheckbox,
     UserShippingAddresses: () => import('~/components/Checkout/UserShippingAddresses'),
     ValidationProvider,
     ValidationObserver
