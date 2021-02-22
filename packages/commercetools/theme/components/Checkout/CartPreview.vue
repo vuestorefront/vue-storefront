@@ -30,7 +30,12 @@
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
       />
-      <ShippingPriceInfo />
+      <SfProperty
+        name="Shipping"
+        v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
+        :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
+        class="sf-property--full-width sf-property--large property"
+      />
       <SfProperty
         name="Total"
         :value="$n(totals.total, 'currency')"
@@ -71,8 +76,8 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, shippingMethodGetters, cartGetters } from '<%= options.generate.replace.composables %>';
-import ShippingPriceInfo from '@/components/Checkout/ShippingPriceInfo';
+import { useCart, shippingMethodGetters, cartGetters } from '@vue-storefront/commercetools';
+import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
   name: 'CartPreview',
@@ -83,14 +88,16 @@ export default {
     SfProperty,
     SfCharacteristic,
     SfInput,
-    SfCircleIcon,
-    ShippingPriceInfo
+    SfCircleIcon
   },
   setup() {
     const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
+
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
+    const chosenShippingMethod = ref(0);
+
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -126,7 +133,10 @@ export default {
           description: 'Rest assured, we offer free returns within 30 days',
           icon: 'return'
         }
-      ]
+      ],
+
+      chosenShippingMethod,
+      getShippingMethodPrice
     };
   }
 };
