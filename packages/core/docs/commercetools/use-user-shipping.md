@@ -117,24 +117,98 @@ interface ShippingAddressSetDefaultParams {
 
 ```typescript
 interface UserShippingGetters {
-  getAddresses: (shipping, criteria?: Record<string, any>) => [];
-  getDefault: (shipping) => any;
-  getTotal: (shipping) => number;
-  getId: (address) => string | number;
-  getPostCode: (address) => string;
-  getStreetName: (address) => string;
-  getStreetNumber: (address) => string | number;
-  getCity: (address) => string;
-  getFirstName: (address) => string;
-  getLastName: (address) => string;
-  getCountry: (address) => string;
-  getPhone: (address) => string;
-  getEmail: (address) => string;
-  getProvince: (address) => string;
-  getCompanyName: (address) => string;
-  getTaxNumber: (address) => string;
-  getApartmentNumber: (address) => string | number;
-  isDefault: (address) => boolean;
+  getAddresses: (shipping: User, criteria?: Record<string, any>) => ShippingAddress[];
+  getDefault: (shipping: User) => ShippingAddress;
+  getTotal: (shipping: User) => number;
+  getId: (address: ShippingAddress) => string | number;
+  getPostCode: (address: ShippingAddress) => string;
+  getStreetName: (address: ShippingAddress) => string;
+  getStreetNumber: (address: ShippingAddress) => string | number;
+  getCity: (address: ShippingAddress) => string;
+  getFirstName: (address: ShippingAddress) => string;
+  getLastName: (address: ShippingAddress) => string;
+  getCountry: (address: ShippingAddress) => string;
+  getPhone: (address: ShippingAddress) => string;
+  getEmail: (address: ShippingAddress) => string;
+  getProvince: (address: ShippingAddress) => string;
+  getCompanyName: (address: ShippingAddress) => string;
+  getTaxNumber: (address: ShippingAddress) => string;
+  getApartmentNumber: (address: ShippingAddress) => string | number;
+  isDefault: (address: ShippingAddress) => boolean;
+}
+
+type Customer = Versioned & {
+  __typename?: "Customer";
+  customerNumber?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  password: Scalars["String"];
+  addresses: Array<Address>;
+  defaultShippingAddressId?: Maybe<Scalars["String"]>;
+  defaultBillingAddressId?: Maybe<Scalars["String"]>;
+  shippingAddressIds: Array<Scalars["String"]>;
+  billingAddressIds: Array<Scalars["String"]>;
+  isEmailVerified: Scalars["Boolean"];
+  customerGroupRef?: Maybe<Reference>;
+  externalId?: Maybe<Scalars["String"]>;
+  key?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  middleName?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
+  locale?: Maybe<Scalars["Locale"]>;
+  salutation?: Maybe<Scalars["String"]>;
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  companyName?: Maybe<Scalars["String"]>;
+  vatId?: Maybe<Scalars["String"]>;
+  customerGroup?: Maybe<CustomerGroup>;
+  defaultShippingAddress?: Maybe<Address>;
+  defaultBillingAddress?: Maybe<Address>;
+  shippingAddresses: Array<Address>;
+  billingAddresses: Array<Address>;
+  storesRef: Array<KeyReference>;
+  stores: Array<Store>;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
+type User = Customer;
+
+type Address = {
+  __typename?: "Address";
+  id?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
+  salutation?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  streetName?: Maybe<Scalars["String"]>;
+  streetNumber?: Maybe<Scalars["String"]>;
+  additionalStreetInfo?: Maybe<Scalars["String"]>;
+  postalCode?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]>;
+  region?: Maybe<Scalars["String"]>;
+  state?: Maybe<Scalars["String"]>;
+  country: Scalars["Country"];
+  company?: Maybe<Scalars["String"]>;
+  department?: Maybe<Scalars["String"]>;
+  building?: Maybe<Scalars["String"]>;
+  apartment?: Maybe<Scalars["String"]>;
+  pOBox?: Maybe<Scalars["String"]>;
+  contactInfo: AddressContactInfo;
+  additionalAddressInfo?: Maybe<Scalars["String"]>;
+  externalId?: Maybe<Scalars["String"]>;
+  key?: Maybe<Scalars["String"]>;
+}
+
+type ShippingAddress = Address & {
+  isDefault?: boolean;
 }
 ```
 
