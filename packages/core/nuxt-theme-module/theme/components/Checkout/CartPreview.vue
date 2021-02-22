@@ -71,8 +71,8 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, shippingMethodGetters, cartGetters } from '<%= options.generate.replace.composables %>';
-import ShippingPriceInfo from '@/components/Checkout/ShippingPriceInfo';
+import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import ShippingPriceInfo from '~/components/Checkout/ShippingPriceInfo';
 
 export default {
   name: 'CartPreview',
@@ -106,7 +106,6 @@ export default {
       showPromoCode,
       removeItem,
       updateItemQty,
-      shippingMethodGetters,
       cartGetters,
       applyCoupon,
       characteristics: [
