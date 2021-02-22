@@ -60,21 +60,62 @@ type Customer = Versioned & {
 }
 ```
 
-- `updateUser` - function for updating user data. When invoked, it submits data to the API and populates user property with updated information.
+- `updateUser` - function for updating user data. When invoked, it submits data to the API and populates user property with updated information.  This method accepts a single `params` object. The `params` has the following options:
 
-- `register` - function for creating a new user. When invoked, it submits new user data to the API and saves them.
+    - `currentUser: Customer`
+    
+    - `updatedUserData`
 
-- `login` - function for log in a user based on a username and password.
+- `register: UseUserRegisterParams` - function for creating a new user. When invoked, it submits new user data to the API and saves them.
 
-- `logout` - function for logout a user.
+```ts
+interface UseUserRegisterParams {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+  [x: string]: any;
+}
+```
 
-- `changePassword` - function for changing user password.
+- `login: UseUserLoginParams` - function for log in a user based on a username and password.
 
-- `loading` - reactive object containing information about loading state of `user`.
+```ts
+interface UseUserLoginParams {
+  username: string;
+  password: string;
+  [x: string]: any;
+}
+```
 
-- `isAuthenticated` - checks if user is authenticated or not.
+- `logout` - function for logout a user. This method accepts a single `params` object. The `params` has the following option:
 
-- `error` - reactive object containing the error message, if some properties failed for any reason.
+    - `currentUser?: Customer`
+
+- `changePassword` - function for changing user password. This method accepts a single `params` object. The `params` has the following options:
+
+    - `currentUser: Customer`
+      
+    - `currentPassword: string`
+      
+    - `newPassword: string`
+
+- `loading: boolean` - reactive object containing information about loading state of `user`.
+
+- `isAuthenticated: boolean` - checks if user is authenticated or not.
+
+- `error: UseUserErrors` - reactive object containing the error message, if some properties failed for any reason.
+
+```ts
+interface UseUserErrors {
+  updateUser?: Error;
+  register?: Error;
+  login?: Error;
+  logout?: Error;
+  changePassword?: Error;
+  load?: Error;
+}
+```
 
 ## Getters
 

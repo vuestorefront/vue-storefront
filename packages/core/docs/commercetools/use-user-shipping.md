@@ -240,11 +240,3 @@ export default {
   }
 };
 ```
-
-Providing custom GraphQL query and variables:
-
-```typescript
-await addAddress(addParams, (query, variables) => ({ query, variables }));
-await deleteAddress(deleteParams, (query, variables) => ({ query, variables }));
-await updateAddress(updateParams, (query, variables) => ({ query, variables }));
-```

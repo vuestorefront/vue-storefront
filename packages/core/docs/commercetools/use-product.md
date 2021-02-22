@@ -7,12 +7,17 @@
 ## API
 
 - `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
-    
+
+    - `customQuery: CustomQuery`
+  
     - `searchParams: ProductsSearchParams`
-      
-    - `customQuery?: CustomQuery`
   
 ```ts
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+
 interface ProductsSearchParams {
   perPage?: number;
   page?: number;
@@ -23,11 +28,6 @@ interface ProductsSearchParams {
   skus?: string[];
   slug?: string;
   id?: string;
-}
-
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
 }
 ```
 - `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method,
@@ -49,9 +49,15 @@ type ProductVariant = {
 }
 ```
 
-- `loading` - a reactive object containing information about loading state of your `search` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
-- `error` - reactive object containing the error message, if `search` failed for any reason.
+- `error: UseProductErrors` - reactive object containing the error message, if `search` failed for any reason.
+
+```ts
+interface UseProductErrors {
+  search?: Error;
+}
+```
 
 ## Getters
 

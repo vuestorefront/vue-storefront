@@ -43,11 +43,22 @@ interface ReviewDraft {
 }
 ```
 
-- `reviews` - reactive data object containing the response from the backend.
+- `reviews: Review[]` - reactive data object containing the response from the backend.
 
-- `loading` - reactive object containing information about loading state of `search` and `addReview` methods.
+```ts
+type Review = any;
+```
 
-- `error` - reactive object containing the error message, if `search` or `addReview` failed for any reason.
+- `loading: boolean` - reactive object containing information about loading state of `search` and `addReview` methods.
+
+- `error: UseReviewErrors` - reactive object containing the error message, if `search` or `addReview` failed for any reason.
+
+```ts
+interface UseReviewErrors {
+  search?: Error;
+  addReview?: Error;
+}
+```
 
 ## Getters
 
@@ -133,11 +144,4 @@ export default {
     };
   }
 };
-```
-
-Providing custom GraphQL query and variables:
-
-```typescript
-await search(searchParams, (query, variables) => ({ query, variables }));
-await addReview(addParams, (query, variables) => ({ query, variables }));
 ```

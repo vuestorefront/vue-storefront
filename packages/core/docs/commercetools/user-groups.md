@@ -21,7 +21,7 @@ type UpdateResult = MutationResponse<'customer', Customer>
 - `removeCustomerFromGroup: (customer: CustomerIdentifier) => Promise<UpdateResult>` - removes user from the group
 - `setup` - it configures the api client within the enterprise package. It expects the fully configured apollo client, so we recommend to configure the original api-client first and pass this configuration to the enterprise package (example below).
 
-## Usage
+## Example
 
 We strongly recommend to use these functions in our middleware as they require wider permissions. Using it purely on the front-end side affects security.
 
