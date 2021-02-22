@@ -96,6 +96,7 @@ export default {
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
+    // TODO: Implement real source of data
     const chosenShippingMethod = ref(0);
 
     const products = computed(() => cartGetters.getItems(cart.value));
