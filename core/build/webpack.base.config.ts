@@ -196,7 +196,7 @@ export default {
       },
       {
         test: /core\/build\/config\.json$/,
-        loader: path.resolve('core/build/purge-config.js')
+        loader: path.resolve('core/build/purge-config/purgeConfigLoader.ts')
       }
     ]
   }

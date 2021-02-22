@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Got rid of memory leak related to dynamic config - tomasz-duda (#4768)
 - servercart-after-diff event payload - Fifciu (#5365)
 - Fix Original Price Calculation typo - @akucharczyk / @lukaszjedrasik (#5472)
+- Purge loader works properly with dynamic config reload - @Fifciu
 ### Changed / Improved
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
