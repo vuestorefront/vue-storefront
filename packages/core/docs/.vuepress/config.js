@@ -163,7 +163,7 @@ module.exports = {
 						['/advanced/context', 'Application Context'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
-						['/advanced/caching', 'Caching'],
+						['/advanced/ssr-cache', 'SSR Cache'],
 						['/advanced/logging', 'Logging'],
 						['/advanced/architecture', 'Architecture']
 					]
@@ -202,7 +202,8 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/integrate/cms', 'CMS']
+						['/integrate/cms', 'CMS'],
+						['/integrate/cache-driver', 'Cache driver']
 					]
 				},
 				{
