@@ -113,6 +113,7 @@ export default {
       if (error.value.save) {
         context.emit('error', error.value.save);
         chosenShippingMethod.value = {};
+        context.emit('update:finished', false);
         return;
       }
       chosenShippingMethod.value = newShippingMethod;
