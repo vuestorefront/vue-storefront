@@ -241,6 +241,8 @@ export type Address = {
   apartment?: Maybe<Scalars["String"]>;
   pOBox?: Maybe<Scalars["String"]>;
   contactInfo: AddressContactInfo;
+  phone?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
   additionalAddressInfo?: Maybe<Scalars["String"]>;
   externalId?: Maybe<Scalars["String"]>;
   key?: Maybe<Scalars["String"]>;

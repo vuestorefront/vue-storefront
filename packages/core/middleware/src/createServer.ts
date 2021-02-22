@@ -1,7 +1,8 @@
-import express from 'express';
+import express, { Request, Response, Express } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
+import { MiddlewareConfig, ApiClientExtension } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
 
 const app = express();
@@ -9,26 +10,30 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
-const applyMiddlewreContext = (createApiClient, { req, res, extensions }) => {
-  const context = {
-    middleware: { req, res, extensions }
-  };
+interface MiddlewareContext {
+  req: Request;
+  res: Response;
+  extensions: ApiClientExtension[];
+}
 
-  return createApiClient.bind(context);
-};
+interface RequestParams {
+  integrationName: string;
+  functionName: string;
+}
 
-function createServer (config) {
+function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
   consola.info('Loading integartions...');
 
   const integrations = registerIntegrations(config.integrations);
+
   consola.success('Integrations loaded!');
 
-  app.post('/:integrationName/:functionName', async (req, res) => {
-    const { integrationName, functionName } = req.params;
+  app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
+    const { integrationName, functionName } = req.params as any as RequestParams;
     const { apiClient, configuration, extensions } = integrations[integrationName];
-    const middlewareContext = { req, res, extensions };
-    const createApiClient = applyMiddlewreContext(apiClient.createApiClient, middlewareContext);
+    const middlewareContext: MiddlewareContext = { req, res, extensions };
+    const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
     const apiClientInstance = createApiClient(configuration);
     const apiFunction = apiClientInstance.api[functionName];
     const platformResponse = await apiFunction(...req.body);
