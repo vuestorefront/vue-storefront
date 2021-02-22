@@ -16,7 +16,7 @@
 
 - `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property. This method accepts a single params object. The `params` has the following options:
 
-  - `searchParams`: ReviewSearchParams
+  - `searchParams: ReviewSearchParams`
 
 ```typescript
 interface ReviewSearchParams {
