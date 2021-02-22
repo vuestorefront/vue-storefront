@@ -24,8 +24,8 @@ module.exports = {
     {
       module: 'nuxt-theme-module',
       before: 'CartPreview.vue uses checkoutGetters',
-      after: 'CartPreview.vue uses component implemented per integration called ShippingPriceInfo.vue',
-      comment: 'As we resign from checkout getters, by this move we could miss copying whole component to each integration. Now we have to only implement this small part in each integration.'
+      after: 'CartPreview.vue is implemented per integration as we do not use getters for checkout-related stuff',
+      comment: 'As we resign from checkout getters, we have to implement CartPreview component per integration.'
     }
   ],
   author: 'Fifciu',
