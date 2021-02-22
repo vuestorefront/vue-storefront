@@ -222,27 +222,3 @@ module.exports = {
 		}
 	}
 }
-
-
-
-// frontend
-
-const { search } = useProduct()
-
-search({ extendQuery: { getUser: 'dupa', getCart: { guest: 'dupa' } })
-search({ extendQuery: { getProduct: 'dupa' } })
-
-// config middleware
-const config = {
-	integrations: {
-		ct: {
-			extendQueries: {
-				getCart: {
-					dupa: ({ context, defaultQuery<GetProductDefaultQuery>: { query, variables }, params }) => {
-						const variables = { ...defaultQuery.variables, locale: 'it' }
-						return { query, variables }
-					}
-				}
-			}
-	}
-}

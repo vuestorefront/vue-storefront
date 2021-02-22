@@ -8,10 +8,6 @@ Caching SSR output in Vue Storefront requires two packages:
 * `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-cache), and hooks into the render cycle. 
 * **the driver** - thin layer on top of `@vue-storefront/cache` that integrates with specific caching solution, such as [Redis](https://redis.io/) or [Memcached](https://memcached.org/).
 
-Vue Storefront team provides [integration with Redis](../integrations/redis-cache.md).
-
-If you'd like to know how to build your own driver, [see this page](../integrate/cache-driver.md).
-
 ## Installation
 
 ### Add dependencies
@@ -203,3 +199,9 @@ Because multiple handlers can be used at the same time to add support for differ
 
 If one of the properties is missing or the validation key is wrong, return an empty array. 
 :::
+
+
+# What's next
+
+- [Redis Cache integration](../integrations/redis-cache.md)
+- [Build your own cache driver](../integrate/cache-driver.md).
