@@ -1,4 +1,4 @@
-import useCache from '../src/composables/useCache';
+import { useCache, CacheTagPrefix } from '../src';
 
 /**
  * Mocks
@@ -19,9 +19,9 @@ jest.mock('@nuxtjs/composition-api', () => ({
  * Variables
  */
 const tags = [
-  { prefix: 'P', value: '1' },
-  { prefix: 'C', value: '2' },
-  { prefix: 'V', value: '3' }
+  { prefix: CacheTagPrefix.Product, value: '1' },
+  { prefix: CacheTagPrefix.Category, value: '2' },
+  { prefix: CacheTagPrefix.View, value: '3' }
 ];
 
 /**
