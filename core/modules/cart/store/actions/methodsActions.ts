@@ -60,10 +60,12 @@ const methodsActions = {
     }
   },
   async updateShippingMethods ({ dispatch }, { shippingMethods }) {
-    const newShippingMethods = shippingMethods
-      .map(method => ({ ...method, is_server_method: true }))
-      .filter(method => !method.hasOwnProperty('available') || method.available)
-    await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
+    if (Array.isArray(shippingMethods)) {
+      const newShippingMethods = shippingMethods
+        .map(method => ({ ...method, is_server_method: true }))
+        .filter(method => !method.hasOwnProperty('available') || method.available)
+      await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
+    }
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
