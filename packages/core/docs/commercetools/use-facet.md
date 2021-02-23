@@ -1,6 +1,6 @@
 # `useFacet` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering but also exists in Open Source version of commercetools integration simple search based on product and category endpoints. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
+> This feature is a part of our commercial offering but also exists in Open Source version of commercetools integration (simple search based on product and category endpoints). Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
 
 ## Features
 
