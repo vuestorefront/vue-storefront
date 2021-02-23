@@ -199,6 +199,11 @@
           </SfButton>
         </div>
       </div>
+      <VsfShippingProvider
+        v-if="isShippingDetailsCompleted"
+        :finished.sync="isShippingMethodCompleted"
+        @submit="handleStepSubmit"
+      />
     </form>
   </ValidationObserver>
 </template>
@@ -243,12 +248,11 @@ export default {
     SfRadio,
     UserShippingAddresses: () => import('~/components/Checkout/UserShippingAddresses'),
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   props: {
-    handleShippingAddressSubmit: Function,
-    isShippingDetailsCompleted: Boolean,
-    isShippingMethodCompleted: Boolean
+    handleShippingAddressSubmit: Function
   },
   setup(props, context) {
     const { $ct: { config } } = useVSFContext();
@@ -261,6 +265,9 @@ export default {
 
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
+
+    const isShippingMethodCompleted = ref(false);
+    const isShippingDetailsCompleted = ref(false);
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -280,7 +287,7 @@ export default {
         }
       }
       reset();
-      context.emit('update:isShippingDetailsCompleted', true);
+      isShippingDetailsCompleted.value = true;
     };
 
     const handleAddNewAddressBtnClick = () => {
@@ -292,22 +299,14 @@ export default {
       shippingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      if (props.isShippingDetailsCompleted) {
-        context.emit('update:isShippingDetailsCompleted', false);
-      }
-      if (props.isShippingMethodCompleted) {
-        context.emit('update:isShippingMethodCompleted', false);
-      }
+      isShippingDetailsCompleted.value = false;
+      isShippingMethodCompleted.value = false;
     };
 
     const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      if (props.isShippingDetailsCompleted) {
-        context.emit('update:isShippingDetailsCompleted', false);
-      }
-      if (props.isShippingMethodCompleted) {
-        context.emit('update:isShippingMethodCompleted', false);
-      }
+      isShippingDetailsCompleted.value = false;
+      isShippingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
@@ -317,6 +316,8 @@ export default {
         handleSetCurrentAddress(defaultAddress[0]);
       }
     };
+
+    const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
 
     // Update local state if we have new address' response from the backend
     watch(address, (addr) => {
@@ -362,7 +363,11 @@ export default {
       handleSetCurrentAddress,
 
       changeDetails,
-      loading
+      loading,
+
+      isShippingDetailsCompleted,
+      isShippingMethodCompleted,
+      handleStepSubmit
     };
   }
 };

@@ -1,14 +1,7 @@
 <template>
   <div>
     <ShippingForm
-      :isShippingDetailsCompleted.sync="isShippingDetailsCompleted"
-      :isShippingMethodCompleted.sync="isShippingMethodCompleted"
       :handleShippingAddressSubmit="handleShippingAddressSubmit"
-    />
-    <VsfShippingProvider
-      v-if="isShippingDetailsCompleted"
-      :finished.sync="isShippingMethodCompleted"
-      @submit="handleStepSubmit"
     />
   </div>
 </template>
@@ -20,19 +13,14 @@ import {
 import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import ShippingForm from '@/components/Checkout/ShippingForm';
-import { ref } from '@vue/composition-api';
 
 export default {
   name: 'Shipping',
   components: {
     SfHeading,
-    ShippingForm,
-    VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
+    ShippingForm
   },
-  setup(_, context) {
-    const isShippingMethodCompleted = ref(false);
-    const isShippingDetailsCompleted = ref(false);
-
+  setup () {
     const {
       save,
       load
@@ -46,14 +34,8 @@ export default {
       await save({ shippingDetails });
     };
 
-    const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
-
     return {
-      handleShippingAddressSubmit,
-      handleStepSubmit,
-
-      isShippingDetailsCompleted,
-      isShippingMethodCompleted
+      handleShippingAddressSubmit
     };
   }
 };
