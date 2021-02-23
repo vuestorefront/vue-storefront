@@ -2444,10 +2444,10 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.17.tgz#110ab77d959565170dea8dd1cf574a0c6d2639e0"
   integrity sha512-ntSlGDK/lc6+YNMhAAx01ERlhWdMWFxoTcBREKiBLfGXGBU9zhFp3kcxPxTf+hdjAE37lMX83tpqK2bXb37SOg==
 
-"@storefront-ui/vue@0.10.2", "@storefront-ui/vue@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.2.tgz#b592eb5bc0376d492665b4787dc8fe8eb2f5b9a1"
-  integrity sha512-ibI41X0v8EicgJaYjUlSYb2UZzHopS+ZrH4vzrSRdcUkrzsOR68kYMAvsXxjoFj5WE+/JQZcZZeqMKHvjGWzJQ==
+"@storefront-ui/vue@0.10.3", "@storefront-ui/vue@^0.10.2":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.3.tgz#949b69a0888f85aa0f17fcdaf396972e5c210016"
+  integrity sha512-IPwlFfuQiNDKcN2OzwKvBWpaKKqwKr7Up2ZhnnE7j1rTqI+fI9rK97fj4ST5CquoKWnRr1or/nuy+x6d0gXtZQ==
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.10.2"
