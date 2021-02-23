@@ -73,7 +73,6 @@ import { cartActions } from '@vue-storefront/commercetools-api';
 export default {
   name: 'ShippingProvider',
   props: {
-    handleShippingMethodSubmit: Function,
     finished: Boolean
   },
   components: {
