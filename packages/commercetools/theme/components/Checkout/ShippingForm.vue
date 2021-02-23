@@ -230,7 +230,6 @@ import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -361,7 +360,6 @@ export default {
       setAsDefault,
       canAddNewAddress,
       currentAddressId,
-      getShippingMethodPrice,
 
       hasSavedShippingAddress,
       isShippingMethodCompleted,
