@@ -6,8 +6,8 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <BillingForm
-      :handleBillingAddressSubmit="handleBillingAddressSubmit"
-      @submit="handleStepSubmit"
+      :handleBillingAddressSubmit="saveBillingAddress"
+      @submit="$router.push('/checkout/order-review')"
     />
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
     SfHeading,
     BillingForm
   },
-  setup(_, context) {
+  setup () {
     const {
       save,
       load
@@ -36,14 +36,8 @@ export default {
       await load();
     });
 
-    const handleBillingAddressSubmit = async billingDetails => {
-      await save({ billingDetails });
-    };
-
-    const handleStepSubmit = () => context.root.$router.push('/checkout/order-review');
     return {
-      handleBillingAddressSubmit,
-      handleStepSubmit
+      saveBillingAddress: save
     };
   }
 };

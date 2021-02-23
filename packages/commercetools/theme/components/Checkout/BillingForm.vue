@@ -3,7 +3,7 @@
     <form
       @submit.prevent="
         handleSubmit(
-          isBillingDetailsCompleted && isBillingMethodCompleted && !dirty
+          isBillingDetailsCompleted && !dirty
             ? handleStepSubmit
             : handleAddressSubmit(reset)
         )
@@ -204,7 +204,6 @@
             class="form__action-button"
             type="submit"
             v-if="isBillingDetailsCompleted && !dirty"
-            :disabled="!isBillingMethodCompleted"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
@@ -314,7 +313,7 @@ export default {
 
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
-      await props.handleBillingAddressSubmit(billingDetails.value);
+      await props.handleBillingAddressSubmit({ billingDetails: billingDetails.value });
       if (addressId !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
         const chosenAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
         if (chosenAddress && chosenAddress.length) {
