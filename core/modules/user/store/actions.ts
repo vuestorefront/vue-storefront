@@ -165,7 +165,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user profile with data from My Account page
    */
   async update (_, profile: UserProfile) {
-    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
+    return UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
   async handleUpdateProfile ({ dispatch }, event) {
     if (event.resultCode === 200) {
