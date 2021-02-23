@@ -60,8 +60,13 @@ module.exports = {
 						['/commercetools/use-cart', 'useCart'],
 						['/commercetools/use-wishlist', 'useWishlist'],
 						['/commercetools/use-category', 'useCategory'],
-						['/commercetools/user-groups', 'User groups'],
-						['/commercetools/enterprise/introduction', 'Enterprise (paid)']
+					]
+				},
+				{
+					title: 'Extensions',
+					collapsable: false,
+					children: [
+						['/commercetools/user-groups', 'User groups']
 					]
 				},
 				{
@@ -141,6 +146,7 @@ module.exports = {
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
+						['/general/enterprise', 'Enterprise']
 					]
         },
 				{

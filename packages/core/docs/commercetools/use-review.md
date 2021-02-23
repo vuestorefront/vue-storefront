@@ -26,7 +26,11 @@ interface ReviewSearchParams {
 }
 ```
 
-- `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information.
+- `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information. This method accepts a single params object. The `params` has the following options:
+
+  - `params: ReviewAddParams`
+  
+  - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface ReviewAddParams {
@@ -40,6 +44,11 @@ interface ReviewDraft {
   authorName: string;
   text: string;
   rating: number;
+}
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
 }
 ```
 
