@@ -8,7 +8,7 @@
     <VsfShippingProvider
       v-if="isShippingDetailsCompleted"
       :finished.sync="isShippingMethodCompleted"
-      @stepSubmit="handleStepSubmit"
+      @submit="handleStepSubmit"
     />
   </div>
 </template>

@@ -65,18 +65,15 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import ShippingProviderUtils from './ShippingProviderUtils';
 import { ref, onMounted } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
+import { useVSFContext } from '@vue-storefront/core';
+import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
   name: 'ShippingProvider',
   props: {
     handleShippingMethodSubmit: Function,
-    'methods:beforeLoad': {
-      type: Function,
-      default: () => Promise.resolve()
-    },
     finished: Boolean
   },
   components: {
@@ -88,13 +85,51 @@ export default {
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
-    const { save, load, error } = ShippingProviderUtils(useCart());
+    const { $ct } = useVSFContext();
+    const { cart, setCart } = useCart();
+
+    const error = ref({
+      load: null,
+      save: null
+    });
+
+    const load = async () => {
+      try {
+        error.value.load = null;
+        loading.value = true;
+        const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
+        return shippingMethodsResponse.data;
+      } catch (err) {
+        error.value.load = err;
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const save = async ({ shippingMethod }) => {
+      try {
+        error.value.save = null;
+        loading.value = true;
+        const cartResponse = await $ct.api.updateCart({
+          id: cart.value.id,
+          version: cart.value.version,
+          actions: [
+            cartActions.setShippingMethodAction(shippingMethod.id)
+          ]
+        });
+
+        setCart(cartResponse.data.cart);
+        return cartResponse.data.cart.shippingInfo.shippingMethod;
+      } catch (err) {
+        error.value.save = err;
+      } finally {
+        loading.value = false;
+      }
+    };
 
     onMounted(async () => {
-      loading.value = true;
-      await props['methods:beforeLoad']();
+      context.emit('methods:beforeLoad');
       const shippingMethodsResponse = await load();
-      loading.value = false;
       if (error.value.load) {
         context.emit('error', error.value.load);
         return;
@@ -107,9 +142,7 @@ export default {
       if (loading.value) {
         return;
       }
-      loading.value = true;
       const newShippingMethod = await save({ shippingMethod });
-      loading.value = false;
       if (error.value.save) {
         context.emit('error', error.value.save);
         chosenShippingMethod.value = {};
@@ -121,7 +154,14 @@ export default {
       context.emit('update:finished', true);
     };
 
-    const handleStepSubmit = () => context.emit('stepSubmit');
+    const handleStepSubmit = () => context.emit('submit');
+
+    // onMounted(() => {
+    //   setTimeout(() => {
+    //     error.value.load = new Error('johny')
+    //     console.log('I CO')
+    //   }, 1000)
+    // })
 
     return {
       loading,
