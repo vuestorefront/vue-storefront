@@ -11,15 +11,12 @@ import useFacet from './useFacet';
 import useUserShipping from './useUserShipping';
 import useUserBilling from './useUserBilling';
 import useWishlist from './useWishlist';
-import { createApiClient } from '@vue-storefront/commercetools-api';
-import { track, integrationPluginFactory } from '@vue-storefront/core';
+import useShipping from './useShipping';
+import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
 
-const integrationPlugin = integrationPluginFactory(createApiClient);
-
 export {
-  integrationPlugin,
   useCategory,
   useProduct,
   useCart,
@@ -30,7 +27,8 @@ export {
   useWishlist,
   useUserShipping,
   useReview,
-  useFacet
+  useFacet,
+  useShipping
 };
 
 export * from './getters';

@@ -14,8 +14,8 @@ Use `useReview` composition function can be used to:
 ## How to use it in your project?
 
 ```js
+import { useReview, reviewGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
-import { useReview, reviewGetters } from '@vsf-enterprise/ct-reviews';
 
 export default {
   setup() {
@@ -26,7 +26,6 @@ export default {
       error
     } = useReview('<UNIQUE_ID>');
 
-    // If you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
       await search({ productId: '<PRODUCT_ID>' });
     });

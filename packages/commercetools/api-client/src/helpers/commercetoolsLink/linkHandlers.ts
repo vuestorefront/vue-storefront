@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
+import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
 import { isAnonymousOperation, isUserOperation } from './restrictedOperations';
 
 export const handleBeforeAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken }) => {
@@ -40,10 +40,11 @@ export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
     return false;
   }
 
-  if (error.result.message === 'invalid_token') {
+  if (error?.result?.message === 'invalid_token') {
     Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
     tokenProvider.invalidateTokenInfo();
     return true;
   }
+
   return false;
 };

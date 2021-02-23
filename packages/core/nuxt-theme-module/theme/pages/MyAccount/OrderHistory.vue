@@ -32,7 +32,11 @@
             <SfTableHeader>{{ $t('Price') }}</SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
-            <SfTableData class="products__name"><SfLink :link="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">{{orderGetters.getItemName(item)}}</SfLink></SfTableData>
+            <SfTableData class="products__name">
+              <nuxt-link :to="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">
+                {{orderGetters.getItemName(item)}}
+              </nuxt-link>
+            </SfTableData>
             <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
             <SfTableData>{{$n(orderGetters.getItemPrice(item), 'currency')}}</SfTableData>
           </SfTableRow>
@@ -98,8 +102,7 @@ import {
   SfTabs,
   SfTable,
   SfButton,
-  SfProperty,
-  SfLink
+  SfProperty
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
@@ -112,8 +115,7 @@ export default {
     SfTabs,
     SfTable,
     SfButton,
-    SfProperty,
-    SfLink
+    SfProperty
   },
   setup() {
     const { orders, search } = useUserOrders();
@@ -206,9 +208,9 @@ export default {
   font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
   &__link {
     color: var(--c-primary);
-    --link-weight: var(--font-weight--medium);
-    --link-font-family: var(--font-family--primary);
-    --link-font-size: var(--font-size--base);
+    font-weight: var(--font-weight--medium);
+    font-family: var(--font-family--primary);
+    font-size: var(--font-size--base);
     text-decoration: none;
     &:hover {
       color: var(--c-text);

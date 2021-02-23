@@ -1,6 +1,17 @@
 # Changelog
 
-## 1.1.0 (not released)
+
+# 1.1.3
+- cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
+
+# 1.1.2
+- moved from using `attributesList` to `attributesRaw`
+- add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
+
+## 1.1.1
+- fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
+
+## 1.1.0
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 - fixed pagination and per page on category page ([#5327](https://github.com/DivanteLtd/vue-storefront/issues/5327))
@@ -10,6 +21,9 @@
 - removed `formatPrice` from `useUiHelpers`, replaced by vue18n `$n` function ([#5339](https://github.com/vuestorefront/vue-storefront/pull/5339))
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
 - use updated factories `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
+- use updated factories `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
+- fix selecting country on checkout payment and shipping ([5386](https://github.com/vuestorefront/vue-storefront/pull/5386))
+- `createMyShoppingList` as a restricted anonymous operation
 
 ## 1.0.1-rc.1
 - updated version of core

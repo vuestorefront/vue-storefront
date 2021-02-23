@@ -1,4 +1,3 @@
-export { createApiClient } from './helpers/apiClient';
 export * from './fragments';
 export * from './types/Api';
 export * from './types/GraphQL';

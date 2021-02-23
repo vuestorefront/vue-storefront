@@ -4,17 +4,41 @@ interface ContextConfiguration {
   useVSFContext: () => Context;
 }
 
+interface ApplyingContextHooks {
+  before: ({ callName, args }) => any[];
+  after: ({ callName, args, response }) => any;
+}
+
 let useVSFContext = () => ({}) as Context;
 
 const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const applyContextForApi = (api, context) =>
+const nopBefore = ({ args }) => args;
+const nopAfter = ({ response }) => response;
+
+const applyContextToApi = (
+  api: Record<string, Function>,
+  context: any,
+
+  /**
+   * By default we use NOP function for returning the same parameters as they come.
+   * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
+   * in that case, we use default function, to handle that scenario - NOP
+   */
+  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter }
+) =>
   Object.entries(api)
-    .reduce((prev, [key, fn]: any) => ({
+    .reduce((prev, [callName, fn]: any) => ({
       ...prev,
-      [key]: (...args) => fn(context, ...args)
+      [callName]: async (...args) => {
+        const transformedArgs = hooks.before({ callName, args });
+        const response = await fn(context, ...transformedArgs);
+        const transformedResponse = hooks.after({ callName, args, response });
+
+        return transformedResponse;
+      }
     }), {});
 
 const generateContext = (factoryParams) => {
@@ -33,5 +57,5 @@ export {
   generateContext,
   useVSFContext,
   configureContext,
-  applyContextForApi
+  applyContextToApi
 };

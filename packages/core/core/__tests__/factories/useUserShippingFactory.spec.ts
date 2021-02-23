@@ -38,10 +38,12 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('2323');
         factoryParams.addAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserShippingMethods.addAddress('' as any)).rejects.toThrow();
+        await useUserShippingMethods.addAddress('' as any);
+        expect(useUserShippingMethods.error.value.addAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -58,10 +60,12 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('2323');
         factoryParams.deleteAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserShippingMethods.deleteAddress('' as any)).rejects.toThrow();
+        await useUserShippingMethods.deleteAddress('' as any);
+        expect(useUserShippingMethods.error.value.deleteAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -78,10 +82,12 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('2323');
         factoryParams.updateAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserShippingMethods.updateAddress('' as any)).rejects.toThrow();
+        await useUserShippingMethods.updateAddress('' as any);
+        expect(useUserShippingMethods.error.value.updateAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -98,10 +104,12 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('2323');
         factoryParams.load.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserShippingMethods.load()).rejects.toThrow();
+        await useUserShippingMethods.load();
+        expect(useUserShippingMethods.error.value.load).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -118,10 +126,12 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       });
 
       it('throws error', async () => {
+        const err = new Error('zxczxcx');
         factoryParams.setDefaultAddress.mockImplementationOnce(() => {
-          throw new Error();
+          throw err;
         });
-        await expect(useUserShippingMethods.setDefaultAddress('' as any)).rejects.toThrow();
+        await useUserShippingMethods.setDefaultAddress('' as any);
+        expect(useUserShippingMethods.error.value.setDefaultAddress).toBe(err);
       });
 
       it('finally loading go to false', () => {

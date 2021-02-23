@@ -92,7 +92,7 @@
       <div class="sidebar desktop-only">
         <LazyHydrate when-idle>
           <SfLoader
-          :class="{ loading }"
+          :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
               :open="activeCategory"
@@ -199,6 +199,7 @@
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
               @click:wishlist="addItemToWishlist({ product })"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -217,13 +218,6 @@
                   @click="() => {}"
                 >
                   {{ $t('Save for later') }}
-                </SfButton>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 0 auto; display: block;"
-                  @click="() => {}"
-                >
-                  {{ $t('Add to compare') }}
                 </SfButton>
               </template>
             </SfProductCardHorizontal>
@@ -373,6 +367,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
+// TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
   setup(props, context) {
@@ -678,7 +673,7 @@ export default {
   flex: 1;
   margin: 0;
   &__grid {
-    justify-content: space-between;
+    justify-content: center;
     @include for-desktop {
       justify-content: flex-start;
     }
@@ -701,6 +696,12 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+    @include for-mobile {
+      ::v-deep .sf-image {
+      --image-width: 5.3125rem;
+      --image-height: 7.0625rem;
+      }
+    }
   }
   &__slide-enter {
     opacity: 0;
@@ -743,6 +744,11 @@ export default {
   margin: var(--spacer-3xl) auto;
   @include for-desktop {
     margin-top: 6.25rem;
+  }
+  &--categories {
+    @include for-desktop {
+      margin-top: 3.75rem;
+    }
   }
 }
 ::v-deep .sf-sidebar__aside {

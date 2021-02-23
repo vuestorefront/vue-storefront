@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
+import type { Request, Response } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -19,10 +20,13 @@ export interface ProductsSearchParams {
   filters?: any;
   [x: string]: any;
 }
-
+export interface UseProductErrors {
+  search?: Error;
+}
 export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
 }
@@ -40,7 +44,14 @@ export interface UseUserLoginParams {
   password: string;
   [x: string]: any;
 }
-
+export interface UseUserErrors {
+  updateUser?: Error;
+  register?: Error;
+  login?: Error;
+  logout?: Error;
+  changePassword?: Error;
+  load?: Error;
+}
 export interface UseUser
 <
   USER,
@@ -48,14 +59,15 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
-  updateUser: ({ user: UPDATE_USER_PARAMS }) => Promise<void>;
-  register: ({ user: UseUserRegisterParams }) => Promise<void>;
-  login: ({ user: UseUserLoginParams }) => Promise<void>;
+  updateUser: (params: { user: UPDATE_USER_PARAMS }) => Promise<void>;
+  register: (params: { user: UseUserRegisterParams }) => Promise<void>;
+  login: (params: { user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (params: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserErrors>;
 }
 
 export interface UseUserOrdersSearchParams {
@@ -64,11 +76,14 @@ export interface UseUserOrdersSearchParams {
   perPage?: number;
   [x: string]: any;
 }
-
+export interface UseUserOrdersErrors {
+  search?: Error;
+}
 export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserOrdersErrors>;
 }
 
 export interface UseUserAddress<ADDRESS> {
@@ -80,15 +95,22 @@ export interface UseUserAddress<ADDRESS> {
   searchAddresses: (params?: { [x: string]: any }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseUserShippingErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_SHIPPING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserShippingErrors>;
 }
 
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
@@ -112,14 +134,22 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
 }
 
+export interface UseUserBillingErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  deleteAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
-  updateAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  deleteAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  updateAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: ({ address: USER_BILLING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseUserBillingErrors>;
 }
 
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
@@ -143,12 +173,25 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   isDefault: (address: USER_BILLING_ITEM) => boolean;
 }
 
+export interface UseCategoryErrors {
+  search?: Error;
+}
 export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseCategoryErrors>;
 }
 
+export interface UseCartErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  updateItemQty?: Error;
+  load?: Error;
+  clear?: Error;
+  applyCoupon: Error;
+  removeCoupon?: Error;
+}
 export interface UseCart
 <
   CART,
@@ -167,9 +210,15 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
+  error: ComputedProperty<UseCartErrors>;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseWishlistErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  load?: Error;
+  clear?: Error;
+}
 export interface UseWishlist
 <
   WISHLIST,
@@ -185,6 +234,7 @@ export interface UseWishlist
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
   isOnWishlist({ product: PRODUCT }): boolean;
+  error: ComputedProperty<UseWishlistErrors>;
 }
 
 export interface UseCompare<PRODUCT> {
@@ -216,26 +266,47 @@ export interface UseCheckout
   placeOrder: PLACE_ORDER;
   loading: ComputedProperty<boolean>;
 }
-
+export interface UseReviewErrors {
+  search?: Error;
+  addReview?: Error;
+}
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
+  error: ComputedProperty<UseReviewErrors>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
   [x: string]: any;
 }
-
+export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
+  error: ComputedProperty<UseShippingErrors>;
+  loading: ComputedProperty<boolean>;
+  shipping: ComputedProperty<SHIPPING>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
+}
+export interface UseShippingErrors {
+  load?: Error;
+  save?: Error;
+}
+export interface UseFacetErrors {
+  search?: Error;
+}
 export interface UseFacet<SEARCH_DATA> {
   result: ComputedProperty<FacetSearchResult<SEARCH_DATA>>;
   loading: ComputedProperty<boolean>;
   search: (params?: AgnosticFacetSearchParams) => Promise<void>;
+  error: ComputedProperty<UseFacetErrors>;
 }
-
+export interface UseContentErrors {
+  search?: Error;
+}
 export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<string | null>;
+  error: ComputedProperty<UseContentErrors>;
 }
 
 export interface RenderComponent {
@@ -523,4 +594,74 @@ export interface Context {
 
 export interface FactoryParams {
   provide?: (context: Context) => any;
+}
+
+export interface HookParams<C> {
+  configuration: C;
+}
+
+export interface CallHookParams<C> extends HookParams<C> {
+  callName: string;
+}
+
+export type BeforeCallArgs = any;
+export type AfterCallArgs = any;
+
+export interface BeforeCallParams< C> extends CallHookParams<C> {
+  args: BeforeCallArgs;
+}
+
+export interface AfterCallParams<C> extends CallHookParams<C> {
+  response: AfterCallArgs;
+}
+
+export interface ApiClientExtensionHooks<C = any> {
+  beforeCreate?: (params: HookParams<C>) => C;
+  afterCreate?: (params: HookParams<C>) => C;
+  beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
+  afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
+}
+
+export interface ApiClientExtension {
+  name: string;
+  extendApiMethods?: Record<string, Function>;
+  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
+}
+
+export interface Integration {
+  location: string;
+  configuration: any;
+  extensions: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+}
+
+export type IntegrationsSection = Record<string, Integration>
+
+export interface MiddlewareConfig {
+  integrations: Record<string, Integration>;
+}
+
+export interface ApiClientFactoryParams<T, F = any> {
+  api: F;
+  isProxy?: boolean;
+  onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
+  extensions?: ApiClientExtension[];
+}
+
+export interface ApiInstance {
+  api: any;
+  client: any;
+  settings: any;
+}
+
+export interface ApiClientFactory {
+  createApiClient: CreateApiClientFn;
+}
+
+export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+
+export interface ApiClientConfig {
+  [x: string]: any;
+  client?: any;
+  extensions?: ApiClientExtension[];
 }

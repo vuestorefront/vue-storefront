@@ -27,34 +27,37 @@ const { search, product, loading, error } = useProduct()
 
 Vue Storefront integrations are exposing following composables:
 
-```js
-// product catalog
-useProduct()
-useCategory()
-useFacet()
-useReview()
 
-// user profile and authorization
-useUser()
-useUserShipping()
-useUserBilling()
-useUserOrders()
-useInventory() // WIP
+#### Product Catalog
 
-// shopping cart
-useCart()
+- [useProduct](/composables/use-product) for managing a single product with variants (or a list)
+- [useCategory](/composables/use-category) for managing category lists (but not category products)
+- [useFacet](/composables/use-facet) for complex catalog search with filtering
+- [useReview](/composables/use-review) for product reviews
+- **useInventory** <Badge text="WIP" type="error"/>
 
-// wishlist/favourite 
-useWishlist()
+#### User Profile and Authorization
+- [useUser](/composables/use-user) for managing user sessions, credentials and registration
+- [useUserShipping](/composables/use-user-shipping) for managing shipping addresses
+- [useUserBilling](/composables/use-user-billing) for managing billing addresses
+- **useUserOrders** for managing past and active user orders
 
-// CMS content
-useContent() // usually external CMS
+#### Shopping Cart
+- [useCart](/composables/use-cart) for loading the cart, adding/removing products and discounts
 
-// checkout forms and placing orders
-useCheckout()
-```
+#### Wishlist/Favourite 
+- [useWishlist](/composables/use-wishlist) for loading the wishlist, adding/removing products
 
-In a real-world application these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `usefacet` - Algolia etc.
+#### CMS Content
+- [useContent](/composables/use-content) for fetching the CMS content. It is usually used in combination with `<RenderContent>`component
+
+#### Checkout
+- **useCheckout** for saving the shipping and billing address for a current order, choosing shipping method, making payments and placing the order
+
+#### Other
+- [useVSFContext](/general/context) for accessing the integration API methods and client instances
+
+In a real-world application these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
 
 ## Routing
 
@@ -62,7 +65,15 @@ Routes are injected via `@vue-storefront/nuxt-theme` module. Use [`extendRoutes`
 
 ## Internationalization
 
-By default we're using `nuxt-i18n` module for internationalization. You can read more about i18n in Vue Storefront [here](./i18n).
+By default we're using `nuxt-i18n` module for internationalization. You can read more about i18n in Vue Storefront [here](/guide/internationalization).
 
 <!-- ## Agnostic data formats and interfaces
 -->
+
+## App Context
+
+Sometimes the only thing you need is to fetch some data without the overlap of a Composable. You will use an API Client that is accessible through `useVSFContext` composable for that. You can read about it [here](./context)
+
+## Integrations
+
+Even though high-level APIs are the same for all Vue Storefront integrations they're different on the low level (data formats, search params). Check the docs of a specific platform on the left side under "eCommerce integrations" tab to learn about them.

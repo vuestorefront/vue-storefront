@@ -14,15 +14,14 @@
       <LazyHydrate when-visible>
         <BottomNavigation />
       </LazyHydrate>
-
-      <LazyHydrate when-visible>
-        <AppFooter />
-      </LazyHydrate>
-
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
+      <Notification />
     </div>
+    <LazyHydrate when-visible>
+      <AppFooter />
+    </LazyHydrate>
   </div>
 </template>
 
@@ -35,6 +34,7 @@ import CartSidebar from '~/components/CartSidebar.vue';
 import WishlistSidebar from '~/components/WishlistSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import Notification from '~/components/Notification';
 
 export default {
   components: {
@@ -45,7 +45,8 @@ export default {
     AppFooter,
     CartSidebar,
     WishlistSidebar,
-    LoginModal
+    LoginModal,
+    Notification
   }
 };
 </script>

@@ -19,7 +19,9 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
 
-    if ($ct.api.isGuest()) {
+    const isGuest = await $ct.api.isGuest();
+
+    if (isGuest) {
       return null;
     }
 

@@ -81,14 +81,14 @@ describe('[about-you-api] index', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  describe('onSetup', () => {
+  describe('onCreate', () => {
     it('has been called after passing to apiClientFactory', async () => {
-      const onSetup = jest.fn();
+      const onCreate = jest.fn();
 
-      const apiFactory = apiClientFactory({ defaultSettings, onSetup });
+      const apiFactory = apiClientFactory({ defaultSettings, onCreate });
       apiFactory.setup({});
 
-      expect(onSetup).toHaveBeenCalled();
+      expect(onCreate).toHaveBeenCalled();
     });
     describe('returns apiClient with methods', () => {
       beforeEach(() => {

@@ -115,44 +115,14 @@ export const LineItemFragment = `
         url
         label
       }
-      attributeList {
+      attributesRaw {
         name
-        ... on BooleanAttribute {
-          booleanValue: value
-        }
-        ... on DateAttribute {
-          dateValue: value
-        }
-        ... on DateTimeAttribute {
-          dateTimeValue: value
-        }
-        ... on StringAttribute {
-          stringValue: value
-        }
-        ... on TimeAttribute {
-          timeValue: value
-        }
-        ... on NumberAttribute {
-          numberValue: value
-        }
-        ... on EnumAttribute {
-          key
-          label
-        }
-        ... on LocalizedEnumAttribute {
-          key
-          localizedLabel: label(locale: $locale)
-        }
-        ... on LocalizedStringAttribute {
-          localizedString: value(locale: $locale)
-        }
-        ... on MoneyAttribute {
-          centAmount
-          currencyCode
-        }
-        ... on ReferenceAttribute {
-          typeId
-          id
+        value
+        attributeDefinition {
+          type {
+            name
+          }
+          label(locale: $locale)
         }
       }
     }
