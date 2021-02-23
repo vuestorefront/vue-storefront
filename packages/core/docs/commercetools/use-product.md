@@ -10,7 +10,7 @@
  
     - `searchParams: ProductsSearchParams`
 
-    - `customQuery: CustomQuery`
+    - `customQuery?: CustomQuery`
 
 ```ts
 interface ProductsSearchParams {
