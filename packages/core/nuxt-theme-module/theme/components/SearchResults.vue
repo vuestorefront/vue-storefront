@@ -181,6 +181,7 @@ export default {
   z-index: 3;
   --mega-menu-column-header-margin: var(--spacer-sm) 0 var(--spacer-xl);
   --mega-menu-content-padding: 0;
+  --mega-menu-height: auto;
   @include for-desktop {
     --mega-menu-content-padding: var(--spacer-xl) 0;
   }
@@ -213,12 +214,12 @@ export default {
 }
 .results {
   &--desktop {
-    --scrollable-max-height: 480px;
+    --scrollable-max-height: 30rem;
   }
   &--mobile {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     background: var(--c-white);
     padding: var(--spacer-base) var(--spacer-sm);
     --product-card-max-width: 9rem ;
@@ -249,7 +250,7 @@ export default {
 
 .before-results {
   box-sizing: border-box;
-  padding: 0 var(--spacer-sm);
+  padding: var(--spacer-base) var(--spacer-sm) var(--spacer-2xl);
   width: 100%;
   text-align: center;
   @include for-desktop {
@@ -276,7 +277,7 @@ export default {
     }
   }
   &__button {
-    margin-top: var(--spacer-xl);
+    margin: var(--spacer-xl) auto;
     width: 100%;
   }
 }

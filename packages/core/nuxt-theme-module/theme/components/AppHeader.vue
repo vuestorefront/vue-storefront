@@ -108,6 +108,7 @@ import {
   mapMobileObserver,
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
+import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -160,6 +161,7 @@ export default {
     const closeSearchAndRemoveTerm = () => {
       term.value = '';
       searchOpen.value = false;
+      changeSearchTerm(term.value);
     };
 
     const handleSearch = async (e) => {
@@ -167,6 +169,10 @@ export default {
       changeSearchTerm(term);
       await search({ categorySlug: 'women-clothing-jackets', itemsPrePage: 20, filters: {} });
     };
+
+    const debounceSearchInput = debounce(async () => {
+      await search({ categorySlug: 'women-clothing-jackets', itemsPrePage: 20, filters: {} });
+    }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
@@ -180,6 +186,9 @@ export default {
     };
 
     watch(() => term.value, (newVal, oldVal) => {
+      if (term.value.length >= 3) {
+        debounceSearchInput();
+      }
       if (!isMobile.value && term.value.length > 0) {
         if ((!oldVal && newVal) || (newVal.length !== oldVal.length && searchOpen.value === false)) {
           searchOpen.value = true;
