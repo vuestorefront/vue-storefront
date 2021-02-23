@@ -6,8 +6,8 @@ module.exports = {
     {
       module: 'commercetools',
       before: 'Using checkoutGetters',
-      after: 'Removed checoutGetters. Accesing checkout-related properties directly.',
-      comment: 'It is probably impossible to keep enough flexibility and have checkout getters'
+      after: 'Removed checkoutGetters',
+      comment: 'Accesing checkout-related properties directly'
     },
     {
       module: 'commercetools',
@@ -25,7 +25,7 @@ module.exports = {
       module: 'nuxt-theme-module',
       before: 'CartPreview.vue uses checkoutGetters',
       after: 'CartPreview.vue is implemented per integration as we do not use getters for checkout-related stuff',
-      comment: 'As we resign from checkout getters, we have to implement CartPreview component per integration.'
+      comment: 'We have to implement CartPreview component per integration'
     }
   ],
   author: 'Fifciu',
