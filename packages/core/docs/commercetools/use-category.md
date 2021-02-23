@@ -61,9 +61,15 @@ type Category = {
 }
 ```
 
-- `loading` - a reactive object containing information about loading state of your `search` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
-- `error` - reactive object containing the error message, if `search` failed for any reason.
+- `error: UseCategoryErrors` - reactive object containing the error message, if `search` failed for any reason.
+
+```ts
+interface UseCategoryErrors {
+  search?: Error;
+}
+```
 
 ## Getters
 

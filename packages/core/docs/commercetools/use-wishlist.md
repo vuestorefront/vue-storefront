@@ -13,15 +13,300 @@
 
 ## API
 
-- `load` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property.
+- `wishlist: Wishlist` - a main data object.
 
-- `addToWishlist` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information.
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
 
-- `removeFromWishlist` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property.
+type Wishlist = ShoppingList;
+```
 
-- `clearWishlist` - function that removes all products from the wishlist and populates clear `wishlist` property.
+- `load` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property. This method accepts a single `params` object. The `params` has the following option:
 
-- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value.
+    - `customQuery?: CustomQuery`
+    
+```ts
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
+
+- `setWishlist` - function for setting a new wishlist. This method accepts a single `params` object. The `params` has the following option:
+
+  - `newWishlist: Wishlist`
+  
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Wishlist = ShoppingList;
+```
+
+- `addItem` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information. This method accepts a single `params` object. The `params` has the following options:
+
+    - `currentWishlist: Wishlist`
+    
+    - `product: ProductVariant`
+    
+    - `customQuery?: customQuery`
+  
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Wishlist = ShoppingList;
+
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  attributesRaw: Array<RawProductAttribute>;
+  attributes: ProductType;
+  attributeList: Array<Attribute>;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
+
+- `removeItem` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property. This method accepts a single `params` object. The `params` has the following options:
+
+  - `currentWishlist: Wishlist`
+
+  - `product: LineItem`
+
+  - `customQuery?: customQuery`
+
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Wishlist = ShoppingList;
+
+type LineItem = {
+  __typename?: "LineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  productSlug?: Maybe<Scalars["String"]>;
+  productType?: Maybe<ProductTypeDefinition>;
+  productTypeRef?: Maybe<Reference>;
+  variant?: Maybe<ProductVariant>;
+  price: ProductPrice;
+  taxedPrice?: Maybe<TaxedItemPrice>;
+  totalPrice?: Maybe<Money>;
+  quantity: Scalars["Long"];
+  state: Array<ItemState>;
+  taxRate?: Maybe<TaxRate>;
+  supplyChannel?: Maybe<Channel>;
+  supplyChannelRef?: Maybe<Reference>;
+  distributionChannel?: Maybe<Channel>;
+  distributionChannelRef?: Maybe<Reference>;
+  discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
+  lineItemMode: LineItemMode;
+  priceMode: LineItemPriceMode;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  shippingDetails?: Maybe<ItemShippingDetails>;
+  inventoryMode?: Maybe<ItemShippingDetails>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
+
+- `clear` - function that removes all products from the wishlist and populates clear `wishlist` property. This method accepts a single `params` object. The `params` has the following option:
+
+  - `currentWishlist: Wishlist`
+  
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Wishlist = ShoppingList;
+```
+
+- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value. This method accepts a single `params` object. The `params` has the following options:
+
+  - `currentWishlist: Wishlist`
+  
+  - `product: ProductVariant`
+  
+```ts
+type ShoppingList = {
+  __typename?: "ShoppingList";
+  key?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  description?: Maybe<Scalars["String"]>;
+  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+  slug?: Maybe<Scalars["String"]>;
+  slugAllLocales?: Maybe<Array<LocalizedString>>;
+  customerRef?: Maybe<Reference>;
+  customer?: Maybe<Customer>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<ShoppingListLineItem>;
+  textLineItems: Array<TextLineItem>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Wishlist = ShoppingList;
+
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  attributesRaw: Array<RawProductAttribute>;
+  attributes: ProductType;
+  attributeList: Array<Attribute>;
+}
+```
+
+- `loading: boolean` - a reactive object containing information about loading state of the cart.
+
+- `error: UseWishlistErrors` - reactive object containing the error message, if some properties failed for any reason.
+
+```ts
+interface UseWishlistErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  load?: Error;
+  clear?: Error;
+}
+```
 
 ## Getters
 

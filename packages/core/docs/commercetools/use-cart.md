@@ -11,7 +11,7 @@
 
 ## API
 
-- `cart` - a main data object
+- `cart: Cart` - a main data object.
 
 ```ts
 type Cart = {
@@ -56,27 +56,254 @@ type Cart = {
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
   customFieldList?: Maybe<Array<CustomField>>;
-};
+}
 ```  
-- `load` - function required to fetch cart from a server or create brand new if it doesn't exist.
+
+- `setCart` - function for setting a new cart. This method accepts a single `params` object. The `params` has the following option:
   
-- `addItem` - function for adding products to the cart
+    - `newCart: Cart`
+    
+```ts
+type Cart = {
+  __typename?: "Cart";
+  customerId?: Maybe<Scalars["String"]>;
+  customer?: Maybe<Customer>;
+  customerEmail?: Maybe<Scalars["String"]>;
+  anonymousId?: Maybe<Scalars["String"]>;
+  lineItems: Array<LineItem>;
+  customLineItems: Array<CustomLineItem>;
+  totalPrice: Money;
+  taxedPrice?: Maybe<TaxedPrice>;
+  shippingAddress?: Maybe<Address>;
+  billingAddress?: Maybe<Address>;
+  inventoryMode: InventoryMode;
+  taxMode: TaxMode;
+  taxRoundingMode: RoundingMode;
+  taxCalculationMode: TaxCalculationMode;
+  customerGroup?: Maybe<CustomerGroup>;
+  customerGroupRef?: Maybe<Reference>;
+  country?: Maybe<Scalars["Country"]>;
+  shippingInfo?: Maybe<ShippingInfo>;
+  discountCodes: Array<DiscountCodeInfo>;
+  refusedGifts: Array<CartDiscount>;
+  refusedGiftsRefs: Array<Reference>;
+  paymentInfo?: Maybe<PaymentInfo>;
+  locale?: Maybe<Scalars["Locale"]>;
+  shippingRateInput?: Maybe<ShippingRateInput>;
+  origin: CartOrigin;
+  storeRef?: Maybe<KeyReference>;
+  store?: Maybe<Store>;
+  itemShippingAddresses: Array<Address>;
+  cartState: CartState;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+```
+
+- `load` - function required to fetch cart from a server or create brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
+
+    - `customQuery: any`
   
-- `updateItemQty` - function for updating quantity of a product that is already in the cart
+- `addItem` - function for adding products to the cart. This method accepts a single `params` object. The `params` has the following options:
+
+    - `product: ProductVariant`
+    
+    - `quantity: any`
+    
+    - `customQuery?: customQuery`
+    
+```ts
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  attributesRaw: Array<RawProductAttribute>;
+  attributes: ProductType;
+  attributeList: Array<Attribute>;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
   
-- `removeItem` - function for removing a product that currently is in the cart
+- `updateItemQty` - function for updating quantity of a product that is already in the cart. This method accepts a single `params` object. The `params` has the following options:
+
+    - `product: LineItem`
+    
+    - `quantity: number`
+    
+    - `customQuery?: CustomQuery`
+
+```ts
+type LineItem = {
+  __typename?: "LineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  productSlug?: Maybe<Scalars["String"]>;
+  productType?: Maybe<ProductTypeDefinition>;
+  productTypeRef?: Maybe<Reference>;
+  variant?: Maybe<ProductVariant>;
+  price: ProductPrice;
+  taxedPrice?: Maybe<TaxedItemPrice>;
+  totalPrice?: Maybe<Money>;
+  quantity: Scalars["Long"];
+  state: Array<ItemState>;
+  taxRate?: Maybe<TaxRate>;
+  supplyChannel?: Maybe<Channel>;
+  supplyChannelRef?: Maybe<Reference>;
+  distributionChannel?: Maybe<Channel>;
+  distributionChannelRef?: Maybe<Reference>;
+  discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
+  lineItemMode: LineItemMode;
+  priceMode: LineItemPriceMode;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  shippingDetails?: Maybe<ItemShippingDetails>;
+  inventoryMode?: Maybe<ItemShippingDetails>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
   
-- `isOnCart` - function for checking if a product is currently in the cart
+- `removeItem` - function for removing a product that currently is in the cart. This method accepts a single `params` object. The `params` has the following options:
+
+    - `product: LineItem`
+    
+    - `customQuery?: CustomQuery`
+    
+```ts
+type LineItem = {
+  __typename?: "LineItem";
+  id: Scalars["String"];
+  productId: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
+  nameAllLocales: Array<LocalizedString>;
+  productSlug?: Maybe<Scalars["String"]>;
+  productType?: Maybe<ProductTypeDefinition>;
+  productTypeRef?: Maybe<Reference>;
+  variant?: Maybe<ProductVariant>;
+  price: ProductPrice;
+  taxedPrice?: Maybe<TaxedItemPrice>;
+  totalPrice?: Maybe<Money>;
+  quantity: Scalars["Long"];
+  state: Array<ItemState>;
+  taxRate?: Maybe<TaxRate>;
+  supplyChannel?: Maybe<Channel>;
+  supplyChannelRef?: Maybe<Reference>;
+  distributionChannel?: Maybe<Channel>;
+  distributionChannelRef?: Maybe<Reference>;
+  discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
+  lineItemMode: LineItemMode;
+  priceMode: LineItemPriceMode;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  shippingDetails?: Maybe<ItemShippingDetails>;
+  inventoryMode?: Maybe<ItemShippingDetails>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
   
-- `clear` - function for removing all items currently stored in cart
+- `isOnCart` - function for checking if a product is currently in the cart. This method accepts a single `params` object. The `params` has the following option:
+
+    - `product: ProductVariant`
+    
+```ts
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  attributesRaw: Array<RawProductAttribute>;
+  attributes: ProductType;
+  attributeList: Array<Attribute>;
+}
+```
   
-- `coupon` - reactive data object containing coupon details
+- `clear` - function for removing all items currently stored in cart.
+
+- `applyCoupon` - function for applying coupon to cart. This method accepts a single `params` object. The `params` has the following options:
+
+    - `couponCode: string`
+    
+    - `customQuery?: CustomQuery`
+    
+```ts
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
   
-- `applyCoupon` - function for applying coupon to cart
+- `removeCoupon` - function for removing coupon applied to cart. This method accepts a single `params` object. The `params` has the following options:
+
+    - `coupon: AgnosticCoupon`
+      
+    - `customQuery?: CustomQuery`
+    
+```ts
+interface AgnosticCoupon {
+  id: string;
+  name: string;
+  code: string;
+  value: number;
+}
+
+type CustomQuery = (query, variables) => {
+  query?;
+  variables?;
+}
+```
   
-- `removeCoupon` - function for removing coupon applied to cart
-  
-- `loading` - a reactive object containing information about loading state of the cart
+- `loading: boolean` - a reactive object containing information about loading state of the cart.
+
+- `error: UseCartErrors` - reactive object containing the error message, if some properties failed for any reason.
+
+```ts
+interface UseCartErrors {
+  addItem?: Error;
+  removeItem?: Error;
+  updateItemQty?: Error;
+  load?: Error;
+  clear?: Error;
+  applyCoupon: Error;
+  removeCoupon?: Error;
+}
+```
 
 ## Getters
 

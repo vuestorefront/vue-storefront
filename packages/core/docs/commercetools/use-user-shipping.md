@@ -73,9 +73,67 @@ interface ShippingAddressSetDefaultParams {
 }
 ```
 
-- `shipping` - reactive data object containing response from the backend.
+- `shipping: User` - reactive data object containing response from the backend.
 
-- `loading` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
+```ts
+type Customer = Versioned & {
+  __typename?: "Customer";
+  customerNumber?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  password: Scalars["String"];
+  addresses: Array<Address>;
+  defaultShippingAddressId?: Maybe<Scalars["String"]>;
+  defaultBillingAddressId?: Maybe<Scalars["String"]>;
+  shippingAddressIds: Array<Scalars["String"]>;
+  billingAddressIds: Array<Scalars["String"]>;
+  isEmailVerified: Scalars["Boolean"];
+  customerGroupRef?: Maybe<Reference>;
+  externalId?: Maybe<Scalars["String"]>;
+  key?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  middleName?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
+  locale?: Maybe<Scalars["Locale"]>;
+  salutation?: Maybe<Scalars["String"]>;
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  companyName?: Maybe<Scalars["String"]>;
+  vatId?: Maybe<Scalars["String"]>;
+  customerGroup?: Maybe<CustomerGroup>;
+  defaultShippingAddress?: Maybe<Address>;
+  defaultBillingAddress?: Maybe<Address>;
+  shippingAddresses: Array<Address>;
+  billingAddresses: Array<Address>;
+  storesRef: Array<KeyReference>;
+  stores: Array<Store>;
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+  customFieldList?: Maybe<Array<CustomField>>;
+}
+
+type User = Customer;
+```
+
+- `loading: boolean` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
+
+- `error: UseUserShippingErrors` - reactive object containing the error message, if some properties failed for any reason.
+
+```ts
+interface UseUserShippingErrors {
+  addAddress?: Error;
+  deleteAddress?: Error;
+  updateAddress?: Error;
+  load?: Error;
+  setDefaultAddress?: Error;
+}
+```
 
 ## Getters
 
