@@ -1,12 +1,11 @@
 <template>
-  <div @mouseleave="$emit('closeSearchResults')" >
-    <SfOverlay :visible="toggleSearch" />
+  <div>
     <SfMegaMenu
       :visible="toggleSearch"
       title="Search results"
       class="search"
     >
-    <transition name="sf-fade" mode="out-in">
+      <transition name="sf-fade" mode="out-in">
         <div v-if="products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn title="Categories" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <SfList>
@@ -102,7 +101,7 @@
           <p class="before-results__paragraph">Let’s start now – we’ll help you.</p>
           <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('closeSearchResults')">Go back</SfButton>
         </div>
-    </transition>
+      </transition>
     </SfMegaMenu>
   </div>
 </template>
@@ -219,9 +218,10 @@ export default {
   &--mobile {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     background: var(--c-white);
     padding: var(--spacer-base) var(--spacer-sm);
+    --product-card-max-width: 9rem ;
   }
 }
 .see-all {
