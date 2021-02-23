@@ -65,7 +65,7 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref, onMounted } from '@vue/composition-api';
+import { ref, reactive, onMounted } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
 import { cartActions } from '@vue-storefront/commercetools-api';
@@ -81,26 +81,30 @@ export default {
     SfButton,
     SfRadio
   },
-  setup (props, context) {
+  setup (_, context) {
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
     const { $ct } = useVSFContext();
     const { cart, setCart } = useCart();
 
-    const error = ref({
+    const error = reactive({
       load: null,
       save: null
     });
 
     const load = async () => {
       try {
-        error.value.load = null;
+        error.load = null;
         loading.value = true;
         const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
         return shippingMethodsResponse.data;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
+        context.emit('error', {
+          action: 'load',
+          error: error.load
+        });
       } finally {
         loading.value = false;
       }
@@ -108,7 +112,7 @@ export default {
 
     const save = async ({ shippingMethod }) => {
       try {
-        error.value.save = null;
+        error.save = null;
         loading.value = true;
         const cartResponse = await $ct.api.updateCart({
           id: cart.value.id,
@@ -121,7 +125,11 @@ export default {
         setCart(cartResponse.data.cart);
         return cartResponse.data.cart.shippingInfo.shippingMethod;
       } catch (err) {
-        error.value.save = err;
+        error.save = err;
+        context.emit('error', {
+          action: 'save',
+          error: error.save
+        });
       } finally {
         loading.value = false;
       }
@@ -130,8 +138,7 @@ export default {
     onMounted(async () => {
       context.emit('methods:beforeLoad');
       const shippingMethodsResponse = await load();
-      if (error.value.load) {
-        context.emit('error', error.value.load);
+      if (error.load) {
         return;
       }
       shippingMethods.value = shippingMethodsResponse.shippingMethods;
@@ -143,8 +150,7 @@ export default {
         return;
       }
       const newShippingMethod = await save({ shippingMethod });
-      if (error.value.save) {
-        context.emit('error', error.value.save);
+      if (error.save) {
         chosenShippingMethod.value = {};
         context.emit('update:finished', false);
         return;
@@ -155,13 +161,6 @@ export default {
     };
 
     const handleStepSubmit = () => context.emit('submit');
-
-    // onMounted(() => {
-    //   setTimeout(() => {
-    //     error.value.load = new Error('johny')
-    //     console.log('I CO')
-    //   }, 1000)
-    // })
 
     return {
       loading,
