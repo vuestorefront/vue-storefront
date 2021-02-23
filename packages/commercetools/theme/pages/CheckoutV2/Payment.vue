@@ -2,12 +2,12 @@
   <div>
     <SfHeading
       :level="3"
-      title="Billing"
+      :title="$t('Billing')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <BillingForm
       :handleBillingAddressSubmit="handleBillingAddressSubmit"
-      @stepSubmit="handleStepSubmit"
+      @submit="handleStepSubmit"
     />
   </div>
 </template>

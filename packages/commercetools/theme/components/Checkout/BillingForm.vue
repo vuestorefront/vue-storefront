@@ -310,7 +310,7 @@ export default {
       billingDetails.value = oldBilling;
     };
 
-    const handleStepSubmit = () => context.emit('stepSubmit');
+    const handleStepSubmit = () => context.emit('submit');
 
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
