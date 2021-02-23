@@ -54,73 +54,13 @@ type CustomQuery = (query, variables) => {
 }
 ```
 
-- `setWishlist` - function for setting a new wishlist. This method accepts a single `params` object. The `params` has the following option:
-
-  - `newWishlist: Wishlist`
-  
-```ts
-type ShoppingList = {
-  __typename?: "ShoppingList";
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales?: Maybe<Array<LocalizedString>>;
-  customerRef?: Maybe<Reference>;
-  customer?: Maybe<Customer>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<ShoppingListLineItem>;
-  textLineItems: Array<TextLineItem>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-}
-
-type Wishlist = ShoppingList;
-```
-
 - `addItem` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information. This method accepts a single `params` object. The `params` has the following options:
 
-    - `currentWishlist: Wishlist`
-    
     - `product: ProductVariant`
     
     - `customQuery?: customQuery`
   
 ```ts
-type ShoppingList = {
-  __typename?: "ShoppingList";
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales?: Maybe<Array<LocalizedString>>;
-  customerRef?: Maybe<Reference>;
-  customer?: Maybe<Customer>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<ShoppingListLineItem>;
-  textLineItems: Array<TextLineItem>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-}
-
-type Wishlist = ShoppingList;
-
 type ProductVariant = {
   __typename?: "ProductVariant";
   id: Scalars["Int"];
@@ -144,39 +84,11 @@ type CustomQuery = (query, variables) => {
 
 - `removeItem` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property. This method accepts a single `params` object. The `params` has the following options:
 
-  - `currentWishlist: Wishlist`
-
   - `product: LineItem`
 
   - `customQuery?: customQuery`
 
 ```ts
-type ShoppingList = {
-  __typename?: "ShoppingList";
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales?: Maybe<Array<LocalizedString>>;
-  customerRef?: Maybe<Reference>;
-  customer?: Maybe<Customer>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<ShoppingListLineItem>;
-  textLineItems: Array<TextLineItem>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-}
-
-type Wishlist = ShoppingList;
-
 type LineItem = {
   __typename?: "LineItem";
   id: Scalars["String"];
@@ -214,71 +126,13 @@ type CustomQuery = (query, variables) => {
 }
 ```
 
-- `clear` - function that removes all products from the wishlist and populates clear `wishlist` property. This method accepts a single `params` object. The `params` has the following option:
+- `clear` - function that removes all products from the wishlist and populates clear `wishlist` property.
 
-  - `currentWishlist: Wishlist`
-  
-```ts
-type ShoppingList = {
-  __typename?: "ShoppingList";
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales?: Maybe<Array<LocalizedString>>;
-  customerRef?: Maybe<Reference>;
-  customer?: Maybe<Customer>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<ShoppingListLineItem>;
-  textLineItems: Array<TextLineItem>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-}
+- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value. This method accepts a single `params` object. The `params` has the following option:
 
-type Wishlist = ShoppingList;
-```
-
-- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value. This method accepts a single `params` object. The `params` has the following options:
-
-  - `currentWishlist: Wishlist`
-  
   - `product: ProductVariant`
   
 ```ts
-type ShoppingList = {
-  __typename?: "ShoppingList";
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales?: Maybe<Array<LocalizedString>>;
-  customerRef?: Maybe<Reference>;
-  customer?: Maybe<Customer>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<ShoppingListLineItem>;
-  textLineItems: Array<TextLineItem>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-}
-
-type Wishlist = ShoppingList;
-
 type ProductVariant = {
   __typename?: "ProductVariant";
   id: Scalars["Int"];
@@ -356,7 +210,7 @@ interface AgnosticPrice {
   special?: number | null;
 }
 
-type Wishlist = Versioned & {
+type Wishlist = {
   __typename?: "ShoppingList";
   key?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;

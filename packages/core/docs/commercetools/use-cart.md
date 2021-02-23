@@ -59,59 +59,9 @@ type Cart = {
 }
 ```  
 
-- `setCart` - function for setting a new cart. This method accepts a single `params` object. The `params` has the following option:
-  
-    - `newCart: Cart`
-    
-```ts
-type Cart = {
-  __typename?: "Cart";
-  customerId?: Maybe<Scalars["String"]>;
-  customer?: Maybe<Customer>;
-  customerEmail?: Maybe<Scalars["String"]>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<LineItem>;
-  customLineItems: Array<CustomLineItem>;
-  totalPrice: Money;
-  taxedPrice?: Maybe<TaxedPrice>;
-  shippingAddress?: Maybe<Address>;
-  billingAddress?: Maybe<Address>;
-  inventoryMode: InventoryMode;
-  taxMode: TaxMode;
-  taxRoundingMode: RoundingMode;
-  taxCalculationMode: TaxCalculationMode;
-  customerGroup?: Maybe<CustomerGroup>;
-  customerGroupRef?: Maybe<Reference>;
-  country?: Maybe<Scalars["Country"]>;
-  shippingInfo?: Maybe<ShippingInfo>;
-  discountCodes: Array<DiscountCodeInfo>;
-  refusedGifts: Array<CartDiscount>;
-  refusedGiftsRefs: Array<Reference>;
-  paymentInfo?: Maybe<PaymentInfo>;
-  locale?: Maybe<Scalars["Locale"]>;
-  shippingRateInput?: Maybe<ShippingRateInput>;
-  origin: CartOrigin;
-  storeRef?: Maybe<KeyReference>;
-  store?: Maybe<Store>;
-  itemShippingAddresses: Array<Address>;
-  cartState: CartState;
-  customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  customFields?: Maybe<Type>;
-  custom?: Maybe<CustomFieldsType>;
-  deleteDaysAfterLastModification?: Maybe<Scalars["Int"]>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-  customFieldList?: Maybe<Array<CustomField>>;
-}
-```
-
 - `load` - function required to fetch cart from a server or create brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
 
-    - `customQuery: any`
+    - `customQuery?: any`
   
 - `addItem` - function for adding products to the cart. This method accepts a single `params` object. The `params` has the following options:
 

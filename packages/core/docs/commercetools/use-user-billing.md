@@ -14,7 +14,11 @@
 
 - `load` - function for fetching user addresses. When invoked, it requests data from the API and populates `billing` property.
 
-- `addAddress` - function for posting new billing address.
+- `addAddress` - function for posting new billing address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: BillingAddressAddParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface BillingAddressAddParams {
@@ -31,9 +35,18 @@ interface BillingAddressAddParams {
     isDefault?: boolean;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `deleteAddress` - function for deleting existing billing address.
+- `deleteAddress` - function for deleting existing billing address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: BillingAddressDeleteParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface BillingAddressDeleteParams {
@@ -41,9 +54,18 @@ interface BillingAddressDeleteParams {
     id: string;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `updateAddress` - function for updating existing billing address.
+- `updateAddress` - function for updating existing billing address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: BillingAddressUpdateParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface BillingAddressUpdateParams {
@@ -61,9 +83,18 @@ interface BillingAddressUpdateParams {
     isDefault?: boolean;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `setDefaultAddress` - function for settings an existing billing address as default.
+- `setDefaultAddress` - function for settings an existing billing address as default. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: BillingAddressSetDefaultParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface BillingAddressSetDefaultParams {
@@ -71,11 +102,16 @@ interface BillingAddressSetDefaultParams {
     id: string;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 - `billing: User` - reactive data object containing response from the backend.
 
 ```ts
-type Customer = Versioned & {
+type Customer = {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];
@@ -185,7 +221,7 @@ interface UserBillingGetters {
   isDefault: (address: BillingAddress) => boolean;
 }
 
-type Customer = Versioned & {
+type Customer = {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];

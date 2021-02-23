@@ -14,7 +14,11 @@
 
 - `load` - function for fetching user addresses. When invoked, it requests data from the API and populates `shipping` property.
 
-- `addAddress` - function for posting new shipping address.
+- `addAddress` - function for posting new shipping address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: ShippingAddressAddParams`
+    
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface ShippingAddressAddParams {
@@ -31,9 +35,18 @@ interface ShippingAddressAddParams {
     isDefault?: boolean;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `deleteAddress` - function for deleting existing shipping address.
+- `deleteAddress` - function for deleting existing shipping address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: ShippingAddressDeleteParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface ShippingAddressDeleteParams {
@@ -41,9 +54,18 @@ interface ShippingAddressDeleteParams {
     id: string;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `updateAddress` - function for updating existing shipping address.
+- `updateAddress` - function for updating existing shipping address. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: ShippingAddressUpdateParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface ShippingAddressUpdateParams {
@@ -61,9 +83,18 @@ interface ShippingAddressUpdateParams {
     isDefault?: boolean;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
-- `setDefaultAddress` - function for settings an existing shipping address as default.
+- `setDefaultAddress` - function for settings an existing shipping address as default. This method accepts a single `params` object. The `params` has the following options:
+
+    - `address: ShippingAddressSetDefaultParams`
+
+    - `customQueryFn?: CustomQueryFn`
 
 ```typescript
 interface ShippingAddressSetDefaultParams {
@@ -71,12 +102,17 @@ interface ShippingAddressSetDefaultParams {
     id: string;
   }
 }
+
+type CustomQueryFn = (query, variables) => {
+  query?;
+  variables?;
+}
 ```
 
 - `shipping: User` - reactive data object containing response from the backend.
 
 ```ts
-type Customer = Versioned & {
+type Customer = {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];
@@ -195,7 +231,7 @@ interface UserShippingGetters {
   isDefault: (address: ShippingAddress) => boolean;
 }
 
-type Customer = Versioned & {
+type Customer = {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];

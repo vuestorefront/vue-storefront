@@ -17,7 +17,7 @@ If you want to fetch/save other user data you should use the following composabl
 - `user` - reactive object containing information about current user.
 
 ```ts
-type Customer = Versioned & {
+type Customer = {
   __typename?: "Customer";
   customerNumber?: Maybe<Scalars["String"]>;
   email: Scalars["String"];
@@ -60,13 +60,22 @@ type Customer = Versioned & {
 }
 ```
 
-- `updateUser` - function for updating user data. When invoked, it submits data to the API and populates user property with updated information.  This method accepts a single `params` object. The `params` has the following options:
+- `updateUser` - function for updating user data. When invoked, it submits data to the API and populates user property with updated information.  This method accepts a single `params` object. The `params` has the following option:
 
-    - `currentUser: Customer`
-    
-    - `updatedUserData`
+    - `user: UPDATE_USER_PARAMS`
 
-- `register: UseUserRegisterParams` - function for creating a new user. When invoked, it submits new user data to the API and saves them.
+```ts
+interface UPDATE_USER_PARAMS {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}
+```
+
+- `register: UseUserRegisterParams` - function for creating a new user. When invoked, it submits new user data to the API and saves them. This method accepts a single `params` object. The `params` has the following option:
+
+  - `user: UseUserRegisterParams`
 
 ```ts
 interface UseUserRegisterParams {
@@ -74,28 +83,24 @@ interface UseUserRegisterParams {
   password: string;
   firstName?: string;
   lastName?: string;
-  [x: string]: any;
 }
 ```
 
-- `login: UseUserLoginParams` - function for log in a user based on a username and password.
+- `login: UseUserLoginParams` - function for log in a user based on a username and password. This method accepts a single `params` object. The `params` has the following option:
+
+  - `user: UseUserLoginParams`
 
 ```ts
 interface UseUserLoginParams {
   username: string;
   password: string;
-  [x: string]: any;
 }
 ```
 
-- `logout` - function for logout a user. This method accepts a single `params` object. The `params` has the following option:
-
-    - `currentUser?: Customer`
+- `logout` - function for logout a user.
 
 - `changePassword` - function for changing user password. This method accepts a single `params` object. The `params` has the following options:
 
-    - `currentUser: Customer`
-      
     - `currentPassword: string`
       
     - `newPassword: string`
