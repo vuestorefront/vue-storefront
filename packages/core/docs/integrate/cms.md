@@ -1,8 +1,10 @@
 # Integrating CMS
 
 ::: warning Want to build an integration?
-If you want to integrate with Vue Storefront, please **contact the core team on our [slack](https://slack.vuestorefront.io)** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with the core team is the best way to keep its quality high and make it officially recommended once it's done.
+If you want to integrate any CMS platform with Vue Storefront please **contact the core team** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with core team is the best way to keep its quality high and make it officially recommended once its done.
 :::
+
+Integrating a CMS platform with Vue Storefront is a piece of cake. You just have to provide few parameters to our factory functions and expose a way to configure the integration.
 
 ## What is needed
 
@@ -51,36 +53,47 @@ The factory will output a composable fulfilling our interfaces. That's all you h
 
 ### Content rendering (optional)
 
-Many CMS systems allow to control the page layout by returning a list of components as a JSON file. These components are then rendered in the applicatio. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
+Many CMS systems allow to control the page layout by returning a list of components as a JSON file. These components are then rendered in the application. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
 
 ```html
-<!-- public API -->
 <RenderContent :content="content">
 ```
 
-To build this component you just have to use our `renderComponentFactory`.
+Now you need to prepare special structure for your components. You can create function, helper to filter all the metadata that you've fetched from the CMS and just leave the name and props.
 
-```ts
-// integration
-import { renderComponentFactory } from '@vue-storefront/core'
-
-// CONTENT and CONTENT_SEARCH_PARAMS are your CMS-specific types, we advise to have at least 'id' param for search
-const RenderComponent = renderComponentFactory({
-  // (extractContent: CONTENT) => { componentName, props }[]
-  extractContent (content) { 
-    // extract an array of { componentName: string, props: { name, value } } pairs and the factory will generate a component that will render these components based on the ones that are currently registered within application
-    return components[]
-  }
-}) 
-```
-Under the hood the `RenderComponent` is rendering components using Vue dynamic component feature:
-
-```html
-<!-- core, inside renderComponentFactory -->
-<component v-for="component in components" is="component.componentName" content="props" />
+```typescript
+components: {
+  componentName: string
+  props: {}
+}[]
 ```
 
-## Usage example in real app
+Pass it to the `RenderContent` component as a `content` prop. To register components use computed value.
+
+```vue
+<!-- inside the RenderContent.vue component -->
+<component v-for="component in components" :key="index" is="component.componentName" v-bind="component.props" />
+
+<script>
+export default ({
+  name: 'RenderContent',
+  props: {
+    content: {
+      type: Array,
+    },
+  },
+  computed: {
+    components() {
+      return yourDataBuildFunction(this.content)
+    },
+  },
+})
+</script>
+```
+
+Inside your application you'll also need to register your UI components that willing to render.
+
+## Usage example in the real application
 
 ```html
 <template>
@@ -92,8 +105,7 @@ Under the hood the `RenderComponent` is rendering components using Vue dynamic c
 <script>
 import { onSSR } from '@vue-storefront/core'
 import { useContent, RenderContent } from '@vue-storefront/my-super-cms'
-// These are the components that will be rendered by RenderContent.
-// `extractContent` should return [{ componentName: 'CMSBanner', props: { ... }}, { componentName: 'CMSHero', props: { ... }}]
+// These are the components that will be rendered by RenderContent
 import { CMSBanner, CMSHero } from '~/components'
 
 export default {
@@ -103,12 +115,12 @@ export default {
     CMSHero
   }
   setup( ) {
-    const { search, content, loading, error } = useContent()
-
+    const { search, content, loading, error } = useContent('unique-id')
+    // fetch data
     onSSR(async () {
       await search({ id: 'CONTENT_ID' })
     })
-
+    // return data
     return {
       content,
       loading,
