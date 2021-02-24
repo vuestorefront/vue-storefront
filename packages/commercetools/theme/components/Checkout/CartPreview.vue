@@ -76,7 +76,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, shippingMethodGetters, cartGetters } from '@vue-storefront/commercetools';
+import { useCart, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
@@ -114,7 +114,6 @@ export default {
       showPromoCode,
       removeItem,
       updateItemQty,
-      shippingMethodGetters,
       cartGetters,
       applyCoupon,
       characteristics: [
