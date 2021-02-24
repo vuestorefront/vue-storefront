@@ -2,7 +2,7 @@
   <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
     <SfHeading
       :level="3"
-      title="Shipping"
+      :title="$t('Shipping')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <form
@@ -200,9 +200,9 @@
         </div>
       </div>
       <VsfShippingProvider
-        v-if="isShippingDetailsCompleted"
+        v-if="isShippingDetailsCompleted && !dirty"
         :finished.sync="isShippingMethodCompleted"
-        @submit="handleStepSubmit"
+        @submit="$router.push('/checkout/payment')"
       />
     </form>
   </ValidationObserver>
@@ -213,8 +213,7 @@ import {
   SfHeading,
   SfInput,
   SfButton,
-  SfSelect,
-  SfRadio
+  SfSelect
 } from '@storefront-ui/vue';
 import { useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
@@ -245,16 +244,15 @@ export default {
     SfInput,
     SfButton,
     SfSelect,
-    SfRadio,
-    UserShippingAddresses: () => import('~/components/Checkout/UserShippingAddresses'),
     ValidationProvider,
     ValidationObserver,
+    UserShippingAddresses: () => import('@/components/Checkout/UserShippingAddresses'),
     VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   props: {
     handleShippingAddressSubmit: Function
   },
-  setup(props, context) {
+  setup (props) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: address, loading } = useShipping();
     const { isAuthenticated } = useUser();
@@ -317,8 +315,6 @@ export default {
       }
     };
 
-    const handleStepSubmit = () => context.root.$router.push('/checkout/payment');
-
     // Update local state if we have new address' response from the backend
     watch(address, (addr) => {
       shippingDetails.value = addr;
@@ -366,8 +362,7 @@ export default {
       loading,
 
       isShippingDetailsCompleted,
-      isShippingMethodCompleted,
-      handleStepSubmit
+      isShippingMethodCompleted
     };
   }
 };
@@ -410,10 +405,6 @@ export default {
       }
     }
   }
-  &__group {
-    display: flex;
-    align-items: center;
-  }
   &__action {
     @include for-desktop {
       flex: 0 0 100%;
@@ -444,14 +435,6 @@ export default {
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
     }
-  }
-  &__radio-group {
-    flex: 0 0 100%;
-    margin: 0 0 var(--spacer-xl) 0;
-    @include for-desktop {
-      margin: 0 0 var(--spacer-2xl) 0;
-    }
-
   }
 }
 

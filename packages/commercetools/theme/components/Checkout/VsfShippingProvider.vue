@@ -2,7 +2,7 @@
   <div class="shipping-provider">
     <SfHeading
       :level="3"
-      title="Shipping method"
+      :title="$t('Shipping method')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
@@ -194,43 +194,11 @@ export default {
 
 .form {
   --button-width: 100%;
-  &__select {
-    display: flex;
-    align-items: center;
-    --select-option-font-size: var(--font-size--lg);
-    ::v-deep .sf-select__dropdown {
-      font-size: var(--font-size--lg);
-      margin: 0;
-      color: var(--c-text);
-      font-family: var(--font-family--secondary);
-      font-weight: var(--font-weight--normal);
-    }
-  }
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     --button-width: auto;
-  }
-  &__element {
-    margin: 0 0 var(--spacer-xl) 0;
-    @include for-desktop {
-      flex: 0 0 100%;
-    }
-    &--half {
-      @include for-desktop {
-        flex: 1 1 50%;
-      }
-      &-even {
-        @include for-desktop {
-          padding: 0 0 0 var(--spacer-xl);
-        }
-      }
-    }
-  }
-  &__group {
-    display: flex;
-    align-items: center;
   }
   &__action {
     @include for-desktop {
