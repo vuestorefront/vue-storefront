@@ -166,6 +166,7 @@ export default {
       handleMethodSubmit,
       handleStepSubmit,
       getShippingMethodPrice,
+      isShippingMethodCompleted,
       error
     };
   }
