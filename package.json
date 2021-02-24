@@ -10,7 +10,7 @@
     "build:middleware": "cd packages/core/middleware && yarn build",
     "build:bp:api-client": "cd packages/boilerplate/api-client && yarn build",
     "build:bp:composables": "cd packages/boilerplate/composables && yarn build",
-    "build:bp:tools": "yarn build:core && yarn build:bp:api-client && yarn build:bp:composables",
+    "build:bp:tools": "yarn build:core && yarn build:middleware && yarn build:bp:api-client && yarn build:bp:composables",
     "build:bp:theme": "cd packages/boilerplate/theme && yarn build",
     "build:bp": "yarn build:bp:tools && yarn build:bp:theme",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
