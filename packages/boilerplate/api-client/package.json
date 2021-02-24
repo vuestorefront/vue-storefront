@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "sideEffects": false,
+  "server": "server/index.js",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build:server": "rimraf server && rollup -c rollup-server.config.js",
+    "build:universal": "rimraf lib && rollup -c rollup-main.config.js",
+    "build": "yarn build:universal && yarn build:server",
     "dev": "rollup -c -w",
     "test": "jest",
     "prepublish": "yarn build"
