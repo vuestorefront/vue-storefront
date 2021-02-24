@@ -25,12 +25,12 @@ const updateCart: UpdateCart = async (context, params) => {
     }
     : { acceptLanguage };
 
-  const { updateCart } = context.createQuery({ updateCart: { query: defaultQuery, variables: defaultVariables } });
+  const { updateCart: updateCartGql } = context.createQuery({ updateCart: { query: defaultQuery, variables: defaultVariables } });
 
   try {
     const request = await context.client.mutate({
-      mutation: gql`${updateCart.query}`,
-      variables: updateCart.variables,
+      mutation: gql`${updateCartGql.query}`,
+      variables: updateCartGql.variables,
       fetchPolicy: 'no-cache'
     });
 

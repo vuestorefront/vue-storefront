@@ -29,29 +29,11 @@ describe('[commercetools-api-client] getOrders', () => {
           expect(query).toEqual(defaultQuery);
           return { data: 'me response' };
         }
-      }
+      },
+      createQuery: (args) => args
     };
 
     const { data } = await getOrders(context, params);
-    expect(data).toBe('me response');
-  });
-
-  it('fetches current user orders data with custom variables', async () => {
-    const context = {
-      config: {
-        locale: 'en',
-        acceptLanguage: ['en', 'de'],
-        currency: 'USD'
-      },
-      client: {
-        query: ({ variables, query }) => {
-          expect({ ...variables, where: 'id="fvdrt8gaw4r"' }).toEqual(givenVariables);
-          expect(query).toEqual(defaultQuery);
-          return { data: 'me response' };
-        }
-      }
-    };
-    const { data } = await getOrders(context, params, (query = defaultQuery, variables = givenVariables) => ({ query, variables }));
     expect(data).toBe('me response');
   });
 });

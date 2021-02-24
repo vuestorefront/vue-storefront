@@ -1,6 +1,5 @@
 import updateCart from '../../src/api/updateCart';
 import defaultMutation from '../../src/api/updateCart/defaultMutation';
-import gql from 'graphql-tag';
 
 jest.unmock('../../src/api/updateCart');
 
@@ -19,7 +18,8 @@ const createContext = (client) => ({
     currency: 'USD',
     country: 'UK'
   },
-  client
+  client,
+  createQuery: (args) => args
 });
 
 describe('[commercetools-api-client] updateCart', () => {
@@ -44,37 +44,6 @@ describe('[commercetools-api-client] updateCart', () => {
     });
 
     expect(data).toBe('cart response');
-  });
-
-  it('uses a custom query', async () => {
-    const context = createContext({
-      mutate: ({ variables, mutation }) => ({ variables, mutation })
-    });
-
-    const query = gql(`
-      mutation updateCart {
-        updateCart {
-          id
-        }
-      }
-    `);
-    const variables = { id: 123 };
-
-    const customQuery = (currentQuery, currentVariables) => {
-      expect(currentQuery).toEqual(defaultMutation);
-      expect(currentVariables).toEqual(givenVariables);
-
-      return { query, variables };
-    };
-
-    const data: any = await updateCart(context, {
-      id: 'cart id',
-      version: 1,
-      actions: [{ addLineItem: {} }]
-    }, customQuery);
-
-    expect(data.variables).toEqual(variables);
-    expect(data.mutation).toEqual(query);
   });
 
   it('retries by default if error is caused by version mismatch', async () => {

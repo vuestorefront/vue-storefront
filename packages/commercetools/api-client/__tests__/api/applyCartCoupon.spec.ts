@@ -26,7 +26,8 @@ describe('[commercetools-api-client] applyCartCoupon', () => {
           id: 1,
           version: 1
         })
-      }
+      },
+      createQuery: (args) => args
     };
 
     const response = await applyCartCoupon(context, cart, 'coupon');
