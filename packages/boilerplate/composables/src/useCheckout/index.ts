@@ -4,7 +4,22 @@ import { UseCheckout } from '@vue-storefront/core';
 import { ref, Ref, computed } from '@vue/composition-api';
 import { User, ShippingMethod, UserAddress } from '@vue-storefront/boilerplate-api';
 
-const PAYMENT_METHODS_MOCK = [
+const MOCKED_SHIPPING_METHODS = [
+  {
+    id: '1',
+    name: 'Express US',
+    description: 'Same day delivery',
+    price: 1000
+  },
+  {
+    id: '2',
+    name: 'Standard US',
+    description: 'Delivery in 5-6 working days',
+    price: 300
+  }
+];
+
+const MOCKED_PAYMENT_METHODS = [
   {
     label: 'Visa Debit',
     value: 'debit'
@@ -27,8 +42,8 @@ const PAYMENT_METHODS_MOCK = [
   }
 ];
 
-const paymentMethods: Ref<any[]> = ref(PAYMENT_METHODS_MOCK);
-const shippingMethods: Ref<any[]> = ref([]);
+const paymentMethods: Ref<any[]> = ref(MOCKED_PAYMENT_METHODS);
+const shippingMethods: Ref<any[]> = ref(MOCKED_SHIPPING_METHODS);
 const personalDetails: Ref<User> = ref({});
 const shippingDetails: Ref<UserAddress> = ref({});
 const billingDetails: Ref<UserAddress> = ref({});
