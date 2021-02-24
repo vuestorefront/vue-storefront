@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Added \'components/Checkout/ShippingPriceInfo.vue\' component to display integration-specific shipping price information',
+  description: 'Added \'ShippingPriceInfo.vue\' and \'CartPreview.vue\' components to \'components/Checkout\' directory asking for integration-specific implementation.',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/5561',
   isBreaking: false,
   author: 'Filip Sobol',
