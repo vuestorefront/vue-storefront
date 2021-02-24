@@ -25,6 +25,7 @@
     "test:e2e": "cd packages/core/nuxt-theme-module && cypress open --config-file theme/tests/e2e/cypress.json",
     "test:e2e:headless": "cd packages/core/nuxt-theme-module && cypress run --headless --config-file theme/tests/e2e/cypress.json",
     "test:cli": "cd packages/core/cli && yarn test",
+    "start:bp": "cd packages/boilerplate/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "dev:docs": "cd packages/core/docs && yarn dev",
     "dev:ct:api-client": "cd packages/commercetools/api-client && yarn dev",
