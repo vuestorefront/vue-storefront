@@ -13,4 +13,18 @@ describe('Hooks', () => {
       expect(mockedFn).toHaveBeenCalledWith(mockedArgs);
     })
   })
+
+  describe('createMutatorHook', () => {
+    it('executes functions added by hook', () => {
+      const { hook, executor } = createMutatorHook();
+      const mockedFn = jest.fn(arg => `${arg} / test`)
+      const mockedRawOutput = 'abc'
+
+      hook(mockedFn)
+      hook(mockedFn)
+      executor(mockedRawOutput)
+
+      expect(mockedFn).toHaveBeenCalledWith(mockedRawOutput);
+    })
+  })
 })
