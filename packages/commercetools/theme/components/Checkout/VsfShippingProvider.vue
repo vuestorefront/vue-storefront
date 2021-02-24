@@ -47,7 +47,7 @@
         >
         <SfButton
           class="form__action-button"
-          type="submit"
+          type="button"
           @click.native="$emit('submit')"
           :disabled="!isShippingMethodCompleted || loading"
         >
