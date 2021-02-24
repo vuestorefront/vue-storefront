@@ -188,7 +188,7 @@
             to="/checkout/personal-details"
             class="sf-button color-secondary form__back-button"
             v-if="!isShippingDetailsCompleted"
-            >Go back</nuxt-link>
+            >{{ $t('Go back') }}</nuxt-link>
           <SfButton
             class="form__action-button"
             type="submit"

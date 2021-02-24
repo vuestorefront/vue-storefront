@@ -7,10 +7,10 @@
     />
     <div class="form">
       <div v-if="error.load">
-        There was some error while trying to fetch shipping methods. We are sorry, please try with other shipping details or later.
+        {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with other shipping details or later.') }}
       </div>
       <div v-else-if="error.save">
-        There was some error while trying to select this shipping method. We are sorry, please try with other shipping method or later.
+        {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with other shipping method or later.') }}
       </div>
       <div class="form__radio-group">
           <SfRadio
@@ -43,7 +43,7 @@
         <nuxt-link
           to="/checkout/personal-details"
           class="sf-button color-secondary form__back-button"
-          >Go back</nuxt-link
+          >{{ $t('Go back') }}</nuxt-link
         >
         <SfButton
           class="form__action-button"
