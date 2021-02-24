@@ -144,6 +144,9 @@ export default {
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
+        if (searchOpen.value) {
+          searchOpen.value = false;
+        }
         return root.$router.push('/my-account');
       }
 
