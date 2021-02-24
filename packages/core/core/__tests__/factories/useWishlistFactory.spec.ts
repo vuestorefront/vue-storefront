@@ -62,7 +62,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
         const { isOnWishlist } = useWishlist();
         const result = isOnWishlist({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnWishlist).toBeCalledWith({ context: null }, {
+        expect(params.isOnWishlist).toBeCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
@@ -77,7 +77,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
 
         const { load, wishlist } = useWishlist();
         await load();
-        expect(params.load).toHaveBeenCalledWith({ context: null }, { customQuery });
+        expect(params.load).toHaveBeenCalledWith({ customQuery });
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
       });
 
@@ -98,7 +98,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       it('should invoke adding to wishlist', async () => {
         const { addItem, wishlist } = useWishlist();
         await addItem({ product: { id: 'productId' } });
-        expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
+        expect(params.addItem).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
@@ -124,7 +124,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       it('should invoke adding to wishlist', async () => {
         const { removeItem, wishlist } = useWishlist();
         await removeItem({ product: { id: 'productId' } });
-        expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
+        expect(params.removeItem).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
@@ -150,7 +150,7 @@ describe('[CORE - factories] useWishlistFactory', () => {
       it('should invoke clear', async () => {
         const { clear, wishlist } = useWishlist();
         await clear();
-        expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentWishlist: null });
+        expect(params.clear).toHaveBeenCalledWith({ currentWishlist: null });
         expect(wishlist.value).toEqual({ id: 'mocked_cleared_wishlist' });
       });
 

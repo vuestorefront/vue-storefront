@@ -16,6 +16,7 @@ jest.mock('../src/utils', () => ({
   sharedRef: jest.fn(ref),
   vsfRef: jest.fn(ref),
   generateContext: jest.fn(() => ({ context: null })),
+  configureFactoryParams: jest.fn((fParams) => fParams),
   useVSFContext: jest.fn()
 }));
 
