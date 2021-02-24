@@ -1,10 +1,8 @@
 # Integrating CMS
 
 ::: warning Want to build an integration?
-If you want to integrate any CMS platform with Vue Storefront please **contact the core team** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with core team is the best way to keep its quality high and make it officially recommended once its done.
+If you want to integrate with Vue Storefront, please **contact the core team on our [slack](https://slack.vuestorefront.io)** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with the core team is the best way to keep its quality high and make it officially recommended once it's done.
 :::
-
-Integrating a CMS platform with Vue Storefront is a piece of cake. You just have to provide few parameters to our factory functions and expose a way to configure the integration.
 
 ## What is needed
 
