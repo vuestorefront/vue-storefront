@@ -18,7 +18,7 @@
             :key="item.id || item.name"
             :label="item.name"
             :value="item.id"
-            :selected="chosenShippingMethod.id"
+            :selected="selectedShippingMethod.id"
             @input="handleMethodSubmit(item)"
             name="shippingMethod"
             :description="item.description"
@@ -27,7 +27,7 @@
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div v-if="item && item.zoneRates">${{ getShippingMethodPrice(item) }}</div>
+                <div v-if="item && item.zoneRates">${{ $n(getShippingMethodPrice(item), 'currency') }}</div>
               </div>
             </template>
             <template #description="{ description }">
@@ -81,7 +81,7 @@ export default {
     const isShippingMethodCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
-    const chosenShippingMethod = ref({});
+    const selectedShippingMethod = ref({});
     const { $ct } = useVSFContext();
     const { cart, setCart } = useCart();
 
@@ -148,11 +148,11 @@ export default {
       }
       const newShippingMethod = await save({ shippingMethod });
       if (error.save) {
-        chosenShippingMethod.value = {};
+        selectedShippingMethod.value = {};
         isShippingMethodCompleted.value = false;
         return;
       }
-      chosenShippingMethod.value = newShippingMethod;
+      selectedShippingMethod.value = newShippingMethod;
       context.emit('methods:selected', { shippingMethod: newShippingMethod });
       isShippingMethodCompleted.value = true;
     };
@@ -160,7 +160,7 @@ export default {
     return {
       loading,
       shippingMethods,
-      chosenShippingMethod,
+      selectedShippingMethod,
       handleMethodSubmit,
       getShippingMethodPrice,
       isShippingMethodCompleted,
