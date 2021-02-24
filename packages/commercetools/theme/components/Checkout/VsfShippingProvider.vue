@@ -48,7 +48,7 @@
         <SfButton
           class="form__action-button"
           type="submit"
-          @click.native="handleStepSubmit"
+          @click.native="$emit('submit')"
           :disabled="!isShippingMethodCompleted || loading"
         >
           {{ $t('Continue to payment') }}
@@ -157,14 +157,11 @@ export default {
       isShippingMethodCompleted.value = true;
     };
 
-    const handleStepSubmit = () => context.emit('submit');
-
     return {
       loading,
       shippingMethods,
       chosenShippingMethod,
       handleMethodSubmit,
-      handleStepSubmit,
       getShippingMethodPrice,
       isShippingMethodCompleted,
       error
