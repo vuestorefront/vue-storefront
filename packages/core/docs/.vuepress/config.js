@@ -65,6 +65,7 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/commercetools/enterprise/introduction', 'Introduction'],
+						['/commercetools/enterprise/use-facet', 'Faceting'],
 						['/commercetools/enterprise/use-review', 'Reviews'],
 						['/commercetools/enterprise/user-groups', 'User groups'],
 						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],

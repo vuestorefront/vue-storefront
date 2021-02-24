@@ -129,7 +129,21 @@ The first step is to add `@vsf-enterprise/ct-shipping` to `build > traspile` arr
 }
 ```
 
-Then we need to replace the import of `useUserShipping` and `userShippingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-shipping`:
+Because this package extends `ct` server integration, we need to update `middleware.config.js` file to make it work:
+
+```javascript{5}
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      extensions: existing => existing.concat('@vsf-enterprise/ct-shipping/extensions'),
+      configuration: {}
+    }
+  }
+};
+```
+
+Finally, we need to replace the import of `useUserShipping` and `userShippingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-shipping`:
 
 ```javascript
 // Before

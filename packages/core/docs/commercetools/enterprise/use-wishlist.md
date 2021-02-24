@@ -77,7 +77,32 @@ When you already installed `@vsf-enterprise/ct-wishlist` as a dependency, there 
 
 The first step is to add `@vsf-enterprise/ct-wishlist` to `build > transpile` array in `nuxt.config.js`.
 
-Then we need to replace the import of `useWishlist` and `wishlistGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-wishlist`:
+
+```javascript
+{
+    build: {
+      transpile: [
+        '@vsf-enterprise/ct-wishlist'
+      ]
+    }
+}
+```
+
+Because this package extends `ct` server integration, we need to update `middleware.config.js` file to make it work:
+
+```javascript{5}
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      extensions: existing => existing.concat('@vsf-enterprise/ct-wishlist/extensions'),
+      configuration: {}
+    }
+  }
+};
+```
+
+Finally, we need to replace the import of `useWishlist` and `wishlistGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-wishlist`:
 
 ```javascript
 // Before

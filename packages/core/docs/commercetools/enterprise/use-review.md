@@ -36,7 +36,7 @@ platform: Commercetools
 
 ## Getters
 
-Because `reviews` property is a raw response with some additional properties, it's recommended to use `ReviewGetters` for accessing any data from it. It includes the following helper functions:
+Because `reviews` property is a raw response with some additional properties, it's recommended to use `reviewGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getItems` - returns list of reviews.
 
@@ -99,7 +99,21 @@ The first step is to add `@vsf-enterprise/ct-reviews` to `build > transpile` arr
 }
 ```
 
-Then we need to replace the import of `useReview` and `reviewGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-reviews`:
+Because this package extends `ct` server integration, we need to update `middleware.config.js` file to make it work:
+
+```javascript{5}
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      extensions: existing => existing.concat('@vsf-enterprise/ct-reviews/extensions'),
+      configuration: {}
+    }
+  }
+};
+```
+
+Finally, we need to replace the import of `useReview` and `reviewGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-reviews`:
 
 ```javascript
 // Before

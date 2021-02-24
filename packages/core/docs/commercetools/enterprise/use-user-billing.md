@@ -2,7 +2,7 @@
 platform: Commercetools
 ---
 
-# Billing address
+# Billing addresses
 
 [[toc]]
 
@@ -129,7 +129,21 @@ The first step is to add `@vsf-enterprise/ct-billing` to `build > traspile` arra
 }
 ```
 
-Then we need to replace the import of `useUserBilling` and `userBillingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-billing`:
+Because this package extends `ct` server integration, we need to update `middleware.config.js` file to make it work:
+
+```javascript{5}
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      extensions: existing => existing.concat('@vsf-enterprise/ct-billing/extensions'),
+      configuration: {}
+    }
+  }
+};
+```
+
+Finally, we need to replace the import of `useUserBilling` and `userBillingGetters` everywhere they are used from `@vue-storefront/commercetools` to `@vsf-enterprise/ct-billing`:
 
 ```javascript
 // Before
