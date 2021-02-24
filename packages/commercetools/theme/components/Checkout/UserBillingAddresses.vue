@@ -47,7 +47,7 @@ export default {
   name: 'UserBillingAddresses',
   props: {
     currentAddressId: {
-      type: String,
+      type: String | Number,
       required: true
     },
     setAsDefault: {
@@ -62,11 +62,11 @@ export default {
   setup (_, { emit }) {
     const { billing: userBilling } = useUserBilling();
     const setCurrentAddress = async addressId => {
-      const chosenAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
-      if (!chosenAddress || !chosenAddress.length) {
+      const selectedAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
+      if (!selectedAddress || !selectedAddress.length) {
         return;
       }
-      emit('setCurrentAddress', chosenAddress[0]);
+      emit('setCurrentAddress', selectedAddress[0]);
     };
     return {
       billingAddresses: userBillingGetters.getAddresses(userBilling.value),
