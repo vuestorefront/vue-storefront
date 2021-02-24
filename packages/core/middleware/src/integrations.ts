@@ -3,13 +3,15 @@ import {
   Integration,
   ApiClientFactory,
   ApiClientExtension,
-  IntegrationsSection
+  IntegrationsSection,
+  CustomQuery
 } from '@vue-storefront/core';
 
 interface IntegrationLoaded {
   apiClient: ApiClientFactory;
   configuration: any;
   extensions: ApiClientExtension[];
+  queries?: Record<string, CustomQuery>;
 }
 
 type IntegrationsLoaded = Record<string, IntegrationLoaded>
@@ -44,8 +46,9 @@ const registerIntegrations = (integrations: IntegrationsSection): IntegrationsLo
       ...prev,
       [tag]: {
         apiClient,
+        extensions,
         configuration: integration.configuration,
-        extensions
+        queries: integration.queries
       }
     };
   }, {});

@@ -24,6 +24,13 @@ module.exports = {
         },
         currency: 'USD',
         country: 'US'
+      },
+      queries: {
+        'test-query': ({ query, variables }) => {
+          console.log('products query called!', query, variables);
+
+          return { query, variables };
+        }
       }
     }
   }

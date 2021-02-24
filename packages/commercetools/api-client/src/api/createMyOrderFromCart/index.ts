@@ -1,19 +1,22 @@
 import { OrderMyCartCommand } from '../../types/GraphQL';
-import { getCustomQuery, CustomQueryFn } from '../../index';
-import CreateMyOrderFromCartMutation from './defaultMutation';
+import defaultMutation from './defaultMutation';
 import { OrderMutationResponse } from '../../types/Api';
 import gql from 'graphql-tag';
 
-const createMyOrderFromCart = async ({ config, client }, draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse> => {
-  const { locale, acceptLanguage } = config;
+const createMyOrderFromCart = async (context, draft: OrderMyCartCommand): Promise<OrderMutationResponse> => {
+  const { locale, acceptLanguage } = context.config;
   const defaultVariables = { locale,
     acceptLanguage,
     draft
   };
-  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery: CreateMyOrderFromCartMutation, defaultVariables });
-  return await client.mutate({
-    mutation: gql`${query}`,
-    variables,
+
+  const { createMyOrderFromCart } = context.createQuery({
+    createMyOrderFromCart: { query: defaultMutation, variables: defaultVariables }
+  });
+
+  return await context.client.mutate({
+    mutation: gql`${createMyOrderFromCart.query}`,
+    variables: createMyOrderFromCart.variables,
     fetchPolicy: 'no-cache'
   });
 };

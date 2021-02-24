@@ -1,8 +1,55 @@
 import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory, ApiClientExtension } from './../types';
-import { applyContextToApi } from './../utils/context';
 import { Logger } from './../utils';
 
+interface ApplyingContextHooks {
+  before: ({ callName, args }) => any[];
+  after: ({ callName, args, response }) => any;
+}
+
 const isFn = (x) => typeof x === 'function';
+
+const nopBefore = ({ args }) => args;
+const nopAfter = ({ response }) => response;
+
+const createQueryFactory = (context, args) => (defaults) => {
+  const customQueries = context.queries;
+  const queryArgs = args.find(a => a?._q) || {};
+
+  return Object.entries(defaults)
+    .reduce((prev, [queryName, initialArgs]: any) => {
+      const queryFn = customQueries[queryArgs[queryName]] || (() => initialArgs);
+
+      return {
+        ...prev,
+        [queryName]: queryFn(initialArgs)
+      };
+    }, {});
+};
+
+const applyContextToApi = (
+  api: Record<string, Function>,
+  context: any,
+
+  /**
+   * By default we use NOP function for returning the same parameters as they come.
+   * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
+   * in that case, we use default function, to handle that scenario - NOP
+   */
+  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter }
+) =>
+  Object.entries(api)
+    .reduce((prev, [callName, fn]: any) => ({
+      ...prev,
+      [callName]: async (...args) => {
+        const createQuery = createQueryFactory(context, args);
+        const transformedArgs = hooks.before({ callName, args });
+        const apiClientContext = { ...context, createQuery };
+        const response = await fn(apiClientContext, ...transformedArgs);
+        const transformedResponse = hooks.after({ callName, args, response });
+
+        return transformedResponse;
+      }
+    }), {});
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
   function createApiClient (config: any, customApi: any = {}): ApiInstance {
@@ -36,7 +83,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
 
     const api = applyContextToApi(
       { ...factoryParams.api, ...extendedApis },
-      settings,
+      { ...settings, ...this?.middleware || {} },
       extensionHooks
     );
 

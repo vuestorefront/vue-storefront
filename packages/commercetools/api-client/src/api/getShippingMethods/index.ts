@@ -1,4 +1,3 @@
-import { CustomQueryFn, getCustomQuery } from '../../index';
 import defaultQuery from './defaultQuery';
 import { ShippingMethod } from '../../types/GraphQL';
 import gql from 'graphql-tag';
@@ -8,15 +7,17 @@ export interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
-const getShippingMethods = async ({ config, client }, cartId?: string, customQueryFn?: CustomQueryFn) => {
-  const { acceptLanguage } = config;
+const getShippingMethods = async (context, cartId?: string) => {
+  const { acceptLanguage } = context.config;
   const defaultVariables = {
     acceptLanguage, cartId
   };
-  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
-  return await (client as ApolloClient<any>).query<ShippingMethodData>({
-    query: gql`${query}`,
-    variables,
+
+  const { shippingMethods } = context.createQuery({ shippingMethods: { query: defaultQuery, variables: defaultVariables } });
+
+  return await (context.client as ApolloClient<any>).query<ShippingMethodData>({
+    query: gql`${shippingMethods.query}`,
+    variables: shippingMethods.variables,
     fetchPolicy: 'no-cache'
   });
 };

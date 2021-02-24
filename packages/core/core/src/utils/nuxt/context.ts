@@ -1,5 +1,3 @@
-import { applyContextToApi } from './../context';
-
 /**
  * It extends given integartion, defined by `tag` in the context.
  */
@@ -8,20 +6,6 @@ export const createExtendIntegrationInCtx = ({ tag, nuxtCtx, inject }) => (integ
 
   if (!nuxtCtx.$vsf || !nuxtCtx.$vsf[integrationKey]) {
     inject('vsf', { [integrationKey]: {} });
-  }
-
-  if (nuxtCtx.$vsf[integrationKey].api) {
-    const integrationCtx = nuxtCtx.$vsf[integrationKey];
-    const client = integrationCtx.client;
-
-    const config = {
-      ...integrationCtx.config,
-      ...(integrationProperties.config || {})
-    };
-    nuxtCtx.$vsf[integrationKey].api = {
-      ...integrationCtx.api,
-      ...applyContextToApi((integrationProperties.api || {}), { client, config })
-    };
   }
 
   Object.keys(integrationProperties)

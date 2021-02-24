@@ -1,12 +1,7 @@
-import { Context } from './../../types';
+import { Context, FactoryParams } from './../../types';
 
 interface ContextConfiguration {
   useVSFContext: () => Context;
-}
-
-interface ApplyingContextHooks {
-  before: ({ callName, args }) => any[];
-  after: ({ callName, args, response }) => any;
 }
 
 let useVSFContext = () => ({}) as Context;
@@ -15,32 +10,40 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const nopBefore = ({ args }) => args;
-const nopAfter = ({ response }) => response;
+/**
+ * We have a control of given arguments to the factory params functions.
+ * As they are given as object, we can easily attach a private/integnal flags.
+ */
+const configureArguments = (args) => {
+  if (args?.customQuery) {
+    args.customQuery._q = true;
+  }
 
-const applyContextToApi = (
-  api: Record<string, Function>,
-  context: any,
+  return args;
+};
 
-  /**
-   * By default we use NOP function for returning the same parameters as they come.
-   * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
-   * in that case, we use default function, to handle that scenario - NOP
-   */
-  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter }
-) =>
-  Object.entries(api)
-    .reduce((prev, [callName, fn]: any) => ({
+const configureFactoryParams = <T extends FactoryParams>(factoryParams: T): any => {
+  const vsfContext = useVSFContext();
+  const balckList = ['provide'];
+
+  const scopedContext = factoryParams.provide
+    ? { ...vsfContext.$vsf, ...factoryParams.provide(vsfContext.$vsf) }
+    : vsfContext.$vsf;
+
+  return Object.entries(factoryParams)
+    .reduce((prev, [fnName, fn]: any) => ({
       ...prev,
-      [callName]: async (...args) => {
-        const transformedArgs = hooks.before({ callName, args });
-        const response = await fn(context, ...transformedArgs);
-        const transformedResponse = hooks.after({ callName, args, response });
+      [fnName]: (argObj) => {
+        if (balckList.includes(fnName)) {
+          return fn(scopedContext);
+        }
 
-        return transformedResponse;
+        return fn(scopedContext, configureArguments(argObj));
       }
     }), {});
+};
 
+// deprecated
 const generateContext = (factoryParams) => {
   const context = useVSFContext();
 
@@ -57,5 +60,5 @@ export {
   generateContext,
   useVSFContext,
   configureContext,
-  applyContextToApi
+  configureFactoryParams
 };

@@ -7,10 +7,7 @@ export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
 export type ComposableFunctionArgs <T> = T & { customQuery?: CustomQuery }
 
-export type CustomQuery<T = any> = (query: any, variables: T) => {
-  query?: any;
-  variables?: T;
-};
+export type CustomQuery = Record<string, string>
 
 export interface ProductsSearchParams {
   perPage?: number;
@@ -622,6 +619,11 @@ export interface ApiClientExtensionHooks<C = any> {
   afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
 }
 
+export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+  query?: any;
+  variables?: T;
+};
+
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, Function>;
@@ -631,7 +633,8 @@ export interface ApiClientExtension {
 export interface Integration {
   location: string;
   configuration: any;
-  extensions: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+  extensions?: (extensions: ApiClientExtension[]) => ApiClientExtension[];
+  queries?: Record<string, CustomQueryFn>;
 }
 
 export type IntegrationsSection = Record<string, Integration>

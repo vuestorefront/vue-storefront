@@ -1,6 +1,6 @@
 import { UseShipping, Context, FactoryParams, UseShippingErrors, CustomQuery } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext } from '../utils';
+import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
   load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<SHIPPING>;
@@ -13,7 +13,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
   return function useShipping (): UseShipping<SHIPPING, SHIPPING_PARAMS> {
     const loading: Ref<boolean> = sharedRef(false, 'useShipping-loading');
     const shipping: Ref<SHIPPING> = sharedRef(null, 'useShipping-shipping');
-    const context = generateContext(factoryParams);
+    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseShippingErrors> = sharedRef({}, 'useShipping-error');
 
     const load = async ({ customQuery = null } = {}) => {
@@ -22,12 +22,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       try {
         loading.value = true;
         error.value.load = null;
-        const shippingInfo = await factoryParams.load(
-          context,
-          {
-            customQuery
-          }
-        );
+        const shippingInfo = await _factoryParams.load({ customQuery });
         shipping.value = shippingInfo;
       } catch (err) {
         error.value.load = err;
@@ -43,10 +38,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       try {
         loading.value = true;
         error.value.save = null;
-        const shippingInfo = await factoryParams.save(
-          context,
-          saveParams
-        );
+        const shippingInfo = await _factoryParams.save(saveParams);
         shipping.value = shippingInfo;
       } catch (err) {
         error.value.save = err;

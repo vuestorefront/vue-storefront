@@ -20,6 +20,7 @@ export const getBaseUrl = (req: IncomingMessage) => {
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
+
     const functionName = String(prop);
     if (Reflect.has(target, functionName)) {
       return Reflect.get(target, prop, receiver);
