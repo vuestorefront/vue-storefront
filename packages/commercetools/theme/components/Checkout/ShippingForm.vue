@@ -201,7 +201,6 @@
       </div>
       <VsfShippingProvider
         v-if="isShippingDetailsCompleted && !dirty"
-        :finished.sync="isShippingMethodCompleted"
         @submit="$router.push('/checkout/payment')"
       />
     </form>
@@ -264,7 +263,6 @@ export default {
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
 
-    const isShippingMethodCompleted = ref(false);
     const isShippingDetailsCompleted = ref(false);
 
     const hasSavedShippingAddress = computed(() => {
@@ -298,13 +296,11 @@ export default {
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
       isShippingDetailsCompleted.value = false;
-      isShippingMethodCompleted.value = false;
     };
 
     const changeDetails = (field, value) => {
       shippingDetails.value[field] = value;
       isShippingDetailsCompleted.value = false;
-      isShippingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
@@ -361,8 +357,7 @@ export default {
       changeDetails,
       loading,
 
-      isShippingDetailsCompleted,
-      isShippingMethodCompleted
+      isShippingDetailsCompleted
     };
   }
 };

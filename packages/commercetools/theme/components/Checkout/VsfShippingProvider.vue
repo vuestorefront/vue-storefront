@@ -49,7 +49,7 @@
           class="form__action-button"
           type="submit"
           @click.native="handleStepSubmit"
-          :disabled="!finished || loading"
+          :disabled="!isShippingMethodCompleted || loading"
         >
           {{ $t('Continue to payment') }}
         </SfButton>
@@ -72,15 +72,13 @@ import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
   name: 'ShippingProvider',
-  props: {
-    finished: Boolean
-  },
   components: {
     SfHeading,
     SfButton,
     SfRadio
   },
   setup (_, context) {
+    const isShippingMethodCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
     const chosenShippingMethod = ref({});
@@ -151,12 +149,12 @@ export default {
       const newShippingMethod = await save({ shippingMethod });
       if (error.save) {
         chosenShippingMethod.value = {};
-        context.emit('update:finished', false);
+        isShippingMethodCompleted.value = false;
         return;
       }
       chosenShippingMethod.value = newShippingMethod;
       context.emit('methods:selected', { shippingMethod: newShippingMethod });
-      context.emit('update:finished', true);
+      isShippingMethodCompleted.value = true;
     };
 
     const handleStepSubmit = () => context.emit('submit');
