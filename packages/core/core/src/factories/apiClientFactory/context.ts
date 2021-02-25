@@ -1,3 +1,5 @@
+import { ApiClientMethod } from './../../types';
+
 interface ApplyingContextHooks {
   before: ({ callName, args }) => any[];
   after: ({ callName, args, response }) => any;
@@ -22,7 +24,7 @@ const createQueryFactory = (context, args) => (defaults) => {
 };
 
 const applyContextToApi = (
-  api: Record<string, Function>,
+  api: Record<string, ApiClientMethod>,
   context: any,
 
   /**

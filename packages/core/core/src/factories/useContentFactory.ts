@@ -63,7 +63,7 @@ export function renderContentFactory(
     props: {
       content: {
         type: [Array, Object]
-      } as PropOptions<[] | {}>
+      } as PropOptions<[] | any>
     }
   };
 }

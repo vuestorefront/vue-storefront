@@ -1,9 +1,10 @@
 import { IncomingMessage } from 'http';
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
+import { ApiClientMethod } from './../../types';
 
 interface CreateProxiedApiParams {
-  givenApi: Record<string, Function>;
+  givenApi: Record<string, ApiClientMethod>;
   client: any;
   tag: string;
 }

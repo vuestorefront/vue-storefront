@@ -7,7 +7,7 @@ import {
 } from '@vue-storefront/core';
 import { LineItem } from './../types/GraphQL';
 
-type Wishlist = {};
+type Wishlist = any;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistItems = (wishlist: Wishlist): LineItem[] => [];
