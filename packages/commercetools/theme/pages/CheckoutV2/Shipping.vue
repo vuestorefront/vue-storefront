@@ -1,7 +1,7 @@
 <template>
   <div>
     <ShippingForm
-      :handleShippingAddressSubmit="handleShippingAddressSubmit"
+      :handleShippingAddressSubmit="submitShippingAddress"
     />
   </div>
 </template>
@@ -30,12 +30,12 @@ export default {
       await load();
     });
 
-    const handleShippingAddressSubmit = async shippingDetails => {
+    const submitShippingAddress = async shippingDetails => {
       await save({ shippingDetails });
     };
 
     return {
-      handleShippingAddressSubmit
+      submitShippingAddress
     };
   }
 };
