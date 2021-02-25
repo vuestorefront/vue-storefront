@@ -77,7 +77,14 @@ export default {
     SfButton,
     SfRadio
   },
-  setup (_, context) {
+  props: {
+    beforeLoad: Function,
+    afterLoad: Function,
+    onSelected: Function,
+    onSelectedDetailsChanged: Function,
+    onError: Function
+  },
+  setup (props) {
     const isShippingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
@@ -90,20 +97,27 @@ export default {
       saveMethod: null
     });
 
+    const callHookWithFallback = async (hookFn, arg, fallbackValue = null) => {
+      if (typeof hookFn === 'function') {
+        return await hookFn(arg);
+      }
+      return fallbackValue;
+    };
+
     const loadMethods = async () => {
       try {
         error.loadMethods = null;
-        loading.value = true;
         const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
         return shippingMethodsResponse.data;
       } catch (err) {
         error.loadMethods = err;
-        context.emit('error', {
-          action: 'loadMethods',
-          error: error.loadMethods
-        });
-      } finally {
-        loading.value = false;
+        await callHookWithFallback(
+          props.onError,
+          {
+            action: 'loadMethods',
+            error: error.loadMethods
+          }
+        );
       }
     };
 
@@ -123,10 +137,13 @@ export default {
         return cartResponse.data.cart.shippingInfo.shippingMethod;
       } catch (err) {
         error.saveMethod = err;
-        context.emit('error', {
-          action: 'saveMethod',
-          error: error.saveMethod
-        });
+        await callHookWithFallback(
+          props.onError,
+          {
+            action: 'saveMethod',
+            error: error.saveMethod
+          }
+        );
       } finally {
         loading.value = false;
       }
@@ -142,19 +159,23 @@ export default {
         isShippingMethodStepCompleted.value = false;
         return;
       }
-      selectedShippingMethod.value = newShippingMethod;
-      context.emit('methods:selected', { shippingMethod: newShippingMethod });
+      selectedShippingMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
       isShippingMethodStepCompleted.value = true;
     };
 
     onMounted(async () => {
-      context.emit('methods:beforeLoad');
+      loading.value = true;
+      await props.beforeLoad();
       const shippingMethodsResponse = await loadMethods();
       if (error.loadMethods) {
         return;
       }
-      shippingMethods.value = shippingMethodsResponse.shippingMethods;
-      context.emit('methods:afterLoad', { shippingMethods: shippingMethodsResponse });
+      shippingMethods.value = await callHookWithFallback(
+        props.afterLoad,
+        { shippingMethods: shippingMethodsResponse },
+        shippingMethodsResponse.shippingMethods
+      );
+      loading.value = false;
     });
 
     return {
