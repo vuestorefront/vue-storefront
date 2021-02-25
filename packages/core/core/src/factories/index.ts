@@ -9,6 +9,6 @@ export * from './useReviewFactory';
 export * from './useShippingFactory';
 export * from './useUserBillingFactory';
 export * from './useUserFactory';
-export * from './useUserOrdersFactory';
+export * from './useUserOrderFactory';
 export * from './useUserShippingFactory';
 export * from './useWishlistFactory';

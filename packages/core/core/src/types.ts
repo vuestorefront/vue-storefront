@@ -70,20 +70,20 @@ export interface UseUser
   error: ComputedProperty<UseUserErrors>;
 }
 
-export interface UseUserOrdersSearchParams {
+export interface UseUserOrderSearchParams {
   id?: any;
   page?: number;
   perPage?: number;
   [x: string]: any;
 }
-export interface UseUserOrdersErrors {
+export interface UseUserOrderErrors {
   search?: Error;
 }
-export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
+export interface UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<UseUserOrdersErrors>;
+  error: ComputedProperty<UseUserOrderErrors>;
 }
 
 export interface UseUserAddress<ADDRESS> {

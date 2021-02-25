@@ -1,4 +1,4 @@
-import useUserOrders from '../../src/useUserOrders';
+import useUserOrder from '../../src/useUserOrder';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({
@@ -11,7 +11,7 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 }));
 
 jest.mock('@vue-storefront/core', () => ({
-  useUserOrdersFactory: ({ searchOrders }) => () => ({ search: searchOrders })
+  useUserOrderFactory: ({ searchOrders }) => () => ({ search: searchOrders })
 }));
 
 const context = {
@@ -28,13 +28,13 @@ const context = {
   }
 };
 
-describe('[commercetools-composables] useUserOrders', () => {
+describe('[commercetools-composables] useUserOrder', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('loads user orders with criteria', async () => {
-    const { search } = useUserOrders() as any;
+    const { search } = useUserOrder() as any;
 
     const response = await search(context, { param: 'param1' });
 
@@ -43,7 +43,7 @@ describe('[commercetools-composables] useUserOrders', () => {
   });
 
   it('loads user all orders', async () => {
-    const { search } = useUserOrders() as any;
+    const { search } = useUserOrder() as any;
 
     const response = await search(context);
 
@@ -54,7 +54,7 @@ describe('[commercetools-composables] useUserOrders', () => {
   it('loads user orders with empty response', async () => {
     (context.$ct.api.getOrders as jest.Mock).mockReturnValue({ data: null });
 
-    const { search } = useUserOrders() as any;
+    const { search } = useUserOrder() as any;
 
     const response = await search(context, { param: 'param1' });
 

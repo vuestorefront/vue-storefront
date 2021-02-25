@@ -37,7 +37,7 @@ We have changes a bit the naming and signatures of composable functions. Below i
 |      useUser      |   logout     |       ()       |       ()        |
 |      useUser      |   changePassword     |       (currentPassword: string, newPassword: string)       |       ({ currentPassword: string, newPassword: string })        |
 |      useUser      |   load     |       ()       |       ()        |
-|      useUserOrders      |   searchOrders     |       (searchParams: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery)       |       ({ ...searchParams: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery } = {})        |
+|      useUserOrder      |   searchOrders     |       (searchParams: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery)       |       ({ ...searchParams: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery } = {})        |
 |      useWishlist      |   addToWishlist     |       (product: PRODUCT, customQuery?: CustomQuery)       |       ({ product: PRODUCT, customQuery?: CustomQuery })        |
 |      useWishlist      |   removeFromWishlist     |       (product: WISHLIST_ITEM, customQuery?: CustomQuery)       |       ({ product: WISHLIST_ITEM, customQuery?: CustomQuery })        |
 |      useWishlist      |   load     |       (customQuery?: CustomQuery)       |       ({ customQuery?: CustomQuery } = {})        |

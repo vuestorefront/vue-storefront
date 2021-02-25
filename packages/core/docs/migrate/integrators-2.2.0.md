@@ -20,7 +20,7 @@ We have changes a bit the naming and signatures of core factory functions. Below
 |      useUserBillingFactory      |   setDefault     | setDefaultAddress |     context: Context, params: { address: Readonly<USER_BILLING_ITEM>; shipping: Readonly<USER_BILLING>; })  |   No changes |
 |      useUserShippingFactory      |   setDefault     | setDefaultAddress |     context: Context, params: { address: Readonly<USER_SHIPPING_ITEM>; shipping: Readonly<USER_SHIPPING>; })  |   No changes |
 |      useUserFactory      |   loadUser    |  load |     context: Context,      |     context: Context, params?: {}      |
-|      useUserOrdersFactory      |   searchOrders    |  No changes |     context: Context, params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery     |     context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }      |
+|      useUserOrderFactory      |   searchOrders    |  No changes |     context: Context, params: ORDER_SEARCH_PARAMS, customQuery?: CustomQuery     |     context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }      |
 |      useWishlistFactory      |   addToWishlist     |  addItem |     context, { currentWishlist: WISHLIST, product: PRODUCT }, customQuery      |       context, { currentWishlist: WISHLIST, product: PRODUCT, customQuery }      |
 |      useWishlistFactory      |   loadWishlist     |  load |     context: Context, customQuery?: CustomQuery      |       No changes      |
 |      useWishlistFactory      |   removeFromWishlist     |  removeItem |     context: Context, params: { currentWishlist: WISHLIST, product: WISHLIST_ITEM },  customQuery?: CustomQuery     |       context: Context, params: { currentWishlist: WISHLIST, product: WISHLIST_ITEM,  customQuery?: CustomQuery }   |
