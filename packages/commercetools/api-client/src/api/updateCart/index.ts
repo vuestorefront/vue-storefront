@@ -1,7 +1,6 @@
 import gql from 'graphql-tag';
-import { Logger } from '@vue-storefront/core';
+import { Logger, CustomQuery } from '@vue-storefront/core';
 import defaultQuery from './defaultMutation';
-import { CustomQueries } from './../../types/Api';
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 
 const VERSION_MISSMATCH_CODE = 'ConcurrentModification';
@@ -13,7 +12,7 @@ export interface UpdateCartParams {
   versionFallback?: boolean;
 }
 
-type UpdateCart = (context, params: UpdateCartParams, customQueryFn?: CustomQueries) => Promise<any>
+type UpdateCart = (context, params: UpdateCartParams, customQueryFn?: CustomQuery) => Promise<any>
 
 const updateCart: UpdateCart = async (context, params) => {
   const { locale, acceptLanguage } = context.config;

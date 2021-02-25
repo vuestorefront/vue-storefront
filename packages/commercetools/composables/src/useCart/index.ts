@@ -1,6 +1,6 @@
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import {AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context} from '@vue-storefront/core';
+import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
