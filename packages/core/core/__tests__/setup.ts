@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
 
