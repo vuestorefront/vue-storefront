@@ -5,12 +5,6 @@ module.exports = {
   breakingChanges: [
     {
       module: 'commercetools',
-      before: 'Using checkoutGetters',
-      after: 'Removed checkoutGetters',
-      comment: 'Accesing checkout-related properties directly'
-    },
-    {
-      module: 'commercetools',
       before: 'Checkout/UserShippingAddresses.vue - shippingAddresses props, emiting changeSetAsDefault event, not using useUserShipping',
       after: 'accessing shippingAddresses via useUserShipping, emiting update:setAsDefault to use props.sync',
       comment: 'Refactor of Checkout/UserShippingAddresses.vue component'

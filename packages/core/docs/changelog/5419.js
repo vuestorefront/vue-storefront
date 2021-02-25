@@ -4,6 +4,12 @@ module.exports = {
   isBreaking: true,
   breakingChanges: [
     {
+      module: 'core',
+      before: 'Using checkoutGetters',
+      after: 'Removed checkoutGetters',
+      comment: 'Accesing checkout-related properties directly'
+    },
+    {
       module: 'nuxt-theme-module',
       before: 'CartPreview.vue uses checkoutGetters',
       after: 'CartPreview.vue is implemented per integration as we do not use getters for checkout-related stuff',
