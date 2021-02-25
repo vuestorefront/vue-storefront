@@ -51,25 +51,22 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
-						['/commercetools/use-product', 'Products'],
-						['/commercetools/use-review', 'Reviews'],
-						['/commercetools/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/use-user-billing', 'Billing addresses'],
-						['/commercetools/use-facet', 'Faceting'],
-						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist']
+						['/commercetools/use-product', 'useProduct'],
+						['/commercetools/use-review', 'useReview '],
+						['/commercetools/use-user', 'useUser'],
+						['/commercetools/use-user-shipping', 'useUserShipping'],
+						['/commercetools/use-user-billing', 'useUserBilling'],
+						['/commercetools/use-facet', 'useFacet'],
+						['/commercetools/use-cart', 'useCart'],
+						['/commercetools/use-wishlist', 'useWishlist'],
+						['/commercetools/use-category', 'useCategory'],
 					]
 				},
 				{
-					title: 'Enterprise (paid)',
+					title: 'Extensions',
 					collapsable: false,
 					children: [
-						['/commercetools/enterprise/introduction', 'Introduction'],
-						['/commercetools/enterprise/use-review', 'Reviews'],
-						['/commercetools/enterprise/user-groups', 'User groups'],
-						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/enterprise/use-user-billing', 'Billing addresses'],
-						['/commercetools/enterprise/use-wishlist', 'Wishlist']
+						['/commercetools/user-groups', 'User groups']
 					]
 				},
 				{
@@ -78,6 +75,13 @@ module.exports = {
 					children: [
 						['/commercetools/auth-middleware', 'Auth Middleware']
 					],
+				},
+				{
+					title: 'API Client Reference',
+					collapsable: true,
+					children: [
+						['/commercetools/api-client-reference', 'API Client Reference']
+					]
 				}
 			],
 			'/aboutyou/': [
@@ -142,6 +146,7 @@ module.exports = {
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
+						['/general/enterprise', 'Enterprise']
 					]
         },
 				{
