@@ -109,6 +109,7 @@ describe('[commercetools-getters] cart helpers', () => {
       variant: 'test variant',
       filters: ['filter']
     };
+    // eslint-disable-next-line
     (getProductAttributes as any) = jest.fn()
       .mockImplementation((variant, filters) => ({
         variant,
