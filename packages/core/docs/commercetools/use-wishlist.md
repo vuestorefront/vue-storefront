@@ -256,7 +256,7 @@ type ShoppingListLineItem = {
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
-import { useWishlist, wishlistGetters } from '@vsf-enterprise/ct-wishlist';
+import { useWishlist, wishlistGetters } from '@vsf-enterprise/commercetools';
 
 export default {
   setup() {
