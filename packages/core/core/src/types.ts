@@ -245,6 +245,17 @@ export interface UseCompare<PRODUCT> {
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseMakeOrderErrors {
+  make?: Error;
+}
+
+export interface UseMakeOrder<ORDER> {
+  order: Ref<ORDER>;
+  make(params: { customQuery?: CustomQuery }): Promise<void>;
+  error: ComputedProperty<UseMakeOrderErrors>;
+  loading: ComputedProperty<boolean>;
+}
+
 export interface UseCheckout
 <
   PAYMENT_METHODS,

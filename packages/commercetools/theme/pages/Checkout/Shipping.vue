@@ -139,19 +139,19 @@
           <div class="form__radio-group" v-if="canContinueToPayment(dirty)">
             <SfRadio
               v-for="item in shippingMethods"
-              :key="checkoutGetters.getShippingMethodName(item)"
-              :label="checkoutGetters.getShippingMethodName(item)"
-              :value="checkoutGetters.getShippingMethodId(item)"
-              :selected="checkoutGetters.getShippingMethodId(chosenShippingMethod)"
+              :key="item.name"
+              :label="item.name"
+              :value="item.id"
+              :selected="chosenShippingMethod.name"
               @input="setShippingMethod(item, { save: true })"
               name="shippingMethod"
-              :description="checkoutGetters.getShippingMethodDescription(item)"
+              :description="item.description"
               class="form__radio shipping"
             >
               <template #label="{label}">
                 <div class="sf-radio__label shipping__label">
                   <div>{{ label }}</div>
-                  <div>${{ checkoutGetters.getShippingMethodPrice(item) }}</div>
+                  <div>${{ 12 }}</div>
                 </div>
               </template>
               <template #description="{description}">
@@ -187,7 +187,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useCheckout, useUserShipping, useUser, checkoutGetters, userShippingGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useUserShipping, useUser, userShippingGetters } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
@@ -324,7 +324,6 @@ export default {
       shippingDetails,
       chosenShippingMethod,
       shippingMethods,
-      checkoutGetters,
       countries: config.countries,
       shippingAddresses: computed(() => userShippingGetters.getAddresses(shipping.value)),
       canAddNewAddress,
