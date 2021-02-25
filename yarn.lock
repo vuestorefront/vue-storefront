@@ -2439,6 +2439,11 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
   integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
 
+"@storefront-ui/shared@0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.9.2.tgz#b50d6c8baec1a479054fd4a14b786f2809f0598e"
+  integrity sha512-2JX76IgwTrP/7Ksa5mF9+r1vlaZojKiqrPh9HCDo2yznnseqNOzKVgWn9vIRKxWqofMzmZeleNdriKfoulfFoQ==
+
 "@storefront-ui/shared@^0.7.17":
   version "0.7.17"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.17.tgz#110ab77d959565170dea8dd1cf574a0c6d2639e0"
