@@ -203,5 +203,5 @@ If one of the properties is missing or the validation key is wrong, return an em
 
 # What's next
 
-- [Redis Cache integration](../integrations/redis-cache.md)
-- [Build your own cache driver](../integrate/cache-driver.md).
+- Check out ready to use [Redis cache integration](../integrations/redis-cache.md) from Vue Storefront Enterprise
+- Check how you can [build your own cache driver](../integrate/cache-driver.md).
