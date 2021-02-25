@@ -6,16 +6,16 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div v-if="error.load">
-        {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with other shipping details or later.') }}
+      <div v-if="error.loadMethods">
+        {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
       </div>
-      <div v-else-if="error.save">
-        {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with other shipping method or later.') }}
+      <div v-else-if="error.saveMethod">
+        {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
       </div>
       <div class="form__radio-group">
           <SfRadio
             v-for="item in shippingMethods"
-            :key="item.id || item.name"
+            :key="item.id"
             :label="item.name"
             :value="item.id"
             :selected="selectedShippingMethod.id"
@@ -86,30 +86,30 @@ export default {
     const { cart, setCart } = useCart();
 
     const error = reactive({
-      load: null,
-      save: null
+      loadMethods: null,
+      saveMethod: null
     });
 
-    const load = async () => {
+    const loadMethods = async () => {
       try {
-        error.load = null;
+        error.loadMethods = null;
         loading.value = true;
         const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
         return shippingMethodsResponse.data;
       } catch (err) {
-        error.load = err;
+        error.loadMethods = err;
         context.emit('error', {
-          action: 'load',
-          error: error.load
+          action: 'loadMethods',
+          error: error.loadMethods
         });
       } finally {
         loading.value = false;
       }
     };
 
-    const save = async ({ shippingMethod }) => {
+    const saveMethod = async ({ shippingMethod }) => {
       try {
-        error.save = null;
+        error.saveMethod = null;
         loading.value = true;
         const cartResponse = await $ct.api.updateCart({
           id: cart.value.id,
@@ -122,10 +122,10 @@ export default {
         setCart(cartResponse.data.cart);
         return cartResponse.data.cart.shippingInfo.shippingMethod;
       } catch (err) {
-        error.save = err;
+        error.saveMethod = err;
         context.emit('error', {
-          action: 'save',
-          error: error.save
+          action: 'saveMethod',
+          error: error.saveMethod
         });
       } finally {
         loading.value = false;
@@ -134,8 +134,8 @@ export default {
 
     onMounted(async () => {
       context.emit('methods:beforeLoad');
-      const shippingMethodsResponse = await load();
-      if (error.load) {
+      const shippingMethodsResponse = await loadMethods();
+      if (error.loadMethods) {
         return;
       }
       shippingMethods.value = shippingMethodsResponse.shippingMethods;
@@ -146,8 +146,8 @@ export default {
       if (loading.value) {
         return;
       }
-      const newShippingMethod = await save({ shippingMethod });
-      if (error.save) {
+      const newShippingMethod = await saveMethod({ shippingMethod });
+      if (error.saveMethod) {
         selectedShippingMethod.value = {};
         isShippingMethodCompleted.value = false;
         return;
