@@ -1,27 +1,21 @@
-import { CacheTag } from '../types';
+import { CacheTag, UseCache, SetTagsFn } from '..';
 import { useContext } from '@nuxtjs/composition-api';
 
-export type CacheDriver = (options: any) => {
-  invoke: () => Promise<any>;
-  invalidate: () => Promise<any>;
-}
-
-type SetTagsFn = (tags: CacheTag[]) => CacheTag[]
-
-const useCache = () => {
+const useCache = (): UseCache => {
   const { req }: any = useContext();
+
   if (!req) {
     return {
       addTags: () => {},
-      cleanTags: () => {},
-      getTags: () => {},
+      clearTags: () => {},
+      getTags: () => [],
       setTags: () => {}
     };
   }
 
   const $vsfCache = req.$vsfCache;
   const addTags = (tags: CacheTag[]) => tags.forEach(tag => $vsfCache.tagsSet.add(tag));
-  const cleanTags = () => $vsfCache.tagsSet.clear();
+  const clearTags = () => $vsfCache.tagsSet.clear();
   const getTags = (): CacheTag[] => Array.from($vsfCache.tagsSet);
   const setTags = (fn: SetTagsFn) => {
     const tagsSet = $vsfCache.tagsSet;
@@ -32,7 +26,7 @@ const useCache = () => {
 
   return {
     addTags,
-    cleanTags,
+    clearTags,
     getTags,
     setTags
   };

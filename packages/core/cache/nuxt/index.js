@@ -1,93 +1,107 @@
-/* eslint-disable */
-import path from 'path';
-import { createMiddleware } from '@vue-storefront/core/server';
+import { resolve } from 'path';
 import { Logger } from '@vue-storefront/core';
+import { requirePackage, requireDriver } from './helpers';
 
-function rendererFactory (renderFn) {
+/**
+ * Adds endpoint to invalidate cache
+ */
+function createInvalidationEndpoint (driver, options) {
+  if (!options || !options.endpoint || !options.handlers) {
+    return;
+  }
+
+  const handler = async (request, response) => {
+    try {
+      // Resolve handlers paths
+      const tags = options.handlers
+        .map(handler => typeof handler === 'string' ? requirePackage(handler) : handler)
+        .reduce((tags, handler) => {
+          const newTags = handler({ request, response, options });
+          return tags.concat(newTags);
+        }, []);
+
+      // Call driver invalidator with all tags
+      await driver.invalidate({
+        request,
+        response,
+        // Removes duplicates
+        tags: Array.from(new Set(tags))
+      });
+
+      response.writeHead(200);
+    } catch (error) {
+      Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
+      Logger.error(error);
+
+      response.writeHead(500);
+    }
+
+    response.end();
+  };
+
+  this.addServerMiddleware({
+    path: options.endpoint,
+    handler
+  });
+}
+
+/**
+ * Creates custom renderer to use cache as much as possible.
+ */
+function createRenderer (renderFn) {
   const renderer = this.nuxt.renderer;
   const renderRoute = renderer.renderRoute.bind(renderer);
 
   renderer.renderRoute = (route, context) => {
-    const render = () => renderRoute(route, context)
-    return renderFn(route, context, render)
-  }
+    const render = () => renderRoute(route, context);
+    return renderFn(route, context, render);
+  };
 }
 
-const createInvalidators = (options) => {
-  const invalidatorsRaw = options.server.invalidators || []
-
-  return invalidatorsRaw.map(invalidator => {
-    if (typeof invalidator === 'string') {
-      return require(path.resolve(invalidator)).default;
-    }
-
-    return invalidator
-  })
-}
-
-const createDriver = (options) => {
-  const { driver } = options.server
-  const invalidators = createInvalidators(options)
-  if (Array.isArray(driver)) {
-    return require(path.resolve(driver[0])).default(driver[1], invalidators);
-  }
-
-  return require(path.resolve(driver)).default({}, invalidators);
-}
-
-function cacheModule (options) {
-  Logger.info('Installed cache');
+/**
+ * Main VSF cache module.
+ */
+export default function cacheModule (options) {
+  Logger.info('Installed Vue Storefront Cache plugin');
 
   // This part must be before the condition below
-  const resolvedDriver = createDriver(options)
   this.addPlugin({
-    src: path.resolve(__dirname, './plugin.js'),
+    src: resolve(__dirname, './plugin.js'),
     mode: 'server',
-    options: {
-      ...options.server,
-      driver: resolvedDriver
-    }
+    options
   });
 
   if (!this.nuxt || !this.nuxt.renderer) {
-    return
-  }
-  const createRenderer = rendererFactory.bind(this)
-
-  if (options.server.invalidateEndpoint) {
-    const { middleware, extend } = createMiddleware({});
-
-    extend((app) => {
-      app.get(options.server.invalidateEndpoint, async (req, res) => {
-        await resolvedDriver.invalidate({ req, res });
-
-        res.send()
-      })
-    })
-
-    this.addServerMiddleware(middleware);
+    return;
   }
 
-  createRenderer(async (route, context, render) => {
+  // Create cache driver
+  const driver = requireDriver(options.driver);
+
+  // Create invalidation endpoint if necessary
+  createInvalidationEndpoint.call(this, driver, options.invalidation);
+
+  // Create renderer
+  createRenderer.call(this, async (route, context, render) => {
     const getTags = () => {
-      if (context.req.$vsfCache && context.req.$vsfCache.tagsSet) {
-        return Array.from(context.req.$vsfCache.tagsSet)
-      }
+      const tags = context.req.$vsfCache && context.req.$vsfCache.tagsSet
+        ? Array.from(context.req.$vsfCache.tagsSet)
+        : [];
 
-      return []
-    }
+      return tags.map(({ prefix, value }) => `${prefix}${value}`);
+    };
 
     try {
-      return await resolvedDriver.invoke({ route, context, getTags, render });
+      return await driver.invoke({
+        route,
+        context,
+        render,
+        getTags
+      });
     } catch (err) {
-      Logger.error('Your cache driver thrown an error!')
-      Logger.error('Server is going to render fresh page (cacheless)')
-      Logger.error(err)
+      Logger.error('Cache driver thrown an error when fetching cache! Server will render fresh page.');
+      Logger.error(err);
       return render();
     }
   });
-
-
 }
-
-export default cacheModule;
