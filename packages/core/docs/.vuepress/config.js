@@ -151,7 +151,6 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
-						['/guide/error-handling', 'Error Handling'],
             ['/guide/user-profile', 'User profile'],
                         ['/guide/authentication', 'Authentication']
 					]
