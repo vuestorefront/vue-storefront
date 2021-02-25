@@ -128,7 +128,7 @@ interface AgnosticRateCount {
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
-import { useReview, reviewGetters } from '@vsf-enterprise/ct-reviews';
+import { useReview, reviewGetters } from '@vsf-enterprise/commercetoolss';
 
 export default {
   setup() {
