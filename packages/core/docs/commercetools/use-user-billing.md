@@ -300,7 +300,7 @@ type BillingAddress = Address & {
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
-import { useUserBilling, userBillingGetters } from '@vsf-enterprise/ct-billing';
+import { useUserBilling, userBillingGetters } from '@vsf-enterprise/commercetools';
 
 export default {
   setup() {
