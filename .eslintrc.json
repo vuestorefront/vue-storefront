@@ -33,7 +33,6 @@
         "functions": false
       }
     ],
-    "ban-ts-ignore": 0,
     "no-undef": 2,
     "no-unused-vars": 2,
     "brace-style": 2,
