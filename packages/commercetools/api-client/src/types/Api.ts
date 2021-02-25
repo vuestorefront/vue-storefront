@@ -1,4 +1,4 @@
-import { CustomQueryFn } from '@vue-storefront/core';
+import { CustomQuery } from '@vue-storefront/core';
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
 import { Token, CustomerCredentials } from './setup';
@@ -25,29 +25,27 @@ import {
   CartQueryInterface
 } from './GraphQL';
 
-export type CustomQueries = Record<string, CustomQueryFn>
-
 export interface ApiInstance {
-  addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number, customQuery?: CustomQueries): Promise<CartResponse>;
-  applyCartCoupon (cart: Cart, discountCode: string, customQuery?: CustomQueries): Promise<CartResponse>;
-  createCart (cartDraft?: CartData, customQueryFn?: CustomQueries): Promise<{ data: CartQueryInterface }>;
-  createMyOrderFromCart (draft: OrderMyCartCommand, customQueryFn?: CustomQueries): Promise<OrderMutationResponse>;
+  addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number, customQuery?: CustomQuery): Promise<CartResponse>;
+  applyCartCoupon (cart: Cart, discountCode: string, customQuery?: CustomQuery): Promise<CartResponse>;
+  createCart (cartDraft?: CartData, customQueryFn?: CustomQuery): Promise<{ data: CartQueryInterface }>;
+  createMyOrderFromCart (draft: OrderMyCartCommand, customQueryFn?: CustomQuery): Promise<OrderMutationResponse>;
   customerChangeMyPassword (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse>;
   customerSignMeIn (draft: CustomerSignMeInDraft): Promise<SignInResponse>;
   customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
   customerSignOut (): Promise<void>;
   customerUpdateMe (currentUser, updatedUserData): Promise<any>;
   getCart (cartId: string): Promise<CartQueryResponse>;
-  getCategory (params, customQueryFn?: CustomQueries): Promise<QueryResponse<'categories', CategoryQueryResult>>;
-  getMe (params?: GetMeParams, customQueryFn?: CustomQueries): Promise<{ data: { me: Me } }>;
-  getOrders (params, customQueryFn?: CustomQueries): Promise<{ data: { me: Me } }>;
-  getProduct (params, customQueryFn?: CustomQueries): Promise<QueryResponse<'products', ProductQueryResult>>;
-  getShippingMethods (cartId?: string, customQueryFn?: CustomQueries): Promise<ShippingMethodData>;
-  removeCartCoupon (cart: Cart, discountCode: ReferenceInput, customQuery?: CustomQueries): Promise<CartResponse>;
-  removeFromCart (cart: Cart, product: LineItem, customQuery?: CustomQueries): Promise<CartResponse>;
-  updateCart (params: UpdateCartParams, customQueryFn?: CustomQueries): Promise<CartResponse>;
-  updateCartQuantity (cart: Cart, product: LineItem, customQuery?: CustomQueries): Promise<CartResponse>;
-  updateShippingDetails (cart: Cart, shippingDetails: Address, customQueryFn?: CustomQueries): Promise<CartResponse>;
+  getCategory (params, customQueryFn?: CustomQuery): Promise<QueryResponse<'categories', CategoryQueryResult>>;
+  getMe (params?: GetMeParams, customQueryFn?: CustomQuery): Promise<{ data: { me: Me } }>;
+  getOrders (params, customQueryFn?: CustomQuery): Promise<{ data: { me: Me } }>;
+  getProduct (params, customQueryFn?: CustomQuery): Promise<QueryResponse<'products', ProductQueryResult>>;
+  getShippingMethods (cartId?: string, customQueryFn?: CustomQuery): Promise<ShippingMethodData>;
+  removeCartCoupon (cart: Cart, discountCode: ReferenceInput, customQuery?: CustomQuery): Promise<CartResponse>;
+  removeFromCart (cart: Cart, product: LineItem, customQuery?: CustomQuery): Promise<CartResponse>;
+  updateCart (params: UpdateCartParams, customQueryFn?: CustomQuery): Promise<CartResponse>;
+  updateCartQuantity (cart: Cart, product: LineItem, customQuery?: CustomQuery): Promise<CartResponse>;
+  updateShippingDetails (cart: Cart, shippingDetails: Address, customQueryFn?: CustomQuery): Promise<CartResponse>;
   isGuest: () => boolean;
 }
 
