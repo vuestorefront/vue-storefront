@@ -1,4 +1,5 @@
 import { apiClientFactory } from '../../src/factories/apiClientFactory';
+import { applyContextToApi } from '../../src/factories/apiClientFactory/context';
 
 jest.mock('../../src/utils', () => ({
   integrationPluginFactory: jest.fn(),
@@ -68,5 +69,34 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
+  });
+
+  it('applyContextToApi adds context as first argument to api functions', () => {
+    const api = {
+      firstFunc: jest.fn(),
+      secondFunc: jest.fn(),
+      thirdFunc: jest.fn()
+    };
+    const context = {
+      createQuery: jest.fn()
+    };
+
+    const apiWithContext: any = applyContextToApi(api, context);
+
+    apiWithContext.firstFunc();
+    apiWithContext.secondFunc('TEST');
+    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+
+    expect(api.firstFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ createQuery: expect.any(Function) })
+    );
+    expect(api.secondFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ createQuery: expect.any(Function) }),
+      'TEST'
+    );
+    expect(api.thirdFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ createQuery: expect.any(Function) }),
+      'A', 'FEW', 'ARGS'
+    );
   });
 });
