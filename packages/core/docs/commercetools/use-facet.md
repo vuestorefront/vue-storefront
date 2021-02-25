@@ -170,7 +170,7 @@ type ProductVariant = {
 ## Example
 
 ```js
-import { useFacet, facetGetters } from '@vue-storefront/your-integration';
+import { useFacet, facetGetters } from '@vsf-enterprise/commercetools';
 
 setup(props, context) {
   const { result, search, loading } = useFacet();
