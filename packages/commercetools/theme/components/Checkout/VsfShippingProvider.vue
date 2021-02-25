@@ -14,20 +14,20 @@
       </div>
       <div class="form__radio-group">
           <SfRadio
-            v-for="item in shippingMethods"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
+            v-for="method in shippingMethods"
+            :key="method.id"
+            :label="method.name"
+            :value="method.id"
             :selected="selectedShippingMethod.id"
-            @input="handleMethodSubmit(item)"
+            @input="selectShippingMethod(method)"
             name="shippingMethod"
-            :description="item.description"
+            :description="method.description"
             class="form__radio shipping"
           >
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div v-if="item && item.zoneRates">{{ $n(getShippingMethodPrice(item), 'currency') }}</div>
+                <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
               </div>
             </template>
             <template #description="{ description }">
@@ -49,7 +49,7 @@
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"
-          :disabled="!isShippingMethodCompleted || loading"
+          :disabled="!isShippingMethodStepCompleted || loading"
         >
           {{ $t('Continue to payment') }}
         </SfButton>
@@ -78,7 +78,7 @@ export default {
     SfRadio
   },
   setup (_, context) {
-    const isShippingMethodCompleted = ref(false);
+    const isShippingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
     const selectedShippingMethod = ref({});
@@ -132,6 +132,21 @@ export default {
       }
     };
 
+    const selectShippingMethod = async shippingMethod => {
+      if (loading.value) {
+        return;
+      }
+      const newShippingMethod = await saveMethod({ shippingMethod });
+      if (error.saveMethod) {
+        selectedShippingMethod.value = {};
+        isShippingMethodStepCompleted.value = false;
+        return;
+      }
+      selectedShippingMethod.value = newShippingMethod;
+      context.emit('methods:selected', { shippingMethod: newShippingMethod });
+      isShippingMethodStepCompleted.value = true;
+    };
+
     onMounted(async () => {
       context.emit('methods:beforeLoad');
       const shippingMethodsResponse = await loadMethods();
@@ -142,28 +157,13 @@ export default {
       context.emit('methods:afterLoad', { shippingMethods: shippingMethodsResponse });
     });
 
-    const handleMethodSubmit = async shippingMethod => {
-      if (loading.value) {
-        return;
-      }
-      const newShippingMethod = await saveMethod({ shippingMethod });
-      if (error.saveMethod) {
-        selectedShippingMethod.value = {};
-        isShippingMethodCompleted.value = false;
-        return;
-      }
-      selectedShippingMethod.value = newShippingMethod;
-      context.emit('methods:selected', { shippingMethod: newShippingMethod });
-      isShippingMethodCompleted.value = true;
-    };
-
     return {
       loading,
       shippingMethods,
       selectedShippingMethod,
-      handleMethodSubmit,
+      selectShippingMethod,
       getShippingMethodPrice,
-      isShippingMethodCompleted,
+      isShippingMethodStepCompleted,
       error
     };
   }

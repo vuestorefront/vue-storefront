@@ -187,20 +187,20 @@
           <nuxt-link
             to="/checkout/personal-details"
             class="sf-button color-secondary form__back-button"
-            v-if="!isShippingDetailsCompleted"
+            v-if="!isShippingDetailsStepCompleted"
             >{{ $t('Go back') }}</nuxt-link>
           <SfButton
             class="form__action-button"
             type="submit"
             :disabled="loading"
-            v-if="!(isShippingDetailsCompleted && !dirty)"
+            v-if="!(isShippingDetailsStepCompleted && !dirty)"
           >
             {{ $t('Select shipping method') }}
           </SfButton>
         </div>
       </div>
       <VsfShippingProvider
-        v-if="isShippingDetailsCompleted && !dirty"
+        v-if="isShippingDetailsStepCompleted && !dirty"
         @submit="$router.push('/checkout/payment')"
       />
     </form>
@@ -263,7 +263,7 @@ export default {
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
 
-    const isShippingDetailsCompleted = ref(false);
+    const isShippingDetailsStepCompleted = ref(false);
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -283,7 +283,7 @@ export default {
         }
       }
       reset();
-      isShippingDetailsCompleted.value = true;
+      isShippingDetailsStepCompleted.value = true;
     };
 
     const handleAddNewAddressBtnClick = () => {
@@ -295,12 +295,12 @@ export default {
       shippingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      isShippingDetailsCompleted.value = false;
+      isShippingDetailsStepCompleted.value = false;
     };
 
     const changeShippingDetails = (field, value) => {
       shippingDetails.value[field] = value;
-      isShippingDetailsCompleted.value = false;
+      isShippingDetailsStepCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
@@ -357,7 +357,7 @@ export default {
       changeShippingDetails,
       loading,
 
-      isShippingDetailsCompleted
+      isShippingDetailsStepCompleted
     };
   }
 };
