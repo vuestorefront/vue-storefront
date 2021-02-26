@@ -12,7 +12,7 @@
     >
       <UserShippingAddresses
         v-if="isAuthenticated && hasSavedShippingAddress"
-        :setAsDefault.sync="setAsDefault"
+        v-model="setAsDefault"
         :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
       />

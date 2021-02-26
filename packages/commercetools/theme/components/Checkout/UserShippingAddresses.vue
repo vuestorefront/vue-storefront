@@ -18,7 +18,7 @@
       v-show="currentAddressId"
       data-cy="shipping-details-checkbox_isDefault"
       :selected="setAsDefault"
-      @change="$emit('update:setAsDefault', $event)"
+      @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="shipping-address-setAsDefault"
