@@ -40,9 +40,9 @@ interface AgnosticFacetSearchParams {
 
 - `result` - reactive data object containing the response from the backend.
 
-- `loading: boolean` - reactive object containing information about the loading state of `search`.
+- `loading` - reactive object containing information about the loading state of `search`.
 
-- `error: UseFacetErrors` - reactive object containing the error message, if `search` failed for any reason.
+- `error` - reactive object containing the error message, if `search` failed for any reason.
 
 ```ts
 interface UseFacetErrors {
@@ -67,19 +67,6 @@ Because the `result` property is a raw response with some additional properties,
 
 - `getBreadcrumbs` - returns breadcrumbs information.
 
-- `getAll` - returns all available facets.
-
-- `getGrouped` - returns grouped facets by facet name.
-
-- `getCategoryTree` - return the category nested tree.
-
-- `getSortOptions` - returns sorting options and current selected one.
-
-- `getProducts` - returns products that were found.
-
-- `getPagination` - returns pagination settings.
-
-- `getBreadcrumbs` - returns breadcrumbs.
 
 ```ts
 interface FacetsGetters {
@@ -179,6 +166,43 @@ type ProductVariant = {
   attributeList: Array<Attribute>;
 }
 ```
+
+## Configuration
+
+::: warning
+Configuration can be changed only for th Enterprise version of this package.
+:::
+
+Faceting configuration can be modified to change available sorting options, filters, etc.
+
+If the explicit configuration is not provided, the following defaults will be used:
+
+```javascript
+{
+  pageOptions: [
+    20,
+    50,
+    100
+  ],
+  subcategoriesLimit: 100,
+  availableFacets: [
+    { facet: 'categories.id', type: 'string', option: 'subtree("*")', name: 'category' },
+    { facet: 'variants.attributes.size', type: 'number', option: '', name: 'size' },
+    { facet: 'variants.attributes.color.key', type: 'string', option: '', name: 'color' }
+  ],
+  sortingOptions: [
+    { id: 'latest', name: 'Latest', facet: 'createdAt', direction: 'desc' },
+    { id: 'price-up', name: 'Price from low to high', facet: 'price', direction: 'asc' },
+    { id: 'price-down', name: 'Price from high to low', facet: 'price', direction: 'desc' },
+    { id: 'relevance', name: 'Relevance', facet: 'score', direction: 'desc' },
+  ],
+  filteringStrategy: 'filter'
+}
+```
+
+Configuration can be modified by passing identical configuration to:
+- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
+- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
 
 ## Example
 
