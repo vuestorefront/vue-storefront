@@ -5,9 +5,9 @@ module.exports = {
   breakingChanges: [
     {
       module: 'commercetools-theme',
-      before: 'UserBillingAddress works properly with pages/Checkout/Payment.vue',
-      after: 'UserBillingAddress works properly with pages/CheckoutV2/Payment.vue',
-      comment: 'Customized components to work with new checkout which has pages inside CheckoutV2 directory'
+      before: 'UserBillingAddress works properly',
+      after: 'New API inside Checkout/UserBillingAddress.vue',
+      comment: 'Customized components to work with new checkout'
     }
   ],
   author: 'Fifciu',
