@@ -7,11 +7,7 @@
     />
     <form
       @submit.prevent="
-        handleSubmit(
-          isBillingDetailsCompleted && !dirty
-            ? handleStepSubmit
-            : handleAddressSubmit(reset)
-        )
+        handleSubmit(handleAddressSubmit(reset))
       "
     >
       <UserBillingAddresses
@@ -193,35 +189,27 @@
       >
         {{ $t('Add new address') }}
       </SfButton>
-      <SfHeading
-        v-if="isBillingDetailsCompleted && !dirty"
-        :level="3"
-        title="Payment methods"
-        class="sf-heading--left sf-heading--no-underline title"
-      />
       <div class="form">
         <div class="form__action">
           <nuxt-link
             to="/checkout/personal-details"
             class="sf-button color-secondary form__back-button"
+            v-if="!isBillingDetailsStepCompleted"
             >Go back</nuxt-link>
           <SfButton
             class="form__action-button"
             type="submit"
-            v-if="isBillingDetailsCompleted && !dirty"
-          >
-            {{ $t('Continue to payment') }}
-          </SfButton>
-          <SfButton
-            class="form__action-button"
-            type="submit"
             :disabled="loading"
-            v-else
+            v-if="!(isBillingDetailsStepCompleted && !dirty)"
           >
             {{ $t('Select payment method') }}
           </SfButton>
         </div>
       </div>
+      <VsfPaymentProvider
+        v-if="isBillingDetailsStepCompleted && !dirty"
+        @submit="$router.push('/checkout/order-review')"
+      />
     </form>
   </ValidationObserver>
 </template>
@@ -266,9 +254,10 @@ export default {
     SfSelect,
     SfRadio,
     SfCheckbox,
-    UserBillingAddresses: () => import('~/components/Checkout/UserBillingAddresses'),
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    UserBillingAddresses: () => import('@/components/Checkout/UserBillingAddresses'),
+    VsfPaymentProvider: () => import('@/components/Checkout/VsfPaymentProvider')
   },
   setup(_, context) {
     const { $ct: { config } } = useVSFContext();
@@ -279,7 +268,8 @@ export default {
     const billingDetails = ref(address.value || {});
 
     const isBillingMethodCompleted = ref(false);
-    const isBillingDetailsCompleted = ref(false);
+    const isBillingDetailsStepCompleted = ref(false);
+
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
     const setAsDefault = ref(false);
     const canAddNewAddress = ref(true);
@@ -304,10 +294,10 @@ export default {
         billingDetails.value = {...shippingDetails.value};
         currentAddressId.value = NOT_SELECTED_ADDRESS;
         setAsDefault.value = false;
-        isBillingDetailsCompleted.value = false;
+        isBillingDetailsStepCompleted.value = false;
         return;
       }
-      isBillingDetailsCompleted.value = false;
+      isBillingDetailsStepCompleted.value = false;
       billingDetails.value = oldBilling;
     };
 
@@ -323,7 +313,7 @@ export default {
         }
       }
       reset();
-      isBillingDetailsCompleted.value = true;
+      isBillingDetailsStepCompleted.value = true;
     };
 
     const handleAddNewAddressBtnClick = () => {
@@ -335,7 +325,7 @@ export default {
       billingDetails.value = {...address};
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
-      isBillingDetailsCompleted.value = false;
+      isBillingDetailsStepCompleted.value = false;
       isBillingMethodCompleted.value = false;
       sameAsShipping.value = false;
     };
@@ -391,7 +381,7 @@ export default {
       currentAddressId,
       hasSavedBillingAddress,
       isBillingMethodCompleted,
-      isBillingDetailsCompleted,
+      isBillingDetailsStepCompleted,
       handleAddressSubmit,
       handleStepSubmit,
       handleAddNewAddressBtnClick,
