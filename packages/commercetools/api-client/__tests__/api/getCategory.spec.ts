@@ -21,7 +21,7 @@ describe('[commercetools-api-client] getCategory', () => {
           return { data: 'category response' };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await getCategory(context, null);
@@ -49,7 +49,7 @@ describe('[commercetools-api-client] getCategory', () => {
           return { data: 'category response' };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await getCategory(context, { catId: '724b250d-9805-4657-ae73-3c02a63a9a13' });

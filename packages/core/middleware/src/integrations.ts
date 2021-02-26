@@ -11,7 +11,7 @@ interface IntegrationLoaded {
   apiClient: ApiClientFactory;
   configuration: any;
   extensions: ApiClientExtension[];
-  queries?: Record<string, CustomQuery>;
+  customQueries?: Record<string, CustomQuery>;
 }
 
 type IntegrationsLoaded = Record<string, IntegrationLoaded>
@@ -48,7 +48,7 @@ const registerIntegrations = (integrations: IntegrationsSection): IntegrationsLo
         apiClient,
         extensions,
         configuration: integration.configuration,
-        queries: integration.queries
+        customQueries: integration.customQueries
       }
     };
   }, {});

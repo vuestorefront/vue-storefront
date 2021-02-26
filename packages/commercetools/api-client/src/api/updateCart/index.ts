@@ -12,9 +12,7 @@ export interface UpdateCartParams {
   versionFallback?: boolean;
 }
 
-type UpdateCart = (context, params: UpdateCartParams, customQueryFn?: CustomQuery) => Promise<any>
-
-const updateCart: UpdateCart = async (context, params) => {
+const updateCart = async (context, params: UpdateCartParams, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage } = context.config;
   const defaultVariables = params
     ? {
@@ -24,7 +22,9 @@ const updateCart: UpdateCart = async (context, params) => {
     }
     : { acceptLanguage };
 
-  const { updateCart: updateCartGql } = context.createQuery({ updateCart: { query: defaultQuery, variables: defaultVariables } });
+  const { updateCart: updateCartGql } = context.extendQuery(
+    customQuery, { updateCart: { query: defaultQuery, variables: defaultVariables } }
+  );
 
   try {
     const request = await context.client.mutate({

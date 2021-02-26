@@ -27,7 +27,7 @@ describe('[commercetools-api-client] removeFromCart', () => {
           version: 1
         })
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const product = {

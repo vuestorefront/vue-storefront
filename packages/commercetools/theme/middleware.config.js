@@ -25,7 +25,7 @@ module.exports = {
         currency: 'USD',
         country: 'US'
       },
-      queries: {
+      customQueries: {
         'test-query': ({ query, variables }) => {
           console.log('products query called!', query, variables);
 

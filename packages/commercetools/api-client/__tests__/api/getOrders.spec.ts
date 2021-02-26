@@ -30,7 +30,7 @@ describe('[commercetools-api-client] getOrders', () => {
           return { data: 'me response' };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await getOrders(context, params);

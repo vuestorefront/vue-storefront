@@ -16,7 +16,7 @@ describe('[commercetools-api-client] getShippingMethods', () => {
           return { data: 'shipping response' };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await getShippingMethods(context);

@@ -78,7 +78,7 @@ describe('[CORE - factories] apiClientFactory', () => {
       thirdFunc: jest.fn()
     };
     const context = {
-      createQuery: jest.fn()
+      extendQuery: jest.fn()
     };
 
     const apiWithContext: any = applyContextToApi(api, context);
@@ -88,14 +88,14 @@ describe('[CORE - factories] apiClientFactory', () => {
     apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
 
     expect(api.firstFunc).toHaveBeenCalledWith(
-      expect.objectContaining({ createQuery: expect.any(Function) })
+      expect.objectContaining({ extendQuery: expect.any(Function) })
     );
     expect(api.secondFunc).toHaveBeenCalledWith(
-      expect.objectContaining({ createQuery: expect.any(Function) }),
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
       'TEST'
     );
     expect(api.thirdFunc).toHaveBeenCalledWith(
-      expect.objectContaining({ createQuery: expect.any(Function) }),
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
       'A', 'FEW', 'ARGS'
     );
   });

@@ -27,7 +27,7 @@ describe('[commercetools-api-client] updateCartQuantity', () => {
           version: 1
         })
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const product = {

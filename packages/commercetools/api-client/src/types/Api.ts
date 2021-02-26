@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
+import { ApiClientMethods } from '@vue-storefront/core';
 import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
 import { GetMeParams } from '../api/getMe';
@@ -94,7 +95,7 @@ export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingM
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
 export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;
 
-export interface CommercetoolsMethods {
+interface ApiMethods {
   addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number): Promise<CartResponse>;
   applyCartCoupon (cart: Cart, discountCode: string): Promise<CartResponse>;
   createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
@@ -117,3 +118,5 @@ export interface CommercetoolsMethods {
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
 }
+
+export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

@@ -32,7 +32,7 @@ describe('[commercetools-api-client] createCart', () => {
           };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await createCart(context, {
@@ -71,7 +71,7 @@ describe('[commercetools-api-client] createCart', () => {
           };
         }
       },
-      createQuery: (args) => args
+      extendQuery: (args) => args
     };
 
     const { data } = await createCart(context);

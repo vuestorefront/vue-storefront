@@ -637,7 +637,7 @@ export interface Integration {
   location: string;
   configuration: any;
   extensions?: (extensions: ApiClientExtension[]) => ApiClientExtension[];
-  queries?: Record<string, CustomQueryFn>;
+  customQueries?: Record<string, CustomQueryFn>;
 }
 
 export type IntegrationsSection = Record<string, Integration>

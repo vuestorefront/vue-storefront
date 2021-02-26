@@ -8,9 +8,9 @@ interface ApplyingContextHooks {
 const nopBefore = ({ args }) => args;
 const nopAfter = ({ response }) => response;
 
-const createQueryFactory = (context, args) => (defaults) => {
-  const customQueries = context.queries || {};
-  const queryArgs = args.find(a => a?._q) || {};
+const createExtendQuery = (context) => (customQuery, defaults) => {
+  const customQueries = context.customQueries || {};
+  const queryArgs = customQuery || {};
 
   return Object.entries(defaults)
     .reduce((prev, [queryName, initialArgs]: any) => {
@@ -38,9 +38,9 @@ const applyContextToApi = (
     .reduce((prev, [callName, fn]: any) => ({
       ...prev,
       [callName]: async (...args) => {
-        const createQuery = createQueryFactory(context, args);
+        const extendQuery = createExtendQuery(context);
         const transformedArgs = hooks.before({ callName, args });
-        const apiClientContext = { ...context, createQuery };
+        const apiClientContext = { ...context, extendQuery };
         const response = await fn(apiClientContext, ...transformedArgs);
         const transformedResponse = hooks.after({ callName, args, response });
 

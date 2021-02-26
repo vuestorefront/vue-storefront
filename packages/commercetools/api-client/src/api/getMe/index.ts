@@ -1,6 +1,7 @@
 import { basicProfile, fullProfile } from './defaultQuery';
 import gql from 'graphql-tag';
 import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
 export interface GetMeParams {
   customer?: boolean;
@@ -11,7 +12,7 @@ export interface OrdersData {
   me: any;
 }
 
-const getMe = async (context, params: GetMeParams = {}) => {
+const getMe = async (context, params: GetMeParams = {}, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage } = context.config;
 
   const { customer }: GetMeParams = params;
@@ -20,7 +21,7 @@ const getMe = async (context, params: GetMeParams = {}) => {
     acceptLanguage
   };
 
-  const { getBasicProfile, getFullProfile } = context.createQuery({
+  const { getBasicProfile, getFullProfile } = context.extendQuery(customQuery, {
     getBasicProfile: { query: basicProfile, variables: defaultVariables },
     getFullProfile: { query: fullProfile, variables: defaultVariables }
   });

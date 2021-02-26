@@ -25,9 +25,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
       return null;
     }
 
-    const { user } = customQuery ? customQuery() : { user: null };
-
-    const { data: profileData } = await context.$ct.api.getMe({ customer: false }, user);
+    const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
 
     return profileData.me.activeCart;
   },

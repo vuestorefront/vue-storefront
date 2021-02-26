@@ -19,7 +19,7 @@ export {
   mask,
   configureContext,
   useVSFContext,
-  generateContext,
   configureFactoryParams,
+  generateContext,
   integrationPlugin
 };
