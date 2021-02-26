@@ -22,7 +22,7 @@ describe('[commercetools-api-client] getMe', () => {
           return { data: 'me response' };
         }
       },
-      extendQuery: (args) => args
+      extendQuery: (customQuery, args) => args
     };
 
     const { data } = await getMe(context);

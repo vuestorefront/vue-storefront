@@ -27,7 +27,7 @@ describe('[commercetools-api-client] addToCart', () => {
           version: 1
         })
       },
-      extendQuery: (args) => args
+      extendQuery: (customQuery, args) => args
     };
     const product = { id: 1,
       sku: '123' } as any;

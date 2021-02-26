@@ -19,7 +19,7 @@ const createContext = (client) => ({
     country: 'UK'
   },
   client,
-  extendQuery: (args) => args
+  extendQuery: (customQuery, args) => args
 });
 
 describe('[commercetools-api-client] updateCart', () => {

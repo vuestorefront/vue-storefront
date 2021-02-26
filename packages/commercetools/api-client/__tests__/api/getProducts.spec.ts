@@ -26,7 +26,7 @@ describe('[commercetools-api-client] getProduct', () => {
           return { data: 'product response' };
         }
       },
-      extendQuery: (args) => args
+      extendQuery: (customQuery, args) => args
     };
 
     const { data } = await getProduct(context, { catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] });

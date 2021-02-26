@@ -30,7 +30,7 @@ describe('[commercetools-api-client] createMyOrderFromCart', () => {
           return { data: 'order response' };
         }
       },
-      extendQuery: (args) => args
+      extendQuery: (customQuery, args) => args
     };
 
     const { data } = await createMyOrderFromCart(context, { id: '123123', version: 2 });

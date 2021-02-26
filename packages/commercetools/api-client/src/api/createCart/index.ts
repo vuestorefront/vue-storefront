@@ -15,13 +15,13 @@ const createCart = async (context, cartDraft: CartData = {}, customQuery?: Custo
     }
   };
 
-  const { createCart } = context.extendQuery(
+  const { createCart: createCartGql } = context.extendQuery(
     customQuery, { createCart: { query: defaultMutation, variables: defaultVariables } }
   );
 
   const request = await context.client.mutate({
-    mutation: gql`${createCart.query}`,
-    variables: createCart.variables,
+    mutation: gql`${createCartGql.query}`,
+    variables: createCartGql.variables,
     fetchPolicy: 'no-cache'
   });
 

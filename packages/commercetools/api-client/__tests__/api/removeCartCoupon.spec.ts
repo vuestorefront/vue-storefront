@@ -27,7 +27,7 @@ describe('[commercetools-api-client] removeCartCoupon', () => {
           version: 1
         })
       },
-      extendQuery: (args) => args
+      extendQuery: (customQuery, args) => args
     };
 
     const response = await removeCartCoupon(context, cart, { typeId: '123', id: '123'});
