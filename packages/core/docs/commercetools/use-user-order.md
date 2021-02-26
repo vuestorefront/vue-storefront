@@ -1,8 +1,8 @@
-# `useUserOrders`
+# `useUserOrder`
 
 ## Features
 
-`useUserOrders` composable is responsible, as it's name suggests for interactions with user's order history from your eCommerce.
+`useUserOrder` composable is responsible, as it's name suggests for interactions with user's order history from your eCommerce.
 
 ## API
 
@@ -85,10 +85,10 @@ type Order = {
 
 - `loading: boolean` - a reactive object containing information about loading state of your `searchOrders` method.
 
-- `error: UseUserOrdersErrors` - reactive object containing the error message, if some properties failed for any reason.
+- `error: UseUserOrderErrors` - reactive object containing the error message, if some properties failed for any reason.
 
 ```ts
-interface UseUserOrdersErrors {
+interface UseUserOrderErrors {
   search?: Error;
 }
 ```
@@ -228,12 +228,12 @@ type LineItem = {
 ## Example
 
 ```js
-import { useUserOrders, orderGetters } from '@vue-storefront/commercetools';
+import { useUserOrder, orderGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
-    const { orders, search, loading, error } = useUserOrders();
+    const { orders, search, loading, error } = useUserOrder();
 
     onSSR(async () => {
       await search();

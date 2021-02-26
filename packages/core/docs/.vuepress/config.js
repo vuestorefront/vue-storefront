@@ -56,7 +56,7 @@ module.exports = {
 						['/commercetools/use-user', 'useUser'],
 						['/commercetools/use-user-shipping', 'useUserShipping'],
 						['/commercetools/use-user-billing', 'useUserBilling'],
-						['/commercetools/use-user-orders', 'useUserOrders'],
+						['/commercetools/use-user-order', 'useUserOrder'],
 						['/commercetools/use-facet', 'useFacet'],
 						['/commercetools/use-cart', 'useCart'],
 						['/commercetools/use-wishlist', 'useWishlist'],
