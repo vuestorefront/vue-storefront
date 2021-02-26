@@ -36,7 +36,7 @@
         >
           <SfInput
             :value="billingDetails.firstName"
-            @input="firstName => changeDetails('firstName', firstName)"
+            @input="firstName => changeBillingDetails('firstName', firstName)"
             label="First name"
             name="firstName"
             class="form__element form__element--half"
@@ -53,7 +53,7 @@
         >
           <SfInput
             :value="billingDetails.lastName"
-            @input="lastName => changeDetails('lastName', lastName)"
+            @input="lastName => changeBillingDetails('lastName', lastName)"
             label="Last name"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
@@ -70,7 +70,7 @@
         >
           <SfInput
             :value="billingDetails.streetName"
-            @input="streetName => changeDetails('streetName', streetName)"
+            @input="streetName => changeBillingDetails('streetName', streetName)"
             label="Street name"
             name="streetName"
             class="form__element form__element--half"
@@ -87,7 +87,7 @@
         >
           <SfInput
             :value="billingDetails.apartment"
-            @input="apartment => changeDetails('apartment', apartment)"
+            @input="apartment => changeBillingDetails('apartment', apartment)"
             label="House/Apartment number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
@@ -104,7 +104,7 @@
         >
           <SfInput
             :value="billingDetails.city"
-            @input="city => changeDetails('city', city)"
+            @input="city => changeBillingDetails('city', city)"
             label="City"
             name="city"
             class="form__element form__element--half"
@@ -119,7 +119,7 @@
         >
           <SfInput
             :value="billingDetails.state"
-            @input="state => changeDetails('state', state)"
+            @input="state => changeBillingDetails('state', state)"
             label="State/Province"
             name="state"
             class="form__element form__element--half form__element--half-even"
@@ -133,7 +133,7 @@
         >
           <SfSelect
             :value="billingDetails.country"
-            @input="country => changeDetails('country', country)"
+            @input="country => changeBillingDetails('country', country)"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -158,7 +158,7 @@
         >
           <SfInput
             :value="billingDetails.postalCode"
-            @input="postalCode => changeDetails('postalCode', postalCode)"
+            @input="postalCode => changeBillingDetails('postalCode', postalCode)"
             label="Zip-code"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
@@ -175,7 +175,7 @@
         >
           <SfInput
             :value="billingDetails.phone"
-            @input="phone => changeDetails('phone', phone)"
+            @input="phone => changeBillingDetails('phone', phone)"
             label="Phone number"
             name="phone"
             class="form__element form__element--half"
@@ -270,9 +270,6 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
-  props: {
-    handleBillingAddressSubmit: Function
-  },
   setup(_, context) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: shippingDetails, load: loadShipping } = useShipping();
@@ -343,7 +340,7 @@ export default {
       sameAsShipping.value = false;
     };
 
-    const changeDetails = (field, value) => {
+    const changeBillingDetails = (field, value) => {
       billingDetails.value[field] = value;
       isBillingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
@@ -400,7 +397,7 @@ export default {
       handleAddNewAddressBtnClick,
       handleSetCurrentAddress,
       handleCheckSameAddress,
-      changeDetails,
+      changeBillingDetails,
       sameAsShipping,
       shippingDetails,
       loading
