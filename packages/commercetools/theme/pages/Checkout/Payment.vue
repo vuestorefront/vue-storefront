@@ -267,7 +267,6 @@ export default {
     const { billing: userBilling, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const billingDetails = ref(address.value || {});
 
-    const isBillingMethodCompleted = ref(false);
     const isBillingDetailsStepCompleted = ref(false);
 
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
@@ -326,13 +325,11 @@ export default {
       currentAddressId.value = address.id;
       canAddNewAddress.value = false;
       isBillingDetailsStepCompleted.value = false;
-      isBillingMethodCompleted.value = false;
       sameAsShipping.value = false;
     };
 
     const changeBillingDetails = (field, value) => {
       billingDetails.value[field] = value;
-      isBillingMethodCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
@@ -380,7 +377,6 @@ export default {
       canAddNewAddress,
       currentAddressId,
       hasSavedBillingAddress,
-      isBillingMethodCompleted,
       isBillingDetailsStepCompleted,
       handleAddressSubmit,
       handleStepSubmit,

@@ -1,5 +1,5 @@
 <template>
-  <div class="shipping-provider">
+  <div class="payment-provider">
     <SfHeading
       :level="3"
       :title="$t('Payment methods')"
@@ -7,10 +7,10 @@
     />
     <div class="form">
       <div v-if="error.loadMethods">
-        {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
+        {{ $t('There was some error while trying to fetch payment methods. We are sorry, please try with different billing details or later.') }}
       </div>
       <div v-else-if="error.saveMethod">
-        {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
+        {{ $t('There was some error while trying to select this payment method. We are sorry, please try with different payment method or later.') }}
       </div>
       <div class="form__radio-group">
           <SfRadio
@@ -41,7 +41,7 @@
         </div>
       <div class="form__action">
         <nuxt-link
-          to="/checkout/personal-details"
+          to="/checkout/shipping"
           class="sf-button color-secondary form__back-button"
           >{{ $t('Go back') }}</nuxt-link
         >
@@ -49,7 +49,7 @@
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"
-          :disabled="!isShippingMethodStepCompleted || loading"
+          :disabled="!isBillingMethodStepCompleted || loading"
         >
           {{ $t('Review my order') }}
         </SfButton>
@@ -85,7 +85,7 @@ export default {
     onError: Function
   },
   setup (props) {
-    const isShippingMethodStepCompleted = ref(false);
+    const isBillingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
     const selectedShippingMethod = ref({});
@@ -156,11 +156,11 @@ export default {
       const newShippingMethod = await saveMethod({ shippingMethod });
       if (error.saveMethod) {
         selectedShippingMethod.value = {};
-        isShippingMethodStepCompleted.value = false;
+        isBillingMethodStepCompleted.value = false;
         return;
       }
       selectedShippingMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
-      isShippingMethodStepCompleted.value = true;
+      isBillingMethodStepCompleted.value = true;
     };
 
     onMounted(async () => {
@@ -184,7 +184,7 @@ export default {
       selectedShippingMethod,
       selectShippingMethod,
       getShippingMethodPrice,
-      isShippingMethodStepCompleted,
+      isBillingMethodStepCompleted,
       error
     };
   }
