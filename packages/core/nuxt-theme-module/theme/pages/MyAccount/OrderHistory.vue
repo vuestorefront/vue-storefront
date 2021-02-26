@@ -105,7 +105,7 @@ import {
   SfProperty
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useUserOrders, orderGetters } from '<%= options.generate.replace.composables %>';
+import { useUserOrder, orderGetters } from '<%= options.generate.replace.composables %>';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -118,7 +118,7 @@ export default {
     SfProperty
   },
   setup() {
-    const { orders, search } = useUserOrders();
+    const { orders, search } = useUserOrder();
     const currentOrder = ref(null);
 
     onSSR(async () => {

@@ -59,5 +59,5 @@ const customQuery = (query, variables) => {
 search({ id: '12345', customQuery })
 ```
 
-Use it for: `useProduct`, `useCategory`, `useUser`, `useUserOrders` methods.
+Use it for: `useProduct`, `useCategory`, `useUser`, `useUserOrder` methods.
 :::
