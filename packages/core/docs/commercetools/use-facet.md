@@ -25,7 +25,7 @@ For more information about faceting, please refer to [this page](../composables/
 - `search` - function for searching and classifying records, allowing users to browse the catalog data. It accepts a single object as a parameter with following signature:
 
 ```ts
-export interface AgnosticFacetSearchParams {
+interface AgnosticFacetSearchParams {
   categorySlug?: string;
   rootCatSlug?: string;
   term?: string;
@@ -82,14 +82,14 @@ Because the `result` property is a raw response with some additional properties,
 - `getBreadcrumbs` - returns breadcrumbs.
 
 ```ts
-interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
-  getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
-  getGrouped: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
-  getCategoryTree: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticCategoryTree;
-  getSortOptions: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticSort;
-  getProducts: (searchData: FacetSearchResult<SEARCH_DATA>) => RESULTS;
-  getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
-  getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
+interface FacetsGetters {
+  getAll: (searchData: SearchData, criteria?: string[]) => AgnosticFacet[];
+  getGrouped: (searchData: SearchData, criteria?: string[]) => AgnosticGroupedFacet[];
+  getCategoryTree: (searchData: SearchData) => AgnosticCategoryTree;
+  getSortOptions: (searchData: SearchData) => AgnosticSort;
+  getProducts: (searchData: SearchData) => ProductVariant[];
+  getPagination: (searchData: SearchData) => AgnosticPagination;
+  getBreadcrumbs: (searchData: SearchData) => AgnosticBreadcrumb[];
 }
 
 interface AgnosticFacet {
