@@ -1,20 +1,20 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseUserOrders, Context, FactoryParams, UseUserOrdersErrors } from '../types';
+import { CustomQuery, UseUserOrder, Context, FactoryParams, UseUserOrderErrors } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseUserOrdersFactoryParams<ORDERS, ORDER_SEARCH_PARAMS> extends FactoryParams {
+export interface UseUserOrderFactoryParams<ORDERS, ORDER_SEARCH_PARAMS> extends FactoryParams {
   searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<ORDERS>;
 }
 
-export function useUserOrdersFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrdersFactoryParams<ORDERS, ORDER_SEARCH_PARAMS>) {
-  return function useUserOrders(): UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
-    const orders: Ref<ORDERS> = sharedRef([], 'useUserOrders-orders');
-    const loading: Ref<boolean> = sharedRef(false, 'useUserOrders-loading');
+export function useUserOrderFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: UseUserOrderFactoryParams<ORDERS, ORDER_SEARCH_PARAMS>) {
+  return function useUserOrder(): UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS> {
+    const orders: Ref<ORDERS> = sharedRef([], 'useUserOrder-orders');
+    const loading: Ref<boolean> = sharedRef(false, 'useUserOrder-loading');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserOrdersErrors> = sharedRef({}, 'useUserOrders-error');
+    const error: Ref<UseUserOrderErrors> = sharedRef({}, 'useUserOrder-error');
 
     const search = async (searchParams): Promise<void> => {
-      Logger.debug('useUserOrders.search', searchParams);
+      Logger.debug('useUserOrder.search', searchParams);
 
       try {
         loading.value = true;
@@ -22,7 +22,7 @@ export function useUserOrdersFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams:
         orders.value = await _factoryParams.searchOrders(searchParams);
       } catch (err) {
         error.value.search = err;
-        Logger.error('useUserOrders/search', err);
+        Logger.error('useUserOrder/search', err);
       } finally {
         loading.value = false;
       }
