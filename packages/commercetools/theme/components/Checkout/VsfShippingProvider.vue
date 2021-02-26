@@ -97,7 +97,7 @@ export default {
       saveMethod: null
     });
 
-    const callHookWithFallback = async (hookFn, arg, fallbackValue = null) => {
+    const callHookWithFallback = async (hookFn, arg = null, fallbackValue = null) => {
       if (typeof hookFn === 'function') {
         return await hookFn(arg);
       }
@@ -165,7 +165,7 @@ export default {
 
     onMounted(async () => {
       loading.value = true;
-      await props.beforeLoad();
+      await callHookWithFallback(props.beforeLoad);
       const shippingMethodsResponse = await loadMethods();
       if (error.loadMethods) {
         return;
