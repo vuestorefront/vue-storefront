@@ -1,32 +1,28 @@
 # `useFacet` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering but also exists in Open Source version of commercetools integration (simple search based on product and category endpoints). Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/cloud)
+:::warning
+This feature is a part of our commercial offering but also exists in the Open Source version of our commercetools integration.
+
+Open Source implementation relies on GraphQL API (internally using `getProduct` and `getCategory` composables), which doesn't provide full faceting capabilities as does the dedicated REST-based faceting API offered in our Enterprise version. Please [contact our team](https://www.vuestorefront.io/contact/sales) if you'd like to get access to it.
+:::
 
 ## Features
 
-`useFacet` composable responsible for faceting. For more info regarding faceting and how it works, please read the core factory documentation available [here](/composables/use-facet). 
+`useFacet` composition function can be used to fetch data related to:
+
+* products,
+* categories,
+* breadcrumbs.
+
+What makes it powerful is the ability to accept multiple filters, allowing to narrow down the results to a specific category, search term, etc.
+
+For more information about faceting, please refer to [this page](../composables/use-facet.md).
 
 ## API
 
-- `search` - function for searching and classifying records, allowing users to browse the catalog data. This method accepts a single `params` object. The `params` has the following option:
+`useFacet` contains the following properties:
 
-    - `params: AgnosticFacetSearchParams`
-
-```ts
-interface AgnosticFacetSearchParams {
-  categorySlug?: string;
-  rootCatSlug?: string;
-  term?: string;
-  page?: number;
-  itemsPerPage?: number;
-  sort?: string;
-  filters?: Record<string, string[]>;
-  metadata?: any;
-  [x: string]: any;
-}
-```
-
-- `result: AgnosticFacetSearchParams` - a main data object.
+- `search` - function for searching and classifying records, allowing users to browse the catalog data. It accepts a single object as a parameter with following signature:
 
 ```ts
 interface AgnosticFacetSearchParams {
@@ -42,9 +38,11 @@ interface AgnosticFacetSearchParams {
 }
 ```
 
-- `loading: boolean` - a reactive object containing information about loading state of your search method.
+- `result` - reactive data object containing the response from the backend.
 
-- `error: UseFacetErrors` - reactive object containing the error message, if search failed for any reason.
+- `loading` - reactive object containing information about the loading state of `search`.
+
+- `error` - reactive object containing the error message, if `search` failed for any reason.
 
 ```ts
 interface UseFacetErrors {
@@ -53,20 +51,22 @@ interface UseFacetErrors {
 ```
 
 ## Getters
+Because the `result` property is a raw response with some additional properties, it's recommended to use `facetGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getAll` - returns all available facets.
 
 - `getGrouped` - returns grouped facets by facet name.
 
-- `getCategoryTree` - return the category nested tree.
+- `getCategoryTree` - return the tree of nested categories.
 
-- `getSortOptions` - returns sorting options and current selected one.
+- `getSortOptions` - returns available and currently selected sorting options.
 
-- `getProducts` - returns products that were found.
+- `getProducts` - returns products matching current filters.
 
-- `getPagination` - returns pagination settings.
+- `getPagination` - returns pagination information.
 
-- `getBreadcrumbs` - returns breadcrumbs.
+- `getBreadcrumbs` - returns breadcrumbs information.
+
 
 ```ts
 interface FacetsGetters {
@@ -112,7 +112,7 @@ interface AgnosticSort {
 
 type SearchData = FacetSearchResult<FacetResultsData>
 
-interface FacetSearchResult{
+interface FacetSearchResult {
   data;
   input: AgnosticFacetSearchParams;
 }
@@ -167,6 +167,43 @@ type ProductVariant = {
 }
 ```
 
+## Configuration
+
+::: warning
+Configuration can be changed only for th Enterprise version of this package.
+:::
+
+Faceting configuration can be modified to change available sorting options, filters, etc.
+
+If the explicit configuration is not provided, the following defaults will be used:
+
+```javascript
+{
+  pageOptions: [
+    20,
+    50,
+    100
+  ],
+  subcategoriesLimit: 100,
+  availableFacets: [
+    { facet: 'categories.id', type: 'string', option: 'subtree("*")', name: 'category' },
+    { facet: 'variants.attributes.size', type: 'number', option: '', name: 'size' },
+    { facet: 'variants.attributes.color.key', type: 'string', option: '', name: 'color' }
+  ],
+  sortingOptions: [
+    { id: 'latest', name: 'Latest', facet: 'createdAt', direction: 'desc' },
+    { id: 'price-up', name: 'Price from low to high', facet: 'price', direction: 'asc' },
+    { id: 'price-down', name: 'Price from high to low', facet: 'price', direction: 'desc' },
+    { id: 'relevance', name: 'Relevance', facet: 'score', direction: 'desc' },
+  ],
+  filteringStrategy: 'filter'
+}
+```
+
+Configuration can be modified by passing identical configuration to:
+- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
+- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+
 ## Example
 
 ```js
@@ -174,24 +211,23 @@ import { useFacet, facetGetters } from '@vsf-enterprise/commercetools';
 
 setup(props, context) {
   const { result, search, loading } = useFacet();
-  const products = computed(() => facetGetters.getProducts(result.value));
-  const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
-  const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
-  const sortBy = computed(() => facetGetters.getSortOptions(result.value));
-  const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-  const pagination = computed(() => facetGetters.getPagination(result.value));
 
   onSSR(async () => {
-    await search({ categorySlug: 'clothing', sortBy: 'latest' });
+    await search({
+      categorySlug: 'clothing',
+      sort: 'latest',
+      itemsPerPage: 10,
+      term: 'some search query'
+    });
   });
 
   return {
-    products,
-    categoryTree,
-    breadcrumbs,
-    sortBy,
-    facets,
-    pagination,
+    products: computed(() => facetGetters.getProducts(result.value)),
+    categoryTree: computed(() => facetGetters.getCategoryTree(result.value)),
+    breadcrumbs: computed(() => facetGetters.getBreadcrumbs(result.value)),
+    sortBy: computed(() => facetGetters.getSortOptions(result.value)),
+    facets: computed(() => facetGetters.getGrouped(result.value, ['color', 'size'])),
+    pagination: computed(() => facetGetters.getPagination(result.value)),
     loading
   }
 }
