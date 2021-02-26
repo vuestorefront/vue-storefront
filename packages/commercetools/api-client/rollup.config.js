@@ -10,7 +10,7 @@ const server = {
   input: 'src/index.server.ts',
   output: [
     {
-      file: 'server/index.js',
+      file: pkg.server,
       format: 'cjs',
       sourcemap: true
     }
