@@ -14,8 +14,7 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN npm config set always-auth false
-RUN cd ./packages/commercetools/theme && npm-cli-login
+RUN cp ~/.npmrc ./packages/commercetools/theme/.npmrc
 
 RUN npm-cli-login && cat ~/.npmrc && yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
 
