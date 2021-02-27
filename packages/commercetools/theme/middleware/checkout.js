@@ -1,5 +1,3 @@
-const canEnterShipping = cart => cart.customerEmail || cart.customerId;
-
 const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
 
 const canEnterReview = cart => Boolean(cart.billingAddress);
@@ -15,11 +13,6 @@ export default async ({ app, $vsf }) => {
   const { activeCart } = data.me;
 
   switch (currentPath) {
-    case 'shipping':
-      if (!canEnterShipping(activeCart)) {
-        app.context.redirect('/');
-      }
-      break;
     case 'billing':
       if (!canEnterPayment(activeCart)) {
         app.context.redirect('/');
