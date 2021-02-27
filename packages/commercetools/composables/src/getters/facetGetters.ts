@@ -39,7 +39,7 @@ const getCategoryTree = (searchData: SearchData): AgnosticCategoryTree => {
 };
 
 const getProducts = (searchData: SearchData): ProductVariant[] => {
-  return getProductFiltered(searchData.data.products, { master: true });
+  return getProductFiltered(searchData.data?.products || [], { master: true });
 };
 
 const getPagination = (searchData: SearchData): AgnosticPagination => {

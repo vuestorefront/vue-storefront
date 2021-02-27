@@ -112,4 +112,11 @@ export default {
   'login in to your account': 'login in to your account',
   'Create an account': 'Create an account',
   'Your bag is empty': 'Your bag is empty',
+  'Cancel': 'Cancel',
+  'See all results': 'See all results',
+  'You haven’t searched for items yet': 'You haven’t searched for items yet.',
+  'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
+  'Search results': 'Search results',
+  'Product suggestions': 'Product suggestions',
+  'Search for items': 'Search for items',
 };
