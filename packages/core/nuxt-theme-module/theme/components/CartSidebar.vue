@@ -74,7 +74,7 @@
                 <SfPrice :regular="$n(totals.subtotal, 'currency')" />
               </template>
             </SfProperty>
-            <nuxt-link :to="`/checkout/${isAuthenticated ? 'shipping' : 'personal-details'}`">
+            <nuxt-link to="/checkout/shipping">
               <SfButton
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"

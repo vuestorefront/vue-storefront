@@ -27,7 +27,6 @@ import { ref, computed } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
 
 const STEPS = {
-  'personal-details': 'Personal Details',
   shipping: 'Shipping',
   billing: 'Billing',
   payment: 'Payment'

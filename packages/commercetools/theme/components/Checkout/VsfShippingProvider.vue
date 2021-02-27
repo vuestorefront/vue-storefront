@@ -41,7 +41,7 @@
         </div>
       <div class="form__action">
         <nuxt-link
-          to="/checkout/personal-details"
+          to="/checkout/shipping"
           class="sf-button color-secondary form__back-button"
           >{{ $t('Go back') }}</nuxt-link
         >

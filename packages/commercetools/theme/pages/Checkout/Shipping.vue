@@ -184,11 +184,6 @@
       </SfButton>
       <div class="form">
         <div class="form__action">
-          <nuxt-link
-            to="/checkout/personal-details"
-            class="sf-button color-secondary form__back-button"
-            v-if="!isShippingDetailsStepCompleted"
-            >{{ $t('Go back') }}</nuxt-link>
           <SfButton
             class="form__action-button"
             type="submit"

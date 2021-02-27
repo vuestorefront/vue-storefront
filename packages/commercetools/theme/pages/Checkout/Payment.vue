@@ -6,26 +6,11 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion first-open class="accordion smartphone-only">
-      <SfAccordionItem header="Personal Details">
-        <div class="accordion__item">
-          <div class="accordion__content">
-            <p class="content">
-              {{ personalDetails.firstName }} {{ personalDetails.lastName }}<br />
-            </p>
-            <p class="content">
-              {{ personalDetails.email }}
-            </p>
-          </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 0)">
-            {{ $t('Edit') }}
-          </SfButton>
-        </div>
-      </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              <span class="content__label">{{ chosenShippingMethod.name }}</span><br />
+              <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
               {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
@@ -52,16 +37,6 @@
               </p>
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
-          </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">
-            {{ $t('Edit') }}
-          </SfButton>
-        </div>
-      </SfAccordionItem>
-      <SfAccordionItem header="Payment method">
-        <div class="accordion__item">
-          <div class="accordion__content">
-            <p class="content">{{ chosenPaymentMethod.label }}</p>
           </div>
           <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">
             {{ $t('Edit') }}
@@ -127,7 +102,7 @@
         <SfDivider />
         <SfProperty
           name="Total price"
-          :value="totals.total"
+          :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
         <VsfPaymentProviderMock @status="paymentReady = $event"/>
@@ -142,7 +117,7 @@
           <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">
             {{ $t('Go back') }}
           </nuxt-link>
-          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading.order || !paymentReady || !terms">
+          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
         </div>
@@ -166,7 +141,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, useMakeOrder, useCart, cartGetters } from '@vue-storefront/commercetools';
+import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
@@ -188,43 +163,36 @@ export default {
     VsfPaymentProviderMock
   },
   setup(props, context) {
-    const billingSameAsShipping = ref(false);
     const paymentReady = ref(false);
     const terms = ref(false);
-    const { cart, removeItem } = useCart();
+    const { cart, removeItem, load, setCart } = useCart();
+    const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
+    const { load: loadShippingProvider, response: chosenShippingMethod } = useShippingProvider();
+    const { billing: billingDetails, load: loadBillingDetails } = useBilling();
+    const billingSameAsShipping = computed(() => Object.keys(shippingDetails.value).every(shippingDetailsKey => shippingDetails.value[shippingDetailsKey] === billingDetails.value[shippingDetailsKey]));
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
-    const {
-      personalDetails,
-      shippingDetails,
-      billingDetails,
-      chosenShippingMethod,
-      chosenPaymentMethod,
-      loadShippingMethods,
-      loading,
-      loadDetails,
-      clean
-    } = useCheckout();
-    const { order, make } = useMakeOrder();
+    const { order, make, loading } = useMakeOrder();
 
     onSSR(async () => {
-      await loadDetails();
-      await loadShippingMethods();
+      await load();
+      await loadShippingDetails();
+      await loadBillingDetails();
+      await loadShippingProvider();
     });
 
     const processOrder = async () => {
       await make();
       context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
-      clean();
+      setCart(null);
     };
     return {
       loading,
       products,
-      personalDetails,
       shippingDetails,
       billingDetails,
-      chosenShippingMethod,
-      chosenPaymentMethod,
+      chosenShippingMethod: computed(() => chosenShippingMethod.value && chosenShippingMethod.value.shippingMethod),
+      chosenPaymentMethod: {},
       billingSameAsShipping,
       terms,
       totals,

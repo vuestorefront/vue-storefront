@@ -1,5 +1,3 @@
-const canEnterPersonalDetails = cart => !cart.customerId && cart.lineItems.length > 0;
-
 const canEnterShipping = cart => cart.customerEmail || cart.customerId;
 
 const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
@@ -17,22 +15,17 @@ export default async ({ app, $vsf }) => {
   const { activeCart } = data.me;
 
   switch (currentPath) {
-    case 'personal-details':
-      if (!canEnterPersonalDetails(activeCart)) {
-        app.context.redirect('/checkout/shipping');
-      }
-      break;
     case 'shipping':
       if (!canEnterShipping(activeCart)) {
         app.context.redirect('/');
       }
       break;
-    case 'payment':
+    case 'billing':
       if (!canEnterPayment(activeCart)) {
         app.context.redirect('/');
       }
       break;
-    case 'order-review':
+    case 'payment':
       if (!canEnterReview(activeCart)) {
         app.context.redirect('/');
       }
