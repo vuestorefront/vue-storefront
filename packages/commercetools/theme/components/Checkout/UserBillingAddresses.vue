@@ -28,7 +28,7 @@
     </SfAddressPicker>
     <SfCheckbox
       data-cy="billing-details-checkbox_isDefault"
-      :selected="setAsDefault"
+      :selected="value"
       @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
@@ -50,7 +50,7 @@ export default {
       type: String | Number,
       required: true
     },
-    setAsDefault: {
+    value: {
       type: Boolean,
       required: true
     }

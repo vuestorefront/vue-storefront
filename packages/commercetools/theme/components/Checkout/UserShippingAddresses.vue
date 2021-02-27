@@ -17,7 +17,7 @@
     <SfCheckbox
       v-show="currentAddressId"
       data-cy="shipping-details-checkbox_isDefault"
-      :selected="setAsDefault"
+      :selected="value"
       @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
@@ -41,7 +41,7 @@ export default {
       type: String | Number,
       required: true
     },
-    setAsDefault: {
+    value: {
       type: Boolean,
       required: true
     }

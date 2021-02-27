@@ -303,6 +303,16 @@ export interface UseShippingErrors {
   load?: Error;
   save?: Error;
 }
+export interface UseShippingProvider<SHIPPING_METHOD> {
+  error: ComputedProperty<UseShippingErrors>;
+  loading: ComputedProperty<boolean>;
+  response: ComputedProperty<SHIPPING_METHOD>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+}
+export interface UseShippingProviderErrors {
+  load?: Error;
+}
 
 export interface UseBillingErrors {
   load?: Error;

@@ -13,3 +13,4 @@ export * from './useUserFactory';
 export * from './useUserOrderFactory';
 export * from './useUserShippingFactory';
 export * from './useWishlistFactory';
+export * from './useShippingProviderFactory';

@@ -41,7 +41,7 @@
         </div>
       <div class="form__action">
         <nuxt-link
-          to="/checkout/personal-details"
+          to="/checkout/shipping"
           class="sf-button color-secondary form__back-button"
           >{{ $t('Go back') }}</nuxt-link
         >
@@ -51,7 +51,7 @@
           @click.native="$emit('submit')"
           :disabled="!isShippingMethodStepCompleted || loading"
         >
-          {{ $t('Continue to payment') }}
+          {{ $t('Continue to billing') }}
         </SfButton>
       </div>
     </div>
@@ -71,7 +71,7 @@ import { useVSFContext } from '@vue-storefront/core';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
-  name: 'ShippingProvider',
+  name: 'VsfShippingProvider',
   components: {
     SfHeading,
     SfButton,
