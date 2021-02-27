@@ -42,4 +42,4 @@ We have changes a bit the naming and signatures of composable functions. Below i
 |      useWishlist      |   removeFromWishlist     |       (product: WISHLIST_ITEM, customQuery?: CustomQuery)       |       ({ product: WISHLIST_ITEM, customQuery?: CustomQuery })        |
 |      useWishlist      |   load     |       (customQuery?: CustomQuery)       |       ({ customQuery?: CustomQuery } = {})        |
 |      useWishlist      |   clearWishlist     |       ()       |       ()        |
-|      useWishlist      |   isInWishlist     |       (product: PRODUCT)       |       ({ product: PRODUCT })        |
+|      useWishlist      |   isOnWishlist     |       (product: PRODUCT)       |       ({ product: PRODUCT })        |
