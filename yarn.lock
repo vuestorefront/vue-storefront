@@ -2366,9 +2366,9 @@
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
-"@nuxtjs/composition-api@git+https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
+"@nuxtjs/composition-api@https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
   version "0.16.4"
-  resolved "git+https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
+  resolved "https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
   dependencies:
     "@vue/composition-api" "1.0.0-beta.21"
     defu "^3.2.2"

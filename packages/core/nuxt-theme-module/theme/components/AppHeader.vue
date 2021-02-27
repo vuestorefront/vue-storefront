@@ -156,6 +156,8 @@ export default {
     });
 
     const closeSearch = () => {
+      if (!isSearchOpen.value) return;
+
       term.value = '';
       isSearchOpen.value = false;
       setTermForUrl(term.value);
