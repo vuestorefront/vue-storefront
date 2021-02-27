@@ -2,15 +2,11 @@
 
 ## Introduction
 
-This document will guide you all the way to fully implement cart and wishlist modules, which will let you use these common features in your application in the best possible way. 
 Customer's cart and wishlist can be managed using `useCart` and `useWishlist` composables respectively, provided by every integration. Data can be accessed using `cartGetters` and `wishlistGetters`. 
 
+## Loading and creating cart
 
-## Using cart
-
-### loading cart in your application
-
-The first thing that you need to do to start using the cart in your application is importing `useCart` from your ecommerce integration. Import `load`function which fetch the cart from a server and create a new one in your application if it doesn't already exist. Based on that, you can start using `cart` object, which structure depends on the ecommerce implementation you are using. 
+The `load` function will load your cart from the server or create a new one if it doesn't exist. The `cart` object will be `null` until you load it.
 
 
 ```js
@@ -36,9 +32,9 @@ The first thing that you need to do to start using the cart in your application 
 ```
 
 
-### Adding an item
+## Adding item to cart
 
-To add the product to the cart you need to apply `AddToCart` method in the following way:  
+To add the product to the cart you can `addToCart` method:
 
 ```vue
 <template>
@@ -66,13 +62,11 @@ To add the product to the cart you need to apply `AddToCart` method in the follo
     }
   };
 </script>
-```
-`loading` is the object which includes the loading state of the element.   
+``` 
 
+## Removing items and changing their quantity
 
-### Removing an item from a cart and update quantity
-
-The product in the cart of your application needs to have some kind of remove button, so adding `removeFromCart` function is needed. It can be done similarly to other `useCart` properties. 
+To remove an item from the cart use `removeItem` function:
 
 ```vue
 <template>
@@ -120,12 +114,10 @@ The product in the cart of your application needs to have some kind of remove bu
   };
 </script>
 ```
-As you can see in the above example, we use getters to pass the values to the component: all products already in a cart, total price, and items in cart. It's the way to access `cart` object properties and, to make them work, you need to import `cartGetters` object and use a proper getter function as the computed value.    
 
+## Checking if an item is in the cart
 
-### Checking if an item is on a cart
-
-You can inform the user of your application if the product that he sees is already in his cart by using `isAddedToCart` and e.g. show the proper icon signalizing it.
+To check if a product is already in cart just pass it to `isOnCart` method:
 
 ```vue
 <template>
@@ -154,9 +146,9 @@ You can inform the user of your application if the product that he sees is alrea
 </script>
 ```
 
-### Cleaning a cart
+## Removing all cart items at once
 
-Implementing cleaning feature means that you should use `clear` function like in following example:
+To clear cart items (not delete it) just use `clearCart` function.
 
 ```vue
 <template>
@@ -192,9 +184,9 @@ Implementing cleaning feature means that you should use `clear` function like in
 ```
 
 
-### Applying and removing coupons from a cart
+## Applying and removing discount coupons
 
-Using Vue Storefront allows you to apply promotional coupons to your application and also use third-party software to handle that. Using `applyCoupon` function, you can pass the code for further handling.  
+You can apply promotional coupons to your applicationn with `applyCoupon` function. 
 
 ```vue
 <template>
@@ -238,10 +230,8 @@ Using Vue Storefront allows you to apply promotional coupons to your application
   };
 </script>
 ```
- 
-## Using wishlist
 
-### Loading useWishlist into your application 
+## Loading useWishlist into your application 
 
 To use wishlist in your application, it needs to be loaded first. So you can use `load` function only once, and it will exist. 
 
@@ -270,7 +260,7 @@ To use wishlist in your application, it needs to be loaded first. So you can use
 ```
 
 
-### Adding items to a wishlist
+## Adding items to a wishlist
 
 The product can be added to the wishlist similarly like to the cart but using `addToWishlist` function:
 
@@ -301,10 +291,9 @@ The product can be added to the wishlist similarly like to the cart but using `a
 </script>
 ```
 
-### Removing the item from the wishlist
-
-The `wishlist` can be accessed by `wishlistGetters` object, which allows you to fetch proper values and render them in the component e.g. `wishlistGetters.getItems()` to access all items that added to the wishlist. You can see the list of all `wishlistGetters` at the end of this section [here](#list-of-available-properties-and-getters).  
-You can add the possibility to remove products by `removeFromWishlist` function. 
+## Removing the item from the wishlist
+ 
+In order to remove products use `removeFromWishlist` function. 
 
 ```vue
 <template>
@@ -355,7 +344,7 @@ You can add the possibility to remove products by `removeFromWishlist` function.
 </script>
 ```
 
-### Checking if the item is added to the wishlist 
+## Checking if the item is added to the wishlist 
 
 If you want to show that product is already added to `wishlist`, use `isOnWishlist` function like so:
 
