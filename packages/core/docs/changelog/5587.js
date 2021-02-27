@@ -4,7 +4,7 @@ module.exports = {
   isBreaking: true,
   breakingChanges: [
     {
-      module: 'commercetools',
+      module: 'core',
       before: 'Dedicated composable for whole checkout',
       after: 'Dedicated composable for Shipping, Billing and Provider components'
     }
