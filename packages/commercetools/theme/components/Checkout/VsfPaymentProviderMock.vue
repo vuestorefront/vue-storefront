@@ -57,7 +57,7 @@ export default {
       {
         id: 'mocked-id',
         name: 'Cash on delivery',
-        description: 'Pay when you get the package'
+        description: ''
       }
     ]);
 
