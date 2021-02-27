@@ -5,7 +5,6 @@ track('VSFCommercetools');
 
 export { default as useCart } from './useCart';
 export { default as useCategory } from './useCategory';
-export { default as useCheckout } from './useCheckout';
 export { default as useFacet } from './useFacet';
 export { default as useMakeOrder } from './useMakeOrder';
 export { default as useProduct } from './useProduct';
