@@ -20,19 +20,18 @@
             :value="method.id"
             :selected="selectedPaymentMethod.id"
             @input="selectShippingMethod(method)"
-            name="shippingMethod"
+            name="paymentMethod"
             :description="method.description"
             class="form__radio shipping"
           >
             <template #label="{ label }">
-              <div class="sf-radio__label shipping__label">
+              <div class="sf-radio__label payment__label">
                 <div>{{ label }}</div>
-                <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
               </div>
             </template>
             <template #description="{ description }">
-              <div class="sf-radio__description shipping__description">
-                <div class="shipping__info">
+              <div class="sf-radio__description payment__description">
+                <div class="payment__info">
                   {{ description }}
                 </div>
               </div>
@@ -59,19 +58,15 @@
 </template>
 
 <script>
-import { useCart } from '@vue-storefront/commercetools';
 import {
   SfHeading,
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
 import { ref, reactive, onMounted } from '@vue/composition-api';
-import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
-import { useVSFContext } from '@vue-storefront/core';
-import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
-  name: 'VsfShippingProvider',
+  name: 'VsfPaymentProvider',
   components: {
     SfHeading,
     SfButton,
@@ -89,8 +84,6 @@ export default {
     const loading = ref(false);
     const paymentMethods = ref([]);
     const selectedPaymentMethod = ref({});
-    const { $ct } = useVSFContext();
-    const { cart, setCart } = useCart();
 
     const error = reactive({
       loadMethods: null,
@@ -107,8 +100,13 @@ export default {
     const loadMethods = async () => {
       try {
         error.loadMethods = null;
-        const paymentMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
-        return paymentMethodsResponse.data;
+        return [
+          {
+            id: 'mocked-id',
+            name: 'Cash on delivery',
+            description: 'Pay when you get the package'
+          }
+        ];
       } catch (err) {
         error.loadMethods = err;
         await callHookWithFallback(
@@ -125,16 +123,7 @@ export default {
       try {
         error.saveMethod = null;
         loading.value = true;
-        const cartResponse = await $ct.api.updateCart({
-          id: cart.value.id,
-          version: cart.value.version,
-          actions: [
-            cartActions.setShippingMethodAction(shippingMethod.id)
-          ]
-        });
-
-        setCart(cartResponse.data.cart);
-        return cartResponse.data.cart.shippingInfo.shippingMethod;
+        return shippingMethod;
       } catch (err) {
         error.saveMethod = err;
         await callHookWithFallback(
@@ -173,7 +162,7 @@ export default {
       paymentMethods.value = await callHookWithFallback(
         props.afterLoad,
         { paymentMethods: paymentMethodsResponse },
-        paymentMethodsResponse.paymentMethods
+        paymentMethodsResponse
       );
       loading.value = false;
     });
@@ -183,7 +172,6 @@ export default {
       paymentMethods,
       selectedPaymentMethod,
       selectShippingMethod,
-      getShippingMethodPrice,
       isBillingMethodStepCompleted,
       error
     };
