@@ -168,7 +168,6 @@ export default {
         term.value = paramValue.target.value;
       }
       setTermForUrl(term.value);
-      getSearchTermFromUrl(term.value);
       await search(getSearchTermFromUrl(term.value));
     }, 1000);
 
