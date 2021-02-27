@@ -40,7 +40,7 @@ Vue Storefront integrations are exposing following composables:
 - [useUser](/composables/use-user) for managing user sessions, credentials and registration
 - [useUserShipping](/composables/use-user-shipping) for managing shipping addresses
 - [useUserBilling](/composables/use-user-billing) for managing billing addresses
-- **useUserOrders** for managing past and active user orders
+- **useUserOrder** for managing past and active user orders
 
 #### Shopping Cart
 - [useCart](/composables/use-cart) for loading the cart, adding/removing products and discounts

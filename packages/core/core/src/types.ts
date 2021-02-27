@@ -70,20 +70,20 @@ export interface UseUser
   error: ComputedProperty<UseUserErrors>;
 }
 
-export interface UseUserOrdersSearchParams {
+export interface UseUserOrderSearchParams {
   id?: any;
   page?: number;
   perPage?: number;
   [x: string]: any;
 }
-export interface UseUserOrdersErrors {
+export interface UseUserOrderErrors {
   search?: Error;
 }
-export interface UseUserOrders<ORDERS, ORDER_SEARCH_PARAMS> {
+export interface UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<UseUserOrdersErrors>;
+  error: ComputedProperty<UseUserOrderErrors>;
 }
 
 export interface UseUserAddress<ADDRESS> {
@@ -245,6 +245,17 @@ export interface UseCompare<PRODUCT> {
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseMakeOrderErrors {
+  make?: Error;
+}
+
+export interface UseMakeOrder<ORDER> {
+  order: Ref<ORDER>;
+  make(params: { customQuery?: CustomQuery }): Promise<void>;
+  error: ComputedProperty<UseMakeOrderErrors>;
+  loading: ComputedProperty<boolean>;
+}
+
 export interface UseCheckout
 <
   PAYMENT_METHODS,
@@ -287,6 +298,18 @@ export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
 }
 export interface UseShippingErrors {
+  load?: Error;
+  save?: Error;
+}
+export interface UseBilling<BILLING, BILLING_PARAMS> {
+  error: ComputedProperty<UseBillingErrors>;
+  loading: ComputedProperty<boolean>;
+  billing: ComputedProperty<BILLING>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: BILLING_PARAMS; billingDetails: BILLING; customQuery?: CustomQuery }) => Promise<void>;
+}
+export interface UseBillingErrors {
   load?: Error;
   save?: Error;
 }

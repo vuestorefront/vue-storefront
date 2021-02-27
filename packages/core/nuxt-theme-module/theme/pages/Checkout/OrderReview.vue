@@ -134,7 +134,7 @@
           <SfButton data-cy="order-review-btn_summary-back" class="color-secondary summary__back-button">
             {{ $t('Go back') }}
           </SfButton>
-          <SfButton data-cy="order-review-btn_summary-conitnue" class="summary__action-button" @click="$emit('nextStep')">
+          <SfButton data-cy="order-review-btn_summary-conitnue" class="summary__action-button" @click="processOrder">
             {{ $t('Continue to shipping') }}
           </SfButton>
         </div>
@@ -160,7 +160,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import { useCheckout, useCart, cartGetters, checkoutGetters } from '<%= options.generate.replace.composables %>';
+import { useCheckout, useMakeOrder, useCart, cartGetters, checkoutGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'ReviewOrder',
@@ -189,16 +189,16 @@ export default {
       shippingDetails,
       billingDetails,
       chosenShippingMethod,
-      chosenPaymentMethod,
-      placeOrder
+      chosenPaymentMethod
     } = useCheckout();
+    const { make } = useMakeOrder();
 
     onSSR(async () => {
       await loadCart();
     });
 
     const processOrder = async () => {
-      await placeOrder();
+      await make();
       context.emit('nextStep');
     };
 

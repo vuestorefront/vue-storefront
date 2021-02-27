@@ -32,7 +32,7 @@ cacheManager.setTags((tags) => {
 "Separating concerns by files is as effective as separating school friendships by desks. Concerns are “separated” when there is no coupling: changing A wouldn’t break B. Increasing the distance without addressing the coupling only makes it easier to add bugs.
 ~ Dan Abramov
 ```
-8. Composables should be independent and rely on each other only if they are from the same group (`useUser` `useUserOrders`). The only exception is `useUser` that has to be used in many other composables.
+8. Composables should be independent and rely on each other only if they are from the same group (`useUser` `useUserOrder`). The only exception is `useUser` that has to be used in many other composables.
 9. If you introduce a new feature shared across all/many composables (like Logging/cache) users should be able to configure this feature from core/core nuxt module.
 ```ts
 // every function in composables is using logger
@@ -64,7 +64,7 @@ const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => 
 
 We try to cover each subdomain of the eCommerce domain with a dedicated composable. For example we have a composable for Users Management domain, inventory domain, product catalog domain etc. If you have to add a new feature always think about business domain it correlates to and based on that decide if it should be a new composable or an existing one.
 
-If composables share the same category/prefix it means that they most likely also share the same context eg. `useUserOrders` `useUserShipping` `useUserBilling` are all subcomposables of `useUser` and their content depends on this composable.
+If composables share the same category/prefix it means that they most likely also share the same context eg. `useUserOrder` `useUserShipping` `useUserBilling` are all subcomposables of `useUser` and their content depends on this composable.
 
 Each composable has usually 3 pieces:
 - main data object (eg `products`)
