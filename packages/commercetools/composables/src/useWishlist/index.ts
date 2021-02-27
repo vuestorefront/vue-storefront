@@ -29,7 +29,7 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: (context: Context, { currentWishlist }) => {
+  isInWishlist: (context: Context, { currentWishlist }) => {
     return false;
   }
 };

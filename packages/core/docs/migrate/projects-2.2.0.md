@@ -12,7 +12,7 @@ We have changes a bit the naming and signatures of composable functions. Below i
 |      useCart      |   load     |      (customQuery?: CustomQuery)         |        ({ customQuery?: CustomQuery } = {})       |
 |      useCart      |   clearCart    |      ()         |       ()        |
 |      useCart      |   applyCoupon     |      (couponCode: string, customQuery?: CustomQuery)         |        ({ couponCode: string, customQuery?: CustomQuery })       |
-|      useCart      |   isOnCart    |      (product: PRODUCT)         |       ({ product: PRODUCT })        |
+|      useCart      |   isInCart    |      (product: PRODUCT)         |       ({ product: PRODUCT })        |
 |      useCart      |   removeCoupon     |       (coupon: COUPON, customQuery?: CustomQuery)        |       ({ coupon: COUPON, customQuery?: CustomQuery })        |
 |      useCart      |   setCart     |       (newCart: CART)        |       ({ newCart: CART })        |
 |      useCategory      |   search     |       (searchParams: CATEGORY_SEARCH_PARAMS, customQuery?: CustomQuery)       |       ({ ...searchParams: CATEGORY_SEARCH_PARAMS, customQuery?: CustomQuery })        |
@@ -42,4 +42,4 @@ We have changes a bit the naming and signatures of composable functions. Below i
 |      useWishlist      |   removeFromWishlist     |       (product: WISHLIST_ITEM, customQuery?: CustomQuery)       |       ({ product: WISHLIST_ITEM, customQuery?: CustomQuery })        |
 |      useWishlist      |   load     |       (customQuery?: CustomQuery)       |       ({ customQuery?: CustomQuery } = {})        |
 |      useWishlist      |   clearWishlist     |       ()       |       ()        |
-|      useWishlist      |   isOnWishlist     |       (product: PRODUCT)       |       ({ product: PRODUCT })        |
+|      useWishlist      |   isInWishlist     |       (product: PRODUCT)       |       ({ product: PRODUCT })        |

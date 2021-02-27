@@ -199,7 +199,7 @@ export interface UseCart
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
   addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
-  isOnCart: ({ product: PRODUCT }) => boolean;
+  isInCart: ({ product: PRODUCT }) => boolean;
   removeItem(params: { product: CART_ITEM; customQuery?: CustomQuery }): Promise<void>;
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
@@ -230,7 +230,7 @@ export interface UseWishlist
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
-  isOnWishlist({ product: PRODUCT }): boolean;
+  isInWishlist({ product: PRODUCT }): boolean;
   error: ComputedProperty<UseWishlistErrors>;
 }
 
