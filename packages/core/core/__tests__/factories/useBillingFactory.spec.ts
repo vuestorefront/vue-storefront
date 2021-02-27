@@ -86,7 +86,7 @@ describe('[CORE - factories] useBillingFactory', () => {
       const customQuery = 123;
       factoryParams.load.mockReturnValueOnce(billingInfo);
       await useBillingMethods.load({ customQuery: customQuery as any });
-      expect((factoryParams.load.mock.calls[0] as any)[1]).toMatchObject({ customQuery });
+      expect((factoryParams.load.mock.calls[0] as any)[0]).toMatchObject({ customQuery });
       expect(useBillingMethods.billing.value).toEqual(billingInfo);
     });
 
