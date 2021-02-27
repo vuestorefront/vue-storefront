@@ -74,7 +74,7 @@ describe('[CORE - factories] useCartFactory', () => {
         const { isInCart } = useCart();
         const result = isInCart({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isInCart).toBeCalledWith({ context: null }, {
+        expect(params.isInCart).toBeCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });
