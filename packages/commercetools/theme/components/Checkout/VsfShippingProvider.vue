@@ -51,7 +51,7 @@
           @click.native="$emit('submit')"
           :disabled="!isShippingMethodStepCompleted || loading"
         >
-          {{ $t('Continue to payment') }}
+          {{ $t('Continue to billing') }}
         </SfButton>
       </div>
     </div>

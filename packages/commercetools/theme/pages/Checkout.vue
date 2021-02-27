@@ -29,8 +29,8 @@ import { useUser } from '@vue-storefront/commercetools';
 const STEPS = {
   'personal-details': 'Personal Details',
   shipping: 'Shipping',
-  payment: 'Payment',
-  'order-review': 'Review'
+  billing: 'Billing',
+  payment: 'Payment'
 };
 
 export default {

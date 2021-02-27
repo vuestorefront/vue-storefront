@@ -38,21 +38,6 @@
             </template>
           </SfRadio>
         </div>
-      <div class="form__action">
-        <nuxt-link
-          to="/checkout/shipping"
-          class="sf-button color-secondary form__back-button"
-          >{{ $t('Go back') }}</nuxt-link
-        >
-        <SfButton
-          class="form__action-button"
-          type="button"
-          @click.native="$emit('submit')"
-          :disabled="!isBillingMethodStepCompleted || loading"
-        >
-          {{ $t('Review my order') }}
-        </SfButton>
-      </div>
     </div>
   </div>
 </template>
@@ -66,7 +51,7 @@ import {
 import { ref, reactive, onMounted } from '@vue/composition-api';
 
 export default {
-  name: 'VsfPaymentProvider',
+  name: 'VsfPaymentProviderMock',
   components: {
     SfHeading,
     SfButton,
@@ -79,8 +64,7 @@ export default {
     onSelectedDetailsChanged: Function,
     onError: Function
   },
-  setup (props) {
-    const isBillingMethodStepCompleted = ref(false);
+  setup (props, context) {
     const loading = ref(false);
     const paymentMethods = ref([]);
     const selectedPaymentMethod = ref({});
@@ -145,11 +129,11 @@ export default {
       const newPaymentMethod = await saveMethod({ paymentMethod });
       if (error.saveMethod) {
         selectedPaymentMethod.value = {};
-        isBillingMethodStepCompleted.value = false;
+        context.emit('status', false);
         return;
       }
       selectedPaymentMethod.value = await callHookWithFallback(props.onSelected, { paymentMethod: newPaymentMethod }, newPaymentMethod);
-      isBillingMethodStepCompleted.value = true;
+      context.emit('status', true);
     };
 
     onMounted(async () => {
@@ -172,7 +156,6 @@ export default {
       paymentMethods,
       selectedPaymentMethod,
       selectPaymentMethod,
-      isBillingMethodStepCompleted,
       error
     };
   }
