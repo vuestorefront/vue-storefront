@@ -2,7 +2,7 @@ import { useUserBillingFactory, UseUserBillingFactoryParams, Context } from '@vu
 
 const addresses: any[] = [
   {
-    id: 1,
+    id: '_1231231253623423',
     firstName: 'John',
     lastName: 'Doe',
     streetName: 'Warsawska',
@@ -14,11 +14,11 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   },
   {
-    id: 2,
+    id: '_245463456456356',
     firstName: 'Jonatan',
     lastName: 'Doe',
     streetName: 'Starachowicka',
@@ -30,7 +30,7 @@ const addresses: any[] = [
     country: 'US',
     phone: '560123456',
     email: '',
-    company: '',
+    company: null,
     isDefault: true
   }
 ];
