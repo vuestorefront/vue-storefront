@@ -1,4 +1,5 @@
 export * from './apiClientFactory';
+export * from './useBillingFactory';
 export * from './useCartFactory';
 export * from './useCategoryFactory';
 export * from './useContentFactory';

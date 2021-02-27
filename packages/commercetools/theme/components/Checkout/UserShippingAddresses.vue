@@ -38,7 +38,7 @@ export default {
   name: 'UserShippingAddresses',
   props: {
     currentAddressId: {
-      type: String,
+      type: String | Number,
       required: true
     },
     setAsDefault: {
@@ -55,11 +55,11 @@ export default {
     const { shipping: userShipping } = useUserShipping();
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
-      if (!chosenAddress || !chosenAddress.length) {
+      const selectedAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
+      if (!selectedAddress || !selectedAddress.length) {
         return;
       }
-      emit('setCurrentAddress', chosenAddress[0]);
+      emit('setCurrentAddress', selectedAddress[0]);
     };
 
     return {

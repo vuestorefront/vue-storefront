@@ -649,6 +649,7 @@ export default {
   border-width: 0 1px 0 0;
 }
 .sidebar-filters {
+  --overlay-z-index: 3;
   --sidebar-title-display: none;
   --sidebar-top-padding: 0;
   @include for-desktop {

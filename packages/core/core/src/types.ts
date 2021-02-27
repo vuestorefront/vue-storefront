@@ -299,6 +299,24 @@ export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
 }
+export interface UseShippingErrors {
+  load?: Error;
+  save?: Error;
+}
+
+export interface UseBillingErrors {
+  load?: Error;
+  save?: Error;
+}
+
+export interface UseBilling<BILLING, BILLING_PARAMS> {
+  error: ComputedProperty<UseBillingErrors>;
+  loading: ComputedProperty<boolean>;
+  billing: ComputedProperty<BILLING>;
+  load(): Promise<void>;
+  load(params: { customQuery?: CustomQuery }): Promise<void>;
+  save: (params: { params: BILLING_PARAMS; billingDetails: BILLING; customQuery?: CustomQuery }) => Promise<void>;
+}
 export interface UseFacetErrors {
   search?: Error;
 }

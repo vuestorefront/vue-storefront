@@ -112,4 +112,11 @@ export default {
   'login in to your account': 'Anmelden bei Ihrem Konto',
   'Create an account': 'Konto erstellen',
   'Your bag is empty': 'Ihre Tasche ist leer',
+  'Cancel': 'Abbrechen',
+  'See all results': 'Alle Ergebnisse anzeigen',
+  'You haven’t searched for items yet': 'Sie haben noch nicht nach Artikeln gesucht.',
+  'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
+  'Search results': 'Suchergebnisse',
+  'Product suggestions': 'Produktvorschläge',
+  'Search for items': 'Nach Artikeln suchen'
 };

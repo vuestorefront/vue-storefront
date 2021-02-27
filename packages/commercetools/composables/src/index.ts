@@ -11,6 +11,7 @@ export { default as useMakeOrder } from './useMakeOrder';
 export { default as useProduct } from './useProduct';
 export { default as useReview } from './useReview';
 export { default as useShipping } from './useShipping';
+export { default as useBilling } from './useBilling';
 export { default as useUser } from './useUser';
 export { default as useUserBilling } from './useUserBilling';
 export { default as useUserOrder } from './useUserOrder';
