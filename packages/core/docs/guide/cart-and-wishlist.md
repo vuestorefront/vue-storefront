@@ -38,13 +38,12 @@ To add the product to the cart you can `addToCart` method:
 
 ```vue
 <template>
-  <ProductList>
-    <ProductComponent>
-      <AddToCartButton
+  <div>
+      <button
         @click="addToCart(product, parseInt(quantity))"
-      />
-    </ProductComponent>
-  </ProductList>
+      >
+      </button>
+  </div>
 </template>    
 <script>     
   import { useCart } from '{INTEGRATION}';
@@ -70,22 +69,23 @@ To remove an item from the cart use `removeItem` function:
 
 ```vue
 <template>
-  <CartComponent>
-    <ProductComponent>
-      <QuantityInput
+  <div>
+    <div>
+      <input
         @input="updateQuantity(product, quantity)"
       />
-      <RemoveButton        
+      <button        
         @click="removeFromCart(product)"
-      />
-    </ProductComponent>
-    <TotalPriceComponent>
+      >
+      </button>
+    </div>
+    <span>
       {{totals}}
-    </TotalPriceComponent>
-    <TotalItemsComponent>
+    </span>
+    <span>
       {{totalItems}}
-    </TotalItemsComponent>
-  </CartComponent>
+    </span>
+  </div>
 </template>   
 <script>
   import { useCart, cartGetters } from '{INTEGRATION}';
@@ -121,13 +121,13 @@ To check if a product is already in cart just pass it to `isOnCart` method:
 
 ```vue
 <template>
-  <ProductList>
-    <ProductComponent>
-      <AddedToCartIcon
+  <ul>
+    <li>
+      <icon
         :isAddedToCart="isOnCart(product)"
       />
-    </ProductComponent>
-  </ProductList>
+    </li>
+  </ul>
 </template>    
 <script>
   import { useCart } from '{INTEGRATION}';
@@ -152,16 +152,18 @@ To clear cart items (not delete it) just use `clearCart` function.
 
 ```vue
 <template>
-  <CartComponent>
-    <ProductsList>
-      <ProductComponent
+  <div>
+    <ul>
+      <li
         v-for="product in products"
-      />
-    <ProductsList>
-    <ClearProductListButton
+      >
+      </li>
+    <ul>
+    <button
       @click="clear(cart.value)"
-    />
-  </CartComponent>
+    >
+    </button>
+  </div>
 </template>   
 <script>      
   import { useCart } from '{INTEGRATION}';
@@ -190,21 +192,21 @@ You can apply promotional coupons to your applicationn with `applyCoupon` functi
 
 ```vue
 <template>
-  <CartComponent>
-    <CouponInput
+  <div>
+    <input
       v-model="promoCode"
     />
-    <ApplyCouponButton 
+    <button 
       @click="() => applyCoupon({ couponCode: promoCode })"
     >
       Use promo code
-    </ApplyCouponButton>
-    <RemoveCouponButton 
+    </button>
+    <button 
       @click="() => removeCoupon({ couponCode: promoCode })"
     >
       Remove promo code
-    </RemoveCouponButton>
-  </CartComponent>
+    </button>
+  </div>
 </template>   
 <script>      
   import { useCart } from '{INTEGRATION}';
@@ -266,13 +268,14 @@ The product can be added to the wishlist similarly like to the cart but using `a
 
 ```vue
 <template>
-   <ProductList>
-    <ProductComponent>
-      <AddToWishlistButton
+   <li>
+    <li>
+      <button
         @click="addToWishlist(product)"
-      />
-    </ProductComponent>
-  </ProductList>
+      >
+      </button>
+    </li>
+  </li>
 </template>
 <script>
   import { useWishlist } from '{INTEGRATION}'
@@ -297,21 +300,22 @@ In order to remove products use `removeFromWishlist` function.
 
 ```vue
 <template>
-  <WishlistComponent>
-    <ProductComponent
+  <ul>
+    <li
       for="product in products"
     >
-      <RemoveButton
+      <button
         @click="removeFromWishlist(product)"
-      />
-    </ProductComponent>
-    <TotalPriceComponent>
+      >
+      </button>
+    </li>
+    <span>
       {{totals}}
-    </TotalPriceComponent>
-    <TotalItemsComponent>
+    </span>
+    <span>
       {{totalItems}}
-    </TotalItemsComponent>
-  </WishlistComponent>
+    </span>
+  </ul>
 </template>   
 <script>
   import { useWishlist, wishlistGetters } from '{INTEGRATION}';
@@ -350,13 +354,13 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 
 ```vue
 <template>
-  <ProductList>
-    <ProductComponent>
-      <AddedToWishlistIcon
+  <ul>
+    <li>
+      <icon
         :isAddedToCart="isOnWishlist(product)"
       />
-    </ProductComponent>
-  </ProductList>
+    </li>
+  </ul>
 </template>    
 <script>
   import { useWishlist } from '{INTEGRATION}';
@@ -374,22 +378,23 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 </script>
 ```
 
-### Deleting all items added to wishlist
+## Deleting all items added to wishlist
 
 Cleaning the wishlist can be achieved by `clearWishlist` property.
 
 ```vue
 <template>
-  <WishlistComponent>
-    <ProductsList>
-      <ProductComponent
+  <div>
+    <ul>
+      <li
         v-for="product in products"
       />
-    <ProductsList>
-    <ClearWishlistButton
+    <ul>
+    <button
       @click="clearWishlist"
-    />
-  </WishlistComponent>
+    >
+    </button>
+  </div>
 </template>   
 <script>      
   import { useWishlist } from '{INTEGRATION}';
@@ -419,24 +424,26 @@ In the following two examples, you can analyze how both composables are used in 
 
 ```vue
 <template>
-  <ProductList>
-    <ProductComponent
+  <li>
+    <ul
       v-for="product in products"
     >
-      <AddToCartButton
+      <button
         @click="addToCart(product, parseInt(quantity))"
-      />
-      <AddToWishlistButton
+      >
+      </button>
+      <button
         @click="addToWishlist(product)"
-      />
-      <AddedToCartIcon
+      >
+      </button>
+      <icon
         :isAddedToCart="isOnCart(product)"
       />
-      <AddedToWishlistIcon
+      <icon
         :isAddedToCart="isOnWishlist(product)"
       />
-    </ProductComponent>
-  </ProductList>
+    </ul>
+  </li>
 </template>    
 <script>     
   import { useCart, useWishlist } from '{INTEGRATION}';
@@ -474,50 +481,54 @@ The cart and the wishlist components:
 
   /* Cart component */
 
-  <CartComponent>
-    <ProductComponent
-      v-for="product in cartProducts"
-    > 
-      <QuantityInput
-        @input="updateQuantity(product, quantity)"
-      />
-      <RemoveButton        
-        @click="removeFromCart(product)"
-      />      
-    </ProductComponent>
-    <TotalPriceComponent>
+  <div>
+    <ul>
+      <li>
+        v-for="product in cartProducts"
+      > 
+        <input
+          @input="updateQuantity(product, quantity)"
+        />
+        <button        
+          @click="removeFromCart(product)"
+        >
+        </button>      
+      </li>
+    </ul>
+    <span>
       {{cartTotals}}
-    </TotalPriceComponent>
-    <TotalItemsComponent>
+    </span>
+    <span>
       {{cartTotalItems}}
-    </TotalItemsComponent>
-    <ClearProductListButton
+    </span>
+    <button
       @click="clear(cart.value)"
     />
-  </CartComponent>
+  </div>
 
   /* Similar features you can use on wishlist component */
 
-  <WishlistComponent>
-    <ProductsList>
-      <ProductComponent
+  <div>
+    <li>
+      <ul
         v-for="product in wishlistProducts"
       />
-        <RemoveButton
+        <button
           @click="removeFromCart(product)"
         />
-      </ProductComponent>
-    <ProductsList>
-    <TotalPriceComponent>
+      </ul>
+    <li>
+    <span>
       {{wishlistTotals}}
-    </TotalPriceComponent>
-    <TotalItemsComponent>
+    </span>
+    <span>
       {{wishlistTotalItems}}
-    </TotalItemsComponent>
-    <ClearWishlistButton
+    </span>
+    <button
       @click="clearWishlist"
-    />
-  </WishlistComponent>
+    >
+    </button>
+  </div>
 </template>   
 <script>      
   import { useCart, cartGetters, useWishlist, wishlistGetters } from '{INTEGRATION}';
