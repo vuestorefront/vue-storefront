@@ -1,26 +1,20 @@
 {
-    "compilerOptions": {
-      "baseUrl": ".", 
-      "paths": {
-        "@vue-storefront/checkout-com/*": ["./*"]
-      },
-      "outDir": "./lib",
-      "esModuleInterop": true,
-      "target": "es5",
-      "module": "ES2015",
-      "moduleResolution": "node",
-      "importHelpers": true,
-      "noEmitHelpers": true,
-      "sourceMap": true,
-      "declaration": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "lib": ["es6", "es7", "dom"],
-      "strict": false,
-    },
-    "include": [
-      "src", "test"
-    ],
-    "exclude": ["node_modules", "lib", "**/*.spec.ts"]
-  }
-  
+  "compilerOptions": {
+    "outDir": "./lib",
+    "esModuleInterop": true,
+    "target": "es5",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "lib": ["es6", "es7", "dom"],
+    "strict": false,
+    "allowJs": true
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

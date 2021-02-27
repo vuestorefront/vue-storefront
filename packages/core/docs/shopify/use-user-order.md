@@ -1,6 +1,6 @@
-# useUserOrders composable
+# useUserOrder composable
 
-`useUserOrders` composition API function is responsible, as it's name suggests for interactions with user's order history from your eCommerce. This function returns following values:
+`useUserOrder` composition API function is responsible, as it's name suggests for interactions with user's order history from your eCommerce. This function returns following values:
 
 - `searchOrders` - a main querying function that is used to query user's order history from eCommerce platform and populate the `orders` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
 - `orders` - a main data object that contains an array of orders fetched by `searchOrders` method

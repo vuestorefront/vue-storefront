@@ -166,7 +166,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useCheckout, useCart, cartGetters } from '@vue-storefront/commercetools';
+import { useCheckout, useMakeOrder, useCart, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
@@ -198,18 +198,19 @@ export default {
       chosenShippingMethod,
       chosenPaymentMethod,
       loadShippingMethods,
-      placeOrder,
       loading,
       loadDetails,
       clean
     } = useCheckout();
+    const { order, make } = useMakeOrder();
+
     onSSR(async () => {
       await loadDetails();
       await loadShippingMethods();
     });
     const processOrder = async () => {
-      const order = await placeOrder();
-      context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
+      await make();
+      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
       clean();
     };
     return {

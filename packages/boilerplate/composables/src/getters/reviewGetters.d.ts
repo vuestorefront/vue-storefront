@@ -1,0 +1,15 @@
+import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
+declare type Review = any;
+declare type ReviewItem = any;
+export declare const getItems: (review: Review) => ReviewItem[];
+export declare const getReviewId: (item: ReviewItem) => string;
+export declare const getReviewAuthor: (item: ReviewItem) => string;
+export declare const getReviewMessage: (item: ReviewItem) => string;
+export declare const getReviewRating: (item: ReviewItem) => number;
+export declare const getReviewDate: (item: ReviewItem) => string;
+export declare const getTotalReviews: (review: Review) => number;
+export declare const getAverageRating: (review: Review) => number;
+export declare const getRatesCount: (review: Review) => AgnosticRateCount[];
+export declare const getReviewsPage: (review: Review) => number;
+declare const reviewGetters: ReviewGetters<Review, ReviewItem>;
+export default reviewGetters;

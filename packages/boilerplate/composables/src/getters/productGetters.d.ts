@@ -1,0 +1,18 @@
+import { AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice, ProductGetters } from '@vue-storefront/core';
+import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
+declare type ProductVariantFilters = any;
+export declare const getProductName: (product: ProductVariant) => string;
+export declare const getProductSlug: (product: ProductVariant) => string;
+export declare const getProductPrice: (product: ProductVariant) => AgnosticPrice;
+export declare const getProductGallery: (product: ProductVariant) => AgnosticMediaGalleryItem[];
+export declare const getProductCoverImage: (product: ProductVariant) => string;
+export declare const getProductFiltered: (products: ProductVariant[], filters?: ProductVariantFilters | any) => ProductVariant[];
+export declare const getProductAttributes: (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>;
+export declare const getProductDescription: (product: ProductVariant) => any;
+export declare const getProductCategoryIds: (product: ProductVariant) => string[];
+export declare const getProductId: (product: ProductVariant) => string;
+export declare const getFormattedPrice: (price: number) => string;
+export declare const getProductTotalReviews: (product: ProductVariant) => number;
+export declare const getProductAverageRating: (product: ProductVariant) => number;
+declare const productGetters: ProductGetters<ProductVariant, ProductVariantFilters>;
+export default productGetters;

@@ -1,5 +1,8 @@
 module.exports = {
   preset: 'ts-jest',
+  transform: {
+    '^.+\\.[jt]s$': 'ts-jest'
+  },
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'lcov', 'text'],

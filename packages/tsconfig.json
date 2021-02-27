@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "core/cache" },
+    { "path": "core/cli" },
+    { "path": "core/core" },
+    { "path": "boilerplate/api-client" },
+    { "path": "boilerplate/composables" },
+  ]
+}
