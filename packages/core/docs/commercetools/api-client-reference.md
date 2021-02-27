@@ -1,1559 +1,8 @@
-
-<a name="interfacesapi_getcategorycategorydatamd"></a>
-
-## `CategoryData`
-
-* **CategoryData**
-
-#### `categories`
-
-Defined in: [packages/commercetools/api-client/src/api/getCategory/index.ts:10](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getCategory/index.ts#L10)
-
-<a name="interfacesapi_getmegetmeparamsmd"></a>
-
-## `GetMeParams`
-
-* **GetMeParams**
-
-#### `customer`
-
-Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:8](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getMe/index.ts#L8)
-
-<a name="interfacesapi_getmeordersdatamd"></a>
-
-## `OrdersData`
-
-* **OrdersData**
-
-#### `me`
-
-Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getMe/index.ts#L13)
-
-<a name="interfacesapi_getproductproductdatamd"></a>
-
-## `ProductData`
-
-* **ProductData**
-
-#### `products`
-
-Defined in: [packages/commercetools/api-client/src/api/getProduct/index.ts:10](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getProduct/index.ts#L10)
-
-<a name="interfacesapi_getshippingmethodsshippingmethoddatamd"></a>
-
-## `ShippingMethodData`
-
-* **ShippingMethodData**
-
-#### `shippingMethods`
-
-Defined in: [packages/commercetools/api-client/src/api/getShippingMethods/index.ts:8](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getShippingMethods/index.ts#L8)
-
-<a name="interfacesapi_updatecartupdatecartparamsmd"></a>
-
-## `UpdateCartParams`
-
-* **UpdateCartParams**
-
-#### `actions`
-
-Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCart/index.ts#L13)
-
-___
-
-#### `id`
-
-Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:11](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCart/index.ts#L11)
-
-___
-
-#### `version`
-
-Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:12](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCart/index.ts#L12)
-
-___
-
-#### `versionFallback`
-
-Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:14](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCart/index.ts#L14)
-
-<a name="interfacestypes_apiapiinstancemd"></a>
-
-## `ApiInstance`
-
-* **ApiInstance**
-
-#### `isGuest`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:48](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L48)
-
-#### `addToCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:28](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L28)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`__namedParameters` | [*Cart*](#cart) |
-`product` | [*ProductVariant*](#productvariant) |
-`quantity` | *number* |
-`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `applyCartCoupon`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:29](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L29)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cart` | [*Cart*](#cart) |
-`discountCode` | *string* |
-`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `createCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:30](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L30)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cartDraft?` | [*CartData*](#interfacestypes_apicartdatamd) |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<{ `data`: [*CartQueryInterface*](#cartqueryinterface)  }\>
-
-___
-
-#### `createMyOrderFromCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:31](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L31)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`draft` | [*OrderMyCartCommand*](#ordermycartcommand) |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<FetchResult<Record<*order*, [*Order*](#order)\>, Record<string, any\>, Record<string, any\>\>\>
-
-___
-
-#### `customerChangeMyPassword`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:32](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L32)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`version` | *any* |
-`currentPassword` | *string* |
-`newPassword` | *string* |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*Customer*](#customer)\>\>\>
-
-___
-
-#### `customerSignMeIn`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:33](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L33)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`draft` | [*CustomerSignMeInDraft*](#customersignmeindraft) |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*CustomerSignInResult*](#customersigninresult)\>\>\>
-
-___
-
-#### `customerSignMeUp`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:34](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L34)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`draft` | [*CustomerSignMeUpDraft*](#customersignmeupdraft) |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*CustomerSignInResult*](#customersigninresult)\>\>\>
-
-___
-
-#### `customerSignOut`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:35](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L35)
-
-**Returns:** *Promise*<void\>
-
-___
-
-#### `customerUpdateMe`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:36](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L36)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`currentUser` | *any* |
-`updatedUserData` | *any* |
-
-**Returns:** *Promise*<any\>
-
-___
-
-#### `getCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:37](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L37)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cartId` | *string* |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*cart*, [*Cart*](#cart)\>\>\>
-
-___
-
-#### `getCategory`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:38](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L38)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`params` | *any* |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*categories*, [*CategoryQueryResult*](#categoryqueryresult)\>\>\>
-
-___
-
-#### `getMe`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:39](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L39)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`params?` | [*GetMeParams*](#interfacesapi_getmegetmeparamsmd) |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<{ `data`: { `me`: [*Me*](#me)  }  }\>
-
-___
-
-#### `getOrders`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:40](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L40)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`params` | *any* |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<{ `data`: { `me`: [*Me*](#me)  }  }\>
-
-___
-
-#### `getProduct`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:41](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L41)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`params` | *any* |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<ApolloQueryResult<Record<*products*, [*ProductQueryResult*](#productqueryresult)\>\>\>
-
-___
-
-#### `getShippingMethods`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:42](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L42)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cartId?` | *string* |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*ShippingMethodData*](#interfacesapi_getshippingmethodsshippingmethoddatamd)\>
-
-___
-
-#### `removeCartCoupon`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:43](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L43)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cart` | [*Cart*](#cart) |
-`discountCode` | [*ReferenceInput*](#referenceinput) |
-`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `removeFromCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:44](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L44)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cart` | [*Cart*](#cart) |
-`product` | [*LineItem*](#lineitem) |
-`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `updateCart`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:45](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L45)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`params` | [*UpdateCartParams*](#interfacesapi_updatecartupdatecartparamsmd) |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `updateCartQuantity`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:46](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L46)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cart` | [*Cart*](#cart) |
-`product` | [*LineItem*](#lineitem) |
-`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-___
-
-#### `updateShippingDetails`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:47](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L47)
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cart` | [*Cart*](#cart) |
-`shippingDetails` | [*Address*](#address) |
-`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
-
-**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
-
-<a name="interfacestypes_apibasesearchmd"></a>
-
-## `BaseSearch`
-
-* **BaseSearch**
-
-  ↳ [*ProductWhereSearch*](#interfacestypes_apiproductwheresearchmd)
-
-  ↳ [*CategoryWhereSearch*](#interfacestypes_apicategorywheresearchmd)
-
-  ↳ [*OrderWhereSearch*](#interfacestypes_apiorderwheresearchmd)
-
-#### `limit`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L57)
-
-___
-
-#### `offset`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L58)
-
-___
-
-#### `sort`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L59)
-
-<a name="interfacestypes_apicartdatamd"></a>
-
-## `CartData`
-
-* *Omit*<[*CartDraft*](#cartdraft), *currency*\>
-
-  ↳ **CartData**
-
-#### `anonymousId`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:827](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L827)
-
-___
-
-#### `billingAddress`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:816](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L816)
-
-___
-
-#### `country`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:811](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L811)
-
-___
-
-#### `currency`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:110](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L110)
-
-___
-
-#### `custom`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:813](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L813)
-
-___
-
-#### `customLineItems`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:824](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L824)
-
-___
-
-#### `customerEmail`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:814](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L814)
-
-___
-
-#### `customerGroup`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:830](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L830)
-
-___
-
-#### `customerId`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:825](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L825)
-
-___
-
-#### `deleteDaysAfterLastModification`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:820](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L820)
-
-___
-
-#### `discountCodes`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:822](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L822)
-
-___
-
-#### `externalTaxRateForShippingMethod`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:826](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L826)
-
-___
-
-#### `inventoryMode`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:812](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L812)
-
-___
-
-#### `itemShippingAddresses`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:821](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L821)
-
-___
-
-#### `lineItems`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:823](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L823)
-
-___
-
-#### `locale`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:819](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L819)
-
-___
-
-#### `origin`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:832](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L832)
-
-___
-
-#### `shippingAddress`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:815](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L815)
-
-___
-
-#### `shippingMethod`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:817](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L817)
-
-___
-
-#### `shippingRateInput`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:831](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L831)
-
-___
-
-#### `store`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:833](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L833)
-
-___
-
-#### `taxCalculationMode`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:829](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L829)
-
-___
-
-#### `taxMode`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:818](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L818)
-
-___
-
-#### `taxRoundingMode`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:828](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L828)
-
-<a name="interfacestypes_apicategorywheresearchmd"></a>
-
-## `CategoryWhereSearch`
-
-* [*BaseSearch*](#interfacestypes_apibasesearchmd)
-
-  ↳ **CategoryWhereSearch**
-
-#### `catId`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:83](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L83)
-
-___
-
-#### `limit`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L57)
-
-___
-
-#### `offset`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L58)
-
-___
-
-#### `slug`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:84](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L84)
-
-___
-
-#### `sort`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L59)
-
-<a name="interfacestypes_apifiltermd"></a>
-
-## `Filter`
-
-* **Filter**
-
-#### `name`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:72](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L72)
-
-___
-
-#### `type`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:71](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L71)
-
-___
-
-#### `value`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:73](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L73)
-
-<a name="interfacestypes_apifilteroptionmd"></a>
-
-## `FilterOption`
-
-* **FilterOption**
-
-#### `label`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:77](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L77)
-
-___
-
-#### `selected`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:79](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L79)
-
-___
-
-#### `value`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:78](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L78)
-
-<a name="interfacestypes_apiflowoptionsmd"></a>
-
-## `FlowOptions`
-
-* **FlowOptions**
-
-#### `currentToken`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:104](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L104)
-
-___
-
-#### `customerCredentials`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:105](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L105)
-
-___
-
-#### `requireUserSession`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:106](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L106)
-
-<a name="interfacestypes_apiorderwheresearchmd"></a>
-
-## `OrderWhereSearch`
-
-* [*BaseSearch*](#interfacestypes_apibasesearchmd)
-
-  ↳ **OrderWhereSearch**
-
-#### `id`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:88](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L88)
-
-___
-
-#### `limit`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L57)
-
-___
-
-#### `offset`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L58)
-
-___
-
-#### `sort`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L59)
-
-<a name="interfacestypes_apiproductwheresearchmd"></a>
-
-## `ProductWhereSearch`
-
-* [*BaseSearch*](#interfacestypes_apibasesearchmd)
-
-  ↳ **ProductWhereSearch**
-
-#### `catId`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:63](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L63)
-
-___
-
-#### `filters`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:67](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L67)
-
-___
-
-#### `id`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:66](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L66)
-
-___
-
-#### `limit`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L57)
-
-___
-
-#### `offset`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L58)
-
-___
-
-#### `skus`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:64](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L64)
-
-___
-
-#### `slug`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:65](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L65)
-
-___
-
-#### `sort`
-
-Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L59)
-
-<a name="interfacestypes_setupapiconfigmd"></a>
-
-## `ApiConfig`
-
-* **ApiConfig**
-
-#### `authHost`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:12](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L12)
-
-___
-
-#### `clientId`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:14](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L14)
-
-___
-
-#### `clientSecret`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:15](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L15)
-
-___
-
-#### `projectKey`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:13](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L13)
-
-___
-
-#### `scopes`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:16](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L16)
-
-___
-
-#### `uri`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:11](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L11)
-
-<a name="interfacestypes_setupauthmd"></a>
-
-## `Auth`
-
-* **Auth**
-
-#### `onTokenChange`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:40](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L40)
-
-___
-
-#### `onTokenRead`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:41](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L41)
-
-___
-
-#### `onTokenRemove`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:42](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L42)
-
-<a name="interfacestypes_setupclientinstancemd"></a>
-
-## `ClientInstance`
-
-* *ApolloClient*<any\>
-
-  ↳ **ClientInstance**
-
-#### `cache`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:34
-
-___
-
-#### `defaultOptions`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:39
-
-___
-
-#### `disableNetworkFetches`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:36
-
-___
-
-#### `link`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:32
-
-___
-
-#### `queryDeduplication`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:38
-
-___
-
-#### `queryManager`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:35
-
-___
-
-#### `sdkAuth`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L6)
-
-___
-
-#### `store`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:33
-
-___
-
-#### `tokenProvider`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:7](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L7)
-
-___
-
-#### `typeDefs`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:40
-
-___
-
-#### `version`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:37
-
-#### `\_\_actionHookForDevTools`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:56
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cb` | () => *any* |
-
-**Returns:** *void*
-
-___
-
-#### `\_\_requestRaw`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:57
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`payload` | GraphQLRequest |
-
-**Returns:** *Observable*<ExecutionResult<ExecutionResultDataDefault\>\>
-
-___
-
-#### `addResolvers`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:66
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`resolvers` | Resolvers \| Resolvers[] |
-
-**Returns:** *void*
-
-___
-
-#### `clearStore`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:60
-
-**Returns:** *Promise*<any[]\>
-
-___
-
-#### `extract`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:64
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`optimistic?` | *boolean* |
-
-**Returns:** *any*
-
-___
-
-#### `getResolvers`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:68
-
-**Returns:** Resolvers
-
-___
-
-#### `initQueryManager`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:58
-
-**Returns:** *QueryManager*<any\>
-
-___
-
-#### `mutate`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:49
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *MutationOptions*<T, TVariables\> |
-
-**Returns:** *Promise*<FetchResult<T, Record<string, any\>, Record<string, any\>\>\>
-
-___
-
-#### `onClearStore`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:62
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cb` | () => *Promise*<any\> |
-
-**Returns:** *function*
-
-___
-
-#### `onResetStore`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:61
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`cb` | () => *Promise*<any\> |
-
-**Returns:** *function*
-
-___
-
-#### `query`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:48
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *QueryOptions*<TVariables\> |
-
-**Returns:** *Promise*<ApolloQueryResult<T\>\>
-
-___
-
-#### `reFetchObservableQueries`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:63
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`includeStandby?` | *boolean* |
-
-**Returns:** *Promise*<ApolloQueryResult<any\>[]\>
-
-___
-
-#### `readFragment`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:52
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *Fragment*<TVariables\> |
-`optimistic?` | *boolean* |
-
-**Returns:** T
-
-___
-
-#### `readQuery`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:51
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *Query*<TVariables\> |
-`optimistic?` | *boolean* |
-
-**Returns:** T
-
-___
-
-#### `resetStore`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:59
-
-**Returns:** *Promise*<ApolloQueryResult<any\>[]\>
-
-___
-
-#### `restore`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:65
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`serializedState` | *any* |
-
-**Returns:** *ApolloCache*<any\>
-
-___
-
-#### `setLocalStateFragmentMatcher`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:69
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`fragmentMatcher` | FragmentMatcher |
-
-**Returns:** *void*
-
-___
-
-#### `setResolvers`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:67
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`resolvers` | Resolvers \| Resolvers[] |
-
-**Returns:** *void*
-
-___
-
-#### `stop`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:46
-
-**Returns:** *void*
-
-___
-
-#### `subscribe`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:50
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *SubscriptionOptions*<TVariables\> |
-
-**Returns:** *Observable*<FetchResult<T, Record<string, any\>, Record<string, any\>\>\>
-
-___
-
-#### `watchQuery`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:47
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *WatchQueryOptions*<TVariables\> |
-
-**Returns:** *ObservableQuery*<T, TVariables\>
-
-___
-
-#### `writeData`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:55
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`TData` | *any* |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *WriteDataOptions*<TData\> |
-
-**Returns:** *void*
-
-___
-
-#### `writeFragment`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:54
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`TData` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *WriteFragmentOptions*<TData, TVariables\> |
-
-**Returns:** *void*
-
-___
-
-#### `writeQuery`
-
-Defined in: node_modules/apollo-client/ApolloClient.d.ts:53
-
-#### Type parameters:
-
-Name | Default |
-:------ | :------ |
-`TData` | *any* |
-`TVariables` | OperationVariables |
-
-#### Parameters:
-
-Name | Type |
-:------ | :------ |
-`options` | *WriteQueryOptions*<TData, TVariables\> |
-
-**Returns:** *void*
-
-<a name="interfacestypes_setupconfigmd"></a>
-
-## `Config`
-
-#### Type parameters
-
-Name | Default |
-:------ | :------ |
-`T` | *any* |
-
-* **Config**
-
-#### `acceptLanguage`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:77](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L77)
-
-___
-
-#### `api`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:68](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L68)
-
-___
-
-#### `auth`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:79](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L79)
-
-___
-
-#### `client`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:67](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L67)
-
-___
-
-#### `cookies`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:78](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L78)
-
-___
-
-#### `countries`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:73](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L73)
-
-___
-
-#### `country`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:72](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L72)
-
-___
-
-#### `currencies`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:74](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L74)
-
-___
-
-#### `currency`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:70](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L70)
-
-___
-
-#### `customOptions`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:69](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L69)
-
-___
-
-#### `forceToken`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:80](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L80)
-
-___
-
-#### `handleIsTokenUserSession`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:81](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L81)
-
-___
-
-#### `languageMap`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:76](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L76)
-
-___
-
-#### `locale`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:71](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L71)
-
-___
-
-#### `locales`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:75](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L75)
-
-<a name="interfacestypes_setupcookiesconfigmd"></a>
-
-## `CookiesConfig`
-
-* **CookiesConfig**
-
-#### `countryCookieName`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:30](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L30)
-
-___
-
-#### `currencyCookieName`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:29](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L29)
-
-___
-
-#### `localeCookieName`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:31](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L31)
-
-<a name="interfacestypes_setupcustomercredentialsmd"></a>
-
-## `CustomerCredentials`
-
-* **CustomerCredentials**
-
-#### `password`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:63](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L63)
-
-___
-
-#### `username`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:62](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L62)
-
-<a name="interfacestypes_setuplocaleitemmd"></a>
-
-## `LocaleItem`
-
-* **LocaleItem**
-
-#### `label`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:36](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L36)
-
-___
-
-#### `name`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:35](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L35)
-
-<a name="interfacestypes_setupsetupconfigmd"></a>
-
-## `SetupConfig`
-
-#### Type parameters
-
-Name |
-:------ |
-`TCacheShape` |
-
-* **SetupConfig**
-
-#### `acceptLanguage`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:55](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L55)
-
-___
-
-#### `api`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:46](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L46)
-
-___
-
-#### `auth`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:57](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L57)
-
-___
-
-#### `cookies`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:56](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L56)
-
-___
-
-#### `countries`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:51](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L51)
-
-___
-
-#### `country`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:50](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L50)
-
-___
-
-#### `currencies`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:52](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L52)
-
-___
-
-#### `currency`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:48](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L48)
-
-___
-
-#### `customOptions`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:47](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L47)
-
-___
-
-#### `forceToken`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:58](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L58)
-
-___
-
-#### `languageMap`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:54](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L54)
-
-___
-
-#### `locale`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:49](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L49)
-
-___
-
-#### `locales`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:53](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L53)
-
-<a name="interfacestypes_setuptokenmd"></a>
-
-## `Token`
-
-* **Token**
-
-#### `access\_token`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:20](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L20)
-
-___
-
-#### `expires\_at`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:21](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L21)
-
-___
-
-#### `expires\_in`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:22](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L22)
-
-___
-
-#### `refresh\_token`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:25](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L25)
-
-___
-
-#### `scope`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:23](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L23)
-
-___
-
-#### `token\_type`
-
-Defined in: [packages/commercetools/api-client/src/types/setup.ts:24](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/setup.ts#L24)
-
 <a name="modulesapi_addtocartmd"></a>
 
 ## `addToCart`
 
-Defined in: [packages/commercetools/api-client/src/api/addToCart/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/addToCart/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/addToCart/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/addToCart/index.ts#L6)
 
 #### Parameters:
 
@@ -1571,7 +20,7 @@ Name | Type |
 
 ## `applyCartCoupon`
 
-Defined in: [packages/commercetools/api-client/src/api/applyCartCoupon/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/applyCartCoupon/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/applyCartCoupon/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/applyCartCoupon/index.ts#L6)
 
 #### Parameters:
 
@@ -1588,7 +37,7 @@ Name | Type |
 
 ## `createCart`
 
-Defined in: [packages/commercetools/api-client/src/api/createCart/index.ts:7](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/createCart/index.ts#L7)
+Defined in: [packages/commercetools/api-client/src/api/createCart/index.ts:7](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/createCart/index.ts#L7)
 
 #### Parameters:
 
@@ -1604,7 +53,7 @@ Name | Type |
 
 ## `createMyOrderFromCart`
 
-Defined in: [packages/commercetools/api-client/src/api/createMyOrderFromCart/index.ts:7](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/createMyOrderFromCart/index.ts#L7)
+Defined in: [packages/commercetools/api-client/src/api/createMyOrderFromCart/index.ts:7](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/createMyOrderFromCart/index.ts#L7)
 
 #### Parameters:
 
@@ -1620,7 +69,7 @@ Name | Type |
 
 ## `customerChangeMyPassword`
 
-Defined in: [packages/commercetools/api-client/src/api/customerChangeMyPassword/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/customerChangeMyPassword/index.ts#L4)
+Defined in: [packages/commercetools/api-client/src/api/customerChangeMyPassword/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/customerChangeMyPassword/index.ts#L4)
 
 #### Parameters:
 
@@ -1637,7 +86,7 @@ Name | Type |
 
 ## `customerSignMeIn`
 
-Defined in: [packages/commercetools/api-client/src/api/customerSignMeIn/index.ts:5](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/customerSignMeIn/index.ts#L5)
+Defined in: [packages/commercetools/api-client/src/api/customerSignMeIn/index.ts:5](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/customerSignMeIn/index.ts#L5)
 
 #### Parameters:
 
@@ -1652,7 +101,7 @@ Name | Type |
 
 ## `customerSignMeUp`
 
-Defined in: [packages/commercetools/api-client/src/api/customerSignMeUp/index.ts:5](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/customerSignMeUp/index.ts#L5)
+Defined in: [packages/commercetools/api-client/src/api/customerSignMeUp/index.ts:5](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/customerSignMeUp/index.ts#L5)
 
 #### Parameters:
 
@@ -1667,7 +116,7 @@ Name | Type |
 
 ## `customerSignOut`
 
-Defined in: [packages/commercetools/api-client/src/api/customerSignOut/index.ts:1](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/customerSignOut/index.ts#L1)
+Defined in: [packages/commercetools/api-client/src/api/customerSignOut/index.ts:1](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/customerSignOut/index.ts#L1)
 
 #### Parameters:
 
@@ -1681,7 +130,7 @@ Name | Type |
 
 ## `customerUpdateMe`
 
-Defined in: [packages/commercetools/api-client/src/api/customerUpdateMe/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/customerUpdateMe/index.ts#L4)
+Defined in: [packages/commercetools/api-client/src/api/customerUpdateMe/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/customerUpdateMe/index.ts#L4)
 
 #### Parameters:
 
@@ -1697,7 +146,7 @@ Name | Type |
 
 ## `getCart`
 
-Defined in: [packages/commercetools/api-client/src/api/getCart/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getCart/index.ts#L4)
+Defined in: [packages/commercetools/api-client/src/api/getCart/index.ts:4](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getCart/index.ts#L4)
 
 #### Parameters:
 
@@ -1712,7 +161,7 @@ Name | Type |
 
 ## `getCategory`
 
-Defined in: [packages/commercetools/api-client/src/api/getCategory/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getCategory/index.ts#L13)
+Defined in: [packages/commercetools/api-client/src/api/getCategory/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getCategory/index.ts#L13)
 
 #### Parameters:
 
@@ -1728,7 +177,7 @@ Name | Type |
 
 ## `getMe`
 
-Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:16](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getMe/index.ts#L16)
+Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:16](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getMe/index.ts#L16)
 
 #### Parameters:
 
@@ -1744,7 +193,7 @@ Name | Type |
 
 ## `getOrders`
 
-Defined in: [packages/commercetools/api-client/src/api/getOrders/index.ts:12](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getOrders/index.ts#L12)
+Defined in: [packages/commercetools/api-client/src/api/getOrders/index.ts:12](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getOrders/index.ts#L12)
 
 #### Parameters:
 
@@ -1760,7 +209,7 @@ Name | Type |
 
 ## `getProduct`
 
-Defined in: [packages/commercetools/api-client/src/api/getProduct/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getProduct/index.ts#L13)
+Defined in: [packages/commercetools/api-client/src/api/getProduct/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getProduct/index.ts#L13)
 
 #### Parameters:
 
@@ -1776,7 +225,7 @@ Name | Type |
 
 ## `getShippingMethods`
 
-Defined in: [packages/commercetools/api-client/src/api/getShippingMethods/index.ts:11](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/getShippingMethods/index.ts#L11)
+Defined in: [packages/commercetools/api-client/src/api/getShippingMethods/index.ts:11](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getShippingMethods/index.ts#L11)
 
 #### Parameters:
 
@@ -1792,7 +241,7 @@ Name | Type |
 
 ## `isGuest`
 
-Defined in: [packages/commercetools/api-client/src/api/isGuest/index.ts:3](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/isGuest/index.ts#L3)
+Defined in: [packages/commercetools/api-client/src/api/isGuest/index.ts:3](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/isGuest/index.ts#L3)
 
 #### Parameters:
 
@@ -1806,7 +255,7 @@ Name | Type |
 
 ## `removeCartCoupon`
 
-Defined in: [packages/commercetools/api-client/src/api/removeCartCoupon/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/removeCartCoupon/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/removeCartCoupon/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/removeCartCoupon/index.ts#L6)
 
 #### Parameters:
 
@@ -1823,7 +272,7 @@ Name | Type |
 
 ## `removeFromCart`
 
-Defined in: [packages/commercetools/api-client/src/api/removeFromCart/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/removeFromCart/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/removeFromCart/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/removeFromCart/index.ts#L6)
 
 #### Parameters:
 
@@ -1840,7 +289,7 @@ Name | Type |
 
 ## `updateCart`
 
-Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:17](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCart/index.ts#L17)
+Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:17](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCart/index.ts#L17)
 
 #### Parameters:
 
@@ -1856,7 +305,7 @@ Name | Type |
 
 ## `updateCartQuantity`
 
-Defined in: [packages/commercetools/api-client/src/api/updateCartQuantity/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateCartQuantity/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/updateCartQuantity/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCartQuantity/index.ts#L6)
 
 #### Parameters:
 
@@ -1873,7 +322,7 @@ Name | Type |
 
 ## `updateShippingDetails`
 
-Defined in: [packages/commercetools/api-client/src/api/updateShippingDetails/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/api/updateShippingDetails/index.ts#L6)
+Defined in: [packages/commercetools/api-client/src/api/updateShippingDetails/index.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateShippingDetails/index.ts#L6)
 
 #### Parameters:
 
@@ -1886,33 +335,705 @@ Name | Type |
 
 **Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
 
-<a name="modulestypes_apimd"></a>
+<a name="interfacesapi_getcategorycategorydatamd"></a>
 
-#### `CartMutationResponse`
+## Types
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:117](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L117)
+### `CategoryData`
+
+* **CategoryData**
+
+### `categories`
+
+Defined in: [packages/commercetools/api-client/src/api/getCategory/index.ts:10](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getCategory/index.ts#L10)
+
+<a name="interfacesapi_getmegetmeparamsmd"></a>
+
+### `GetMeParams`
+
+* **GetMeParams**
+
+### `customer`
+
+Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:8](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getMe/index.ts#L8)
+
+<a name="interfacesapi_getmeordersdatamd"></a>
+
+### `OrdersData`
+
+* **OrdersData**
+
+### `me`
+
+Defined in: [packages/commercetools/api-client/src/api/getMe/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getMe/index.ts#L13)
+
+<a name="interfacesapi_getproductproductdatamd"></a>
+
+### `ProductData`
+
+* **ProductData**
+
+### `products`
+
+Defined in: [packages/commercetools/api-client/src/api/getProduct/index.ts:10](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getProduct/index.ts#L10)
+
+<a name="interfacesapi_getshippingmethodsshippingmethoddatamd"></a>
+
+### `ShippingMethodData`
+
+* **ShippingMethodData**
+
+### `shippingMethods`
+
+Defined in: [packages/commercetools/api-client/src/api/getShippingMethods/index.ts:8](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/getShippingMethods/index.ts#L8)
+
+<a name="interfacesapi_updatecartupdatecartparamsmd"></a>
+
+### `UpdateCartParams`
+
+* **UpdateCartParams**
+
+### `actions`
+
+Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:13](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCart/index.ts#L13)
 
 ___
 
-#### `CartQueryResponse`
+### `id`
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:115](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L115)
-
-___
-
-#### `CartResponse`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:118](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L118)
+Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:11](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCart/index.ts#L11)
 
 ___
 
-#### `ChangeMyPasswordResponse`
+### `version`
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:123](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L123)
+Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:12](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCart/index.ts#L12)
 
 ___
 
-#### `CustomQueryFn`
+### `versionFallback`
+
+Defined in: [packages/commercetools/api-client/src/api/updateCart/index.ts:14](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/api/updateCart/index.ts#L14)
+
+<a name="interfacestypes_apiapiinstancemd"></a>
+
+### `ApiInstance`
+
+* **ApiInstance**
+
+### `isGuest`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:48](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L48)
+
+### `addToCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:28](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L28)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`__namedParameters` | [*Cart*](#cart) |
+`product` | [*ProductVariant*](#productvariant) |
+`quantity` | *number* |
+`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `applyCartCoupon`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:29](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L29)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cart` | [*Cart*](#cart) |
+`discountCode` | *string* |
+`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `createCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:30](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L30)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cartDraft?` | [*CartData*](#interfacestypes_apicartdatamd) |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<{ `data`: [*CartQueryInterface*](#cartqueryinterface)  }\>
+
+___
+
+### `createMyOrderFromCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:31](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L31)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`draft` | [*OrderMyCartCommand*](#ordermycartcommand) |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<FetchResult<Record<*order*, [*Order*](#order)\>, Record<string, any\>, Record<string, any\>\>\>
+
+___
+
+### `customerChangeMyPassword`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:32](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L32)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`version` | *any* |
+`currentPassword` | *string* |
+`newPassword` | *string* |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*Customer*](#customer)\>\>\>
+
+___
+
+### `customerSignMeIn`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:33](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L33)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`draft` | [*CustomerSignMeInDraft*](#customersignmeindraft) |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*CustomerSignInResult*](#customersigninresult)\>\>\>
+
+___
+
+### `customerSignMeUp`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:34](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L34)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`draft` | [*CustomerSignMeUpDraft*](#customersignmeupdraft) |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*user*, [*CustomerSignInResult*](#customersigninresult)\>\>\>
+
+___
+
+### `customerSignOut`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:35](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L35)
+
+**Returns:** *Promise*<void\>
+
+___
+
+### `customerUpdateMe`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:36](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L36)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`currentUser` | *any* |
+`updatedUserData` | *any* |
+
+**Returns:** *Promise*<any\>
+
+___
+
+### `getCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:37](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L37)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cartId` | *string* |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*cart*, [*Cart*](#cart)\>\>\>
+
+___
+
+### `getCategory`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:38](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L38)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`params` | *any* |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*categories*, [*CategoryQueryResult*](#categoryqueryresult)\>\>\>
+
+___
+
+### `getMe`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:39](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L39)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`params?` | [*GetMeParams*](#interfacesapi_getmegetmeparamsmd) |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<{ `data`: { `me`: [*Me*](#me)  }  }\>
+
+___
+
+### `getOrders`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:40](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L40)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`params` | *any* |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<{ `data`: { `me`: [*Me*](#me)  }  }\>
+
+___
+
+### `getProduct`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:41](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L41)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`params` | *any* |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<ApolloQueryResult<Record<*products*, [*ProductQueryResult*](#productqueryresult)\>\>\>
+
+___
+
+### `getShippingMethods`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:42](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L42)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cartId?` | *string* |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*ShippingMethodData*](#interfacesapi_getshippingmethodsshippingmethoddatamd)\>
+
+___
+
+### `removeCartCoupon`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:43](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L43)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cart` | [*Cart*](#cart) |
+`discountCode` | [*ReferenceInput*](#referenceinput) |
+`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `removeFromCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:44](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L44)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cart` | [*Cart*](#cart) |
+`product` | [*LineItem*](#lineitem) |
+`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `updateCart`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:45](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L45)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`params` | [*UpdateCartParams*](#interfacesapi_updatecartupdatecartparamsmd) |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `updateCartQuantity`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:46](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L46)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cart` | [*Cart*](#cart) |
+`product` | [*LineItem*](#lineitem) |
+`customQuery?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+___
+
+### `updateShippingDetails`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:47](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L47)
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cart` | [*Cart*](#cart) |
+`shippingDetails` | [*Address*](#address) |
+`customQueryFn?` | [*CustomQueryFn*](#customqueryfn)<any\> |
+
+**Returns:** *Promise*<[*CartResponse*](#cartresponse)\>
+
+<a name="interfacestypes_apibasesearchmd"></a>
+
+### `BaseSearch`
+
+* **BaseSearch**
+
+  ↳ [*ProductWhereSearch*](#interfacestypes_apiproductwheresearchmd)
+
+  ↳ [*CategoryWhereSearch*](#interfacestypes_apicategorywheresearchmd)
+
+  ↳ [*OrderWhereSearch*](#interfacestypes_apiorderwheresearchmd)
+
+### `limit`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L57)
+
+___
+
+### `offset`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L58)
+
+___
+
+### `sort`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L59)
+
+<a name="interfacestypes_apicartdatamd"></a>
+
+### `CartData`
+
+* *Omit*<[*CartDraft*](#cartdraft), *currency*\>
+
+  ↳ **CartData**
+
+### `anonymousId`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:827](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L827)
+
+___
+
+### `billingAddress`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:816](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L816)
+
+___
+
+### `country`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:811](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L811)
+
+___
+
+### `currency`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:110](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L110)
+
+___
+
+### `custom`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:813](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L813)
+
+___
+
+### `customLineItems`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:824](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L824)
+
+___
+
+### `customerEmail`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:814](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L814)
+
+___
+
+### `customerGroup`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:830](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L830)
+
+___
+
+### `customerId`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:825](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L825)
+
+___
+
+### `deleteDaysAfterLastModification`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:820](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L820)
+
+___
+
+### `discountCodes`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:822](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L822)
+
+___
+
+### `externalTaxRateForShippingMethod`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:826](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L826)
+
+___
+
+### `inventoryMode`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:812](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L812)
+
+___
+
+### `itemShippingAddresses`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:821](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L821)
+
+___
+
+### `lineItems`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:823](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L823)
+
+___
+
+### `locale`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:819](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L819)
+
+___
+
+### `origin`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:832](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L832)
+
+___
+
+### `shippingAddress`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:815](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L815)
+
+___
+
+### `shippingMethod`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:817](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L817)
+
+___
+
+### `shippingRateInput`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:831](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L831)
+
+___
+
+### `store`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:833](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L833)
+
+___
+
+### `taxCalculationMode`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:829](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L829)
+
+___
+
+### `taxMode`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:818](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L818)
+
+___
+
+### `taxRoundingMode`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:828](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L828)
+
+<a name="interfacestypes_apicategorywheresearchmd"></a>
+
+### `CategoryWhereSearch`
+
+* [*BaseSearch*](#interfacestypes_apibasesearchmd)
+
+  ↳ **CategoryWhereSearch**
+
+### `catId`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:83](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L83)
+
+___
+
+### `limit`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L57)
+
+___
+
+### `offset`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L58)
+
+___
+
+### `slug`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:84](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L84)
+
+___
+
+### `sort`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L59)
+
+<a name="interfacestypes_apifiltermd"></a>
+
+### `Filter`
+
+* **Filter**
+
+### `name`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:72](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L72)
+
+___
+
+### `type`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:71](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L71)
+
+___
+
+### `value`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:73](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L73)
+
+<a name="interfacestypes_apifilteroptionmd"></a>
+
+### `FilterOption`
+
+* **FilterOption**
+
+### `label`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:77](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L77)
+
+___
+
+### `selected`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:79](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L79)
+
+___
+
+### `value`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:78](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L78)
+
+<a name="interfacestypes_apiflowoptionsmd"></a>
+
+### `FlowOptions`
+
+* **FlowOptions**
+
+### `currentToken`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:104](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L104)
+
+___
+
+### `customerCredentials`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:105](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L105)
+
+___
+
+### `requireUserSession`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:106](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L106)
+
+<a name="interfacestypes_apimd"></a>
+
+### `CartMutationResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:117](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L117)
+
+___
+
+### `CartQueryResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:115](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L115)
+
+___
+
+### `CartResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:118](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L118)
+
+___
+
+### `ChangeMyPasswordResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:123](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L123)
+
+___
+
+### `CustomQueryFn`
 
 #### Type parameters:
 
@@ -1920,11 +1041,11 @@ Name | Default |
 :------ | :------ |
 `T` | *any* |
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:51](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L51)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:51](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L51)
 
 ___
 
-#### `MutationResponse`
+### `MutationResponse`
 
 #### Type parameters:
 
@@ -1933,29 +1054,29 @@ Name | Type |
 `K` | *string* |
 `V` | - |
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:114](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L114)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:114](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L114)
 
 ___
 
-#### `OrderMutationResponse`
+### `OrderMutationResponse`
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:119](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L119)
-
-___
-
-#### `OrderQueryResponse`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:116](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L116)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:119](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L119)
 
 ___
 
-#### `OrderResponse`
+### `OrderQueryResponse`
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:120](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L120)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:116](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L116)
 
 ___
 
-#### `QueryResponse`
+### `OrderResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:120](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L120)
+
+___
+
+### `QueryResponse`
 
 #### Type parameters:
 
@@ -1964,29 +1085,125 @@ Name | Type |
 `K` | *string* |
 `V` | - |
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:113](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L113)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:113](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L113)
 
 ___
 
-#### `ShippingMethodsResponse`
+### `ShippingMethodsResponse`
 
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:121](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L121)
-
-___
-
-#### `SignInResponse`
-
-Defined in: [packages/commercetools/api-client/src/types/Api.ts:122](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/Api.ts#L122)
-
-<a name="modulestypes_graphqlmd"></a>
-
-#### `AbsoluteDiscountValue`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:43](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L43)
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:121](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L121)
 
 ___
 
-#### `AbsoluteDiscountValueInput`
+### `SignInResponse`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:122](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L122)
+
+<a name="interfacestypes_apiorderwheresearchmd"></a>
+
+### `OrderWhereSearch`
+
+* [*BaseSearch*](#interfacestypes_apibasesearchmd)
+
+  ↳ **OrderWhereSearch**
+
+### `id`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:88](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L88)
+
+___
+
+### `limit`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L57)
+
+___
+
+### `offset`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L58)
+
+___
+
+### `sort`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L59)
+
+<a name="interfacestypes_apiproductwheresearchmd"></a>
+
+### `ProductWhereSearch`
+
+* [*BaseSearch*](#interfacestypes_apibasesearchmd)
+
+  ↳ **ProductWhereSearch**
+
+### `catId`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:63](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L63)
+
+___
+
+### `filters`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:67](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L67)
+
+___
+
+### `id`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:66](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L66)
+
+___
+
+### `limit`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[limit](#limit)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:57](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L57)
+
+___
+
+### `offset`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[offset](#offset)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:58](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L58)
+
+___
+
+### `skus`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:64](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L64)
+
+___
+
+### `slug`
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:65](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L65)
+
+___
+
+### `sort`
+
+Inherited from: [BaseSearch](#interfacestypes_apibasesearchmd).[sort](#sort)
+
+Defined in: [packages/commercetools/api-client/src/types/Api.ts:59](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/Api.ts#L59)
+
+<a name="interfacestypes_graphqlmd"></a>
+
+### `AbsoluteDiscountValue`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:43](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L43)
+
+___
+
+### `AbsoluteDiscountValueInput`
 
 #### Type declaration:
 
@@ -1994,11 +1211,11 @@ Name | Type |
 :------ | :------ |
 `money` | [*MoneyInput*](#moneyinput)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:50](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L50)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:50](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L50)
 
 ___
 
-#### `ActiveCartInterface`
+### `ActiveCartInterface`
 
 A field to access the active cart.
 
@@ -2008,11 +1225,11 @@ Name | Type |
 :------ | :------ |
 `activeCart`? | [*Maybe*](#maybe)<[*Cart*](#cart)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:55](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L55)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:55](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L55)
 
 ___
 
-#### `AddAttributeDefinition`
+### `AddAttributeDefinition`
 
 #### Type declaration:
 
@@ -2020,11 +1237,11 @@ Name | Type |
 :------ | :------ |
 `attributeDefinition` | [*AttributeDefinitionDraft*](#attributedefinitiondraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:59](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L59)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:59](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L59)
 
 ___
 
-#### `AddCartCustomLineItem`
+### `AddCartCustomLineItem`
 
 #### Type declaration:
 
@@ -2039,11 +1256,11 @@ Name | Type |
 `slug` | [*Scalars*](#scalars)[*String*] |
 `taxCategory`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:63](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L63)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:63](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L63)
 
 ___
 
-#### `AddCartDiscountCode`
+### `AddCartDiscountCode`
 
 #### Type declaration:
 
@@ -2052,11 +1269,11 @@ Name | Type |
 `code` | [*Scalars*](#scalars)[*String*] |
 `validateDuplicates`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:74](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L74)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:74](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L74)
 
 ___
 
-#### `AddCartItemShippingAddress`
+### `AddCartItemShippingAddress`
 
 #### Type declaration:
 
@@ -2064,11 +1281,11 @@ Name | Type |
 :------ | :------ |
 `address` | [*AddressInput*](#addressinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:79](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L79)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:79](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L79)
 
 ___
 
-#### `AddCartLineItem`
+### `AddCartLineItem`
 
 #### Type declaration:
 
@@ -2087,11 +1304,11 @@ Name | Type |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:83](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L83)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:83](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L83)
 
 ___
 
-#### `AddCartPayment`
+### `AddCartPayment`
 
 #### Type declaration:
 
@@ -2099,11 +1316,11 @@ Name | Type |
 :------ | :------ |
 `payment` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:98](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L98)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:98](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L98)
 
 ___
 
-#### `AddCartShoppingList`
+### `AddCartShoppingList`
 
 #### Type declaration:
 
@@ -2113,11 +1330,11 @@ Name | Type |
 `shoppingList` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:102](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L102)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:102](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L102)
 
 ___
 
-#### `AddCategoryAsset`
+### `AddCategoryAsset`
 
 #### Type declaration:
 
@@ -2126,11 +1343,11 @@ Name | Type |
 `asset` | [*AssetDraftInput*](#assetdraftinput) |
 `position`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:108](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L108)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:108](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L108)
 
 ___
 
-#### `AddCustomerAddress`
+### `AddCustomerAddress`
 
 #### Type declaration:
 
@@ -2138,11 +1355,11 @@ Name | Type |
 :------ | :------ |
 `address` | [*AddressInput*](#addressinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:113](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L113)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:113](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L113)
 
 ___
 
-#### `AddCustomerBillingAddressId`
+### `AddCustomerBillingAddressId`
 
 #### Type declaration:
 
@@ -2150,11 +1367,11 @@ Name | Type |
 :------ | :------ |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:117](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L117)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:117](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L117)
 
 ___
 
-#### `AddCustomerShippingAddressId`
+### `AddCustomerShippingAddressId`
 
 #### Type declaration:
 
@@ -2162,11 +1379,11 @@ Name | Type |
 :------ | :------ |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:121](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L121)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:121](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L121)
 
 ___
 
-#### `AddCustomerStore`
+### `AddCustomerStore`
 
 #### Type declaration:
 
@@ -2174,11 +1391,11 @@ Name | Type |
 :------ | :------ |
 `store` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:125](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L125)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:125](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L125)
 
 ___
 
-#### `AddInventoryEntryQuantity`
+### `AddInventoryEntryQuantity`
 
 #### Type declaration:
 
@@ -2186,11 +1403,11 @@ Name | Type |
 :------ | :------ |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:129](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L129)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:129](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L129)
 
 ___
 
-#### `AddLocalizedEnumValue`
+### `AddLocalizedEnumValue`
 
 #### Type declaration:
 
@@ -2199,11 +1416,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `value` | [*LocalizedEnumValueDraft*](#localizedenumvaluedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:133](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L133)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:133](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L133)
 
 ___
 
-#### `AddMyCartLineItem`
+### `AddMyCartLineItem`
 
 #### Type declaration:
 
@@ -2219,11 +1436,11 @@ Name | Type |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:138](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L138)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:138](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L138)
 
 ___
 
-#### `AddOrderDelivery`
+### `AddOrderDelivery`
 
 #### Type declaration:
 
@@ -2233,11 +1450,11 @@ Name | Type |
 `items`? | [*Maybe*](#maybe)<[*DeliveryItemDraftType*](#deliveryitemdrafttype)[]\> |
 `parcels`? | [*Maybe*](#maybe)<[*DeliveryItemDraftType*](#deliveryitemdrafttype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:150](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L150)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:150](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L150)
 
 ___
 
-#### `AddOrderItemShippingAddress`
+### `AddOrderItemShippingAddress`
 
 #### Type declaration:
 
@@ -2245,11 +1462,11 @@ Name | Type |
 :------ | :------ |
 `address` | [*AddressInput*](#addressinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:156](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L156)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:156](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L156)
 
 ___
 
-#### `AddOrderParcelToDelivery`
+### `AddOrderParcelToDelivery`
 
 #### Type declaration:
 
@@ -2260,11 +1477,11 @@ Name | Type |
 `measurements`? | [*Maybe*](#maybe)<[*ParcelMeasurementsDraftType*](#parcelmeasurementsdrafttype)\> |
 `trackingData`? | [*Maybe*](#maybe)<[*TrackingDataDraftType*](#trackingdatadrafttype)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:160](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L160)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:160](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L160)
 
 ___
 
-#### `AddOrderPayment`
+### `AddOrderPayment`
 
 #### Type declaration:
 
@@ -2272,11 +1489,11 @@ Name | Type |
 :------ | :------ |
 `payment` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:167](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L167)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:167](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L167)
 
 ___
 
-#### `AddOrderReturnInfo`
+### `AddOrderReturnInfo`
 
 #### Type declaration:
 
@@ -2286,11 +1503,11 @@ Name | Type |
 `returnDate`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `returnTrackingId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:171](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L171)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:171](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L171)
 
 ___
 
-#### `AddPlainEnumValue`
+### `AddPlainEnumValue`
 
 #### Type declaration:
 
@@ -2299,11 +1516,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `value` | [*PlainEnumValueDraft*](#plainenumvaluedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:177](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L177)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:177](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L177)
 
 ___
 
-#### `AddProductAsset`
+### `AddProductAsset`
 
 #### Type declaration:
 
@@ -2316,11 +1533,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:182](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L182)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:182](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L182)
 
 ___
 
-#### `AddProductExternalImage`
+### `AddProductExternalImage`
 
 #### Type declaration:
 
@@ -2331,11 +1548,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:191](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L191)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:191](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L191)
 
 ___
 
-#### `AddProductPrice`
+### `AddProductPrice`
 
 #### Type declaration:
 
@@ -2347,11 +1564,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:198](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L198)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:198](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L198)
 
 ___
 
-#### `AddProductToCategory`
+### `AddProductToCategory`
 
 #### Type declaration:
 
@@ -2361,11 +1578,11 @@ Name | Type |
 `orderHint`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:206](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L206)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:206](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L206)
 
 ___
 
-#### `AddProductVariant`
+### `AddProductVariant`
 
 #### Type declaration:
 
@@ -2379,11 +1596,11 @@ Name | Type |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:212](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L212)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:212](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L212)
 
 ___
 
-#### `AddShippingMethodShippingRate`
+### `AddShippingMethodShippingRate`
 
 #### Type declaration:
 
@@ -2392,11 +1609,11 @@ Name | Type |
 `shippingRate` | [*ShippingRateDraft*](#shippingratedraft) |
 `zone` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:289](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L289)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:289](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L289)
 
 ___
 
-#### `AddShippingMethodZone`
+### `AddShippingMethodZone`
 
 #### Type declaration:
 
@@ -2404,11 +1621,11 @@ Name | Type |
 :------ | :------ |
 `zone` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:294](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L294)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:294](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L294)
 
 ___
 
-#### `AddShoppingListLineItem`
+### `AddShoppingListLineItem`
 
 #### Type declaration:
 
@@ -2421,11 +1638,11 @@ Name | Type |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:298](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L298)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:298](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L298)
 
 ___
 
-#### `AddShoppingListTextLineItem`
+### `AddShoppingListTextLineItem`
 
 #### Type declaration:
 
@@ -2437,11 +1654,11 @@ Name | Type |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `quantity`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:307](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L307)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:307](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L307)
 
 ___
 
-#### `AddZoneLocation`
+### `AddZoneLocation`
 
 #### Type declaration:
 
@@ -2449,11 +1666,11 @@ Name | Type |
 :------ | :------ |
 `location` | [*ZoneLocation*](#zonelocation) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:315](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L315)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:315](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L315)
 
 ___
 
-#### `Address`
+### `Address`
 
 An address represents a postal address.
 
@@ -2489,11 +1706,11 @@ Name | Type |
 `streetNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `title`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:223](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L223)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:223](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L223)
 
 ___
 
-#### `AddressContactInfo`
+### `AddressContactInfo`
 
 #### Type declaration:
 
@@ -2505,11 +1722,11 @@ Name | Type |
 `mobile`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `phone`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:253](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L253)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:253](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L253)
 
 ___
 
-#### `AddressInput`
+### `AddressInput`
 
 #### Type declaration:
 
@@ -2541,11 +1758,11 @@ Name | Type |
 `streetNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `title`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:261](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L261)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:261](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L261)
 
 ___
 
-#### `ApiClientWithSecret`
+### `ApiClientWithSecret`
 
 API Clients can be used to obtain OAuth 2 access tokens. The secret is only
 shown once in the response of creating the API Client.
@@ -2562,11 +1779,11 @@ Name | Type |
 `scope` | [*Scalars*](#scalars)[*String*] |
 `secret` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:358](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L358)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:358](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L358)
 
 ___
 
-#### `ApiClientWithoutSecret`
+### `ApiClientWithoutSecret`
 
 API Clients can be used to obtain OAuth 2 access tokens
 
@@ -2581,11 +1798,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `scope` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:338](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L338)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:338](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L338)
 
 ___
 
-#### `ApiClientWithoutSecretQueryResult`
+### `ApiClientWithoutSecretQueryResult`
 
 #### Type declaration:
 
@@ -2597,11 +1814,11 @@ Name | Type |
 `results` | [*ApiClientWithoutSecret*](#apiclientwithoutsecret)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:347](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L347)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:347](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L347)
 
 ___
 
-#### `ApplyCartDeltaToCustomLineItemShippingDetailsTargets`
+### `ApplyCartDeltaToCustomLineItemShippingDetailsTargets`
 
 #### Type declaration:
 
@@ -2610,11 +1827,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `targetsDelta` | [*ShippingTargetDraft*](#shippingtargetdraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:368](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L368)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:368](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L368)
 
 ___
 
-#### `ApplyCartDeltaToLineItemShippingDetailsTargets`
+### `ApplyCartDeltaToLineItemShippingDetailsTargets`
 
 #### Type declaration:
 
@@ -2623,11 +1840,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `targetsDelta` | [*ShippingTargetDraft*](#shippingtargetdraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:373](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L373)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:373](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L373)
 
 ___
 
-#### `Asset`
+### `Asset`
 
 #### Type declaration:
 
@@ -2647,11 +1864,11 @@ Name | Type | Description |
 `sources` | [*AssetSource*](#assetsource)[] | - |
 `tags` | [*Scalars*](#scalars)[*String*][] | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:378](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L378)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:378](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L378)
 
 ___
 
-#### `AssetCustomFieldListArgs`
+### `AssetCustomFieldListArgs`
 
 #### Type declaration:
 
@@ -2660,11 +1877,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:412](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L412)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:412](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L412)
 
 ___
 
-#### `AssetCustomFieldsRawArgs`
+### `AssetCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -2673,11 +1890,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:407](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L407)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:407](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L407)
 
 ___
 
-#### `AssetDescriptionArgs`
+### `AssetDescriptionArgs`
 
 #### Type declaration:
 
@@ -2686,11 +1903,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:402](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L402)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:402](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L402)
 
 ___
 
-#### `AssetDimensions`
+### `AssetDimensions`
 
 #### Type declaration:
 
@@ -2700,11 +1917,11 @@ Name | Type |
 `height` | [*Scalars*](#scalars)[*Int*] |
 `width` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:417](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L417)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:417](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L417)
 
 ___
 
-#### `AssetDimensionsInput`
+### `AssetDimensionsInput`
 
 #### Type declaration:
 
@@ -2713,11 +1930,11 @@ Name | Type |
 `height` | [*Scalars*](#scalars)[*Int*] |
 `width` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:423](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L423)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:423](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L423)
 
 ___
 
-#### `AssetDraftInput`
+### `AssetDraftInput`
 
 #### Type declaration:
 
@@ -2731,11 +1948,11 @@ Name | Type |
 `tags`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `type`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:428](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L428)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:428](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L428)
 
 ___
 
-#### `AssetNameArgs`
+### `AssetNameArgs`
 
 #### Type declaration:
 
@@ -2744,11 +1961,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:397](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L397)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:397](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L397)
 
 ___
 
-#### `AssetSource`
+### `AssetSource`
 
 #### Type declaration:
 
@@ -2760,11 +1977,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `uri` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:438](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L438)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:438](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L438)
 
 ___
 
-#### `AssetSourceInput`
+### `AssetSourceInput`
 
 #### Type declaration:
 
@@ -2775,11 +1992,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `uri` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:446](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L446)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:446](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L446)
 
 ___
 
-#### `Attribute`
+### `Attribute`
 
 #### Type declaration:
 
@@ -2787,11 +2004,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:453](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L453)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:453](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L453)
 
 ___
 
-#### `AttributeDefinition`
+### `AttributeDefinition`
 
 #### Type declaration:
 
@@ -2809,11 +2026,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `type` | [*AttributeDefinitionType*](#attributedefinitiontype) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:468](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L468)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:468](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L468)
 
 ___
 
-#### `AttributeDefinitionDraft`
+### `AttributeDefinitionDraft`
 
 #### Type declaration:
 
@@ -2828,11 +2045,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `type` | [*AttributeTypeDraft*](#attributetypedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:492](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L492)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:492](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L492)
 
 ___
 
-#### `AttributeDefinitionInputTipArgs`
+### `AttributeDefinitionInputTipArgs`
 
 #### Type declaration:
 
@@ -2841,11 +2058,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:487](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L487)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:487](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L487)
 
 ___
 
-#### `AttributeDefinitionLabelArgs`
+### `AttributeDefinitionLabelArgs`
 
 #### Type declaration:
 
@@ -2854,11 +2071,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:482](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L482)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:482](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L482)
 
 ___
 
-#### `AttributeDefinitionResult`
+### `AttributeDefinitionResult`
 
 #### Type declaration:
 
@@ -2870,11 +2087,11 @@ Name | Type |
 `results` | [*AttributeDefinition*](#attributedefinition)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:503](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L503)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:503](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L503)
 
 ___
 
-#### `AttributeDefinitionType`
+### `AttributeDefinitionType`
 
 (https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype)[https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype]
 
@@ -2884,11 +2101,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:512](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L512)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:512](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L512)
 
 ___
 
-#### `AttributeSetElementTypeDraft`
+### `AttributeSetElementTypeDraft`
 
 #### Type declaration:
 
@@ -2906,11 +2123,11 @@ Name | Type |
 `text`? | [*Maybe*](#maybe)<[*SimpleAttributeTypeDraft*](#simpleattributetypedraft)\> |
 `time`? | [*Maybe*](#maybe)<[*SimpleAttributeTypeDraft*](#simpleattributetypedraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:516](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L516)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:516](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L516)
 
 ___
 
-#### `AttributeSetTypeDraft`
+### `AttributeSetTypeDraft`
 
 #### Type declaration:
 
@@ -2918,11 +2135,11 @@ Name | Type |
 :------ | :------ |
 `elementType` | [*AttributeSetElementTypeDraft*](#attributesetelementtypedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:530](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L530)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:530](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L530)
 
 ___
 
-#### `AttributeTypeDraft`
+### `AttributeTypeDraft`
 
 #### Type declaration:
 
@@ -2941,11 +2158,11 @@ Name | Type |
 `text`? | [*Maybe*](#maybe)<[*SimpleAttributeTypeDraft*](#simpleattributetypedraft)\> |
 `time`? | [*Maybe*](#maybe)<[*SimpleAttributeTypeDraft*](#simpleattributetypedraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:534](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L534)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:534](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L534)
 
 ___
 
-#### `BaseMoney`
+### `BaseMoney`
 
 #### Type declaration:
 
@@ -2956,11 +2173,11 @@ Name | Type |
 `fractionDigits` | [*Scalars*](#scalars)[*Int*] |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:549](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L549)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:549](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L549)
 
 ___
 
-#### `BaseMoneyInput`
+### `BaseMoneyInput`
 
 #### Type declaration:
 
@@ -2969,11 +2186,11 @@ Name | Type |
 `centPrecision`? | [*Maybe*](#maybe)<[*MoneyInput*](#moneyinput)\> |
 `highPrecision`? | [*Maybe*](#maybe)<[*HighPrecisionMoneyInput*](#highprecisionmoneyinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:556](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L556)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:556](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L556)
 
 ___
 
-#### `BaseSearchKeywordInput`
+### `BaseSearchKeywordInput`
 
 #### Type declaration:
 
@@ -2982,44 +2199,44 @@ Name | Type |
 `custom`? | [*Maybe*](#maybe)<[*CustomSuggestTokenizerInput*](#customsuggesttokenizerinput)\> |
 `whitespace`? | [*Maybe*](#maybe)<[*WhitespaceSuggestTokenizerInput*](#whitespacesuggesttokenizerinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:561](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L561)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:561](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L561)
 
 ___
 
-#### `BooleanAttribute`
+### `BooleanAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:566](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L566)
-
-___
-
-#### `BooleanAttributeDefinitionType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:572](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L572)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:566](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L566)
 
 ___
 
-#### `BooleanField`
+### `BooleanAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:577](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L577)
-
-___
-
-#### `BooleanType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:583](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L583)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:572](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L572)
 
 ___
 
-#### `Cart`
+### `BooleanField`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:577](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L577)
+
+___
+
+### `BooleanType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:583](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L583)
+
+___
+
+### `Cart`
 
 A shopping cart holds product variants and can be ordered. Each cart either
 belongs to a registered customer or is an anonymous cart.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:591](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L591)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:591](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L591)
 
 ___
 
-#### `CartClassificationInput`
+### `CartClassificationInput`
 
 #### Type declaration:
 
@@ -3027,17 +2244,17 @@ Name | Type |
 :------ | :------ |
 `values` | [*LocalizedEnumValueInput*](#localizedenumvalueinput)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:654](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L654)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:654](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L654)
 
 ___
 
-#### `CartClassificationType`
+### `CartClassificationType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:658](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L658)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:658](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L658)
 
 ___
 
-#### `CartCustomFieldListArgs`
+### `CartCustomFieldListArgs`
 
 A shopping cart holds product variants and can be ordered. Each cart either
 belongs to a registered customer or is an anonymous cart.
@@ -3049,11 +2266,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:649](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L649)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:649](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L649)
 
 ___
 
-#### `CartCustomFieldsRawArgs`
+### `CartCustomFieldsRawArgs`
 
 A shopping cart holds product variants and can be ordered. Each cart either
 belongs to a registered customer or is an anonymous cart.
@@ -3065,11 +2282,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:641](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L641)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:641](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L641)
 
 ___
 
-#### `CartDiscount`
+### `CartDiscount`
 
 Cart discounts are recalculated every time LineItems or CustomLineItems are
 added or removed from the Cart or an order is created from the cart.
@@ -3077,30 +2294,11 @@ added or removed from the Cart or an order is created from the cart.
 The number of active cart discounts that do not require a discount code
 (isActive=true and requiresDiscountCode=false) is limited to 100.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:670](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L670)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:670](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L670)
 
 ___
 
-#### `CartDiscountCustomFieldListArgs`
-
-Cart discounts are recalculated every time LineItems or CustomLineItems are
-added or removed from the Cart or an order is created from the cart.
-
-The number of active cart discounts that do not require a discount code
-(isActive=true and requiresDiscountCode=false) is limited to 100.
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:740](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L740)
-
-___
-
-#### `CartDiscountCustomFieldsRawArgs`
+### `CartDiscountCustomFieldListArgs`
 
 Cart discounts are recalculated every time LineItems or CustomLineItems are
 added or removed from the Cart or an order is created from the cart.
@@ -3115,11 +2313,30 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:729](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L729)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:740](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L740)
 
 ___
 
-#### `CartDiscountDescriptionArgs`
+### `CartDiscountCustomFieldsRawArgs`
+
+Cart discounts are recalculated every time LineItems or CustomLineItems are
+added or removed from the Cart or an order is created from the cart.
+
+The number of active cart discounts that do not require a discount code
+(isActive=true and requiresDiscountCode=false) is limited to 100.
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:729](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L729)
+
+___
+
+### `CartDiscountDescriptionArgs`
 
 Cart discounts are recalculated every time LineItems or CustomLineItems are
 added or removed from the Cart or an order is created from the cart.
@@ -3134,11 +2351,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:718](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L718)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:718](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L718)
 
 ___
 
-#### `CartDiscountDraft`
+### `CartDiscountDraft`
 
 #### Type declaration:
 
@@ -3158,11 +2375,11 @@ Name | Type |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `value` | [*CartDiscountValueInput*](#cartdiscountvalueinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:745](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L745)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:745](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L745)
 
 ___
 
-#### `CartDiscountNameArgs`
+### `CartDiscountNameArgs`
 
 Cart discounts are recalculated every time LineItems or CustomLineItems are
 added or removed from the Cart or an order is created from the cart.
@@ -3177,11 +2394,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:707](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L707)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:707](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L707)
 
 ___
 
-#### `CartDiscountQueryResult`
+### `CartDiscountQueryResult`
 
 #### Type declaration:
 
@@ -3193,11 +2410,11 @@ Name | Type |
 `results` | [*CartDiscount*](#cartdiscount)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:761](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L761)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:761](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L761)
 
 ___
 
-#### `CartDiscountTarget`
+### `CartDiscountTarget`
 
 #### Type declaration:
 
@@ -3205,11 +2422,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:769](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L769)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:769](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L769)
 
 ___
 
-#### `CartDiscountTargetInput`
+### `CartDiscountTargetInput`
 
 #### Type declaration:
 
@@ -3221,11 +2438,11 @@ Name | Type |
 `multiBuyLineItems`? | [*Maybe*](#maybe)<[*MultiBuyLineItemsTargetInput*](#multibuylineitemstargetinput)\> |
 `shipping`? | [*Maybe*](#maybe)<[*ShippingTargetInput*](#shippingtargetinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:773](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L773)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:773](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L773)
 
 ___
 
-#### `CartDiscountUpdateAction`
+### `CartDiscountUpdateAction`
 
 #### Type declaration:
 
@@ -3247,11 +2464,11 @@ Name | Type |
 `setValidFromAndUntil`? | [*Maybe*](#maybe)<[*SetCartDiscountValidFromAndUntil*](#setcartdiscountvalidfromanduntil)\> |
 `setValidUntil`? | [*Maybe*](#maybe)<[*SetCartDiscountValidUntil*](#setcartdiscountvaliduntil)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:781](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L781)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:781](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L781)
 
 ___
 
-#### `CartDiscountValue`
+### `CartDiscountValue`
 
 #### Type declaration:
 
@@ -3259,11 +2476,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:799](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L799)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:799](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L799)
 
 ___
 
-#### `CartDiscountValueInput`
+### `CartDiscountValueInput`
 
 #### Type declaration:
 
@@ -3273,11 +2490,11 @@ Name | Type |
 `giftLineItem`? | [*Maybe*](#maybe)<[*GiftLineItemValueInput*](#giftlineitemvalueinput)\> |
 `relative`? | [*Maybe*](#maybe)<[*RelativeDiscountValueInput*](#relativediscountvalueinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:803](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L803)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:803](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L803)
 
 ___
 
-#### `CartDraft`
+### `CartDraft`
 
 #### Type declaration:
 
@@ -3308,11 +2525,11 @@ Name | Type |
 `taxMode`? | [*Maybe*](#maybe)<[*TaxMode*](../enums/types_graphql.taxmode.md)\> |
 `taxRoundingMode`? | [*Maybe*](#maybe)<[*RoundingMode*](../enums/types_graphql.roundingmode.md)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:809](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L809)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:809](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L809)
 
 ___
 
-#### `CartQueryInterface`
+### `CartQueryInterface`
 
 Fields to access carts. Includes direct access to a single cart and searching for carts.
 
@@ -3323,11 +2540,11 @@ Name | Type |
 `cart`? | [*Maybe*](#maybe)<[*Cart*](#cart)\> |
 `carts` | [*CartQueryResult*](#cartqueryresult) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:844](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L844)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:844](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L844)
 
 ___
 
-#### `CartQueryInterfaceCartArgs`
+### `CartQueryInterfaceCartArgs`
 
 Fields to access carts. Includes direct access to a single cart and searching for carts.
 
@@ -3337,11 +2554,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:850](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L850)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:850](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L850)
 
 ___
 
-#### `CartQueryInterfaceCartsArgs`
+### `CartQueryInterfaceCartsArgs`
 
 Fields to access carts. Includes direct access to a single cart and searching for carts.
 
@@ -3354,11 +2571,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:855](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L855)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:855](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L855)
 
 ___
 
-#### `CartQueryResult`
+### `CartQueryResult`
 
 #### Type declaration:
 
@@ -3370,11 +2587,11 @@ Name | Type |
 `results` | [*Cart*](#cart)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:862](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L862)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:862](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L862)
 
 ___
 
-#### `CartScoreInput`
+### `CartScoreInput`
 
 #### Type declaration:
 
@@ -3382,17 +2599,17 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:870](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L870)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:870](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L870)
 
 ___
 
-#### `CartScoreType`
+### `CartScoreType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:874](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L874)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:874](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L874)
 
 ___
 
-#### `CartUpdateAction`
+### `CartUpdateAction`
 
 #### Type declaration:
 
@@ -3449,11 +2666,11 @@ Name | Type |
 `setShippingRateInput`? | [*Maybe*](#maybe)<[*SetCartShippingRateInput*](#setcartshippingrateinput)\> |
 `updateItemShippingAddress`? | [*Maybe*](#maybe)<[*UpdateCartItemShippingAddress*](#updatecartitemshippingaddress)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:888](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L888)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:888](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L888)
 
 ___
 
-#### `CartValueInput`
+### `CartValueInput`
 
 #### Type declaration:
 
@@ -3461,23 +2678,23 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:949](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L949)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:949](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L949)
 
 ___
 
-#### `CartValueType`
+### `CartValueType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:953](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L953)
-
-___
-
-#### `Category`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:958](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L958)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:953](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L953)
 
 ___
 
-#### `CategoryCustomFieldListArgs`
+### `Category`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:958](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L958)
+
+___
+
+### `CategoryCustomFieldListArgs`
 
 #### Type declaration:
 
@@ -3486,11 +2703,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1035](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1035)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1035](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1035)
 
 ___
 
-#### `CategoryCustomFieldsRawArgs`
+### `CategoryCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -3499,11 +2716,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1030](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1030)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1030](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1030)
 
 ___
 
-#### `CategoryDescriptionArgs`
+### `CategoryDescriptionArgs`
 
 #### Type declaration:
 
@@ -3512,11 +2729,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1005](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1005)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1005](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1005)
 
 ___
 
-#### `CategoryDraft`
+### `CategoryDraft`
 
 #### Type declaration:
 
@@ -3535,11 +2752,11 @@ Name | Type |
 `parent`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `slug` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1040](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1040)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1040](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1040)
 
 ___
 
-#### `CategoryMetaDescriptionArgs`
+### `CategoryMetaDescriptionArgs`
 
 #### Type declaration:
 
@@ -3548,11 +2765,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1025](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1025)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1025](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1025)
 
 ___
 
-#### `CategoryMetaKeywordsArgs`
+### `CategoryMetaKeywordsArgs`
 
 #### Type declaration:
 
@@ -3561,11 +2778,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1020](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1020)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1020](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1020)
 
 ___
 
-#### `CategoryMetaTitleArgs`
+### `CategoryMetaTitleArgs`
 
 #### Type declaration:
 
@@ -3574,11 +2791,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1015](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1015)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1015](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1015)
 
 ___
 
-#### `CategoryNameArgs`
+### `CategoryNameArgs`
 
 #### Type declaration:
 
@@ -3587,11 +2804,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1000](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1000)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1000](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1000)
 
 ___
 
-#### `CategoryOrderHint`
+### `CategoryOrderHint`
 
 #### Type declaration:
 
@@ -3601,11 +2818,11 @@ Name | Type |
 `categoryId` | [*Scalars*](#scalars)[*String*] |
 `orderHint` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1055](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1055)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1055](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1055)
 
 ___
 
-#### `CategoryOrderHintInput`
+### `CategoryOrderHintInput`
 
 #### Type declaration:
 
@@ -3614,11 +2831,11 @@ Name | Type |
 `orderHint` | [*Scalars*](#scalars)[*String*] |
 `uuid` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1061](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1061)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1061](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1061)
 
 ___
 
-#### `CategoryQueryResult`
+### `CategoryQueryResult`
 
 #### Type declaration:
 
@@ -3630,11 +2847,11 @@ Name | Type |
 `results` | [*Category*](#category)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1066](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1066)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1066](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1066)
 
 ___
 
-#### `CategorySearch`
+### `CategorySearch`
 
 #### Type declaration:
 
@@ -3669,11 +2886,11 @@ Name | Type | Description |
 `stagedProductCount` | [*Scalars*](#scalars)[*Int*] | - |
 `version` | [*Scalars*](#scalars)[*Long*] | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1074](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1074)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1074](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1074)
 
 ___
 
-#### `CategorySearchCustomFieldListArgs`
+### `CategorySearchCustomFieldListArgs`
 
 #### Type declaration:
 
@@ -3682,11 +2899,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1129](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1129)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1129](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1129)
 
 ___
 
-#### `CategorySearchCustomFieldsRawArgs`
+### `CategorySearchCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -3695,11 +2912,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1124](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1124)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1124](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1124)
 
 ___
 
-#### `CategorySearchDescriptionArgs`
+### `CategorySearchDescriptionArgs`
 
 #### Type declaration:
 
@@ -3708,11 +2925,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1114](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1114)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1114](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1114)
 
 ___
 
-#### `CategorySearchNameArgs`
+### `CategorySearchNameArgs`
 
 #### Type declaration:
 
@@ -3721,11 +2938,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1109](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1109)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1109](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1109)
 
 ___
 
-#### `CategorySearchResult`
+### `CategorySearchResult`
 
 #### Type declaration:
 
@@ -3737,11 +2954,11 @@ Name | Type |
 `results` | [*CategorySearch*](#categorysearch)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1134](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1134)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1134](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1134)
 
 ___
 
-#### `CategorySearchSlugArgs`
+### `CategorySearchSlugArgs`
 
 #### Type declaration:
 
@@ -3750,11 +2967,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1119](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1119)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1119](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1119)
 
 ___
 
-#### `CategorySlugArgs`
+### `CategorySlugArgs`
 
 #### Type declaration:
 
@@ -3763,11 +2980,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1010](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1010)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1010](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1010)
 
 ___
 
-#### `CategoryUpdateAction`
+### `CategoryUpdateAction`
 
 #### Type declaration:
 
@@ -3796,11 +3013,11 @@ Name | Type |
 `setMetaKeywords`? | [*Maybe*](#maybe)<[*SetCategoryMetaKeywords*](#setcategorymetakeywords)\> |
 `setMetaTitle`? | [*Maybe*](#maybe)<[*SetCategoryMetaTitle*](#setcategorymetatitle)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1142](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1142)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1142](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1142)
 
 ___
 
-#### `ChangeAttributeName`
+### `ChangeAttributeName`
 
 #### Type declaration:
 
@@ -3809,11 +3026,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `newAttributeName` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1167](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1167)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1167](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1167)
 
 ___
 
-#### `ChangeAttributeOrder`
+### `ChangeAttributeOrder`
 
 #### Type declaration:
 
@@ -3821,11 +3038,11 @@ Name | Type |
 :------ | :------ |
 `attributeDefinitions` | [*AttributeDefinitionDraft*](#attributedefinitiondraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1172](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1172)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1172](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1172)
 
 ___
 
-#### `ChangeAttributeOrderByName`
+### `ChangeAttributeOrderByName`
 
 #### Type declaration:
 
@@ -3833,11 +3050,11 @@ Name | Type |
 :------ | :------ |
 `attributeNames` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1176](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1176)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1176](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1176)
 
 ___
 
-#### `ChangeCartCustomLineItemMoney`
+### `ChangeCartCustomLineItemMoney`
 
 #### Type declaration:
 
@@ -3846,11 +3063,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `money` | [*BaseMoneyInput*](#basemoneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1180](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1180)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1180](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1180)
 
 ___
 
-#### `ChangeCartCustomLineItemQuantity`
+### `ChangeCartCustomLineItemQuantity`
 
 #### Type declaration:
 
@@ -3859,11 +3076,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1185](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1185)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1185](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1185)
 
 ___
 
-#### `ChangeCartDiscountCartPredicate`
+### `ChangeCartDiscountCartPredicate`
 
 #### Type declaration:
 
@@ -3871,11 +3088,11 @@ Name | Type |
 :------ | :------ |
 `cartPredicate` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1190](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1190)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1190](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1190)
 
 ___
 
-#### `ChangeCartDiscountIsActive`
+### `ChangeCartDiscountIsActive`
 
 #### Type declaration:
 
@@ -3883,11 +3100,11 @@ Name | Type |
 :------ | :------ |
 `isActive` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1194](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1194)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1194](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1194)
 
 ___
 
-#### `ChangeCartDiscountName`
+### `ChangeCartDiscountName`
 
 #### Type declaration:
 
@@ -3895,11 +3112,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1198](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1198)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1198](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1198)
 
 ___
 
-#### `ChangeCartDiscountRequiresDiscountCode`
+### `ChangeCartDiscountRequiresDiscountCode`
 
 #### Type declaration:
 
@@ -3907,11 +3124,11 @@ Name | Type |
 :------ | :------ |
 `requiresDiscountCode` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1202](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1202)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1202](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1202)
 
 ___
 
-#### `ChangeCartDiscountSortOrder`
+### `ChangeCartDiscountSortOrder`
 
 #### Type declaration:
 
@@ -3919,11 +3136,11 @@ Name | Type |
 :------ | :------ |
 `sortOrder` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1206](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1206)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1206](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1206)
 
 ___
 
-#### `ChangeCartDiscountStackingMode`
+### `ChangeCartDiscountStackingMode`
 
 #### Type declaration:
 
@@ -3931,11 +3148,11 @@ Name | Type |
 :------ | :------ |
 `stackingMode` | [*StackingMode*](../enums/types_graphql.stackingmode.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1210](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1210)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1210](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1210)
 
 ___
 
-#### `ChangeCartDiscountTarget`
+### `ChangeCartDiscountTarget`
 
 #### Type declaration:
 
@@ -3943,11 +3160,11 @@ Name | Type |
 :------ | :------ |
 `target` | [*CartDiscountTargetInput*](#cartdiscounttargetinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1214](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1214)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1214](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1214)
 
 ___
 
-#### `ChangeCartDiscountValue`
+### `ChangeCartDiscountValue`
 
 #### Type declaration:
 
@@ -3955,11 +3172,11 @@ Name | Type |
 :------ | :------ |
 `value` | [*CartDiscountValueInput*](#cartdiscountvalueinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1218](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1218)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1218](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1218)
 
 ___
 
-#### `ChangeCartLineItemQuantity`
+### `ChangeCartLineItemQuantity`
 
 #### Type declaration:
 
@@ -3970,11 +3187,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1222](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1222)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1222](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1222)
 
 ___
 
-#### `ChangeCartTaxCalculationMode`
+### `ChangeCartTaxCalculationMode`
 
 #### Type declaration:
 
@@ -3982,11 +3199,11 @@ Name | Type |
 :------ | :------ |
 `taxCalculationMode` | [*TaxCalculationMode*](../enums/types_graphql.taxcalculationmode.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1229](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1229)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1229](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1229)
 
 ___
 
-#### `ChangeCartTaxMode`
+### `ChangeCartTaxMode`
 
 #### Type declaration:
 
@@ -3994,11 +3211,11 @@ Name | Type |
 :------ | :------ |
 `taxMode` | [*TaxMode*](../enums/types_graphql.taxmode.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1233](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1233)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1233](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1233)
 
 ___
 
-#### `ChangeCartTaxRoundingMode`
+### `ChangeCartTaxRoundingMode`
 
 #### Type declaration:
 
@@ -4006,11 +3223,11 @@ Name | Type |
 :------ | :------ |
 `taxRoundingMode` | [*RoundingMode*](../enums/types_graphql.roundingmode.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1237](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1237)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1237](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1237)
 
 ___
 
-#### `ChangeCategoryAssetName`
+### `ChangeCategoryAssetName`
 
 #### Type declaration:
 
@@ -4020,11 +3237,11 @@ Name | Type |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1241](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1241)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1241](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1241)
 
 ___
 
-#### `ChangeCategoryAssetOrder`
+### `ChangeCategoryAssetOrder`
 
 #### Type declaration:
 
@@ -4032,11 +3249,11 @@ Name | Type |
 :------ | :------ |
 `assetOrder` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1247](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1247)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1247](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1247)
 
 ___
 
-#### `ChangeCategoryName`
+### `ChangeCategoryName`
 
 #### Type declaration:
 
@@ -4044,11 +3261,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1251](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1251)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1251](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1251)
 
 ___
 
-#### `ChangeCategoryOrderHint`
+### `ChangeCategoryOrderHint`
 
 #### Type declaration:
 
@@ -4056,11 +3273,11 @@ Name | Type |
 :------ | :------ |
 `orderHint` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1255](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1255)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1255](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1255)
 
 ___
 
-#### `ChangeCategoryParent`
+### `ChangeCategoryParent`
 
 #### Type declaration:
 
@@ -4068,11 +3285,11 @@ Name | Type |
 :------ | :------ |
 `parent` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1259](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1259)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1259](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1259)
 
 ___
 
-#### `ChangeCategorySlug`
+### `ChangeCategorySlug`
 
 #### Type declaration:
 
@@ -4080,11 +3297,11 @@ Name | Type |
 :------ | :------ |
 `slug` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1263](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1263)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1263](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1263)
 
 ___
 
-#### `ChangeCustomerAddress`
+### `ChangeCustomerAddress`
 
 #### Type declaration:
 
@@ -4093,11 +3310,11 @@ Name | Type |
 `address` | [*AddressInput*](#addressinput) |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1267](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1267)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1267](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1267)
 
 ___
 
-#### `ChangeCustomerEmail`
+### `ChangeCustomerEmail`
 
 #### Type declaration:
 
@@ -4105,11 +3322,11 @@ Name | Type |
 :------ | :------ |
 `email` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1272](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1272)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1272](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1272)
 
 ___
 
-#### `ChangeCustomerGroupName`
+### `ChangeCustomerGroupName`
 
 #### Type declaration:
 
@@ -4117,11 +3334,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1276](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1276)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1276](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1276)
 
 ___
 
-#### `ChangeDescription`
+### `ChangeDescription`
 
 #### Type declaration:
 
@@ -4129,11 +3346,11 @@ Name | Type |
 :------ | :------ |
 `description` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1280](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1280)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1280](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1280)
 
 ___
 
-#### `ChangeDiscountCodeCartDiscounts`
+### `ChangeDiscountCodeCartDiscounts`
 
 #### Type declaration:
 
@@ -4141,11 +3358,11 @@ Name | Type |
 :------ | :------ |
 `cartDiscounts` | [*ReferenceInput*](#referenceinput)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1284](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1284)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1284](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1284)
 
 ___
 
-#### `ChangeDiscountCodeGroups`
+### `ChangeDiscountCodeGroups`
 
 #### Type declaration:
 
@@ -4153,11 +3370,11 @@ Name | Type |
 :------ | :------ |
 `groups` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1288](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1288)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1288](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1288)
 
 ___
 
-#### `ChangeDiscountCodeIsActive`
+### `ChangeDiscountCodeIsActive`
 
 #### Type declaration:
 
@@ -4165,11 +3382,11 @@ Name | Type |
 :------ | :------ |
 `isActive` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1292](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1292)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1292](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1292)
 
 ___
 
-#### `ChangeEnumKey`
+### `ChangeEnumKey`
 
 #### Type declaration:
 
@@ -4179,11 +3396,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `newKey` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1296](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1296)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1296](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1296)
 
 ___
 
-#### `ChangeInputHint`
+### `ChangeInputHint`
 
 #### Type declaration:
 
@@ -4192,11 +3409,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `newValue` | [*TextInputHint*](../enums/types_graphql.textinputhint.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1302](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1302)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1302](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1302)
 
 ___
 
-#### `ChangeInventoryEntryQuantity`
+### `ChangeInventoryEntryQuantity`
 
 #### Type declaration:
 
@@ -4204,11 +3421,11 @@ Name | Type |
 :------ | :------ |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1307](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1307)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1307](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1307)
 
 ___
 
-#### `ChangeIsSearchable`
+### `ChangeIsSearchable`
 
 #### Type declaration:
 
@@ -4217,11 +3434,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `isSearchable` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1311](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1311)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1311](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1311)
 
 ___
 
-#### `ChangeLabel`
+### `ChangeLabel`
 
 #### Type declaration:
 
@@ -4230,11 +3447,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `label` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1316](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1316)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1316](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1316)
 
 ___
 
-#### `ChangeLocalizedEnumValueLabel`
+### `ChangeLocalizedEnumValueLabel`
 
 #### Type declaration:
 
@@ -4243,11 +3460,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `newValue` | [*LocalizedEnumValueDraft*](#localizedenumvaluedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1321](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1321)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1321](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1321)
 
 ___
 
-#### `ChangeLocalizedEnumValueOrder`
+### `ChangeLocalizedEnumValueOrder`
 
 #### Type declaration:
 
@@ -4256,11 +3473,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `values` | [*LocalizedEnumValueDraft*](#localizedenumvaluedraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1326](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1326)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1326](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1326)
 
 ___
 
-#### `ChangeMyCartTaxMode`
+### `ChangeMyCartTaxMode`
 
 #### Type declaration:
 
@@ -4268,11 +3485,11 @@ Name | Type |
 :------ | :------ |
 `taxMode` | [*TaxMode*](../enums/types_graphql.taxmode.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1331](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1331)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1331](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1331)
 
 ___
 
-#### `ChangeName`
+### `ChangeName`
 
 #### Type declaration:
 
@@ -4280,11 +3497,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1335](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1335)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1335](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1335)
 
 ___
 
-#### `ChangeOrderPaymentState`
+### `ChangeOrderPaymentState`
 
 #### Type declaration:
 
@@ -4292,11 +3509,11 @@ Name | Type |
 :------ | :------ |
 `paymentState` | [*PaymentState*](../enums/types_graphql.paymentstate.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1339](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1339)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1339](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1339)
 
 ___
 
-#### `ChangeOrderShipmentState`
+### `ChangeOrderShipmentState`
 
 #### Type declaration:
 
@@ -4304,11 +3521,11 @@ Name | Type |
 :------ | :------ |
 `shipmentState` | [*ShipmentState*](../enums/types_graphql.shipmentstate.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1343](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1343)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1343](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1343)
 
 ___
 
-#### `ChangeOrderState`
+### `ChangeOrderState`
 
 #### Type declaration:
 
@@ -4316,11 +3533,11 @@ Name | Type |
 :------ | :------ |
 `orderState` | [*OrderState*](../enums/types_graphql.orderstate.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1347](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1347)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1347](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1347)
 
 ___
 
-#### `ChangePlainEnumValueLabel`
+### `ChangePlainEnumValueLabel`
 
 #### Type declaration:
 
@@ -4329,11 +3546,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `newValue` | [*PlainEnumValueDraft*](#plainenumvaluedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1351](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1351)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1351](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1351)
 
 ___
 
-#### `ChangePlainEnumValueOrder`
+### `ChangePlainEnumValueOrder`
 
 #### Type declaration:
 
@@ -4342,11 +3559,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `values` | [*PlainEnumValueDraft*](#plainenumvaluedraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1356](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1356)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1356](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1356)
 
 ___
 
-#### `ChangeProductAssetName`
+### `ChangeProductAssetName`
 
 #### Type declaration:
 
@@ -4360,11 +3577,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1361](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1361)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1361](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1361)
 
 ___
 
-#### `ChangeProductAssetOrder`
+### `ChangeProductAssetOrder`
 
 #### Type declaration:
 
@@ -4376,11 +3593,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1371](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1371)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1371](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1371)
 
 ___
 
-#### `ChangeProductDiscountIsActive`
+### `ChangeProductDiscountIsActive`
 
 #### Type declaration:
 
@@ -4388,11 +3605,11 @@ Name | Type |
 :------ | :------ |
 `isActive` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1379](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1379)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1379](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1379)
 
 ___
 
-#### `ChangeProductDiscountName`
+### `ChangeProductDiscountName`
 
 #### Type declaration:
 
@@ -4400,11 +3617,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1383](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1383)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1383](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1383)
 
 ___
 
-#### `ChangeProductDiscountPredicate`
+### `ChangeProductDiscountPredicate`
 
 #### Type declaration:
 
@@ -4412,11 +3629,11 @@ Name | Type |
 :------ | :------ |
 `predicate` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1387](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1387)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1387](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1387)
 
 ___
 
-#### `ChangeProductDiscountSortOrder`
+### `ChangeProductDiscountSortOrder`
 
 #### Type declaration:
 
@@ -4424,11 +3641,11 @@ Name | Type |
 :------ | :------ |
 `sortOrder` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1391](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1391)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1391](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1391)
 
 ___
 
-#### `ChangeProductDiscountValue`
+### `ChangeProductDiscountValue`
 
 #### Type declaration:
 
@@ -4436,11 +3653,11 @@ Name | Type |
 :------ | :------ |
 `value` | [*ProductDiscountValueInput*](#productdiscountvalueinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1395](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1395)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1395](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1395)
 
 ___
 
-#### `ChangeProductImageLabel`
+### `ChangeProductImageLabel`
 
 #### Type declaration:
 
@@ -4452,11 +3669,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1399](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1399)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1399](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1399)
 
 ___
 
-#### `ChangeProductMasterVariant`
+### `ChangeProductMasterVariant`
 
 #### Type declaration:
 
@@ -4466,11 +3683,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1407](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1407)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1407](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1407)
 
 ___
 
-#### `ChangeProductName`
+### `ChangeProductName`
 
 #### Type declaration:
 
@@ -4479,11 +3696,11 @@ Name | Type |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1413](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1413)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1413](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1413)
 
 ___
 
-#### `ChangeProductPrice`
+### `ChangeProductPrice`
 
 #### Type declaration:
 
@@ -4496,11 +3713,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1418](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1418)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1418](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1418)
 
 ___
 
-#### `ChangeProductSlug`
+### `ChangeProductSlug`
 
 #### Type declaration:
 
@@ -4509,11 +3726,11 @@ Name | Type |
 `slug` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1427](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1427)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1427](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1427)
 
 ___
 
-#### `ChangeProjectSettingsCountries`
+### `ChangeProjectSettingsCountries`
 
 #### Type declaration:
 
@@ -4521,11 +3738,11 @@ Name | Type |
 :------ | :------ |
 `countries` | [*Scalars*](#scalars)[*Country*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1432](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1432)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1432](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1432)
 
 ___
 
-#### `ChangeProjectSettingsCurrencies`
+### `ChangeProjectSettingsCurrencies`
 
 #### Type declaration:
 
@@ -4533,11 +3750,11 @@ Name | Type |
 :------ | :------ |
 `currencies` | [*Scalars*](#scalars)[*Currency*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1436](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1436)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1436](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1436)
 
 ___
 
-#### `ChangeProjectSettingsLanguages`
+### `ChangeProjectSettingsLanguages`
 
 #### Type declaration:
 
@@ -4545,11 +3762,11 @@ Name | Type |
 :------ | :------ |
 `languages` | [*Scalars*](#scalars)[*Locale*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1440](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1440)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1440](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1440)
 
 ___
 
-#### `ChangeProjectSettingsMessagesConfiguration`
+### `ChangeProjectSettingsMessagesConfiguration`
 
 #### Type declaration:
 
@@ -4557,11 +3774,11 @@ Name | Type |
 :------ | :------ |
 `messagesConfiguration` | [*MessagesConfigurationDraft*](#messagesconfigurationdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1444](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1444)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1444](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1444)
 
 ___
 
-#### `ChangeProjectSettingsMessagesEnabled`
+### `ChangeProjectSettingsMessagesEnabled`
 
 #### Type declaration:
 
@@ -4569,11 +3786,11 @@ Name | Type |
 :------ | :------ |
 `messagesEnabled` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1448](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1448)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1448](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1448)
 
 ___
 
-#### `ChangeProjectSettingsName`
+### `ChangeProjectSettingsName`
 
 #### Type declaration:
 
@@ -4581,11 +3798,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1452](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1452)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1452](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1452)
 
 ___
 
-#### `ChangeShippingMethodIsDefault`
+### `ChangeShippingMethodIsDefault`
 
 #### Type declaration:
 
@@ -4593,11 +3810,11 @@ Name | Type |
 :------ | :------ |
 `isDefault` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1456](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1456)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1456](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1456)
 
 ___
 
-#### `ChangeShippingMethodName`
+### `ChangeShippingMethodName`
 
 #### Type declaration:
 
@@ -4605,11 +3822,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1460](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1460)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1460](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1460)
 
 ___
 
-#### `ChangeShippingMethodTaxCategory`
+### `ChangeShippingMethodTaxCategory`
 
 #### Type declaration:
 
@@ -4617,11 +3834,11 @@ Name | Type |
 :------ | :------ |
 `taxCategory` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1464](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1464)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1464](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1464)
 
 ___
 
-#### `ChangeShoppingListLineItemQuantity`
+### `ChangeShoppingListLineItemQuantity`
 
 #### Type declaration:
 
@@ -4630,11 +3847,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1468](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1468)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1468](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1468)
 
 ___
 
-#### `ChangeShoppingListLineItemsOrder`
+### `ChangeShoppingListLineItemsOrder`
 
 #### Type declaration:
 
@@ -4642,11 +3859,11 @@ Name | Type |
 :------ | :------ |
 `lineItemOrder` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1473](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1473)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1473](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1473)
 
 ___
 
-#### `ChangeShoppingListName`
+### `ChangeShoppingListName`
 
 #### Type declaration:
 
@@ -4654,11 +3871,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1477](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1477)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1477](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1477)
 
 ___
 
-#### `ChangeShoppingListTextLineItemName`
+### `ChangeShoppingListTextLineItemName`
 
 #### Type declaration:
 
@@ -4667,11 +3884,11 @@ Name | Type |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `textLineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1481](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1481)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1481](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1481)
 
 ___
 
-#### `ChangeShoppingListTextLineItemQuantity`
+### `ChangeShoppingListTextLineItemQuantity`
 
 #### Type declaration:
 
@@ -4680,11 +3897,11 @@ Name | Type |
 `quantity` | [*Scalars*](#scalars)[*Int*] |
 `textLineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1486](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1486)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1486](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1486)
 
 ___
 
-#### `ChangeShoppingListTextLineItemsOrder`
+### `ChangeShoppingListTextLineItemsOrder`
 
 #### Type declaration:
 
@@ -4692,11 +3909,11 @@ Name | Type |
 :------ | :------ |
 `textLineItemOrder` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1491](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1491)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1491](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1491)
 
 ___
 
-#### `ChangeZoneName`
+### `ChangeZoneName`
 
 #### Type declaration:
 
@@ -4704,17 +3921,17 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1495](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1495)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1495](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1495)
 
 ___
 
-#### `Channel`
+### `Channel`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1499](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1499)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1499](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1499)
 
 ___
 
-#### `ChannelCustomFieldsRawArgs`
+### `ChannelCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -4723,11 +3940,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1532](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1532)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1532](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1532)
 
 ___
 
-#### `ChannelDescriptionArgs`
+### `ChannelDescriptionArgs`
 
 #### Type declaration:
 
@@ -4736,11 +3953,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1527](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1527)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1527](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1527)
 
 ___
 
-#### `ChannelNameArgs`
+### `ChannelNameArgs`
 
 #### Type declaration:
 
@@ -4749,11 +3966,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1522](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1522)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1522](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1522)
 
 ___
 
-#### `ChannelQueryResult`
+### `ChannelQueryResult`
 
 #### Type declaration:
 
@@ -4765,11 +3982,11 @@ Name | Type |
 `results` | [*Channel*](#channel)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1537](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1537)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1537](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1537)
 
 ___
 
-#### `ChannelReferenceIdentifier`
+### `ChannelReferenceIdentifier`
 
 #### Type declaration:
 
@@ -4780,17 +3997,17 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1545](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1545)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1545](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1545)
 
 ___
 
-#### `ClassificationShippingRateInput`
+### `ClassificationShippingRateInput`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1570](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1570)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1570](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1570)
 
 ___
 
-#### `ClassificationShippingRateInputDraft`
+### `ClassificationShippingRateInputDraft`
 
 #### Type declaration:
 
@@ -4798,11 +4015,11 @@ Name | Type |
 :------ | :------ |
 `key` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1583](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1583)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1583](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1583)
 
 ___
 
-#### `ClassificationShippingRateInputLabelArgs`
+### `ClassificationShippingRateInputLabelArgs`
 
 #### Type declaration:
 
@@ -4811,11 +4028,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1578](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1578)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1578](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1578)
 
 ___
 
-#### `CreateApiClient`
+### `CreateApiClient`
 
 #### Type declaration:
 
@@ -4824,11 +4041,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `scope` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1587](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1587)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1587](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1587)
 
 ___
 
-#### `CreateStore`
+### `CreateStore`
 
 #### Type declaration:
 
@@ -4838,11 +4055,11 @@ Name | Type |
 `languages`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `name`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1592](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1592)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1592](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1592)
 
 ___
 
-#### `CreateZone`
+### `CreateZone`
 
 #### Type declaration:
 
@@ -4853,11 +4070,11 @@ Name | Type |
 `locations`? | [*Maybe*](#maybe)<[*ZoneLocation*](#zonelocation)[]\> |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1598](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1598)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1598](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1598)
 
 ___
 
-#### `CustomField`
+### `CustomField`
 
 #### Type declaration:
 
@@ -4865,11 +4082,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1901](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1901)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1901](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1901)
 
 ___
 
-#### `CustomFieldInput`
+### `CustomFieldInput`
 
 A key-value pair representing the field name and value of one single custom field.
 
@@ -4890,11 +4107,11 @@ Name | Type | Description |
 `name` | [*Scalars*](#scalars)[*String*] | - |
 `value` | [*Scalars*](#scalars)[*String*] | The value of this custom field consists of escaped JSON based on the FieldDefinition of the Type.  Examples for `value`:  * FieldType `String`: `"\"This is a string\""` * FieldType `DateTimeType`: `"\"2001-09-11T14:00:00.000Z\""` * FieldType `Number`: `"4"` * FieldType `Set` with an elementType of `String`: `"[\"This is a string\", \"This is another string\"]"` * FieldType `Reference`: `"{\"id\", \"b911b62d-353a-4388-93ee-8d488d9af962\", \"typeId\", \"product\"}"`    |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1917](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1917)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1917](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1917)
 
 ___
 
-#### `CustomFieldsDraft`
+### `CustomFieldsDraft`
 
 #### Type declaration:
 
@@ -4905,11 +4122,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1932](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1932)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1932](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1932)
 
 ___
 
-#### `CustomFieldsType`
+### `CustomFieldsType`
 
 #### Type declaration:
 
@@ -4922,11 +4139,11 @@ Name | Type | Description |
 `type`? | [*Maybe*](#maybe)<[*TypeDefinition*](#typedefinition)\> | - |
 `typeRef` | [*Reference*](#reference) | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1939](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1939)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1939](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1939)
 
 ___
 
-#### `CustomFieldsTypeCustomFieldListArgs`
+### `CustomFieldsTypeCustomFieldListArgs`
 
 #### Type declaration:
 
@@ -4935,11 +4152,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1956](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1956)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1956](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1956)
 
 ___
 
-#### `CustomFieldsTypeCustomFieldsRawArgs`
+### `CustomFieldsTypeCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -4948,11 +4165,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1951](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1951)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1951](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1951)
 
 ___
 
-#### `CustomLineItem`
+### `CustomLineItem`
 
 A custom line item is a generic item that can be added to the cart but is not
 bound to a product. You can use it for discounts (negative money), vouchers,
@@ -4981,11 +4198,11 @@ Name | Type | Description |
 `taxRate`? | [*Maybe*](#maybe)<[*TaxRate*](#taxrate)\> | - |
 `totalPrice` | [*Money*](#money) | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1965](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1965)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1965](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1965)
 
 ___
 
-#### `CustomLineItemCustomFieldListArgs`
+### `CustomLineItemCustomFieldListArgs`
 
 A custom line item is a generic item that can be added to the cart but is not
 bound to a product. You can use it for discounts (negative money), vouchers,
@@ -4998,11 +4215,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2011](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2011)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2011](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2011)
 
 ___
 
-#### `CustomLineItemCustomFieldsRawArgs`
+### `CustomLineItemCustomFieldsRawArgs`
 
 A custom line item is a generic item that can be added to the cart but is not
 bound to a product. You can use it for discounts (negative money), vouchers,
@@ -5015,11 +4232,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2002](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2002)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2002](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2002)
 
 ___
 
-#### `CustomLineItemDraft`
+### `CustomLineItemDraft`
 
 #### Type declaration:
 
@@ -5034,11 +4251,11 @@ Name | Type |
 `slug` | [*Scalars*](#scalars)[*String*] |
 `taxCategory`? | [*Maybe*](#maybe)<[*ReferenceInput*](#referenceinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2016](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2016)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2016](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2016)
 
 ___
 
-#### `CustomLineItemNameArgs`
+### `CustomLineItemNameArgs`
 
 A custom line item is a generic item that can be added to the cart but is not
 bound to a product. You can use it for discounts (negative money), vouchers,
@@ -5051,23 +4268,23 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1993](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1993)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1993](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1993)
 
 ___
 
-#### `CustomLineItemReturnItem`
+### `CustomLineItemReturnItem`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2027](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2027)
-
-___
-
-#### `CustomLineItemsTarget`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2040](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2040)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2027](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2027)
 
 ___
 
-#### `CustomLineItemsTargetInput`
+### `CustomLineItemsTarget`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2040](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2040)
+
+___
+
+### `CustomLineItemsTargetInput`
 
 #### Type declaration:
 
@@ -5075,11 +4292,11 @@ Name | Type |
 :------ | :------ |
 `predicate` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2046](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2046)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2046](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2046)
 
 ___
 
-#### `CustomSuggestTokenizerInput`
+### `CustomSuggestTokenizerInput`
 
 #### Type declaration:
 
@@ -5088,19 +4305,19 @@ Name | Type |
 `suggestTokenizer`? | [*Maybe*](#maybe)<[*BaseSearchKeywordInput*](#basesearchkeywordinput)\> |
 `text` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2050](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2050)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2050](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2050)
 
 ___
 
-#### `Customer`
+### `Customer`
 
 A customer is a person purchasing products. Carts, Orders and Reviews can be associated to a customer.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1606](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1606)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1606](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1606)
 
 ___
 
-#### `CustomerActiveCartInterface`
+### `CustomerActiveCartInterface`
 
 A field to access a customer's active cart.
 
@@ -5110,11 +4327,11 @@ Name | Type |
 :------ | :------ |
 `customerActiveCart`? | [*Maybe*](#maybe)<[*Cart*](#cart)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1664](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1664)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1664](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1664)
 
 ___
 
-#### `CustomerActiveCartInterfaceCustomerActiveCartArgs`
+### `CustomerActiveCartInterfaceCustomerActiveCartArgs`
 
 A field to access a customer's active cart.
 
@@ -5124,11 +4341,11 @@ Name | Type |
 :------ | :------ |
 `customerId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1669](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1669)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1669](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1669)
 
 ___
 
-#### `CustomerCustomFieldListArgs`
+### `CustomerCustomFieldListArgs`
 
 A customer is a person purchasing products. Carts, Orders and Reviews can be associated to a customer.
 
@@ -5139,11 +4356,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1658](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1658)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1658](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1658)
 
 ___
 
-#### `CustomerCustomFieldsRawArgs`
+### `CustomerCustomFieldsRawArgs`
 
 A customer is a person purchasing products. Carts, Orders and Reviews can be associated to a customer.
 
@@ -5154,38 +4371,21 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1652](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1652)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1652](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1652)
 
 ___
 
-#### `CustomerGroup`
+### `CustomerGroup`
 
 A customer can be a member in a customer group (e.g. reseller, gold member). A
 customer group can be used in price calculations with special prices being
 assigned to certain customer groups.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1677](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1677)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1677](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1677)
 
 ___
 
-#### `CustomerGroupCustomFieldListArgs`
-
-A customer can be a member in a customer group (e.g. reseller, gold member). A
-customer group can be used in price calculations with special prices being
-assigned to certain customer groups.
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1709](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1709)
-
-___
-
-#### `CustomerGroupCustomFieldsRawArgs`
+### `CustomerGroupCustomFieldListArgs`
 
 A customer can be a member in a customer group (e.g. reseller, gold member). A
 customer group can be used in price calculations with special prices being
@@ -5198,11 +4398,28 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1700](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1700)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1709](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1709)
 
 ___
 
-#### `CustomerGroupDraft`
+### `CustomerGroupCustomFieldsRawArgs`
+
+A customer can be a member in a customer group (e.g. reseller, gold member). A
+customer group can be used in price calculations with special prices being
+assigned to certain customer groups.
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1700](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1700)
+
+___
+
+### `CustomerGroupDraft`
 
 #### Type declaration:
 
@@ -5212,11 +4429,11 @@ Name | Type |
 `groupName` | [*Scalars*](#scalars)[*String*] |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1714](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1714)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1714](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1714)
 
 ___
 
-#### `CustomerGroupQueryResult`
+### `CustomerGroupQueryResult`
 
 #### Type declaration:
 
@@ -5228,11 +4445,11 @@ Name | Type |
 `results` | [*CustomerGroup*](#customergroup)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1720](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1720)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1720](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1720)
 
 ___
 
-#### `CustomerGroupUpdateAction`
+### `CustomerGroupUpdateAction`
 
 #### Type declaration:
 
@@ -5243,11 +4460,11 @@ Name | Type |
 `setCustomType`? | [*Maybe*](#maybe)<[*SetCustomerGroupCustomType*](#setcustomergroupcustomtype)\> |
 `setKey`? | [*Maybe*](#maybe)<[*SetCustomerGroupKey*](#setcustomergroupkey)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1728](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1728)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1728](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1728)
 
 ___
 
-#### `CustomerQueryInterface`
+### `CustomerQueryInterface`
 
 Fields to access customer accounts. Includes direct access to a single customer and searching for customers.
 
@@ -5258,11 +4475,11 @@ Name | Type |
 `customer`? | [*Maybe*](#maybe)<[*Customer*](#customer)\> |
 `customers` | [*CustomerQueryResult*](#customerqueryresult) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1736](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1736)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1736](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1736)
 
 ___
 
-#### `CustomerQueryInterfaceCustomerArgs`
+### `CustomerQueryInterfaceCustomerArgs`
 
 Fields to access customer accounts. Includes direct access to a single customer and searching for customers.
 
@@ -5275,11 +4492,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `passwordToken`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1742](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1742)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1742](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1742)
 
 ___
 
-#### `CustomerQueryInterfaceCustomersArgs`
+### `CustomerQueryInterfaceCustomersArgs`
 
 Fields to access customer accounts. Includes direct access to a single customer and searching for customers.
 
@@ -5292,11 +4509,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1750](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1750)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1750](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1750)
 
 ___
 
-#### `CustomerQueryResult`
+### `CustomerQueryResult`
 
 #### Type declaration:
 
@@ -5308,11 +4525,11 @@ Name | Type |
 `results` | [*Customer*](#customer)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1757](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1757)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1757](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1757)
 
 ___
 
-#### `CustomerSignInDraft`
+### `CustomerSignInDraft`
 
 #### Type declaration:
 
@@ -5325,11 +4542,11 @@ Name | Type |
 `password` | [*Scalars*](#scalars)[*String*] |
 `updateProductData`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1765](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1765)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1765](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1765)
 
 ___
 
-#### `CustomerSignInResult`
+### `CustomerSignInResult`
 
 #### Type declaration:
 
@@ -5339,11 +4556,11 @@ Name | Type |
 `cart`? | [*Maybe*](#maybe)<[*Cart*](#cart)\> |
 `customer` | [*Customer*](#customer) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1774](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1774)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1774](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1774)
 
 ___
 
-#### `CustomerSignMeInDraft`
+### `CustomerSignMeInDraft`
 
 #### Type declaration:
 
@@ -5354,11 +4571,11 @@ Name | Type |
 `password` | [*Scalars*](#scalars)[*String*] |
 `updateProductData`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1780](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1780)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1780](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1780)
 
 ___
 
-#### `CustomerSignMeUpDraft`
+### `CustomerSignMeUpDraft`
 
 #### Type declaration:
 
@@ -5384,11 +4601,11 @@ Name | Type | Description |
 `title`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> | - |
 `vatId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1787](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1787)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1787](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1787)
 
 ___
 
-#### `CustomerSignUpDraft`
+### `CustomerSignUpDraft`
 
 #### Type declaration:
 
@@ -5420,11 +4637,11 @@ Name | Type | Description |
 `title`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> | - |
 `vatId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1821](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1821)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1821](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1821)
 
 ___
 
-#### `CustomerToken`
+### `CustomerToken`
 
 #### Type declaration:
 
@@ -5437,11 +4654,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `value` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1861](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1861)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1861](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1861)
 
 ___
 
-#### `CustomerUpdateAction`
+### `CustomerUpdateAction`
 
 #### Type declaration:
 
@@ -5476,59 +4693,59 @@ Name | Type |
 `setTitle`? | [*Maybe*](#maybe)<[*SetCustomerTitle*](#setcustomertitle)\> |
 `setVatId`? | [*Maybe*](#maybe)<[*SetCustomerVatId*](#setcustomervatid)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1870](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L1870)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:1870](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L1870)
 
 ___
 
-#### `DateAttribute`
+### `DateAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2055](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2055)
-
-___
-
-#### `DateAttributeDefinitionType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2061](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2061)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2055](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2055)
 
 ___
 
-#### `DateField`
+### `DateAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2066](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2066)
-
-___
-
-#### `DateTimeAttribute`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2072](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2072)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2061](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2061)
 
 ___
 
-#### `DateTimeAttributeDefinitionType`
+### `DateField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2078](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2078)
-
-___
-
-#### `DateTimeField`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2083](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2083)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2066](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2066)
 
 ___
 
-#### `DateTimeType`
+### `DateTimeAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2089](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2089)
-
-___
-
-#### `DateType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2094](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2094)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2072](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2072)
 
 ___
 
-#### `Delivery`
+### `DateTimeAttributeDefinitionType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2078](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2078)
+
+___
+
+### `DateTimeField`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2083](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2083)
+
+___
+
+### `DateTimeType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2089](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2089)
+
+___
+
+### `DateType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2094](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2094)
+
+___
+
+### `Delivery`
 
 #### Type declaration:
 
@@ -5541,11 +4758,11 @@ Name | Type |
 `items` | [*DeliveryItem*](#deliveryitem)[] |
 `parcels` | [*Parcel*](#parcel)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2099](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2099)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2099](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2099)
 
 ___
 
-#### `DeliveryItem`
+### `DeliveryItem`
 
 #### Type declaration:
 
@@ -5555,11 +4772,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2108](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2108)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2108](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2108)
 
 ___
 
-#### `DeliveryItemDraftType`
+### `DeliveryItemDraftType`
 
 #### Type declaration:
 
@@ -5568,11 +4785,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2114](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2114)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2114](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2114)
 
 ___
 
-#### `Dimensions`
+### `Dimensions`
 
 #### Type declaration:
 
@@ -5582,11 +4799,11 @@ Name | Type |
 `height` | [*Scalars*](#scalars)[*Int*] |
 `width` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2119](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2119)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2119](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2119)
 
 ___
 
-#### `DimensionsInput`
+### `DimensionsInput`
 
 #### Type declaration:
 
@@ -5595,38 +4812,21 @@ Name | Type |
 `height` | [*Scalars*](#scalars)[*Int*] |
 `width` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2125](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2125)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2125](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2125)
 
 ___
 
-#### `DiscountCode`
+### `DiscountCode`
 
 With discount codes it is possible to give specific cart discounts to an
 eligible amount of users. They are defined by a string value which can be added
 to a cart so that specific cart discounts can be applied to the cart.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2134](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2134)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2134](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2134)
 
 ___
 
-#### `DiscountCodeCustomFieldListArgs`
-
-With discount codes it is possible to give specific cart discounts to an
-eligible amount of users. They are defined by a string value which can be added
-to a cart so that specific cart discounts can be applied to the cart.
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2199](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2199)
-
-___
-
-#### `DiscountCodeCustomFieldsRawArgs`
+### `DiscountCodeCustomFieldListArgs`
 
 With discount codes it is possible to give specific cart discounts to an
 eligible amount of users. They are defined by a string value which can be added
@@ -5639,11 +4839,28 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2190](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2190)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2199](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2199)
 
 ___
 
-#### `DiscountCodeDescriptionArgs`
+### `DiscountCodeCustomFieldsRawArgs`
+
+With discount codes it is possible to give specific cart discounts to an
+eligible amount of users. They are defined by a string value which can be added
+to a cart so that specific cart discounts can be applied to the cart.
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2190](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2190)
+
+___
+
+### `DiscountCodeDescriptionArgs`
 
 With discount codes it is possible to give specific cart discounts to an
 eligible amount of users. They are defined by a string value which can be added
@@ -5656,11 +4873,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2181](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2181)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2181](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2181)
 
 ___
 
-#### `DiscountCodeDraft`
+### `DiscountCodeDraft`
 
 #### Type declaration:
 
@@ -5679,11 +4896,11 @@ Name | Type |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2204](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2204)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2204](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2204)
 
 ___
 
-#### `DiscountCodeInfo`
+### `DiscountCodeInfo`
 
 #### Type declaration:
 
@@ -5694,11 +4911,11 @@ Name | Type |
 `discountCodeRef` | [*Reference*](#reference) |
 `state`? | [*Maybe*](#maybe)<[*DiscountCodeState*](../enums/types_graphql.discountcodestate.md)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2219](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2219)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2219](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2219)
 
 ___
 
-#### `DiscountCodeNameArgs`
+### `DiscountCodeNameArgs`
 
 With discount codes it is possible to give specific cart discounts to an
 eligible amount of users. They are defined by a string value which can be added
@@ -5711,11 +4928,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2172](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2172)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2172](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2172)
 
 ___
 
-#### `DiscountCodeQueryResult`
+### `DiscountCodeQueryResult`
 
 #### Type declaration:
 
@@ -5727,11 +4944,11 @@ Name | Type |
 `results` | [*DiscountCode*](#discountcode)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2226](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2226)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2226](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2226)
 
 ___
 
-#### `DiscountCodeUpdateAction`
+### `DiscountCodeUpdateAction`
 
 #### Type declaration:
 
@@ -5751,11 +4968,11 @@ Name | Type |
 `setValidFromAndUntil`? | [*Maybe*](#maybe)<[*SetDiscountCodeValidFromAndUntil*](#setdiscountcodevalidfromanduntil)\> |
 `setValidUntil`? | [*Maybe*](#maybe)<[*SetDiscountCodeValidUntil*](#setdiscountcodevaliduntil)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2260](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2260)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2260](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2260)
 
 ___
 
-#### `DiscountedLineItemPortion`
+### `DiscountedLineItemPortion`
 
 #### Type declaration:
 
@@ -5766,11 +4983,11 @@ Name | Type |
 `discountRef` | [*Reference*](#reference) |
 `discountedAmount` | [*BaseMoney*](#basemoney) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2278](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2278)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2278](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2278)
 
 ___
 
-#### `DiscountedLineItemPrice`
+### `DiscountedLineItemPrice`
 
 #### Type declaration:
 
@@ -5780,11 +4997,11 @@ Name | Type |
 `includedDiscounts` | [*DiscountedLineItemPortion*](#discountedlineitemportion)[] |
 `value` | [*BaseMoney*](#basemoney) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2285](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2285)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2285](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2285)
 
 ___
 
-#### `DiscountedLineItemPriceForQuantity`
+### `DiscountedLineItemPriceForQuantity`
 
 #### Type declaration:
 
@@ -5794,11 +5011,11 @@ Name | Type |
 `discountedPrice` | [*DiscountedLineItemPrice*](#discountedlineitemprice) |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2291](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2291)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2291](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2291)
 
 ___
 
-#### `DiscountedProductPriceValue`
+### `DiscountedProductPriceValue`
 
 #### Type declaration:
 
@@ -5810,11 +5027,11 @@ Name | Type | Description |
 `discountRel`? | [*Maybe*](#maybe)<[*ProductDiscount*](#productdiscount)\> | Temporal. Will be renamed some time in the future. Please use 'discount'.   |
 `value` | [*BaseMoney*](#basemoney) | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2297](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2297)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2297](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2297)
 
 ___
 
-#### `DiscountedProductPriceValueInput`
+### `DiscountedProductPriceValueInput`
 
 #### Type declaration:
 
@@ -5823,23 +5040,23 @@ Name | Type |
 `discount` | [*ReferenceInput*](#referenceinput) |
 `value` | [*BaseMoneyInput*](#basemoneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2306](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2306)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2306](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2306)
 
 ___
 
-#### `EnumAttribute`
+### `EnumAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2311](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2311)
-
-___
-
-#### `EnumAttributeDefinitionType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2318](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2318)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2311](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2311)
 
 ___
 
-#### `EnumAttributeDefinitionTypeValuesArgs`
+### `EnumAttributeDefinitionType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2318](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2318)
+
+___
+
+### `EnumAttributeDefinitionTypeValuesArgs`
 
 #### Type declaration:
 
@@ -5851,23 +5068,23 @@ Name | Type |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2324](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2324)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2324](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2324)
 
 ___
 
-#### `EnumField`
+### `EnumField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2332](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2332)
-
-___
-
-#### `EnumType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2338](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2338)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2332](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2332)
 
 ___
 
-#### `EnumTypeDraft`
+### `EnumType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2338](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2338)
+
+___
+
+### `EnumTypeDraft`
 
 #### Type declaration:
 
@@ -5875,11 +5092,11 @@ Name | Type |
 :------ | :------ |
 `values` | [*PlainEnumValueDraft*](#plainenumvaluedraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2344](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2344)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2344](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2344)
 
 ___
 
-#### `EnumValue`
+### `EnumValue`
 
 #### Type declaration:
 
@@ -5889,17 +5106,17 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `label` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2348](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2348)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2348](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2348)
 
 ___
 
-#### `ExternalDiscountValue`
+### `ExternalDiscountValue`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2354](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2354)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2354](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2354)
 
 ___
 
-#### `ExternalDiscountValueInput`
+### `ExternalDiscountValueInput`
 
 #### Type declaration:
 
@@ -5907,11 +5124,11 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2359](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2359)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2359](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2359)
 
 ___
 
-#### `ExternalLineItemTotalPriceDraft`
+### `ExternalLineItemTotalPriceDraft`
 
 #### Type declaration:
 
@@ -5920,11 +5137,11 @@ Name | Type |
 `price` | [*BaseMoneyInput*](#basemoneyinput) |
 `totalPrice` | [*MoneyInput*](#moneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2363](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2363)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2363](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2363)
 
 ___
 
-#### `ExternalOAuth`
+### `ExternalOAuth`
 
 #### Type declaration:
 
@@ -5934,11 +5151,11 @@ Name | Type |
 `authorizationHeader` | [*Scalars*](#scalars)[*String*] |
 `url` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2368](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2368)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2368](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2368)
 
 ___
 
-#### `ExternalOAuthDraft`
+### `ExternalOAuthDraft`
 
 #### Type declaration:
 
@@ -5947,11 +5164,11 @@ Name | Type |
 `authorizationHeader` | [*Scalars*](#scalars)[*String*] |
 `url` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2374](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2374)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2374](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2374)
 
 ___
 
-#### `ExternalTaxAmountDraft`
+### `ExternalTaxAmountDraft`
 
 #### Type declaration:
 
@@ -5960,11 +5177,11 @@ Name | Type |
 `taxRate` | [*ExternalTaxRateDraft*](#externaltaxratedraft) |
 `totalGross` | [*MoneyInput*](#moneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2379](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2379)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2379](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2379)
 
 ___
 
-#### `ExternalTaxRateDraft`
+### `ExternalTaxRateDraft`
 
 #### Type declaration:
 
@@ -5977,11 +5194,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `subRates`? | [*Maybe*](#maybe)<[*SubRateDraft*](#subratedraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2384](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2384)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2384](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2384)
 
 ___
 
-#### `FieldDefinition`
+### `FieldDefinition`
 
 Field definitions describe custom fields and allow you to define some meta-information associated with the field.
 
@@ -5997,11 +5214,11 @@ Name | Type |
 `required` | [*Scalars*](#scalars)[*Boolean*] |
 `type` | [*FieldType*](#fieldtype) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2394](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2394)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2394](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2394)
 
 ___
 
-#### `FieldDefinitionLabelArgs`
+### `FieldDefinitionLabelArgs`
 
 Field definitions describe custom fields and allow you to define some meta-information associated with the field.
 
@@ -6012,11 +5229,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2405](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2405)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2405](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2405)
 
 ___
 
-#### `FieldType`
+### `FieldType`
 
 #### Type declaration:
 
@@ -6024,11 +5241,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2410](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2410)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2410](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2410)
 
 ___
 
-#### `Geometry`
+### `Geometry`
 
 #### Type declaration:
 
@@ -6036,17 +5253,17 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2414](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2414)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2414](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2414)
 
 ___
 
-#### `GiftLineItemValue`
+### `GiftLineItemValue`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2418](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2418)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2418](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2418)
 
 ___
 
-#### `GiftLineItemValueInput`
+### `GiftLineItemValueInput`
 
 #### Type declaration:
 
@@ -6057,17 +5274,17 @@ Name | Type |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variantId` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2427](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2427)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2427](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2427)
 
 ___
 
-#### `HighPrecisionMoney`
+### `HighPrecisionMoney`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2434](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2434)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2434](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2434)
 
 ___
 
-#### `HighPrecisionMoneyInput`
+### `HighPrecisionMoneyInput`
 
 #### Type declaration:
 
@@ -6078,17 +5295,17 @@ Name | Type |
 `fractionDigits` | [*Scalars*](#scalars)[*Int*] |
 `preciseAmount` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2443](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2443)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2443](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2443)
 
 ___
 
-#### `IOsUserType`
+### `IOsUserType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2698](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2698)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2698](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2698)
 
 ___
 
-#### `Image`
+### `Image`
 
 #### Type declaration:
 
@@ -6099,11 +5316,11 @@ Name | Type |
 `label`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `url` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2450](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2450)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2450](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2450)
 
 ___
 
-#### `ImageInput`
+### `ImageInput`
 
 #### Type declaration:
 
@@ -6113,11 +5330,11 @@ Name | Type |
 `label`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `url` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2457](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2457)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2457](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2457)
 
 ___
 
-#### `ImportOrderCustomLineItemState`
+### `ImportOrderCustomLineItemState`
 
 #### Type declaration:
 
@@ -6126,11 +5343,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `state` | [*ItemStateDraftType*](#itemstatedrafttype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2463](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2463)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2463](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2463)
 
 ___
 
-#### `ImportOrderLineItemState`
+### `ImportOrderLineItemState`
 
 #### Type declaration:
 
@@ -6139,17 +5356,17 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `state` | [*ItemStateDraftType*](#itemstatedrafttype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2468](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2468)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2468](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2468)
 
 ___
 
-#### `InStore`
+### `InStore`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2483](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2483)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2483](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2483)
 
 ___
 
-#### `InStoreCartArgs`
+### `InStoreCartArgs`
 
 #### Type declaration:
 
@@ -6157,11 +5374,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2523](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2523)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2523](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2523)
 
 ___
 
-#### `InStoreCartsArgs`
+### `InStoreCartsArgs`
 
 #### Type declaration:
 
@@ -6172,11 +5389,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2527](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2527)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2527](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2527)
 
 ___
 
-#### `InStoreCustomerActiveCartArgs`
+### `InStoreCustomerActiveCartArgs`
 
 #### Type declaration:
 
@@ -6184,11 +5401,11 @@ Name | Type |
 :------ | :------ |
 `customerId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2534](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2534)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2534](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2534)
 
 ___
 
-#### `InStoreCustomerArgs`
+### `InStoreCustomerArgs`
 
 #### Type declaration:
 
@@ -6199,11 +5416,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `passwordToken`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2509](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2509)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2509](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2509)
 
 ___
 
-#### `InStoreCustomersArgs`
+### `InStoreCustomersArgs`
 
 #### Type declaration:
 
@@ -6214,17 +5431,17 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2516](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2516)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2516](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2516)
 
 ___
 
-#### `InStoreMe`
+### `InStoreMe`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2550](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2550)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2550](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2550)
 
 ___
 
-#### `InStoreMeCartArgs`
+### `InStoreMeCartArgs`
 
 #### Type declaration:
 
@@ -6232,11 +5449,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2562](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2562)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2562](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2562)
 
 ___
 
-#### `InStoreMeCartsArgs`
+### `InStoreMeCartsArgs`
 
 #### Type declaration:
 
@@ -6247,11 +5464,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2566](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2566)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2566](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2566)
 
 ___
 
-#### `InStoreMeOrderArgs`
+### `InStoreMeOrderArgs`
 
 #### Type declaration:
 
@@ -6260,11 +5477,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2573](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2573)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2573](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2573)
 
 ___
 
-#### `InStoreMeOrdersArgs`
+### `InStoreMeOrdersArgs`
 
 #### Type declaration:
 
@@ -6275,11 +5492,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2578](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2578)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2578](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2578)
 
 ___
 
-#### `InStoreMeShoppingListArgs`
+### `InStoreMeShoppingListArgs`
 
 #### Type declaration:
 
@@ -6288,11 +5505,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2585](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2585)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2585](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2585)
 
 ___
 
-#### `InStoreMeShoppingListsArgs`
+### `InStoreMeShoppingListsArgs`
 
 #### Type declaration:
 
@@ -6303,11 +5520,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2590](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2590)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2590](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2590)
 
 ___
 
-#### `InStoreOrderArgs`
+### `InStoreOrderArgs`
 
 #### Type declaration:
 
@@ -6316,11 +5533,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2538](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2538)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2538](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2538)
 
 ___
 
-#### `InStoreOrdersArgs`
+### `InStoreOrdersArgs`
 
 #### Type declaration:
 
@@ -6331,11 +5548,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2543](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2543)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2543](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2543)
 
 ___
 
-#### `InStoreShippingMethodsByCartArgs`
+### `InStoreShippingMethodsByCartArgs`
 
 #### Type declaration:
 
@@ -6343,11 +5560,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2505](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2505)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2505](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2505)
 
 ___
 
-#### `Initiator`
+### `Initiator`
 
 #### Type declaration:
 
@@ -6361,11 +5578,11 @@ Name | Type |
 `isPlatformClient`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `user`? | [*Maybe*](#maybe)<[*Reference*](#reference)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2473](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2473)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2473](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2473)
 
 ___
 
-#### `InterfaceInteractionsRaw`
+### `InterfaceInteractionsRaw`
 
 #### Type declaration:
 
@@ -6376,11 +5593,11 @@ Name | Type |
 `type`? | [*Maybe*](#maybe)<[*TypeDefinition*](#typedefinition)\> |
 `typeRef` | [*Reference*](#reference) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2597](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2597)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2597](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2597)
 
 ___
 
-#### `InterfaceInteractionsRawFieldsArgs`
+### `InterfaceInteractionsRawFieldsArgs`
 
 #### Type declaration:
 
@@ -6389,11 +5606,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2604](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2604)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2604](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2604)
 
 ___
 
-#### `InterfaceInteractionsRawResult`
+### `InterfaceInteractionsRawResult`
 
 #### Type declaration:
 
@@ -6405,34 +5622,19 @@ Name | Type |
 `results` | [*InterfaceInteractionsRaw*](#interfaceinteractionsraw)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2609](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2609)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2609](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2609)
 
 ___
 
-#### `InventoryEntry`
+### `InventoryEntry`
 
 Inventory allows you to track stock quantity per SKU and optionally per supply channel
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2618](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2618)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2618](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2618)
 
 ___
 
-#### `InventoryEntryCustomFieldListArgs`
-
-Inventory allows you to track stock quantity per SKU and optionally per supply channel
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2648](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2648)
-
-___
-
-#### `InventoryEntryCustomFieldsRawArgs`
+### `InventoryEntryCustomFieldListArgs`
 
 Inventory allows you to track stock quantity per SKU and optionally per supply channel
 
@@ -6443,11 +5645,26 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2642](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2642)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2648](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2648)
 
 ___
 
-#### `InventoryEntryDraft`
+### `InventoryEntryCustomFieldsRawArgs`
+
+Inventory allows you to track stock quantity per SKU and optionally per supply channel
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2642](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2642)
+
+___
+
+### `InventoryEntryDraft`
 
 #### Type declaration:
 
@@ -6460,11 +5677,11 @@ Name | Type |
 `sku` | [*Scalars*](#scalars)[*String*] |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2653](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2653)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2653](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2653)
 
 ___
 
-#### `InventoryEntryQueryResult`
+### `InventoryEntryQueryResult`
 
 #### Type declaration:
 
@@ -6476,11 +5693,11 @@ Name | Type |
 `results` | [*InventoryEntry*](#inventoryentry)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2662](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2662)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2662](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2662)
 
 ___
 
-#### `InventoryEntryUpdateAction`
+### `InventoryEntryUpdateAction`
 
 #### Type declaration:
 
@@ -6495,11 +5712,11 @@ Name | Type |
 `setRestockableInDays`? | [*Maybe*](#maybe)<[*SetInventoryEntryRestockableInDays*](#setinventoryentryrestockableindays)\> |
 `setSupplyChannel`? | [*Maybe*](#maybe)<[*SetInventoryEntrySupplyChannel*](#setinventoryentrysupplychannel)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2670](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2670)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2670](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2670)
 
 ___
 
-#### `ItemShippingDetails`
+### `ItemShippingDetails`
 
 #### Type declaration:
 
@@ -6509,11 +5726,11 @@ Name | Type |
 `targets` | [*ItemShippingTarget*](#itemshippingtarget)[] |
 `valid` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2706](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2706)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2706](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2706)
 
 ___
 
-#### `ItemShippingDetailsDraft`
+### `ItemShippingDetailsDraft`
 
 #### Type declaration:
 
@@ -6521,11 +5738,11 @@ Name | Type |
 :------ | :------ |
 `targets` | [*ShippingTargetDraft*](#shippingtargetdraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2712](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2712)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2712](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2712)
 
 ___
 
-#### `ItemShippingDetailsDraftType`
+### `ItemShippingDetailsDraftType`
 
 #### Type declaration:
 
@@ -6533,11 +5750,11 @@ Name | Type |
 :------ | :------ |
 `targets` | [*ShippingTargetDraftType*](#shippingtargetdrafttype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2716](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2716)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2716](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2716)
 
 ___
 
-#### `ItemShippingTarget`
+### `ItemShippingTarget`
 
 #### Type declaration:
 
@@ -6547,11 +5764,11 @@ Name | Type |
 `addressKey` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2720](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2720)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2720](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2720)
 
 ___
 
-#### `ItemState`
+### `ItemState`
 
 #### Type declaration:
 
@@ -6562,11 +5779,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*State*](#state)\> |
 `stateRef` | [*Reference*](#reference) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2726](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2726)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2726](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2726)
 
 ___
 
-#### `ItemStateDraftType`
+### `ItemStateDraftType`
 
 #### Type declaration:
 
@@ -6575,11 +5792,11 @@ Name | Type |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 `state` | [*ReferenceInput*](#referenceinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2733](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2733)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2733](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2733)
 
 ___
 
-#### `KeyReference`
+### `KeyReference`
 
 #### Type declaration:
 
@@ -6589,11 +5806,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `typeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2738](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2738)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2738](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2738)
 
 ___
 
-#### `LineItem`
+### `LineItem`
 
 A line item is a snapshot of a product variant at the time it was added to the cart.
 
@@ -6639,11 +5856,11 @@ Name | Type | Description |
 `totalPrice`? | [*Maybe*](#maybe)<[*Money*](#money)\> | - |
 `variant`? | [*Maybe*](#maybe)<[*ProductVariant*](#productvariant)\> | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2755](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2755)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2755](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2755)
 
 ___
 
-#### `LineItemCustomFieldListArgs`
+### `LineItemCustomFieldListArgs`
 
 A line item is a snapshot of a product variant at the time it was added to the cart.
 
@@ -6663,11 +5880,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2848](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2848)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2848](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2848)
 
 ___
 
-#### `LineItemCustomFieldsRawArgs`
+### `LineItemCustomFieldsRawArgs`
 
 A line item is a snapshot of a product variant at the time it was added to the cart.
 
@@ -6687,11 +5904,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2832](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2832)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2832](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2832)
 
 ___
 
-#### `LineItemDraft`
+### `LineItemDraft`
 
 #### Type declaration:
 
@@ -6709,11 +5926,11 @@ Name | Type |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2853](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2853)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2853](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2853)
 
 ___
 
-#### `LineItemNameArgs`
+### `LineItemNameArgs`
 
 A line item is a snapshot of a product variant at the time it was added to the cart.
 
@@ -6733,11 +5950,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2800](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2800)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2800](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2800)
 
 ___
 
-#### `LineItemProductSlugArgs`
+### `LineItemProductSlugArgs`
 
 A line item is a snapshot of a product variant at the time it was added to the cart.
 
@@ -6757,23 +5974,23 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2816](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2816)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2816](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2816)
 
 ___
 
-#### `LineItemReturnItem`
+### `LineItemReturnItem`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2893](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2893)
-
-___
-
-#### `LineItemsTarget`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2906](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2906)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2893](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2893)
 
 ___
 
-#### `LineItemsTargetInput`
+### `LineItemsTarget`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2906](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2906)
+
+___
+
+### `LineItemsTargetInput`
 
 #### Type declaration:
 
@@ -6781,17 +5998,17 @@ Name | Type |
 :------ | :------ |
 `predicate` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2912](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2912)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2912](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2912)
 
 ___
 
-#### `LocalizableEnumAttributeDefinitionType`
+### `LocalizableEnumAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2916](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2916)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2916](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2916)
 
 ___
 
-#### `LocalizableEnumAttributeDefinitionTypeValuesArgs`
+### `LocalizableEnumAttributeDefinitionTypeValuesArgs`
 
 #### Type declaration:
 
@@ -6803,11 +6020,11 @@ Name | Type |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2922](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2922)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2922](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2922)
 
 ___
 
-#### `LocalizableEnumTypeDraft`
+### `LocalizableEnumTypeDraft`
 
 #### Type declaration:
 
@@ -6815,11 +6032,11 @@ Name | Type |
 :------ | :------ |
 `values` | [*LocalizedEnumValueDraft*](#localizedenumvaluedraft)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2930](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2930)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2930](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2930)
 
 ___
 
-#### `LocalizableEnumValueType`
+### `LocalizableEnumValueType`
 
 #### Type declaration:
 
@@ -6830,11 +6047,11 @@ Name | Type |
 `label`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `labelAllLocales` | [*LocalizedString*](#localizedstring)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2934](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2934)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2934](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2934)
 
 ___
 
-#### `LocalizableEnumValueTypeLabelArgs`
+### `LocalizableEnumValueTypeLabelArgs`
 
 #### Type declaration:
 
@@ -6843,11 +6060,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2941](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2941)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2941](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2941)
 
 ___
 
-#### `LocalizableEnumValueTypeResult`
+### `LocalizableEnumValueTypeResult`
 
 #### Type declaration:
 
@@ -6859,23 +6076,23 @@ Name | Type |
 `results` | [*LocalizableEnumValueType*](#localizableenumvaluetype)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2946](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2946)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2946](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2946)
 
 ___
 
-#### `LocalizableTextAttributeDefinitionType`
+### `LocalizableTextAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2954](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2954)
-
-___
-
-#### `LocalizedEnumAttribute`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2959](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2959)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2954](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2954)
 
 ___
 
-#### `LocalizedEnumAttributeLabelArgs`
+### `LocalizedEnumAttribute`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2959](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2959)
+
+___
+
+### `LocalizedEnumAttributeLabelArgs`
 
 #### Type declaration:
 
@@ -6883,17 +6100,17 @@ Name | Type |
 :------ | :------ |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2966](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2966)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2966](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2966)
 
 ___
 
-#### `LocalizedEnumField`
+### `LocalizedEnumField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2970](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2970)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2970](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2970)
 
 ___
 
-#### `LocalizedEnumFieldLabelArgs`
+### `LocalizedEnumFieldLabelArgs`
 
 #### Type declaration:
 
@@ -6901,17 +6118,17 @@ Name | Type |
 :------ | :------ |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2977](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2977)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2977](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2977)
 
 ___
 
-#### `LocalizedEnumType`
+### `LocalizedEnumType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2981](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2981)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2981](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2981)
 
 ___
 
-#### `LocalizedEnumValue`
+### `LocalizedEnumValue`
 
 #### Type declaration:
 
@@ -6922,11 +6139,11 @@ Name | Type |
 `label`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `labelAllLocales` | [*LocalizedString*](#localizedstring)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2987](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2987)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2987](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2987)
 
 ___
 
-#### `LocalizedEnumValueDraft`
+### `LocalizedEnumValueDraft`
 
 #### Type declaration:
 
@@ -6935,11 +6152,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `label` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2999](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2999)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2999](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2999)
 
 ___
 
-#### `LocalizedEnumValueInput`
+### `LocalizedEnumValueInput`
 
 #### Type declaration:
 
@@ -6948,11 +6165,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `label` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3004](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3004)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3004](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3004)
 
 ___
 
-#### `LocalizedEnumValueLabelArgs`
+### `LocalizedEnumValueLabelArgs`
 
 #### Type declaration:
 
@@ -6961,11 +6178,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2994](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L2994)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:2994](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L2994)
 
 ___
 
-#### `LocalizedString`
+### `LocalizedString`
 
 #### Type declaration:
 
@@ -6975,17 +6192,17 @@ Name | Type |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 `value` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3009](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3009)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3009](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3009)
 
 ___
 
-#### `LocalizedStringAttribute`
+### `LocalizedStringAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3015](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3015)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3015](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3015)
 
 ___
 
-#### `LocalizedStringAttributeValueArgs`
+### `LocalizedStringAttributeValueArgs`
 
 #### Type declaration:
 
@@ -6993,17 +6210,17 @@ Name | Type |
 :------ | :------ |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3021](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3021)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3021](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3021)
 
 ___
 
-#### `LocalizedStringField`
+### `LocalizedStringField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3025](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3025)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3025](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3025)
 
 ___
 
-#### `LocalizedStringFieldValueArgs`
+### `LocalizedStringFieldValueArgs`
 
 #### Type declaration:
 
@@ -7011,11 +6228,11 @@ Name | Type |
 :------ | :------ |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3031](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3031)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3031](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3031)
 
 ___
 
-#### `LocalizedStringItemInputType`
+### `LocalizedStringItemInputType`
 
 #### Type declaration:
 
@@ -7024,17 +6241,17 @@ Name | Type |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 `value` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3035](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3035)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3035](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3035)
 
 ___
 
-#### `LocalizedStringType`
+### `LocalizedStringType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3040](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3040)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3040](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3040)
 
 ___
 
-#### `LocalizedText`
+### `LocalizedText`
 
 #### Type declaration:
 
@@ -7043,11 +6260,11 @@ Name | Type |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 `text` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3045](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3045)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3045](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3045)
 
 ___
 
-#### `Location`
+### `Location`
 
 #### Type declaration:
 
@@ -7057,19 +6274,19 @@ Name | Type |
 `country` | [*Scalars*](#scalars)[*Country*] |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3050](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3050)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3050](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3050)
 
 ___
 
-#### `MainProductType`
+### `MainProductType`
 
 Sunrise Product Data Set Structure
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3057](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3057)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3057](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3057)
 
 ___
 
-#### `Maybe`
+### `Maybe`
 
 #### Type parameters:
 
@@ -7077,17 +6294,17 @@ Name |
 :------ |
 `T` |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3)
 
 ___
 
-#### `Me`
+### `Me`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3083](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3083)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3083](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3083)
 
 ___
 
-#### `MeCartArgs`
+### `MeCartArgs`
 
 #### Type declaration:
 
@@ -7095,11 +6312,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3095](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3095)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3095](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3095)
 
 ___
 
-#### `MeCartsArgs`
+### `MeCartsArgs`
 
 #### Type declaration:
 
@@ -7110,11 +6327,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3099](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3099)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3099](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3099)
 
 ___
 
-#### `MeFieldInterface`
+### `MeFieldInterface`
 
 The me field gives access to the data that is specific to the customer or anonymous session linked to the access token.
 
@@ -7124,11 +6341,11 @@ Name | Type |
 :------ | :------ |
 `me` | [*MeQueryInterface*](#mequeryinterface) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3131](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3131)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3131](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3131)
 
 ___
 
-#### `MeOrderArgs`
+### `MeOrderArgs`
 
 #### Type declaration:
 
@@ -7137,11 +6354,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3106](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3106)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3106](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3106)
 
 ___
 
-#### `MeOrdersArgs`
+### `MeOrdersArgs`
 
 #### Type declaration:
 
@@ -7152,11 +6369,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3111](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3111)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3111](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3111)
 
 ___
 
-#### `MeQueryInterface`
+### `MeQueryInterface`
 
 #### Type declaration:
 
@@ -7170,11 +6387,11 @@ Name | Type |
 `shoppingList`? | [*Maybe*](#maybe)<[*ShoppingList*](#shoppinglist)\> |
 `shoppingLists` | [*ShoppingListQueryResult*](#shoppinglistqueryresult) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3135](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3135)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3135](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3135)
 
 ___
 
-#### `MeQueryInterfaceCartArgs`
+### `MeQueryInterfaceCartArgs`
 
 #### Type declaration:
 
@@ -7182,11 +6399,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3145](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3145)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3145](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3145)
 
 ___
 
-#### `MeQueryInterfaceCartsArgs`
+### `MeQueryInterfaceCartsArgs`
 
 #### Type declaration:
 
@@ -7197,11 +6414,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3149](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3149)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3149](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3149)
 
 ___
 
-#### `MeQueryInterfaceOrderArgs`
+### `MeQueryInterfaceOrderArgs`
 
 #### Type declaration:
 
@@ -7210,11 +6427,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3156](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3156)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3156](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3156)
 
 ___
 
-#### `MeQueryInterfaceOrdersArgs`
+### `MeQueryInterfaceOrdersArgs`
 
 #### Type declaration:
 
@@ -7225,11 +6442,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3161](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3161)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3161](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3161)
 
 ___
 
-#### `MeQueryInterfaceShoppingListArgs`
+### `MeQueryInterfaceShoppingListArgs`
 
 #### Type declaration:
 
@@ -7238,11 +6455,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3168](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3168)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3168](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3168)
 
 ___
 
-#### `MeQueryInterfaceShoppingListsArgs`
+### `MeQueryInterfaceShoppingListsArgs`
 
 #### Type declaration:
 
@@ -7253,11 +6470,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3173](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3173)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3173](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3173)
 
 ___
 
-#### `MeShoppingListArgs`
+### `MeShoppingListArgs`
 
 #### Type declaration:
 
@@ -7266,11 +6483,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3118](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3118)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3118](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3118)
 
 ___
 
-#### `MeShoppingListsArgs`
+### `MeShoppingListsArgs`
 
 #### Type declaration:
 
@@ -7281,11 +6498,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3123](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3123)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3123](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3123)
 
 ___
 
-#### `MessagesConfiguration`
+### `MessagesConfiguration`
 
 #### Type declaration:
 
@@ -7295,11 +6512,11 @@ Name | Type |
 `deleteDaysAfterCreation`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `enabled` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3180](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3180)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3180](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3180)
 
 ___
 
-#### `MessagesConfigurationDraft`
+### `MessagesConfigurationDraft`
 
 #### Type declaration:
 
@@ -7308,29 +6525,29 @@ Name | Type |
 `deleteDaysAfterCreation` | [*Scalars*](#scalars)[*Int*] |
 `enabled` | [*Scalars*](#scalars)[*Boolean*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3186](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3186)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3186](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3186)
 
 ___
 
-#### `Money`
+### `Money`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3191](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3191)
-
-___
-
-#### `MoneyAttribute`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3200](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3200)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3191](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3191)
 
 ___
 
-#### `MoneyAttributeDefinitionType`
+### `MoneyAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3207](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3207)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3200](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3200)
 
 ___
 
-#### `MoneyDraft`
+### `MoneyAttributeDefinitionType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3207](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3207)
+
+___
+
+### `MoneyDraft`
 
 #### Type declaration:
 
@@ -7339,17 +6556,17 @@ Name | Type |
 `centAmount` | [*Scalars*](#scalars)[*Long*] |
 `currencyCode` | [*Scalars*](#scalars)[*Currency*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3212](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3212)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3212](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3212)
 
 ___
 
-#### `MoneyField`
+### `MoneyField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3217](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3217)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3217](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3217)
 
 ___
 
-#### `MoneyInput`
+### `MoneyInput`
 
 #### Type declaration:
 
@@ -7358,17 +6575,17 @@ Name | Type |
 `centAmount` | [*Scalars*](#scalars)[*Long*] |
 `currencyCode` | [*Scalars*](#scalars)[*Currency*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3224](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3224)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3224](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3224)
 
 ___
 
-#### `MoneyType`
+### `MoneyType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3229](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3229)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3229](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3229)
 
 ___
 
-#### `MoveProductImageToPosition`
+### `MoveProductImageToPosition`
 
 #### Type declaration:
 
@@ -7380,17 +6597,17 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3234](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3234)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3234](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3234)
 
 ___
 
-#### `MultiBuyCustomLineItemsTarget`
+### `MultiBuyCustomLineItemsTarget`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3242](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3242)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3242](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3242)
 
 ___
 
-#### `MultiBuyCustomLineItemsTargetInput`
+### `MultiBuyCustomLineItemsTargetInput`
 
 #### Type declaration:
 
@@ -7402,17 +6619,17 @@ Name | Type |
 `selectionMode`? | [*Maybe*](#maybe)<[*SelectionMode*](../enums/types_graphql.selectionmode.md)\> |
 `triggerQuantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3252](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3252)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3252](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3252)
 
 ___
 
-#### `MultiBuyLineItemsTarget`
+### `MultiBuyLineItemsTarget`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3260](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3260)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3260](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3260)
 
 ___
 
-#### `MultiBuyLineItemsTargetInput`
+### `MultiBuyLineItemsTargetInput`
 
 #### Type declaration:
 
@@ -7424,11 +6641,11 @@ Name | Type |
 `selectionMode`? | [*Maybe*](#maybe)<[*SelectionMode*](../enums/types_graphql.selectionmode.md)\> |
 `triggerQuantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3270](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3270)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3270](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3270)
 
 ___
 
-#### `Mutation`
+### `Mutation`
 
 #### Type declaration:
 
@@ -7508,11 +6725,11 @@ Name | Type | Description |
 `updateTaxCategory`? | [*Maybe*](#maybe)<[*TaxCategory*](#taxcategory)\> | - |
 `updateZone`? | [*Maybe*](#maybe)<[*Zone*](#zone)\> | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3278](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3278)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3278](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3278)
 
 ___
 
-#### `MutationCreateApiClientArgs`
+### `MutationCreateApiClientArgs`
 
 #### Type declaration:
 
@@ -7520,11 +6737,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CreateApiClient*](#createapiclient) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3825](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3825)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3825](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3825)
 
 ___
 
-#### `MutationCreateCartArgs`
+### `MutationCreateCartArgs`
 
 #### Type declaration:
 
@@ -7533,11 +6750,11 @@ Name | Type |
 `draft` | [*CartDraft*](#cartdraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3703](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3703)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3703](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3703)
 
 ___
 
-#### `MutationCreateCartDiscountArgs`
+### `MutationCreateCartDiscountArgs`
 
 #### Type declaration:
 
@@ -7545,11 +6762,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CartDiscountDraft*](#cartdiscountdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3537](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3537)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3537](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3537)
 
 ___
 
-#### `MutationCreateCategoryArgs`
+### `MutationCreateCategoryArgs`
 
 #### Type declaration:
 
@@ -7557,11 +6774,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CategoryDraft*](#categorydraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3437](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3437)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3437](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3437)
 
 ___
 
-#### `MutationCreateCustomerGroupArgs`
+### `MutationCreateCustomerGroupArgs`
 
 #### Type declaration:
 
@@ -7569,11 +6786,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CustomerGroupDraft*](#customergroupdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3420](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3420)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3420](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3420)
 
 ___
 
-#### `MutationCreateDiscountCodeArgs`
+### `MutationCreateDiscountCodeArgs`
 
 #### Type declaration:
 
@@ -7581,11 +6798,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*DiscountCodeDraft*](#discountcodedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3522](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3522)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3522](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3522)
 
 ___
 
-#### `MutationCreateInventoryEntryArgs`
+### `MutationCreateInventoryEntryArgs`
 
 #### Type declaration:
 
@@ -7593,11 +6810,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*InventoryEntryDraft*](#inventoryentrydraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3688](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3688)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3688](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3688)
 
 ___
 
-#### `MutationCreateMyCartArgs`
+### `MutationCreateMyCartArgs`
 
 #### Type declaration:
 
@@ -7606,11 +6823,11 @@ Name | Type |
 `draft` | [*MyCartDraft*](#mycartdraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3726](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3726)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3726](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3726)
 
 ___
 
-#### `MutationCreateMyOrderFromCartArgs`
+### `MutationCreateMyOrderFromCartArgs`
 
 #### Type declaration:
 
@@ -7619,11 +6836,11 @@ Name | Type |
 `draft` | [*OrderMyCartCommand*](#ordermycartcommand) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3765](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3765)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3765](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3765)
 
 ___
 
-#### `MutationCreateMyShoppingListArgs`
+### `MutationCreateMyShoppingListArgs`
 
 #### Type declaration:
 
@@ -7631,11 +6848,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*MyShoppingListDraft*](#myshoppinglistdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3788](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3788)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3788](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3788)
 
 ___
 
-#### `MutationCreateOrderFromCartArgs`
+### `MutationCreateOrderFromCartArgs`
 
 #### Type declaration:
 
@@ -7644,11 +6861,11 @@ Name | Type |
 `draft` | [*OrderCartCommand*](#ordercartcommand) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3744](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3744)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3744](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3744)
 
 ___
 
-#### `MutationCreateProductArgs`
+### `MutationCreateProductArgs`
 
 #### Type declaration:
 
@@ -7656,11 +6873,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*ProductDraft*](#productdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3571](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3571)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3571](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3571)
 
 ___
 
-#### `MutationCreateProductDiscountArgs`
+### `MutationCreateProductDiscountArgs`
 
 #### Type declaration:
 
@@ -7668,11 +6885,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*ProductDiscountDraft*](#productdiscountdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3554](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3554)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3554](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3554)
 
 ___
 
-#### `MutationCreateProductTypeArgs`
+### `MutationCreateProductTypeArgs`
 
 #### Type declaration:
 
@@ -7680,11 +6897,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*ProductTypeDraft*](#producttypedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3454](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3454)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3454](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3454)
 
 ___
 
-#### `MutationCreateShippingMethodArgs`
+### `MutationCreateShippingMethodArgs`
 
 #### Type declaration:
 
@@ -7692,11 +6909,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*ShippingMethodDraft*](#shippingmethoddraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3471](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3471)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3471](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3471)
 
 ___
 
-#### `MutationCreateShoppingListArgs`
+### `MutationCreateShoppingListArgs`
 
 #### Type declaration:
 
@@ -7704,11 +6921,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*ShoppingListDraft*](#shoppinglistdraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3770](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3770)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3770](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3770)
 
 ___
 
-#### `MutationCreateStoreArgs`
+### `MutationCreateStoreArgs`
 
 #### Type declaration:
 
@@ -7716,11 +6933,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CreateStore*](#createstore) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3808](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3808)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3808](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3808)
 
 ___
 
-#### `MutationCreateTaxCategoryArgs`
+### `MutationCreateTaxCategoryArgs`
 
 #### Type declaration:
 
@@ -7728,11 +6945,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*TaxCategoryDraft*](#taxcategorydraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3505](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3505)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3505](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3505)
 
 ___
 
-#### `MutationCreateZoneArgs`
+### `MutationCreateZoneArgs`
 
 #### Type declaration:
 
@@ -7740,11 +6957,11 @@ Name | Type |
 :------ | :------ |
 `draft` | [*CreateZone*](#createzone) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3488](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3488)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3488](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3488)
 
 ___
 
-#### `MutationCustomerChangeMyPasswordArgs`
+### `MutationCustomerChangeMyPasswordArgs`
 
 #### Type declaration:
 
@@ -7755,11 +6972,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3670](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3670)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3670](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3670)
 
 ___
 
-#### `MutationCustomerChangePasswordArgs`
+### `MutationCustomerChangePasswordArgs`
 
 #### Type declaration:
 
@@ -7771,11 +6988,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3614](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3614)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3614](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3614)
 
 ___
 
-#### `MutationCustomerConfirmEmailArgs`
+### `MutationCustomerConfirmEmailArgs`
 
 #### Type declaration:
 
@@ -7785,11 +7002,11 @@ Name | Type |
 `tokenValue` | [*Scalars*](#scalars)[*String*] |
 `version`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3629](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3629)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3629](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3629)
 
 ___
 
-#### `MutationCustomerConfirmMyEmailArgs`
+### `MutationCustomerConfirmMyEmailArgs`
 
 #### Type declaration:
 
@@ -7798,11 +7015,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `tokenValue` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3677](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3677)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3677](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3677)
 
 ___
 
-#### `MutationCustomerCreateEmailVerificationTokenArgs`
+### `MutationCustomerCreateEmailVerificationTokenArgs`
 
 #### Type declaration:
 
@@ -7813,11 +7030,11 @@ Name | Type |
 `ttlMinutes` | [*Scalars*](#scalars)[*Int*] |
 `version`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3641](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3641)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3641](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3641)
 
 ___
 
-#### `MutationCustomerCreatePasswordResetTokenArgs`
+### `MutationCustomerCreatePasswordResetTokenArgs`
 
 #### Type declaration:
 
@@ -7827,11 +7044,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `ttlMinutes`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3635](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3635)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3635](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3635)
 
 ___
 
-#### `MutationCustomerResetMyPasswordArgs`
+### `MutationCustomerResetMyPasswordArgs`
 
 #### Type declaration:
 
@@ -7841,11 +7058,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `tokenValue` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3682](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3682)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3682](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3682)
 
 ___
 
-#### `MutationCustomerResetPasswordArgs`
+### `MutationCustomerResetPasswordArgs`
 
 #### Type declaration:
 
@@ -7856,11 +7073,11 @@ Name | Type |
 `tokenValue` | [*Scalars*](#scalars)[*String*] |
 `version`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3622](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3622)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3622](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3622)
 
 ___
 
-#### `MutationCustomerSignInArgs`
+### `MutationCustomerSignInArgs`
 
 #### Type declaration:
 
@@ -7869,11 +7086,11 @@ Name | Type |
 `draft` | [*CustomerSignInDraft*](#customersignindraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3593](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3593)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3593](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3593)
 
 ___
 
-#### `MutationCustomerSignMeInArgs`
+### `MutationCustomerSignMeInArgs`
 
 #### Type declaration:
 
@@ -7882,11 +7099,11 @@ Name | Type |
 `draft` | [*CustomerSignMeInDraft*](#customersignmeindraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3653](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3653)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3653](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3653)
 
 ___
 
-#### `MutationCustomerSignMeUpArgs`
+### `MutationCustomerSignMeUpArgs`
 
 #### Type declaration:
 
@@ -7895,11 +7112,11 @@ Name | Type |
 `draft` | [*CustomerSignMeUpDraft*](#customersignmeupdraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3648](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3648)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3648](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3648)
 
 ___
 
-#### `MutationCustomerSignUpArgs`
+### `MutationCustomerSignUpArgs`
 
 #### Type declaration:
 
@@ -7908,11 +7125,11 @@ Name | Type |
 `draft` | [*CustomerSignUpDraft*](#customersignupdraft) |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3588](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3588)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3588](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3588)
 
 ___
 
-#### `MutationDeleteApiClientArgs`
+### `MutationDeleteApiClientArgs`
 
 #### Type declaration:
 
@@ -7920,11 +7137,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3829](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3829)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3829](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3829)
 
 ___
 
-#### `MutationDeleteCartArgs`
+### `MutationDeleteCartArgs`
 
 #### Type declaration:
 
@@ -7935,11 +7152,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3715](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3715)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3715](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3715)
 
 ___
 
-#### `MutationDeleteCartDiscountArgs`
+### `MutationDeleteCartDiscountArgs`
 
 #### Type declaration:
 
@@ -7949,11 +7166,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3548](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3548)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3548](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3548)
 
 ___
 
-#### `MutationDeleteCategoryArgs`
+### `MutationDeleteCategoryArgs`
 
 #### Type declaration:
 
@@ -7963,11 +7180,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3448](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3448)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3448](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3448)
 
 ___
 
-#### `MutationDeleteCustomerArgs`
+### `MutationDeleteCustomerArgs`
 
 #### Type declaration:
 
@@ -7979,11 +7196,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3606](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3606)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3606](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3606)
 
 ___
 
-#### `MutationDeleteCustomerGroupArgs`
+### `MutationDeleteCustomerGroupArgs`
 
 #### Type declaration:
 
@@ -7993,11 +7210,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3431](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3431)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3431](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3431)
 
 ___
 
-#### `MutationDeleteDiscountCodeArgs`
+### `MutationDeleteDiscountCodeArgs`
 
 #### Type declaration:
 
@@ -8006,11 +7223,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3532](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3532)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3532](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3532)
 
 ___
 
-#### `MutationDeleteInventoryEntryArgs`
+### `MutationDeleteInventoryEntryArgs`
 
 #### Type declaration:
 
@@ -8019,11 +7236,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3698](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3698)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3698](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3698)
 
 ___
 
-#### `MutationDeleteMyCartArgs`
+### `MutationDeleteMyCartArgs`
 
 #### Type declaration:
 
@@ -8033,11 +7250,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3738](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3738)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3738](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3738)
 
 ___
 
-#### `MutationDeleteMyCustomerArgs`
+### `MutationDeleteMyCustomerArgs`
 
 #### Type declaration:
 
@@ -8047,11 +7264,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3664](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3664)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3664](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3664)
 
 ___
 
-#### `MutationDeleteMyShoppingListArgs`
+### `MutationDeleteMyShoppingListArgs`
 
 #### Type declaration:
 
@@ -8060,11 +7277,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3798](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3798)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3798](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3798)
 
 ___
 
-#### `MutationDeleteOrderArgs`
+### `MutationDeleteOrderArgs`
 
 #### Type declaration:
 
@@ -8076,11 +7293,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3757](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3757)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3757](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3757)
 
 ___
 
-#### `MutationDeleteProductArgs`
+### `MutationDeleteProductArgs`
 
 #### Type declaration:
 
@@ -8090,11 +7307,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3582](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3582)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3582](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3582)
 
 ___
 
-#### `MutationDeleteProductDiscountArgs`
+### `MutationDeleteProductDiscountArgs`
 
 #### Type declaration:
 
@@ -8104,11 +7321,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3565](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3565)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3565](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3565)
 
 ___
 
-#### `MutationDeleteProductTypeArgs`
+### `MutationDeleteProductTypeArgs`
 
 #### Type declaration:
 
@@ -8118,11 +7335,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3465](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3465)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3465](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3465)
 
 ___
 
-#### `MutationDeleteShippingMethodArgs`
+### `MutationDeleteShippingMethodArgs`
 
 #### Type declaration:
 
@@ -8132,11 +7349,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3482](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3482)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3482](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3482)
 
 ___
 
-#### `MutationDeleteShoppingListArgs`
+### `MutationDeleteShoppingListArgs`
 
 #### Type declaration:
 
@@ -8147,11 +7364,11 @@ Name | Type |
 `personalDataErasure`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3781](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3781)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3781](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3781)
 
 ___
 
-#### `MutationDeleteStoreArgs`
+### `MutationDeleteStoreArgs`
 
 #### Type declaration:
 
@@ -8161,11 +7378,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3819](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3819)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3819](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3819)
 
 ___
 
-#### `MutationDeleteTaxCategoryArgs`
+### `MutationDeleteTaxCategoryArgs`
 
 #### Type declaration:
 
@@ -8175,11 +7392,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3516](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3516)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3516](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3516)
 
 ___
 
-#### `MutationDeleteZoneArgs`
+### `MutationDeleteZoneArgs`
 
 #### Type declaration:
 
@@ -8189,11 +7406,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3499](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3499)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3499](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3499)
 
 ___
 
-#### `MutationReplicateCartArgs`
+### `MutationReplicateCartArgs`
 
 #### Type declaration:
 
@@ -8201,11 +7418,11 @@ Name | Type |
 :------ | :------ |
 `reference` | [*ReferenceInput*](#referenceinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3722](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3722)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3722](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3722)
 
 ___
 
-#### `MutationUpdateCartArgs`
+### `MutationUpdateCartArgs`
 
 #### Type declaration:
 
@@ -8216,11 +7433,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3708](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3708)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3708](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3708)
 
 ___
 
-#### `MutationUpdateCartDiscountArgs`
+### `MutationUpdateCartDiscountArgs`
 
 #### Type declaration:
 
@@ -8231,11 +7448,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3541](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3541)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3541](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3541)
 
 ___
 
-#### `MutationUpdateCategoryArgs`
+### `MutationUpdateCategoryArgs`
 
 #### Type declaration:
 
@@ -8246,11 +7463,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3441](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3441)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3441](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3441)
 
 ___
 
-#### `MutationUpdateCustomerArgs`
+### `MutationUpdateCustomerArgs`
 
 #### Type declaration:
 
@@ -8262,11 +7479,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3598](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3598)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3598](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3598)
 
 ___
 
-#### `MutationUpdateCustomerGroupArgs`
+### `MutationUpdateCustomerGroupArgs`
 
 #### Type declaration:
 
@@ -8277,11 +7494,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3424](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3424)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3424](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3424)
 
 ___
 
-#### `MutationUpdateDiscountCodeArgs`
+### `MutationUpdateDiscountCodeArgs`
 
 #### Type declaration:
 
@@ -8291,11 +7508,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3526](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3526)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3526](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3526)
 
 ___
 
-#### `MutationUpdateInventoryEntryArgs`
+### `MutationUpdateInventoryEntryArgs`
 
 #### Type declaration:
 
@@ -8305,11 +7522,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3692](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3692)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3692](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3692)
 
 ___
 
-#### `MutationUpdateMyCartArgs`
+### `MutationUpdateMyCartArgs`
 
 #### Type declaration:
 
@@ -8320,11 +7537,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3731](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3731)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3731](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3731)
 
 ___
 
-#### `MutationUpdateMyCustomerArgs`
+### `MutationUpdateMyCustomerArgs`
 
 #### Type declaration:
 
@@ -8334,11 +7551,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3658](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3658)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3658](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3658)
 
 ___
 
-#### `MutationUpdateMyShoppingListArgs`
+### `MutationUpdateMyShoppingListArgs`
 
 #### Type declaration:
 
@@ -8348,11 +7565,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3792](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3792)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3792](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3792)
 
 ___
 
-#### `MutationUpdateOrderArgs`
+### `MutationUpdateOrderArgs`
 
 #### Type declaration:
 
@@ -8364,11 +7581,11 @@ Name | Type |
 `storeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*KeyReferenceInput*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3749](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3749)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3749](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3749)
 
 ___
 
-#### `MutationUpdateProductArgs`
+### `MutationUpdateProductArgs`
 
 #### Type declaration:
 
@@ -8379,11 +7596,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3575](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3575)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3575](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3575)
 
 ___
 
-#### `MutationUpdateProductDiscountArgs`
+### `MutationUpdateProductDiscountArgs`
 
 #### Type declaration:
 
@@ -8394,11 +7611,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3558](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3558)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3558](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3558)
 
 ___
 
-#### `MutationUpdateProductTypeArgs`
+### `MutationUpdateProductTypeArgs`
 
 #### Type declaration:
 
@@ -8409,11 +7626,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3458](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3458)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3458](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3458)
 
 ___
 
-#### `MutationUpdateProjectArgs`
+### `MutationUpdateProjectArgs`
 
 #### Type declaration:
 
@@ -8422,11 +7639,11 @@ Name | Type |
 `actions` | [*ProjectSettingsUpdateAction*](#projectsettingsupdateaction)[] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3803](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3803)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3803](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3803)
 
 ___
 
-#### `MutationUpdateShippingMethodArgs`
+### `MutationUpdateShippingMethodArgs`
 
 #### Type declaration:
 
@@ -8437,11 +7654,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3475](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3475)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3475](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3475)
 
 ___
 
-#### `MutationUpdateShoppingListArgs`
+### `MutationUpdateShoppingListArgs`
 
 #### Type declaration:
 
@@ -8452,11 +7669,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3774](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3774)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3774](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3774)
 
 ___
 
-#### `MutationUpdateStoreArgs`
+### `MutationUpdateStoreArgs`
 
 #### Type declaration:
 
@@ -8467,11 +7684,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3812](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3812)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3812](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3812)
 
 ___
 
-#### `MutationUpdateTaxCategoryArgs`
+### `MutationUpdateTaxCategoryArgs`
 
 #### Type declaration:
 
@@ -8482,11 +7699,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3509](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3509)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3509](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3509)
 
 ___
 
-#### `MutationUpdateZoneArgs`
+### `MutationUpdateZoneArgs`
 
 #### Type declaration:
 
@@ -8497,11 +7714,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3492](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3492)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3492](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3492)
 
 ___
 
-#### `MyCartDraft`
+### `MyCartDraft`
 
 #### Type declaration:
 
@@ -8522,11 +7739,11 @@ Name | Type |
 `shippingMethod`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `taxMode`? | [*Maybe*](#maybe)<[*TaxMode*](../enums/types_graphql.taxmode.md)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3833](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3833)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3833](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3833)
 
 ___
 
-#### `MyCartUpdateAction`
+### `MyCartUpdateAction`
 
 #### Type declaration:
 
@@ -8559,11 +7776,11 @@ Name | Type |
 `setShippingMethod`? | [*Maybe*](#maybe)<[*SetMyCartShippingMethod*](#setmycartshippingmethod)\> |
 `updateItemShippingAddress`? | [*Maybe*](#maybe)<[*UpdateCartItemShippingAddress*](#updatecartitemshippingaddress)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3850](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3850)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3850](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3850)
 
 ___
 
-#### `MyCustomerUpdateAction`
+### `MyCustomerUpdateAction`
 
 #### Type declaration:
 
@@ -8591,11 +7808,11 @@ Name | Type |
 `setTitle`? | [*Maybe*](#maybe)<[*SetCustomerTitle*](#setcustomertitle)\> |
 `setVatId`? | [*Maybe*](#maybe)<[*SetCustomerVatId*](#setcustomervatid)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3883](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3883)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3883](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3883)
 
 ___
 
-#### `MyLineItemDraft`
+### `MyLineItemDraft`
 
 #### Type declaration:
 
@@ -8610,11 +7827,11 @@ Name | Type |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3907](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3907)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3907](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3907)
 
 ___
 
-#### `MyShoppingListDraft`
+### `MyShoppingListDraft`
 
 #### Type declaration:
 
@@ -8627,11 +7844,11 @@ Name | Type |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `textLineItems`? | [*Maybe*](#maybe)<[*TextLineItemDraft*](#textlineitemdraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3918](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3918)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3918](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3918)
 
 ___
 
-#### `MyShoppingListUpdateAction`
+### `MyShoppingListUpdateAction`
 
 #### Type declaration:
 
@@ -8657,50 +7874,50 @@ Name | Type |
 `setTextLineItemCustomType`? | [*Maybe*](#maybe)<[*SetShoppingListTextLineItemCustomType*](#setshoppinglisttextlineitemcustomtype)\> |
 `setTextLineItemDescription`? | [*Maybe*](#maybe)<[*SetShoppingListTextLineItemDescription*](#setshoppinglisttextlineitemdescription)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3927](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3927)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3927](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3927)
 
 ___
 
-#### `NestedAttributeDefinitionType`
+### `NestedAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3951](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3951)
-
-___
-
-#### `NumberAttribute`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3957](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3957)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3951](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3951)
 
 ___
 
-#### `NumberAttributeDefinitionType`
+### `NumberAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3963](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3963)
-
-___
-
-#### `NumberField`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3968](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3968)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3957](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3957)
 
 ___
 
-#### `NumberType`
+### `NumberAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3974](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3974)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3963](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3963)
 
 ___
 
-#### `Order`
+### `NumberField`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3968](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3968)
+
+___
+
+### `NumberType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3974](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3974)
+
+___
+
+### `Order`
 
 An order can be created from a cart, usually after a checkout process has been completed.
 [documentation](https://docs.commercetools.com/http-api-projects-orders.html)
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3982](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L3982)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:3982](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L3982)
 
 ___
 
-#### `OrderCartCommand`
+### `OrderCartCommand`
 
 #### Type declaration:
 
@@ -8714,11 +7931,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*ReferenceInput*](#referenceinput)\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4055](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4055)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4055](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4055)
 
 ___
 
-#### `OrderCustomFieldListArgs`
+### `OrderCustomFieldListArgs`
 
 An order can be created from a cart, usually after a checkout process has been completed.
 [documentation](https://docs.commercetools.com/http-api-projects-orders.html)
@@ -8730,11 +7947,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4050](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4050)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4050](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4050)
 
 ___
 
-#### `OrderCustomFieldsRawArgs`
+### `OrderCustomFieldsRawArgs`
 
 An order can be created from a cart, usually after a checkout process has been completed.
 [documentation](https://docs.commercetools.com/http-api-projects-orders.html)
@@ -8746,11 +7963,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4042](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4042)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4042](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4042)
 
 ___
 
-#### `OrderMyCartCommand`
+### `OrderMyCartCommand`
 
 #### Type declaration:
 
@@ -8759,11 +7976,11 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4065](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4065)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4065](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4065)
 
 ___
 
-#### `OrderQueryInterface`
+### `OrderQueryInterface`
 
 Fields to access orders. Includes direct access to a single order and searching for orders.
 
@@ -8774,11 +7991,11 @@ Name | Type |
 `order`? | [*Maybe*](#maybe)<[*Order*](#order)\> |
 `orders` | [*OrderQueryResult*](#orderqueryresult) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4071](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4071)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4071](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4071)
 
 ___
 
-#### `OrderQueryInterfaceOrderArgs`
+### `OrderQueryInterfaceOrderArgs`
 
 Fields to access orders. Includes direct access to a single order and searching for orders.
 
@@ -8789,11 +8006,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4077](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4077)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4077](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4077)
 
 ___
 
-#### `OrderQueryInterfaceOrdersArgs`
+### `OrderQueryInterfaceOrdersArgs`
 
 Fields to access orders. Includes direct access to a single order and searching for orders.
 
@@ -8806,11 +8023,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4083](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4083)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4083](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4083)
 
 ___
 
-#### `OrderQueryResult`
+### `OrderQueryResult`
 
 #### Type declaration:
 
@@ -8822,11 +8039,11 @@ Name | Type |
 `results` | [*Order*](#order)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4090](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4090)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4090](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4090)
 
 ___
 
-#### `OrderUpdateAction`
+### `OrderUpdateAction`
 
 #### Type declaration:
 
@@ -8873,11 +8090,11 @@ Name | Type |
 `updateItemShippingAddress`? | [*Maybe*](#maybe)<[*UpdateOrderItemShippingAddress*](#updateorderitemshippingaddress)\> |
 `updateSyncInfo`? | [*Maybe*](#maybe)<[*UpdateOrderSyncInfo*](#updateordersyncinfo)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4105](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4105)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4105](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4105)
 
 ___
 
-#### `Parcel`
+### `Parcel`
 
 #### Type declaration:
 
@@ -8890,11 +8107,11 @@ Name | Type |
 `measurements`? | [*Maybe*](#maybe)<[*ParcelMeasurements*](#parcelmeasurements)\> |
 `trackingData`? | [*Maybe*](#maybe)<[*TrackingData*](#trackingdata)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4150](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4150)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4150](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4150)
 
 ___
 
-#### `ParcelMeasurements`
+### `ParcelMeasurements`
 
 #### Type declaration:
 
@@ -8906,11 +8123,11 @@ Name | Type |
 `weightInGram`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `widthInMillimeter`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4159](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4159)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4159](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4159)
 
 ___
 
-#### `ParcelMeasurementsDraftType`
+### `ParcelMeasurementsDraftType`
 
 #### Type declaration:
 
@@ -8921,36 +8138,20 @@ Name | Type |
 `weightInGram`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `widthInMillimeter`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4167](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4167)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4167](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4167)
 
 ___
 
-#### `Payment`
+### `Payment`
 
 Payments hold information about the current state of receiving and/or refunding money.
 [documentation](https://docs.commercetools.com/http-api-projects-payments)
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4177](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4177)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4177](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4177)
 
 ___
 
-#### `PaymentCustomFieldListArgs`
-
-Payments hold information about the current state of receiving and/or refunding money.
-[documentation](https://docs.commercetools.com/http-api-projects-payments)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4227](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4227)
-
-___
-
-#### `PaymentCustomFieldsRawArgs`
+### `PaymentCustomFieldListArgs`
 
 Payments hold information about the current state of receiving and/or refunding money.
 [documentation](https://docs.commercetools.com/http-api-projects-payments)
@@ -8962,11 +8163,27 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4219](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4219)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4227](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4227)
 
 ___
 
-#### `PaymentInfo`
+### `PaymentCustomFieldsRawArgs`
+
+Payments hold information about the current state of receiving and/or refunding money.
+[documentation](https://docs.commercetools.com/http-api-projects-payments)
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4219](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4219)
+
+___
+
+### `PaymentInfo`
 
 #### Type declaration:
 
@@ -8976,11 +8193,11 @@ Name | Type |
 `paymentRefs` | [*Reference*](#reference)[] |
 `payments` | [*Payment*](#payment)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4232](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4232)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4232](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4232)
 
 ___
 
-#### `PaymentInterfaceInteractionsRawArgs`
+### `PaymentInterfaceInteractionsRawArgs`
 
 Payments hold information about the current state of receiving and/or refunding money.
 [documentation](https://docs.commercetools.com/http-api-projects-payments)
@@ -8992,11 +8209,11 @@ Name | Type |
 `limit`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4211](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4211)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4211](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4211)
 
 ___
 
-#### `PaymentMethodInfo`
+### `PaymentMethodInfo`
 
 #### Type declaration:
 
@@ -9008,11 +8225,11 @@ Name | Type |
 `nameAllLocales`? | [*Maybe*](#maybe)<[*LocalizedString*](#localizedstring)[]\> |
 `paymentInterface`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4238](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4238)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4238](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4238)
 
 ___
 
-#### `PaymentMethodInfoNameArgs`
+### `PaymentMethodInfoNameArgs`
 
 #### Type declaration:
 
@@ -9021,11 +8238,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4246](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4246)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4246](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4246)
 
 ___
 
-#### `PaymentQueryResult`
+### `PaymentQueryResult`
 
 #### Type declaration:
 
@@ -9037,11 +8254,11 @@ Name | Type |
 `results` | [*Payment*](#payment)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4251](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4251)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4251](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4251)
 
 ___
 
-#### `PaymentStatus`
+### `PaymentStatus`
 
 #### Type declaration:
 
@@ -9053,11 +8270,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*State*](#state)\> |
 `stateRef`? | [*Maybe*](#maybe)<[*Reference*](#reference)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4267](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4267)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4267](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4267)
 
 ___
 
-#### `PlainEnumValue`
+### `PlainEnumValue`
 
 #### Type declaration:
 
@@ -9067,11 +8284,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `label` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4275](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4275)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4275](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4275)
 
 ___
 
-#### `PlainEnumValueDraft`
+### `PlainEnumValueDraft`
 
 #### Type declaration:
 
@@ -9080,11 +8297,11 @@ Name | Type |
 `key` | [*Scalars*](#scalars)[*String*] |
 `label` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4281](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4281)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4281](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4281)
 
 ___
 
-#### `PlainEnumValueResult`
+### `PlainEnumValueResult`
 
 #### Type declaration:
 
@@ -9096,17 +8313,17 @@ Name | Type |
 `results` | [*PlainEnumValue*](#plainenumvalue)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4286](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4286)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4286](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4286)
 
 ___
 
-#### `Point`
+### `Point`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4294](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4294)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4294](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4294)
 
 ___
 
-#### `PriceFunction`
+### `PriceFunction`
 
 #### Type declaration:
 
@@ -9116,11 +8333,11 @@ Name | Type |
 `currencyCode` | [*Scalars*](#scalars)[*Currency*] |
 `function` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4300](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4300)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4300](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4300)
 
 ___
 
-#### `PriceFunctionDraft`
+### `PriceFunctionDraft`
 
 #### Type declaration:
 
@@ -9129,17 +8346,17 @@ Name | Type |
 `currencyCode` | [*Scalars*](#scalars)[*Currency*] |
 `function` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4306](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4306)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4306](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4306)
 
 ___
 
-#### `Product`
+### `Product`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4311](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4311)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4311](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4311)
 
 ___
 
-#### `ProductAttributeInput`
+### `ProductAttributeInput`
 
 #### Type declaration:
 
@@ -9148,11 +8365,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4335](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4335)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4335](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4335)
 
 ___
 
-#### `ProductCatalogData`
+### `ProductCatalogData`
 
 #### Type declaration:
 
@@ -9164,11 +8381,11 @@ Name | Type |
 `published` | [*Scalars*](#scalars)[*Boolean*] |
 `staged`? | [*Maybe*](#maybe)<[*ProductData*](#productdata)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4340](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4340)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4340](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4340)
 
 ___
 
-#### `ProductCatalogDataArgs`
+### `ProductCatalogDataArgs`
 
 #### Type declaration:
 
@@ -9176,11 +8393,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4331](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4331)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4331](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4331)
 
 ___
 
-#### `ProductData`
+### `ProductData`
 
 #### Type declaration:
 
@@ -9207,11 +8424,11 @@ Name | Type |
 `variant`? | [*Maybe*](#maybe)<[*ProductVariant*](#productvariant)\> |
 `variants` | [*ProductVariant*](#productvariant)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4348](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4348)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4348](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4348)
 
 ___
 
-#### `ProductDataAllVariantsArgs`
+### `ProductDataAllVariantsArgs`
 
 #### Type declaration:
 
@@ -9222,11 +8439,11 @@ Name | Type |
 `skus`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `stockChannelIds`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4416](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4416)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4416](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4416)
 
 ___
 
-#### `ProductDataCategoryOrderHintArgs`
+### `ProductDataCategoryOrderHintArgs`
 
 #### Type declaration:
 
@@ -9234,11 +8451,11 @@ Name | Type |
 :------ | :------ |
 `categoryId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4386](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4386)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4386](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4386)
 
 ___
 
-#### `ProductDataDescriptionArgs`
+### `ProductDataDescriptionArgs`
 
 #### Type declaration:
 
@@ -9247,11 +8464,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4376](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4376)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4376](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4376)
 
 ___
 
-#### `ProductDataMetaDescriptionArgs`
+### `ProductDataMetaDescriptionArgs`
 
 #### Type declaration:
 
@@ -9260,11 +8477,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4404](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4404)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4404](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4404)
 
 ___
 
-#### `ProductDataMetaKeywordsArgs`
+### `ProductDataMetaKeywordsArgs`
 
 #### Type declaration:
 
@@ -9273,11 +8490,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4399](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4399)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4399](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4399)
 
 ___
 
-#### `ProductDataMetaTitleArgs`
+### `ProductDataMetaTitleArgs`
 
 #### Type declaration:
 
@@ -9286,11 +8503,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4394](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4394)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4394](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4394)
 
 ___
 
-#### `ProductDataNameArgs`
+### `ProductDataNameArgs`
 
 #### Type declaration:
 
@@ -9299,11 +8516,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4371](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4371)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4371](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4371)
 
 ___
 
-#### `ProductDataSearchKeywordArgs`
+### `ProductDataSearchKeywordArgs`
 
 #### Type declaration:
 
@@ -9311,11 +8528,11 @@ Name | Type |
 :------ | :------ |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4390](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4390)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4390](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4390)
 
 ___
 
-#### `ProductDataSlugArgs`
+### `ProductDataSlugArgs`
 
 #### Type declaration:
 
@@ -9324,11 +8541,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4381](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4381)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4381](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4381)
 
 ___
 
-#### `ProductDataVariantArgs`
+### `ProductDataVariantArgs`
 
 #### Type declaration:
 
@@ -9337,11 +8554,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4423](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4423)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4423](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4423)
 
 ___
 
-#### `ProductDataVariantsArgs`
+### `ProductDataVariantsArgs`
 
 #### Type declaration:
 
@@ -9352,11 +8569,11 @@ Name | Type |
 `skus`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `stockChannelIds`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4409](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4409)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4409](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4409)
 
 ___
 
-#### `ProductDiscount`
+### `ProductDiscount`
 
 A product price can be discounted in two ways:
 
@@ -9376,11 +8593,11 @@ minutes to update all the prices with the discounts.
 
 The maximum number of ProductDiscounts that can be active at the same time is **200**.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4446](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4446)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4446](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4446)
 
 ___
 
-#### `ProductDiscountDescriptionArgs`
+### `ProductDiscountDescriptionArgs`
 
 A product price can be discounted in two ways:
 
@@ -9407,11 +8624,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4509](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4509)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4509](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4509)
 
 ___
 
-#### `ProductDiscountDraft`
+### `ProductDiscountDraft`
 
 #### Type declaration:
 
@@ -9427,11 +8644,11 @@ Name | Type |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `value` | [*ProductDiscountValueInput*](#productdiscountvalueinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4514](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4514)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4514](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4514)
 
 ___
 
-#### `ProductDiscountNameArgs`
+### `ProductDiscountNameArgs`
 
 A product price can be discounted in two ways:
 
@@ -9458,11 +8675,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4486](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4486)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4486](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4486)
 
 ___
 
-#### `ProductDiscountQueryResult`
+### `ProductDiscountQueryResult`
 
 #### Type declaration:
 
@@ -9474,11 +8691,11 @@ Name | Type |
 `results` | [*ProductDiscount*](#productdiscount)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4526](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4526)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4526](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4526)
 
 ___
 
-#### `ProductDiscountUpdateAction`
+### `ProductDiscountUpdateAction`
 
 #### Type declaration:
 
@@ -9495,11 +8712,11 @@ Name | Type |
 `setValidFromAndUntil`? | [*Maybe*](#maybe)<[*SetProductDiscountValidFromAndUntil*](#setproductdiscountvalidfromanduntil)\> |
 `setValidUntil`? | [*Maybe*](#maybe)<[*SetProductDiscountValidUntil*](#setproductdiscountvaliduntil)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4534](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4534)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4534](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4534)
 
 ___
 
-#### `ProductDiscountValue`
+### `ProductDiscountValue`
 
 #### Type declaration:
 
@@ -9507,11 +8724,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4547](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4547)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4547](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4547)
 
 ___
 
-#### `ProductDiscountValueInput`
+### `ProductDiscountValueInput`
 
 #### Type declaration:
 
@@ -9521,11 +8738,11 @@ Name | Type |
 `external`? | [*Maybe*](#maybe)<[*ExternalDiscountValueInput*](#externaldiscountvalueinput)\> |
 `relative`? | [*Maybe*](#maybe)<[*RelativeDiscountValueInput*](#relativediscountvalueinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4551](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4551)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4551](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4551)
 
 ___
 
-#### `ProductDraft`
+### `ProductDraft`
 
 #### Type declaration:
 
@@ -9548,11 +8765,11 @@ Name | Type |
 `taxCategory`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 `variants`? | [*Maybe*](#maybe)<[*ProductVariantInput*](#productvariantinput)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4557](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4557)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4557](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4557)
 
 ___
 
-#### `ProductPrice`
+### `ProductPrice`
 
 #### Type declaration:
 
@@ -9573,11 +8790,11 @@ Name | Type | Description |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> | - |
 `value` | [*BaseMoney*](#basemoney) | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4576](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4576)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4576](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4576)
 
 ___
 
-#### `ProductPriceCustomFieldListArgs`
+### `ProductPriceCustomFieldListArgs`
 
 #### Type declaration:
 
@@ -9586,11 +8803,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4601](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4601)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4601](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4601)
 
 ___
 
-#### `ProductPriceCustomFieldsRawArgs`
+### `ProductPriceCustomFieldsRawArgs`
 
 #### Type declaration:
 
@@ -9599,11 +8816,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4596](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4596)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4596](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4596)
 
 ___
 
-#### `ProductPriceDataInput`
+### `ProductPriceDataInput`
 
 #### Type declaration:
 
@@ -9618,11 +8835,11 @@ Name | Type |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `value` | [*BaseMoneyInput*](#basemoneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4606](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4606)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4606](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4606)
 
 ___
 
-#### `ProductPriceTier`
+### `ProductPriceTier`
 
 #### Type declaration:
 
@@ -9632,11 +8849,11 @@ Name | Type |
 `minimumQuantity` | [*Scalars*](#scalars)[*Int*] |
 `value` | [*BaseMoney*](#basemoney) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4617](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4617)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4617](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4617)
 
 ___
 
-#### `ProductPriceTierInput`
+### `ProductPriceTierInput`
 
 #### Type declaration:
 
@@ -9645,11 +8862,11 @@ Name | Type |
 `minimumQuantity` | [*Scalars*](#scalars)[*Int*] |
 `value` | [*BaseMoneyInput*](#basemoneyinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4623](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4623)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4623](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4623)
 
 ___
 
-#### `ProductQueryResult`
+### `ProductQueryResult`
 
 #### Type declaration:
 
@@ -9661,11 +8878,11 @@ Name | Type |
 `results` | [*Product*](#product)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4628](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4628)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4628](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4628)
 
 ___
 
-#### `ProductReferenceIdentifier`
+### `ProductReferenceIdentifier`
 
 #### Type declaration:
 
@@ -9676,11 +8893,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4636](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4636)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4636](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4636)
 
 ___
 
-#### `ProductType`
+### `ProductType`
 
 #### Type declaration:
 
@@ -9688,17 +8905,17 @@ Name | Type |
 :------ | :------ |
 `productTypeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4643](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4643)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4643](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4643)
 
 ___
 
-#### `ProductTypeDefinition`
+### `ProductTypeDefinition`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4647](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4647)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4647](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4647)
 
 ___
 
-#### `ProductTypeDefinitionAttributeDefinitionsArgs`
+### `ProductTypeDefinitionAttributeDefinitionsArgs`
 
 #### Type declaration:
 
@@ -9710,11 +8927,11 @@ Name | Type |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4661](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4661)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4661](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4661)
 
 ___
 
-#### `ProductTypeDefinitionQueryResult`
+### `ProductTypeDefinitionQueryResult`
 
 #### Type declaration:
 
@@ -9726,11 +8943,11 @@ Name | Type |
 `results` | [*ProductTypeDefinition*](#producttypedefinition)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4669](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4669)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4669](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4669)
 
 ___
 
-#### `ProductTypeDraft`
+### `ProductTypeDraft`
 
 #### Type declaration:
 
@@ -9741,11 +8958,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4677](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4677)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4677](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4677)
 
 ___
 
-#### `ProductTypeUpdateAction`
+### `ProductTypeUpdateAction`
 
 #### Type declaration:
 
@@ -9772,11 +8989,11 @@ Name | Type |
 `setInputTip`? | [*Maybe*](#maybe)<[*SetInputTip*](#setinputtip)\> |
 `setKey`? | [*Maybe*](#maybe)<[*SetKey*](#setkey)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4684](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4684)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4684](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4684)
 
 ___
 
-#### `ProductUpdateAction`
+### `ProductUpdateAction`
 
 #### Type declaration:
 
@@ -9830,11 +9047,11 @@ Name | Type |
 `transitionState`? | [*Maybe*](#maybe)<[*TransitionProductState*](#transitionproductstate)\> |
 `unpublish`? | [*Maybe*](#maybe)<[*UnpublishProduct*](#unpublishproduct)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4707](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4707)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4707](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4707)
 
 ___
 
-#### `ProductVariant`
+### `ProductVariant`
 
 #### Type declaration:
 
@@ -9853,11 +9070,11 @@ Name | Type | Description |
 `prices`? | [*Maybe*](#maybe)<[*ProductPrice*](#productprice)[]\> | - |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> | - |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4757](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4757)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4757](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4757)
 
 ___
 
-#### `ProductVariantAttributeListArgs`
+### `ProductVariantAttributeListArgs`
 
 #### Type declaration:
 
@@ -9866,11 +9083,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4789](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4789)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4789](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4789)
 
 ___
 
-#### `ProductVariantAttributesRawArgs`
+### `ProductVariantAttributesRawArgs`
 
 #### Type declaration:
 
@@ -9879,11 +9096,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4784](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4784)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4784](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4784)
 
 ___
 
-#### `ProductVariantAvailabilitiesResult`
+### `ProductVariantAvailabilitiesResult`
 
 Product variant availabilities
 
@@ -9897,11 +9114,11 @@ Name | Type |
 `results` | [*ProductVariantAvailabilityWithChannel*](#productvariantavailabilitywithchannel)[] |
 `total` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4795](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4795)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4795](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4795)
 
 ___
 
-#### `ProductVariantAvailability`
+### `ProductVariantAvailability`
 
 Product variant availability
 
@@ -9914,11 +9131,11 @@ Name | Type |
 `isOnStock` | [*Scalars*](#scalars)[*Boolean*] |
 `restockableInDays`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4804](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4804)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4804](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4804)
 
 ___
 
-#### `ProductVariantAvailabilityWithChannel`
+### `ProductVariantAvailabilityWithChannel`
 
 #### Type declaration:
 
@@ -9929,11 +9146,11 @@ Name | Type |
 `channel`? | [*Maybe*](#maybe)<[*Channel*](#channel)\> |
 `channelRef` | [*Reference*](#reference) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4811](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4811)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4811](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4811)
 
 ___
 
-#### `ProductVariantAvailabilityWithChannels`
+### `ProductVariantAvailabilityWithChannels`
 
 #### Type declaration:
 
@@ -9943,11 +9160,11 @@ Name | Type |
 `channels` | [*ProductVariantAvailabilitiesResult*](#productvariantavailabilitiesresult) |
 `noChannel`? | [*Maybe*](#maybe)<[*ProductVariantAvailability*](#productvariantavailability)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4818](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4818)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4818](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4818)
 
 ___
 
-#### `ProductVariantAvailabilityWithChannelsChannelsArgs`
+### `ProductVariantAvailabilityWithChannelsChannelsArgs`
 
 #### Type declaration:
 
@@ -9958,11 +9175,11 @@ Name | Type |
 `limit`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4824](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4824)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4824](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4824)
 
 ___
 
-#### `ProductVariantInput`
+### `ProductVariantInput`
 
 #### Type declaration:
 
@@ -9975,11 +9192,11 @@ Name | Type |
 `prices`? | [*Maybe*](#maybe)<[*ProductPriceDataInput*](#productpricedatainput)[]\> |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4831](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4831)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4831](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4831)
 
 ___
 
-#### `ProductVariantPriceArgs`
+### `ProductVariantPriceArgs`
 
 #### Type declaration:
 
@@ -9991,11 +9208,11 @@ Name | Type |
 `customerGroupId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `date`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4776](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4776)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4776](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4776)
 
 ___
 
-#### `ProjectProjection`
+### `ProjectProjection`
 
 Project contains information about project.
 
@@ -10016,11 +9233,11 @@ Name | Type |
 `trialUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*YearMonth*]\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4841](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4841)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4841](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4841)
 
 ___
 
-#### `ProjectSettingsUpdateAction`
+### `ProjectSettingsUpdateAction`
 
 #### Type declaration:
 
@@ -10035,11 +9252,11 @@ Name | Type |
 `setExternalOAuth`? | [*Maybe*](#maybe)<[*SetProjectSettingsExternalOAuth*](#setprojectsettingsexternaloauth)\> |
 `setShippingRateInputType`? | [*Maybe*](#maybe)<[*SetProjectSettingsShippingRateInputType*](#setprojectsettingsshippingrateinputtype)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4856](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4856)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4856](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4856)
 
 ___
 
-#### `PublishProduct`
+### `PublishProduct`
 
 #### Type declaration:
 
@@ -10047,17 +9264,17 @@ Name | Type |
 :------ | :------ |
 `scope`? | [*Maybe*](#maybe)<[*PublishScope*](../enums/types_graphql.publishscope.md)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4869](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4869)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4869](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4869)
 
 ___
 
-#### `Query`
+### `Query`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4880](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4880)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4880](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4880)
 
 ___
 
-#### `QueryApiClientArgs`
+### `QueryApiClientArgs`
 
 #### Type declaration:
 
@@ -10065,11 +9282,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5231](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5231)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5231](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5231)
 
 ___
 
-#### `QueryApiClientsArgs`
+### `QueryApiClientsArgs`
 
 #### Type declaration:
 
@@ -10080,11 +9297,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5235](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5235)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5235](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5235)
 
 ___
 
-#### `QueryCartArgs`
+### `QueryCartArgs`
 
 #### Type declaration:
 
@@ -10092,11 +9309,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5168](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5168)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5168](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5168)
 
 ___
 
-#### `QueryCartDiscountArgs`
+### `QueryCartDiscountArgs`
 
 #### Type declaration:
 
@@ -10105,11 +9322,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5093](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5093)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5093](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5093)
 
 ___
 
-#### `QueryCartDiscountsArgs`
+### `QueryCartDiscountsArgs`
 
 #### Type declaration:
 
@@ -10120,11 +9337,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5098](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5098)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5098](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5098)
 
 ___
 
-#### `QueryCartsArgs`
+### `QueryCartsArgs`
 
 #### Type declaration:
 
@@ -10135,11 +9352,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5172](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5172)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5172](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5172)
 
 ___
 
-#### `QueryCategoriesArgs`
+### `QueryCategoriesArgs`
 
 #### Type declaration:
 
@@ -10150,11 +9367,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4974](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4974)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4974](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4974)
 
 ___
 
-#### `QueryCategoryArgs`
+### `QueryCategoryArgs`
 
 #### Type declaration:
 
@@ -10163,11 +9380,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4969](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4969)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4969](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4969)
 
 ___
 
-#### `QueryCategoryAutocompleteArgs`
+### `QueryCategoryAutocompleteArgs`
 
 #### Type declaration:
 
@@ -10180,11 +9397,11 @@ Name | Type |
 `offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `text` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4981](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4981)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4981](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4981)
 
 ___
 
-#### `QueryCategorySearchArgs`
+### `QueryCategorySearchArgs`
 
 #### Type declaration:
 
@@ -10198,11 +9415,11 @@ Name | Type |
 `queryFilters`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*SearchFilter*][]\> |
 `sorts`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*SearchSort*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4990](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4990)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4990](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4990)
 
 ___
 
-#### `QueryChannelArgs`
+### `QueryChannelArgs`
 
 #### Type declaration:
 
@@ -10211,11 +9428,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5000](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5000)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5000](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5000)
 
 ___
 
-#### `QueryChannelsArgs`
+### `QueryChannelsArgs`
 
 #### Type declaration:
 
@@ -10226,11 +9443,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5005](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5005)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5005](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5005)
 
 ___
 
-#### `QueryCustomerActiveCartArgs`
+### `QueryCustomerActiveCartArgs`
 
 #### Type declaration:
 
@@ -10238,11 +9455,11 @@ Name | Type |
 :------ | :------ |
 `customerId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5179](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5179)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5179](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5179)
 
 ___
 
-#### `QueryCustomerArgs`
+### `QueryCustomerArgs`
 
 #### Type declaration:
 
@@ -10253,11 +9470,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `passwordToken`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5143](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5143)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5143](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5143)
 
 ___
 
-#### `QueryCustomerGroupArgs`
+### `QueryCustomerGroupArgs`
 
 #### Type declaration:
 
@@ -10266,11 +9483,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4957](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4957)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4957](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4957)
 
 ___
 
-#### `QueryCustomerGroupsArgs`
+### `QueryCustomerGroupsArgs`
 
 #### Type declaration:
 
@@ -10281,11 +9498,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4962](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4962)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4962](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4962)
 
 ___
 
-#### `QueryCustomersArgs`
+### `QueryCustomersArgs`
 
 #### Type declaration:
 
@@ -10296,11 +9513,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5150](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5150)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5150](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5150)
 
 ___
 
-#### `QueryDiscountCodeArgs`
+### `QueryDiscountCodeArgs`
 
 #### Type declaration:
 
@@ -10308,11 +9525,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5082](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5082)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5082](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5082)
 
 ___
 
-#### `QueryDiscountCodesArgs`
+### `QueryDiscountCodesArgs`
 
 #### Type declaration:
 
@@ -10323,11 +9540,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5086](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5086)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5086](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5086)
 
 ___
 
-#### `QueryInStoreArgs`
+### `QueryInStoreArgs`
 
 #### Type declaration:
 
@@ -10335,11 +9552,11 @@ Name | Type |
 :------ | :------ |
 `key` | [*Scalars*](#scalars)[*KeyReferenceInput*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4949](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4949)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4949](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4949)
 
 ___
 
-#### `QueryInStoresArgs`
+### `QueryInStoresArgs`
 
 #### Type declaration:
 
@@ -10347,11 +9564,11 @@ Name | Type |
 :------ | :------ |
 `keys` | [*Scalars*](#scalars)[*KeyReferenceInput*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4953](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L4953)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:4953](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L4953)
 
 ___
 
-#### `QueryInventoryEntriesArgs`
+### `QueryInventoryEntriesArgs`
 
 #### Type declaration:
 
@@ -10362,11 +9579,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5161](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5161)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5161](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5161)
 
 ___
 
-#### `QueryInventoryEntryArgs`
+### `QueryInventoryEntryArgs`
 
 #### Type declaration:
 
@@ -10374,11 +9591,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5157](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5157)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5157](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5157)
 
 ___
 
-#### `QueryOrderArgs`
+### `QueryOrderArgs`
 
 #### Type declaration:
 
@@ -10387,11 +9604,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5183](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5183)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5183](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5183)
 
 ___
 
-#### `QueryOrdersArgs`
+### `QueryOrdersArgs`
 
 #### Type declaration:
 
@@ -10402,11 +9619,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5188](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5188)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5188](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5188)
 
 ___
 
-#### `QueryPaymentArgs`
+### `QueryPaymentArgs`
 
 #### Type declaration:
 
@@ -10415,11 +9632,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5207](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5207)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5207](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5207)
 
 ___
 
-#### `QueryPaymentsArgs`
+### `QueryPaymentsArgs`
 
 #### Type declaration:
 
@@ -10430,11 +9647,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5212](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5212)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5212](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5212)
 
 ___
 
-#### `QueryProductArgs`
+### `QueryProductArgs`
 
 #### Type declaration:
 
@@ -10445,11 +9662,11 @@ Name | Type |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5116](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5116)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5116](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5116)
 
 ___
 
-#### `QueryProductDiscountArgs`
+### `QueryProductDiscountArgs`
 
 #### Type declaration:
 
@@ -10457,11 +9674,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5105](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5105)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5105](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5105)
 
 ___
 
-#### `QueryProductDiscountsArgs`
+### `QueryProductDiscountsArgs`
 
 #### Type declaration:
 
@@ -10472,11 +9689,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5109](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5109)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5109](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5109)
 
 ___
 
-#### `QueryProductTypeArgs`
+### `QueryProductTypeArgs`
 
 #### Type declaration:
 
@@ -10485,11 +9702,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5012](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5012)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5012](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5012)
 
 ___
 
-#### `QueryProductTypesArgs`
+### `QueryProductTypesArgs`
 
 #### Type declaration:
 
@@ -10500,11 +9717,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5017](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5017)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5017](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5017)
 
 ___
 
-#### `QueryProductsArgs`
+### `QueryProductsArgs`
 
 #### Type declaration:
 
@@ -10516,11 +9733,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5123](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5123)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5123](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5123)
 
 ___
 
-#### `QueryShippingMethodArgs`
+### `QueryShippingMethodArgs`
 
 #### Type declaration:
 
@@ -10529,11 +9746,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5036](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5036)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5036](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5036)
 
 ___
 
-#### `QueryShippingMethodsArgs`
+### `QueryShippingMethodsArgs`
 
 #### Type declaration:
 
@@ -10544,11 +9761,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5041](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5041)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5041](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5041)
 
 ___
 
-#### `QueryShippingMethodsByCartArgs`
+### `QueryShippingMethodsByCartArgs`
 
 #### Type declaration:
 
@@ -10556,11 +9773,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5048](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5048)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5048](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5048)
 
 ___
 
-#### `QueryShippingMethodsByLocationArgs`
+### `QueryShippingMethodsByLocationArgs`
 
 #### Type declaration:
 
@@ -10570,11 +9787,11 @@ Name | Type |
 `currency`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Currency*]\> |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5052](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5052)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5052](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5052)
 
 ___
 
-#### `QueryShoppingListArgs`
+### `QueryShoppingListArgs`
 
 #### Type declaration:
 
@@ -10583,11 +9800,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5195](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5195)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5195](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5195)
 
 ___
 
-#### `QueryShoppingListsArgs`
+### `QueryShoppingListsArgs`
 
 #### Type declaration:
 
@@ -10598,11 +9815,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5200](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5200)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5200](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5200)
 
 ___
 
-#### `QueryStateArgs`
+### `QueryStateArgs`
 
 #### Type declaration:
 
@@ -10611,11 +9828,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5131](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5131)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5131](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5131)
 
 ___
 
-#### `QueryStatesArgs`
+### `QueryStatesArgs`
 
 #### Type declaration:
 
@@ -10626,11 +9843,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5136](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5136)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5136](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5136)
 
 ___
 
-#### `QueryStoreArgs`
+### `QueryStoreArgs`
 
 #### Type declaration:
 
@@ -10639,11 +9856,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5219](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5219)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5219](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5219)
 
 ___
 
-#### `QueryStoresArgs`
+### `QueryStoresArgs`
 
 #### Type declaration:
 
@@ -10654,11 +9871,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5224](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5224)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5224](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5224)
 
 ___
 
-#### `QueryTaxCategoriesArgs`
+### `QueryTaxCategoriesArgs`
 
 #### Type declaration:
 
@@ -10669,11 +9886,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5075](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5075)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5075](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5075)
 
 ___
 
-#### `QueryTaxCategoryArgs`
+### `QueryTaxCategoryArgs`
 
 #### Type declaration:
 
@@ -10682,11 +9899,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5070](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5070)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5070](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5070)
 
 ___
 
-#### `QueryTypeDefinitionArgs`
+### `QueryTypeDefinitionArgs`
 
 #### Type declaration:
 
@@ -10695,11 +9912,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5024](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5024)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5024](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5024)
 
 ___
 
-#### `QueryTypeDefinitionsArgs`
+### `QueryTypeDefinitionsArgs`
 
 #### Type declaration:
 
@@ -10710,11 +9927,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5029](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5029)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5029](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5029)
 
 ___
 
-#### `QueryZoneArgs`
+### `QueryZoneArgs`
 
 #### Type declaration:
 
@@ -10723,11 +9940,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5058](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5058)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5058](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5058)
 
 ___
 
-#### `QueryZonesArgs`
+### `QueryZonesArgs`
 
 #### Type declaration:
 
@@ -10738,11 +9955,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5063](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5063)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5063](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5063)
 
 ___
 
-#### `RawCustomField`
+### `RawCustomField`
 
 #### Type declaration:
 
@@ -10752,11 +9969,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value` | [*Scalars*](#scalars)[*Json*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5242](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5242)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5242](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5242)
 
 ___
 
-#### `RawProductAttribute`
+### `RawProductAttribute`
 
 #### Type declaration:
 
@@ -10767,11 +9984,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value` | [*Scalars*](#scalars)[*Json*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5248](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5248)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5248](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5248)
 
 ___
 
-#### `RecalculateCart`
+### `RecalculateCart`
 
 #### Type declaration:
 
@@ -10779,11 +9996,11 @@ Name | Type |
 :------ | :------ |
 `updateProductData`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5255](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5255)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5255](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5255)
 
 ___
 
-#### `Reference`
+### `Reference`
 
 #### Type declaration:
 
@@ -10793,29 +10010,29 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `typeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5259](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5259)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5259](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5259)
 
 ___
 
-#### `ReferenceAttribute`
+### `ReferenceAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5265](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5265)
-
-___
-
-#### `ReferenceAttributeDefinitionType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5272](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5272)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5265](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5265)
 
 ___
 
-#### `ReferenceField`
+### `ReferenceAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5278](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5278)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5272](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5272)
 
 ___
 
-#### `ReferenceInput`
+### `ReferenceField`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5278](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5278)
+
+___
+
+### `ReferenceInput`
 
 #### Type declaration:
 
@@ -10824,17 +10041,17 @@ Name | Type |
 `id` | [*Scalars*](#scalars)[*String*] |
 `typeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5285](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5285)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5285](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5285)
 
 ___
 
-#### `ReferenceType`
+### `ReferenceType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5290](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5290)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5290](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5290)
 
 ___
 
-#### `ReferenceTypeDefinitionDraft`
+### `ReferenceTypeDefinitionDraft`
 
 #### Type declaration:
 
@@ -10842,17 +10059,17 @@ Name | Type |
 :------ | :------ |
 `referenceTypeId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5296](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5296)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5296](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5296)
 
 ___
 
-#### `RelativeDiscountValue`
+### `RelativeDiscountValue`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5300](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5300)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5300](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5300)
 
 ___
 
-#### `RelativeDiscountValueInput`
+### `RelativeDiscountValueInput`
 
 #### Type declaration:
 
@@ -10860,11 +10077,11 @@ Name | Type |
 :------ | :------ |
 `permyriad` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5307](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5307)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5307](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5307)
 
 ___
 
-#### `RemoveAttributeDefinition`
+### `RemoveAttributeDefinition`
 
 #### Type declaration:
 
@@ -10872,11 +10089,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5311](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5311)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5311](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5311)
 
 ___
 
-#### `RemoveCartCustomLineItem`
+### `RemoveCartCustomLineItem`
 
 #### Type declaration:
 
@@ -10884,11 +10101,11 @@ Name | Type |
 :------ | :------ |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5315](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5315)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5315](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5315)
 
 ___
 
-#### `RemoveCartDiscountCode`
+### `RemoveCartDiscountCode`
 
 #### Type declaration:
 
@@ -10896,11 +10113,11 @@ Name | Type |
 :------ | :------ |
 `discountCode` | [*ReferenceInput*](#referenceinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5319](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5319)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5319](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5319)
 
 ___
 
-#### `RemoveCartItemShippingAddress`
+### `RemoveCartItemShippingAddress`
 
 #### Type declaration:
 
@@ -10908,11 +10125,11 @@ Name | Type |
 :------ | :------ |
 `addressKey` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5323](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5323)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5323](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5323)
 
 ___
 
-#### `RemoveCartLineItem`
+### `RemoveCartLineItem`
 
 #### Type declaration:
 
@@ -10924,11 +10141,11 @@ Name | Type |
 `quantity`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 `shippingDetailsToRemove`? | [*Maybe*](#maybe)<[*ItemShippingDetailsDraft*](#itemshippingdetailsdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5327](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5327)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5327](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5327)
 
 ___
 
-#### `RemoveCartPayment`
+### `RemoveCartPayment`
 
 #### Type declaration:
 
@@ -10936,11 +10153,11 @@ Name | Type |
 :------ | :------ |
 `payment` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5335](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5335)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5335](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5335)
 
 ___
 
-#### `RemoveCategoryAsset`
+### `RemoveCategoryAsset`
 
 #### Type declaration:
 
@@ -10949,11 +10166,11 @@ Name | Type |
 `assetId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5339](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5339)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5339](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5339)
 
 ___
 
-#### `RemoveCustomerAddress`
+### `RemoveCustomerAddress`
 
 #### Type declaration:
 
@@ -10961,11 +10178,11 @@ Name | Type |
 :------ | :------ |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5344](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5344)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5344](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5344)
 
 ___
 
-#### `RemoveCustomerBillingAddressId`
+### `RemoveCustomerBillingAddressId`
 
 #### Type declaration:
 
@@ -10973,11 +10190,11 @@ Name | Type |
 :------ | :------ |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5348](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5348)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5348](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5348)
 
 ___
 
-#### `RemoveCustomerShippingAddressId`
+### `RemoveCustomerShippingAddressId`
 
 #### Type declaration:
 
@@ -10985,11 +10202,11 @@ Name | Type |
 :------ | :------ |
 `addressId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5352](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5352)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5352](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5352)
 
 ___
 
-#### `RemoveCustomerStore`
+### `RemoveCustomerStore`
 
 #### Type declaration:
 
@@ -10997,11 +10214,11 @@ Name | Type |
 :------ | :------ |
 `store` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5356](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5356)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5356](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5356)
 
 ___
 
-#### `RemoveEnumValues`
+### `RemoveEnumValues`
 
 #### Type declaration:
 
@@ -11010,11 +10227,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `keys` | [*Scalars*](#scalars)[*String*][] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5360](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5360)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5360](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5360)
 
 ___
 
-#### `RemoveInventoryEntryQuantity`
+### `RemoveInventoryEntryQuantity`
 
 #### Type declaration:
 
@@ -11022,11 +10239,11 @@ Name | Type |
 :------ | :------ |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5365](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5365)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5365](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5365)
 
 ___
 
-#### `RemoveOrderDelivery`
+### `RemoveOrderDelivery`
 
 #### Type declaration:
 
@@ -11034,11 +10251,11 @@ Name | Type |
 :------ | :------ |
 `deliveryId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5369](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5369)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5369](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5369)
 
 ___
 
-#### `RemoveOrderItemShippingAddress`
+### `RemoveOrderItemShippingAddress`
 
 #### Type declaration:
 
@@ -11046,11 +10263,11 @@ Name | Type |
 :------ | :------ |
 `addressKey` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5373](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5373)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5373](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5373)
 
 ___
 
-#### `RemoveOrderParcelFromDelivery`
+### `RemoveOrderParcelFromDelivery`
 
 #### Type declaration:
 
@@ -11058,11 +10275,11 @@ Name | Type |
 :------ | :------ |
 `parcelId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5377](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5377)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5377](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5377)
 
 ___
 
-#### `RemoveOrderPayment`
+### `RemoveOrderPayment`
 
 #### Type declaration:
 
@@ -11070,11 +10287,11 @@ Name | Type |
 :------ | :------ |
 `payment` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5381](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5381)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5381](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5381)
 
 ___
 
-#### `RemoveProductAsset`
+### `RemoveProductAsset`
 
 #### Type declaration:
 
@@ -11087,11 +10304,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5385](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5385)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5385](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5385)
 
 ___
 
-#### `RemoveProductFromCategory`
+### `RemoveProductFromCategory`
 
 #### Type declaration:
 
@@ -11100,11 +10317,11 @@ Name | Type |
 `category` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5394](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5394)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5394](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5394)
 
 ___
 
-#### `RemoveProductImage`
+### `RemoveProductImage`
 
 #### Type declaration:
 
@@ -11115,11 +10332,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5399](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5399)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5399](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5399)
 
 ___
 
-#### `RemoveProductPrice`
+### `RemoveProductPrice`
 
 #### Type declaration:
 
@@ -11132,11 +10349,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5406](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5406)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5406](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5406)
 
 ___
 
-#### `RemoveProductVariant`
+### `RemoveProductVariant`
 
 #### Type declaration:
 
@@ -11146,11 +10363,11 @@ Name | Type |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5415](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5415)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5415](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5415)
 
 ___
 
-#### `RemoveShippingMethodShippingRate`
+### `RemoveShippingMethodShippingRate`
 
 #### Type declaration:
 
@@ -11159,11 +10376,11 @@ Name | Type |
 `shippingRate` | [*ShippingRateDraft*](#shippingratedraft) |
 `zone` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5421](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5421)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5421](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5421)
 
 ___
 
-#### `RemoveShippingMethodZone`
+### `RemoveShippingMethodZone`
 
 #### Type declaration:
 
@@ -11171,11 +10388,11 @@ Name | Type |
 :------ | :------ |
 `zone` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5426](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5426)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5426](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5426)
 
 ___
 
-#### `RemoveShoppingListLineItem`
+### `RemoveShoppingListLineItem`
 
 #### Type declaration:
 
@@ -11184,11 +10401,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `quantity`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5430](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5430)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5430](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5430)
 
 ___
 
-#### `RemoveShoppingListTextLineItem`
+### `RemoveShoppingListTextLineItem`
 
 #### Type declaration:
 
@@ -11197,11 +10414,11 @@ Name | Type |
 `quantity`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 `textLineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5435](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5435)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5435](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5435)
 
 ___
 
-#### `RemoveZoneLocation`
+### `RemoveZoneLocation`
 
 #### Type declaration:
 
@@ -11209,17 +10426,17 @@ Name | Type |
 :------ | :------ |
 `location` | [*ZoneLocation*](#zonelocation) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5440](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5440)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5440](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5440)
 
 ___
 
-#### `ReservationOrderType`
+### `ReservationOrderType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5444](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5444)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5444](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5444)
 
 ___
 
-#### `ResourceIdentifierInput`
+### `ResourceIdentifierInput`
 
 #### Type declaration:
 
@@ -11229,11 +10446,11 @@ Name | Type |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5451](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5451)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5451](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5451)
 
 ___
 
-#### `ReturnInfo`
+### `ReturnInfo`
 
 Stores information about returns connected to this order.
 
@@ -11246,11 +10463,11 @@ Name | Type |
 `returnDate`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `returnTrackingId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5458](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5458)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5458](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5458)
 
 ___
 
-#### `ReturnItem`
+### `ReturnItem`
 
 #### Type declaration:
 
@@ -11265,11 +10482,11 @@ Name | Type |
 `shipmentState` | [*ReturnShipmentState*](../enums/types_graphql.returnshipmentstate.md) |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5465](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5465)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5465](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5465)
 
 ___
 
-#### `ReturnItemDraftType`
+### `ReturnItemDraftType`
 
 #### Type declaration:
 
@@ -11281,11 +10498,11 @@ Name | Type |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 `shipmentState` | [*ReturnShipmentState*](../enums/types_graphql.returnshipmentstate.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5476](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5476)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5476](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5476)
 
 ___
 
-#### `RevertStagedChanges`
+### `RevertStagedChanges`
 
 #### Type declaration:
 
@@ -11293,11 +10510,11 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5498](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5498)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5498](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5498)
 
 ___
 
-#### `RevertStagedVariantChanges`
+### `RevertStagedVariantChanges`
 
 #### Type declaration:
 
@@ -11305,11 +10522,11 @@ Name | Type |
 :------ | :------ |
 `variantId` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5502](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5502)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5502](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5502)
 
 ___
 
-#### `Scalars`
+### `Scalars`
 
 All built-in and custom scalars, mapped to their actual values
 
@@ -11336,17 +10553,17 @@ Name | Type | Description |
 `Time` | *any* | Time is a scalar value that represents an ISO8601 formatted time.   |
 `YearMonth` | *any* | YearMonth is a scalar value that represents an ISO8601 formatted year and month.   |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5)
 
 ___
 
-#### `ScoreShippingRateInput`
+### `ScoreShippingRateInput`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5519](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5519)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5519](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5519)
 
 ___
 
-#### `ScoreShippingRateInputDraft`
+### `ScoreShippingRateInputDraft`
 
 #### Type declaration:
 
@@ -11354,11 +10571,11 @@ Name | Type |
 :------ | :------ |
 `score` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5525](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5525)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5525](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5525)
 
 ___
 
-#### `SearchKeyword`
+### `SearchKeyword`
 
 #### Type declaration:
 
@@ -11367,11 +10584,11 @@ Name | Type |
 `__typename`? | *SearchKeyword* |
 `text` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5529](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5529)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5529](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5529)
 
 ___
 
-#### `SearchKeywordInput`
+### `SearchKeywordInput`
 
 #### Type declaration:
 
@@ -11380,11 +10597,11 @@ Name | Type |
 `keywords` | [*CustomSuggestTokenizerInput*](#customsuggesttokenizerinput)[] |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5534](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5534)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5534](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5534)
 
 ___
 
-#### `SearchKeywords`
+### `SearchKeywords`
 
 #### Type declaration:
 
@@ -11394,17 +10611,17 @@ Name | Type |
 `locale` | [*Scalars*](#scalars)[*Locale*] |
 `searchKeywords` | [*SearchKeyword*](#searchkeyword)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5539](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5539)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5539](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5539)
 
 ___
 
-#### `SetAttributeDefinitionType`
+### `SetAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5551](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5551)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5551](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5551)
 
 ___
 
-#### `SetCartAnonymousId`
+### `SetCartAnonymousId`
 
 #### Type declaration:
 
@@ -11412,11 +10629,11 @@ Name | Type |
 :------ | :------ |
 `anonymousId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5557](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5557)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5557](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5557)
 
 ___
 
-#### `SetCartBillingAddress`
+### `SetCartBillingAddress`
 
 #### Type declaration:
 
@@ -11424,11 +10641,11 @@ Name | Type |
 :------ | :------ |
 `address`? | [*Maybe*](#maybe)<[*AddressInput*](#addressinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5561](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5561)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5561](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5561)
 
 ___
 
-#### `SetCartCountry`
+### `SetCartCountry`
 
 #### Type declaration:
 
@@ -11436,11 +10653,11 @@ Name | Type |
 :------ | :------ |
 `country`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Country*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5565](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5565)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5565](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5565)
 
 ___
 
-#### `SetCartCustomField`
+### `SetCartCustomField`
 
 #### Type declaration:
 
@@ -11449,11 +10666,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5581](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5581)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5581](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5581)
 
 ___
 
-#### `SetCartCustomLineItemCustomField`
+### `SetCartCustomLineItemCustomField`
 
 #### Type declaration:
 
@@ -11463,11 +10680,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5586](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5586)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5586](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5586)
 
 ___
 
-#### `SetCartCustomLineItemCustomType`
+### `SetCartCustomLineItemCustomType`
 
 #### Type declaration:
 
@@ -11479,11 +10696,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5592](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5592)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5592](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5592)
 
 ___
 
-#### `SetCartCustomLineItemShippingDetails`
+### `SetCartCustomLineItemShippingDetails`
 
 #### Type declaration:
 
@@ -11492,11 +10709,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `shippingDetails`? | [*Maybe*](#maybe)<[*ItemShippingDetailsDraft*](#itemshippingdetailsdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5600](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5600)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5600](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5600)
 
 ___
 
-#### `SetCartCustomLineItemTaxAmount`
+### `SetCartCustomLineItemTaxAmount`
 
 #### Type declaration:
 
@@ -11505,11 +10722,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `externalTaxAmount`? | [*Maybe*](#maybe)<[*ExternalTaxAmountDraft*](#externaltaxamountdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5605](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5605)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5605](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5605)
 
 ___
 
-#### `SetCartCustomLineItemTaxRate`
+### `SetCartCustomLineItemTaxRate`
 
 #### Type declaration:
 
@@ -11518,11 +10735,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `externalTaxRate`? | [*Maybe*](#maybe)<[*ExternalTaxRateDraft*](#externaltaxratedraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5610](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5610)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5610](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5610)
 
 ___
 
-#### `SetCartCustomShippingMethod`
+### `SetCartCustomShippingMethod`
 
 #### Type declaration:
 
@@ -11533,11 +10750,11 @@ Name | Type |
 `shippingRate` | [*ShippingRateDraft*](#shippingratedraft) |
 `taxCategory`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5615](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5615)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5615](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5615)
 
 ___
 
-#### `SetCartCustomType`
+### `SetCartCustomType`
 
 #### Type declaration:
 
@@ -11548,11 +10765,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5622](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5622)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5622](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5622)
 
 ___
 
-#### `SetCartCustomerEmail`
+### `SetCartCustomerEmail`
 
 #### Type declaration:
 
@@ -11560,11 +10777,11 @@ Name | Type |
 :------ | :------ |
 `email`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5569](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5569)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5569](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5569)
 
 ___
 
-#### `SetCartCustomerGroup`
+### `SetCartCustomerGroup`
 
 #### Type declaration:
 
@@ -11572,11 +10789,11 @@ Name | Type |
 :------ | :------ |
 `customerGroup`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5573](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5573)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5573](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5573)
 
 ___
 
-#### `SetCartCustomerId`
+### `SetCartCustomerId`
 
 #### Type declaration:
 
@@ -11584,11 +10801,11 @@ Name | Type |
 :------ | :------ |
 `customerId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5577](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5577)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5577](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5577)
 
 ___
 
-#### `SetCartDeleteDaysAfterLastModification`
+### `SetCartDeleteDaysAfterLastModification`
 
 #### Type declaration:
 
@@ -11596,11 +10813,11 @@ Name | Type |
 :------ | :------ |
 `deleteDaysAfterLastModification`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5629](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5629)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5629](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5629)
 
 ___
 
-#### `SetCartDiscountCustomField`
+### `SetCartDiscountCustomField`
 
 #### Type declaration:
 
@@ -11609,11 +10826,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5633](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5633)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5633](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5633)
 
 ___
 
-#### `SetCartDiscountCustomType`
+### `SetCartDiscountCustomType`
 
 #### Type declaration:
 
@@ -11624,11 +10841,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5638](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5638)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5638](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5638)
 
 ___
 
-#### `SetCartDiscountDescription`
+### `SetCartDiscountDescription`
 
 #### Type declaration:
 
@@ -11636,11 +10853,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5645](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5645)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5645](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5645)
 
 ___
 
-#### `SetCartDiscountKey`
+### `SetCartDiscountKey`
 
 #### Type declaration:
 
@@ -11648,11 +10865,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5649](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5649)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5649](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5649)
 
 ___
 
-#### `SetCartDiscountValidFrom`
+### `SetCartDiscountValidFrom`
 
 #### Type declaration:
 
@@ -11660,11 +10877,11 @@ Name | Type |
 :------ | :------ |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5653](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5653)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5653](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5653)
 
 ___
 
-#### `SetCartDiscountValidFromAndUntil`
+### `SetCartDiscountValidFromAndUntil`
 
 #### Type declaration:
 
@@ -11673,11 +10890,11 @@ Name | Type |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5657](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5657)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5657](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5657)
 
 ___
 
-#### `SetCartDiscountValidUntil`
+### `SetCartDiscountValidUntil`
 
 #### Type declaration:
 
@@ -11685,11 +10902,11 @@ Name | Type |
 :------ | :------ |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5662](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5662)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5662](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5662)
 
 ___
 
-#### `SetCartLineItemCustomField`
+### `SetCartLineItemCustomField`
 
 #### Type declaration:
 
@@ -11699,11 +10916,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5666](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5666)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5666](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5666)
 
 ___
 
-#### `SetCartLineItemCustomType`
+### `SetCartLineItemCustomType`
 
 #### Type declaration:
 
@@ -11715,11 +10932,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5672](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5672)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5672](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5672)
 
 ___
 
-#### `SetCartLineItemPrice`
+### `SetCartLineItemPrice`
 
 #### Type declaration:
 
@@ -11728,11 +10945,11 @@ Name | Type |
 `externalPrice`? | [*Maybe*](#maybe)<[*BaseMoneyInput*](#basemoneyinput)\> |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5680](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5680)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5680](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5680)
 
 ___
 
-#### `SetCartLineItemShippingDetails`
+### `SetCartLineItemShippingDetails`
 
 #### Type declaration:
 
@@ -11741,11 +10958,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `shippingDetails`? | [*Maybe*](#maybe)<[*ItemShippingDetailsDraft*](#itemshippingdetailsdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5685](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5685)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5685](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5685)
 
 ___
 
-#### `SetCartLineItemTaxAmount`
+### `SetCartLineItemTaxAmount`
 
 #### Type declaration:
 
@@ -11754,11 +10971,11 @@ Name | Type |
 `externalTaxAmount`? | [*Maybe*](#maybe)<[*ExternalTaxAmountDraft*](#externaltaxamountdraft)\> |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5690](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5690)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5690](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5690)
 
 ___
 
-#### `SetCartLineItemTaxRate`
+### `SetCartLineItemTaxRate`
 
 #### Type declaration:
 
@@ -11767,11 +10984,11 @@ Name | Type |
 `externalTaxRate`? | [*Maybe*](#maybe)<[*ExternalTaxRateDraft*](#externaltaxratedraft)\> |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5695](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5695)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5695](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5695)
 
 ___
 
-#### `SetCartLineItemTotalPrice`
+### `SetCartLineItemTotalPrice`
 
 #### Type declaration:
 
@@ -11780,11 +10997,11 @@ Name | Type |
 `externalTotalPrice`? | [*Maybe*](#maybe)<[*ExternalLineItemTotalPriceDraft*](#externallineitemtotalpricedraft)\> |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5700](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5700)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5700](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5700)
 
 ___
 
-#### `SetCartLocale`
+### `SetCartLocale`
 
 #### Type declaration:
 
@@ -11792,11 +11009,11 @@ Name | Type |
 :------ | :------ |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5705](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5705)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5705](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5705)
 
 ___
 
-#### `SetCartShippingAddress`
+### `SetCartShippingAddress`
 
 #### Type declaration:
 
@@ -11804,11 +11021,11 @@ Name | Type |
 :------ | :------ |
 `address`? | [*Maybe*](#maybe)<[*AddressInput*](#addressinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5709](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5709)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5709](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5709)
 
 ___
 
-#### `SetCartShippingMethod`
+### `SetCartShippingMethod`
 
 #### Type declaration:
 
@@ -11817,11 +11034,11 @@ Name | Type |
 `externalTaxRate`? | [*Maybe*](#maybe)<[*ExternalTaxRateDraft*](#externaltaxratedraft)\> |
 `shippingMethod`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5713](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5713)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5713](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5713)
 
 ___
 
-#### `SetCartShippingMethodTaxAmount`
+### `SetCartShippingMethodTaxAmount`
 
 #### Type declaration:
 
@@ -11829,11 +11046,11 @@ Name | Type |
 :------ | :------ |
 `externalTaxAmount`? | [*Maybe*](#maybe)<[*ExternalTaxAmountDraft*](#externaltaxamountdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5718](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5718)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5718](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5718)
 
 ___
 
-#### `SetCartShippingMethodTaxRate`
+### `SetCartShippingMethodTaxRate`
 
 #### Type declaration:
 
@@ -11841,11 +11058,11 @@ Name | Type |
 :------ | :------ |
 `externalTaxRate`? | [*Maybe*](#maybe)<[*ExternalTaxRateDraft*](#externaltaxratedraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5722](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5722)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5722](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5722)
 
 ___
 
-#### `SetCartShippingRateInput`
+### `SetCartShippingRateInput`
 
 #### Type declaration:
 
@@ -11853,11 +11070,11 @@ Name | Type |
 :------ | :------ |
 `shippingRateInput`? | [*Maybe*](#maybe)<[*ShippingRateInputDraft*](#shippingrateinputdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5726](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5726)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5726](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5726)
 
 ___
 
-#### `SetCartTotalTax`
+### `SetCartTotalTax`
 
 #### Type declaration:
 
@@ -11866,11 +11083,11 @@ Name | Type |
 `externalTaxPortions`? | [*Maybe*](#maybe)<[*TaxPortionDraft*](#taxportiondraft)[]\> |
 `externalTotalGross`? | [*Maybe*](#maybe)<[*MoneyInput*](#moneyinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5730](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5730)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5730](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5730)
 
 ___
 
-#### `SetCategoryAssetCustomField`
+### `SetCategoryAssetCustomField`
 
 #### Type declaration:
 
@@ -11881,11 +11098,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5735](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5735)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5735](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5735)
 
 ___
 
-#### `SetCategoryAssetCustomType`
+### `SetCategoryAssetCustomType`
 
 #### Type declaration:
 
@@ -11898,11 +11115,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5742](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5742)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5742](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5742)
 
 ___
 
-#### `SetCategoryAssetDescription`
+### `SetCategoryAssetDescription`
 
 #### Type declaration:
 
@@ -11912,11 +11129,11 @@ Name | Type |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5751](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5751)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5751](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5751)
 
 ___
 
-#### `SetCategoryAssetKey`
+### `SetCategoryAssetKey`
 
 #### Type declaration:
 
@@ -11925,11 +11142,11 @@ Name | Type |
 `assetId` | [*Scalars*](#scalars)[*String*] |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5757](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5757)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5757](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5757)
 
 ___
 
-#### `SetCategoryAssetSources`
+### `SetCategoryAssetSources`
 
 #### Type declaration:
 
@@ -11939,11 +11156,11 @@ Name | Type |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `sources`? | [*Maybe*](#maybe)<[*AssetSourceInput*](#assetsourceinput)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5762](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5762)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5762](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5762)
 
 ___
 
-#### `SetCategoryAssetTags`
+### `SetCategoryAssetTags`
 
 #### Type declaration:
 
@@ -11953,11 +11170,11 @@ Name | Type |
 `assetKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `tags`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5768](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5768)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5768](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5768)
 
 ___
 
-#### `SetCategoryCustomField`
+### `SetCategoryCustomField`
 
 #### Type declaration:
 
@@ -11966,11 +11183,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5774](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5774)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5774](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5774)
 
 ___
 
-#### `SetCategoryCustomType`
+### `SetCategoryCustomType`
 
 #### Type declaration:
 
@@ -11981,11 +11198,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5779](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5779)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5779](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5779)
 
 ___
 
-#### `SetCategoryDescription`
+### `SetCategoryDescription`
 
 #### Type declaration:
 
@@ -11993,11 +11210,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5786](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5786)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5786](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5786)
 
 ___
 
-#### `SetCategoryExternalId`
+### `SetCategoryExternalId`
 
 #### Type declaration:
 
@@ -12005,11 +11222,11 @@ Name | Type |
 :------ | :------ |
 `externalId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5790](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5790)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5790](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5790)
 
 ___
 
-#### `SetCategoryKey`
+### `SetCategoryKey`
 
 #### Type declaration:
 
@@ -12017,11 +11234,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5794](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5794)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5794](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5794)
 
 ___
 
-#### `SetCategoryMetaDescription`
+### `SetCategoryMetaDescription`
 
 #### Type declaration:
 
@@ -12029,11 +11246,11 @@ Name | Type |
 :------ | :------ |
 `metaDescription`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5798](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5798)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5798](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5798)
 
 ___
 
-#### `SetCategoryMetaKeywords`
+### `SetCategoryMetaKeywords`
 
 #### Type declaration:
 
@@ -12041,11 +11258,11 @@ Name | Type |
 :------ | :------ |
 `metaKeywords`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5802](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5802)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5802](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5802)
 
 ___
 
-#### `SetCategoryMetaTitle`
+### `SetCategoryMetaTitle`
 
 #### Type declaration:
 
@@ -12053,11 +11270,11 @@ Name | Type |
 :------ | :------ |
 `metaTitle`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5806](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5806)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5806](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5806)
 
 ___
 
-#### `SetCustomerCompanyName`
+### `SetCustomerCompanyName`
 
 #### Type declaration:
 
@@ -12065,11 +11282,11 @@ Name | Type |
 :------ | :------ |
 `companyName`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5810](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5810)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5810](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5810)
 
 ___
 
-#### `SetCustomerCustomField`
+### `SetCustomerCustomField`
 
 #### Type declaration:
 
@@ -12078,11 +11295,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5814](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5814)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5814](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5814)
 
 ___
 
-#### `SetCustomerCustomType`
+### `SetCustomerCustomType`
 
 #### Type declaration:
 
@@ -12093,11 +11310,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5819](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5819)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5819](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5819)
 
 ___
 
-#### `SetCustomerDateOfBirth`
+### `SetCustomerDateOfBirth`
 
 #### Type declaration:
 
@@ -12105,11 +11322,11 @@ Name | Type |
 :------ | :------ |
 `dateOfBirth`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Date*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5826](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5826)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5826](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5826)
 
 ___
 
-#### `SetCustomerDefaultBillingAddress`
+### `SetCustomerDefaultBillingAddress`
 
 #### Type declaration:
 
@@ -12117,11 +11334,11 @@ Name | Type |
 :------ | :------ |
 `addressId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5830](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5830)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5830](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5830)
 
 ___
 
-#### `SetCustomerDefaultShippingAddress`
+### `SetCustomerDefaultShippingAddress`
 
 #### Type declaration:
 
@@ -12129,11 +11346,11 @@ Name | Type |
 :------ | :------ |
 `addressId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5834](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5834)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5834](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5834)
 
 ___
 
-#### `SetCustomerExternalId`
+### `SetCustomerExternalId`
 
 #### Type declaration:
 
@@ -12141,11 +11358,11 @@ Name | Type |
 :------ | :------ |
 `externalId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5838](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5838)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5838](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5838)
 
 ___
 
-#### `SetCustomerFirstName`
+### `SetCustomerFirstName`
 
 #### Type declaration:
 
@@ -12153,11 +11370,11 @@ Name | Type |
 :------ | :------ |
 `firstName`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5842](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5842)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5842](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5842)
 
 ___
 
-#### `SetCustomerGroup`
+### `SetCustomerGroup`
 
 #### Type declaration:
 
@@ -12165,11 +11382,11 @@ Name | Type |
 :------ | :------ |
 `customerGroup`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5846](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5846)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5846](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5846)
 
 ___
 
-#### `SetCustomerGroupCustomField`
+### `SetCustomerGroupCustomField`
 
 #### Type declaration:
 
@@ -12178,11 +11395,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5850](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5850)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5850](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5850)
 
 ___
 
-#### `SetCustomerGroupCustomType`
+### `SetCustomerGroupCustomType`
 
 #### Type declaration:
 
@@ -12193,11 +11410,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5855](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5855)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5855](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5855)
 
 ___
 
-#### `SetCustomerGroupKey`
+### `SetCustomerGroupKey`
 
 #### Type declaration:
 
@@ -12205,11 +11422,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5862](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5862)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5862](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5862)
 
 ___
 
-#### `SetCustomerKey`
+### `SetCustomerKey`
 
 #### Type declaration:
 
@@ -12217,11 +11434,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5866](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5866)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5866](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5866)
 
 ___
 
-#### `SetCustomerLastName`
+### `SetCustomerLastName`
 
 #### Type declaration:
 
@@ -12229,11 +11446,11 @@ Name | Type |
 :------ | :------ |
 `lastName`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5870](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5870)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5870](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5870)
 
 ___
 
-#### `SetCustomerLocale`
+### `SetCustomerLocale`
 
 #### Type declaration:
 
@@ -12241,11 +11458,11 @@ Name | Type |
 :------ | :------ |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5874](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5874)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5874](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5874)
 
 ___
 
-#### `SetCustomerMiddleName`
+### `SetCustomerMiddleName`
 
 #### Type declaration:
 
@@ -12253,11 +11470,11 @@ Name | Type |
 :------ | :------ |
 `middleName`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5878](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5878)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5878](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5878)
 
 ___
 
-#### `SetCustomerNumber`
+### `SetCustomerNumber`
 
 #### Type declaration:
 
@@ -12265,11 +11482,11 @@ Name | Type |
 :------ | :------ |
 `customerNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5882](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5882)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5882](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5882)
 
 ___
 
-#### `SetCustomerSalutation`
+### `SetCustomerSalutation`
 
 #### Type declaration:
 
@@ -12277,11 +11494,11 @@ Name | Type |
 :------ | :------ |
 `salutation`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5886](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5886)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5886](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5886)
 
 ___
 
-#### `SetCustomerStores`
+### `SetCustomerStores`
 
 #### Type declaration:
 
@@ -12289,11 +11506,11 @@ Name | Type |
 :------ | :------ |
 `stores` | [*ResourceIdentifierInput*](#resourceidentifierinput)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5890](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5890)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5890](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5890)
 
 ___
 
-#### `SetCustomerTitle`
+### `SetCustomerTitle`
 
 #### Type declaration:
 
@@ -12301,11 +11518,11 @@ Name | Type |
 :------ | :------ |
 `title`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5894](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5894)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5894](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5894)
 
 ___
 
-#### `SetCustomerVatId`
+### `SetCustomerVatId`
 
 #### Type declaration:
 
@@ -12313,11 +11530,11 @@ Name | Type |
 :------ | :------ |
 `vatId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5898](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5898)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5898](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5898)
 
 ___
 
-#### `SetDiscountCodeCartPredicate`
+### `SetDiscountCodeCartPredicate`
 
 #### Type declaration:
 
@@ -12325,11 +11542,11 @@ Name | Type |
 :------ | :------ |
 `cartPredicate`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5902](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5902)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5902](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5902)
 
 ___
 
-#### `SetDiscountCodeCustomField`
+### `SetDiscountCodeCustomField`
 
 #### Type declaration:
 
@@ -12338,11 +11555,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5906](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5906)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5906](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5906)
 
 ___
 
-#### `SetDiscountCodeCustomType`
+### `SetDiscountCodeCustomType`
 
 #### Type declaration:
 
@@ -12353,11 +11570,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5911](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5911)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5911](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5911)
 
 ___
 
-#### `SetDiscountCodeDescription`
+### `SetDiscountCodeDescription`
 
 #### Type declaration:
 
@@ -12365,11 +11582,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5918](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5918)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5918](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5918)
 
 ___
 
-#### `SetDiscountCodeMaxApplications`
+### `SetDiscountCodeMaxApplications`
 
 #### Type declaration:
 
@@ -12377,11 +11594,11 @@ Name | Type |
 :------ | :------ |
 `maxApplications`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5922](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5922)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5922](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5922)
 
 ___
 
-#### `SetDiscountCodeMaxApplicationsPerCustomer`
+### `SetDiscountCodeMaxApplicationsPerCustomer`
 
 #### Type declaration:
 
@@ -12389,11 +11606,11 @@ Name | Type |
 :------ | :------ |
 `maxApplicationsPerCustomer`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Long*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5926](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5926)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5926](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5926)
 
 ___
 
-#### `SetDiscountCodeName`
+### `SetDiscountCodeName`
 
 #### Type declaration:
 
@@ -12401,11 +11618,11 @@ Name | Type |
 :------ | :------ |
 `name`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5930](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5930)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5930](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5930)
 
 ___
 
-#### `SetDiscountCodeValidFrom`
+### `SetDiscountCodeValidFrom`
 
 #### Type declaration:
 
@@ -12413,11 +11630,11 @@ Name | Type |
 :------ | :------ |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5934](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5934)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5934](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5934)
 
 ___
 
-#### `SetDiscountCodeValidFromAndUntil`
+### `SetDiscountCodeValidFromAndUntil`
 
 #### Type declaration:
 
@@ -12426,11 +11643,11 @@ Name | Type |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5938](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5938)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5938](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5938)
 
 ___
 
-#### `SetDiscountCodeValidUntil`
+### `SetDiscountCodeValidUntil`
 
 #### Type declaration:
 
@@ -12438,11 +11655,11 @@ Name | Type |
 :------ | :------ |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5943](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5943)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5943](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5943)
 
 ___
 
-#### `SetInputTip`
+### `SetInputTip`
 
 #### Type declaration:
 
@@ -12451,11 +11668,11 @@ Name | Type |
 `attributeName` | [*Scalars*](#scalars)[*String*] |
 `inputTip`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5947](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5947)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5947](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5947)
 
 ___
 
-#### `SetInventoryEntryCustomField`
+### `SetInventoryEntryCustomField`
 
 #### Type declaration:
 
@@ -12464,11 +11681,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5952](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5952)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5952](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5952)
 
 ___
 
-#### `SetInventoryEntryCustomType`
+### `SetInventoryEntryCustomType`
 
 #### Type declaration:
 
@@ -12479,11 +11696,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5957](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5957)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5957](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5957)
 
 ___
 
-#### `SetInventoryEntryExpectedDelivery`
+### `SetInventoryEntryExpectedDelivery`
 
 #### Type declaration:
 
@@ -12491,11 +11708,11 @@ Name | Type |
 :------ | :------ |
 `expectedDelivery`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5964](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5964)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5964](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5964)
 
 ___
 
-#### `SetInventoryEntryRestockableInDays`
+### `SetInventoryEntryRestockableInDays`
 
 #### Type declaration:
 
@@ -12503,11 +11720,11 @@ Name | Type |
 :------ | :------ |
 `restockableInDays`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5968](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5968)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5968](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5968)
 
 ___
 
-#### `SetInventoryEntrySupplyChannel`
+### `SetInventoryEntrySupplyChannel`
 
 #### Type declaration:
 
@@ -12515,11 +11732,11 @@ Name | Type |
 :------ | :------ |
 `supplyChannel`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5972](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5972)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5972](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5972)
 
 ___
 
-#### `SetKey`
+### `SetKey`
 
 #### Type declaration:
 
@@ -12527,11 +11744,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5976](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5976)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5976](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5976)
 
 ___
 
-#### `SetMyCartShippingMethod`
+### `SetMyCartShippingMethod`
 
 #### Type declaration:
 
@@ -12539,11 +11756,11 @@ Name | Type |
 :------ | :------ |
 `shippingMethod`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5980](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5980)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5980](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5980)
 
 ___
 
-#### `SetOrderBillingAddress`
+### `SetOrderBillingAddress`
 
 #### Type declaration:
 
@@ -12551,11 +11768,11 @@ Name | Type |
 :------ | :------ |
 `address`? | [*Maybe*](#maybe)<[*AddressInput*](#addressinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5984](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5984)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5984](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5984)
 
 ___
 
-#### `SetOrderCustomField`
+### `SetOrderCustomField`
 
 #### Type declaration:
 
@@ -12564,11 +11781,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5996](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5996)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5996](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5996)
 
 ___
 
-#### `SetOrderCustomLineItemCustomField`
+### `SetOrderCustomLineItemCustomField`
 
 #### Type declaration:
 
@@ -12578,11 +11795,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6001](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6001)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6001](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6001)
 
 ___
 
-#### `SetOrderCustomLineItemCustomType`
+### `SetOrderCustomLineItemCustomType`
 
 #### Type declaration:
 
@@ -12594,11 +11811,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6007](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6007)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6007](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6007)
 
 ___
 
-#### `SetOrderCustomLineItemShippingDetails`
+### `SetOrderCustomLineItemShippingDetails`
 
 #### Type declaration:
 
@@ -12607,11 +11824,11 @@ Name | Type |
 `customLineItemId` | [*Scalars*](#scalars)[*String*] |
 `shippingDetails`? | [*Maybe*](#maybe)<[*ItemShippingDetailsDraftType*](#itemshippingdetailsdrafttype)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6015](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6015)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6015](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6015)
 
 ___
 
-#### `SetOrderCustomType`
+### `SetOrderCustomType`
 
 #### Type declaration:
 
@@ -12622,11 +11839,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6020](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6020)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6020](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6020)
 
 ___
 
-#### `SetOrderCustomerEmail`
+### `SetOrderCustomerEmail`
 
 #### Type declaration:
 
@@ -12634,11 +11851,11 @@ Name | Type |
 :------ | :------ |
 `email`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5988](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5988)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5988](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5988)
 
 ___
 
-#### `SetOrderCustomerId`
+### `SetOrderCustomerId`
 
 #### Type declaration:
 
@@ -12646,11 +11863,11 @@ Name | Type |
 :------ | :------ |
 `customerId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5992](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L5992)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:5992](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L5992)
 
 ___
 
-#### `SetOrderDeliveryAddress`
+### `SetOrderDeliveryAddress`
 
 #### Type declaration:
 
@@ -12659,11 +11876,11 @@ Name | Type |
 `address`? | [*Maybe*](#maybe)<[*AddressInput*](#addressinput)\> |
 `deliveryId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6027](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6027)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6027](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6027)
 
 ___
 
-#### `SetOrderDeliveryItems`
+### `SetOrderDeliveryItems`
 
 #### Type declaration:
 
@@ -12672,11 +11889,11 @@ Name | Type |
 `deliveryId` | [*Scalars*](#scalars)[*String*] |
 `items` | [*DeliveryItemDraftType*](#deliveryitemdrafttype)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6032](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6032)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6032](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6032)
 
 ___
 
-#### `SetOrderLineItemCustomField`
+### `SetOrderLineItemCustomField`
 
 #### Type declaration:
 
@@ -12686,11 +11903,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6037](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6037)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6037](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6037)
 
 ___
 
-#### `SetOrderLineItemCustomType`
+### `SetOrderLineItemCustomType`
 
 #### Type declaration:
 
@@ -12702,11 +11919,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6043](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6043)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6043](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6043)
 
 ___
 
-#### `SetOrderLineItemShippingDetails`
+### `SetOrderLineItemShippingDetails`
 
 #### Type declaration:
 
@@ -12715,11 +11932,11 @@ Name | Type |
 `lineItemId` | [*Scalars*](#scalars)[*String*] |
 `shippingDetails`? | [*Maybe*](#maybe)<[*ItemShippingDetailsDraftType*](#itemshippingdetailsdrafttype)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6051](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6051)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6051](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6051)
 
 ___
 
-#### `SetOrderLocale`
+### `SetOrderLocale`
 
 #### Type declaration:
 
@@ -12727,11 +11944,11 @@ Name | Type |
 :------ | :------ |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6056](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6056)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6056](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6056)
 
 ___
 
-#### `SetOrderNumber`
+### `SetOrderNumber`
 
 #### Type declaration:
 
@@ -12739,11 +11956,11 @@ Name | Type |
 :------ | :------ |
 `orderNumber`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6060](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6060)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6060](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6060)
 
 ___
 
-#### `SetOrderParcelItems`
+### `SetOrderParcelItems`
 
 #### Type declaration:
 
@@ -12752,11 +11969,11 @@ Name | Type |
 `items` | [*DeliveryItemDraftType*](#deliveryitemdrafttype)[] |
 `parcelId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6064](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6064)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6064](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6064)
 
 ___
 
-#### `SetOrderParcelMeasurements`
+### `SetOrderParcelMeasurements`
 
 #### Type declaration:
 
@@ -12765,11 +11982,11 @@ Name | Type |
 `measurements`? | [*Maybe*](#maybe)<[*ParcelMeasurementsDraftType*](#parcelmeasurementsdrafttype)\> |
 `parcelId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6069](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6069)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6069](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6069)
 
 ___
 
-#### `SetOrderParcelTrackingData`
+### `SetOrderParcelTrackingData`
 
 #### Type declaration:
 
@@ -12778,11 +11995,11 @@ Name | Type |
 `parcelId` | [*Scalars*](#scalars)[*String*] |
 `trackingData`? | [*Maybe*](#maybe)<[*TrackingDataDraftType*](#trackingdatadrafttype)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6074](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6074)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6074](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6074)
 
 ___
 
-#### `SetOrderReturnPaymentState`
+### `SetOrderReturnPaymentState`
 
 #### Type declaration:
 
@@ -12791,11 +12008,11 @@ Name | Type |
 `paymentState` | [*ReturnPaymentState*](../enums/types_graphql.returnpaymentstate.md) |
 `returnItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6079](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6079)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6079](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6079)
 
 ___
 
-#### `SetOrderReturnShipmentState`
+### `SetOrderReturnShipmentState`
 
 #### Type declaration:
 
@@ -12804,11 +12021,11 @@ Name | Type |
 `returnItemId` | [*Scalars*](#scalars)[*String*] |
 `shipmentState` | [*ReturnShipmentState*](../enums/types_graphql.returnshipmentstate.md) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6084](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6084)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6084](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6084)
 
 ___
 
-#### `SetOrderShippingAddress`
+### `SetOrderShippingAddress`
 
 #### Type declaration:
 
@@ -12816,11 +12033,11 @@ Name | Type |
 :------ | :------ |
 `address`? | [*Maybe*](#maybe)<[*AddressInput*](#addressinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6089](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6089)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6089](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6089)
 
 ___
 
-#### `SetProductAssetCustomField`
+### `SetProductAssetCustomField`
 
 #### Type declaration:
 
@@ -12835,11 +12052,11 @@ Name | Type |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6093](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6093)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6093](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6093)
 
 ___
 
-#### `SetProductAssetCustomType`
+### `SetProductAssetCustomType`
 
 #### Type declaration:
 
@@ -12856,11 +12073,11 @@ Name | Type |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6104](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6104)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6104](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6104)
 
 ___
 
-#### `SetProductAssetDescription`
+### `SetProductAssetDescription`
 
 #### Type declaration:
 
@@ -12874,11 +12091,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6117](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6117)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6117](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6117)
 
 ___
 
-#### `SetProductAssetKey`
+### `SetProductAssetKey`
 
 #### Type declaration:
 
@@ -12891,11 +12108,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6127](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6127)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6127](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6127)
 
 ___
 
-#### `SetProductAssetSources`
+### `SetProductAssetSources`
 
 #### Type declaration:
 
@@ -12909,11 +12126,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6136](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6136)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6136](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6136)
 
 ___
 
-#### `SetProductAssetTags`
+### `SetProductAssetTags`
 
 #### Type declaration:
 
@@ -12927,11 +12144,11 @@ Name | Type |
 `tags`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6146](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6146)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6146](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6146)
 
 ___
 
-#### `SetProductAttribute`
+### `SetProductAttribute`
 
 #### Type declaration:
 
@@ -12943,11 +12160,11 @@ Name | Type |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6156](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6156)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6156](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6156)
 
 ___
 
-#### `SetProductAttributeInAllVariants`
+### `SetProductAttributeInAllVariants`
 
 #### Type declaration:
 
@@ -12957,11 +12174,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6164](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6164)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6164](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6164)
 
 ___
 
-#### `SetProductCategoryOrderHint`
+### `SetProductCategoryOrderHint`
 
 #### Type declaration:
 
@@ -12971,11 +12188,11 @@ Name | Type |
 `orderHint`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6170](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6170)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6170](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6170)
 
 ___
 
-#### `SetProductDescription`
+### `SetProductDescription`
 
 #### Type declaration:
 
@@ -12984,11 +12201,11 @@ Name | Type |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6176](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6176)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6176](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6176)
 
 ___
 
-#### `SetProductDiscountDescription`
+### `SetProductDiscountDescription`
 
 #### Type declaration:
 
@@ -12996,11 +12213,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6181](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6181)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6181](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6181)
 
 ___
 
-#### `SetProductDiscountKey`
+### `SetProductDiscountKey`
 
 #### Type declaration:
 
@@ -13008,11 +12225,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6192](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6192)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6192](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6192)
 
 ___
 
-#### `SetProductDiscountValidFrom`
+### `SetProductDiscountValidFrom`
 
 #### Type declaration:
 
@@ -13020,11 +12237,11 @@ Name | Type |
 :------ | :------ |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6196](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6196)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6196](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6196)
 
 ___
 
-#### `SetProductDiscountValidFromAndUntil`
+### `SetProductDiscountValidFromAndUntil`
 
 #### Type declaration:
 
@@ -13033,11 +12250,11 @@ Name | Type |
 `validFrom`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6200](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6200)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6200](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6200)
 
 ___
 
-#### `SetProductDiscountValidUntil`
+### `SetProductDiscountValidUntil`
 
 #### Type declaration:
 
@@ -13045,11 +12262,11 @@ Name | Type |
 :------ | :------ |
 `validUntil`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6205](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6205)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6205](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6205)
 
 ___
 
-#### `SetProductDiscountedPrice`
+### `SetProductDiscountedPrice`
 
 #### Type declaration:
 
@@ -13060,11 +12277,11 @@ Name | Type |
 `priceId` | [*Scalars*](#scalars)[*String*] |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6185](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6185)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6185](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6185)
 
 ___
 
-#### `SetProductImageLabel`
+### `SetProductImageLabel`
 
 #### Type declaration:
 
@@ -13076,11 +12293,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6209](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6209)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6209](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6209)
 
 ___
 
-#### `SetProductKey`
+### `SetProductKey`
 
 #### Type declaration:
 
@@ -13088,11 +12305,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6217](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6217)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6217](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6217)
 
 ___
 
-#### `SetProductMetaAttributes`
+### `SetProductMetaAttributes`
 
 #### Type declaration:
 
@@ -13103,11 +12320,11 @@ Name | Type |
 `metaTitle`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6221](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6221)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6221](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6221)
 
 ___
 
-#### `SetProductMetaDescription`
+### `SetProductMetaDescription`
 
 #### Type declaration:
 
@@ -13116,11 +12333,11 @@ Name | Type |
 `metaDescription`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6228](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6228)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6228](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6228)
 
 ___
 
-#### `SetProductMetaKeywords`
+### `SetProductMetaKeywords`
 
 #### Type declaration:
 
@@ -13129,11 +12346,11 @@ Name | Type |
 `metaKeywords`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6233](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6233)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6233](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6233)
 
 ___
 
-#### `SetProductMetaTitle`
+### `SetProductMetaTitle`
 
 #### Type declaration:
 
@@ -13142,11 +12359,11 @@ Name | Type |
 `metaTitle`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6238](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6238)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6238](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6238)
 
 ___
 
-#### `SetProductPriceCustomField`
+### `SetProductPriceCustomField`
 
 #### Type declaration:
 
@@ -13158,11 +12375,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6243](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6243)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6243](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6243)
 
 ___
 
-#### `SetProductPriceCustomType`
+### `SetProductPriceCustomType`
 
 #### Type declaration:
 
@@ -13176,11 +12393,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6251](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6251)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6251](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6251)
 
 ___
 
-#### `SetProductPrices`
+### `SetProductPrices`
 
 #### Type declaration:
 
@@ -13192,11 +12409,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6261](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6261)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6261](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6261)
 
 ___
 
-#### `SetProductSku`
+### `SetProductSku`
 
 #### Type declaration:
 
@@ -13206,11 +12423,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6269](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6269)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6269](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6269)
 
 ___
 
-#### `SetProductTaxCategory`
+### `SetProductTaxCategory`
 
 #### Type declaration:
 
@@ -13218,11 +12435,11 @@ Name | Type |
 :------ | :------ |
 `taxCategory`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6275](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6275)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6275](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6275)
 
 ___
 
-#### `SetProductVariantKey`
+### `SetProductVariantKey`
 
 #### Type declaration:
 
@@ -13233,11 +12450,11 @@ Name | Type |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6279](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6279)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6279](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6279)
 
 ___
 
-#### `SetProjectSettingsExternalOAuth`
+### `SetProjectSettingsExternalOAuth`
 
 #### Type declaration:
 
@@ -13245,11 +12462,11 @@ Name | Type |
 :------ | :------ |
 `externalOAuth`? | [*Maybe*](#maybe)<[*ExternalOAuthDraft*](#externaloauthdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6286](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6286)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6286](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6286)
 
 ___
 
-#### `SetProjectSettingsShippingRateInputType`
+### `SetProjectSettingsShippingRateInputType`
 
 #### Type declaration:
 
@@ -13257,11 +12474,11 @@ Name | Type |
 :------ | :------ |
 `shippingRateInputType`? | [*Maybe*](#maybe)<[*ShippingRateInputTypeInput*](#shippingrateinputtypeinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6290](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6290)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6290](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6290)
 
 ___
 
-#### `SetSearchKeywords`
+### `SetSearchKeywords`
 
 #### Type declaration:
 
@@ -13270,11 +12487,11 @@ Name | Type |
 `searchKeywords` | [*SearchKeywordInput*](#searchkeywordinput)[] |
 `staged`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6294](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6294)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6294](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6294)
 
 ___
 
-#### `SetShippingMethodDescription`
+### `SetShippingMethodDescription`
 
 #### Type declaration:
 
@@ -13282,11 +12499,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6299](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6299)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6299](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6299)
 
 ___
 
-#### `SetShippingMethodKey`
+### `SetShippingMethodKey`
 
 #### Type declaration:
 
@@ -13294,11 +12511,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6303](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6303)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6303](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6303)
 
 ___
 
-#### `SetShippingMethodPredicate`
+### `SetShippingMethodPredicate`
 
 #### Type declaration:
 
@@ -13306,11 +12523,11 @@ Name | Type |
 :------ | :------ |
 `predicate`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6307](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6307)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6307](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6307)
 
 ___
 
-#### `SetShoppingListAnonymousId`
+### `SetShoppingListAnonymousId`
 
 #### Type declaration:
 
@@ -13318,11 +12535,11 @@ Name | Type |
 :------ | :------ |
 `anonymousId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6311](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6311)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6311](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6311)
 
 ___
 
-#### `SetShoppingListCustomField`
+### `SetShoppingListCustomField`
 
 #### Type declaration:
 
@@ -13331,11 +12548,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6319](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6319)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6319](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6319)
 
 ___
 
-#### `SetShoppingListCustomType`
+### `SetShoppingListCustomType`
 
 #### Type declaration:
 
@@ -13346,11 +12563,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6324](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6324)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6324](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6324)
 
 ___
 
-#### `SetShoppingListCustomer`
+### `SetShoppingListCustomer`
 
 #### Type declaration:
 
@@ -13358,11 +12575,11 @@ Name | Type |
 :------ | :------ |
 `customer`? | [*Maybe*](#maybe)<[*ResourceIdentifierInput*](#resourceidentifierinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6315](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6315)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6315](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6315)
 
 ___
 
-#### `SetShoppingListDeleteDaysAfterLastModification`
+### `SetShoppingListDeleteDaysAfterLastModification`
 
 #### Type declaration:
 
@@ -13370,11 +12587,11 @@ Name | Type |
 :------ | :------ |
 `deleteDaysAfterLastModification`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6331](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6331)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6331](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6331)
 
 ___
 
-#### `SetShoppingListDescription`
+### `SetShoppingListDescription`
 
 #### Type declaration:
 
@@ -13382,11 +12599,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6335](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6335)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6335](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6335)
 
 ___
 
-#### `SetShoppingListKey`
+### `SetShoppingListKey`
 
 #### Type declaration:
 
@@ -13394,11 +12611,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6339](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6339)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6339](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6339)
 
 ___
 
-#### `SetShoppingListLineItemCustomField`
+### `SetShoppingListLineItemCustomField`
 
 #### Type declaration:
 
@@ -13408,11 +12625,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6343](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6343)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6343](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6343)
 
 ___
 
-#### `SetShoppingListLineItemCustomType`
+### `SetShoppingListLineItemCustomType`
 
 #### Type declaration:
 
@@ -13424,11 +12641,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6349](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6349)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6349](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6349)
 
 ___
 
-#### `SetShoppingListSlug`
+### `SetShoppingListSlug`
 
 #### Type declaration:
 
@@ -13436,11 +12653,11 @@ Name | Type |
 :------ | :------ |
 `slug`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6357](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6357)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6357](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6357)
 
 ___
 
-#### `SetShoppingListTextLineItemCustomField`
+### `SetShoppingListTextLineItemCustomField`
 
 #### Type declaration:
 
@@ -13450,11 +12667,11 @@ Name | Type |
 `textLineItemId` | [*Scalars*](#scalars)[*String*] |
 `value`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6361](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6361)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6361](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6361)
 
 ___
 
-#### `SetShoppingListTextLineItemCustomType`
+### `SetShoppingListTextLineItemCustomType`
 
 #### Type declaration:
 
@@ -13466,11 +12683,11 @@ Name | Type |
 `typeId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `typeKey`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6367](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6367)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6367](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6367)
 
 ___
 
-#### `SetShoppingListTextLineItemDescription`
+### `SetShoppingListTextLineItemDescription`
 
 #### Type declaration:
 
@@ -13479,11 +12696,11 @@ Name | Type |
 `description`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `textLineItemId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6375](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6375)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6375](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6375)
 
 ___
 
-#### `SetStoreLanguages`
+### `SetStoreLanguages`
 
 #### Type declaration:
 
@@ -13491,11 +12708,11 @@ Name | Type |
 :------ | :------ |
 `languages`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6380](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6380)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6380](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6380)
 
 ___
 
-#### `SetStoreName`
+### `SetStoreName`
 
 #### Type declaration:
 
@@ -13503,11 +12720,11 @@ Name | Type |
 :------ | :------ |
 `name`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6384](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6384)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6384](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6384)
 
 ___
 
-#### `SetTaxCategoryKey`
+### `SetTaxCategoryKey`
 
 #### Type declaration:
 
@@ -13515,17 +12732,17 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6388](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6388)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6388](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6388)
 
 ___
 
-#### `SetType`
+### `SetType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6392](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6392)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6392](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6392)
 
 ___
 
-#### `SetZoneDescription`
+### `SetZoneDescription`
 
 #### Type declaration:
 
@@ -13533,11 +12750,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6398](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6398)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6398](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6398)
 
 ___
 
-#### `SetZoneKey`
+### `SetZoneKey`
 
 #### Type declaration:
 
@@ -13545,11 +12762,11 @@ Name | Type |
 :------ | :------ |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6402](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6402)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6402](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6402)
 
 ___
 
-#### `ShippingInfo`
+### `ShippingInfo`
 
 #### Type declaration:
 
@@ -13568,17 +12785,17 @@ Name | Type |
 `taxRate`? | [*Maybe*](#maybe)<[*TaxRate*](#taxrate)\> |
 `taxedPrice`? | [*Maybe*](#maybe)<[*TaxedItemPrice*](#taxeditemprice)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6415](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6415)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6415](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6415)
 
 ___
 
-#### `ShippingMethod`
+### `ShippingMethod`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6430](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6430)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6430](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6430)
 
 ___
 
-#### `ShippingMethodDraft`
+### `ShippingMethodDraft`
 
 #### Type declaration:
 
@@ -13592,11 +12809,11 @@ Name | Type |
 `taxCategory` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 `zoneRates`? | [*Maybe*](#maybe)<[*ZoneRateDraft*](#zoneratedraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6448](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6448)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6448](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6448)
 
 ___
 
-#### `ShippingMethodQueryResult`
+### `ShippingMethodQueryResult`
 
 #### Type declaration:
 
@@ -13608,11 +12825,11 @@ Name | Type |
 `results` | [*ShippingMethod*](#shippingmethod)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6458](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6458)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6458](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6458)
 
 ___
 
-#### `ShippingMethodUpdateAction`
+### `ShippingMethodUpdateAction`
 
 #### Type declaration:
 
@@ -13629,11 +12846,11 @@ Name | Type |
 `setKey`? | [*Maybe*](#maybe)<[*SetShippingMethodKey*](#setshippingmethodkey)\> |
 `setPredicate`? | [*Maybe*](#maybe)<[*SetShippingMethodPredicate*](#setshippingmethodpredicate)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6485](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6485)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6485](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6485)
 
 ___
 
-#### `ShippingMethodsByCartInterface`
+### `ShippingMethodsByCartInterface`
 
 A field to retrieve available shipping methods for a cart.
 
@@ -13643,11 +12860,11 @@ Name | Type |
 :------ | :------ |
 `shippingMethodsByCart` | [*ShippingMethod*](#shippingmethod)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6467](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6467)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6467](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6467)
 
 ___
 
-#### `ShippingMethodsByCartInterfaceShippingMethodsByCartArgs`
+### `ShippingMethodsByCartInterfaceShippingMethodsByCartArgs`
 
 A field to retrieve available shipping methods for a cart.
 
@@ -13657,11 +12874,11 @@ Name | Type |
 :------ | :------ |
 `id` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6472](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6472)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6472](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6472)
 
 ___
 
-#### `ShippingRate`
+### `ShippingRate`
 
 Shipping Rate
 
@@ -13675,29 +12892,29 @@ Name | Type |
 `price` | [*Money*](#money) |
 `tiers` | [*ShippingRatePriceTier*](#shippingratepricetier)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6499](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6499)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6499](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6499)
 
 ___
 
-#### `ShippingRateCartClassificationPriceTier`
+### `ShippingRateCartClassificationPriceTier`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6507](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6507)
-
-___
-
-#### `ShippingRateCartScorePriceTier`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6515](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6515)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6507](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6507)
 
 ___
 
-#### `ShippingRateCartValuePriceTier`
+### `ShippingRateCartScorePriceTier`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6524](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6524)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6515](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6515)
 
 ___
 
-#### `ShippingRateDraft`
+### `ShippingRateCartValuePriceTier`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6524](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6524)
+
+___
+
+### `ShippingRateDraft`
 
 #### Type declaration:
 
@@ -13707,11 +12924,11 @@ Name | Type |
 `price` | [*MoneyDraft*](#moneydraft) |
 `tiers`? | [*Maybe*](#maybe)<[*ShippingRatePriceTierDraft*](#shippingratepricetierdraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6532](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6532)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6532](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6532)
 
 ___
 
-#### `ShippingRateInput`
+### `ShippingRateInput`
 
 #### Type declaration:
 
@@ -13719,11 +12936,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6538](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6538)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6538](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6538)
 
 ___
 
-#### `ShippingRateInputDraft`
+### `ShippingRateInputDraft`
 
 #### Type declaration:
 
@@ -13732,11 +12949,11 @@ Name | Type |
 `Classification`? | [*Maybe*](#maybe)<[*ClassificationShippingRateInputDraft*](#classificationshippingrateinputdraft)\> |
 `Score`? | [*Maybe*](#maybe)<[*ScoreShippingRateInputDraft*](#scoreshippingrateinputdraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6542](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6542)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6542](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6542)
 
 ___
 
-#### `ShippingRateInputLocalizedEnumValue`
+### `ShippingRateInputLocalizedEnumValue`
 
 #### Type declaration:
 
@@ -13747,11 +12964,11 @@ Name | Type |
 `label`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `labelAllLocales` | [*LocalizedString*](#localizedstring)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6547](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6547)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6547](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6547)
 
 ___
 
-#### `ShippingRateInputLocalizedEnumValueLabelArgs`
+### `ShippingRateInputLocalizedEnumValueLabelArgs`
 
 #### Type declaration:
 
@@ -13760,11 +12977,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6554](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6554)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6554](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6554)
 
 ___
 
-#### `ShippingRateInputType`
+### `ShippingRateInputType`
 
 #### Type declaration:
 
@@ -13772,11 +12989,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6559](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6559)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6559](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6559)
 
 ___
 
-#### `ShippingRateInputTypeInput`
+### `ShippingRateInputTypeInput`
 
 #### Type declaration:
 
@@ -13786,11 +13003,11 @@ Name | Type |
 `CartScore`? | [*Maybe*](#maybe)<[*CartScoreInput*](#cartscoreinput)\> |
 `CartValue`? | [*Maybe*](#maybe)<[*CartValueInput*](#cartvalueinput)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6563](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6563)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6563](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6563)
 
 ___
 
-#### `ShippingRatePriceTier`
+### `ShippingRatePriceTier`
 
 #### Type declaration:
 
@@ -13798,11 +13015,11 @@ Name | Type |
 :------ | :------ |
 `type` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6569](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6569)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6569](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6569)
 
 ___
 
-#### `ShippingRatePriceTierCartClassificationDraft`
+### `ShippingRatePriceTierCartClassificationDraft`
 
 #### Type declaration:
 
@@ -13811,11 +13028,11 @@ Name | Type |
 `price` | [*MoneyDraft*](#moneydraft) |
 `value` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6573](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6573)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6573](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6573)
 
 ___
 
-#### `ShippingRatePriceTierCartScoreDraft`
+### `ShippingRatePriceTierCartScoreDraft`
 
 #### Type declaration:
 
@@ -13825,11 +13042,11 @@ Name | Type |
 `priceFunction`? | [*Maybe*](#maybe)<[*PriceFunctionDraft*](#pricefunctiondraft)\> |
 `score` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6578](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6578)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6578](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6578)
 
 ___
 
-#### `ShippingRatePriceTierCartValueDraft`
+### `ShippingRatePriceTierCartValueDraft`
 
 #### Type declaration:
 
@@ -13838,11 +13055,11 @@ Name | Type |
 `minimumCentAmount` | [*Scalars*](#scalars)[*Int*] |
 `price` | [*MoneyDraft*](#moneydraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6584](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6584)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6584](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6584)
 
 ___
 
-#### `ShippingRatePriceTierDraft`
+### `ShippingRatePriceTierDraft`
 
 #### Type declaration:
 
@@ -13852,17 +13069,17 @@ Name | Type |
 `CartScore`? | [*Maybe*](#maybe)<[*ShippingRatePriceTierCartScoreDraft*](#shippingratepricetiercartscoredraft)\> |
 `CartValue`? | [*Maybe*](#maybe)<[*ShippingRatePriceTierCartValueDraft*](#shippingratepricetiercartvaluedraft)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6589](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6589)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6589](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6589)
 
 ___
 
-#### `ShippingTarget`
+### `ShippingTarget`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6595](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6595)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6595](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6595)
 
 ___
 
-#### `ShippingTargetDraft`
+### `ShippingTargetDraft`
 
 #### Type declaration:
 
@@ -13871,11 +13088,11 @@ Name | Type |
 `addressKey` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6600](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6600)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6600](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6600)
 
 ___
 
-#### `ShippingTargetDraftType`
+### `ShippingTargetDraftType`
 
 #### Type declaration:
 
@@ -13884,11 +13101,11 @@ Name | Type |
 `addressKey` | [*Scalars*](#scalars)[*String*] |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6605](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6605)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6605](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6605)
 
 ___
 
-#### `ShippingTargetInput`
+### `ShippingTargetInput`
 
 #### Type declaration:
 
@@ -13896,17 +13113,17 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6610](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6610)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6610](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6610)
 
 ___
 
-#### `ShoppingList`
+### `ShoppingList`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6614](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6614)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6614](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6614)
 
 ___
 
-#### `ShoppingListDescriptionArgs`
+### `ShoppingListDescriptionArgs`
 
 #### Type declaration:
 
@@ -13915,11 +13132,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6643](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6643)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6643](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6643)
 
 ___
 
-#### `ShoppingListDraft`
+### `ShoppingListDraft`
 
 #### Type declaration:
 
@@ -13936,11 +13153,11 @@ Name | Type |
 `slug`? | [*Maybe*](#maybe)<[*LocalizedStringItemInputType*](#localizedstringiteminputtype)[]\> |
 `textLineItems`? | [*Maybe*](#maybe)<[*TextLineItemDraft*](#textlineitemdraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6653](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6653)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6653](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6653)
 
 ___
 
-#### `ShoppingListLineItem`
+### `ShoppingListLineItem`
 
 #### Type declaration:
 
@@ -13961,11 +13178,11 @@ Name | Type |
 `variant`? | [*Maybe*](#maybe)<[*ProductVariant*](#productvariant)\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6666](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6666)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6666](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6666)
 
 ___
 
-#### `ShoppingListLineItemDraft`
+### `ShoppingListLineItemDraft`
 
 #### Type declaration:
 
@@ -13978,11 +13195,11 @@ Name | Type |
 `sku`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `variantId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6693](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6693)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6693](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6693)
 
 ___
 
-#### `ShoppingListLineItemNameArgs`
+### `ShoppingListLineItemNameArgs`
 
 #### Type declaration:
 
@@ -13991,11 +13208,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6683](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6683)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6683](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6683)
 
 ___
 
-#### `ShoppingListLineItemProductSlugArgs`
+### `ShoppingListLineItemProductSlugArgs`
 
 #### Type declaration:
 
@@ -14004,11 +13221,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6688](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6688)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6688](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6688)
 
 ___
 
-#### `ShoppingListNameArgs`
+### `ShoppingListNameArgs`
 
 #### Type declaration:
 
@@ -14017,11 +13234,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6638](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6638)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6638](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6638)
 
 ___
 
-#### `ShoppingListQueryInterface`
+### `ShoppingListQueryInterface`
 
 Fields to access shopping lists. Includes direct access to a single list and searching for shopping lists.
 
@@ -14032,11 +13249,11 @@ Name | Type |
 `shoppingList`? | [*Maybe*](#maybe)<[*ShoppingList*](#shoppinglist)\> |
 `shoppingLists` | [*ShoppingListQueryResult*](#shoppinglistqueryresult) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6703](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6703)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6703](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6703)
 
 ___
 
-#### `ShoppingListQueryInterfaceShoppingListArgs`
+### `ShoppingListQueryInterfaceShoppingListArgs`
 
 Fields to access shopping lists. Includes direct access to a single list and searching for shopping lists.
 
@@ -14047,11 +13264,11 @@ Name | Type |
 `id`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `key`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6709](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6709)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6709](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6709)
 
 ___
 
-#### `ShoppingListQueryInterfaceShoppingListsArgs`
+### `ShoppingListQueryInterfaceShoppingListsArgs`
 
 Fields to access shopping lists. Includes direct access to a single list and searching for shopping lists.
 
@@ -14064,11 +13281,11 @@ Name | Type |
 `sort`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `where`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6715](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6715)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6715](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6715)
 
 ___
 
-#### `ShoppingListQueryResult`
+### `ShoppingListQueryResult`
 
 #### Type declaration:
 
@@ -14080,11 +13297,11 @@ Name | Type |
 `results` | [*ShoppingList*](#shoppinglist)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6722](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6722)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6722](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6722)
 
 ___
 
-#### `ShoppingListSlugArgs`
+### `ShoppingListSlugArgs`
 
 #### Type declaration:
 
@@ -14093,11 +13310,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6648](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6648)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6648](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6648)
 
 ___
 
-#### `ShoppingListUpdateAction`
+### `ShoppingListUpdateAction`
 
 #### Type declaration:
 
@@ -14127,11 +13344,11 @@ Name | Type |
 `setTextLineItemCustomType`? | [*Maybe*](#maybe)<[*SetShoppingListTextLineItemCustomType*](#setshoppinglisttextlineitemcustomtype)\> |
 `setTextLineItemDescription`? | [*Maybe*](#maybe)<[*SetShoppingListTextLineItemDescription*](#setshoppinglisttextlineitemdescription)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6730](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6730)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6730](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6730)
 
 ___
 
-#### `SimpleAttributeTypeDraft`
+### `SimpleAttributeTypeDraft`
 
 #### Type declaration:
 
@@ -14139,34 +13356,19 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6758](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6758)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6758](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6758)
 
 ___
 
-#### `State`
+### `State`
 
 [State](http://dev.commercetools.com/http-api-projects-states.html)
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6771](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6771)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6771](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6771)
 
 ___
 
-#### `StateDescriptionArgs`
-
-[State](http://dev.commercetools.com/http-api-projects-states.html)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
-`locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6799](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6799)
-
-___
-
-#### `StateNameArgs`
+### `StateDescriptionArgs`
 
 [State](http://dev.commercetools.com/http-api-projects-states.html)
 
@@ -14177,11 +13379,26 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6793](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6793)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6799](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6799)
 
 ___
 
-#### `StateQueryResult`
+### `StateNameArgs`
+
+[State](http://dev.commercetools.com/http-api-projects-states.html)
+
+#### Type declaration:
+
+Name | Type |
+:------ | :------ |
+`acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
+`locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6793](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6793)
+
+___
+
+### `StateQueryResult`
 
 #### Type declaration:
 
@@ -14193,19 +13410,19 @@ Name | Type |
 `results` | [*State*](#state)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6804](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6804)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6804](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6804)
 
 ___
 
-#### `Store`
+### `Store`
 
 [BETA] Stores allow defining different contexts for a project.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6826](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6826)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6826](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6826)
 
 ___
 
-#### `StoreNameArgs`
+### `StoreNameArgs`
 
 [BETA] Stores allow defining different contexts for a project.
 
@@ -14216,11 +13433,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6841](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6841)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6841](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6841)
 
 ___
 
-#### `StoreQueryResult`
+### `StoreQueryResult`
 
 #### Type declaration:
 
@@ -14232,11 +13449,11 @@ Name | Type |
 `results` | [*Store*](#store)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6846](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6846)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6846](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6846)
 
 ___
 
-#### `StoreUpdateAction`
+### `StoreUpdateAction`
 
 #### Type declaration:
 
@@ -14245,29 +13462,29 @@ Name | Type |
 `setLanguages`? | [*Maybe*](#maybe)<[*SetStoreLanguages*](#setstorelanguages)\> |
 `setName`? | [*Maybe*](#maybe)<[*SetStoreName*](#setstorename)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6854](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6854)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6854](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6854)
 
 ___
 
-#### `StringAttribute`
+### `StringAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6859](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6859)
-
-___
-
-#### `StringField`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6865](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6865)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6859](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6859)
 
 ___
 
-#### `StringType`
+### `StringField`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6871](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6871)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6865](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6865)
 
 ___
 
-#### `SubRate`
+### `StringType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6871](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6871)
+
+___
+
+### `SubRate`
 
 #### Type declaration:
 
@@ -14277,11 +13494,11 @@ Name | Type |
 `amount` | [*Scalars*](#scalars)[*Float*] |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6876](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6876)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6876](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6876)
 
 ___
 
-#### `SubRateDraft`
+### `SubRateDraft`
 
 #### Type declaration:
 
@@ -14290,11 +13507,11 @@ Name | Type |
 `amount` | [*Scalars*](#scalars)[*Float*] |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6882](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6882)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6882](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6882)
 
 ___
 
-#### `SyncInfo`
+### `SyncInfo`
 
 Stores information about order synchronization activities (like export or import).
 
@@ -14308,19 +13525,19 @@ Name | Type |
 `externalId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `syncedAt` | [*Scalars*](#scalars)[*DateTime*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6890](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6890)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6890](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6890)
 
 ___
 
-#### `TaxCategory`
+### `TaxCategory`
 
 Tax Categories define how products are to be taxed in different countries.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6910](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6910)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6910](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6910)
 
 ___
 
-#### `TaxCategoryAddTaxRate`
+### `TaxCategoryAddTaxRate`
 
 #### Type declaration:
 
@@ -14328,11 +13545,11 @@ Name | Type |
 :------ | :------ |
 `taxRate` | [*TaxRateDraft*](#taxratedraft) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6924](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6924)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6924](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6924)
 
 ___
 
-#### `TaxCategoryChangeName`
+### `TaxCategoryChangeName`
 
 #### Type declaration:
 
@@ -14340,11 +13557,11 @@ Name | Type |
 :------ | :------ |
 `name` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6928](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6928)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6928](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6928)
 
 ___
 
-#### `TaxCategoryDraft`
+### `TaxCategoryDraft`
 
 #### Type declaration:
 
@@ -14355,11 +13572,11 @@ Name | Type |
 `name` | [*Scalars*](#scalars)[*String*] |
 `rates`? | [*Maybe*](#maybe)<[*TaxRateDraft*](#taxratedraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6932](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6932)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6932](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6932)
 
 ___
 
-#### `TaxCategoryQueryResult`
+### `TaxCategoryQueryResult`
 
 #### Type declaration:
 
@@ -14371,11 +13588,11 @@ Name | Type |
 `results` | [*TaxCategory*](#taxcategory)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6939](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6939)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6939](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6939)
 
 ___
 
-#### `TaxCategoryRemoveTaxRate`
+### `TaxCategoryRemoveTaxRate`
 
 #### Type declaration:
 
@@ -14383,11 +13600,11 @@ Name | Type |
 :------ | :------ |
 `taxRateId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6947](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6947)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6947](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6947)
 
 ___
 
-#### `TaxCategoryReplaceTaxRate`
+### `TaxCategoryReplaceTaxRate`
 
 #### Type declaration:
 
@@ -14396,11 +13613,11 @@ Name | Type |
 `taxRate` | [*TaxRateDraft*](#taxratedraft) |
 `taxRateId` | [*Scalars*](#scalars)[*String*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6951](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6951)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6951](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6951)
 
 ___
 
-#### `TaxCategorySetDescription`
+### `TaxCategorySetDescription`
 
 #### Type declaration:
 
@@ -14408,11 +13625,11 @@ Name | Type |
 :------ | :------ |
 `description`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6956](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6956)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6956](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6956)
 
 ___
 
-#### `TaxCategoryUpdateAction`
+### `TaxCategoryUpdateAction`
 
 #### Type declaration:
 
@@ -14425,11 +13642,11 @@ Name | Type |
 `setDescription`? | [*Maybe*](#maybe)<[*TaxCategorySetDescription*](#taxcategorysetdescription)\> |
 `setKey`? | [*Maybe*](#maybe)<[*SetTaxCategoryKey*](#settaxcategorykey)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6960](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6960)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6960](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6960)
 
 ___
 
-#### `TaxPortion`
+### `TaxPortion`
 
 Represents the portions that sum up to the totalGross field of a TaxedPrice. The portions are calculated
 from the TaxRates. If a tax rate has SubRates, they are used and can be identified by name. Tax portions
@@ -14444,11 +13661,11 @@ Name | Type |
 `name`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `rate` | [*Scalars*](#scalars)[*Float*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7006](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7006)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7006](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7006)
 
 ___
 
-#### `TaxPortionDraft`
+### `TaxPortionDraft`
 
 #### Type declaration:
 
@@ -14458,11 +13675,11 @@ Name | Type |
 `name`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `rate` | [*Scalars*](#scalars)[*Float*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7013](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7013)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7013](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7013)
 
 ___
 
-#### `TaxRate`
+### `TaxRate`
 
 #### Type declaration:
 
@@ -14477,11 +13694,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `subRates` | [*SubRate*](#subrate)[] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7019](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7019)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7019](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7019)
 
 ___
 
-#### `TaxRateDraft`
+### `TaxRateDraft`
 
 #### Type declaration:
 
@@ -14494,11 +13711,11 @@ Name | Type |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `subRates`? | [*Maybe*](#maybe)<[*SubRateDraft*](#subratedraft)[]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7030](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7030)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7030](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7030)
 
 ___
 
-#### `TaxedItemPrice`
+### `TaxedItemPrice`
 
 #### Type declaration:
 
@@ -14508,11 +13725,11 @@ Name | Type |
 `totalGross` | [*Money*](#money) |
 `totalNet` | [*Money*](#money) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6969](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6969)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6969](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6969)
 
 ___
 
-#### `TaxedPrice`
+### `TaxedPrice`
 
 #### Type declaration:
 
@@ -14523,17 +13740,17 @@ Name | Type |
 `totalGross` | [*Money*](#money) |
 `totalNet` | [*Money*](#money) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6975](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L6975)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:6975](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L6975)
 
 ___
 
-#### `TextAttributeDefinitionType`
+### `TextAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7039](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7039)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7039](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7039)
 
 ___
 
-#### `TextLineItem`
+### `TextLineItem`
 
 #### Type declaration:
 
@@ -14549,11 +13766,11 @@ Name | Type |
 `nameAllLocales` | [*LocalizedString*](#localizedstring)[] |
 `quantity` | [*Scalars*](#scalars)[*Int*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7050](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7050)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7050](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7050)
 
 ___
 
-#### `TextLineItemDescriptionArgs`
+### `TextLineItemDescriptionArgs`
 
 #### Type declaration:
 
@@ -14562,11 +13779,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7067](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7067)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7067](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7067)
 
 ___
 
-#### `TextLineItemDraft`
+### `TextLineItemDraft`
 
 #### Type declaration:
 
@@ -14578,11 +13795,11 @@ Name | Type |
 `name` | [*LocalizedStringItemInputType*](#localizedstringiteminputtype)[] |
 `quantity`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7072](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7072)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7072](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7072)
 
 ___
 
-#### `TextLineItemNameArgs`
+### `TextLineItemNameArgs`
 
 #### Type declaration:
 
@@ -14591,35 +13808,35 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7062](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7062)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7062](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7062)
 
 ___
 
-#### `TimeAttribute`
+### `TimeAttribute`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7080](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7080)
-
-___
-
-#### `TimeAttributeDefinitionType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7086](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7086)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7080](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7080)
 
 ___
 
-#### `TimeField`
+### `TimeAttributeDefinitionType`
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7091](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7091)
-
-___
-
-#### `TimeType`
-
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7097](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7097)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7086](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7086)
 
 ___
 
-#### `TrackingData`
+### `TimeField`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7091](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7091)
+
+___
+
+### `TimeType`
+
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7097](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7097)
+
+___
+
+### `TrackingData`
 
 #### Type declaration:
 
@@ -14632,11 +13849,11 @@ Name | Type |
 `providerTransaction`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `trackingId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7102](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7102)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7102](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7102)
 
 ___
 
-#### `TrackingDataDraftType`
+### `TrackingDataDraftType`
 
 #### Type declaration:
 
@@ -14648,11 +13865,11 @@ Name | Type |
 `providerTransaction`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `trackingId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7111](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7111)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7111](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7111)
 
 ___
 
-#### `Transaction`
+### `Transaction`
 
 #### Type declaration:
 
@@ -14666,11 +13883,11 @@ Name | Type |
 `timestamp`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 `type`? | [*Maybe*](#maybe)<[*TransactionType*](../enums/types_graphql.transactiontype.md)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7119](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7119)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7119](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7119)
 
 ___
 
-#### `TransitionOrderCustomLineItemState`
+### `TransitionOrderCustomLineItemState`
 
 #### Type declaration:
 
@@ -14682,11 +13899,11 @@ Name | Type |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 `toState` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7144](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7144)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7144](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7144)
 
 ___
 
-#### `TransitionOrderLineItemState`
+### `TransitionOrderLineItemState`
 
 #### Type declaration:
 
@@ -14698,11 +13915,11 @@ Name | Type |
 `quantity` | [*Scalars*](#scalars)[*Long*] |
 `toState` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7152](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7152)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7152](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7152)
 
 ___
 
-#### `TransitionOrderState`
+### `TransitionOrderState`
 
 #### Type declaration:
 
@@ -14711,11 +13928,11 @@ Name | Type |
 `force`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `state` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7160](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7160)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7160](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7160)
 
 ___
 
-#### `TransitionProductState`
+### `TransitionProductState`
 
 #### Type declaration:
 
@@ -14724,11 +13941,11 @@ Name | Type |
 `force`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Boolean*]\> |
 `state` | [*ReferenceInput*](#referenceinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7165](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7165)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7165](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7165)
 
 ___
 
-#### `Type`
+### `Type`
 
 #### Type declaration:
 
@@ -14737,19 +13954,19 @@ Name | Type |
 `type`? | [*Maybe*](#maybe)<[*TypeDefinition*](#typedefinition)\> |
 `typeRef` | [*Reference*](#reference) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7170](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7170)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7170](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7170)
 
 ___
 
-#### `TypeDefinition`
+### `TypeDefinition`
 
 Types define the structure of custom fields which can be attached to different entities throughout the platform.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7176](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7176)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7176](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7176)
 
 ___
 
-#### `TypeDefinitionDescriptionArgs`
+### `TypeDefinitionDescriptionArgs`
 
 Types define the structure of custom fields which can be attached to different entities throughout the platform.
 
@@ -14760,11 +13977,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7200](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7200)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7200](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7200)
 
 ___
 
-#### `TypeDefinitionFieldDefinitionsArgs`
+### `TypeDefinitionFieldDefinitionsArgs`
 
 Types define the structure of custom fields which can be attached to different entities throughout the platform.
 
@@ -14775,11 +13992,11 @@ Name | Type |
 `excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 `includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7206](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7206)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7206](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7206)
 
 ___
 
-#### `TypeDefinitionNameArgs`
+### `TypeDefinitionNameArgs`
 
 Types define the structure of custom fields which can be attached to different entities throughout the platform.
 
@@ -14790,11 +14007,11 @@ Name | Type |
 `acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
 `locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7194](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7194)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7194](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7194)
 
 ___
 
-#### `TypeDefinitionQueryResult`
+### `TypeDefinitionQueryResult`
 
 #### Type declaration:
 
@@ -14806,11 +14023,11 @@ Name | Type |
 `results` | [*TypeDefinition*](#typedefinition)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7211](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7211)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7211](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7211)
 
 ___
 
-#### `UnpublishProduct`
+### `UnpublishProduct`
 
 #### Type declaration:
 
@@ -14818,11 +14035,11 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7219](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7219)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7219](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7219)
 
 ___
 
-#### `UpdateCartItemShippingAddress`
+### `UpdateCartItemShippingAddress`
 
 #### Type declaration:
 
@@ -14830,11 +14047,11 @@ Name | Type |
 :------ | :------ |
 `address` | [*AddressInput*](#addressinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7223](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7223)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7223](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7223)
 
 ___
 
-#### `UpdateOrderItemShippingAddress`
+### `UpdateOrderItemShippingAddress`
 
 #### Type declaration:
 
@@ -14842,11 +14059,11 @@ Name | Type |
 :------ | :------ |
 `address` | [*AddressInput*](#addressinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7227](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7227)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7227](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7227)
 
 ___
 
-#### `UpdateOrderSyncInfo`
+### `UpdateOrderSyncInfo`
 
 #### Type declaration:
 
@@ -14856,11 +14073,11 @@ Name | Type |
 `externalId`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 `syncedAt`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*DateTime*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7231](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7231)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7231](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7231)
 
 ___
 
-#### `Versioned`
+### `Versioned`
 
 Versioned object have an ID and version and modification. Every update of this object changes it's version.
 
@@ -14875,11 +14092,11 @@ Name | Type |
 `lastModifiedBy`? | [*Maybe*](#maybe)<[*Initiator*](#initiator)\> |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7238](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7238)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7238](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7238)
 
 ___
 
-#### `WhitespaceSuggestTokenizerInput`
+### `WhitespaceSuggestTokenizerInput`
 
 #### Type declaration:
 
@@ -14887,19 +14104,19 @@ Name | Type |
 :------ | :------ |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7247](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7247)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7247](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7247)
 
 ___
 
-#### `Zone`
+### `Zone`
 
 Zones allow defining ShippingRates for specific Locations.
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7252](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7252)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7252](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7252)
 
 ___
 
-#### `ZoneLocation`
+### `ZoneLocation`
 
 #### Type declaration:
 
@@ -14908,11 +14125,11 @@ Name | Type |
 `country` | [*Scalars*](#scalars)[*Country*] |
 `state`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7266](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7266)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7266](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7266)
 
 ___
 
-#### `ZoneQueryResult`
+### `ZoneQueryResult`
 
 #### Type declaration:
 
@@ -14924,11 +14141,11 @@ Name | Type |
 `results` | [*Zone*](#zone)[] |
 `total` | [*Scalars*](#scalars)[*Long*] |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7271](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7271)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7271](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7271)
 
 ___
 
-#### `ZoneRate`
+### `ZoneRate`
 
 #### Type declaration:
 
@@ -14939,11 +14156,11 @@ Name | Type |
 `zone`? | [*Maybe*](#maybe)<[*Zone*](#zone)\> |
 `zoneRef`? | [*Maybe*](#maybe)<[*Reference*](#reference)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7279](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7279)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7279](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7279)
 
 ___
 
-#### `ZoneRateDraft`
+### `ZoneRateDraft`
 
 #### Type declaration:
 
@@ -14952,11 +14169,11 @@ Name | Type |
 `shippingRates`? | [*Maybe*](#maybe)<[*ShippingRateDraft*](#shippingratedraft)[]\> |
 `zone` | [*ResourceIdentifierInput*](#resourceidentifierinput) |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7286](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7286)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7286](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7286)
 
 ___
 
-#### `ZoneUpdateAction`
+### `ZoneUpdateAction`
 
 #### Type declaration:
 
@@ -14968,4 +14185,788 @@ Name | Type |
 `setDescription`? | [*Maybe*](#maybe)<[*SetZoneDescription*](#setzonedescription)\> |
 `setKey`? | [*Maybe*](#maybe)<[*SetZoneKey*](#setzonekey)\> |
 
-Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7291](https://github.com/vuestorefront/vue-storefront/blob/1327a62247/packages/commercetools/api-client/src/types/GraphQL.ts#L7291)
+Defined in: [packages/commercetools/api-client/src/types/GraphQL.ts:7291](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/GraphQL.ts#L7291)
+
+<a name="interfacestypes_setupapiconfigmd"></a>
+
+### `ApiConfig`
+
+* **ApiConfig**
+
+### `authHost`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:12](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L12)
+
+___
+
+### `clientId`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:14](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L14)
+
+___
+
+### `clientSecret`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:15](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L15)
+
+___
+
+### `projectKey`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:13](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L13)
+
+___
+
+### `scopes`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:16](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L16)
+
+___
+
+### `uri`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:11](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L11)
+
+<a name="interfacestypes_setupauthmd"></a>
+
+### `Auth`
+
+* **Auth**
+
+### `onTokenChange`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:40](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L40)
+
+___
+
+### `onTokenRead`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:41](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L41)
+
+___
+
+### `onTokenRemove`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:42](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L42)
+
+<a name="interfacestypes_setupclientinstancemd"></a>
+
+### `ClientInstance`
+
+* *ApolloClient*<any\>
+
+  ↳ **ClientInstance**
+
+### `cache`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:34
+
+___
+
+### `defaultOptions`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:39
+
+___
+
+### `disableNetworkFetches`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:36
+
+___
+
+### `link`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:32
+
+___
+
+### `queryDeduplication`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:38
+
+___
+
+### `queryManager`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:35
+
+___
+
+### `sdkAuth`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:6](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L6)
+
+___
+
+### `store`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:33
+
+___
+
+### `tokenProvider`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:7](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L7)
+
+___
+
+### `typeDefs`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:40
+
+___
+
+### `version`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:37
+
+### `\_\_actionHookForDevTools`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:56
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cb` | () => *any* |
+
+**Returns:** *void*
+
+___
+
+### `\_\_requestRaw`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:57
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`payload` | GraphQLRequest |
+
+**Returns:** *Observable*<ExecutionResult<ExecutionResultDataDefault\>\>
+
+___
+
+### `addResolvers`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:66
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`resolvers` | Resolvers \| Resolvers[] |
+
+**Returns:** *void*
+
+___
+
+### `clearStore`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:60
+
+**Returns:** *Promise*<any[]\>
+
+___
+
+### `extract`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:64
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`optimistic?` | *boolean* |
+
+**Returns:** *any*
+
+___
+
+### `getResolvers`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:68
+
+**Returns:** Resolvers
+
+___
+
+### `initQueryManager`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:58
+
+**Returns:** *QueryManager*<any\>
+
+___
+
+### `mutate`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:49
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *MutationOptions*<T, TVariables\> |
+
+**Returns:** *Promise*<FetchResult<T, Record<string, any\>, Record<string, any\>\>\>
+
+___
+
+### `onClearStore`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:62
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cb` | () => *Promise*<any\> |
+
+**Returns:** *function*
+
+___
+
+### `onResetStore`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:61
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`cb` | () => *Promise*<any\> |
+
+**Returns:** *function*
+
+___
+
+### `query`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:48
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *QueryOptions*<TVariables\> |
+
+**Returns:** *Promise*<ApolloQueryResult<T\>\>
+
+___
+
+### `reFetchObservableQueries`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:63
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`includeStandby?` | *boolean* |
+
+**Returns:** *Promise*<ApolloQueryResult<any\>[]\>
+
+___
+
+### `readFragment`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:52
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *Fragment*<TVariables\> |
+`optimistic?` | *boolean* |
+
+**Returns:** T
+
+___
+
+### `readQuery`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:51
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *Query*<TVariables\> |
+`optimistic?` | *boolean* |
+
+**Returns:** T
+
+___
+
+### `resetStore`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:59
+
+**Returns:** *Promise*<ApolloQueryResult<any\>[]\>
+
+___
+
+### `restore`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:65
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`serializedState` | *any* |
+
+**Returns:** *ApolloCache*<any\>
+
+___
+
+### `setLocalStateFragmentMatcher`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:69
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`fragmentMatcher` | FragmentMatcher |
+
+**Returns:** *void*
+
+___
+
+### `setResolvers`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:67
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`resolvers` | Resolvers \| Resolvers[] |
+
+**Returns:** *void*
+
+___
+
+### `stop`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:46
+
+**Returns:** *void*
+
+___
+
+### `subscribe`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:50
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *SubscriptionOptions*<TVariables\> |
+
+**Returns:** *Observable*<FetchResult<T, Record<string, any\>, Record<string, any\>\>\>
+
+___
+
+### `watchQuery`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:47
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *WatchQueryOptions*<TVariables\> |
+
+**Returns:** *ObservableQuery*<T, TVariables\>
+
+___
+
+### `writeData`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:55
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`TData` | *any* |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *WriteDataOptions*<TData\> |
+
+**Returns:** *void*
+
+___
+
+### `writeFragment`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:54
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`TData` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *WriteFragmentOptions*<TData, TVariables\> |
+
+**Returns:** *void*
+
+___
+
+### `writeQuery`
+
+Defined in: node_modules/apollo-client/ApolloClient.d.ts:53
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`TData` | *any* |
+`TVariables` | OperationVariables |
+
+#### Parameters:
+
+Name | Type |
+:------ | :------ |
+`options` | *WriteQueryOptions*<TData, TVariables\> |
+
+**Returns:** *void*
+
+<a name="interfacestypes_setupconfigmd"></a>
+
+### `Config`
+
+#### Type parameters
+
+Name | Default |
+:------ | :------ |
+`T` | *any* |
+
+* **Config**
+
+### `acceptLanguage`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:77](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L77)
+
+___
+
+### `api`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:68](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L68)
+
+___
+
+### `auth`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:79](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L79)
+
+___
+
+### `client`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:67](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L67)
+
+___
+
+### `cookies`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:78](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L78)
+
+___
+
+### `countries`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:73](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L73)
+
+___
+
+### `country`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:72](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L72)
+
+___
+
+### `currencies`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:74](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L74)
+
+___
+
+### `currency`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:70](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L70)
+
+___
+
+### `customOptions`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:69](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L69)
+
+___
+
+### `forceToken`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:80](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L80)
+
+___
+
+### `handleIsTokenUserSession`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:81](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L81)
+
+___
+
+### `languageMap`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:76](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L76)
+
+___
+
+### `locale`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:71](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L71)
+
+___
+
+### `locales`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:75](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L75)
+
+<a name="interfacestypes_setupcookiesconfigmd"></a>
+
+### `CookiesConfig`
+
+* **CookiesConfig**
+
+### `countryCookieName`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:30](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L30)
+
+___
+
+### `currencyCookieName`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:29](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L29)
+
+___
+
+### `localeCookieName`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:31](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L31)
+
+<a name="interfacestypes_setupcustomercredentialsmd"></a>
+
+### `CustomerCredentials`
+
+* **CustomerCredentials**
+
+### `password`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:63](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L63)
+
+___
+
+### `username`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:62](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L62)
+
+<a name="interfacestypes_setuplocaleitemmd"></a>
+
+### `LocaleItem`
+
+* **LocaleItem**
+
+### `label`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:36](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L36)
+
+___
+
+### `name`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:35](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L35)
+
+<a name="interfacestypes_setupsetupconfigmd"></a>
+
+### `SetupConfig`
+
+#### Type parameters
+
+Name |
+:------ |
+`TCacheShape` |
+
+* **SetupConfig**
+
+### `acceptLanguage`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:55](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L55)
+
+___
+
+### `api`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:46](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L46)
+
+___
+
+### `auth`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:57](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L57)
+
+___
+
+### `cookies`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:56](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L56)
+
+___
+
+### `countries`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:51](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L51)
+
+___
+
+### `country`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:50](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L50)
+
+___
+
+### `currencies`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:52](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L52)
+
+___
+
+### `currency`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:48](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L48)
+
+___
+
+### `customOptions`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:47](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L47)
+
+___
+
+### `forceToken`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:58](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L58)
+
+___
+
+### `languageMap`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:54](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L54)
+
+___
+
+### `locale`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:49](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L49)
+
+___
+
+### `locales`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:53](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L53)
+
+<a name="interfacestypes_setuptokenmd"></a>
+
+### `Token`
+
+* **Token**
+
+### `access\_token`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:20](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L20)
+
+___
+
+### `expires\_at`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:21](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L21)
+
+___
+
+### `expires\_in`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:22](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L22)
+
+___
+
+### `refresh\_token`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:25](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L25)
+
+___
+
+### `scope`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:23](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L23)
+
+___
+
+### `token\_type`
+
+Defined in: [packages/commercetools/api-client/src/types/setup.ts:24](https://github.com/vuestorefront/vue-storefront/blob/19dbb9cfa/packages/commercetools/api-client/src/types/setup.ts#L24)
