@@ -14,7 +14,7 @@ WORKDIR /var/www
 
 COPY . .
 
-# RUN ./packages/commercetools/theme && npm-cli-login
+RUN cd ./packages/commercetools/theme && npm-cli-login
 
 RUN npm-cli-login && cat ~/.npmrc && yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
 
