@@ -56,6 +56,9 @@
     "cli": "cd packages/core/cli && yarn cli",
     "core:changelog": "cd packages/core/docs/scripts && node changelog"
   },
+  "dependencies": {
+    "@vsf-enterprise/redis-cache": "^0.0.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@rollup/plugin-babel": "^5.1.0",
