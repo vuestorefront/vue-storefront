@@ -309,8 +309,8 @@ export default {
     };
 
     // Update local state if we have new address' response from the backend
-    watch(address, (addr) => {
-      shippingDetails.value = addr;
+    watch(address, addr => {
+      shippingDetails.value = addr || {};
     });
 
     onSSR(async () => {
@@ -341,6 +341,7 @@ export default {
 
       isAuthenticated,
       shippingDetails,
+      address,
       countries: config.countries,
       setAsDefault,
       canAddNewAddress,

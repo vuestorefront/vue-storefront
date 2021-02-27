@@ -341,8 +341,8 @@ export default {
     };
 
     // Update local state if we have new address' response from the backend
-    watch(address, (addr) => {
-      billingDetails.value = addr;
+    watch(address, addr => {
+      billingDetails.value = addr || {};
     });
 
     onSSR(async () => {
