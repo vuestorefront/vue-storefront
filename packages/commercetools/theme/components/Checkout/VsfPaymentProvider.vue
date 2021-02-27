@@ -19,10 +19,10 @@
             :label="method.name"
             :value="method.id"
             :selected="selectedPaymentMethod.id"
-            @input="selectShippingMethod(method)"
+            @input="selectPaymentMethod(method)"
             name="paymentMethod"
             :description="method.description"
-            class="form__radio shipping"
+            class="form__radio payment"
           >
             <template #label="{ label }">
               <div class="sf-radio__label payment__label">
@@ -119,11 +119,11 @@ export default {
       }
     };
 
-    const saveMethod = async ({ shippingMethod }) => {
+    const saveMethod = async ({ paymentMethod }) => {
       try {
         error.saveMethod = null;
         loading.value = true;
-        return shippingMethod;
+        return paymentMethod;
       } catch (err) {
         error.saveMethod = err;
         await callHookWithFallback(
@@ -138,17 +138,17 @@ export default {
       }
     };
 
-    const selectShippingMethod = async shippingMethod => {
+    const selectPaymentMethod = async paymentMethod => {
       if (loading.value) {
         return;
       }
-      const newShippingMethod = await saveMethod({ shippingMethod });
+      const newPaymentMethod = await saveMethod({ paymentMethod });
       if (error.saveMethod) {
         selectedPaymentMethod.value = {};
         isBillingMethodStepCompleted.value = false;
         return;
       }
-      selectedPaymentMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
+      selectedPaymentMethod.value = await callHookWithFallback(props.onSelected, { paymentMethod: newPaymentMethod }, newPaymentMethod);
       isBillingMethodStepCompleted.value = true;
     };
 
@@ -171,7 +171,7 @@ export default {
       loading,
       paymentMethods,
       selectedPaymentMethod,
-      selectShippingMethod,
+      selectPaymentMethod,
       isBillingMethodStepCompleted,
       error
     };
@@ -184,7 +184,7 @@ export default {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
 }
 
-.shipping-provider {
+.payment-provider {
   .sf-radio {
     &__label {
       display: flex;
