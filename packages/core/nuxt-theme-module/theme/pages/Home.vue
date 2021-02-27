@@ -108,6 +108,8 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import { onSSR } from '@vue-storefront/core';
+import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
 
 export default {
   name: 'Home',
@@ -126,6 +128,13 @@ export default {
     SfButton,
     MobileStoreBanner,
     LazyHydrate
+  },
+  setup() {
+    const { addTags } = useCache();
+
+    onSSR(() => {
+      addTags([{ prefix: CacheTagPrefix.View, value: 'home' }]);
+    })
   },
   data() {
     return {

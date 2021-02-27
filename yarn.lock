@@ -2343,9 +2343,9 @@
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
-"@nuxtjs/composition-api@git+https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
+"@nuxtjs/composition-api@https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
   version "0.16.4"
-  resolved "git+https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
+  resolved "https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
   dependencies:
     "@vue/composition-api" "1.0.0-beta.21"
     defu "^3.2.2"
@@ -3049,6 +3049,13 @@
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@ungap/global-this/-/global-this-0.4.4.tgz#8a1b2cfcd3e26e079a847daba879308c924dd695"
   integrity sha512-mHkm6FvepJECMNthFuIgpAEFmPOk71UyXuIxYfjytvFTnSDBIz7jmViO+LfHI/AjrazWije0PnSP3+/NlwzqtA==
+
+"@vsf-enterprise/redis-cache@^0.0.1":
+  version "0.0.1"
+  resolved "https://registrynpm.storefrontcloud.io/@vsf-enterprise%2fredis-cache/-/redis-cache-0.0.1.tgz#e7b8bad48f27654f8035a4d9e7694885d03c4253"
+  integrity sha512-tWZjAxfjhB49VR2IGLaL247Iq6or053lAtteh8gVlfyO/VV6loRF/CmNW41oO6GuntdKZjBJwOpaP5ZU3wXdyw==
+  dependencies:
+    redis-tag-cache "^1.2.1"
 
 "@vue-storefront/commercetools-api@^0.0.3":
   version "0.0.3"
@@ -5153,6 +5160,11 @@ cloudinary-build-url@^0.1.1:
   dependencies:
     "@cld-apis/utils" "^0.1.0"
 
+cluster-key-slot@^1.1.0:
+  version "1.1.0"
+  resolved "https://registrynpm.storefrontcloud.io/cluster-key-slot/-/cluster-key-slot-1.1.0.tgz#30474b2a981fb12172695833052bc0d01336d10d"
+  integrity sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -6224,6 +6236,11 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
+
+denque@^1.1.0:
+  version "1.5.0"
+  resolved "https://registrynpm.storefrontcloud.io/denque/-/denque-1.5.0.tgz#773de0686ff2d8ec2ff92914316a47b73b1c73de"
+  integrity sha512-CYiCSgIF1p6EUByQPlGkKnP1M9g0ZV3qMIrqMqZqdwazygIA/YP2vrbcyl1h/WppKJTdl1F85cXIle+394iDAQ==
 
 depd@~1.1.2:
   version "1.1.2"
@@ -8714,6 +8731,22 @@ invariant@^2.2.4:
   dependencies:
     loose-envify "^1.0.0"
 
+ioredis@^4.0.0:
+  version "4.23.0"
+  resolved "https://registrynpm.storefrontcloud.io/ioredis/-/ioredis-4.23.0.tgz#f61b65633a25c93f43fccebcacac2f4342e418f9"
+  integrity sha512-R5TDCODwnEH3J3A5TSoB17+6a+SeJTtIOW6vsy5Q1yag/AM8FejHjZC5R2O1QepSXV8hwOnGSm/4buJc/LeXTQ==
+  dependencies:
+    cluster-key-slot "^1.1.0"
+    debug "^4.1.1"
+    denque "^1.1.0"
+    lodash.defaults "^4.2.0"
+    lodash.flatten "^4.4.0"
+    p-map "^2.1.0"
+    redis-commands "1.7.0"
+    redis-errors "^1.2.0"
+    redis-parser "^3.0.0"
+    standard-as-callback "^2.0.1"
+
 ip-regex@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
@@ -10106,10 +10139,20 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.defaults@^4.2.0:
+  version "4.2.0"
+  resolved "https://registrynpm.storefrontcloud.io/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
+  integrity sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=
+
 lodash.defaultsdeep@^4.6.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
   integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
+
+lodash.flatten@^4.4.0:
+  version "4.4.0"
+  resolved "https://registrynpm.storefrontcloud.io/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
 
 lodash.get@^4.4.2:
   version "4.4.2"
@@ -13313,6 +13356,30 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redis-commands@1.7.0:
+  version "1.7.0"
+  resolved "https://registrynpm.storefrontcloud.io/redis-commands/-/redis-commands-1.7.0.tgz#15a6fea2d58281e27b1cd1acfb4b293e278c3a89"
+  integrity sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==
+
+redis-errors@^1.0.0, redis-errors@^1.2.0:
+  version "1.2.0"
+  resolved "https://registrynpm.storefrontcloud.io/redis-errors/-/redis-errors-1.2.0.tgz#eb62d2adb15e4eaf4610c04afe1529384250abad"
+  integrity sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=
+
+redis-parser@^3.0.0:
+  version "3.0.0"
+  resolved "https://registrynpm.storefrontcloud.io/redis-parser/-/redis-parser-3.0.0.tgz#b66d828cdcafe6b4b8a428a7def4c6bcac31c8b4"
+  integrity sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=
+  dependencies:
+    redis-errors "^1.0.0"
+
+redis-tag-cache@^1.2.1:
+  version "1.2.1"
+  resolved "https://registrynpm.storefrontcloud.io/redis-tag-cache/-/redis-tag-cache-1.2.1.tgz#07d6e1f945d9d5c8186602129cb10573167d7534"
+  integrity sha512-0F+rLtoIkz4NOWGt9k3qaPcbpvr6+wcEC9aWV78newMKTRN/nIYHgvfyO1Q0ySEepiEYbqj9DhjvQ4CUAtT9/g==
+  dependencies:
+    ioredis "^4.0.0"
+
 reduce@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/reduce/-/reduce-1.0.2.tgz#0cd680ad3ffe0b060e57a5c68bdfce37168d361b"
@@ -14457,6 +14524,11 @@ stackframe@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.2.0.tgz#52429492d63c62eb989804c11552e3d22e779303"
   integrity sha512-GrdeshiRmS1YLMYgzF16olf2jJ/IzxXY9lhKOskuVziubpTYcYqyOwYeJKzQkwy7uN0fYSsbsC4RQaXf9LCrYA==
+
+standard-as-callback@^2.0.1:
+  version "2.0.1"
+  resolved "https://registrynpm.storefrontcloud.io/standard-as-callback/-/standard-as-callback-2.0.1.tgz#ed8bb25648e15831759b6023bdb87e6b60b38126"
+  integrity sha512-NQOxSeB8gOI5WjSaxjBgog2QFw55FV8TkS6Y07BiB3VJ8xNTvUYm0wl0s8ObgQ5NhdpnNfigMIKjgPESzgr4tg==
 
 static-extend@^0.1.1:
   version "0.1.2"

@@ -19,6 +19,8 @@
     "@storefront-ui/vue": "0.10.3",
     "@vue-storefront/commercetools": "^1.1.3",
     "@vue-storefront/middleware": "^2.2.1",
+    "@vue-storefront/cache": "^2.2.1",
+    "@vsf-enterprise/redis-cache": "^0.0.1",
     "@vue-storefront/nuxt": "^2.2.1",
     "@vue-storefront/nuxt-theme": "^2.2.1",
     "cookie-universal-nuxt": "^2.1.3",

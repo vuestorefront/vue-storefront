@@ -91,7 +91,23 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt'
+    '@vue-storefront/middleware/nuxt',
+    ['@vue-storefront/cache/nuxt', {
+      invalidation: {
+        endpoint: '/cache-invalidate',
+        handlers: []
+      },
+      driver: [
+        '@vsf-enterprise/redis-cache',
+        {
+          defaultTimeout: 86400,
+          redis: {
+            host: 'redis',
+            port: 6379
+          }
+        }
+      ]
+    }]
   ],
   i18n: {
     currency: 'USD',
