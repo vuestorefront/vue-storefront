@@ -83,7 +83,7 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addItem({ product, quantity: parseInt(qty), customQuery: { updateCart: 'test-query' } })"
+            @click="addItem({ product, quantity: parseInt(qty) })"
           />
         </div>
 
