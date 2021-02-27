@@ -34,7 +34,7 @@ export default {
       }
     },
     ...mapActions({
-      getHistory: 'user/getOrdersHistory'
+      appendNewOrders: 'user/appendOrdersHistory'
     })
   }
 }

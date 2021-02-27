@@ -270,7 +270,7 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit, getters }, { resolvedFromCache, pageSize = 10, currentPage = 1 }) {
+  async appendOrdersHistory ({ commit, getters }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
     const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
@@ -288,6 +288,20 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (!resolvedFromCache) {
       return Promise.resolve(resp.code === 200 ? resp : null)
+    }
+
+    return resp
+  },
+  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
+
+    if (resp.code === 200) {
+      commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
+      EventBus.$emit('user-after-loaded-orders', resp.result)
+    }
+
+    if (!resolvedFromCache) {
+      Promise.resolve(resp.code === 200 ? resp : null)
     }
 
     return resp
