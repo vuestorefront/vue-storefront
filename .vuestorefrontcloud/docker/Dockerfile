@@ -16,7 +16,7 @@ COPY . .
 
 # RUN ./packages/commercetools/theme && npm-cli-login
 
-RUN npm-cli-login && yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
+RUN cat ~/.npmrc && npm-cli-login && cat ~/.npmrc && yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
 
 COPY .vuestorefrontcloud/docker/vue-storefront.sh /usr/local/bin/
 
