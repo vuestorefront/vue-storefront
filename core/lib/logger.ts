@@ -1,6 +1,7 @@
 import { isServer } from '@vue-storefront/core/helpers'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import buildTimeConfig from 'config'
+import dayjs from 'dayjs'
 const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
@@ -21,14 +22,20 @@ class Logger {
   public showErrorOnProduction: boolean;
 
   /**
+   * Add current timestamp to log
+   */
+  public addTimestamp: boolean;
+
+  /**
    * Logger constructor
    *
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  public constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
+  public constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false, addTimestamp: boolean = false) {
     this.verbosityLevel = verbosityLevel
     this.showErrorOnProduction = showErrorOnProduction
+    this.addTimestamp = addTimestamp
     this.isProduction = process.env.NODE_ENV === 'production'
   }
 
@@ -37,9 +44,22 @@ class Logger {
    * @param payload
    */
   public convertToString (payload: any) {
-    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
-    if (payload && payload.message) return payload.message
-    return JSON.stringify(payload)
+    let output: string|boolean|number;
+
+    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') {
+      output = payload
+    } else if (payload && payload.message) {
+      output = payload.message
+    } else {
+      output = JSON.stringify(payload)
+    }
+
+    if (this.addTimestamp) {
+      const timestamp = dayjs().format()
+      output += ` [${timestamp}]`
+    }
+
+    return output
   }
 
   /**
@@ -194,7 +214,8 @@ class Logger {
 
 const logger = new Logger(
   buildTimeConfig.console.verbosityLevel,
-  buildTimeConfig.console.showErrorOnProduction
+  buildTimeConfig.console.showErrorOnProduction,
+  buildTimeConfig.console.addTimestamp
 )
 
 export { logger as Logger }
