@@ -1,20 +1,20 @@
 <template>
   <div>
     <SfMegaMenu
-      :visible="toggleSearch"
-      title="Search results"
+      :visible="isSearchOpen"
+      title="$t('Search results')"
       class="search"
     >
       <transition name="sf-fade" mode="out-in">
         <div v-if="products.length > 0" class="search__wrapper-results" key="results">
-          <SfMegaMenuColumn title="Categories" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
+          <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <SfList>
               <SfListItem v-for="(category, key) in categories.items" :key="key">
-                <SfMenuItem :label="category.label" @click="goToPath(`/c/women/${category.slug}`)"/>
+                <SfMenuItem :label="category.label" :link="`/c/women/${category.slug}`"/>
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
-          <SfMegaMenuColumn title="Product suggestions" class="sf-mega-menu-column--pined-content-on-mobile search__results">
+          <SfMegaMenuColumn :title="$t('Product suggestions')" class="sf-mega-menu-column--pined-content-on-mobile search__results">
             <template #title="{title}">
               <SfMenuItem
                 :label="title"
@@ -30,30 +30,11 @@
                   :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
                   :score-rating="productGetters.getAverageRating(product)"
                   :reviews-count="7"
-                >
-                  <template #image>
-                    <SfButton
-                      class="sf-product-card__link sf-button--pure"
-                      @click="goToPath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                    >
-                      <SfImage
-                        class="sf-product-card__image"
-                        :src="productGetters.getCoverImage(product)"
-                        :alt="productGetters.getName(product)"
-                      />
-                    </SfButton>
-                  </template>
-                      <template #title>
-                      <SfButton
-                        class="sf-product-card__link sf-button--pure"
-                        @click="goToPath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                      >
-                        <p class="sf-product-card__title">
-                          {{ productGetters.getName(product) }}
-                        </p>
-                      </SfButton>
-                    </template>
-                </SfProductCard>
+                  :image="productGetters.getCoverImage(product)"
+                  :alt="productGetters.getName(product)"
+                  :title="productGetters.getName(product)"
+                  :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                />
               </div>
             </SfScrollable>
             <div class="results--mobile smartphone-only">
@@ -63,43 +44,24 @@
                   :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
                   :score-rating="productGetters.getAverageRating(product)"
                   :reviews-count="7"
-                >
-                  <template #image>
-                    <SfButton
-                      class="sf-product-card__link sf-button--pure"
-                      @click="goToPath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                    >
-                      <SfImage
-                        class="sf-product-card__image"
-                        :src="productGetters.getCoverImage(product)"
-                        :alt="productGetters.getName(product)"
-                      />
-                    </SfButton>
-                  </template>
-                      <template #title>
-                      <SfButton
-                        class="sf-product-card__link sf-button--pure"
-                        @click="goToPath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                      >
-                        <h3 class="sf-product-card__title">
-                          {{ productGetters.getName(product) }}
-                        </h3>
-                      </SfButton>
-                    </template>
-                </SfProductCard>
+                  :image="productGetters.getCoverImage(product)"
+                  :alt="productGetters.getName(product)"
+                  :title="productGetters.getName(product)"
+                  :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                />
               </div>
-            <SfButton class="sf-button--text see-all desktop-only" @click="goToPath('/c/women/women-clothing')">See all results</SfButton>
+            <SfButton class="sf-button--text see-all desktop-only" :link="`/c/${categories.slug}/${categories.items[0].slug}`">{{ $t('See all results') }}</SfButton>
           </SfMegaMenuColumn>
           <div class="action-buttons smartphone-only">
-            <SfButton class="action-buttons__button color-secondary" @click="goToPath('/c/women/women-clothing')">See all results</SfButton>
-            <SfButton class="action-buttons__button color-light" @click="$emit('closeSearchResults')">Cancel</SfButton>
+            <SfButton class="action-buttons__button color-secondary" :link="`/c/${categories.slug}/${categories.items[0].slug}`">{{ $t('See all results') }}</SfButton>
+            <SfButton class="action-buttons__button color-light" @click="$emit('close')">{{ $t('Cancel') }}</SfButton>
           </div>
         </div>
         <div v-else class="before-results" key="no-results">
           <SfImage src="/error/error.svg" class="before-results__picture" alt="error"/>
-          <p class="before-results__paragraph">You haven’t searched for items yet.</p>
-          <p class="before-results__paragraph">Let’s start now – we’ll help you.</p>
-          <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('closeSearchResults')">Go back</SfButton>
+          <p class="before-results__paragraph">{{ $t('You haven’t searched for items yet') }}</p>
+          <p class="before-results__paragraph">{{ $t('Let’s start now – we’ll help you') }}</p>
+          <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('close')">{{ $t('Go back') }}</SfButton>
         </div>
       </transition>
     </SfMegaMenu>
@@ -114,7 +76,6 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfOverlay,
   SfImage
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
@@ -130,7 +91,6 @@ export default {
     SfScrollable,
     SfMenuItem,
     SfButton,
-    SfOverlay,
     SfImage
   },
   props: {
@@ -142,31 +102,27 @@ export default {
       type: Object
     }
   },
-  setup(props, { emit, root }) {
-    const toggleSearch = ref(props.visible);
-    const products = computed(() => facetGetters.getProducts(props.result));
-    const categories = computed(() => facetGetters.getCategoryTree(props.result));
+  setup(props) {
+    const isSearchOpen = ref(props.visible);
+    const searchResult = ref(props.result);
+    const products = computed(() => facetGetters.getProducts(searchResult.value));
+    const categories = computed(() => facetGetters.getCategoryTree(searchResult.value));
 
     watch(() => props.visible, (newVal) => {
-      toggleSearch.value = newVal;
-      if (toggleSearch.value) {
+      isSearchOpen.value = newVal;
+      if (isSearchOpen.value) {
         document.body.classList.add('no-scroll');
       } else {
         document.body.classList.remove('no-scroll');
+        searchResult.value.data = [];
       }
     });
 
-    const goToPath = (path) => {
-      emit('closeSearchResults');
-      root.$router.push(`${path}`);
-    };
-
     return {
-      toggleSearch,
+      isSearchOpen,
       productGetters,
       products,
-      categories,
-      goToPath
+      categories
     };
   }
 };
@@ -214,7 +170,7 @@ export default {
 }
 .results {
   &--desktop {
-    --scrollable-max-height: 30rem;
+    --scrollable-max-height: 35vh;
   }
   &--mobile {
     display: flex;
