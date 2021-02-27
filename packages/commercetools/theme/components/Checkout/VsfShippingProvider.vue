@@ -71,7 +71,7 @@ import { useVSFContext } from '@vue-storefront/core';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
-  name: 'ShippingProvider',
+  name: 'VsfShippingProvider',
   components: {
     SfHeading,
     SfButton,

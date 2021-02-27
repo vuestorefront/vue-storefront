@@ -14,11 +14,11 @@
       </div>
       <div class="form__radio-group">
           <SfRadio
-            v-for="method in shippingMethods"
+            v-for="method in paymentMethods"
             :key="method.id"
             :label="method.name"
             :value="method.id"
-            :selected="selectedShippingMethod.id"
+            :selected="selectedPaymentMethod.id"
             @input="selectShippingMethod(method)"
             name="shippingMethod"
             :description="method.description"
@@ -71,7 +71,7 @@ import { useVSFContext } from '@vue-storefront/core';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
-  name: 'ShippingProvider',
+  name: 'VsfShippingProvider',
   components: {
     SfHeading,
     SfButton,
@@ -87,8 +87,8 @@ export default {
   setup (props) {
     const isBillingMethodStepCompleted = ref(false);
     const loading = ref(false);
-    const shippingMethods = ref([]);
-    const selectedShippingMethod = ref({});
+    const paymentMethods = ref([]);
+    const selectedPaymentMethod = ref({});
     const { $ct } = useVSFContext();
     const { cart, setCart } = useCart();
 
@@ -107,8 +107,8 @@ export default {
     const loadMethods = async () => {
       try {
         error.loadMethods = null;
-        const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
-        return shippingMethodsResponse.data;
+        const paymentMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
+        return paymentMethodsResponse.data;
       } catch (err) {
         error.loadMethods = err;
         await callHookWithFallback(
@@ -155,33 +155,33 @@ export default {
       }
       const newShippingMethod = await saveMethod({ shippingMethod });
       if (error.saveMethod) {
-        selectedShippingMethod.value = {};
+        selectedPaymentMethod.value = {};
         isBillingMethodStepCompleted.value = false;
         return;
       }
-      selectedShippingMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
+      selectedPaymentMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
       isBillingMethodStepCompleted.value = true;
     };
 
     onMounted(async () => {
       loading.value = true;
       await callHookWithFallback(props.beforeLoad);
-      const shippingMethodsResponse = await loadMethods();
+      const paymentMethodsResponse = await loadMethods();
       if (error.loadMethods) {
         return;
       }
-      shippingMethods.value = await callHookWithFallback(
+      paymentMethods.value = await callHookWithFallback(
         props.afterLoad,
-        { shippingMethods: shippingMethodsResponse },
-        shippingMethodsResponse.shippingMethods
+        { paymentMethods: paymentMethodsResponse },
+        paymentMethodsResponse.paymentMethods
       );
       loading.value = false;
     });
 
     return {
       loading,
-      shippingMethods,
-      selectedShippingMethod,
+      paymentMethods,
+      selectedPaymentMethod,
       selectShippingMethod,
       getShippingMethodPrice,
       isBillingMethodStepCompleted,
