@@ -40,7 +40,6 @@ module.exports = {
 						['/commercetools/', 'Introduction'],
 						['/commercetools/getting-started', 'Getting started'],
 						['/commercetools/configuration', 'Configuration'],
-						['/commercetools/composables', 'Composables'],
 						['/commercetools/authorization-strategy', 'Authentication'],
 						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
