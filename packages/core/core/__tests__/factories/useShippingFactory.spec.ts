@@ -81,15 +81,6 @@ describe('[CORE - factories] useShippingFactory', () => {
       expect(useShippingMethods.shipping.value).toEqual(shippingInfo);
     });
 
-    it('load method supports custom query', async () => {
-      const shippingInfo = { name: 'Test'};
-      const customQuery = 123;
-      factoryParams.load.mockReturnValueOnce(shippingInfo);
-      await useShippingMethods.load({ customQuery: customQuery as any });
-      expect((factoryParams.load.mock.calls[0] as any)[1]).toMatchObject({ customQuery });
-      expect(useShippingMethods.shipping.value).toEqual(shippingInfo);
-    });
-
     it('save method sets shipping info', async () => {
       const shippingInfo = { name: 'Test'};
       factoryParams.save.mockReturnValueOnce(shippingInfo);

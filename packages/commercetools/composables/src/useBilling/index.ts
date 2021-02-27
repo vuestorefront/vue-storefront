@@ -3,7 +3,7 @@ import useCart from '../useCart';
 import { cartActions } from '@vue-storefront/commercetools-api';
 import { Address } from './../types/GraphQL';
 
-const params: UseBillingParams<Address, {}> = {
+const params: UseBillingParams<Address, any> = {
   provide() {
     return {
       cart: useCart()
@@ -29,4 +29,4 @@ const params: UseBillingParams<Address, {}> = {
   }
 };
 
-export default useBillingFactory<Address, {}>(params);
+export default useBillingFactory<Address, any>(params);

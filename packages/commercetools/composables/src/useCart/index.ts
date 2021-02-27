@@ -1,6 +1,6 @@
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
-import {AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context} from '@vue-storefront/core';
+import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
@@ -25,9 +25,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
       return null;
     }
 
-    const { user } = customQuery ? customQuery() : { user: null };
-
-    const { data: profileData } = await context.$ct.api.getMe({ customer: false }, user);
+    const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
 
     return profileData.me.activeCart;
   },

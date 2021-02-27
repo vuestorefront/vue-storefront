@@ -1,6 +1,12 @@
-import { ApiClientFactoryParams, ApiClientConfig, ApiInstance, ApiClientFactory, ApiClientExtension } from './../types';
-import { applyContextToApi } from './../utils/context';
-import { Logger } from './../utils';
+import {
+  ApiClientFactoryParams,
+  ApiClientConfig,
+  ApiInstance,
+  ApiClientFactory,
+  ApiClientExtension
+} from './../../types';
+import { Logger } from './../../utils';
+import { applyContextToApi } from './context';
 
 const isFn = (x) => typeof x === 'function';
 
@@ -36,7 +42,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
 
     const api = applyContextToApi(
       { ...factoryParams.api, ...extendedApis },
-      settings,
+      { ...settings, ...this?.middleware || {} },
       extensionHooks
     );
 

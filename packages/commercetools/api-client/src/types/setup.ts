@@ -51,7 +51,7 @@ export interface SetupConfig<TCacheShape> {
   countries?: LocaleItem[];
   currencies?: LocaleItem[];
   locales?: LocaleItem[];
-  languageMap?: object;
+  languageMap?: Record<string, any>;
   acceptLanguage?: string[];
   cookies?: CookiesConfig;
   auth?: Auth;
@@ -73,7 +73,7 @@ export interface Config<T = any> {
   countries: LocaleItem[];
   currencies: LocaleItem[];
   locales: LocaleItem[];
-  languageMap: object;
+  languageMap: Record<string, any>;
   acceptLanguage: string[];
   cookies: CookiesConfig;
   auth?: Auth;

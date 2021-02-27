@@ -2,7 +2,7 @@ import express, { Request, Response, Express } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
-import { MiddlewareConfig, ApiClientExtension } from '@vue-storefront/core';
+import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
 
 const app = express();
@@ -14,6 +14,7 @@ interface MiddlewareContext {
   req: Request;
   res: Response;
   extensions: ApiClientExtension[];
+  customQueries: Record<string, CustomQuery>;
 }
 
 interface RequestParams {
@@ -31,8 +32,8 @@ function createServer (config: MiddlewareConfig): Express {
 
   app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
     const { integrationName, functionName } = req.params as any as RequestParams;
-    const { apiClient, configuration, extensions } = integrations[integrationName];
-    const middlewareContext: MiddlewareContext = { req, res, extensions };
+    const { apiClient, configuration, extensions, customQueries } = integrations[integrationName];
+    const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
     const apiClientInstance = createApiClient(configuration);
     const apiFunction = apiClientInstance.api[functionName];

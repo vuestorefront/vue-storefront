@@ -4,7 +4,7 @@ import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-stor
 import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 
-type Wishlist = {};
+type Wishlist = any;
 
 export const wishlist: Ref<Wishlist> = ref(null);
 

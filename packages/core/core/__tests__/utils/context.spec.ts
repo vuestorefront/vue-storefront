@@ -1,8 +1,7 @@
 import {
   generateContext,
   useVSFContext,
-  configureContext,
-  applyContextToApi
+  configureContext
 } from '../../src/utils/context';
 import { Context } from '../../src/types';
 
@@ -31,25 +30,6 @@ describe('context', () => {
     });
 
     expect(myFn).toBe(useVSFContext);
-  });
-
-  it('applyContextToApi adds context as first argument to api functions', () => {
-    const api = {
-      firstFunc: jest.fn(),
-      secondFunc: jest.fn(),
-      thirdFunc: jest.fn()
-    };
-    const context = 123;
-
-    const apiWithContext: any = applyContextToApi(api, context);
-
-    apiWithContext.firstFunc();
-    apiWithContext.secondFunc('TEST');
-    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
-
-    expect(api.firstFunc).toHaveBeenCalledWith(context);
-    expect(api.secondFunc).toHaveBeenCalledWith(context, 'TEST');
-    expect(api.thirdFunc).toHaveBeenCalledWith(context, 'A', 'FEW', 'ARGS');
   });
 
   it('generateContext returns useVSFContext().$vsf if setup not provided', () => {

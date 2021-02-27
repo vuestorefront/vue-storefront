@@ -68,6 +68,11 @@ export interface UseSearch<SEARCH_RESULTS, SEARCH_PARAMS> {
   loading: ComputedProperty<boolean>;
 }
 
+export type AgnosticSuggestion = {
+  value: string;
+  [x: string]: any;
+}
+
 export interface SearchResults {
   brands: {
     id: number;
@@ -77,11 +82,6 @@ export interface SearchResults {
   categories: BapiCategory[];
   products: BapiProduct[];
   suggestions: AgnosticSuggestion[];
-}
-
-export type AgnosticSuggestion = {
-  value: string;
-  [x: string]: any;
 }
 
 export {
