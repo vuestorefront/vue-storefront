@@ -1,5 +1,6 @@
 import * as coreHelper from '@vue-storefront/core/helpers'
 import config from 'config'
+import dayjs from 'dayjs'
 
 jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/helpers', () => ({
@@ -25,7 +26,8 @@ describe('Logger', () => {
     jest.clearAllMocks()
     config.console = {
       verbosityLevel: 'display-everything',
-      showErrorOnProduction: true
+      showErrorOnProduction: true,
+      addTimestamp: false
     }
     process.env = Object.assign({}, env)
   })
@@ -61,6 +63,16 @@ describe('Logger', () => {
         expect(Logger.convertToString('foo')).toBe('foo')
         expect(Logger.convertToString(true)).toBe(true)
         expect(Logger.convertToString(1337)).toBe(1337)
+      })
+    })
+
+    it('adds timestamp to output if setting is enabled', () => {
+      jest.isolateModules(() => {
+        config.console.addTimestamp = true
+
+        const Logger = require('../../logger').Logger
+        const timestamp = dayjs().format()
+        expect(Logger.convertToString('test')).toBe(`test [${timestamp}]`)
       })
     })
   })
