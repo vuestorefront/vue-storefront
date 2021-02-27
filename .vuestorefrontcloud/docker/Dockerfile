@@ -8,12 +8,14 @@ ARG NPM_REGISTRY
 
 ENV LAST_COMMIT=${COMMIT}
 
-RUN npm install -g npm-cli-login \
-  && npm-cli-login
+RUN npm install -g npm-cli-login
+# RUN npm-cli-logi
 
 WORKDIR /var/www
 
 COPY . .
+
+RUN ./packages/commercetools/theme && npm-cli-login
 
 RUN yarn install --network-concurrency 1 && yarn build:ct && yarn cache clean --all
 
