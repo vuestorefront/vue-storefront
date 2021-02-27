@@ -3052,7 +3052,7 @@
 
 "@vsf-enterprise/redis-cache@^0.0.1":
   version "0.0.1"
-  resolved "https://registrynpm.storefrontcloud.io/@vsf-enterprise%2fredis-cache/-/redis-cache-0.0.1.tgz#e7b8bad48f27654f8035a4d9e7694885d03c4253"
+  resolved "https://registrynpm.storefrontcloud.io/@vsf-enterprise/redis-cache/-/redis-cache-0.0.1.tgz#e7b8bad48f27654f8035a4d9e7694885d03c4253"
   integrity sha512-tWZjAxfjhB49VR2IGLaL247Iq6or053lAtteh8gVlfyO/VV6loRF/CmNW41oO6GuntdKZjBJwOpaP5ZU3wXdyw==
   dependencies:
     redis-tag-cache "^1.2.1"
