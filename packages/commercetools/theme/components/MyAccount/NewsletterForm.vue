@@ -1,9 +1,8 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
     <form
       id="newsletter-form"
       class="form"
-      @submit.prevent="handleSubmit(submitForm)"
+      @submit.prevent="submitForm"
     >
       <p class="form__title">{{ $t('Sections that interest you') }}</p>
       <div class="form__checkbox-group">
@@ -36,14 +35,12 @@
 
 <script>
 import { reactive } from '@vue/composition-api';
-import { ValidationObserver } from 'vee-validate';
 import { SfCheckbox, SfButton } from '@storefront-ui/vue';
 export default {
   name: 'NewsletterForm',
   components: {
     SfCheckbox,
-    SfButton,
-    ValidationObserver
+    SfButton
   },
   setup(_, { emit }) {
     const newsletter = reactive({
