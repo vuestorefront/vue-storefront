@@ -32,8 +32,8 @@
       />
       <SfProperty
         name="Shipping"
-        v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
-        :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
+        v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
+        :value="$n(getShippingMethodPrice(selectedShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
@@ -92,7 +92,7 @@ export default {
   },
   setup () {
     const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
-    const { response: chosenShippingMethod } = useShippingProvider();
+    const { response: selectedShippingMethod } = useShippingProvider();
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
@@ -134,7 +134,7 @@ export default {
         }
       ],
 
-      chosenShippingMethod: computed(() => chosenShippingMethod.value && chosenShippingMethod.value.shippingMethod),
+      selectedShippingMethod: computed(() => selectedShippingMethod.value && selectedShippingMethod.value.shippingMethod),
       getShippingMethodPrice
     };
   }
