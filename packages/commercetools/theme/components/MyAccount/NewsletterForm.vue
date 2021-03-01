@@ -30,7 +30,6 @@
       </div>
       <SfButton data-cy="newsletter-btn_join" class="form__button">{{ $t('Save changes') }}</SfButton>
     </form>
-  </ValidationObserver>
 </template>
 
 <script>
