@@ -76,7 +76,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, cartGetters } from '@vue-storefront/commercetools';
+import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
@@ -90,14 +90,13 @@ export default {
     SfInput,
     SfCircleIcon
   },
-  setup() {
+  setup () {
     const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
+    const { response: chosenShippingMethod } = useShippingProvider();
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
-    // TODO: Implement real source of data
-    const chosenShippingMethod = ref(0);
 
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -135,7 +134,7 @@ export default {
         }
       ],
 
-      chosenShippingMethod,
+      chosenShippingMethod: computed(() => chosenShippingMethod.value && chosenShippingMethod.value.shippingMethod),
       getShippingMethodPrice
     };
   }
