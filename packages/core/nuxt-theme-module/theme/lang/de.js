@@ -118,7 +118,7 @@ export default {
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
-  'Search for items': 'Nach Artikeln suchen'
+  'Search for items': 'Nach Artikeln suchen',
   'There is already an existing customer with this email.': 'Es gibt bereits einen Kunden mit dieser E-Mail.',
   'Account with the given credentials not found.': 'Konto mit den angegebenen Anmeldeinformationen nicht gefunden.',
   'Customer account with the given credentials not found.': 'Kundenkonto mit den angegebenen Anmeldeinformationen nicht gefunden.',
