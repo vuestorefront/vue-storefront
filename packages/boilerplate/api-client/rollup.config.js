@@ -1,8 +1,8 @@
 import pkg from './package.json';
 import typescript from 'rollup-plugin-typescript2';
-import graphql from 'rollup-plugin-graphql';
+import { generateBaseConfig } from '../../rollup.base.config';
 
-export default {
+const server = {
   input: 'src/index.server.ts',
   output: [
     {
@@ -11,12 +11,19 @@ export default {
       sourcemap: true
     }
   ],
-  external: [...Object.keys(pkg.dependencies || {})],
+  external: [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {})
+  ],
   plugins: [
     typescript({
       // eslint-disable-next-line global-require
       typescript: require('typescript')
-    }),
-    graphql()
+    })
   ]
 };
+
+export default [
+  generateBaseConfig(pkg),
+  server
+];

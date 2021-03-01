@@ -14,6 +14,18 @@ module.exports = {
       before: '',
       after: '{ getSearchTermFromUrl } = useUiHelpers();',
       comment: 'Created new function'
+    },
+    {
+      module: '@vue-storefront/nuxt-theme',
+      before: '',
+      after: 'SearchResults.vue',
+      comment: 'Added new \'SearchResults.vue\' component'
+    },
+    {
+      module: '@vue-storefront/nuxt-theme',
+      before: 'AppHeader.vue',
+      after: 'AppHeader.vue',
+      comment: 'Modified \'AppHeader.vue\' to add use new \'SearchResults.vue\' component'
     }
   ],
   author: 'Justyna Gieracka',
