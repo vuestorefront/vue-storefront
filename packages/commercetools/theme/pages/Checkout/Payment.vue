@@ -162,7 +162,7 @@ export default {
     SfLink,
     VsfPaymentProviderMock
   },
-  setup(props, context) {
+  setup(_, context) {
     const paymentReady = ref(false);
     const terms = ref(false);
     const { cart, removeItem, load, setCart } = useCart();
