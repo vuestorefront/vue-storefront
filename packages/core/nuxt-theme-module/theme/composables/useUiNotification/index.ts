@@ -2,9 +2,8 @@ import { reactive } from '@vue/composition-api';
 
 interface UseUiNotification {
   message: string;
-  action: { text: string; onClick: (...args: any) => void };
   type: 'danger' | 'success' | 'info';
-  action?: { text: string; onClick: Function };
+  action?: { text: string; onClick: () => void };
   icon?: string;
   persist?: boolean;
   id?: symbol;

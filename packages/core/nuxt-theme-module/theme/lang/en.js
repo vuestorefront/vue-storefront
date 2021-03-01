@@ -118,7 +118,7 @@ export default {
   'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
   'Search results': 'Search results',
   'Product suggestions': 'Product suggestions',
-  'Search for items': 'Search for items'
+  'Search for items': 'Search for items',
   'Go to Checkout': 'Go to Checkout',
   'Successfully added {PRODUCT_NAME} to the cart': 'Successfully added {PRODUCT_NAME} to the cart'
 };

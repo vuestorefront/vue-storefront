@@ -10,7 +10,7 @@ There is a dedicated interface for `useUiNotification`:
 interface UseUiNotification {
   message: string;
   type: 'danger' | 'success' | 'info';
-  action?: { text: string; onClick: Function };
+  action?: { text: string; onClick: () => void };
   icon?: string;
   persist?: boolean;
   id?: symbol;

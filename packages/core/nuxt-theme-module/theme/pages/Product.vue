@@ -239,7 +239,7 @@ export default {
       sendNotification.cart.addItem({
         productName: product._name,
         error: error.value.addItem ? error.value.addItem.message : false,
-        onClick: () => $router.push('/checkout/personal-details'),
+        onClick: () => $router.push('/checkout/shipping'),
         $i18n
       });
     };
