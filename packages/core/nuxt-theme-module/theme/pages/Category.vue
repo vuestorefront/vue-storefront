@@ -170,7 +170,7 @@
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
-              :isAddedToCart="isOnCart({ product })"
+              :isAddedToCart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="addItemToWishlist({ product })"
@@ -373,7 +373,7 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addItem: addItemToCart, isOnCart } = useCart();
+    const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -454,7 +454,7 @@ export default {
       breadcrumbs,
       addItemToWishlist,
       addItemToCart,
-      isOnCart,
+      isInCart,
       isFacetColor,
       selectFilter,
       isFilterSelected,

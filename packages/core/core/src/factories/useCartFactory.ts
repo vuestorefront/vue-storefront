@@ -24,7 +24,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
     context: Context,
     params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
-  isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
+  isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
@@ -147,8 +147,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const isOnCart = ({ product }) => {
-      return _factoryParams.isOnCart({
+    const isInCart = ({ product }) => {
+      return _factoryParams.isInCart({
         currentCart: cart.value,
         product
       });
@@ -198,7 +198,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     return {
       setCart,
       cart: computed(() => cart.value),
-      isOnCart,
+      isInCart,
       addItem,
       load,
       removeItem,

@@ -21,7 +21,7 @@
 - `addToCart` - function for adding products to the cart
 - `updateQuantity` - function for updating quantity of a product that is already in the cart
 - `removeFromCart` - function for removing a product that currently is in the cart
-- `isOnCart` - function for checking if a product is currently in the cart
+- `isInCart` - function for checking if a product is currently in the cart
 - `clearCart` - function for removing all items currently stored in cart
 - `coupon` - reactive data object containing coupon details
 - `applyCoupon` - function for applying coupon to cart

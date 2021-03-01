@@ -23,7 +23,7 @@ function createComposable() {
     removeCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_removed_coupon_cart' }
     }),
-    isOnCart: jest.fn().mockReturnValueOnce(true)
+    isInCart: jest.fn().mockReturnValueOnce(true)
   };
   useCart = useCartFactory<any, any, any, any>(params);
 }
@@ -36,7 +36,7 @@ const factoryParams = {
   clear: jest.fn(),
   applyCoupon: jest.fn(),
   removeCoupon: jest.fn(),
-  isOnCart: jest.fn()
+  isInCart: jest.fn()
 };
 
 const useCartMock = useCartFactory(factoryParams);
@@ -69,12 +69,12 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('computes', () => {
-    describe('isOnCart', () => {
-      it('should invoke implemented isOnCart method', () => {
-        const { isOnCart } = useCart();
-        const result = isOnCart({ product: { id: 'productId' } });
+    describe('isInCart', () => {
+      it('should invoke implemented isInCart method', () => {
+        const { isInCart } = useCart();
+        const result = isInCart({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnCart).toBeCalledWith({
+        expect(params.isInCart).toBeCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });

@@ -17,7 +17,7 @@ import { onSSR } from '@vue-storefront/core'
 export default {
   setup () {
     const { 
-      isOnCart,
+      isInCart,
       addToCart,
       load: loadCart,
       removeFromCart,

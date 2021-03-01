@@ -62,7 +62,7 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
     const { data } = await context.$ct.api.removeCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
-  isOnCart: (context: Context, { currentCart, product }) => {
+  isInCart: (context: Context, { currentCart, product }) => {
     return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
   }
 };

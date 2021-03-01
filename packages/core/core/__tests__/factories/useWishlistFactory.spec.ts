@@ -10,7 +10,7 @@ function createComposable() {
   params = {
     load: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
     addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
-    isOnWishlist: jest.fn().mockReturnValueOnce(true),
+    isInWishlist: jest.fn().mockReturnValueOnce(true),
     clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
     removeItem: jest
       .fn()
@@ -24,7 +24,7 @@ const factoryParams = {
   removeItem: jest.fn(),
   load: jest.fn(),
   clear: jest.fn(),
-  isOnWishlist: jest.fn()
+  isInWishlist: jest.fn()
 };
 
 const useWishlistMock = useWishlistFactory<any, any, any>(factoryParams);
@@ -57,12 +57,12 @@ describe('[CORE - factories] useWishlistFactory', () => {
   });
 
   describe('computes', () => {
-    describe('isOnWishlist', () => {
-      it('should invoke implemented isOnWishlist method', () => {
-        const { isOnWishlist } = useWishlist();
-        const result = isOnWishlist({ product: { id: 'productId' } });
+    describe('isInWishlist', () => {
+      it('should invoke implemented isInWishlist method', () => {
+        const { isInWishlist } = useWishlist();
+        const result = isInWishlist({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnWishlist).toBeCalledWith({
+        expect(params.isInWishlist).toBeCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
