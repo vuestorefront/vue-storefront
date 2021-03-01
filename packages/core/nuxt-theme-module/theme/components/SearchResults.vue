@@ -50,10 +50,22 @@
                   :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
                 />
               </div>
-            <SfButton class="sf-button--text see-all desktop-only" :link="`/c/${categories.slug}/${categories.items[0].slug}`">{{ $t('See all results') }}</SfButton>
+            <SfButton
+              v-if="categories.items && categories.items.length"
+              :link="`/c/${categories.slug}/${categories.items[0].slug}`"
+              class="sf-button--text see-all desktop-only"
+            >
+              {{ $t('See all results') }}
+            </SfButton>
           </SfMegaMenuColumn>
           <div class="action-buttons smartphone-only">
-            <SfButton class="action-buttons__button color-secondary" :link="`/c/${categories.slug}/${categories.items[0].slug}`">{{ $t('See all results') }}</SfButton>
+            <SfButton
+              v-if="categories.items && categories.items.length"
+              class="action-buttons__button color-secondary"
+              :link="`/c/${categories.slug}/${categories.items[0].slug}`"
+            >
+              {{ $t('See all results') }}
+            </SfButton>
             <SfButton class="action-buttons__button color-light" @click="$emit('close')">{{ $t('Cancel') }}</SfButton>
           </div>
         </div>
