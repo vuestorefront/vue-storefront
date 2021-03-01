@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "lodash.merge": "^4.6.2",
+    "lodash.debounce": "^4.0.8",
     "vue-lazy-hydration": "^2.0.0-beta.4"
   },
   "publishConfig": {
