@@ -8,7 +8,7 @@ module.exports = {
       before: 'variables and methods had names isOnCart and isOnWishlist',
       after: 'variables and methods have names isInCart and isInWishlist',
       comment: 'fix naming convention for isOnCart and isOnWishlist to isInCart and isInWishlist'
-    },
+    }
     {
       module: 'core',
       before: 'variables and methods had names isOnCart and isOnWishlist',
