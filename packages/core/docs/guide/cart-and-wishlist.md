@@ -43,7 +43,7 @@ To add the product to the cart you can `addItem` method:
         <button
           @click="addItem(product, parseInt(quantity))"
         >
-        ...
+          Add to cart
         </button>
     </div>
   ...
@@ -81,7 +81,7 @@ To remove an item from the cart use `removeItem` function and similarly to updat
         <button        
           @click="removeItem(product)"
         >
-          ...
+          Remove product
         </button>
       </div>
       <span>
@@ -123,7 +123,7 @@ To remove an item from the cart use `removeItem` function and similarly to updat
 
 ## Checking if an item is in the cart
 
-To check if a product is already in cart just pass it to `isOnCart` method:
+To check if a product is already in cart just pass it to `isInCart` method:
 
 ```vue
 <template>
@@ -131,7 +131,7 @@ To check if a product is already in cart just pass it to `isOnCart` method:
     <ul>
       <li>
         <icon
-          :isAddedToCart="isOnCart(product)"
+          :isAddedToCart="isInCart(product)"
         />
       </li>
     </ul>
@@ -143,11 +143,11 @@ To check if a product is already in cart just pass it to `isOnCart` method:
   export default {
     setup() {
       const {
-        isOnCart, 
+        isInCart, 
       } = useCart();
 
       return {
-        isOnCart, 
+        isInCart, 
       };
     }
   };
@@ -156,7 +156,7 @@ To check if a product is already in cart just pass it to `isOnCart` method:
 
 ## Removing all cart items at once
 
-To clear cart items (not delete it) just use `clearCart` function.
+To clear cart items (not delete it) just use `clear` function.
 
 ```vue
 <template>
@@ -172,7 +172,7 @@ To clear cart items (not delete it) just use `clearCart` function.
       <button
         @click="clear(cart.value)"
       >
-        ...
+        Clear cart
       </button>
     </div>
   ...
@@ -183,14 +183,14 @@ To clear cart items (not delete it) just use `clearCart` function.
     setup() {
       const {
         cart,
-        clearCart, 
+        clear, 
       } = useCart();
       const products = computed(() => cartGetters.getItems(cart.value));
 
       return {
         products,
         cart,
-        clearCart 
+        clear 
       };
     }
   };
@@ -288,7 +288,7 @@ The product can be added to the wishlist similarly like to the cart but using `a
         <button
           @click="addItem(product)"
         >
-          ...
+          Add to wishlist
         </button>
       </li>
     </li>
@@ -325,7 +325,7 @@ In order to remove products use `removeItem` function.
         <button
           @click="removeItem(product)"
         >
-          ...
+          Clear wishlist
         </button>
       </li>
       <span>
@@ -368,9 +368,9 @@ In order to remove products use `removeItem` function.
 </script>
 ```
 
-## Checking if the item is added to the wishlist 
+## Checking if an item is added to the wishlist 
 
-If you want to show that product is already added to `wishlist`, use `isOnWishlist` function like so:
+If you want to show that product is already added to `wishlist`, use `isInWishlist` function like so:
 
 ```vue
 <template>
@@ -378,7 +378,7 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
     <ul>
       <li>
         <icon
-          :isAddedToCart="isOnWishlist(product)"
+          :isAddedToCart="isInWishlist(product)"
         />
       </li>
     </ul>
@@ -389,11 +389,11 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
   export default {
     setup() {
       const {
-        isOnWishlist, 
+        isInWishlist, 
       } = useWishlist();
 
       return {
-        isOnWishlist, 
+        isInWishlist, 
       };
     }
   };
@@ -402,7 +402,7 @@ If you want to show that product is already added to `wishlist`, use `isOnWishli
 
 ## Deleting all items added to wishlist
 
-Cleaning the wishlist can be achieved by `clearWishlist` property.
+Cleaning the wishlist can be achieved by `clear` property.
 
 ```vue
 <template>
@@ -416,7 +416,7 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
         </li>
       <ul>
       <button
-        @click="clearWishlist"
+        @click="clear"
       >
         ...
       </button>
@@ -430,13 +430,13 @@ Cleaning the wishlist can be achieved by `clearWishlist` property.
     setup() {
       const {
         wishlist,
-        clearWishlist, 
+        clear, 
       } = useCart();
       const products = computed(() => wishlistGetters.getItems(wishlist.value));
 
       return {
         products,
-        clearWishlist 
+        clear 
       };
     }
   };
@@ -459,18 +459,18 @@ In the following two examples, you can analyze how both composables are used in 
         <button
           @click="addToCart(product, parseInt(quantity))"
         >
-          ...
+          Add to cart
         </button>
         <button
           @click="addToWishlist(product)"
         >
-          ...
+          Add to wishlist
         </button>
         <icon
-          :isAddedToCart="isOnCart(product)"
+          :isAddedToCart="isInCart(product)"
         />
         <icon
-          :isAddedToCart="isOnWishlist(product)"
+          :isAddedToCart="isInWishlist(product)"
         />
       </ul>
     </li>
@@ -483,21 +483,21 @@ In the following two examples, you can analyze how both composables are used in 
     setup() {
       const {
         addItem: addToCart,
-        isOnCart,
+        isInCart,
         loading 
       } = useCart();
 
       const { 
         addItem: addToWishlist, 
-        isOnWishlist
+        isInWishlist
       } = useWishlist()
 
 
       return {
         addToCart,
-        isOnCart,
+        isInCart,
         addToWishlist,
-        isOnWishlist,
+        isInWishlist,
         loading
       };
     }
@@ -523,7 +523,7 @@ The cart and the wishlist components:
           <button        
             @click="removeFromCart(product)"
           >
-            ...
+            Remove from cart
           </button>      
         </li>
       </ul>
@@ -536,7 +536,7 @@ The cart and the wishlist components:
       <button
         @click="clearCart(cart.value)"
       >
-        ...
+        Clear cart
       </button>
     </div>
   ...
@@ -549,9 +549,9 @@ The cart and the wishlist components:
           v-for="product in wishlistProducts"
         >
           <button
-            @click="removeFromCart(product)"
+            @click="removeFromWishlist(product)"
           >
-            ...
+            Remove from wishlist
           </button>
         </ul>
       <li>
@@ -564,7 +564,7 @@ The cart and the wishlist components:
       <button
         @click="clearWishlist"
       >
-        ...
+        Clear wishlist
       </button>
     </div>
   ...
