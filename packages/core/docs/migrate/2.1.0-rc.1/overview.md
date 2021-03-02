@@ -1,6 +1,6 @@
-# Migration guide
+# Migration guide 2.1.0-rc.1
 
-This guide contains a list of changes, in order to upgrade your VSF next to the RC.1 version.
+This guide contains a list of changes, in order to upgrade your VSF next to the 2.1.0-rc.1 version.
 
 ## The general overview
 
@@ -24,8 +24,8 @@ For more information, please read the section [Application Context](/general/con
 
 ## List of changes for certain users
 
-- [Changes for integrators](/migrate/integrators)
-- [Changes for projects](/migrate/projects)
+- [Changes for integrators](./integrators.md)
+- [Changes for projects](./projects.md)
 
 
 ## Common problems

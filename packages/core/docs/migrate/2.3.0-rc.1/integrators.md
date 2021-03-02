@@ -1,0 +1,166 @@
+# Migration guide 2.3.0-rc.1 for Integrators
+
+[[toc]]
+
+## Introduction
+
+This is a migration guide meant to help Integrators make their integrations and plugins compatible with a new version 2.3.0-rc.1.
+
+It only contains code examples. For more information about the new version, please refer to the [Overview](./overview.md) page.
+
+## API middleware
+
+### Updating `api-client`
+As described on the [Overview](./overview.md) page, API middleware lives next to Nuxt.js. That's why from now on, `api-client` must generate two files:
+* one for returning types, GraphQL fragments and other files that don't contain any business logic
+* the other for returns `createApiClient` from `apiClientFactory` that contains the business logic, all endpoints etc.
+
+You should have two entry points in `src` folder: `index.ts` and `index.server.ts`:
+
+```typescript
+// api-client/src/index.ts
+export * from './types';
+```
+
+```typescript
+// api-client/src/index.server.ts
+import { apiClientFactory } from '@vue-storefront/core';
+import * as api from './api';
+
+const onCreate = settings => ({
+  config: {},
+  client: {}
+});
+
+const { createApiClient } = apiClientFactory<any, any>({
+  onCreate,
+  api
+});
+
+export {
+  createApiClient
+};
+```
+
+If you are using Rollup to build `api-client`, the configuration might looks like this:
+
+```javascript{22,36}
+// api-client/rollup.config.js
+import pkg from './package.json';
+import typescript from 'rollup-plugin-typescript2';
+
+// External packages
+const external = [
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.peerDependencies || {})
+];
+
+// Plugins
+const plugins = [
+  typescript({
+    typescript: require('typescript')
+  })
+];
+
+
+export default [
+  // Client
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'server/index.js', // Add this directory to .gitignore
+        format: 'cjs',
+        sourcemap: true
+      }
+    ],
+    external,
+    plugins
+  },
+
+  // Server
+  {
+    input: 'src/index.server.ts',
+    output: [
+      {
+        file: 'lib/index.cjs.js', // Add this directory to .gitignore
+        format: 'cjs',
+        sourcemap: true
+      },
+      {
+        file: 'lib/index.es.js', // Add this directory to .gitignore
+        format: 'es',
+        sourcemap: true
+      }
+    ],
+    external,
+    plugins
+  }
+];
+```
+
+### Updating `composables`
+
+In `nuxt/plugin.js` add name of your package as a first argument of `integration.configure` method:
+
+```javascript
+// composables/nuxt/plugin.js
+import { integrationPlugin } from '@vue-storefront/core';
+
+const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+
+export default integrationPlugin(({ integration }) => {
+  integration.configure('boilerplate', {
+    ...moduleOptions
+    // other options
+  });
+});
+```
+
+### Updating `theme`
+
+As described on the [Overview](./overview.md) page, we need to create `middleware.config.js` and `middleware.js` in the root of the `theme`:
+
+```javascript
+// theme/middleware.config.js
+module.exports = {
+  integrations: {
+    '<NAME>': {
+      location: '<PATH>',
+      configuration: '<CONFIGURATION>'
+    }
+  }
+};
+
+```
+
+- `<NAME>` - name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
+- `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` building by Rollup.
+- `<CONFIGURATION>` - integration configuration that previously lived in `nuxt.config.js`.
+
+```javascript
+// theme/middleware.js
+const { createServer } = require('@vue-storefront/middleware');
+const { integrations } = require('./middleware.config');
+
+const app = createServer({ integrations });
+
+app.listen(8181, () => {
+  console.log('Middleware started');
+});
+```
+
+The last step is to add `'@vue-storefront/middleware/nuxt'` to the `modules` in `nuxt.config.js`.
+
+:::warning Be careful
+Make sure this package is added to the `modules` array, not `buildModules`.
+:::
+
+```javascript
+// nuxt.config.js
+export default {
+  modules: [
+    '@vue-storefront/middleware/nuxt'
+  ]
+};
+```
