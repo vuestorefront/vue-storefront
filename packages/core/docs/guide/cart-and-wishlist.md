@@ -200,7 +200,7 @@ To clear cart items (not delete it) just use `clear` function.
 
 ## Applying and removing discount coupons
 
-You can apply promotional coupons to your application with `applyCoupon` and remove with `removeCoupon` function:
+You can apply promotional coupons to your cart with `applyCoupon` and remove with `removeCoupon` function:
 
 ```vue
 <template>
