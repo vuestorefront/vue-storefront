@@ -41,11 +41,21 @@ export default {
     SfCheckbox,
     SfButton
   },
-  setup(_, { emit }) {
+  props: {
+    newsletterData: {
+      type: Object,
+      default: () => ({
+        woman: false,
+        man: false,
+        kids: false
+      })
+    }
+  },
+  setup(props, { emit }) {
     const newsletter = reactive({
-      woman: false,
-      man: false,
-      kids: false
+      woman: props.newsletterData.woman,
+      man: props.newsletterData.man,
+      kids: props.newsletterData.kids
     });
 
     const updateNewsletterField = (fieldName, value) => {
