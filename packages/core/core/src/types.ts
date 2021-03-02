@@ -164,7 +164,7 @@ export interface UseNewsletter {
   newsletter: ComputedProperty<NewsletterSections>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseNewsletterErrors>;
-  updateNewsletterData: (params: NewsletterSections) => Promise<void>;
+  updateNewsletterData: (params: NewsletterSections) => Promise<NewsletterSections>;
   load: () => Promise<NewsletterSections>;
 }
 

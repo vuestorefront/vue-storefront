@@ -34,14 +34,14 @@ export const useNewsletterFactory = (
       }
     };
 
-    const updateNewsletterData = async (newsletter) => {
+    const updateNewsletterData = async (newsletter): Promise<NewsletterSections> => {
       Logger.debug('useNewsletter.updateNewsletterData', newsletter);
 
       try {
         loading.value = true;
         error.value = null;
-        const newsletterValue = await _factoryParams.updateNewsletterData(newsletter);
-        newsletterRef.value = newsletterValue;
+        newsletterRef.value = await _factoryParams.updateNewsletterData(newsletter);
+        return newsletterRef.value;
       } catch (err) {
         error.value = err;
         Logger.error('useNewsletter/updateNewsletterData', err);
