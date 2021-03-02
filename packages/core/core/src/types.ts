@@ -149,6 +149,29 @@ export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   error: ComputedProperty<UseUserBillingErrors>;
 }
 
+export interface UseNewsletterErrors {
+  updateNewsletterData?: Error;
+  load?: Error;
+}
+
+export interface NewsletterSections {
+  woman: boolean,
+  man: boolean,
+  kids: boolean,
+}
+
+export interface UseNewsletter {
+  newsletter: ComputedProperty<NewsletterSections>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseNewsletterErrors>;
+  updateNewsletterData: (params: NewsletterSections) => Promise<void>;
+  load: () => Promise<NewsletterSections>;
+}
+
+export interface NewsletterGetters {
+  getNewsletterData: (newsletter: NewsletterSections) => Promise<NewsletterSections>;
+}
+
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
   getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;
