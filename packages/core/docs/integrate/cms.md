@@ -57,13 +57,16 @@ Many CMS systems allow to control the page layout by returning a list of compone
 <RenderContent :content="content">
 ```
 
-Now you need to prepare special structure for your components. Create the `extractComponents` function that will filter all the metadata and return component name along with props. Lay this structure on the interface that you can see below.   
+Now you need to prepare special structure for your components. Create the `extractComponents` function that will filter or modify all the metadata and return component name along with props. Follow the exampole.   
 
 ```typescript
-components: {
-  componentName: string
-  props: {}
-}[]
+function extractComponents(response: ResponseFromYourCMS) {
+  // filter or modify your response if needed
+  return {
+    componentName: string
+    props: {}
+  }[]
+}
 ```
 
 Pass it to the `RenderContent` component as a `content` prop. To register components use computed value.
