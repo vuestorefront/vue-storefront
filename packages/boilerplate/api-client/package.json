@@ -8,9 +8,7 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build:server": "rimraf server && rollup -c rollup-server.config.js",
-    "build:universal": "rimraf lib && rollup -c rollup-main.config.js",
-    "build": "yarn build:universal && yarn build:server",
+    "build": "rimraf lib server && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
     "prepublish": "yarn build"
