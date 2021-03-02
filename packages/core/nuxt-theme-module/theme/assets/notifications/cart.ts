@@ -11,7 +11,7 @@ export const addItem = ({ productName, error, onClick, $i18n }) => {
   } else {
     send({
       type: 'success',
-      message: $i18n.t('Successfully added {PRODUCT_NAME} to the cart', { PRODUCT_NAME: productName }),
+      message: productName ? $i18n.t('Successfully added {PRODUCT_NAME} to the cart', { PRODUCT_NAME: productName }) : $i18n.t('Successfully added product to the cart'),
       persist: true,
       action: {
         text: $i18n.t('Go to Checkout'),
