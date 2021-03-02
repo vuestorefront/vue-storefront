@@ -173,25 +173,7 @@ type ProductVariant = {
 Configuration can be changed only for the Enterprise version of this package.
 :::
 
-Faceting configuration can be modified to change available sorting options, filters, etc.:
-
-- `pageOptions` - array containing maximum number of elements displayed per page.
-- `subcategoriesLimit`
-- `availableFacets` - array of filters available to the user.
-  - `facet` - facet expressions described on [this page](https://docs.commercetools.com/api/projects/products-search#termfacetexpression).
-  - `type` - `facet` data type. Valid values are `string`, `date`, `time`, `datetime`, `boolean` or `number`.
-  - `option` - filtering options described on [this page](https://docs.commercetools.com/api/projects/products-search#filters).
-  - `name` - facet alias  described on [this page](https://docs.commercetools.com/api/projects/products-search#alias). `category` alias for the first facet shown below is a constant and shouldn't be changed.
-- `sortingOptions` - array of sorting options available to the user.
-  - `id` - unique `identifier` for the option.
-  - `name` - label for the option.
-  - `facet` - name of the field to sort by. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#sorting).
-  - `direction` - sorting direction. Valid values are `asc` or `desc`.
-- `filteringStrategy` - scope applied to filters. Possible values are `filter`, `query` or `facets`. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#filters).
-
-Configuration can be modified by passing identical configuration to:
-- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
-- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+Faceting configuration can be modified to change available sorting options, filters, etc.
 
 If the explicit configuration is not provided, the following defaults will be used:
 
@@ -217,6 +199,24 @@ If the explicit configuration is not provided, the following defaults will be us
   filteringStrategy: 'filter'
 }
 ```
+
+- `pageOptions` - array containing maximum number of elements displayed per page.
+- `subcategoriesLimit` - the maximum number of subcategories displayed for any given category.
+- `availableFacets` - an array of filters available to the user.
+  - `facet` - facet expressions described on [this page](https://docs.commercetools.com/api/projects/products-search#termfacetexpression).
+  - `type` - `facet` data type. Valid values are `string`, `date`, `time`, `datetime`, `boolean` or `number`.
+  - `option` - filtering options described on [this page](https://docs.commercetools.com/api/projects/products-search#filters).
+  - `name` - facet alias described on [this page](https://docs.commercetools.com/api/projects/products-search#alias). `category` alias for the first facet shown above is a constant and shouldn't be changed.
+- `sortingOptions` - an array of sorting options available to the user.
+  - `id` - unique `identifier` for the option.
+  - `name` - label for the option.
+  - `facet` - the name of the field to sort by. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#sorting).
+  - `direction` - sorting direction. Valid values are `asc` or `desc`.
+- `filteringStrategy` - scope applied to filters. Possible values are `filter`, `query` or `facets`. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#filters).
+
+If the default configuration is modified, two identical copies must be passed to:
+- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
+- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
 
 ## Example
 
