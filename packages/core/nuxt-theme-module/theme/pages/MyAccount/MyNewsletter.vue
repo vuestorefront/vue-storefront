@@ -4,30 +4,12 @@
       <p class="message">
         {{ $t('Set up newsletter') }}
       </p>
-      <div class="form">
-        <p class="form__title">{{ $t('Sections that interest you') }}</p>
-        <div class="form__checkbox-group">
-          <SfCheckbox
-            v-model="newsletter"
-            label="Woman"
-            value="woman"
-            class="form__element"
-          />
-          <SfCheckbox
-            v-model="newsletter"
-            label="Man"
-            value="man"
-            class="form__element"
-          />
-          <SfCheckbox
-            v-model="newsletter"
-            label="Kids"
-            value="kids"
-            class="form__element"
-          />
-        </div>
-        <SfButton data-cy="newsletter-btn_join" class="form__button">{{ $t('Save changes') }}</SfButton>
-      </div>
+
+      <NewsletterForm
+        @submit="updateNewsletter"
+        :newsletterData="newsletter"
+      />
+
       <p class="notice">
         {{ $t('Read and understand') }} <SfLink class="notice__link" href="#">{{ $t('Privacy') }}</SfLink> and
         <SfLink class="notice__link" href="#">{{ $t('Cookies Policy') }}</SfLink> {{ $t('Commercial information') }}
@@ -38,16 +20,42 @@
 
 <script>
 import { SfTabs, SfCheckbox, SfButton, SfLink } from '@storefront-ui/vue';
+import NewsletterForm from '~/components/MyAccount/NewsletterForm';
+import { useNewsletter, newsletterGetters } from '<%= options.generate.replace.composables %>';
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+
 export default {
   name: 'MyNewsletter',
   components: {
     SfTabs,
     SfCheckbox,
     SfButton,
-    SfLink
+    SfLink,
+    NewsletterForm
   },
-  data() {
-    return { newsletter: [] };
+  setup() {
+    const { updateNewsletterData, load: loadNewsletterData, newsletter } = useNewsletter();
+    const newsletterData = computed(() => newsletterGetters.getNewsletterData(newsletter.value));
+
+    const updateNewsletter = async ({ newsletter, onComplete, onError }) => {
+      try {
+        const data = await updateNewsletterData(newsletter);
+        await onComplete(data);
+      } catch (error) {
+        onError(error);
+      }
+    };
+
+    onSSR(async () => {
+      await loadNewsletterData();
+    });
+
+    return {
+      updateNewsletter,
+      newsletterData,
+      newsletter
+    };
   }
 };
 </script>
@@ -58,26 +66,6 @@ export default {
     --tabs-title-display: none;
     --tabs-content-padding: 0;
     --tabs-conent-border-width: 0;
-  }
-}
-.form {
-  &__element {
-    margin: 0 0 var(--spacer-base) 0;
-    &:last-child {
-      margin: 0;
-    }
-  }
-  &__checkbox-group {
-    margin: 0 0 var(--spacer-xl) 0;
-  }
-  &__title {
-    margin: 0 0 var(--spacer-base) 0;
-  }
-  &__button {
-    --button-width: 100%;
-    @include for-desktop {
-      --button-width: 17.5rem;
-    }
   }
 }
 .message {
