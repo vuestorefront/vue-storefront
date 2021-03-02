@@ -1,4 +1,4 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks';
+import { createListenerHook, createMutatorHook, createMutatorHookAsync } from '@vue-storefront/core/lib/hooks';
 
 describe('Hooks', () => {
   describe('createListenerHook', () => {
@@ -17,6 +17,20 @@ describe('Hooks', () => {
   describe('createMutatorHook', () => {
     it('executes functions added by hook', () => {
       const { hook, executor } = createMutatorHook();
+      const mockedFn = jest.fn(arg => `${arg} / test`)
+      const mockedRawOutput = 'abc'
+
+      hook(mockedFn)
+      hook(mockedFn)
+      executor(mockedRawOutput)
+
+      expect(mockedFn).toHaveBeenCalledWith(mockedRawOutput);
+    })
+  })
+
+  describe('createMutatorHookAsync', () => {
+    it('executes functions added by hook', async () => {
+      const { hook, executor } = await createMutatorHookAsync();
       const mockedFn = jest.fn(arg => `${arg} / test`)
       const mockedRawOutput = 'abc'
 

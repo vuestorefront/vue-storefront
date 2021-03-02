@@ -79,7 +79,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
 
   if (storeViewHasChanged) {
-    storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
+    storeView = await coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
 
     if (global && isServer) {

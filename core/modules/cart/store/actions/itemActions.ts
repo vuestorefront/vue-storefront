@@ -39,7 +39,7 @@ const itemActions = {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
-    const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
+    const { cartItem } = await cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     commit(types.CART_ADDING_ITEM, { isAdding: true })
     const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
@@ -99,7 +99,7 @@ const itemActions = {
   async removeItem ({ commit, dispatch, getters }, payload) {
     const removeByParentSku = payload.product ? !!payload.removeByParentSku && payload.product.type_id !== 'bundle' : true
     const product = payload.product || payload
-    const { cartItem } = cartHooksExecutors.beforeRemoveFromCart({ cartItem: product })
+    const { cartItem } = await cartHooksExecutors.beforeRemoveFromCart({ cartItem: product })
 
     commit(types.CART_DEL_ITEM, { product: cartItem, removeByParentSku })
 
