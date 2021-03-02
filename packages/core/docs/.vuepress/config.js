@@ -174,7 +174,9 @@ module.exports = {
             ['/composables/use-user', 'useUser'],
             ['/composables/use-user-billing', 'useUserBilling'],
             ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
+			['/composables/use-shipping', 'useShipping'],
+            ['/composables/use-billing', 'useBilling'],
+            ['/composables/use-content', 'useContent']
           ]
         },
 				{
