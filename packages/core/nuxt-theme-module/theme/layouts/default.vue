@@ -69,7 +69,6 @@ export default {
 // Reset CSS
 html {
   width: auto;
-  overflow-x: hidden;
 }
 body {
   overflow-x: hidden;
