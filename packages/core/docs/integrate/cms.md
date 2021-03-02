@@ -57,7 +57,7 @@ Many CMS systems allow to control the page layout by returning a list of compone
 <RenderContent :content="content">
 ```
 
-Now you need to prepare special structure for your components. You can create function, helper to filter all the metadata that you've fetched from the CMS and just leave the name and props.
+Now you need to prepare special structure for your components. Create the `extractComponents` function that will filter all the metadata and return component name along with props. Lay this structure on the interface that you can see below.   
 
 ```typescript
 components: {
@@ -82,7 +82,7 @@ export default ({
   },
   computed: {
     components() {
-      return yourDataBuildFunction(this.content)
+      return extractComponents(this.content)
     },
   },
 })
