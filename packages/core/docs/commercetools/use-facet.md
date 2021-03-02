@@ -200,7 +200,7 @@ If the explicit configuration is not provided, the following defaults will be us
 }
 ```
 
-- `pageOptions` - array containing maximum number of elements displayed per page.
+- `pageOptions` - an array of number of elements displayed per page.
 - `subcategoriesLimit` - the maximum number of subcategories displayed for any given category.
 - `availableFacets` - an array of filters available to the user.
   - `facet` - facet expressions described on [this page](https://docs.commercetools.com/api/projects/products-search#termfacetexpression).
@@ -217,6 +217,29 @@ If the explicit configuration is not provided, the following defaults will be us
 If the default configuration is modified, two identical copies must be passed to:
 - `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
 - `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+
+```javascript
+// nuxt.config.js
+export default {
+  buildModules: [
+    ['@vsf-enterprise/ct-faceting/nuxt', {
+      // options
+    }],
+  ]
+};
+
+// middleware.config.js
+module.exports = {
+  integrations: {
+    ctf: {
+      location: '@vsf-enterprise/ct-faceting/server',
+      configuration: {
+        // options
+      }
+    }
+  }
+};
+```
 
 ## Example
 
