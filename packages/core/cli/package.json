@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "2.2.1",
+  "version": "2.3.0-rc.1",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -17,7 +17,7 @@
     "inquirer": "^7.3.3",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
-    "@vue-storefront/nuxt-theme": "^2.2.1"
+    "@vue-storefront/nuxt-theme": "^2.3.0-rc.1"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-theme": "^1.1.2"
