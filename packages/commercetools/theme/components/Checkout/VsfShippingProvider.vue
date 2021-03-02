@@ -21,7 +21,7 @@
             :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
             @input="selectShippingMethod(method)"
             name="shippingMethod"
-            :description="method.description"
+            :description="method.localizedDescription"
             class="form__radio shipping"
           >
             <template #label="{ label }">
@@ -30,10 +30,10 @@
                 <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
               </div>
             </template>
-            <template #description="{ description }">
+            <template #description="{ localizedDescription }">
               <div class="sf-radio__description shipping__description">
                 <div class="shipping__info">
-                  {{ description }}
+                  {{ localizedDescription }}
                 </div>
               </div>
             </template>
