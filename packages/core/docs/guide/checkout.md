@@ -56,10 +56,62 @@ export default {
 </script>
 ```
 
-
 ## Shipping providers
 
 ## Billing
+To access shipping details, we can use property of `useBilling` called `billing`.
+```js{8,16}
+import { useBilling } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      load,
+      billing
+    } = useBilling();
+
+    onSSR(async () => {
+      await load();
+    });
+
+    return {
+      billing
+    };
+  }
+}
+```
+`billing` property will return `null` if the address is not saved on the server or just has not been load. In order to save billing details, you could use `save` method:
+```vue{2,15,24}
+<template>
+  <form @submit.prevent="save({ billingDetails: billingForm })">
+    <!-- form fields -->
+    <button type="submit" :disabled="loading">Submit</button>
+  </form>
+</template>
+
+<script>
+import { useBilling } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const {
+      save,
+      loading,
+      billing
+    } = useBilling();
+
+    const billingForm = ref(/* object for billing details */);
+
+    return {
+      billingForm,
+      save
+    };
+  }
+}
+</script>
+```
 
 ## Payment providers
 
