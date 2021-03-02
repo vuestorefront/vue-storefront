@@ -1,6 +1,6 @@
 # `useContent`
 
-`useContent` is typically a composable used for a CMS integration and is user together with `<RenderContent>` component.
+`useContent` is typically a composable used for a CMS integration and is used together with `<RenderContent>` component.
 
 ## When to use it?
 
