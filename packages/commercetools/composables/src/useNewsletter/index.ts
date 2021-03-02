@@ -11,8 +11,12 @@ const params: UseNewsletterFactoryParams = {
     return Promise.resolve(newsletter);
   },
 
-  updateNewsletterData: async (context: Context, params?): Promise<NewsletterSections> => {
+  updateNewsletterData: async (context: Context, params: NewsletterSections): Promise<NewsletterSections> => {
     console.log('Mocked: updateNewsletterData', params);
+
+    const paramsHasKeys = Object.keys(params).length > 0;
+
+    if (!paramsHasKeys) return Promise.reject('Cannot update newsletter without new data');
 
     newsletter = params;
 
