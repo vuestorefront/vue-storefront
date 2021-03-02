@@ -168,10 +168,6 @@ export interface UseNewsletter {
   load: () => Promise<NewsletterSections>;
 }
 
-export interface NewsletterGetters {
-  getNewsletterData: (newsletter: NewsletterSections) => Promise<NewsletterSections>;
-}
-
 export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
   getAddresses: (billing: USER_BILLING, criteria?: Record<string, any>) => USER_BILLING_ITEM[];
   getDefault: (billing: USER_BILLING) => USER_BILLING_ITEM;

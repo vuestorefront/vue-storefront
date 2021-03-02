@@ -10,7 +10,6 @@ import userShippingGetters from './userShippingGetters';
 import userBillingGetters from './userBillingGetters';
 import orderGetters from './orderGetters';
 import wishlistGetters from './wishlistGetters';
-import newsletterGetters from './newsletterGetters';
 
 export {
   cartGetters,
@@ -23,6 +22,5 @@ export {
   userShippingGetters,
   userBillingGetters,
   orderGetters,
-  wishlistGetters,
-  newsletterGetters
+  wishlistGetters
 };

@@ -21,9 +21,8 @@
 <script>
 import { SfTabs, SfCheckbox, SfButton, SfLink } from '@storefront-ui/vue';
 import NewsletterForm from '~/components/MyAccount/NewsletterForm';
-import { useNewsletter, newsletterGetters } from '<%= options.generate.replace.composables %>';
+import { useNewsletter } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
 
 export default {
   name: 'MyNewsletter',
@@ -36,7 +35,6 @@ export default {
   },
   setup() {
     const { updateNewsletterData, load: loadNewsletterData, newsletter } = useNewsletter();
-    const newsletterData = computed(() => newsletterGetters.getNewsletterData(newsletter.value));
 
     const updateNewsletter = async ({ newsletter, onComplete, onError }) => {
       try {
@@ -53,7 +51,6 @@ export default {
 
     return {
       updateNewsletter,
-      newsletterData,
       newsletter
     };
   }
