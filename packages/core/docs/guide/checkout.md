@@ -24,7 +24,7 @@ export default {
   }
 }
 ```
-`shipping` property will return `null` if the address is not saved on the server or just has not been load. In order to save shipping details, you could use `save` method:
+`shipping` property will return `null` if the address is not saved on the server or just has not been loaded. In order to save shipping details, you could use `save` method:
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
@@ -57,6 +57,33 @@ export default {
 ```
 
 ## Shipping providers
+We delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. Each shipping extension shares one. All we have to do is import and put it in a proper place.
+```vue
+<VsfShippingProvider
+  @submit="$router.push('/checkout/billing')"
+/>
+```
+
+VsfShippingProvider emits `submit` event when it is ready to move to the next step.
+
+Component shares 5 hooks with async support:
+- beforeLoad - called before loading shipping methods
+- afterLoad - called after loading shipping methods
+- onSelected - called after selecting shipping method
+- onSelectedDetailsChanged - called after modifying currently picked shipping method, e.g. selecting parcel locker on the map
+- onError - called when some operation throws an error
+
+We can inject in the hook via props:
+```vue
+<VsfShippingProvider
+  :beforeLoad="beforeLoad"
+  :afterLoad="afterLoad"
+  :onSelected="onSelected"
+  :onSelectedDetailsChanged="onSelectedDetailsChanged"
+  :onError="onError"
+/>
+```
+
 
 ## Billing
 To access shipping details, we can use property of `useBilling` called `billing`.
@@ -81,7 +108,7 @@ export default {
   }
 }
 ```
-`billing` property will return `null` if the address is not saved on the server or just has not been load. In order to save billing details, you could use `save` method:
+`billing` property will return `null` if the address is not saved on the server or just has not been loaded. In order to save billing details, you could use `save` method:
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ billingDetails: billingForm })">
