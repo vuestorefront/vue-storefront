@@ -158,7 +158,7 @@ As described on the [Overview](./overview.md) page, we need to create `middlewar
 // theme/middleware.config.js
 module.exports = {
   integrations: {
-    '<NAME>': {
+    '<TAG NAME>': {
       location: '<PATH>',
       configuration: '<CONFIGURATION>'
     }
@@ -224,5 +224,4 @@ Notable changes are:
 - new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme),
 - new integration-specific component  `components/Checkout/ShippingPriceInfo.vue`,
 - new integration-specific middleware `middleware/is-authenticated.js`.
-
 
