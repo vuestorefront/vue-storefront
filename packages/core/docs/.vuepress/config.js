@@ -157,6 +157,7 @@ module.exports = {
 						['/guide/configuration', 'Configuration'],						
 						['/guide/composables', 'Composables'],
 						['/guide/user-profile', 'User profile'],
+						['/guide/cart-and-wishlist', 'Cart and wishlist'],
                         ['/guide/authentication', 'Authentication']
 					]
 				},

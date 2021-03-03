@@ -34,7 +34,7 @@ The `load` function will load your cart from the server or create a new one if i
 
 ## Adding item to the cart
 
-To add the product to the cart you can `addItem` method:
+To add the product to the cart you can use `addItem` method:
 
 ```vue
 <template>
@@ -45,7 +45,7 @@ To add the product to the cart you can `addItem` method:
       > 
         ...
         <button
-          @click="addItem({ product, parseInt(quantity) })"
+          @click="addItem({ product, quantity })"
         >
           Add to cart
         </button>
@@ -84,8 +84,10 @@ To remove an item from the cart use `removeItem` function, and similarly to upda
       <div>
         <input type="number" v-model="quantity"/>
         <button
-           @click=="updateItemQty({ product, quantity })"
-        />
+           @click="updateItemQty({ product, quantity })"
+        >
+          Change quantity
+        </button>
         <button        
           @click="removeItem({ product })"
         >
@@ -151,14 +153,15 @@ To check if a product is already in the cart, pass it to `isInCart` method:
   ...
 </template>    
 <script>
-  import { useCart, cartGetters } from '{INTEGRATION}';
+  import { computed } from '@vue/composition-api';
+  import { useCart, useFacet, facetGetters } from '{INTEGRATION}';
 
   export default {
     setup() {
       const {
         isInCart, 
       } = useCart();
-      const products = computed(() => cartGetters.getItems(cart.value));
+      const products = computed(() => facetGetters.getProducts(result.value));
 
       return {
         products,
@@ -301,7 +304,7 @@ To add the product to the wishlist you can use `addItem` method:
       > 
         ...
         <button
-          @click="addItem({ product, parseInt(quantity) })"
+          @click="addItem({ product, quantity })"
         >
           Add to wishlist
         </button>
