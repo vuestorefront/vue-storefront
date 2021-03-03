@@ -10,8 +10,8 @@ It only contains code examples. For more information about the new version, plea
 
 ### Updating `api-client`
 As described on the [Overview](./overview.md) page, API middleware lives next to Nuxt.js. That's why from now on, `api-client` must generate two files:
-* one for returning types, GraphQL fragments, and other files that don't contain any business logic
-* the other for returns `createApiClient` from `apiClientFactory` that contains the business logic, all endpoints, etc.
+- one that exposes types, GraphQL fragments, and other files that don't contain any business logic,
+- the other that returns `createApiClient` method created using `apiClientFactory` that exposes all the APIs that will be consumed by the middleware.
 
 You should have two entry points in `src` folder: `index.ts` and `index.server.ts`:
 
@@ -40,7 +40,7 @@ export {
 };
 ```
 
-If you are using Rollup to build `api-client`, the configuration might looks like this:
+We have to re-configure Rollup to build both files. Basic configuration should look like this:
 
 ```javascript{22,36}
 // api-client/rollup.config.js
@@ -132,9 +132,11 @@ async function getProduct(context, params, customQuery?: CustomQuery) => {
 
 In the example above `products` matches the name of the GraphQL query.
 
+`extendsQuery` decides whether to load default query (implemented in the integration) or custom one, defined by the user in the project.
+
 ### Updating `composables`
 
-In `nuxt/plugin.js` add name of your package as a first argument of `integration.configure` method:
+In `nuxt/plugin.js` add the tag name of your integration package as a first argument of `integration.configure` method:
 
 ```javascript
 // composables/nuxt/plugin.js

@@ -100,7 +100,7 @@ onSSR(async () => {
 });
 ```
 
-`customQuery` is now an object that accepts object with:
+As you can in the example above, `customQuery` is now an object that accepts object with:
 - key matching the name of GraphQL query to override,
 - value matching the name of the handler in `middleware.config.js`.
 
