@@ -18,7 +18,8 @@ module.exports = {
 					title: 'Migration guide 2.3.0-rc.1',
 					children: [
 						['/migrate/2.3.0-rc.1/overview', 'Overview'],
-						['/migrate/2.3.0-rc.1/integrators', 'Integrators']
+						['/migrate/2.3.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.1/commercetools', 'commercetools']
 					]
 				},
 				{

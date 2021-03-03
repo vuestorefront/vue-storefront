@@ -1,7 +1,5 @@
 # Migration guide 2.3.0-rc.1 for Integrators
 
-[[toc]]
-
 ## Introduction
 
 This is a migration guide meant to help Integrators make their integrations and plugins compatible with a new version 2.3.0-rc.1.
@@ -12,8 +10,8 @@ It only contains code examples. For more information about the new version, plea
 
 ### Updating `api-client`
 As described on the [Overview](./overview.md) page, API middleware lives next to Nuxt.js. That's why from now on, `api-client` must generate two files:
-* one for returning types, GraphQL fragments and other files that don't contain any business logic
-* the other for returns `createApiClient` from `apiClientFactory` that contains the business logic, all endpoints etc.
+* one for returning types, GraphQL fragments, and other files that don't contain any business logic
+* the other for returns `createApiClient` from `apiClientFactory` that contains the business logic, all endpoints, etc.
 
 You should have two entry points in `src` folder: `index.ts` and `index.server.ts`:
 
@@ -99,6 +97,41 @@ export default [
 ];
 ```
 
+We also changed how custom queries work. To make your APIs compatible use `context.extendQuery` method instead of `getCustomQuery`:
+
+```typescript
+// before
+async function getProduct(context, params, customQueryFn?: CustomQueryFn) => {
+  // ...
+  const { query, variables } = getCustomQuery(
+    customQueryFn, { defaultQuery, defaultVariables }
+  );
+
+  const request = await context.client.query({
+    query: gql`${query}`,
+    variables,
+    // ...
+  });
+}
+
+// after
+import { CustomQuery } from '@vue-storefront/core';
+
+async function getProduct(context, params, customQuery?: CustomQuery) => {
+  // ...
+  const { products } = context.extendQuery(
+    customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  const request = await context.client.query({
+    query: gql`${products.query}`,
+    variables: products.variables
+  });
+};
+```
+
+In the example above `products` matches the name of the GraphQL query.
+
 ### Updating `composables`
 
 In `nuxt/plugin.js` add name of your package as a first argument of `integration.configure` method:
@@ -134,8 +167,8 @@ module.exports = {
 
 ```
 
-- `<NAME>` - name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
-- `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` building by Rollup.
+- `<NAME>` - the name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
+- `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` built by Rollup.
 - `<CONFIGURATION>` - integration configuration that previously lived in `nuxt.config.js`.
 
 ```javascript
@@ -164,3 +197,32 @@ export default {
   ]
 };
 ```
+
+## Checkout
+
+### Updating `composables`
+
+We added the following composables:
+- `useShipping` for handling shipping information,
+- `useBilling` for handling billing information,
+- `useShippingProvider` for handling shipping providers,
+- `useMakeOrder` for placing the final order.
+
+We also used this opportunity to cleanup other composables:
+- removed `useCheckout`,
+- removed `checkoutGetters`,
+- renamed `useUserOrders` to `useUserOrder` to be consistent with other composables,
+- renamed `isOnCart` and `isOnWishlist` in `useCart` composable to `isInCart` and `isInWishlist`.
+
+
+## UI
+
+We added and updated multiple UI elements. Please refer to the [UI section](./overview.md#ui) of the Overview page for more details.
+
+Notable changes are:
+- renamed `components/checkout` directory in core theme to `components/Checkout` (note the capital `C`). Please update your imports,
+- new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme),
+- new integration-specific component  `components/Checkout/ShippingPriceInfo.vue`,
+- new integration-specific middleware `middleware/is-authenticated.js`.
+
+
