@@ -18,12 +18,12 @@
     "ts-loader": "^8.0.3",
     "vue": "^2.6.11"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "lodash.merge": "^4.6.2",
     "lodash.debounce": "^4.0.8",
     "vue-lazy-hydration": "^2.0.0-beta.4"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
