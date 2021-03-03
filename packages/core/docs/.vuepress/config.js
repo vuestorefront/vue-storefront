@@ -1,5 +1,6 @@
 module.exports = {
 	title: 'Vue Storefront Next',
+	base: '/v2/',
 	description: 'Vue Storefront 2 documentation',
 	head: [
 		['link', { rel: 'icon', href: '/favicon.png' }]
@@ -9,8 +10,8 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
-			{ text: 'Migration guide', link: '/migrate/' }
-
+			{ text: 'Migration guide', link: '/migrate/' },
+			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
 		],
 		sidebar: {
 			'/migrate/': [
@@ -37,10 +38,10 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/commercetools/', 'Introduction'],
-						['/commercetools/getting-started', 'Getting Started'],
-						['/commercetools/api-client', 'API Client'],
-						['/commercetools/composables', 'Composables'],
-						['https://www.notion.so/vuestorefront/6017d5a553904d0bbdcdf0f37d388c2b?v=a618b57067f34e68944145ade66da3a3', 'Feature list'],
+						['/commercetools/getting-started', 'Getting started'],
+						['/commercetools/configuration', 'Configuration'],
+						['/commercetools/authorization-strategy', 'Authentication'],
+						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
 					]
@@ -49,24 +50,23 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
-						['/commercetools/use-product', 'Products'],
-						['/commercetools/use-review', 'Reviews'],
-						['/commercetools/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/use-user-billing', 'Billing addresses'],
-						['/commercetools/use-facet', 'Faceting'],
-						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist']
+						['/commercetools/use-product', 'useProduct'],
+						['/commercetools/use-review', 'useReview '],
+						['/commercetools/use-user', 'useUser'],
+						['/commercetools/use-user-shipping', 'useUserShipping'],
+						['/commercetools/use-user-billing', 'useUserBilling'],
+						['/commercetools/use-user-order', 'useUserOrder'],
+						['/commercetools/use-facet', 'useFacet'],
+						['/commercetools/use-cart', 'useCart'],
+						['/commercetools/use-wishlist', 'useWishlist'],
+						['/commercetools/use-category', 'useCategory']
 					]
 				},
 				{
-					title: 'Enterprise (paid)',
+					title: 'Extensions',
 					collapsable: false,
 					children: [
-						['/commercetools/enterprise/use-review', 'Reviews'],
-						['/commercetools/enterprise/user-groups', 'User groups'],
-						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/enterprise/use-user-billing', 'Billing addresses'],
-						['/commercetools/enterprise/use-wishlist', 'Wishlist']
+						['/commercetools/user-groups', 'User groups']
 					]
 				},
 				{
@@ -75,6 +75,13 @@ module.exports = {
 					children: [
 						['/commercetools/auth-middleware', 'Auth Middleware']
 					],
+				},
+				{
+					title: 'API Client Reference',
+					collapsable: true,
+					children: [
+						['/commercetools/api-client-reference', 'API Client Reference']
+					]
 				}
 			],
 			'/aboutyou/': [
@@ -139,44 +146,32 @@ module.exports = {
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
+						['/general/enterprise', 'Enterprise']
 					]
         },
-				{
-					title: 'General',
-					collapsable: false,
-					children: [
-						['/general/architecture', 'Architecture'],
-						['/general/error-handling', 'Error Handling'],
-						['/general/logging', 'Logging'],
-						['/general/performance', 'Performance'],
-						['/general/context', 'Application Context']
-					]
-				},
 				{
 					title: 'Guide [WIP]',
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/internationalization', 'Internationalization']
+						['/guide/configuration', 'Configuration'],
+						['/guide/composables', 'Composables'],
+            ['/guide/user-profile', 'User profile'],
+                        ['/guide/authentication', 'Authentication']
 					]
 				},
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/composables/rules-and-best-practices', 'Rules and best practices'],
-            ['/composables/use-product', 'useProduct'],
-            ['/composables/use-category', 'useCategory'],
-            ['/composables/use-facet', 'useFacet'],
-            ['/composables/use-review', 'useReview'],
-            ['/composables/use-cart', 'useCart'],
-            ['/composables/use-wishlist', 'useWishlist'],
-            ['/composables/use-user', 'useUser'],
-            ['/composables/use-user-billing', 'useUserBilling'],
-            ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
-          ]
-        },
+				{
+					title: 'Advanced [WIP]',
+					collapsable: false,
+					children: [
+						['/advanced/context', 'Application Context'],
+						['/advanced/internationalization', 'Internationalization'],
+						['/advanced/performance', 'Performance'],
+						['/advanced/ssr-cache', 'SSR Cache'],
+						['/advanced/logging', 'Logging'],
+						['/advanced/architecture', 'Architecture']
+					]
+				},
 				{
 					title: 'eCommerce platforms',
 					collapsable: false,
@@ -193,7 +188,8 @@ module.exports = {
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'Integration guide'],
-						['/general/cms', 'CMS'],
+						['/integrate/cms', 'CMS'],
+						['/integrate/cache-driver', 'Cache driver']
 					]
 				},
 				{

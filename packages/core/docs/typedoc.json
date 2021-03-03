@@ -1,7 +1,7 @@
 {
-  "inputFiles": ["../../commercetools/api-client/src/api"],
-  "mode": "modules",
-  "exclude": "**/*+(defaultMutation|defaultQuery).ts",
-  "json": "api.json",
-  "excludeExternals": true
+  "hideBreadcrumbs": true,
+  "hideInPageTOC": true,
+  "readme": "none",
+  "plugin": ["typedoc-plugin-markdown"],
+  "theme": "./typedoc-vsf-theme"
 }
