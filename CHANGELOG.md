@@ -12,7 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `purgeConfig` to default.json and purge-config loader - @gibkigonzo (#4540)
 
 ### Changed / Improved
+
 ### Fixed
+
+- Purge loader works properly with dynamic config reload - @lukaszjedrasik
 
 ## [1.11.4] - 2020.05.26
 
