@@ -67,11 +67,11 @@ We delegate whole logic of selecting shipping method to the dedicated component 
 VsfShippingProvider emits `submit` event when it is ready to move to the next step.
 
 Component shares 5 hooks with async support:
-- beforeLoad - called before loading shipping methods
-- afterLoad - called after loading shipping methods
-- onSelected - called after selecting shipping method
-- onSelectedDetailsChanged - called after modifying currently picked shipping method, e.g. selecting parcel locker on the map
-- onError - called when some operation throws an error
+- **beforeLoad** - called before loading shipping methods
+- **afterLoad** - called after loading shipping methods
+- **onSelected** - called after selecting shipping method
+- **onSelectedDetailsChanged** - called after modifying currently picked shipping method, e.g. selecting parcel locker on the map
+- **onError** - called when some operation throws an error
 
 We can inject in the hook via props:
 ```vue
