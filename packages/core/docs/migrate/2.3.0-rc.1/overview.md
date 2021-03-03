@@ -15,7 +15,7 @@ In short, it's meant to reduce the amount of code we send to the browser and per
 Before, every request sent to the providers was made directly from the browser (besides the first visit on the page which is Server-Side Rendered), which meant that it had to have all the logic required to create and send the request and to process the response. In some cases browser had to load heavy libraries like GraphQL and have access to sensitive information, such as API keys.
 This meant that Vue Storefront would not scale as well as we would like.
 
-To fix these issues we moved most of the logic to the new API middleware. It's an Express server that lives beside Nuxt.js. It can be in parallel on the same server and separately on a different server, for better scalability.
+To fix these issues we moved most of the logic to the new API middleware. It's an Express server that lives beside Nuxt.js. It can be run in parallel on the same server and separately on a different server, for better scalability.
 Now, instead of making API calls directly to the provider, the browser will request data from the API middleware.
 
 ### Changes
