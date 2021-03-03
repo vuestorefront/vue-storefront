@@ -167,7 +167,7 @@ module.exports = {
 
 ```
 
-- `<NAME>` - the name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
+- `<TAG NAME>` - the name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
 - `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` built by Rollup.
 - `<CONFIGURATION>` - integration configuration that previously lived in `nuxt.config.js`.
 
@@ -224,4 +224,3 @@ Notable changes are:
 - new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme),
 - new integration-specific component  `components/Checkout/ShippingPriceInfo.vue`,
 - new integration-specific middleware `middleware/is-authenticated.js`.
-
