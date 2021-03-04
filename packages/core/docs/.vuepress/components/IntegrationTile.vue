@@ -43,13 +43,6 @@ export default {
 .tile.wip img {
   opacity: 0.5
 }
-.tile.wip .badge.wip {
-  background: darkgray;
-}
-
-.badge.wip {
-  background: darkgray;
-}
 
 .image {
   width: 230px;
@@ -80,6 +73,9 @@ export default {
 }
 .badge.beta {
   background: orange;
+}
+.badge.wip {
+  background: darkgray;
 }
 
 @media (max-width: 719px) {
