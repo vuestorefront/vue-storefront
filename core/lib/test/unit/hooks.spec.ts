@@ -30,14 +30,20 @@ describe('Hooks', () => {
 
   describe('createMutatorHookAsync', () => {
     it('executes functions added by hook', async () => {
+      const testFunc = jest.fn();
+      const wait = jest.fn(() => Promise.resolve({
+        testFunc
+      }));
       const { hook, executor } = await createMutatorHookAsync();
       const mockedFn = jest.fn(arg => `${arg} / test`)
       const mockedRawOutput = 'abc'
 
+      await wait()
       hook(mockedFn)
       hook(mockedFn)
       executor(mockedRawOutput)
 
+      expect(wait).toHaveBeenCalled()
       expect(mockedFn).toHaveBeenCalledWith(mockedRawOutput);
     })
   })
