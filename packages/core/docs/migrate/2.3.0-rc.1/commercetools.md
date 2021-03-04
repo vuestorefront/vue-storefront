@@ -26,5 +26,5 @@ In this release we made changes to the following files:
 - updated icons in `static/icons`,
 - updated `nuxt.config.js`,
 - updated `package.json`,
-- deleted `pages/Checkout/OrderReview.vue` (fallback to the one provided by the `@vue-storefront/nuxt-theme`),
-- deleted `pages/Checkout/PersonalDetails.vue` (fallback to the one provided by the `@vue-storefront/nuxt-theme`).
+- deleted component `pages/Checkout/OrderReview.vue`,
+- deleted component `pages/Checkout/PersonalDetails.vue`.

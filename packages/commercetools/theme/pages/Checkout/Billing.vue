@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
+  <ValidationObserver v-slot="{ handleSubmit, reset }">
     <SfHeading
       :level="3"
       :title="$t('Billing')"

@@ -2,7 +2,7 @@
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
       :level="3"
-      :title="$t('Shipping')"
+      :title="$t('Billing')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
@@ -158,19 +158,20 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-if="!isFormSubmitted"
-            :disabled="loading"
+            class="sf-button color-secondary form__back-button"
+            type="button"
+            @click="$router.push('/checkout/shipping')"
+          >
+            {{ $t('Go back') }}
+          </SfButton>
+          <SfButton
             class="form__action-button"
             type="submit"
           >
-            {{ $t('Select shipping method') }}
+            {{ $t('Continue to payment') }}
           </SfButton>
         </div>
       </div>
-      <ShippingProvider
-        v-if="isFormSubmitted"
-        @submit="$router.push('/checkout/billing')"
-      />
     </form>
   </ValidationObserver>
 </template>
@@ -180,11 +181,13 @@ import {
   SfHeading,
   SfInput,
   SfButton,
-  SfSelect
+  SfSelect,
+  SfRadio,
+  SfCheckbox
 } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import { useShipping } from '<%= options.generate.replace.composables %>';
+import { useBilling } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 
@@ -209,19 +212,19 @@ extend('digits', {
 });
 
 export default {
-  name: 'Shipping',
+  name: 'Billing',
   components: {
     SfHeading,
     SfInput,
     SfButton,
     SfSelect,
+    SfRadio,
+    SfCheckbox,
     ValidationProvider,
-    ValidationObserver,
-    ShippingProvider: () => import('~/components/Checkout/ShippingProvider')
+    ValidationObserver
   },
-  setup () {
-    const isFormSubmitted = ref(false);
-    const { load, save, loading } = useShipping();
+  setup(props, context) {
+    const { load, save } = useBilling();
 
     const form = ref({
       firstName: '',
@@ -236,8 +239,8 @@ export default {
     });
 
     const handleFormSubmit = async () => {
-      await save({ shippingDetails: form.value });
-      isFormSubmitted.value = true;
+      await save({ billingDetails: form.value });
+      context.root.$router.push('/checkout/payment');
     };
 
     onSSR(async () => {
@@ -245,8 +248,6 @@ export default {
     });
 
     return {
-      loading,
-      isFormSubmitted,
       form,
       countries: COUNTRIES,
       handleFormSubmit
@@ -254,10 +255,11 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
+.title {
+  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+}
 .form {
-  --button-width: 100%;
   &__select {
     display: flex;
     align-items: center;
@@ -274,7 +276,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    --button-width: auto;
   }
   &__element {
     margin: 0 0 var(--spacer-xl) 0;
@@ -292,20 +293,31 @@ export default {
       }
     }
   }
+  &__group {
+    display: flex;
+    align-items: center;
+  }
   &__action {
     @include for-desktop {
       flex: 0 0 100%;
       display: flex;
     }
   }
+  &__action-button, &__back-button {
+    --button-width: 100%;
+    @include for-desktop {
+      --button-width: auto;
+    }
+  }
   &__action-button {
     &--secondary {
       @include for-desktop {
         order: -1;
+        --button-margin: 0;
         text-align: left;
       }
     }
-    &--add-address {
+     &--add-address {
       width: 100%;
       margin: 0;
       @include for-desktop {
@@ -317,26 +329,42 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  var(--c-white);
+      color:  white;
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
     }
   }
+  &__back-button {
+    margin: 0 0 var(--spacer-sm) 0;
+    @include for-desktop {
+      margin: 0 var(--spacer-xl) 0 0;
+    }
+  }
 }
-
-.shipping {
-  &__label {
+.payment-methods {
+  @include for-desktop {
     display: flex;
-    justify-content: space-between;
-  }
-  &__description {
-    --radio-description-margin: 0;
-    --radio-description-font-size: var(--font-xs);
+    padding: var(--spacer-lg) 0;
+    border: 1px solid var(--c-light);
+    border-width: 1px 0;
   }
 }
-
-.title {
-  margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+.payment-method {
+  --radio-container-align-items: center;
+  --ratio-content-margin: 0 0 0 var(--spacer-base);
+  --radio-label-font-size: var(--font-base);
+  --radio-background: transparent;
+  white-space: nowrap;
+  border: 1px solid var(--c-light);
+  border-width: 1px 0 0 0;
+  &:last-child {
+    border-width: 1px 0;
+  }
+  --radio-background: transparent;
+  @include for-desktop {
+    border: 0;
+    --radio-border-radius: 4px;
+  }
 }
 </style>

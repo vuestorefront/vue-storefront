@@ -4,7 +4,7 @@ In this release, we introduced few new APIs but also some breaking changes.
 
 Breaking changes are related to the introduction of our new API middleware, an overhaul of the checkout, and updates to `@vue-storefront/cache` library.
 
-If you are an integrator, please also refer to the [Integratiors](./integrators.md) page.
+If you are an integrator, please also refer to the [Integrators](./integrators.md) page.
 
 ## API middleware
 
@@ -123,29 +123,43 @@ TODO:
 We added and updated multiple UI elements:
 
 - renamed `components/checkout` directory in core theme to `components/Checkout` (note the capital `C`). Please update your imports.
-- updated `components/AppFooter.vue`,
-- updated `components/AppHeader.vue`,
-- updated `components/BottomNavigation.vue`,
-- updated `components/Checkout/CartSidebar.vue`,
-- updated `components/InstagramFeed.vue`,
-- updated `components/LocaleSelector.vue`,
-- updated `components/MobileStoreBanner.vue`,
-- updated `components/TopBar.vue`,
-- updated `components/WishlistSidebar.vue`,
-- updated `layouts/default.vue`,
-- updated `layouts/error.vue`,
-- updated `pages/Category.vue`,
-- updated `pages/Checkout/OrderReview.vue`,
-- updated `pages/Home.vue`,
-- updated `pages/MyAccount.vue`,
-- updated `pages/MyAccount/OrderHistory.vue`,
-- updated `pages/Product.vue`,
+- added new components:
+  - `components/Notification.vue`,
+  - `components/SearchResults.vue`,
+  - `pages/Checkout/Billing.vue` with route `/checkout/billing`,
+- added new integration-specific components:
+  - `components/Checkout/CartPreview.vue` (previously implemented in the core theme),
+  - `components/PaymentProvider.vue`,
+  - `components/ShippingProvider.vue`,
+- updated components:
+  - `components/AppFooter.vue`,
+  - `components/AppHeader.vue`,
+  - `components/BottomNavigation.vue`,
+  - `components/Checkout/CartSidebar.vue`,
+  - `components/InstagramFeed.vue`,
+  - `components/LocaleSelector.vue`,
+  - `components/MobileStoreBanner.vue`,
+  - `components/TopBar.vue`,
+  - `components/WishlistSidebar.vue`,
+  - `layouts/default.vue`,
+  - `layouts/error.vue`,
+  - `pages/Category.vue`,
+  - `pages/Checkout.vue`,
+  - `pages/Checkout/Payment.vue`,
+  - `pages/Checkout/Shipping.vue`,
+  - `pages/Home.vue`,
+  - `pages/MyAccount.vue`,
+  - `pages/MyAccount/OrderHistory.vue`,
+  - `pages/Product.vue`,
+- deleted components:
+  - `pages/Checkout/OrderReview.vue` and route `/checkout/order-review`,
+  - `pages/Checkout/PersonalDetails.vue` and route `/checkout/personal-details`,
+  - `components/Checkout/UserBillingAddress.vue`,
+  - `components/Checkout/userShippingAddress.vue`,
 - updated `composables/useUiHelpers/index.ts`:
   - renamed `changeSearchTerm` to `setTermForUrl`,
   - added `getSearchTermFromUrl`,
 - updated translations in `theme/lang`,
-- added new component `components/Notification.vue`,
-- added new component `components/SearchResults.vue`,
-- added new, integration-specific middleware `middleware/is-authenticated.js`,
-- added new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme).
-- added new `useUiNotification` in `composables/useUiNotification/index.ts` (exported in `composables/index.ts`).
+- added new integration-specific middleware `middleware/is-authenticated.js`,
+- added new composable `useUiNotification` in `composables/useUiNotification/index.ts` (exported in `composables/index.ts`),
+
