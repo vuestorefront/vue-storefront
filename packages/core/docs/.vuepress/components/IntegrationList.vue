@@ -57,10 +57,6 @@ export default {
   align-content: space-evenly;
   flex-wrap: wrap;
 }
-/* .filter-label {
-  font-weight: bold;
-  padding: 15px 0;
-} */
 
 /** Override default vue-multiselect styles */
 .multiselect {
