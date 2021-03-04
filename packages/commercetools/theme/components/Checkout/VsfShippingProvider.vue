@@ -89,7 +89,13 @@ export default {
     const shippingMethods = ref([]);
     const { $ct } = useVSFContext();
     const { cart } = useCart();
-    const { response: selectedShippingMethod, save, error: errorShippingProvider, loading: loadingShippingProvider } = useShippingProvider();
+    const {
+      response: selectedShippingMethod,
+      error: errorShippingProvider,
+      loading: loadingShippingProvider,
+      save,
+      load
+    } = useShippingProvider();
 
     const error = reactive({
       loadMethods: null
@@ -139,6 +145,7 @@ export default {
       if (error.loadMethods) {
         return;
       }
+      await load();
       shippingMethods.value = await callHookWithFallback(
         props.afterLoad,
         { shippingMethods: shippingMethodsResponse },
