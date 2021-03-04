@@ -137,7 +137,6 @@ export const ShippingMethodFragment = `
     id
     version
     name
-    description
     isDefault
     localizedDescription(acceptLanguage: $acceptLanguage)
     zoneRates {
