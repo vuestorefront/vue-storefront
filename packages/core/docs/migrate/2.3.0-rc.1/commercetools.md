@@ -9,7 +9,6 @@ For more information about the new version, please refer to the [Overview](./ove
 ## Changes
 
 In this release we made changes to the following files:
-- added new component `components/Checkout/ShippingPriceInfo.vue`,
 - added new components `pages/Checkout/Billing.vue`,
 - added new helper `helpers/Checkout/getShippingMethodPrice.ts`,
 - added new middleware `middleware/is-authenticated.js`,

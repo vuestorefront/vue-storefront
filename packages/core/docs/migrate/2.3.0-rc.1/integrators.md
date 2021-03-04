@@ -212,5 +212,4 @@ We added and updated multiple UI elements. Please refer to the [UI section](./ov
 Notable changes are:
 - renamed `components/checkout` directory in core theme to `components/Checkout` (note the capital `C`). Please update your imports,
 - new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme),
-- new integration-specific component  `components/Checkout/ShippingPriceInfo.vue`,
 - new integration-specific middleware `middleware/is-authenticated.js`.

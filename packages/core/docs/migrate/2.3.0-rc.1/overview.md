@@ -146,7 +146,6 @@ We added and updated multiple UI elements:
 - updated translations in `theme/lang`,
 - added new component `components/Notification.vue`,
 - added new component `components/SearchResults.vue`,
-- added new, integration-specific component `components/Checkout/ShippingPriceInfo.vue`,
 - added new, integration-specific middleware `middleware/is-authenticated.js`,
 - added new integration-specific component `components/Checkout/CartPreview.vue` (previously implemented as `components/checkout/CartPreview.vue` in the core theme).
 - added new `useUiNotification` in `composables/useUiNotification/index.ts` (exported in `composables/index.ts`).
