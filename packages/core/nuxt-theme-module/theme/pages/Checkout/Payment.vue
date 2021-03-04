@@ -63,7 +63,7 @@
           class="sf-property--full-width sf-property--large summary__property-total"
         />
 
-        <PaymentProvider @status="isPaymentReady = true"/>
+        <VsfPaymentProvider @status="isPaymentReady = true"/>
 
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
           <template #label>
@@ -126,7 +126,7 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
-    PaymentProvider: () => import('~/components/Checkout/PaymentProvider')
+    VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();

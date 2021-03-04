@@ -167,7 +167,7 @@
           </SfButton>
         </div>
       </div>
-      <ShippingProvider
+      <VsfShippingProvider
         v-if="isFormSubmitted"
         @submit="$router.push('/checkout/billing')"
       />
@@ -217,7 +217,7 @@ export default {
     SfSelect,
     ValidationProvider,
     ValidationObserver,
-    ShippingProvider: () => import('~/components/Checkout/ShippingProvider')
+    VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
   },
   setup () {
     const isFormSubmitted = ref(false);

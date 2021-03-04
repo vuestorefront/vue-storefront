@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <b>Please implement vendor specific PaymentProvider component in 'components/Checkout' directory</b>
+      <b>Please implement vendor specific VsfShippingProvider component in 'components/Checkout' directory</b>
     </p>
 
     <SfRadio
@@ -18,7 +18,19 @@
       <div class="shipping__label">
         {{ method.label }}
       </div>
+
+      <div class="shipping__description">
+        {{ method.description }}
+      </div>
     </SfRadio>
+
+    <SfButton
+      :disabled="!selectedMethod"
+      type="button"
+      @click="$emit('submit')"
+    >
+      {{ $t('Continue to billing') }}
+    </SfButton>
   </div>
 </template>
 
@@ -27,28 +39,22 @@ import { SfButton, SfRadio } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
 
 const SHIPPING_METHODS = [
-  { label: 'Visa Debit', value: 'visa_debit' },
-  { label: 'MasterCard', value: 'master_card' },
-  { label: 'VisaElectron', value: 'visa_electron' },
-  { label: 'Cash on delivery', value: 'cash' },
-  { label: 'Check', value: 'check' }
+  { label: 'Express US', value: 'express', description: 'Same day delivery' },
+  { label: 'Standard US', value: 'standard', description: 'Delivery in 5-6 working days' }
 ];
 
 export default {
-  name: 'PaymentProvider',
+  name: 'VsfShippingProvider',
 
   components: {
     SfButton,
     SfRadio
   },
 
-  setup(props, { emit }) {
+  setup() {
     const selectedMethod = ref(null);
 
-    const selectMethod = (method) => {
-      selectedMethod.value = method;
-      emit('status');
-    };
+    const selectMethod = method => selectedMethod.value = method;
 
     return {
       shippingMethods: SHIPPING_METHODS,
