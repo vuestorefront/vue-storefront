@@ -644,13 +644,13 @@ Hooks are common development method written by core developers to allow 3rd part
 
 Core developers usually strive to optimize where to put hooks. In _Vue Storefront_, hooks generally fall under either of two groups:
 
-- `Listener (createListenerHook)` - just fires functions passed to hook function when executor is invoked.
-  E. g. we want to listen for onAppInit event in various places of the application.
+- `Listener (createListenerHook)` - calls functions passed to hook function when executor is invoked.
+  e.g. We want to listen for `afterAddToCart` event in various places of the application.
   Functions passed to this hook will be invoked only when executor function is executed.
   Usually we want to use hook in app/modules and executor in core.
 
-- `Mutator (createMutatorHook / createMutatorHookAsync)` - we have two kinds of mutators, Sync and Async. They work like listeners except they can modify passed value in hooks.
-  E.g we can apply the hook mutator to object order that is returned before placing order
+- `Mutator (createMutatorHook / createAsyncMutatorHook)` - we have two kinds of mutators, Sync and Async. They work like listeners except they can modify passed value in hooks.
+  e.g. We can apply the hook mutator to object order that is returned before placing order
   now you can access and modify this value from hook returned by this function
 
 In this recipe, we look into where they are and how this can be applied to your _module_ development.
@@ -699,25 +699,25 @@ We build a module that applies a discount to certain `storeviews` only.
 #### Secret 1. The list of hooks
 
 1. `cart`
-  - `beforeSync (createMutatorHookAsync)`
-  - `afterSync (createListenerHook)`
-  - `beforeAddToCart (createMutatorHookAsync)`
-  - `afterAddToCart (createListenerHook)`
-  - `beforeRemoveFromCart (createMutatorHookAsync)`
-  - `afterRemoveFromCart (createListenerHook)`
+  - `beforeSync - Mutator`
+  - `afterSync - Listener`
+  - `beforeAddToCart - Async Mutator`
+  - `afterAddToCart - Listener`
+  - `beforeRemoveFromCart - Async Mutator`
+  - `afterRemoveFromCart - Listener`
 
 2. `order`
-  - `beforePlaceOrder (createMutatorHookAsync)`
-  - `afterPlaceOrder (createListenerHook)`
+  - `beforePlaceOrder - Async Mutator`
+  - `afterPlaceOrder - Listener`
 
 3. `user`
-  - `afterUserAuthorize (createListenerHook)`
-  - `afterUserUnauthorize (createListenerHook)`
+  - `afterUserAuthorize - Listener`
+  - `afterUserUnauthorize - Listener`
 
 4. `app` _global level_
-  - `beforeStoreViewChange (createMutatorHookAsync)`
-  - `afterStoreViewChange (createListenerHook)`
-  - `afterAppInit (createListenerHook)`
+  - `beforeStoreViewChange - Async Mutator`
+  - `afterStoreViewChange - Listener`
+  - `afterAppInit - Listener`
 
 :::warning NOTICE
 The list is of course subject to change, it grows for each core module to handle all use cases.

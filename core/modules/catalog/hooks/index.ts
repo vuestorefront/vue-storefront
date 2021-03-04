@@ -1,10 +1,10 @@
-import { createListenerHook, createMutatorHookAsync } from '@vue-storefront/core/lib/hooks'
+import { createListenerHook, createAsyncMutatorHook } from '@vue-storefront/core/lib/hooks'
 import Product from '../types/Product';
 
 const {
   hook: beforeTaxesCalculatedHook,
   executor: beforeTaxesCalculatedExecutor
-} = createMutatorHookAsync<Product[], Product[]>()
+} = createAsyncMutatorHook<Product[], Product[]>()
 
 const {
   hook: afterSetBundleProductsHook,

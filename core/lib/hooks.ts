@@ -40,8 +40,7 @@ function createMutatorHook<T, R> () {
   function executor (rawOutput: T): T | R {
     if (mutators.length > 0) {
       let modifiedOutput: R = null
-      for (let i = 0; i < mutators.length; i++) {
-        const mutatorFn = mutators[i];
+      for (let mutatorFn of mutators) {
         modifiedOutput = mutatorFn(rawOutput);
       }
       return modifiedOutput
@@ -56,18 +55,17 @@ function createMutatorHook<T, R> () {
   }
 }
 
-function createMutatorHookAsync<T, R> () {
-  const mutators: ((arg: T) => R)[] = []
+function createAsyncMutatorHook<T, R> () {
+  const mutators: ((arg: T) => Promise<R>)[] = []
 
-  function hook (mutator: (arg: T) => R) {
+  function hook (mutator: (arg: T) => Promise<R>) {
     mutators.push(mutator)
   }
 
   async function executor (rawOutput: T): Promise<T | R> {
     if (mutators.length > 0) {
       let modifiedOutput: R = null
-      for (let i = 0; i < mutators.length; i++) {
-        const mutatorFn = mutators[i];
+      for (let mutatorFn of mutators) {
         modifiedOutput = await mutatorFn(rawOutput);
       }
       return modifiedOutput
@@ -85,7 +83,7 @@ function createMutatorHookAsync<T, R> () {
 export {
   createListenerHook,
   createMutatorHook,
-  createMutatorHookAsync
+  createAsyncMutatorHook
 }
 
 // TODO: Hooks for Client entry, replaceState (can be part of client entry), shopping cart loaded, user logged

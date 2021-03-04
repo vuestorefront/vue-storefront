@@ -1,9 +1,9 @@
-import { createListenerHook, createMutatorHookAsync } from '@vue-storefront/core/lib/hooks'
+import { createListenerHook, createAsyncMutatorHook } from '@vue-storefront/core/lib/hooks'
 
 const {
   hook: beforePlaceOrderHook,
   executor: beforePlaceOrderExecutor
-} = createMutatorHookAsync<any, any>()
+} = createAsyncMutatorHook<any, any>()
 
 const {
   hook: afterPlaceOrderHook,
