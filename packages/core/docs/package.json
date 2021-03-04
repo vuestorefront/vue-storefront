@@ -5,12 +5,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./scripts/generateCtApi.js && vuepress dev",
-    "build": "node ./scripts/generateCtApi.js && vuepress build"
+    "dev": "vuepress dev",
+    "build": "vuepress build",
+    "ct-api-client-tdoc": "node ./scripts/generateCtApiRef",
+    "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference > ./commercetools/api-client-reference.md && rm -r ./commercetools/api-client-reference && node typedoc-vsf-theme/removeText"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^0.0.3",
-    "typedoc": "^0.17.1",
+    "concat-md": "^0.3.5",
+    "handlebars": "^4.7.7",
+    "typedoc": "^0.20.20",
+    "typedoc-plugin-markdown": "^3.4.5",
+    "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
