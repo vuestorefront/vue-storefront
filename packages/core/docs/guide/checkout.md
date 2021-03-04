@@ -63,7 +63,14 @@ export default {
 Shipping details stored on the server with `save` method will be always possible to load with `load` method.
 
 ## Shipping providers
-We delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. Each shipping extension shares one. All we have to do is import and put it in a proper place.
+Shipping provider is an aggregator that provides us one or more shipping methods.    
+
+To give you the best developer experience, we delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. It takes care of:
+- Loading and showing available shipping methods
+- Loading currently picked shipping method
+- Picking and configuring shipping method
+
+All we have to do is import and put it in `pages/Shipping.vue` as a [second part of the Shipping step](https://github.com/vuestorefront/vue-storefront/blob/next/packages/commercetools/theme/pages/Checkout/Shipping.vue#L197):
 ```vue
 <VsfShippingProvider
   @submit="$router.push('/checkout/billing')"
@@ -79,7 +86,6 @@ You can pass asynchronous functions as `VsfShippingProvider` props to hook into 
 - **onSelectedDetailsChanged** - called after modifying currently picked shipping method, e.g. selecting parcel locker on the map
 - **onError** - called when some operation throws an error
 
-We can inject in the hook via props:
 ```vue
 <VsfShippingProvider
   :beforeLoad="beforeLoad"
@@ -89,8 +95,9 @@ We can inject in the hook via props:
   :onError="onError"
 />
 ```
-
-
+:::warning
+Signatures of hook functions might be different per integration.
+:::
 ## Billing details
 Billing details are information about the payer and her/his address. Based on that, payment providers might evaluate probability of fraud payment. Also it is a place, where we should store information for invoice.
 
