@@ -85,4 +85,11 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
 
 ## Configuring Middleware
 
-There are certain things related to Integration Middleware that are not tied to any specific integration like setting custom GraphQL queries you can configure. You can read more about the Middleware and its configuration [here](/v2/advanced/server-middleware).
+Your app will be full of integrations and extensions. At least you'll have an eCommerce platform, CMS and some payment provider. Each of them is configurable through a dedicated Nuxt module. You can find a Nuxt module of every official Vue Storefront integration in it's `/nuxt` directory (`@vue-storefront/{integration}/nuxt`).
+
+Below you can find links to configs of the official eCommerce integrations:
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/configuration.html"
+ shopify="/shopify/api-client.html"
+/>
