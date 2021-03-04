@@ -158,7 +158,7 @@ module.exports = {
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
             ['/guide/user-profile', 'User profile'],
-                        ['/guide/authentication', 'Authentication']
+            ['/guide/authentication', 'Authentication']
 					]
 				},
 				{
@@ -177,7 +177,7 @@ module.exports = {
 					title: 'Build integration',
 					collapsable: true,
 					children: [
-						['/integrate/integration-guide', 'Integration guide'],
+						['/integrate/integration-guide', 'eCommerce'],
 						['/integrate/cms', 'CMS'],
 						['/integrate/cache-driver', 'Cache driver']
 					]
