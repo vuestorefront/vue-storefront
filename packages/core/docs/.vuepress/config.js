@@ -74,7 +74,7 @@ module.exports = {
 					title: 'Extensions',
 					collapsable: false,
 					children: [
-						['/commercetools/user-groups', 'User groups']
+						['/commercetools/extensions/user-groups', 'User groups']
 					]
 				},
 				{
