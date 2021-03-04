@@ -20,7 +20,7 @@ Now, instead of making API calls directly to the provider, the browser will requ
 
 ### Changes
 
-1. Create two new files in the root of your Nuxt project named `middleware.config.js` and `middleware.js`. Content of the first one is dependant on the integration you use, but as an example we will use our `commercetools` integration:
+1. Create a new configuration files in the root of your Nuxt project named `middleware.config.js`. Content is dependant on the integration you use. As an example we will use our `commercetools` integration:
 
 ```javascript
 // middleware.config.js
@@ -44,18 +44,6 @@ module.exports = {
   }
 };
 
-```
-
-```javascript
-// middleware.js
-const { createServer } = require('@vue-storefront/middleware');
-const { integrations } = require('./middleware.config');
-
-const app = createServer({ integrations });
-
-app.listen(8181, () => {
-  console.log('Middleware started');
-});
 ```
 
 2. Add `'@vue-storefront/middleware/nuxt'` to the `modules` in `nuxt.config.js`.

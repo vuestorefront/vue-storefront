@@ -14,7 +14,6 @@ In this release we made changes to the following files:
 - added new helper `helpers/Checkout/getShippingMethodPrice.ts`,
 - added new middleware `middleware/is-authenticated.js`,
 - added `middleware.config.js`,
-- added `middleware.js`,
 - updated `components/Checkout/UserBillingAddresses.vue`,
 - updated `components/Checkout/UserShippingAddresses.vue`,
 - updated `composables/useUiHelpers/index.ts`:
