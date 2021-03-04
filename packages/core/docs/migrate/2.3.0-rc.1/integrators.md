@@ -170,7 +170,7 @@ module.exports = {
 ```
 
 - `<TAG NAME>` - the name of your integration and must match the one provided in the `composables/nuxt/plugin.js`.
-- `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` built by Rollup.
+- `<PATH>` - path to your server package and must match the output of `api-client/src/index.server.ts` built by Rollup (usually `@your-api-integration/server`).
 - `<CONFIGURATION>` - integration configuration that previously lived in `nuxt.config.js`.
 
 The last step is to add `'@vue-storefront/middleware/nuxt'` to the `modules` in `nuxt.config.js`.
