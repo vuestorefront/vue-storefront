@@ -31,63 +31,65 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style scoped>
 .tile {
-  @media (max-width: 719px) {
-    width: 50%;
-    height: 150px;
-  }
   display: inline-flex;
   width: 230px;
   height: 230px;
   flex-direction: row;
   position: relative;
   margin: 10px 0;
+}
+.tile.wip img {
+  opacity: 0.5
+}
+.tile.wip .badge.wip {
+  background: darkgray;
+}
 
-  &.wip {
-    img {
-      opacity: 0.5
-    }
-    .badge.wip {
-      background: darkgray;
-    }
+.badge.wip {
+  background: darkgray;
+}
+
+.image {
+  width: 230px;
+  height: 230px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 23px -16px rgba(0,0,0,0.6);
+  padding: 20px;
+  box-sizing: border-box;
+  position: absolute;
+}
+.image:hover {
+  box-shadow: 0 0 23px -16px rgba(0,0,0,1);
+  transition: 0.3s box-shadow;
+}
+
+.badge {
+  position: absolute;
+  font-size: 14px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 3px;
+  padding: 0 6px;
+  color: #fff;
+  top: 8px;
+  left:8px;
+}
+.badge.beta {
+  background: orange;
+}
+
+@media (max-width: 719px) {
+  .tile {
+    width: 50%;
+    height: 150px;
   }
-
   .image {
-    @media (max-width: 719px) {
-      width: 150px;
-      height: 150px;
-    }
-    width: 230px;
-    height: 230px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 0 23px -16px rgba(0,0,0,0.6);
-    padding: 20px;
-    box-sizing: border-box;
-    position: absolute;
-
-    &:hover {
-      box-shadow: 0 0 23px -16px rgba(0,0,0,1);
-      transition: 0.3s box-shadow;
-    }
-    
-    .badge {
-      position: absolute;
-      font-size: 14px;
-      height: 18px;
-      line-height: 18px;
-      border-radius: 3px;
-      padding: 0 6px;
-      color: #fff;
-      top: 8px;
-      left:8px;
-
-      &.beta {
-        background: orange;
-      }
-    }
+    width: 150px;
+    height: 150px;
   }
 }
 </style>
