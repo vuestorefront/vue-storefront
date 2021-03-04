@@ -26,6 +26,8 @@ export type Product = Record<string, unknown>;
 
 export type Review = Record<string, unknown>;
 
+export type Shipping = Record<string, unknown>;
+
 export type ShippingMethod = Record<string, unknown>;
 
 export type WishlistProduct = Record<string, unknown>;

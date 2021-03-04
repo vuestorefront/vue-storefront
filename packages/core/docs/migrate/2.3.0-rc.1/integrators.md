@@ -67,20 +67,6 @@ export default [
     input: 'src/index.ts',
     output: [
       {
-        file: 'server/index.js', // Add this directory to .gitignore
-        format: 'cjs',
-        sourcemap: true
-      }
-    ],
-    external,
-    plugins
-  },
-
-  // Server
-  {
-    input: 'src/index.server.ts',
-    output: [
-      {
         file: 'lib/index.cjs.js', // Add this directory to .gitignore
         format: 'cjs',
         sourcemap: true
@@ -93,7 +79,21 @@ export default [
     ],
     external,
     plugins
-  }
+  },
+
+  // Server
+  {
+    input: 'src/index.server.ts',
+    output: [
+      {
+        file: 'server/index.js', // Add this directory to .gitignore
+        format: 'cjs',
+        sourcemap: true
+      }
+    ],
+    external,
+    plugins
+  },
 ];
 ```
 
@@ -198,12 +198,15 @@ We added the following composables:
 - `useShippingProvider` for handling shipping providers,
 - `useMakeOrder` for placing the final order.
 
+We added two new components to delegate UI-related logic:
+- `VsfPaymentProviderMock` (`Mock` because commercetools doesn't handle payments),
+- `VsfShippingProvider`.
+
 We also used this opportunity to cleanup other composables:
 - removed `useCheckout`,
 - removed `checkoutGetters`,
 - renamed `useUserOrders` to `useUserOrder` to be consistent with other composables,
 - renamed `isOnCart` and `isOnWishlist` in `useCart` composable to `isInCart` and `isInWishlist`.
-
 
 ## UI
 
