@@ -58,11 +58,7 @@ export default {
   flex-wrap: wrap;
 }
 
-/** Override default vue-multiselect styles */
 .multiselect {
   margin-bottom: 20px;
-}
-.multiselect__tag, .multiselect__option--selected, .multiselect__option--highlight {
-  background: #22c34b !important;
 }
 </style>
