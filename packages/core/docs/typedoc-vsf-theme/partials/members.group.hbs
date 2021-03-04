@@ -1,0 +1,25 @@
+{{#if categories}}
+
+{{#each categories}}
+
+{{#unless @first}}
+___
+{{/unless}}
+
+{{#each children}}
+
+{{> member}}
+
+{{/each}}
+
+{{/each}}
+
+{{else}}
+
+{{#each children}}
+
+{{> member}}
+
+{{/each}}
+
+{{/if}}
