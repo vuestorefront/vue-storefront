@@ -81,19 +81,23 @@ To remove an item from the cart use `removeItem` function, and similarly to upda
 <template>
   ...
     <div>
-      <div>
-        <input type="number" v-model="quantity"/>
-        <button
-           @click="updateItemQty({ product, quantity })"
+      <ul>
+        <li
+          v-for="(product, i) in products" :key="i"
         >
-          Change quantity
-        </button>
-        <button        
-          @click="removeItem({ product })"
-        >
-          Remove product
-        </button>
-      </div>
+          <input type="number"/>
+          <button
+            @click="updateItemQty({ product, quantity })"
+          >
+            Change quantity
+          </button>
+          <button        
+            @click="removeItem({ product })"
+          >
+            Remove product
+          </button>
+        </li>
+      </ul>
       <span>
         {{ totals.total }}
       </span>
@@ -188,7 +192,7 @@ To clear cart items (not delete it) use `clear` function.
         </li>
       <ul>
       <button
-        @click="clear(cart.value)"
+        @click="clear"
       >
         Clear cart
       </button>
@@ -209,7 +213,6 @@ To clear cart items (not delete it) use `clear` function.
 
       return {
         products,
-        cart,
         clear 
       };
     }
@@ -226,9 +229,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
 <template>
   ...
     <div>
-      <input
-        v-model="promoCode"
-      />
+      <input />
       <button 
         @click="() => applyCoupon({ couponCode: promoCode })"
       >
@@ -243,7 +244,6 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
   ...
 </template>   
 <script>      
-  import { computed } from '@vue/composition-api';
   import { useCart } from '{INTEGRATION}';
   export default {
     setup() {
@@ -390,7 +390,7 @@ To remove an item from the cart use `removeItem` function.
 
 ## Checking if the item is on the wishlist 
 
-To check if a product is already on the wishlist pass it to `isOnWishlist` method:
+To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
 ```vue
 <template>
@@ -400,7 +400,7 @@ To check if a product is already on the wishlist pass it to `isOnWishlist` metho
         v-for="(product, i) in products" :key="i"
       >
         <div
-          :isAddedToWishlist="isOnWishlist({ product })"
+          :isAddedToWishlist="isInWishlist({ product })"
         >
         </div>
       </li>
@@ -415,13 +415,13 @@ To check if a product is already on the wishlist pass it to `isOnWishlist` metho
       const { result } = useFacet();
       const {
         cart,
-        isOnWishlist, 
+        isInWishlist, 
       } = useWishlist();
       const products = computed(() => facetGetters.getProducts(result.value));
 
       return {
         products,
-        isOnWishlist, 
+        isInWishlist, 
       };
     }
   };
@@ -438,13 +438,13 @@ Cleaning the wishlist can be achieved by `clear` property.
     <div>
       <ul>
         <li
-          v-for="product in products"
+          v-for="(product, i) in products" :key="i"
         >
           ...
         </li>
       <ul>
       <button
-        @click="clear(cart.value)"
+        @click="clear()"
       >
         Clear wishlist
       </button>
@@ -487,7 +487,7 @@ In the following two examples, you can analyze how both composables are used in 
         v-for="(product, i) in products" :key="i"> 
       >
         <button
-          @click="addToCart({ product, parseInt(quantity) })"
+          @click="addToCart({ product, quantity })"
         >
           Add to cart
         </button>
@@ -501,7 +501,7 @@ In the following two examples, you can analyze how both composables are used in 
         >
         </div>
         <div
-          :isAddedToCart="isOnWishlist({ product })"
+          :isAddedToWishlist="isInWishlist({ product })"
         >
         </div>
       </li>
@@ -510,7 +510,7 @@ In the following two examples, you can analyze how both composables are used in 
 </template>    
 <script>     
   import { useCart, useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
-  import { onSSR } from '@vue-storefront/core';
+
   export default {
     setup() {
       const { result } = useFacet();
@@ -522,7 +522,7 @@ In the following two examples, you can analyze how both composables are used in 
 
       const { 
         addItem: addToWishlist, 
-        isOnWishlist
+        isInWishlist
       } = useWishlist()
       const products = computed(() => facetGetters.getProducts(result.value));
 
@@ -531,7 +531,7 @@ In the following two examples, you can analyze how both composables are used in 
         addToCart,
         isInCart,
         addToWishlist,
-        isOnWishlist,
+        isInWishlist,
         loading
       };
     }
@@ -558,7 +558,7 @@ The cart and the wishlist components:
           <button
             @input="updateQuantity({ product, quantity })"
           >
-            Add more
+            Change quantity
           </button>
           <button        
             @click="removeFromCart({ product })"
@@ -574,7 +574,7 @@ The cart and the wishlist components:
         {{ cartTotalItems }}
       </span>
       <button
-        @click="clearCart()"
+        @click="clearCart"
       >
         Clear cart
       </button>
@@ -602,7 +602,7 @@ The cart and the wishlist components:
         {{ wishlistTotalItems }}
       </span>
       <button
-        @click="clearWishlist()"
+        @click="clearWishlist"
       >
         Clear wishlist
       </button>
@@ -663,6 +663,12 @@ The cart and the wishlist components:
         removeFromWishlist, 
         clearWishlist
       };
+    },
+    data() {
+      return {
+        quantity: 0,
+        promoCode: "",
+      }
     }
   };
 </script>
