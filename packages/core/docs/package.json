@@ -20,5 +20,8 @@
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "vue-multiselect": "^2.1.6"
+  }
 }
