@@ -1,8 +1,9 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
 import useCart from '../useCart';
-import { ShippingMethod } from './../types/GraphQL';
+import { ShippingInfo, ShippingMethod } from './../types/GraphQL';
+import { cartActions } from '@vue-storefront/commercetools-api';
 
-const params: UseShippingProviderParams<ShippingMethod> = {
+const params: UseShippingProviderParams<ShippingInfo, ShippingMethod> = {
   provide() {
     return {
       cart: useCart()
@@ -13,7 +14,19 @@ const params: UseShippingProviderParams<ShippingMethod> = {
       await context.cart.load({ customQuery });
     }
     return context.cart.cart.value.shippingInfo;
+  },
+  save: async (context: Context, { shippingMethod, customQuery }) => {
+    const cartResponse = await context.$ct.api.updateCart({
+      id: context.cart.cart.value.id,
+      version: context.cart.cart.value.version,
+      actions: [
+        cartActions.setShippingMethodAction(shippingMethod.id)
+      ]
+    }, customQuery);
+    context.cart.setCart(cartResponse.data.cart);
+
+    return context.cart.cart.value.shippingInfo;
   }
 };
 
-export default useShippingProviderFactory<ShippingMethod>(params);
+export default useShippingProviderFactory<ShippingInfo, ShippingMethod>(params);

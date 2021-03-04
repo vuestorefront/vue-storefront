@@ -9,7 +9,7 @@
       <div v-if="error.loadMethods">
         {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
       </div>
-      <div v-else-if="error.saveMethod">
+      <div v-else-if="errorShippingProvider.save">
         {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
       </div>
       <div class="form__radio-group">
@@ -18,10 +18,10 @@
             :key="method.id"
             :label="method.name"
             :value="method.id"
-            :selected="selectedShippingMethod.id"
+            :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
             @input="selectShippingMethod(method)"
             name="shippingMethod"
-            :description="method.description"
+            :description="method.localizedDescription"
             class="form__radio shipping"
           >
             <template #label="{ label }">
@@ -30,10 +30,10 @@
                 <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
               </div>
             </template>
-            <template #description="{ description }">
+            <template #description="{ localizedDescription }">
               <div class="sf-radio__description shipping__description">
                 <div class="shipping__info">
-                  {{ description }}
+                  {{ localizedDescription }}
                 </div>
               </div>
             </template>
@@ -49,7 +49,7 @@
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"
-          :disabled="!isShippingMethodStepCompleted || loading"
+          :disabled="!isShippingMethodStepCompleted || loading || loadingShippingProvider.save"
         >
           {{ $t('Continue to billing') }}
         </SfButton>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { useCart } from '@vue-storefront/commercetools';
+import { useCart, useShippingProvider } from '@vue-storefront/commercetools';
 import {
   SfHeading,
   SfButton,
@@ -68,7 +68,6 @@ import {
 import { ref, reactive, onMounted } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
-import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
   name: 'VsfShippingProvider',
@@ -88,13 +87,18 @@ export default {
     const isShippingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
-    const selectedShippingMethod = ref({});
     const { $ct } = useVSFContext();
-    const { cart, setCart } = useCart();
+    const { cart } = useCart();
+    const {
+      response: selectedShippingMethod,
+      error: errorShippingProvider,
+      loading: loadingShippingProvider,
+      save,
+      load
+    } = useShippingProvider();
 
     const error = reactive({
-      loadMethods: null,
-      saveMethod: null
+      loadMethods: null
     });
 
     const callHookWithFallback = async (hookFn, arg = null, fallbackValue = null) => {
@@ -121,45 +125,16 @@ export default {
       }
     };
 
-    const saveMethod = async ({ shippingMethod }) => {
-      try {
-        error.saveMethod = null;
-        loading.value = true;
-        const cartResponse = await $ct.api.updateCart({
-          id: cart.value.id,
-          version: cart.value.version,
-          actions: [
-            cartActions.setShippingMethodAction(shippingMethod.id)
-          ]
-        });
-
-        setCart(cartResponse.data.cart);
-        return cartResponse.data.cart.shippingInfo.shippingMethod;
-      } catch (err) {
-        error.saveMethod = err;
-        await callHookWithFallback(
-          props.onError,
-          {
-            action: 'saveMethod',
-            error: error.saveMethod
-          }
-        );
-      } finally {
-        loading.value = false;
-      }
-    };
-
     const selectShippingMethod = async shippingMethod => {
-      if (loading.value) {
+      if (loadingShippingProvider.value.save) {
         return;
       }
-      const newShippingMethod = await saveMethod({ shippingMethod });
-      if (error.saveMethod) {
-        selectedShippingMethod.value = {};
+      await save({ shippingMethod });
+      if (errorShippingProvider.value.save) {
         isShippingMethodStepCompleted.value = false;
         return;
       }
-      selectedShippingMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
+      await callHookWithFallback(props.onSelected, { shippingMethod: selectedShippingMethod.value });
       isShippingMethodStepCompleted.value = true;
     };
 
@@ -170,6 +145,7 @@ export default {
       if (error.loadMethods) {
         return;
       }
+      await load();
       shippingMethods.value = await callHookWithFallback(
         props.afterLoad,
         { shippingMethods: shippingMethodsResponse },
@@ -179,13 +155,17 @@ export default {
     });
 
     return {
-      loading,
       shippingMethods,
       selectedShippingMethod,
       selectShippingMethod,
       getShippingMethodPrice,
       isShippingMethodStepCompleted,
-      error
+
+      loading,
+      loadingShippingProvider,
+
+      error,
+      errorShippingProvider
     };
   }
 };
