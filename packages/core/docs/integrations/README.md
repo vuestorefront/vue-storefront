@@ -38,7 +38,7 @@ Click on the integration tile to read its documentation.
     isWip="true"
   />
   <IntegrationTile
-    name="Secret project"
+    name="You will learn when the time is right"
     image="https://static.wikia.nocookie.net/fouls/images/7/7c/Noimage.png/revision/latest?cb=20200926233758"
     category="eCommerce"
     isWip="true"
