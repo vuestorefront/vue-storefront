@@ -66,7 +66,7 @@ We delegate whole logic of selecting shipping method to the dedicated component 
 
 VsfShippingProvider emits `submit` event when it is ready to move to the next step.
 
-Component shares 5 hooks with async support:
+You can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle and override initial function parameters or react to specific events like method selection
 - **beforeLoad** - called before loading shipping methods
 - **afterLoad** - called after loading shipping methods
 - **onSelected** - called after selecting shipping method
