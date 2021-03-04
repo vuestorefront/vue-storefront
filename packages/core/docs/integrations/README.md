@@ -10,14 +10,14 @@ Click on the integration tile to read its documentation.
     image="https://www.deloittedigital.de/en/solutions/commercetools/_jcr_content/par/component_container/par/column_ctrl/col3/image.coreimg.png/1593072562788/commercetools-logo.png"
     category="eCommerce"
     isEnterprise="true"
-    link="/commercetools"
+    link="/v2/commercetools"
   />
   <IntegrationTile
     name="Shopify"
     image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/1024px-Shopify_logo_2018.svg.png"
     category="eCommerce"
     isBeta="true"
-    link="/shopify"
+    link="/v2/shopify"
   />
   <IntegrationTile
     name="BigCommerce"
