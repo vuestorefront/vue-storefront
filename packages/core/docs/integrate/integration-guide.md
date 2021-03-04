@@ -400,10 +400,14 @@ You need to create a couple of Vue components:
 |----------------------------------------------|-------------------------------------|-------------|
 | components/UserBillingAddress.vue            | { address: Object }                 |             |
 | components/UserShippingAddress.vue           | { address: Object }                 |             |
+| components/Checkout/CartPreview.vue          |                                     |             |
+| components/Checkout/ShippingPriceInfo.vue    |                                     |             |
 | components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
+| helpers/filters/getFiltersForUrl.js          |                                     |             |
+| helpers/filters/getFiltersFromUrl.js         |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Creating Vue components
