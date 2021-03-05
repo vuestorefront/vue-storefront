@@ -28,44 +28,6 @@ You can treat each composable as an independent micro-application. They manage t
 const { search, product, loading, error } = useProduct();
 ```
 
-Vue Storefront integrations are exposing the following composables:
-
-#### Product Catalog
-
-- [useProduct](/composables/use-product) for managing a single product with variants (or a list)
-- [useCategory](/composables/use-category) for managing category lists (but not category products)
-- [useFacet](/composables/use-facet) for complex catalog search with filtering
-- [useReview](/composables/use-review) for product reviews
-
-#### User Profile and Authorization
-
-- [useUser](/composables/use-user) for managing user sessions, credentials and registration
-- [useUserShipping](/composables/use-user-shipping) for managing shipping addresses
-- [useUserBilling](/composables/use-user-billing) for managing billing addresses
-- **useUserOrders** for managing past and active user orders
-
-#### Shopping Cart
-
-- [useCart](/composables/use-cart) for loading the cart, adding/removing products and discounts
-
-#### Wishlist/Favourite
-
-- [useWishlist](/composables/use-wishlist) for loading the wishlist, adding/removing products
-
-#### CMS Content
-
-- [useContent](/composables/use-content) for fetching the CMS content. It is usually used in combination with `<RenderContent>`component
-
-#### Checkout
-
-- **useCheckout** for saving the shipping and billing address for a current order, choosing a shipping method, making payments, and placing the order
-
-#### Other
-
-- [useVSFContext](/general/context) for accessing the integration API methods and client instances
-
-In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
-
 You can read more about Vue Storefront composables [here](guide/composables.html)
 
 ## Routing

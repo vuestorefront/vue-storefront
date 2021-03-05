@@ -32,7 +32,7 @@ The `load` function will load your cart from the server or create a new one if i
 ```
 
 
-## Adding item to the cart
+## Adding an item to the cart
 
 To add the product to the cart you can use `addItem` method:
 
@@ -291,7 +291,7 @@ The `load` function will load your cart from the server or create a new one if i
 ```
 
 
-## Adding item to the wishlist
+## Adding an item to the wishlist
 
 To add the product to the wishlist you can use `addItem` method:
 
@@ -331,7 +331,7 @@ To add the product to the wishlist you can use `addItem` method:
 </script>
 ```
 
-## Removing the item from the wishlist
+## Removing an item from the wishlist
  
 To remove an item from the cart use `removeItem` function.
 
@@ -388,7 +388,7 @@ To remove an item from the cart use `removeItem` function.
 </script>
 ```
 
-## Checking if the item is on the wishlist 
+## Checking if an item is on the wishlist 
 
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
@@ -428,7 +428,7 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
 </script>
 ```
 
-## Deleting all items added to wishlist
+## Removing all wishlist items at once
 
 Cleaning the wishlist can be achieved by `clear` property.
 
