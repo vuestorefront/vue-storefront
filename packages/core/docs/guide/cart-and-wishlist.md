@@ -162,6 +162,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
 
   export default {
     setup() {
+      const { result } = useFacet();
       const {
         isInCart, 
       } = useCart();
@@ -638,7 +639,7 @@ The cart and the wishlist components:
       const wishlistTotalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
 
-      // Use one of the following depending on which component you are using
+      // Depending on the component you are using, use one of the following ssr loading
 
       onSSR(async () => {
         await loadWishlist();
@@ -667,7 +668,6 @@ The cart and the wishlist components:
     data() {
       return {
         quantity: 0,
-        promoCode: "",
       }
     }
   };
