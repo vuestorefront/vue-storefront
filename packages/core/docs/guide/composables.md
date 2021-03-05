@@ -351,14 +351,14 @@ In this example, we are using `useUiNotification` - a composable that handles no
 
 ### How to customize graphql queries?
 
-If the integration you are currently using has GraphQL api, you may need to change the default query that is being send to fetch the data. That's quite common case so Vue Storefront also provides that ability.
+If the integration you are currently using has GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case so Vue Storefront also provides that ability.
 
 Since the comminication with an API goes over the our middleware, all of the queries also are defined there.
 
 To customize or even totally override the original (default) queries you need to follow two steps.
 
 Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
-This parameter is an object that has name of the queries as a keys, and name of the queries function under the values.
+This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values.
 
 
 ```ts
@@ -367,7 +367,7 @@ const { search } = useProduct();
 search({ customQuery: { products: 'my-products-query' } }); 
 ```
 
-In example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As second step we need to define that function.
+In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As a second step, we need to define that function.
 
 
 Each definition of query function we can find in the `middleware.config.js`. Therefore, this is the place where we define `my-products-query`:
@@ -391,4 +391,4 @@ module.exports = {
 };
 ```
 
-The custom query function always has in the arguments the default query and default variables and must return the query and its variavles as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones.
+The custom query function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones.
