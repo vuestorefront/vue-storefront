@@ -396,8 +396,6 @@ You need to create few Vue components and JavaScript files:
 | components/UserBillingAddress.vue            | { address: Object }                 |             |
 | components/UserShippingAddress.vue           | { address: Object }                 |             |
 | components/Checkout/CartPreview.vue          |                                     |             |
-| components/Checkout/VsfPaymentProvider.vue   |                                     |             |
-| components/Checkout/VsfShippingProvider.vue  |                                     |             |
 | components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
