@@ -90,6 +90,14 @@ const { $ct } = useVSFContext()
 
 You can read more about Vue Storefront Context [here](/advanced/context)
 
+
+## Middleware
+
+When it comes to networking layer, Vue Storefront uses a middleware that's is a bridge between front-end and othe backends (eCommerce or 3rd party services). The front-end always calls middleware that is redirecting requests to correlated destination. It allows developers to implement a custom logic that injects into lifecycle of the requests or even create a custom API endpoints if it's needed.
+
+You can read more about Vue Storefront Middleware [here](/advanced/server-middleware)
+
+
 ## Integrations
 
 Even though high-level APIs are the same for all Vue Storefront integrations they're different on the low level (data formats, search params). Check the docs of a specific platform on the left side under "eCommerce integrations" tab to learn about them.
