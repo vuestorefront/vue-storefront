@@ -79,8 +79,10 @@ export default {
   props: {
     beforeLoad: Function,
     afterLoad: Function,
-    onSelected: Function,
-    onSelectedDetailsChanged: Function,
+    beforeSelect: Function,
+    afterSelect: Function,
+    beforeSelectedDetailsChange: Function,
+    afterSelectedDetailsChange: Function,
     onError: Function
   },
   setup (props) {
@@ -129,12 +131,13 @@ export default {
       if (loadingShippingProvider.value.save) {
         return;
       }
-      await save({ shippingMethod });
+      const interceptedShippingMethod = await callHookWithFallback(props.beforeSelect, { shippingMethod }, shippingMethod);
+      await save({ shippingMethod: interceptedShippingMethod });
       if (errorShippingProvider.value.save) {
         isShippingMethodStepCompleted.value = false;
         return;
       }
-      await callHookWithFallback(props.onSelected, { shippingMethod: selectedShippingMethod.value });
+      await callHookWithFallback(props.afterSelect, { shippingMethod: selectedShippingMethod.value });
       isShippingMethodStepCompleted.value = true;
     };
 
