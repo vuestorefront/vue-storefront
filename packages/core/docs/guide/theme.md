@@ -57,3 +57,4 @@ Below you can find a list of the most important Nuxt Modules and libraries that 
 ### Libraries
 - [`@storefront-ui/vue`](https://storefrontui.io)
 - [`wee-validate`](https://vee-validate.logaretm.com/v3)
+- [cypress](https://www.cypress.io/)
