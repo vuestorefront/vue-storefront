@@ -65,7 +65,7 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref, reactive, onMounted } from '@vue/composition-api';
+import { ref, reactive, onMounted, computed } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
 
@@ -77,11 +77,36 @@ export default {
     SfRadio
   },
   props: {
-    beforeLoad: Function,
-    afterLoad: Function,
-    onSelected: Function,
-    onSelectedDetailsChanged: Function,
-    onError: Function
+    beforeLoad: {
+      type: Function,
+      default: config => config
+    },
+    afterLoad: {
+      type: Function,
+      default: shippingMethodsResponse => shippingMethodsResponse.shippingMethods
+    },
+    beforeSelect: {
+      type: Function,
+      default: shippingMethod => shippingMethod
+    },
+    afterSelect: {
+      type: Function,
+      // eslint-disable-next-line
+      default: selectedShippingMethod => {}
+    },
+    beforeSelectedDetailsChange: {
+      type: Function,
+      default: () => {}
+    },
+    afterSelectedDetailsChange: {
+      type: Function,
+      default: () => {}
+    },
+    onError: {
+      type: Function,
+      // eslint-disable-next-line
+      default: ({ action, error }) => {}
+    }
   },
   setup (props) {
     const isShippingMethodStepCompleted = ref(false);
@@ -90,23 +115,17 @@ export default {
     const { $ct } = useVSFContext();
     const { cart } = useCart();
     const {
-      response: selectedShippingMethod,
+      state,
       error: errorShippingProvider,
       loading: loadingShippingProvider,
       save,
       load
     } = useShippingProvider();
+    const selectedShippingMethod = computed(() => state.value && state.value.response);
 
     const error = reactive({
       loadMethods: null
     });
-
-    const callHookWithFallback = async (hookFn, arg = null, fallbackValue = null) => {
-      if (typeof hookFn === 'function') {
-        return await hookFn(arg);
-      }
-      return fallbackValue;
-    };
 
     const loadMethods = async () => {
       try {
@@ -115,13 +134,10 @@ export default {
         return shippingMethodsResponse.data;
       } catch (err) {
         error.loadMethods = err;
-        await callHookWithFallback(
-          props.onError,
-          {
-            action: 'loadMethods',
-            error: error.loadMethods
-          }
-        );
+        await props.onError({
+          action: 'loadMethods',
+          error: error.loadMethods
+        });
       }
     };
 
@@ -129,28 +145,29 @@ export default {
       if (loadingShippingProvider.value.save) {
         return;
       }
-      await save({ shippingMethod });
+      const interceptedShippingMethod = await props.beforeSelect(shippingMethod);
+      await save({ shippingMethod: interceptedShippingMethod });
       if (errorShippingProvider.value.save) {
         isShippingMethodStepCompleted.value = false;
+        await props.onError({
+          action: 'selectShippingMethod',
+          error: errorShippingProvider.value.save
+        });
         return;
       }
-      await callHookWithFallback(props.onSelected, { shippingMethod: selectedShippingMethod.value });
+      await props.afterSelect(selectedShippingMethod.value);
       isShippingMethodStepCompleted.value = true;
     };
 
     onMounted(async () => {
       loading.value = true;
-      await callHookWithFallback(props.beforeLoad);
+      await props.beforeLoad();
       const shippingMethodsResponse = await loadMethods();
       if (error.loadMethods) {
         return;
       }
       await load();
-      shippingMethods.value = await callHookWithFallback(
-        props.afterLoad,
-        { shippingMethods: shippingMethodsResponse },
-        shippingMethodsResponse.shippingMethods
-      );
+      shippingMethods.value = await props.afterLoad(shippingMethodsResponse);
       loading.value = false;
     });
 
@@ -165,7 +182,8 @@ export default {
       loadingShippingProvider,
 
       error,
-      errorShippingProvider
+      errorShippingProvider,
+      state
     };
   }
 };
