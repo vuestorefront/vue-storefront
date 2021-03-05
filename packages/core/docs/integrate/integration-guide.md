@@ -403,8 +403,6 @@ You need to create few Vue components and JavaScript files:
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
 | composables/useUiHelpers/index.ts            |                                     |             |
-| helpers/filters/getFiltersForUrl.js          |                                     |             |
-| helpers/filters/getFiltersFromUrl.js         |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Creating Vue components
