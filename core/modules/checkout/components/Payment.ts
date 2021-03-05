@@ -104,30 +104,28 @@ export const Payment = {
     },
     initializeBillingAddress () {
       let initialized = false
-      if (this.currentUser) {
-        if (this.currentUser.hasOwnProperty('default_billing')) {
-          let id = this.currentUser.default_billing
-          let addresses = this.currentUser.addresses
-          for (let i = 0; i < addresses.length; i++) {
-            if (toString(addresses[i].id) === toString(id)) {
-              this.payment = {
-                firstName: addresses[i].firstname,
-                lastName: addresses[i].lastname,
-                company: addresses[i].company,
-                country: addresses[i].country_id,
-                state: addresses[i].region.region ? addresses[i].region.region : '',
-                city: addresses[i].city,
-                streetAddress: addresses[i].street[0],
-                apartmentNumber: addresses[i].street[1],
-                zipCode: addresses[i].postcode,
-                taxId: addresses[i].vat_id,
-                phoneNumber: addresses[i].telephone,
-                paymentMethod: this.paymentMethods[0].code
-              }
-              this.generateInvoice = true
-              this.sendToBillingAddress = true
-              initialized = true
+      if (this.hasBillingData()) {
+        let id = this.currentUser.default_billing
+        let addresses = this.currentUser.addresses
+        for (let i = 0; i < addresses.length; i++) {
+          if (toString(addresses[i].id) === toString(id)) {
+            this.payment = {
+              firstName: addresses[i].firstname,
+              lastName: addresses[i].lastname,
+              company: addresses[i].company,
+              country: addresses[i].country_id,
+              state: addresses[i].region.region ? addresses[i].region.region : '',
+              city: addresses[i].city,
+              streetAddress: addresses[i].street[0],
+              apartmentNumber: addresses[i].street[1],
+              zipCode: addresses[i].postcode,
+              taxId: addresses[i].vat_id,
+              phoneNumber: addresses[i].telephone,
+              paymentMethod: this.paymentMethods[0].code
             }
+            this.generateInvoice = true
+            this.sendToBillingAddress = true
+            initialized = true
           }
         }
       }
