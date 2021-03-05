@@ -16,6 +16,11 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseShippingProviderErrors> = sharedRef({}, 'useShippingProvider-error');
 
+    const setState = (newState: STATE) => {
+      state.value = newState;
+      Logger.debug('useShippingProvider.setState', newState);
+    };
+
     const save = async ({ shippingMethod, customQuery = null }) => {
       Logger.debug('useShippingProvider.save');
 
@@ -51,7 +56,8 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
       loading: computed(() => loading.value),
       error: computed(() => error.value),
       load,
-      save
+      save,
+      setState
     };
   };
 };

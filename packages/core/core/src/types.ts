@@ -307,6 +307,7 @@ export interface UseShippingProvider<STATE, SHIPPING_METHOD> {
   error: ComputedProperty<UseShippingErrors>;
   loading: ComputedProperty<boolean>;
   state: ComputedProperty<STATE>;
+  setState(state: STATE): void;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   save(params: { shippingMethod: SHIPPING_METHOD, customQuery?: CustomQuery }): Promise<void>;
