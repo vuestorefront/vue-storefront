@@ -51,7 +51,7 @@ export default {
     SfButton,
     SfRadio
   },
-  setup (props, context) {
+  setup (_, context) {
     const selectedPaymentMethod = ref({});
     const paymentMethods = ref([
       {

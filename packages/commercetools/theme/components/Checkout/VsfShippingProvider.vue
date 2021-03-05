@@ -9,7 +9,7 @@
       <div v-if="error.loadMethods">
         {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
       </div>
-      <div v-else-if="error.saveMethod">
+      <div v-else-if="errorShippingProvider.save">
         {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
       </div>
       <div class="form__radio-group">
@@ -18,10 +18,10 @@
             :key="method.id"
             :label="method.name"
             :value="method.id"
-            :selected="selectedShippingMethod.id"
+            :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
             @input="selectShippingMethod(method)"
             name="shippingMethod"
-            :description="method.description"
+            :description="method.localizedDescription"
             class="form__radio shipping"
           >
             <template #label="{ label }">
@@ -30,10 +30,10 @@
                 <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
               </div>
             </template>
-            <template #description="{ description }">
+            <template #description="{ localizedDescription }">
               <div class="sf-radio__description shipping__description">
                 <div class="shipping__info">
-                  {{ description }}
+                  {{ localizedDescription }}
                 </div>
               </div>
             </template>
@@ -49,7 +49,7 @@
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"
-          :disabled="!isShippingMethodStepCompleted || loading"
+          :disabled="!isShippingMethodStepCompleted || loading || loadingShippingProvider.save"
         >
           {{ $t('Continue to billing') }}
         </SfButton>
@@ -59,16 +59,15 @@
 </template>
 
 <script>
-import { useCart } from '@vue-storefront/commercetools';
+import { useCart, useShippingProvider } from '@vue-storefront/commercetools';
 import {
   SfHeading,
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref, reactive, onMounted } from '@vue/composition-api';
+import { ref, reactive, onMounted, computed } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
-import { cartActions } from '@vue-storefront/commercetools-api';
 
 export default {
   name: 'VsfShippingProvider',
@@ -78,31 +77,55 @@ export default {
     SfRadio
   },
   props: {
-    beforeLoad: Function,
-    afterLoad: Function,
-    onSelected: Function,
-    onSelectedDetailsChanged: Function,
-    onError: Function
+    beforeLoad: {
+      type: Function,
+      default: config => config
+    },
+    afterLoad: {
+      type: Function,
+      default: shippingMethodsResponse => shippingMethodsResponse.shippingMethods
+    },
+    beforeSelect: {
+      type: Function,
+      default: shippingMethod => shippingMethod
+    },
+    afterSelect: {
+      type: Function,
+      // eslint-disable-next-line
+      default: selectedShippingMethod => {}
+    },
+    beforeSelectedDetailsChange: {
+      type: Function,
+      default: () => {}
+    },
+    afterSelectedDetailsChange: {
+      type: Function,
+      default: () => {}
+    },
+    onError: {
+      type: Function,
+      // eslint-disable-next-line
+      default: ({ action, error }) => {}
+    }
   },
   setup (props) {
     const isShippingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
-    const selectedShippingMethod = ref({});
     const { $ct } = useVSFContext();
-    const { cart, setCart } = useCart();
+    const { cart } = useCart();
+    const {
+      state,
+      error: errorShippingProvider,
+      loading: loadingShippingProvider,
+      save,
+      load
+    } = useShippingProvider();
+    const selectedShippingMethod = computed(() => state.value && state.value.response);
 
     const error = reactive({
-      loadMethods: null,
-      saveMethod: null
+      loadMethods: null
     });
-
-    const callHookWithFallback = async (hookFn, arg = null, fallbackValue = null) => {
-      if (typeof hookFn === 'function') {
-        return await hookFn(arg);
-      }
-      return fallbackValue;
-    };
 
     const loadMethods = async () => {
       try {
@@ -111,81 +134,56 @@ export default {
         return shippingMethodsResponse.data;
       } catch (err) {
         error.loadMethods = err;
-        await callHookWithFallback(
-          props.onError,
-          {
-            action: 'loadMethods',
-            error: error.loadMethods
-          }
-        );
-      }
-    };
-
-    const saveMethod = async ({ shippingMethod }) => {
-      try {
-        error.saveMethod = null;
-        loading.value = true;
-        const cartResponse = await $ct.api.updateCart({
-          id: cart.value.id,
-          version: cart.value.version,
-          actions: [
-            cartActions.setShippingMethodAction(shippingMethod.id)
-          ]
+        await props.onError({
+          action: 'loadMethods',
+          error: error.loadMethods
         });
-
-        setCart(cartResponse.data.cart);
-        return cartResponse.data.cart.shippingInfo.shippingMethod;
-      } catch (err) {
-        error.saveMethod = err;
-        await callHookWithFallback(
-          props.onError,
-          {
-            action: 'saveMethod',
-            error: error.saveMethod
-          }
-        );
-      } finally {
-        loading.value = false;
       }
     };
 
     const selectShippingMethod = async shippingMethod => {
-      if (loading.value) {
+      if (loadingShippingProvider.value.save) {
         return;
       }
-      const newShippingMethod = await saveMethod({ shippingMethod });
-      if (error.saveMethod) {
-        selectedShippingMethod.value = {};
+      const interceptedShippingMethod = await props.beforeSelect(shippingMethod);
+      await save({ shippingMethod: interceptedShippingMethod });
+      if (errorShippingProvider.value.save) {
         isShippingMethodStepCompleted.value = false;
+        await props.onError({
+          action: 'selectShippingMethod',
+          error: errorShippingProvider.value.save
+        });
         return;
       }
-      selectedShippingMethod.value = await callHookWithFallback(props.onSelected, { shippingMethod: newShippingMethod }, newShippingMethod);
+      await props.afterSelect(selectedShippingMethod.value);
       isShippingMethodStepCompleted.value = true;
     };
 
     onMounted(async () => {
       loading.value = true;
-      await callHookWithFallback(props.beforeLoad);
+      await props.beforeLoad();
       const shippingMethodsResponse = await loadMethods();
       if (error.loadMethods) {
         return;
       }
-      shippingMethods.value = await callHookWithFallback(
-        props.afterLoad,
-        { shippingMethods: shippingMethodsResponse },
-        shippingMethodsResponse.shippingMethods
-      );
+      await load();
+      shippingMethods.value = await props.afterLoad(shippingMethodsResponse);
       loading.value = false;
     });
 
     return {
-      loading,
       shippingMethods,
       selectedShippingMethod,
       selectShippingMethod,
       getShippingMethodPrice,
       isShippingMethodStepCompleted,
-      error
+
+      loading,
+      loadingShippingProvider,
+
+      error,
+      errorShippingProvider,
+      state
     };
   }
 };

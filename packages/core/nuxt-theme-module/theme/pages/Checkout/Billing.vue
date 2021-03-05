@@ -1,29 +1,12 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit, reset }">
+  <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
       :level="3"
       :title="$t('Billing')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <form
-      @submit.prevent="
-        handleSubmit(handleAddressSubmit(reset))
-      "
-    >
-      <UserBillingAddresses
-        v-if="isAuthenticated && hasSavedBillingAddress"
-        v-model="setAsDefault"
-        :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
-        @setCurrentAddress="handleSetCurrentAddress"
-      />
-      <SfCheckbox
-        :selected="sameAsShipping"
-        @change="handleCheckSameAddress"
-        label="Copy address data from shipping"
-        name="copyShippingAddress"
-        class="form__element"
-      />
-      <div class="form" v-if="canAddNewAddress">
+    <form @submit.prevent="handleSubmit(handleFormSubmit)">
+      <div class="form">
         <ValidationProvider
           name="firstName"
           rules="required|min:2"
@@ -31,8 +14,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.firstName"
-            @input="firstName => changeBillingDetails('firstName', firstName)"
+            v-model="form.firstName"
             label="First name"
             name="firstName"
             class="form__element form__element--half"
@@ -48,8 +30,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.lastName"
-            @input="lastName => changeBillingDetails('lastName', lastName)"
+            v-model="form.lastName"
             label="Last name"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
@@ -65,8 +46,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.streetName"
-            @input="streetName => changeBillingDetails('streetName', streetName)"
+            v-model="form.streetName"
             label="Street name"
             name="streetName"
             class="form__element form__element--half"
@@ -82,8 +62,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.apartment"
-            @input="apartment => changeBillingDetails('apartment', apartment)"
+            v-model="form.apartment"
             label="House/Apartment number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
@@ -99,8 +78,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.city"
-            @input="city => changeBillingDetails('city', city)"
+            v-model="form.city"
             label="City"
             name="city"
             class="form__element form__element--half"
@@ -114,8 +92,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.state"
-            @input="state => changeBillingDetails('state', state)"
+            v-model="form.state"
             label="State/Province"
             name="state"
             class="form__element form__element--half form__element--half-even"
@@ -128,8 +105,7 @@
           slim
         >
           <SfSelect
-            :value="billingDetails.country"
-            @input="country => changeBillingDetails('country', country)"
+            v-model="form.country"
             label="Country"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined"
@@ -139,8 +115,8 @@
           >
             <SfSelectOption
               v-for="countryOption in countries"
-              :key="countryOption.name"
-              :value="countryOption.name"
+              :key="countryOption.key"
+              :value="countryOption.key"
             >
               {{ countryOption.label }}
             </SfSelectOption>
@@ -153,8 +129,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.postalCode"
-            @input="postalCode => changeBillingDetails('postalCode', postalCode)"
+            v-model="form.postalCode"
             label="Zip-code"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
@@ -170,8 +145,7 @@
           slim
         >
           <SfInput
-            :value="billingDetails.phone"
-            @input="phone => changeBillingDetails('phone', phone)"
+            v-model="form.phone"
             label="Phone number"
             name="phone"
             class="form__element form__element--half"
@@ -181,24 +155,18 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton
-        v-if="!canAddNewAddress"
-        class="color-light form__action-button form__action-button--add-address"
-        type="submit"
-        @click.native="handleAddNewAddressBtnClick"
-      >
-        {{ $t('Add new address') }}
-      </SfButton>
       <div class="form">
         <div class="form__action">
-          <nuxt-link
-            to="/checkout/shipping"
+          <SfButton
             class="sf-button color-secondary form__back-button"
-            >Go back</nuxt-link>
+            type="button"
+            @click="$router.push('/checkout/shipping')"
+          >
+            {{ $t('Go back') }}
+          </SfButton>
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
@@ -217,14 +185,18 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserBilling, userBillingGetters, useUser, useBilling, useShipping } from '@vue-storefront/commercetools';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, min, digits } from 'vee-validate/dist/rules';
-import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import { useBilling } from '<%= options.generate.replace.composables %>';
+import { required, min, digits } from 'vee-validate/dist/rules';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 
-const NOT_SELECTED_ADDRESS = '';
+const COUNTRIES = [
+  { key: 'US', label: 'United States' },
+  { key: 'UK', label: 'United Kingdom' },
+  { key: 'IT', label: 'Italy' },
+  { key: 'PL', label: 'Poland' }
+];
 
 extend('required', {
   ...required,
@@ -249,128 +221,36 @@ export default {
     SfRadio,
     SfCheckbox,
     ValidationProvider,
-    ValidationObserver,
-    UserBillingAddresses: () => import('@/components/Checkout/UserBillingAddresses')
+    ValidationObserver
   },
-  setup(_, context) {
-    const { $ct: { config } } = useVSFContext();
-    const { shipping: shippingDetails, load: loadShipping } = useShipping();
-    const { billing: address, loading, load, save } = useBilling();
-    const { isAuthenticated } = useUser();
-    const { billing: userBilling, load: loadUserBilling, setDefaultAddress } = useUserBilling();
-    const billingDetails = ref(address.value || {});
+  setup(props, context) {
+    const { load, save } = useBilling();
 
-    const currentAddressId = ref(NOT_SELECTED_ADDRESS);
-    const setAsDefault = ref(false);
-    const canAddNewAddress = ref(true);
-    const sameAsShipping = ref(false);
-    let oldBilling = null;
-
-    const hasSavedBillingAddress = computed(() => {
-      if (!isAuthenticated.value || !userBilling.value) {
-        return false;
-      }
-      const addresses = userBillingGetters.getAddresses(userBilling.value);
-      return Boolean(addresses?.length);
+    const form = ref({
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      apartment: '',
+      city: '',
+      state: '',
+      country: '',
+      postalCode: '',
+      phone: null
     });
 
-    const handleCheckSameAddress = async () => {
-      sameAsShipping.value = !sameAsShipping.value;
-      if (sameAsShipping.value) {
-        if (!shippingDetails.value) {
-          await loadShipping();
-        }
-        oldBilling = {...billingDetails.value};
-        billingDetails.value = {...shippingDetails.value};
-        currentAddressId.value = NOT_SELECTED_ADDRESS;
-        setAsDefault.value = false;
-        return;
-      }
-      billingDetails.value = oldBilling;
-    };
-
-    const handleAddressSubmit = (reset) => async () => {
-      const addressId = currentAddressId.value;
-      await save({ billingDetails: billingDetails.value });
-      if (addressId !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
-        const chosenAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
-        if (chosenAddress && chosenAddress.length) {
-          await setDefaultAddress({ address: chosenAddress[0] });
-        }
-      }
-      reset();
+    const handleFormSubmit = async () => {
+      await save({ billingDetails: form.value });
       context.root.$router.push('/checkout/payment');
     };
 
-    const handleAddNewAddressBtnClick = () => {
-      currentAddressId.value = NOT_SELECTED_ADDRESS;
-      canAddNewAddress.value = true;
-    };
-
-    const handleSetCurrentAddress = address => {
-      billingDetails.value = {...address};
-      currentAddressId.value = address.id;
-      canAddNewAddress.value = false;
-      sameAsShipping.value = false;
-    };
-
-    const changeBillingDetails = (field, value) => {
-      billingDetails.value[field] = value;
-      currentAddressId.value = NOT_SELECTED_ADDRESS;
-    };
-
-    const selectDefaultAddress = () => {
-      const defaultAddress = userBillingGetters.getAddresses(userBilling.value, { isDefault: true });
-      if (defaultAddress && defaultAddress.length) {
-        handleSetCurrentAddress(defaultAddress[0]);
-      }
-    };
-
-    // Update local state if we have new address' response from the backend
-    watch(address, addr => {
-      billingDetails.value = addr || {};
-    });
-
     onSSR(async () => {
       await load();
-      if (isAuthenticated.value) {
-        await loadUserBilling();
-      }
-    });
-
-    onMounted(async () => {
-      if (!userBilling.value?.addresses && isAuthenticated.value) {
-        await loadUserBilling();
-      }
-      const billingAddresses = userBillingGetters.getAddresses(userBilling.value);
-      if (!billingAddresses || !billingAddresses.length) {
-        return;
-      }
-      const hasEmptyBillingDetails = !billingDetails.value || Object.keys(billingDetails.value).length === 0;
-      if (hasEmptyBillingDetails) {
-        selectDefaultAddress();
-        return;
-      }
-      canAddNewAddress.value = false;
     });
 
     return {
-      NOT_SELECTED_ADDRESS,
-      isAuthenticated,
-      billingDetails,
-      countries: config.countries,
-      setAsDefault,
-      canAddNewAddress,
-      currentAddressId,
-      hasSavedBillingAddress,
-      handleAddressSubmit,
-      handleAddNewAddressBtnClick,
-      handleSetCurrentAddress,
-      handleCheckSameAddress,
-      changeBillingDetails,
-      sameAsShipping,
-      shippingDetails,
-      loading
+      form,
+      countries: COUNTRIES,
+      handleFormSubmit
     };
   }
 };

@@ -27,24 +27,19 @@ module.exports = function getRoutes(themeDir = __dirname) {
     component: path.resolve(themeDir, 'pages/Checkout.vue'),
     children: [
       {
-        path: 'personal-details',
-        name: 'personal-details',
-        component: path.resolve(themeDir, 'pages/Checkout/PersonalDetails.vue')
-      },
-      {
         path: 'shipping',
         name: 'shipping',
         component: path.resolve(themeDir, 'pages/Checkout/Shipping.vue')
       },
       {
+        path: 'billing',
+        name: 'billing',
+        component: path.resolve(themeDir, 'pages/Checkout/Billing.vue')
+      },
+      {
         path: 'payment',
         name: 'payment',
         component: path.resolve(themeDir, 'pages/Checkout/Payment.vue')
-      },
-      {
-        path: 'order-review',
-        name: 'order-review',
-        component: path.resolve(themeDir, 'pages/Checkout/OrderReview.vue')
       },
       {
         path: 'thank-you',

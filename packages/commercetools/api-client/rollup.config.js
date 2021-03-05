@@ -3,9 +3,6 @@ import graphql from 'rollup-plugin-graphql';
 import typescript from 'rollup-plugin-typescript2';
 import { generateBaseConfig } from '../../rollup.base.config';
 
-const main = generateBaseConfig(pkg);
-main.plugins.push(graphql());
-
 const server = {
   input: 'src/index.server.ts',
   output: [
@@ -29,6 +26,6 @@ const server = {
 };
 
 export default [
-  main,
+  generateBaseConfig(pkg),
   server
 ];

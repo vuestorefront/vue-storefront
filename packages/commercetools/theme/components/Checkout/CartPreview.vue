@@ -16,7 +16,7 @@
       <SfProperty
         name="Subtotal"
         :value="$n(totals.subtotal, 'currency')"
-        :class="['sf-property--full-width', 'sf-property--large', { discounted: totals.special > 0 }]"
+        :class="['sf-property--full-width', 'sf-property--large', { discounted: hasSpecialPrice }]"
       />
       <SfProperty
         v-for="discount in discounts"
@@ -26,14 +26,14 @@
         class="sf-property--full-width sf-property--small"
       />
      <SfProperty
-        v-if="totals.special > 0"
+        v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
         name="Shipping"
-        v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
-        :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
+        v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
+        :value="$n(getShippingMethodPrice(selectedShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
@@ -76,7 +76,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, cartGetters } from '@vue-storefront/commercetools';
+import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {
@@ -90,14 +90,13 @@ export default {
     SfInput,
     SfCircleIcon
   },
-  setup() {
+  setup () {
     const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
+    const { state } = useShippingProvider();
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
-    // TODO: Implement real source of data
-    const chosenShippingMethod = ref(0);
 
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -135,7 +134,8 @@ export default {
         }
       ],
 
-      chosenShippingMethod,
+      selectedShippingMethod: computed(() => state.value && state.value.response && state.value.response.shippingMethod),
+      hasSpecialPrice: computed(() => totals.value.special > 0 && totals.value.special < totals.value.subtotal),
       getShippingMethodPrice
     };
   }
