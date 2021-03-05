@@ -65,7 +65,7 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref, reactive, onMounted } from '@vue/composition-api';
+import { ref, reactive, onMounted, computed } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
 
@@ -115,12 +115,13 @@ export default {
     const { $ct } = useVSFContext();
     const { cart } = useCart();
     const {
-      response: selectedShippingMethod,
+      state,
       error: errorShippingProvider,
       loading: loadingShippingProvider,
       save,
       load
     } = useShippingProvider();
+    const selectedShippingMethod = computed(() => state.value && state.value.response);
 
     const error = reactive({
       loadMethods: null
@@ -181,7 +182,8 @@ export default {
       loadingShippingProvider,
 
       error,
-      errorShippingProvider
+      errorShippingProvider,
+      state
     };
   }
 };
