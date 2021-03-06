@@ -280,7 +280,7 @@ export default {
     const sameAsShipping = ref(false);
     let oldBilling = null;
 
-    const canMoveForward = computed(() => loading.value && billingDetails.value && Object.keys(billingDetails.value).length);
+    const canMoveForward = computed(() => !loading.value && billingDetails.value && Object.keys(billingDetails.value).length);
 
     const statesInSelectedCountry = computed(() => {
       if (billingDetails.value.country) {
@@ -429,6 +429,10 @@ export default {
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
+
+    ::v-deep .sf-select__label {
+      left: initial;
+    }
   }
   @include for-desktop {
     display: flex;
@@ -523,14 +527,6 @@ export default {
   @include for-desktop {
     border: 0;
     --radio-border-radius: 4px;
-  }
-}
-</style>
-
-<style lang="scss">
-.sf-select {
-  .sf-select__label {
-    left: initial;
   }
 }
 </style>

@@ -271,7 +271,7 @@ export default {
 
     const isShippingDetailsStepCompleted = ref(false);
 
-    const canMoveForward = computed(() => loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
+    const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -409,6 +409,10 @@ export default {
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }
+
+    ::v-deep .sf-select__label {
+      left: initial;
+    }
   }
   @include for-desktop {
     display: flex;
@@ -478,13 +482,5 @@ export default {
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-}
-</style>
-
-<style lang="scss">
-.sf-select {
-  .sf-select__label {
-    left: initial;
-  }
 }
 </style>
