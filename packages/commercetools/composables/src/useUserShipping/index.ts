@@ -1,5 +1,15 @@
 import { useUserShippingFactory, UseUserShippingFactoryParams, Context } from '@vue-storefront/core';
 
+const makeId = length => {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
 const addresses: any[] = [
   {
     id: '_1231231253623423',
@@ -39,8 +49,6 @@ const shipping = {
   addresses
 };
 
-const findBiggestId = () => addresses.reduce((highest, { id }) => Math.max(highest, id), 0);
-
 const disableOldDefault = () => {
   const oldDefault = addresses.find(address => address.isDefault);
   if (oldDefault) {
@@ -63,7 +71,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
 
     const newAddress = {
       ...params.address,
-      id: findBiggestId() + 1
+      id: makeId(17)
     };
 
     if (params.address.isDefault) {

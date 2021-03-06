@@ -93,7 +93,7 @@
             :disabled="!statesInSelectedCountry"
           >
             <SfSelectOption
-              v-for="state in (statesInSelectedCountry)"
+              v-for="state in statesInSelectedCountry"
               :key="state"
               :value="state"
             >
