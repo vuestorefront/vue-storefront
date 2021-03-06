@@ -201,7 +201,7 @@
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading"
+            :disabled="loading || !shippingDetails || !Object.keys(shippingDetails).length"
             v-if="!(isShippingDetailsStepCompleted && !dirty)"
           >
             {{ $t('Select shipping method') }}
@@ -335,7 +335,8 @@ export default {
     });
 
     watch(statesInSelectedCountry, statesInSelectedCountry => {
-      if (!statesInSelectedCountry || !statesInSelectedCountry.length) {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && shippingDetails.value.state) {
         shippingDetails.value.state = null;
       }
     });

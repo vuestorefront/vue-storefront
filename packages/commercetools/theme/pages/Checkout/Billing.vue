@@ -212,7 +212,7 @@
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading"
+            :disabled="loading || !billingDetails || !Object.keys(billingDetails).length"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
@@ -358,7 +358,8 @@ export default {
     });
 
     watch(statesInSelectedCountry, statesInSelectedCountry => {
-      if (!statesInSelectedCountry || !statesInSelectedCountry.length) {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && billingDetails.value.state) {
         billingDetails.value.state = null;
       }
     });
