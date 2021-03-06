@@ -104,15 +104,29 @@
         </ValidationProvider>
         <ValidationProvider
           name="state"
+          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
+          v-slot="{ errors }"
           slim
         >
-          <SfInput
+          <SfSelect
             :value="shippingDetails.state"
             @input="state => changeShippingDetails('state', state)"
             label="State/Province"
             name="state"
-            class="form__element form__element--half form__element--half-even"
-          />
+            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+            :disabled="!statesInSelectedCountry"
+          >
+            <SfSelectOption
+              v-for="state in (statesInSelectedCountry)"
+              :key="state"
+              :value="state"
+            >
+              {{ state }}
+            </SfSelectOption>
+          </SfSelect>
         </ValidationProvider>
         <ValidationProvider
           name="country"
@@ -265,6 +279,15 @@ export default {
       return Boolean(addresses?.length);
     });
 
+    const statesInSelectedCountry = computed(() => {
+      if (shippingDetails.value.country) {
+        const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.country);
+        if (selectedCountry && selectedCountry.states) {
+          return selectedCountry.states;
+        }
+      }
+    });
+
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
       await save({ shippingDetails: shippingDetails.value });
@@ -291,7 +314,10 @@ export default {
     };
 
     const changeShippingDetails = (field, value) => {
-      shippingDetails.value[field] = value;
+      shippingDetails.value = {
+        ...shippingDetails.value,
+        [field]: value
+      };
       isShippingDetailsStepCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
@@ -306,6 +332,12 @@ export default {
     // Update local state if we have new address' response from the backend
     watch(address, addr => {
       shippingDetails.value = addr || {};
+    });
+
+    watch(statesInSelectedCountry, statesInSelectedCountry => {
+      if (!statesInSelectedCountry || !statesInSelectedCountry.length) {
+        shippingDetails.value.state = null;
+      }
     });
 
     onSSR(async () => {
@@ -341,6 +373,7 @@ export default {
       setAsDefault,
       canAddNewAddress,
       currentAddressId,
+      statesInSelectedCountry,
 
       hasSavedShippingAddress,
 
@@ -440,5 +473,13 @@ export default {
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+}
+</style>
+
+<style lang="scss">
+.sf-select {
+  .sf-select__label {
+    left: initial;
+  }
 }
 </style>
