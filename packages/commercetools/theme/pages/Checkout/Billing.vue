@@ -416,6 +416,7 @@ export default {
   &__select {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     --select-option-font-size: var(--font-size--lg);
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
