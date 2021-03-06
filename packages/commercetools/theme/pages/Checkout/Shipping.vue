@@ -120,7 +120,7 @@
             :disabled="!statesInSelectedCountry"
           >
             <SfSelectOption
-              v-for="state in (statesInSelectedCountry)"
+              v-for="state in statesInSelectedCountry"
               :key="state"
               :value="state"
             >
@@ -201,7 +201,7 @@
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading || !shippingDetails || !Object.keys(shippingDetails).length"
+            :disabled="!canMoveForward"
             v-if="!(isShippingDetailsStepCompleted && !dirty)"
           >
             {{ $t('Select shipping method') }}
@@ -270,6 +270,8 @@ export default {
     const canAddNewAddress = ref(true);
 
     const isShippingDetailsStepCompleted = ref(false);
+
+    const canMoveForward = computed(() => loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -385,7 +387,8 @@ export default {
       changeShippingDetails,
       loading,
 
-      isShippingDetailsStepCompleted
+      isShippingDetailsStepCompleted,
+      canMoveForward
     };
   }
 };

@@ -127,7 +127,7 @@
             :disabled="!statesInSelectedCountry"
           >
             <SfSelectOption
-              v-for="state in (statesInSelectedCountry)"
+              v-for="state in statesInSelectedCountry"
               :key="state"
               :value="state"
             >
@@ -212,7 +212,7 @@
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading || !billingDetails || !Object.keys(billingDetails).length"
+            :disabled="!canMoveForward"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
@@ -279,6 +279,8 @@ export default {
     const canAddNewAddress = ref(true);
     const sameAsShipping = ref(false);
     let oldBilling = null;
+
+    const canMoveForward = computed(() => loading.value && billingDetails.value && Object.keys(billingDetails.value).length);
 
     const statesInSelectedCountry = computed(() => {
       if (billingDetails.value.country) {
@@ -404,7 +406,8 @@ export default {
       sameAsShipping,
       shippingDetails,
       statesInSelectedCountry,
-      loading
+      loading,
+      canMoveForward
     };
   }
 };
