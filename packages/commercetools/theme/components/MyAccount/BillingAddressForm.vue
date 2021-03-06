@@ -269,7 +269,8 @@ export default {
     });
 
     watch(statesInSelectedCountry, statesInSelectedCountry => {
-      if (!statesInSelectedCountry || !statesInSelectedCountry.length) {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && form.state) {
         form.state = null;
       }
     });
