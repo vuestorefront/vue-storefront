@@ -11,7 +11,7 @@ First of all, it allows us to provide a prover way of extensibility - As a devel
 
 A front-end application sometimes needs an additional API endpoint - that's also possible since you have a server written in express.js.
 
-All credentials for your platform are stored only on the backend side, there are no shared keys in the browser.
+All platform credentials are stored only on the server side and not exposed to the frontend part of your application.
 
 ## How it works (in a nutshell)
 
