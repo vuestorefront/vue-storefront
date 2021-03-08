@@ -1,5 +1,5 @@
 import { useShippingFactory, UseShippingParams, Context } from '@vue-storefront/core';
-import { Address } from '../types';
+import { Address } from '@vue-storefront/boilerplate-api';
 
 let details = {};
 

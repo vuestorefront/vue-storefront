@@ -1,5 +1,5 @@
-import { Order } from '../types';
 import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
+import { Order } from '@vue-storefront/boilerplate-api';
 
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -2,6 +2,8 @@ import { AgnosticCoupon } from '@vue-storefront/core';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
+export type Address = Record<string, any>;
+
 export type Category = {
   id: number;
   name: string;

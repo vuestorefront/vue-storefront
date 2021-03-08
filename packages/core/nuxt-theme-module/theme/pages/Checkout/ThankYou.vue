@@ -11,7 +11,7 @@
       <template #description>
         <div class="banner__order-number">
           <span>{{ $t('Order No.') }}</span>
-          <strong>{{ orderNumber }}</strong>
+          <strong>{{ order.number }}</strong>
         </div>
       </template>
     </SfCallToAction>
@@ -30,12 +30,12 @@
             :level="6"
             class="heading sf-heading--left sf-heading--no-underline"
             title="Primary contacts for any questions"
-          ></SfHeading>
+          />
           <div class="contact">
-            <p class="contact__name">{{ companyDetails.name }}</p>
-            <p class="contact__street">{{ companyDetails.street }}</p>
-            <p class="contact__city">{{ companyDetails.city }}</p>
-            <p class="contact__email">{{ companyDetails.email }}</p>
+            <p class="contact__name">{{ address.name }}</p>
+            <p class="contact__street">{{ address.street }}</p>
+            <p class="contact__city">{{ address.city }}</p>
+            <p class="contact__email">{{ address.email }}</p>
           </div>
         </div>
         <SfButton class="order__notifications-button button-size"
@@ -69,15 +69,14 @@
         </div>
       </div>
     </section>
-    <SfButton class="back-button color-secondary button-size"
-      >{{ $t('Go back to shop') }}</SfButton
-    >
+    <SfButton link="/" class="back-button color-secondary button-size">
+      {{ $t('Back to homepage') }}
+    </SfButton>
   </div>
 </template>
 
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
 
 export default {
   components: {
@@ -86,29 +85,27 @@ export default {
     SfCallToAction
   },
   setup(props, context) {
-    context.emit('changeStep', 4);
-
-    const companyDetails = ref({
-      name: 'Divante Headquarter',
-      street: 'St. Dmowskiego 17, 53-534',
-      city: 'Wroclaw, Poland',
-      email: 'demo@vuestorefront.io'
-    });
-    const orderNumber = ref('80932031-030-00');
-
     return {
-      companyDetails,
-      orderNumber
+      address: {
+        name: 'Company Headquarter',
+        street: 'St. Main 17, 53-534',
+        city: 'Wroclaw, Poland',
+        email: 'demo@vuestorefront.io'
+      },
+      order: {
+        number: `#${context.root.$route.query.order}`
+      }
     };
   }
 };
 </script>
+
 <style lang="scss" scoped>
 #thank-you {
   box-sizing: border-box;
   @include for-desktop {
-    max-width: 1272px;
-    padding: 0 var(--spacer-sm);
+    max-width: 1240px;
+    padding: 0;
     margin: 0 auto;
   }
 }
@@ -253,6 +250,9 @@ export default {
   margin: 0 auto var(--spacer-sm) auto;
   @include for-desktop {
     margin: var(--spacer-xl) auto;
+    &:hover {
+      color: var(--c-white);
+    }
   }
 }
 .button-size {

@@ -1,5 +1,5 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
-import { Shipping, ShippingMethod } from '../types';
+import { Shipping, ShippingMethod } from '@vue-storefront/boilerplate-api';
 
 let provider = {};
 

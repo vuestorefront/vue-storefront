@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"@aboutyou/backbone@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@aboutyou/backbone/-/backbone-7.0.0.tgz#8fc943b151de9877983ff3771f0f6e5dad58344f"
-  integrity sha512-KymZVTU8X2GNsOkt4dsvi8esTwskS6vKBMoLPRTK32S7pavSdsaee+iAnJJN4Ilhj7tsNhxskA2JarrirsN0Ng==
-  dependencies:
-    axios "^0.18.0"
-    query-string "^6.2.0"
-
 "@apollo/client@^3.2.9":
   version "3.3.11"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.11.tgz#125051405e83dc899d471d43b79fd6045d92a802"
@@ -2413,14 +2405,6 @@
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
-"@nuxtjs/composition-api@git+https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix":
-  version "0.16.4"
-  resolved "git+https://github.com/andrzejewsky/composition-api.git#f1908d57a18f18feffcec0fd44de949c5dab65d3"
-  dependencies:
-    "@vue/composition-api" "1.0.0-beta.21"
-    defu "^3.2.2"
-    normalize-path "^3.0.0"
-
 "@nuxtjs/pwa@^3.2.2":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.3.5.tgz#db7c905536ebe8a464a347b6ae3215810642c044"
@@ -2623,11 +2607,6 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
   integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
 
-"@storefront-ui/shared@^0.7.17":
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.17.tgz#110ab77d959565170dea8dd1cf574a0c6d2639e0"
-  integrity sha512-ntSlGDK/lc6+YNMhAAx01ERlhWdMWFxoTcBREKiBLfGXGBU9zhFp3kcxPxTf+hdjAE37lMX83tpqK2bXb37SOg==
-
 "@storefront-ui/vue@0.10.3", "@storefront-ui/vue@^0.10.3":
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.3.tgz#949b69a0888f85aa0f17fcdaf396972e5c210016"
@@ -2640,25 +2619,6 @@
     core-js "^3.6.5"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
-    node-sass "^4.13.1"
-    sass-loader "^8.0.2"
-    simplebar-vue "^1.4.0"
-    vue-drag-drop "^1.1.4"
-    vue-fragment "^1.5.1"
-    vue2-leaflet "^2.5.2"
-
-"@storefront-ui/vue@^0.7.17":
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.7.18.tgz#87c1e1a76d57eb6d298f9a4890b6c832878ccd5b"
-  integrity sha512-r8QaWW1dvCHaZs7YupX4MS0K/4Ba3ZOu3x3PPfnIKR2CkvK0YtWWoOs7yg7ob9Gps/lOxLwpegLavVc0QN3cJw==
-  dependencies:
-    "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.7.17"
-    body-scroll-lock "^3.0.1"
-    core-js "^3.6.5"
-    hammerjs "^2.0.8"
-    leaflet "^1.5.1"
-    lozad "^1.14.0"
     node-sass "^4.13.1"
     sass-loader "^8.0.2"
     simplebar-vue "^1.4.0"
@@ -3183,37 +3143,6 @@
     graphql-tag "^2.10.1"
     isomorphic-fetch "^2.2.1"
 
-"@vue-storefront/core@2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.0.8.tgz#566e3d6f0f3324b8895656fb36e79d2c5606b551"
-  integrity sha512-lMNU1zL7+Bi8bGvUeWVnUbTxxeT0GNBmJgNH4l5nYY0yAc3O6yRhgTI8H9OcZZtJAn6fFXqYjsgpG5RTkWqsFQ==
-  dependencies:
-    "@vue/composition-api" "1.0.0-beta.13"
-    lodash-es "^4.17.15"
-    vue "^2.6.11"
-
-"@vue-storefront/nuxt-theme@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-0.0.3.tgz#3f0f03bad13aa9ac4855c65872b19e9baad783ce"
-  integrity sha512-H0xeRgvhWZUyPVig6YlWM++xtkTGzgYQ9lUBBhQuJ0or5Ader1zykeaeDbFHCrGXwzzAiTP4F3HZapIRiI9Tlg==
-  dependencies:
-    lodash.merge "^4.6.2"
-
-"@vue-storefront/nuxt@0.0.12-lc.16":
-  version "0.0.12-lc.16"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-0.0.12-lc.16.tgz#aa9a3089780d6e52901dbd26a3b7d96c91dd841b"
-  integrity sha512-+Ewdp1f9Lq89djw9YSPDC1S8+rHnV9p62bWxKdgtpzwf0mPt45rJqJHPg0dKM9uMs/BG+FlRYA1SoM4WCy8fJw==
-  dependencies:
-    "@nuxt/typescript-build" "^2.0.0"
-    "@nuxtjs/composition-api" "https://github.com/andrzejewsky/composition-api.git#ssr-ref-concurrent-fix"
-    "@nuxtjs/style-resources" "^1.0.0"
-    "@vue/composition-api" "1.0.0-beta.20"
-    chalk "^2.4.2"
-    chokidar "^3.3.1"
-    consola "^2.10.1"
-    lodash "^4.17.15"
-    nuxt-purgecss "^1.0.0"
-
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
@@ -3351,20 +3280,6 @@
     vue-template-es2015-compiler "^1.9.0"
   optionalDependencies:
     prettier "^1.18.2"
-
-"@vue/composition-api@1.0.0-beta.13":
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.13.tgz#441ffde5edfc0be90ae1fc96bebab70467762b51"
-  integrity sha512-5wHG9kfnTLST1rXFE5pHNL1VMl7Ojmr4WS1pIUmdkcPstBxr3/4fyRbYyeE4YUOJOnV7FkrSrPX69mIvApZeMA==
-  dependencies:
-    tslib "^2.0.1"
-
-"@vue/composition-api@1.0.0-beta.20":
-  version "1.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-beta.20.tgz#9909ed5844b7bf565a220b26d85b9f0158856dd7"
-  integrity sha512-Lpaxt9+3cy97QJoCJ81qNe6TeGg092iHtqilKdbE5NapHqoSwiuYUSHX2ANIaO+C1Q1J7bITv1/saLUMNuwQOg==
-  dependencies:
-    tslib "^2.0.1"
 
 "@vue/composition-api@1.0.0-beta.21":
   version "1.0.0-beta.21"
@@ -4390,14 +4305,6 @@ axios@0.21.1:
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
-
-axios@^0.18.0:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.1.tgz#ff3f0de2e7b5d180e757ad98000f1081b87bcea3"
-  integrity sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==
-  dependencies:
-    follow-redirects "1.5.10"
-    is-buffer "^2.0.2"
 
 babel-jest@^24.1.0, babel-jest@^24.9.0:
   version "24.9.0"
@@ -6487,7 +6394,7 @@ debug@2.6.9, debug@^2.1.3, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@3.1.0, debug@=3.1.0, debug@~3.1.0:
+debug@3.1.0, debug@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
@@ -7960,13 +7867,6 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
-
-follow-redirects@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
-  integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
-  dependencies:
-    debug "=3.1.0"
 
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.3"
@@ -9462,11 +9362,6 @@ is-buffer@^1.1.4, is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
-
-is-buffer@^2.0.2:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.5.tgz#ebc252e400d22ff8d77fa09888821a24a658c191"
-  integrity sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==
 
 is-callable@^1.1.3, is-callable@^1.1.4, is-callable@^1.2.3:
   version "1.2.3"
@@ -11282,11 +11177,6 @@ lowercase-keys@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-2.0.0.tgz#2603e78b7b4b0006cbca2fbcc8a3202558ac9479"
   integrity sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==
-
-lozad@^1.14.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.16.0.tgz#86ce732c64c69926ccdebb81c8c90bb3735948b4"
-  integrity sha512-JBr9WjvEFeKoyim3svo/gsQPTkgG/mOHJmDctZ/+U9H3ymUuvEkqpn8bdQMFsvTMcyRJrdJkLv0bXqGm0sP72w==
 
 lru-cache@^4.0.1, lru-cache@^4.1.2, lru-cache@^4.1.5:
   version "4.1.5"
@@ -14361,7 +14251,7 @@ query-string@^5.0.1:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-query-string@^6.13.8, query-string@^6.2.0, query-string@^6.8.2:
+query-string@^6.13.8, query-string@^6.8.2:
   version "6.14.1"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.14.1.tgz#7ac2dca46da7f309449ba0f86b1fd28255b0c86a"
   integrity sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==

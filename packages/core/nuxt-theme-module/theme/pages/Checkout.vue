@@ -68,8 +68,8 @@ export default {
     });
 
     watch(cart, () => {
-      // Redirect to homepage when cart is cleared during checkout process
-      if (!cartGetters.getItems(cart.value).length) {
+      // Redirect to homepage when cart is cleared during checkout process (expect on ThankYou page)
+      if (!cartGetters.getItems(cart.value).length && !isThankYou) {
         context.root.$router.push('/');
       }
     });
