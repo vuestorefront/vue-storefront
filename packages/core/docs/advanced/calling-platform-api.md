@@ -1,10 +1,8 @@
 # Calling integration APIs
 
-The Vue Storefront has its own way to communicate with other platform APIs. First of all, each integration implements an API-client that defines an interaction and connection with a given platform. Each time you make a call to the external platform, you actually use API-client beneath. We use that in all of the integrations and also you can reach the API-client in your project if it's needed.
-
 ## How do Integrations work?
 
-Integration API-client is a sort of SDK for a given platform you integrate with. It has a set of functions, each is dedicated to one action, endpoint or a feature eg. `getProduct` , `loadCart` `addToCart`
+In Vue Storefront, single integration has is own sort of SDK library (named API-client), that contains set of functions. Each function is dedicated to one action, endpoint or a feature eg. `getProduct`, `loadCart` `addToCart`. Therefore, when you call for instance, `getProduct`, it will request the integration API and return its response in the original format of given platform.
 
 ## Accessing integration methods on the frontend
 
@@ -23,4 +21,5 @@ In the example above we have accessed the API-client for commercetools (Each int
 
 ## Extending Integrations
 
-Sometimes, it's necessary to override the original behavior either API-client or even an entire request that comes from an external platform. The Vue Storefront also provides possibility to do this by using [middleware extensions](/advanced/server-middleware)
+Sometimes, it's necessary to override the original behavior either API-client or even an entire request that comes from an external platform.
+The Vue Storefront also provides a possibility to do this by using [middleware extensions](/advanced/server-middleware)

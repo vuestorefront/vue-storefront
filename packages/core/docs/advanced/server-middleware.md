@@ -1,17 +1,16 @@
 # Server middleware
 
-
 ## What is Vue Storefront Middleware and why we need it?
 
 The Vue Storefront middleware is an express.js proxy that taking the requests from the front-end translates them to a certain integration and call-related API-client.
 
 We have implemented it for a variety of reasons.
 
-First of all, it allows us to provide a prover way of extensibility - As a developer, you have control of the requests and the responses in the given platform with extensions.
-
-A front-end application sometimes needs an additional API endpoint - that's also possible since you have a server written in express.js.
+First of all, it allows us to provide a prover way of extensibility - As a developer, you have control of the requests and the responses in the given platform with [extensions](/advanced/server-middleware.html#extending-middleware))
 
 All platform credentials are stored only on the server side and not exposed to the frontend part of your application.
+
+Performance optimizations - since we moved the networking layer to the server-side, the final code shipped to the browser is way smaller, which impacts the initial loading time. 
 
 ## How it works (in a nutshell)
 
@@ -21,20 +20,32 @@ The way of how it works represents the following diagram:
   <img src="../images/middleware-diagram.jpg" alt="Middleware Diagram" />
 </center>
 
-It was mentioned before that API-client is being called only on the middleware, but you still can access it on the front-end side - how is that possible?
+The API-client is being called only on the middleware, but you still can access it on the front-end side - how is that possible?
 
-When you access an API-client on the front-end side, you are accessing actually a stub, instead of a real API-client instance. This stub makes a call to the middleware (Remote Procedure Call), and ask for loading a specific integration, and executing specific function.
+When you access an API-client on the front-end side, you are accessing actually a stub, instead of a real API-client instance. This stub makes a call to the middleware ([Remote Procedure Call](https://en.wikipedia.org/wiki/Remote_procedure_call)), and asks for loading a specific integration and executing a function you are asking for.
+
+For example, the following code:
+```js
+context.$ct.getProduct({ id 1})
+```
+
+Generates the request to our middleware:
+- `POST / api/ct/getProduct` - a http call, where `ct` is a tag name of integation and `getProduct` is the name of a function needs to be called
+- `http body` - the body of HTTP request we are sending array of arguments
 
 Middleware recognizes this by the tag name of integration and the function name that needs to be called.
 
-When the middleware has loaded an API-client (integration) it proceeds to create a connection and make a requested API-client function call. Within this whole process, all of the extensions are being executed. Once the middleware has finished its job, the response backs to the front-end side as if it was transferred using a direct connection.
+When the middleware has loaded an API-client (integration), it proceeds to create a connection and make a requested API-client function call.
+
+Within this whole process, all of the extensions are being executed. Once the middleware has finished its job, the response backs to the front-end side as if it was transferred using a direct connection.
 
 
 ## Configuration
 
-When it comes to configuration, you only need to tell middleware what the integrations you have along with their credentials. There is a dedicated config to do that called `middleware.config.js` that contains a section with integrations definition (`integrations`).
 
-Each entry under this section starts with a tag name of given integration, and contains an object with the following fields:
+When it comes to configuration, middleware has a dedicated config called `middleware.config.js` that contains a section with integrations(`integrations`) along with their credentials and other options.
+
+Each entry under the `integrations` section starts with a tag name of given integration, and contains an object with the following fields:
 
 - `location` - points to the package of the API-client, related to given integration (server entry point)
 - `configuration` - contains a configuration of given integration, such as credentials and others
@@ -54,7 +65,7 @@ module.exports = {
 };
 ```
 
-## Extending Middleware
+## Extending Integrations
 
 Middleware allows you to inject into the lifecycle of the entire network flow, starting with configuring a connection and ending with a final response. To use those things, we created an extension feature.
 
