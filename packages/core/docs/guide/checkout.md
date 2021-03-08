@@ -4,7 +4,7 @@ Checkout is a process of providing information about shipping and billing detail
 ## Collecting and saving shipping details
 Shipping details are information about the receiver and her/his address. Based on that, we know where to send the order.
 
-To access shipping details, we can use property returned by `useShipping` called `shipping`.
+We can load shipping details by invoking `load` method. To access them, use property returned by `useShipping` called `shipping`.
 ```js{8,16}
 import { useShipping } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
@@ -26,9 +26,9 @@ export default {
   }
 }
 ```
-`shipping` property will return `null` if the address is not saved on the server or has not been loaded.   
+`shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-In order to save shipping details, you can use `save` method:
+You can use `save` method, in order to save shipping details.
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
@@ -59,8 +59,6 @@ export default {
 }
 </script>
 ```
-
-Shipping details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
 ## Selecting a shipping method
 `VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as a third-party integration.
