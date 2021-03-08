@@ -28,7 +28,7 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-You can use `save` method, in order to save shipping details.
+You can use `save` method in order to save shipping details.
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
@@ -68,17 +68,17 @@ The component is responsible for:
 - Loading selected shipping method
 - Selecting and configuring shipping method
 
-All we have to do is import and put it in `pages/Shipping.vue` as a [second part of the Shipping step](https://github.com/vuestorefront/vue-storefront/blob/next/packages/commercetools/theme/pages/Checkout/Shipping.vue#L197)
+All we have to do is import and put in the view.
 ```vue
 <VsfShippingProvider
   @submit="$router.push('/checkout/billing')"
 />
 ```
 
-`VsfShippingProvider` emits `submit` event when shipping method is properly picked, configured and user clicks `Continue to billing` button.
+`VsfShippingProvider` emits `submit` event when shipping method is selected, configured and user clicks submit button.
 
-### Extending`VsfShippingProvider` and reacting to it's events
-You can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle, override initial function parameters or react to specific events like method selection.  We will call these methods "hooks".
+### Extending `VsfShippingProvider` and reacting to it's events
+You can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
 
 Below you can find a list of available hooks. Because every shipping provider is different not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available for it.
 - **beforeLoad** `(config => config)` - called before loading shipping methods
@@ -103,7 +103,7 @@ Below you can find a list of available hooks. Because every shipping provider is
 ## Collecting and saving billing details
 Billing details are information about the payer and her/his address. Based on that, payment providers can evaluate probability of fraud payment and store owners can prepare invoices.
 
-To access billing details, we can use property of `useBilling` called `billing`.
+We can load billing details by invoking `load` method. To access them, use property returned by `useBilling` called `billing`.
 ```js{8,16}
 import { useBilling } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
@@ -125,9 +125,9 @@ export default {
   }
 }
 ```
-`billing` property will return `null` if the address is not saved on the server or has not been loaded.   
+`billing` property returns `null` if the `load` function was not invoked or nothing is saved.   
 
-In order to save billing details on the server, you could use `save` method:
+You can use `save` method in order to save billing details.
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ billingDetails: billingForm })">
@@ -158,7 +158,6 @@ export default {
 }
 </script>
 ```
-Billing details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
 ## Making an order
 After providing every crucial information by the user, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
@@ -197,10 +196,11 @@ export default {
 ```
 
 ## Payment providers
-Payment provider is an aggregator that provides us one or more payment methods. It is also an integration, one provider component always means one 3rd party provider of payments.       
+`VsfPaymentProvider` is a component that aggregates one or more payment methods from a single provider like Checkout.com or Adyen. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as a third-party integration.   
 
-To give you the best developer experience, we delegate whole logic of selecting and configuring payment method to the dedicated component called **VsfPaymentProvider.vue**. It takes care of:
-- Loading and showing available payment methods
+The component is responsible for:
+- Loading and displaying available payment methods
+- Loading selected payment method
 - Picking and configuring payment method
 
 The first thing we have to do is import and put the component inside `pages/Payment.vue` as a [last part of the Checkout](https://github.com/vuestorefront/vue-storefront/blob/next/packages/commercetools/theme/pages/Checkout/Payment.vue#L108):
@@ -292,8 +292,11 @@ export default {
 </script>
 ```
 
-### Hooks 
-You can pass asynchronous functions as `VsfPaymentProvider` props to hook into different events within it's lifecycle and override initial function parameters or react to specific events like method selection. Available hooks: 
+### Extending `VsfPaymentProvider` and reacting to it's events
+You can pass asynchronous functions as `VsfPaymentProvider` props to hook into different events within it's lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
+
+Below you can find a list of available hooks. Because every payment provider is different not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available for it.
+
 - **beforeLoad** `(config => config)` - called before loading payment methods
 - **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading payment methods
 - **beforeSelect** `(shippingMethod => shippingMethod)` - called before selecting payment method
