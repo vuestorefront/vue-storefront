@@ -269,17 +269,17 @@ Each composable returns an `error` computed property. It is an object which has 
 
 ```vue
 <template>
-  <button @click="addToCart(product)">Add to cart</button>
-  <div v-if="error.addToCart">{{ error.addToCart.message }}</div>
+  <button @click="addItem(product)">Add to cart</button>
+  <div v-if="error.addItem">{{ error.addItem.message }}</div>
 </template>
 
 <script>
 export default {
   setup() {
-    const { addToCart, error } = useCart();
+    const { addItem, error } = useCart();
 
     return {
-      addToCart,
+      addItem,
       error
     };
   }
@@ -306,10 +306,10 @@ export interface UseCartErrors {
 Inside each async method, we are catching errors when they occur and save them to the reactive property called `errors` under the key corresponding to the triggered method:
 
 ```ts
-const { addToCart, errors } = useCart();
+const { addItem, errors } = useCart();
 
-addToCart({ product: null }); // triggers an error
-errors.addToCart; // here you have error raised by addToCart function
+addItem({ product: null }); // triggers an error
+errors.addItem; // here you have error raised by addItem function
 ```
 
 :::

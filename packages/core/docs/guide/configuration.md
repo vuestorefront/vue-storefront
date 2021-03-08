@@ -1,24 +1,53 @@
 # Configuration
 
-Usually, the first thing to do after setting up a fresh Vue Storefront project is configuring it. The bare minimum is to provide the API credentials for your integrations but in most cases, you will also want to configure app behavior to match your business requirements.
+Usually, the first thing to do after setting up a fresh Vue Storefront project is configuring it. The bare minimum is to provide the API credentials for your integrations.
 
-All project configuration happens through Nuxt modules (and plugins they register) so you should start your journey with Vue Storefront in `nuxt.config.js`.
+Your Vue Storefront-related configuration is located in two places:
 
-## Configuring Vue Storefront and global properties
+- `nuxt.config.js` is a place where you're configuring properties related only to the frontend part of your application.
+- `middleware.config.js` is a place where you're configuring your integration middleware. You will put there API keys, integration configurations, custom GraphQL queries and new API endpoints.
 
-So-called "general configuration" is common for all integrations and describes the overall behavior of your application. You will find there things like routes list, internationalization, performance enhancements, or logging configuration.
+## Configuring Integrations
 
-We try to use the most common modules from Nuxt Community for these things: for internationalization we are using `nuxt-i18n`, for PWA capabilities `@nuxtjs/pwa` etc. You can find a list of the Nuxt modules used in the default theme [here](theme.html#preinstalled-modules-and-libraries). Each of them is configured in a way that works best for the majority of users.
+Most of the integrations business logic is placed in the [Integration Middleware](/v2/advanced/server-middleware). Therefore they're configurable through the `integrations` field in `middleware.config.js`. 
+
+```js
+// middleware.config.js
+module.exports = {
+  integrations: {
+   // integration configs
+  }
+};
+```
+
+Sometimes integrations also expose a Nuxt module to configure frontend-related properties and [i18n](/v2/advanced/internationalization).
+
+```js
+// nuxt.config.js
+[`@vue-storefront/{INTEGRATION}/nuxt` {
+  i18n: {
+    // i18n config
+  }
+}]
+```
+
+Below you can find links to the setup instructions and config references of the official eCommerce integrations:
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/api-client.html"
+ shopify="/shopify/api-client.html"
+/>
+
+
+## Configuring Nuxt
+
+We try to use the most common modules from Nuxt Community whenever it's possible. For internationalization we are using `nuxt-i18n`, for PWA capabilities `@nuxtjs/pwa` etc. You can find a list of the Nuxt modules used in the default theme [here](theme.html#preinstalled-modules-and-libraries). Each of them is configured in a way that works best for the majority of users.
 
 There are some features and behaviors that are specific to Vue Storefront only yet not specific to a certain integration. You can configure such things through `@vue-storefront/nuxt` module.
 
 [//]: # 'TODO: Add documentation for VSF/NUXT module'
 
 Below you can find its default configuration:
-
-::: danger
-It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your project as many integrations and other modules rely on it.
-:::
 
 ```js
 // nuxt.config.js
@@ -42,6 +71,7 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
     },
     // use `module` field from `package.json` for included packages
     // custom configuration will be merged with the default one
+    // this property is used mainly to process ESM and benefit the most from treeshaking
     useRawSource: {
       dev: ['@storefront-ui/vue', '@storefront-ui/shared'],
       prod: ['@storefront-ui/vue', '@storefront-ui/shared'],
@@ -49,14 +79,10 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
   },
 ];
 ```
+::: danger
+It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your project. Integrations and other modules rely on it.
+:::
 
-## Configuring integrations
+## Configuring Middleware
 
-Your app will be full of integrations and extensions. At least you'll have an eCommerce platform, CMS and some payment provider. Each of them is configurable through a dedicated Nuxt module. You can find a Nuxt module of every official Vue Storefront integration in it's `/nuxt` directory (`@vue-storefront/{integration}/nuxt`).
-
-Below you can find links to configs of the official eCommerce integrations:
-
-<CommerceIntegrationLinks 
- commercetools="/commercetools/api-client.html"
- shopify="/shopify/api-client.html"
-/>
+There are certain things related to Integration Middleware that are not tied to any specific integration like setting custom GraphQL queries you can configure. You can read more about the Middleware and its configuration [here](/v2/advanced/server-middleware).
