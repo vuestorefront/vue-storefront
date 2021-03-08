@@ -8,7 +8,7 @@ export const getShippingMethodName = (shippingMethod: ShippingMethod): string =>
   shippingMethod ? shippingMethod.name : '';
 
 export const getShippingMethodDescription = (shippingMethod: ShippingMethod): string =>
-  shippingMethod ? shippingMethod.description : '';
+  shippingMethod ? (shippingMethod as any).localizedDescription : '';
 
 export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number => {
   if (!shippingMethod || !shippingMethod.zoneRates) {
