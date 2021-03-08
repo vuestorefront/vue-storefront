@@ -7,7 +7,7 @@ The Vue Storefront middleware is an express.js proxy that taking the requests fr
 
 We have implemented it for a variety of reasons.
 
-First of all, it allows us to provide a prover way of extensibility - As a developer, you have control of the requests and the responses in the given platform and you can write an extension to add something extra in your project.
+First of all, it allows us to provide a prover way of extensibility - As a developer, you have control of the requests and the responses in the given platform with extensions.
 
 A front-end application sometimes needs an additional API endpoint - that's also possible since you have a server written in express.js.
 
