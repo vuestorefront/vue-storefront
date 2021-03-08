@@ -194,13 +194,13 @@ import LazyHydrate from 'vue-lazy-hydration';
 export default {
   name: 'Product',
   transition: 'fade',
-  setup(props, context) {
+  setup(_, context) {
     const qty = ref(1);
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading, error } = useCart();
-    const { $router, $i18n } = context.root;
+    const { cart: sendCartNotification } = sendNotification();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
@@ -236,11 +236,9 @@ export default {
 
     const addToCart = async (product, quantity) => {
       await addItem({ product, quantity });
-      sendNotification.cart.addItem({
+      sendCartNotification.addItem({
         productName: product._name,
-        error: error.value.addItem ? error.value.addItem.message : false,
-        onClick: () => $router.push('/checkout/shipping'),
-        $i18n
+        error: error.value.addItem ? error.value.addItem.message : false
       });
     };
 

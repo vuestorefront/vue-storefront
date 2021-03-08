@@ -363,13 +363,12 @@ import Vue from 'vue';
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
-  setup(props, context) {
+  setup(_, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
-    const { $router, $i18n } = context.root;
 
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
@@ -436,11 +435,9 @@ export default {
 
     const addToCart = async (product, quantity) => {
       await addItemToCart({ product, quantity });
-      sendNotification.cart.addItem({
+      sendCartNotification.addItem({
         productName: product._name,
-        error: error.value.addItem ? error.value.addItem.message : false,
-        onClick: () => $router.push('/checkout/shipping'),
-        $i18n
+        error: error.value.addItem ? error.value.addItem.message : false
       });
     };
 
