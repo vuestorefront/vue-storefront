@@ -57,6 +57,6 @@ Your app will be full of integrations and extensions. At least you'll have an eC
 Below you can find links to configs of the official eCommerce integrations:
 
 <CommerceIntegrationLinks 
- commercetools="/commercetools/api-client.html"
+ commercetools="/commercetools/configuration.html"
  shopify="/shopify/api-client.html"
 />
