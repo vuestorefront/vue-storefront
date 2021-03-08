@@ -62,7 +62,7 @@ export default {
 
 Shipping details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
-## Shipping providers
+## Selecting a shipping method
 Shipping provider is an aggregator that provides us one or more shipping methods. It is also an integration, one provider component always means one 3rd party provider of shipping.   
 
 To give you the best developer experience, we delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. It takes care of:
