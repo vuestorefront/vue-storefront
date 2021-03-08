@@ -1,6 +1,5 @@
 # Server middleware
 
-The server middleware is a part of Vue Storefront networking. That's the way of making connections with the eCommerce platform and also a solution to reduce bundle size, number of calls, credentials sharing, extensibility handling, and more.
 
 ## What is Vue Storefront Middleware and why we need it?
 
