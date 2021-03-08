@@ -27,7 +27,7 @@ platform: Commercetools
 
 - `clearWishlist` - function that removes all products from the wishlist and populates clear `wishlist` property.
 
-- `isOnWishlist` - function that checks if product is on the wishlist. It returns boolean value.
+- `isInWishlist` - function that checks if product is on the wishlist. It returns boolean value.
 
 ## Getters
 

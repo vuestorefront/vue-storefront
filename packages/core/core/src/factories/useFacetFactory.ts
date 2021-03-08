@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, vsfRef, Logger, generateContext } from '../utils';
+import { sharedRef, vsfRef, Logger, configureFactoryParams } from '../utils';
 import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams, UseFacetErrors } from '../types';
 
 interface UseFacetFactoryParams<SEARCH_DATA> extends FactoryParams {
@@ -12,7 +12,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     const ssrKey = id || 'useFacet';
     const loading: Ref<boolean> = vsfRef(false, `${ssrKey}-loading`);
     const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
-    const context = generateContext(factoryParams);
+    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseFacetErrors> = sharedRef({}, `useFacet-error-${id}`);
 
     const search = async (params?: AgnosticFacetSearchParams) => {
@@ -22,7 +22,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
       try {
         loading.value = true;
         error.value.search = null;
-        result.value.data = await factoryParams.search(context, result.value);
+        result.value.data = await _factoryParams.search(result.value);
       } catch (err) {
         error.value.search = err;
         Logger.error(`useFacet/${ssrKey}/search`, err);

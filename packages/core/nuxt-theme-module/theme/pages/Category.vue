@@ -170,7 +170,7 @@
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
-              :isAddedToCart="isOnCart({ product })"
+              :isAddedToCart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="addItemToWishlist({ product })"
@@ -373,7 +373,7 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addItem: addItemToCart, isOnCart } = useCart();
+    const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -454,7 +454,7 @@ export default {
       breadcrumbs,
       addItemToWishlist,
       addItemToCart,
-      isOnCart,
+      isInCart,
       isFacetColor,
       selectFilter,
       isFilterSelected,
@@ -649,6 +649,7 @@ export default {
   border-width: 0 1px 0 0;
 }
 .sidebar-filters {
+  --overlay-z-index: 3;
   --sidebar-title-display: none;
   --sidebar-top-padding: 0;
   @include for-desktop {

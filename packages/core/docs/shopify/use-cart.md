@@ -58,7 +58,7 @@ export type Cart = {
 - `removeFromCart` - function for removing a product that currently is in the cart
     - It takes one parameter:
     - `product` (Object) The identifier of the product variant for the cart item.
-- `isOnCart` - function for checking if a product is currently in the cart
+- `isInCart` - function for checking if a product is currently in the cart
 - `clearCart` - function for removing all items currently stored in cart
 - `coupon` - reactive data object containing coupon details
 - `applyCoupon` - function for applying coupon to cart

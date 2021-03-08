@@ -3,12 +3,11 @@
     <LazyHydrate when-visible>
       <TopBar class="desktop-only" />
     </LazyHydrate>
+    <LazyHydrate when-idle>
+      <AppHeader />
+    </LazyHydrate>
 
     <div id="layout">
-      <LazyHydrate when-idle>
-        <AppHeader />
-      </LazyHydrate>
-
       <nuxt :key="$route.fullPath"/>
 
       <LazyHydrate when-visible>
@@ -62,10 +61,14 @@ export default {
   }
 }
 
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 // Reset CSS
 html {
   width: auto;
-  overflow-x: hidden;
 }
 body {
   overflow-x: hidden;

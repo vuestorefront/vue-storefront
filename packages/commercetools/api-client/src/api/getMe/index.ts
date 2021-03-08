@@ -1,8 +1,7 @@
-import { CustomQueryFn } from '../../index';
 import { basicProfile, fullProfile } from './defaultQuery';
 import gql from 'graphql-tag';
-import { getCustomQuery } from '../../helpers/queries';
 import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
 export interface GetMeParams {
   customer?: boolean;
@@ -13,20 +12,25 @@ export interface OrdersData {
   me: any;
 }
 
-const getMe = async ({ config, client }, params: GetMeParams = {}, customQueryFn?: CustomQueryFn) => {
-  const { locale, acceptLanguage } = config;
+const getMe = async (context, params: GetMeParams = {}, customQuery?: CustomQuery) => {
+  const { locale, acceptLanguage } = context.config;
 
   const { customer }: GetMeParams = params;
-  const defaultQuery = customer ? fullProfile : basicProfile;
   const defaultVariables = {
     locale,
     acceptLanguage
   };
-  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
 
-  const request = await (client as ApolloClient<any>).query<OrdersData>({
-    query: gql`${query}`,
-    variables,
+  const { getBasicProfile, getFullProfile } = context.extendQuery(customQuery, {
+    getBasicProfile: { query: basicProfile, variables: defaultVariables },
+    getFullProfile: { query: fullProfile, variables: defaultVariables }
+  });
+
+  const profile = customer ? getFullProfile : getBasicProfile;
+
+  const request = await (context.client as ApolloClient<any>).query<OrdersData>({
+    query: gql`${profile.query}`,
+    variables: profile.variables,
     fetchPolicy: 'no-cache'
   });
 

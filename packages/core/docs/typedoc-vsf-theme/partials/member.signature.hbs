@@ -1,0 +1,43 @@
+{{> member.sources}}
+
+{{> comment}}
+
+{{#if typeParameters}}
+
+#### Type parameters:
+
+{{#with typeParameters}}
+
+{{{parameterTable 'typeParameters'}}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if parameters}}
+
+#### Parameters:
+
+{{#with parameters}}
+
+{{{parameterTable 'parameters'}}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if type}}
+
+{{#with type}}{{{returns}}}{{/with}}
+
+{{#if comment.returns}}
+
+{{#with comment.returns}}
+
+{{{text}}}
+
+{{/with}}
+
+{{/if}}
+
+{{/if}}

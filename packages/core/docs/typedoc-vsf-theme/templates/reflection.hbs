@@ -1,0 +1,93 @@
+{{> title}}
+
+{{#with model}}
+
+{{#if hasComment}}
+
+{{> comment}}
+
+{{/if}}
+
+{{/with}}
+
+{{#if model.typeParameters}}
+
+#### Type parameters
+
+{{#with model.typeParameters}}
+
+{{{parameterTable 'typeParameters'}}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if model.typeHierarchy}}
+
+{{#with model.typeHierarchy}}
+
+{{{hierarchy 0}}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if model.implementedTypes}}
+
+## Implements
+
+{{#each model.implementedTypes}}
+* {{{type false}}}
+{{/each}}
+
+{{/if}}
+
+{{#if model.implementedBy}}
+
+## Implemented by
+
+{{#each model.implementedBy}}
+* {{{type false}}}
+{{/each}}
+
+{{/if}}
+
+{{#if model.signatures}}
+
+## Callable
+
+{{#with model}}
+
+{{#each signatures}}
+
+{{> member.signature  }}
+
+{{/each}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if model.indexSignature}}
+
+## Indexable
+
+{{#with model}}
+
+{{#with indexSignature}}
+
+{{{indexSignatureTitle}}}
+
+{{> comment}}
+
+{{/with}}
+
+{{/with}}
+
+{{/if}}
+
+{{#with model}}
+
+{{> main}}
+
+{{/with}}

@@ -17,8 +17,8 @@
     <SfCheckbox
       v-show="currentAddressId"
       v-e2e="'shipping-details-checkbox_isDefault'"
-      :selected="setAsDefault"
-      @change="$emit('update:setAsDefault', $event)"
+      :selected="value"
+      @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="shipping-address-setAsDefault"
@@ -38,10 +38,10 @@ export default {
   name: 'UserShippingAddresses',
   props: {
     currentAddressId: {
-      type: String,
+      type: String | Number,
       required: true
     },
-    setAsDefault: {
+    value: {
       type: Boolean,
       required: true
     }
@@ -55,11 +55,11 @@ export default {
     const { shipping: userShipping } = useUserShipping();
 
     const setCurrentAddress = async (addressId) => {
-      const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
-      if (!chosenAddress || !chosenAddress.length) {
+      const selectedAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
+      if (!selectedAddress || !selectedAddress.length) {
         return;
       }
-      emit('setCurrentAddress', chosenAddress[0]);
+      emit('setCurrentAddress', selectedAddress[0]);
     };
 
     return {

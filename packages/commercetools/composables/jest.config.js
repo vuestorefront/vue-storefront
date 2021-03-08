@@ -11,7 +11,7 @@ module.exports = {
     '<rootDir>/src/context.d.ts',
 
     // Ignore mocked composables
-    'Billing',
+    'UserBilling',
     'UserShipping',
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/5136

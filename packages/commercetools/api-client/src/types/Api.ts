@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
+import { ApiClientMethods } from '@vue-storefront/core';
 import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
 import { GetMeParams } from '../api/getMe';
@@ -24,39 +25,29 @@ import {
   CartQueryInterface
 } from './GraphQL';
 
-export interface ApiInstance {
-  addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  applyCartCoupon (cart: Cart, discountCode: string, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  createCart (cartDraft?: CartData, customQueryFn?: CustomQueryFn): Promise<{ data: CartQueryInterface }>;
-  createMyOrderFromCart (draft: OrderMyCartCommand, customQueryFn?: CustomQueryFn): Promise<OrderMutationResponse>;
-  customerChangeMyPassword (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse>;
-  customerSignMeIn (draft: CustomerSignMeInDraft): Promise<SignInResponse>;
-  customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
-  customerSignOut (): Promise<void>;
-  customerUpdateMe (currentUser, updatedUserData): Promise<any>;
-  getCart (cartId: string): Promise<CartQueryResponse>;
-  getCategory (params, customQueryFn?: CustomQueryFn): Promise<QueryResponse<'categories', CategoryQueryResult>>;
-  getMe (params?: GetMeParams, customQueryFn?: CustomQueryFn): Promise<{ data: { me: Me } }>;
-  getOrders (params, customQueryFn?: CustomQueryFn): Promise<{ data: { me: Me } }>;
-  getProduct (params, customQueryFn?: CustomQueryFn): Promise<QueryResponse<'products', ProductQueryResult>>;
-  getShippingMethods (cartId?: string, customQueryFn?: CustomQueryFn): Promise<ShippingMethodData>;
-  removeCartCoupon (cart: Cart, discountCode: ReferenceInput, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  removeFromCart (cart: Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  updateCart (params: UpdateCartParams, customQueryFn?: CustomQueryFn): Promise<CartResponse>;
-  updateCartQuantity (cart: Cart, product: LineItem, customQuery?: CustomQueryFn): Promise<CartResponse>;
-  updateShippingDetails (cart: Cart, shippingDetails: Address, customQueryFn?: CustomQueryFn): Promise<CartResponse>;
-  isGuest: () => boolean;
-}
-
-export type CustomQueryFn<T = any> = (query: any, variables: T) => {
-  query?: any;
-  variables?: T;
-};
-
 export interface BaseSearch {
   limit?: number;
   offset?: number;
   sort?: string[];
+}
+
+export enum AttributeType {
+  STRING = 'StringAttribute',
+  DATE = 'DateAttribute',
+  DATETIME = 'DateTimeAttribute',
+  TIME = 'TimeAttribute',
+  NUMBER = 'NumberAttribute',
+  ENUM = 'EnumAttribute',
+  LOCALIZED_ENUM = 'LocalizedEnumAttribute',
+  LOCALIZED_STRING = 'LocalizedStringAttribute',
+  MONEY = 'MoneyAttribute',
+  BOOLEAN = 'BooleanAttribute'
+}
+
+export interface Filter {
+  type: AttributeType;
+  name: string;
+  value: any;
 }
 
 export interface ProductWhereSearch extends BaseSearch {
@@ -65,12 +56,6 @@ export interface ProductWhereSearch extends BaseSearch {
   slug?: string;
   id?: string;
   filters?: Filter[];
-}
-
-export interface Filter {
-  type: AttributeType;
-  name: string;
-  value: any;
 }
 
 export interface FilterOption {
@@ -88,18 +73,6 @@ export interface OrderWhereSearch extends BaseSearch {
   id?: string;
 }
 
-export enum AttributeType {
-  STRING = 'StringAttribute',
-  DATE = 'DateAttribute',
-  DATETIME = 'DateTimeAttribute',
-  TIME = 'TimeAttribute',
-  NUMBER = 'NumberAttribute',
-  ENUM = 'EnumAttribute',
-  LOCALIZED_ENUM = 'LocalizedEnumAttribute',
-  LOCALIZED_STRING = 'LocalizedStringAttribute',
-  MONEY = 'MoneyAttribute',
-  BOOLEAN = 'BooleanAttribute'
-}
 export interface FlowOptions {
   currentToken?: Token;
   customerCredentials?: CustomerCredentials;
@@ -121,3 +94,29 @@ export type OrderResponse = OrderQueryResponse | OrderMutationResponse;
 export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>;
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
 export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;
+
+interface ApiMethods {
+  addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number): Promise<CartResponse>;
+  applyCartCoupon (cart: Cart, discountCode: string): Promise<CartResponse>;
+  createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
+  createMyOrderFromCart (draft: OrderMyCartCommand): Promise<OrderMutationResponse>;
+  customerChangeMyPassword (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse>;
+  customerSignMeIn (draft: CustomerSignMeInDraft): Promise<SignInResponse>;
+  customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
+  customerSignOut (): Promise<void>;
+  customerUpdateMe (currentUser, updatedUserData): Promise<any>;
+  getCart (cartId: string): Promise<CartQueryResponse>;
+  getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
+  getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
+  getOrders (params): Promise<{ data: { me: Me } }>;
+  getProduct (params): Promise<QueryResponse<'products', ProductQueryResult>>;
+  getShippingMethods (cartId?: string): Promise<ShippingMethodData>;
+  removeCartCoupon (cart: Cart, discountCode: ReferenceInput): Promise<CartResponse>;
+  removeFromCart (cart: Cart, product: LineItem): Promise<CartResponse>;
+  updateCart (params: UpdateCartParams): Promise<CartResponse>;
+  updateCartQuantity (cart: Cart, product: LineItem): Promise<CartResponse>;
+  updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
+  isGuest: () => boolean;
+}
+
+export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

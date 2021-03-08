@@ -2,36 +2,44 @@
   <div id="checkout">
     <div class="checkout">
       <div class="checkout__main">
-        <SfSteps :active="currentStepIndex" @change="handleStepClick" v-if="!isThankYou" :class="{ 'checkout__steps': true, 'checkout__steps-auth': isAuthenticated }">
-          <SfStep v-for="(step, key) in STEPS" :key="key" :name="step">
+        <SfSteps
+          v-if="!isThankYou"
+          :active="currentStepIndex"
+          :class="{ 'checkout__steps': true, 'checkout__steps-auth': isAuthenticated }"
+          @change="handleStepClick"
+        >
+          <SfStep
+            v-for="(step, key) in STEPS"
+            :key="key"
+            :name="step"
+          >
             <nuxt-child />
           </SfStep>
         </SfSteps>
         <nuxt-child v-else />
       </div>
-      <div class="checkout__aside desktop-only" v-if="!isThankYou">
+      <div
+        v-if="!isThankYou"
+        class="checkout__aside desktop-only"
+      >
         <transition name="fade">
-          <CartPreview v-if="showCartPreview" key="order-summary" />
-          <OrderReview v-else key="order-review" />
+          <CartPreview key="order-summary" />
         </transition>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import { onSSR } from '@vue-storefront/core';
+
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/Checkout/CartPreview';
-import OrderReview from '~/components/Checkout/OrderReview';
-import { ref, computed } from '@vue/composition-api';
-import { useUser, useCart } from '@vue-storefront/commercetools';
+import { computed } from '@vue/composition-api';
+import { useUser } from '@vue-storefront/commercetools';
 
 const STEPS = {
-  'personal-details': 'Personal Details',
   shipping: 'Shipping',
-  payment: 'Payment',
-  'order-review': 'Review'
+  billing: 'Billing',
+  payment: 'Payment'
 };
 
 export default {
@@ -39,14 +47,11 @@ export default {
   components: {
     SfButton,
     SfSteps,
-    CartPreview,
-    OrderReview
+    CartPreview
   },
   setup(props, context) {
     const currentStep = computed(() => context.root.$route.path.split('/').pop());
     const { isAuthenticated } = useUser();
-    const { load: loadCart } = useCart();
-    const showCartPreview = ref(true);
     const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
     const isThankYou = computed(() => currentStep.value === 'thank-you');
 
@@ -55,17 +60,12 @@ export default {
       context.root.$router.push(`/checkout/${key}`);
     };
 
-    onSSR(async () => {
-      await loadCart();
-    });
-
     return {
       handleStepClick,
       STEPS,
       currentStepIndex,
       isThankYou,
       currentStep,
-      showCartPreview,
       isAuthenticated
     };
   }

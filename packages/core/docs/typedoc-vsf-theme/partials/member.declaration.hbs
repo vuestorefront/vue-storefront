@@ -1,0 +1,43 @@
+{{> comment}}
+
+{{#if typeParameters}}
+
+#### Type parameters:
+
+{{#with typeParameters}}
+
+{{{parameterTable 'typeParameters'}}}
+
+{{/with}}
+
+{{/if}}
+
+{{#if type.declaration}}
+
+{{#if type.declaration.children}}
+
+#### Type declaration:
+
+{{#with type.declaration.children}}
+
+{{{propertyTable ../kind}}}
+
+{{/with}}
+
+{{/if}}
+
+{{/if}}
+
+{{#ifCond kindString '==' 'Object literal'}}
+
+#### Properties:
+
+{{#with children}}
+
+{{{propertyTable ../kind}}}
+
+{{/with}}
+
+{{/ifCond }}
+
+{{> member.sources}}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase, camelcase */
 import { handleBeforeAuth, handleAfterAuth, handleRetry } from '../../../src/helpers/commercetoolsLink/linkHandlers';
 
 const getSdkAuth = (scope) => ({

@@ -2,72 +2,65 @@
   <div id="checkout">
     <div class="checkout">
       <div class="checkout__main">
-        <SfSteps :active="currentStep" v-if="currentStep < 4" class="checkout__steps">
-          <SfStep v-for="(step, index) in STEPS" :key="step.name" :name="step.label">
-            <nuxt-child
-              @showReview="handleShowReview"
-              @changeStep="updateStep($event)"
-              @nextStep="handleNextStep(index + 1)"
-            />
+        <SfSteps
+          v-if="!isThankYou"
+          :active="currentStepIndex"
+          :class="{ 'checkout__steps': true, 'checkout__steps-auth': isAuthenticated }"
+          @change="handleStepClick"
+        >
+          <SfStep
+            v-for="(step, key) in STEPS"
+            :key="key"
+            :name="step"
+          >
+            <nuxt-child />
           </SfStep>
         </SfSteps>
-        <nuxt-child v-else @changeStep="updateStep($event)" />
+        <nuxt-child v-else />
       </div>
-      <div class="checkout__aside desktop-only" v-if="currentStep < 4">
+      <div
+        v-if="!isThankYou"
+        class="checkout__aside desktop-only"
+      >
         <transition name="fade">
-          <CartPreview v-if="showCartPreview" key="order-summary" />
-          <OrderReview v-else key="order-review" />
+          <CartPreview key="order-summary" />
         </transition>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-import { ref, watch } from '@vue/composition-api';
+import { computed, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { SfSteps, SfButton } from '@storefront-ui/vue';
-import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, cartGetters, useUser } from '<%= options.generate.replace.composables %>';
 import CartPreview from '~/components/Checkout/CartPreview';
-import OrderReview from '~/components/Checkout/OrderReview';
 
-const STEPS = [
-  { name: 'personal-details',
-    label: 'Personal Details' },
-  { name: 'shipping',
-    label: 'Shipping' },
-  { name: 'payment',
-    label: 'Payment' },
-  { name: 'order-review',
-    label: 'Review' }
-];
-
-// TODO(CHECKOUT): block pages when you haven't finished previous steps / don't have products in cart and so on.
-// TODO(CHECKOUT): save data that you put in the forms - after refreshing page everything should be filled
-// TODO(CHECKOUT): form validations
+const STEPS = {
+  shipping: 'Shipping',
+  billing: 'Billing',
+  payment: 'Payment'
+};
 
 export default {
   name: 'Checkout',
   components: {
     SfButton,
     SfSteps,
-    CartPreview,
-    OrderReview
+    CartPreview
   },
   setup(props, context) {
     const { cart, load: loadCart } = useCart();
-    const showCartPreview = ref(true);
-    const currentStep = ref(0);
+    const { isAuthenticated } = useUser();
 
-    const handleShowReview = () => {
-      showCartPreview.value = false;
-    };
+    const currentStep = computed(() => context.root.$route.path.split('/').pop());
+    const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
+    const isThankYou = computed(() => currentStep.value === 'thank-you');
 
-    const updateStep = (next) => {
-      currentStep.value = next;
-    };
-
-    const handleNextStep = (nextStep) => {
-      context.root.$router.push(nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
+    const handleStepClick = (stepIndex) => {
+      const key = Object.keys(STEPS)[stepIndex];
+      context.root.$router.push(`/checkout/${key}`);
     };
 
     onSSR(async () => {
@@ -82,12 +75,12 @@ export default {
     });
 
     return {
+      handleStepClick,
       STEPS,
-      handleNextStep,
+      currentStepIndex,
+      isThankYou,
       currentStep,
-      updateStep,
-      handleShowReview,
-      showCartPreview
+      isAuthenticated
     };
   }
 };
@@ -122,6 +115,11 @@ export default {
     @include for-desktop {
       --steps-content-padding: 0;
     }
+
+    &-auth::v-deep .sf-steps__step:first-child {
+      --steps-step-color: #e8e4e4;
+    }
   }
 }
+
 </style>

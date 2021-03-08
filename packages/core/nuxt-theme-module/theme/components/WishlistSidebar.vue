@@ -130,6 +130,8 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
+  --sidebar-z-index: 3;
+  --overlay-z-index: 3;
   --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }

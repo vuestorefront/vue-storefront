@@ -20,7 +20,7 @@ export default {
       addToWishlist,
       removeFromWishlist,
       clearWishlist,
-      isOnWishlist,
+      isInWishlist,
       load: loadWishlist
      } = useWishlist()
     

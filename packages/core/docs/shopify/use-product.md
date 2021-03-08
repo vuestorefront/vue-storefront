@@ -97,7 +97,7 @@ export type Product = {
 - `getFormattedPrice` - Return product price with currency sign 
 - `getStatus` - Return true if product is available
 - `hasSpecialPrice` - Return true if product product has discounted price
-- `isOnWishlist` -  Return true if product was added to wishlist 
+- `isInWishlist` -  Return true if product was added to wishlist 
 - `getBreadcrumbs` - Prepared bread crumbs for the product.
 - `getVendor` - Get vendor name of product.
 

@@ -219,6 +219,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.modal {
+  --modal-index: 3;
+  --overlay-z-index: 3;
+}
 .form {
   margin-top: var(--spacer-sm);
   &__element {

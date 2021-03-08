@@ -28,8 +28,8 @@
     </SfAddressPicker>
     <SfCheckbox
       v-e2e="'billing-details-checkbox_isDefault'"
-      :selected="setAsDefault"
-      @change="$emit('changeSetAsDefault', $event)"
+      :selected="value"
+      @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
       class="billing-address-setAsDefault"
@@ -42,21 +42,16 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
-import { userBillingGetters } from '@vue-storefront/commercetools';
-
+import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
 export default {
   name: 'UserBillingAddresses',
   props: {
     currentAddressId: {
-      type: Number,
+      type: String | Number,
       required: true
     },
-    setAsDefault: {
+    value: {
       type: Boolean,
-      required: true
-    },
-    billingAddresses: {
-      type: Array,
       required: true
     }
   },
@@ -65,9 +60,16 @@ export default {
     SfAddressPicker
   },
   setup (_, { emit }) {
-    const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-
+    const { billing: userBilling } = useUserBilling();
+    const setCurrentAddress = async addressId => {
+      const selectedAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
+      if (!selectedAddress || !selectedAddress.length) {
+        return;
+      }
+      emit('setCurrentAddress', selectedAddress[0]);
+    };
     return {
+      billingAddresses: userBillingGetters.getAddresses(userBilling.value),
       setCurrentAddress,
       userBillingGetters
     };

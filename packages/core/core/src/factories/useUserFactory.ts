@@ -1,9 +1,9 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
-import { sharedRef, Logger, mask, generateContext } from '../utils';
+import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
-  load: (context: Context, params?: {}) => Promise<USER>;
+  load: (context: Context, params?: any) => Promise<USER>;
   logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
@@ -19,7 +19,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const user: Ref<USER> = sharedRef(null, 'useUser-user');
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
-    const context = generateContext(factoryParams);
+    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseUserErrors> = sharedRef({}, 'useUser-error');
 
     const setUser = (newUser: USER) => {
@@ -33,7 +33,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         error.value.updateUser = null;
-        user.value = await factoryParams.updateUser(context, {currentUser: user.value, updatedUserData: providedUser});
+        user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser});
       } catch (err) {
         error.value.updateUser = err;
         Logger.error('useUser/updateUser', err);
@@ -48,7 +48,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         error.value.register = null;
-        user.value = await factoryParams.register(context, providedUser);
+        user.value = await _factoryParams.register(providedUser);
       } catch (err) {
         error.value.register = err;
         Logger.error('useUser/register', err);
@@ -63,7 +63,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         error.value.login = null;
-        user.value = await factoryParams.logIn(context, providedUser);
+        user.value = await _factoryParams.logIn(providedUser);
       } catch (err) {
         error.value.login = err;
         Logger.error('useUser/login', err);
@@ -77,7 +77,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         error.value.logout = null;
-        await factoryParams.logOut(context);
+        await _factoryParams.logOut();
         user.value = null;
       } catch (err) {
         error.value.logout = err;
@@ -91,7 +91,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         error.value.changePassword = null;
-        user.value = await factoryParams.changePassword(context, {
+        user.value = await _factoryParams.changePassword({
           currentUser: user.value,
           currentPassword: params.current,
           newPassword: params.new
@@ -110,7 +110,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         error.value.load = null;
-        user.value = await factoryParams.load(context);
+        user.value = await _factoryParams.load();
       } catch (err) {
         error.value.load = err;
         Logger.error('useUser/load', err);

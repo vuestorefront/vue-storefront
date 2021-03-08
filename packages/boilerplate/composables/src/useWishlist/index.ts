@@ -35,8 +35,8 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: (context: Context, { currentWishlist }) => {
-    console.log('Mocked: isOnWishlist');
+  isInWishlist: (context: Context, { currentWishlist }) => {
+    console.log('Mocked: isInWishlist');
     return false;
   }
 };

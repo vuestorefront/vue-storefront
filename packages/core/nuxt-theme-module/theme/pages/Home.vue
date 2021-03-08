@@ -63,7 +63,7 @@
               :max-rating="product.rating.max"
               :score-rating="product.rating.score"
               :show-add-to-cart-button="true"
-              :is-on-wishlist="product.isOnWishlist"
+              :is-on-wishlist="product.isInWishlist"
               link="/"
               class="carousel__item__product"
               @click:wishlist="toggleWishlist(i)"
@@ -206,63 +206,63 @@ export default {
           image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: true
+          isInWishlist: true
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productC.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productC.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productA.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         },
         {
           title: 'Cream Beach Bag',
           image: '/homepage/productB.webp',
           price: { regular: '50.00 $' },
           rating: { max: 5, score: 4 },
-          isOnWishlist: false
+          isInWishlist: false
         }
       ]
     };
   },
   methods: {
     toggleWishlist(index) {
-      this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
+      this.products[index].isInWishlist = !this.products[index].isInWishlist;
     }
   }
 };
