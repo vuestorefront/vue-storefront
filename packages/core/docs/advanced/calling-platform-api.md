@@ -20,9 +20,6 @@ $ct.api.getProduct({ id: 1 })
 In the example above we have accessed the API-client for commercetools (Each integration has dedicated tag name, look at [context docs](/advanced/context)) and we called function `getProduct`.
 
 
-::: tip
-Remember that API-client you are accessing from the front-end side is only a stub. It's making a call to our middleware where the real API-client is being called. For more info, jump to the [server middleware](/advanced/server-middleware) section.
-:::
 
 ## Extending API Client
 
