@@ -203,7 +203,7 @@ The component is responsible for:
 - Loading selected payment method
 - Picking and configuring payment method
 
-The first thing we have to do is import and put the component inside `pages/Payment.vue` as a [last part of the Checkout](https://github.com/vuestorefront/vue-storefront/blob/next/packages/commercetools/theme/pages/Checkout/Payment.vue#L108):
+The first thing we have to do is import and put in the view.
 ```vue
 <template>
   <!-- ... -->
