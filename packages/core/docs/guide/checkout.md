@@ -67,7 +67,7 @@ Shipping provider is an aggregator that provides us one or more shipping methods
 
 To give you the best developer experience, we delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. It takes care of:
 - Loading and displaying available shipping methods
-- Loading currently picked shipping method
+- Loading selected shipping method
 - Picking and configuring shipping method
 
 All we have to do is import and put it in `pages/Shipping.vue` as a [second part of the Shipping step](https://github.com/vuestorefront/vue-storefront/blob/next/packages/commercetools/theme/pages/Checkout/Shipping.vue#L197)
