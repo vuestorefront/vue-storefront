@@ -246,3 +246,41 @@ Signatures of hook functions might be different per integration.
 There are eCommerce backends which do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide mocked component to let user go through the whole checkout. We are using external providers with dedicated VsfPaymentProvider for them. One example is a [Checkout.com integration](https://github.com/vuestorefront/checkout-com).
 
 ## Order
+After providing every crucial information by the user, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
+```js
+import { useMakeOrder } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { make } = useMakeOrder();
+
+    const processOrder = async () => {
+      await make();
+    }
+  }
+}
+```
+
+It creates an order but we need to perform additional actions:
+- redirect to thank you page
+- clear a cart
+```js
+import { useMakeOrder, useCart } from '{INTEGRATION}';
+
+export default {
+  setup (_, context) {
+    const { make, order } = useMakeOrder();
+    const { setCart } = useCart();
+
+    const processOrder = async () => {
+      await make();
+      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      setCart(null);
+    }
+  }
+}
+```
+That's all. This is how we can implement basic checkout flow.
+
+### What about handling payments?
+Handling payments depends on integration. The general part is you should make a payment only after making an order.
