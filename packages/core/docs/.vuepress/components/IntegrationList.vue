@@ -31,6 +31,11 @@ export default {
           integration.isVisible = true;
           return;
         }
+        // empty list means compatibility with everything
+        if (integration.compatibility.length === 0) {
+          integration.isVisible = true;
+          return;
+        }
         const isCompatible = integration.compatibility.some(platform => platform === this.selected.value)
         integration.isVisible = isCompatible 
       })
