@@ -21,7 +21,7 @@ The way of how it works represents the following diagram:
   <img src="../images/middleware-diagram.jpg" alt="Middleware Diagram" />
 </center>
 
-In the Vue Storefront platform, you always have a few components: Core, UI, Middleware, and integration part: composables, API-client (and sometimes UI). As we mentioned before, API-client is being called only on the middleware, but you still can access it on the front-end side - how is that possible?
+It was mentioned before that API-client is being called only on the middleware, but you still can access it on the front-end side - how is that possible?
 
 When you access an API-client on the front-end side, you are accessing actually a stub, instead of a real API-client instance. This stub makes a call to the middleware (Remote Procedure Call), and ask for loading a specific integration, and executing specific function.
 
