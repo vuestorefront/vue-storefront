@@ -160,7 +160,7 @@ export default {
 ```
 Billing details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
-## Order
+## Making an order
 After providing every crucial information by the user, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
 ```js
 import { useMakeOrder } from '{INTEGRATION}';
