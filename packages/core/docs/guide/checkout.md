@@ -1,4 +1,4 @@
-# What's checkout?
+# Checkout
 Checkout is a process of providing information about shipping and billing details, and picking certain shipping and payment method. Then with all the data, we are able to place an order and pay for it.
 
 ## Collecting and saving shipping details
