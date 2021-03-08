@@ -33,12 +33,7 @@ Generates the request to our middleware:
 - `POST / api/ct/getProduct` - a http call, where `ct` is a tag name of integation and `getProduct` is the name of a function needs to be called
 - `http body` - the body of HTTP request we are sending array of arguments
 
-Middleware recognizes this by the tag name of integration and the function name that needs to be called.
-
-When the middleware has loaded an API-client (integration), it proceeds to create a connection and make a requested API-client function call.
-
-Within this whole process, all of the extensions are being executed. Once the middleware has finished its job, the response backs to the front-end side as if it was transferred using a direct connection.
-
+Middleware reads tag name of integration and the function name that needs to be called, executes it, and send response back to the browser as if it was transferred using a direct connection.
 
 ## Configuration
 
