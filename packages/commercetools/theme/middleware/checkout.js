@@ -1,13 +1,11 @@
 const canEnterPayment = cart => cart.shippingInfo && cart.shippingAddress;
 
-const canEnterReview = cart => cart && Boolean(cart.billingAddress);
+const canEnterReview = cart => Boolean(cart.billingAddress);
 
 export default async ({ app, $vsf }) => {
-  const currentPath = app.context.route.fullPath;
+  const currentPath = app.context.route.fullPath.split('/checkout/')[1];
 
-  if (!currentPath.includes('/checkout/')) {
-    return;
-  }
+  if (!currentPath) return;
 
   const { data } = await $vsf.$ct.api.getMe();
 
