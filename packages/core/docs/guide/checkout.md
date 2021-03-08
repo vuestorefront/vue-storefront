@@ -63,7 +63,7 @@ export default {
 Shipping details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
 ## Shipping providers
-Shipping provider is an aggregator that provides us one or more shipping methods.    
+Shipping provider is an aggregator that provides us one or more shipping methods. It is also an integration, one provider component always means one 3rd party provider of shipping.   
 
 To give you the best developer experience, we delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. It takes care of:
 - Loading and showing available shipping methods
@@ -82,24 +82,25 @@ All we have to do is import and put it in `pages/Shipping.vue` as a [second part
 
 ### Hooks
 You can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle and override initial function parameters or react to specific events like method selection
-- **beforeLoad** - called before loading shipping methods
-- **afterLoad** - called after loading shipping methods
-- **onSelected** - called after selecting shipping method
-- **onSelectedDetailsChanged** - called after modifying currently picked shipping method, e.g. selecting parcel locker on the map
-- **onError** - called when some operation throws an error
+- **beforeLoad** `(config => config)` - called before loading shipping methods
+- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading shipping methods
+- **beforeSelect** `(shippingMethod => shippingMethod)` - called before selecting shipping method
+- **afterSelect** `(selectedShippingMethod => void)` - called after selecting shipping method
+- **beforeSelectedDetailsChange** `(details => details)` - called before modifying currently picked shipping method, e.g. selecting parcel locker on the map
+- **afterSelectedDetailsChange** `(details => void)` - called after modifying currently picked shipping method
+- **onError** `(({ action, error }) => void)` - called when some operation throws an error
 
 ```vue
 <VsfShippingProvider
   :beforeLoad="beforeLoad"
   :afterLoad="afterLoad"
-  :onSelected="onSelected"
-  :onSelectedDetailsChanged="onSelectedDetailsChanged"
+  :beforeSelect="beforeSelect"
+  :afterSelect="afterSelect"
+  :beforeSelectedDetailsChange="beforeSelectedDetailsChange"
+  :afterSelectedDetailsChange="afterSelectedDetailsChange"
   :onError="onError"
 />
 ```
-:::warning
-Signatures of hook functions might be different per shipping provider.
-:::
 ## Billing details
 Billing details are information about the payer and her/his address. Based on that, payment providers might evaluate probability of fraud payment. Also it is a place, where we should store information for invoice.
 
@@ -161,7 +162,7 @@ export default {
 Billing details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
 ## Payment providers
-Payment provider is an aggregator that provides us one or more payment methods.    
+Payment provider is an aggregator that provides us one or more payment methods. It is also an integration, one provider component always means one 3rd party provider of payments.       
 
 To give you the best developer experience, we delegate whole logic of selecting and configuring payment method to the dedicated component called **VsfPaymentProvider.vue**. It takes care of:
 - Loading and showing available payment methods
@@ -214,18 +215,26 @@ Having a composable makes it so easy for integrator to share data between Vue's 
 
 ### Hooks 
 You can pass asynchronous functions as `VsfPaymentProvider` props to hook into different events within it's lifecycle and override initial function parameters or react to specific events like method selection
-- **beforeLoad** - called before loading payment methods
-- **afterLoad** - called after loading payment methods
-- **onSelected** - called after selecting payment method
-- **onSelectedDetailsChanged** - called after modifying currently picked payment method, e.g. changing credit card's details
-- **onError** - called when some operation throws an error
+- **beforeLoad** `(config => config)` - called before loading payment methods
+- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading payment methods
+- **beforeSelect** `(shippingMethod => shippingMethod)` - called before selecting payment method
+- **afterSelect** `(selectedShippingMethod => void)` - called after selecting payment method
+- **beforePay** `(paymentDetails => paymentDetails)` - called before pay
+- **afterPay** `(paymentResponse => void)` - called after pay
+- **beforeSelectedDetailsChange** `(details => details)` - called before modifying currently picked payment method, e.g. changing credit card's details
+- **afterSelectedDetailsChange** `(details => void)` - called after modifying currently picked payment method, e.g. changing credit card's details
+- **onError** `(({ action, error }) => void)` - called when some operation throws an error
 
 ```vue
 <VsfPaymentProvider
   :beforeLoad="beforeLoad"
   :afterLoad="afterLoad"
-  :onSelected="onSelected"
-  :onSelectedDetailsChanged="onSelectedDetailsChanged"
+  :beforeSelect="beforeSelect"
+  :afterSelect="afterSelect"
+  :beforePay="beforePay"
+  :afterPay="afterPay"
+  :beforeSelectedDetailsChange="beforeSelectedDetailsChange"
+  :afterSelectedDetailsChange="afterSelectedDetailsChange"
   :onError="onError"
 />
 ```
@@ -233,7 +242,7 @@ You can pass asynchronous functions as `VsfPaymentProvider` props to hook into d
 Signatures of hook functions might be different per integration.
 :::
 
-### Why some integrations have a mock for VsfPaymentProvider?
+### Why some integrations have a mocked VsfPaymentProvider?
 There are eCommerce backends which do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide mocked component to let user go through the whole checkout. We are using external providers with dedicated VsfPaymentProvider for them. One example is a [Checkout.com integration](https://github.com/vuestorefront/checkout-com).
 
 ## Order
