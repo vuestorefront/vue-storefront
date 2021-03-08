@@ -5,8 +5,6 @@ scopes:
   - docs
   - commercetools
   - commercetools-theme
-  - ayc
-  - ayc-theme
   - boilerplate
   - composables
   - ci
