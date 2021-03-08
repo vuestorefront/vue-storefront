@@ -79,7 +79,7 @@ All we have to do is import and put it in `pages/Shipping.vue` as a [second part
 
 `VsfShippingProvider` emits `submit` event when shipping method is properly picked, configured and user clicks `Continue to billing` button.
 
-### Hooks
+### Extending`VsfShippingProvider` and reacting to it's events
 You can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle and override initial function parameters or react to specific events like method selection. Available hooks: 
 - **beforeLoad** `(config => config)` - called before loading shipping methods
 - **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading shipping methods
