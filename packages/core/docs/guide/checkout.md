@@ -63,9 +63,9 @@ export default {
 Shipping details stored on the server with `save` method will be possible to load after a refresh with `load` method.
 
 ## Selecting a shipping method
-Shipping provider is an aggregator that provides us one or more shipping methods. It is also an integration, one provider component always means one 3rd party provider of shipping.   
+`VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as a third-party integration.
 
-To give you the best developer experience, we delegate whole logic of selecting shipping method to the dedicated component called **VsfShippingProvider.vue**. It takes care of:
+The component is responsible for:
 - Loading and displaying available shipping methods
 - Loading selected shipping method
 - Selecting and configuring shipping method
