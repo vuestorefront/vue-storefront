@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cache",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",

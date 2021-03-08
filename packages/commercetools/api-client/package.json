@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-api",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
