@@ -1,5 +1,5 @@
 # Checkout
-Checkout is a process of providing information about shipping and billing details, and picking certain shipping and payment method. Then with all the data, we are able to place an order and pay for it.
+Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
 ## Collecting and saving shipping details
 Shipping details are information about the receiver and her/his address. Based on that, we know where to send the order.
