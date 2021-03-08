@@ -169,8 +169,8 @@ export default {
   setup () {
     const { make } = useMakeOrder();
 
-    const processOrder = async () => {
-      await make();
+    return {
+      make
     }
   }
 }
