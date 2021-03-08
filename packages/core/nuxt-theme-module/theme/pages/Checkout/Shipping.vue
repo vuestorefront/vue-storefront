@@ -14,6 +14,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_firstName'"
             v-model="form.firstName"
             label="First name"
             name="firstName"
@@ -30,6 +31,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_lastName'"
             v-model="form.lastName"
             label="Last name"
             name="lastName"
@@ -46,6 +48,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_streetName'"
             v-model="form.streetName"
             label="Street name"
             name="streetName"
@@ -62,6 +65,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_apartment'"
             v-model="form.apartment"
             label="House/Apartment number"
             name="apartment"
@@ -78,6 +82,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_city'"
             v-model="form.city"
             label="City"
             name="city"
@@ -92,6 +97,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_state'"
             v-model="form.state"
             label="State/Province"
             name="state"
@@ -105,6 +111,7 @@
           slim
         >
           <SfSelect
+            v-e2e="'shipping-details-select_country'"
             v-model="form.country"
             label="Country"
             name="country"
@@ -129,6 +136,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_postalCode'"
             v-model="form.postalCode"
             label="Zip-code"
             name="zipCode"
@@ -145,6 +153,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_phone'"
             v-model="form.phone"
             label="Phone number"
             name="phone"
@@ -159,6 +168,7 @@
         <div class="form__action">
           <SfButton
             v-if="!isFormSubmitted"
+            v-e2e="'checkout-continue-button'"
             :disabled="loading"
             class="form__action-button"
             type="submit"

@@ -6,6 +6,14 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
+      <SfCheckbox
+        v-e2e="'payment-copy-from-billing'"
+        v-model="copyAddress"
+        label="Copy address data from shipping"
+        name="copyShippingAddress"
+        class="form__element"
+      />
+
       <div class="form">
         <ValidationProvider
           name="firstName"
@@ -165,6 +173,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
+            v-e2e="'checkout-continue-button'"
             class="form__action-button"
             type="submit"
           >
@@ -185,9 +194,9 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import { useBilling } from '<%= options.generate.replace.composables %>';
+import { useBilling, useShipping } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 
@@ -224,7 +233,10 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    const { load, save } = useBilling();
+    const { load: loadBilling, save } = useBilling();
+    const { load: loadShipping, shipping } = useShipping();
+
+    const copyAddress = ref(false);
 
     const form = ref({
       firstName: '',
@@ -243,11 +255,21 @@ export default {
       context.root.$router.push('/checkout/payment');
     };
 
+    watch(copyAddress, async (shouldCopy) => {
+      if (!shouldCopy) {
+        return;
+      }
+
+      await loadShipping();
+      form.value = shipping.value;
+    });
+
     onSSR(async () => {
-      await load();
+      await loadBilling();
     });
 
     return {
+      copyAddress,
       form,
       countries: COUNTRIES,
       handleFormSubmit

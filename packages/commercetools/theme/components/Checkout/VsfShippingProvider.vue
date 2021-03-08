@@ -1,5 +1,8 @@
 <template>
-  <div class="shipping-provider">
+  <div
+    v-e2e="'shipping-methods'"
+    class="shipping-provider"
+  >
     <SfHeading
       :level="3"
       :title="$t('Shipping method')"
@@ -46,10 +49,11 @@
           >{{ $t('Go back') }}</nuxt-link
         >
         <SfButton
+          v-e2e="'checkout-continue-button'"
+          :disabled="!isShippingMethodStepCompleted || loading || loadingShippingProvider.save"
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"
-          :disabled="!isShippingMethodStepCompleted || loading || loadingShippingProvider.save"
         >
           {{ $t('Continue to billing') }}
         </SfButton>

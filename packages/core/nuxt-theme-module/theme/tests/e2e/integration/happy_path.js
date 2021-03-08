@@ -16,12 +16,9 @@ const selectors = {
     addToCart: element('product-cart_add')
   },
   checkout: {
-    personalDetails: {
-      firstNameInput: element('personal-details-input_firstName'),
-      lastNameInput: element('personal-details-input_lastName'),
-      emailInput: element('personal-details-input_email')
-    },
     shipping: {
+      firstName: element('shipping-details-input_firstName'),
+      lastName: element('shipping-details-input_lastName'),
       streetName: element('shipping-details-input_streetName'),
       apartmentNumber: element('shipping-details-input_apartment'),
       cityName: element('shipping-details-input_city'),
@@ -36,8 +33,8 @@ const selectors = {
       paymentMethods: element('payment-radio_paymentMethod')
     },
     continueButton: element('checkout-continue-button'),
-    termsCheckbox: '[data-testid="terms"]',
-    submitButton: element('order-review-btn_summary-continue')
+    termsCheckbox: element('payment-checkbox-terms'),
+    submitButton: element('payment-submit-order')
   }
 };
 
@@ -47,14 +44,12 @@ context('', () => {
 
     cy.fixture('getMe.json').then(fixture => getMe.push(fixture));
     cy.fixture('getMe_after_addToCart.json').then(fixture => getMe.push(fixture));
-    cy.fixture('getMe_after_personalDetails.json').then(fixture => getMe.push(fixture));
     cy.fixture('getMe_after_shippingStep.json').then(fixture => getMe.push(fixture));
     cy.fixture('getMe_after_paymentStep.json').then(fixture => getMe.push(fixture, fixture));
     cy.fixture('getMe_after_order.json').then(fixture => getMe.push(fixture, fixture));
 
     const updateCart = [];
 
-    cy.fixture('updateCart_after_personalDetails.json').then(fixture => updateCart.push(fixture));
     cy.fixture('updateCart_after_shipping.json').then(fixture => updateCart.push(fixture));
     cy.fixture('updateCart_after_shippingMethods.json').then(fixture => updateCart.push(fixture));
     cy.fixture('updateCart_after_shippingStep.json').then(fixture => updateCart.push(fixture));
@@ -98,54 +93,44 @@ context('', () => {
     // Check if product is listen in minicart
     cy.get(selectors.cart.items).should('have.length', 1);
 
-    // Go to checkout
+    // Go to checkout shipping
     cy.contains('Go to checkout').click().wait(300);
-    cy.url().should('include', 'checkout/personal-details');
-
-    // Type personal details
-    cy.get(selectors.checkout.personalDetails.firstNameInput).type('First');
-    cy.get(selectors.checkout.personalDetails.lastNameInput).type('Last');
-    cy.get(selectors.checkout.personalDetails.emailInput).type('fake@example.com');
-
-    // Go to shipping details
-    cy.get(selectors.checkout.continueButton).click().wait(300);
     cy.url().should('include', 'checkout/shipping');
 
     // Type shipping details
+    cy.get(selectors.checkout.shipping.firstName).type('First');
+    cy.get(selectors.checkout.shipping.lastName).type('Last');
     cy.get(selectors.checkout.shipping.streetName).type('Street');
     cy.get(selectors.checkout.shipping.apartmentNumber).type('123');
     cy.get(selectors.checkout.shipping.cityName).type('City');
-    cy.get(selectors.checkout.shipping.zipCode).type('12345');
-    cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
-    cy.ifElementExists(selectors.checkout.shipping.state, element => element.type('State'));
-
-    // Select first country from the dropdown
+    cy.get(selectors.checkout.shipping.state).type('State');
     cy
       .get(`${selectors.checkout.shipping.countryName} option`)
       .eq(0)
       .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.val()));
+    cy.get(selectors.checkout.shipping.zipCode).type('12345');
+    cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
 
     // Show shipping methods
     cy.get(selectors.checkout.continueButton).click().wait(300);
     cy.get(`${selectors.checkout.shipping.methods} label`).first().click();
 
-    // Go to payment
+    // Go to checkout billing
     cy.get(selectors.checkout.continueButton).click().wait(300);
-    cy.url().should('include', 'checkout/payment');
+    cy.url().should('include', 'checkout/billing');
 
     // Copy shipping details to payment
     cy.get(selectors.checkout.payment.copyFromShipping).click();
 
-    // Show payment methods
+    // Go to checkout payment
     cy.get(selectors.checkout.continueButton).click().wait(300);
+    cy.url().should('include', 'checkout/payment');
+
+    // Select payment method and terms
     cy.get(selectors.checkout.payment.paymentMethods).first().click();
-
-    // Go to review
-    cy.get(selectors.checkout.continueButton).click().wait(300);
-    cy.url().should('include', 'checkout/order-review');
-
-    // Complete order
     cy.get(selectors.checkout.termsCheckbox).click().wait(300);
+
+    // Submit order
     cy.get(selectors.checkout.submitButton).click().wait(300);
     cy.url().should('include', 'checkout/thank-you');
   });

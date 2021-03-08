@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-e2e="'shipping-methods'">
     <p>
       <b>Please implement vendor specific VsfShippingProvider component in 'components/Checkout' directory</b>
     </p>
@@ -25,6 +25,7 @@
     </SfRadio>
 
     <SfButton
+      v-e2e="'checkout-continue-button'"
       :disabled="!selectedMethod"
       type="button"
       @click="$emit('submit')"

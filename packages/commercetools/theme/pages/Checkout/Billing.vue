@@ -17,11 +17,12 @@
         @setCurrentAddress="handleSetCurrentAddress"
       />
       <SfCheckbox
+        v-e2e="'payment-copy-from-billing'"
         :selected="sameAsShipping"
-        @change="handleCheckSameAddress"
         label="Copy address data from shipping"
         name="copyShippingAddress"
         class="form__element"
+        @change="handleCheckSameAddress"
       />
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider
@@ -196,6 +197,7 @@
             class="sf-button color-secondary form__back-button"
             >Go back</nuxt-link>
           <SfButton
+            v-e2e="'checkout-continue-button'"
             class="form__action-button"
             type="submit"
             :disabled="loading"

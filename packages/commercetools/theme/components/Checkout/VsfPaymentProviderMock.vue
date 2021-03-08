@@ -1,5 +1,8 @@
 <template>
-  <div class="payment-provider">
+  <div
+    v-e2e="'payment-radio_paymentMethod'"
+    class="payment-provider"
+  >
     <SfHeading
       :level="3"
       :title="$t('Payment methods')"

@@ -53,6 +53,7 @@
             />
           </SfButton>
           <SfButton
+            v-e2e="'header-minicart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >
@@ -61,7 +62,11 @@
               icon="empty_cart"
               size="1.25rem"
             />
-            <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+            <SfBadge
+              v-if="cartTotalItems"
+              class="sf-badge--number cart-badge">
+              {{ cartTotalItems }}
+            </SfBadge>
           </SfButton>
         </div>
       </template>

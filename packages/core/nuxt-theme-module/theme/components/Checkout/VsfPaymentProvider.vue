@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-e2e="'payment-radio_paymentMethod'">
     <p>
       <b>Please implement vendor specific VsfPaymentProvider component in 'components/Checkout' directory</b>
     </p>

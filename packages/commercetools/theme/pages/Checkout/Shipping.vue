@@ -24,6 +24,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_firstName'"
             :value="shippingDetails.firstName"
             @input="firstName => changeShippingDetails('firstName', firstName)"
             label="First name"
@@ -41,6 +42,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_lastName'"
             :value="shippingDetails.lastName"
             @input="lastName => changeShippingDetails('lastName', lastName)"
             label="Last name"
@@ -58,6 +60,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_streetName'"
             :value="shippingDetails.streetName"
             @input="streetName => changeShippingDetails('streetName', streetName)"
             label="Street name"
@@ -75,6 +78,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_apartment'"
             :value="shippingDetails.apartment"
             @input="apartment => changeShippingDetails('apartment', apartment)"
             label="House/Apartment number"
@@ -92,6 +96,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_city'"
             :value="shippingDetails.city"
             @input="city => changeShippingDetails('city', city)"
             label="City"
@@ -107,6 +112,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_state'"
             :value="shippingDetails.state"
             @input="state => changeShippingDetails('state', state)"
             label="State/Province"
@@ -147,6 +153,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_postalCode'"
             :value="shippingDetails.postalCode"
             @input="postalCode => changeShippingDetails('postalCode', postalCode)"
             label="Zip-code"
@@ -164,6 +171,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-details-input_phone'"
             :value="shippingDetails.phone"
             @input="phone => changeShippingDetails('phone', phone)"
             label="Phone number"
@@ -186,10 +194,11 @@
       <div class="form">
         <div class="form__action">
           <SfButton
+            v-if="!(isShippingDetailsStepCompleted && !dirty)"
+            v-e2e="'checkout-continue-button'"
+            :disabled="loading"
             class="form__action-button"
             type="submit"
-            :disabled="loading"
-            v-if="!(isShippingDetailsStepCompleted && !dirty)"
           >
             {{ $t('Select shipping method') }}
           </SfButton>
