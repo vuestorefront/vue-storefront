@@ -317,9 +317,6 @@ You can pass asynchronous functions as `VsfPaymentProvider` props to hook into d
   :onError="onError"
 />
 ```
-:::warning
-Signatures of hook functions might be different per integration.
-:::
 
 ### Why some integrations have a mocked VsfPaymentProvider?
 There are eCommerce backends which do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide mocked component to let user go through the whole checkout. We are using external providers with dedicated VsfPaymentProvider for them. One example is a [Checkout.com integration](https://github.com/vuestorefront/checkout-com).
