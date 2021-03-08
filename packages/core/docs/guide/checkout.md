@@ -28,7 +28,7 @@ export default {
 ```
 `shipping` property will return `null` if the address is not saved on the server or has not been loaded.   
 
-In order to save shipping details on the server, you can use `save` method:
+In order to save shipping details, you can use `save` method:
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
