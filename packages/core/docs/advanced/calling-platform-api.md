@@ -11,6 +11,7 @@ Integration API-client is a sort of SDK for a given platform you integrate with.
 To access API-client functions, you can use the composable function `useVSFContext` that reads from the application context every possible integration so you can easily access it.
 
 ```ts
+// each platform has different tag to access its methods, eg $spryker, $storyblok etc.
 const { $ct } = useVSFContext();
 
 $ct.api.getProduct({ id: 1 })
