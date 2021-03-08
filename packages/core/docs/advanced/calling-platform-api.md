@@ -4,7 +4,7 @@ The Vue Storefront has its own way to communicate with other platform APIs. Firs
 
 ## How do Integrations work?
 
-Basically, API-client is a sort of SDK for a given platform you integrate with. It has a set of functions, each is dedicated to one action, endpoint, feature, or something else. It's aiming to provide an abstraction for the developers when it comes to making calls.
+Integration API-client is a sort of SDK for a given platform you integrate with. It has a set of functions, each is dedicated to one action, endpoint or a feature eg. `getProduct` , `loadCart` `addToCart`
 
 ## Using useVSFContext to access integration API Client methods
 
