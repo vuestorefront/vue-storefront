@@ -1,7 +1,7 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="navigation-bottom smartphone-only">
-    <nuxt-link data-cy="bottom-navigation-url_home" to="/">
+    <nuxt-link v-e2e="'bottom-navigation-url_home'" to="/">
       <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
     </nuxt-link>
     <SfBottomNavigationItem v-e2e="'bottom-navigation-url_menu'" icon="menu" size="20px" label="Menu"/>

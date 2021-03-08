@@ -1,19 +1,32 @@
 <template>
   <div>
     <SfHeader
-      data-cy="app-header"
+      v-e2e="'app-header'"
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link
+          v-e2e="'app-header-url_logo'"
+          :to="localePath('/')"
+          class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+        <SfHeaderNavigationItem
+          v-e2e="'app-header-url_women'"
+          :link="localePath('/c/women')"
+          class="nav-item"
+          label="WOMEN"
+        />
+        <SfHeaderNavigationItem
+          v-e2e="'app-header-url_men'"
+          :link="localePath('/c/men')"
+          class="nav-item"
+          label="MEN"
+        />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />

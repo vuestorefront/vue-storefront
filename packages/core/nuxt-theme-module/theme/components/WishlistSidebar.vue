@@ -67,7 +67,11 @@
         </div>
       </transition>
       <template #content-bottom>
-        <SfButton data-cy="wishlist-sidebar-btn_start-shopping" @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+        <SfButton
+          v-e2e="'wishlist-sidebar-btn_start-shopping'"
+          class="sf-button--full-width color-secondary"
+          @click="toggleWishlistSidebar"
+        >
           {{ $t('Start shopping') }}
         </SfButton>
       </template>
