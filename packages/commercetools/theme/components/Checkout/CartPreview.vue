@@ -92,7 +92,7 @@ export default {
   },
   setup () {
     const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
-    const { response: selectedShippingMethod } = useShippingProvider();
+    const { state } = useShippingProvider();
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
@@ -134,7 +134,7 @@ export default {
         }
       ],
 
-      selectedShippingMethod: computed(() => selectedShippingMethod.value && selectedShippingMethod.value.shippingMethod),
+      selectedShippingMethod: computed(() => state.value && state.value.response && state.value.response.shippingMethod),
       hasSpecialPrice: computed(() => totals.value.special > 0 && totals.value.special < totals.value.subtotal),
       getShippingMethodPrice
     };

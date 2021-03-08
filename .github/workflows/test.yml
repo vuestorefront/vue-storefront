@@ -102,7 +102,6 @@ jobs:
       fail-fast: false
       matrix:
         integration:
-          # - about-you
           - boilerplate
           - commercetools
           # - shopify
