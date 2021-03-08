@@ -37,7 +37,6 @@ Middleware reads tag name of integration and the function name that needs to be 
 
 ## Configuration
 
-
 When it comes to configuration, middleware has a dedicated config called `middleware.config.js` that contains a section with integrations(`integrations`) along with their credentials and other options.
 
 Each entry under the `integrations` section starts with a tag name of given integration, and contains an object with the following fields:
