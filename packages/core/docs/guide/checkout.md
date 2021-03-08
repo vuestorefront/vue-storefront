@@ -100,7 +100,7 @@ You can pass asynchronous functions as `VsfShippingProvider` props to hook into 
   :onError="onError"
 />
 ```
-## Billing details
+## Collecting and saving billing details
 Billing details are information about the payer and her/his address. Based on that, payment providers might evaluate probability of fraud payment. Also it is a place, where we should store information for invoice.
 
 To access billing details, we can use property of `useBilling` called `billing`.
