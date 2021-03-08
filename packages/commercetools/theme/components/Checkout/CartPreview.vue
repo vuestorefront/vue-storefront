@@ -30,7 +30,6 @@
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
       />
-      aaa
       <SfProperty
         name="Shipping"
         v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
