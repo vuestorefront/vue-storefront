@@ -25,7 +25,7 @@ module.exports = {
         currency: 'USD',
         country: 'US'
       },
-      extensions: []
+      extensions: (e) => e
     }
   }
 };
