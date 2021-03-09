@@ -64,7 +64,7 @@ type ShippingInfo = {
 };
 ```
 
-- `loading: boolean` - a reactive object containing information about loading state of your `search` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.
 
 - `error: UseShippingProviderErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 

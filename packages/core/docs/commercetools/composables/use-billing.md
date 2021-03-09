@@ -53,7 +53,7 @@ type CustomQuery = Record<string, string>
 
 - `billing: Address` - a main data object that contains a billing address.
 
-- `loading: boolean` - a reactive object containing information about loading state of your `search` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.
 
 - `error: UseBillingErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 
