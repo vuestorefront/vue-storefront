@@ -24,8 +24,7 @@ module.exports = {
         },
         currency: 'USD',
         country: 'US'
-      },
-      extensions: (e) => e
+      }
     }
   }
 };
