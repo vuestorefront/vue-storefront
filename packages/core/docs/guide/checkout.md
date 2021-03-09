@@ -28,12 +28,12 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-We can use `save` method in order to save shipping details.
+We can use `save` method to save shipping details.
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
     <!-- form fields -->
-    <button type="submit" :disabled="loading">Submit</button>
+    <button type="submit" :disabled="loading">{{ $t('Submit') }}</button>
   </form>
 </template>
 
@@ -64,9 +64,9 @@ export default {
 `VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.
 
 The component is responsible for:
-- Loading and displaying available shipping methods
-- Loading selected shipping method
-- Selecting and configuring shipping method
+- Loading and displaying available shipping methods.
+- Loading selected shipping method.
+- Selecting and configuring shipping method.
 
 All we have to do is import and put in the view.
 ```vue
@@ -199,9 +199,9 @@ export default {
 `VsfPaymentProvider` is a component that aggregates one or more payment methods from a single provider like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.   
 
 The component is responsible for:
-- Loading and displaying available payment methods
-- Loading selected payment method
-- Picking and configuring payment method
+- Loading and displaying available payment methods.
+- Loading selected payment method.
+- Picking and configuring payment method.
 
 The first thing we have to do is import and put in the view.
 ```vue
