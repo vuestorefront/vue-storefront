@@ -293,7 +293,11 @@ Vue Storefront integrations are exposing the following composables:
 
 #### Checkout
 
-- `useCheckout` for saving the shipping and billing address for a current order, choosing a shipping method, making payments, and placing the order
+- `useShipping` for saving the shipping address for a current order
+- `useShippingProvider` for choosing a shipping method for a current order
+- `useBilling` for saving the billing address for a current order
+- `usePaymentProvider` for choosing a payment method for a current order
+- `useMakeOrder` for placing the order
 
 #### Other
 

@@ -177,18 +177,19 @@ Vue Storefront is the only truly Open Source eCommerce frontend framework with a
 - Order types
   - Logged in
   - Guest
-- Personal Details
-  - Fill in name 
-  - Fill in surname
-  - Fill in email
-  - Create a new account from provided data by setting up a password
-  - Use saved personal details (logged in)
-  - Open log in modal (not logged in)
 - Shipping
   - Choose from saved shipping addresses (logged in)
   - Add new shipping address (logged in)
   - Change default shipping address (logged in)
   - Provide Shipping Details
+    - Fill in First and Last Name
+    - Fill in Street name and apartment number
+    - Fill in City and Zip Code
+- Billing
+  - Choose from saved billing addresses (logged in)
+  - Add new billing address (logged in)
+  - Change default billing address (logged in)
+  - Provide Billing Details
     - Fill in First and Last Name
     - Fill in Street name and apartment number
     - Fill in City and Zip Code
