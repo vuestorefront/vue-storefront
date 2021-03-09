@@ -1,8 +1,8 @@
-# What's authentication?
+# Authentication
 
-Authentication is the operation of recognizing the user's identity. It allows us to associate incoming requests with an account or a person. To do that, provided credentials are compared with ones in the database.
+Authentication is a process of recognizing the user's identity. It allows to associate incoming requests with an account or a person when provided credentials are compared with ones in the database.
 
-The whole logic related to this process can be handled with methods shared by `useUser` composable
+All operations related to this process can be handled with methods exposed by `useUser` composable
 
 ## Registering a new user
 
@@ -36,7 +36,7 @@ export default {
 
 ## Checking if the user is logged in
 
-Many interactions in the application are only available ( `useUserX` functions) or look different if the customer is logged in. To check that, we will use [useUser](../composables/use-user.md), which is one of (if not the most) widely used composable in Vue Storefront.
+Many interactions in the application are only available ( `useUser` prefixed functions like `useUserOrder`) or look different if the customer is logged in. To check if user is authenticated, we will use `isAuthenticated` method from `useUser`.
 
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
@@ -108,7 +108,7 @@ Signing out can be done using `logout` method.
     :disabled="loading"
     @click="logout"
   >
-    Logout
+    Log out
   </button>
 </template>
 
