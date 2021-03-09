@@ -16,10 +16,7 @@
     - `customQuery?: CustomQuery` 
     
 ```ts
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
 
 - `categories: Category[]` - a main data object that contains an array of categories fetched by `search` method.

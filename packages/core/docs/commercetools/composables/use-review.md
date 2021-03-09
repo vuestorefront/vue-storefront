@@ -18,19 +18,23 @@
 
   - `searchParams: ReviewSearchParams`
 
+  - `customQuery?: CustomQuery`
+
 ```typescript
 interface ReviewSearchParams {
   productId: string;
   limit?: number;
   offset?: number;
 }
+
+type CustomQuery = Record<string, string>
 ```
 
 - `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information. This method accepts a single params object. The `params` has the following options:
 
   - `params: ReviewAddParams`
   
-  - `customQueryFn?: CustomQueryFn`
+  - `customQuery?: CustomQuery`
 
 ```typescript
 interface ReviewAddParams {
@@ -46,10 +50,7 @@ interface ReviewDraft {
   rating: number;
 }
 
-type CustomQueryFn = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
 
 - `reviews: Review[]` - reactive data object containing the response from the backend.
