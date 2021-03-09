@@ -102,7 +102,7 @@ Because every shipping provider is different, not all of them are present in eve
 />
 ```
 ## Collecting and saving billing details
-Billing details are information about the payer and her/his address. Based on that, payment providers can evaluate probability of fraud payment and store owners can prepare invoices.
+Billing details are information about the payer's address used by store owners to prepare invoices and payment providers to evaluate the probability of fraud payment.
 
 We can load billing details by invoking `load` method. To access them, use property returned by `useBilling` called `billing`.
 ```js{8,16}
@@ -128,12 +128,12 @@ export default {
 ```
 `billing` property returns `null` if the `load` function was not invoked or nothing is saved.   
 
-We can use `save` method in order to save billing details.
+We can use `save` method to save billing details.
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ billingDetails: billingForm })">
     <!-- form fields -->
-    <button type="submit" :disabled="loading">Submit</button>
+    <button type="submit" :disabled="loading">{{ $t('Submit') }}</button>
   </form>
 </template>
 
@@ -176,9 +176,7 @@ export default {
 }
 ```
 
-It creates an order but we need to perform additional actions:
-- redirect to thank you page
-- clear a cart
+When the order is created, we can redirect the user to the page thanking them for making an order and refresh the cart.
 ```js
 import { useMakeOrder, useCart } from '{INTEGRATION}';
 
@@ -197,7 +195,7 @@ export default {
 ```
 
 ## Payment providers
-`VsfPaymentProvider` is a component that aggregates one or more payment methods from a single provider like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.   
+A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one 3rd party provider of payments like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.   
 
 The component is responsible for:
 - Loading and displaying available payment methods.
@@ -223,7 +221,7 @@ export default {
 </script>
 ```
 
-Then we have to support making a payment - each package with a payment provider might force us to use a bit different approach. We found that there will be 2 most common ones:
+The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described are two most common.
 
 ### SDK takes the full control
 If payment provider's SDK handles the whole payment and we can only provide own callbacks for certain events. We want to make an order in `beforePay` async hook.
