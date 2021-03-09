@@ -4,12 +4,16 @@
 
 `useBilling` composable can be use to:
 
-* Saving billing address for the current cart.
 * Loading billing address for the current cart.
+* Saving billing address for the current cart.
 
 ## API
 
-- `save` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
+- `load` - function for fetching billing address. When invoked, it requests data from the API and populates `billing` property. This method accepts a single `params` object. The params has the following option:
+ 
+    - `customQuery?: CustomQuery`
+
+- `save` - function for saving billing address. This method accepts a single `saveParams` object. The `saveParams` has the following options:
  
     - `billingDetails: Address`
 
@@ -46,32 +50,17 @@ type Address = {
 
 type CustomQuery = Record<string, string>
 ```
-- `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method.
 
-```ts
-type ProductVariant = {
-  __typename?: "ProductVariant";
-  id: Scalars["Int"];
-  key?: Maybe<Scalars["String"]>;
-  sku?: Maybe<Scalars["String"]>;
-  prices?: Maybe<Array<ProductPrice>>;
-  price?: Maybe<ProductPrice>;
-  images: Array<Image>;
-  assets: Array<Asset>;
-  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
-  attributesRaw: Array<RawProductAttribute>;
-  attributes: ProductType;
-  attributeList: Array<Attribute>;
-}
-```
+- `billing: Address` - a main data object that contains a billing address.
 
 - `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
-- `error: UseProductErrors` - reactive object containing the error message, if `search` failed for any reason.
+- `error: UseBillingErrors` - reactive object containing the error message, if `search` failed for any reason.
 
 ```ts
-interface UseProductErrors {
-  search?: Error;
+interface UseBillingErrors {
+  load?: Error;
+  save?: Error;
 }
 ```
 
@@ -82,23 +71,19 @@ We do not provide getters for checkout and its parts.
 ## Example
 
 ```js
-import { useProduct, productGetters } from '@vue-storefront/commercetools';
+import { useBilling } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
-    const { products, search, loading, error } = useProduct('<UNIQUE_ID>');
+    const { load, billing } = useBilling();
 
     onSSR(async () => {
-      await search({ slug: 'super-t-shirt' })
+      await load()
     })
 
     return {
-      loading,
-      error,
-      product: computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]),
-      option: computed(() => productGetters.getAttributes(products.value, ['color', 'size'])),
-      configuration: computed(() => productGetters.getCategoryIds(product.value))
+      billing
     }
   }
 }
