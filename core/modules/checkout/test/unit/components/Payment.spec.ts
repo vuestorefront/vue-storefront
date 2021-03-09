@@ -293,6 +293,7 @@ describe('Payment', () => {
 
     it('initializeBillingAddress method should copy billing address from address id from current user', () => {
       mockMethods['initializeBillingAddress'].mockRestore();
+      mockMethods['hasBillingData'].mockRestore();
       mockMountingOptions.computed = {
         currentUser: jest.fn(() => ({
           default_billing: 123,
