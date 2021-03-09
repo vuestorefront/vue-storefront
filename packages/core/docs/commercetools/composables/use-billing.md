@@ -9,7 +9,7 @@
 
 ## API
 
-- `load` - function for fetching billing address. When invoked, it requests data from the API and populates `billing` property. This method accepts a single `params` object. The `params` has the following option:
+- `load` - function for fetching billing address. When invoked, it requests data from the API and populates `billing` property. This method accepts a single optional `params` object. The `params` has the following option:
  
     - `customQuery?: CustomQuery`
 

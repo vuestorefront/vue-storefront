@@ -71,7 +71,8 @@ module.exports = {
 						['/commercetools/composables/use-category', 'useCategory'],
 						['/commercetools/composables/use-shipping', 'useShipping'],
 						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
-						['/commercetools/composables/use-billing', 'useBilling']
+						['/commercetools/composables/use-billing', 'useBilling'],
+						['/commercetools/composables/use-make-order', 'useMakeOrder'],
 					]
 				},
 				{
