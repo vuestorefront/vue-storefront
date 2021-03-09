@@ -78,16 +78,17 @@ All we have to do is import and put in the view.
 `VsfShippingProvider` emits `submit` event when shipping method is selected, configured and user clicks submit button.
 
 ### Extending `VsfShippingProvider` and reacting to it's events
-We can pass asynchronous functions as `VsfShippingProvider` props to hook into different events within it's lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
+We can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
 
-Below we can find a list of available hooks. Because every shipping provider is different not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available for it.
-- **beforeLoad** `(config => config)` - called before loading shipping methods
-- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading shipping methods
-- **beforeSelect** `(shippingMethod => shippingMethod)` - called before selecting shipping method
-- **afterSelect** `(selectedShippingMethod => void)` - called after selecting shipping method
-- **beforeSelectedDetailsChange** `(details => details)` - called before modifying currently picked shipping method, e.g. selecting parcel locker on the map
-- **afterSelectedDetailsChange** `(details => void)` - called after modifying currently picked shipping method
-- **onError** `(({ action, error }) => void)` - called when some operation throws an error
+Because every shipping provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
+
+- **beforeLoad** `(config => config)` - Called before loading shipping methods.
+- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - Called after loading shipping methods.
+- **beforeSelect** `(shippingMethod => shippingMethod)` - Called before selecting shipping method.
+- **afterSelect** `(selectedShippingMethod => void)` - Called after selecting shipping method.
+- **beforeSelectedDetailsChange** `(details => details)` - Called before modifying currently picked shipping method, e.g. selecting parcel locker on the map.
+- **afterSelectedDetailsChange** `(details => void)` - Called after modifying currently picked shipping method.
+- **onError** `(({ action, error }) => void)` - Called when some operation throws an error.
 
 ```vue
 <VsfShippingProvider
@@ -293,19 +294,19 @@ export default {
 ```
 
 ### Extending `VsfPaymentProvider` and reacting to it's events
-We can pass asynchronous functions as `VsfPaymentProvider` props to hook into different events within it's lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
+We can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
 
-Below we can find a list of available hooks. Because every payment provider is different not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available for it.
+Because every payment provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
-- **beforeLoad** `(config => config)` - called before loading payment methods
-- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - called after loading payment methods
-- **beforeSelect** `(shippingMethod => shippingMethod)` - called before selecting payment method
-- **afterSelect** `(selectedShippingMethod => void)` - called after selecting payment method
-- **beforePay** `(paymentDetails => paymentDetails)` - called before pay
-- **afterPay** `(paymentResponse => void)` - called after pay
-- **beforeSelectedDetailsChange** `(details => details)` - called before modifying currently picked payment method, e.g. changing credit card's details
-- **afterSelectedDetailsChange** `(details => void)` - called after modifying currently picked payment method, e.g. changing credit card's details
-- **onError** `(({ action, error }) => void)` - called when some operation throws an error
+- **beforeLoad** `(config => config)` - Called before loading payment methods/
+- **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - Called after loading payment methods.
+- **beforeSelect** `(shippingMethod => shippingMethod)` - Called before selecting payment method.
+- **afterSelect** `(selectedShippingMethod => void)` - Called after selecting payment method.
+- **beforePay** `(paymentDetails => paymentDetails)` - Called before pay.
+- **afterPay** `(paymentResponse => void)` - Called after pay.
+- **beforeSelectedDetailsChange** `(details => details)` - Called before modifying currently picked payment method, e.g. changing credit card's details.
+- **afterSelectedDetailsChange** `(details => void)` - Called after modifying currently picked payment method, e.g. changing credit card's details.
+- **onError** `(({ action, error }) => void)` - Called when some operation throws an error.
 
 ```vue
 <VsfPaymentProvider
