@@ -1,21 +1,21 @@
-# `useBilling`
+# `useShipping`
 
 ## Features
 
-`useBilling` composable can be use to:
+`useShipping` composable can be use to:
 
-* Loading billing address for the current cart.
-* Saving billing address for the current cart.
+* Loading shipping address for the current cart.
+* Saving shipping address for the current cart.
 
 ## API
 
-- `load` - function for fetching billing address. When invoked, it requests data from the API and populates `billing` property. This method accepts a single `params` object. The `params` has the following option:
+- `load` - function for fetching shipping address. When invoked, it requests data from the API and populates `shipping` property. This method accepts a single `params` object. The `params` has the following option:
  
     - `customQuery?: CustomQuery`
 
-- `save` - function for saving billing address. This method accepts a single `saveParams` object. The `saveParams` has the following options:
+- `save` - function for saving shipping address. This method accepts a single `saveParams` object. The `saveParams` has the following options:
  
-    - `billingDetails: Address`
+    - `shippingDetails: Address`
 
     - `customQuery?: CustomQuery`
 
@@ -51,14 +51,14 @@ type Address = {
 type CustomQuery = Record<string, string>
 ```
 
-- `billing: Address` - a main data object that contains a billing address.
+- `shipping: Address` - a main data object that contains a shipping address.
 
 - `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
-- `error: UseBillingErrors` - a reactive object containing the error message, if `search` failed for any reason.
+- `error: UseShippingErrors` - a reactive object containing the error message, if `search` failed for any reason.
 
 ```ts
-interface UseBillingErrors {
+interface UseShippingErrors {
   load?: Error;
   save?: Error;
 }
@@ -71,19 +71,19 @@ We do not provide getters for checkout and its parts.
 ## Example
 
 ```js
-import { useBilling } from '@vue-storefront/commercetools';
+import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup () {
-    const { load, billing } = useBilling();
+    const { load, shipping } = useShipping();
 
     onSSR(async () => {
       await load();
     });
 
     return {
-      billing
+      shipping
     };
   }
 }

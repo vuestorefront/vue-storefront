@@ -69,6 +69,7 @@ module.exports = {
 						['/commercetools/composables/use-cart', 'useCart'],
 						['/commercetools/composables/use-wishlist', 'useWishlist'],
 						['/commercetools/composables/use-category', 'useCategory'],
+						['/commercetools/composables/use-shipping', 'useShipping'],
 						['/commercetools/composables/use-billing', 'useBilling']
 					]
 				},
