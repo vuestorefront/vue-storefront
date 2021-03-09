@@ -55,7 +55,7 @@ type CustomQuery = Record<string, string>
 
 - `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
-- `error: UseBillingErrors` - a reactive object containing the error message, if `search` failed for any reason.
+- `error: UseBillingErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 
 ```ts
 interface UseBillingErrors {
