@@ -298,7 +298,7 @@ We can pass asynchronous functions to the `VsfPaymentProvider` component to hook
 
 Because every payment provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
-- **beforeLoad** `(config => config)` - Called before loading payment methods/
+- **beforeLoad** `(config => config)` - Called before loading payment methods.
 - **afterLoad** `(shippingMethodsResponse => shippingMethodsResponse.shippingMethods)` - Called after loading payment methods.
 - **beforeSelect** `(shippingMethod => shippingMethod)` - Called before selecting payment method.
 - **afterSelect** `(selectedShippingMethod => void)` - Called after selecting payment method.
