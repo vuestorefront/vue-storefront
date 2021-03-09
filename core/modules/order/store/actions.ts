@@ -32,12 +32,12 @@ const actions: ActionTree<OrderState, RootState> = {
     const preparedOrder = prepareOrder(optimizedOrder)
 
     EventBus.$emit('order-before-placed', { order: preparedOrder })
-    const order = orderHooksExecutors.beforePlaceOrder(preparedOrder)
+    const order = await orderHooksExecutors.beforePlaceOrder(preparedOrder)
 
     if (!isOnline()) {
       dispatch('enqueueOrder', { newOrder: order })
       EventBus.$emit('order-after-placed', { order })
-      orderHooksExecutors.beforePlaceOrder({ order, task: { resultCode: 200 } })
+      await orderHooksExecutors.beforePlaceOrder({ order, task: { resultCode: 200 } })
       return { resultCode: 200 }
     }
 

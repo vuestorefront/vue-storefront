@@ -187,7 +187,7 @@ const mergeActions = {
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
   async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
-    const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
+    const hookResult = await cartHooksExecutors.beforeSync({ clientItems, serverItems })
 
     const diffLog = createDiffLog()
     const mergeParameters = {
