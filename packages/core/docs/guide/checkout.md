@@ -104,7 +104,7 @@ Because every shipping provider is different, not all of them are present in eve
 ## Collecting and saving billing details
 Billing details are information about the payer's address used by store owners to prepare invoices and payment providers to evaluate the probability of fraud payment.
 
-We can load billing details by invoking `load` method. To access them, use property returned by `useBilling` called `billing`.
+We can load billing details by calling the `load` method in `useBilling` composable and use the `billing` property to access it.
 ```js{8,16}
 import { useBilling } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
@@ -260,21 +260,21 @@ If payment provider's SDK handles process of configuring payment but allows us t
       @status="readyToPay = $event"
     />
     <button @click="makeOrder" :disabled="!readyToPay">
-      Order and Pay
+      {{ $t('Order and Pay') }}
     </button>
   </div>
 </template>
 
 <script>
 import { usePaymentProvider } from '{PAYMENT_PROVIDER_INTEGRATION}';
-import { useOrder } from '{INTEGRATION}';
+import { useMakeOrder } from '{INTEGRATION}';
 // ...
 
 export default {
   // ...
   setup () {
     const readyToPay = ref(false);
-    const { make } = useOrder();
+    const { make } = useMakeOrder();
     const { pay } = usePaymentProvider();
 
     const makeOrder = () => {
