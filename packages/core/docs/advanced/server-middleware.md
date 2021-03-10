@@ -87,7 +87,7 @@ const extension = {
 ```
 
 - `name` - defines the unique name of an extension
-- `extendApiMethods` - overides the original functions from API-client
+- `extendApiMethods` - overrides the original functions from API-client
 - `hooks` - defines lifecycle hooks of API-client
 - `hooks:beforeCreate` - called before API-client creates a connection, takes the given configuration as an argument, and must return the configuration. In this place, you can attach something else to the configuration or even change it.
 - `hooks:afterCreate` - Similar to the previous one, but called after the connection has been created. It also returns a configuration and you can change it.
