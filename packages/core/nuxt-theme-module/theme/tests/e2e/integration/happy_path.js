@@ -28,8 +28,10 @@ const selectors = {
       phoneNumber: element('shipping-details-input_phone'),
       methods: element('shipping-methods')
     },
-    payment: {
+    billing: {
       copyFromShipping: element('payment-copy-from-billing'),
+      apartmentNumber: element('billing-details-input_apartment'),
+      state: element('billing-details-input_state'),
       paymentMethods: element('payment-radio_paymentMethod')
     },
     continueButton: element('checkout-continue-button'),
@@ -71,18 +73,18 @@ context('', () => {
     cy.visit('/');
 
     // Open 'Women' category
-    cy.contains('WOMEN').click().wait(300);
+    cy.contains('WOMEN').click().wait(1000);
     cy.url().should('include', '/c/women');
 
     // Open first product
-    cy.get(selectors.catalog.products).first().click().wait(300);
+    cy.get(selectors.catalog.products).first().click().wait(1000);
     cy.url().should('include', '/p/');
 
     // Check if cart is empty
     cy.get(selectors.cart.indicator).should('not.exist');
 
     // Add product to cart
-    cy.get(selectors.product.addToCart).click().wait(300);
+    cy.get(selectors.product.addToCart).click().wait(1000);
 
     // Check if cart is not empty
     cy.get(selectors.cart.indicator).should('exist');
@@ -94,7 +96,7 @@ context('', () => {
     cy.get(selectors.cart.items).should('have.length', 1);
 
     // Go to checkout shipping
-    cy.contains('Go to checkout').click().wait(300);
+    cy.contains('Go to checkout').click().wait(1000);
     cy.url().should('include', 'checkout/shipping');
 
     // Type shipping details
@@ -103,35 +105,43 @@ context('', () => {
     cy.get(selectors.checkout.shipping.streetName).type('Street');
     cy.get(selectors.checkout.shipping.apartmentNumber).type('123');
     cy.get(selectors.checkout.shipping.cityName).type('City');
-    cy.get(selectors.checkout.shipping.state).type('State');
+    cy.get(selectors.checkout.shipping.zipCode).type('12345');
+    cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
     cy
       .get(`${selectors.checkout.shipping.countryName} option`)
       .eq(0)
       .then(element => cy.get(`${selectors.checkout.shipping.countryName} select`).select(element.val()));
-    cy.get(selectors.checkout.shipping.zipCode).type('12345');
-    cy.get(selectors.checkout.shipping.phoneNumber).type('123456789');
+    cy
+      .get(`${selectors.checkout.shipping.state} option`)
+      .eq(0)
+      .then(element => cy.get(`${selectors.checkout.shipping.state} select`).select(element.val()));
 
     // Show shipping methods
-    cy.get(selectors.checkout.continueButton).click().wait(300);
+    cy.get(selectors.checkout.continueButton).click().wait(1000);
     cy.get(`${selectors.checkout.shipping.methods} label`).first().click();
 
     // Go to checkout billing
-    cy.get(selectors.checkout.continueButton).click().wait(300);
+    cy.get(selectors.checkout.continueButton).click().wait(1000);
     cy.url().should('include', 'checkout/billing');
 
     // Copy shipping details to payment
-    cy.get(selectors.checkout.payment.copyFromShipping).click();
+    cy.get(selectors.checkout.billing.copyFromShipping).click();
+    cy.get(selectors.checkout.billing.apartmentNumber).type('123');
+    cy
+      .get(`${selectors.checkout.billing.state} option`)
+      .eq(0)
+      .then(element => cy.get(`${selectors.checkout.billing.state} select`).select(element.val()));
 
     // Go to checkout payment
-    cy.get(selectors.checkout.continueButton).click().wait(300);
+    cy.get(selectors.checkout.continueButton).click().wait(1000);
     cy.url().should('include', 'checkout/payment');
 
     // Select payment method and terms
-    cy.get(selectors.checkout.payment.paymentMethods).first().click();
-    cy.get(selectors.checkout.termsCheckbox).click().wait(300);
+    cy.get(selectors.checkout.billing.paymentMethods).first().click();
+    cy.get(selectors.checkout.termsCheckbox).click().wait(1000);
 
     // Submit order
-    cy.get(selectors.checkout.submitButton).click().wait(300);
+    cy.get(selectors.checkout.submitButton).click().wait(1000);
     cy.url().should('include', 'checkout/thank-you');
   });
 });

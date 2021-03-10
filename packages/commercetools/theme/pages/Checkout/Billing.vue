@@ -32,6 +32,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_firstName'"
             :value="billingDetails.firstName"
             @input="firstName => changeBillingDetails('firstName', firstName)"
             label="First name"
@@ -49,6 +50,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_lastName'"
             :value="billingDetails.lastName"
             @input="lastName => changeBillingDetails('lastName', lastName)"
             label="Last name"
@@ -66,6 +68,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_streetName'"
             :value="billingDetails.streetName"
             @input="streetName => changeBillingDetails('streetName', streetName)"
             label="Street name"
@@ -83,6 +86,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_apartment'"
             :value="billingDetails.apartment"
             @input="apartment => changeBillingDetails('apartment', apartment)"
             label="House/Apartment number"
@@ -100,6 +104,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_city'"
             :value="billingDetails.city"
             @input="city => changeBillingDetails('city', city)"
             label="City"
@@ -117,6 +122,7 @@
           slim
         >
           <SfSelect
+            v-e2e="'billing-details-input_state'"
             :value="billingDetails.state"
             @input="state => changeBillingDetails('state', state)"
             label="State/Province"
@@ -143,6 +149,7 @@
           slim
         >
           <SfSelect
+            v-e2e="'billing-details-input_country'"
             :value="billingDetails.country"
             @input="country => changeBillingDetails('country', country)"
             label="Country"
@@ -168,6 +175,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_postalCode'"
             :value="billingDetails.postalCode"
             @input="postalCode => changeBillingDetails('postalCode', postalCode)"
             label="Zip-code"
@@ -185,6 +193,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-details-input_phone'"
             :value="billingDetails.phone"
             @input="phone => changeBillingDetails('phone', phone)"
             label="Phone number"
