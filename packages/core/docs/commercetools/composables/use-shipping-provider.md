@@ -4,7 +4,7 @@
 
 `useShippingProvider` composable can be use to:
 
-* Loading shipping method for the current cart.
+* Loading shipping methods for the current cart.
 * Selecting shipping method for the current cart.
 
 ## API
