@@ -1,5 +1,6 @@
+import { CustomQuery } from '@vue-storefront/core';
 import updateCart from '../updateCart';
-import { CartResponse, CustomQueryFn } from '../../types/Api';
+import { CartResponse } from '../../types/Api';
 import { Cart, LineItem } from '../../types/GraphQL';
 import { createChangeLineItemQuantityAction } from '../../helpers/cart/actions';
 
@@ -7,7 +8,7 @@ const updateCartQuantity = async (
   context,
   cart: Cart,
   product: LineItem,
-  customQuery?: CustomQueryFn
+  customQuery?: CustomQuery
 ): Promise<CartResponse> => {
   return await updateCart(
     context,

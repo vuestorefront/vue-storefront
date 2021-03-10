@@ -92,7 +92,7 @@
       <div class="sidebar desktop-only">
         <LazyHydrate when-idle>
           <SfLoader
-          :class="{ loading }"
+          :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
               :open="activeCategory"
@@ -170,7 +170,7 @@
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
-              :isAddedToCart="isOnCart({ product })"
+              :isAddedToCart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="addItemToWishlist({ product })"
@@ -373,7 +373,7 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addItem: addItemToCart, isOnCart } = useCart();
+    const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
@@ -454,7 +454,7 @@ export default {
       breadcrumbs,
       addItemToWishlist,
       addItemToCart,
-      isOnCart,
+      isInCart,
       isFacetColor,
       selectFilter,
       isFilterSelected,
@@ -649,6 +649,7 @@ export default {
   border-width: 0 1px 0 0;
 }
 .sidebar-filters {
+  --overlay-z-index: 3;
   --sidebar-title-display: none;
   --sidebar-top-padding: 0;
   @include for-desktop {
@@ -673,7 +674,7 @@ export default {
   flex: 1;
   margin: 0;
   &__grid {
-    justify-content: space-between;
+    justify-content: center;
     @include for-desktop {
       justify-content: flex-start;
     }
@@ -696,6 +697,12 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+    @include for-mobile {
+      ::v-deep .sf-image {
+      --image-width: 5.3125rem;
+      --image-height: 7.0625rem;
+      }
+    }
   }
   &__slide-enter {
     opacity: 0;
@@ -738,6 +745,11 @@ export default {
   margin: var(--spacer-3xl) auto;
   @include for-desktop {
     margin-top: 6.25rem;
+  }
+  &--categories {
+    @include for-desktop {
+      margin-top: 3.75rem;
+    }
   }
 }
 ::v-deep .sf-sidebar__aside {

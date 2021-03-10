@@ -4,7 +4,7 @@ import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-stor
 import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 
-type Wishlist = {};
+type Wishlist = any;
 
 export const wishlist: Ref<Wishlist> = ref(null);
 
@@ -29,7 +29,7 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnWishlist: (context: Context, { currentWishlist }) => {
+  isInWishlist: (context: Context, { currentWishlist }) => {
     return false;
   }
 };

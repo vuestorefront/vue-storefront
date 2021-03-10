@@ -1,5 +1,5 @@
 <template>
-  <SfTopBar>
+  <SfTopBar class="topbar">
     <template #left>
         <SfButton data-cy="top-bar-btn_faq" class="sf-button--text">{{ $t('Help & FAQs') }}</SfButton>
       </template>
@@ -28,6 +28,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .topbar {
+  position: relative;
+  z-index: 2;
   &__button {
     margin: 0 0 0 var(--spacer-xs);
   }

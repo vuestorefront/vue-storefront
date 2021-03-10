@@ -6,7 +6,7 @@ While API Client is a data layer for the application composables are the busines
 - `useCategory` to fetch categories
 - `useCart` to manage basket
 - `useUser` to manage authorization and user profile
-   - `useUserOrders` (subcomposable to `useUser`) to manage user orders that has already been placed
+   - `useUserOrder` (subcomposable to `useUser`) to manage user orders that has already been placed
    - `useUserAddresses` (subcomposable to `useUser`) to manage user shipping addresses
 - `useCheckout` to manage order processing
 

@@ -58,39 +58,40 @@ const parseToken = (rawToken) => {
   }
 };
 
-const tokenExtension: ApiClientExtension = (req, res) => {
-  const rawCurrentToken = req.cookies['vsf-commercetools-token'];
-  const currentToken = parseToken(rawCurrentToken);
+const tokenExtension: ApiClientExtension = {
+  name: 'tokenExtension',
+  hooks: (req, res) => {
+    const rawCurrentToken = req.cookies['vsf-commercetools-token'];
+    const currentToken = parseToken(rawCurrentToken);
 
-  return {
-    beforeCreate: (config) => ({
-      ...config,
-      auth: {
-        onTokenChange: (newToken) => {
-          if (!currentToken || currentToken.access_token !== newToken.access_token) {
-            res.cookie('vsf-commercetools-token', JSON.stringify(newToken));
+    return {
+      beforeCreate: ({ configuration }) => ({
+        ...configuration,
+        auth: {
+          onTokenChange: (newToken) => {
+            if (!currentToken || currentToken.access_token !== newToken.access_token) {
+              res.cookie('vsf-commercetools-token', JSON.stringify(newToken));
+            }
+          },
+          onTokenRead: () => {
+            res.cookie('vsf-commercetools-token', rawCurrentToken);
+            return currentToken;
+          },
+          onTokenRemove: () => {
+            delete req.cookies['vsf-commercetools-token'];
           }
-        },
-        onTokenRead: () => {
-          res.cookie('vsf-commercetools-token', rawCurrentToken);
-          return currentToken;
-        },
-        onTokenRemove: () => {
-          delete req.cookies['vsf-commercetools-token'];
         }
-      }
-    })
-  };
+      })
+    };
+  }
 };
 
-const { createApiClient, integrationPlugin } = apiClientFactory({
-  tag: 'ct',
+const { createApiClient } = apiClientFactory({
   onCreate,
   api,
   extensions: [tokenExtension]
 });
 
 export {
-  createApiClient,
-  integrationPlugin
+  createApiClient
 };

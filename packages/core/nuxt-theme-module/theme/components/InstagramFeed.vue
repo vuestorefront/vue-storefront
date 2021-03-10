@@ -3,62 +3,47 @@
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage v-if="isMobile" src="/homepage/imageAm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage v-else src="/homepage/imageAd.webp" :width="470" :height="470">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageAm.webp" alt="katherina_trn" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageAd.webp" alt="katherina_trn" :width="470" :height="470">katherina_trn</SfImage>
         </div>
         <div class="grid__col small">
-          <SfImage v-if="isMobile" src="/homepage/imageBm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage v-else src="/homepage/imageCd.webp" :width="470" :height="160">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageBm.webp" alt="katherina_trn" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageCd.webp" alt="katherina_trn" :width="470" :height="160">katherina_trn</SfImage>
         </div>
       </div>
       <div class="grid__row">
         <div class="grid__col small">
-          <SfImage v-if="isMobile" src="/homepage/imageCm.webp" :width="160" :height="160">katherina_trn</SfImage>
-           <SfImage v-else src="/homepage/imageBd.webp" :width="470" :height="160">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageCm.webp" alt="katherina_trn" :width="160" :height="160">katherina_trn</SfImage>
+           <SfImage v-else src="/homepage/imageBd.webp" alt="katherina_trn" :width="470" :height="160">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage v-if="isMobile" src="/homepage/imageDm.webp" :width="160" :height="160">katherina_trn</SfImage>
-          <SfImage v-else src="/homepage/imageDd.webp" :width="470" :height="470">katherina_trn</SfImage>
+          <SfImage v-if="isMobile" src="/homepage/imageDm.webp" alt="katherina_trn" :width="160" :height="160">katherina_trn</SfImage>
+          <SfImage v-else src="/homepage/imageDd.webp" alt="katherina_trn" :width="470" :height="470">katherina_trn</SfImage>
         </div>
       </div>
     </div>
   </SfSection>
 </template>
 <script>
-import { ref, onMounted, onBeforeUnmount} from '@vue/composition-api';
 import {
   SfSection,
   SfImage
 } from '@storefront-ui/vue';
+import {
+  mapMobileObserver,
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 export default {
   name: 'InstagramFeed',
   components: {
     SfSection,
     SfImage
   },
-  setup() {
-    const isMobile = ref(false);
-
-    const mobileHandler = (event) => {
-      isMobile.value = event.matches;
-    };
-
-    onMounted(() => {
-      isMobile.value =
-      Math.max(document.documentElement.clientWidth, window.innerWidth) <=
-      1023;
-      window.matchMedia('(max-width: 1023px)').addListener(mobileHandler);
-    });
-
-    onBeforeUnmount(() => {
-      window
-        .matchMedia('(max-width: 1023px)')
-        .removeListener(mobileHandler);
-    });
-
-    return {
-      isMobile
-    };
+  computed: {
+    ...mapMobileObserver()
+  },
+  beforeDestroy() {
+    unMapMobileObserver();
   }
 };
 </script>

@@ -24,11 +24,6 @@ One of the most important requirements for any Vue Storefront integration is to 
 
 We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic you will have all the tools needed to start building Composition Functions.
 
-:::warning Don't assume someone is using Nuxt!
-
-API Client and Composition API functions should work out of the box in any Vue.js environment (like Vue CLI), you should **never** require Nuxt for them to work
-:::
-
 ## Scope
 
 Vue Storefront will require **at least** the following features from your eCommerce platform:
@@ -394,16 +389,18 @@ export { cartGetters }
 
 In the default theme, components used to display or modify integration-specific data, like forms or checkout information are blank. This is because each integration might use different data formats and properties.
 
-You need to create a couple of Vue components:
+You need to create few Vue components and JavaScript files:
 
 | Component                                    | Props                               | Emits event |
 |----------------------------------------------|-------------------------------------|-------------|
 | components/UserBillingAddress.vue            | { address: Object }                 |             |
 | components/UserShippingAddress.vue           | { address: Object }                 |             |
+| components/Checkout/CartPreview.vue          |                                     |             |
 | components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
+| composables/useUiHelpers/index.ts            |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Creating Vue components
