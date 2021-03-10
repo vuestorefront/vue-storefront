@@ -321,4 +321,4 @@ Because every payment provider is different, not all of them are present in ever
 ```
 
 ### Why some integrations have a mocked VsfPaymentProvider?
-There are eCommerce backends which do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide mocked component to let user go through the whole checkout. We are using external providers with dedicated VsfPaymentProvider for them. One example is a [Checkout.com integration](https://github.com/vuestorefront/checkout-com).
+There are eCommerce backends which do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide mock component that has exactly same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/)
