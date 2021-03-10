@@ -33,7 +33,7 @@ Generates the request to our middleware:
 - `POST / api/ct/getProduct` - a http call, where `ct` is a tag name of integation and `getProduct` is the name of a function needs to be called
 - `http body` - the body of HTTP request we are sending array of arguments
 
-Middleware reads tag name of integration and the function name that needs to be called, executes it, and send response back to the browser as if it was transferred using a direct connection.
+Middleware reads tag name of integration and the function name that needs to be called, executes it, and sends a response back to the browser as if it was transferred using a direct connection.
 
 ## Configuration
 
