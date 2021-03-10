@@ -2,54 +2,13 @@
 
 ## What are getters?
 
-Getters are pure functions which allows you to fetch response from integrated ecommerce platform. They return an agnostic or primitive type. All getters are grouped into domains they are associated with e.g. `cartGetters` and named according to values they return e.g. `getCartTotalItems`. 
+Getters are pure functions which allows you to receive properties from objects. They return an agnostic or primitive type. Each composable has its own getters e.g. `cartGetters` named according to values they return e.g. `getCartTotalItems`. 
 
+## How are they built?
 
-## How can you create and use getters?
+## When should I use them? 
 
-To create getter in your integration, use getter object from core package like so: 
-```ts
-	import { cartGetters } from '@vue-storefront/core';
-	import { Cart, LineItem } from './../types/GraphQL';
-	
-	export const getCartTotalItems = (cart: Cart): number => {
-		return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
-	})
-	...
-	const cartGetters: CartGetters<Cart, LineItem> = {
-		getTotalItems: getCartTotalItems,
-	};
-	
-	export default cartGetters;
-```
-You can create your own getters by expanding exisiting getters interface.
-
-And then getters can be used in components: 
-
-```vue
-	<template>
-		<div
-			:cartItemsQuantity="cartTotalItems"
-		>
-		</div>
-	</template>
-	<script>
-		import { cartGetters, useCart } from '<Integration>';		
-
-		export default {
-			setup() {
-				const { cart } = useCart();
-				const cartTotalItems = computed(() => {
-					const count = cartGetters.getTotalItems(cart.value);
-					return count;
-				});
-			})
-			return {
-				cartTotalItems,
-			};
-		}
-	</script>
-```
+## How can I use getters?
 
 
 ## Available Getters 
