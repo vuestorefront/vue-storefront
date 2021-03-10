@@ -30,7 +30,7 @@ It's a great strategy for migrations since you can easily migrate from one platf
 
 ![Architecture diagram](https://raw.githubusercontent.com/vuestorefront/vue-storefront/master/docs/.vuepress/public/GitHub-Architecture-VS.png)
 
-- **VSBridge Indexer** ([magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) in the image) is multi-process data synchronizer between Magento to Vue Storefront ElasticSearch database which is sending data about products, categories, taxrules, attributes, reviews, cms blocks and pages.
+- **VSBridge Indexer** ([magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) on the image) is multi-process data synchronizer between Magento and ElasticSearch which is sending data about products, categories, taxrules, attributes, cms blocks and cms pages.
 
 - **VSF-API (or SF-API)** is just a proxy to the eCommerce backend which gives us variety of benefits like caching layer, mapping to agnostic types, possibility to create own "processors" (mapping functions for certain entities).
 
@@ -38,7 +38,7 @@ VueStorefront works seamlessly with your backend platform while two integration 
 
 Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/magento2-vsbridge-indexer), [Magento 1](https://github.com/divanteLtd/magento1-vsbridge), [CoreShop](https://github.com/divanteLtd/coreshop-vsbridge), [BigCommerce](https://github.com/divanteLtd/bigcommerce2vuestorefront), [WooCommerce](https://github.com/divanteLtd/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/divanteLtd/vue-storefront-integration-boilerplate).
 
-At the moment we are only maintaining `magento2-vsbridge-indexer`.
+In terms of data synchronizers, as a core team we are maintaining only a `magento2-vsbridge-indexer`. The person responsible for that is Maciej Kucmus.
 
 The blue parts on the diagram are responsible for offline cache and will be explained later in the article.
 
@@ -48,9 +48,9 @@ There are 3 concepts you need to be familiar with while working with Vue Storefr
 
 - **Vue Storefront Core** ( `core` folder) is the glue for all the features that allow Vue Storefront to work. It contains all the entry points, SSR behavior, build process, in-app libs and helpers. You shouldn't touch this folder directly when building your own implementations in order to stay up-to-date with its features and security.
 
-- **Vue Storefront Modules** ( `core/modules` and `src/modules` ) are the eCommerce features. Each module is one encapsulated feature (like cart, wishlist, catalog, and some third-party integrations). You can add/remove/edit these modules as you wish and compose your Vue Storefront shop with only the features that you need. There are also used for 3rd-party extensions.
+- **Vue Storefront Modules** ( `core/modules` and `src/modules` ) are the eCommerce features. Each module is one encapsulated feature (like cart, wishlist, catalog, and some third-party integrations). You can add/remove/edit these modules as you wish and compose your Vue Storefront shop with only the features that you need. They are also used for 3rd-party extensions.
 
-- **Vue Storefront Themes** ( `src/themes` ) are the actual shop implementation. In themes, you can use and extend all the logic from registered modules / core and add your HTML markup and styles. Vue Storefront provides a fully customizable [default theme](https://github.com/vuestorefront/vsf-default) and [capybara theme](https://github.com/vuestorefront/vsf-capybara). We recommend using default theme because is more stable than capybara theme.
+- **Vue Storefront Themes** ( `src/themes` ) are the actual shop implementation. In themes, you can use and extend all the logic from registered modules / core and add your HTML markup and styles. Vue Storefront provides a fully customizable [default theme](https://github.com/vuestorefront/vsf-default) and [capybara theme](https://github.com/vuestorefront/vsf-capybara). We recommend using default theme because it is more stable than capybara theme.
 
 To summarize: Your shop is basically a Vue Storefront theme that uses features provided by modules. Vue Storefront Core glues it all together.
 
@@ -100,7 +100,7 @@ We managed to do this by making extensive use of the browser cache. 
 Please note that Service Worker works only in production mode.
 :::
 
-- **For the catalog and store-data cache** we use LocalForage. We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lib/store/`.
+- **For the catalog and store-data cache** we use [LocalForage](https://localforage.github.io/localForage/). We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lib/store/`.
 
 We use some of the cached data even while the user is online to display the content instantly. This explains why Vue Storefront is lightning fast.
 
