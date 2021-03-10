@@ -39,13 +39,6 @@ Middleware reads tag name of integration and the function name that needs to be 
 
 When it comes to configuration, middleware has a dedicated config called `middleware.config.js` that contains a section with integrations(`integrations`) along with their credentials and other options.
 
-Each entry under the `integrations` section starts with a tag name of given integration, and contains an object with the following fields:
-
-- `location` - points to the package of the API-client, related to given integration (server entry point)
-- `configuration` - contains a configuration of given integration, such as credentials and others
-- `extensions` - a function that returns a extensions (jump to the next section)
-- `customQueries` - section that contains custom queries (graphql only)
-
 ```js
 module.exports = {
   integrations: {
@@ -58,6 +51,13 @@ module.exports = {
   }
 };
 ```
+
+Each entry under the `integrations` section starts with a tag name of given integration, and contains an object with the following fields:
+
+- `location` - points to the package of the API-client, related to given integration (server entry point)
+- `configuration` - contains a configuration of given integration, such as credentials and others
+- `extensions` - a function that returns a extensions (jump to the next section)
+- `customQueries` - section that contains custom queries (graphql only)
 
 ## Extending Integrations
 
