@@ -22,7 +22,7 @@
   "author": "DivanteLtd",
   "license": "MIT",
   "dependencies": {
-    "sass-loader": "^11.0.1",
+    "sass-loader": "^8.0.2",
     "vue-multiselect": "^2.1.6"
   }
 }
