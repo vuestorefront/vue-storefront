@@ -1,23 +1,32 @@
-import { nuxtContextFactory } from './nuxtContextFactory';
+import { createExtendIntegrationInCtx, createAddIntegrationToCtx } from './context';
+import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
+import { Context as NuxtContext, Plugin as NuxtPlugin } from '@nuxt/types';
+import axios from 'axios';
 
-export type IntegrationPlugin = (pluginFn) => (nuxtCtx, inject) => void
+type InjectFn = (key: string, value: any) => void;
+export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
 
-export const integrationPluginFactory = (createApiClient): IntegrationPlugin => (pluginFn) => (nuxtCtx, inject) => {
-  const { extendContext, injectInContext } = nuxtContextFactory({ tag: createApiClient.tag, nuxtCtx, inject });
+export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext, inject: InjectFn) => {
+  const configure = (tag, configuration) => {
+    const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
+    const config = getIntegrationConfig(nuxtCtx, configuration);
+    const { middlewareUrl } = (nuxtCtx as any).$config;
 
-  const configure = (givenSettings, customApi = {}) => {
-    const createApiClientFn = createApiClient.bind(nuxtCtx);
-    const { api, client, settings } = createApiClientFn(givenSettings, customApi);
-    const props = { api, client, config: settings };
+    if (middlewareUrl) {
+      config.axios.baseURL = middlewareUrl;
+    }
 
-    injectInContext(props);
+    const client = axios.create(config.axios);
+    const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
+
+    injectInContext({ api, client, config });
   };
 
-  const extend = (props) => {
-    extendContext(props);
+  const extend = (tag, integrationProperties) => {
+    createExtendIntegrationInCtx({ tag, nuxtCtx, inject })(integrationProperties);
   };
 
   const integration = { configure, extend };
 
-  pluginFn({ ...nuxtCtx, integration }, inject);
+  pluginFn({ ...nuxtCtx, integration } as NuxtContext, inject);
 };

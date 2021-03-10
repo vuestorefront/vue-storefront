@@ -3,7 +3,7 @@ import { Ref } from '@vue/composition-api';
 import { vsfRef, useVSFContext } from '../../utils';
 
 function sharedRef<T>(value: T, key: string): Ref;
-function sharedRef<T>(key: string, _?): Ref;
+function sharedRef(key: string, _?): Ref;
 
 function sharedRef<T>(value: T, key: string): Ref {
   const { $sharedRefsMap } = useVSFContext() as any;

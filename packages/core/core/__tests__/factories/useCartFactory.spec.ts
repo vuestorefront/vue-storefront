@@ -23,7 +23,7 @@ function createComposable() {
     removeCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_removed_coupon_cart' }
     }),
-    isOnCart: jest.fn().mockReturnValueOnce(true)
+    isInCart: jest.fn().mockReturnValueOnce(true)
   };
   useCart = useCartFactory<any, any, any, any>(params);
 }
@@ -36,7 +36,7 @@ const factoryParams = {
   clear: jest.fn(),
   applyCoupon: jest.fn(),
   removeCoupon: jest.fn(),
-  isOnCart: jest.fn()
+  isInCart: jest.fn()
 };
 
 const useCartMock = useCartFactory(factoryParams);
@@ -69,12 +69,12 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('computes', () => {
-    describe('isOnCart', () => {
-      it('should invoke implemented isOnCart method', () => {
-        const { isOnCart } = useCart();
-        const result = isOnCart({ product: { id: 'productId' } });
+    describe('isInCart', () => {
+      it('should invoke implemented isInCart method', () => {
+        const { isInCart } = useCart();
+        const result = isInCart({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnCart).toBeCalledWith({ context: null }, {
+        expect(params.isInCart).toBeCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });
@@ -111,7 +111,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke adding to cart', async () => {
         const { addItem, cart } = useCart();
         await addItem({ product: { id: 'productId' }, quantity: 2});
-        expect(params.addItem).toHaveBeenCalledWith({ context: null }, {
+        expect(params.addItem).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -136,7 +136,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke adding to cart', async () => {
         const { removeItem, cart } = useCart();
         await removeItem({ product: { id: 'productId' }});
-        expect(params.removeItem).toHaveBeenCalledWith({ context: null }, {
+        expect(params.removeItem).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });
@@ -172,7 +172,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke quantity update', async () => {
         const { updateItemQty, cart } = useCart();
         await updateItemQty({ product: { id: 'productId' }, quantity: 2 });
-        expect(params.updateItemQty).toHaveBeenCalledWith({ context: null }, {
+        expect(params.updateItemQty).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
@@ -197,7 +197,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should invoke clear', async () => {
         const { clear, cart } = useCart();
         await clear();
-        expect(params.clear).toHaveBeenCalledWith({ context: null }, { currentCart: null });
+        expect(params.clear).toHaveBeenCalledWith({ currentCart: null });
         expect(cart.value).toEqual({ id: 'mocked_cleared_cart' });
       });
 
@@ -218,7 +218,7 @@ describe('[CORE - factories] useCartFactory', () => {
       it('should apply provided coupon', async () => {
         const { applyCoupon, cart } = useCart();
         await applyCoupon({ couponCode: 'qwerty' });
-        expect(params.applyCoupon).toHaveBeenCalledWith({ context: null }, {
+        expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
           couponCode: 'qwerty'
         });
@@ -243,7 +243,7 @@ describe('[CORE - factories] useCartFactory', () => {
         const { removeCoupon, cart } = useCart();
         const coupon = 'some-coupon-code-12321231';
         await removeCoupon({ coupon });
-        expect(params.removeCoupon).toHaveBeenCalledWith({ context: null }, {
+        expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
           coupon
         });

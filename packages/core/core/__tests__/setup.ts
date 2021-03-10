@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
 
@@ -16,6 +17,7 @@ jest.mock('../src/utils', () => ({
   sharedRef: jest.fn(ref),
   vsfRef: jest.fn(ref),
   generateContext: jest.fn(() => ({ context: null })),
+  configureFactoryParams: jest.fn((fParams) => fParams),
   useVSFContext: jest.fn()
 }));
 

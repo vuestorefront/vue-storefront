@@ -44,6 +44,7 @@ export default async function ({
   this.options.dir = {
     ...this.options.dir,
     ...{
+      middleware: `${targetDirectory}/middleware`,
       layouts: `${targetDirectory}/layouts`,
       assets: `${targetDirectory}/assets`,
       pages: `${targetDirectory}/pages`
@@ -52,6 +53,7 @@ export default async function ({
 
   this.extendBuild(config => {
     delete config.resolve.alias['~'];
+    config.resolve.alias['~/middleware'] = path.join(projectLocalThemeDir, path.sep + 'middleware');
     config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, path.sep + 'components');
     config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, path.sep + 'assets');
     config.resolve.alias['~'] = path.join(projectLocalThemeDir);

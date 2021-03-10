@@ -27,8 +27,7 @@ You can treat each composable as an independent micro-application. They manage t
 ```js
 const { search, product, loading, error } = useProduct();
 ```
-
-You can read more about Vue Storefront composables [here](guide/composables.html)
+You can read more about Vue Storefront composables [here](/guide/composables.html)
 
 ## Routing
 

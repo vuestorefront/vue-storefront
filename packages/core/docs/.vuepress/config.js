@@ -17,19 +17,27 @@ module.exports = {
 		sidebar: {
 			'/migrate/': [
 				{
-					title: 'Migration guide RC.1',
+					title: 'Migration guide 2.3.0-rc.1',
 					children: [
-						['/migrate/rc1', 'Overview'],
-						['/migrate/integrators-rc1', 'Integrators'],
-						['/migrate/projects-rc1', 'Projects'],
+						['/migrate/2.3.0-rc.1/overview', 'Overview'],
+						['/migrate/2.3.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.1/commercetools', 'commercetools']
 					]
 				},
 				{
 					title: 'Migration guide 2.2.0',
 					children: [
-						['/migrate/2.2.0', 'Overview'],
-						['/migrate/integrators-2.2.0', 'Integrators'],
-						['/migrate/projects-2.2.0', 'Projects'],
+						['/migrate/2.2.0/overview', 'Overview'],
+						['/migrate/2.2.0/integrators', 'Integrators'],
+						['/migrate/2.2.0/projects', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.1.0-rc.1',
+					children: [
+						['/migrate/2.1.0-rc.1/overview', 'Overview'],
+						['/migrate/2.1.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.1.0-rc.1/projects', 'Projects'],
 					]
 				}
 			],
@@ -157,8 +165,8 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
-            ['/guide/user-profile', 'User profile'],
-            ['/guide/authentication', 'Authentication']
+						['/guide/authentication', 'Authentication'],
+            ['/guide/user-profile', 'User profile']
 					]
 				},
 				{

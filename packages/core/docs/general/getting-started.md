@@ -44,5 +44,5 @@ Vue Storefront can also be installed within already existing Vue and Nuxt codeba
 
 ## What's next?
 
-- Learn about [key concepts in Vue Storefront](./key-concepts) to confidently work with your newly created Vue Storefront project.
+- Learn about [key concepts in Vue Storefront](./key-concepts.html) to confidently work with your newly created Vue Storefront project.
 - Check out the platform-specific docs in the `eCommerce platforms` category to learn more about your integration.

@@ -1,32 +1,20 @@
 /* istanbul ignore file */
-
-import useCategory from './useCategory';
-import useProduct from './useProduct';
-import useCart from './useCart';
-import useCheckout from './useCheckout';
-import useUser from './useUser';
-import useUserOrders from './useUserOrders';
-import { useReview } from './useReview';
-import useFacet from './useFacet';
-import useUserShipping from './useUserShipping';
-import useUserBilling from './useUserBilling';
-import useWishlist from './useWishlist';
 import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
 
-export {
-  useCategory,
-  useProduct,
-  useCart,
-  useCheckout,
-  useUser,
-  useUserOrders,
-  useUserBilling,
-  useWishlist,
-  useUserShipping,
-  useReview,
-  useFacet
-};
-
+export { default as useCart } from './useCart';
+export { default as useCategory } from './useCategory';
+export { default as useFacet } from './useFacet';
+export { default as useMakeOrder } from './useMakeOrder';
+export { default as useProduct } from './useProduct';
+export { default as useReview } from './useReview';
+export { default as useShipping } from './useShipping';
+export { default as useShippingProvider } from './useShippingProvider';
+export { default as useBilling } from './useBilling';
+export { default as useUser } from './useUser';
+export { default as useUserBilling } from './useUserBilling';
+export { default as useUserOrder } from './useUserOrder';
+export { default as useUserShipping } from './useUserShipping';
+export { default as useWishlist } from './useWishlist';
 export * from './getters';

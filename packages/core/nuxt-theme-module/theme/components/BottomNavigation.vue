@@ -1,6 +1,6 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
-  <SfBottomNavigation class="smartphone-only">
+  <SfBottomNavigation class="navigation-bottom smartphone-only">
     <nuxt-link data-cy="bottom-navigation-url_home" to="/">
       <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
     </nuxt-link>
@@ -57,3 +57,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.navigation-bottom {
+  --bottom-navigation-z-index: 3;
+}
+</style>

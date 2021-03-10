@@ -2,7 +2,7 @@ import { computed, reactive } from '@vue/composition-api';
 
 interface UiNotification {
   message: string;
-  action: { text: string; onClick: Function };
+  action: { text: string; onClick: (...args: any) => void };
   type: 'danger' | 'success' | 'info';
   icon: string;
   persist: boolean;

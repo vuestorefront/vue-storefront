@@ -1,4 +1,5 @@
-import { apiClientFactory } from '../../src/factories/apiFactory';
+import { apiClientFactory } from '../../src/factories/apiClientFactory';
+import { applyContextToApi } from '../../src/factories/apiClientFactory/context';
 
 jest.mock('../../src/utils', () => ({
   integrationPluginFactory: jest.fn(),
@@ -48,11 +49,12 @@ describe('[CORE - factories] apiClientFactory', () => {
   });
 
   it('Should run given extensions', () => {
-    const extensionFns = {
-      beforeCreate: jest.fn(a => a),
-      afterCreate: jest.fn(a => a)
+    const beforeCreate = jest.fn(a => a);
+    const afterCreate = jest.fn(a => a);
+    const extension = {
+      name: 'extTest',
+      hooks: () => ({ beforeCreate, afterCreate })
     };
-    const extension = () => extensionFns;
 
     const params = {
       onCreate: jest.fn((config) => ({ config })),
@@ -61,10 +63,40 @@ describe('[CORE - factories] apiClientFactory', () => {
     };
 
     const { createApiClient } = apiClientFactory<any, any>(params as any);
+    const extensions = (createApiClient as any)._predefinedExtensions;
 
-    createApiClient.bind({ middleware: { req: null, res: null } })({});
+    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
 
-    expect(extensionFns.beforeCreate).toHaveBeenCalled();
-    expect(extensionFns.afterCreate).toHaveBeenCalled();
+    expect(beforeCreate).toHaveBeenCalled();
+    expect(afterCreate).toHaveBeenCalled();
+  });
+
+  it('applyContextToApi adds context as first argument to api functions', () => {
+    const api = {
+      firstFunc: jest.fn(),
+      secondFunc: jest.fn(),
+      thirdFunc: jest.fn()
+    };
+    const context = {
+      extendQuery: jest.fn()
+    };
+
+    const apiWithContext: any = applyContextToApi(api, context);
+
+    apiWithContext.firstFunc();
+    apiWithContext.secondFunc('TEST');
+    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+
+    expect(api.firstFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) })
+    );
+    expect(api.secondFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
+      'TEST'
+    );
+    expect(api.thirdFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
+      'A', 'FEW', 'ARGS'
+    );
   });
 });

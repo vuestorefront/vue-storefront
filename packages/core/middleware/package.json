@@ -1,17 +1,24 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.1.1-rc.1",
+  "version": "2.2.1",
   "description": "",
-  "main": "module.js",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf lib && rollup -c"
   },
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
+    "consola": "2.15.3",
     "express": "^4.17.1",
     "cookie-parser": "^1.4.5",
-    "is-https": "^3.0.2"
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^12.12.2"
   },
   "publishConfig": {
     "access": "public"
