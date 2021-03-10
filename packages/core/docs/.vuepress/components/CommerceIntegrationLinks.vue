@@ -43,13 +43,6 @@ export default {
   props,
   components: {
     CommerceIntegrationLink
-  },
-  mounted () {
-    for (let integration of Object.keys(props)) {
-      if (this[integration] === WIP) {
-        console.warn(`${integration} integration is being developed`)
-      }
-    }
   }
 }
 </script>
