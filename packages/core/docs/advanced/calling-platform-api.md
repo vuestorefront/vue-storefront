@@ -1,6 +1,6 @@
 # Calling integration APIs
 
-## How do Integrations work?
+## How do integrations work?
 
 In Vue Storefront, single integration has its own sort of software development kit (SDK) library. This library is named API-client and contains a set of functions. Each function is dedicated to one action, endpoint or a feature eg. `getProduct`, `loadCart` `addToCart`. For example, when you call `getProduct`, it will request the integration API and return its response in the original format of a given platform.
 
