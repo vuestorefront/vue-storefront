@@ -68,7 +68,11 @@ module.exports = {
 						['/commercetools/composables/use-facet', 'useFacet'],
 						['/commercetools/composables/use-cart', 'useCart'],
 						['/commercetools/composables/use-wishlist', 'useWishlist'],
-						['/commercetools/composables/use-category', 'useCategory']
+						['/commercetools/composables/use-category', 'useCategory'],
+						['/commercetools/composables/use-shipping', 'useShipping'],
+						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
+						['/commercetools/composables/use-billing', 'useBilling'],
+						['/commercetools/composables/use-make-order', 'useMakeOrder']
 					]
 				},
 				{
@@ -166,7 +170,9 @@ module.exports = {
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
 						['/guide/authentication', 'Authentication'],
-            ['/guide/user-profile', 'User profile']
+            			['/guide/user-profile', 'User profile'],
+						['/guide/authentication', 'Authentication'],
+                        ['/guide/checkout', 'Checkout']
 					]
 				},
 				{
