@@ -260,12 +260,11 @@ export default {
     };
 
     const statesInSelectedCountry = computed(() => {
-      if (form.country) {
-        const selectedCountry = config.countries.find(country => country.name === form.country);
-        if (selectedCountry && selectedCountry.states) {
-          return selectedCountry.states;
-        }
+      if (!form.country) {
+        return null;
       }
+      const selectedCountry = config.countries.find(country => country.name === form.country);
+      return selectedCountry && selectedCountry.states;
     });
 
     watch(statesInSelectedCountry, statesInSelectedCountry => {

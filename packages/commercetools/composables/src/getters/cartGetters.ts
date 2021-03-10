@@ -49,16 +49,15 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
 };
 
 export const getCartShippingPrice = (cart: Cart): number => {
-  if (cart?.shippingInfo) {
-    if (cart.shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove) {
-      const total = cart.totalPrice.centAmount;
-      if (total >= cart.shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove.centAmount) {
-        return 0;
-      }
-    }
-    return cart?.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
+  const total = cart?.totalPrice?.centAmount;
+  const shippingInfo = cart?.shippingInfo;
+  const centAmount = shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove?.centAmount;
+
+  if (!shippingInfo || !centAmount || !total || (centAmount && total >= centAmount)) {
+    return 0;
   }
-  return 0;
+
+  return shippingInfo.price.centAmount / 100;
 };
 
 export const getCartTotalItems = (cart: Cart): number => {

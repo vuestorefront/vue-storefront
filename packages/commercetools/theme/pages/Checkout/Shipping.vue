@@ -282,12 +282,11 @@ export default {
     });
 
     const statesInSelectedCountry = computed(() => {
-      if (shippingDetails.value.country) {
-        const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.country);
-        if (selectedCountry && selectedCountry.states) {
-          return selectedCountry.states;
-        }
+      if (!shippingDetails.value.country) {
+        return null;
       }
+      const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.country);
+      return selectedCountry && selectedCountry.states;
     });
 
     const handleAddressSubmit = (reset) => async () => {

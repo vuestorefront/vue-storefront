@@ -283,12 +283,11 @@ export default {
     const canMoveForward = computed(() => !loading.value && billingDetails.value && Object.keys(billingDetails.value).length);
 
     const statesInSelectedCountry = computed(() => {
-      if (billingDetails.value.country) {
-        const selectedCountry = config.countries.find(country => country.name === billingDetails.value.country);
-        if (selectedCountry && selectedCountry.states) {
-          return selectedCountry.states;
-        }
+      if (!billingDetails.value.country) {
+        return null;
       }
+      const selectedCountry = config.countries.find(country => country.name === billingDetails.value.country);
+      return selectedCountry && selectedCountry.states;
     });
 
     const hasSavedBillingAddress = computed(() => {
