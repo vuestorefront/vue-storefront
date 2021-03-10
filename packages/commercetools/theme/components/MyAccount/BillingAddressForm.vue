@@ -77,19 +77,29 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          rules="required|min:2"
+          name="state"
+          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
           v-slot="{ errors }"
-          class="form__element"
+          slim
         >
-          <SfInput
-            data-cy="billing-details-input_state"
+          <SfSelect
             v-model="form.state"
-            name="state"
             label="State/Province"
+            name="state"
+            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
-          />
+            :disabled="!statesInSelectedCountry"
+          >
+            <SfSelectOption
+              v-for="state in statesInSelectedCountry"
+              :key="state"
+              :value="state"
+            >
+              {{ state }}
+            </SfSelectOption>
+          </SfSelect>
         </ValidationProvider>
       </div>
       <div class="form__horizontal">
@@ -171,7 +181,7 @@ import {
 } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { reactive } from '@vue/composition-api';
+import { reactive, computed, watch } from '@vue/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
 
 extend('required', {
@@ -249,10 +259,26 @@ export default {
       });
     };
 
+    const statesInSelectedCountry = computed(() => {
+      if (!form.country) {
+        return null;
+      }
+      const selectedCountry = config.countries.find(country => country.name === form.country);
+      return selectedCountry && selectedCountry.states;
+    });
+
+    watch(statesInSelectedCountry, statesInSelectedCountry => {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && form.state) {
+        form.state = null;
+      }
+    });
+
     return {
       form,
       submitForm,
-      countries: config.countries
+      countries: config.countries,
+      statesInSelectedCountry
     };
   }
 };
@@ -268,9 +294,10 @@ export default {
     display: flex;
     align-items: center;
     --select-option-font-size: var(--font-size--lg);
+    flex-wrap: wrap;
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
-      margin: 0;
+      // margin: 0;
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
     }

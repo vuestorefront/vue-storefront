@@ -98,7 +98,12 @@ export default {
     country: 'US',
     countries: [
       { name: 'US',
-        label: 'United States' },
+        label: 'United States',
+        states: [
+          'California',
+          'Nevada'
+        ]
+      },
       { name: 'AT',
         label: 'Austria' },
       { name: 'DE',
