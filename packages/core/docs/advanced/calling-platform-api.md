@@ -6,7 +6,7 @@ In Vue Storefront, single integration has its own sort of software development k
 
 ## Accessing integration methods on the frontend
 
-To access API-client functions, you can use the composable function `useVSFContext` that reads from the application context every possible integration so you can easily access it.
+To access API-client functions, you can use the composable function `useVSFContext`:
 
 ```ts
 // each platform has different tag to access its methods, eg $spryker, $storyblok etc.
