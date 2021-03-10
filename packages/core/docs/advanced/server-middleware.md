@@ -133,7 +133,7 @@ app.listen(8181, () => {
 });
 ```
 
-Now, when you run this using node, your middleware should work separately.
+Now, when you run this using Node, your middleware should work separately.
 
 Additionally, you need to remove the middleware module entry from the nuxt.config.js and configure the domain, where your middleware is settled.
 
