@@ -53,7 +53,7 @@ export const getCartShippingPrice = (cart: Cart): number => {
   const shippingInfo = cart?.shippingInfo;
   const centAmount = shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove?.centAmount;
 
-  if (!shippingInfo || !centAmount || !total || (centAmount && total >= centAmount)) {
+  if (!shippingInfo || !total || (centAmount && total >= centAmount)) {
     return 0;
   }
 
