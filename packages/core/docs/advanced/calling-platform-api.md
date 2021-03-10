@@ -21,5 +21,5 @@ In the example above we have accessed the API-client for commercetools (Each int
 
 ## Extending Integrations
 
-Sometimes, it's necessary to override the original behavior either API-client or even an entire request that comes from an external platform.
+Sometimes, it's necessary to override the original behavior for either API-client or even an entire request that comes from an external platform.
 The Vue Storefront also provides a possibility to do this by using [middleware extensions](/advanced/server-middleware)
