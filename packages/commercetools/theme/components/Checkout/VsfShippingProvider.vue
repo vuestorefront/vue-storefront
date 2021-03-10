@@ -30,7 +30,7 @@
             <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
-                <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method), 'currency') }}</div>
+                <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method, totals.total), 'currency') }}</div>
               </div>
             </template>
             <template #description="{ localizedDescription }">
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { useCart, useShippingProvider } from '@vue-storefront/commercetools';
+import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import {
   SfHeading,
   SfButton,
@@ -126,6 +126,7 @@ export default {
       load
     } = useShippingProvider();
     const selectedShippingMethod = computed(() => state.value && state.value.response);
+    const totals = computed(() => cartGetters.getTotals(cart.value));
 
     const error = reactive({
       loadMethods: null
@@ -180,6 +181,7 @@ export default {
       selectedShippingMethod,
       selectShippingMethod,
       getShippingMethodPrice,
+      totals,
       isShippingMethodStepCompleted,
 
       loading,

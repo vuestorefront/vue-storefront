@@ -109,16 +109,30 @@
         </ValidationProvider>
         <ValidationProvider
           name="state"
+          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
+          v-slot="{ errors }"
           slim
         >
-          <SfInput
+          <SfSelect
             v-e2e="'shipping-details-input_state'"
             :value="shippingDetails.state"
             @input="state => changeShippingDetails('state', state)"
             label="State/Province"
             name="state"
-            class="form__element form__element--half form__element--half-even"
-          />
+            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+            :disabled="!statesInSelectedCountry"
+          >
+            <SfSelectOption
+              v-for="state in statesInSelectedCountry"
+              :key="state"
+              :value="state"
+            >
+              {{ state }}
+            </SfSelectOption>
+          </SfSelect>
         </ValidationProvider>
         <ValidationProvider
           name="country"
@@ -196,7 +210,7 @@
           <SfButton
             v-if="!(isShippingDetailsStepCompleted && !dirty)"
             v-e2e="'checkout-continue-button'"
-            :disabled="loading"
+            :disabled="!canMoveForward"
             class="form__action-button"
             type="submit"
           >
@@ -267,12 +281,22 @@ export default {
 
     const isShippingDetailsStepCompleted = ref(false);
 
+    const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
+
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
       const addresses = userShippingGetters.getAddresses(userShipping.value);
       return Boolean(addresses?.length);
+    });
+
+    const statesInSelectedCountry = computed(() => {
+      if (!shippingDetails.value.country) {
+        return null;
+      }
+      const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.country);
+      return selectedCountry && selectedCountry.states;
     });
 
     const handleAddressSubmit = (reset) => async () => {
@@ -301,7 +325,10 @@ export default {
     };
 
     const changeShippingDetails = (field, value) => {
-      shippingDetails.value[field] = value;
+      shippingDetails.value = {
+        ...shippingDetails.value,
+        [field]: value
+      };
       isShippingDetailsStepCompleted.value = false;
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
@@ -316,6 +343,13 @@ export default {
     // Update local state if we have new address' response from the backend
     watch(address, addr => {
       shippingDetails.value = addr || {};
+    });
+
+    watch(statesInSelectedCountry, statesInSelectedCountry => {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && shippingDetails.value.state) {
+        shippingDetails.value.state = null;
+      }
     });
 
     onSSR(async () => {
@@ -351,6 +385,7 @@ export default {
       setAsDefault,
       canAddNewAddress,
       currentAddressId,
+      statesInSelectedCountry,
 
       hasSavedShippingAddress,
 
@@ -361,7 +396,8 @@ export default {
       changeShippingDetails,
       loading,
 
-      isShippingDetailsStepCompleted
+      isShippingDetailsStepCompleted,
+      canMoveForward
     };
   }
 };
@@ -373,6 +409,7 @@ export default {
   &__select {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     --select-option-font-size: var(--font-size--lg);
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
@@ -380,6 +417,10 @@ export default {
       color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
+    }
+
+    ::v-deep .sf-select__label {
+      left: initial;
     }
   }
   @include for-desktop {

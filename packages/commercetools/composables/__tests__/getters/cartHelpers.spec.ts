@@ -75,6 +75,24 @@ describe('[commercetools-getters] cart helpers', () => {
     expect(getCartShippingPrice(cart)).toEqual(4.44);
     expect(getCartShippingPrice({ ...cart,
       shippingInfo: null })).toEqual(0);
+
+    expect(getCartShippingPrice({ ...cart,
+      shippingInfo: {
+        shippingMethod: {
+          zoneRates: [
+            {
+              shippingRates: [
+                {
+                  freeAbove: {
+                    centAmount: 1000
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })).toEqual(0);
   });
 
   it('returns cart total items', () => {
