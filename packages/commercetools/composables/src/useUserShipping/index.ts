@@ -62,7 +62,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
 
     const newAddress = {
       ...params.address,
-      id: makeId(17)
+      id: makeId()
     };
 
     if (params.address.isDefault) {
