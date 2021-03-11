@@ -216,6 +216,7 @@ export default {
     };
 
     const handleForm = (fn) => async () => {
+      resetErrorValues();
       await fn({ user: form.value });
       resetErrorValues();
 
