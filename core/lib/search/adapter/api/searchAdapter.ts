@@ -8,7 +8,8 @@ import { SearchQuery } from 'storefront-query-builder'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
+import store from '../../../../store'
 
 export class SearchAdapter {
   public entities: any
@@ -75,14 +76,37 @@ export class SearchAdapter {
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
+    let queryMethod = config.elasticsearch.queryMethod
+    
+    if (Request.type === 'product' && Request.sort) {
+      const sortType = Request.sort.split(':', 2)
+      if (sortType[0] === 'position') {
+        const currentCategoryId = store.getters['category-next/getCurrentCategory']['id']
+        if (currentCategoryId) {
+          // It's mandatory to send a POST request, in this case, otherwise, this sorting won't work
+          queryMethod = 'POST'
+          ElasticsearchQueryBody['sort'] = [{
+            'category.position': {
+              'order': sortType[1] || 'asc',
+              'mode': 'min',
+              'nested_path': 'category',
+              'nested_filter': {
+                'term': { 'category.category_id': currentCategoryId }
+              }
+            }
+          }]
+        }
+      }
+    }
+
     return fetch(url, {
-      method: config.elasticsearch.queryMethod,
+      method: queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
+      body: queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
       .then(resp => { return resp.json() })
       .catch(error => {
