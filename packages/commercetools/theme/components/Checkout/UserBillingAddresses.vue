@@ -9,6 +9,7 @@
         v-for="billingAddress in billingAddresses"
         :key="userBillingGetters.getId(billingAddress)"
         :name="String(userBillingGetters.getId(billingAddress))"
+        class="billing__address"
       >
         <span
           >{{ userBillingGetters.getFirstName(billingAddress) }} {{ userBillingGetters.getLastName(billingAddress) }}</span
@@ -77,11 +78,20 @@ export default {
 };
 </script>
 
-<style>
-  .billing__addresses {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: var(--spacer-xl);
+<style lang="scss">
+  .billing {
+    &__address {
+      margin-bottom: var(--spacer-base);
+      @include for-desktop {
+        margin-right: var(--spacer-sm);
+      }
+    }
+    &__addresses {
+      margin-bottom: var(--spacer-xl);
+      @include for-desktop {
+        display: flex;
+      }
+    }
   }
   .billing-address-setAsDefault, .form__action-button--margin-bottom {
     margin-bottom: var(--spacer-xl);

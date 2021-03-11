@@ -5,7 +5,7 @@
         <SfSteps
           v-if="!isThankYou"
           :active="currentStepIndex"
-          :class="{ 'checkout__steps': true, 'checkout__steps-auth': isAuthenticated }"
+          class="checkout__steps"
           @change="handleStepClick"
         >
           <SfStep
@@ -98,12 +98,11 @@ export default {
   }
   &__steps {
     --steps-content-padding: 0 var(--spacer-base);
+    ::v-deep .sf-steps__step.is-done  {
+      color: var(--c-primary);
+    }
     @include for-desktop {
       --steps-content-padding: 0;
-    }
-
-    &-auth::v-deep .sf-steps__step:first-child {
-      --steps-step-color: #e8e4e4;
     }
   }
 }

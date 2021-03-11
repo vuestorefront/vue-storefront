@@ -16,7 +16,7 @@
       <SfProperty
         name="Subtotal"
         :value="$n(totals.subtotal, 'currency')"
-        :class="['sf-property--full-width', 'sf-property--large', { discounted: hasSpecialPrice }]"
+        :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
       <SfProperty
         v-for="discount in discounts"
@@ -172,7 +172,7 @@ export default {
 
 .characteristic {
   &:not(:last-child) {
-    margin-bottom: var(--spacer-lg);
+    margin-bottom: var(--spacer-base);
   }
 }
 .promo-code {
