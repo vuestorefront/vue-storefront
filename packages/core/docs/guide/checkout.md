@@ -304,7 +304,7 @@ Because every payment provider is different, not all of them are present in ever
 - **afterPay** `(paymentResponse => void)` - Called after pay.
 - **beforeSelectedDetailsChange** `(details => details)` - Called before modifying currently picked payment method, e.g. changing credit card's details.
 - **afterSelectedDetailsChange** `(details => void)` - Called after modifying currently picked payment method, e.g. changing credit card's details.
-- **onError** `(({ action, error }) => void)` - Called when some operation throws an error.
+- **onError** `(({ action, error }) => void)` - Called when some operation throws an error. 
 
 ```vue
 <VsfPaymentProvider
