@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed bug in `restoreQuantity` - getItem never returns cart item - @gibkigonzo (#4619)
 - Separate variant in findProductOption to get parent sku - @gibkigonzo (#4641)
 - Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
-- Fix [order category products by position](https://github.com/vuestorefront/vue-storefront/issues/3058) - rozzilla
+- Fix [order category products by position](https://github.com/vuestorefront/vue-storefront/issues/3058) - rozzilla (#5651)
 
 ### Changed / Improved
 - Changed the Node version in the local Dockerfile to v12 - @waynetheisinger (#4989)
