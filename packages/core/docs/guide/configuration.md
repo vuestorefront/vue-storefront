@@ -85,4 +85,10 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
 
 ## Configuring Middleware
 
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/configuration.html"
+ shopify="/shopify/api-client.html"
+/>
+
 There are certain things related to Integration Middleware that are not tied to any specific integration like setting custom GraphQL queries you can configure. You can read more about the Middleware and its configuration [here](/v2/advanced/server-middleware).
+

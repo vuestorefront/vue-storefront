@@ -211,7 +211,7 @@ export default {
 
 For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)
 
-## Anatomy of a Composable
+## Anatomy of a composable
 
 Every Vue Storefront composable usually returns three main pieces:
 
@@ -261,9 +261,49 @@ export default {
 
 In the future, Vue 3 will provide an async setup and `onSSR` won't be needed anymore.
 
+## What composables I can use?
+
+Vue Storefront integrations are exposing the following composables:
+
+#### Product Catalog
+
+- `useProduct` for managing a single product with variants (or a list)
+- `useCategory` for managing category lists (but not category products)
+- `useFacet` for complex catalog search with filtering
+- `useReview` for product reviews
+
+#### User Profile and Authorization
+
+- `useUser` for managing user sessions, credentials and registration
+- `useUserShipping` for managing shipping addresses
+- `useUserBilling` for managing billing addresses
+- `useUserOrder` for managing past and active user orders
+
+#### Shopping Cart
+
+- `useCart` for loading the cart, adding/removing products and discounts
+
+#### Wishlist/Favourite
+
+- `useWishlist` for loading the wishlist, adding/removing products
+
+#### CMS Content
+
+- `useContent` for fetching the CMS content. It is usually used in combination with `<RenderContent>`component
+
+#### Checkout
+
+- `useCheckout` for saving the shipping and billing address for a current order, choosing a shipping method, making payments, and placing the order
+
+#### Other
+
+- `useVSFContext` for accessing the integration API methods and client instances
+
+In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
+
 ## Error handling
 
-A flexible way of error handling is essential for a framework like Vue Storefront. As composables are the heart of our app, we decided to put the whole error handling mechanism there.
+A flexible way of error handling is essential for a framework like Vue Storefront. We decided to put all errors in reactive objects so they can be easily managed in the template.
 
 Each composable returns an `error` computed property. It is an object which has names of async functions from composable as keys and Error instance or `null` as a value.
 

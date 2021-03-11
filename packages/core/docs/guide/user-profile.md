@@ -265,3 +265,25 @@ export default {
   ]
 }
 ```
+## Integration references
+
+### `useUser`
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/composables/use-user.html"
+ shopify="/shopify/use-user.html"
+/>
+
+### `useUserBilling`
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/composables/use-user-billing.html"
+ shopify="WIP"
+/>
+
+### `useUserShipping`
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/composables/use-user-shipping.html"
+ shopify="WIP"
+/>

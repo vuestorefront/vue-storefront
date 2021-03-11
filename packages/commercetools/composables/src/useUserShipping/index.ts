@@ -1,4 +1,5 @@
 import { useUserShippingFactory, UseUserShippingFactoryParams, Context } from '@vue-storefront/core';
+import { makeId } from '../helpers/internals';
 
 const addresses: any[] = [
   {
@@ -8,8 +9,8 @@ const addresses: any[] = [
     streetName: 'Warsawska',
     streetNumber: '193A',
     apartment: '193A',
-    city: 'Phoenix',
-    state: null,
+    city: 'Palo Alto',
+    state: 'California',
     postalCode: '26-620',
     country: 'US',
     phone: '560123456',
@@ -24,8 +25,8 @@ const addresses: any[] = [
     streetName: 'Starachowicka',
     streetNumber: '193A',
     apartment: '193A',
-    city: 'Atlanta',
-    state: null,
+    city: 'Las Vegas',
+    state: 'Nevada',
     postalCode: '53-603',
     country: 'US',
     phone: '560123456',
@@ -38,8 +39,6 @@ const addresses: any[] = [
 const shipping = {
   addresses
 };
-
-const findBiggestId = () => addresses.reduce((highest, { id }) => Math.max(highest, id), 0);
 
 const disableOldDefault = () => {
   const oldDefault = addresses.find(address => address.isDefault);
@@ -63,7 +62,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
 
     const newAddress = {
       ...params.address,
-      id: findBiggestId() + 1
+      id: makeId()
     };
 
     if (params.address.isDefault) {

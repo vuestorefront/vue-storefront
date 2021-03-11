@@ -111,15 +111,29 @@
         </ValidationProvider>
         <ValidationProvider
           name="state"
+          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
+          v-slot="{ errors }"
           slim
         >
-          <SfInput
+          <SfSelect
             :value="billingDetails.state"
             @input="state => changeBillingDetails('state', state)"
             label="State/Province"
             name="state"
-            class="form__element form__element--half form__element--half-even"
-          />
+            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+            :disabled="!statesInSelectedCountry"
+          >
+            <SfSelectOption
+              v-for="state in statesInSelectedCountry"
+              :key="state"
+              :value="state"
+            >
+              {{ state }}
+            </SfSelectOption>
+          </SfSelect>
         </ValidationProvider>
         <ValidationProvider
           name="country"
@@ -194,7 +208,7 @@
           <SfButton
             class="form__action-button"
             type="submit"
-            :disabled="loading"
+            :disabled="!canMoveForward"
           >
             {{ $t('Continue to payment') }}
           </SfButton>
@@ -266,6 +280,16 @@ export default {
     const sameAsShipping = ref(false);
     let oldBilling = null;
 
+    const canMoveForward = computed(() => !loading.value && billingDetails.value && Object.keys(billingDetails.value).length);
+
+    const statesInSelectedCountry = computed(() => {
+      if (!billingDetails.value.country) {
+        return null;
+      }
+      const selectedCountry = config.countries.find(country => country.name === billingDetails.value.country);
+      return selectedCountry && selectedCountry.states;
+    });
+
     const hasSavedBillingAddress = computed(() => {
       if (!isAuthenticated.value || !userBilling.value) {
         return false;
@@ -315,7 +339,10 @@ export default {
     };
 
     const changeBillingDetails = (field, value) => {
-      billingDetails.value[field] = value;
+      billingDetails.value = {
+        ...billingDetails.value,
+        [field]: value
+      };
       currentAddressId.value = NOT_SELECTED_ADDRESS;
     };
 
@@ -329,6 +356,13 @@ export default {
     // Update local state if we have new address' response from the backend
     watch(address, addr => {
       billingDetails.value = addr || {};
+    });
+
+    watch(statesInSelectedCountry, statesInSelectedCountry => {
+      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+      if (!countryHasStates && billingDetails.value.state) {
+        billingDetails.value.state = null;
+      }
     });
 
     onSSR(async () => {
@@ -370,7 +404,9 @@ export default {
       changeBillingDetails,
       sameAsShipping,
       shippingDetails,
-      loading
+      statesInSelectedCountry,
+      loading,
+      canMoveForward
     };
   }
 };
@@ -384,6 +420,7 @@ export default {
   &__select {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     --select-option-font-size: var(--font-size--lg);
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size--lg);
@@ -391,6 +428,10 @@ export default {
       color: var(--c-text);
       font-family: var(--font-family--secondary);
       font-weight: var(--font-weight--normal);
+    }
+
+    ::v-deep .sf-select__label {
+      left: initial;
     }
   }
   @include for-desktop {
