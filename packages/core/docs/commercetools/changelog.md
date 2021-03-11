@@ -1,5 +1,18 @@
 # Changelog
 
+# 1.1.5
+- remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
+
+# 1.1.3
+- cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
+
+# 1.1.2
+- moved from using `attributesList` to `attributesRaw`
+- add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
+
+## 1.1.1
+- fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
+
 ## 1.1.0
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
