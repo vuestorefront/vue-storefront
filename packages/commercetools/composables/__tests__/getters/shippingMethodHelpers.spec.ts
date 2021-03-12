@@ -18,7 +18,7 @@ describe('[commercetools-getters] shipping method', () => {
 
   it('returns shipping method description', () => {
     expect(getShippingMethodDescription(null)).toEqual('');
-    expect(getShippingMethodDescription({ description: 'description' } as any)).toEqual('description');
+    expect(getShippingMethodDescription({ localizedDescription: 'description' } as any)).toEqual('description');
   });
 
   it('returns shipping method price', () => {

@@ -77,7 +77,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'createCart' },
-      currentToken: { scope }
+      currentToken: { scope },
+      response: { errors: [] }
     });
 
     expect(result).toMatchObject({ scope });
@@ -89,7 +90,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
-      currentToken: { scope }
+      currentToken: { scope },
+      response: { errors: [] }
     });
 
     expect(result).toMatchObject({ scope });
@@ -105,7 +107,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
       },
-      currentToken: { scope }
+      currentToken: { scope },
+      response: { errors: [] }
     });
 
     expect(result).toMatchObject({ scope, access_token: 'LOGIN_TOKEN' });
@@ -122,7 +125,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
       },
-      currentToken: { scope }
+      currentToken: { scope },
+      response: { errors: [] }
     });
 
     expect(result).toMatchObject({ scope, access_token: 'LOGIN_TOKEN' });
