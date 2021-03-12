@@ -181,13 +181,13 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
 }
 
 export interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 export interface UseCart
 <
