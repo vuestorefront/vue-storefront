@@ -34,7 +34,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseCartErrors> = sharedRef({}, 'useCart-error');
+    const error: Ref<UseCartErrors> = sharedRef({
+      addItem: null,
+      removeItem: null,
+      updateItemQty: null,
+      load: null,
+      clear: null,
+      applyCoupon: null,
+      removeCoupon: null
+    }, 'useCart-error');
 
     const setCart = (newCart: CART) => {
       cart.value = newCart;
@@ -46,13 +54,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
-        error.value.addItem = null;
         const updatedCart = await _factoryParams.addItem({
           currentCart: cart.value,
           product,
           quantity,
           customQuery
         });
+        error.value.addItem = null;
         cart.value = updatedCart;
       } catch (err) {
         error.value.addItem = err;
