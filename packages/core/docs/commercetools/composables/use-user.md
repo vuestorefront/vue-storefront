@@ -113,12 +113,12 @@ interface UseUserLoginParams {
 
 ```ts
 interface UseUserErrors {
-  updateUser?: Error;
-  register?: Error;
-  login?: Error;
-  logout?: Error;
-  changePassword?: Error;
-  load?: Error;
+  updateUser: Error;
+  register: Error;
+  login: Error;
+  logout: Error;
+  changePassword: Error;
+  load: Error;
 }
 ```
 

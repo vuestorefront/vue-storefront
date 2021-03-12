@@ -89,7 +89,7 @@ type Order = {
 
 ```ts
 interface UseUserOrderErrors {
-  search?: Error;
+  search: Error;
 }
 ```
 

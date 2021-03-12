@@ -163,11 +163,11 @@ type User = Customer;
 
 ```ts
 interface UseUserShippingErrors {
-  addAddress?: Error;
-  deleteAddress?: Error;
-  updateAddress?: Error;
-  load?: Error;
-  setDefaultAddress?: Error;
+  addAddress: Error;
+  deleteAddress: Error;
+  updateAddress: Error;
+  load: Error;
+  setDefaultAddress: Error;
 }
 ```
 
