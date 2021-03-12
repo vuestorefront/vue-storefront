@@ -30,7 +30,7 @@ It's a great strategy for migrations since you can easily migrate from one platf
 
 ![Architecture diagram](https://raw.githubusercontent.com/vuestorefront/vue-storefront/master/docs/.vuepress/public/GitHub-Architecture-VS.png)
 
-- **VSBridge Indexer** ([magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) on the image) is multi-process data synchronizer between Magento and ElasticSearch which is sending data about products, categories, taxrules, attributes, cms blocks and cms pages.
+- **VSBridge Indexer** ([magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) on the image) is multi-process data synchronizer between Magento and Elasticsearch which is sending data about products, categories, taxrules, attributes, cms blocks and cms pages.
 
 - **VSF-API (or SF-API)** is just a proxy to the eCommerce backend which gives us variety of benefits like caching layer, mapping to agnostic types, possibility to create own "processors" (mapping functions for certain entities).
 
