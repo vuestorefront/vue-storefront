@@ -27,6 +27,10 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       Logger.debug('useUserFactory.setUser', newUser);
     };
 
+    const resetErrorValue = () => {
+      error.value = {};
+    };
+
     const updateUser = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.updateUser', providedUser);
 
@@ -44,13 +48,14 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const register = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.register', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
         error.value.register = null;
         user.value = await factoryParams.register(context, providedUser);
       } catch (err) {
-        error.value.register = err;
+        error.value.register = err.response?.data || err;
         Logger.error('useUser/register', err);
       } finally {
         loading.value = false;
@@ -59,13 +64,14 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const login = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.login', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
         error.value.login = null;
         user.value = await factoryParams.logIn(context, providedUser);
       } catch (err) {
-        error.value.login = err;
+        error.value.login = err.response?.data || err;
         Logger.error('useUser/login', err);
       } finally {
         loading.value = false;
