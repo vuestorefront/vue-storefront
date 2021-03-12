@@ -318,8 +318,8 @@ export interface UseShippingProviderErrors {
 }
 
 export interface UseBillingErrors {
-  load?: Error;
-  save?: Error;
+  load: Error;
+  save: Error;
 }
 
 export interface UseBilling<BILLING, BILLING_PARAMS> {
