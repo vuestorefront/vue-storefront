@@ -46,12 +46,12 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       try {
         loading.value = true;
-        error.value.addItem = null;
         const updatedWishlist = await _factoryParams.addItem({
           currentWishlist: wishlist.value,
           product,
           customQuery
         });
+        error.value.addItem = null;
         wishlist.value = updatedWishlist;
       } catch (err) {
         error.value.addItem = err;
@@ -66,12 +66,12 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       try {
         loading.value = true;
-        error.value.removeItem = null;
         const updatedWishlist = await _factoryParams.removeItem({
           currentWishlist: wishlist.value,
           product,
           customQuery
         });
+        error.value.removeItem = null;
         wishlist.value = updatedWishlist;
       } catch (err) {
         error.value.removeItem = err;
@@ -87,8 +87,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       try {
         loading.value = true;
-        error.value.load = null;
         wishlist.value = await _factoryParams.load({ customQuery });
+        error.value.load = null;
       } catch (err) {
         error.value.load = err;
         Logger.error('useWishlist/load', err);
@@ -102,10 +102,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
 
       try {
         loading.value = true;
-        error.value.clear = null;
         const updatedWishlist = await _factoryParams.clear({
           currentWishlist: wishlist.value
         });
+        error.value.clear = null;
         wishlist.value = updatedWishlist;
       } catch (err) {
         error.value.clear = err;

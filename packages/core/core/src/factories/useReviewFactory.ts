@@ -24,8 +24,8 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
 
       try {
         loading.value = true;
-        error.value.search = null;
         reviews.value = await _factoryParams.searchReviews(searchParams);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error(`useReview/${id}/search`, err);
@@ -39,8 +39,8 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
 
       try {
         loading.value = true;
-        error.value.addReview = null;
         reviews.value = await _factoryParams.addReview(params);
+        error.value.addReview = null;
       } catch (err) {
         error.value.addReview = err;
         Logger.error(`useReview/${id}/addReview`, err);
