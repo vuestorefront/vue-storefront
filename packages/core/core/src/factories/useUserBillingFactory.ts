@@ -42,7 +42,13 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserBillingErrors> = sharedRef({}, 'useUserBilling-error');
+    const error: Ref<UseUserBillingErrors> = sharedRef({
+      addAddress: null,
+      deleteAddress: null,
+      updateAddress: null,
+      load: null,
+      setDefaultAddress: null
+    }, 'useUserBilling-error');
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
@@ -51,11 +57,11 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.addAddress = null;
         billing.value = await _factoryParams.addAddress({
           address,
           billing: readonlyBilling
         });
+        error.value.addAddress = null;
       } catch (err) {
         error.value.addAddress = err;
         Logger.error('useUserBilling/addAddress', err);
@@ -69,11 +75,11 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.deleteAddress = null;
         billing.value = await _factoryParams.deleteAddress({
           address,
           billing: readonlyBilling
         });
+        error.value.deleteAddress = null;
       } catch (err) {
         error.value.deleteAddress = err;
         Logger.error('useUserBilling/deleteAddress', err);
@@ -87,11 +93,11 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.updateAddress = null;
         billing.value = await _factoryParams.updateAddress({
           address,
           billing: readonlyBilling
         });
+        error.value.updateAddress = null;
       } catch (err) {
         error.value.updateAddress = err;
         Logger.error('useUserBilling/updateAddress', err);
@@ -105,10 +111,10 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.load = null;
         billing.value = await _factoryParams.load({
           billing: readonlyBilling
         });
+        error.value.load = null;
       } catch (err) {
         error.value.load = err;
         Logger.error('useUserBilling/load', err);
@@ -122,11 +128,11 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.setDefaultAddress = null;
         billing.value = await _factoryParams.setDefaultAddress({
           address,
           billing: readonlyBilling
         });
+        error.value.setDefaultAddress = null;
       } catch (err) {
         error.value.setDefaultAddress = err;
         Logger.error('useUserBilling/setDefaultAddress', err);

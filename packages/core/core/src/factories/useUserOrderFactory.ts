@@ -18,8 +18,8 @@ export function useUserOrderFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: 
 
       try {
         loading.value = true;
-        error.value.search = null;
         orders.value = await _factoryParams.searchOrders(searchParams);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error('useUserOrder/search', err);

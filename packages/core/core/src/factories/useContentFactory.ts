@@ -13,7 +13,9 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
-    const error: Ref<UseContentErrors> = sharedRef({}, `useContent-error-${id}`);
+    const error: Ref<UseContentErrors> = sharedRef({
+      search: null
+    }, `useContent-error-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
@@ -21,8 +23,8 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
 
       try {
         loading.value = true;
-        error.value.search = null;
         content.value = await _factoryParams.search(params);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error(`useContent/${id}/search`, err);

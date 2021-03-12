@@ -13,7 +13,10 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
-    const error: Ref<UseReviewErrors> = sharedRef({}, `useProduct-error-${id}`);
+    const error: Ref<UseReviewErrors> = sharedRef({
+      search: null,
+      addReview: null
+    }, `useReviews-error-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
 
     const search = async (searchParams): Promise<void> => {

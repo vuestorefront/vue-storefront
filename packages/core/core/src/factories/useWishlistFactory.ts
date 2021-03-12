@@ -29,7 +29,12 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseWishlistErrors> = sharedRef({}, 'useWishlist-error');
+    const error: Ref<UseWishlistErrors> = sharedRef({
+      addItem: null,
+      removeItem: null,
+      load: null,
+      clear: null
+    }, 'useWishlist-error');
 
     const setWishlist = (newWishlist: WISHLIST) => {
       wishlist.value = newWishlist;
