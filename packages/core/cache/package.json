@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cache",
-  "version": "2.2.1",
+  "version": "2.3.0-rc.1",
   "license": "MIT",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "0.17.0",
-    "@vue-storefront/core": "^2.2.1"
+    "@vue-storefront/core": "^2.3.0-rc.1"
   },
   "publishConfig": {
     "access": "public"
