@@ -25,7 +25,7 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
     const { email, password } = apolloReq.variables.draft;
     Logger.debug('Apollo authLinkAfter, customerPasswordFlow', apolloReq.operationName);
 
-    if (!response.errors.length) {
+    if (!response.errors?.length) {
       const token = await sdkAuth.customerPasswordFlow({ username: email, password });
       tokenProvider.setTokenInfo(token);
       Logger.debug('Apollo authLinkAfter, customerPasswordFlow, generated token: ', getAccessToken(token));
