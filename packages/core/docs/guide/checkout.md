@@ -187,6 +187,7 @@ export default {
 ```
 
 When the order is created, we can redirect the user to the page thanking them for making an order and refresh the cart.
+
 ```js
 import { useMakeOrder, useCart } from '{INTEGRATION}';
 
