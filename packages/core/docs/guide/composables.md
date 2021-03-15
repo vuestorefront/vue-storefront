@@ -353,7 +353,7 @@ In this example, we are using `useUiNotification` - a composable that handles no
 
 If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
 
-Since the comminication with an API goes over the our middleware, all of the queries also are defined there.
+Since the communication with the API goes through our middleware, all queries also are defined there.
 
 To customize or even totally override the original (default) queries you need to follow two steps.
 
@@ -370,7 +370,7 @@ search({ customQuery: { products: 'my-products-query' } });
 In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As a second step, we need to define that function.
 
 
-Each definition of query function we can find in the `middleware.config.js`. Therefore, this is the place where we define `my-products-query`:
+Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`:
 
 ```js
 module.exports = {

@@ -67,7 +67,7 @@ Each entry under the `integrations` section starts with a tag name of given inte
 
 Middleware allows you to inject into the lifecycle of the entire network flow, starting with configuring a connection and ending with a final response. To use those things, we created an extension feature.
 
-You can define as many extensions as you want. Remember they are always correlated with a specyfic API-client (integration). How they look like? Each extension has the followin structure:
+You can define as many extensions as you want. Remember they are always correlated with a specific API-client (integration). How do they look like? Each extension has the following structure:
 
 ```js
 const extension = {
