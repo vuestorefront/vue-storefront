@@ -206,7 +206,8 @@ export default {
 ```
 
 ## Payment providers
-A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one 3rd party provider of payments like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.   
+
+A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one third-party provider of payments like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as third-party integration.   
 
 The component is responsible for:
 - Loading and displaying available payment methods.
