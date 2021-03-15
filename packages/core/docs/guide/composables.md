@@ -351,7 +351,7 @@ In this example, we are using `useUiNotification` - a composable that handles no
 
 ### How to customize graphql queries?
 
-If the integration you are currently using has GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case so Vue Storefront also provides that ability.
+If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
 
 Since the comminication with an API goes over the our middleware, all of the queries also are defined there.
 
