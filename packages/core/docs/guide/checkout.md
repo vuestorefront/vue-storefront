@@ -170,7 +170,8 @@ export default {
 ```
 
 ## Making an order
-After user provided every information required by our eComerce, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
+
+After the user has provided all the information required by our eCommerce, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
 ```js
 import { useMakeOrder } from '{INTEGRATION}';
 
