@@ -72,7 +72,8 @@ The component is responsible for:
 - Loading selected shipping method.
 - Selecting and configuring shipping method.
 
-All we have to do is import and put in the view.
+All we have to do is to import a component and add it to the template.
+
 ```vue
 <VsfShippingProvider
   @submit="$router.push('/checkout/billing')"
