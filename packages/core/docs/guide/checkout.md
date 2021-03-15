@@ -82,7 +82,8 @@ All we have to do is to import a component and add it to the template.
 
 `VsfShippingProvider` emits `submit` event when shipping method is selected, configured and user clicks submit button.
 
-### Extending `VsfShippingProvider` and reacting to it's events
+### Extending `VsfShippingProvider` and reacting to its events
+
 We can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
 
 Because every shipping provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
