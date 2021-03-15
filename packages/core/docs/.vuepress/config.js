@@ -138,7 +138,7 @@ module.exports = {
 						['/shopify/use-product', 'useProduct'],
 						['/shopify/use-search', 'useSearch'],
 						['/shopify/use-user', 'useUser'],
-						['/shopify/use-user-orders', 'useUserOrders'],
+						['/shopify/use-user-order', 'useUserOrders'],
 					]
 				}, {
 					title: 'Other',
