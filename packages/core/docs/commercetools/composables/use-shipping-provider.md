@@ -9,7 +9,7 @@
 
 ## API
 
-- `load` - function for fetching shipping method. When invoked, it requests data from the API and populates `response` key inside `state` property. This method accepts a single optional `params` object. The `params` has the following option:
+- `load` - function for fetching shipping method. When invoked, it requests data from the API and populates the `response` key inside the `state` property. This method accepts a single optional `params` object. The `params` has the following option:
 
     - `customQuery?: CustomQuery`
 
