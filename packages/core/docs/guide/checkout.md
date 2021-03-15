@@ -110,7 +110,7 @@ Because every shipping provider is different, not all of them are present in eve
 
 :::details Loading and saving a shipping method
 
-Under the hood, `VsfShippingProvider` uses `useShippingProvider` composable for loading and saving a current shipping method.
+Under the hood, `VsfShippingProvider` uses `useShippingProvider` composable for loading and saving a current shipping method. This information is stored in some property of `state` object. 
 
 It is extra useful inside a different component which uses this data - e.g. order summary.
 
