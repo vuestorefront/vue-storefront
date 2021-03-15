@@ -300,7 +300,8 @@ export default {
 </script>
 ```
 
-### Extending `VsfPaymentProvider` and reacting to it's events
+### Extending `VsfPaymentProvider` and reacting to its events
+
 We can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
 
 Because every payment provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
