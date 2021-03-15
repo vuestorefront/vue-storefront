@@ -2,7 +2,7 @@
 
 ## Features
 
-`useShippingProvider` composable can be use to:
+`useShippingProvider` composable can be used for:
 
 * Loading shipping methods for the current cart.
 * Selecting shipping method for the current cart.
