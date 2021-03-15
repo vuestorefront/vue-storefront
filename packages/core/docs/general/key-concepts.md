@@ -95,7 +95,7 @@ You can read more about Vue Storefront Context [here](/advanced/context)
 
 When it comes to the networking layer, Vue Storefront uses a middleware that is a bridge between front-end and other backends (eCommerce or 3rd party services). The front-end always calls middleware that is redirecting requests to correlated destinations. It allows developers to implement custom logic to inject into the lifecycle of the requests or even create custom API endpoints if needed.
 
-You can read more about Vue Storefront Middleware [here](/advanced/server-middleware)
+You can read more about Vue Storefront Middleware on the [Server Middleware](/advanced/server-middleware) page.
 
 
 ## Integrations
