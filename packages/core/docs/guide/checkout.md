@@ -111,7 +111,8 @@ Because every shipping provider is different, not all of them are present in eve
 
 Billing details are information about the payer's address used by store owners to prepare invoices and payment providers to evaluate the probability of fraud payment.
 
-We can load billing details by calling the `load` method in `useBilling` composable and use the `billing` property to access it.
+We can load billing details by calling the `load` method in `useBilling` composable and accessing the `billing` property after loading is done.
+
 ```js{8,16}
 import { useBilling } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
