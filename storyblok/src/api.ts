@@ -5,9 +5,9 @@ export const getContent = async (
   { client, config }: ApiContext,
   { slug }: ContentSearchParams,
 ): Promise<any> => {
-  const { accessToken, cacheProvider } = config
+  const { token, cacheProvider } = config
   const Storyblok = new client({
-    accessToken,
+    accessToken: token,
     cache: {
       clear: 'auto',
       type: cacheProvider,

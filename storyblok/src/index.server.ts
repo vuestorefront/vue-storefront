@@ -4,22 +4,22 @@ import StoryblokClient from 'storyblok-js-client'
 
 import { getContent } from './api'
 
-const setup = ({ accessToken, cacheProvider }: ContentSearchParams) => {
+const setup = ({ token, cacheProvider }: ContentSearchParams) => {
   return {
     client: StoryblokClient,
     config: {
-      accessToken,
+      token,
       cacheProvider,
     },
   }
 }
 
 const { createApiClient } = apiClientFactory({
-  tag: 'sb',
-  onSetup: setup,
+  onCreate: setup,
   api: {
     getContent,
   },
 } as any)
 
-export default createApiClient
+export { createApiClient }
+

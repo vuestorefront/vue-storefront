@@ -1,5 +1,8 @@
+.idea
+
 node_modules
 coverage
 
 # Module
 lib
+package-lock.json

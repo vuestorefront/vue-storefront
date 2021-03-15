@@ -5,7 +5,7 @@ const search = async (
   context: Context,
   params: ContentSearchParams,
 ): Promise<any> => {
-  return await context.$sb.api.getContent(params)
+  return context.$sb.api.getContent(params)
 }
 const useContent: (
   cacheId: string,
