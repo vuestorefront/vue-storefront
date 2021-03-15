@@ -2,7 +2,7 @@
 
 ## What is Vue Storefront Middleware and why we need it?
 
-The Vue Storefront middleware is an express.js proxy that taking the requests from the front-end translates them to a certain integration and call-related API-client.
+The Vue Storefront middleware is an Express proxy that takes the requests from the front-end, translates them to a given integration, and calls related API-client.
 
 We have implemented it for a variety of reasons.
 
