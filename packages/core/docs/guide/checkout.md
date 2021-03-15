@@ -3,7 +3,8 @@
 Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
 ## Collecting and saving shipping details
-Shipping details are information about the recipient's address needed to ship the order.
+
+Shipping details are information about the recipient's address required to ship the order.
 
 We can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
 ```js{8,16}
