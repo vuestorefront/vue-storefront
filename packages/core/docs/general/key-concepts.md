@@ -100,4 +100,4 @@ You can read more about Vue Storefront Middleware on the [Server Middleware](/ad
 
 ## Integrations
 
-Even though high-level APIs are the same for all Vue Storefront integrations they're different on the low level (data formats, search params). Check the docs of a specific platform on the left side under the "eCommerce integrations" tab to learn about them.
+Even though high-level APIs are the same for all Vue Storefront integrations, they are different on the low level (data formats, search params). Check the documentation for a specific platform to learn more.
