@@ -256,8 +256,9 @@ export default {
 </script>
 ```
 
-### SDK allows to externalize pay method
-If payment provider's SDK handles process of configuring payment but allows us to decide when to finalize then:
+### SDK allows externalizing pay method
+
+If the payment provider's SDK handles the process of configuring payment but allows us to decide when to finalize then:
 - VsfPaymentProvider emits `status` event. Use this information to enable/disable `Place order` button.
 - Composable shares a `pay` method.
 
