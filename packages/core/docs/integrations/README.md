@@ -4,12 +4,15 @@ Click on the integration tile to read its documentation.
 
 ## eCommerce platforms
 
+> Packages marked as `Enterprise` are part of Vue Storefrotn Enterprise offering and packages without `From Core Team` badge are created and maintained by our partners.
+
 <IntegrationList>
   <IntegrationTile
     name="Commercetools"
     image="https://www.deloittedigital.de/en/solutions/commercetools/_jcr_content/par/component_container/par/column_ctrl/col3/image.coreimg.png/1593072562788/commercetools-logo.png"
     category="eCommerce"
     isEnterprise="true"
+    :from-core="true"
     link="/v2/commercetools"
   />
   <IntegrationTile
@@ -18,12 +21,6 @@ Click on the integration tile to read its documentation.
     category="eCommerce"
     isBeta="true"
     link="/v2/shopify"
-  />
-  <IntegrationTile
-    name="BigCommerce"
-    image="https://s3.amazonaws.com/www1.bigcommerce.com/assets/mediakit/downloads/BigCommerce-logo-dark.png"
-    category="eCommerce"
-    isWip="true"
   />
   <IntegrationTile
     name="Salesforce Commerce Cloud"
@@ -38,8 +35,8 @@ Click on the integration tile to read its documentation.
     isWip="true"
   />
   <IntegrationTile
-    name="You will learn when the time is right"
-    image="https://static.wikia.nocookie.net/fouls/images/7/7c/Noimage.png/revision/latest?cb=20200926233758"
+    name="BigCommerce"
+    image="https://s3.amazonaws.com/www1.bigcommerce.com/assets/mediakit/downloads/BigCommerce-logo-dark.png"
     category="eCommerce"
     isWip="true"
   />
@@ -55,6 +52,7 @@ Click on the integration tile to read its documentation.
     :compatibility="[]"
     isOpenSource="true"
     isEnterprise="true"
+    :from-core="true"
     link="https://docs.vuestorefront.io/storyblok"
   />
   <IntegrationTile
@@ -63,6 +61,7 @@ Click on the integration tile to read its documentation.
     isEnterprise="true"
     :compatibility="[]"
     category="CMS"
+    :from-core="true"
     link="https://docs.vuestorefront.io/amplience"
   />
   <IntegrationTile
@@ -71,6 +70,7 @@ Click on the integration tile to read its documentation.
     isEnterprise="true"
     :compatibility="[]"
     category="CMS"
+    :from-core="true"
     link="https://docs.vuestorefront.io/contentstack"
   />
   <IntegrationTile
@@ -79,6 +79,7 @@ Click on the integration tile to read its documentation.
     isEnterprise="true"
     :compatibility="[]"
     category="CMS"
+    :from-core="true"
     link="https://docs.vuestorefront.io/contentful/"
   />
   <IntegrationTile
@@ -94,8 +95,8 @@ Click on the integration tile to read its documentation.
     category="Payment"
     isOpenSource="true"
     :compatibility="['commercetools']"
-    link="https://github.com/LexasCMS/vsf-next-lexascms"
-
+    :from-core="true"
+    link="https://www.npmjs.com/package/@vue-storefront/checkout-com"
   />
   <IntegrationTile
     name="Adyen"
@@ -103,12 +104,21 @@ Click on the integration tile to read its documentation.
     category="Payment"
     isOpenSource="true"
     isWip="true"
+    :from-core="true"
     :compatibility="['commercetools']"
   />
   <IntegrationTile
     name="Bloomreach"
     image="https://commercetools.com/wp-content/uploads/2018/07/bloomreach_logo.png"
     :category="['CMS', 'search']"
+    :compatibility="['commercetools']"
+    :from-core="true"
+    isWip="true"
+  />
+  <IntegrationTile
+    name="Magnolia"
+    image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Magnolia_%28CMS%29_logo.svg/1280px-Magnolia_%28CMS%29_logo.svg.png"
+    category="['Authentication']"
     :compatibility="['commercetools']"
     isWip="true"
   />
@@ -117,6 +127,7 @@ Click on the integration tile to read its documentation.
     image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmB9-ZV9SViKzkOzrKlgPvZPC0nbAbLQoAPA&usqp=CAU"
     category="Payment"
     :compatibility="['commercetools']"
+    :from-core="true"
     isWip="true"
   />
   <IntegrationTile
@@ -124,6 +135,7 @@ Click on the integration tile to read its documentation.
     image="https://seekvectorlogo.com/wp-content/uploads/2019/07/algolia-vector-logo.png"
     category="['CMS', 'search']"
     :compatibility="['commercetools']"
+    :from-core="true"
     isWip="true"
   />
   <IntegrationTile
@@ -131,6 +143,7 @@ Click on the integration tile to read its documentation.
     image="https://cdn.geekwire.com/wp-content/uploads/2015/06/Auth0-300x122.png"
     category="['Authentication']"
     :compatibility="['commercetools']"
+    :from-core="true"
     isWip="true"
   />
 </IntegrationList>
