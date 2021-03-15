@@ -1,6 +1,6 @@
 import { useUiNotification } from '../../composables';
 
-export const cart = (i18n, router) => {
+export const cart = ({ i18n, router }) => {
   const addItem = ({ productName, error }) => {
     const { send } = useUiNotification();
 

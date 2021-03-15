@@ -6,7 +6,7 @@ const sendNotification = () => {
   const { i18n, router } = app;
 
   return {
-    cart: cart(i18n, router)
+    cart: cart({ i18n, router })
   };
 };
 
