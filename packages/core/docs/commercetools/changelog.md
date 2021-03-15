@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.1.7
+- fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
+
+# 1.1.6
+- fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
+
 # 1.1.5
 - remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
