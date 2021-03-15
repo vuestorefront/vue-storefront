@@ -181,7 +181,7 @@ module.exports = {
 					children: [
 						['/advanced/architecture', 'Architecture'],
 						['/advanced/context', 'Application Context'],
-						['/advanced/calling-platform-api', 'Calling Platform Api'],
+						['/advanced/calling-platform-api', 'Calling Platform API'],
 						['/advanced/server-middleware', 'Server Middleware'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
