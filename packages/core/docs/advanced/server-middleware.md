@@ -14,7 +14,7 @@ Performance optimizations - since we moved the networking layer to the server-si
 
 ## How it works (in a nutshell)
 
-The way of how it works represents the following diagram:
+The way it works represents the following diagram:
 
 <center>
   <img src="../images/middleware-diagram.jpg" alt="Middleware Diagram" />
