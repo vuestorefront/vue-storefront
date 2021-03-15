@@ -4,7 +4,7 @@ Checkout is a process of providing shipping and billing addresses and selecting 
 ## Collecting and saving shipping details
 Shipping details are information about the recipient's address needed to ship the order.
 
-We can load shipping details by calling the `load` method in `useShipping` composable and use the `shipping` property to access it.
+We can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
 ```js{8,16}
 import { useShipping } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
