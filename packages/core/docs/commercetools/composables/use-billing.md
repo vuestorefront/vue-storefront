@@ -2,7 +2,7 @@
 
 ## Features
 
-`useBilling` composable can be use to:
+`useBilling` composable can be used for:
 
 * Loading billing address for the current cart.
 * Saving billing address for the current cart.
