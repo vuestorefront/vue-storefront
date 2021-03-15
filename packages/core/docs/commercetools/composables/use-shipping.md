@@ -2,7 +2,7 @@
 
 ## Features
 
-`useShipping` composable can be use to:
+`useShipping` composable can be used for:
 
 * Loading shipping address for the current cart.
 * Saving shipping address for the current cart.
