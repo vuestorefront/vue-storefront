@@ -107,6 +107,34 @@ Because every shipping provider is different, not all of them are present in eve
   :onError="onError"
 />
 ```
+
+:::details Loading and saving a shipping method
+
+Under the hood, `VsfShippingProvider` uses `useShippingProvider` composable for loading and saving a current shipping method.
+
+It is extra useful inside a different component which uses this data - e.g. order summary.
+
+```ts
+import { useShippingProvider } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+
+export default {
+  setup () {
+    const { load, state } = useShippingProvider();
+
+    onSSR(async () => {
+      await load();
+    });
+
+    return {
+      selectedShippingMethod: computed(() => ...)
+    }
+  }
+}
+```
+:::
+
 ## Collecting and saving billing details
 
 Billing details are information about the payer's address used by store owners to prepare invoices and payment providers to evaluate the probability of fraud payment.
