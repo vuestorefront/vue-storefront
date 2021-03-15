@@ -64,7 +64,8 @@ export default {
 ```
 
 ## Selecting a shipping method
-`VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as a third-party integration.
+
+`VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as third-party integration.
 
 The component is responsible for:
 - Loading and displaying available shipping methods.
