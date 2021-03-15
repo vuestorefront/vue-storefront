@@ -31,6 +31,7 @@ export default {
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
 We can use `save` method to save shipping details so they're available next time we `load` them.
+
 ```vue{2,15,24}
 <template>
   <form @submit.prevent="save({ shippingDetails: shippingForm })">
