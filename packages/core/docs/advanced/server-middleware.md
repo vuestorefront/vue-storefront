@@ -17,7 +17,7 @@ Performance optimizations - since we moved the networking layer to the server-si
 The way it works represents the following diagram:
 
 <center>
-  <img src="../images/middleware-diagram.jpg" alt="Middleware Diagram" />
+  <img src="../images/middleware-diagram.jpg" alt="API Middleware Diagram" />
 </center>
 
 The API-client is being called only on the middleware, but you still can access it on the front-end side - how is that possible?
