@@ -171,7 +171,6 @@ module.exports = {
 						['/guide/composables', 'Composables'],
 						['/guide/authentication', 'Authentication'],
             			['/guide/user-profile', 'User profile'],
-						['/guide/authentication', 'Authentication'],
                         ['/guide/checkout', 'Checkout']
 					]
 				},
