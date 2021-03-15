@@ -222,7 +222,7 @@ export default {
 </script>
 ```
 
-The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described are two most common.
+The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described the two most common.
 
 ### SDK takes the full control
 If payment provider's SDK handles the whole payment and we can only provide own callbacks for certain events. We want to make an order in `beforePay` async hook.
