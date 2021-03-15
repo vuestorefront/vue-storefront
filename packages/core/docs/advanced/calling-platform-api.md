@@ -15,7 +15,7 @@ const { $ct } = useVSFContext();
 $ct.api.getProduct({ id: 1 })
 ```
 
-In the example above we have accessed the API-client for commercetools (Each integration has dedicated tag name, look at [context docs](/advanced/context)) and we called function `getProduct`.
+In the example above we access the API-client for `commercetools` and call `getProduct` function. Each integration has a dedicated tag name - for more information see [context docs](/advanced/context).
 
 
 
