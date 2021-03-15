@@ -214,7 +214,8 @@ The component is responsible for:
 - Loading selected payment method.
 - Picking and configuring payment method.
 
-The first thing we have to do is import and put in the view.
+The first thing we have to do is to import the component and add it to the template.
+
 ```vue
 <template>
   <!-- ... -->
