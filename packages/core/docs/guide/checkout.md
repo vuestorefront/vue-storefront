@@ -1,4 +1,5 @@
 # Checkout
+
 Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
 ## Collecting and saving shipping details
