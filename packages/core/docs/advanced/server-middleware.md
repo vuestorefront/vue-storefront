@@ -92,7 +92,7 @@ const extension = {
 - `hooks:beforeCreate` - called before API-client creates a connection, takes the given configuration as an argument, and must return the configuration. Here you can attach something else to the configuration or even change it.
 - `hooks:afterCreate` - Similar to the previous one, but called after the connection has been created. It also returns a configuration and you can change it.
 - `hooks:beforeCall` - Triggered before each API-client function. We have access to the configuration, function name, and its arguments. This function must return the arguments and based on the input parameters we can change it.
-- `hooks:afterCall` - Triggered after each API-client function.We have access to the configuration, function name, and its arguments. This function must return the response and based on the input parameters we can attach something to it.
+- `hooks:afterCall` - called after each API-client function.We have access to the configuration, function name, and its arguments. This function must return the response and based on the input parameters we can attach something to it.
 
 
 To register a created extension, we have to add it do the middleware config file:
