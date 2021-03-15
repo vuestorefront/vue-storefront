@@ -118,7 +118,7 @@ module.exports = {
 
 ## Separating middleware from Nuxt
 
-By default, Vue Storefront middleware is running within the Nuxt.js process. Sometimes there is a need to disconnect it from the app, and run it as a separate instance, and independent process.
+By default, Vue Storefront middleware is running within the Nuxt.js process. Sometimes there is a need to disconnect it from the app and run it as a separate and independent instance (process).
 
 Since is the real express.js application, you can do this, by creating file:
 
