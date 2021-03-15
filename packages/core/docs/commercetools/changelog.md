@@ -4,10 +4,10 @@
 - fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
 
 # 1.1.6
-- fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
+- fix register function from CT useUser composable allows user to log in ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
 
 # 1.1.5
-- remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
+- remove deprecated field `description` from shipping methods query ([#5614](https://github.com/vuestorefront/vue-storefront/issues/5614))
 
 # 1.1.3
 - cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
