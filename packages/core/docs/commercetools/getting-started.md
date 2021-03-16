@@ -33,7 +33,7 @@ Then paste these credentials into `ct` config object inside `integrations` in `m
     }
 ```
 
-There is plenty for other configuration options and you can check them [here](./configuration.md)
+There is plenty of other configuration options and you can check them [here](./configuration.md)
 
 ## Configuring other integrations
 
