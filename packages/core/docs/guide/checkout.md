@@ -30,7 +30,7 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-You can use `save` method to save shipping details so they're available next time you `load` them.
+You can use `save` method to save shipping details so they are available next time you `load` them.
 
 ```vue{2,15,24}
 <template>
@@ -84,7 +84,7 @@ All you have to do is to import a component and add it to the template.
 
 ### Extending `VsfShippingProvider` and reacting to its events
 
-You can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. You will call these methods "hooks".
+You can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. Let's call these methods "hooks".
 
 Because every shipping provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
@@ -110,12 +110,12 @@ Because every shipping provider is different, not all of them are present in eve
 
 ### Accessing current shipping method's details outside the component
 
-You have to show the information about a selected shipping method inside order review component. For that purpose, you need to load it and share between components.
+You have to show the information about a selected shipping method inside the order review component. For that purpose, you need to load it and share it between components.
 
-`useShippingProvider` is a composable created for loading and saving a current shipping method. After calling `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
+`useShippingProvider` is a composable created for loading and saving a current shipping method. After calling the `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
 
 :::warning
-The property's name depends on provider. Check documentation of your shipping provider to find it out.
+The property's name depends on the provider. Check the documentation of your shipping provider to find it out.
 :::
 
 ```ts
@@ -265,7 +265,7 @@ export default {
 </script>
 ```
 
-The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below you described the two most common.
+The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described the two most common.
 
 ### SDK takes the full control
 
@@ -295,7 +295,7 @@ export default {
 
 ### SDK allows externalizing pay method
 
-If the payment provider's SDK handles the process of configuring payment but allows us to decide when to finalize then:
+If the payment provider's SDK handles the process of configuring payment but allows you to decide when to finalize then:
 - VsfPaymentProvider emits `status` event. Use this information to enable/disable `Place order` button.
 - Composable shares a `pay` method.
 
@@ -339,7 +339,7 @@ export default {
 
 ### Extending `VsfPaymentProvider` and reacting to its events
 
-You can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. You will call these methods "hooks".
+You can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. Let's call these methods "hooks".
 
 Because every payment provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
@@ -369,4 +369,4 @@ Because every payment provider is different, not all of them are present in ever
 
 ### Why some integrations have a mocked `VsfPaymentProvider`?
 
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/)
+There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).
