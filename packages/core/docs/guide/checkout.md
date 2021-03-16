@@ -108,11 +108,13 @@ Because every shipping provider is different, not all of them are present in eve
 />
 ```
 
-:::details Loading and saving a shipping method
+### Accessing current shipping method's details outside the component
 
-Under the hood, `VsfShippingProvider` uses `useShippingProvider` composable for loading and saving a current shipping method. This information is stored in some property of `state` Ref. 
+`useShippingProvider` is a composable created for loading and saving a current shipping method. It stores the information in some property of a `state` object. 
 
-It is extra useful inside a different component which uses this data - e.g. order summary.
+:::warning
+The property's name depends on provider. Check documentation of your shipping provider to find it out.
+:::
 
 ```ts
 import { useShippingProvider } from '{INTEGRATION}';
@@ -133,7 +135,6 @@ export default {
   }
 }
 ```
-:::
 
 ## Collecting and saving billing details
 
