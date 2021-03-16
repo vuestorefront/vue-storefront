@@ -2,6 +2,8 @@
 
 Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
+This document only outlines the general checkout flow. Each eCommerce, Payment provider, and Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
+
 ## Collecting and saving shipping details
 
 Shipping details are information about the recipient's address required to ship the order.
@@ -110,13 +112,9 @@ Because every shipping provider is different, not all of them are present in eve
 
 ### Accessing current shipping method's details outside the component
 
-You have to show the information about a selected shipping method inside the order review component. For that purpose, you need to load it and share it between components.
+Sometimes you have to show the information about a selected shipping method in a different place than the `VsfShippingProvider` component.
 
-`useShippingProvider` is a composable created for loading and saving a current shipping method. After calling the `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
-
-:::warning
-The property's name depends on the provider. Check the documentation of your shipping provider to find it out.
-:::
+For such cases, you can use `useShippingProvider` composable. It has been made for loading and saving a current shipping method. After loading the data via `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
 
 ```ts
 import { useShippingProvider } from '{INTEGRATION}';
