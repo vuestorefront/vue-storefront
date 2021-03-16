@@ -54,15 +54,20 @@ To add the product to the cart you can use `addItem` method:
   // ...
 </template>    
 <script>     
-  import { computed } from '@vue/composition-api';
-  import { useCart, useFacet, facetGetters  } from '{INTEGRATION}';
+  import { computed, ref } from '@vue/composition-api';
+  import { useCart } from '{INTEGRATION}';
   export default {
-    setup() {
-      const { result } = useFacet();
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    }
+    setup(props) {
       const {
         addItem,
       } = useCart();
-      const products = computed(() => facetGetters.getProducts(result.value));
+      const products = ref(props.products);
 
       return {
         products,
@@ -157,16 +162,22 @@ To check if a product is already in the cart, pass it to `isInCart` method:
   // ...
 </template>    
 <script>
-  import { computed } from '@vue/composition-api';
-  import { useCart, useFacet, facetGetters } from '{INTEGRATION}';
+  import { computed, ref } from '@vue/composition-api';
+  import { useCart } from '{INTEGRATION}';
 
   export default {
-    setup() {
-      const { result } = useFacet();
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    },
+    setup(props) {
       const {
         isInCart, 
       } = useCart();
-      const products = computed(() => facetGetters.getProducts(result.value));
+
+      const products = ref(props.products)
 
       return {
         products,
@@ -315,13 +326,18 @@ To add the product to the wishlist you can use `addItem` method:
 </template>
 <script>
   import { computed } from '@vue/composition-api';
-  import { useWishlist, useFacet, facetGetters } from '{INTEGRATION}'
+  import { useWishlist } from '{INTEGRATION}'
 
   export default {
-    setup () {
-      const { result } = useFacet();
-      const { addItem } = useWishlist()
-      const products = computed(() => facetGetters.getProducts(result.value));
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    },
+    setup (props) {
+      const { addItem } = useWishlist();
+      const products = ref(props.products);
 
       return {
         products,
@@ -409,16 +425,21 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
   // ...
 </template>    
 <script>
-  import { computed } from '@vue/composition-api';
-  import { useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
+  import { computed, ref } from '@vue/composition-api';
+  import { useWishlist} from '{INTEGRATION}';
   export default {
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    },
     setup() {
-      const { result } = useFacet();
       const {
         cart,
         isInWishlist, 
       } = useWishlist();
-      const products = computed(() => facetGetters.getProducts(result.value));
+      const products = ref(props.products));
 
       return {
         products,
@@ -508,11 +529,17 @@ In the following examples, you can analyze how both composables are used in the 
     </ul>
 </template>    
 <script>     
-  import { useCart, useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
+  import { ref } from '@vue/composition-api';
+  import { useCart, useWishlist } from '{INTEGRATION}';
 
   export default {
+    props: {
+      products: {
+        type: Array,
+        required: true
+      }
+    },
     setup() {
-      const { result } = useFacet();
       const {
         addItem: addToCart,
         isInCart,
@@ -523,7 +550,8 @@ In the following examples, you can analyze how both composables are used in the 
         addItem: addToWishlist, 
         isInWishlist
       } = useWishlist()
-      const products = computed(() => facetGetters.getProducts(result.value));
+
+      const products = ref(props.products);
 
       return {
         products,
