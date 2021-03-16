@@ -29,6 +29,7 @@
 
 <script>
 import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefront-ui/vue';
+import { useRouter } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
 import { useUser } from '<%= options.generate.replace.composables %>';
 
@@ -38,13 +39,14 @@ export default {
     SfIcon,
     SfCircleIcon
   },
-  setup(props, { root }) {
+  setup() {
+    const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
     const { isAuthenticated } = useUser();
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        return router.push('/my-account');
       }
       toggleLoginModal();
     };

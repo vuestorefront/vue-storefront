@@ -41,6 +41,7 @@ export default {
   plugins: [],
   buildModules: [
     // to core
+    '@nuxtjs/composition-api',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     ['@vue-storefront/nuxt', {

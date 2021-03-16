@@ -75,13 +75,18 @@
 
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
+import { computed, useRoute } from '@nuxtjs/composition-api';
+
 export default {
   components: {
     SfHeading,
     SfButton,
     SfCallToAction
   },
-  setup(props, context) {
+  setup() {
+    const route = useRoute();
+    const orderNumber = computed(() => `#${ route.value.query.order }`);
+
     return {
       address: {
         name: 'Company Headquarter',
@@ -90,7 +95,7 @@ export default {
         email: 'demo@vuestorefront.io'
       },
       order: {
-        number: `#${context.root.$route.query.order}`
+        number: orderNumber
       }
     };
   }

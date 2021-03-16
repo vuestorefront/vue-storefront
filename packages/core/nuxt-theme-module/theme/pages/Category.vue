@@ -157,17 +157,17 @@
             tag="div"
             class="products__grid"
           >
+          <div
+            v-for="(product, i) in products"
+            :key="productGetters.getSlug(product)"
+          >
             <SfProductCard
               data-cy="category-product-card"
-              v-for="(product, i) in products"
-              :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
               :image="productGetters.getCoverImage(product)"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-              :max-rating="5"
-              :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
               :isOnWishlist="false"
               :isAddedToCart="isInCart({ product })"
@@ -176,6 +176,8 @@
               @click:wishlist="addItemToWishlist({ product })"
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
+            <BvInlineRating :productId="product.sku" />
+          </div>
           </transition-group>
           <transition-group
             v-else
@@ -360,7 +362,9 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { BvInlineRating } from '@vsf-enterprise/bazaarvoice';
+
+import { ref, computed, onMounted, useRouter, useContext } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -404,6 +408,7 @@ export default {
     const selectedFilters = ref({});
 
     onMounted(() => {
+      console.log(useRouter(), useContext());
       context.root.$scrollTo(context.root.$el, 2000);
       if (!facets.value.length) return;
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
@@ -480,7 +485,8 @@ export default {
     SfColor,
     SfHeading,
     SfProperty,
-    LazyHydrate
+    LazyHydrate,
+    BvInlineRating
   }
 };
 </script>

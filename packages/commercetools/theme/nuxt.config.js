@@ -51,6 +51,7 @@ export default {
   },
   buildModules: [
     // to core
+    '@nuxtjs/composition-api',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     // to core soon

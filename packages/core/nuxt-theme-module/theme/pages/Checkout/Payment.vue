@@ -109,7 +109,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRouter } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
@@ -128,7 +128,8 @@ export default {
     SfLink,
     VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
-  setup(props, context) {
+  setup() {
+    const router = useRouter();
     const { cart, load, setCart } = useCart();
     const { order, make, loading } = useMakeOrder();
 
@@ -141,7 +142,7 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      router.push(`/checkout/thank-you?order=${order.value.id}`);
       setCart(null);
     };
 

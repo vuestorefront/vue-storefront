@@ -30,15 +30,11 @@
           />
           <div>
             <div class="product__rating">
-              <SfRating
-                :score="averageRating"
-                :max="5"
+              <BvRatingSummary
+                :product-id="product.sku"
+                :onReviewsClick="onReviewsClick"
               />
-              <a v-if="!!totalReviews" href="#" class="product__count">
-                ({{ totalReviews }})
-              </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
@@ -88,7 +84,10 @@
         </div>
 
         <LazyHydrate when-idle>
-          <SfTabs :open-tab="1" class="product__tabs">
+          <SfTabs
+            :open-tab="openTab"
+            class="product__tabs"
+          >
             <SfTab data-cy="product-tab_description" title="Description">
               <div class="product__description">
                   {{ $t('Product description') }}
@@ -108,19 +107,9 @@
               </SfProperty>
             </SfTab>
             <SfTab title="Read reviews" data-cy="product-tab_reviews">
-              <SfReview
-                v-for="review in reviews"
-                :key="reviewGetters.getReviewId(review)"
-                :author="reviewGetters.getReviewAuthor(review)"
-                :date="reviewGetters.getReviewDate(review)"
-                :message="reviewGetters.getReviewMessage(review)"
-                :max-rating="5"
-                :rating="reviewGetters.getReviewRating(review)"
-                :char-limit="250"
-                read-more-text="Read more"
-                hide-full-text="Read less"
-                class="product__review"
-              />
+              <BvReviews :product-id="product.sku" />
+              <BvQuestions :product-id="product.sku" />
+              <BvReviewHighlights :product-id="product.sku" />
             </SfTab>
             <SfTab
               title="Additional Information"
@@ -183,10 +172,10 @@ import {
   SfButton,
   SfColor
 } from '@storefront-ui/vue';
-
+import { BvQuestions, BvRatingSummary, BvReviews, BvReviewHighlights } from '@vsf-enterprise/bazaarvoice';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, watch, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
@@ -195,15 +184,18 @@ import LazyHydrate from 'vue-lazy-hydration';
 export default {
   name: 'Product',
   transition: 'fade',
-  setup(props, context) {
+  setup() {
     const qty = ref(1);
-    const { id } = context.root.$route.params;
+    const openTab = ref(1);
+    const route = useRoute();
+    const router = useRouter();
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
-    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
+    const id = computed(() => route.value.params.id);
+    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
@@ -225,8 +217,8 @@ export default {
     });
 
     const updateFilter = (filter) => {
-      context.root.$router.push({
-        path: context.root.$route.path,
+      router.push({
+        path: route.value.path,
         query: {
           ...configuration.value,
           ...filter
@@ -234,7 +226,14 @@ export default {
       });
     };
 
+    watch(openTab, (newValue) => console.log('openTab changed', newValue));
+
+    const onReviewsClick = () => {
+      qty.value = 2;
+    };
+
     return {
+      openTab,
       updateFilter,
       configuration,
       product,
@@ -249,7 +248,8 @@ export default {
       addItem,
       loading,
       productGetters,
-      productGallery
+      productGallery,
+      onReviewsClick
     };
   },
   components: {
@@ -273,7 +273,11 @@ export default {
     InstagramFeed,
     RelatedProducts,
     MobileStoreBanner,
-    LazyHydrate
+    LazyHydrate,
+    BvQuestions,
+    BvRatingSummary,
+    BvReviews,
+    BvReviewHighlights
   },
   data() {
     return {

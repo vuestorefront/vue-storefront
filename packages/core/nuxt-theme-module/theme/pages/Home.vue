@@ -1,5 +1,6 @@
 <template>
   <div id="home">
+    <BvSellerRatings />
     <LazyHydrate when-idle>
       <SfHero class="hero">
         <SfHeroItem
@@ -105,6 +106,7 @@ import {
   SfArrow,
   SfButton
 } from '@storefront-ui/vue';
+import { BvSellerRatings } from '@vsf-enterprise/bazaarvoice';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -125,7 +127,8 @@ export default {
     SfArrow,
     SfButton,
     MobileStoreBanner,
-    LazyHydrate
+    LazyHydrate,
+    BvSellerRatings
   },
   data() {
     return {
