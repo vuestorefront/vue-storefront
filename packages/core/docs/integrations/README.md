@@ -91,7 +91,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Redis"
-    image="//upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png"
+    image="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png"
     :compatibility="[]"
     category="Cache"
     isEnterprise="true"
