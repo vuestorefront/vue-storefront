@@ -201,7 +201,7 @@ Example of plugin
 // composables/nuxt/plugin.js
 import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
 
-const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }
