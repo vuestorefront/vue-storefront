@@ -54,7 +54,7 @@ To add the product to the cart you can use `addItem` method:
   // ...
 </template>    
 <script>     
-  import { computed, ref } from '@vue/composition-api';
+  import { computed } from '@vue/composition-api';
   import { useCart } from '{INTEGRATION}';
   export default {
     props: {
@@ -62,15 +62,13 @@ To add the product to the cart you can use `addItem` method:
         type: Array,
         required: true
       }
-    }
-    setup(props) {
+    },
+    setup() {
       const {
         addItem,
       } = useCart();
-      const products = ref(props.products);
 
       return {
-        products,
         addItem,
       };
     }
@@ -162,7 +160,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
   // ...
 </template>    
 <script>
-  import { computed, ref } from '@vue/composition-api';
+  import { computed } from '@vue/composition-api';
   import { useCart } from '{INTEGRATION}';
 
   export default {
@@ -172,15 +170,12 @@ To check if a product is already in the cart, pass it to `isInCart` method:
         required: true
       }
     },
-    setup(props) {
+    setup() {
       const {
         isInCart, 
       } = useCart();
 
-      const products = ref(props.products)
-
       return {
-        products,
         isInCart, 
       };
     }
@@ -337,10 +332,8 @@ To add the product to the wishlist you can use `addItem` method:
     },
     setup (props) {
       const { addItem } = useWishlist();
-      const products = ref(props.products);
 
       return {
-        products,
         addItem,   
       }
     }
@@ -425,7 +418,7 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
   // ...
 </template>    
 <script>
-  import { computed, ref } from '@vue/composition-api';
+  import { computed } from '@vue/composition-api';
   import { useWishlist} from '{INTEGRATION}';
   export default {
     props: {
@@ -439,10 +432,8 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
         cart,
         isInWishlist, 
       } = useWishlist();
-      const products = ref(props.products));
 
       return {
-        products,
         isInWishlist, 
       };
     }
@@ -529,7 +520,6 @@ In the following examples, you can analyze how both composables are used in the 
     </ul>
 </template>    
 <script>     
-  import { ref } from '@vue/composition-api';
   import { useCart, useWishlist } from '{INTEGRATION}';
 
   export default {
@@ -551,10 +541,7 @@ In the following examples, you can analyze how both composables are used in the 
         isInWishlist
       } = useWishlist()
 
-      const products = ref(props.products);
-
       return {
-        products,
         addToCart,
         isInCart,
         addToWishlist,
