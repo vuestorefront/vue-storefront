@@ -20,7 +20,8 @@ const invokeClientEntry = async () => {
   const dynamicRuntimeConfig = window.__INITIAL_STATE__.config ? Object.assign(globalConfig, window.__INITIAL_STATE__.config) : globalConfig
   // Get storeCode from server (received either from cache header or env variable)
   let storeCode = window.__INITIAL_STATE__.storeView.storeCode
-  const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
+  const { ssrContext, config, storeCode: storeCodeBeforeAppInit } = await coreHooksExecutors.beforeAppInit({ ssrContext: null, config: dynamicRuntimeConfig, storeCode });
+  const { app, router, store } = await createApp(ssrContext, config, storeCodeBeforeAppInit)
 
   if (window.__INITIAL_STATE__) {
     // skip fields that were set by createApp

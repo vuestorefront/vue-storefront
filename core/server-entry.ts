@@ -10,6 +10,7 @@ import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager';
 import queryString from 'query-string'
+import { coreHooksExecutors } from './hooks'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -65,7 +66,8 @@ export default async context => {
       storeCode = storeCodeFromRoute(currentRoute)
     }
   }
-  const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
+  const { ssrContext, config: configBeforeAppInit, storeCode: storeCodeBeforeAppInit } = await coreHooksExecutors.beforeAppInit({ ssrContext: context, config: context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode });
+  const { app, router, store, initialState } = await createApp(ssrContext, configBeforeAppInit, storeCodeBeforeAppInit)
 
   RouterManager.flushRouteQueue()
   context.initialState = initialState

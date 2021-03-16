@@ -11,6 +11,11 @@ const {
 } = createListenerHook<any>()
 
 const {
+  hook: beforeAppInitHook,
+  executor: beforeAppInitExecutor
+} = createAsyncMutatorHook<{ ssrContext: object, config: object, storeCode: string }, { ssrContext: object, config: object, storeCode: string }>()
+
+const {
   hook: afterAppInitHook,
   executor: afterAppInitExecutor
 } = createListenerHook<any>()
@@ -32,6 +37,7 @@ const {
 
 /** Only for internal usage in core */
 const coreHooksExecutors = {
+  beforeAppInit: beforeAppInitExecutor,
   afterAppInit: afterAppInitExecutor,
   beforeStoreViewChanged: beforeStoreViewChangedExecutor,
   afterStoreViewChanged: afterStoreViewChangedExecutor,
@@ -41,6 +47,7 @@ const coreHooksExecutors = {
 }
 
 const coreHooks = {
+  beforeAppInit: beforeAppInitHook,
   /** Hook is fired right after whole application is initialized. Modules are registered and theme setted up */
   afterAppInit: afterAppInitHook,
   /** Hook is fired directly before changing current storeView (multistrore)
