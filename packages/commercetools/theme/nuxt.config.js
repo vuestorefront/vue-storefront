@@ -32,7 +32,8 @@ export default {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
         media: 'print',
-        onload: 'this.media=\'all\''
+        onload: 'this.media=\'all\'',
+        once: true
       }
     ],
     script: []
@@ -81,25 +82,6 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      api: {
-        uri: 'https://api.commercetools.com/vsf-ct-dev/graphql',
-        authHost: 'https://auth.sphere.io',
-        projectKey: 'vsf-ct-dev',
-        clientId: 'RT4iJGDbDzZe4b2E6RyeNe9s',
-        clientSecret: '5eBt3yfZJWw1j7V6kXjfKXpuFP-YQXpg',
-        scopes: [
-          'manage_products:vsf-ct-dev',
-          'create_anonymous_token:vsf-ct-dev',
-          'manage_my_profile:vsf-ct-dev',
-          'manage_customer_groups:vsf-ct-dev',
-          'view_categories:vsf-ct-dev',
-          'introspect_oauth_tokens:vsf-ct-dev',
-          'manage_my_payments:vsf-ct-dev',
-          'manage_my_orders:vsf-ct-dev',
-          'manage_my_shopping_lists:vsf-ct-dev',
-          'view_published_products:vsf-ct-dev'
-        ]
-      },
       i18n: {
         useNuxtI18nConfig: true
       }
@@ -109,21 +91,19 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    ['@vue-storefront/middleware/nuxt', {
-      integrations: {
-        ct: {
-          api: '@vue-storefront/commercetools-api/server',
-          module: '@vue-storefront/commercetools/nuxt'
-        }
-      }
-    }]
+    '@vue-storefront/middleware/nuxt'
   ],
   i18n: {
     currency: 'USD',
     country: 'US',
     countries: [
       { name: 'US',
-        label: 'United States' },
+        label: 'United States',
+        states: [
+          'California',
+          'Nevada'
+        ]
+      },
       { name: 'AT',
         label: 'Austria' },
       { name: 'DE',

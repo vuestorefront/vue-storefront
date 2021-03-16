@@ -73,11 +73,11 @@
     "no-useless-return": 2,
     "no-console": 0,
     "global-require": 1,
-    "camelcase": 2,
+    "camelcase": 0,
     "computed-property-spacing": 2,
     "consistent-this": 2,
     "func-call-spacing": 2,
-    "func-names": 2,
+    "func-names": 0,
     "func-name-matching": 2,
     "func-style": [
       2,
@@ -123,7 +123,8 @@
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-unused-vars": 2,
-    "@typescript-eslint/ban-ts-ignore": 0
+    "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0
   },
   "overrides": [
     {

@@ -2,7 +2,7 @@
 
 If you're building a shop for an international brand you want it to be translated to different languages and using different currencies. In this document, you will learn how we're approaching internationalization in Vue Storefront and how to configure your application to use it.
 
-::: tip i18n is not multi-tenancy!
+::: warning i18n is not multi-tenancy!
 This document explains only how to make a single shop instance available for multiple countries. If you need to build a system for multiple tenants we suggest creating an instance of Vue Storefront for each tenant and sharing common resources through an NPM package.
 :::
 

@@ -478,7 +478,7 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 ### Common usage example
 
-In the following two examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
+In the following examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
 
 ```vue
 <template>
@@ -540,12 +540,10 @@ In the following two examples, you can analyze how both composables are used in 
 </script>
 ```
 
-The cart and the wishlist components:
+The cart component:
 
 ```vue
 <template>
-
-  /* Cart component */
   ...
     <div>
       <ul>
@@ -557,12 +555,12 @@ The cart and the wishlist components:
             v-model="quantity"
           >
           <button
-            @input="updateQuantity({ product, quantity })"
+            @input="updateItemQty({ product, quantity })"
           >
             Change quantity
           </button>
           <button        
-            @click="removeFromCart({ product })"
+            @click="removeItem({ product })"
           >
             Remove from cart
           </button>      
@@ -575,22 +573,63 @@ The cart and the wishlist components:
         {{ cartTotalItems }}
       </span>
       <button
-        @click="clearCart"
+        @click="clear"
       >
         Clear cart
       </button>
     </div>
   ...
+</template> 
+<script> 
+  import { computed, ref } from '@vue/composition-api';
+  import { useCart, cartGetters } from '{INTEGRATION}';
+  import { onSSR } from '@vue-storefront/core';
+  export default {
+    setup() {
+      const {
+        cart,
+        clear,
+        removeItem, 
+        updateItemQty,
+        load,
+      } = useCart();
 
-  /* Similar features you can use on wishlist component */
+      const cartProducts = computed(() => cartGetters.getItems(cart.value));
+      const cartTotals = computed(() => cartGetters.getTotals(cart.value));
+      const cartTotalItems = computed(() => cartGetters.getTotalItems(cart.value));     
 
+      const quantity = ref(0);
+
+      onSSR(async () => {
+        await load();
+      });
+
+      return {
+        cartProducts,
+        cartTotals,
+        cartTotalItems,
+        removeItem,
+        cart,
+        updateItemQty,
+        clear, 
+        quantity
+      };
+    },
+  };
+</script>
+```
+
+The wishlist component:
+```vue
+<template>
+  ...
     <div>
       <li>
         <ul
           v-for="(product, i) in wishlistProducts" :key="i"
         >
           <button
-            @click="removeFromWishlist({ product })"
+            @click="removeItem({ product })"
           >
             Remove from wishlist
           </button>
@@ -603,7 +642,7 @@ The cart and the wishlist components:
         {{ wishlistTotalItems }}
       </span>
       <button
-        @click="clearWishlist"
+        @click="clear"
       >
         Clear wishlist
       </button>
@@ -612,64 +651,34 @@ The cart and the wishlist components:
 </template>   
 <script> 
   import { computed } from '@vue/composition-api';
-  import { useCart, cartGetters, useWishlist, wishlistGetters } from '{INTEGRATION}';
+  import { useWishlist, wishlistGetters } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
       const {
         wishlist,
-        removeItem: removeFromWishlist,
-        clear: clearWishlist,
-        load: loadWishlist
+        removeItem,
+        clear,
+        load
       } = useWishlist();
-      const {
-        cart,
-        clear: clearCart,
-        removeItem: removeFromCart, 
-        updateItemQty,
-        load: loadCart,
-      } = useCart();
-
-      const cartProducts = computed(() => cartGetters.getItems(cart.value));
-      const cartTotals = computed(() => cartGetters.getTotals(cart.value));
-      const cartTotalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
       const wishlistProducts = computed(() => wishlistGetters.getItems(wishlist.value));
       const wishlistTotals = computed(() => wishlistGetters.getTotals(wishlist.value));
       const wishlistTotalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
-
-      // Depending on the component you are using, use one of the following ssr loading
-
       onSSR(async () => {
-        await loadWishlist();
-      });
-
-      onSSR(async () => {
-        await loadCart();
+        await load();
       });
 
       return {
-        cartProducts,
-        cartTotals,
-        cartTotalItems,
-        removeFromCart,
-        cart,
-        updateItemQty,
-        clearCart, 
         wishlistProducts,
         wishlistTotals,
         wishlistTotalItems,
         wishlist,                
-        removeFromWishlist, 
-        clearWishlist
+        removeItem, 
+        clear
       };
     },
-    data() {
-      return {
-        quantity: 0,
-      }
-    }
   };
 </script>
 ```

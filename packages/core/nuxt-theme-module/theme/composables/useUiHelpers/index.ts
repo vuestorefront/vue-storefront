@@ -34,7 +34,7 @@ const useUiHelpers = () => {
   };
 
   // eslint-disable-next-line
-  const changeSearchTerm = (term: string) => {
+  const setTermForUrl = (term: string) => {
     console.warn('[VSF] please implement useUiHelpers.changeSearchTerm.');
   };
 
@@ -52,15 +52,20 @@ const useUiHelpers = () => {
     return false;
   };
 
+  const getSearchTermFromUrl = () => {
+    console.warn('[VSF] please implement useUiHelpers.isFacetCheckbox.');
+  };
+
   return {
     getFacetsFromURL,
     getCatLink,
     changeSorting,
     changeFilters,
     changeItemsPerPage,
-    changeSearchTerm,
+    setTermForUrl,
     isFacetColor,
-    isFacetCheckbox
+    isFacetCheckbox,
+    getSearchTermFromUrl
   };
 };
 

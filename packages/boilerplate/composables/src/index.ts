@@ -1,36 +1,18 @@
 /* istanbul ignore file */
 
-import useCart from './useCart';
-import useCategory from './useCategory';
-import useCheckout from './useCheckout';
-import useContent from './useContent';
-import useFacet from './useFacet';
-import useProduct from './useProduct';
-import useReview from './useReview';
-import useUser from './useUser';
-import useUserBilling from './useUserBilling';
-import useUserOrders from './useUserOrders';
-import useUserShipping from './useUserShipping';
-import useWishlist from './useWishlist';
-import { createApiClient } from '@vue-storefront/boilerplate-api';
-import { integrationPluginFactory } from '@vue-storefront/core';
-
-const integrationPlugin = integrationPluginFactory(createApiClient);
-
-export {
-  integrationPlugin,
-  useCart,
-  useCategory,
-  useCheckout,
-  useContent,
-  useFacet,
-  useProduct,
-  useReview,
-  useUser,
-  useUserBilling,
-  useUserOrders,
-  useUserShipping,
-  useWishlist
-};
-
+export { default as useBilling } from './useBilling';
+export { default as useCart } from './useCart';
+export { default as useCategory } from './useCategory';
+export { default as useContent } from './useContent';
+export { default as useFacet } from './useFacet';
+export { default as useMakeOrder } from './useMakeOrder';
+export { default as useProduct } from './useProduct';
+export { default as useReview } from './useReview';
+export { default as useShipping } from './useShipping';
+export { default as useShippingProvider } from './useShippingProvider';
+export { default as useUser } from './useUser';
+export { default as useUserBilling } from './useUserBilling';
+export { default as useUserOrder } from './useUserOrder';
+export { default as useUserShipping } from './useUserShipping';
+export { default as useWishlist } from './useWishlist';
 export * from './getters';

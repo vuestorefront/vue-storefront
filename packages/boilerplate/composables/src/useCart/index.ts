@@ -51,8 +51,8 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isOnCart: (context: Context, { currentCart, product }) => {
-    console.log('Mocked: isOnCart');
+  isInCart: (context: Context, { currentCart, product }) => {
+    console.log('Mocked: isInCart');
     return false;
   }
 };

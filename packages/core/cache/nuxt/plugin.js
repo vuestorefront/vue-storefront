@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default (ctx) => {
   const options = <%= serialize(options) %>;
-  const cache = {
+ 
+  ctx.req.$vsfCache = {
     ...options,
     tagsSet: new Set()
-  }
-  ctx.req.$vsfCache = cache;
+  };
 }

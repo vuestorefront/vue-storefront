@@ -102,5 +102,5 @@ We will walk you with details of each integration in its dedicated guide.
 
 ## What's next?
 
-If you're already convinced to use Vue Storefront check the [installation guide](./general/getting-started).
-If you want to learn more check the [key concepts](./general/key-concepts) behind Vue Storefront to understand how it works.
+If you're already convinced to use Vue Storefront check the [installation guide](./general/getting-started.html).
+If you want to learn more check the [key concepts](./general/key-concepts.html) behind Vue Storefront to understand how it works.

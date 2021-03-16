@@ -102,7 +102,6 @@ jobs:
       fail-fast: false
       matrix:
         integration:
-          # - about-you
           - boilerplate
           - commercetools
           # - shopify
@@ -124,6 +123,9 @@ jobs:
 
       - name: Build core
         run: yarn build:core
+
+      - name: Build middleware
+        run: yarn build:middleware
 
       - name: Build api-client
         run: cd packages/${{ matrix.integration }}/api-client && yarn build

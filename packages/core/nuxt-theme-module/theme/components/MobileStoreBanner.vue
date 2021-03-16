@@ -14,6 +14,7 @@
         >
           <SfImage
             src="/homepage/apple.png"
+            alt="App store"
           />
         </SfButton>
         <SfButton
@@ -23,6 +24,7 @@
         >
           <SfImage
             src="/homepage/google.png"
+            alt="Google play"
           />
         </SfButton>
       </div>

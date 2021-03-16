@@ -44,6 +44,22 @@ const useUiHelpers = () => {
     };
   };
 
+  const getSearchTermFromUrl = () => {
+    const { query, params } = instance.$router.history.current;
+    // hardcoded categorySlug for search results
+    const categorySlug = 'women-clothing-jackets';
+
+    return {
+      rootCatSlug: params.slug_1,
+      categorySlug,
+      page: parseInt(query.page, 10) || 1,
+      sort: query.sort || 'latest',
+      filters: getFiltersDataFromUrl(instance, true),
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
+      term: query.term
+    };
+  };
+
   const getCatLink = (category: Category): string => {
     return `/c/${instance.$route.params.slug_1}/${category.slug}`;
   };
@@ -71,7 +87,7 @@ const useUiHelpers = () => {
     });
   };
 
-  const changeSearchTerm = (term: string) => {
+  const setTermForUrl = (term: string) => {
     instance.$router.push({
       query: {
         ...getFiltersDataFromUrl(instance, false),
@@ -90,9 +106,10 @@ const useUiHelpers = () => {
     changeSorting,
     changeFilters,
     changeItemsPerPage,
-    changeSearchTerm,
+    setTermForUrl,
     isFacetColor,
-    isFacetCheckbox
+    isFacetCheckbox,
+    getSearchTermFromUrl
   };
 };
 

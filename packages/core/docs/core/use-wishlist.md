@@ -9,7 +9,7 @@
 - `load` - function required to fetch wishlist from a server or create brand new if it doesn't exist.  
 - `addToWishlist` - function for adding products to the wishlist
 - `removeFromWishlist` - function for removing a product that currently is in the wishlist
-- `isOnWishlist` - function for checking if a product is currently in the wishlist
+- `isInWishlist` - function for checking if a product is currently in the wishlist
 - `clearWishlist` - function for removing all items currently stored in wishlist
 - `loading` - a reactive object containing information about loading state of the wishlist
 

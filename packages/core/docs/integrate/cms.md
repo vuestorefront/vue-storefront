@@ -51,36 +51,50 @@ The factory will output a composable fulfilling our interfaces. That's all you h
 
 ### Content rendering (optional)
 
-Many CMS systems allow to control the page layout by returning a list of components as a JSON file. These components are then rendered in the applicatio. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
+Many CMS systems allow to control the page layout by returning a list of components as a JSON file. These components are then rendered in the application. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
 
 ```html
-<!-- public API -->
 <RenderContent :content="content">
 ```
 
-To build this component you just have to use our `renderComponentFactory`.
+Now you need to prepare special structure for your components. Create the `extractComponents` function that will filter or modify all the metadata and return component name along with props. Follow the exampole.   
 
-```ts
-// integration
-import { renderComponentFactory } from '@vue-storefront/core'
-
-// CONTENT and CONTENT_SEARCH_PARAMS are your CMS-specific types, we advise to have at least 'id' param for search
-const RenderComponent = renderComponentFactory({
-  // (extractContent: CONTENT) => { componentName, props }[]
-  extractContent (content) { 
-    // extract an array of { componentName: string, props: { name, value } } pairs and the factory will generate a component that will render these components based on the ones that are currently registered within application
-    return components[]
-  }
-}) 
-```
-Under the hood the `RenderComponent` is rendering components using Vue dynamic component feature:
-
-```html
-<!-- core, inside renderComponentFactory -->
-<component v-for="component in components" is="component.componentName" content="props" />
+```typescript
+function extractComponents(response: ResponseFromYourCMS) {
+  // filter or modify your response if needed
+  return {
+    componentName: string
+    props: {}
+  }[]
+}
 ```
 
-## Usage example in real app
+Pass it to the `RenderContent` component as a `content` prop. To register components use computed value.
+
+```vue
+<!-- inside the RenderContent.vue component -->
+<component v-for="component in components" :key="index" is="component.componentName" v-bind="component.props" />
+
+<script>
+export default ({
+  name: 'RenderContent',
+  props: {
+    content: {
+      type: Array,
+    },
+  },
+  computed: {
+    components() {
+      return extractComponents(this.content)
+    },
+  },
+})
+</script>
+```
+
+Inside your application you'll also need to register your UI components that willing to render.
+
+## Usage example in the real application
 
 ```html
 <template>
@@ -92,8 +106,7 @@ Under the hood the `RenderComponent` is rendering components using Vue dynamic c
 <script>
 import { onSSR } from '@vue-storefront/core'
 import { useContent, RenderContent } from '@vue-storefront/my-super-cms'
-// These are the components that will be rendered by RenderContent.
-// `extractContent` should return [{ componentName: 'CMSBanner', props: { ... }}, { componentName: 'CMSHero', props: { ... }}]
+// These are the components that will be rendered by RenderContent
 import { CMSBanner, CMSHero } from '~/components'
 
 export default {
@@ -103,12 +116,12 @@ export default {
     CMSHero
   }
   setup( ) {
-    const { search, content, loading, error } = useContent()
-
+    const { search, content, loading, error } = useContent('unique-id')
+    // fetch data
     onSSR(async () {
       await search({ id: 'CONTENT_ID' })
     })
-
+    // return data
     return {
       content,
       loading,

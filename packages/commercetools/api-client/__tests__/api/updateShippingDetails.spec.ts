@@ -39,7 +39,8 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
           id: 1,
           version: 1
         })
-      }
+      },
+      extendQuery: (customQuery, args) => args
     };
 
     const shippingDetails = {
@@ -105,7 +106,8 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
           id: 1,
           version: 1
         })
-      }
+      },
+      extendQuery: (customQuery, args) => args
     };
 
     const shippingDetails = {
