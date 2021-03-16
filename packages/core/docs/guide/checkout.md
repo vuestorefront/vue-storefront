@@ -6,7 +6,7 @@ Checkout is a process of providing shipping and billing addresses and selecting 
 
 Shipping details are information about the recipient's address required to ship the order.
 
-We can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
+You can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
 ```js{8,16}
 import { useShipping } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
@@ -30,7 +30,7 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-We can use `save` method to save shipping details so they're available next time we `load` them.
+You can use `save` method to save shipping details so they're available next time you `load` them.
 
 ```vue{2,15,24}
 <template>
@@ -65,14 +65,14 @@ export default {
 
 ## Selecting a shipping method
 
-`VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as third-party integration.
+`VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as third-party integration.
 
 The component is responsible for:
 - Loading and displaying available shipping methods.
 - Loading selected shipping method.
 - Selecting and configuring shipping method.
 
-All we have to do is to import a component and add it to the template.
+All you have to do is to import a component and add it to the template.
 
 ```vue
 <VsfShippingProvider
@@ -84,7 +84,7 @@ All we have to do is to import a component and add it to the template.
 
 ### Extending `VsfShippingProvider` and reacting to its events
 
-We can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
+You can pass asynchronous functions to the `VsfShippingProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. You will call these methods "hooks".
 
 Because every shipping provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
@@ -110,7 +110,9 @@ Because every shipping provider is different, not all of them are present in eve
 
 ### Accessing current shipping method's details outside the component
 
-`useShippingProvider` is a composable created for loading and saving a current shipping method. It stores the information in some property of a `state` object. 
+You have to show the information about a selected shipping method inside order review component. For that purpose, you need to load it and share between components.
+
+`useShippingProvider` is a composable created for loading and saving a current shipping method. After calling `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
 
 :::warning
 The property's name depends on provider. Check documentation of your shipping provider to find it out.
@@ -140,7 +142,7 @@ export default {
 
 Billing details are information about the payer's address used by store owners to prepare invoices and payment providers to evaluate the probability of fraud payment.
 
-We can load billing details by calling the `load` method in `useBilling` composable and accessing the `billing` property after loading is done.
+You can load billing details by calling the `load` method in `useBilling` composable and accessing the `billing` property after loading is done.
 
 ```js{8,16}
 import { useBilling } from '{INTEGRATION}';
@@ -165,7 +167,7 @@ export default {
 ```
 `billing` property returns `null` if the `load` function was not invoked or nothing is saved.   
 
-We can use `save` method to save billing details.
+You can use `save` method to save billing details.
 
 ```vue{2,15,24}
 <template>
@@ -200,7 +202,7 @@ export default {
 
 ## Making an order
 
-After the user has provided all the information required by our eCommerce, we are ready to *make an order*. To do that, we have to call a `make` method from the `useMakeOrder` composable.
+After the user has provided all the information required by your eCommerce, you are ready to *make an order*. To do that, you have to call a `make` method from the `useMakeOrder` composable.
 ```js
 import { useMakeOrder } from '{INTEGRATION}';
 
@@ -215,7 +217,7 @@ export default {
 }
 ```
 
-When the order is created, we can redirect the user to the page thanking them for making an order and refresh the cart.
+When the order is created, you can redirect the user to the page thanking them for making an order and refresh the cart.
 
 ```js
 import { useMakeOrder, useCart } from '{INTEGRATION}';
@@ -236,14 +238,14 @@ export default {
 
 ## Payment providers
 
-A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one third-party provider of payments like Checkout.com or Adyen. This component is usually the only thing that we need to integrate a particular vendor into our project and is always delivered as third-party integration.   
+A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one third-party provider of payments like Checkout.com or Adyen. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as third-party integration.   
 
 The component is responsible for:
 - Loading and displaying available payment methods.
 - Loading selected payment method.
 - Picking and configuring payment method.
 
-The first thing we have to do is to import the component and add it to the template.
+The first thing you have to do is to import the component and add it to the template.
 
 ```vue
 <template>
@@ -263,11 +265,11 @@ export default {
 </script>
 ```
 
-The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described the two most common.
+The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below you described the two most common.
 
 ### SDK takes the full control
 
-If the payment provider's SDK handles the whole payment and we can only provide our own callbacks for certain events. We want to make an order in `beforePay` async hook.
+If the payment provider's SDK handles the whole payment and you can only provide your own callbacks for certain events. You want to make an order in `beforePay` async hook.
 ```vue
 <template>
   <div>
@@ -337,7 +339,7 @@ export default {
 
 ### Extending `VsfPaymentProvider` and reacting to its events
 
-We can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. We will call these methods "hooks".
+You can pass asynchronous functions to the `VsfPaymentProvider` component to hook into different events within its lifecycle, override initial function parameters or react to specific events like method selection. You will call these methods "hooks".
 
 Because every payment provider is different, not all of them are present in every integration. Always refer to the documentation of a specific provider to learn which hooks are available.
 
@@ -367,4 +369,4 @@ Because every payment provider is different, not all of them are present in ever
 
 ### Why some integrations have a mocked `VsfPaymentProvider`?
 
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, we provide a mock component that has exactly the same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/)
+There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/)
