@@ -331,25 +331,25 @@ There is a dedicated TypeScript interface for every composable. Take a look at t
 
 ```ts
 export interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 ```
 
 :::details Where does the error come from?
 
-Inside each async method, we are catching errors when they occur and save them to the reactive property called `errors` under the key corresponding to the triggered method:
+Inside each async method, we are catching errors when they occur and save them to the reactive property called `error` under the key corresponding to the triggered method:
 
 ```ts
-const { addItem, errors } = useCart();
+const { addItem, error } = useCart();
 
 addItem({ product: null }); // triggers an error
-errors.addItem; // here you have error raised by addItem function
+error.value.addItem; // here you have error raised by addItem function
 ```
 
 :::
@@ -374,14 +374,14 @@ import { useUiNotification } from '~/composables';
 const { cart, error } = useCart();
 const { send } = useUiNotification();
 
-watch(error, (error, prevError) => {
-  if (error.value.addItem && error.value.addItem !== prevError.value.addItem)
-    send({ type: 'danger', message: error.value.addItem.message });
+watch(() => ({...error.value}), (error, prevError) => {
+  if (error.addItem && error.addItem !== prevError.addItem)
+    send({ type: 'danger', message: error.addItem.message });
   if (
-    error.value.removeItem &&
-    error.value.removeItem !== prevError.value.removeItem
+    error.removeItem &&
+    error.removeItem !== prevError.removeItem
   )
-    send({ type: 'danger', message: error.value.removeItem.message });
+    send({ type: 'danger', message: error.removeItem.message });
 });
 ```
 

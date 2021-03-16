@@ -55,7 +55,7 @@ type ProductVariant = {
 
 ```ts
 interface UseProductErrors {
-  search?: Error;
+  search: Error;
 }
 ```
 

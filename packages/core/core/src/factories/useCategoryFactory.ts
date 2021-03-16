@@ -13,15 +13,17 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const categories: Ref<CATEGORY[]> = sharedRef([], `useCategory-categories-${id}`);
     const loading = sharedRef(false, `useCategory-loading-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseCategoryErrors> = sharedRef({}, `useCategory-error-${id}`);
+    const error: Ref<UseCategoryErrors> = sharedRef({
+      search: null
+    }, `useCategory-error-${id}`);
 
     const search = async (searchParams) => {
       Logger.debug(`useCategory/${id}/search`, searchParams);
 
       try {
         loading.value = true;
-        error.value.search = null;
         categories.value = await _factoryParams.categorySearch(searchParams);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error(`useCategory/${id}/search`, err);

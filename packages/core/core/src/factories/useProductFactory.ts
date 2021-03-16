@@ -12,15 +12,17 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseProductErrors> = sharedRef({}, `useProduct-error-${id}`);
+    const error: Ref<UseProductErrors> = sharedRef({
+      search: null
+    }, `useProduct-error-${id}`);
 
     const search = async (searchParams) => {
       Logger.debug(`useProduct/${id}/search`, searchParams);
 
       try {
         loading.value = true;
-        error.value.search = null;
         products.value = await _factoryParams.productsSearch(searchParams);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error(`useProduct/${id}/search`, err);
