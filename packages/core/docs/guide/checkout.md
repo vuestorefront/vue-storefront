@@ -1,8 +1,8 @@
 # Checkout
 
-Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
+> This document only outlines the general checkout flow. Each eCommerce, Payment provider, and Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
 
-This document only outlines the general checkout flow. Each eCommerce, Payment provider, and Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
+Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
 ## Collecting and saving shipping details
 
