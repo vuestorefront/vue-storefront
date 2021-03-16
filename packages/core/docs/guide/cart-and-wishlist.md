@@ -38,12 +38,12 @@ To add the product to the cart you can use `addItem` method:
 
 ```vue
 <template>
-  ...
+  // ...
     <ul>
       <li
         v-for="(product, i) in products" :key="i"
       > 
-        ...
+        // ...
         <button
           @click="addItem({ product, quantity })"
         >
@@ -51,7 +51,7 @@ To add the product to the cart you can use `addItem` method:
         </button>
       </li>
     </ul>
-  ...
+  // ...
 </template>    
 <script>     
   import { computed } from '@vue/composition-api';
@@ -79,7 +79,7 @@ To remove an item from the cart use `removeItem` function, and similarly to upda
 
 ```vue
 <template>
-  ...
+  // ...
     <div>
       <ul>
         <li
@@ -105,7 +105,7 @@ To remove an item from the cart use `removeItem` function, and similarly to upda
         {{ totalItems }}
       </span>
     </div>
-  ...
+  // ...
 </template>   
 <script>
   import { computed } from '@vue/composition-api';
@@ -143,7 +143,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
 
 ```vue
 <template>
-  ... 
+  // ... 
     <ul>
       <li
          v-for="(product, i) in products" :key="i"
@@ -154,7 +154,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
         </div>
       </li>
     </ul>
-  ...
+  // ...
 </template>    
 <script>
   import { computed } from '@vue/composition-api';
@@ -183,13 +183,13 @@ To clear cart items (not delete it) use `clear` function.
 
 ```vue
 <template>
-  ...
+  // ...
     <div>
       <ul>
         <li
           v-for="(product, i) in products" :key="i"
         >
-          ...
+          // ...
         </li>
       <ul>
       <button
@@ -198,7 +198,7 @@ To clear cart items (not delete it) use `clear` function.
         Clear cart
       </button>
     </div>
-  ...
+  // ...
 </template>   
 <script>      
   import { computed } from '@vue/composition-api';
@@ -228,7 +228,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
 
 ```vue
 <template>
-  ...
+  // ...
     <div>
       <input />
       <button 
@@ -242,7 +242,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
         Remove promo code
       </button>
     </div>
-  ...
+  // ...
 </template>   
 <script>      
   import { useCart } from '{INTEGRATION}';
@@ -298,12 +298,12 @@ To add the product to the wishlist you can use `addItem` method:
 
 ```vue
 <template>
-  ...
+  // ...
     <ul>
       <li
         v-for="(product, i) in products" :key="i"
       > 
-        ...
+        // ...
         <button
           @click="addItem({ product, quantity })"
         >
@@ -311,7 +311,7 @@ To add the product to the wishlist you can use `addItem` method:
         </button>
       </li>
     </ul>
-  ...
+  // ...
 </template>
 <script>
   import { computed } from '@vue/composition-api';
@@ -338,7 +338,7 @@ To remove an item from the cart use `removeItem` function.
 
 ```vue
 <template>
-  ...
+  // ...
     <div>
       <ul>
         <li
@@ -359,7 +359,7 @@ To remove an item from the cart use `removeItem` function.
         {{ totalItems }}
       </span>        
     </div>
-  ...
+  // ...
 </template>   
 <script>
   import { computed } from '@vue/composition-api';
@@ -395,7 +395,7 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
 
 ```vue
 <template>
-  ...
+  // ...
     <ul>
       <li
         v-for="(product, i) in products" :key="i"
@@ -406,7 +406,7 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
         </div>
       </li>
     </ul>
-  ...
+  // ...
 </template>    
 <script>
   import { computed } from '@vue/composition-api';
@@ -435,13 +435,13 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 ```vue
 <template>
-  ...
+  // ...
     <div>
       <ul>
         <li
           v-for="(product, i) in products" :key="i"
         >
-          ...
+          // ...
         </li>
       <ul>
       <button
@@ -450,7 +450,7 @@ Cleaning the wishlist can be achieved by `clear` property.
         Clear wishlist
       </button>
     </div>
-  ...
+  // ...
 </template>   
 <script>      
   import { computed } from '@vue/composition-api';
@@ -482,7 +482,6 @@ In the following examples, you can analyze how both composables are used in the 
 
 ```vue
 <template>
-  ...
     <ul>
       <li
         v-for="(product, i) in products" :key="i"> 
@@ -507,7 +506,6 @@ In the following examples, you can analyze how both composables are used in the 
         </div>
       </li>
     </ul>
-  ...
 </template>    
 <script>     
   import { useCart, useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
@@ -544,7 +542,6 @@ The cart component:
 
 ```vue
 <template>
-  ...
     <div>
       <ul>
         <li
@@ -578,7 +575,6 @@ The cart component:
         Clear cart
       </button>
     </div>
-  ...
 </template> 
 <script> 
   import { computed, ref } from '@vue/composition-api';
@@ -622,7 +618,6 @@ The cart component:
 The wishlist component:
 ```vue
 <template>
-  ...
     <div>
       <li>
         <ul
@@ -647,7 +642,6 @@ The wishlist component:
         Clear wishlist
       </button>
     </div>
-  ...
 </template>   
 <script> 
   import { computed } from '@vue/composition-api';

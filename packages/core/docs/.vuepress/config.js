@@ -168,7 +168,7 @@ module.exports = {
 						['/guide/authentication', 'Authentication'],
 						['/guide/user-profile', 'User profile'],						
 						['/guide/cart-and-wishlist', 'Cart and wishlist'],
-					]s
+					]
 				},
 				{
 					title: 'Advanced [WIP]',
