@@ -34,6 +34,10 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       Logger.debug('useUserFactory.setUser', newUser);
     };
 
+    const resetErrorValue = () => {
+      error.value = {};
+    };
+
     const updateUser = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.updateUser', providedUser);
 
@@ -51,6 +55,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const register = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.register', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
@@ -66,6 +71,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const login = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.login', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
