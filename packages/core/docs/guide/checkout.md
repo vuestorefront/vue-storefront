@@ -32,7 +32,7 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-You can use `save` method to save shipping details so they are available next time you `load` them.
+You can use the `save` method to save shipping details so they are available next time you `load` them.
 
 ```vue{2,15,24}
 <template>
@@ -82,7 +82,7 @@ All you have to do is to import a component and add it to the template.
 />
 ```
 
-`VsfShippingProvider` emits `submit` event when shipping method is selected, configured and user clicks submit button.
+`VsfShippingProvider` emits the `submit` event when a shipping method is selected, configured and a user clicks submit button.
 
 ### Extending `VsfShippingProvider` and reacting to its events
 
@@ -114,7 +114,7 @@ Because every shipping provider is different, not all of them are present in eve
 
 Sometimes you have to show the information about a selected shipping method in a different place than the `VsfShippingProvider` component.
 
-For such cases, you can use `useShippingProvider` composable. It has been made for loading and saving a current shipping method. After loading the data via `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
+For such cases, you can use `useShippingProvider` composable. It has been made for loading and saving a current shipping method. After loading the data via the `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
 
 ```ts
 import { useShippingProvider } from '{INTEGRATION}';
@@ -165,7 +165,7 @@ export default {
 ```
 `billing` property returns `null` if the `load` function was not invoked or nothing is saved.   
 
-You can use `save` method to save billing details.
+You can use the `save` method to save billing details.
 
 ```vue{2,15,24}
 <template>
@@ -267,7 +267,7 @@ The next step is making a payment. Each package with a payment provider might us
 
 ### SDK takes the full control
 
-If the payment provider's SDK handles the whole payment and you can only provide your own callbacks for certain events. You want to make an order in `beforePay` async hook.
+If the payment provider's SDK handles the whole payment and you can only provide your own callbacks for certain events. You want to make an order in the `beforePay` async hook.
 ```vue
 <template>
   <div>
@@ -294,7 +294,7 @@ export default {
 ### SDK allows externalizing pay method
 
 If the payment provider's SDK handles the process of configuring payment but allows you to decide when to finalize then:
-- VsfPaymentProvider emits `status` event. Use this information to enable/disable `Place order` button.
+- VsfPaymentProvider emits `status` event. Use this information to enable/disable a `Place order` button.
 - Composable shares a `pay` method.
 
 ```vue
@@ -367,4 +367,4 @@ Because every payment provider is different, not all of them are present in ever
 
 ### Why some integrations have a mocked `VsfPaymentProvider`?
 
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface as a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).
+There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface like a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).
