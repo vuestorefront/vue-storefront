@@ -261,7 +261,7 @@
       </SfLoader>
     </div>
 
-    <LazyHydrate when-visible>
+    <LazyHydrate when-idle>
       <SfSidebar
         :visible="isFilterSidebarOpen"
         title="Filters"
