@@ -35,7 +35,7 @@ describe('Compare', () => {
     });
   })
 
-  it('removeFromCompare dispatches addItem action', () => {
+  it('removeFromCompare dispatches removeItem action', () => {
     const product = {};
 
     const storeMock = {
