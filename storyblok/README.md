@@ -29,7 +29,7 @@ Register the module in the `nuxt.config` file.
 ```javascript
 modules: [
   ['@vue-storefront/storyblok/nuxt', {
-    accessToken: 'YOUR_PREVIEW_TOKEN',
+    token: 'CONTENT_DELIVERY_TOKEN',
     cacheProvider: 'memory'
   }],
 ]

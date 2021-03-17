@@ -1,5 +1,5 @@
-import { integrationPlugin } from '@vue-storefront/storyblok'
+import { integrationPlugin } from '@vue-storefront/core'
 
 export default integrationPlugin(({ integration }) => {
-  integration.configure({ ...<%= serialize(options) %> })
-});
+  integration.configure('sb', { ...<%= serialize(options) %> })
+})

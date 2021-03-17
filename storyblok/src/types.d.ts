@@ -1,10 +1,10 @@
 import { StoryblokCache } from 'storyblok-js-client'
 
 export interface ContentSearchParams {
-  accessToken: string
+  token: string
   cacheProvider: string
-  cache: StoryblokCache
-  slug: string
+  cache?: StoryblokCache
+  slug?: string
 }
 export interface ApiContext {
   client: any

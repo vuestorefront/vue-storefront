@@ -7,10 +7,10 @@ export default function storyblok (moduleOptions) {
     ...storyblok,
     ...moduleOptions,
   }
-  if (options && options.jsBridge) {
+  if (options?.jsBridge) {
     const scripts = head.script
     scripts.push({
-      src: `${options.jsBridge}${options.accessToken}`,
+      src: `${options.jsBridge}`,
     })
   }
   this.addPlugin({
