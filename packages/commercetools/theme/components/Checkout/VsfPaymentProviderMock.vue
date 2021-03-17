@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div class="form__radio-group">
+      <div class="form__radio-group payment__methods">
           <SfRadio
             v-for="method in paymentMethods"
             :key="method.id"
@@ -16,7 +16,7 @@
             @input="selectPaymentMethod(method)"
             name="paymentMethod"
             :description="method.description"
-            class="form__radio payment"
+            class="form__radio payment__method"
           >
             <template #label="{ label }">
               <div class="sf-radio__label payment__label">
@@ -78,21 +78,8 @@ export default {
 <style lang="scss" scoped>
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  --heading-title-font-weight: var(--font-weight--bold);
 }
-
-.payment-provider {
-  .sf-radio {
-    &__label {
-      display: flex;
-      justify-content: space-between;
-    }
-    &__description {
-      --radio-description-margin: 0;
-      --radio-description-font-size: var(--font-xs);
-    }
-  }
-}
-
 .form {
   --button-width: 100%;
   @include for-desktop {
@@ -107,38 +94,36 @@ export default {
       display: flex;
     }
   }
-  &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        text-align: left;
-      }
-    }
-    &--add-address {
-      width: 100%;
-      margin: 0;
-      @include for-desktop {
-        margin: 0 0 var(--spacer-lg) 0;
-        width: auto;
-      }
-    }
-  }
-  &__back-button {
-    margin: var(--spacer-xl) 0 var(--spacer-sm);
-    &:hover {
-      color:  var(--c-white);
-    }
-    @include for-desktop {
-      margin: 0 var(--spacer-xl) 0 0;
-    }
-  }
   &__radio-group {
     flex: 0 0 100%;
     margin: 0 0 var(--spacer-xl) 0;
     @include for-desktop {
-      margin: 0 0 var(--spacer-2xl) 0;
+      margin: 0 0 var(--spacer-xl) 0;
     }
 
+  }
+}
+.payment {
+  &__methods {
+    border: 1px solid var(--c-light);
+    border-width: 1px 0;
+    @include for-desktop {
+      display: flex;
+      padding: var(--spacer-lg) 0;
+    }
+  }
+  &__method {
+    --radio-description-margin: 0;
+    --radio-container-align-items: center;
+    --ratio-content-margin: 0 0 0 var(--spacer-base);
+    --radio-label-font-size: var(--font-base);
+    --radio-background: transparent;
+    white-space: nowrap;
+    --radio-background: transparent;
+    @include for-desktop {
+      border: 0;
+      --radio-border-radius: 4px;
+    }
   }
 }
 </style>
