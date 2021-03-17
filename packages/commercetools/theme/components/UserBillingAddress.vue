@@ -25,7 +25,6 @@ export default {
       required: true
     }
   },
-
   setup(props) {
     const { $ct: { config } } = useVSFContext();
     const address = toRef(props, 'address');

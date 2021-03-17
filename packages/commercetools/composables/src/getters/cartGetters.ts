@@ -25,6 +25,13 @@ export const getCartItemAttributes = (product: LineItem, filterByAttributeName?:
 
 export const getCartItemSku = (product: LineItem): string => product.variant.sku;
 
+const getCartSubtotalPrice = (cart: Cart, selectSpecialPrices = false): number => {
+  return getCartItems(cart).reduce((total, cartItem) => {
+    const { special, regular } = getCartItemPrice(cartItem);
+    return total + (selectSpecialPrices && special ? special : regular);
+  }, 0);
+};
+
 export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (!cart) {
     return {
@@ -34,17 +41,24 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
     };
   }
 
-  const subtotalPrice = cart.totalPrice.centAmount;
-  const shipping = cart.shippingInfo ? cart.shippingInfo.price.centAmount : 0;
-
   return {
-    total: (shipping + subtotalPrice) / 100,
-    subtotal: subtotalPrice / 100,
-    special: 0
+    total: cart.totalPrice.centAmount / 100,
+    subtotal: getCartSubtotalPrice(cart),
+    special: getCartSubtotalPrice(cart, true)
   };
 };
 
-export const getCartShippingPrice = (cart: Cart): number => cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
+export const getCartShippingPrice = (cart: Cart): number => {
+  const total = cart?.totalPrice?.centAmount;
+  const shippingInfo = cart?.shippingInfo;
+  const centAmount = shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove?.centAmount;
+
+  if (!shippingInfo || !total || (centAmount && total >= centAmount)) {
+    return 0;
+  }
+
+  return shippingInfo.price.centAmount / 100;
+};
 
 export const getCartTotalItems = (cart: Cart): number => {
   if (!cart) {

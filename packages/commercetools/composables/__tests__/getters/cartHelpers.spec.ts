@@ -40,7 +40,7 @@ const cart = {
     }
   ],
   totalPrice: {
-    centAmount: 12444
+    centAmount: 3044
   },
   shippingInfo: {
     price: {
@@ -64,25 +64,35 @@ describe('[commercetools-getters] cart helpers', () => {
       total: 0,
       subtotal: 0
     });
-    expect(getCartTotals(cart).total).toEqual(128.88);
-    expect(getCartTotals({
-      ...cart,
-      shippingInfo: null
-    }).total).toEqual(124.44);
+    expect(getCartTotals(cart).total).toEqual(30.44);
   });
 
   it('returns cart subtotal price', () => {
-    expect(getCartTotals(cart).subtotal).toEqual(124.44);
-    expect(getCartTotals({
-      ...cart,
-      shippingInfo: null
-    }).subtotal).toEqual(124.44);
+    expect(getCartTotals(cart).subtotal).toEqual(26);
   });
 
   it('returns cart shipping price', () => {
     expect(getCartShippingPrice(cart)).toEqual(4.44);
     expect(getCartShippingPrice({ ...cart,
       shippingInfo: null })).toEqual(0);
+
+    expect(getCartShippingPrice({ ...cart,
+      shippingInfo: {
+        shippingMethod: {
+          zoneRates: [
+            {
+              shippingRates: [
+                {
+                  freeAbove: {
+                    centAmount: 1000
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })).toEqual(0);
   });
 
   it('returns cart total items', () => {

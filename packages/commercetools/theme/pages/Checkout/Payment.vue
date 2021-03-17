@@ -95,7 +95,7 @@
           <SfProperty
             name="Shipping"
             v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
-            :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
+            :value="$n(getShippingMethodPrice(chosenShippingMethod, totals.total), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
@@ -162,12 +162,12 @@ export default {
     SfLink,
     VsfPaymentProviderMock
   },
-  setup(props, context) {
+  setup(_, context) {
     const paymentReady = ref(false);
     const terms = ref(false);
     const { cart, removeItem, load, setCart } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
-    const { load: loadShippingProvider, response: chosenShippingMethod } = useShippingProvider();
+    const { load: loadShippingProvider, state } = useShippingProvider();
     const { billing: billingDetails, load: loadBillingDetails } = useBilling();
     const billingSameAsShipping = computed(() => Object.keys(shippingDetails.value).every(shippingDetailsKey => shippingDetails.value[shippingDetailsKey] === billingDetails.value[shippingDetailsKey]));
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -191,7 +191,7 @@ export default {
       products,
       shippingDetails,
       billingDetails,
-      chosenShippingMethod: computed(() => chosenShippingMethod.value && chosenShippingMethod.value.shippingMethod),
+      chosenShippingMethod: computed(() => state.value && state.value.response && state.value.response.shippingMethod),
       chosenPaymentMethod: {},
       billingSameAsShipping,
       terms,

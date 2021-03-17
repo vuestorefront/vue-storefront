@@ -18,7 +18,7 @@ export interface ProductsSearchParams {
   [x: string]: any;
 }
 export interface UseProductErrors {
-  search?: Error;
+  search: Error;
 }
 export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
@@ -42,12 +42,12 @@ export interface UseUserLoginParams {
   [x: string]: any;
 }
 export interface UseUserErrors {
-  updateUser?: Error;
-  register?: Error;
-  login?: Error;
-  logout?: Error;
-  changePassword?: Error;
-  load?: Error;
+  updateUser: Error;
+  register: Error;
+  login: Error;
+  logout: Error;
+  changePassword: Error;
+  load: Error;
 }
 export interface UseUser
 <
@@ -74,7 +74,7 @@ export interface UseUserOrderSearchParams {
   [x: string]: any;
 }
 export interface UseUserOrderErrors {
-  search?: Error;
+  search: Error;
 }
 export interface UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS> {
   orders: ComputedProperty<ORDERS>;
@@ -93,11 +93,11 @@ export interface UseUserAddress<ADDRESS> {
   loading: ComputedProperty<boolean>;
 }
 export interface UseUserShippingErrors {
-  addAddress?: Error;
-  deleteAddress?: Error;
-  updateAddress?: Error;
-  load?: Error;
-  setDefaultAddress?: Error;
+  addAddress: Error;
+  deleteAddress: Error;
+  updateAddress: Error;
+  load: Error;
+  setDefaultAddress: Error;
 }
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
@@ -132,11 +132,11 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
 }
 
 export interface UseUserBillingErrors {
-  addAddress?: Error;
-  deleteAddress?: Error;
-  updateAddress?: Error;
-  load?: Error;
-  setDefaultAddress?: Error;
+  addAddress: Error;
+  deleteAddress: Error;
+  updateAddress: Error;
+  load: Error;
+  setDefaultAddress: Error;
 }
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
@@ -171,7 +171,7 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
 }
 
 export interface UseCategoryErrors {
-  search?: Error;
+  search: Error;
 }
 export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   categories: ComputedProperty<CATEGORY[]>;
@@ -181,13 +181,13 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
 }
 
 export interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 export interface UseCart
 <
@@ -211,10 +211,10 @@ export interface UseCart
   loading: ComputedProperty<boolean>;
 }
 export interface UseWishlistErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  load: Error;
+  clear: Error;
 }
 export interface UseWishlist
 <
@@ -243,7 +243,7 @@ export interface UseCompare<PRODUCT> {
 }
 
 export interface UseMakeOrderErrors {
-  make?: Error;
+  make: Error;
 }
 
 export interface UseMakeOrder<ORDER> {
@@ -275,8 +275,8 @@ export interface UseCheckout
   loading: ComputedProperty<boolean>;
 }
 export interface UseReviewErrors {
-  search?: Error;
-  addReview?: Error;
+  search: Error;
+  addReview: Error;
 }
 export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
@@ -288,8 +288,8 @@ export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
 }
 
 export interface UseShippingErrors {
-  load?: Error;
-  save?: Error;
+  load: Error;
+  save: Error;
 }
 export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   error: ComputedProperty<UseShippingErrors>;
@@ -299,24 +299,23 @@ export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   save: (params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<void>;
 }
-export interface UseShippingErrors {
-  load?: Error;
-  save?: Error;
+export interface UseShippingProviderErrors {
+  load: Error;
+  save: Error;
 }
-export interface UseShippingProvider<SHIPPING_METHOD> {
-  error: ComputedProperty<UseShippingErrors>;
+export interface UseShippingProvider<STATE, SHIPPING_METHOD> {
+  error: ComputedProperty<UseShippingProviderErrors>;
   loading: ComputedProperty<boolean>;
-  response: ComputedProperty<SHIPPING_METHOD>;
+  state: ComputedProperty<STATE>;
+  setState(state: STATE): void;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
-}
-export interface UseShippingProviderErrors {
-  load?: Error;
+  save(params: { shippingMethod: SHIPPING_METHOD, customQuery?: CustomQuery }): Promise<void>;
 }
 
 export interface UseBillingErrors {
-  load?: Error;
-  save?: Error;
+  load: Error;
+  save: Error;
 }
 
 export interface UseBilling<BILLING, BILLING_PARAMS> {
@@ -328,7 +327,7 @@ export interface UseBilling<BILLING, BILLING_PARAMS> {
   save: (params: { params: BILLING_PARAMS; billingDetails: BILLING; customQuery?: CustomQuery }) => Promise<void>;
 }
 export interface UseFacetErrors {
-  search?: Error;
+  search: Error;
 }
 
 export interface AgnosticFacetSearchParams {
@@ -354,7 +353,7 @@ export interface UseFacet<SEARCH_DATA> {
   error: ComputedProperty<UseFacetErrors>;
 }
 export interface UseContentErrors {
-  search?: Error;
+  search: Error;
 }
 export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;

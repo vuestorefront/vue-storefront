@@ -12,7 +12,9 @@ export const useMakeOrderFactory = <ORDER>(
   return function useMakeOrder(): UseMakeOrder<ORDER> {
     const order: Ref<ORDER> = sharedRef(null, 'useMakeOrder-order');
     const loading: Ref<boolean> = sharedRef(false, 'useMakeOrder-loading');
-    const error: Ref<UseMakeOrderErrors> = sharedRef({}, 'useMakeOrder-error');
+    const error: Ref<UseMakeOrderErrors> = sharedRef({
+      make: null
+    }, 'useMakeOrder-error');
     const _factoryParams = configureFactoryParams(factoryParams);
 
     const make = async (params = { customQuery: null }) => {
@@ -20,8 +22,8 @@ export const useMakeOrderFactory = <ORDER>(
 
       try {
         loading.value = true;
-        error.value.make = null;
         const createdOrder = await _factoryParams.make(params);
+        error.value.make = null;
         order.value = createdOrder;
       } catch (err) {
         error.value.make = err;

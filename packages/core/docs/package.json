@@ -11,7 +11,7 @@
     "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference > ./commercetools/api-client-reference.md && rm -r ./commercetools/api-client-reference && node typedoc-vsf-theme/removeText"
   },
   "devDependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.3",
+    "@vue-storefront/commercetools-api": "^1.2.0-rc.1",
     "concat-md": "^0.3.5",
     "handlebars": "^4.7.7",
     "typedoc": "^0.20.20",
@@ -20,5 +20,9 @@
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sass-loader": "^8.0.2",
+    "vue-multiselect": "^2.1.6"
+  }
 }

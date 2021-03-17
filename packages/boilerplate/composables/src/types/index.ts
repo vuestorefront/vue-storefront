@@ -1,5 +1,7 @@
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
+export type Address = Record<string, unknown>;
+
 export type Category = Record<string, unknown>;
 
 export type User = {
@@ -23,6 +25,8 @@ export type OrderItem = Record<string, unknown>;
 export type Product = Record<string, unknown>;
 
 export type Review = Record<string, unknown>;
+
+export type Shipping = Record<string, unknown>;
 
 export type ShippingMethod = Record<string, unknown>;
 

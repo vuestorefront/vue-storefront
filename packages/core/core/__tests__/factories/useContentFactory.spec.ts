@@ -33,7 +33,9 @@ describe('[CORE - factories] useContentFactory', () => {
 
     expect(content.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual({});
+    expect(error.value).toEqual({
+      search: null
+    });
   });
 
   it('invokes content search', async () => {

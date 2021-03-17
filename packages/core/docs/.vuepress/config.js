@@ -25,25 +25,34 @@ module.exports = {
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
+			{ text: 'Integrations', link: '/integrations/' },
 			{ text: 'Migration guide', link: '/migrate/' },
 			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
 		],
 		sidebar: {
 			'/migrate/': [
 				{
-					title: 'Migration guide RC.1',
+					title: 'Migration guide 2.3.0-rc.1',
 					children: [
-						['/migrate/rc1', 'Overview'],
-						['/migrate/integrators-rc1', 'Integrators'],
-						['/migrate/projects-rc1', 'Projects'],
+						['/migrate/2.3.0-rc.1/overview', 'Overview'],
+						['/migrate/2.3.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.1/commercetools', 'commercetools']
 					]
 				},
 				{
 					title: 'Migration guide 2.2.0',
 					children: [
-						['/migrate/2.2.0', 'Overview'],
-						['/migrate/integrators-2.2.0', 'Integrators'],
-						['/migrate/projects-2.2.0', 'Projects'],
+						['/migrate/2.2.0/overview', 'Overview'],
+						['/migrate/2.2.0/integrators', 'Integrators'],
+						['/migrate/2.2.0/projects', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.1.0-rc.1',
+					children: [
+						['/migrate/2.1.0-rc.1/overview', 'Overview'],
+						['/migrate/2.1.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.1.0-rc.1/projects', 'Projects'],
 					]
 				}
 			],
@@ -65,23 +74,30 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
-						['/commercetools/use-product', 'useProduct'],
-						['/commercetools/use-review', 'useReview '],
-						['/commercetools/use-user', 'useUser'],
-						['/commercetools/use-user-shipping', 'useUserShipping'],
-						['/commercetools/use-user-billing', 'useUserBilling'],
-						['/commercetools/use-user-order', 'useUserOrder'],
-						['/commercetools/use-facet', 'useFacet'],
-						['/commercetools/use-cart', 'useCart'],
-						['/commercetools/use-wishlist', 'useWishlist'],
-						['/commercetools/use-category', 'useCategory']
+						['/commercetools/composables/use-product', 'useProduct'],
+						['/commercetools/composables/use-review', 'useReview '],
+						['/commercetools/composables/use-user', 'useUser'],
+						['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+						['/commercetools/composables/use-user-billing', 'useUserBilling'],
+						['/commercetools/composables/use-user-order', 'useUserOrder'],
+						['/commercetools/composables/use-facet', 'useFacet'],
+						['/commercetools/composables/use-cart', 'useCart'],
+						['/commercetools/composables/use-wishlist', 'useWishlist'],
+						['/commercetools/composables/use-category', 'useCategory']
+					]
+				},
+				{
+					title: 'API Client',
+					collapsable: false,
+					children: [
+						['/commercetools/api-client-reference', 'Methods reference']
 					]
 				},
 				{
 					title: 'Extensions',
 					collapsable: false,
 					children: [
-						['/commercetools/user-groups', 'User groups']
+						['/commercetools/extensions/user-groups', 'User groups']
 					]
 				},
 				{
@@ -90,13 +106,6 @@ module.exports = {
 					children: [
 						['/commercetools/auth-middleware', 'Auth Middleware']
 					],
-				},
-				{
-					title: 'API Client Reference',
-					collapsable: true,
-					children: [
-						['/commercetools/api-client-reference', 'API Client Reference']
-					]
 				}
 			],
 			'/aboutyou/': [
@@ -171,8 +180,8 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
-            ['/guide/user-profile', 'User profile'],
-                        ['/guide/authentication', 'Authentication']
+						['/guide/authentication', 'Authentication'],
+            ['/guide/user-profile', 'User profile']
 					]
 				},
 				{
@@ -190,21 +199,10 @@ module.exports = {
 					]
 				},
 				{
-					title: 'eCommerce platforms',
-					collapsable: false,
-					children: [
-						['/commercetools/', 'Commercetools'],
-						['/shopify/', 'Shopify'],
-						['/aboutyou/', 'About you'],
-						['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
-						['https://github.com/DivanteLtd/vue-storefront', 'Magento']
-					]
-				},
-				{
 					title: 'Build integration',
 					collapsable: true,
 					children: [
-						['/integrate/integration-guide', 'Integration guide'],
+						['/integrate/integration-guide', 'eCommerce'],
 						['/integrate/cms', 'CMS'],
 						['/integrate/cache-driver', 'Cache driver']
 					]

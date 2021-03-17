@@ -211,7 +211,7 @@ export default {
 
 For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)
 
-## Anatomy of a Composable
+## Anatomy of a composable
 
 Every Vue Storefront composable usually returns three main pieces:
 
@@ -261,25 +261,65 @@ export default {
 
 In the future, Vue 3 will provide an async setup and `onSSR` won't be needed anymore.
 
+## What composables I can use?
+
+Vue Storefront integrations are exposing the following composables:
+
+#### Product Catalog
+
+- `useProduct` for managing a single product with variants (or a list)
+- `useCategory` for managing category lists (but not category products)
+- `useFacet` for complex catalog search with filtering
+- `useReview` for product reviews
+
+#### User Profile and Authorization
+
+- `useUser` for managing user sessions, credentials and registration
+- `useUserShipping` for managing shipping addresses
+- `useUserBilling` for managing billing addresses
+- `useUserOrder` for managing past and active user orders
+
+#### Shopping Cart
+
+- `useCart` for loading the cart, adding/removing products and discounts
+
+#### Wishlist/Favourite
+
+- `useWishlist` for loading the wishlist, adding/removing products
+
+#### CMS Content
+
+- `useContent` for fetching the CMS content. It is usually used in combination with `<RenderContent>`component
+
+#### Checkout
+
+- `useCheckout` for saving the shipping and billing address for a current order, choosing a shipping method, making payments, and placing the order
+
+#### Other
+
+- `useVSFContext` for accessing the integration API methods and client instances
+
+In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
+
 ## Error handling
 
-A flexible way of error handling is essential for a framework like Vue Storefront. As composables are the heart of our app, we decided to put the whole error handling mechanism there.
+A flexible way of error handling is essential for a framework like Vue Storefront. We decided to put all errors in reactive objects so they can be easily managed in the template.
 
 Each composable returns an `error` computed property. It is an object which has names of async functions from composable as keys and Error instance or `null` as a value.
 
 ```vue
 <template>
-  <button @click="addToCart(product)">Add to cart</button>
-  <div v-if="error.addToCart">{{ error.addToCart.message }}</div>
+  <button @click="addItem(product)">Add to cart</button>
+  <div v-if="error.addItem">{{ error.addItem.message }}</div>
 </template>
 
 <script>
 export default {
   setup() {
-    const { addToCart, error } = useCart();
+    const { addItem, error } = useCart();
 
     return {
-      addToCart,
+      addItem,
       error
     };
   }
@@ -291,25 +331,25 @@ There is a dedicated TypeScript interface for every composable. Take a look at t
 
 ```ts
 export interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 ```
 
 :::details Where does the error come from?
 
-Inside each async method, we are catching errors when they occur and save them to the reactive property called `errors` under the key corresponding to the triggered method:
+Inside each async method, we are catching errors when they occur and save them to the reactive property called `error` under the key corresponding to the triggered method:
 
 ```ts
-const { addToCart, errors } = useCart();
+const { addItem, error } = useCart();
 
-addToCart({ product: null }); // triggers an error
-errors.addToCart; // here you have error raised by addToCart function
+addItem({ product: null }); // triggers an error
+error.value.addItem; // here you have error raised by addItem function
 ```
 
 :::
@@ -334,14 +374,14 @@ import { useUiNotification } from '~/composables';
 const { cart, error } = useCart();
 const { send } = useUiNotification();
 
-watch(error, (error, prevError) => {
-  if (error.value.addItem && error.value.addItem !== prevError.value.addItem)
-    send({ type: 'danger', message: error.value.addItem.message });
+watch(() => ({...error.value}), (error, prevError) => {
+  if (error.addItem && error.addItem !== prevError.addItem)
+    send({ type: 'danger', message: error.addItem.message });
   if (
-    error.value.removeItem &&
-    error.value.removeItem !== prevError.value.removeItem
+    error.removeItem &&
+    error.removeItem !== prevError.removeItem
   )
-    send({ type: 'danger', message: error.value.removeItem.message });
+    send({ type: 'danger', message: error.removeItem.message });
 });
 ```
 

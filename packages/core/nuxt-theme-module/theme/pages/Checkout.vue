@@ -2,21 +2,28 @@
   <div id="checkout">
     <div class="checkout">
       <div class="checkout__main">
-        <SfSteps :active="currentStep" v-if="currentStep < 4" class="checkout__steps">
-          <SfStep v-for="(step, index) in STEPS" :key="step.name" :name="step.label">
-            <nuxt-child
-              @showReview="handleShowReview"
-              @changeStep="updateStep($event)"
-              @nextStep="handleNextStep(index + 1)"
-            />
+        <SfSteps
+          v-if="!isThankYou"
+          :active="currentStepIndex"
+          :class="{ 'checkout__steps': true }"
+          @change="handleStepClick"
+        >
+          <SfStep
+            v-for="(step, key) in STEPS"
+            :key="key"
+            :name="step"
+          >
+            <nuxt-child />
           </SfStep>
         </SfSteps>
-        <nuxt-child v-else @changeStep="updateStep($event)" />
+        <nuxt-child v-else />
       </div>
-      <div class="checkout__aside desktop-only" v-if="currentStep < 4">
+      <div
+        v-if="!isThankYou"
+        class="checkout__aside desktop-only"
+      >
         <transition name="fade">
-          <CartPreview v-if="showCartPreview" key="order-summary" />
-          <OrderReview v-else key="order-review" />
+          <CartPreview key="order-summary" />
         </transition>
       </div>
     </div>
@@ -26,55 +33,37 @@
 
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/Checkout/CartPreview';
-import OrderReview from '~/components/Checkout/OrderReview';
-import { ref } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 
-const STEPS = [
-  { name: 'personal-details',
-    label: 'Personal Details' },
-  { name: 'shipping',
-    label: 'Shipping' },
-  { name: 'payment',
-    label: 'Payment' },
-  { name: 'order-review',
-    label: 'Review' }
-];
-
-// TODO(CHECKOUT): block pages when you haven't finished previous steps / don't have products in cart and so on.
-// TODO(CHECKOUT): save data that you put in the forms - after refreshing page everything should be filled
-// TODO(CHECKOUT): form validations
+const STEPS = {
+  shipping: 'Shipping',
+  billing: 'Billing',
+  payment: 'Payment'
+};
 
 export default {
   name: 'Checkout',
   components: {
     SfButton,
     SfSteps,
-    CartPreview,
-    OrderReview
+    CartPreview
   },
   setup(props, context) {
-    const showCartPreview = ref(true);
-    const currentStep = ref(0);
+    const currentStep = computed(() => context.root.$route.path.split('/').pop());
+    const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
+    const isThankYou = computed(() => currentStep.value === 'thank-you');
 
-    const handleShowReview = () => {
-      showCartPreview.value = false;
-    };
-
-    const updateStep = (next) => {
-      currentStep.value = next;
-    };
-
-    const handleNextStep = (nextStep) => {
-      context.root.$router.push(nextStep < 4 ? STEPS[nextStep].name : 'thank-you');
+    const handleStepClick = (stepIndex) => {
+      const key = Object.keys(STEPS)[stepIndex];
+      context.root.$router.push(`/checkout/${key}`);
     };
 
     return {
+      handleStepClick,
       STEPS,
-      handleNextStep,
-      currentStep,
-      updateStep,
-      handleShowReview,
-      showCartPreview
+      currentStepIndex,
+      isThankYou,
+      currentStep
     };
   }
 };
@@ -109,6 +98,11 @@ export default {
     @include for-desktop {
       --steps-content-padding: 0;
     }
+
+    &-auth::v-deep .sf-steps__step:first-child {
+      --steps-step-color: #e8e4e4;
+    }
   }
 }
+
 </style>
