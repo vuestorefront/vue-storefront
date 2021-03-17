@@ -2485,6 +2485,11 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
   integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
 
+"@storefront-ui/shared@0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.9.2.tgz#b50d6c8baec1a479054fd4a14b786f2809f0598e"
+  integrity sha512-2JX76IgwTrP/7Ksa5mF9+r1vlaZojKiqrPh9HCDo2yznnseqNOzKVgWn9vIRKxWqofMzmZeleNdriKfoulfFoQ==
+
 "@storefront-ui/vue@0.10.3", "@storefront-ui/vue@^0.10.3":
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.3.tgz#949b69a0888f85aa0f17fcdaf396972e5c210016"
@@ -2497,6 +2502,25 @@
     core-js "^3.6.5"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
+    node-sass "^4.13.1"
+    sass-loader "^8.0.2"
+    simplebar-vue "^1.4.0"
+    vue-drag-drop "^1.1.4"
+    vue-fragment "^1.5.1"
+    vue2-leaflet "^2.5.2"
+
+"@storefront-ui/vue@0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.9.2.tgz#56593b1cbfe62a5e03c965b5ccc2320edabbf504"
+  integrity sha512-yHaXY14fswtie4ULw64hbI8HGQ8wGOCdaGvZ1nwkcai0JJtCqLw7VWzCy0kPobZPXzc1fCFTt2KEUBbqPI342A==
+  dependencies:
+    "@glidejs/glide" "^3.3.0"
+    "@storefront-ui/shared" "0.9.2"
+    body-scroll-lock "^3.0.1"
+    core-js "^3.6.5"
+    hammerjs "^2.0.8"
+    leaflet "^1.5.1"
+    lozad "^1.14.0"
     node-sass "^4.13.1"
     sass-loader "^8.0.2"
     simplebar-vue "^1.4.0"
@@ -2990,6 +3014,92 @@
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@ungap/global-this/-/global-this-0.4.4.tgz#8a1b2cfcd3e26e079a847daba879308c924dd695"
   integrity sha512-mHkm6FvepJECMNthFuIgpAEFmPOk71UyXuIxYfjytvFTnSDBIz7jmViO+LfHI/AjrazWije0PnSP3+/NlwzqtA==
+
+"@vue-storefront/commercetools-api@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-1.1.7.tgz#deeb78597e65b7da299d953408a3d725ce95967a"
+  integrity sha512-0Idke1vVvNrLZ+UKjMXgQgnatH9QwX7p7vaGeuKVsBNu31q+WyU5y+NXI1VGol735i2uWeBJNfqrfPAcf08+lQ==
+  dependencies:
+    "@apollo/client" "^3.2.9"
+    "@commercetools/sdk-auth" "^3.0.1"
+    "@vue-storefront/core" "^2.2.3"
+    apollo-cache-inmemory "^1.6.6"
+    apollo-client "^2.6.10"
+    apollo-link "^1.2.14"
+    apollo-link-context "^1.0.20"
+    apollo-link-error "^1.1.13"
+    apollo-link-http "^1.5.17"
+    apollo-link-retry "^2.2.16"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+
+"@vue-storefront/commercetools-theme@./packages/commercetools/theme":
+  version "1.2.0-rc.2"
+  dependencies:
+    "@nuxtjs/pwa" "^3.2.2"
+    "@storefront-ui/vue" "0.10.3"
+    "@vue-storefront/commercetools" "^1.2.0-rc.2"
+    "@vue-storefront/middleware" "^2.3.0-rc.2"
+    "@vue-storefront/nuxt" "^2.3.0-rc.2"
+    "@vue-storefront/nuxt-theme" "^2.3.0-rc.2"
+    cookie-universal-nuxt "^2.1.3"
+    core-js "^2.6.5"
+    nuxt "^2.13.3"
+    nuxt-i18n "^6.5.0"
+    vee-validate "^3.2.3"
+    vue-scrollto "^2.17.1"
+
+"@vue-storefront/commercetools@^1.1.1":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools/-/commercetools-1.1.7.tgz#6da3a6c0f017843c0e0ecdbb7b2a1a6e556155ce"
+  integrity sha512-skw2iVG6xtdYedeZ9GbSC7Y0w8pfE9n/YHVo3CM3k4QDx3y3OBeixf3ZMgxwmc2gYm8tZMNvWhNoB2QQ+vkozg==
+  dependencies:
+    "@vue-storefront/commercetools-api" "^1.1.7"
+    "@vue-storefront/core" "^2.2.3"
+    js-cookie "^2.2.1"
+    vue "^2.6.x"
+
+"@vue-storefront/core@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.2.3.tgz#08b215fd3101d56ae3377d28ad80c92cfc9f4b8e"
+  integrity sha512-EQnVcNJb+LpSV03gLkNzO6Pr5qjDmeIEo0Br4LdXBGMBj7a0kov2X7zrgf59WoVYl/bnYhQeCzi+Ikuuq87Bjg==
+  dependencies:
+    "@vue/composition-api" "1.0.0-beta.21"
+    express "^4.17.1"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
+"@vue-storefront/nuxt-theme@./packages/core/nuxt-theme-module":
+  version "2.3.0-rc.2"
+  dependencies:
+    ejs "^3.0.2"
+    lodash.debounce "^4.0.8"
+    lodash.merge "^4.6.2"
+    vue-lazy-hydration "^2.0.0-beta.4"
+
+"@vue-storefront/nuxt-theme@^2.2.1":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt-theme/-/nuxt-theme-2.2.3.tgz#7a4f5555b051296bf58fd78c5b95501ffb98beaf"
+  integrity sha512-1zR8L1PvO0bkGQJDe3Nfo+yz20MrYVS4g8B6I74vboFRtsKbKw7LkStmVWSs0dpx9mSRlVmBSmjPfFMMJcPShQ==
+  dependencies:
+    lodash.merge "^4.6.2"
+    vue-lazy-hydration "^2.0.0-beta.4"
+
+"@vue-storefront/nuxt@^2.2.1":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-2.2.3.tgz#f1420204b293fad16a41bf4a6001c339e906e356"
+  integrity sha512-1JmHULb+cDhHpLHN6iKZKyAs9+sFhzekluHaBAFbCznSkt43RA69apRnNt8vBQsEYwqbXWcRdi9XgrLyDlKtpQ==
+  dependencies:
+    "@nuxt/typescript-build" "^2.0.0"
+    "@nuxtjs/composition-api" "0.17.0"
+    "@nuxtjs/style-resources" "^1.0.0"
+    "@vue/composition-api" "1.0.0-beta.21"
+    chalk "^2.4.2"
+    chokidar "^3.3.1"
+    consola "^2.10.1"
+    lodash "^4.17.15"
+    nuxt-purgecss "^1.0.0"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
@@ -6147,7 +6257,7 @@ debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
   dependencies:
     ms "2.1.2"
 
-debuglog@*, debuglog@^1.0.1:
+debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
   integrity sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=
@@ -8789,7 +8899,7 @@ import-local@^2.0.0:
     pkg-dir "^3.0.0"
     resolve-cwd "^2.0.0"
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
@@ -10560,11 +10670,6 @@ lodash-es@^4.17.15:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
-lodash._baseindexof@*:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz#fe52b53a1c6761e42618d654e4a25789ed61822c"
-  integrity sha1-/lK1OhxnYeQmGNZU5KJXie1hgiw=
-
 lodash._baseuniq@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash._baseuniq/-/lodash._baseuniq-4.6.0.tgz#0ebb44e456814af7905c6212fa2c9b2d51b841e8"
@@ -10573,32 +10678,10 @@ lodash._baseuniq@~4.6.0:
     lodash._createset "~4.0.0"
     lodash._root "~3.0.0"
 
-lodash._bindcallback@*:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-  integrity sha1-5THCdkTPi1epnhftlbNcdIeJOS4=
-
-lodash._cacheindexof@*:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz#3dc69ac82498d2ee5e3ce56091bafd2adc7bde92"
-  integrity sha1-PcaayCSY0u5ePOVgkbr9Ktx73pI=
-
-lodash._createcache@*:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/lodash._createcache/-/lodash._createcache-3.1.2.tgz#56d6a064017625e79ebca6b8018e17440bdcf093"
-  integrity sha1-VtagZAF2JeeevKa4AY4XRAvc8JM=
-  dependencies:
-    lodash._getnative "^3.0.0"
-
 lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
   integrity sha1-D0ZZ+7CddRlPqeK4imZE02PJ/iY=
-
-lodash._getnative@*, lodash._getnative@^3.0.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
-  integrity sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
@@ -10649,11 +10732,6 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
-
-lodash.restparam@*:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
-  integrity sha1-k2pOMJ7zMKdkXtQUWYbIWuWyCAU=
 
 lodash.set@^4.3.2:
   version "4.3.2"
@@ -10773,6 +10851,11 @@ lowercase-keys@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-2.0.0.tgz#2603e78b7b4b0006cbca2fbcc8a3202558ac9479"
   integrity sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==
+
+lozad@^1.14.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.16.0.tgz#86ce732c64c69926ccdebb81c8c90bb3735948b4"
+  integrity sha512-JBr9WjvEFeKoyim3svo/gsQPTkgG/mOHJmDctZ/+U9H3ymUuvEkqpn8bdQMFsvTMcyRJrdJkLv0bXqGm0sP72w==
 
 lru-cache@^4.0.1, lru-cache@^4.1.2, lru-cache@^4.1.5:
   version "4.1.5"
