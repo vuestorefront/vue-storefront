@@ -1,16 +1,14 @@
 # Configuration
 
-Usually, the first thing to do after setting up a fresh Vue Storefront project is configuring it. The bare minimum is to provide the API credentials for your integrations. Vue Storefront is configured by default to suit most cases, however you can customise it in many ways.
 
-Your Vue Storefront-related configuration is located in two places:
+Commercetools configuration is located in two places:
 
 - nuxt.config.js is a place where you're configuring properties related only to the frontend part of your application.
 
-- middleware.config.js is a place where you're configuring your Commercetools middleware. You will put there API keys, integration configurations, custom GraphQL queries and new API endpoints.
+- middleware.config.js is a place where you're configuring the Commercetools SDK, Apollo and extensions. You will put there API keys, integration configurations, custom GraphQL queries and new API endpoints.
 
 ## Nuxt Commercetools configuration
 
-From version 2.3.x, most Commercetools configuration was moved from `nuxt.config.js` to `middleware.config.js`. Thanks to that, in `nuxt.config.js` you can focus on the frontend configuration (i.e. `i18n`) and leave API config to the middleware.
 
 ```js
 ['@vue-storefront/commercetools/nuxt', {
@@ -22,9 +20,9 @@ From version 2.3.x, most Commercetools configuration was moved from `nuxt.config
 
 ## Middleware Commercetools configuration
 
- With Vue Storefront Next you can easily configure your Commercetools instance by creating a config object inside `middleware.config.js`:
 
 ```js
+// middleware.config.js
 ct: {
   location: '@vue-storefront/commercetools-api/server',
   configuration: {
@@ -35,7 +33,7 @@ ct: {
 }
 ```
 
-Example configuration object:
+Minimal configuration object:
 
 ```js
 ct: {
@@ -83,21 +81,8 @@ Commercetools secret API key. Visit [Commercetools documentation](https://docs.c
 
 The scope constrains the endpoints to which a client has access, and whether a client has read or write access to an endpoint. Visit [Commercetools documentation](https://docs.commercetools.com/api/scopes#top) for more details about Scopes.
 
-## Creating an API Client
 
-Inside `/packages/commercetools/api-client/src` there is an `index.server.ts` file where API Client can be configured. It will create an API Client based on configuration object, GraphQL API mutations and queries, and extensions (currently `tokenExtension`)
-
-```js
-const { createApiClient } = apiClientFactory({
-  onCreate, // Config
-  api, // GraphQL mutations and queries
-  extensions: [tokenExtension]
-});
-```
-
-### `onCreate`
-
-Returns config and client objects with following properties:
+Full configuration:
 
 ```js
 interface Config<T = any> {
@@ -208,10 +193,3 @@ languageMap: {
 }
 ```
 
-### `api` (createApiClient)
-
-GraphQL mutations and queries imported from `commercetools/packages/api-client/src/api`. 
-
-### `extensions`
-
-Additional features that can be added before app client initialization. By default it loads `tokenExtension` that extends basic functionality of token authorization.
