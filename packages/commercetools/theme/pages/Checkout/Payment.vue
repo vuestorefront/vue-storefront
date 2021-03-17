@@ -5,7 +5,7 @@
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion open="Shipping address" class="accordion smartphone-only">
+    <SfAccordion :open="$t('Shipping address')" class="accordion smartphone-only">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
           <div class="accordion__content">
