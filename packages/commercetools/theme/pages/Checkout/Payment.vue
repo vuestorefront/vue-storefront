@@ -2,11 +2,11 @@
   <div>
     <SfHeading
       :level="3"
-      title="Payment"
+      :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion first-open class="accordion smartphone-only">
-      <SfAccordionItem header="Shipping address">
+    <SfAccordion :open="$t('Shipping address')" class="accordion smartphone-only">
+      <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
@@ -17,12 +17,12 @@
             </p>
             <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 1)">
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">
             {{ $t('Edit') }}
           </SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem header="Billing address">
+      <SfAccordionItem :header="$t('Billing address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
@@ -38,7 +38,7 @@
               <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton class="sf-button--text color-secondary accordion__edit" @click="$emit('click:edit', 2)">
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">
             {{ $t('Edit') }}
           </SfButton>
         </div>
@@ -88,22 +88,22 @@
       <div class="summary__group">
         <div class="summary__total">
           <SfProperty
-            name="Subtotal"
+            :name="$t('Subtotal')"
             :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Shipping"
+            :name="$t('Shipping')"
             v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
             :value="$n(getShippingMethodPrice(chosenShippingMethod, totals.total), 'currency')"
             class="sf-property--full-width property"
           />
         </div>
-        <SfDivider />
+        <SfDivider class="divider"/>
         <SfProperty
-          name="Total price"
+          :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="sf-property--full-width sf-property--large summary__property-total"
+          class="sf-property--full-width sf-property--large property summary__property-total"
         />
         <VsfPaymentProviderMock @status="paymentReady = $event"/>
         <SfCheckbox v-model="terms" name="terms" class="summary__terms">
@@ -114,12 +114,12 @@
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <nuxt-link to="/checkout/payment" class="sf-button color-secondary summary__back-button">
-            {{ $t('Go back') }}
-          </nuxt-link>
           <SfButton class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
+          <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
+            {{ $t('Go back') }}
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -210,6 +210,7 @@ export default {
 <style lang="scss" scoped>
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  --heading-title-font-weight: var(--font-weight--bold);
 }
 .table {
   margin: 0 0 var(--spacer-base) 0;
@@ -249,6 +250,13 @@ export default {
 .product-price {
   --price-font-size: var(--font-size--base);
 }
+.property {
+  margin: 0 0 var(--spacer-sm) 0;
+  --property-name-font-weight: var(--font-weight--medium);
+  --property-name-font-size: var(--font-size--lg);
+  --property-value-font-weight: var(--font-weight--bold);
+  --property-value-font-size: var(--h4-font-size);
+}
 .summary {
   &__terms {
     margin: var(--spacer-base) 0 0 0;
@@ -266,37 +274,23 @@ export default {
   &__action-button {
     margin: 0;
     width: 100%;
-    margin: var(--spacer-sm) 0 0 0;
+    margin: var(--spacer-xl) 0 0 0;
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
-      width: auto;
-    }
-    &--secondary {
-      @include for-desktop {
-        text-align: right;
-      }
+      width: 25rem;
     }
   }
   &__back-button {
-    margin: var(--spacer-xl) 0 0 0;
+    margin: var(--spacer-sm) 0 var(--spacer-xl);
     width: 100%;
-    @include for-desktop {
-      margin: 0 var(--spacer-xl) 0 0;
-      width: auto;
-    }
-    color:  var(--c-white);
-    &:hover {
-      color:  var(--c-white);
-    }
   }
   &__property-total {
     margin: var(--spacer-xl) 0 0 0;
-  }
-}
-.property {
-  margin: 0 0 var(--spacer-sm) 0;
-  &__name {
-    color: var(--c-text-muted);
+    --property-name-color: var(--c-text);
+    --property-name-font-size: var(--h4-font-size);
+    @include for-desktop {
+      --property-name-font-weight: var(--font-weight--bold);
+    }
   }
 }
 .accordion {
@@ -321,5 +315,10 @@ export default {
   &__label {
     font-weight: var(--font-weight--normal);
   }
+}
+.divider {
+  --divider-border-color: var(--c-primary);
+  --divider-width: 100%;
+  --divider-margin: 0 0 var(--spacer-base) 0;
 }
 </style>

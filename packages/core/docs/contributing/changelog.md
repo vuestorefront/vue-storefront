@@ -1,5 +1,9 @@
 # Changelog
 
+
+# 2.2.3
+- fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
+
 # 2.2.1
 - fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` and improved typings in Boilerplate ([#5403](https://github.com/DivanteLtd/vue-storefront/issues/5403))
 

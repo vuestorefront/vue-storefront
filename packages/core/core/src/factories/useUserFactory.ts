@@ -14,17 +14,29 @@ export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PA
 export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
 ) => {
-
   return function useUser (): UseUser<USER, UPDATE_USER_PARAMS> {
+    const errorsFactory = (): UseUserErrors => ({
+      updateUser: null,
+      register: null,
+      login: null,
+      logout: null,
+      changePassword: null,
+      load: null
+    });
+
     const user: Ref<USER> = sharedRef(null, 'useUser-user');
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserErrors> = sharedRef({}, 'useUser-error');
+    const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
 
     const setUser = (newUser: USER) => {
       user.value = newUser;
       Logger.debug('useUserFactory.setUser', newUser);
+    };
+
+    const resetErrorValue = () => {
+      error.value = errorsFactory();
     };
 
     const updateUser = async ({ user: providedUser }) => {
@@ -32,8 +44,8 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         loading.value = true;
-        error.value.updateUser = null;
         user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser});
+        error.value.updateUser = null;
       } catch (err) {
         error.value.updateUser = err;
         Logger.error('useUser/updateUser', err);
@@ -44,11 +56,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const register = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.register', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
-        error.value.register = null;
         user.value = await _factoryParams.register(providedUser);
+        error.value.register = null;
       } catch (err) {
         error.value.register = err;
         Logger.error('useUser/register', err);
@@ -59,11 +72,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const login = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.login', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
-        error.value.login = null;
         user.value = await _factoryParams.logIn(providedUser);
+        error.value.login = null;
       } catch (err) {
         error.value.login = err;
         Logger.error('useUser/login', err);
@@ -76,8 +90,8 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       Logger.debug('useUserFactory.logout');
 
       try {
-        error.value.logout = null;
         await _factoryParams.logOut();
+        error.value.logout = null;
         user.value = null;
       } catch (err) {
         error.value.logout = err;
@@ -90,12 +104,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         loading.value = true;
-        error.value.changePassword = null;
         user.value = await _factoryParams.changePassword({
           currentUser: user.value,
           currentPassword: params.current,
           newPassword: params.new
         });
+        error.value.changePassword = null;
       } catch (err) {
         error.value.changePassword = err;
         Logger.error('useUser/changePassword', err);
@@ -109,8 +123,8 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         loading.value = true;
-        error.value.load = null;
         user.value = await _factoryParams.load();
+        error.value.load = null;
       } catch (err) {
         error.value.load = err;
         Logger.error('useUser/load', err);

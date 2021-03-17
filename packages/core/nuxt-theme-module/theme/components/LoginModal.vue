@@ -46,6 +46,9 @@
               label="Remember me"
               class="form__element checkbox"
             />
+            <div v-if="error.login">
+              {{ error.login.graphQLErrors[0].message || error.login.message }}
+            </div>
             <SfButton data-cy="login-btn_submit"
               type="submit"
               class="sf-button--full-width form__button"
@@ -64,7 +67,7 @@
         </div>
         <div class="bottom">
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="isLogin = false">
+          <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="setIsLoginValue(false)">
             {{ $t('Register today') }}
           </SfButton>
         </div>
@@ -127,6 +130,9 @@
                 class="form__element"
               />
             </ValidationProvider>
+            <div v-if="error.register">
+              {{ error.register.graphQLErrors[0].message || error.register.message }}
+            </div>
             <SfButton
               data-cy="login-btn_submit"
               type="submit"
@@ -141,7 +147,7 @@
         </ValidationObserver>
         <div class="action">
           {{ $t('or') }}
-          <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="isLogin = true">
+          <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="setIsLoginValue(true)">
             {{ $t('login in to your account') }}
           </SfButton>
         </div>
@@ -150,7 +156,7 @@
   </SfModal>
 </template>
 <script>
-import { ref, watch } from '@vue/composition-api';
+import { ref, watch, reactive } from '@vue/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
@@ -186,7 +192,7 @@ export default {
     const isLogin = ref(false);
     const createAccount = ref(false);
     const rememberMe = ref(false);
-    const { register, login, loading } = useUser();
+    const { register, login, loading, error: userError } = useUser();
 
     watch(isLoginModalOpen, () => {
       if (isLoginModalOpen) {
@@ -194,8 +200,31 @@ export default {
       }
     });
 
+    const error = reactive({
+      login: null,
+      register: null
+    });
+
+    const resetErrorValues = () => {
+      error.login = null;
+      error.register = null;
+    };
+
+    const setIsLoginValue = (value) => {
+      resetErrorValues();
+      isLogin.value = value;
+    };
+
     const handleForm = (fn) => async () => {
       await fn({ user: form.value });
+      resetErrorValues();
+
+      const hasUserErrors = userError.value.register || userError.value.login;
+      if (hasUserErrors) {
+        error.login = userError.value.login;
+        error.register = userError.value.register;
+        return;
+      }
       toggleLoginModal();
     };
 
@@ -205,6 +234,8 @@ export default {
 
     return {
       form,
+      error,
+      userError,
       loading,
       isLogin,
       createAccount,
@@ -212,7 +243,8 @@ export default {
       isLoginModalOpen,
       toggleLoginModal,
       handleLogin,
-      handleRegister
+      handleRegister,
+      setIsLoginValue
     };
   }
 };

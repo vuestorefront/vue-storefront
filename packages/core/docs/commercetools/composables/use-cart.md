@@ -245,13 +245,13 @@ type CustomQuery = (query, variables) => {
 
 ```ts
 interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 ```
 

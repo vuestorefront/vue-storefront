@@ -64,8 +64,8 @@ type Review = any;
 
 ```ts
 interface UseReviewErrors {
-  search?: Error;
-  addReview?: Error;
+  search: Error;
+  addReview: Error;
 }
 ```
 

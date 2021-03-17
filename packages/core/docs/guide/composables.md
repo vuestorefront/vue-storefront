@@ -267,38 +267,41 @@ Vue Storefront integrations are exposing the following composables:
 
 #### Product Catalog
 
-- `useProduct` for managing a single product with variants (or a list)
-- `useCategory` for managing category lists (but not category products)
-- `useFacet` for complex catalog search with filtering
-- `useReview` for product reviews
+- `useProduct` - Managing a single product with variants (or a list).
+- `useCategory` - Managing category lists (but not category products).
+- `useFacet` - Complex catalog search with filtering.
+- `useReview` - Product reviews.
 
 #### User Profile and Authorization
 
-- `useUser` for managing user sessions, credentials and registration
-- `useUserShipping` for managing shipping addresses
-- `useUserBilling` for managing billing addresses
-- `useUserOrder` for managing past and active user orders
+- `useUser` - Managing user sessions, credentials and registration.
+- `useUserShipping` - Managing shipping addresses.
+- `useUserBilling` - Managing billing addresses.
+- `useUserOrder` - Managing past and active user orders.
 
 #### Shopping Cart
 
-- `useCart` for loading the cart, adding/removing products and discounts
+- `useCart` - Loading the cart, adding/removing products and discounts.
 
 #### Wishlist/Favourite
 
-- `useWishlist` for loading the wishlist, adding/removing products
+- `useWishlist` - Loading the wishlist, adding/removing products.
 
 #### CMS Content
 
-- `useContent` for fetching the CMS content. It is usually used in combination with `<RenderContent>`component
+- `useContent` - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
 
 #### Checkout
 
-- `useCheckout` for saving the shipping and billing address for a current order, choosing a shipping method, making payments, and placing the order
+- `useShipping` - Saving the shipping address for a current order.
+- `useShippingProvider` - Choosing a shipping method for a current order.
+- `useBilling` - Saving the billing address for a current order.
+- `usePaymentProvider` - Choosing a payment method for a current order.
+- `useMakeOrder` - Placing the order.
 
 #### Other
 
-- `useVSFContext` for accessing the integration API methods and client instances
-
+- `useVSFContext` - Accessing the integration API methods and client instances.
 In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
 
 ## Error handling
@@ -331,25 +334,25 @@ There is a dedicated TypeScript interface for every composable. Take a look at t
 
 ```ts
 export interface UseCartErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  updateItemQty?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  updateItemQty: Error;
+  load: Error;
+  clear: Error;
   applyCoupon: Error;
-  removeCoupon?: Error;
+  removeCoupon: Error;
 }
 ```
 
 :::details Where does the error come from?
 
-Inside each async method, we are catching errors when they occur and save them to the reactive property called `errors` under the key corresponding to the triggered method:
+Inside each async method, we are catching errors when they occur and save them to the reactive property called `error` under the key corresponding to the triggered method:
 
 ```ts
-const { addItem, errors } = useCart();
+const { addItem, error } = useCart();
 
 addItem({ product: null }); // triggers an error
-errors.addItem; // here you have error raised by addItem function
+error.value.addItem; // here you have error raised by addItem function
 ```
 
 :::
@@ -374,17 +377,61 @@ import { useUiNotification } from '~/composables';
 const { cart, error } = useCart();
 const { send } = useUiNotification();
 
-watch(error, (error, prevError) => {
-  if (error.value.addItem && error.value.addItem !== prevError.value.addItem)
-    send({ type: 'danger', message: error.value.addItem.message });
+watch(() => ({...error.value}), (error, prevError) => {
+  if (error.addItem && error.addItem !== prevError.addItem)
+    send({ type: 'danger', message: error.addItem.message });
   if (
-    error.value.removeItem &&
-    error.value.removeItem !== prevError.value.removeItem
+    error.removeItem &&
+    error.removeItem !== prevError.removeItem
   )
-    send({ type: 'danger', message: error.value.removeItem.message });
+    send({ type: 'danger', message: error.removeItem.message });
 });
 ```
 
 In this example, we are using `useUiNotification` - a composable that handles notifications state. You can read more about it in the API reference.
 
 [//]: # 'TODO: This should be added to API reference'
+
+### How to customize graphql queries?
+
+If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
+
+Since the communication with the API goes through our middleware, all queries also are defined there.
+
+To customize or even totally override the original (default) queries you need to follow two steps.
+
+Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
+This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values.
+
+
+```ts
+const { search } = useProduct();
+
+search({ customQuery: { products: 'my-products-query' } }); 
+```
+
+In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As a second step, we need to define that function.
+
+
+Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`:
+
+```js
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: { /* ... */ },
+      customQueries: {
+        'my-products-query': ({ query, variables }) => {
+
+          variables.locale = 'en'
+
+          return { query, variables }
+        }
+      }
+    }
+  }
+};
+```
+
+The custom query function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones.

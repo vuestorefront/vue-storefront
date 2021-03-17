@@ -86,7 +86,7 @@ const createCommerceToolsConnection = (settings: Config): any => {
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {
     return asyncMap(forward(apolloReq) as any, async (response: any) => {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
-      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
+      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken, response });
 
       const errors = (response.errors || []).filter(({ message }) =>
         !message.includes('Resource Owner Password Credentials Grant') &&

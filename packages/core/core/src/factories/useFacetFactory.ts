@@ -13,7 +13,9 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     const loading: Ref<boolean> = vsfRef(false, `${ssrKey}-loading`);
     const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseFacetErrors> = sharedRef({}, `useFacet-error-${id}`);
+    const error: Ref<UseFacetErrors> = sharedRef({
+      search: null
+    }, `useFacet-error-${id}`);
 
     const search = async (params?: AgnosticFacetSearchParams) => {
       Logger.debug(`useFacet/${ssrKey}/search`, params);
@@ -21,8 +23,8 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
       result.value.input = params;
       try {
         loading.value = true;
-        error.value.search = null;
         result.value.data = await _factoryParams.search(result.value);
+        error.value.search = null;
       } catch (err) {
         error.value.search = err;
         Logger.error(`useFacet/${ssrKey}/search`, err);

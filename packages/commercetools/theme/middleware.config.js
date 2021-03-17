@@ -24,6 +24,14 @@ module.exports = {
         },
         currency: 'USD',
         country: 'US'
+      },
+      customQueries: {
+        'root-categories-query': ({ query, variables }) => {
+
+          variables.where = 'parent is not defined';
+
+          return { query, variables };
+        }
       }
     }
   }
