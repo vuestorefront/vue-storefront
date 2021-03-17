@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SfOverlay :visible="!!isOverlayVisible" />
     <SfHeader
       data-cy="app-header"
       class="sf-header--has-mobile-search"
@@ -13,7 +12,8 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <HeaderNav @setOverlay="isOverlayVisible = $event" />
+        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
+        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -102,7 +102,6 @@ import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
-import HeaderNav from './HeaderNav';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
   mapMobileObserver,
@@ -120,8 +119,7 @@ export default {
     SfBadge,
     SfSearchBar,
     SearchResults,
-    SfOverlay,
-    HeaderNav
+    SfOverlay
   },
   directives: { clickOutside },
   setup(props, { root }) {
@@ -134,7 +132,6 @@ export default {
     const term = ref(getFacetsFromURL().term);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
-    const isOverlayVisible = ref(false);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -212,8 +209,7 @@ export default {
       result,
       closeOrFocusSearchBar,
       searchBarRef,
-      isMobile,
-      isOverlayVisible
+      isMobile
     };
   }
 };
@@ -224,7 +220,6 @@ export default {
   --header-padding:  var(--spacer-sm);
   @include for-desktop {
     --header-padding: 0;
-    z-index: var(--header-wrapper-z-index, 1);
   }
   &__logo-image {
       height: 100%;
