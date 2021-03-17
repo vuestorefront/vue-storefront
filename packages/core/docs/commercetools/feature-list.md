@@ -85,17 +85,14 @@
   - Remove product from wishlist
 
 ## Checkout
-- Personal Details
-  - Fill in name
-  - Fill in surname
-  - Fill in email
-  - Create a new account from provided data by setting up a password
-  - Use saved personal details (logged in)
-  - Open log in modal (not logged in)
 - Shipping
   - Choose from saved shipping addresses (logged in)
   - Add new shipping address (logged in)
   - Change default shipping address (logged in)
+- Billing
+  - Choose from saved billing addresses (logged in)
+  - Add new billing address (logged in)
+  - Change default billing address (logged in)
 - Payment
 - Review
 - Order summary
