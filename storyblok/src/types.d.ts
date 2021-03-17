@@ -11,5 +11,6 @@ export interface ApiContext {
   config: ContentSearchParams
 }
 export interface Component {
+  _editable?: {}
   component: string
 }

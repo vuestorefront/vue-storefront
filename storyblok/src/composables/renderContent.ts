@@ -3,6 +3,7 @@ import { Component } from '../types'
 
 export const extractComponents = (
   contentData: {} | [] = [],
+  editable?: boolean,
 ): RenderComponent[] => {
   let content = contentData
   if (!Array.isArray(contentData)) content = [content]
@@ -10,6 +11,7 @@ export const extractComponents = (
     componentName: string
     props: {}
   } => {
+    console.log(component)
     const props = Object.keys(component).reduce(
       (res: {}, key: string) => ({
         ...res,
@@ -17,9 +19,15 @@ export const extractComponents = (
       }),
       {},
     )
+    const isEditable = editable
+      ? {
+          _editable: component._editable,
+        }
+      : {}
     return {
       componentName: component.component || 'CustomComponent',
       props,
+      ...isEditable,
     }
   })
 }
