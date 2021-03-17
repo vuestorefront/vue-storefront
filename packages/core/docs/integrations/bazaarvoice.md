@@ -28,7 +28,6 @@ Register its Nuxt module with the following configuration:
 export default {
   buildModules: [
     ['@vue-storefront/nuxt', {
-      coreDevelopment: true,
       useRawSource: {
         dev: [
           // other packages
