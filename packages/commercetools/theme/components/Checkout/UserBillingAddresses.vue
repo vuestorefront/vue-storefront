@@ -33,7 +33,7 @@
       @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
-      class="billing-address-setAsDefault"
+      class="billing__setAsDefault"
     />
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .billing {
     &__address {
       margin-bottom: var(--spacer-base);
@@ -92,8 +92,8 @@ export default {
         display: flex;
       }
     }
-  }
-  .billing-address-setAsDefault, .form__action-button--margin-bottom {
-    margin-bottom: var(--spacer-xl);
+    &__setAsDefault {
+      margin-bottom: var(--spacer-xl);
+    }
   }
 </style>

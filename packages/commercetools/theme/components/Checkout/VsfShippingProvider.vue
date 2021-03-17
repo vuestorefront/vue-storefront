@@ -48,11 +48,6 @@
         >
           {{ $t('Continue to billing') }}
         </SfButton>
-        <SfButton
-          class="sf-button--underlined form__back-button smartphone-only"
-          @click="$router.go(-1)"
-          >{{ $t('Go back') }}</SfButton
-        >
       </div>
     </div>
   </div>
@@ -227,10 +222,6 @@ export default {
     @include for-desktop {
       --button-width: 25rem;
     }
-  }
-  &__back-button {
-    --button-width: 100%;
-    margin: var(--spacer-sm) 0 var(--spacer-xl);
   }
   &__radio-group {
     flex: 0 0 100%;

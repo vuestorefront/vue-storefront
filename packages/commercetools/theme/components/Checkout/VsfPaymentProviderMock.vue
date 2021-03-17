@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div class="form__radio-group payment-methods">
+      <div class="form__radio-group payment__methods">
           <SfRadio
             v-for="method in paymentMethods"
             :key="method.id"
@@ -16,7 +16,7 @@
             @input="selectPaymentMethod(method)"
             name="paymentMethod"
             :description="method.description"
-            class="form__radio payment-method"
+            class="form__radio payment__method"
           >
             <template #label="{ label }">
               <div class="sf-radio__label payment__label">
@@ -103,25 +103,27 @@ export default {
 
   }
 }
-.payment-methods {
+.payment {
+  &__methods {
     border: 1px solid var(--c-light);
     border-width: 1px 0;
-  @include for-desktop {
-    display: flex;
-    padding: var(--spacer-lg) 0;
+    @include for-desktop {
+      display: flex;
+      padding: var(--spacer-lg) 0;
+    }
   }
-}
-.payment-method {
-  --radio-description-margin: 0;
-  --radio-container-align-items: center;
-  --ratio-content-margin: 0 0 0 var(--spacer-base);
-  --radio-label-font-size: var(--font-base);
-  --radio-background: transparent;
-  white-space: nowrap;
-  --radio-background: transparent;
-  @include for-desktop {
-    border: 0;
-    --radio-border-radius: 4px;
+  &__method {
+    --radio-description-margin: 0;
+    --radio-container-align-items: center;
+    --ratio-content-margin: 0 0 0 var(--spacer-base);
+    --radio-label-font-size: var(--font-base);
+    --radio-background: transparent;
+    white-space: nowrap;
+    --radio-background: transparent;
+    @include for-desktop {
+      border: 0;
+      --radio-border-radius: 4px;
+    }
   }
 }
 </style>

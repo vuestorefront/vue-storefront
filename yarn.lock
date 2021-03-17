@@ -2991,21 +2991,6 @@
   resolved "https://registry.yarnpkg.com/@ungap/global-this/-/global-this-0.4.4.tgz#8a1b2cfcd3e26e079a847daba879308c924dd695"
   integrity sha512-mHkm6FvepJECMNthFuIgpAEFmPOk71UyXuIxYfjytvFTnSDBIz7jmViO+LfHI/AjrazWije0PnSP3+/NlwzqtA==
 
-"@vue-storefront/commercetools-api@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/commercetools-api/-/commercetools-api-0.0.3.tgz#d1f14739a9168ec300a32f28f24cd49d1b76edcb"
-  integrity sha512-ocPY9MNPYMiwVO763J+qGmoktHksNkxVOwCBjZ0Q3xjNPwTT1usMZgEdMGLRpCtuxdPOMLuQek+T1G9g4nOYJQ==
-  dependencies:
-    "@commercetools/sdk-auth" "^3.0.1"
-    apollo-cache-inmemory "^1.6.3"
-    apollo-client "^2.6.4"
-    apollo-link "^1.2.13"
-    apollo-link-context "^1.0.19"
-    apollo-link-http "^1.5.16"
-    graphql "^14.5.8"
-    graphql-tag "^2.10.1"
-    isomorphic-fetch "^2.2.1"
-
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
@@ -3783,7 +3768,7 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apollo-cache-inmemory@^1.6.3, apollo-cache-inmemory@^1.6.6:
+apollo-cache-inmemory@^1.6.6:
   version "1.6.6"
   resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.6.6.tgz#56d1f2a463a6b9db32e9fa990af16d2a008206fd"
   integrity sha512-L8pToTW/+Xru2FFAhkZ1OA9q4V4nuvfoPecBM34DecAugUZEBhI2Hmpgnzq2hTKZ60LAMrlqiASm0aqAY6F8/A==
@@ -3802,7 +3787,7 @@ apollo-cache@1.3.5, apollo-cache@^1.3.5:
     apollo-utilities "^1.3.4"
     tslib "^1.10.0"
 
-apollo-client@^2.6.10, apollo-client@^2.6.4:
+apollo-client@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.6.10.tgz#86637047b51d940c8eaa771a4ce1b02df16bea6a"
   integrity sha512-jiPlMTN6/5CjZpJOkGeUV0mb4zxx33uXWdj/xQCfAMkuNAC3HN7CvYDyMHHEzmcQ5GV12LszWoQ/VlxET24CtA==
@@ -3816,7 +3801,7 @@ apollo-client@^2.6.10, apollo-client@^2.6.4:
     tslib "^1.10.0"
     zen-observable "^0.8.0"
 
-apollo-link-context@^1.0.19, apollo-link-context@^1.0.20:
+apollo-link-context@^1.0.20:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.20.tgz#1939ac5dc65d6dff0c855ee53521150053c24676"
   integrity sha512-MLLPYvhzNb8AglNsk2NcL9AvhO/Vc9hn2ZZuegbhRHGet3oGr0YH9s30NS9+ieoM0sGT11p7oZ6oAILM/kiRBA==
@@ -3842,7 +3827,7 @@ apollo-link-http-common@^0.2.16:
     ts-invariant "^0.4.0"
     tslib "^1.9.3"
 
-apollo-link-http@^1.5.16, apollo-link-http@^1.5.17:
+apollo-link-http@^1.5.17:
   version "1.5.17"
   resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.5.17.tgz#499e9f1711bf694497f02c51af12d82de5d8d8ba"
   integrity sha512-uWcqAotbwDEU/9+Dm9e1/clO7hTB2kQ/94JYcGouBVLjoKmTeJTUPQKcJGpPwUjZcSqgYicbFqQSoJIW0yrFvg==
@@ -3868,7 +3853,7 @@ apollo-link-schema@^1.2.5:
     apollo-link "^1.2.14"
     tslib "^1.9.3"
 
-apollo-link@^1.0.0, apollo-link@^1.2.13, apollo-link@^1.2.14:
+apollo-link@^1.0.0, apollo-link@^1.2.14:
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
   integrity sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
@@ -6162,7 +6147,7 @@ debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
   dependencies:
     ms "2.1.2"
 
-debuglog@*, debuglog@^1.0.1:
+debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
   integrity sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=
@@ -8797,7 +8782,7 @@ import-local@^2.0.0:
     pkg-dir "^3.0.0"
     resolve-cwd "^2.0.0"
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
@@ -10568,11 +10553,6 @@ lodash-es@^4.17.15:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
-lodash._baseindexof@*:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz#fe52b53a1c6761e42618d654e4a25789ed61822c"
-  integrity sha1-/lK1OhxnYeQmGNZU5KJXie1hgiw=
-
 lodash._baseuniq@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash._baseuniq/-/lodash._baseuniq-4.6.0.tgz#0ebb44e456814af7905c6212fa2c9b2d51b841e8"
@@ -10581,32 +10561,10 @@ lodash._baseuniq@~4.6.0:
     lodash._createset "~4.0.0"
     lodash._root "~3.0.0"
 
-lodash._bindcallback@*:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-  integrity sha1-5THCdkTPi1epnhftlbNcdIeJOS4=
-
-lodash._cacheindexof@*:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz#3dc69ac82498d2ee5e3ce56091bafd2adc7bde92"
-  integrity sha1-PcaayCSY0u5ePOVgkbr9Ktx73pI=
-
-lodash._createcache@*:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/lodash._createcache/-/lodash._createcache-3.1.2.tgz#56d6a064017625e79ebca6b8018e17440bdcf093"
-  integrity sha1-VtagZAF2JeeevKa4AY4XRAvc8JM=
-  dependencies:
-    lodash._getnative "^3.0.0"
-
 lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
   integrity sha1-D0ZZ+7CddRlPqeK4imZE02PJ/iY=
-
-lodash._getnative@*, lodash._getnative@^3.0.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
-  integrity sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
@@ -10657,11 +10615,6 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
-
-lodash.restparam@*:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
-  integrity sha1-k2pOMJ7zMKdkXtQUWYbIWuWyCAU=
 
 lodash.set@^4.3.2:
   version "4.3.2"

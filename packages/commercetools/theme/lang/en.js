@@ -122,5 +122,13 @@ export default {
   'Enter promo code': 'Enter promo code',
   'Shipping method': 'Shipping method',
   'Continue to billing': 'Continue to billing',
-  'Payment methods': 'Payment methods'
+  'Payment methods': 'Payment methods',
+  'Shipping address': 'Shipping address',
+  'Subtotal': 'Subtotal',
+  'Shipping': 'Shipping',
+  'Total price': 'Total price',
+  'Payment': 'Payment',
+  'Order summary': 'Order summary',
+  'Products': 'Products',
+  'Total': 'Total'
 };

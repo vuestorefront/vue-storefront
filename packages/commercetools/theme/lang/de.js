@@ -122,5 +122,13 @@ export default {
   'Enter promo code': 'Geben Sie den Promo-Code ein',
   'Shipping method': 'Versandart',
   'Continue to billing': 'Weiter zur Abrechnung',
-  'Payment methods': 'Zahlungsmethoden'
+  'Payment methods': 'Zahlungsmethoden',
+  'Shipping address': 'Lieferanschrift',
+  'Subtotal': 'Zwischensumme',
+  'Shipping': 'Versand',
+  'Total price': 'Gesamtpreis',
+  'Payment': 'Zahlung',
+  'Order summary': 'Bestellübersicht',
+  'Products': 'Produkte',
+  'Total': 'Gesamt'
 };

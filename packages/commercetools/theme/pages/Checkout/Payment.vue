@@ -2,11 +2,11 @@
   <div>
     <SfHeading
       :level="3"
-      title="Payment"
+      :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion open="Shipping address" class="accordion smartphone-only">
-      <SfAccordionItem header="Shipping address">
+      <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
@@ -22,7 +22,7 @@
           </SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem header="Billing address">
+      <SfAccordionItem :header="$t('Billing address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
@@ -88,12 +88,12 @@
       <div class="summary__group">
         <div class="summary__total">
           <SfProperty
-            name="Subtotal"
+            :name="$t('Subtotal')"
             :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Shipping"
+            :name="$t('Shipping')"
             v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
             :value="$n(getShippingMethodPrice(chosenShippingMethod, totals.total), 'currency')"
             class="sf-property--full-width property"
@@ -101,7 +101,7 @@
         </div>
         <SfDivider class="divider"/>
         <SfProperty
-          name="Total price"
+          :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large property summary__property-total"
         />
