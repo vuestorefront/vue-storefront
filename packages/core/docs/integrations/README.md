@@ -82,6 +82,22 @@ Click on the integration tile to read its documentation.
     link="https://docs.vuestorefront.io/contentful/"
   />
   <IntegrationTile
+    name="Bazaarvoice"
+    image="https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/Bazaarvoice_logo.jpg/220px-Bazaarvoice_logo.jpg"
+    :compatibility="[]"
+    category="Reviews"
+    isEnterprise="true"
+    link="./bazaarvoice.html"
+  />
+  <IntegrationTile
+    name="Redis"
+    image="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png"
+    :compatibility="[]"
+    category="Cache"
+    isEnterprise="true"
+    link="./redis-cache.html"
+  />
+  <IntegrationTile
     name="LexasCMS"
     image="https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/600968c141eb1b7f86436e77_lexascms-logo.svg"
     :compatibility="[]"
@@ -95,7 +111,6 @@ Click on the integration tile to read its documentation.
     isOpenSource="true"
     :compatibility="['commercetools']"
     link="https://github.com/LexasCMS/vsf-next-lexascms"
-
   />
   <IntegrationTile
     name="Adyen"
