@@ -27,6 +27,19 @@ Register its Nuxt module with the following configuration:
 
 export default {
   buildModules: [
+    ['@vue-storefront/nuxt', {
+      coreDevelopment: true,
+      useRawSource: {
+        dev: [
+          // other packages
+          '@vsf-enterprise/bazaarvoice'
+        ],
+        prod: [
+          // other packages
+          '@vsf-enterprise/bazaarvoice'
+        ]
+      }
+    }],
     [
       '@vsf-enterprise/bazaarvoice/nuxt',
       {
@@ -36,12 +49,7 @@ export default {
         locale: ''
       }
     ],
-  ],
-  build: {
-    transpile: [
-      '@vsf-enterprise/bazaarvoice'
-    ]
-  }
+  ]
 };
 ```
 
