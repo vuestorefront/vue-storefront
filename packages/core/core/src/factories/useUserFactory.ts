@@ -14,24 +14,29 @@ export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PA
 export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
 ) => {
-
   return function useUser (): UseUser<USER, UPDATE_USER_PARAMS> {
-    const user: Ref<USER> = sharedRef(null, 'useUser-user');
-    const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
-    const isAuthenticated = computed(() => Boolean(user.value));
-    const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserErrors> = sharedRef({
+    const errorsFactory = (): UseUserErrors => ({
       updateUser: null,
       register: null,
       login: null,
       logout: null,
       changePassword: null,
       load: null
-    }, 'useUser-error');
+    });
+
+    const user: Ref<USER> = sharedRef(null, 'useUser-user');
+    const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
+    const isAuthenticated = computed(() => Boolean(user.value));
+    const _factoryParams = configureFactoryParams(factoryParams);
+    const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
 
     const setUser = (newUser: USER) => {
       user.value = newUser;
       Logger.debug('useUserFactory.setUser', newUser);
+    };
+
+    const resetErrorValue = () => {
+      error.value = errorsFactory();
     };
 
     const updateUser = async ({ user: providedUser }) => {
@@ -51,6 +56,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const register = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.register', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
@@ -66,6 +72,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const login = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.login', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
