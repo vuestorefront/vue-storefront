@@ -14,7 +14,10 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     const loading: Ref<boolean> = sharedRef(false, 'useShippingProvider-loading');
     const state: Ref<STATE> = sharedRef(null, 'useShippingProvider-response');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseShippingProviderErrors> = sharedRef({}, 'useShippingProvider-error');
+    const error: Ref<UseShippingProviderErrors> = sharedRef({
+      load: null,
+      save: null
+    }, 'useShippingProvider-error');
 
     const setState = (newState: STATE) => {
       state.value = newState;
@@ -26,8 +29,8 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
 
       try {
         loading.value = true;
-        error.value.save = null;
         state.value = await _factoryParams.save({ shippingMethod, customQuery, state });
+        error.value.save = null;
       } catch (err) {
         error.value.save = err;
         Logger.error('useShippingProvider/save', err);
@@ -41,8 +44,8 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
 
       try {
         loading.value = true;
-        error.value.load = null;
         state.value = await _factoryParams.load({ customQuery, state });
+        error.value.load = null;
       } catch (err) {
         error.value.load = err;
         Logger.error('useShippingProvider/load', err);
