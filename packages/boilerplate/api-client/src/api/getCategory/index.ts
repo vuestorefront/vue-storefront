@@ -5,25 +5,81 @@ export default async function getCategory(context, params, customQuery?: CustomQ
   return Promise.resolve([
     {
       id: 1,
+      name: 'New',
+      slug: 'new',
+      childCount: 2,
+      children: [
+        {
+          id: 15,
+          name: 'Women',
+          slug: 'new-women',
+          childCount: 2,
+          children: [
+            {
+              id: 16,
+              name: 'Clothing',
+              slug: 'new-women-clothing',
+              childCount: 0,
+              children: []
+            },
+            {
+              id: 17,
+              name: 'Shoes',
+              slug: 'new-women-shoes',
+              childCount: 0,
+              children: []
+            }
+          ]
+        },
+        {
+          id: 11,
+          name: 'Men',
+          slug: 'new-men',
+          childCount: 1,
+          children: [
+            {
+              id: 18,
+              name: 'Clothing',
+              slug: 'new-men-clothing',
+              childCount: 0,
+              children: []
+            },
+            {
+              id: 19,
+              name: 'Shoes',
+              slug: 'new-men-shoes',
+              childCount: 0,
+              children: []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
       name: 'Women',
       slug: 'women',
-      items: [
+      childCount: 2,
+      children: [
         {
           id: 4,
           name: 'Women jackets',
           slug: 'women-jackets',
-          items: [
+          childCount: 2,
+          children: [
             {
               id: 9,
               name: 'Winter jackets',
               slug: 'winter-jackets',
-              items: []
+              childCount: 0,
+              children: []
             },
             {
               id: 10,
               name: 'Autumn jackets',
               slug: 'autmun-jackets',
-              items: []
+              childCount: 0,
+              children: []
             }
           ]
         },
@@ -31,44 +87,51 @@ export default async function getCategory(context, params, customQuery?: CustomQ
           id: 5,
           name: 'Skirts',
           slug: 'skirts',
-          items: []
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Men',
-      slug: 'men',
-      items: [
-        {
-          id: 6,
-          name: 'Men T-shirts',
-          slug: 'men-tshirts',
-          items: []
+          childCount: 0,
+          children: []
         }
       ]
     },
     {
       id: 3,
+      name: 'Men',
+      slug: 'men',
+      childCount: 1,
+      children: [
+        {
+          id: 6,
+          name: 'Men T-shirts',
+          slug: 'men-tshirts',
+          childCount: 0,
+          children: []
+        }
+      ]
+    },
+    {
+      id: 4,
       name: 'Kids',
       slug: 'kids',
-      items: [
+      childCount: 1,
+      children: [
         {
           id: 7,
           name: 'Toys',
           slug: 'toys',
-          items: [
+          childCount: 2,
+          children: [
             {
               id: 8,
               name: 'Toy Cars',
               slug: 'toy-cars',
-              items: []
+              childCount: 0,
+              children: []
             },
             {
               id: 8,
               name: 'Dolls',
               slug: 'dolls',
-              items: []
+              childCount: 0,
+              children: []
             }
           ]
         }
