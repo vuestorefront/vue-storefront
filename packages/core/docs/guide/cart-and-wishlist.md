@@ -4,7 +4,7 @@ Customer's cart and wishlist can be managed using `useCart` and `useWishlist` co
 
 ## Loading and creating the cart
 
-The `load` function will load your cart from the server or create a new one if it doesn't exist. The `cart` object will be `null` until you load it.
+The `load` method will load your cart from the server or create a new one if it doesn't exist. The `cart` object will be `null` until you load it.
 
 
 ```vue
@@ -41,7 +41,7 @@ To add the product to the cart you can use `addItem` method:
   // ...
     <ul>
       <li
-        v-for="(product, i) in products" :key="i"
+        v-for="product in products" :key="product.id"
       > 
         // ...
         <button
@@ -78,7 +78,7 @@ To add the product to the cart you can use `addItem` method:
 
 ## Removing items and changing their quantity
 
-To remove an item from the cart use `removeItem` function, and similarly to update quantity use `updateItemQty` function:
+To remove an item from the cart use `removeItem` method, and similarly to update quantity use `updateItemQty` method:
 
 ```vue
 <template>
@@ -86,7 +86,7 @@ To remove an item from the cart use `removeItem` function, and similarly to upda
     <div>
       <ul>
         <li
-          v-for="(product, i) in products" :key="i"
+          v-for="product in products" :key="product.id"
         >
           <input type="number"/>
           <button
@@ -149,7 +149,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
   // ... 
     <ul>
       <li
-         v-for="(product, i) in products" :key="i"
+         v-for="product in products" :key="product.id"
       >
         <div
           :isAddedToCart="isInCart({ product })"
@@ -185,7 +185,7 @@ To check if a product is already in the cart, pass it to `isInCart` method:
 
 ## Removing all cart items at once
 
-To clear cart items (not delete it) use `clear` function.
+To clear cart items (not delete it) use `clear` method.
 
 ```vue
 <template>
@@ -193,7 +193,7 @@ To clear cart items (not delete it) use `clear` function.
     <div>
       <ul>
         <li
-          v-for="(product, i) in products" :key="i"
+          v-for="product in products" :key="product.id"
         >
           // ...
         </li>
@@ -230,7 +230,7 @@ To clear cart items (not delete it) use `clear` function.
 
 ## Applying and removing discount coupons
 
-You can apply promotional coupons to your cart with `applyCoupon` and remove with `removeCoupon` function:
+You can apply promotional coupons to your cart with `applyCoupon` and remove with `removeCoupon` method:
 
 ```vue
 <template>
@@ -270,7 +270,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
 
 ## Loading and creating the wishlist
 
-The `load` function will load your cart from the server or create a new one if it doesn't exist. The `wishlist` object will be `null` until you load it.
+The `load` method will load your cart from the server or create a new one if it doesn't exist. The `wishlist` object will be `null` until you load it.
 
 ```vue
 <script>
@@ -307,7 +307,7 @@ To add the product to the wishlist you can use `addItem` method:
   // ...
     <ul>
       <li
-        v-for="(product, i) in products" :key="i"
+        v-for="product in products" :key="product.id"
       > 
         // ...
         <button
@@ -343,7 +343,7 @@ To add the product to the wishlist you can use `addItem` method:
 
 ## Removing an item from the wishlist
  
-To remove an item from the cart use `removeItem` function.
+To remove an item from the cart use `removeItem` method.
 
 ```vue
 <template>
@@ -351,7 +351,7 @@ To remove an item from the cart use `removeItem` function.
     <div>
       <ul>
         <li
-          v-for="(product, i) in products" :key="i"
+          v-for="product in products" :key="product.id"
         >
           ...
           <button
@@ -407,7 +407,7 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
   // ...
     <ul>
       <li
-        v-for="(product, i) in products" :key="i"
+        v-for="product in products" :key="product.id"
       >
         <div
           :isAddedToWishlist="isInWishlist({ product })"
@@ -451,7 +451,7 @@ Cleaning the wishlist can be achieved by `clear` property.
     <div>
       <ul>
         <li
-          v-for="(product, i) in products" :key="i"
+          v-for="product in products" :key="product.id"
         >
           // ...
         </li>
@@ -492,11 +492,13 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 In the following examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
 
+The product list: 
+
 ```vue
 <template>
     <ul>
       <li
-        v-for="(product, i) in products" :key="i"> 
+        v-for="product in products" :key="product.id"> 
       >
         <button
           @click="addToCart({ product, quantity })"
@@ -560,7 +562,7 @@ The cart component:
     <div>
       <ul>
         <li
-          v-for="(product, i) in cartProducts" :key="i"
+          v-for="product in cartProducts" :key="product.id"
         > 
           <input 
             type="number" 
@@ -631,12 +633,13 @@ The cart component:
 ```
 
 The wishlist component:
+
 ```vue
 <template>
     <div>
       <li>
         <ul
-          v-for="(product, i) in wishlistProducts" :key="i"
+          v-for="product in wishlistProducts" :key="product.id"
         >
           <button
             @click="removeItem({ product })"
