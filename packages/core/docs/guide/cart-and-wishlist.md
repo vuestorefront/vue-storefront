@@ -490,7 +490,7 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 ### Common usage example
 
-In the following examples, you can analyze how both composables are used in the simple use case. There are all above mentioned basic scenarios used in three main components: a product list, a cart, and a wishlist. It can be your basis for building real-life application implementation.    
+Here is an example of how both composables can be used in real-life applications. We have three components: a product list, a cart, and a wishlist. In the examples, we cover the logic of adding/removing items from the wish list and cart, working with getters, and loading state.
 
 The product list: 
 
