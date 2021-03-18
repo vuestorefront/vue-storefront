@@ -118,5 +118,17 @@ export default {
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
-  'Search for items': 'Nach Artikeln suchen'
+  'Search for items': 'Nach Artikeln suchen',
+  'Enter promo code': 'Geben Sie den Promo-Code ein',
+  'Shipping method': 'Versandart',
+  'Continue to billing': 'Weiter zur Abrechnung',
+  'Payment methods': 'Zahlungsmethoden',
+  'Shipping address': 'Lieferanschrift',
+  'Subtotal': 'Zwischensumme',
+  'Shipping': 'Versand',
+  'Total price': 'Gesamtpreis',
+  'Payment': 'Zahlung',
+  'Order summary': 'Bestellübersicht',
+  'Products': 'Produkte',
+  'Total': 'Gesamt'
 };

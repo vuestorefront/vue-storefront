@@ -5,6 +5,21 @@ module.exports = {
 	head: [
 		['link', { rel: 'icon', href: '/favicon.png' }]
 	],
+	configureWebpack: (config) => {
+		config.module.rules = config.module.rules.map(rule => ({
+			...rule,
+			use: rule.use && rule.use.map(useRule => ({
+				...useRule,
+				options: useRule.loader === 'url-loader' ?
+					/**
+					  Hack for loading images properly.
+					  ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
+					 */
+					{  ...useRule.options, esModule: false } :
+					useRule.options
+			}))
+		}))
+	},
 	themeConfig: {
 		logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
 		nav: [
@@ -68,7 +83,11 @@ module.exports = {
 						['/commercetools/composables/use-facet', 'useFacet'],
 						['/commercetools/composables/use-cart', 'useCart'],
 						['/commercetools/composables/use-wishlist', 'useWishlist'],
-						['/commercetools/composables/use-category', 'useCategory']
+						['/commercetools/composables/use-category', 'useCategory'],
+						['/commercetools/composables/use-shipping', 'useShipping'],
+						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
+						['/commercetools/composables/use-billing', 'useBilling'],
+						['/commercetools/composables/use-make-order', 'useMakeOrder']
 					]
 				},
 				{
@@ -168,18 +187,21 @@ module.exports = {
 						['/guide/authentication', 'Authentication'],
 						['/guide/user-profile', 'User profile'],						
 						['/guide/cart-and-wishlist', 'Cart and wishlist'],
+                        ['/guide/checkout', 'Checkout']
 					]
 				},
 				{
 					title: 'Advanced [WIP]',
 					collapsable: false,
 					children: [
+						['/advanced/architecture', 'Architecture'],
 						['/advanced/context', 'Application Context'],
+						['/advanced/calling-platform-api', 'Calling Platform API'],
+						['/advanced/server-middleware', 'Server Middleware'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
 						['/advanced/ssr-cache', 'SSR Cache'],
-						['/advanced/logging', 'Logging'],
-						['/advanced/architecture', 'Architecture']
+						['/advanced/logging', 'Logging']
 					]
 				},
 				{

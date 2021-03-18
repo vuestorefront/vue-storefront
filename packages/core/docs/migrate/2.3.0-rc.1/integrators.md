@@ -142,7 +142,7 @@ In `nuxt/plugin.js` add the tag name of your integration package as a first argu
 // composables/nuxt/plugin.js
 import { integrationPlugin } from '@vue-storefront/core';
 
-const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ integration }) => {
   integration.configure('boilerplate', {

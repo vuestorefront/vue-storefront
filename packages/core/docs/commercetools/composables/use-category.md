@@ -67,7 +67,7 @@ type Category = {
 
 ```ts
 interface UseCategoryErrors {
-  search?: Error;
+  search: Error;
 }
 ```
 

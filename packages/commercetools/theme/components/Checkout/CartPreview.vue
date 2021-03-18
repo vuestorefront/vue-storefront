@@ -3,20 +3,20 @@
     <div class="highlighted">
       <SfHeading
         :level="3"
-        title="Order summary"
+        :title="$t('Order summary')"
         class="sf-heading--left sf-heading--no-underline title"
       />
     </div>
     <div class="highlighted">
       <SfProperty
-        name="Products"
+        :name="$t('Products')"
         :value="totalItems"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
-        name="Subtotal"
+        :name="$t('Subtotal')"
         :value="$n(totals.subtotal, 'currency')"
-        :class="['sf-property--full-width', 'sf-property--large', { discounted: hasSpecialPrice }]"
+        :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
       <SfProperty
         v-for="discount in discounts"
@@ -31,13 +31,13 @@
         class="sf-property--full-width sf-property--small property special-price"
       />
       <SfProperty
-        name="Shipping"
+        :name="$t('Shipping')"
         v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
         :value="$n(getShippingMethodPrice(selectedShippingMethod, totals.total), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
-        name="Total"
+        :name="$t('Total')"
         :value="$n(totals.total, 'currency')"
         class="sf-property--full-width sf-property--large property-total"
       />
@@ -172,7 +172,7 @@ export default {
 
 .characteristic {
   &:not(:last-child) {
-    margin-bottom: var(--spacer-lg);
+    margin-bottom: var(--spacer-base);
   }
 }
 .promo-code {

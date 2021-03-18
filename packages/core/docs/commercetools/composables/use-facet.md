@@ -46,7 +46,7 @@ interface AgnosticFacetSearchParams {
 
 ```ts
 interface UseFacetErrors {
-  search?: Error;
+  search: Error;
 }
 ```
 

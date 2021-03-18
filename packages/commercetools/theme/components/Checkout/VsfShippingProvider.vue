@@ -40,11 +40,6 @@
           </SfRadio>
         </div>
       <div class="form__action">
-        <nuxt-link
-          to="/checkout/shipping"
-          class="sf-button color-secondary form__back-button"
-          >{{ $t('Go back') }}</nuxt-link
-        >
         <SfButton
           class="form__action-button"
           type="button"
@@ -194,6 +189,7 @@ export default {
 <style lang="scss" scoped>
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  --heading-title-font-weight: var(--font-weight--bold);
 }
 
 .shipping-provider {
@@ -210,12 +206,10 @@ export default {
 }
 
 .form {
-  --button-width: 100%;
   @include for-desktop {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    --button-width: auto;
   }
   &__action {
     @include for-desktop {
@@ -224,28 +218,9 @@ export default {
     }
   }
   &__action-button {
-    &--secondary {
-      @include for-desktop {
-        order: -1;
-        text-align: left;
-      }
-    }
-    &--add-address {
-      width: 100%;
-      margin: 0;
-      @include for-desktop {
-        margin: 0 0 var(--spacer-lg) 0;
-        width: auto;
-      }
-    }
-  }
-  &__back-button {
-    margin: var(--spacer-xl) 0 var(--spacer-sm);
-    &:hover {
-      color:  var(--c-white);
-    }
+    --button-width: 100%;
     @include for-desktop {
-      margin: 0 var(--spacer-xl) 0 0;
+      --button-width: 25rem;
     }
   }
   &__radio-group {
