@@ -87,10 +87,7 @@ type ProductVariant = {
   attributeList: Array<Attribute>;
 }
 
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
   
 - `updateItemQty` - function for updating quantity of a product that is already in the cart. This method accepts a single `params` object. The `params` has the following options:
@@ -133,10 +130,7 @@ type LineItem = {
   customFieldList?: Maybe<Array<CustomField>>;
 }
 
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
   
 - `removeItem` - function for removing a product that currently is in the cart. This method accepts a single `params` object. The `params` has the following options:
@@ -177,13 +171,10 @@ type LineItem = {
   customFieldList?: Maybe<Array<CustomField>>;
 }
 
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
   
-- `isOnCart` - function for checking if a product is currently in the cart. This method accepts a single `params` object. The `params` has the following option:
+- `isInCart` - function for checking if a product is currently in the cart. This method accepts a single `params` object. The `params` has the following option:
 
     - `product: ProductVariant`
     
@@ -213,10 +204,7 @@ type ProductVariant = {
     - `customQuery?: CustomQuery`
     
 ```ts
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
   
 - `removeCoupon` - function for removing coupon applied to cart. This method accepts a single `params` object. The `params` has the following options:
@@ -233,10 +221,7 @@ interface AgnosticCoupon {
   value: number;
 }
 
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
   
 - `loading: boolean` - a reactive object containing information about loading state of the cart.

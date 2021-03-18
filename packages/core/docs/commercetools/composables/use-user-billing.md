@@ -18,7 +18,7 @@
 
     - `address: BillingAddressAddParams`
 
-    - `customQueryFn?: CustomQueryFn`
+    - `customQuery?`
 
 ```typescript
 interface BillingAddressAddParams {
@@ -35,18 +35,13 @@ interface BillingAddressAddParams {
     isDefault?: boolean;
   }
 }
-
-type CustomQueryFn = (query, variables) => {
-  query?;
-  variables?;
-}
 ```
 
 - `deleteAddress` - function for deleting existing billing address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressDeleteParams`
 
-    - `customQueryFn?: CustomQueryFn`
+    - `customQuery?`
 
 ```typescript
 interface BillingAddressDeleteParams {
@@ -54,18 +49,13 @@ interface BillingAddressDeleteParams {
     id: string;
   }
 }
-
-type CustomQueryFn = (query, variables) => {
-  query?;
-  variables?;
-}
 ```
 
 - `updateAddress` - function for updating existing billing address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressUpdateParams`
 
-    - `customQueryFn?: CustomQueryFn`
+    - `customQuery?`
 
 ```typescript
 interface BillingAddressUpdateParams {
@@ -83,29 +73,19 @@ interface BillingAddressUpdateParams {
     isDefault?: boolean;
   }
 }
-
-type CustomQueryFn = (query, variables) => {
-  query?;
-  variables?;
-}
 ```
 
 - `setDefaultAddress` - function for settings an existing billing address as default. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressSetDefaultParams`
 
-    - `customQueryFn?: CustomQueryFn`
+    - `customQuery?`
 
 ```typescript
 interface BillingAddressSetDefaultParams {
   address: {
     id: string;
   }
-}
-
-type CustomQueryFn = (query, variables) => {
-  query?;
-  variables?;
 }
 ```
 - `billing: User` - reactive data object containing response from the backend.

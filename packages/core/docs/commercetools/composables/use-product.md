@@ -25,10 +25,7 @@ interface ProductsSearchParams {
   id?: string;
 }
 
-type CustomQuery = (query, variables) => {
-  query?;
-  variables?;
-}
+type CustomQuery = Record<string, string>
 ```
 - `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method.
 
@@ -119,6 +116,21 @@ interface AgnosticAttribute {
   name?: string;
   value: string | Record<string, any>;
   label: string;
+}
+
+type ProductVariant = {
+  __typename?: "ProductVariant";
+  id: Scalars["Int"];
+  key?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars["String"]>;
+  prices?: Maybe<Array<ProductPrice>>;
+  price?: Maybe<ProductPrice>;
+  images: Array<Image>;
+  assets: Array<Asset>;
+  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+  attributesRaw: Array<RawProductAttribute>;
+  attributes: ProductType;
+  attributeList: Array<Attribute>;
 }
 
 interface ProductVariantFilters {
