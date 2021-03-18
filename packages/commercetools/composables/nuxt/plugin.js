@@ -1,8 +1,7 @@
-/* eslint-disable */
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
 import { integrationPlugin } from '@vue-storefront/core'
 
-const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
   const onTokenChange = (newToken) => {

@@ -2,7 +2,7 @@
   <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
     <SfHeading
       :level="3"
-      :title="$t('Shipping')"
+      :title="$t('Shipping details')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <form
@@ -450,7 +450,7 @@ export default {
     }
     &--add-address {
       width: 100%;
-      margin: 0;
+      margin: 0 0 var(--spacer-sm) 0;
       @include for-desktop {
         margin: 0 0 var(--spacer-lg) 0;
         width: auto;
@@ -481,5 +481,6 @@ export default {
 
 .title {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
+  --heading-title-font-weight: var(--font-weight--bold);
 }
 </style>

@@ -69,7 +69,7 @@ Vue Storefront will require **at least** the following features from your eComme
 **Checkout**
 
 - get shipping methods
-- get payment methods
+- get payment methods (depends on integration)
 - place order
 
 **i18n**
@@ -201,7 +201,7 @@ Example of plugin
 // composables/nuxt/plugin.js
 import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
 
-const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }

@@ -155,10 +155,10 @@ type ProductVariant = {
 
 ```ts
 interface UseWishlistErrors {
-  addItem?: Error;
-  removeItem?: Error;
-  load?: Error;
-  clear?: Error;
+  addItem: Error;
+  removeItem: Error;
+  load: Error;
+  clear: Error;
 }
 ```
 
