@@ -1,5 +1,4 @@
-import createProject from '@vue-storefront/cli/src/scripts/createProject';
-import generateTemplates from '@vue-storefront/cli/src/scripts/generateTemplates';
+import createProject from './../../../src/scripts/createProject';
 
 const resolvedTargetPath = 'a';
 const integrations = [
@@ -10,15 +9,13 @@ jest.mock('path', () => ({
   resolve: jest.fn(() => resolvedTargetPath)
 }));
 
-jest.mock('@vue-storefront/cli/src/scripts/createProject', () => jest.fn());
+jest.mock('./../../../src/scripts/createProject', () => jest.fn());
 
-jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => () => integrations);
+jest.mock('./../../../src/utils/getIntegrations', () => () => integrations);
 
 describe('[vsf-next-cli] generateTemplates', () => {
-  it('generates templates', async () => {
-
-    await generateTemplates();
-
+  it('generates templates', () => {
+    createProject('ct', 'a');
     expect(createProject).toHaveBeenCalledWith(integrations[0], resolvedTargetPath);
   });
 });

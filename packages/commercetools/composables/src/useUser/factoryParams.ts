@@ -6,7 +6,10 @@ import useCart from '../useCart';
 type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
 const load = async (context: Context) => {
-  if (context.$ct.api.isGuest()) {
+
+  const isGuest = await context.$ct.api.isGuest();
+
+  if (isGuest) {
     return null;
   }
 

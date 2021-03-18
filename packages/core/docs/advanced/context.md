@@ -19,51 +19,49 @@ $vsf {
 }
 ```
 
-- `$vsf` - general key that keeps vue storefront context
-- `$ct` - integration key
-- `api` - field that always keeps API functions for a given integration
-- `client` - field that always keep api client/connection for given integration
-- `config` - field that always keep configuration for given integration
-- others - depending on the needs you can put into the context any field you want (under the corresponding key)
-
+- `$vsf` - a general key that keeps Vue Storefront context
+- `$ct` - an integration key
+- `api` - integration API functions
+- `client` - integration API client/connection
+- `config` - integration configuration
+- others - you can define custom context fields by yourself
 
 ## Context composable
 
-To use context or access your integration API, you can use dedicated composable `useVSFContext`. It returns a integration keys of all of the integrations you have registered in the Vue Storefront (prefixed by `$` sign).
+To use the context or access your integration API, you can leverage a dedicated composable `useVSFContext`. It returns integration keys of all of the integrations you have registered in the Vue Storefront (prefixed by `$` sign).
 
 ```js
 const { $ct, $other } = useVSFContext();
 
-$ct.api.getProduct({ id: 1 })
-$other.client.get('/othet-integration')
+$ct.api.getProduct({ id: 1 });
+$other.client.get('/othet-integration');
 ```
 
 ## Context plugin
 
-If for some reason you don't want to use integration nuxt modules, you have to configure the integration by yourself. For that purpose, each integration expose a integration plugin where you can configure everything you want.
+If for some reason you don't want to use integration Nuxt modules, you have to configure the integration by yourself. For that purpose, each integration exposes an integration plugin:
 
 ```js
 // plugins/integration.js
-import { integrationPlugin } from '@vue-storefront/commercetools'
+import { integrationPlugin } from '@vue-storefront/commercetools';
 
 export default integrationPlugin(({ app, integration }) => {
-  const settings = { api: '/graphql', user: 'root' }
+  const settings = { api: '/graphql', user: 'root' };
 
-  integration.configure({ ...settings })
+  integration.configure({ ...settings });
 });
 ```
 
-Of course each integration has predefined set of API functions, that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function, or use a name of existing one, the Vue Storefront will automatically apply it to the app.
-
+Each integration has a predefined set of API functions, that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function, or use a name of the existing one, the Vue Storefront will automatically apply it to the app.
 
 ```js
 // plugins/integration.js
-import { integrationPlugin } from '@vue-storefront/commercetools'
+import { integrationPlugin } from '@vue-storefront/commercetools';
 import { getMe } from '@vue-storefeont/your-integration';
 
 export default integrationPlugin(({ app, integration }) => {
-  const settings = { api: '/graphql', user: 'root' }
+  const settings = { api: '/graphql', user: 'root' };
 
-  integration.configure({ ...settings }, { getMe })
+  integration.configure({ ...settings }, { getMe });
 });
 ```

@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
+import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
 import { isAnonymousOperation, isUserOperation } from './restrictedOperations';
 
 export const handleBeforeAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken }) => {
@@ -20,16 +20,20 @@ export const handleBeforeAuth = async ({ sdkAuth, tokenProvider, apolloReq, curr
   return tokenProvider.getTokenInfo();
 };
 
-export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken }) => {
+export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken, response }) => {
   if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName)) {
     const { email, password } = apolloReq.variables.draft;
     Logger.debug('Apollo authLinkAfter, customerPasswordFlow', apolloReq.operationName);
 
-    const token = await sdkAuth.customerPasswordFlow({ username: email, password });
-    tokenProvider.setTokenInfo(token);
-    Logger.debug('Apollo authLinkAfter, customerPasswordFlow, generated token: ', getAccessToken(token));
+    if (!response.errors?.length) {
+      const token = await sdkAuth.customerPasswordFlow({ username: email, password });
+      tokenProvider.setTokenInfo(token);
+      Logger.debug('Apollo authLinkAfter, customerPasswordFlow, generated token: ', getAccessToken(token));
 
-    return token;
+      return token;
+    }
+
+    return currentToken;
   }
 
   return currentToken;
@@ -40,10 +44,11 @@ export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
     return false;
   }
 
-  if (error.result.message === 'invalid_token') {
+  if (error?.result?.message === 'invalid_token') {
     Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
     tokenProvider.invalidateTokenInfo();
     return true;
   }
+
   return false;
 };

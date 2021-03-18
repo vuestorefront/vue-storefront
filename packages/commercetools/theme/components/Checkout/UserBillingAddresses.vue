@@ -2,13 +2,14 @@
   <div>
     <SfAddressPicker
       :selected="String(currentAddressId)"
-      @input="setCurrentAddress($event)"
+      @change="setCurrentAddress($event)"
       class="billing__addresses"
     >
       <SfAddress
         v-for="billingAddress in billingAddresses"
         :key="userBillingGetters.getId(billingAddress)"
         :name="String(userBillingGetters.getId(billingAddress))"
+        class="billing__address"
       >
         <span
           >{{ userBillingGetters.getFirstName(billingAddress) }} {{ userBillingGetters.getLastName(billingAddress) }}</span
@@ -28,11 +29,11 @@
     </SfAddressPicker>
     <SfCheckbox
       data-cy="billing-details-checkbox_isDefault"
-      :selected="setAsDefault"
-      @change="$emit('changeSetAsDefault', $event)"
+      :selected="value"
+      @change="$emit('input', $event)"
       name="setAsDefault"
       label="Use this address as my default one."
-      class="billing-address-setAsDefault"
+      class="billing__setAsDefault"
     />
   </div>
 </template>
@@ -42,21 +43,16 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
-import { userBillingGetters } from '@vue-storefront/commercetools';
-
+import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
 export default {
   name: 'UserBillingAddresses',
   props: {
     currentAddressId: {
-      type: Number,
+      type: String | Number,
       required: true
     },
-    setAsDefault: {
+    value: {
       type: Boolean,
-      required: true
-    },
-    billingAddresses: {
-      type: Array,
       required: true
     }
   },
@@ -65,9 +61,16 @@ export default {
     SfAddressPicker
   },
   setup (_, { emit }) {
-    const setCurrentAddress = $event => emit('setCurrentAddress', $event);
-
+    const { billing: userBilling } = useUserBilling();
+    const setCurrentAddress = async addressId => {
+      const selectedAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
+      if (!selectedAddress || !selectedAddress.length) {
+        return;
+      }
+      emit('setCurrentAddress', selectedAddress[0]);
+    };
     return {
+      billingAddresses: userBillingGetters.getAddresses(userBilling.value),
       setCurrentAddress,
       userBillingGetters
     };
@@ -75,13 +78,22 @@ export default {
 };
 </script>
 
-<style>
-  .billing__addresses {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: var(--spacer-xl);
-  }
-  .billing-address-setAsDefault, .form__action-button--margin-bottom {
-    margin-bottom: var(--spacer-xl);
+<style lang="scss" scoped>
+  .billing {
+    &__address {
+      margin-bottom: var(--spacer-base);
+      @include for-desktop {
+        margin-right: var(--spacer-sm);
+      }
+    }
+    &__addresses {
+      margin-bottom: var(--spacer-xl);
+      @include for-desktop {
+        display: flex;
+      }
+    }
+    &__setAsDefault {
+      margin-bottom: var(--spacer-xl);
+    }
   }
 </style>

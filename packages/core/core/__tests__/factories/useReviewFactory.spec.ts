@@ -80,7 +80,10 @@ describe('[CORE - factories] useReviews', () => {
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual({});
+    expect(error.value).toEqual({
+      search: null,
+      addReview: null
+    });
   });
 
   it('returns reviews response', async () => {
@@ -89,7 +92,7 @@ describe('[CORE - factories] useReviews', () => {
     await search({});
 
     expect(reviews.value).toEqual(searchReviewResponse);
-    expect(error.value).toEqual({ search: null });
+    expect(error.value.search).toBe(null);
   });
 
   it('can submit new review', async () => {

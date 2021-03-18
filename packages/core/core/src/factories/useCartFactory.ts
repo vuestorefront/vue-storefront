@@ -1,6 +1,6 @@
 import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, generateContext } from '../utils';
+import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
@@ -24,7 +24,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
     context: Context,
     params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
-  isOnCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
+  isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
@@ -33,8 +33,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
   return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
-    const context = generateContext(factoryParams);
-    const error: Ref<UseCartErrors> = sharedRef({}, 'useCart-error');
+    const _factoryParams = configureFactoryParams(factoryParams);
+    const error: Ref<UseCartErrors> = sharedRef({
+      addItem: null,
+      removeItem: null,
+      updateItemQty: null,
+      load: null,
+      clear: null,
+      applyCoupon: null,
+      removeCoupon: null
+    }, 'useCart-error');
 
     const setCart = (newCart: CART) => {
       cart.value = newCart;
@@ -46,16 +54,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
+        const updatedCart = await _factoryParams.addItem({
+          currentCart: cart.value,
+          product,
+          quantity,
+          customQuery
+        });
         error.value.addItem = null;
-        const updatedCart = await factoryParams.addItem(
-          context,
-          {
-            currentCart: cart.value,
-            product,
-            quantity,
-            customQuery
-          }
-        );
         cart.value = updatedCart;
       } catch (err) {
         error.value.addItem = err;
@@ -70,15 +75,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
+        const updatedCart = await _factoryParams.removeItem({
+          currentCart: cart.value,
+          product,
+          customQuery
+        });
         error.value.removeItem = null;
-        const updatedCart = await factoryParams.removeItem(
-          context,
-          {
-            currentCart: cart.value,
-            product,
-            customQuery
-          }
-        );
         cart.value = updatedCart;
       } catch (err) {
         error.value.removeItem = err;
@@ -94,16 +96,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       if (quantity && quantity > 0) {
         try {
           loading.value = true;
+          const updatedCart = await _factoryParams.updateItemQty({
+            currentCart: cart.value,
+            product,
+            quantity,
+            customQuery
+          });
           error.value.updateItemQty = null;
-          const updatedCart = await factoryParams.updateItemQty(
-            context,
-            {
-              currentCart: cart.value,
-              product,
-              quantity,
-              customQuery
-            }
-          );
           cart.value = updatedCart;
         } catch (err) {
           error.value.updateItemQty = err;
@@ -130,8 +129,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
       try {
         loading.value = true;
+        cart.value = await _factoryParams.load({ customQuery });
         error.value.load = null;
-        cart.value = await factoryParams.load(context, { customQuery });
       } catch (err) {
         error.value.load = err;
         Logger.error('useCart/load', err);
@@ -145,8 +144,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
+        const updatedCart = await _factoryParams.clear({ currentCart: cart.value });
         error.value.clear = null;
-        const updatedCart = await factoryParams.clear(context, { currentCart: cart.value });
         cart.value = updatedCart;
       } catch (err) {
         error.value.clear = err;
@@ -156,8 +155,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
-    const isOnCart = ({ product }) => {
-      return factoryParams.isOnCart(context, {
+    const isInCart = ({ product }) => {
+      return _factoryParams.isInCart({
         currentCart: cart.value,
         product
       });
@@ -168,12 +167,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
-        error.value.applyCoupon = null;
-        const { updatedCart } = await factoryParams.applyCoupon(context, {
+        const { updatedCart } = await _factoryParams.applyCoupon({
           currentCart: cart.value,
           couponCode,
           customQuery
         });
+        error.value.applyCoupon = null;
         cart.value = updatedCart;
       } catch (err) {
         error.value.applyCoupon = err;
@@ -188,15 +187,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
 
       try {
         loading.value = true;
+        const { updatedCart } = await _factoryParams.removeCoupon({
+          currentCart: cart.value,
+          coupon,
+          customQuery
+        });
         error.value.removeCoupon = null;
-        const { updatedCart } = await factoryParams.removeCoupon(
-          context,
-          {
-            currentCart: cart.value,
-            coupon,
-            customQuery
-          }
-        );
         cart.value = updatedCart;
         loading.value = false;
       } catch (err) {
@@ -210,7 +206,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     return {
       setCart,
       cart: computed(() => cart.value),
-      isOnCart,
+      isInCart,
       addItem,
       load,
       removeItem,

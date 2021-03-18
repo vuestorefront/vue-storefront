@@ -1,8 +1,6 @@
 import gql from 'graphql-tag';
-import { Logger } from '@vue-storefront/core';
+import { Logger, CustomQuery } from '@vue-storefront/core';
 import defaultQuery from './defaultMutation';
-import { CustomQueryFn } from './../../types/Api';
-import { getCustomQuery } from './../../helpers/queries';
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 
 const VERSION_MISSMATCH_CODE = 'ConcurrentModification';
@@ -14,7 +12,7 @@ export interface UpdateCartParams {
   versionFallback?: boolean;
 }
 
-const updateCart = async (context, params: UpdateCartParams, customQueryFn?: CustomQueryFn) => {
+const updateCart = async (context, params: UpdateCartParams, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage } = context.config;
   const defaultVariables = params
     ? {
@@ -24,12 +22,14 @@ const updateCart = async (context, params: UpdateCartParams, customQueryFn?: Cus
     }
     : { acceptLanguage };
 
-  const { query, variables } = getCustomQuery(customQueryFn, { defaultQuery, defaultVariables });
+  const { updateCart: updateCartGql } = context.extendQuery(
+    customQuery, { updateCart: { query: defaultQuery, variables: defaultVariables } }
+  );
 
   try {
     const request = await context.client.mutate({
-      mutation: gql`${query}`,
-      variables,
+      mutation: gql`${updateCartGql.query}`,
+      variables: updateCartGql.variables,
       fetchPolicy: 'no-cache'
     });
 

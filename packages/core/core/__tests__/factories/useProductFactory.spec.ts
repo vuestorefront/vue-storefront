@@ -2,7 +2,7 @@ import { useProductFactory } from '../../src/factories';
 import { UseProduct } from '../../src/types';
 
 const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any>({
-  productsSearch: (context, searchParams) => Promise.resolve([{ name: 'product ' + searchParams.slug }])
+  productsSearch: (searchParams) => Promise.resolve([{ name: 'product ' + searchParams.slug }])
 });
 
 const factoryParams = {

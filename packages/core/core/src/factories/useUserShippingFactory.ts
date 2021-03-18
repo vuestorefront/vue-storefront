@@ -1,6 +1,6 @@
 import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors } from '../types';
-import { sharedRef, Logger, mask, generateContext } from '../utils';
+import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
   addAddress: (
@@ -41,20 +41,26 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
   const useUserShipping = (): UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
-    const context = generateContext(factoryParams);
+    const _factoryParams = configureFactoryParams(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
-    const error: Ref<UseUserShippingErrors> = sharedRef({}, 'useUserShipping-error');
+    const error: Ref<UseUserShippingErrors> = sharedRef({
+      addAddress: null,
+      deleteAddress: null,
+      updateAddress: null,
+      load: null,
+      setDefaultAddress: null
+    }, 'useUserShipping-error');
 
     const addAddress = async ({ address }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
 
       try {
         loading.value = true;
-        error.value.addAddress = null;
-        shipping.value = await factoryParams.addAddress(context, {
+        shipping.value = await _factoryParams.addAddress({
           address,
           shipping: readonlyShipping
         });
+        error.value.addAddress = null;
       } catch (err) {
         error.value.addAddress = err;
         Logger.error('useUserShipping/addAddress', err);
@@ -68,11 +74,11 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.deleteAddress = null;
-        shipping.value = await factoryParams.deleteAddress(context, {
+        shipping.value = await _factoryParams.deleteAddress({
           address,
           shipping: readonlyShipping
         });
+        error.value.deleteAddress = null;
       } catch (err) {
         error.value.deleteAddress = err;
         Logger.error('useUserShipping/deleteAddress', err);
@@ -86,11 +92,11 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.updateAddress = null;
-        shipping.value = await factoryParams.updateAddress(context, {
+        shipping.value = await _factoryParams.updateAddress({
           address,
           shipping: readonlyShipping
         });
+        error.value.updateAddress = null;
       } catch (err) {
         error.value.updateAddress = err;
         Logger.error('useUserShipping/updateAddress', err);
@@ -104,10 +110,10 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.load = null;
-        shipping.value = await factoryParams.load(context, {
+        shipping.value = await _factoryParams.load({
           shipping: readonlyShipping
         });
+        error.value.load = null;
       } catch (err) {
         error.value.load = err;
         Logger.error('useUserShipping/load', err);
@@ -121,11 +127,11 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
 
       try {
         loading.value = true;
-        error.value.setDefaultAddress = null;
-        shipping.value = await factoryParams.setDefaultAddress(context, {
+        shipping.value = await _factoryParams.setDefaultAddress({
           address,
           shipping: readonlyShipping
         });
+        error.value.setDefaultAddress = null;
       } catch (err) {
         error.value.setDefaultAddress = err;
         Logger.error('useUserShipping/setDefaultAddress', err);

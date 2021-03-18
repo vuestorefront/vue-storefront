@@ -1,34 +1,58 @@
 module.exports = {
 	title: 'Vue Storefront Next',
+	base: '/v2/',
 	description: 'Vue Storefront 2 documentation',
 	head: [
 		['link', { rel: 'icon', href: '/favicon.png' }]
 	],
+	configureWebpack: (config) => {
+		config.module.rules = config.module.rules.map(rule => ({
+			...rule,
+			use: rule.use && rule.use.map(useRule => ({
+				...useRule,
+				options: useRule.loader === 'url-loader' ?
+					/**
+					  Hack for loading images properly.
+					  ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
+					 */
+					{  ...useRule.options, esModule: false } :
+					useRule.options
+			}))
+		}))
+	},
 	themeConfig: {
 		logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
+			{ text: 'Integrations', link: '/integrations/' },
 			{ text: 'Migration guide', link: '/migrate/' },
 			{ text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'}
-
 		],
 		sidebar: {
 			'/migrate/': [
 				{
-					title: 'Migration guide RC.1',
+					title: 'Migration guide 2.3.0-rc.1',
 					children: [
-						['/migrate/rc1', 'Overview'],
-						['/migrate/integrators-rc1', 'Integrators'],
-						['/migrate/projects-rc1', 'Projects'],
+						['/migrate/2.3.0-rc.1/overview', 'Overview'],
+						['/migrate/2.3.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.1/commercetools', 'commercetools']
 					]
 				},
 				{
 					title: 'Migration guide 2.2.0',
 					children: [
-						['/migrate/2.2.0', 'Overview'],
-						['/migrate/integrators-2.2.0', 'Integrators'],
-						['/migrate/projects-2.2.0', 'Projects'],
+						['/migrate/2.2.0/overview', 'Overview'],
+						['/migrate/2.2.0/integrators', 'Integrators'],
+						['/migrate/2.2.0/projects', 'Projects'],
+					]
+				},
+				{
+					title: 'Migration guide 2.1.0-rc.1',
+					children: [
+						['/migrate/2.1.0-rc.1/overview', 'Overview'],
+						['/migrate/2.1.0-rc.1/integrators', 'Integrators'],
+						['/migrate/2.1.0-rc.1/projects', 'Projects'],
 					]
 				}
 			],
@@ -38,10 +62,10 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/commercetools/', 'Introduction'],
-						['/commercetools/getting-started', 'Getting Started'],
-						['/commercetools/api-client', 'API Client'],
-						['/commercetools/composables', 'Composables'],
-						['https://www.notion.so/vuestorefront/6017d5a553904d0bbdcdf0f37d388c2b?v=a618b57067f34e68944145ade66da3a3', 'Feature list'],
+						['/commercetools/getting-started', 'Getting started'],
+						['/commercetools/configuration', 'Configuration'],
+						['/commercetools/authorization-strategy', 'Authentication'],
+						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
 					]
@@ -50,24 +74,34 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
-						['/commercetools/use-product', 'Products'],
-						['/commercetools/use-review', 'Reviews'],
-						['/commercetools/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/use-user-billing', 'Billing addresses'],
-						['/commercetools/use-facet', 'Faceting'],
-						['/commercetools/use-cart', 'Cart'],
-						['/commercetools/use-wishlist', 'Wishlist']
+						['/commercetools/composables/use-product', 'useProduct'],
+						['/commercetools/composables/use-review', 'useReview '],
+						['/commercetools/composables/use-user', 'useUser'],
+						['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+						['/commercetools/composables/use-user-billing', 'useUserBilling'],
+						['/commercetools/composables/use-user-order', 'useUserOrder'],
+						['/commercetools/composables/use-facet', 'useFacet'],
+						['/commercetools/composables/use-cart', 'useCart'],
+						['/commercetools/composables/use-wishlist', 'useWishlist'],
+						['/commercetools/composables/use-category', 'useCategory'],
+						['/commercetools/composables/use-shipping', 'useShipping'],
+						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
+						['/commercetools/composables/use-billing', 'useBilling'],
+						['/commercetools/composables/use-make-order', 'useMakeOrder']
 					]
 				},
 				{
-					title: 'Enterprise (paid)',
+					title: 'API Client',
 					collapsable: false,
 					children: [
-						['/commercetools/enterprise/use-review', 'Reviews'],
-						['/commercetools/enterprise/user-groups', 'User groups'],
-						['/commercetools/enterprise/use-user-shipping', 'Shipping addresses'],
-						['/commercetools/enterprise/use-user-billing', 'Billing addresses'],
-						['/commercetools/enterprise/use-wishlist', 'Wishlist']
+						['/commercetools/api-client-reference', 'Methods reference']
+					]
+				},
+				{
+					title: 'Extensions',
+					collapsable: false,
+					children: [
+						['/commercetools/extensions/user-groups', 'User groups']
 					]
 				},
 				{
@@ -140,6 +174,7 @@ module.exports = {
 					children: [
 						['/general/getting-started', 'Getting started'],
 						['/general/key-concepts', 'Key concepts'],
+						['/general/enterprise', 'Enterprise']
 					]
         },
 				{
@@ -148,56 +183,33 @@ module.exports = {
 					children: [
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],
-						['/guide/error-handling', 'Error Handling']
+						['/guide/composables', 'Composables'],
+						['/guide/authentication', 'Authentication'],
+            			['/guide/user-profile', 'User profile'],
+                        ['/guide/checkout', 'Checkout']
 					]
 				},
 				{
 					title: 'Advanced [WIP]',
 					collapsable: false,
 					children: [
+						['/advanced/architecture', 'Architecture'],
 						['/advanced/context', 'Application Context'],
+						['/advanced/calling-platform-api', 'Calling Platform API'],
+						['/advanced/server-middleware', 'Server Middleware'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
-						['/advanced/caching', 'Caching'],
-						['/advanced/logging', 'Logging'],
-						['/advanced/architecture', 'Architecture']
-
-					]
-				},
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/composables/rules-and-best-practices', 'Rules and best practices'],
-            ['/composables/use-product', 'useProduct'],
-            ['/composables/use-category', 'useCategory'],
-            ['/composables/use-facet', 'useFacet'],
-            ['/composables/use-review', 'useReview'],
-            ['/composables/use-cart', 'useCart'],
-            ['/composables/use-wishlist', 'useWishlist'],
-            ['/composables/use-user', 'useUser'],
-            ['/composables/use-user-billing', 'useUserBilling'],
-            ['/composables/use-user-shipping', 'useUserShipping'],
-            ['/composables/use-content', 'useUserShipping'],
-          ]
-        },
-				{
-					title: 'eCommerce platforms',
-					collapsable: false,
-					children: [
-						['/commercetools/', 'Commercetools'],
-						['/shopify/', 'Shopify'],
-						['/aboutyou/', 'About you'],
-						['https://shopware-pwa-docs.netlify.com/#introduction-to-shopware-pwa', 'Shopware'],
-						['https://github.com/DivanteLtd/vue-storefront', 'Magento']
+						['/advanced/ssr-cache', 'SSR Cache'],
+						['/advanced/logging', 'Logging']
 					]
 				},
 				{
 					title: 'Build integration',
 					collapsable: true,
 					children: [
-						['/integrate/integration-guide', 'Integration guide'],
-						['/general/cms', 'CMS']
+						['/integrate/integration-guide', 'eCommerce'],
+						['/integrate/cms', 'CMS'],
+						['/integrate/cache-driver', 'Cache driver']
 					]
 				},
 				{
@@ -206,6 +218,7 @@ module.exports = {
 					children: [
 						['/contributing/', 'Contributing'],
 						['/contributing/api-design-philosophy', 'Rules and conventions'],
+						['/contributing/creating-changelog', 'Creating changelog'],
 						['/contributing/themes', 'Working with themes'],
 						['/contributing/server-side-rendering', 'Server-side rendering'],
 						['/contributing/changelog', 'Core Changelog']

@@ -7,9 +7,9 @@ import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import { asyncMap } from '@apollo/client/utilities';
 import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
-import { Config, ApiConfig } from './../../types/setup';
+import { Config, ApiConfig } from '../../types/setup';
 import { handleBeforeAuth, handleAfterAuth, handleRetry } from './linkHandlers';
-import { isAnonymousSession, isUserSession, getAccessToken } from './helpers';
+import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
 
 const createAuthClient = (config: ApiConfig): SdkAuth => {
   return new SdkAuth({
@@ -86,7 +86,7 @@ const createCommerceToolsConnection = (settings: Config): any => {
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {
     return asyncMap(forward(apolloReq) as any, async (response: any) => {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
-      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
+      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken, response });
 
       const errors = (response.errors || []).filter(({ message }) =>
         !message.includes('Resource Owner Password Credentials Grant') &&

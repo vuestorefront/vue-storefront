@@ -99,8 +99,8 @@ describe('[commercetools-composables] useCart', () => {
     expect(response).toEqual({ updatedCart: 'current cart' });
   });
 
-  describe('isOnCart', () => {
-    const { isOnCart } = useCart() as any;
+  describe('isInCart', () => {
+    const { isInCart } = useCart() as any;
 
     it('returns false if product does not exists in cart', () => {
       const currentCart: any = {
@@ -111,7 +111,7 @@ describe('[commercetools-composables] useCart', () => {
         _id: 123
       };
 
-      expect(isOnCart(context, { currentCart, product })).toEqual(false);
+      expect(isInCart(context, { currentCart, product })).toEqual(false);
     });
 
     it('returns true if product exists in cart', () => {
@@ -125,7 +125,7 @@ describe('[commercetools-composables] useCart', () => {
         _id: 123
       };
 
-      expect(isOnCart(context, { currentCart, product })).toEqual(true);
+      expect(isInCart(context, { currentCart, product })).toEqual(true);
     });
   });
 

@@ -9,7 +9,7 @@ Use `useUser` to:
 If you want to fetch/save other user data you should use the following composables:
 - [`useUserBilling`](./use-user-billing.md)
 - [`useUserShipping`](./use-user-shipping.md)
-- [`useUserOrders`](./use-user-orders.md)
+- [`useUserOrder`](./use-user-order.md)
 
 ## How to use it in your project?
 

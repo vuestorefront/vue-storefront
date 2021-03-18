@@ -1,4 +1,4 @@
-import { Context } from './../../types';
+import { Context, FactoryParams } from './../../types';
 
 interface ContextConfiguration {
   useVSFContext: () => Context;
@@ -10,28 +10,40 @@ const configureContext = (config: ContextConfiguration) => {
   useVSFContext = config.useVSFContext || useVSFContext;
 };
 
-const applyContextForApi = (api, context) =>
-  Object.entries(api)
-    .reduce((prev, [key, fn]: any) => ({
-      ...prev,
-      [key]: (...args) => fn(context, ...args)
-    }), {});
-
 const generateContext = (factoryParams) => {
-  const context = useVSFContext();
+  const vsfContext = useVSFContext();
 
   if (factoryParams.provide) {
-    const generatedSetup = factoryParams.provide();
-
-    return { ...context.$vsf, ...generatedSetup };
+    return { ...vsfContext.$vsf, ...factoryParams.provide(vsfContext.$vsf) };
   }
 
-  return context.$vsf;
+  return vsfContext.$vsf;
 };
+
+const createFactoryParamsMethod = (fn, fnName, context) => (argObj) => {
+  const blackList = ['provide'];
+
+  if (blackList.includes(fnName)) {
+    return fn(context);
+  }
+
+  return fn(context, argObj);
+};
+
+const createFactoryParamsReducer = (context) => (prev, [fnName, fn]: any) => ({
+  ...prev,
+  [fnName]: createFactoryParamsMethod(fn, fnName, context)
+});
+
+const configureFactoryParams = <T extends FactoryParams>(factoryParams: T): any =>
+  Object.entries(factoryParams)
+    .reduce(
+      createFactoryParamsReducer(generateContext(factoryParams)
+      ), {});
 
 export {
   generateContext,
   useVSFContext,
   configureContext,
-  applyContextForApi
+  configureFactoryParams
 };

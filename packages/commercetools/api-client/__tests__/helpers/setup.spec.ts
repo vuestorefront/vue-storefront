@@ -1,5 +1,4 @@
-/* eslint-disable camelcase, @typescript-eslint/camelcase */
-import { createApiClient } from './../../src/index';
+import { createApiClient } from './../../src/index.server';
 
 jest.mock('apollo-client');
 jest.mock('@commercetools/sdk-auth');
@@ -9,7 +8,8 @@ describe('[commercetools-api-client] setup', () => {
     jest.clearAllMocks();
   });
 
-  it('creating link is being called when configuration is provided', () => {
+  it('creates instance for direct connection', () => {
     createApiClient({ api: 'api-config' } as any);
   });
+
 });

@@ -1,19 +1,20 @@
 {
   "name": "@vue-storefront/boilerplate-api",
-  "version": "0.0.1",
+  "version": "2.3.0-rc.1",
   "private": true,
   "sideEffects": false,
+  "server": "server/index.js",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rimraf lib server && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/core": "^2.2.1"
+    "@vue-storefront/core": "^2.3.0-rc.1"
   },
   "files": [
     "lib/**/*"

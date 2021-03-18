@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { RenderComponent, UseContent, Context, FactoryParams, UseContentErrors } from '../types';
-import { sharedRef, Logger, generateContext } from '../utils';
+import { sharedRef, Logger, configureFactoryParams } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
 export interface UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> extends FactoryParams {
@@ -13,16 +13,18 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
-    const error: Ref<UseContentErrors> = sharedRef({}, `useContent-error-${id}`);
-    const context = generateContext(factoryParams);
+    const error: Ref<UseContentErrors> = sharedRef({
+      search: null
+    }, `useContent-error-${id}`);
+    const _factoryParams = configureFactoryParams(factoryParams);
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
       Logger.debug(`useContent/${id}/search`, params);
 
       try {
         loading.value = true;
+        content.value = await _factoryParams.search(params);
         error.value.search = null;
-        content.value = await factoryParams.search(context, params);
       } catch (err) {
         error.value.search = err;
         Logger.error(`useContent/${id}/search`, err);
@@ -63,7 +65,7 @@ export function renderContentFactory(
     props: {
       content: {
         type: [Array, Object]
-      } as PropOptions<[] | {}>
+      } as PropOptions<[] | any>
     }
   };
 }

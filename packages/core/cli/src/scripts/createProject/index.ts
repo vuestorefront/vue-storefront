@@ -5,7 +5,6 @@ import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
 
 async function createProject(integration: string, targetPath: string): Promise<void> {
-
   log.info(`Coppying agnostic theme to ${targetPath}`);
   await copyAgnosticTheme(integration, targetPath);
 

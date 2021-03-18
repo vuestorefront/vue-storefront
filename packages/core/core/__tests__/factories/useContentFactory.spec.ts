@@ -33,7 +33,9 @@ describe('[CORE - factories] useContentFactory', () => {
 
     expect(content.value).toEqual([]);
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual({});
+    expect(error.value).toEqual({
+      search: null
+    });
   });
 
   it('invokes content search', async () => {
@@ -41,7 +43,7 @@ describe('[CORE - factories] useContentFactory', () => {
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
     await search(searchParams);
 
-    expect(params.search).toBeCalledWith({ context: null }, searchParams);
+    expect(params.search).toBeCalledWith(searchParams);
     expect(params.search).toBeCalledTimes(1);
   });
 
