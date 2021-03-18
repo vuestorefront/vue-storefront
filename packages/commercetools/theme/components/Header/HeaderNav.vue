@@ -14,7 +14,7 @@
         :visible="currentCatSlug === category.slug"
         :title="category.name"
         @close="currentCatSlug = ''"
-        v-if="activeSubCategory && activeSubCategory[0] && activeSubCategory[0].children
+        v-if="activeSubCategory && activeSubCategory[0] && activeSubCategory[0].children"
       >
         <SfMegaMenuColumn
           v-for="subCategory in activeSubCategory[0].children"
