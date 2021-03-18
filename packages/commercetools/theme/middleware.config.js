@@ -24,6 +24,44 @@ module.exports = {
         },
         currency: 'USD',
         country: 'US'
+      },
+      customQueries: {
+        'root-categories-query': ({ variables }) => {
+
+          const rootCategoriesQuery = `
+            fragment DefaultRootCategory on Category {
+                id
+                slug(acceptLanguage: $acceptLanguage)
+                name(acceptLanguage: $acceptLanguage)
+                childCount
+                children {
+                  ...Children
+                }
+              }
+            fragment Children on Category {
+              id
+              slug(acceptLanguage: $acceptLanguage)
+              name(acceptLanguage: $acceptLanguage)
+            }
+            query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $acceptLanguage: [Locale!]) {
+              categories(where: $where, sort: $sort, limit: $limit, offset: $offset) {
+                offset
+                count
+                total
+                results {
+                  ...DefaultRootCategory
+                }
+              }
+            }
+          `;
+
+          variables.where = 'parent is not defined';
+
+          return {
+            query: rootCategoriesQuery,
+            variables
+          };
+        }
       }
     }
   }
