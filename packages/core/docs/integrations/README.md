@@ -88,6 +88,7 @@ Click on the integration tile to read its documentation.
     :compatibility="[]"
     category="Reviews"
     isEnterprise="true"
+    fromCore="true"
     link="./bazaarvoice.html"
   />
   <IntegrationTile
@@ -96,6 +97,7 @@ Click on the integration tile to read its documentation.
     :compatibility="[]"
     category="Cache"
     isEnterprise="true"
+    fromCore="true"
     link="./redis-cache.html"
   />
   <IntegrationTile
