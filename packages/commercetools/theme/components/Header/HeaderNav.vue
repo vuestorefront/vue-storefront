@@ -102,7 +102,10 @@ export default {
 </script>
 
 <style lang='scss'>
-.sf-bar {
-  display: none !important;
+.sf-mega-menu__bar.sf-bar {
+  display: flex;
+  @include for-desktop {
+    display:  none;
+  }
 }
 </style>

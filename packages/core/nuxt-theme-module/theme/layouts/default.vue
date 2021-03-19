@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import AppHeader from '~/components/AppHeader.vue';
+import AppHeader from '~/components/Header/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
-import TopBar from '~/components/TopBar.vue';
+import TopBar from '~/components/Header/TopBar.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import WishlistSidebar from '~/components/WishlistSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
