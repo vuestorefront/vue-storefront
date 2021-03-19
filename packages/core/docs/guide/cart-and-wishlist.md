@@ -7,32 +7,30 @@ Customer's cart and wishlist can be managed using `useCart` and `useWishlist` co
 The `load` method will load your cart from the server or create a new one if it doesn't exist. The `cart` object will be `null` until you load it.
 
 
-```vue
-<script>
-  import { useCart } from '{INTEGRATION}';
-  import { onSSR } from '@vue-storefront/core';
-  export default {
-    setup() {
-      const {
-        cart,
-        load
-      } = useCart();
+```js
+import { useCart } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+export default {
+  setup() {
+    const {
+      cart,
+      load
+    } = useCart();
 
-      onSSR(async () => {
-        await load();
-      });
+    onSSR(async () => {
+      await load();
+    });
 
-      return {
-        cart,
-        load
-      };
-    }
-  };   
-</script> 
+    return {
+      cart,
+      load
+    };
+  }
+};   
 ```
 
 
-## Adding an item to the cart
+## Adding item to the cart
 
 To add the product to the cart you can use `addItem` method:
 
@@ -68,6 +66,8 @@ To add the product to the cart you can use `addItem` method:
         addItem,
       } = useCart();
 
+      // load cart if it wasn't loaded before
+
       return {
         addItem,
       };
@@ -82,38 +82,32 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 
 ```vue
 <template>
-  // ...
-    <div>
-      <ul>
-        <li
-          v-for="product in products" :key="product.id"
-        >
-          <input type="number"/>
-          <button
-            @click="updateItemQty({ product, quantity })"
-          >
-            Change quantity
-          </button>
-          <button        
-            @click="removeItem({ product })"
-          >
-            Remove product
-          </button>
-        </li>
-      </ul>
-      <span>
-        {{ totals.total }}
-      </span>
-      <span>
-        {{ totalItems }}
-      </span>
-    </div>
-  // ...
+  <div>
+    <ul>
+      <li v-for="product in products" :key="product.id">
+        <input type="number" />
+        <button @click="updateItemQty({ product, quantity })">
+          Change quantity
+        </button>
+        <button @click="removeItem({ product })">
+          Remove product
+        </button>
+      </li>
+    </ul>
+    <span>
+      {{ totals.total }}
+    </span>
+    <span>
+      {{ totalItems }}
+    </span>
+  </div>
 </template>   
+
 <script>
   import { computed } from '@vue/composition-api';
   import { useCart, cartGetters } from '{INTEGRATION}';
   import { onSSR } from '@vue-storefront/core';
+
   export default {
     setup() {
       const {
@@ -122,6 +116,8 @@ To remove an item from the cart use `removeItem` method, and similarly to update
         updateItemQty,
         loading
       } = useCart();
+
+      // load cart if it wasn't loaded before
 
       const products = computed(() => cartGetters.getItems(cart.value);
       const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -142,44 +138,27 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 
 ## Checking if an item is in the cart
 
-To check if a product is already in the cart, pass it to `isInCart` method:
+To check if a specific product configuration is already in the cart, pass it to `isInCart` method:
 
-```vue
-<template>
-  // ... 
-    <ul>
-      <li
-         v-for="product in products" :key="product.id"
-      >
-        <div
-          :isAddedToCart="isInCart({ product })"
-        >
-        </div>
-      </li>
-    </ul>
-  // ...
-</template>    
-<script>
-  import { computed } from '@vue/composition-api';
-  import { useCart } from '{INTEGRATION}';
+```js
+import { computed } from '@vue/composition-api';
+import { useCart } from '{INTEGRATION}';
 
-  export default {
-    props: {
-      products: {
-        type: Array,
-        required: true
-      }
-    },
-    setup() {
-      const {
-        isInCart, 
-      } = useCart();
-
-      return {
-        isInCart, 
-      };
+export default {
+  props: {
+    products: {
+      type: Array,
+      required: true
     }
-  };
+  },
+  setup() {
+    const { isInCart } = useCart();
+
+    return {
+      isInCart 
+    };
+  }
+};
 </script>
 ```
 
