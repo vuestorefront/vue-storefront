@@ -157,7 +157,7 @@ module.exports = {
 						['/shopify/use-product', 'useProduct'],
 						['/shopify/use-search', 'useSearch'],
 						['/shopify/use-user', 'useUser'],
-						['/shopify/use-user-orders', 'useUserOrders'],
+						['/shopify/use-user-order', 'useUserOrders'],
 					]
 				}, {
 					title: 'Other',
@@ -182,10 +182,11 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/configuration', 'Configuration'],
+						['/guide/configuration', 'Configuration'],						
 						['/guide/composables', 'Composables'],
 						['/guide/authentication', 'Authentication'],
-            			['/guide/user-profile', 'User profile'],
+						['/guide/user-profile', 'User profile'],						
+						['/guide/cart-and-wishlist', 'Cart and wishlist'],
                         ['/guide/checkout', 'Checkout']
 					]
 				},
