@@ -6,7 +6,7 @@ Vue Storefront Enterprise is a commercial offering from Vue Storefront core team
 - Integrations with third-parties
 - Extended integration with Commercetools
 
-You can learn more about our commercial offering [here](https://www.vuestorefront.io/cloud).
+You can learn more about our commercial offering [here](https://www.vuestorefront.io/enterprise).
 
 This document will walk you through the installation and usage of the latter part.
 
