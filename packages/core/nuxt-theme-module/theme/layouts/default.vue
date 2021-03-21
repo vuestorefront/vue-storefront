@@ -69,7 +69,9 @@ export default {
 // Reset CSS
 html {
   width: auto;
-  overflow-x: hidden;
+  @include for-mobile {
+    overflow-x: hidden;
+  }
 }
 body {
   overflow-x: hidden;
