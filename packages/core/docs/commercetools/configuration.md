@@ -18,7 +18,7 @@ Commercetools configuration is located in two places:
 }]
 ```
 
-- `useNuxtI18nConfig` - when this variable is set to true, `@vue-storefront/commercetools/nuxt` package will use i18n config object provided in nuxt.config.js. When set to false, i18n config should be declared directly inside this package configuration.
+- `useNuxtI18nConfig` - when this variable is set to true, `@vue-storefront/commercetools/nuxt` package will use i18n config object provided in nuxt.config.js. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
 
 If you do not have this package installed locally, please run:
 
@@ -56,6 +56,8 @@ module.exports = {
 };
 ```
 
+### `api`
+
 - `uri` - link to your Commercetools GraphQL API instance.
 - `authHost` - link to Commercetools Authentication Server. It is used to request an access token from commercetools OAuth 2.0 service. To choose the nearest service, please visit [Commercetools hosts list](https://docs.commercetools.com/api/authorization)
 - `projectKey` - name of your Commercetools project, i.e. `my-awesome-vsf-project`
@@ -65,7 +67,7 @@ module.exports = {
 
 ### `acceptLanguage`
 
-Commercetools supports querying localised fields via an array of accepted languages - `acceptLanguage`.
+List of languages the client is able to understand, and which locale variant is preferred.
 
 ```js
 acceptLanguage: ['en-gb', 'en-us']
