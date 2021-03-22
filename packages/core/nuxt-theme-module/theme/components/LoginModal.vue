@@ -47,7 +47,7 @@
               class="form__element checkbox"
             />
             <div v-if="error.login">
-              {{ error.login.graphQLErrors[0].message || error.login.message }}
+              {{ error.login }}
             </div>
             <SfButton data-cy="login-btn_submit"
               type="submit"
@@ -131,7 +131,7 @@
               />
             </ValidationProvider>
             <div v-if="error.register">
-              {{ error.register.graphQLErrors[0].message || error.register.message }}
+              {{ error.register }}
             </div>
             <SfButton
               data-cy="login-btn_submit"
@@ -194,12 +194,6 @@ export default {
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
 
-    watch(isLoginModalOpen, () => {
-      if (isLoginModalOpen) {
-        form.value = {};
-      }
-    });
-
     const error = reactive({
       login: null,
       register: null
@@ -210,6 +204,13 @@ export default {
       error.register = null;
     };
 
+    watch(isLoginModalOpen, () => {
+      if (isLoginModalOpen) {
+        form.value = {};
+        resetErrorValues();
+      }
+    });
+
     const setIsLoginValue = (value) => {
       resetErrorValues();
       isLogin.value = value;
@@ -218,12 +219,17 @@ export default {
     const handleForm = (fn) => async () => {
       resetErrorValues();
       await fn({ user: form.value });
-      resetErrorValues();
 
-      const hasUserErrors = userError.value.register || userError.value.login;
+      const registerGraphQLError = userError.value.register?.response?.data;
+      const loginGraphQLError = userError.value.login?.response?.data;
+
+      const hasUserErrors = (registerGraphQLError || userError.value.register) || (loginGraphQLError || userError.value.login);
       if (hasUserErrors) {
-        error.login = userError.value.login;
-        error.register = userError.value.register;
+        const loginGraphQLErrorMessage = loginGraphQLError?.graphQLErrors[0]?.message;
+        const registerGraphQLErrorMessage = registerGraphQLError?.graphQLErrors[0]?.message;
+
+        error.login = loginGraphQLErrorMessage || userError.value.login?.message;
+        error.register = registerGraphQLErrorMessage || userError.value.register?.message;
         return;
       }
       toggleLoginModal();

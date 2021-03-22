@@ -64,7 +64,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
         user.value = await _factoryParams.register(providedUser);
         error.value.register = null;
       } catch (err) {
-        error.value.register = err.response?.data || err;
+        error.value.register = err;
         Logger.error('useUser/register', err);
       } finally {
         loading.value = false;
@@ -80,7 +80,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
         user.value = await _factoryParams.logIn(providedUser);
         error.value.login = null;
       } catch (err) {
-        error.value.login = err.response?.data || err;
+        error.value.login = err;
         Logger.error('useUser/login', err);
       } finally {
         loading.value = false;
