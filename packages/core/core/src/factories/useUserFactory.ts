@@ -41,6 +41,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const updateUser = async ({ user: providedUser }) => {
       Logger.debug('useUserFactory.updateUser', providedUser);
+      resetErrorValue();
 
       try {
         loading.value = true;
@@ -79,7 +80,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
         user.value = await _factoryParams.logIn(providedUser);
         error.value.login = null;
       } catch (err) {
-        error.value.login = err;
+        error.value.login = err.response?.data || err;
         Logger.error('useUser/login', err);
       } finally {
         loading.value = false;
@@ -88,6 +89,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const logout = async () => {
       Logger.debug('useUserFactory.logout');
+      resetErrorValue();
 
       try {
         await _factoryParams.logOut();
@@ -101,6 +103,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const changePassword = async (params) => {
       Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
+      resetErrorValue();
 
       try {
         loading.value = true;
@@ -120,6 +123,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
     const load = async () => {
       Logger.debug('useUserFactory.load');
+      resetErrorValue();
 
       try {
         loading.value = true;
