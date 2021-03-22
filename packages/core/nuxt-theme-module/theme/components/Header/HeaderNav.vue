@@ -62,8 +62,8 @@ export default {
       if (currentCatSlug.value) return;
 
       currentCatSlug.value = slug;
-      const catChild = categories.value.find(category => category.slug === currentCatSlug.value);
-      emit('setOverlay', Boolean(catChild.childCount));
+      const { childCount } = categories.value.find(category => category.slug === currentCatSlug.value);
+      emit('setOverlay', Boolean(childCount));
     };
 
     const handleMouseLeave = () => {
