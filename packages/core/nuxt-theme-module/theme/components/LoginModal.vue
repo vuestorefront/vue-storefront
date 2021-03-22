@@ -220,16 +220,10 @@ export default {
       resetErrorValues();
       await fn({ user: form.value });
 
-      const registerGraphQLError = userError.value.register?.response?.data;
-      const loginGraphQLError = userError.value.login?.response?.data;
-
-      const hasUserErrors = (registerGraphQLError || userError.value.register) || (loginGraphQLError || userError.value.login);
+      const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
-        const loginGraphQLErrorMessage = loginGraphQLError?.graphQLErrors[0]?.message;
-        const registerGraphQLErrorMessage = registerGraphQLError?.graphQLErrors[0]?.message;
-
-        error.login = loginGraphQLErrorMessage || userError.value.login?.message;
-        error.register = registerGraphQLErrorMessage || userError.value.register?.message;
+        error.login = userError.value.login?.message;
+        error.register = userError.value.register?.message;
         return;
       }
       toggleLoginModal();

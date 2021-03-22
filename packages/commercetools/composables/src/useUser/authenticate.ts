@@ -10,6 +10,6 @@ export const authenticate = async (userData: UserData, fn) => {
   } catch (err) {
     err.message = err?.graphQLErrors?.[0]?.message || err.message;
     Logger.error('useUser.authenticate', err.message);
-    throw err;
+    throw err?.response?.data?.graphQLErrors?.[0] || err;
   }
 };
