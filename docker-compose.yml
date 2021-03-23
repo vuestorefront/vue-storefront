@@ -1,14 +1,14 @@
 version: '2.0'
 services:
-  app:
-    # image: divante/vue-storefront:latest
+  vsf-app:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
-    env_file: docker/vue-storefront/default.env
     environment:
-      VS_ENV: dev
-    network_mode: host
+      VS_ENV: ${VS_ENV}
+      VIRTUAL_HOST: ${DOMAIN}
+      LETSENCRYPT_HOST: ${DOMAIN}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
@@ -26,5 +26,17 @@ services:
       - './packages:/var/www/packages'
     tmpfs:
       - /var/www/dist
+    networks:
+      - default
+      - reverseproxy
+      - vue-storefront-api
     ports:
       - '3000:3000'
+
+networks:
+  reverseproxy:
+    external:
+      name: webdevelopmentreverseproxy_default
+  vue-storefront-api:
+    external:
+      name: vue-storefront-api_default
