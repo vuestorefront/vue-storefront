@@ -184,10 +184,11 @@ module.exports = {
 						['/guide/theme', 'Theme'],
 						['/guide/configuration', 'Configuration'],						
 						['/guide/composables', 'Composables'],
+						['/guide/product-catalog', 'Product Catalog'],
 						['/guide/authentication', 'Authentication'],
 						['/guide/user-profile', 'User profile'],						
 						['/guide/cart-and-wishlist', 'Cart and wishlist'],
-                        ['/guide/checkout', 'Checkout']
+            ['/guide/checkout', 'Checkout']
 					]
 				},
 				{
