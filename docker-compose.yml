@@ -9,6 +9,8 @@ services:
       VIRTUAL_HOST: ${DOMAIN}
       LETSENCRYPT_HOST: ${DOMAIN}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      VSF_API_DOMAIN: ${VSF_API_DOMAIN}
+      DEFAULT_STORE_ES_INDEX: ${DEFAULT_STORE_ES_INDEX}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
