@@ -34,7 +34,7 @@ export default {
 In some platforms `products` object is containing not only a list of products but also some additional metadata like products count. In such cases you can use `getFiltered` getter without parameters to extract only the products list.
 
 ```ts
-import { productGetters } from '@vue-storefront/{INTEGRATION}'
+import { productGetters } from '{INTEGRATION}'
 
 export default {
   setup () {
@@ -53,18 +53,13 @@ export default {
 
 Each of Product Variants returned by `getFiltered` is a single product configuration.
 
-In most of the eCommerce backends there is so-called _Master Variant_. You can think about this as a default configuration for your product that is displayed to the user if he/she havn't selected any other configuration yet (eg. `red` + `M` for t-shirt )
+In most of the eCommerce backends there is so-called _Master Variant_. You can think about this as a default configuration for your product that is displayed to the user if he/she havn't selected any other configuration yet (eg. `red` + `M` for t-shirt ). If platform is not supporting master variants it's either the first one or there is a stub with `null` as configurable attributes.
 
 We will use the `getFiltered` getter to filter out the other variants from the `products` object and keep only the one that we need:
 
 ```ts
 const masterVariant = computed(() => productGetters.getFiltered(products.value, { master: true })[0]);
 ```
-
-::: tip
-Some platforms does not have a concept of Master Variant. In such cases we're just treating the first configuration as one or creating a new one with `null` as attriibute option values which represent unconfigured product.
-:::
-
 
 ### Using `getFiltered` to select the product configuration
 
