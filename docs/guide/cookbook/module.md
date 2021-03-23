@@ -718,6 +718,7 @@ We build a module that applies a discount to certain `storeviews` only.
   - `beforeStoreViewChange` - Async Mutator
   - `afterStoreViewChange` - Listener
   - `afterAppInit` - Listener
+  - `beforeAppInit` - Async Mutator
 
 :::warning NOTICE
 The list is of course subject to change, it grows for each core module to handle all use cases.
