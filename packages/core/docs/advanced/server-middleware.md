@@ -46,7 +46,7 @@ module.exports = {
       location: '@<integration-package>/server',
       configuration: {}
       extensions: (extensions) => extensions,
-      customQeries: {}
+      customQueries: {}
     }
   }
 };
@@ -110,7 +110,7 @@ module.exports = {
           hooks: () => { /* ... */}
         }
       ],
-      customQeries: {}
+      customQueries: {}
     }
   }
 };
