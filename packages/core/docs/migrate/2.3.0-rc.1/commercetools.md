@@ -12,8 +12,8 @@ We also made changes to the following files:
 - added new composable `useBilling`,
 - added new composable `useShipping`,
 - added new composable `useShippingProvider`
-- added new component `VsfShippingProvider`,
-- added new component `VsfPaymentProviderMock`,
+- added new component `components/Checkout/VsfShippingProvider`,
+- added new component `components/Checkout/VsfPaymentProviderMock`,
 - added new components `pages/Checkout/Billing.vue`,
 - added new helper `helpers/Checkout/getShippingMethodPrice.ts`,
 - added new middleware `middleware/is-authenticated.js`,
