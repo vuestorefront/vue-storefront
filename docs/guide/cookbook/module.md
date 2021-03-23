@@ -419,7 +419,50 @@ Routes to be added must be _Array_ type even if it only has one element as you c
 
 ![route_liked_borderline](../images/route_liked.png)
 
-### 2-4. Recipe D (Use hooks)
+### 2-4. Recipe D (Create hooks)
+As you know we have two kinds of hooks `listener` and `mutator`. In this section, we look into how to create our own hooks.
+
+1. Create the `hooks.ts` inside `./core/modules/example-module`.
+
+2. Import `hooks` from `core`:
+
+```js
+import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+```
+
+3. Prepare your own `hooks`:
+
+```ts
+const {
+  hook: beforeExampleHook,
+  executor: beforeExampleExecutor
+} = createMutatorHook<any, any>()
+
+const {
+  hook: afterExampleHook,
+  executor: afterExampleExecutor
+} = createListenerHook()
+
+const exampleHooks = {
+  beforeExample: beforeExampleHook,
+  afterExample: afterExampleHook
+}
+const exampleHooksExecutors = {
+  beforeExample: beforeExampleExecutor,
+  afterExample: afterExampleExecutor
+}
+```
+
+4. Export created `hooks`:
+
+```js
+export {
+  exampleHooks,
+  exampleHooksExecutors
+}
+```
+
+### 2-5. Recipe E (Use hooks)
 One of the most intuitive way to build a module is using hooks. Open source creators more than often intentionally leave hooks as many as possible to everywhere they think extendable for 3rd party developers to inject logic into the flow of program. Here we will look into how _Vue Storefront_ did it its way.
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -476,10 +519,10 @@ app_1  | whole request [/liked]: 1323ms
 ```
 You can read [more in depth](#_3-hooking-into-hooks)
 
-### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may need to pass values to populate fields in your module configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+### 2-6. Recipe F (Manage module-level `config`)
+Sometimes you may need to pass values to populate fields in your module configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`.
 
-Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with using 3rd party account during module registration. 
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with using 3rd party account during module registration.
 
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -543,7 +586,7 @@ app_1  | Calling asyncData in Home (theme) null
 ```
 You can read [more in depth](#_4-on-configuration)
 
-### 2-6. Recipe F (Access app-level `config`)
+### 2-7. Recipe G (Access app-level `config`)
 When you work on building a _module_ in _Vue Storefront_, you can also access app's `config`. `config` is compiled version of `./config` folder which is normally a copy of `local.json`. When you need to access `config`, you can do it inside a `module`.
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -571,7 +614,7 @@ app_1  | This is one way to use moduleConfig
 ```
 
 
-### 2-7. Recipe G (Setting up server module)
+### 2-8. Recipe H (Setting up server module)
 
 We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
 
