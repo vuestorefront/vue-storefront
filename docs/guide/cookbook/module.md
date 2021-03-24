@@ -420,7 +420,7 @@ Routes to be added must be _Array_ type even if it only has one element as you c
 ![route_liked_borderline](../images/route_liked.png)
 
 ### 2-4. Recipe D (Create hooks)
-As you know we have two kinds of hooks `listener` and `mutator`. In this section, we look into how to create our own hooks.
+As you know we have two main kinds of hooks `listener` and `mutator`. In this section, we look into how to create our own ones.
 
 1. Create the `hooks.ts` inside `./core/modules/example-module`.
 
