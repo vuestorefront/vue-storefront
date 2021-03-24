@@ -199,8 +199,8 @@ We added the following composables:
 - `useMakeOrder` for placing the final order.
 
 We added two new components to delegate UI-related logic:
-- `VsfPaymentProviderMock` (`Mock` because commercetools doesn't handle payments),
-- `VsfShippingProvider`.
+- `components/Checkout/VsfPaymentProviderMock` (`Mock` because commercetools doesn't handle payments),
+- `components/Checkout/VsfShippingProvider`.
 
 We also used this opportunity to cleanup other composables:
 - removed `useCheckout`,

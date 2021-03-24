@@ -1,10 +1,11 @@
 <template>
 <component :is="link ? 'a' : 'div'" class="tile" v-show="isVisible" :class="{ wip: isWip }" :href="link">
   <div class="image">
-    <img :src="image" />
+    <img :src="image" :alt="name"/>
     <span class="badge info" v-if="isEnterprise">Enterprise</span>
-    <span class="badge wip" v-if="isWip">Work in prorgess</span>
+    <span class="badge wip" v-if="isWip">In prorgess</span>
     <span class="badge beta" v-if="isBeta">Beta</span>
+    <span class="badge from-core" v-if="fromCore">From Core Team</span>
   </div>
 </component>
 </template>
@@ -20,6 +21,7 @@ export default {
     'isWip', 
     'isBeta',
     'isEnterprise', 
+    'fromCore',
     'compatibility'
   ],
   data () {
@@ -76,6 +78,11 @@ export default {
 }
 .badge.wip {
   background: darkgray;
+}
+.badge.from-core {
+  left: initial;
+  background: #b19cd9;
+  right: 8px;
 }
 
 @media (max-width: 719px) {

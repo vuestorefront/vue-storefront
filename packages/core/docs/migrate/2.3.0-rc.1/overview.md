@@ -130,8 +130,8 @@ We added and updated multiple UI elements:
   - `pages/Checkout/Billing.vue` with route `/checkout/billing`,
 - added new integration-specific components:
   - `components/Checkout/CartPreview.vue` (previously implemented in the core theme),
-  - `components/VsfPaymentProvider.vue`,
-  - `components/VsfShippingProvider.vue`,
+  - `components/Checkout/VsfPaymentProvider.vue`,
+  - `components/Checkout/VsfShippingProvider.vue`,
 - updated components:
   - `components/AppFooter.vue`,
   - `components/AppHeader.vue`,

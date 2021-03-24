@@ -3,7 +3,7 @@ sidebar: false
 ---
 # Feature list
 
-The following document lists the most important (but not all!) features of [Vue Storefront Cloud](https://www.vuestorefront.io/cloud) offering.
+The following document lists the most important (but not all!) features of [Vue Storefront Cloud](https://www.vuestorefront.io/enterprise) offering.
 
 
 [[toc]]
