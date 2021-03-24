@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
 - Updated VSF1 insfrastructure's schema - @lukaszjedrasik ([#5531](https://github.com/vuestorefront/vue-storefront/issues/5531))
+- Added some missing information about hooks into docs - @lukaszjedrasik ([#5152](https://github.com/vuestorefront/vue-storefront/issues/5152))
 
 ### Fixed
 - Fixed some typo in docs (#5071)
