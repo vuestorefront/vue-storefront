@@ -6,8 +6,8 @@ describe('Category page', () => {
     cy.get('[data-testid=categoryButton]')
       .contains('Women')
       .click({ force: true });
-    cy.get('[data-testid=categoryLink][href="/women/women-20"]').click();
-    cy.url().should('include', '/women/women-20');
+    cy.get('[data-testid=categoryLink][href="/women.html"]').click();
+    cy.url().should('include', '/women.html');
     cy.get('[aria-label="Select color Red"]')
       .first()
       .click()
