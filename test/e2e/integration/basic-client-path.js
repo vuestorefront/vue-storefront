@@ -3,17 +3,22 @@ describe('basic client path', () => {
   it('should go through basic user flow', () => {
     cy.visit('/');
     cy.get('[data-testid=productLink]')
-      .eq(7)
+      .eq(5)
       .click({ force: true });
     cy.get('[data-testid=addToCart]').click({ force: true });
+    cy.wait(5000);
     cy.get('[data-testid=notificationMessage]').contains(
       'This product is out of stock.'
     );
     cy.get('[data-testid=notificationAction1]').click();
+    cy.go('back').wait(1000);
+    cy.get('[data-testid=productLink]')
+      .eq(7)
+      .click({ force: true });
     cy.get('[aria-label="Select color Red"]').click();
     cy.get('[aria-label="Select size S"]').click();
-    cy.wait(1000);
     cy.get('[data-testid=addToCart]').click({ force: true });
+    cy.wait(5000);
     cy.get('[data-testid=notificationAction2]').click();
     cy.get('[name=first-name]').type('Firstname');
     cy.get('[name=last-name]').type('Lastname');
