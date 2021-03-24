@@ -175,6 +175,33 @@ Configuration can be changed only for the Enterprise version of this package.
 
 Faceting configuration can be modified to change available sorting options, filters, etc.
 
+Two identical options must be passed to:
+- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
+- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+
+```javascript
+// nuxt.config.js
+export default {
+  buildModules: [
+    ['@vsf-enterprise/ct-faceting/nuxt', {
+      // options
+    }],
+  ]
+};
+
+// middleware.config.js
+module.exports = {
+  integrations: {
+    ctf: {
+      location: '@vsf-enterprise/ct-faceting/server',
+      configuration: {
+        // options
+      }
+    }
+  }
+};
+```
+
 If the explicit configuration is not provided, the following defaults will be used:
 
 ```javascript
@@ -210,33 +237,6 @@ If the explicit configuration is not provided, the following defaults will be us
   - `facet` - the name of the field to sort by. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#sorting).
   - `direction` - sorting direction. Valid values are `asc` or `desc`.
 - `filteringStrategy` - fallback scope applied to the facets that don't have strategy defined. Possible values are `filter`, `query` or `facets`. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#filters).
-
-If the default configuration is modified, two identical copies must be passed to:
-- `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
-- `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
-
-```javascript
-// nuxt.config.js
-export default {
-  buildModules: [
-    ['@vsf-enterprise/ct-faceting/nuxt', {
-      // options
-    }],
-  ]
-};
-
-// middleware.config.js
-module.exports = {
-  integrations: {
-    ctf: {
-      location: '@vsf-enterprise/ct-faceting/server',
-      configuration: {
-        // options
-      }
-    }
-  }
-};
-```
 
 ## Example
 
