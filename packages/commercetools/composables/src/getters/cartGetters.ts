@@ -12,18 +12,18 @@ export const getCartItems = (cart: Cart): LineItem[] => {
   return cart.lineItems;
 };
 
-export const getCartItemName = (product: LineItem): string => product.name;
+export const getCartItemName = (product: LineItem): string => product?.name || '';
 
-export const getCartItemImage = (product: LineItem): string => product.variant.images[0].url;
+export const getCartItemImage = (product: LineItem): string => product?.variant?.images[0]?.url || '';
 
 export const getCartItemPrice = (product: LineItem): AgnosticPrice => createPrice(product);
 
-export const getCartItemQty = (product: LineItem): number => product.quantity;
+export const getCartItemQty = (product: LineItem): number => product?.quantity || 0;
 
 export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) =>
   getProductAttributes(product.variant, filterByAttributeName);
 
-export const getCartItemSku = (product: LineItem): string => product.variant.sku;
+export const getCartItemSku = (product: LineItem): string => product?.variant?.sku || '';
 
 const getCartSubtotalPrice = (cart: Cart, selectSpecialPrices = false): number => {
   return getCartItems(cart).reduce((total, cartItem) => {
