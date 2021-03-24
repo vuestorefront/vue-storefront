@@ -63,7 +63,7 @@ export default {
     const { categories, search } = useCategory('menu-categories');
     const { categories: subCategories, search: subCategoriesSearch, loading: subCategoriesLoading } = useCategory('menu-subCategories');
     const currentCatSlug = ref('');
-    const activeSubCategory = ref([]);
+    const activeSubCategory = ref(null);
     const fetchedSubCategories = reactive({});
 
     const handleMouseEnter = debounce(async slug => {
