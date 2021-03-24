@@ -170,7 +170,7 @@ type ProductVariant = {
 ## Configuration
 
 ::: warning
-Configuration can be changed only for th Enterprise version of this package.
+Configuration can be changed only for the Enterprise version of this package.
 :::
 
 Faceting configuration can be modified to change available sorting options, filters, etc.
@@ -179,15 +179,11 @@ If the explicit configuration is not provided, the following defaults will be us
 
 ```javascript
 {
-  pageOptions: [
-    20,
-    50,
-    100
-  ],
+  pageOptions: [20, 50, 100],
   subcategoriesLimit: 100,
   availableFacets: [
-    { facet: 'categories.id', type: 'string', option: 'subtree("*")', name: 'category' },
-    { facet: 'variants.attributes.size', type: 'number', option: '', name: 'size' },
+    { facet: 'categories.id', type: 'string', option: 'subtree("*")', name: 'category', filteringStrategy: 'query' },  // Don't change the "name" of this facet
+    { facet: 'variants.attributes.size', type: 'string', option: '', name: 'size' },
     { facet: 'variants.attributes.color.key', type: 'string', option: '', name: 'color' }
   ],
   sortingOptions: [
@@ -200,9 +196,47 @@ If the explicit configuration is not provided, the following defaults will be us
 }
 ```
 
-Configuration can be modified by passing identical configuration to:
+- `pageOptions` - an array of number of elements displayed per page.
+- `subcategoriesLimit` - the maximum number of subcategories displayed for any given category.
+- `availableFacets` - an array of filters available to the user.
+  - `facet` - facet expressions described on [this page](https://docs.commercetools.com/api/projects/products-search#termfacetexpression).
+  - `type` - `facet` data type. Valid values are `string`, `date`, `time`, `datetime`, `boolean` or `number`.
+  - `option` - filtering options described on [this page](https://docs.commercetools.com/api/projects/products-search#filters).
+  - `name` - facet alias described on [this page](https://docs.commercetools.com/api/projects/products-search#alias). `category` alias for the first facet shown above is a constant and shouldn't be changed.
+  - `filteringStrategy` - scope applied to this specific filter. Possible values are `filter`, `query` or `facets`. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#filters). 
+- `sortingOptions` - an array of sorting options available to the user.
+  - `id` - unique `identifier` for the option.
+  - `name` - label for the option.
+  - `facet` - the name of the field to sort by. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#sorting).
+  - `direction` - sorting direction. Valid values are `asc` or `desc`.
+- `filteringStrategy` - fallback scope applied to the facets that don't have strategy defined. Possible values are `filter`, `query` or `facets`. For more information refer to [this page](https://docs.commercetools.com/api/projects/products-search#filters).
+
+If the default configuration is modified, two identical copies must be passed to:
 - `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
 - `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+
+```javascript
+// nuxt.config.js
+export default {
+  buildModules: [
+    ['@vsf-enterprise/ct-faceting/nuxt', {
+      // options
+    }],
+  ]
+};
+
+// middleware.config.js
+module.exports = {
+  integrations: {
+    ctf: {
+      location: '@vsf-enterprise/ct-faceting/server',
+      configuration: {
+        // options
+      }
+    }
+  }
+};
+```
 
 ## Example
 
