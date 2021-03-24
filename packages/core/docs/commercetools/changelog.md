@@ -1,5 +1,52 @@
 # Changelog
 
+## 1.2.0-rc.2
+
+-  Adjust Checkout UI ([#5343](https://github.com/vuestorefront/vue-storefront/issues/5343)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+- [BREAKING] Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools,
+-  New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
+,
+-  Added `is-authenticated` middleware to protect user profile routes from guest access ([#5442](https://github.com/vuestorefront/vue-storefront/pull/5442)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Improvements for api middleware ([#5500](https://github.com/vuestorefront/vue-storefront/pull/5500)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+,
+- [BREAKING] New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme,
+- [BREAKING] Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+{ changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
+ | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts,
+- [BREAKING] Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
+- [BREAKING] New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools,
+-  State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
+
+
+# 1.1.7
+- fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
+
+# 1.1.6
+- fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
+
+# 1.1.5
+- remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
 # 1.1.6
 - fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
