@@ -3,17 +3,18 @@ describe('checkout page', () => {
   it('Default shipping/billing address should be changed', () => {
     cy.visit('/');
     cy.get('[data-testid=accountButton]').click();
-    cy.get('[name=email]').type('logintest@user.co');
-    cy.get('[name=password]').type('123qwe!@#');
+    cy.get('[name=email]').type('xxtest@test.com');
+    cy.get('[name=password]').type('Password123');
     cy.get('#remember').check({ force: true });
     cy.get('[data-testid=loginSubmit]').click();
-    cy.wait(500);
+    cy.wait(5000);
     cy.get('[data-testid=notificationMessage]').contains('You are logged in!');
     cy.get('[data-testid=productLink]')
       .eq(3)
       .click();
     cy.get('[aria-label="Select size L"]').click();
     cy.get('[data-testid=addToCart]').click();
+    cy.wait(10000);
     cy.get('[data-testid=notificationAction2]').click();
     cy.get('[data-testid=personalDetailsSubmit]').click();
     cy.get('#shipToMyAddressCheckbox').check({ force: true });
@@ -26,9 +27,15 @@ describe('checkout page', () => {
     cy.get('[name=city]')
       .clear()
       .type('Wroclaw');
+    cy.get('[name=state]')
+      .clear()
+      .type('Lowersilesian');
     cy.get('[name=zip-code]')
       .clear()
       .type('50-555');
+    cy.get('[name=phone-number]')
+      .clear()
+      .type('222 444 123');
     cy.get('[data-testid=shippingSubmit]').click();
     cy.get('[data-testid=shippingAddressSummary]').contains('Wroclaw');
     cy.get('#sendToShippingAddressCheckbox').check({ force: true });

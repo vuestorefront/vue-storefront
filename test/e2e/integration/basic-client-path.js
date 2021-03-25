@@ -15,7 +15,7 @@ describe('basic client path', () => {
     cy.get('[data-testid=productLink]')
       .eq(7)
       .click({ force: true });
-    cy.get('[aria-label="Select color Red"]').click();
+    cy.get('[aria-label="Select color Purple"]').click();
     cy.get('[aria-label="Select size S"]').click();
     cy.get('[data-testid=addToCart]').click({ force: true });
     cy.wait(5000);
