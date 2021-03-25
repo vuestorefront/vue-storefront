@@ -4,13 +4,10 @@ This document will walk you through the most important concepts of Vue Storefron
 
 ## Configuration
 
-The first thing you usually want to do after setting up a new project is some configuration. No matter if you want to change your backend API credentials, change routes or add a custom logger, there is always a single place to do all these things - Vue Storefront Modules configuration in `nuxt.config.js`.
+There are two types of configuration in Vue Storefront:
 
-If you're using our boilerplate, you will find 3 Vue Storefront modules in your configuration:
-
-- `@vue-storefront/nuxt` - Our core Nuxt module. Its main responsibility is to extend Nuxt configuration.
-- `@vue-storefront/nuxt-theme`- This module adds routing and theme-specific configuration for Nuxt.
-- `@vue-storefront/<ECOMMERCE_PLATFORM>` - This is a module of your eCommerce integration. All configuration related to the specific eCommerce platform like setting up API credentials has to happen through this module. Such module usually provides some additional functionalities like setting up the cookies.
+- `nuxt.config.js` which controls your Nuxt App and frontend-related features of Vue Storefront
+- `middleware.config.js` where you add, configure and extend your integrations
 
 You can read more about configuration [here](/guide/configuration.html)
 
@@ -39,26 +36,86 @@ By default, we're using `nuxt-i18n` module for internationalization.
 
 You can read more about i18n in Vue Storefront [here](/advanced/internationalization).
 
-## App Context
-
-Sometimes the only thing you need is to fetch some data from integrations API Client without the overlap of a composable. You should use an API Client that is accessible through `useVSFContext` composable for that. 
-
-```js
-import { useVSFContext } from '@vue-storefront/core'
-// for each integration you can access it's tag - eg $ct for commercetools
-const { $ct } = useVSFContext()
-```
-
-You can read more about Vue Storefront Context [here](/advanced/context)
-
-
 ## Middleware
 
-When it comes to the networking layer, Vue Storefront uses a middleware that is a bridge between front-end and other backends (eCommerce or 3rd party services). The front-end always calls middleware that is redirecting requests to correlated destinations. It allows developers to implement custom logic to inject into the lifecycle of the requests or even create custom API endpoints if needed.
+Vue Storefront uses a middleware that is a bridge between front-end and backends (eCommerce or 3rd party services). The front-end always calls middleware that is redirecting requests to correlated destinations. It allows developers to implement custom logic to inject into the lifecycle of the requests or even create custom API endpoints if needed.
+
+Middleware by default is a part of your Nuxt application but it can be detached and server as a separate node application.
 
 You can read more about Vue Storefront Middleware on the [Server Middleware](/advanced/server-middleware) page.
 
 
-## Integrations
+## Integrations and extendibility
 
-Even though high-level APIs are the same for all Vue Storefront integrations, they are different on the low level (data formats, search params). Check the documentation for a specific platform to learn more.
+All the 3rd party integrations (eCommerce, CMS, Search etc) can be added and configured through `middleware.config.js`.
+
+```js
+//middleware.config.js
+module.exports = {
+  integrations: {
+    // ...
+  }
+}
+```
+
+Each integration has `extensions` field. You can use extensions to:
+- Override existing API methods of a certain integration.
+- Add new API methods.
+- Change method parameters before each/specific it's called.
+- Do something after each/specific method is called.
+
+```js
+{
+  name: 'my-extension',
+  extendApiMethods: {
+    // will override default getProduct
+    getProduct: async () => { /* ... */ }
+    // will add new method to the integration 
+    doSomethingMore: async () => { /* ... */}
+  },
+  hooks: (req, res) => {
+    return {
+      beforeCreate: ({ configuration }) => configuration,
+      afterCreate: ({ configuration }) => configuration,
+      beforeCall: ({ configuration, callName, args }) => args,
+      afterCall: ({ configuration, callName, args, response }) => response
+    }
+  }
+}
+```
+
+Sometime you just need to call specific API client method without using a composable. You have access to all API methods of your registered integrations through `useVSFContext` composable. 
+
+The composable returns a list of tags representing your integrations (it's usually either a name of the integration like `$storyblok` or acronym for longer names like `$ct` for commercetools)
+
+```js
+const { $ct } = useVsfContext()
+```
+
+You have access to all methods through `api` field of each integration
+
+```js
+const products = $ct.api.getProducts(params)
+```
+
+## Backend-agnostic
+
+No matter what backend services you're using they are handled more or less the same way on the frontend. No matter what eCommerce platform, CMS or Search you're using you will always use the same getters and composables so it's easy to work with VSF projects on different tech stacks or try new services without making heavy investments.
+
+There are some things that are different for each platform though. Main data object of each composable (like `products` in `useProduct`) is **always** a plain response from your platform. If you use getters on this object they will always return agnostic data format
+
+```js
+const { search, products } = useProduct()
+
+console.log(products) // type: CommerceToolsProduct[]
+
+console.log(productGetters.getAttributes(products.value)) // type: AgnosticProductAttribute[]
+```
+
+Also parameters of functions returned by composables are different for each platform
+
+```js
+const { search, products } = useProduct()
+
+search(params)  // `params` are different depending on backend platform
+```
