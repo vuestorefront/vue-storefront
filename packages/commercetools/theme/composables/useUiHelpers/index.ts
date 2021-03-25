@@ -2,7 +2,7 @@ import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 
-const nonFilters = ['page', 'sort', 'term', 'itemsPerPage'];
+const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
 
 const getInstance = () => {
   const vm = getCurrentInstance();
@@ -40,7 +40,7 @@ const useUiHelpers = () => {
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(instance, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
-      term: query.term
+      phrase: query.phrase
     };
   };
 
@@ -56,7 +56,7 @@ const useUiHelpers = () => {
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(instance, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
-      term: query.term
+      phrase: query.phrase
     };
   };
 
@@ -91,7 +91,7 @@ const useUiHelpers = () => {
     instance.$router.push({
       query: {
         ...getFiltersDataFromUrl(instance, false),
-        term: term || undefined
+        phrase: term || undefined
       }
     });
   };

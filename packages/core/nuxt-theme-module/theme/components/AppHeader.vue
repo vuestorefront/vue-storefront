@@ -129,7 +129,7 @@ export default {
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
-    const term = ref(getFacetsFromURL().term);
+    const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
 
@@ -170,7 +170,7 @@ export default {
         term.value = paramValue.target.value;
       }
       setTermForUrl(term.value);
-      await search(getSearchTermFromUrl(term.value));
+      await search(getSearchTermFromUrl());
     }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
