@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "0.0.0.0",
-    "port": 3000,
+    "port": ${BIND_PORT},
     "protocol": "http",
     "api": "api",
     "devServiceWorker": false,
@@ -872,7 +872,7 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-default",
+  "theme": "@vue-storefront/theme-${STORE}",
   "analytics": {
     "id": false
   },

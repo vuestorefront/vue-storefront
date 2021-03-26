@@ -9,11 +9,13 @@ COPY yarn.lock ./
 
 RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
   && apk add --no-cache git \
-  && yarn install --no-cache \
   && apk del .build-deps
 
 RUN apk add --update libintl && apk add --virtual build_deps gettext
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
+
+COPY config /var/www/config
+COPY tsconfig.json.example /var/www/tsconfig.json.example
 
 CMD ["vue-storefront.sh"]

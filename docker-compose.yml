@@ -1,25 +1,27 @@
 version: '2.0'
 services:
-  vsf-app:
+  vsf-app-budsies:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
     environment:
+      BIND_PORT: ${BUDSIES_PORT}
+      STORE: ${BUDSIES_STORE}
       VS_ENV: ${VS_ENV}
-      VIRTUAL_HOST: ${DOMAIN}
-      LETSENCRYPT_HOST: ${DOMAIN}
+      VIRTUAL_HOST: ${BUDSIES_DOMAIN}
+      LETSENCRYPT_HOST: ${BUDSIES_DOMAIN}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      VSF_API_DOMAIN: ${VSF_API_DOMAIN}
-      DEFAULT_STORE_ES_INDEX: ${DEFAULT_STORE_ES_INDEX}
+      VSF_API_DOMAIN: ${BUDSIES_VSF_API_DOMAIN}
+      DEFAULT_STORE_ES_INDEX: ${BUDSIES_STORE_ES_INDEX}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
-      - './config:/var/www/config'
+      #- './config:/var/www/config'
       - './core:/var/www/core'
       - './ecosystem.json:/var/www/ecosystem.json'
       - './.eslintignore:/var/www/.eslintignore'
       - './.eslintrc.js:/var/www/.eslintrc.js'
       - './lerna.json:/var/www/lerna.json'
-      - './tsconfig.json:/var/www/tsconfig.json'
+      #- './tsconfig.json:/var/www/tsconfig.json'
       - './tsconfig-build.json:/var/www/tsconfig-build.json'
       - './shims.d.ts:/var/www/shims.d.ts'
       - './package.json:/var/www/package.json'
@@ -32,8 +34,45 @@ services:
       - default
       - reverseproxy
       - vue-storefront-api
-    ports:
-      - '3000:3000'
+    expose:
+      - ${BUDSIES_PORT}
+
+  vsf-app-petsies:
+    build:
+      context: .
+      dockerfile: docker/vue-storefront/Dockerfile
+    environment:
+      BIND_PORT: ${PETSIES_PORT}
+      STORE: ${PETSIES_STORE}
+      VS_ENV: ${VS_ENV}
+      VIRTUAL_HOST: ${PETSIES_DOMAIN}
+      LETSENCRYPT_HOST: ${PETSIES_DOMAIN}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
+      DEFAULT_STORE_ES_INDEX: ${PETSIES_STORE_ES_INDEX}
+    volumes:
+      - './babel.config.js:/var/www/babel.config.js'
+      #- './config:/var/www/config'
+      - './core:/var/www/core'
+      - './ecosystem.json:/var/www/ecosystem.json'
+      - './.eslintignore:/var/www/.eslintignore'
+      - './.eslintrc.js:/var/www/.eslintrc.js'
+      - './lerna.json:/var/www/lerna.json'
+      #- './tsconfig.json:/var/www/tsconfig.json'
+      - './tsconfig-build.json:/var/www/tsconfig-build.json'
+      - './shims.d.ts:/var/www/shims.d.ts'
+      - './package.json:/var/www/package.json'
+      - './src:/var/www/src'
+      - './var:/var/www/var'
+      - './packages:/var/www/packages'
+    tmpfs:
+      - /var/www/dist
+    networks:
+      - default
+      - reverseproxy
+      - vue-storefront-api
+    expose:
+      - ${PETSIES_PORT}
 
 networks:
   reverseproxy:
