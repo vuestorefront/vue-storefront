@@ -13,7 +13,10 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <HeaderNav @setOverlay="isOverlayVisible = $event" />
+        <HeaderNav
+          v-if="!isMobile"
+          @setOverlay="isOverlayVisible = $event"
+        />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -91,7 +94,7 @@
     <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" />
     <SfOverlay :visible="isSearchOpen" />
     <MobileMenu
-      v-if="isMobileMenuOpen"
+      v-if="isMobile && isMobileMenuOpen"
       class="mobile-menu"
     />
   </div>
@@ -99,11 +102,10 @@
 
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
-import { useUiState } from '~/composables';
+import { useUiState, useUiHelpers } from '~/composables';
 import { useCart, useWishlist, useUser, cartGetters, useFacet } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNav from './HeaderNav';
