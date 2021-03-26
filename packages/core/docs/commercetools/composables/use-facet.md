@@ -169,22 +169,24 @@ type ProductVariant = {
 
 ## Configuration
 
-::: warning
+::: tip
 Configuration can be changed only for the Enterprise version of this package.
 :::
 
-Faceting configuration can be modified to change available sorting options, filters, etc.
-
-Two identical options must be passed to:
+Faceting configuration can be modified to change available sorting options, filters, etc. It must be passed to:
 - `@vsf-enterprise/ct-faceting/nuxt` module in `nuxt.config.js`.
 - `@vsf-enterprise/ct-faceting/server` integration in `middleware.config.js`.
+
+::: warning Keep your configuration synchronized
+Parts of the configuration marked as `<FACETING_OPTIONS>` must be identical in both files.
+:::
 
 ```javascript
 // nuxt.config.js
 export default {
   buildModules: [
     ['@vsf-enterprise/ct-faceting/nuxt', {
-      // options
+      // <FACETING_OPTIONS>
     }],
   ]
 };
@@ -195,14 +197,26 @@ module.exports = {
     ctf: {
       location: '@vsf-enterprise/ct-faceting/server',
       configuration: {
-        // options
+        api: {
+          authHost: "<CT_AUTH_HOST>",
+          projectKey: "<CT_PROJECT_KEY>",
+          clientId: "<CT_CLIENT_ID>",
+          clientSecret: "<CT_CLIENT_SECRET>",
+          scopes: [
+            "<CT_AUTH_SCOPE>"
+          ],
+        },
+        faceting: {
+          host: "<CT_HOST>"
+        },
+        // <FACETING_OPTIONS>
       }
     }
   }
 };
 ```
 
-If the explicit configuration is not provided, the following defaults will be used:
+If the explicit configuration is not provided in place of `<FACETING_OPTIONS>`, the following defaults will be used:
 
 ```javascript
 {
