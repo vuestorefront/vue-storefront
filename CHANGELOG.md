@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changing email & password at once - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
 - Improved: the code to remove the page key from the query before applying a filter - @ymaheshwari1 ([VSF Capybara #561](https://github.com/vuestorefront/vsf-capybara/issues/561))
 - Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
+- Multi-tab cart-sync in multi-store environment - @cewald (#5711)
+
 ### Changed / Improved
 
 - Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
