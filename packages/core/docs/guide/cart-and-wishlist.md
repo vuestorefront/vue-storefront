@@ -38,13 +38,9 @@ To add the product to the cart you can use `addItem` method:
 <template>
   <!-- ... -->
     <ul>
-      <li
-        v-for="product in products" :key="product.id"
-      > 
+      <li v-for="product in products" :key="product.id"> 
         <!-- ... -->
-        <button
-          @click="addItem({ product, quantity })"
-        >
+        <button @click="addItem({ product, quantity })">
           Add to cart
         </button>
       </li>
@@ -85,18 +81,12 @@ To remove an item from the cart use `removeItem` method, and similarly to update
   <!-- ... -->
     <div>
       <ul>
-        <li
-          v-for="product in products" :key="product.id"
-        >
+        <li v-for="product in products" :key="product.id">
           <input type="number" v-model="quantity"/>
-          <button
-            @click="updateItemQty({ product, quantity })"
-          >
+          <button @click="updateItemQty({ product, quantity })">
             Change quantity
           </button>
-          <button        
-            @click="removeItem({ product })"
-          >
+          <button @click="removeItem({ product })">
             Remove product
           </button>
         </li>
@@ -148,18 +138,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 
 To check if a specific product configuration is already in the cart, pass it to `isInCart` method:
 
-```vue
-<template>
-  <!-- ... -->
-    <ul>
-      <li
-         v-for="product in products" :key="product.id"
-      >       
-          <span v-if="isInCart({product})"> added to cart </span>
-      </li>
-    </ul>
-  <!-- ... -->
-</template>    
+```js    
 <script>
   import { useCart } from '{INTEGRATION}';
 
@@ -185,22 +164,18 @@ To check if a specific product configuration is already in the cart, pass it to 
 
 ## Removing all cart items at once
 
-To clear cart items (not delete them) use `clear` method.
+To clear cart items (not delete the cart) use `clear` method.
 
 ```vue
 <template>
   <!-- ... -->
     <div>
       <ul>
-        <li
-          v-for="product in products" :key="product.id"
-        >
+        <li v-for="product in products" :key="product.id">
            <!-- ... -->
         </li>
       </ul>
-      <button
-        @click="clear"
-      >
+      <button @click="clear">
         Clear cart
       </button>
     </div>
@@ -239,14 +214,10 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove the
   <!-- ... -->
     <div>
       <input type="text" v-model="promoCode"/>
-      <button 
-        @click="() => applyCoupon({ couponCode: promoCode })"
-      >
+      <button @click="() => applyCoupon({ couponCode: promoCode })">
         Use promo code
       </button>
-      <button 
-        @click="() => removeCoupon({ couponCode: promoCode })"
-      >
+      <button @click="() => removeCoupon({ couponCode: promoCode })">
         Remove promo code
       </button>
     </div>
@@ -314,13 +285,9 @@ To add the product to the wishlist you can use `addItem` method:
 <template>
    <!-- ... -->
     <ul>
-      <li
-        v-for="product in products" :key="product.id"
-      > 
+      <li v-for="product in products" :key="product.id"> 
         <!-- ... -->
-        <button
-          @click="addItem({ product, quantity })"
-        >
+        <button @click="addItem({ product, quantity })">
           Add to wishlist
         </button>
       </li>
@@ -361,13 +328,9 @@ To remove an item from the cart use `removeItem` method.
   <!-- ... -->
     <div>
       <ul>
-        <li
-          v-for="product in products" :key="product.id"
-        > 
+        <li v-for="product in products" :key="product.id"> 
           <!-- ... -->
-          <button
-            @click="removeItem({ product })"
-          >
+          <button @click="removeItem({ product })">
             Clear wishlist
           </button>
         </li>
@@ -414,22 +377,7 @@ To remove an item from the cart use `removeItem` method.
 
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
-```vue
-<template>
-   <!-- ... -->
-    <ul>
-      <li
-        v-for="product in products" :key="product.id"
-      >
-        <span
-          v-if="isInWishlist({ product })"
-        >
-          added to wishlist
-        </span>
-      </li>
-    </ul>
-   <!-- ... -->
-</template>    
+```js   
 <script>
   import { useWishlist } from '{INTEGRATION}';
   export default {
@@ -461,15 +409,11 @@ Cleaning the wishlist can be achieved by `clear` property.
   <!-- ... -->
     <div>
       <ul>
-        <li
-          v-for="product in products" :key="product.id"
-        >
+        <li v-for="product in products" :key="product.id">
           <!-- ... -->
         </li>
       </ul>
-      <button
-        @click="clear"
-      >
+      <button @click="clear">
         Clear wishlist
       </button>
     </div>
@@ -510,26 +454,17 @@ The product list:
 ```vue
 <template>
     <ul>
-      <li
-        v-for="product in products" :key="product.id"> 
-        <button
-          @click="addToCart({ product, quantity })"
-        >
+      <li v-for="product in products" :key="product.id"> 
+        <button @click="addToCart({ product, quantity })">
           Add to cart
         </button>
-        <button
-          @click="addToWishlist({ product })"
-        >
+        <button @click="addToWishlist({ product })">
           Add to wishlist
         </button>
-        <span
-          v-if="isInCart({ product })"
-        >
+        <span v-if="isInCart({ product })">
           added to cart
         </span>
-        <span
-          v-if="isInWishlist({ product })"
-        >
+        <span v-if="isInWishlist({ product })">
           added to wishlist
         </span>
       </li>      
@@ -577,21 +512,15 @@ The cart component:
 <template>
   <div>
     <ul>
-      <li
-        v-for="product in cartProducts" :key="product.id"
-      > 
+      <li v-for="product in cartProducts" :key="product.id"> 
         <input 
           type="number" 
           v-model="quantity"
         >
-        <button
-          @click="updateItemQty({ product, quantity })"
-        >
+        <button @click="updateItemQty({ product, quantity })">
           Change quantity
         </button>
-        <button        
-          @click="removeItem({ product })"
-        >
+        <button @click="removeItem({ product })">
           Remove from cart
         </button>      
       </li>
@@ -653,12 +582,8 @@ The wishlist component:
 <template>
   <div>
     <ul>
-      <li
-        v-for="product in wishlistProducts" :key="product.id" 
-      >
-        <button
-          @click="removeItem({ product })"
-        >
+      <li v-for="product in wishlistProducts" :key="product.id">
+        <button @click="removeItem({ product })">
           Remove from wishlist
         </button>
       </li>
