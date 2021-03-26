@@ -6,7 +6,7 @@
       class="search"
     >
       <transition name="sf-fade" mode="out-in">
-        <div v-if="searchResult.data && Object.keys(searchResult.data).length > 0" class="search__wrapper-results" key="results">
+        <div v-if="products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <SfList>
               <SfListItem v-for="(category, key) in categories.items" :key="key">
@@ -113,7 +113,7 @@ export default {
         document.body.classList.add('no-scroll');
       } else {
         document.body.classList.remove('no-scroll');
-        searchResult.value.data = [];
+        searchResult.value.data = null;
       }
     });
 
