@@ -36,7 +36,7 @@ const getProduct = async (context, params, customQuery?: CustomQuery) => {
     });
     return request;
   } catch (error) {
-    throw error.networkError?.result || error;
+    throw error.graphQLErrors?.[0] || error.networkError?.result || error;
   }
 
 };
