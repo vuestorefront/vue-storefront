@@ -90,6 +90,10 @@
     </SfHeader>
     <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" />
     <SfOverlay :visible="isSearchOpen" />
+    <MobileMenu
+      v-if="isMobileMenuOpen"
+      class="mobile-menu"
+    />
   </div>
 </template>
 
@@ -103,6 +107,7 @@ import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNav from './HeaderNav';
+import MobileMenu from './MobileMenu';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
   mapMobileObserver,
@@ -121,11 +126,12 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    HeaderNav
+    HeaderNav,
+    MobileMenu
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL, getSearchTermFromUrl} = useUiHelpers();
     const { result, search } = useFacet();
     const { isAuthenticated, load: loadUser } = useUser();
@@ -213,7 +219,8 @@ export default {
       closeOrFocusSearchBar,
       searchBarRef,
       isMobile,
-      isOverlayVisible
+      isOverlayVisible,
+      isMobileMenuOpen
     };
   }
 };
@@ -236,10 +243,20 @@ export default {
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
 }
-
 .cart-badge {
   position: absolute;
   bottom: 40%;
   left: 40%;
+}
+.mobile-menu {
+  position: fixed;
+  opacity: 1;
+  visibility: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
 }
 </style>

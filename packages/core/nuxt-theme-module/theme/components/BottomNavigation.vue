@@ -2,9 +2,9 @@
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="navigation-bottom smartphone-only">
     <nuxt-link to="/">
-      <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
+      <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home" @click="handleHomeClick"/>
     </nuxt-link>
-    <SfBottomNavigationItem icon="menu" size="20px" label="Menu"/>
+    <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
     <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
@@ -39,20 +39,27 @@ export default {
     SfCircleIcon
   },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, toggleMobileMenu, isMobileMenuOpen } = useUiState();
     const { isAuthenticated } = useUser();
 
     const handleAccountClick = async () => {
+      if (isMobileMenuOpen.value) toggleMobileMenu();
       if (isAuthenticated.value) {
         return root.$router.push('/my-account');
       }
       toggleLoginModal();
     };
 
+    const handleHomeClick = () => {
+      if (isMobileMenuOpen.value) toggleMobileMenu();
+    };
+
     return {
       toggleWishlistSidebar,
       toggleCartSidebar,
-      handleAccountClick
+      toggleMobileMenu,
+      handleAccountClick,
+      handleHomeClick
     };
   }
 };

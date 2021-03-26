@@ -2,7 +2,7 @@
   <SfHeaderNavigation>
     <SfHeaderNavigationItem
       v-for="category in categories"
-      :key="category.id"
+      :key="category.name"
       :label="category.name"
       @mouseenter="() => handleMouseEnter(category.slug)"
       @mouseleave="() => handleMouseLeave()"
@@ -24,7 +24,7 @@
           <SfList>
             <SfListItem
               v-for="subCategoryChild in subCategory.children"
-              :key="subCategoryChild.id"
+              :key="subCategoryChild.name"
             >
               <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
                 <SfLink>
@@ -86,7 +86,10 @@ export default {
 </script>
 
 <style lang='scss'>
-.sf-bar {
-  display: none !important;
+.sf-mega-menu__bar.sf-bar {
+  display: flex;
+  @include for-desktop {
+    display:  none;
+  }
 }
 </style>
