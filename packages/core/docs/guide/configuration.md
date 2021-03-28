@@ -31,14 +31,6 @@ Sometimes integrations also expose a Nuxt module to configure frontend-related p
 }]
 ```
 
-Below you can find links to the setup instructions and config references of the official eCommerce integrations:
-
-<CommerceIntegrationLinks 
- commercetools="/commercetools/api-client.html"
- shopify="/shopify/api-client.html"
-/>
-
-
 ## Configuring Nuxt
 
 We try to use the most common modules from Nuxt Community whenever it's possible. For internationalization we are using `nuxt-i18n`, for PWA capabilities `@nuxtjs/pwa` etc. You can find a list of the Nuxt modules used in the default theme [here](theme.html#preinstalled-modules-and-libraries). Each of them is configured in a way that works best for the majority of users.
@@ -85,10 +77,21 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
 
 ## Configuring Middleware
 
+There are certain things related to Integration Middleware that are not tied to any specific integration like setting custom GraphQL queries you can configure. You can read more about the Middleware and its configuration [here](/v2/advanced/server-middleware).
+
+## Integration References
+
+
+### Setting up official eCommerce integrations
+
+<CommerceIntegrationLinks 
+ commercetools="/commercetools/getting-started.html"
+ shopify="/shopify/api-client.html"
+/>
+
+### Configuration references of official eCommerce integrations
+
 <CommerceIntegrationLinks 
  commercetools="/commercetools/configuration.html"
  shopify="/shopify/api-client.html"
 />
-
-There are certain things related to Integration Middleware that are not tied to any specific integration like setting custom GraphQL queries you can configure. You can read more about the Middleware and its configuration [here](/v2/advanced/server-middleware).
-
