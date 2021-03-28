@@ -42,17 +42,14 @@ If you're familiar with Nuxt.js, you will quickly notice that the directory stru
 ```js
 .
 ├─ components/
-├─ composables/ // place for custom composition API functions
-│  └─ useUiHelpers/ // theme-specific composition API functions
-├─ helpers/ // utility functions
-│  ├─ category/ // getting category search params to/from url
-│  └─ filters/ // getting filters to/from url
+├─ composables/ // custom, theme-related composables
 ├─ lang/ // i18n translation keys
 ├─ layouts/
 ├─ middleware/
 │  └─ checkout.js // prevents users from entering checkout steps if certain information is missing
 ├─ pages/
 ├─ static/
+├─ middleware.config.js // integrations configuration
 └─ nuxt.config.js
 ```
 
