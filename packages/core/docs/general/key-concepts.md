@@ -100,7 +100,7 @@ const products = $ct.api.getProducts(params)
 
 ## Backend-agnostic
 
-No matter what backend services you're using they are handled more or less the same way on the frontend. No matter what eCommerce platform, CMS or Search you're using you will always use the same getters and composables so it's easy to work with VSF projects on different tech stacks or try new services without making heavy investments.
+Whatever backend services you're using, they are handled more or less the same way on the frontend. No matter what eCommerce platform, CMS, or Search you're using you will always use the same getters and composables so it's easy to work with VSF projects on different tech stacks or try new services without making heavy investments.
 
 There are some things that are different for each platform though. Main data object of each composable (like `products` in `useProduct`) is **always** a plain response from your platform. If you use getters on this object they will always return agnostic data format
 
