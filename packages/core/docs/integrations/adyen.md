@@ -149,3 +149,4 @@ const afterPayAndOrder = async (order) => {
 ```
 
 ## Paypal configuration
+Configuration of PayPal is well-described in Adyen's documentation, please use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
