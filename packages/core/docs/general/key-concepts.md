@@ -29,9 +29,22 @@ You can read more about them on the [Composables](/guide/composables.html) page.
 
 ## Routing
 
-Some routes are injected via `@vue-storefront/nuxt-theme` module. You can use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js` to modify them or add your own.
+Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module:
 
-Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
+- Home Page (`/`);
+- Category Page (`/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?`);
+- Product Page (`/p/:id/:slug/`);
+- User Profile Page (`/my-account/:pageName?`);
+- Checkout (`/checkout`):
+  - Shipping (`/checkout/shipping`);
+  - Billing (`/checkout/billing`);
+  - Payment (`/checkout/payment`);
+  - Thank You page (`/checkout/thank-you`);
+- Custom 404 page;
+
+Some [integrations](/integrations) may register additional routes. For example, CMS integrations often override Home Page and add custom, dynamic pages.
+
+To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
 
 ## Internationalization
 
@@ -39,7 +52,7 @@ By default, Vue Storefront uses `nuxt-i18n` module for internationalization.
 
 You can read more about it on the [Internationalization](/advanced/internationalization) page.
 
-## Middleware
+## Server Middleware
 
 Vue Storefront uses middleware as a bridge between the frontend and the backends (eCommerce or 3rd party services). The frontend always calls middleware that forwards requests to corresponding destinations. It allows developers to implement custom logic, inject into the lifecycle of the requests or even create custom API endpoints if needed.
 
