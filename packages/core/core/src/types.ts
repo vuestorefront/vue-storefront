@@ -185,7 +185,6 @@ export interface UseCartErrors {
   removeItem: Error;
   updateItemQty: Error;
   load: Error;
-  refresh: Error;
   clear: Error;
   applyCoupon: Error;
   removeCoupon: Error;
