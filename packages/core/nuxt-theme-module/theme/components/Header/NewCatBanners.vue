@@ -53,12 +53,13 @@ export default {
     display: flex;
     flex-direction: column;
     padding: var(--spacer-base);
+    padding-bottom: var(--bottom-navigation-height, 4.85rem);
     @include for-desktop {
       flex-direction: row;
       padding: 0;
     }
   }
-  &__banner{
+  &__banner {
     &:first-child{
       margin: 0 0 var(--spacer-sm) 0;
       @include for-desktop {
