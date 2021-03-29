@@ -1,6 +1,6 @@
 # Theme
 
-If you [use our CLI to set up your project](./general/getting-started) you will end up with a fully functional eCommerce theme connected to your eCommerce backend and a bunch of other services based on [Nuxt.js](https://nuxtjs.org/)
+If you [use our CLI to set up your project](/general/installation) you will end up with a fully functional eCommerce theme connected to your eCommerce backend and a bunch of other services based on [Nuxt.js](https://nuxtjs.org/)
 
 ## High-level overview
 

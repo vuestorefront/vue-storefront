@@ -4,7 +4,7 @@
 
 ----
 ::: tip Installation
-If you want to learn how to install the API Client check our [Getting Started guide](/getting-started.html)
+If you want to learn how to install the API Client check our [Installation guide](/general/installation.html)
 :::
 
 API Client is a data layer of your eCommerce integration. It provides a friendly abstraction layer over network calls to your eCommerce platform.
