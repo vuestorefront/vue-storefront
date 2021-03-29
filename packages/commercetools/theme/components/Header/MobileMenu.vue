@@ -15,28 +15,30 @@
           @click="changeActive(title); handleClickCategory(category.slug)"
         />
       </template>
-      <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
-        <SfListItem
-          v-for="subCategory in activeCategory[0].children"
-          :key="subCategory.id"
-        >
-          <SfMenuItem
-            :label="subCategory.name"
-            @click.native="handleClickSubCategory(subCategory.slug)"
+      <SfLoader :loading="subCategoriesLoading">
+        <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+          <SfListItem
+            v-for="subCategory in activeCategory[0].children"
+            :key="subCategory.id"
           >
-            <SfLink>
-              {{ subCategory.name }}
-            </SfLink>
-          </SfMenuItem>
-        </SfListItem>
-      </SfList>
+            <SfMenuItem
+              :label="subCategory.name"
+              @click.native="handleClickSubCategory(subCategory.slug)"
+            >
+              <SfLink>
+                {{ subCategory.name }}
+              </SfLink>
+            </SfMenuItem>
+          </SfListItem>
+        </SfList>
+      </SfLoader>
       <NewCatBanners v-if="currentCatSlug === 'new'" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
 </template>
 
 <script>
-import { SfMegaMenu, SfMenuItem, SfList } from '@storefront-ui/vue';
+import { SfMegaMenu, SfMenuItem, SfList, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -48,13 +50,13 @@ export default {
     SfMegaMenu,
     SfMenuItem,
     SfList,
+    SfLoader,
     NewCatBanners: () => import('./NewCatBanners')
   },
   setup (_, { root }) {
     const { categories, search } = useCategory('menu-categories');
     const { categories: subCategories, search: subCategoriesSearch, loading: subCategoriesLoading } = useCategory('menu-subCategories');
     const currentCatSlug = ref('');
-    const deepCatSlug = ref('');
     const activeCategory = ref(null);
     const fetchedCategories = ref({});
     const { toggleMobileMenu } = useUiState();
@@ -82,9 +84,9 @@ export default {
     };
 
     const handleClickSubCategory = async slug => {
-      deepCatSlug.value = slug;
+      currentCatSlug.value = slug;
       if (activeCategory.value && activeCategory.value[0] && activeCategory.value[0].children) {
-        const { childCount } = activeCategory.value[0].children.find(child => child.slug === deepCatSlug.value);
+        const { childCount } = activeCategory.value[0].children.find(child => child.slug === currentCatSlug.value);
 
         await getSubCategories(slug, childCount);
       }

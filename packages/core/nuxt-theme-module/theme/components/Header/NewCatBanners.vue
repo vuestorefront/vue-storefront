@@ -52,10 +52,12 @@ export default {
   &__banners {
     display: flex;
     flex-direction: column;
-    margin: var(--spacer-base) var(--spacer-base) var(--bottom-navigation-height, 4.85rem) var(--spacer-base);
+    padding: var(--spacer-base);
+    margin-bottom: var(--bottom-navigation-height, 4.85rem);
     @include for-desktop {
       flex-direction: row;
       padding: 0;
+      margin-bottom: 0;
     }
   }
   &__banner {
