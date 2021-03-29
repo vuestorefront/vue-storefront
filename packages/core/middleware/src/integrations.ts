@@ -1,4 +1,5 @@
 import consola from 'consola';
+import { Express } from 'express';
 import {
   Integration,
   ApiClientFactory,
@@ -11,7 +12,7 @@ interface IntegrationLoaded {
   apiClient: ApiClientFactory;
   configuration: any;
   extensions: ApiClientExtension[];
-  customQueries?: Record<string, CustomQuery>;
+  customQueries?: Record<string, CustomQuery>
 }
 
 type IntegrationsLoaded = Record<string, IntegrationLoaded>
@@ -28,7 +29,7 @@ const lookUpExternal = (curr: string | ApiClientExtension): ApiClientExtension[]
 const createExtensions = (rawExtensions: ApiClientExtension[]): ApiClientExtension[] => rawExtensions
   .reduce((prev, curr) => [...prev, ...lookUpExternal(curr)], []);
 
-const registerIntegrations = (integrations: IntegrationsSection): IntegrationsLoaded =>
+const registerIntegrations = (app: Express, integrations: IntegrationsSection): IntegrationsLoaded =>
   Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
     consola.info(`- Loading: ${tag} ${integration.location}`);
 
@@ -36,8 +37,12 @@ const registerIntegrations = (integrations: IntegrationsSection): IntegrationsLo
     const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
     const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
 
-    extensions.forEach(({ name }) => {
+    extensions.forEach(({ name, extendApp }) => {
       consola.info(`- Loading: ${tag} extension: ${name}`);
+
+      if (extendApp) {
+        extendApp(app);
+      }
     });
 
     consola.success(`- Integration: ${tag} loaded!`);

@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
-import type { Request, Response } from 'express';
+import type { Request, Response, Express } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -207,6 +207,8 @@ export interface UseCart
   removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
+  refresh(): Promise<void>;
+  refresh(params: { customQuery?: CustomQuery }): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
   loading: ComputedProperty<boolean>;
 }
@@ -668,6 +670,7 @@ export type ApiClientMethod = (...args: any) => Promise<any>
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, ApiClientMethod>;
+  extendApp?: (app: Express) => void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 

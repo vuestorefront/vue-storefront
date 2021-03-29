@@ -113,6 +113,21 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       }
     };
 
+    const refresh = async ({ customQuery } = { customQuery: undefined }) => {
+      Logger.debug('useCart.refresh');
+
+      try {
+        loading.value = true;
+        cart.value = await _factoryParams.load({ customQuery });
+        error.value.load = null;
+      } catch (err) {
+        error.value.load = err;
+        Logger.error('useCart/load', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     const load = async ({ customQuery } = { customQuery: undefined }) => {
       Logger.debug('useCart.load');
 
@@ -127,16 +142,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         cart.value = { ...cart.value };
         return;
       }
-      try {
-        loading.value = true;
-        cart.value = await _factoryParams.load({ customQuery });
-        error.value.load = null;
-      } catch (err) {
-        error.value.load = err;
-        Logger.error('useCart/load', err);
-      } finally {
-        loading.value = false;
-      }
+
+      await refresh({ customQuery });
     };
 
     const clear = async () => {
@@ -209,6 +216,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       isInCart,
       addItem,
       load,
+      refresh,
       removeItem,
       clear,
       updateItemQty,
