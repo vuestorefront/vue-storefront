@@ -67,7 +67,7 @@ module.exports = {
 
 ### `acceptLanguage`
 
-List of languages the client is able to understand, and which locale variant is preferred. In the code example below  Great Britain variant has bigger priority over the United States.
+An array of possible locales Commercetools will use. You can read more about Commercetools internationalization configuration [here](https://docs.commercetools.com/api/projects/orders-import#language-filtering)
 
 ```js
 acceptLanguage: ['en-gb', 'en-us']
