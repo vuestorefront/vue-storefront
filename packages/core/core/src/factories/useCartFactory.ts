@@ -39,10 +39,26 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       removeItem: null,
       updateItemQty: null,
       load: null,
+      refresh: null,
       clear: null,
       applyCoupon: null,
       removeCoupon: null
     }, 'useCart-error');
+
+    const _refresh = (reportName) => async ({ customQuery } = { customQuery: undefined }) => {
+      Logger.debug(`useCart.${reportName}`);
+
+      try {
+        loading.value = true;
+        cart.value = await _factoryParams.load({ customQuery });
+        error.value[reportName] = null;
+      } catch (err) {
+        error.value[reportName] = err;
+        Logger.error(`useCart/${reportName}`, err);
+      } finally {
+        loading.value = false;
+      }
+    };
 
     const setCart = (newCart: CART) => {
       cart.value = newCart;
@@ -114,18 +130,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     const refresh = async ({ customQuery } = { customQuery: undefined }) => {
-      Logger.debug('useCart.refresh');
-
-      try {
-        loading.value = true;
-        cart.value = await _factoryParams.load({ customQuery });
-        error.value.load = null;
-      } catch (err) {
-        error.value.load = err;
-        Logger.error('useCart/load', err);
-      } finally {
-        loading.value = false;
-      }
+      await _refresh('refresh')({ customQuery });
     };
 
     const load = async ({ customQuery } = { customQuery: undefined }) => {
@@ -143,7 +148,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
         return;
       }
 
-      await refresh({ customQuery });
+      await _refresh('load')({ customQuery });
     };
 
     const clear = async () => {
