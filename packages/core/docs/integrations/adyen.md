@@ -148,5 +148,14 @@ const afterPayAndOrder = async (order) => {
 };
 ```
 
-## Paypal configuration
+### Paypal configuration
 Configuration of PayPal is well-described in Adyen's documentation, please use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
+
+## API
+@vsf-enterprise/adyen exports a [VSF Payment Provider](../commercetools/getting-started.html#configuring-your-commercetools-integration) component and useAdyen composable.
+
+## Composable
+`useAdyen`
+
+## Components
+`PaymentAdyenProvider.vue`
