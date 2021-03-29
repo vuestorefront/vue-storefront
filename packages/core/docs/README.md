@@ -72,7 +72,7 @@ Do you recall the frustration when it wasn't possible to implement your dream de
 
 **Solution**
 
-You will forget about these issues with Vue Storefront! For the best experience, we divided the system into the small and modular chunks. All parts are individual `npm` packages, so switching from one version to another should be as easy as any package installation.
+You will forget about these issues with Vue Storefront! For the best experience, we divided the system into small and modular chunks. All parts are individual `npm` packages, so switching from one version to another should be as easy as any package installation.
 Vue Storefront was built on the firm ground of _microservice_ architecture. Each of these packages is independent and optional, so you decide how much of the framework you want to utilize. Moreover **there are absolutely no limitations in terms of UI customization**. Your theme is just a regular Nuxt.js project, which you can customize to any degree.
 
 ## eCommerce Integrations
