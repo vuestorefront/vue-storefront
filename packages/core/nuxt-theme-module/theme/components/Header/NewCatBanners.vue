@@ -52,8 +52,7 @@ export default {
   &__banners {
     display: flex;
     flex-direction: column;
-    padding: var(--spacer-base);
-    padding-bottom: var(--bottom-navigation-height, 4.85rem);
+    margin: var(--spacer-base) var(--spacer-base) var(--bottom-navigation-height, 4.85rem) var(--spacer-base);
     @include for-desktop {
       flex-direction: row;
       padding: 0;
