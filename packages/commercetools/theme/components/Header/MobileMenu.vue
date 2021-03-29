@@ -15,7 +15,10 @@
           @click="changeActive(title); handleClickCategory(category.slug)"
         />
       </template>
-      <SfLoader :loading="subCategoriesLoading">
+      <SfLoader
+        :loading="subCategoriesLoading"
+        :class="{ loader: subCategoriesLoading }"
+      >
         <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
           <SfListItem
             v-for="subCategory in activeCategory[0].children"
@@ -108,3 +111,9 @@ export default {
   }
 };
 </script>
+
+<style lang='scss'>
+.loader {
+  top: var(--bottom-navigation-height, 3.75rem);
+}
+</style>
