@@ -255,7 +255,6 @@ export default {
   opacity: 1;
   visibility: visible;
   overflow-y: auto;
-  overflow-x: hidden;
   top: 0;
   z-index: 1;
   width: 100%;

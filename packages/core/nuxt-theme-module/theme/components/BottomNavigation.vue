@@ -31,6 +31,7 @@
 import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useUser } from '<%= options.generate.replace.composables %>';
+import { watch } from '@vue/composition-api';
 
 export default {
   components: {
@@ -53,6 +54,11 @@ export default {
     const handleHomeClick = () => {
       if (isMobileMenuOpen.value) toggleMobileMenu();
     };
+
+    watch(isMobileMenuOpen, () => {
+      if (isMobileMenuOpen.value) document.body.classList.add('no-scroll');
+      else document.body.classList.remove('no-scroll');
+    });
 
     return {
       toggleWishlistSidebar,

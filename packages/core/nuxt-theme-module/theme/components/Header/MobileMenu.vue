@@ -73,12 +73,3 @@ export default {
   }
 };
 </script>
-
-<style lang='scss'>
-.sf-mega-menu__bar.sf-bar {
-  display: flex;
-  @include for-desktop {
-    display:  none;
-  }
-}
-</style>

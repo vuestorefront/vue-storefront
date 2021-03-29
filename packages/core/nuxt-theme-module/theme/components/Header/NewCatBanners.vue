@@ -1,19 +1,14 @@
 <template>
-  <SfMegaMenuColumn
-    title="Featured"
-    class="sf-mega-menu-column--pined-content-on-mobile sf-mega-menu-column--hide-header-on-mobile sb-mega-menu__featured"
-  >
-    <div class="sb-mega-menu__banners">
-      <SfBanner
-        v-for="(banner, key) in banners"
-        :key="key"
-        :title="banner.title"
-        :subtitle="banner.subtitle"
-        :image="banner.pictures"
-        class="sb-mega-menu__banner"
-      />
-    </div>
-  </SfMegaMenuColumn>
+  <div class="sb-mega-menu__banners">
+    <SfBanner
+      v-for="(banner, key) in banners"
+      :key="key"
+      :title="banner.title"
+      :subtitle="banner.subtitle"
+      :image="banner.pictures"
+      class="sb-mega-menu__banner"
+    />
+  </div>
 </template>
 
 <script>
