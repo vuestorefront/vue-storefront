@@ -45,7 +45,7 @@ module.exports = {
     <TAG NAME>: {
       location: '@<integration-package>/server',
       configuration: {}
-      extendApp: (app) => {},
+      extensions: (extensions) => extensions,
       customQueries: {}
     }
   }
