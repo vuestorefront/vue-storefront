@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { SfMegaMenu, SfMenuItem, SfList, SfLoader } from '@storefront-ui/vue';
+import { SfMegaMenu, SfMenuItem, SfList } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -77,7 +77,6 @@ export default {
     SfMegaMenu,
     SfMenuItem,
     SfList,
-    SfLoader,
     NewCatBanners: () => import('./NewCatBanners')
   },
   setup (_, { root }) {
@@ -140,7 +139,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 .sf-loader__spinner {
   margin-top: 3.75rem;
   width: 100%;
