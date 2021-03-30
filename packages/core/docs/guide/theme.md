@@ -30,6 +30,12 @@ To learn more about Storefront UI please check its [Documentation](https://docs.
 If you don't want to use Storefront UI feel free to remove it from your project. It's just a UI layer and the project can work with any other UI library or a custom code.
 :::
 
+## Custoziming the theme
+
+TODO:
+* Vue devtools
+* styles (and preventing duplicates)
+
 ## Preinstalled modules and libraries
 
 Below you can find a list of the most important Nuxt Modules and libraries that are preinstalled with the default theme:

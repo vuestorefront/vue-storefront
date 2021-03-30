@@ -94,4 +94,4 @@ The speed and flexibility of Vue Storefront wouldn't be possible without the gre
 
 If you're already convinced to use Vue Storefront, check the [Installation guide](./general/installation.html).
 
-If you want to learn more, check the [Key Concepts](./general/key-concepts.html) behind Vue Storefront.
+If you want to learn more, check the [Key concepts](./general/key-concepts.html) behind Vue Storefront.
