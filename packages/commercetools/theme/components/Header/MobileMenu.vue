@@ -15,26 +15,50 @@
           @click="changeActive(title); handleClickCategory(category.slug)"
         />
       </template>
-      <SfLoader
-        :loading="subCategoriesLoading"
-        :class="{ loader: subCategoriesLoading }"
-      >
-        <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
-          <SfListItem
-            v-for="subCategory in activeCategory[0].children"
-            :key="subCategory.id"
-          >
-            <SfMenuItem
-              :label="subCategory.name"
-              @click.native="handleClickSubCategory(subCategory.slug)"
+      <div v-if="!subCategoriesLoading">
+        <transition name="sf-fade" mode="out-in">
+          <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+            <SfListItem
+              v-for="subCategory in activeCategory[0].children"
+              :key="subCategory.id"
             >
-              <SfLink>
-                {{ subCategory.name }}
-              </SfLink>
-            </SfMenuItem>
-          </SfListItem>
-        </SfList>
-      </SfLoader>
+              <SfMenuItem
+                :label="subCategory.name"
+                @click.native="handleClickSubCategory(subCategory.slug)"
+              >
+                <SfLink>
+                  {{ subCategory.name }}
+                </SfLink>
+              </SfMenuItem>
+            </SfListItem>
+          </SfList>
+        </transition>
+      </div>
+      <svg
+        v-else
+        role="img"
+        width="38"
+        height="38"
+        viewBox="0 0 38 38"
+        xmlns="http://www.w3.org/2000/svg"
+        class="sf-loader__spinner"
+      >
+        <g fill="none" fill-rule="evenodd">
+          <g transform="translate(1 1)" stroke-width="2">
+            <circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+            <path d="M36 18c0-9.94-8.06-18-18-18">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 18 18"
+                to="360 18 18"
+                dur="1s"
+                repeatCount="indefinite"
+              />
+            </path>
+          </g>
+        </g>
+      </svg>
       <NewCatBanners v-if="hasBanners()" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
@@ -117,7 +141,8 @@ export default {
 </script>
 
 <style lang='scss'>
-.loader {
-  top: var(--bottom-navigation-height, 3.75rem);
+.sf-loader__spinner {
+  margin-top: 3.75rem;
+  width: 100%;
 }
 </style>
