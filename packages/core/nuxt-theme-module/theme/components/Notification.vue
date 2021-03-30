@@ -7,7 +7,7 @@
       :action="notification.action && notification.action.text"
       :type="notification.type"
       @click:close="notification.dismiss"
-      @click:action="notification.action && notification.action.onClick()"
+      @click:action="notification.action && notification.action.onClick(); notification.dismiss()"
       visible
     >
       <template #icon v-if="notification.icon">
@@ -64,7 +64,7 @@ export default {
     margin: 0 var(--spacer-base) var(--spacer-2xs) 0;
   }
   @include for-mobile {
-    background: var(--c-link);
+    --notification-background: var(--c-link) !important;
     --notification-border-radius: 0;
     --notification-max-width: 100%;
     --notification-font-family: var(--font-family--primary);
@@ -74,6 +74,9 @@ export default {
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;
     --notification-close-top: var(--spacer-sm);
+  }
+  &__action {
+    display: var(--notification-action-display,block) !important;
   }
 }
 .slide-fade-enter-active,
