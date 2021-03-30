@@ -191,3 +191,6 @@ interface AdyenConfigBuilder {
 
 ## Components
 `PaymentAdyenProvider.vue`
+
+## Caveats
+If transaction is authorized, server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply `order` object to the response. Thanks to that, we have only one request from the client to make both a payment and an order.
