@@ -190,7 +190,13 @@ interface AdyenConfigBuilder {
 
 
 ## Components
-`PaymentAdyenProvider.vue`
+`PaymentAdyenProvider`
+Payment provider component that fetches available payment methods, mounts Adyen's Web Drop-In. Component takes care of whole payment flow. It allows to hook into some events by passing functions via props.
+* `beforeLoad` - `config => config` - called with built configuration from the `buildDropinConfiguration`, just before creating instance of `AdyenCheckout` and mounting a Drop-In
+* `beforePay` - `stateData => stateData` - called inside `onSubmit` of Drop-In, just before calling `payAndOrder`. Here we can modify the payload that will be passed.
+* `afterPay` - `paymentAndObject: PaymentAndOrder => void` - called after we got result code `Authorized` from the Adyen, and an order has been placed
+* `afterSelectedDetailsChange` - called inside `onChange` of Adyen's Drop-In
+* `onError` - `(data: { action: string, error: Error | string }) => void` - called when we got an error from either Adyen or our API
 
-## Caveats
+## Placing an order
 If transaction is authorized, server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply `order` object to the response. Thanks to that, we have only one request from the client to make both a payment and an order.
