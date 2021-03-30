@@ -152,10 +152,42 @@ const afterPayAndOrder = async (order) => {
 Configuration of PayPal is well-described in Adyen's documentation, please use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
 
 ## API
-@vsf-enterprise/adyen exports a [VSF Payment Provider](../commercetools/getting-started.html#configuring-your-commercetools-integration) component and useAdyen composable.
+`@vsf-enterprise/adyen` exports a useAdyen composable.
+
+You can import a [VSF Payment Provider](../commercetools/getting-started.html#configuring-your-commercetools-integration) component from the `@vsf-enterprise/adyen/src/PaymentAdyenProvider`.
 
 ## Composable
-`useAdyen`
+`useAdyen` composable returns a few properties and methods.
+
+#### Properties
+* `error` - _AdyenError_ - errors' state of asynchronous methods.
+* `loading` - Boolean that informs if composable is performing some asynchronous method right now.
+* `paymentObject` - Object of payment created in the Commercetools. It is updated by `createContext`, `payAndOrder`, `submitAdditionalPaymentDetails` methods.
+
+```ts
+interface AdyenError {
+  submitAdditionalPaymentDetails: Error | null,
+  createContext: Error | null,
+  payAndOrder: Error | null
+}
+```
+
+#### Methods
+* `createContext` - Loads a cart, then fetching available payment methods for the loaded cart. At the end, a method stores a response inside `paymentObject`.
+* `buildDropinConfiguration` - `(config: AdyenConfigBuilder): any` - Builds a configuration object for Adyen's Web Drop-In
+* `payAndOrder` - Setting value of custom field `makePaymentRequest` in the Commercetools' payment. Commercetools will send it to the Adyen and give you the response. At the end, a method stores a response inside `paymentObject`.
+* `submitAdditionalPaymentDetails` - Setting value of custom field `submitAdditionalPaymentDetailsRequest` in the Commercetools' payment. Commercetools will send it to the Adyen and give you the response. At the end, a method stores a response inside `paymentObject`.
+
+```ts
+interface AdyenConfigBuilder {
+  paymentMethodsResponse,
+  onChange = (state, component) => {},
+  onSubmit = (state, component) => {},
+  onAdditionalDetails = (state, component) => {},
+  onError = (state) => {}
+}
+```
+
 
 ## Components
 `PaymentAdyenProvider.vue`
