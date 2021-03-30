@@ -1,6 +1,7 @@
 <template>
   <div id="cart">
     <SfSidebar
+      v-e2e="'sidebar-cart'"
       :visible="isCartSidebarOpen"
       title="My Cart"
       class="sf-sidebar--right"
@@ -76,6 +77,7 @@
             </SfProperty>
             <nuxt-link to="/checkout/shipping">
               <SfButton
+                v-e2e="'go-to-checkout-btn'"
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"
               >

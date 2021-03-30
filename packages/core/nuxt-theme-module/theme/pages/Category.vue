@@ -158,7 +158,7 @@
             class="products__grid"
           >
             <SfProductCard
-              data-cy="category-product-card"
+              v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"

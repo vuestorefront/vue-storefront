@@ -44,7 +44,8 @@
     "lint": "eslint . --ext .js,.ts,.vue",
     "release": "cd scripts && yarn release",
     "cli": "cd packages/core/cli && yarn cli",
-    "core:changelog": "cd packages/core/docs/scripts && node changelog"
+    "core:changelog": "cd packages/core/docs/scripts && node changelog",
+    "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

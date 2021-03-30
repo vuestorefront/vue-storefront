@@ -77,7 +77,7 @@
             />
           </div>
           <SfAddToCart
-            data-cy="product-cart_add"
+            v-e2e="'product_add-to-cart'"
             :stock="stock"
             v-model="qty"
             :disabled="loading"

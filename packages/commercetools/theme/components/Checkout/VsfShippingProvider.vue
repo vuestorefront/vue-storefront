@@ -17,6 +17,7 @@
       </div>
       <div class="form__radio-group">
           <SfRadio
+            v-e2e="'shipping-method-label'"
             v-for="method in shippingMethods"
             :key="method.id"
             :label="method.name"
@@ -44,6 +45,7 @@
         </div>
       <div class="form__action">
         <SfButton
+          v-e2e="'continue-to-billing'"
           class="form__action-button"
           type="button"
           @click.native="$emit('submit')"

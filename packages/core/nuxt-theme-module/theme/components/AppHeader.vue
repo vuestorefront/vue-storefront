@@ -12,8 +12,8 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="WOMEN" :link="localePath('/c/women')"/>
+        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -40,6 +40,7 @@
             />
           </SfButton>
           <SfButton
+            v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >

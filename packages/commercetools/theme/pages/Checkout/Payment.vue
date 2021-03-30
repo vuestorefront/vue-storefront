@@ -106,7 +106,7 @@
           class="sf-property--full-width sf-property--large property summary__property-total"
         />
         <VsfPaymentProviderMock @status="paymentReady = $event"/>
-        <SfCheckbox v-model="terms" name="terms" class="summary__terms">
+        <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
               {{ $t('I agree to') }} <SfLink href="#"> {{ $t('Terms and conditions') }}</SfLink>
@@ -114,7 +114,7 @@
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
+          <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
           <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
