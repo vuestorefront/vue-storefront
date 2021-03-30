@@ -93,10 +93,12 @@
     </SfHeader>
     <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" />
     <SfOverlay :visible="isSearchOpen" />
-    <MobileMenu
-      v-if="isMobile && isMobileMenuOpen"
-      class="mobile-menu"
-    />
+    <transition name="mobile-fade" mode="out-in">
+      <MobileMenu
+        v-if="isMobile && isMobileMenuOpen"
+        class="mobile-menu"
+      />
+    </transition>
   </div>
 </template>
 
@@ -251,13 +253,22 @@ export default {
   left: 40%;
 }
 .mobile-menu {
-  position: fixed;
-  opacity: 1;
-  visibility: visible;
+  position: absolute;
   overflow-y: auto;
   top: 0;
   z-index: 1;
   width: 100%;
   --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
+}
+.mobile-fade {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.25s linear;
+  }
+  &-enter,
+  &-leave,
+  &-leave-to {
+    opacity: 0;
+  }
 }
 </style>

@@ -26,9 +26,9 @@ module.exports = {
         country: 'US'
       },
       customQueries: {
-        'root-categories-query': ({ variables }) => {
+        'megamenu-categories-query': ({ variables }) => {
 
-          const rootCategoriesQuery = `
+          const megaMenuCategoriesQuery = `
             fragment DefaultRootCategory on Category {
               id
               slug(acceptLanguage: $acceptLanguage)
@@ -50,7 +50,7 @@ module.exports = {
           variables.where = 'parent is not defined';
 
           return {
-            query: rootCategoriesQuery,
+            query: megaMenuCategoriesQuery,
             variables
           };
         }

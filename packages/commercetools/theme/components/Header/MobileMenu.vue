@@ -35,7 +35,7 @@
           </SfListItem>
         </SfList>
       </SfLoader>
-      <NewCatBanners v-if="currentCatSlug === 'new'" />
+      <NewCatBanners v-if="hasBanners()" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
 </template>
@@ -62,6 +62,7 @@ export default {
     const currentCatSlug = ref('');
     const activeCategory = ref(null);
     const fetchedCategories = ref({});
+    const categoriesWithBanners = ref(['new']);
     const { toggleMobileMenu } = useUiState();
 
     const getSubCategories = async (slug, childCount) => {
@@ -95,8 +96,10 @@ export default {
       }
     };
 
+    const hasBanners = () => categoriesWithBanners.value.find(category => category === currentCatSlug.value);
+
     onSSR(async () => {
-      await search({ customQuery: { categories: 'root-categories-query' } });
+      await search({ customQuery: { categories: 'megamenu-categories-query' } });
     });
 
     return {
@@ -106,7 +109,8 @@ export default {
       handleClickCategory,
       handleClickSubCategory,
       toggleMobileMenu,
-      subCategoriesLoading
+      subCategoriesLoading,
+      hasBanners
     };
   }
 };
