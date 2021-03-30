@@ -26,7 +26,7 @@ function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
   consola.info('Loading integartions...');
 
-  const integrations = registerIntegrations(config.integrations);
+  const integrations = registerIntegrations(app, config.integrations);
 
   consola.success('Integrations loaded!');
 
