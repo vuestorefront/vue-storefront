@@ -36,6 +36,8 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 
 export default {
+  name: 'DefaultLayout',
+
   components: {
     LazyHydrate,
     TopBar,
