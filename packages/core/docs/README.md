@@ -4,14 +4,14 @@
 
 ## What is Vue Storefront?
 
-_Vue Storefront_ is a ___platform-agnostic e-commerce PWA frontend framework___ that can work with __any__ backend that you already use, be it e-commerce, CMS, ERP, PIM, or anything else.
+_Vue Storefront_ is a ___platform-agnostic e-commerce PWA frontend framework___ that can work with any e-commerce backend API. Additionally, thanks to _low coupling and high cohesion_, it can connect to other services, giving you the freedom to work with the technologies you know and love, be it CMS, ERP, PIM, or anything else.
 
 <center>
 <img src="./images/diagram-general.png" />
 </center>
 
 That's a mouthful, so let's break it down:
- - __platform-agnostic__ - we made it possible to work with any platform and service you already use, as long as it has an API like REST or GraphQL. Because of _low coupling and high cohesion_, it can work with multiple platforms at once, giving you the freedom to work with the technologies you need and love.
+ - __platform-agnostic__ - we made it possible to work with any platform and service you already use, as long as it has an API like REST or GraphQL.
  - __e-commerce__ - today's shops are much more than just products and carts. That's why we made it easy to integrate other types of services, such as helper service for ERP, versatile search features for PIM, portable checkout for 3rd party payment kiosk, and more.
  - __PWA__ - it's the technology of the future, designed to give the best performance on any device, with native-like features to satisfy your customer's needs.
  - __frontend framework__ - _Vue Storefront_ is a set of modular features, glued together using _interfaces_ and _factories_ and powered by [Nuxt.js](https://nuxtjs.org/).
