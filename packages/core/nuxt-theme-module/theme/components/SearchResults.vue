@@ -121,8 +121,7 @@ export default {
       isSearchOpen,
       productGetters,
       products,
-      categories,
-      searchResult
+      categories
     };
   }
 };

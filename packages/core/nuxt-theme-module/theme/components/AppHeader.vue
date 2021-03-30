@@ -160,7 +160,6 @@ export default {
 
       term.value = '';
       isSearchOpen.value = false;
-      setTermForUrl(term.value);
     };
 
     const handleSearch = debounce(async (paramValue) => {
@@ -169,7 +168,6 @@ export default {
       } else {
         term.value = paramValue.target.value;
       }
-      setTermForUrl(term.value);
       await search(getSearchTermFromUrl());
     }, 1000);
 
