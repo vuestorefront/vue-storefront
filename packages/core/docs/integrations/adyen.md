@@ -92,7 +92,6 @@ adyen: {
       ]
     },
     adyenMerchantAccount: '<ADYEN_MERCHANT_ACCOUNT>',
-    commercetoolsProjectKey: '<CT_PROJECT_KEY>',
     origin: 'http://localhost:3000',
     returnUrl: 'http://localhost:3000/api/adyen/cardAuthAfterRedirect',
     buildRedirectUrlAfter3ds1 (paymentAndOrder, succeed) {
@@ -109,7 +108,6 @@ adyen: {
 * `configuration`:
   * `ctApi` - You need `manage_project` scope to make it work properly, rest information for this property you could find [there](../commercetools/getting-started.html#configuring-your-commercetools-integration).
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
-  * `commercetoolsProjectKey` - Same as `ctApi.projectKey`
   * `origin` - URL of your frontend. You could check it by printing out `window.location.origin`
   * `returnUrl` - URL where user will be redirected after 3DS1 Auth. Here we are making some payment finalization operations server side and calling `buildRedirectUrlAfter3ds1` which tells the server where the user should be redirect.
   * `buildRedirectUrlAfter3ds1` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user from `returnUrl`. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication)
