@@ -11,7 +11,9 @@ before(() => {
 context('Order placement', () => {
   it(['e2e', 'happypath'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
-    page.home.visit();
+    page.home.visit().then(() => {
+      assert.equal(1, 2);
+    });
     page.home.header.categories.first().click();
     page.category.products.first().click();
     page.product.addToCartBtn.click();

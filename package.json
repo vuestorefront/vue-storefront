@@ -46,7 +46,8 @@
     "cli": "cd packages/core/cli && yarn cli",
     "core:changelog": "cd packages/core/docs/scripts && node changelog",
     "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e",
-    "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl"
+    "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
+    "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

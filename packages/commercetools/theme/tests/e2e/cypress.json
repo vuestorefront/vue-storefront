@@ -7,11 +7,13 @@
   "viewportHeight": 1080,
   "viewportWidth": 1920,
   "screenshotOnRunFailure": true,
-  "screenshotsFolder": "mochawesome-report/assets/screenshots",
+  "screenshotsFolder": "tests/e2e/report/assets/screenshots",
   "video": false,
   "reporter": "../../../../node_modules/mochawesome",
-  "reporterOpts": {
-      "reportFilename": "cypress-report",
-      "html": true
+  "reporterOptions": {
+      "reportDir": "tests/e2e/report",
+      "reportFilename": "report",
+      "overwrite": false,
+      "html": false
   }
 }
