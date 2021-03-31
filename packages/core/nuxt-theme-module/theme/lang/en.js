@@ -121,5 +121,7 @@ export default {
   'Search for items': 'Search for items',
   'Successfully logged in': 'Successfully logged in',
   'Successfully created a new account': 'Successfully created a new account',
-  'Something went wrong!': 'Something went wrong!'
+  'Something went wrong!': 'Something went wrong!',
+  'Account with the given credentials not found.': 'Account with the given credentials not found.',
+  'There is already an existing customer with this email {EMAIL}': 'There is already an existing customer with this email {EMAIL}'
 };

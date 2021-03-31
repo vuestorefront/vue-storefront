@@ -133,5 +133,7 @@ export default {
   'Total': 'Gesamt',
   'Successfully logged in': 'Erfolgreich angemeldet',
   'Successfully created a new account': 'Ein neues Konto wurde erfolgreich erstellt',
-  'Something went wrong!': 'Etwas ist schief gelaufen!'
+  'Something went wrong!': 'Etwas ist schief gelaufen!',
+  'Account with the given credentials not found.': 'Konto mit den angegebenen Anmeldeinformationen nicht gefunden.',
+  'There is already an existing customer with this email {EMAIL}': 'Es gibt bereits einen Kunden mit dieser E-Mail {EMAIL}',
 };
