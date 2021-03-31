@@ -36,7 +36,7 @@
             </SfList>
           </SfLoader>
         </SfMegaMenuColumn>
-        <NewCatBanners v-if="hasBanners()" />
+        <NewCatBanners v-if="!subCategoriesLoading && hasBanners()" />
       </SfMegaMenu>
     </SfHeaderNavigationItem>
   </SfHeaderNavigation>
