@@ -16,6 +16,7 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-resources'
+import { StoryblokModule } from './vsf-storyblok-module';
 
 // import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
@@ -40,6 +41,7 @@ export function registerClientModules () {
   registerModule(NewsletterModule)
   registerModule(InitialResourcesModule)
   // registerModule(DeviceModule)
+  registerModule(StoryblokModule)
 }
 
 // Deprecated API, will be removed in 2.0

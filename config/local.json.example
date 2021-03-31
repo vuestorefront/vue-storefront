@@ -72,6 +72,12 @@
     },
     "protocol_ssr": "https"
   },
+  "storyblok": {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/vsf-storyblok-extension",
+    "settings": {
+      "addRoutes": true
+    }
+  },
   "initialResources": [
     {
       "filters": [
