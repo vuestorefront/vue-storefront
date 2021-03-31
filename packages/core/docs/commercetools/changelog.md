@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0-rc.3
+
+-  Fix getters in `cartGetters` to now throw errors when some properties don't exist ([#5699](https://github.com/vuestorefront/vue-storefront/pull/5699)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Fixed mapping for product attributes with type `set` ([#5708](https://github.com/vuestorefront/vue-storefront/pull/5708)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Fixed CT wishlist throwing CAPI error ([#5716](https://github.com/vuestorefront/vue-storefront/pull/5716)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 1.2.0-rc.2
 
 -  Adjust Checkout UI ([#5343](https://github.com/vuestorefront/vue-storefront/issues/5343)) - [Justyna Gieracka](https://github.com/justyna-13)
