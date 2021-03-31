@@ -118,5 +118,8 @@ export default {
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
-  'Search for items': 'Nach Artikeln suchen'
+  'Search for items': 'Nach Artikeln suchen',
+  'Successfully logged in': 'Erfolgreich angemeldet',
+  'Successfully created a new account': 'Ein neues Konto wurde erfolgreich erstellt',
+  'Something went wrong!': 'Etwas ist schief gelaufen!'
 };

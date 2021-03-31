@@ -130,5 +130,8 @@ export default {
   'Payment': 'Payment',
   'Order summary': 'Order summary',
   'Products': 'Products',
-  'Total': 'Total'
+  'Total': 'Total',
+  'Successfully logged in': 'Successfully logged in',
+  'Successfully created a new account': 'Successfully created a new account',
+  'Something went wrong!': 'Something went wrong!'
 };

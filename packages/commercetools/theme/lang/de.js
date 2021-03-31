@@ -130,5 +130,8 @@ export default {
   'Payment': 'Zahlung',
   'Order summary': 'Bestellübersicht',
   'Products': 'Produkte',
-  'Total': 'Gesamt'
+  'Total': 'Gesamt',
+  'Successfully logged in': 'Erfolgreich angemeldet',
+  'Successfully created a new account': 'Ein neues Konto wurde erfolgreich erstellt',
+  'Something went wrong!': 'Etwas ist schief gelaufen!'
 };

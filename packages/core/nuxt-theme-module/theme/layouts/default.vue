@@ -15,7 +15,7 @@
       </LazyHydrate>
       <CartSidebar />
       <WishlistSidebar />
-      <LoginModal />
+      <AuthModal />
       <Notification />
     </div>
     <LazyHydrate when-visible>
@@ -31,7 +31,7 @@ import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import WishlistSidebar from '~/components/WishlistSidebar.vue';
-import LoginModal from '~/components/LoginModal.vue';
+import AuthModal from '~/components/Auth/AuthModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 
@@ -46,7 +46,7 @@ export default {
     AppFooter,
     CartSidebar,
     WishlistSidebar,
-    LoginModal,
+    AuthModal,
     Notification
   }
 };

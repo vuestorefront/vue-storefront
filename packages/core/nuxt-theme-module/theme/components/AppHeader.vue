@@ -127,8 +127,9 @@ export default {
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleAuthModal } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
+    const { result, search } = useFacet();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
@@ -150,7 +151,7 @@ export default {
         return root.$router.push('/my-account');
       }
 
-      toggleLoginModal();
+      toggleAuthModal();
     };
 
     onSSR(async () => {
