@@ -13,7 +13,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest",
-    "test:e2e": "cypress open --config-file tests/e2e/cypress.json"
+    "test:e2e": "cypress open --config-file tests/e2e/cypress.json",
+    "test:e2e:hl": "cypress run --headless --config-file tests/e2e/cypress.json"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.2.2",

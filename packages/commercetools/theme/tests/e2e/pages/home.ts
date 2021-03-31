@@ -1,15 +1,13 @@
-import header from './components/header';
+import Header from './components/header';
 
-const home = {
-
+class Home {
   get header() {
-    return header;
-  },
+    return Header;
+  }
 
   visit(): Cypress.Chainable {
     return cy.visit('/');
   }
+}
 
-};
-
-export default home;
+export default new Home();

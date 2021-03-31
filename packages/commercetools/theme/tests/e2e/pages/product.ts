@@ -1,15 +1,15 @@
-import header from './components/header';
+import Header from './components/header';
 
-const product = {
+class Product {
 
   get addToCartBtn(): Cypress.Chainable {
     return cy.get('[data-e2e="product_add-to-cart"]');
-  },
-
-  get header() {
-    return header;
   }
 
-};
+  get header() {
+    return Header;
+  }
 
-export default product;
+}
+
+export default new Product();

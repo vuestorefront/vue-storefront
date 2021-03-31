@@ -93,3 +93,6 @@ sw.*
 *.swp
 
 version
+
+# Mochawesome report
+**/mochawesome-report/

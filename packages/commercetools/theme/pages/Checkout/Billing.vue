@@ -217,7 +217,7 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-billing'"
+            v-e2e="'continue-to-payment'"
             class="form__action-button"
             type="submit"
             :disabled="!canMoveForward"

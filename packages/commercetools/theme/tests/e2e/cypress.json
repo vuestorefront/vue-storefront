@@ -9,7 +9,7 @@
   "screenshotOnRunFailure": true,
   "screenshotsFolder": "mochawesome-report/assets/screenshots",
   "video": false,
-  "reporter": "../../node_modules/mochawesome",
+  "reporter": "../../../../node_modules/mochawesome",
   "reporterOpts": {
       "reportFilename": "cypress-report",
       "html": true

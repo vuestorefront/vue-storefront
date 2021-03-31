@@ -17,7 +17,6 @@
 // Import commands.js using ES2015 syntax:
 import './commands.js';
 import 'cypress-pipe';
-import 'cypress-tags';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

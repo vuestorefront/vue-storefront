@@ -1,29 +1,34 @@
-import category from './category';
-import checkout from './checkout';
-import cart from './components/cart-sidebar';
-import home from './home';
-import product from './product';
+import Category from './category';
+import { Billing, Payment, Shipping, ThankYou } from './checkout';
+import Cart from './components/cart-sidebar';
+import Home from './home';
+import Product from './product';
 
 const page = {
 
   get cart() {
-    return cart;
+    return Cart;
   },
 
   get category() {
-    return category;
+    return Category;
   },
 
   get checkout() {
-    return checkout;
+    return {
+      shipping: new Shipping(),
+      billing: new Billing(),
+      payment: new Payment(),
+      thankyou: new ThankYou()
+    };
   },
 
   get home() {
-    return home;
+    return Home;
   },
 
   get product() {
-    return product;
+    return Product;
   }
 
 };

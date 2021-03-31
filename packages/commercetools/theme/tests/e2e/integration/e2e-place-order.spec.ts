@@ -28,6 +28,6 @@ context('Order placement', () => {
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.terms.click();
     page.checkout.payment.makeAnOrderBtn.click();
-    page.checkout.thankYou.heading.should('be.visible');
+    page.checkout.thankyou.heading.should('be.visible');
   });
 });
