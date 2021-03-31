@@ -9,7 +9,7 @@ on:
         description: "Exclude tags"
         required: false
       package:
-        description: "Package":
+        description: "Package"
         default: "ct"
       browser:
         description: "Browser"
