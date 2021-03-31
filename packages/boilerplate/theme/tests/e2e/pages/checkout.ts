@@ -39,7 +39,7 @@ class Shipping {
     return el('shipping-phone');
   }
 
-  get continueToBillingBtn(): Cypress.Chainable {
+  get continueToBillingButton(): Cypress.Chainable {
     return el('continue-to-billing');
   }
 
@@ -47,7 +47,7 @@ class Shipping {
     return el('shipping-heading');
   }
 
-  get selectShippingBtn(): Cypress.Chainable {
+  get selectShippingButton(): Cypress.Chainable {
     return el('select-shipping');
   }
 
@@ -105,7 +105,7 @@ class Billing {
     return el('billing-phone');
   }
 
-  get continueToPaymentBtn(): Cypress.Chainable {
+  get continueToPaymentButton(): Cypress.Chainable {
     return el('continue-to-payment');
   }
 
@@ -128,7 +128,7 @@ class Billing {
 }
 
 class Payment {
-  get makeAnOrderBtn(): Cypress.Chainable {
+  get makeAnOrderButton(): Cypress.Chainable {
     return el('make-an-order');
   }
 

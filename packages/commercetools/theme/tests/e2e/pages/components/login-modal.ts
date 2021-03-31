@@ -23,15 +23,15 @@ class LoginModal {
     return el('login-modal-password');
   }
 
-  get iWantToCreateAccountCBLabel(): Cypress.Chainable {
+  get iWantToCreateAccountCheckbox(): Cypress.Chainable {
     return el('login-modal-create-account');
   }
 
-  get submitBtn(): Cypress.Chainable {
+  get submitButton(): Cypress.Chainable {
     return el('login-modal-submit');
   }
 
-  get loginToAccountBtn(): Cypress.Chainable {
+  get loginToAccountButton(): Cypress.Chainable {
     return el('login-modal-login-to-your-account');
   }
 
