@@ -1,24 +1,14 @@
-name: Run E2E Tests
+name: Run E2E Regression Tests
 on:
-  workflow_dispatch:
-    inputs:
-      tags_include:
-        description: "Include tags"
-        required: false
-      tags_exclude:
-        description: "Exclude tags"
-        required: false
-      package:
-        description: "Package"
-        default: "ct"
-      browser:
-        description: "Browser"
-        require: false
-        default: "chrome"
+  schedule:
+    - cron: "0 0 * * 1-5"
 jobs:
   run_e2e_tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: ["ct", "bp"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -40,31 +30,30 @@ jobs:
         run: yarn install
 
       - name: Build tools
-        run: yarn build:${{ github.event.inputs.package }}
+        run: yarn build:${{ matrix.package }}
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
         with:
-          start: yarn dev:${{ github.event.inputs.package }}
+          start: yarn dev:${{ matrix.package }}
           wait-on: 'http://localhost:3000'
-          command: yarn run test:e2e:${{ github.event.inputs.package }}:hl
-          browser: ${{ github.event.inputs.browser }}
+          command: yarn run test:e2e:${{ matrix.package }}:hl
+          browser: chrome
           headless: true
           install: false
         env:
-          CYPRESS_INCLUDE_TAGS: ${{ github.event.inputs.tags_include }}
-          CYPRESS_EXCLUDE_TAGS: ${{ github.event.inputs.tags_exclude }}
+          CYPRESS_INCLUDE_TAGS: regression
 
       - name: Generate report
         if: ${{ always() }}
-        run: yarn test:e2e:${{ github.event.inputs.tags_exclude }}:generate:report
+        run: yarn test:e2e:${{ matrix.package }}:generate:report
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
           name: report
-          path: "packages/$${{ github.event.inputs.package }}/theme/tests/e2e/report"
+          path: "packages/$${{ matrix.package }}/theme/tests/e2e/report"
         env:
           bp: boilerplate
           ct: commercetools
