@@ -57,9 +57,6 @@
             class="form__element"
           />
         </ValidationProvider>
-        <div v-if="registerError && registerError.message">
-          {{ registerError.message }}
-        </div>
         <SfButton
           data-cy="login-btn_submit"
           type="submit"

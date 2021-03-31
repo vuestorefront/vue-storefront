@@ -32,9 +32,6 @@
           :label="$t('Remember me')"
           class="form__element checkbox"
         />
-        <div v-if="loginError">
-          {{ loginError }}
-        </div>
         <SfButton
           data-cy="login-btn_submit"
           type="submit"
