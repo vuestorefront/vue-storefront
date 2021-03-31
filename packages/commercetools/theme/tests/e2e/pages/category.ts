@@ -1,6 +1,8 @@
+import { el } from './utils/element';
+
 class Category {
   get products(): Cypress.Chainable {
-    return cy.get('[data-e2e="category-product-card"] a');
+    return el('category-product-card', 'a');
   }
 }
 

@@ -1,12 +1,9 @@
-import Header from './components/header';
+import Base from './base';
+import { el } from './utils/element';
 
-class Product {
+class Product extends Base {
   get addToCartBtn(): Cypress.Chainable {
-    return cy.get('[data-e2e="product_add-to-cart"]');
-  }
-
-  get header() {
-    return Header;
+    return el('product_add-to-cart');
   }
 }
 

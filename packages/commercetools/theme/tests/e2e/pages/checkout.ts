@@ -1,33 +1,43 @@
 import { Customer } from '../types/customer';
+import { el } from './utils/element';
 
 class Checkout {
   get firstName(): Cypress.Chainable {
-    return cy.get('[data-e2e="firstName"]');
+    return el('firstName');
   }
+
   get lastName(): Cypress.Chainable {
-    return cy.get('[data-e2e="lastName"]');
+    return el('lastName');
   }
+
   get streetName(): Cypress.Chainable {
-    return cy.get('[data-e2e="streetName"]');
+    return el('streetName');
   }
+
   get apartment(): Cypress.Chainable {
-    return cy.get('[data-e2e="apartment"]');
+    return el('apartment');
   }
+
   get city(): Cypress.Chainable {
-    return cy.get('[data-e2e="city"]');
+    return el('city');
   }
+
   get state(): Cypress.Chainable {
-    return cy.get('[data-e2e="state"] select');
+    return el('state', 'select');
   }
+
   get country(): Cypress.Chainable {
-    return cy.get('[data-e2e="country"] select');
+    return el('country', 'select');
   }
+
   get zipcode(): Cypress.Chainable {
-    return cy.get('[  data-e2e="zipcode"]');
+    return el('zipcode');
   }
+
   get phone(): Cypress.Chainable {
-    return cy.get('[data-e2e="phone"]');
+    return el('phone');
   }
+
   protected fillForm(customer: Customer, section: 'shipping' | 'billing') {
     this.firstName.type(customer.firstName);
     this.lastName.type(customer.lastName);
@@ -43,17 +53,21 @@ class Checkout {
 
 class Shipping extends Checkout {
   get continueToBillingBtn(): Cypress.Chainable {
-    return cy.get('[data-e2e="continue-to-billing"]');
+    return el('continue-to-billing');
   }
+
   get heading(): Cypress.Chainable {
-    return cy.get('[data-e2e="heading-shipping"]');
+    return el('heading-shipping');
   }
+
   get selectShippingBtn(): Cypress.Chainable {
-    return cy.get('[data-e2e="select-shipping"]');
+    return el('select-shipping');
   }
+
   get shippingMethods(): Cypress.Chainable {
-    return cy.get('[data-e2e="shipping-method-label"]');
+    return el('shipping-method-label');
   }
+
   public fillForm(customer: Customer) {
     super.fillForm(customer, 'shipping');
   }
@@ -61,14 +75,17 @@ class Shipping extends Checkout {
 
 class Billing extends Checkout {
   get continueToPaymentBtn(): Cypress.Chainable {
-    return cy.get('[data-e2e="continue-to-payment"]');
+    return el('continue-to-payment');
   }
+
   get heading(): Cypress.Chainable {
-    return cy.get('[data-e2e="heading-billing"]');
+    return el('heading-billing');
   }
+
   get copyAddressLabel(): Cypress.Chainable {
-    return cy.get('[data-e2e="copy-address"] label');
+    return el('copy-address', 'label');
   }
+
   public fillForm(customer: Customer) {
     super.fillForm(customer, 'billing');
   }
@@ -76,19 +93,21 @@ class Billing extends Checkout {
 
 class Payment extends Checkout {
   get makeAnOrderBtn(): Cypress.Chainable {
-    return cy.get('[data-e2e="make-an-order"]');
+    return el('make-an-order');
   }
+
   get paymentMethods(): Cypress.Chainable {
-    return cy.get('[data-e2e="payment-method"]');
+    return el('payment-method');
   }
+
   get terms(): Cypress.Chainable {
-    return cy.get('[data-e2e="terms"] label');
+    return el('terms', 'label');
   }
 }
 
 class ThankYou {
   get heading(): Cypress.Chainable {
-    return cy.get('[data-e2e="thank-you-banner"] h2');
+    return el('thank-you-banner', 'h2');
   }
 }
 

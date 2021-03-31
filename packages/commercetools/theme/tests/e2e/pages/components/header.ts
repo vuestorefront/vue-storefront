@@ -1,6 +1,8 @@
+import { el } from '../utils/element';
+
 class Header {
   get cart(): Cypress.Chainable {
-    return cy.get('[data-e2e="app-header-cart"]');
+    return el('app-header-cart');
   }
 
   get categories(): Cypress.Chainable {
@@ -9,8 +11,8 @@ class Header {
 
   get category() {
     return {
-      women: () => cy.get('[data-e2e="app-header-url_women"]'),
-      men: () => cy.get('[data-e2e="app-header-url_men"]')
+      women: () => el('app-header-url_women'),
+      men: () => el('app-header-url_men')
     };
   }
 
