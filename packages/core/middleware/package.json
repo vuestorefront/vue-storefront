@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.3.0-rc.2",
+  "version": "2.3.0-rc.3",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",

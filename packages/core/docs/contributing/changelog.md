@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.3.0-rc.3
+
+-  Fix VsfShippingProvider to correctly show errors related to no shipping methods available for certain country ([#5463](https://github.com/vuestorefront/vue-storefront/issues/5463)) - [Baroshem](https://github.com/Baroshem)
+,
+- [BREAKING] Fix infinite loading for login and register by implementing error handling in core module and in LoginModal ([#5508](https://github.com/vuestorefront/vue-storefront/issues/5508)) - [Baroshem](https://github.com/Baroshem)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+There was no error handling and thats why the infinite loading was appearing | Errors are handled immediately | add try/catch to middleware, set more appriopriate value to err.value in useUserFactory, and implement error handling in LoginModal | core/middleware, LoginModal,
+-  revert change https://github.com/vuestorefront/vue-storefront/pull/5593 as it was breaking the mobile view after latest release ([#5514_1](https://github.com/vuestorefront/vue-storefront/issues/5514)) - [Baroshem](https://github.com/Baroshem)
+,
+-  removed helpers/filters from @vue-storefront/nuxt-theme and @vue-storefront/commercetools-theme because they are useless now ([#5620](https://github.com/vuestorefront/vue-storefront/issues/5620)) - [Kacper Małkowski](https://github.com/porithe/)
+,
+-  add error handling for GraphQL queries with complexity over limit ([#5692](https://github.com/vuestorefront/vue-storefront/issues/5692)) - [Baroshem](https://github.com/Baroshem)
+,
+-  extend #5692 thrown error to fix also this issue ([#5693](https://github.com/vuestorefront/vue-storefront/issues/5693)) - [Baroshem](https://github.com/Baroshem)
+,
+-  Add ability to access express instance in the middleware extensions ([#5714](https://github.com/vuestorefront/vue-storefront/pull/5714)) - [andrzejewsky](https://github.com/andrzejewsky)
+
+
 ## 2.3.0-rc.2
 
 -  added MegaMenu to theme ([#5267](https://github.com/vuestorefront/vue-storefront/issues/5267)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)

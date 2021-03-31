@@ -50,7 +50,8 @@
     "test:e2e:bp:generate:report": "cd boilerplate/commercetools/theme && yarn run test:e2e:generate:report",
     "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e",
     "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
-    "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report"
+    "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
+    "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
