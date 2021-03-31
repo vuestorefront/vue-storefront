@@ -32,7 +32,7 @@
             </SfListItem>
           </SfList>
       </SfLoader>
-      <NewCatBanners v-if="hasBanners()" />
+      <NewCatBanners v-if="!subCategoriesLoading && hasBanners()" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
 </template>
