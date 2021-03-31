@@ -9,14 +9,14 @@ on:
         description: "Exclude tags"
         required: false
       package:
-        description: "Package [ct, bp]":
+        description: "Package":
         default: "ct"
       browser:
-        description: "Browser [electron, chrome, firefox]"
+        description: "Browser"
         require: false
         default: "chrome"
 jobs:
-  run_cypress_tests:
+  run_e2e_tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
     steps:
