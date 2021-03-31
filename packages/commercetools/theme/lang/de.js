@@ -136,4 +136,12 @@ export default {
   'Something went wrong!': 'Etwas ist schief gelaufen!',
   'Account with the given credentials not found.': 'Konto mit den angegebenen Anmeldeinformationen nicht gefunden.',
   'There is already an existing customer with this email {EMAIL}': 'Es gibt bereits einen Kunden mit dieser E-Mail {EMAIL}',
+  'Your email': 'Deine E-Mail',
+  'Password': 'Passwort',
+  'Remember me': 'Mich erinnern',
+  'I want to create an account': 'Ich möchte ein Konto erstellen',
+  'First Name': 'Vorname',
+  'Last Name': 'Nachname',
+  'Log in': 'Einloggen',
+  'Sign in': 'Anmelden'
 };

@@ -9,7 +9,7 @@
             :valid="!errors[0]"
             :errorMessage="errors[0]"
             name="email"
-            label="Your email"
+            :label="$t('Your email')"
             class="form__element"
           />
         </ValidationProvider>
@@ -20,7 +20,7 @@
             :valid="!errors[0]"
             :errorMessage="errors[0]"
             name="password"
-            label="Password"
+            :label="$t('Password')"
             type="password"
             class="form__element"
           />
@@ -29,7 +29,7 @@
           data-cy="login-checkbox-remember-me"
           v-model="rememberMe"
           name="remember-me"
-          label="Remember me"
+          :label="$t('Remember me')"
           class="form__element checkbox"
         />
         <div v-if="loginError">
@@ -83,7 +83,7 @@ extend('required', {
 });
 
 export default {
-  name: 'LoginModal',
+  name: 'LoginForm',
   components: {
     SfInput,
     SfButton,

@@ -63,7 +63,7 @@ export default {
   @include for-mobile {
     --notification-border-radius: 0;
     --notification-max-width: 100%;
-    --notification-background: var(--c-link);
+    --notification-background: var(--c-link) !important;
     --notification-font-size: var(--font-size--sm);
     --notification-font-family: var(--font-family--primary);
     --notification-font-weight: var(--font-weight--normal);

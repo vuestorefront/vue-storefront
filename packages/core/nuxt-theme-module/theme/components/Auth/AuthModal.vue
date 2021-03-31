@@ -8,7 +8,7 @@
       <SfBar
         class="sf-modal__bar smartphone-only"
         :close="true"
-        :title="currentAuthModal === 'login' ? 'Log in' : 'Sign in'"
+        :title="currentAuthModal === 'login' ? $t('Log in') : $t('Sign in')"
         @click:close="toggleAuthModal"
       />
     </template>
