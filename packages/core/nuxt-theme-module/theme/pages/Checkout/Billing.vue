@@ -1,6 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
+      v-e2e="'billing-heading'"
       :level="3"
       :title="$t('Billing')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -14,6 +15,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-firstName'"
             v-model="form.firstName"
             label="First name"
             name="firstName"
@@ -30,6 +32,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-lastName'"
             v-model="form.lastName"
             label="Last name"
             name="lastName"
@@ -46,6 +49,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-streetName'"
             v-model="form.streetName"
             label="Street name"
             name="streetName"
@@ -62,6 +66,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-apartment'"
             v-model="form.apartment"
             label="House/Apartment number"
             name="apartment"
@@ -78,6 +83,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-city'"
             v-model="form.city"
             label="City"
             name="city"
@@ -92,6 +98,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-state'"
             v-model="form.state"
             label="State/Province"
             name="state"
@@ -105,6 +112,7 @@
           slim
         >
           <SfSelect
+            v-e2e="'billing-country'"
             v-model="form.country"
             label="Country"
             name="country"
@@ -129,6 +137,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-zipcode'"
             v-model="form.postalCode"
             label="Zip-code"
             name="zipCode"
@@ -145,6 +154,7 @@
           slim
         >
           <SfInput
+            v-e2e="'billing-phone'"
             v-model="form.phone"
             label="Phone number"
             name="phone"
@@ -165,6 +175,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
+            v-e2e="'continue-to-payment'"
             class="form__action-button"
             type="submit"
           >

@@ -1,7 +1,8 @@
 import { Customer } from '../types/customer';
 import { el } from './utils/element';
 
-class Checkout {
+class Shipping {
+
   get firstName(): Cypress.Chainable {
     return el('firstName');
   }
@@ -38,20 +39,6 @@ class Checkout {
     return el('phone');
   }
 
-  protected fillForm(customer: Customer, section: 'shipping' | 'billing') {
-    this.firstName.type(customer.firstName);
-    this.lastName.type(customer.lastName);
-    this.streetName.type(customer.address[section].streetName);
-    this.apartment.type(customer.address[section].apartment);
-    this.city.type(customer.address[section].city);
-    this.country.select(customer.address[section].country);
-    this.state.select(customer.address[section].state);
-    this.zipcode.type(customer.address[section].zipcode);
-    this.phone.type(customer.address[section].phone);
-  }
-}
-
-class Shipping extends Checkout {
   get continueToBillingBtn(): Cypress.Chainable {
     return el('continue-to-billing');
   }
@@ -68,12 +55,20 @@ class Shipping extends Checkout {
     return el('shipping-method-label');
   }
 
-  public fillForm(customer: Customer) {
-    super.fillForm(customer, 'shipping');
+  protected fillForm(customer: Customer) {
+    this.firstName.type(customer.firstName);
+    this.lastName.type(customer.lastName);
+    this.streetName.type(customer.address.shipping.streetName);
+    this.apartment.type(customer.address.shipping.apartment);
+    this.city.type(customer.address.shipping.city);
+    this.country.select(customer.address.shipping.country);
+    this.state.select(customer.address.shipping.state);
+    this.zipcode.type(customer.address.shipping.zipcode);
+    this.phone.type(customer.address.shipping.phone);
   }
 }
 
-class Billing extends Checkout {
+class Billing {
   get continueToPaymentBtn(): Cypress.Chainable {
     return el('continue-to-payment');
   }
@@ -85,13 +80,9 @@ class Billing extends Checkout {
   get copyAddressLabel(): Cypress.Chainable {
     return el('copy-address', 'label');
   }
-
-  public fillForm(customer: Customer) {
-    super.fillForm(customer, 'billing');
-  }
 }
 
-class Payment extends Checkout {
+class Payment {
   get makeAnOrderBtn(): Cypress.Chainable {
     return el('make-an-order');
   }
