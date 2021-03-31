@@ -1,0 +1,13 @@
+{
+  "Should successfully login": {
+    "customer": {
+      "password": "Vu3S70r3fr0n7!"
+    }
+  },
+  "Incorrect credentials - should display an error": {
+    "customer": {
+      "password": "Vu3S70r3fr0n7!"
+    },
+    "errorMessage": "Account with the given credentials not found."
+  }
+}

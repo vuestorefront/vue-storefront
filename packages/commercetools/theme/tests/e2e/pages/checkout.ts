@@ -55,7 +55,7 @@ class Shipping {
     return el('shipping-method-label');
   }
 
-  protected fillForm(customer: Customer) {
+  public fillForm(customer: Customer) {
     this.firstName.type(customer.firstName);
     this.lastName.type(customer.lastName);
     this.streetName.type(customer.address.shipping.streetName);

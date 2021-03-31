@@ -1,6 +1,11 @@
 import { el } from '../utils/element';
 
 class Header {
+
+  get account(): Cypress.Chainable {
+    return el('app-header-account');
+  }
+
   get cart(): Cypress.Chainable {
     return el('app-header-cart');
   }
@@ -20,6 +25,13 @@ class Header {
     const click = $el => $el.click();
     return this.cart.pipe(click).should(() => {
       expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
+    });
+  }
+
+  openLoginModal(): Cypress.Chainable {
+    const click = $el => $el.click();
+    return this.account.pipe(click).should(() => {
+      expect(Cypress.$('[data-e2e="login-modal"]')).to.exist;
     });
   }
 }

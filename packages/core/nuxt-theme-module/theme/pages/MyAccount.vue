@@ -5,7 +5,7 @@
       :breadcrumbs="breadcrumbs"
     />
     <SfContentPages
-      data-cy="my-account_content-pages"
+      v-e2e="'my-account-content-pages'"
       title="My Account"
       :active="activePage"
       class="my-account"

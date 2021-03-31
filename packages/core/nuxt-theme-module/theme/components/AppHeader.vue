@@ -21,6 +21,7 @@
       <template #header-icons>
         <div class="sf-header__icons">
           <SfButton
+            v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >

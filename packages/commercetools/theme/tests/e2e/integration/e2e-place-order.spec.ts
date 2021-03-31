@@ -16,7 +16,7 @@ context('Order placement', () => {
     page.category.products.first().click();
     page.product.addToCartBtn.click();
     page.product.header.openCart();
-    page.cart.goToCheckoutBtn.click();
+    page.components.cart.goToCheckoutBtn.click();
     page.checkout.shipping.heading.should('be.visible');
     page.checkout.shipping.fillForm(data.customer);
     page.checkout.shipping.selectShippingBtn.click();
