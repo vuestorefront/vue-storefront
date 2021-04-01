@@ -11,9 +11,14 @@ before(() => {
 context('Order placement', () => {
   it(['e2e', 'happypath'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
+    const waitHydration = () => {
+      cy.wait(1000);
+    };
     page.home.visit();
     page.home.header.categories.first().click();
-    page.category.products.first().click();
+    page.category.products.first().click().then(() => {
+      waitHydration();
+    });
     page.product.addToCartButton.click();
     page.product.header.openCart();
     page.components.cart.goToCheckoutButton.click();
