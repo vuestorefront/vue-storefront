@@ -62,13 +62,13 @@
           </form>
         </ValidationObserver>
         <div class="action">
-          <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">
+          <SfButton class="sf-button--text">
             {{ $t('Forgotten password?') }}
           </SfButton>
         </div>
         <div class="bottom">
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton data-cy="login-btn_sign-up" class="sf-button--text" @click="setIsLoginValue(false)">
+          <SfButton @click="setIsLoginValue(false)">
             {{ $t('Register today') }}
           </SfButton>
         </div>
