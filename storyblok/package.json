@@ -7,6 +7,7 @@
   "server": "server/index.js",
   "scripts": {
     "build": "rollup -c && rm -r -- ./server/*/",
+    "build:clean": "rollup -c && rm -r -- ./lib/*/ && rm -r -- ./server/*/",
     "dev": "rollup -c -w",
     "test": "jest --passWithNoTests",
     "lint": "eslint --ext .js,.ts --ignore-path .eslintignore .",
