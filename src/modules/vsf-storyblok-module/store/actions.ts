@@ -38,6 +38,10 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     const url = processURLAddress(`${config.storyblok.endpoint}/validate-editor/?${qs.stringify(query)}`)
     const { result: { previewToken } }: any = await TaskQueue.execute({
       url,
+      payload: {
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      },
       silent: true
     })
 
