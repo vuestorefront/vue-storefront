@@ -1,12 +1,13 @@
 {
   "name": "@vue-storefront/storyblok",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Storyblok CMS integration with Vue Storefront",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "server": "server/index.js",
   "scripts": {
     "build": "rollup -c && rm -r -- ./server/*/",
+    "build:clean": "rollup -c && rm -r -- ./lib/*/ && rm -r -- ./server/*/",
     "dev": "rollup -c -w",
     "test": "jest --passWithNoTests",
     "lint": "eslint --ext .js,.ts --ignore-path .eslintignore .",
