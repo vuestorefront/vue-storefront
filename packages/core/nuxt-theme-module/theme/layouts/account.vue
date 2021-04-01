@@ -19,6 +19,8 @@ import CartSidebar from '~/components/CartSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
 
 export default {
+  name: 'AccountLayout',
+
   components: {
     TopBar,
     AppHeader,

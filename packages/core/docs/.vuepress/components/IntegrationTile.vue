@@ -3,7 +3,7 @@
   <div class="image">
     <img :src="image" :alt="name"/>
     <span class="badge info" v-if="isEnterprise">Enterprise</span>
-    <span class="badge wip" v-if="isWip">In prorgess</span>
+    <span class="badge wip" v-if="isWip">In progress</span>
     <span class="badge beta" v-if="isBeta">Beta</span>
     <span class="badge from-core" v-if="fromCore">From Core Team</span>
   </div>
