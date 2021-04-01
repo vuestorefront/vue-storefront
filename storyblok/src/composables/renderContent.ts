@@ -40,10 +40,10 @@ export const extractComponents = (
       }),
       {},
     )
-    if (props.items) {
+    if (props.items && Array.isArray(props.items)) {
       props.items = buildImageObject(props.items)
     }
-    if (props.images) {
+    if (props.images && Array.isArray(props.images)) {
       props.images = buildImageObject(props.images, { replace: true })
     }
     return {
