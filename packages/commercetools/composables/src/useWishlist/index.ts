@@ -1,12 +1,9 @@
 /* istanbul ignore file */
 
 import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-storefront/core';
-import { ref, Ref } from '@vue/composition-api';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 
 type Wishlist = any;
-
-export const wishlist: Ref<Wishlist> = ref(null);
 
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420

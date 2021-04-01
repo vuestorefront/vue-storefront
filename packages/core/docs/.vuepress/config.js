@@ -23,7 +23,6 @@ module.exports = {
 	themeConfig: {
 		logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
 		nav: [
-			{ text: 'Home', link: '/' },
 			{ text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
 			{ text: 'Integrations', link: '/integrations/' },
 			{ text: 'Migration guide', link: '/migrate/' },
@@ -169,16 +168,17 @@ module.exports = {
 			],
 			'/': [
 				{
-					title: 'In a nutshell',
+					title: 'Getting started',
 					collapsable: false,
 					children: [
-						['/general/getting-started', 'Getting started'],
+						['/', 'Introduction'],
+						['/general/installation', 'Installation'],
 						['/general/key-concepts', 'Key concepts'],
 						['/general/enterprise', 'Enterprise']
 					]
         },
 				{
-					title: 'Guide [WIP]',
+					title: 'Guides',
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
@@ -192,7 +192,7 @@ module.exports = {
 					]
 				},
 				{
-					title: 'Advanced [WIP]',
+					title: 'Advanced',
 					collapsable: false,
 					children: [
 						['/advanced/architecture', 'Architecture'],
@@ -206,7 +206,7 @@ module.exports = {
 					]
 				},
 				{
-					title: 'Build integration',
+					title: 'Building integration',
 					collapsable: true,
 					children: [
 						['/integrate/integration-guide', 'eCommerce'],

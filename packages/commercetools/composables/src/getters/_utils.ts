@@ -3,14 +3,20 @@ import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } f
 import { DiscountedLineItemPrice } from '../types/GraphQL';
 
 export const getAttributeValue = (attribute) => {
+
+  /**
+   * List of attribute types: https://docs.commercetools.com/api/projects/productTypes#attributetype
+   */
   switch (attribute.attributeDefinition.type.name) {
     case 'text':
+    case 'ltext':
     case 'boolean':
     case 'number':
     case 'date':
     case 'time':
     case 'datetime':
     case 'money':
+    case 'set':
       return attribute.value;
 
     case 'lenum':
@@ -19,9 +25,6 @@ export const getAttributeValue = (attribute) => {
 
     case 'reference':
       return { typeId: attribute.value.typeId, id: attribute.value.id };
-
-    case 'ltext':
-      return attribute.value;
 
     default:
       return null;
