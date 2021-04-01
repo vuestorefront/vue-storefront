@@ -1,4 +1,6 @@
-# Getting started
+# Installation
+
+## Using CLI
 
 If you want to get started with Vue Storefront, the easiest way to do this is to set up your project through our CLI tool. It can be installed globally through NPM:
 
