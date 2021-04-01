@@ -197,4 +197,7 @@ Payment provider component that fetches available payment methods, mounts Adyen'
 * `onError` - `(data: { action: string, error: Error | string }) => void` - called when we got an error from either Adyen or our API
 
 ## Placing an order
-If transaction is authorized, server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply `order` object to the response. Thanks to that, we have only one request from the client to make both a payment and an order.
+If the transaction is authorized, server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply `order` object to the response. Thanks to that, we have only one request from the client to make both a payment and an order.
+
+## Checkout.com
+Adyen's module isn't currently compatibile with [Checkout.com's module](https://github.com/vuestorefront/checkout-com)
