@@ -1,5 +1,24 @@
 <template>
-  <sb-render v-if="story && story.content" :item="story.content" />
+  <div>
+    <div class="bg-cl-secondary py25 pl20" v-if="story && story.name">
+      <div class="container">
+        <breadcrumbs :with-homepage="true" :routes="[]" :active-route="story.name" />
+      </div>
+    </div>
+
+    <header class="bg-cl-secondary pl20" v-if="story && story.name">
+      <div class="container">
+        <div class="row middle-sm">
+          <h2 class="col-sm-9 category-title mb10">
+            {{ story.name }}
+          </h2>
+        </div>
+      </div>
+    </header>
+    <div class="container pb60">
+      <sb-render v-if="story && story.content" :item="story.content" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -8,10 +27,14 @@ import get from 'lodash-es/get'
 import { getSettings } from '../helpers'
 import StoryblokMixin from '../components/StoryblokMixin'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 
 export default {
   name: 'StoryblokPage',
   mixins: [StoryblokMixin],
+  components: {
+    Breadcrumbs
+  },
   metaInfo () {
     if (this.story) {
       return {

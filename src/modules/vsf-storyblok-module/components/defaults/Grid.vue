@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div v-for="_item in item.columns" :key="_item.uuid" class="col-xs-12 col-sm-6 col-lg-3">
+    <div v-for="_item in item.columns" :key="_item.uuid" class="col-xs-12" :class="[colSizeSm, colSizeLg]">
       <sb-render class="box" :item="_item" />
     </div>
   </div>
@@ -11,7 +11,15 @@ import { Blok } from '..'
 
 export default {
   extends: Blok,
-  name: 'GridBlok'
+  name: 'GridBlok',
+  computed: {
+    colSizeSm: function () {
+      return 'col-sm-' + Math.floor(12 / this.item.columns_count_mobile)
+    },
+    colSizeLg: function () {
+      return 'col-lg-' + Math.floor(12 / this.item.columns_count)
+    }
+  }
 }
 </script>
 

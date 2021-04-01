@@ -1,12 +1,8 @@
 <template>
-  <div v-if="div && lazy" v-lazy:background-image="image" :style="{ backgroundImage: `url('${placeholder}')` }">
+  <div v-if="div" :style="{ backgroundImage: `url('${image}')` }">
     <slot />
   </div>
-  <div v-else-if="div" :style="{ backgroundImage: `url('${image}')` }">
-    <slot />
-  </div>
-  <img v-else-if="lazy" v-lazy="image" :src="placeholder">
-  <img v-else :src="image">
+  <img v-else :src="image" alt="name">
 </template>
 
 <script>
@@ -48,9 +44,9 @@ export default {
     }
   },
   props: {
-    placeholder: {
+    name: {
       type: String,
-      default: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
+      default: ''
     },
     detectWebp: {
       type: Boolean,
@@ -71,10 +67,6 @@ export default {
     div: {
       type: Boolean,
       default: false
-    },
-    lazy: {
-      type: Boolean,
-      default: true
     },
     smart: {
       type: Boolean,

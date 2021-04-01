@@ -10,6 +10,9 @@ export default {
   computed: {
     component: function () {
       return components[this.item.component] || components.debug
+    },
+    components: function () {
+      return components
     }
   },
   props: {
