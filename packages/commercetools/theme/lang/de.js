@@ -143,5 +143,6 @@ export default {
   'First Name': 'Vorname',
   'Last Name': 'Nachname',
   'Log in': 'Einloggen',
-  'Sign in': 'Anmelden'
+  'Sign in': 'Anmelden',
+  'This field is required': 'Dieses Feld ist erforderlich'
 };
