@@ -24,7 +24,7 @@ If you followed our [Installation guide](/general/installation), you should have
 <img src="../images/theme/storefront-ui.jpg" />
 </center>
 
-Almost every component in our default theme uses components whose names start with `Sf`. These come from [Storefront UI](http://storefrontui.io/) - a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront core team. It comes with [Figma designs](https://figma.com/file/N0Ct95cSAoODNv7zYS01ng/Storefront-UI-%7C-Design-System?node-id=0%3A1) and [Storybook](https://storybook.storefrontui.io/) to help you customize and test the components.
+Almost every component in our default theme uses components whose names start with `Sf`. These come from [Storefront UI](http://storefrontui.io/) - a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront core team. It comes with [Storybook](https://storybook.storefrontui.io/) to help you customize and test the components.
 
 The library is fully customizable, so it can be used in different contexts and with different designs.
 It's great for the multi-tenancy model as a shared UI library that can be customized differently for each tenant.
