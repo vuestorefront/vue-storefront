@@ -66,12 +66,12 @@ export default {
 };
 ```
 
-* `availablePaymentMethods` - An array of available payment methods. Here you can find [available values](https://docs.adyen.com/payment-methods).
-* `clientKey` - Your client's key. Here you can find information [how to find it](https://docs.adyen.com/development-resources/client-side-authentication#get-your-client-key).
+* `availablePaymentMethods` - An array of available payment methods. There are [available values](https://docs.adyen.com/payment-methods).
+* `clientKey` - Your client's key. There is information [how to find it](https://docs.adyen.com/development-resources/client-side-authentication#get-your-client-key).
 * `environment` - `test` or `live`
 * `methods.paypal`:
   * `intent`: `capture` to take cash immediately or `authorize` to delay it.
-  * `merchantId`: 13-chars code that identifies your merchant account. Here you can find information [how to find it](https://www.paypal.com/us/smarthelp/article/FAQ3850).
+  * `merchantId`: 13-chars code that identifies your merchant account. There is information [how to find it](https://www.paypal.com/us/smarthelp/article/FAQ3850).
 
 
 4. Add `@vsf-enterprise/adyen/server` integration to the middleware with following configruation:
@@ -106,18 +106,15 @@ adyen: {
 ```
 
 * `configuration`:
-  * `ctApi` - You need `manage_project` scope to make it work properly, rest information for this property you could find [there](../commercetools/getting-started.html#configuring-your-commercetools-integration).
+  * `ctApi` - You need `manage_project` scope to make it work properly, base on [this page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
-  * `origin` - URL of your frontend. You could check it by printing out `window.location.origin`
-  * `returnUrl` - URL where user will be redirected after 3DS1 Auth. Here we are making some payment finalization operations server side and calling `buildRedirectUrlAfter3ds1` which tells the server where the user should be redirect.
+  * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the console on your website.
+  * `returnUrl` - URL where user will be redirected after 3DS1 Auth. It should be an endpoint that makes payment finalization operations server side, calling `buildRedirectUrlAfter3ds1` and redirects there an user.
   * `buildRedirectUrlAfter3ds1` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user from `returnUrl`. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication)
 
 ```ts
 type PaymentAndOrder = Payment & { order: Order }
 ```
-
-HERE I WILL PUT A DIAGRAM, STAY TUNED
-
 
 5. Add `origin` to allowed origins in Adyen's dashboard. You can do it in the same place where you looked for the `clientKey`.
 
@@ -128,7 +125,7 @@ Make sure to deploy both [extension](https://github.com/commercetools/commerceto
 :::
 
 ::: warning
-You will also need to configure both modules. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
+Remember to configure both modules. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
 :::
 
 7. Use `PaymentAdyenProvider.vue` as a last step of the checkout process.
@@ -138,7 +135,7 @@ You will also need to configure both modules. Check readme of [the repository](h
 />
 ```
 
-`afterPay` is called just after payment is authorized and order placed. Here you could make actions like redirect to the thank you page and clear a cart.
+`afterPay` is called just after payment is authorized and order placed. There you can make actions like redirect to the thank you page and clear a cart.
 ```js
 const afterPayAndOrder = async (order) => {
   context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
@@ -147,7 +144,7 @@ const afterPayAndOrder = async (order) => {
 ```
 
 ### Paypal configuration
-Configuration of PayPal is well-described in Adyen's documentation, please use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
+Configuration of PayPal is well-described in Adyen's documentation, use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
 
 ## API
 `@vsf-enterprise/adyen` exports a useAdyen composable.
