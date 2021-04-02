@@ -2,13 +2,8 @@ const StoryblokPage = () => import(/* webpackChunkName: "vsf-storyblok" */ './St
 
 export const StoryblokRoutes = [
   {
-    name: 'about',
-    path: '/about',
-    component: StoryblokPage
-  },
-  {
-    name: 'petsies-custom-stuffed-animal-manufacture',
-    path: '/bulk-custom-stuffed-animal-manufacture',
+    name: 'storyblok',
+    path: '/s/:slug',
     component: StoryblokPage
   },
   {

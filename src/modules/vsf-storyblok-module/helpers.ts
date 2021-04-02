@@ -26,7 +26,7 @@ export function getStoryblokQueryParams (route) {
   const queryString = route.fullPath.replace(route.path, '')
   const { _storyblok: id, _storyblok_c: c, _storyblok_tk: storyblok = {} } = qs.parse(queryString, { ignoreQueryPrefix: true })
   const { space_id: spaceId, timestamp, token } = storyblok
-  let fullSlug = route.path.substring(1)
+  let fullSlug = route.params.slug
   if (!fullSlug) {
     fullSlug = 'home'
   }
