@@ -1,5 +1,5 @@
 <template>
-  <div v-html="html" />
+  <div class="storyblok-rich-text" v-html="html" />
 </template>
 
 <script>
@@ -19,3 +19,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.storyblok-rich-text {
+  overflow: auto;
+}
+</style>
