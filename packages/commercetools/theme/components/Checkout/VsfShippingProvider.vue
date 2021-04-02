@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <SfLoader :class="{ loader: loading }" :loading="loading">
+      <SfLoader :loading="loading">
         <div v-if="error.loadMethods">
           {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
         </div>
