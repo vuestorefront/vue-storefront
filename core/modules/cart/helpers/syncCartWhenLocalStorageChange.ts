@@ -1,12 +1,20 @@
-import rootStore from '@vue-storefront/core/store';
+import rootStore from '@vue-storefront/core/store'
+import { storeViews } from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 function getItemsFromStorage ({ key }) {
   const value = JSON.parse(localStorage[key])
-  if (key === 'shop/cart/current-cart') {
+  if (checkMultistoreKey(key, 'shop/cart/current-cart')) {
     rootStore.dispatch('cart/updateCart', { items: value })
-  } else if (key === 'shop/cart/current-totals') {
+  } else if (checkMultistoreKey(key, 'shop/cart/current-totals')) {
     rootStore.dispatch('cart/updateTotals', value)
   }
+}
+
+function checkMultistoreKey (key: string, path: string): boolean {
+  const { multistore, commonCache } = storeViews
+  if (!multistore || (multistore && commonCache)) return key === path
+  return key === `${currentStoreView().storeCode}-${path}`
 }
 
 function addEventListener () {
