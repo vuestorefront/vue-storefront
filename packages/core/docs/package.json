@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "vuepress dev",
     "build": "vuepress build",
-    "ct-api-client-tdoc": "node ./scripts/generateCtApiRef && rm -r ./commercetools/api-client-reference/enums && rm -r ./commercetools/api-client-reference/README.md && mv ./commercetools/api-client-reference/modules ./commercetools/api-client-reference/1modules",
-    "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference/ > ./commercetools/api-client-reference.md && node typedoc-vsf-theme/removeText && rm -r ./commercetools/api-client-reference"
+    "ct-api-client-tdoc": "node ./scripts/generateCtApiRef && rimraf ./commercetools/api-client-reference/enums ./commercetools/api-client-reference/README.md ./commercetools/api-client-reference/modules/api.md && mv ./commercetools/api-client-reference/modules ./commercetools/api-client-reference/1modules && node typedoc-vsf-theme/removeFiles",
+    "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference/ > ./commercetools/api-client-reference.md && node typedoc-vsf-theme/removeText && rimraf ./commercetools/api-client-reference"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "^1.2.0-rc.1",
