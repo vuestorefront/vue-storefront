@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
 - Added unit test for async-data-loader.ts - @lukaszjedrasik [(#5051)](https://github.com/vuestorefront/vue-storefront/issues/5051)
 - Added `createAsyncMutatorHook` & unit tests for hooks - @lukaszjedrasik [(#4940)](https://github.com/vuestorefront/vue-storefront/issues/4940)
-- Added unit test for `phoneNum` validator - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730)
+- Added unit test for `phoneNum` validator - @lukaszjedrasik [(#5730)](https://github.com/vuestorefront/vue-storefront/issues/5730)
 
 ### Fixed
 
