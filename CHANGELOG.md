@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
 - Added unit test for async-data-loader.ts - @lukaszjedrasik [(#5051)](https://github.com/vuestorefront/vue-storefront/issues/5051)
 - Added `createAsyncMutatorHook` & unit tests for hooks - @lukaszjedrasik [(#4940)](https://github.com/vuestorefront/vue-storefront/issues/4940)
+- Added unit test for `phoneNum` validator - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730)
 
 ### Fixed
 
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changing email & password at once - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
 - Improved: the code to remove the page key from the query before applying a filter - @ymaheshwari1 ([VSF Capybara #561](https://github.com/vuestorefront/vsf-capybara/issues/561))
 - Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
+
 ### Changed / Improved
 
 - Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
