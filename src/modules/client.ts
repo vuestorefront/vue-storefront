@@ -17,9 +17,26 @@ import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-resources'
 import { StoryblokModule } from './vsf-storyblok-module';
+import { extendStore } from '@vue-storefront/core/helpers'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { forStoryblok } from './vsf-storyblok-module/mappingFallback'
 
 // import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
+
+const extendUrlVuex = {
+  actions: {
+    async mappingFallback (context, payload: any) {
+      const result = await forStoryblok(context, payload);
+      if (result) {
+        return result
+      }
+    }
+  }
+}
+const extendUrlModule: StorefrontModule = function ({ store }) {
+  extendStore('url', extendUrlVuex);
+}
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerClientModules () {
@@ -42,6 +59,7 @@ export function registerClientModules () {
   registerModule(InitialResourcesModule)
   // registerModule(DeviceModule)
   registerModule(StoryblokModule)
+  registerModule(extendUrlModule)
 }
 
 // Deprecated API, will be removed in 2.0

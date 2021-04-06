@@ -3,7 +3,7 @@ const StoryblokPage = () => import(/* webpackChunkName: "vsf-storyblok" */ './St
 export const StoryblokRoutes = [
   {
     name: 'storyblok',
-    path: '/s/:slug',
+    path: '/stub',
     component: StoryblokPage
   },
   {
