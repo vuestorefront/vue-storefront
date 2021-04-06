@@ -26,14 +26,19 @@ const getProduct = async (context, params, customQuery?: CustomQuery) => {
     customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
   );
 
-  const request = await (context.client as ApolloClient<any>).query<ProductData>({
-    query: gql`${products.query}`,
-    variables: products.variables,
-    // temporary, seems like bug in apollo:
-    // @link: https://github.com/apollographql/apollo-client/issues/3234
-    fetchPolicy: 'no-cache'
-  });
-  return request;
+  try {
+    const request = await (context.client as ApolloClient<any>).query<ProductData>({
+      query: gql`${products.query}`,
+      variables: products.variables,
+      // temporary, seems like bug in apollo:
+      // @link: https://github.com/apollographql/apollo-client/issues/3234
+      fetchPolicy: 'no-cache'
+    });
+    return request;
+  } catch (error) {
+    throw error.graphQLErrors?.[0] || error.networkError?.result || error;
+  }
+
 };
 
 export default getProduct;
