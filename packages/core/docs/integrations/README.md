@@ -122,6 +122,7 @@ Click on the integration tile to read its documentation.
     category="Payment"
     isEnterprise="true"
     :compatibility="['commercetools']"
+    :from-core="true"
     link="./adyen.html"
   />
   <IntegrationTile

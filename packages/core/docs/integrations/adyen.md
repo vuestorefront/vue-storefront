@@ -6,7 +6,7 @@ This feature is part of the Enterprise version. Please [contact our team](https:
 
 ## Introduction
 
-This package provides integration with [Adyen](https://www.adyen.com/). For more information about this topic, please refer to the [payment providers](../guide/checkout.html#payment-providers) page.
+This package provides integration with [Adyen](https://www.adyen.com/). For more information about payment integrations, please refer to the [payment providers](../guide/checkout.html#payment-providers) page.
 
 ## Installation
 
@@ -70,11 +70,11 @@ export default {
 * `clientKey` - Your client's key. There is information [how to find it](https://docs.adyen.com/development-resources/client-side-authentication#get-your-client-key).
 * `environment` - `test` or `live`
 * `methods.paypal`:
-  * `intent`: `capture` to take cash immediately or `authorize` to delay it.
+  * `intent`: `capture` to take cash immediately or `authorize` to delay a charging.
   * `merchantId`: 13-chars code that identifies your merchant account. There is information [how to find it](https://www.paypal.com/us/smarthelp/article/FAQ3850).
 
 
-4. Add `@vsf-enterprise/adyen/server` integration to the middleware with following configruation:
+4. Add `@vsf-enterprise/adyen/server` integration to the middleware with the following configuration:
 ```js
 // middleware.config.js
 
@@ -93,32 +93,34 @@ adyen: {
     },
     adyenMerchantAccount: '<ADYEN_MERCHANT_ACCOUNT>',
     origin: 'http://localhost:3000',
-    returnUrl: 'http://localhost:3000/api/adyen/cardAuthAfterRedirect',
-    buildRedirectUrlAfter3ds1 (paymentAndOrder, succeed) {
+    buildRedirectUrlAfter3ds1Auth (paymentAndOrder, succeed) {
       let redirectUrl = `/checkout/thank-you?order=${paymentAndOrder.order.id}`;
       if (!succeed) {
         redirectUrl += '&error=authorization-failed';
       }
       return redirectUrl;
+    },
+    buildRedirectUrlAfter3ds1Error (err) {
+      return '/?3ds1-server-error';
     }
   }
 }
 ```
 
 * `configuration`:
-  * `ctApi` - You need `manage_project` scope to make it work properly, base on [this page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
+  * `ctApi` - You need `manage_project` scope to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
-  * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the console on your website.
-  * `returnUrl` - URL where user will be redirected after 3DS1 Auth. It should be an endpoint that makes payment finalization operations server side, calling `buildRedirectUrlAfter3ds1` and redirects there an user.
-  * `buildRedirectUrlAfter3ds1` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user from `returnUrl`. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication)
+  * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the browser's console on your website.
+  * `buildRedirectUrlAfter3ds1Auth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after 3DS1 Auth. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
+  * `buildRedirectUrlAfter3ds1Error` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
 
 ```ts
 type PaymentAndOrder = Payment & { order: Order }
 ```
 
-5. Add `origin` to allowed origins in Adyen's dashboard. You can do it in the same place where you looked for the `clientKey`.
+5. Add an `origin` to the allowed origins in Adyen's dashboard. You can do it in the same place where you looked for the `clientKey`.
 
-6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration) which should be deployed as an independent app. We recommend to deploy it as a Google Function or a AWS Lambda.
+6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration) which should be deployed as an independent app. We recommend deploying it as a Google Function or an AWS Lambda.
 
 ::: warning
 Make sure to deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module.
@@ -135,7 +137,7 @@ Remember to configure both modules. Check readme of [the repository](https://git
 />
 ```
 
-`afterPay` is called just after payment is authorized and order placed. There you can make actions like redirect to the thank you page and clear a cart.
+`afterPay` is called just after payment is authorized and order placed. There you can make actions like redirecting to the thank you page and clearing a cart.
 ```js
 const afterPayAndOrder = async (order) => {
   context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
@@ -144,20 +146,19 @@ const afterPayAndOrder = async (order) => {
 ```
 
 ### Paypal configuration
-Configuration of PayPal is well-described in Adyen's documentation, use [it](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
+Configuration of PayPal is well-described in [Adyen's documentation](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
 
 ## API
-`@vsf-enterprise/adyen` exports a useAdyen composable.
-
-You can import a [VSF Payment Provider](../commercetools/getting-started.html#configuring-your-commercetools-integration) component from the `@vsf-enterprise/adyen/src/PaymentAdyenProvider`.
+`@vsf-enterprise/adyen` exports a *useAdyen* composable.   
+`@vsf-enterprise/adyen/src/PaymentAdyenProvider` exports a [VSF Payment Provider](../commercetools/getting-started.html#configuring-your-commercetools-integration) component as a default.
 
 ## Composable
 `useAdyen` composable returns a few properties and methods.
 
 #### Properties
-* `error` - _AdyenError_ - errors' state of asynchronous methods.
-* `loading` - Boolean that informs if composable is performing some asynchronous method right now.
-* `paymentObject` - Object of payment created in the Commercetools. It is updated by `createContext`, `payAndOrder`, `submitAdditionalPaymentDetails` methods.
+* `error` - Computed<_AdyenError_> - errors' state of asynchronous methods.
+* `loading` - Computed<_Boolean_> informing if composable is performing some asynchronous method right now.
+* `paymentObject` - Computed<_any_> containing payment object in the commercetools. It is updated by `createContext`, `payAndOrder`, `submitAdditionalPaymentDetails` methods.
 
 ```ts
 interface AdyenError {
@@ -169,9 +170,9 @@ interface AdyenError {
 
 #### Methods
 * `createContext` - Loads a cart, then fetching available payment methods for the loaded cart. At the end, a method stores a response inside `paymentObject`.
-* `buildDropinConfiguration` - `(config: AdyenConfigBuilder): any` - Builds a configuration object for Adyen's Web Drop-In
-* `payAndOrder` - Setting value of custom field `makePaymentRequest` in the Commercetools' payment. Commercetools will send it to the Adyen and give you the response. At the end, a method stores a response inside `paymentObject`.
-* `submitAdditionalPaymentDetails` - Setting value of custom field `submitAdditionalPaymentDetailsRequest` in the Commercetools' payment. Commercetools will send it to the Adyen and give you the response. At the end, a method stores a response inside `paymentObject`.
+* `buildDropinConfiguration` - `(config: AdyenConfigBuilder): any` - Builds a configuration object for Adyen's Web Drop-In.
+* `payAndOrder` - Setting value of the custom field called `makePaymentRequest` in the commercetools' payment object. Commercetools will send it to the Adyen and give you the response. As a last step, a method is storing a response inside the `paymentObject`.
+* `submitAdditionalPaymentDetails` - Setting value of the custom field `submitAdditionalPaymentDetailsRequest` in the commercetools' payment. Commercetools will send it to the Adyen and give you the response. As a last step, a method is storing a response inside the `paymentObject`.
 
 ```ts
 interface AdyenConfigBuilder {
@@ -183,18 +184,16 @@ interface AdyenConfigBuilder {
 }
 ```
 
-
 ## Components
-`PaymentAdyenProvider`
-Payment provider component that fetches available payment methods, mounts Adyen's Web Drop-In. Component takes care of whole payment flow. It allows to hook into some events by passing functions via props.
-* `beforeLoad` - `config => config` - called with built configuration from the `buildDropinConfiguration`, just before creating instance of `AdyenCheckout` and mounting a Drop-In
-* `beforePay` - `stateData => stateData` - called inside `onSubmit` of Drop-In, just before calling `payAndOrder`. Here we can modify the payload that will be passed.
-* `afterPay` - `paymentAndObject: PaymentAndOrder => void` - called after we got result code `Authorized` from the Adyen, and an order has been placed
-* `afterSelectedDetailsChange` - called inside `onChange` of Adyen's Drop-In
-* `onError` - `(data: { action: string, error: Error | string }) => void` - called when we got an error from either Adyen or our API
+`PaymentAdyenProvider` component fetches available payment methods and mounts Adyen's Web Drop-In. It takes care of the whole flow of the payment. It allows you to hook into some events by passing functions via props.
+* `beforeLoad` - `config => config` - Called just before creating an instance of the `AdyenCheckout` and mounting a Drop-In.
+* `beforePay` - `stateData => stateData` - Called just before calling a `payAndOrder`. Here we can modify the payload.
+* `afterPay` - `paymentAndObject: PaymentAndOrder => void` - Called after we got result code equal `Authorized` from the Adyen, and an order has been placed.
+* `afterSelectedDetailsChange` - Called inside `onChange` of Adyen's Drop-In.
+* `onError` - `(data: { action: string, error: Error | string }) => void` - Called after we got an error from either Adyen or our API.
 
 ## Placing an order
-If the transaction is authorized, server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply `order` object to the response. Thanks to that, we have only one request from the client to make both a payment and an order.
+If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize a payment and make an order.
 
 ## Checkout.com
-Adyen's module isn't currently compatibile with [Checkout.com's module](https://github.com/vuestorefront/checkout-com)
+Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
