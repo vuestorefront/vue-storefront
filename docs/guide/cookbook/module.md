@@ -420,23 +420,31 @@ Routes to be added must be _Array_ type even if it only has one element as you c
 ![route_liked_borderline](../images/route_liked.png)
 
 ### 2-4. Recipe D (Create hooks)
-As you know we have two main kinds of hooks `listener` and `mutator`. In this section, we look into how to create our own ones.
+As you know we have two main kinds of hooks `listener` and `mutator`. In this section, we will look into how to use these hooks to create our own functionality.
 
-1. Create the `hooks.ts` inside `./core/modules/example-module`.
+1. Create the `hooks.ts` inside `./src/modules/example-module`.
 
-2. Import `hooks` from `core`:
+2. Import `hooks` from the `@vue-storefront/core/lib/hooks`:
 
 ```js
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 ```
 
-3. Prepare your own `hooks`:
-
+3. Prepare our own `hooks`:
 ```ts
+// abridged ...
+
 const {
   hook: beforeExampleHook,
   executor: beforeExampleExecutor
-} = createMutatorHook<any, any>()
+} = createMutatorHook()
+
+// Also we can add some generic types to hooks then the first object is responsible for incoming data structure and the second shows us how to return data will be looking.
+
+const {
+  hook: beforeExampleHook,
+  executor: beforeExampleExecutor
+} = createMutatorHook<{ clientItems: CartItem[], serverItems: CartItem[] }, any>()
 
 const {
   hook: afterExampleHook,
@@ -471,21 +479,21 @@ cd src/modules/example-module
 vi index.ts # of course you can open it with other editors!
 ```
 
-2. Import `coreHooks` from `core` :
-```ts{4}
+2. Import `exampleHooksExecutors` from `./src/modules/example-module/hooks` :
+```ts
 import { extendStore, isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Liked from './components/Liked.vue';
-import { coreHooks  } from '@vue-storefront/core/hooks'; // Import hooks from core
+import { exampleHooksExecutors  } from './src/modules/example-module/hooks'; // Import our hooks
 
 const examplePlugin = store => {
 // abridged ...
+}
 ```
 
-3. Call any hook you want to use as follows : 
-```ts{11-13}
+3. Call any hook you want to use as follows :
+```ts
 // ...abridged
-
 export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
@@ -494,23 +502,21 @@ export const ExampleModule: StorefrontModule = function ({app, store, router, mo
   router.addRoutes(exampleRoutes)
   router.beforeEach((to, from, next) => { next() })
 
-  coreHooks.afterAppInit(() => { // 
-    console.log('App has just been initialized')
-  })
+  const { serverItems, clientItems } = exampleHooksExecutors.beforeExample({ clientItems: getCartItems, serverItems: result })
+  console.log('Data retrieved from hooks:', serverItems, clientItems);
 }
-
 ```
 
 4. Confirm it's hooked, run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
-```bash 
-docker-compose up 
+```bash
+docker-compose up
 ```
 or without `docker`
-```bash 
+```bash
 yarn dev
 ```
 
-Once again the app is up and running, it will spit out tons of logs indicating the jobs done including  : 
+Once again the app is up and running, it will spit out tons of logs indicating the jobs done including  :
 ```bash{2}
 app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
 app_1  | App has just been initialized # Successfully Hooked !
