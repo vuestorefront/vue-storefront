@@ -6,10 +6,10 @@
       class="search"
     >
       <transition name="sf-fade" mode="out-in">
-        <div v-if="products.length > 0" class="search__wrapper-results" key="results">
+        <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <SfList>
-              <SfListItem v-for="(category, key) in categories.items" :key="key">
+              <SfListItem v-for="(category, key) in categories" :key="key">
                 <SfMenuItem :label="category.label" :link="`/c/${category.slug}`"/>
               </SfListItem>
             </SfList>
@@ -78,7 +78,7 @@ import {
   SfImage
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
-import { productGetters, facetGetters } from '<%= options.generate.replace.composables %>';
+import { productGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'SearchResults',
@@ -101,11 +101,10 @@ export default {
       type: Object
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const isSearchOpen = ref(props.visible);
-    const searchResult = ref(props.result);
-    const products = computed(() => facetGetters.getProducts(searchResult.value));
-    const categories = computed(() => facetGetters.getCategoryTree(searchResult.value));
+    const products = computed(() => props.result?.products);
+    const categories = computed(() => props.result?.categories);
 
     watch(() => props.visible, (newVal) => {
       isSearchOpen.value = newVal;
@@ -113,7 +112,7 @@ export default {
         document.body.classList.add('no-scroll');
       } else {
         document.body.classList.remove('no-scroll');
-        searchResult.value.data = null;
+        emit('removeSearchResults');
       }
     });
 
