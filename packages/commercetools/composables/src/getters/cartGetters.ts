@@ -20,6 +20,10 @@ export const getCartItemPrice = (product: LineItem): AgnosticPrice => createPric
 
 export const getCartItemQty = (product: LineItem): number => product?.quantity || 0;
 
+export const getCartItemProductId = (product: LineItem): string => product?.productId || '';
+
+export const getCartItemSlug = (product: LineItem): string => product?.productSlug || '';
+
 export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) =>
   getProductAttributes(product.variant, filterByAttributeName);
 
@@ -90,6 +94,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
+  getItemProductId: getCartItemProductId,
+  getItemSlug: getCartItemSlug,
   getFormattedPrice,
   getCoupons,
   getDiscounts

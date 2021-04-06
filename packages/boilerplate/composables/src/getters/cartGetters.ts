@@ -40,6 +40,10 @@ export const getCartItemPrice = (product: any): AgnosticPrice => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemQty = (product: LineItem): number => 1;
 
+export const getCartItemProductId = (product: any): string => product?.productId || '1';
+
+export const getCartItemSlug = (product: any): string => product?.productSlug || 'black-jacket';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) => ({ color: 'red' });
 
@@ -76,6 +80,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemImage: getCartItemImage,
   getItemPrice: getCartItemPrice,
   getItemQty: getCartItemQty,
+  getItemProductId: getCartItemProductId,
+  getItemSlug: getCartItemSlug,
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
   getFormattedPrice: getFormattedPrice,

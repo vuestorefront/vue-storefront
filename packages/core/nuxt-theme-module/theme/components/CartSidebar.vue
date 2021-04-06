@@ -28,6 +28,7 @@
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
                 :qty="cartGetters.getItemQty(product)"
+                :link="localePath(`/p/${cartGetters.getItemProductId(product)}/${cartGetters.getItemSlug(product)}`)"
                 @input="updateItemQty({ product, quantity: $event })"
                 @click:remove="removeItem({ product })"
                 class="collected-product"
