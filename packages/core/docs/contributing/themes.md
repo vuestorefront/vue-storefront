@@ -30,9 +30,20 @@ In `nuxt.config.js` of your integration theme add `@vue-storefront/nuxt-theme` i
 }
 ```
 
-Now you will have ability to overwrite default theme with your files, based on our default files.
+Now you will have ability to overwrite default theme with your files, based on our default project.
 
-Default Nuxt theme module is available in `/packages/core/nuxt-theme-module/theme/` folder.
+Default Nuxt theme is available in `/packages/core/nuxt-theme-module/theme/` folder.
+
+There you can find imports using ejs. That's why you should provide a config for '@vue-storefront/nuxt-theme' module.  In your theme remember to use imports from libraries e.g: 
+
+`nuxt-theme-module/theme/pages/Product.vue`
+```ts
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
+```
+`your-theme/theme/pages/Product.vue`
+```ts
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '@vue-storefront/commercetools';
+```
 
 ## How it works
 
