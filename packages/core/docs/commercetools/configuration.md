@@ -38,7 +38,7 @@ i18n: {
   ]
 }
 ```
-- In commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxes* and click **Add rate** button for new states:
+Then in commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxes* and click **Add rate** button for new states:
 
 ![settings taxes for states](./../images/ct-taxes.png)
 
