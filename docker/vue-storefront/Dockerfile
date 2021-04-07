@@ -15,7 +15,8 @@ RUN apk add --update libintl && apk add --virtual build_deps gettext
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 
-COPY config /var/www/config
+COPY config /tmp/config
+COPY config/default.json /var/www/config/default.json
 COPY tsconfig.json.example /var/www/tsconfig.json.example
 
 CMD ["vue-storefront.sh"]

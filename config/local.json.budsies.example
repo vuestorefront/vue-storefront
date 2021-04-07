@@ -143,7 +143,7 @@
   "elasticsearch": {
     "httpAuth": "",
     "host": "https://${VSF_API_DOMAIN}/api/catalog",
-    "index": "${DEFAULT_STORE_ES_INDEX}",
+    "index": "vue_storefront_catalog_${DEFAULT_STORE_ID}",
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
@@ -208,62 +208,36 @@
   },
   "defaultStoreCode": "",
   "storeViews": {
-    "multistore": false,
+    "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "de",
-      "it"
+      "jp"
     ],
-    "de": {
-      "storeCode": "de",
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
+    "jp": {
+      "storeCode": "jp",
+      "storeId": ${JP_STORE_ID},
+      "name": "Japanese Store",
+      "url": "/jp",
       "appendStoreCode": true,
       "elasticsearch": {
         "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
+        "index": "vue_storefront_catalog_${JP_STORE_ID}"
       },
       "tax": {
         "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
+        "defaultCountry": "JP",
         "defaultRegion": "",
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "fullCountryName": "Japan",
+        "fullLanguageName": "Japan",
+        "defaultLanguage": "JP",
+        "defaultCountry": "JP",
+        "defaultLocale": "ja-JP",
+        "currencyCode": "JPY",
+        "currencySign": "JPY",
         "dateFormat": "HH:mm D-M-YYYY"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    },
-    "it": {
-      "extend": "de",
-      "storeCode": "it",
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "defaultCountry": "IT"
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT"
       },
       "seo": {
         "defaultTitle": "Vue Storefront"

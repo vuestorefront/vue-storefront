@@ -1,7 +1,7 @@
 {
   "server": {
-    "host": "localhost",
-    "port": 3000,
+    "host": "0.0.0.0",
+    "port": ${BIND_PORT},
     "protocol": "http",
     "api": "api",
     "devServiceWorker": false,
@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://${VSF_API_DOMAIN}/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -69,17 +69,43 @@
     },
     "helmet": {
       "enabled": true
+    },
+    "protocol_ssr": "https"
+  },
+  "storyblok": {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/vsf-storyblok-extension",
+    "settings": {
+      "addRoutes": true
     }
   },
   "initialResources": [
     {
-      "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
+      "filters": [
+        "vsf-newsletter-modal",
+        "vsf-languages-modal",
+        "vsf-layout-empty",
+        "vsf-layout-minimal",
+        "vsf-order-confirmation",
+        "vsf-search-panel"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
     },
     {
-      "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
+      "filters": [
+        "vsf-category",
+        "vsf-home",
+        "vsf-not-found",
+        "vsf-error",
+        "vsf-product",
+        "vsf-cms",
+        "vsf-checkout",
+        "vsf-compare",
+        "vsf-my-account",
+        "vsf-static",
+        "vsf-reset-password"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
@@ -99,22 +125,25 @@
     "verbosityLevel": "display-everything"
   },
   "redis": {
-    "host": "localhost",
+    "host": "0.0.0.0",
     "port": 6379,
     "db": 0
   },
   "graphql": {
-    "host": "localhost",
-    "port": 8080
+    "host": "vsf-api-app",
+    "port": 8080,
+    "host_ssr": "vsf-api-app",
+    "port_ssr": 8080
   },
   "api": {
-    "url": "http://localhost:8080",
-    "saveBandwidthOverCache": true
+    "url": "https://${VSF_API_DOMAIN}",
+    "saveBandwidthOverCache": true,
+    "url_ssr": "https://${VSF_API_DOMAIN}"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
-    "index": "vue_storefront_catalog",
+    "host": "https://${VSF_API_DOMAIN}/api/catalog",
+    "index": "vue_storefront_catalog_${DEFAULT_STORE_ID}",
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
@@ -150,7 +179,8 @@
       "category.name": {
         "boost": 1
       }
-    }
+    },
+    "host_ssr": "https://${VSF_API_DOMAIN}/api/catalog"
   },
   "ssr": {
     "templates": {
@@ -181,7 +211,38 @@
     "multistore": false,
     "commonCache": false,
     "mapStoreUrlsFor": [
-    ]
+      "jp"
+    ],
+    "jp": {
+      "storeCode": "jp",
+      "storeId": ${DEFAULT_STORE_ID},
+      "name": "Japanese Store",
+      "url": "/jp",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_${DEFAULT_STORE_ID}"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": false,
+        "defaultCountry": "JP",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Japan",
+        "fullLanguageName": "Japan",
+        "defaultLanguage": "JP",
+        "defaultCountry": "JP",
+        "defaultLocale": "ja-JP",
+        "currencyCode": "JPY",
+        "currencySign": "JPY",
+        "dateFormat": "HH:mm D-M-YYYY"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
+      }
+    }
   },
   "entities": {
     "optimize": true,
@@ -503,17 +564,28 @@
     "displayItemDiscounts": true,
     "productsAreReconfigurable": true,
     "minicartCountType": "quantities",
-    "create_endpoint": "/api/cart/create?token={{token}}",
-    "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
-    "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
-    "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
-    "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
-    "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-    "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-    "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-    "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-    "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-    "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    "create_endpoint": "https://${VSF_API_DOMAIN}/api/cart/create?token={{token}}",
+    "updateitem_endpoint": "https://${VSF_API_DOMAIN}/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "https://${VSF_API_DOMAIN}/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "https://${VSF_API_DOMAIN}/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "https://${VSF_API_DOMAIN}/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint": "https://${VSF_API_DOMAIN}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "shippingmethods_endpoint": "https://${VSF_API_DOMAIN}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "https://${VSF_API_DOMAIN}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "collecttotals_endpoint": "https://${VSF_API_DOMAIN}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+    "deletecoupon_endpoint": "https://${VSF_API_DOMAIN}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+    "applycoupon_endpoint": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}",
+    "create_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/create?token={{token}}",
+    "updateitem_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "shippingmethods_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "collecttotals_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+    "deletecoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+    "applycoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "attributes": {
     "disablePersistentAttributesCache": false
@@ -562,7 +634,7 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "calculateBundlePriceByOptions": true,
-    "endpoint": "/api/product",
+    "endpoint": "https://${VSF_API_DOMAIN}/api/product",
     "defaultFilters": [
       "color",
       "erin_recommends",
@@ -611,18 +683,29 @@
     "priceFilterKey": "final_price",
     "priceFilters": {
       "ranges": [
-        { "from": 0, "to": 50 },
-        { "from": 50, "to": 100 },
-        { "from": 100, "to": 150 },
-        { "from": 150 }
+        {
+          "from": 0,
+          "to": 50
+        },
+        {
+          "from": 50,
+          "to": 100
+        },
+        {
+          "from": 100,
+          "to": 150
+        },
+        {
+          "from": 150
+        }
       ]
-    }
+    },
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/product"
   },
   "orders": {
     "directBackendSync": true,
-    "endpoint": "/api/order",
-    "payment_methods_mapping": {
-    },
+    "endpoint": "https://${VSF_API_DOMAIN}/api/order",
+    "payment_methods_mapping": {},
     "offline_orders": {
       "automatic_transmission_enabled": false,
       "notification": {
@@ -631,7 +714,8 @@
         "message": "Click here to confirm the order that you made offline.",
         "icon": "/assets/logo.png"
       }
-    }
+    },
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/order"
   },
   "localForage": {
     "defaultDrivers": {
@@ -655,31 +739,46 @@
     ]
   },
   "reviews": {
-    "create_endpoint": "/api/review/create"
+    "create_endpoint": "https://${VSF_API_DOMAIN}/api/review/create?token={{token}}",
+    "create_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/review/create?token={{token}}"
   },
   "users": {
     "autoRefreshTokens": true,
     "loginAfterCreatePassword": true,
-    "endpoint": "/api/user",
-    "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
-    "resetPassword_endpoint": "/api/user/reset-password",
-    "createPassword_endpoint": "http://localhost:8080/api/user/create-password",
-    "changePassword_endpoint": "/api/user/change-password?token={{token}}",
-    "login_endpoint": "/api/user/login",
-    "create_endpoint": "/api/user/create",
-    "me_endpoint": "/api/user/me?token={{token}}",
-    "refresh_endpoint": "/api/user/refresh",
-    "allowModification": ["firstname", "lastname", "email", "addresses"],
-    "tokenInHeader": false
+    "endpoint": "https://${VSF_API_DOMAIN}/api/user",
+    "history_endpoint": "https://${VSF_API_DOMAIN}/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
+    "resetPassword_endpoint": "https://${VSF_API_DOMAIN}/api/user/reset-password",
+    "createPassword_endpoint": "https://${VSF_API_DOMAIN}/api/user/create-password",
+    "changePassword_endpoint": "https://${VSF_API_DOMAIN}/api/user/change-password?token={{token}}",
+    "login_endpoint": "https://${VSF_API_DOMAIN}/api/user/login",
+    "create_endpoint": "https://${VSF_API_DOMAIN}/api/user/create",
+    "me_endpoint": "https://${VSF_API_DOMAIN}/api/user/me?token={{token}}",
+    "refresh_endpoint": "https://${VSF_API_DOMAIN}/api/user/refresh",
+    "allowModification": [
+      "firstname",
+      "lastname",
+      "email",
+      "addresses"
+    ],
+    "tokenInHeader": false,
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user",
+    "history_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/order-history?token={{token}}",
+    "resetPassword_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/reset-password",
+    "changePassword_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/change-password?token={{token}}",
+    "login_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/login",
+    "create_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/create",
+    "me_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/me?token={{token}}",
+    "refresh_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/user/refresh"
   },
   "stock": {
     "synchronize": true,
     "allowOutOfStockInCart": true,
-    "endpoint": "/api/stock"
+    "endpoint": "https://${VSF_API_DOMAIN}/api/stock",
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/stock"
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://demo.vuestorefront.io/img/",
+    "baseUrl": "https://${VSF_API_DOMAIN}/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -741,17 +840,19 @@
     "image/png": "7d"
   },
   "newsletter": {
-    "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/mailchimp-subscribe/subscribe"
   },
   "mailer": {
     "endpoint": {
-      "send": "/api/ext/mail-service/send-email",
-      "token": "/api/ext/mail-service/get-token"
+      "send": "https://${VSF_API_DOMAIN}/api/ext/mail-service/send-email",
+      "token": "https://${VSF_API_DOMAIN}/api/ext/mail-service/get-token",
+      "send_ssr": "https://${VSF_API_DOMAIN}/api/ext/mail-service/send-email",
+      "token_ssr": "https://${VSF_API_DOMAIN}/api/ext/mail-service/get-token"
     },
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-default",
+  "theme": "@vue-storefront/theme-${STORE}",
   "analytics": {
     "id": false
   },
@@ -774,8 +875,10 @@
     "id": false
   },
   "cms": {
-    "endpoint": "/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-    "endpointIdentifier": "/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+    "endpointIdentifier": "https://${VSF_API_DOMAIN}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}",
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+    "endpointIdentifier_ssr": "https://${VSF_API_DOMAIN}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
   },
   "cms_block": {
     "max_count": 500
@@ -790,7 +893,9 @@
       "filter": [
         {
           "key": "category.name",
-          "value": { "eq": "Performance Fabrics" }
+          "value": {
+            "eq": "Performance Fabrics"
+          }
         }
       ]
     },
@@ -798,7 +903,9 @@
       "filter": [
         {
           "key": "new",
-          "value": { "eq": 1 }
+          "value": {
+            "eq": 1
+          }
         }
       ]
     },
@@ -806,7 +913,9 @@
       "filter": [
         {
           "key": "category.name",
-          "value": { "eq": "Tees" }
+          "value": {
+            "eq": "Petsies Accessories"
+          }
         }
       ]
     }
@@ -817,13 +926,13 @@
     "map_endpoint": "/api/url/map"
   },
   "fastly": {
-    "enabled":false
+    "enabled": false
   },
   "nginx": {
-    "enabled":false
+    "enabled": false
   },
   "varnish": {
-    "enabled":false
+    "enabled": false
   },
   "purgeConfig": [
     "server.invalidateCacheKey",

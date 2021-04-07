@@ -12,7 +12,8 @@ services:
       LETSENCRYPT_HOST: ${BUDSIES_DOMAIN}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
       VSF_API_DOMAIN: ${BUDSIES_VSF_API_DOMAIN}
-      DEFAULT_STORE_ES_INDEX: ${BUDSIES_STORE_ES_INDEX}
+      DEFAULT_STORE_ID: ${BUDSIES_STORE_ID}
+      JP_STORE_ID: ${JP_STORE_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
@@ -49,7 +50,7 @@ services:
       LETSENCRYPT_HOST: ${PETSIES_DOMAIN}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
       VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
-      DEFAULT_STORE_ES_INDEX: ${PETSIES_STORE_ES_INDEX}
+      DEFAULT_STORE_ID: ${PETSIES_STORE_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'

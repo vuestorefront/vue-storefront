@@ -20,11 +20,11 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
     url = `${url}/home`
   }
   const story = await dispatch(`storyblok/loadStory`, { fullSlug: url }, { root: true })
-  if (story && story.slug) {
+  if (story && story.full_slug) {
     return {
       name: 'storyblok',
       params: {
-        slug: story.slug
+        slug: story.full_slug
       }
     }
   }
