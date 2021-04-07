@@ -20,12 +20,11 @@ const getGrouped = (searchData: SearchData, criteria?: string[]): AgnosticGroupe
 
 const getSortOptions = (searchData: SearchData): AgnosticSort => {
   const options = [
-    { type: 'sort', id: 'latest', value: 'Latest', count: null },
-    { type: 'sort', id: 'price-up', value: 'Price from low to high', count: null },
-    { type: 'sort', id: 'price-down', value: 'Price from high to low', count: null }
+    { type: 'sort', id: 'masterData.current.name.en asc', value: 'Name from A to Z', count: null },
+    { type: 'sort', id: 'masterData.current.name.en desc', value: 'Name from Z to A', count: null }
   ].map(o => ({ ...o, selected: o.id === searchData.input.sort }));
 
-  const selected = options.find(o => o.id === searchData.input.sort)?.id || 'latest';
+  const selected = options.find(o => o.id === searchData.input.sort)?.id || 'masterData.current.name.en asc';
 
   return { options, selected };
 };

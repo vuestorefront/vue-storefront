@@ -18,14 +18,15 @@ const factoryParams = {
       ...prev,
       ...inputFilters[curr].map(value => ({ type: AttributeType.STRING, name: curr, value }))
     ]), []);
+    const inputSort = params.input.sort;
 
     const productResponse = await context.$ct.api.getProduct({
       catId: categories[0].id,
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,
-      filters
+      filters,
       // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4857
-      // sort: params.sort
+      sort: [inputSort]
     });
     const enhancedProductResponse = enhanceProduct(productResponse, context);
     const products = (enhancedProductResponse.data as any)._variants as ProductVariant[];
