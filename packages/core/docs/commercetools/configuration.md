@@ -18,7 +18,7 @@ Commercetools configuration is located in two places:
 }]
 ```
 
-- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more generally about `i18n` config in Vue Storefront [here](../advanced/internationalization.md). On the other hand, there are things which are specific for the commercetools, you can read about them below.
+- `useNuxtI18nConfig` - when enabled, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. Otherwise, the `i18n` config should be passed directly to this package configuration. You can read more about it on [Internationalization](../advanced/internationalization.md) page. There are things specific to commercetools, which you can read more about below.
 
 ### Adding states for the country
 In commercetools each state must have a specified tax rules. That's why we decided to have the state as a select field instead of a text one.
