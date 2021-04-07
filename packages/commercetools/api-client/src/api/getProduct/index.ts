@@ -15,6 +15,7 @@ const getProduct = async (context, params, customQuery?: CustomQuery) => {
     where: buildProductWhere(context.config, params),
     skus: params.skus,
     limit: params.limit,
+    sort: params.sort,
     offset: params.offset,
     locale,
     acceptLanguage,

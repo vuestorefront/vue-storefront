@@ -32,12 +32,11 @@ const useUiHelpers = () => {
   const getFacetsFromURL = () => {
     const { query, params } = instance.$router.history.current;
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
-
     return {
       rootCatSlug: params.slug_1,
       categorySlug,
       page: parseInt(query.page, 10) || 1,
-      sort: query.sort || 'latest',
+      sort: query.sort || 'masterData.current.name.en asc',
       filters: getFiltersDataFromUrl(instance, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
       phrase: query.phrase
@@ -53,7 +52,7 @@ const useUiHelpers = () => {
       rootCatSlug: params.slug_1,
       categorySlug,
       page: parseInt(query.page, 10) || 1,
-      sort: query.sort || 'latest',
+      sort: query.sort || 'masterData.current.name.en asc',
       filters: getFiltersDataFromUrl(instance, true),
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
       phrase: query.phrase
