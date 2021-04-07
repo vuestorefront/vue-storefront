@@ -42,7 +42,7 @@ Then in commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxe
 
 ![settings taxes for states](./../images/ct-taxes.png)
 
-After that, if you select `United States` as a country, there will be 2 available states. You can check it on Checkout's shipping & billing step and MyAccount's user shipping & billing addresses views.
+If you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
 
 ![comercetools states on my account](./../images/ct-states-myaccount.png)
 
