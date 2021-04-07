@@ -80,20 +80,6 @@ jobs:
       - name: Test CLI
         run: yarn test:cli --coverage
 
-      - name: Post core coverage data
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: packages/core/coverage/lcov.info
-          flag-name: core
-
-      - name: Post CLI coverage data
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: packages/core/cli/coverage/lcov.info
-          flag-name: core-cli
-
   validate_integrations:
     name: Validate ${{ matrix.integration }}
     needs: validate_core
@@ -152,32 +138,3 @@ jobs:
       - name: composables coverage file
         id: composables-coverage
         run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo 'true') || echo 'false')"
-
-      - name: Post api-client coverage data
-        if: steps.api-coverage.outputs.exists == 'true'
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: packages/${{ matrix.integration }}/api-client/coverage/lcov.info
-          parallel: true
-          flag-name: ${{ matrix.integration }}-api-client
-
-      - name: Post composables coverage data
-        if: steps.composables-coverage.outputs.exists == 'true'
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: packages/${{ matrix.integration }}/composables/coverage/lcov.info
-          parallel: true
-          flag-name: ${{ matrix.integration }}-composables
-
-  finish:
-    name: Finish
-    needs: validate_integrations
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true

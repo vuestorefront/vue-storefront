@@ -26,7 +26,7 @@ function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
   consola.info('Loading integartions...');
 
-  const integrations = registerIntegrations(config.integrations);
+  const integrations = registerIntegrations(app, config.integrations);
 
   consola.success('Integrations loaded!');
 
@@ -37,9 +37,15 @@ function createServer (config: MiddlewareConfig): Express {
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
     const apiClientInstance = createApiClient(configuration);
     const apiFunction = apiClientInstance.api[functionName];
-    const platformResponse = await apiFunction(...req.body);
+    try {
+      const platformResponse = await apiFunction(...req.body);
 
-    res.send(platformResponse);
+      res.send(platformResponse);
+    } catch (error) {
+      res.status(500);
+
+      res.send(error);
+    }
   });
 
   consola.success('Middleware created!');

@@ -36,6 +36,8 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 
 export default {
+  name: 'DefaultLayout',
+
   components: {
     LazyHydrate,
     TopBar,
@@ -69,6 +71,9 @@ export default {
 // Reset CSS
 html {
   width: auto;
+  @include for-mobile {
+    overflow-x: hidden;
+  }
 }
 body {
   overflow-x: hidden;
