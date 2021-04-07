@@ -24,8 +24,6 @@ Commercetools configuration is located in two places:
 In commercetools, each state must have a specified tax rule. In order to add a new state, add `states` field in the desired country inside `i18n.countries` in `nuxt.config.js`:
 ```js
 i18n: {
-  currency: 'USD',
-  country: 'US',
   countries: [
     { name: 'US',
       label: 'United States',
