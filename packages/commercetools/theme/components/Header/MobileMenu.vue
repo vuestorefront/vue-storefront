@@ -32,7 +32,7 @@
             </SfListItem>
           </SfList>
       </SfLoader>
-      <NewCatBanners v-if="!subCategoriesLoading && hasBanners()" />
+      <NewCatBanners v-if="!subCategoriesLoading && hasBanners" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
 </template>
@@ -42,7 +42,7 @@ import { SfMegaMenu, SfMenuItem, SfList, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
-import { ref } from '@vue/composition-api';
+import { ref, computed } from '@vue/composition-api';
 
 export default {
   name: 'MobileMenu',
@@ -93,7 +93,7 @@ export default {
       }
     };
 
-    const hasBanners = () => categoriesWithBanners.value.find(category => category === currentCatSlug.value);
+    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
 
     onSSR(async () => {
       await search({ customQuery: { categories: 'megamenu-categories-query' } });

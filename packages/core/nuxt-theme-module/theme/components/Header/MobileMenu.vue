@@ -31,7 +31,7 @@
           </SfMenuItem>
         </SfListItem>
       </SfList>
-      <NewCatBanners v-if="hasBanners()" />
+      <NewCatBanners v-if="hasBanners" />
     </SfMegaMenuColumn>
   </SfMegaMenu>
 </template>
@@ -41,7 +41,7 @@ import { SfMegaMenu, SfMenuItem, SfList } from '@storefront-ui/vue';
 import { useCategory } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
-import { ref } from '@vue/composition-api';
+import { ref, computed } from '@vue/composition-api';
 
 export default {
   name: 'MobileMenu',
@@ -61,7 +61,7 @@ export default {
       currentCatSlug.value = slug;
     };
 
-    const hasBanners = () => categoriesWithBanners.value.find(category => category === currentCatSlug.value);
+    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
 
     onSSR(async () => {
       await search({});

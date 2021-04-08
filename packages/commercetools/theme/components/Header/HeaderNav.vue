@@ -36,7 +36,7 @@
             </SfList>
           </SfLoader>
         </SfMegaMenuColumn>
-        <NewCatBanners v-if="!subCategoriesLoading && hasBanners()" />
+        <NewCatBanners v-if="!subCategoriesLoading && hasBanners" />
       </SfMegaMenu>
     </SfHeaderNavigationItem>
   </SfHeaderNavigation>
@@ -46,7 +46,7 @@
 import { SfMegaMenu, SfMenuItem, SfList, SfBanner, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { reactive, ref } from '@vue/composition-api';
+import { reactive, ref, computed } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 export default {
@@ -84,7 +84,7 @@ export default {
       currentCatSlug.value = '';
     }, 200);
 
-    const hasBanners = () => categoriesWithBanners.value.find(category => category === currentCatSlug.value);
+    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
 
     onSSR(async () => {
       await search({ customQuery: { categories: 'megamenu-categories-query' } });
