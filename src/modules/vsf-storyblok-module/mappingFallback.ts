@@ -6,7 +6,13 @@ import get from 'lodash-es/get'
 export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => {
   if (params && params._storyblok_c && params._storyblok_c === 'page') {
     return {
-      name: 'storyblok'
+      name: 'storyblok-page'
+    }
+  }
+  if (params && params._storyblok_c && params._storyblok_c === 'block') {
+    return {
+      name: 'storyblok-block',
+      meta: { layout: 'empty' }
     }
   }
   url = url.replace(/\/?(\?.*)?$/, '') // remove trailing slash and/or qs variables if present
@@ -22,7 +28,7 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
   const story = await dispatch(`storyblok/loadStory`, { fullSlug: url }, { root: true })
   if (story && story.full_slug) {
     return {
-      name: 'storyblok',
+      name: 'storyblok-page',
       params: {
         slug: story.full_slug
       }

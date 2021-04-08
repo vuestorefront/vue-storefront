@@ -54,6 +54,7 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     const { data: { story } } = await this['$storyblokClient'].get(`cdn/stories/${id}`, {
       token: previewToken,
       language: lang,
+      resolve_relations: 'blockReference.reference',
       version: 'draft'
     })
 
