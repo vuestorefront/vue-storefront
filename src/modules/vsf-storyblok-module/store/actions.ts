@@ -48,11 +48,12 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     commit('setPreviewToken', { previewToken })
     return previewToken
   },
-  async loadDraftStory ({ commit }: ActionContext<StoryblokState, RootState>, { id, previewToken }) {
+  async loadDraftStory ({ commit }: ActionContext<StoryblokState, RootState>, { id, previewToken, lang }) {
     commit('loadingStory', { key: id })
 
     const { data: { story } } = await this['$storyblokClient'].get(`cdn/stories/${id}`, {
       token: previewToken,
+      language: lang,
       version: 'draft'
     })
 

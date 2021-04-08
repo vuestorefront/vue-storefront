@@ -24,7 +24,7 @@ export function loadScript (src: string, id: string) {
 
 export function getStoryblokQueryParams (route) {
   const queryString = route.fullPath.replace(route.path, '')
-  const { _storyblok: id, _storyblok_c: c, _storyblok_tk: storyblok = {} } = qs.parse(queryString, { ignoreQueryPrefix: true })
+  const { _storyblok: id, _storyblok_c: c, _storyblok_lang: lang, _storyblok_tk: storyblok = {} } = qs.parse(queryString, { ignoreQueryPrefix: true })
   const { space_id: spaceId, timestamp, token } = storyblok
   let fullSlug = route.params.slug
   if (!fullSlug) {
@@ -42,7 +42,8 @@ export function getStoryblokQueryParams (route) {
     fullSlug,
     spaceId,
     timestamp,
-    token
+    token,
+    lang
   }
 }
 
