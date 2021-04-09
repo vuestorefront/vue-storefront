@@ -46,7 +46,7 @@
 import { SfMegaMenu, SfMenuItem, SfList, SfBanner, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { reactive, ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 export default {
@@ -64,7 +64,7 @@ export default {
     const { categories: subCategories, search: subCategoriesSearch, loading: subCategoriesLoading } = useCategory('menu-subCategories');
     const currentCatSlug = ref('');
     const activeSubCategory = ref(null);
-    const fetchedSubCategories = reactive({});
+    const fetchedCategories = ref({});
     const categoriesWithBanners = ref(['new']);
 
     const handleMouseEnter = debounce(async slug => {
@@ -72,11 +72,14 @@ export default {
       const { childCount } = categories.value.find(category => category.slug === currentCatSlug.value);
       emit('setOverlay', Boolean(childCount));
 
-      if (!fetchedSubCategories[slug] && Boolean(childCount)) {
+      if (!fetchedCategories.value[slug] && Boolean(childCount)) {
         await subCategoriesSearch({ slug });
-        fetchedSubCategories[slug] = subCategories.value;
+        fetchedCategories.value = {
+          ...fetchedCategories.value,
+          [slug]: subCategories.value
+        };
       }
-      activeSubCategory.value = fetchedSubCategories[currentCatSlug.value];
+      activeSubCategory.value = fetchedCategories.value[currentCatSlug.value];
     }, 200);
 
     const handleMouseLeave = debounce(() => {
@@ -92,7 +95,6 @@ export default {
 
     return {
       categories,
-      fetchedSubCategories,
       activeSubCategory,
       subCategories,
       currentCatSlug,
