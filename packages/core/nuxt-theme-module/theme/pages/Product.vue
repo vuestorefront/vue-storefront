@@ -436,6 +436,7 @@ export default {
     margin-top: 0;
   }
   &__tabs {
+    --tabs-title-z-index: 0;
     margin: var(--spacer-lg) auto var(--spacer-2xl);
     --tabs-title-font-size: var(--font-size--lg);
     @include for-desktop {

@@ -88,7 +88,7 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" />
+    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -96,7 +96,7 @@
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { useCart, useWishlist, useUser, cartGetters, useFacet } from '<%= options.generate.replace.composables %>';
+import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
@@ -108,6 +108,7 @@ import {
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
+import mockedSearchProducts from '../mockedSearchProducts.json';
 
 export default {
   components: {
@@ -124,14 +125,14 @@ export default {
   directives: { clickOutside },
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
-    const { setTermForUrl, getFacetsFromURL, getSearchTermFromUrl} = useUiHelpers();
-    const { result, search } = useFacet();
+    const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
-    const term = ref(getFacetsFromURL().term);
+    const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
+    const result = ref(null);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -160,7 +161,6 @@ export default {
 
       term.value = '';
       isSearchOpen.value = false;
-      setTermForUrl(term.value);
     };
 
     const handleSearch = debounce(async (paramValue) => {
@@ -169,8 +169,8 @@ export default {
       } else {
         term.value = paramValue.target.value;
       }
-      setTermForUrl(term.value);
-      await search(getSearchTermFromUrl(term.value));
+      result.value = mockedSearchProducts;
+
     }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
@@ -191,6 +191,10 @@ export default {
       }
     });
 
+    const removeSearchResults = () => {
+      result.value = null;
+    };
+
     onBeforeUnmount(() => {
       unMapMobileObserver();
     });
@@ -209,7 +213,8 @@ export default {
       result,
       closeOrFocusSearchBar,
       searchBarRef,
-      isMobile
+      isMobile,
+      removeSearchResults
     };
   }
 };
