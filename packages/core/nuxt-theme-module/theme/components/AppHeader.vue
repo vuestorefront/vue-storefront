@@ -12,30 +12,8 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')">
-          <!-- <template name="desktop-navigation-item">
-            <SfLink class="sf-header-navigation-item__link" :link="link">{{
-              label
-            }}</SfLink>
-          </template> -->
-
-          <template #mobile-navigation-item>
-            <SfMenuItem label="WOMEN" class="sf-header-navigation-item__menu-item">
-              <template #mobile-nav-icon>
-                &#8203;
-              </template>
-            </SfMenuItem>
-          </template>
-        </SfHeaderNavigationItem>
-        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" >
-          <template #mobile-navigation-item>
-            <SfMenuItem label="MEN" class="sf-header-navigation-item__menu-item">
-              <template #mobile-nav-icon>
-                &#8203;
-              </template>
-            </SfMenuItem>
-          </template>
-        </SfHeaderNavigationItem>
+        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
+        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -116,7 +94,7 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, cartGetters, useFacet } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
@@ -142,7 +120,8 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    SfMenuItem
+    SfMenuItem,
+    SfLink
   },
   directives: { clickOutside },
   setup(props, { root }) {
