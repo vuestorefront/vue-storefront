@@ -55,6 +55,7 @@ export interface ProductWhereSearch extends BaseSearch {
   skus?: string[];
   slug?: string;
   id?: string;
+  key?: string;
   filters?: Filter[];
 }
 
