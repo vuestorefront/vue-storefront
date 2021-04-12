@@ -67,6 +67,7 @@ export interface FilterOption {
 
 export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
+  key?: string;
   slug?: string;
 }
 

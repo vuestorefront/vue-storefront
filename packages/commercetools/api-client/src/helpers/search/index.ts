@@ -88,6 +88,10 @@ const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
     return `slug(${predicate})`;
   }
 
+  if (search?.key) {
+    return `key="${search.key}"`;
+  }
+
   return undefined;
 };
 
