@@ -139,7 +139,7 @@ Remember to configure both modules. Check readme of [the repository](https://git
 
 `afterPay` is called just after payment is authorized and order placed. There you can make actions like redirecting to the thank you page and clearing a cart.
 ```js
-const afterPayAndOrder = async (order) => {
+const afterPayAndOrder = async ({ order }) => {
   context.root.$router.push(`/checkout/thank-you?order=${order.id}`);
   setCart(null);
 };
