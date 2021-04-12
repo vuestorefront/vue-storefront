@@ -47,7 +47,9 @@ type Address = {
   externalId?: Maybe<Scalars["String"]>;
   key?: Maybe<Scalars["String"]>;
 };
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
 - `billing: Address` - a main data object that contains a billing address.
 - `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.

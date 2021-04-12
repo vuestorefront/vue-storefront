@@ -19,7 +19,9 @@ type OrderSearchParams = {
   perPage?: number;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  getMyOrders: string
+}
 ```
 
 - `orders: Order[]` -  a main data object that contains an array of orders fetched by `searchOrders` method.

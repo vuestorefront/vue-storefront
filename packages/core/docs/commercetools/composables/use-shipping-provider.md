@@ -38,7 +38,9 @@ type ShippingMethod = Versioned & {
   taxCategory?: Maybe<TaxCategory>;
 };
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
 - `state: ShippingProviderState` - a main data object that contains a shipping method
 ```ts

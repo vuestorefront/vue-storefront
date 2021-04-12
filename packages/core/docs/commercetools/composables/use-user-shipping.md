@@ -79,7 +79,7 @@ interface ShippingAddressUpdateParams {
 
     - `address: ShippingAddressSetDefaultParams`
 
-    - `customQuery?
+    - `customQuery?`
 
 ```typescript
 interface ShippingAddressSetDefaultParams {

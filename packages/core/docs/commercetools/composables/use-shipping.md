@@ -48,7 +48,9 @@ type Address = {
   key?: Maybe<Scalars["String"]>;
 };
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
 - `shipping: Address` - a main data object that contains a shipping address.
 
