@@ -53,7 +53,7 @@ const useUiHelpers = () => {
   };
 
   const getSearchTermFromUrl = () => {
-    console.warn('[VSF] please implement useUiHelpers.isFacetCheckbox.');
+    console.warn('[VSF] please implement useUiHelpers.getSearchTermFromUrl.');
   };
 
   return {
