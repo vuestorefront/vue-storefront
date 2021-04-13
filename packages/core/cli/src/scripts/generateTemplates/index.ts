@@ -4,7 +4,13 @@ import path from 'path';
 
 (async () => {
   const integrationTemplatesDirectory = path.resolve('./templates');
-  for (const integration of Object.keys(getIntegrations())) {
-    await createProject(integration, integrationTemplatesDirectory);
+  for (const [integration, repositoryLink] of Object.entries(
+    getIntegrations()
+  )) {
+    await createProject({
+      integration,
+      targetPath: integrationTemplatesDirectory,
+      repositoryLink
+    });
   }
 })();
