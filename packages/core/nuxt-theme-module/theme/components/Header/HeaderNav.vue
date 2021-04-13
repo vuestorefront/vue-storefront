@@ -57,13 +57,17 @@ export default {
   setup (_, { emit }) {
     const { categories, search } = useCategory('menu-categories');
     const currentCatSlug = ref('');
-    const categoriesWithBanners = ref(['new']);
+    const categoriesWithBanners = ref([
+      { slug: 'new' }
+    ]);
+
+    const getCurrentCat = (source, slug) => source.find(src => src.slug === slug);
 
     const handleMouseEnter = (slug) => {
       if (currentCatSlug.value) return;
 
       currentCatSlug.value = slug;
-      const { childCount } = categories.value.find(category => category.slug === currentCatSlug.value);
+      const { childCount } = getCurrentCat(categories.value, slug);
       emit('setOverlay', Boolean(childCount));
     };
 
@@ -72,7 +76,7 @@ export default {
       currentCatSlug.value = '';
     };
 
-    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
+    const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
 
     onSSR(async () => {
       await search({});

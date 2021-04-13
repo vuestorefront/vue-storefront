@@ -59,7 +59,9 @@ export default {
     const currentCatSlug = ref('');
     const activeCategory = ref(null);
     const fetchedCategories = ref({});
-    const categoriesWithBanners = ref(['new']);
+    const categoriesWithBanners = ref([
+      { slug: 'new' }
+    ]);
     const { toggleMobileMenu } = useUiState();
 
     const getSubCategories = async (slug, childCount) => {
@@ -77,9 +79,11 @@ export default {
       activeCategory.value = fetchedCategories.value[slug];
     };
 
+    const getCurrentCat = (source, slug) => source.find(src => src.slug === slug);
+
     const handleClickCategory = async slug => {
       currentCatSlug.value = slug;
-      const { childCount } = categories.value.find(category => category.slug === currentCatSlug.value);
+      const { childCount } = getCurrentCat(categories.value, slug);
 
       await getSubCategories(slug, childCount);
     };
@@ -87,13 +91,13 @@ export default {
     const handleClickSubCategory = async slug => {
       currentCatSlug.value = slug;
       if (activeCategory.value && activeCategory.value[0] && activeCategory.value[0].children) {
-        const { childCount } = activeCategory.value[0].children.find(child => child.slug === currentCatSlug.value);
+        const { childCount } = getCurrentCat(activeCategory.value[0].children, slug);
 
         await getSubCategories(slug, childCount);
       }
     };
 
-    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
+    const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
 
     onSSR(async () => {
       await search({ customQuery: { categories: 'megamenu-categories-query' } });
@@ -102,7 +106,6 @@ export default {
     return {
       categories,
       activeCategory,
-      currentCatSlug,
       handleClickCategory,
       handleClickSubCategory,
       toggleMobileMenu,

@@ -65,11 +65,15 @@ export default {
     const currentCatSlug = ref('');
     const activeSubCategory = ref(null);
     const fetchedCategories = ref({});
-    const categoriesWithBanners = ref(['new']);
+    const categoriesWithBanners = ref([
+      { slug: 'new' }
+    ]);
+
+    const getCurrentCat = (source, slug) => source.find(src => src.slug === slug);
 
     const handleMouseEnter = debounce(async slug => {
       currentCatSlug.value = slug;
-      const { childCount } = categories.value.find(category => category.slug === currentCatSlug.value);
+      const { childCount } = getCurrentCat(categories.value, slug);
       emit('setOverlay', Boolean(childCount));
 
       if (!fetchedCategories.value[slug] && Boolean(childCount)) {
@@ -79,7 +83,7 @@ export default {
           [slug]: subCategories.value
         };
       }
-      activeSubCategory.value = fetchedCategories.value[currentCatSlug.value];
+      activeSubCategory.value = fetchedCategories.value[slug];
     }, 200);
 
     const handleMouseLeave = debounce(() => {
@@ -87,7 +91,7 @@ export default {
       currentCatSlug.value = '';
     }, 200);
 
-    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
+    const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
 
     onSSR(async () => {
       await search({ customQuery: { categories: 'megamenu-categories-query' } });

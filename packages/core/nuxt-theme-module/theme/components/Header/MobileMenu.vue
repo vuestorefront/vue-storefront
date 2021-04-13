@@ -54,14 +54,16 @@ export default {
   setup () {
     const { categories, search } = useCategory('menu-categories');
     const currentCatSlug = ref('');
-    const categoriesWithBanners = ref(['new']);
+    const categoriesWithBanners = ref([
+      { slug: 'new' }
+    ]);
     const { toggleMobileMenu } = useUiState();
 
     const handleClickCategory = (slug) => {
       currentCatSlug.value = slug;
     };
 
-    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category === currentCatSlug.value));
+    const hasBanners = computed(() => categoriesWithBanners.value.find(category => category.slug === currentCatSlug.value));
 
     onSSR(async () => {
       await search({});
