@@ -12,6 +12,7 @@
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "generate-template": "ts-node generate-template.ts",
     "test": "jest"
   },
   "dependencies": {
@@ -30,8 +31,10 @@
   },
   "devDependencies": {
     "@nuxt/types": "^0.7.9",
+    "@vue-storefront/theme-utilities": "^0.1.2",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
+    "execa": "^5.0.0",
     "jest": "^24.1.0",
     "vue-jest": "^4.0.0-0"
   }
