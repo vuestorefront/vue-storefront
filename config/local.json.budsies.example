@@ -116,7 +116,7 @@
     "destPath": "static"
   },
   "seo": {
-    "useUrlDispatcher": true,
+    "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true,
     "defaultTitle": "Vue Storefront"
   },
