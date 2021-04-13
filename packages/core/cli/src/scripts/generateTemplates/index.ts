@@ -3,7 +3,8 @@ import createProject from '../createProject';
 import path from 'path';
 
 (async () => {
-  for (const integration of getIntegrations()) {
-    await createProject(integration, path.resolve('./templates', integration));
+  const integrationTemplatesDirectory = path.resolve('./templates');
+  for (const integration of Object.keys(getIntegrations())) {
+    await createProject(integration, integrationTemplatesDirectory);
   }
 })();
