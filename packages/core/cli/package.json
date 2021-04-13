@@ -14,13 +14,12 @@
     "prepublish": "yarn build; yarn generate:templates"
   },
   "dependencies": {
-    "inquirer": "^7.3.3",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
-    "@vue-storefront/nuxt-theme": "^2.3.0-rc.3"
+    "inquirer": "^7.3.3"
   },
   "devDependencies": {
-    "@vue-storefront/commercetools-theme": "^1.2.0-rc.3"
+    "shelljs": "^0.8.4"
   },
   "author": "Filip Jędrasik",
   "license": "MIT"
