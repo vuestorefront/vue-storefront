@@ -6,15 +6,17 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <div class="form">
-      <div v-if="error.loadMethods">
-        {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
-      </div>
-      <div v-else-if="errorShippingProvider.save">
-        {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
-      </div>
-      <div v-else-if="!shippingMethods.length">
-        {{ $t('There are no shipping methods available for this country. We are sorry, please try with different country or later.') }}
-      </div>
+      <SfLoader :loading="loading">
+        <div v-if="error.loadMethods">
+          {{ $t('There was some error while trying to fetch shipping methods. We are sorry, please try with different shipping details or later.') }}
+        </div>
+        <div v-else-if="errorShippingProvider.save">
+          {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
+        </div>
+        <div v-else-if="!shippingMethods.length">
+          {{ $t('There are no shipping methods available for this country. We are sorry, please try with different country or later.') }}
+        </div>
+      </SfLoader>
       <div class="form__radio-group">
           <SfRadio
             v-for="method in shippingMethods"
@@ -61,7 +63,8 @@ import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/comme
 import {
   SfHeading,
   SfButton,
-  SfRadio
+  SfRadio,
+  SfLoader
 } from '@storefront-ui/vue';
 import { ref, reactive, onMounted, computed } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
@@ -72,7 +75,8 @@ export default {
   components: {
     SfHeading,
     SfButton,
-    SfRadio
+    SfRadio,
+    SfLoader
   },
   props: {
     beforeLoad: {
