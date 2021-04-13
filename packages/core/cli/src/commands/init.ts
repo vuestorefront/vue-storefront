@@ -22,16 +22,19 @@ export default async (args) => {
     projectName = typedProjectName;
   }
 
-  const integrations = getIntegrations();
-  const { chosenIntegration } = await inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'chosenIntegration',
-        message: 'Choose integration',
-        choices: integrations
-      }
-    ]);
+  const integrations = Object.keys(getIntegrations());
+  const { chosenIntegration } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'chosenIntegration',
+      message: 'Choose integration',
+      choices: integrations
+    }
+  ]);
 
-  return copyProject(chosenIntegration, path.resolve(process.cwd(), projectName), projectName);
+  return copyProject(
+    chosenIntegration,
+    path.resolve(process.cwd(), projectName),
+    projectName
+  );
 };
