@@ -10,13 +10,13 @@ async function copyFile(fileDir, outDir) {
   return fs.writeFileSync(outDir, data);
 }
 
-function copyThemeFile(themePath) {
-  return copyFile(themePath, themePath.replace(path.sep + 'theme' + path.sep, path.sep + 'theme' + path.sep + '_theme' + path.sep));
+function copyThemeFile(themePath, themeFolderName) {
+  return copyFile(themePath, themePath.replace(path.sep + themeFolderName + path.sep, path.sep + themeFolderName + path.sep + '_theme' + path.sep));
 }
 
-function copyThemeFiles(filesDir) {
+function copyThemeFiles(filesDir, themeFolderName) {
   return Promise.all(getAllFilesFromDir(filesDir).map(
-    file => copyThemeFile(file)
+    file => copyThemeFile(file, themeFolderName)
   ));
 }
 
