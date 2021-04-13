@@ -1,20 +1,25 @@
 import path from 'path';
+const shell = require('shelljs');
 import log from '../../utils/log';
-import copyIntegrationTheme from './copyIntegrationTheme';
-import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
+import getIntegrations from '../../utils/getIntegrations';
 
-async function createProject(integration: string, targetPath: string): Promise<void> {
-  log.info(`Coppying agnostic theme to ${targetPath}`);
-  await copyAgnosticTheme(integration, targetPath);
-
-  log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
+async function createProject(
+  integration: string,
+  targetPath: string
+): Promise<void> {
+  const templatePath = `${targetPath}/${integration}`;
+  shell.rm('-rf', templatePath);
+  shell.mkdir('-p', targetPath);
+  shell.cd(targetPath);
+  await shell.exec(
+    `git clone ${getIntegrations()[integration]} ${integration}`
+  );
 
   log.info('Updating Nuxt config');
-  const absoluteTargetPath = path.isAbsolute(targetPath)
-    ? targetPath
-    : path.join(__dirname, targetPath);
+  const absoluteTargetPath = path.isAbsolute(templatePath)
+    ? templatePath
+    : path.join(__dirname, templatePath);
   const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
   await processMagicComments(nuxtConfigPath);
 }
