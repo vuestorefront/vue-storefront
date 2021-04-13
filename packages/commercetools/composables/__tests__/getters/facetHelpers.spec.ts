@@ -14,44 +14,42 @@ describe('[commercetools-getters] facet getters', () => {
   it('returns sorting options', () => {
     expect(facetGetters.getSortOptions({ input: { sort: null } } as any)).toEqual({
       options: [
-        { type: 'sort', id: 'latest', selected: false, value: 'Latest', count: null },
         {
           type: 'sort',
-          id: 'price-up',
+          id: 'masterData.current.name.en asc',
           selected: false,
-          value: 'Price from low to high',
+          value: 'Name from A to Z',
           count: null
         },
         {
           type: 'sort',
-          id: 'price-down',
+          id: 'masterData.current.name.en desc',
           selected: false,
-          value: 'Price from high to low',
+          value: 'Name from Z to A',
           count: null
         }
       ],
-      selected: 'latest'
+      selected: 'masterData.current.name.en asc'
     });
 
-    expect(facetGetters.getSortOptions({ input: { sort: 'latest' } } as any)).toEqual({
+    expect(facetGetters.getSortOptions({ input: { sort: 'masterData.current.name.en asc' } } as any)).toEqual({
       options: [
-        { type: 'sort', id: 'latest', selected: true, value: 'Latest', count: null },
         {
           type: 'sort',
-          id: 'price-up',
-          selected: false,
-          value: 'Price from low to high',
+          id: 'masterData.current.name.en asc',
+          selected: true,
+          value: 'Name from A to Z',
           count: null
         },
         {
           type: 'sort',
-          id: 'price-down',
+          id: 'masterData.current.name.en desc',
           selected: false,
-          value: 'Price from high to low',
+          value: 'Name from Z to A',
           count: null
         }
       ],
-      selected: 'latest'
+      selected: 'masterData.current.name.en asc'
     });
   });
 
