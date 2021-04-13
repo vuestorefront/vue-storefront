@@ -61,7 +61,13 @@ type Cart = {
 
 - `load` - function required to fetch cart from a server or create brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
 
-    - `customQuery?: any`
+    - `customQuery?: customQuery`
+  
+```ts
+type CustomQuery = {
+  getBasicProfile: string
+}
+```
   
 - `addItem` - function for adding products to the cart. This method accepts a single `params` object. The `params` has the following options:
 

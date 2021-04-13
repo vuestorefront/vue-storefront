@@ -12,6 +12,12 @@
 - `load` - function for fetching shipping address. When invoked, it requests data from the API and populates `shipping` property. This method accepts a single optional `params` object. The `params` has the following option:
 
     - `customQuery?: CustomQuery`
+  
+```ts
+type CustomQuery = {
+  getBasicProfile: string
+}
+```
 
 - `save` - function for saving shipping address. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
