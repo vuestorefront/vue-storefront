@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors } from '../types';
+import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors, CustomQuery } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
@@ -8,19 +8,19 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
-    }) => Promise<USER_BILLING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_BILLING>;
   deleteAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
-    }) => Promise<USER_BILLING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_BILLING>;
   updateAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
-    }) => Promise<USER_BILLING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_BILLING>;
   load: (
     context: Context,
     params: {
@@ -31,7 +31,7 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
-    }) => Promise<USER_BILLING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_BILLING>;
 }
 
 export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(

@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors } from '../types';
+import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors, CustomQuery } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
@@ -8,19 +8,19 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
-    }) => Promise<USER_SHIPPING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_SHIPPING>;
   deleteAddress: (
     context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
-    }) => Promise<USER_SHIPPING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_SHIPPING>;
   updateAddress: (
     context: Context,
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
-    }) => Promise<USER_SHIPPING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_SHIPPING>;
   load: (
     context: Context,
     params: {
@@ -31,7 +31,7 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     params: {
       address: Readonly<USER_SHIPPING_ITEM>;
       shipping: Readonly<USER_SHIPPING>;
-    }) => Promise<USER_SHIPPING>;
+    } & { customQuery?: CustomQuery }) => Promise<USER_SHIPPING>;
 }
 
 export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
