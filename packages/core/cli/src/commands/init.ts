@@ -71,6 +71,7 @@ export default async (args) => {
       name: 'otherIntegrationGitLink',
       message: 'Provide integration repository git link via https:',
       validate(value) {
+        /* eslint-disable-next-line no-useless-escape*/
         const gitLinkRegex = /https?:(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/;
         if (value.trim().length === 0 || !gitLinkRegex.test(value)) {
           return 'Please provide git repository https link';
