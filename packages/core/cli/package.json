@@ -9,9 +9,8 @@
   "scripts": {
     "test": "cross-env APP_ENV=test jest --rootDir .",
     "build": "rm -rf ./lib; tsc",
-    "generate:templates": "ts-node ./src/scripts/generateTemplates/index.ts",
     "cli": "ts-node ./src/index.ts",
-    "prepublish": "yarn build; yarn generate:templates"
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "chokidar": "^3.3.1",
@@ -19,6 +18,8 @@
     "inquirer": "^7.3.3"
   },
   "devDependencies": {
+    "@vue-storefront/theme-utilities": "^0.1.2",
+    "execa": "^5.0.0",
     "shelljs": "^0.8.4"
   },
   "author": "Filip Jędrasik",
