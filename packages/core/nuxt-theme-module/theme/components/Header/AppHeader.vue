@@ -5,7 +5,7 @@
       data-cy="app-header"
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
-      :isNavVisible="isMobile && isMobileMenuOpen"
+      :isNavVisible="true"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
@@ -14,7 +14,10 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <HeaderNav @setOverlay="isOverlayVisible = $event" />
+        <HeaderNav
+          @setOverlay="isOverlayVisible = $event"
+          :isMobile="isMobile"
+        />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -91,12 +94,6 @@
     </SfHeader>
     <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
     <SfOverlay :visible="isSearchOpen" />
-<!--    <transition name="mobile-menu-fade" mode="out-in">-->
-<!--      <MobileMenu-->
-<!--        v-if="isMobile && isMobileMenuOpen"-->
-<!--        class="mobile-menu"-->
-<!--      />-->
-<!--    </transition>-->
   </div>
 </template>
 
@@ -109,7 +106,6 @@ import { onSSR } from '@vue-storefront/core';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNav from './HeaderNav';
-import MobileMenu from './MobileMenu';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
   mapMobileObserver,
@@ -129,8 +125,7 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    HeaderNav,
-    MobileMenu
+    HeaderNav
   },
   directives: { clickOutside },
   setup(props, { root }) {

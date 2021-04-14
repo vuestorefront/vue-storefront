@@ -1,5 +1,5 @@
 <template>
-  <SfHeaderNavigation v-if="!isMobileMenuOpen">
+  <SfHeaderNavigation v-if="!isMobile">
     <SfHeaderNavigationItem
       v-for="category in categories"
       :key="category.id"
@@ -22,7 +22,7 @@
           :title="subCategory.name"
         >
           <SfLoader :loading="subCategoriesLoading">
-            <SfList>
+            <SfList v-if="!subCategoriesLoading">
               <SfListItem
                 v-for="subCategoryChild in subCategory.children"
                 :key="subCategoryChild.id"
@@ -41,7 +41,7 @@
     </SfHeaderNavigationItem>
   </SfHeaderNavigation>
   <SfMegaMenu
-    v-else
+    v-else-if="isMobile && isMobileMenuOpen"
     visible
     @close="toggleMobileMenu"
     class="mobile-menu"
@@ -59,7 +59,7 @@
         />
       </template>
       <SfLoader :loading="subCategoriesLoading">
-        <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+        <SfList v-if="!subCategoriesLoading && activeCategory && activeCategory[0] && activeCategory[0].children">
           <SfListItem
             v-for="subCategory in activeCategory[0].children"
             :key="subCategory.id"
@@ -97,6 +97,12 @@ export default {
     SfBanner,
     SfLoader,
     NewCatBanners: () => import('./NewCatBanners')
+  },
+  props: {
+    isMobile: {
+      type: Boolean,
+      default: false
+    }
   },
   setup (_, { emit, root }) {
     const { categories, search } = useCategory('menu-categories');
@@ -194,16 +200,5 @@ export default {
   z-index: 1;
   width: 100%;
   --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
-  &-fade {
-    &-enter-active,
-    &-leave-active {
-      transition: opacity .25s linear;
-    }
-    &-enter,
-    &-leave,
-    &-leave-to {
-      opacity: 0;
-    }
-  }
 }
 </style>
