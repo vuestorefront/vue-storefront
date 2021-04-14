@@ -1,22 +1,23 @@
 /* istanbul ignore file */
 
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
+import { CommentType } from '../types';
 
 // TODO: Replace with GraphQL types when they get updated
-type Review = any;
-type ReviewItem = any;
+type Review = CommentType[];
+type ReviewItem = CommentType;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (review: Review): ReviewItem[] => [];
+export const getItems = (review: Review): ReviewItem[] => review;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewId = (item: ReviewItem): string => '';
+export const getReviewId = (item: ReviewItem): string => String(item.postId);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewAuthor = (item: ReviewItem): string => '';
+export const getReviewAuthor = (item: ReviewItem): string => item.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewMessage = (item: ReviewItem): string => '';
+export const getReviewMessage = (item: ReviewItem): string => item.body;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewRating = (item: ReviewItem): number => 0;
@@ -25,7 +26,7 @@ export const getReviewRating = (item: ReviewItem): number => 0;
 export const getReviewDate = (item: ReviewItem): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getTotalReviews = (review: Review): number => 0;
+export const getTotalReviews = (review: Review): number => review.length;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAverageRating = (review: Review): number => 0;
