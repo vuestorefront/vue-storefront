@@ -294,16 +294,14 @@ export default {
 ### SDK allows externalizing pay method
 
 If the payment provider's SDK handles the process of configuring payment but allows you to decide when to finalize then:
-- VsfPaymentProvider emits `status` event. Use this information to enable/disable a `Place order` button.
 - Composable shares a `pay` method.
+- Composable shares a `status` boolean ref that informs if you are ready to call `pay`.
 
 ```vue
 <template>
   <div>
-    <VsfPaymentProvider
-      @status="readyToPay = $event"
-    />
-    <button @click="makeOrder" :disabled="!readyToPay">
+    <VsfPaymentProvider />
+    <button @click="makeOrder" :disabled="!status">
       {{ $t('Order and Pay') }}
     </button>
   </div>
@@ -317,9 +315,8 @@ import { useMakeOrder } from '{INTEGRATION}';
 export default {
   // ...
   setup () {
-    const readyToPay = ref(false);
     const { make } = useMakeOrder();
-    const { pay } = usePaymentProvider();
+    const { pay, status } = usePaymentProvider();
 
     const makeOrder = () => {
       await make();
@@ -328,7 +325,7 @@ export default {
 
     return {
       makeOrder,
-      readyToPay
+      status
     };
   }
 }
