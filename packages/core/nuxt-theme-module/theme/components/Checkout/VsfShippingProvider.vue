@@ -5,6 +5,7 @@
     </p>
 
     <SfRadio
+      v-e2e="'shipping-method'"
       v-for="method in shippingMethods"
       :key="method.value"
       :label="method.label"
@@ -25,6 +26,7 @@
     </SfRadio>
 
     <SfButton
+      v-e2e="'continue-to-billing'"
       :disabled="!selectedMethod"
       type="button"
       @click="$emit('submit')"

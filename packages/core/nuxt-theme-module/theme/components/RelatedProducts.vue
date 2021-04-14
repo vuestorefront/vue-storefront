@@ -2,7 +2,6 @@
   <SfSection :title-heading="title" class="section">
     <SfLoader :class="{ loading }" :loading="loading">
       <SfCarousel
-        data-cy="related-products-carousel"
         :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }"
         class="carousel"
       >

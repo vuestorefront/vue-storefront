@@ -8,7 +8,10 @@
     "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "cypress open --config-file tests/e2e/cypress.json",
+    "test:e2e:hl": "cypress run --headless --config-file tests/e2e/cypress.json",
+    "test:e2e:generate:report": "yarn -s mochawesome-merge \"tests/e2e/report/*.json\" > \"tests/e2e/report.json\" && yarn -s marge tests/e2e/report.json -o \"tests/e2e/report\""
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.10.3",
