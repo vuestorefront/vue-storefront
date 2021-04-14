@@ -20,8 +20,8 @@ Commercetools configuration is located in two places:
 
 - `useNuxtI18nConfig` - when enabled, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. Otherwise, the `i18n` config should be passed directly to this package configuration. You can read more about it on [Internationalization](../advanced/internationalization.md) page. There are things specific to commercetools, which you can read more about below.
 
-### Adding states for the country
-In commercetools, each state must have a specified tax rule. In order to add a new state, add `states` field in the desired country inside `i18n.countries` in `nuxt.config.js`:
+### Adding available states to the country in Checkout and MyAccount
+In order to add a new state, add `states` field in the desired country inside `i18n.countries` in `nuxt.config.js`:
 ```js
 i18n: {
   countries: [
@@ -36,15 +36,40 @@ i18n: {
   ]
 }
 ```
-Then in commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxes* and click **Add rate** button for new states:
+::: warning Each state requires the tax rules
+A state without tax rules cannot work properly. Make sure to add the tax rules for each state in the commercetools.
+:::
+
+:::details How to add tax rules to the state?
+In commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxes* and click **Add rate** button to add tax rates for new states:
 
 ![settings taxes for states](./../images/ct-taxes.png)
+:::
 
 If you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
 
 ![comercetools states on my account](./../images/ct-states-myaccount.png)
 
 ![comercetools states on the checkout](./../images/ct-states-checkout.png)
+
+#### How to access states?
+
+You can access `states` by using `useVSFContext`:
+```js
+import { useVSFContext } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const { $ct: { config: { countries } } } = useVSFContext();
+    const { states } = countries.find(country => country.name === 'US');
+    
+    return {
+      statesInUS: states // ['California', 'Nevada']
+    }
+  }
+}
+
+```
 
 ## Middleware Commercetools configuration
 
