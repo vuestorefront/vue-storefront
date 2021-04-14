@@ -1,19 +1,21 @@
 const fs = require('fs');
 const execa = require('execa');
 
-if (!process.argv[2]) {
-  console.error('Error: No template name provided');
-  process.exit();
-}
+export default async (args) => {
 
-const outputPathName = process.argv[2].toLowerCase();
+  if (!args[0]) {
+    console.error('Error: No output folder provided');
+    process.exit(1);
+  }
 
-const vsfTuConfig = `module.exports = {
+  const outputPathName = args[0].toLowerCase();
+
+  const vsfTuConfig = `module.exports = {
   copy: {
-    to: '../template-${outputPathName}',
+    to: '${outputPathName}',
     from: [
       {
-        path: '../../../node_modules/@vue-storefront/nuxt-theme/theme',
+        path: '@vue-storefront/nuxt-theme/theme',
         ignore: [],
         variables: {
           options: {
@@ -28,7 +30,7 @@ const vsfTuConfig = `module.exports = {
         watch: false
       },
       {
-        path: '.',
+        path: '${args[1] || '.'}',
         ignore: ['_theme/**', 'generate-template.ts'],
         variables: {},
         watch: false
@@ -37,14 +39,16 @@ const vsfTuConfig = `module.exports = {
   }
 }`;
 
-fs.appendFile('theme-utils.config.js', vsfTuConfig, async (err) => {
-  if (err) throw err;
+  fs.appendFile('theme-utils.config.js', vsfTuConfig, async (err) => {
+    if (err) throw err;
 
-  try {
-    await execa('vsf-tu');
-    fs.unlinkSync('theme-utils.config.js');
-  } catch (error) {
-    console.error(error);
-    process.exit();
-  }
-});
+    try {
+      await execa('vsf-tu');
+      fs.unlinkSync('theme-utils.config.js');
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+  });
+
+};
