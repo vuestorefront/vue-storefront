@@ -1,5 +1,5 @@
 <template>
-  <SfHeaderNavigation v-if="!isMobileMenuOpen">
+  <SfHeaderNavigation v-if="!isMobile">
     <SfHeaderNavigationItem
       v-for="category in categories"
       :key="category.name"
@@ -39,7 +39,7 @@
     </SfHeaderNavigationItem>
   </SfHeaderNavigation>
   <SfMegaMenu
-    v-else
+    v-else-if="isMobile && isMobileMenuOpen"
     visible
     @close="toggleMobileMenu"
     class="mobile-menu"
@@ -91,6 +91,12 @@ export default {
     SfMenuItem,
     SfList,
     NewCatBanners: () => import('./NewCatBanners')
+  },
+  props: {
+    isMobile: {
+      type: Boolean,
+      default: false
+    }
   },
   setup (_, { emit }) {
     const { categories, search } = useCategory('menu-categories');
