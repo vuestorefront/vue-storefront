@@ -4,10 +4,14 @@ import copyProject from '../scripts/copyProject';
 import path from 'path';
 import createProject from '../scripts/createProject';
 
-const CUSTOM_TEMPLATE = 'custom integration template';
-
 export default async (args) => {
+  const CUSTOM_TEMPLATE = 'custom integration template';
+  const cwd = process.cwd();
+  const integrationTemplatesDirectory = path.resolve('./templates');
+  const integrations = getIntegrations();
+  const integrationsNames = Object.keys(integrations);
   let projectName = args[0];
+
   if (!projectName) {
     const { typedProjectName } = await inquirer.prompt([
       {
@@ -25,20 +29,24 @@ export default async (args) => {
     projectName = typedProjectName;
   }
 
-  const integrations = Object.keys(getIntegrations());
   const { chosenIntegration } = await inquirer.prompt([
     {
       type: 'list',
       name: 'chosenIntegration',
       message: 'Choose integration',
-      choices: [...integrations, CUSTOM_TEMPLATE]
+      choices: [...integrationsNames, CUSTOM_TEMPLATE]
     }
   ]);
 
   if (chosenIntegration !== CUSTOM_TEMPLATE) {
+    await createProject({
+      integration: chosenIntegration,
+      targetPath: integrationTemplatesDirectory,
+      repositoryLink: integrations[chosenIntegration]
+    });
     return copyProject(
       chosenIntegration,
-      path.resolve(process.cwd(), projectName),
+      path.resolve(cwd, projectName),
       projectName
     );
   }
@@ -71,8 +79,7 @@ export default async (args) => {
       }
     }
   ]);
-  const cwd = process.cwd();
-  const integrationTemplatesDirectory = path.resolve('./templates');
+
   await createProject({
     integration: otherIntegrationName,
     targetPath: integrationTemplatesDirectory,
