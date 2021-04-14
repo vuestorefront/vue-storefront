@@ -35,7 +35,7 @@ async function createProject({
     await processMagicComments(nuxtConfigPath);
   } catch (error) {
     log.error('No nuxt.config.js has been found in integration template');
-    process.exit();
+    process.exit(1);
   }
 
 }
