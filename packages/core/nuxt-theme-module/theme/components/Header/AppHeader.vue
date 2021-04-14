@@ -5,6 +5,7 @@
       data-cy="app-header"
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
+      :isNavVisible="isMobile && isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
@@ -13,10 +14,7 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <HeaderNav
-          v-if="!isMobile"
-          @setOverlay="isOverlayVisible = $event"
-        />
+        <HeaderNav @setOverlay="isOverlayVisible = $event" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -93,12 +91,12 @@
     </SfHeader>
     <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
     <SfOverlay :visible="isSearchOpen" />
-    <transition name="mobile-menu-fade" mode="out-in">
-      <MobileMenu
-        v-if="isMobile && isMobileMenuOpen"
-        class="mobile-menu"
-      />
-    </transition>
+<!--    <transition name="mobile-menu-fade" mode="out-in">-->
+<!--      <MobileMenu-->
+<!--        v-if="isMobile && isMobileMenuOpen"-->
+<!--        class="mobile-menu"-->
+<!--      />-->
+<!--    </transition>-->
   </div>
 </template>
 
@@ -256,24 +254,5 @@ export default {
   position: absolute;
   bottom: 40%;
   left: 40%;
-}
-.mobile-menu {
-  position: absolute;
-  overflow-y: auto;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
-  &-fade {
-    &-enter-active,
-    &-leave-active {
-      transition: opacity 0.25s linear;
-    }
-    &-enter,
-    &-leave,
-    &-leave-to {
-      opacity: 0;
-    }
-  }
 }
 </style>

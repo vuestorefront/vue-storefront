@@ -1,5 +1,5 @@
 <template>
-  <SfHeaderNavigation>
+  <SfHeaderNavigation v-if="!isMobileMenuOpen">
     <SfHeaderNavigationItem
       v-for="category in categories"
       :key="category.id"
@@ -14,10 +14,10 @@
         :visible="currentCatSlug === category.slug"
         :title="category.name"
         @close="currentCatSlug = ''"
-        v-if="activeSubCategory && activeSubCategory[0] && activeSubCategory[0].children"
+        v-if="activeCategory && activeCategory[0] && activeCategory[0].children"
       >
         <SfMegaMenuColumn
-          v-for="subCategory in activeSubCategory[0].children"
+          v-for="subCategory in activeCategory[0].children"
           :key="subCategory.id"
           :title="subCategory.name"
         >
@@ -40,11 +40,50 @@
       </SfMegaMenu>
     </SfHeaderNavigationItem>
   </SfHeaderNavigation>
+  <SfMegaMenu
+    v-else
+    visible
+    @close="toggleMobileMenu"
+    class="mobile-menu"
+  >
+    <SfMegaMenuColumn
+      v-for="category in categories"
+      :key="category.id"
+      :title="category.name"
+    >
+      <template #title="{ title, changeActive }">
+        <SfMenuItem
+          :label="title"
+          class="sf-mega-menu-column__header"
+          @click="changeActive(title); handleClickCategoryLvl(category.slug, 1)"
+        />
+      </template>
+      <SfLoader :loading="subCategoriesLoading">
+        <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+          <SfListItem
+            v-for="subCategory in activeCategory[0].children"
+            :key="subCategory.id"
+          >
+            <SfMenuItem
+              :label="subCategory.name"
+              @click.native="handleClickCategoryLvl(subCategory.slug, 2)"
+            >
+              <SfLink>
+                {{ subCategory.name }}
+              </SfLink>
+            </SfMenuItem>
+          </SfListItem>
+        </SfList>
+      </SfLoader>
+      <NewCatBanners v-if="!subCategoriesLoading && hasBanners" />
+    </SfMegaMenuColumn>
+  </SfMegaMenu>
 </template>
 
 <script>
 import { SfMegaMenu, SfMenuItem, SfList, SfBanner, SfLoader } from '@storefront-ui/vue';
 import { useCategory } from '@vue-storefront/commercetools';
+import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
@@ -59,37 +98,64 @@ export default {
     SfLoader,
     NewCatBanners: () => import('./NewCatBanners')
   },
-  setup (_, { emit }) {
+  setup (_, { emit, root }) {
     const { categories, search } = useCategory('menu-categories');
     const { categories: subCategories, search: subCategoriesSearch, loading: subCategoriesLoading } = useCategory('menu-subCategories');
+    const { toggleMobileMenu, isMobileMenuOpen } = useUiState();
     const currentCatSlug = ref('');
-    const activeSubCategory = ref(null);
-    const fetchedCategories = ref({});
+    const activeCategory = ref(null);
+    const fetchedSubCategories = ref({});
     const categoriesWithBanners = ref([
       { slug: 'new' }
     ]);
 
     const getCurrentCat = (source, slug) => source.find(src => src.slug === slug);
 
+    const fetchSubCategories = async slug => {
+      await subCategoriesSearch({ slug });
+      fetchedSubCategories.value = {
+        ...fetchedSubCategories.value,
+        [slug]: subCategories.value
+      };
+    };
+
     const handleMouseEnter = debounce(async slug => {
       currentCatSlug.value = slug;
       const { childCount } = getCurrentCat(categories.value, slug);
       emit('setOverlay', Boolean(childCount));
 
-      if (!fetchedCategories.value[slug] && Boolean(childCount)) {
-        await subCategoriesSearch({ slug });
-        fetchedCategories.value = {
-          ...fetchedCategories.value,
-          [slug]: subCategories.value
-        };
+      if (!fetchedSubCategories.value[slug] && Boolean(childCount)) {
+        await fetchSubCategories(slug);
       }
-      activeSubCategory.value = fetchedCategories.value[slug];
+      activeCategory.value = fetchedSubCategories.value[slug];
     }, 200);
 
     const handleMouseLeave = debounce(() => {
       emit('setOverlay', false);
       currentCatSlug.value = '';
     }, 200);
+
+    const getSubCategories = async (slug, childCount) => {
+      if (!childCount) {
+        root.$router.push(`/c/${slug}`);
+        toggleMobileMenu();
+      }
+      if (!fetchedSubCategories.value[slug]) {
+        await fetchSubCategories(slug);
+      }
+      activeCategory.value = fetchedSubCategories.value[slug];
+    };
+
+    const handleClickCategoryLvl = async (slug, lvl) => {
+      currentCatSlug.value = slug;
+      let childCount;
+      const hasChildren = activeCategory.value && activeCategory.value[0] && activeCategory.value[0].children;
+
+      if (lvl === 1) childCount = getCurrentCat(categories.value, slug).childCount;
+      else if (lvl === 2 && hasChildren) childCount = getCurrentCat(activeCategory.value[0].children, slug).childCount;
+
+      await getSubCategories(slug, childCount);
+    };
 
     const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
 
@@ -99,13 +165,16 @@ export default {
 
     return {
       categories,
-      activeSubCategory,
+      activeCategory,
       subCategories,
       currentCatSlug,
       subCategoriesLoading,
       handleMouseEnter,
       handleMouseLeave,
-      hasBanners
+      handleClickCategoryLvl,
+      hasBanners,
+      toggleMobileMenu,
+      isMobileMenuOpen
     };
   }
 };
@@ -116,6 +185,25 @@ export default {
   display: flex;
   @include for-desktop {
     display:  none;
+  }
+}
+.sf-mega-menu.mobile-menu {
+  position: absolute;
+  overflow-y: auto;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
+  &-fade {
+    &-enter-active,
+    &-leave-active {
+      transition: opacity .25s linear;
+    }
+    &-enter,
+    &-leave,
+    &-leave-to {
+      opacity: 0;
+    }
   }
 }
 </style>
