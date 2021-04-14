@@ -1,12 +1,14 @@
 import {
   Context,
+  CustomQuery,
   useCategoryFactory,
-  UseCategoryFactoryParams
+  UseCategoryFactoryParams,
+  CategorySearchParams
 } from '@vue-storefront/core';
 import { Category } from '../types';
 
-const params: UseCategoryFactoryParams<Category, any> = {
-  categorySearch: async (context: Context, params) => {
+const params: UseCategoryFactoryParams<Category, CategorySearchParams> = {
+  categorySearch: async (context: Context, params: CategorySearchParams & { customQuery?: CustomQuery }) => {
     console.log('Mocked: categorySearch');
     const { customQuery, ...searchParams } = params;
 
@@ -14,4 +16,4 @@ const params: UseCategoryFactoryParams<Category, any> = {
   }
 };
 
-export default useCategoryFactory<Category, any>(params);
+export default useCategoryFactory<Category, CategorySearchParams>(params);

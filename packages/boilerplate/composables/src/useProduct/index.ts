@@ -2,12 +2,13 @@ import {
   Context,
   useProductFactory,
   ProductsSearchParams,
-  UseProductFactoryParams
+  UseProductFactoryParams,
+  CustomQuery
 } from '@vue-storefront/core';
 import { ProductsResponse } from '../types';
 
-const params: UseProductFactoryParams<ProductsResponse, any> = {
-  productsSearch: async (context: Context, params: ProductsSearchParams): Promise<ProductsResponse> => {
+const params: UseProductFactoryParams<ProductsResponse, ProductsSearchParams> = {
+  productsSearch: async (context: Context, params: ProductsSearchParams & { customQuery?: CustomQuery }): Promise<ProductsResponse> => {
     console.log('Mocked: productsSearch');
     const { customQuery, ...searchParams } = params;
 
@@ -15,4 +16,4 @@ const params: UseProductFactoryParams<ProductsResponse, any> = {
   }
 };
 
-export default useProductFactory<ProductsResponse, any>(params);
+export default useProductFactory<ProductsResponse, ProductsSearchParams>(params);

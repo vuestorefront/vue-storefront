@@ -1,7 +1,7 @@
 import { Order } from '../types';
-import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
+import { UseMakeOrder, useMakeOrderFactory, Context, UseMakeOrderFactoryParams } from '@vue-storefront/core';
 
-const factoryParams = {
+const factoryParams: UseMakeOrderFactoryParams<Order> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   make: async (context: Context, { customQuery }): Promise<Order> => {
     console.log('Mocked: makeOrder');
