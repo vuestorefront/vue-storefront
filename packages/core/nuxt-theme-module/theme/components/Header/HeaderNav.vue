@@ -1,80 +1,84 @@
 <template>
-  <SfHeaderNavigation v-if="!isMobile">
-    <SfHeaderNavigationItem
-      v-for="category in categories"
-      :key="category.name"
-      :label="category.name"
-      @mouseenter="() => handleMouseEnter(category.slug)"
-      @mouseleave="() => handleMouseLeave()"
-      @click="handleMouseLeave()"
-      :link="localePath(`/c/${category.slug}`)"
-    >
+  <div>
+    <SfHeaderNavigation v-if="!isMobile">
+      <SfHeaderNavigationItem
+        v-for="category in categories"
+        :key="category.name"
+        :label="category.name"
+        @mouseenter="() => handleMouseEnter(category.slug)"
+        @mouseleave="() => handleMouseLeave()"
+        @click="handleMouseLeave()"
+        :link="localePath(`/c/${category.slug}`)"
+      >
+        <SfMegaMenu
+          is-absolute
+          :visible="currentCatSlug === category.slug"
+          :title="category.name"
+          @close="currentCatSlug = ''"
+          v-if="category && category.children && category.children.length"
+        >
+          <SfMegaMenuColumn
+            v-for="subCategory in category.children"
+            :key="subCategory.id"
+            :title="subCategory.name"
+          >
+            <SfList>
+              <SfListItem
+                v-for="subCategoryChild in subCategory.children"
+                :key="subCategoryChild.name"
+              >
+                <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
+                  <SfLink>
+                    {{ subCategoryChild.name }}
+                  </SfLink>
+                </SfMenuItem>
+              </SfListItem>
+            </SfList>
+          </SfMegaMenuColumn>
+          <NewCatBanners v-if="hasBanners" />
+        </SfMegaMenu>
+      </SfHeaderNavigationItem>
+    </SfHeaderNavigation>
+    <transition name="sf-fade" mode="out-in">
       <SfMegaMenu
-        is-absolute
-        :visible="currentCatSlug === category.slug"
-        :title="category.name"
-        @close="currentCatSlug = ''"
-        v-if="category && category.children && category.children.length"
+        v-if="isMobile && isMobileMenuOpen"
+        visible
+        @close="toggleMobileMenu"
+        class="mobile-menu"
       >
         <SfMegaMenuColumn
-          v-for="subCategory in category.children"
-          :key="subCategory.id"
-          :title="subCategory.name"
+          v-for="category in categories"
+          :key="category.name"
+          :title="category.name"
         >
+          <template #title="{ title, changeActive }">
+            <SfMenuItem
+              :label="title"
+              class="sf-mega-menu-column__header"
+              @click="changeActive(title); handleClickCategory(category.slug)"
+            />
+          </template>
           <SfList>
             <SfListItem
-              v-for="subCategoryChild in subCategory.children"
+              v-for="subCategoryChild in category.children"
               :key="subCategoryChild.name"
             >
-              <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
+              <SfMenuItem
+                :label="subCategoryChild.name"
+                :link="localePath(`/c/${subCategoryChild.slug}`)"
+                @click.native="toggleMobileMenu()"
+              >
                 <SfLink>
                   {{ subCategoryChild.name }}
                 </SfLink>
               </SfMenuItem>
             </SfListItem>
           </SfList>
+          <NewCatBanners v-if="hasBanners" />
         </SfMegaMenuColumn>
-        <NewCatBanners v-if="hasBanners" />
       </SfMegaMenu>
-    </SfHeaderNavigationItem>
-  </SfHeaderNavigation>
-  <SfMegaMenu
-    v-else-if="isMobile && isMobileMenuOpen"
-    visible
-    @close="toggleMobileMenu"
-    class="mobile-menu"
-  >
-    <SfMegaMenuColumn
-      v-for="category in categories"
-      :key="category.name"
-      :title="category.name"
-    >
-      <template #title="{ title, changeActive }">
-        <SfMenuItem
-          :label="title"
-          class="sf-mega-menu-column__header"
-          @click="changeActive(title); handleClickCategory(category.slug)"
-        />
-      </template>
-      <SfList>
-        <SfListItem
-          v-for="subCategoryChild in category.children"
-          :key="subCategoryChild.name"
-        >
-          <SfMenuItem
-            :label="subCategoryChild.name"
-            :link="localePath(`/c/${subCategoryChild.slug}`)"
-            @click.native="toggleMobileMenu()"
-          >
-            <SfLink>
-              {{ subCategoryChild.name }}
-            </SfLink>
-          </SfMenuItem>
-        </SfListItem>
-      </SfList>
-      <NewCatBanners v-if="hasBanners" />
-    </SfMegaMenuColumn>
-  </SfMegaMenu>
+    </transition>
+  </div>
 </template>
 
 <script>
