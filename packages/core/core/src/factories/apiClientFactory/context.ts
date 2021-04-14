@@ -1,4 +1,4 @@
-import { ApiClientMethod } from './../../types';
+import { ApiClientMethod, CustomQuery } from './../../types';
 
 interface ApplyingContextHooks {
   before: ({ callName, args }) => any[];
@@ -8,7 +8,7 @@ interface ApplyingContextHooks {
 const nopBefore = ({ args }) => args;
 const nopAfter = ({ response }) => response;
 
-const createExtendQuery = (context) => (customQuery, defaults) => {
+const createExtendQuery = (context) => (customQuery: CustomQuery, defaults) => {
   const customQueries = context.customQueries || {};
   const queryArgs = customQuery || {};
 

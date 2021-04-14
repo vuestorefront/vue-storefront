@@ -180,6 +180,14 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   error: ComputedProperty<UseCategoryErrors>;
 }
 
+export interface CategorySearchParams {
+  catId?: string;
+  slug?: string;
+  key?: string;
+  limit?: number;
+  offset?: string;
+}
+
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;

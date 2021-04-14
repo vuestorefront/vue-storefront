@@ -1,8 +1,8 @@
-import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryErrors } from '../types';
+import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryErrors, CategorySearchParams } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> extends FactoryParams {
+export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS extends CategorySearchParams> extends FactoryParams {
   categorySearch: (context: Context, params: CATEGORY_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<CATEGORY[]>;
 }
 

@@ -3,7 +3,7 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
-  load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
+  load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<CART>;
   addItem: (
     context: Context,
     params: {
