@@ -86,7 +86,8 @@ adyen: {
       clientId: '<CT_CLIENT_ID>',
       clientSecret: '<CT_CLIENT_SECRET>',
       scopes: [
-        'manage_project:<CT_PROJECT_KEY>'
+        'manage_orders:<CT_PROJECT_KEY>',
+        'manage_payments:<CT_PROJECT_KEY>'
       ]
     },
     adyenMerchantAccount: '<ADYEN_MERCHANT_ACCOUNT>',
@@ -106,7 +107,7 @@ adyen: {
 ```
 
 * `configuration`:
-  * `ctApi` - You need `manage_project` scope to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
+  * `ctApi` - You need `manage_orders` and `manage_payments` scopes to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
   * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the browser's console on your website.
   * `buildRedirectUrlAfter3ds1Auth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after 3DS1 Auth. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
@@ -118,17 +119,13 @@ type PaymentAndOrder = Payment & { order: Order }
 
 5. Add an `origin` to the allowed origins in Adyen's dashboard. You can do it in the same place where you looked for the `clientKey`.
 
-6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration) which should be deployed as an independent app. We recommend deploying it as a Google Function or an AWS Lambda.
+6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration). We recommend to deploy it as a Google Function or an AWS Lambda. Make sure to configure and deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
 
-::: warning
-Make sure to deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module.
+:::warning Bigger permissions for extensions
+As you can see in `commercetools-adyen-integration` repository, commercetools recommends to use `manage_project` scope for both notification and extension module.
 :::
 
-::: warning
-Remember to configure both modules. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
-:::
-
-7. Use `PaymentAdyenProvider.vue` as a last step of the checkout process.
+7. Use `PaymentAdyenProvider.vue` as a last step of the checkout process. This component will mount Adyen's Web Drop In and handle payment process for you.
 ```vue
 <PaymentAdyenProvider
   :afterPay="afterPayAndOrder"
