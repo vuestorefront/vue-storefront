@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - servercart-after-diff event payload - Fifciu (#5365)
 - Fix Original Price Calculation typo - @akucharczyk / @lukaszjedrasik (#5472)
 - Purge loader works properly with dynamic config reload - @Fifciu
+- Multi-tab cart-sync in multi-store environment - @cewald (#5711, #5732)
 
 ### Changed / Improved
 
