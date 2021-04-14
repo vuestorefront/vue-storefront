@@ -31,3 +31,17 @@ export PATH="$(yarn global bin):$PATH";
 ```
 
 If you want to make it work permanently, you have to add it to your `~/.profile` or `~/.bashrc` file. More information click [here](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
+
+## How to generate and publish your template of integration?
+
+If you want to generate template of your integration for VSF Next, you need to follow those steps:
+1. Install VSF cli globally (`yarn global add @vue-storefront/cli`)
+2. In your terminal open folder with your integration (e.g [commercetools](https://github.com/vuestorefront/vue-storefront/tree/next/packages/commercetools))
+3. Execute command `vsf generate-template <your-template-name> <path-to-your-theme-folder>` (e.g.: `vsf generate-template commercetools ./theme`) - last argument(`<path-to-your-theme-folder>`) by default points to current directory.
+4. Script should generate folder with name which you provide in previous step and contain your template integration files.
+5. Create new Github repository for your generated template.
+6. Push your generated files into this repository.
+
+
+
+   
