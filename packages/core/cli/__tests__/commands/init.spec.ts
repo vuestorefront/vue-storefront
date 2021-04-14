@@ -16,7 +16,6 @@ jest.mock('inquirer', () => ({
     typedProjectName
   }))
 }));
-
 jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => () => integrations);
 jest.mock('shelljs', () => ({
   rm: jest.fn(),
@@ -27,9 +26,11 @@ jest.mock('shelljs', () => ({
 import copyProject from '@vue-storefront/cli/src/scripts/copyProject';
 jest.mock('@vue-storefront/cli/src/scripts/copyProject', () => jest.fn());
 jest.mock('path', () => ({
-  resolve: () => resolvedPathWithProjectName
+  resolve: () => resolvedPathWithProjectName,
+  join: jest.fn(),
+  isAbsolute: jest.fn()
 }));
-
+jest.mock('../../src/scripts/createProject/processMagicComments', () => jest.fn());
 const projectName = 'AwesomeShop';
 const CUSTOM_TEMPLATE = 'custom integration template';
 
