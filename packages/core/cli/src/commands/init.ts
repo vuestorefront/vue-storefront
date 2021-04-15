@@ -7,7 +7,7 @@ import createProject from '../scripts/createProject';
 export default async (args) => {
   const CUSTOM_TEMPLATE = 'custom integration template';
   const cwd = process.cwd();
-  const integrationTemplatesDirectory = path.resolve('./templates');
+  const integrationTemplatesDirectory = path.resolve(__dirname, '../../templates');
   const integrations = getIntegrations();
   const integrationsNames = Object.keys(integrations);
   let projectName = args[0];
