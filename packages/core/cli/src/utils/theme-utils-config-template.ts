@@ -3,24 +3,13 @@ export const vsfTuConfig = (outputPathName: string, integrationThemePath: string
     to: '${outputPathName}',
     from: [
       {
-        path: '@vue-storefront/nuxt-theme/theme',
-        ignore: [],
-        variables: {
-          options: {
-            generate: {
-              replace: {
-                apiClient: '@vue-storefront/commercetools-api',
-                composables: '@vue-storefront/commercetools'
-              }
-            }
-          }
-        },
+        path: '${integrationThemePath || '.'}',
+        ignore: ['_theme/**', 'generate-template.ts', 'theme-utils.config.js'],
+        variables: {},
         watch: false
       },
       {
-        path: '${integrationThemePath || '.'}',
-        ignore: ['_theme/**', 'generate-template.ts', 'theme-utils.config.js', ],
-        variables: {},
+        path: '${integrationThemePath ? integrationThemePath + '_theme' : '_theme'}',
         watch: false
       }
     ]
