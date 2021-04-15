@@ -1,3 +1,5 @@
+import processMagicComments from '../scripts/createProject/processMagicComments';
+
 const process = require('process');
 const path = require('path');
 const fs = require('fs');
@@ -15,17 +17,27 @@ export default async (args) => {
   const outputPathName: string = args[0].toLowerCase();
   const integrationThemePath: string | undefined = args[1];
   const configFileName = 'theme-utils.config.js';
+  const configFilePath = path.join(process.cwd(), configFileName);
+  const generatedTemplatePath = path.join(process.cwd(), outputPathName);
 
-  if (fs.existsSync(path.join(process.cwd(), configFileName))) {
-    fs.unlinkSync(path.join(process.cwd(), configFileName));
+  if (fs.existsSync(configFilePath)) {
+    fs.unlinkSync(configFilePath);
   }
 
-  fs.appendFile(path.join(process.cwd(), configFileName), vsfTuConfig(outputPathName, integrationThemePath), async (err) => {
+  fs.appendFile(configFilePath, vsfTuConfig(outputPathName, integrationThemePath), async (err) => {
     if (err) throw err;
 
     try {
       await execa('vsf-tu');
-      fs.unlinkSync('theme-utils.config.js');
+      fs.unlinkSync(configFilePath);
+      log.info('Updating Nuxt config');
+      try {
+        const nuxtConfigPath = path.join(generatedTemplatePath, 'nuxt.config.js');
+        await processMagicComments(nuxtConfigPath);
+      } catch (error) {
+        log.error('No nuxt.config.js has been found in integration template');
+        process.exit(1);
+      }
       log.success('Template generated');
     } catch (error) {
       console.error(error);
