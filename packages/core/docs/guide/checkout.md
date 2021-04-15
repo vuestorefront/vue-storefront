@@ -77,12 +77,10 @@ The component is responsible for:
 All you have to do is to import a component and add it to the template.
 
 ```vue
-<VsfShippingProvider
-  @submit="$router.push('/checkout/billing')"
-/>
+<VsfShippingProvider />
 ```
 
-`VsfShippingProvider` emits the `submit` event when a shipping method is selected, configured and a user clicks submit button.
+`VsfShippingProvider` sets `state.value._status` property of `useShippingProvider` to `true` or `false`. The property informs whether a user is ready to go to the next step (`true`) or not (`false`).
 
 ### Extending `VsfShippingProvider` and reacting to its events
 
