@@ -4,7 +4,7 @@ const fs = require('fs');
 const execa = require('execa');
 import log from '../utils/log';
 
-import { vsfTuConfig } from '../utils/theme-utils-config-template';
+import { vsfTuConfig } from '../utils/themeUtilsConfigTemplate';
 
 export default async (args) => {
   if (!args[0]) {
