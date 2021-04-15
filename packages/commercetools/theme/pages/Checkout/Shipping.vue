@@ -220,9 +220,7 @@
         </div>
       </div>
       <div v-if="isShippingDetailsStepCompleted && !dirty">
-        <VsfShippingProvider
-          @submit="$router.push('/checkout/billing')"
-        />
+        <VsfShippingProvider />
         <div class="form__action">
           <SfButton
             class="form__action-button"
