@@ -1,5 +1,6 @@
 <template>
   <SfModal
+    v-e2e="'login-modal'"
     :visible="isAuthModalOpen"
     class="auth-modal"
     @close="toggleAuthModal"

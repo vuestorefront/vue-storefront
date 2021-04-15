@@ -9,10 +9,10 @@
       <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
         <ValidationProvider rules="required|email" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_email"
+            v-e2e="'login-modal-email'"
             v-model="form.email"
-            :valid="registerError && registerError.field && registerError.field === 'email' ? false : !errors[0]"
-            :errorMessage="registerError && registerError.field && registerError.field === 'email' ? $t(registerError.message) : $t(errors[0])"
+            :valid="errorFieldName === 'email' ? false : !errors[0]"
+            :errorMessage="errorFieldName === 'email' ? $t(registerError.message) : $t(errors[0])"
             name="email"
             :label="$t('Your email')"
             class="form__element"
@@ -20,7 +20,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_firstName"
+            v-e2e="'login-modal-firstName'"
             v-model="form.firstName"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -31,7 +31,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_lastName"
+            v-e2e="'login-modal-lastName'"
             v-model="form.lastName"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -42,7 +42,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_password"
+            v-e2e="'login-modal-password'"
             v-model="form.password"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -54,6 +54,7 @@
         </ValidationProvider>
         <ValidationProvider :rules="{ required: { allowFalse: false } }" v-slot="{ errors }">
           <SfCheckbox
+            v-e2e="'login-modal-create-account'"
             v-model="createAccount"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -63,7 +64,7 @@
           />
         </ValidationProvider>
         <SfButton
-          data-cy="login-btn_submit"
+          v-e2e="'login-modal-submit'"
           type="submit"
           class="sf-button--full-width form__button"
           :disabled="loading"
@@ -76,7 +77,7 @@
     </ValidationObserver>
     <div class="action">
       {{ $t('or') }}
-      <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="switchAuthModal('login')">
+      <SfButton v-e2e="'login-modal-login-to-your-account'" class="sf-button--text" @click="switchAuthModal('login')">
         {{ $t('login in to your account') }}
       </SfButton>
     </div>
@@ -87,7 +88,7 @@
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
 import { SfButton, SfCheckbox, SfInput, SfLoader, SfAlert } from '@storefront-ui/vue';
 import { email, required } from 'vee-validate/dist/rules';
-import { ref } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/commercetools';
 import { useUiState, useUiNotification } from '~/composables';
 
@@ -121,6 +122,9 @@ export default {
     const { $i18n } = context.root;
     const registerError = ref(null);
 
+    const errorFieldName = computed(() => registerError.value && registerError.value.field);
+    const hasDuplicatedEmail = computed(() => registerError.value && registerError.value.code === 'DuplicateField' && registerError.value.message.search(form.value.email) !== -1);
+
     const handleError = () => {
       registerError.value = error.value.register;
       if (!registerError.value) {
@@ -132,9 +136,8 @@ export default {
         return;
       }
 
-      if (registerError.value && registerError.value.code === 'DuplicateField' && registerError.value.message.search(form.value.email) !== -1) {
-        registerError.value.message = $i18n.t('There is already an existing customer with this email {EMAIL}', { EMAIL: form.value.email });
-      }
+      if (hasDuplicatedEmail) registerError.value.message = $i18n.t('There is already an existing customer with this email {EMAIL}', { EMAIL: form.value.email });
+
       send({
         type: 'danger',
         message: $i18n.t('Something went wrong!')
@@ -151,6 +154,7 @@ export default {
     return {
       loading,
       registerError,
+      errorFieldName,
       form,
       createAccount,
       switchAuthModal,

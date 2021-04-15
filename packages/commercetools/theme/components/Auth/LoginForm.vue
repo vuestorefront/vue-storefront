@@ -9,7 +9,7 @@
       <form class="form" @submit.prevent="handleSubmit(handleLogin)">
         <ValidationProvider rules="required|email" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_email"
+            v-e2e="'login-modal-email'"
             v-model="form.username"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -20,7 +20,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_password"
+            v-e2e="'login-modal-password'"
             v-model="form.password"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -31,14 +31,14 @@
           />
         </ValidationProvider>
         <SfCheckbox
-          data-cy="login-checkbox-remember-me"
+          v-e2e="'login-modal-remember-me'"
           v-model="rememberMe"
           name="remember-me"
           :label="$t('Remember me')"
           class="form__element checkbox"
         />
         <SfButton
-          data-cy="login-btn_submit"
+          v-e2e="'login-modal-submit'"
           type="submit"
           class="sf-button--full-width form__button"
           :disabled="loading"
@@ -50,14 +50,13 @@
       </form>
     </ValidationObserver>
     <div class="action">
-      <SfButton data-cy="login-btn_forgot-password" class="sf-button--text">
+      <SfButton class="sf-button--text">
         {{ $t('Forgotten password?') }}
       </SfButton>
     </div>
     <div class="bottom">
       <p class="bottom__paragraph">{{ $t('No account') }}</p>
       <SfButton
-        data-cy="login-btn_sign-up"
         class="sf-button--text"
         @click="switchAuthModal('register')"
       >

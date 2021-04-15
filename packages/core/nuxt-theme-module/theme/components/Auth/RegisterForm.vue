@@ -4,7 +4,7 @@
       <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
         <ValidationProvider rules="required|email" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_email"
+            v-e2e="'login-modal-email'"
             v-model="form.email"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -15,7 +15,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_firstName"
+            v-e2e="'login-modal-firstName'"
             v-model="form.firstName"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -26,7 +26,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_lastName"
+            v-e2e="'login-modal-lastName'"
             v-model="form.lastName"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -37,7 +37,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" v-slot="{ errors }">
           <SfInput
-            data-cy="login-input_password"
+            v-e2e="'login-modal-password'"
             v-model="form.password"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -49,6 +49,7 @@
         </ValidationProvider>
         <ValidationProvider :rules="{ required: { allowFalse: false } }" v-slot="{ errors }">
           <SfCheckbox
+            v-e2e="'login-modal-create-account'"
             v-model="createAccount"
             :valid="!errors[0]"
             :errorMessage="$t(errors[0])"
@@ -58,7 +59,7 @@
           />
         </ValidationProvider>
         <SfButton
-          data-cy="login-btn_submit"
+          v-e2e="'login-modal-submit'"
           type="submit"
           class="sf-button--full-width form__button"
           :disabled="loading"
@@ -71,7 +72,7 @@
     </ValidationObserver>
     <div class="action">
       {{ $t('or') }}
-      <SfButton data-cy="login-btn_login-into-account" class="sf-button--text" @click="switchAuthModal('login')">
+      <SfButton v-e2e="'login-modal-login-to-your-account'" class="sf-button--text" @click="switchAuthModal('login')">
         {{ $t('login in to your account') }}
       </SfButton>
     </div>
