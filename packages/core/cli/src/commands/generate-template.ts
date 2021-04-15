@@ -3,50 +3,23 @@ const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
 
+import { vsfTuConfig } from '../utils/theme-utils-config-template';
+
 export default async (args) => {
   if (!args[0]) {
     console.error('Error: No output folder provided');
     process.exit(1);
   }
 
-  const outputPathName = args[0].toLowerCase();
-
-  const vsfTuConfig = `module.exports = {
-  copy: {
-    to: '${outputPathName}',
-    from: [
-      {
-        path: '@vue-storefront/nuxt-theme/theme',
-        ignore: [],
-        variables: {
-          options: {
-            generate: {
-              replace: {
-                apiClient: '@vue-storefront/commercetools-api',
-                composables: '@vue-storefront/commercetools'
-              }
-            }
-          }
-        },
-        watch: false
-      },
-      {
-        path: '${args[1] || '.'}',
-        ignore: ['_theme/**', 'generate-template.ts', 'theme-utils.config.js', ],
-        variables: {},
-        watch: false
-      }
-    ]
-  }
-}`;
-
+  const outputPathName: string = args[0].toLowerCase();
+  const integrationThemePath: string | undefined = args[1];
   const configFileName = 'theme-utils.config.js';
 
   if (fs.existsSync(path.join(process.cwd(), configFileName))) {
     fs.unlinkSync(path.join(process.cwd(), configFileName));
   }
 
-  fs.appendFile(path.join(process.cwd(), configFileName), vsfTuConfig, async (err) => {
+  fs.appendFile(path.join(process.cwd(), configFileName), vsfTuConfig(outputPathName, integrationThemePath), async (err) => {
     if (err) throw err;
 
     try {
