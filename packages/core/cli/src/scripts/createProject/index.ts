@@ -3,6 +3,7 @@ const shell = require('shelljs');
 import log from '../../utils/log';
 import processMagicComments from './processMagicComments';
 import * as process from 'process';
+import * as fs from 'fs';
 
 interface ICreateProjectProps {
   integration: string,
@@ -17,10 +18,10 @@ async function createProject({
 }: ICreateProjectProps): Promise<void> {
   const templatePath = `${targetPath}/${integration}`;
   try {
-    shell.rm('-rf', templatePath);
-    shell.mkdir('-p', targetPath);
-    shell.cd(targetPath);
-    await shell.exec(`git clone ${repositoryLink} ${integration}`);
+    if (fs.existsSync(templatePath)) {
+      fs.rmdirSync(targetPath, { recursive: true });
+    }
+    await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
   } catch (error) {
     log.error('Unable to get integration template from repository');
     return;
