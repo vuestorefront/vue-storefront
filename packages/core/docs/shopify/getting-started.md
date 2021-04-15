@@ -6,7 +6,7 @@ platform: Shopify
 The integration is currently in beta phase and could be unstable. We recommend checking it out on our repository. 
 Simply copy the [repo](https://github.com/vuestorefront/shopify) and run
 ```bash
-yarn && yarn build && yarn dev
+yarn && yarn build:sp && yarn dev:sp
 ```
 :::
 
