@@ -1,4 +1,4 @@
-export const integrations: string[] = [
-  'commercetools',
-  'shopify'
-];
+export const integrations: {[key: string]: string} = {
+  commercetools: '',
+  shopify: ''
+};

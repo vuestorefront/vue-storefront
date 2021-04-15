@@ -1,11 +1,11 @@
 import initCommand from '@vue-storefront/cli/src/commands/init';
 
 const chosenIntegration = 'my-super-new-backend-ecommerce-system';
-const integrations = [
-  chosenIntegration,
-  'some-other-integration',
-  'and-other'
-];
+const integrations = {
+  chosenIntegration: '',
+  'some-other-integration': '',
+  'and-other': ''
+};
 const resolvedPathWithProjectName = '/home/abc/my-project';
 const typedProjectName = 'new-pro';
 
@@ -16,16 +16,24 @@ jest.mock('inquirer', () => ({
     typedProjectName
   }))
 }));
-
 jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => () => integrations);
-
+jest.mock('shelljs', () => ({
+  exec: jest.fn()
+}));
 import copyProject from '@vue-storefront/cli/src/scripts/copyProject';
 jest.mock('@vue-storefront/cli/src/scripts/copyProject', () => jest.fn());
 jest.mock('path', () => ({
-  resolve: () => resolvedPathWithProjectName
+  resolve: () => resolvedPathWithProjectName,
+  join: jest.fn(),
+  isAbsolute: jest.fn()
 }));
-
+jest.mock('../../src/scripts/createProject/processMagicComments', () => jest.fn());
+jest.mock('fs', () => ({
+  existsSync: jest.fn(),
+  rmdirSync: jest.fn()
+}));
 const projectName = 'AwesomeShop';
+const CUSTOM_TEMPLATE = 'custom integration template';
 
 describe('Command: init <projectName>', () => {
 
@@ -54,7 +62,7 @@ describe('Command: init <projectName>', () => {
           type: 'list',
           name: 'chosenIntegration',
           message: 'Choose integration',
-          choices: integrations
+          choices: [...Object.keys(integrations), CUSTOM_TEMPLATE]
         }
       ]
     );

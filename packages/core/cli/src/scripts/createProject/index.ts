@@ -1,22 +1,44 @@
 import path from 'path';
+const shell = require('shelljs');
 import log from '../../utils/log';
-import copyIntegrationTheme from './copyIntegrationTheme';
-import copyAgnosticTheme from './copyAgnosticTheme';
 import processMagicComments from './processMagicComments';
+import * as process from 'process';
+import * as fs from 'fs';
 
-async function createProject(integration: string, targetPath: string): Promise<void> {
-  log.info(`Coppying agnostic theme to ${targetPath}`);
-  await copyAgnosticTheme(integration, targetPath);
+interface ICreateProjectProps {
+  integration: string,
+  targetPath: string,
+  repositoryLink: string
+}
 
-  log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
+async function createProject({
+  integration,
+  targetPath,
+  repositoryLink
+}: ICreateProjectProps): Promise<void> {
+  const templatePath = `${targetPath}/${integration}`;
+  try {
+    if (fs.existsSync(templatePath)) {
+      fs.rmdirSync(targetPath, { recursive: true });
+    }
+    await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
+  } catch (error) {
+    log.error('Unable to get integration template from repository');
+    return;
+  }
 
   log.info('Updating Nuxt config');
-  const absoluteTargetPath = path.isAbsolute(targetPath)
-    ? targetPath
-    : path.join(__dirname, targetPath);
-  const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
-  await processMagicComments(nuxtConfigPath);
+  try {
+    const absoluteTargetPath = path.isAbsolute(templatePath)
+      ? templatePath
+      : path.join(__dirname, templatePath);
+    const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
+    await processMagicComments(nuxtConfigPath);
+  } catch (error) {
+    log.error('No nuxt.config.js has been found in integration template');
+    process.exit(1);
+  }
+
 }
 
 export default createProject;

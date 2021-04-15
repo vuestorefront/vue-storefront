@@ -9,19 +9,24 @@ jest.mock('@vue-storefront/cli/src/utils/log', () => ({
 }));
 
 import path from 'path';
+
 jest.mock('path', () => ({
   join: jest.fn(() => targetPath),
   isAbsolute: jest.fn(() => false)
 }));
 
-const copyIntegrationThemeMock = require('@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme');
-jest.mock('@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme', () => jest.fn());
-
-const copyAgnosticThemeMock = require('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme');
-jest.mock('@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme', () => jest.fn());
+jest.mock('shelljs', () => ({
+  rm: jest.fn(),
+  mkdir: jest.fn(),
+  cd: jest.fn(),
+  exec: jest.fn()
+}));
 
 const processMagicCommentsMock = require('@vue-storefront/cli/src/scripts/createProject/processMagicComments');
-jest.mock('@vue-storefront/cli/src/scripts/createProject/processMagicComments', () => jest.fn());
+jest.mock(
+  '@vue-storefront/cli/src/scripts/createProject/processMagicComments',
+  () => jest.fn()
+);
 
 jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
   getProjectDirectoryName: (targetPath) => targetPath.split('/').pop()
@@ -29,27 +34,27 @@ jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
 
 describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments for relative path', async () => {
-
-    integrations.map(async (integration) => {
-      await createProject(integration, targetPath);
-
-      expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
-      expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, targetPath);
+    for (const [integration, repositoryLink] of Object.entries(integrations)) {
+      await createProject({
+        integration,
+        targetPath,
+        repositoryLink
+      });
       expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
-    });
+    }
   });
 
   it('runs subprograms with proper arguments for absolute path', async () => {
-
     (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
-    integrations.map(async (integration) => {
-      await createProject(integration, absoluteTargetPath);
-
-      expect(copyIntegrationThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath, ['_theme', '.nuxt', 'node_modules']);
-      expect(copyAgnosticThemeMock).toHaveBeenCalledWith(integration, absoluteTargetPath);
+    for (const [integration, repositoryLink] of Object.entries(integrations)) {
+      await createProject({
+        integration,
+        targetPath: absoluteTargetPath,
+        repositoryLink
+      });
       expect(processMagicCommentsMock).toHaveBeenCalledWith(absoluteTargetPath);
-    });
+    }
   });
 });
