@@ -3012,10 +3012,10 @@
     "@typescript-eslint/types" "4.21.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vue-storefront/theme-utilities@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/theme-utilities/-/theme-utilities-0.1.2.tgz#f7839949e735745f798a7be0e111f1c203cb32d6"
-  integrity sha512-yNxDQD+X5YnRbt4uFt4ZDBfpE5VWIyHsI7qG4BB3XA1kll/EmT2FpMAjymWP/aAnC9fd6SAKvPbKWNPC+aeZNw==
+"@vue-storefront/theme-utilities@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/theme-utilities/-/theme-utilities-0.1.3.tgz#348d825f71281df614e75e30338bb9b24316bd91"
+  integrity sha512-njMxgitKIYfVNS/2q7TofOJZtTrrySfFZnRTTg4laKzMTC5XGSoWfLSwYboHuBWo8QotZAw16cq+36HLRV507Q==
   dependencies:
     chalk "^4.1.0"
     chokidar "^3.4.3"
