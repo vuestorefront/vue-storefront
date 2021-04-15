@@ -1,3 +1,5 @@
+const process = require('process');
+const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
 
@@ -38,13 +40,13 @@ export default async (args) => {
   }
 }`;
 
-  const configFileName = 'theme-utils.config.js;';
+  const configFileName = 'theme-utils.config.js';
 
-  if (fs.existsSync(configFileName)) {
-    fs.unlinkSync(configFileName);
+  if (fs.existsSync(path.join(process.cwd(), configFileName))) {
+    fs.unlinkSync(path.join(process.cwd(), configFileName));
   }
 
-  fs.appendFile('', vsfTuConfig, async (err) => {
+  fs.appendFile(path.join(process.cwd(), configFileName), vsfTuConfig, async (err) => {
     if (err) throw err;
 
     try {
