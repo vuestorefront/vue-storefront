@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "2.3.0-rc.3",
+  "version": "2.3.0",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "execa": "^5.0.0",
+    "rimraf": "^3.0.2",
     "shelljs": "^0.8.4"
   },
   "author": "Filip Jędrasik",
