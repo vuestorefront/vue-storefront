@@ -1,19 +1,18 @@
 <template>
   <div>
     <SfHeader
-      data-cy="app-header"
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link :to="localePath('/')" class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="WOMEN" :link="localePath('/c/women')"/>
+        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -21,6 +20,7 @@
       <template #header-icons>
         <div class="sf-header__icons">
           <SfButton
+            v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >
@@ -40,6 +40,7 @@
             />
           </SfButton>
           <SfButton
+            v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >

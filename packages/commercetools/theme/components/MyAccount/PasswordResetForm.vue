@@ -3,7 +3,6 @@
     <form class="form" @submit.prevent="handleSubmit(submitForm(reset))">
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
         <SfInput
-          data-cy="my-profile-input_currentPassword"
           v-model="form.currentPassword"
           type="password"
           name="currentPassword"
@@ -16,7 +15,6 @@
       <div class="form__horizontal">
         <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
           <SfInput
-            data-cy="my-profile-input_newPassword"
             v-model="form.newPassword"
             type="password"
             name="newPassword"
@@ -28,7 +26,6 @@
         </ValidationProvider>
         <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
           <SfInput
-            data-cy="my-profile-input_repeatPassword"
             v-model="form.repeatPassword"
             type="password"
             name="repeatPassword"
@@ -39,7 +36,7 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton data-cy="my-profile-btn_update-password" class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton class="form__button">{{ $t('Update password') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>

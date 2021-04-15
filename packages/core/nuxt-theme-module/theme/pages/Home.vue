@@ -56,7 +56,6 @@
           </template>
           <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
             <SfProductCard
-              data-cy="home-url_product"
               :title="product.title"
               :image="product.image"
               :regular-price="product.price.regular"

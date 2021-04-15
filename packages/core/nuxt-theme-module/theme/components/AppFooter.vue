@@ -7,7 +7,6 @@
           :key="item"
           >
           <SfMenuItem
-            :data-cy="`app-foter-url_about-us_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -20,7 +19,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_departments_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -33,7 +31,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_help_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -46,7 +43,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_payment_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
