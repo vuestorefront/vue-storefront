@@ -1,11 +1,11 @@
 <template>
   <SfTopBar class="topbar">
     <template #left>
-        <SfButton data-cy="top-bar-btn_faq" class="sf-button--text">{{ $t('Help & FAQs') }}</SfButton>
+        <SfButton class="sf-button--text">{{ $t('Help & FAQs') }}</SfButton>
       </template>
     <template #center>
         <p>{{ $t('Download') }}</p>
-        <SfButton data-cy="top-bar-btn_more" class="topbar__button sf-button--text">{{ $t('Find out more') }}</SfButton>
+        <SfButton class="topbar__button sf-button--text">{{ $t('Find out more') }}</SfButton>
       </template>
       <template #right>
         <LocaleSelector />

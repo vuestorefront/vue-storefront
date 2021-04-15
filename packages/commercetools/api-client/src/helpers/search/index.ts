@@ -69,6 +69,10 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     }
   }
 
+  if (search?.key) {
+    predicates.push(`key="${search.key}"`);
+  }
+
   return predicates.join(' and ');
 };
 
@@ -82,6 +86,10 @@ const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
   if (search?.slug) {
     const predicate = acceptLanguage.map(locale => `${locale}="${search.slug}"`).join(' or ');
     return `slug(${predicate})`;
+  }
+
+  if (search?.key) {
+    return `key="${search.key}"`;
   }
 
   return undefined;

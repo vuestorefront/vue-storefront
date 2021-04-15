@@ -8,6 +8,7 @@
     <div class="form">
       <div class="form__radio-group payment__methods">
           <SfRadio
+            v-e2e="'payment-method'"
             v-for="method in paymentMethods"
             :key="method.id"
             :label="method.name"
