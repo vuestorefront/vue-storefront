@@ -2,7 +2,6 @@ const fs = require('fs');
 const execa = require('execa');
 
 export default async (args) => {
-
   if (!args[0]) {
     console.error('Error: No output folder provided');
     process.exit(1);
@@ -31,7 +30,7 @@ export default async (args) => {
       },
       {
         path: '${args[1] || '.'}',
-        ignore: ['_theme/**', 'generate-template.ts'],
+        ignore: ['_theme/**', 'generate-template.ts', 'theme-utils.config.js', ],
         variables: {},
         watch: false
       }
@@ -39,7 +38,13 @@ export default async (args) => {
   }
 }`;
 
-  fs.appendFile('theme-utils.config.js', vsfTuConfig, async (err) => {
+  const configFileName = 'theme-utils.config.js;';
+
+  if (fs.existsSync(configFileName)) {
+    fs.unlinkSync(configFileName);
+  }
+
+  fs.appendFile('', vsfTuConfig, async (err) => {
     if (err) throw err;
 
     try {
@@ -50,5 +55,4 @@ export default async (args) => {
       process.exit(1);
     }
   });
-
 };
