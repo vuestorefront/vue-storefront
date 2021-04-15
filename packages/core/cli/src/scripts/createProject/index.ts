@@ -4,6 +4,7 @@ import log from '../../utils/log';
 import processMagicComments from './processMagicComments';
 import * as process from 'process';
 import * as fs from 'fs';
+const rimraf = require('rimraf');
 
 interface ICreateProjectProps {
   integration: string;
@@ -20,7 +21,7 @@ async function createProject({
 
   if (fs.existsSync(templatePath)) {
     try {
-      await shell.exec(`rimraf ${templatePath}`);
+      rimraf.sync(templatePath);
     } catch (e) {
       log.error('Unable to remove old template');
       return;
