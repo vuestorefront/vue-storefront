@@ -223,6 +223,7 @@
         <VsfShippingProvider />
         <div class="form__action">
           <SfButton
+            v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
             @click.native="$router.push('/checkout/billing')"
