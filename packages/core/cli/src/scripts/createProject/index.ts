@@ -4,7 +4,6 @@ import log from '../../utils/log';
 import processMagicComments from './processMagicComments';
 import * as process from 'process';
 import * as fs from 'fs';
-import rimraf from 'rimraf';
 
 interface ICreateProjectProps {
   integration: string;
@@ -17,14 +16,20 @@ async function createProject({
   targetPath,
   repositoryLink
 }: ICreateProjectProps): Promise<void> {
-  const templatePath = `${targetPath}/${integration}`;
-  try {
-    if (fs.existsSync(templatePath)) {
-      rimraf(targetPath);
+  const templatePath = path.join(targetPath, integration);
+
+  if (fs.existsSync(templatePath)) {
+    try {
+      await shell.exec(`rimraf ${templatePath}`);
+    } catch (e) {
+      log.error('Unable to remove old template');
+      return;
     }
+  }
+  try {
     await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
   } catch (error) {
-    log.error('Unable to get integration template from repository');
+    log.error('Unable to get integration template from git repository');
     return;
   }
 
