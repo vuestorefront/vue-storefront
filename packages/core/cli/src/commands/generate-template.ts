@@ -2,6 +2,7 @@ const process = require('process');
 const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
+import log from '../utils/log';
 
 import { vsfTuConfig } from '../utils/theme-utils-config-template';
 
@@ -25,6 +26,7 @@ export default async (args) => {
     try {
       await execa('vsf-tu');
       fs.unlinkSync('theme-utils.config.js');
+      log.success('Template generated');
     } catch (error) {
       console.error(error);
       process.exit(1);
