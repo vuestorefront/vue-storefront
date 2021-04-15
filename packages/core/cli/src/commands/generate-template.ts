@@ -1,12 +1,10 @@
 import processMagicComments from '../scripts/createProject/processMagicComments';
-
+import log from '../utils/log';
+import { vsfTuConfig } from '../utils/themeUtilsConfigTemplate';
 const process = require('process');
 const path = require('path');
 const fs = require('fs');
 const execa = require('execa');
-import log from '../utils/log';
-
-import { vsfTuConfig } from '../utils/themeUtilsConfigTemplate';
 
 export default async (args) => {
   if (!args[0]) {
