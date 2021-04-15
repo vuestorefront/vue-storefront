@@ -12,6 +12,12 @@
 - `load` - function for fetching billing address. When invoked, it requests data from the API and populates `billing` property. This method accepts a single optional `params` object. The `params` has the following option:
 
     - `customQuery?: CustomQuery`
+  
+```ts
+type CustomQuery = {
+  getBasicProfile: string
+}
+```
 
 - `save` - function for saving billing address. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
@@ -47,7 +53,9 @@ type Address = {
   externalId?: Maybe<Scalars["String"]>;
   key?: Maybe<Scalars["String"]>;
 };
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
 - `billing: Address` - a main data object that contains a billing address.
 - `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.

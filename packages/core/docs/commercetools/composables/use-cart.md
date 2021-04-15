@@ -61,7 +61,13 @@ type Cart = {
 
 - `load` - function required to fetch cart from a server or create brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
 
-    - `customQuery?: any`
+    - `customQuery?: customQuery`
+  
+```ts
+type CustomQuery = {
+  getBasicProfile: string
+}
+```
   
 - `addItem` - function for adding products to the cart. This method accepts a single `params` object. The `params` has the following options:
 
@@ -87,7 +93,9 @@ type ProductVariant = {
   attributeList: Array<Attribute>;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
   
 - `updateItemQty` - function for updating quantity of a product that is already in the cart. This method accepts a single `params` object. The `params` has the following options:
@@ -130,7 +138,9 @@ type LineItem = {
   customFieldList?: Maybe<Array<CustomField>>;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
   
 - `removeItem` - function for removing a product that currently is in the cart. This method accepts a single `params` object. The `params` has the following options:
@@ -171,7 +181,9 @@ type LineItem = {
   customFieldList?: Maybe<Array<CustomField>>;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
   
 - `isInCart` - function for checking if a product is currently in the cart. This method accepts a single `params` object. The `params` has the following option:
@@ -204,7 +216,9 @@ type ProductVariant = {
     - `customQuery?: CustomQuery`
     
 ```ts
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
   
 - `removeCoupon` - function for removing coupon applied to cart. This method accepts a single `params` object. The `params` has the following options:
@@ -221,7 +235,9 @@ interface AgnosticCoupon {
   value: number;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
   
 - `loading: boolean` - a reactive object containing information about loading state of the cart.

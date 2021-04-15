@@ -12,6 +12,12 @@
 - `load` - function for fetching shipping method. When invoked, it requests data from the API and populates the `response` key inside the `state` property. This method accepts a single optional `params` object. The `params` has the following option:
 
     - `customQuery?: CustomQuery`
+  
+```ts
+type CustomQuery = {
+  getBasicProfile: string
+}
+```
 
 - `save` - function for selecting shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
@@ -38,7 +44,9 @@ type ShippingMethod = Versioned & {
   taxCategory?: Maybe<TaxCategory>;
 };
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateCart: string
+}
 ```
 - `state: ShippingProviderState` - a main data object that contains a shipping method
 ```ts
