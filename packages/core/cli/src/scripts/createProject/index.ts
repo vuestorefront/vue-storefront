@@ -4,11 +4,12 @@ import log from '../../utils/log';
 import processMagicComments from './processMagicComments';
 import * as process from 'process';
 import * as fs from 'fs';
+import rimraf from 'rimraf';
 
 interface ICreateProjectProps {
-  integration: string,
-  targetPath: string,
-  repositoryLink: string
+  integration: string;
+  targetPath: string;
+  repositoryLink: string;
 }
 
 async function createProject({
@@ -19,7 +20,7 @@ async function createProject({
   const templatePath = `${targetPath}/${integration}`;
   try {
     if (fs.existsSync(templatePath)) {
-      fs.rmdirSync(targetPath, { recursive: true });
+      rimraf(targetPath);
     }
     await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
   } catch (error) {
@@ -38,7 +39,6 @@ async function createProject({
     log.error('No nuxt.config.js has been found in integration template');
     process.exit(1);
   }
-
 }
 
 export default createProject;
