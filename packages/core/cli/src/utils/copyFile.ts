@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 const isImage = require('./isImage');
-const ensureDirectoryExists = require('./ensureDirectoryExist');
+const ensureDirectoryExists = require('./ensureDirectoryExists');
 
 export async function copyFile(fileDir, outDir) {
   const data = fs.readFileSync(fileDir, !isImage(fileDir) ? 'utf8' : undefined);
