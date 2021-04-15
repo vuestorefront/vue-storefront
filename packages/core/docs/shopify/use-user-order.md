@@ -1,4 +1,4 @@
-# useUserOrders composable
+# useUserOrder composable
 
 `useUserOrders` composition API function is responsible, as it's name suggests for interactions with user's order history from your eCommerce. This function returns following values:
 
