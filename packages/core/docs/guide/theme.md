@@ -156,7 +156,7 @@ There are three types of notifications: `danger`, `success` and `info`.
 
 ### How to send notification?
 
-To send a new notification you need to only import `useUiNotification` from composables and pass `type` and `message` to `send` function. Rest parameters are optional.
+To send a new notification you need to only import `useUiNotification` from composables and pass `type` and `message` to the `send` function.
 
 ```js
 import { useUiNotification } from '~/composables';
