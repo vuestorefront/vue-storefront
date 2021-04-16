@@ -1,6 +1,6 @@
 <template>
   <SfTabs :open-tab="1" class="tab-orphan">
-    <SfTab data-cy="loyalty-card-tab" title="Loyalty Card">
+    <SfTab title="Loyalty Card">
       <p class="message">
         This feature is not implemented yet! Please take a look at
         <br />

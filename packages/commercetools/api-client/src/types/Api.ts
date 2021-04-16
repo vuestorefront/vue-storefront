@@ -55,6 +55,7 @@ export interface ProductWhereSearch extends BaseSearch {
   skus?: string[];
   slug?: string;
   id?: string;
+  key?: string;
   filters?: Filter[];
 }
 
@@ -66,6 +67,7 @@ export interface FilterOption {
 
 export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
+  key?: string;
   slug?: string;
 }
 

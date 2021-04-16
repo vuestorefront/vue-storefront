@@ -26,7 +26,7 @@ jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
 describe('[vsf-next-cli] copyProject', () => {
   it('runs with proper arguments for relative path', () => {
 
-    integrations.map(async (integration) => {
+    Object.keys(integrations).map(async (integration) => {
       await copyProject(integration, targetPath, projectName);
 
       expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
@@ -39,7 +39,7 @@ describe('[vsf-next-cli] copyProject', () => {
     (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
     (path.isAbsolute as jest.Mock).mockImplementation(() => true);
 
-    integrations.map(async (integration) => {
+    Object.keys(integrations).map(async (integration) => {
       await copyProject(integration, absoluteTargetPath, projectName);
 
       expect(copyThemeFiles).toHaveBeenCalledWith(resolvedTargetPath, targetPath, resolvedTargetPath);
