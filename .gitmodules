@@ -14,3 +14,7 @@
 	path = src/themes/petsies
 	url = git@github.com:BudsiesApp/vsf-default.git
 	branch = optimuspro-petsies
+[submodule "src/themes/petsies-capybara"]
+	path = src/themes/petsies-capybara
+	url = git@github.com:BudsiesApp/vsf-capybara.git
+	branch = 24251-petsies-demo

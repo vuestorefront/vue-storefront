@@ -3,7 +3,7 @@
     "host": "0.0.0.0",
     "port": ${BIND_PORT},
     "protocol": "http",
-    "api": "api",
+    "api": "api-search-query",
     "devServiceWorker": false,
     "useHtmlMinifier": true,
     "htmlMinifierOptions": {
@@ -282,7 +282,7 @@
       "breadcrumbFilterFields": {},
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
-      "categoriesDynamicPrefetch": true,
+      "categoriesDynamicPrefetch": false,
       "validSearchOptionsFromRouteParams": [
         "url-key",
         "slug",
@@ -307,7 +307,7 @@
         "options",
         "tier_prices"
       ],
-      "loadByAttributeMetadata": false
+      "loadByAttributeMetadata": true
     },
     "productList": {
       "sort": "updated_at:desc",
@@ -550,8 +550,8 @@
   },
   "cart": {
     "thumbnails": {
-      "width": 150,
-      "height": 150
+      "width": 210,
+      "height": 300
     },
     "serverMergeByDefault": true,
     "serverSyncCanRemoveLocalItems": false,
@@ -672,8 +672,8 @@
       "height": 744
     },
     "thumbnails": {
-      "width": 310,
-      "height": 300
+      "width": 324,
+      "height": 489
     },
     "filterAggregationSize": {
       "default": 10,
@@ -852,7 +852,7 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-${STORE}",
+  "theme": "@vue-storefront/theme-${STORE}-capybara",
   "analytics": {
     "id": false
   },
@@ -902,9 +902,9 @@
     "newProducts": {
       "filter": [
         {
-          "key": "new",
+          "key": "category_ids",
           "value": {
-            "eq": 1
+            "in": [9]
           }
         }
       ]
@@ -912,16 +912,16 @@
     "bestSellers": {
       "filter": [
         {
-          "key": "category.name",
+          "key": "category_ids",
           "value": {
-            "eq": "Petsies Accessories"
+            "in": [9]
           }
         }
       ]
     }
   },
   "urlModule": {
-    "enableMapFallbackUrl": false,
+    "enableMapFallbackUrl": true,
     "endpoint": "/api/url",
     "map_endpoint": "/api/url/map"
   },
