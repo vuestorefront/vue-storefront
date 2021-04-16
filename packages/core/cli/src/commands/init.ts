@@ -1,9 +1,9 @@
 import { integrations } from '../utils/getIntegrations';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
-
+import { customTemplateStrategy } from '../scripts/initStarategy/customTemplateStarategy';
+export const CUSTOM_TEMPLATE = 'Custom template from Github';
 export default async (args) => {
-  const CUSTOM_TEMPLATE = 'Custom template from Github';
   const cwd = process.cwd();
   const integrationsNames = Object.keys(integrations);
   let projectName = args[0];
@@ -43,25 +43,5 @@ export default async (args) => {
     return;
   }
 
-  const { otherIntegrationGitLink } = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'otherIntegrationGitLink',
-      message: 'Provide integration repository git link via https:',
-      validate(value) {
-        /* eslint-disable-next-line no-useless-escape*/
-        const gitLinkRegex = /https?:(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/;
-        if (value.trim().length === 0 || !gitLinkRegex.test(value)) {
-          return 'Please provide git repository https link';
-        }
-        return true;
-      }
-    }
-  ]);
-
-  await createProject({
-    projectName: projectName,
-    targetPath: cwd,
-    repositoryLink: otherIntegrationGitLink
-  });
+  await customTemplateStrategy({ projectName, targetPath: cwd });
 };
