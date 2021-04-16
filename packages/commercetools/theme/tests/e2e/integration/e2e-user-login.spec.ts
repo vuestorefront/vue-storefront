@@ -21,6 +21,7 @@ context(['regression'], 'User login', () => {
     page.home.visit();
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
+    // waitToggle();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.loginBtn.click();
     page.components.loginModal.container.should('not.exist');
@@ -34,6 +35,7 @@ context(['regression'], 'User login', () => {
     page.home.visit();
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
+    // waitToggle();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.loginBtn.click();
     page.components.loginModal.container.contains(data.errorMessage).should('be.visible');
