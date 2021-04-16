@@ -6,7 +6,7 @@ export const CUSTOM_TEMPLATE = 'Custom template from Github';
 export default async (args) => {
   const cwd = process.cwd();
   const integrationsNames = Object.keys(integrations);
-  let projectName = args.join('-');
+  let projectName = args.join('-') || args[0];
 
   if (!projectName) {
     const { typedProjectName } = await inquirer.prompt([
@@ -22,7 +22,7 @@ export default async (args) => {
         }
       }
     ]);
-    projectName = typedProjectName.split(' ').join('-');
+    projectName = typedProjectName.split(' ').join('-') || typedProjectName;
   }
 
   const { chosenIntegration } = await inquirer.prompt([

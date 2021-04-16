@@ -11,7 +11,7 @@ jest.mock('inquirer', () => ({
   prompt: jest.fn(() =>
     Promise.resolve({
       chosenIntegration,
-      projectName
+      typedProjectName: projectName
     })
   )
 }));
@@ -73,7 +73,7 @@ describe('Command: init <projectName>', () => {
         Promise.resolve({
           chosenIntegration: CUSTOM_TEMPLATE,
           otherIntegrationGitLink: 'http://test.com',
-          projectName
+          typedProjectName: projectName
         })
       )
     );
@@ -100,7 +100,7 @@ describe('Command: init <projectName>', () => {
 
         return Promise.resolve({
           chosenIntegration,
-          projectName
+          typedProjectName: projectName
         });
       })
     );
