@@ -73,7 +73,7 @@ const tokenExtension: ApiClientExtension = {
               res.cookie(
                 'vsf-commercetools-token',
                 JSON.stringify(newToken),
-                { expires: newToken?.expires_at ? new Date(newToken.expires_at) : new Date() }
+                newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}
               );
             }
           },
@@ -82,7 +82,7 @@ const tokenExtension: ApiClientExtension = {
             res.cookie(
               'vsf-commercetools-token',
               rawCurrentToken,
-              { expires: currentToken?.expires_at ? new Date(currentToken.expires_at) : new Date() }
+              currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
             );
             return currentToken;
           },
