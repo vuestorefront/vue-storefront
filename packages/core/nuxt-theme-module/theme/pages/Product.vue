@@ -237,7 +237,7 @@ export default {
     const addToCart = async (product, quantity) => {
       await addItem({ product, quantity });
       sendCartNotification.addItem({
-        productName: product._name,
+        productName: productGetters.getName(product),
         error: error.value.addItem ? error.value.addItem.message : false
       });
     };

@@ -12,7 +12,9 @@ export const cart = ({ i18n, router }) => {
     } else {
       send({
         type: 'success',
-        message: productName ? i18n.t('Successfully added {PRODUCT_NAME} to the cart', { PRODUCT_NAME: productName }) : i18n.t('Successfully added product to the cart'),
+        message: Array.isArray(i18n.locales) && i18n.locales.length > 1
+          ? i18n.t('Successfully added {PRODUCT_NAME} to the cart', { PRODUCT_NAME: productName })
+          : i18n.t('Successfully added product to the cart'),
         persist: true,
         action: {
           text: i18n.t('Go to Checkout'),
