@@ -1,9 +1,10 @@
-import { cli } from '../src/index';
+import { cli } from '@vue-storefront/cli/src/index';
 import log from '@vue-storefront/cli/src/utils/log';
+import init from '../src/commands/init';
+
 jest.mock('@vue-storefront/cli/src/utils/log', () => ({
   error: jest.fn()
 }));
-import init from '../src/commands/init';
 jest.mock('../src/commands/init.ts', () => ({
   default: jest.fn()
 }));

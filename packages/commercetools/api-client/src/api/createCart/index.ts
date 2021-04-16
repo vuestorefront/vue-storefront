@@ -1,25 +1,31 @@
-import { CartDraft } from './../../types/GraphQL';
-import { getSettings, apolloClient } from './../../index';
-import CreateCartMutation from './defaultMutation';
-import { CartMutationResponse } from './../../types/Api';
+import defaultMutation from './defaultMutation';
+import { CartData } from './../../types/Api';
+import gql from 'graphql-tag';
+import { CustomQuery } from '@vue-storefront/core';
 
-interface CartData extends Omit<CartDraft, 'currency'> {
-  currency?: string;
-}
+const createCart = async (context, cartDraft: CartData = {}, customQuery?: CustomQuery) => {
+  const { locale, acceptLanguage, currency } = context.config;
 
-const createCart = async (cartDraft: CartData = {}): Promise<CartMutationResponse> => {
-  const { locale, acceptLanguage, currency } = getSettings();
-  return await apolloClient.mutate({
-    mutation: CreateCartMutation,
-    variables: {
-      acceptLanguage,
-      locale,
-      draft: {
-        currency,
-        ...cartDraft
-      }
+  const defaultVariables = {
+    acceptLanguage,
+    locale,
+    draft: {
+      currency,
+      ...cartDraft
     }
+  };
+
+  const { createCart: createCartGql } = context.extendQuery(
+    customQuery, { createCart: { query: defaultMutation, variables: defaultVariables } }
+  );
+
+  const request = await context.client.mutate({
+    mutation: gql`${createCartGql.query}`,
+    variables: createCartGql.variables,
+    fetchPolicy: 'no-cache'
   });
+
+  return request;
 };
 
 export default createCart;

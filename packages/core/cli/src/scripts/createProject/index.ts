@@ -1,29 +1,50 @@
 import path from 'path';
-import log from '@vue-storefront/cli/src/utils/log';
-import copyIntegrationTheme from '@vue-storefront/cli/src/scripts/createProject/copyIntegrationTheme';
-import copyAgnosticTheme from '@vue-storefront/cli/src/scripts/createProject/copyAgnosticTheme';
-import processMagicComments from '@vue-storefront/cli/src/scripts/createProject/processMagicComments';
-import updatePackageName from '@vue-storefront/cli/src/scripts/createProject/updatePackageName';
+const shell = require('shelljs');
+import log from '../../utils/log';
+import processMagicComments from './processMagicComments';
+import * as process from 'process';
+import * as fs from 'fs';
+const rimraf = require('rimraf');
 
-const getProjectDirectoryName = (targetPath: string): string => targetPath.split('/').pop();
+interface ICreateProjectProps {
+  integration: string;
+  targetPath: string;
+  repositoryLink: string;
+}
 
-async function createProject(integration: string, targetPath: string): Promise<void> {
+async function createProject({
+  integration,
+  targetPath,
+  repositoryLink
+}: ICreateProjectProps): Promise<void> {
+  const templatePath = path.join(targetPath, integration);
 
-  log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
-
-  log.info(`Coppying agnostic theme to ${targetPath}`);
-  await copyAgnosticTheme(integration, targetPath);
+  if (fs.existsSync(templatePath)) {
+    try {
+      rimraf.sync(templatePath);
+    } catch (e) {
+      log.error('Unable to remove old template');
+      return;
+    }
+  }
+  try {
+    await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
+  } catch (error) {
+    log.error('Unable to get integration template from git repository');
+    return;
+  }
 
   log.info('Updating Nuxt config');
-  const absoluteTargetPath = path.isAbsolute(targetPath)
-    ? targetPath
-    : path.join(__dirname, targetPath);
-  const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
-  await processMagicComments(nuxtConfigPath);
-
-  const packageJsonPath = path.join(absoluteTargetPath, 'package.json');
-  await updatePackageName(packageJsonPath, getProjectDirectoryName(targetPath));
+  try {
+    const absoluteTargetPath = path.isAbsolute(templatePath)
+      ? templatePath
+      : path.join(__dirname, templatePath);
+    const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
+    await processMagicComments(nuxtConfigPath);
+  } catch (error) {
+    log.error('No nuxt.config.js has been found in integration template');
+    process.exit(1);
+  }
 }
 
 export default createProject;

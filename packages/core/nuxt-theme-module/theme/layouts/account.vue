@@ -8,7 +8,6 @@
       <CartSidebar />
       <LoginModal />
     </div>
-    <Version />
   </div>
 </template>
 
@@ -16,18 +15,18 @@
 import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import TopBar from '~/components/TopBar.vue';
-import Version from '~/components/Version.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
 
 export default {
+  name: 'AccountLayout',
+
   components: {
     TopBar,
     AppHeader,
     BottomNavigation,
     CartSidebar,
-    LoginModal,
-    Version
+    LoginModal
   }
 };
 </script>
@@ -42,7 +41,7 @@ body {
 
 #layout {
   box-sizing: border-box;
-  @media screen and (min-width: $desktop-min) {
+  @include for-desktop {
     max-width: 1240px;
     margin: auto;
   }

@@ -1,42 +1,43 @@
-import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, getSettings } from './../../index';
-import { ProductSearch } from './../../types/Api';
-import { ProductQueryResult } from './../../types/GraphQL';
+import { ProductQueryResult } from '../../types/GraphQL';
 import defaultQuery from './defaultQuery';
-import { buildProductWhere } from './../../helpers/search';
+import { buildProductWhere } from '../../helpers/search';
+import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
-interface ProductData {
+export interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<ProductData>> => {
-  const { currency, country, locale, acceptLanguage } = getSettings();
-  if (search.customQuery) {
-    const { query, variables } = search.customQuery;
+const getProduct = async (context, params, customQuery?: CustomQuery) => {
+  const { locale, acceptLanguage, currency, country } = context.config;
+  const defaultVariables = {
+    where: buildProductWhere(context.config, params),
+    skus: params.skus,
+    limit: params.limit,
+    offset: params.offset,
+    locale,
+    acceptLanguage,
+    currency,
+    country
+  };
 
-    return await apolloClient.query<ProductData>({
-      query: gql`${query}`,
-      variables
+  const { products } = context.extendQuery(
+    customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  try {
+    const request = await (context.client as ApolloClient<any>).query<ProductData>({
+      query: gql`${products.query}`,
+      variables: products.variables,
+      // temporary, seems like bug in apollo:
+      // @link: https://github.com/apollographql/apollo-client/issues/3234
+      fetchPolicy: 'no-cache'
     });
+    return request;
+  } catch (error) {
+    throw error.graphQLErrors?.[0] || error.networkError?.result || error;
   }
-
-  return await apolloClient.query<ProductData>({
-    query: defaultQuery,
-    variables: {
-      where: buildProductWhere(search),
-      skus: search.skus,
-      limit: search.limit,
-      offset: search.offset,
-      locale,
-      acceptLanguage,
-      currency,
-      country
-    },
-    // temporary, seems like bug in apollo:
-    // @link: https://github.com/apollographql/apollo-client/issues/3234
-    fetchPolicy: 'no-cache'
-  });
 
 };
 

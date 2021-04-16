@@ -1,17 +1,26 @@
-import { ApolloQueryResult } from 'apollo-client';
-import { apolloClient, getSettings } from '../../index';
 import defaultQuery from './defaultQuery';
-import { ShippingMethod } from './../../types/GraphQL';
+import { ShippingMethod } from '../../types/GraphQL';
+import gql from 'graphql-tag';
+import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
-interface ShippingMethodData {
+export interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
-const getShippingMethods = async (cartId?: string): Promise<ApolloQueryResult<ShippingMethodData>> => {
-  const { acceptLanguage } = getSettings();
-  return await apolloClient.query({
-    query: defaultQuery,
-    variables: { acceptLanguage, cartId },
+const getShippingMethods = async (context, cartId?: string, customQuery?: CustomQuery) => {
+  const { acceptLanguage } = context.config;
+  const defaultVariables = {
+    acceptLanguage, cartId
+  };
+
+  const { shippingMethods } = context.extendQuery(
+    customQuery, { shippingMethods: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  return await (context.client as ApolloClient<any>).query<ShippingMethodData>({
+    query: gql`${shippingMethods.query}`,
+    variables: shippingMethods.variables,
     fetchPolicy: 'no-cache'
   });
 };

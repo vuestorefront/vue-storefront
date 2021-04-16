@@ -1,4 +1,3 @@
-
 export const ProductPriceFragment = `
   fragment DefaultProductPrice on ProductPrice {
     discounted {
@@ -26,6 +25,7 @@ export const ProductPriceFragment = `
 
 export const AddressFragment = `
   fragment DefaultAddress on Address {
+    id
     title
     firstName
     lastName
@@ -33,23 +33,36 @@ export const AddressFragment = `
     streetNumber
     postalCode
     city
-    region
     country
-    company
     state
-    contactInfo {
-      phone
-      email
-    }
+    region
+    company
+    apartment
+    phone
+    mobile
   }
 `;
 
+// TODO: Remove all address information and update PRO packages to use customQueries when this is implemented: https://github.com/DivanteLtd/vue-storefront/issues/5049
 export const CustomerFragment = `
+  ${AddressFragment}
+
   fragment DefaultCustomer on Customer {
     version
     firstName
     lastName
     email
+    addresses {
+      id
+    }
+    shippingAddresses {
+      ...DefaultAddress
+    }
+    billingAddresses {
+      ...DefaultAddress
+    }
+    defaultBillingAddressId
+    defaultShippingAddressId
   }
 `;
 
@@ -102,44 +115,14 @@ export const LineItemFragment = `
         url
         label
       }
-      attributeList {
+      attributesRaw {
         name
-        ... on BooleanAttribute {
-          booleanValue: value
-        }
-        ... on DateAttribute {
-          dateValue: value
-        }
-        ... on DateTimeAttribute {
-          dateTimeValue: value
-        }
-        ... on StringAttribute {
-          stringValue: value
-        }
-        ... on TimeAttribute {
-          timeValue: value
-        }
-        ... on NumberAttribute {
-          numberValue: value
-        }
-        ... on EnumAttribute {
-          key
-          label
-        }
-        ... on LocalizedEnumAttribute {
-          key
-          localizedLabel: label(locale: $locale)
-        }
-        ... on LocalizedStringAttribute {
-          localizedString: value(locale: $locale)
-        }
-        ... on MoneyAttribute {
-          centAmount
-          currencyCode
-        }
-        ... on ReferenceAttribute {
-          typeId
-          id
+        value
+        attributeDefinition {
+          type {
+            name
+          }
+          label(locale: $locale)
         }
       }
     }
@@ -154,7 +137,6 @@ export const ShippingMethodFragment = `
     id
     version
     name
-    description
     isDefault
     localizedDescription(acceptLanguage: $acceptLanguage)
     zoneRates {
@@ -241,6 +223,12 @@ export const CartFragment = `
       validUntil
       name(acceptLanguage: $acceptLanguage)
     }
+    custom {
+      customFieldsRaw {
+        name
+        value
+      }
+    }
     cartState
     version
   }
@@ -270,6 +258,10 @@ export const OrderFragment = `
     }
     billingAddress {
       ...DefaultAddress
+    }
+    cart {
+      id
+      version
     }
   }
 `;

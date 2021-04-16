@@ -1,5 +1,8 @@
 module.exports = {
   preset: 'ts-jest',
+  transform: {
+    '^.+\\.[jt]s$': 'ts-jest'
+  },
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'lcov', 'text'],
@@ -13,8 +16,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: {
     '^@vue-storefront/cli/(.*?)$': '<rootDir>/cli/$1',
-    '^@vue-storefront/nuxt-theme/(.*?)$': '<rootDir>/nuxt-theme-module/$1',
-    '^@vue-storefront/(.*?)$': '<rootDir>/$1'
+    '^@vue-storefront/nuxt-theme/(.*?)$': '<rootDir>/nuxt-theme-module/$1'
   },
   rootDir: __dirname,
   setupFilesAfterEnv: [

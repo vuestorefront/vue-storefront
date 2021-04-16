@@ -2,20 +2,28 @@
 import { configureSSR } from '@vue-storefront/core'
 import { ssrRef, getCurrentInstance, onServerPrefetch } from '@nuxtjs/composition-api';
 
-const ssrPlugin = () => {
-  let previousRoute = '';
+const hasRouteChanged = (vm) => {
+  const { from } = vm.$router.app.context;
+  const { current } = vm.$router.history
 
+  if (!from) {
+    return false
+  }
+
+  return from.fullPath !== current.fullPath
+}
+
+const ssrPlugin = () => {
   configureSSR({
     vsfRef: ssrRef,
     onSSR: (fn) => {
       onServerPrefetch(fn);
       if (typeof window !== 'undefined') {
         const vm = getCurrentInstance();
-        if (previousRoute !== vm.$route.fullPath) {
+
+        if (hasRouteChanged(vm)) {
           fn();
         }
-
-        previousRoute = vm.$route.fullPath;
       }
     }
   });

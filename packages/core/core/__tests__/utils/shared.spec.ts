@@ -1,9 +1,12 @@
 
 import { sharedRef } from '../../src/utils/shared';
+import { vsfRef, useVSFContext } from '../../src/utils';
 
 describe('[CORE - utils] shared', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    const $sharedRefsMap = new Map();
+    (useVSFContext as any).mockImplementation(() => ({ $sharedRefsMap }));
   });
 
   it('returns same instance', () => {
@@ -12,6 +15,7 @@ describe('[CORE - utils] shared', () => {
     someRef1.value = 'test-update';
 
     expect(someRef1).toEqual(someRef2);
+    expect(vsfRef).toBeCalledWith('test', 'test-key');
   });
 
   it('different instances are not equal', () => {
@@ -20,6 +24,9 @@ describe('[CORE - utils] shared', () => {
     someRef1.value = 'test-update';
 
     expect(someRef1).not.toEqual(someRef2);
+    expect(vsfRef).toBeCalledWith('test', 'test-key1');
+    expect(vsfRef).toBeCalledWith('test', 'test-key2');
+
   });
 
   it('get shared ref', () => {
@@ -27,6 +34,19 @@ describe('[CORE - utils] shared', () => {
     const someRef2 = sharedRef('test-key3');
     someRef1.value = 'test-update-3';
 
+    expect(someRef1).toEqual(someRef2);
+    expect(vsfRef).toBeCalledWith('test', 'test-key3');
+    expect(vsfRef).toBeCalledWith('test', 'test-key3');
+  });
+
+  it('assign a value when ref does not exist', () => {
+    const someRef1 = sharedRef('no-exist-key');
+    someRef1.value = 'no-exist-update';
+
+    expect(someRef1.value).toEqual('no-exist-update');
+    expect(vsfRef).toBeCalledWith(null, 'no-exist-key');
+
+    const someRef2 = sharedRef('no-exist-key');
     expect(someRef1).toEqual(someRef2);
   });
 });

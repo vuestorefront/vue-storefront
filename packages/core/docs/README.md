@@ -1,86 +1,97 @@
-# What is Vue Storefront
-
-
-_Vue Storefront_ is a ___headless e-commerce PWA frontend framework___ that may work with __any__ backend that you are already using via its API regardless of the platform, be it e-commerce, CMS, ERP, PIM, or anything else. 
-
-
-![f_b](./images/f_b.png)
-
-We mean by 
- - __headless__ : Your e-commerce platform as a whole system can be built on top of a set of different technologies. No mandatory combination for the platform is required. Manifestation of _low coupling and high cohesion_ is here and will stay with us until the end. 
- - __e-commerce__ : Essentially _Vue Storefront_ was born as the e-commerce framework. By the nature of headless and microservice, however, you might connect it to whatever you set it to, say, a helper service for ERP, or versatile search features for PIM, and portable checkout for 3rd party payment kiosk, and so on. Limit is your imagination. 
- - __PWA__ : _PWA_ is the thing of future, it is designed to give best performance even on laggy mobile devices with native-like features from the beginning in order to satisfy your customers who are curious, rich, and impatient.
- - __framework__ : Even though _Vue Storefront_ is a set of atomic features, they should be guided as one by the conductor. We do so by gluing them through _interfaces_ and _factories_. We will dig this further later, but one thing to take away, they are quite flexible glues. 
-
-Give me 7 minutes and you will grab : 
+# Introduction
 
 [[toc]]
 
-## Technical problems
+## What is Vue Storefront?
+
+_Vue Storefront_ is a ___platform-agnostic e-commerce PWA frontend framework___ that can work with any e-commerce backend API. Additionally, thanks to _low coupling and high cohesion_, it can connect to other services, giving you the freedom to work with the technologies you know and love, be it CMS, ERP, PIM, or anything else.
+
+<center>
+<img src="./images/diagram-general.png" />
+</center>
+
+That's a mouthful, so let's break it down:
+ - __platform-agnostic__ - we made it possible to work with any platform and service you already use, as long as it has an API like REST or GraphQL.
+ - __e-commerce__ - today's shops are much more than just products and carts. That's why we made it easy to integrate other types of services, such as helper service for ERP, versatile search features for PIM, portable checkout for 3rd party payment kiosk, and more.
+ - __PWA__ - it's the technology of the future, designed to give the best performance on any device, with native-like features to satisfy your customer's needs.
+ - __frontend framework__ - _Vue Storefront_ is a set of modular features, glued together using _interfaces_ and _factories_ and powered by [Nuxt.js](https://nuxtjs.org/).
+
+## Problems Vue Storefront solves
+
+The main purpose of any software is to solve problems and Vue Storefront is no different. We're doing our best to find common issues in the eCommerce space and find viable and scalable solutions. Below you can find just a few.
+
+### Long time to market
+
+Headless eCommerce frontends are complex and developing them can take a lot of time. 
+
+**Solution**
+
+With Vue Storefront you're getting a performant frontend connected to headless e-commerce, CMS, and other third-party platforms of your choice, along with hundreds of ready-to-use Vue Storefront and Nuxt.js modules for all common functionalities. Thanks to them, you will save hundreds (or even thousands) of working hours, so you can focus on creating value for your product while leaving the heavy lifting to us!
 
 ### Slow, unresponsive online shop
 
-_Vue Storefront_ solves slow, unresponsive online shop problems as follows : 
+By some estimates, up to 1% of users will leave your website for every 100ms of delay in page load time. No matter how great your products are, a slow and unresponsive shop will make your conversion significantly lower.
 
-- The page load time reduced significantly on average including categories, products, and checkout and all that. 
-- Major features were cached offline so poor mobile carrier performance isn't outstanding. 
-- When connected back to online, suspended processes returns to work without noticeable hassles for customers. 
+**Solution**
 
-Not only page load time but also __responsiveness as a whole from the page was instant and seamless__ just as you would expect from a native app, if not better. 
+We solved these issues by:
+- using modern technologies for small bundle sizes and performance;
+- using code splitting, lazy loading, and lazy hydration to load only what's needed at the moment;
+- caching the resources, so the already visited pages are loaded instantly;
+- preloading resources that might be needed in the future;
+- hosting and executing as much as possible on the server, so the part served to the users is much lighter and faster compared to traditional SPA;
 
-### Developer's dilemma for maintenance
+### Unwieldy architectural decisions
 
-#### Unwieldy decisions
+It can be incredibly hard to add or remove simple features when the code doesn't follow industry standard patterns and conventions. Even a simple bugfix or security update can be a very time-consuming task.
 
-1. How painful was it when you had to meticulously fix tremendous amount of changes without patterns while you just want to add/remove a simple feature, or upgrade the framework as they claim security risk is at stake? 
+**Solution**
 
-2. Another recall, how frustrated was it when you learned the other backend platform you didn't choose turned out better solution for your business, a lot better on many levels, but the cost of switching is even greater than the benefit of it you just learned? You were literally locked-in by tentative choices you made while you were naive.
+We are promoting good architectural decisions by providing an opinionated way of building eCommerce frontends based on years of experience. Whatever issues you could run into, we made sure that our modular and flexible architecture will handle them.
 
-Now, solution comes with _Vue Storefront_. 
+### Painful or impossible migrations
 
- For the best experience when it comes to maintaining the framework, we divided the system into the smallest chunks until it's not meaningful to do so. ___Technically all parts are wrapped in as individual `npm` packages so switching from one version to another should be as easy as any `npm` command.___ In short, it has been built on the firm ground of _Mircroservice_ architecture. It also means you can swap a part in the system with other equivalent app or service with a simple command. (or with a few changes in configuration)
+It can be frustrating when the technology you choose turned out to not fit your business needs, be it feature- or cost-wise. It can be even worse if you can't change it at all or the cost outweighs the benefits.
 
+**Solution**
 
-## In a nutshell, technically 
-_Vue Storefront_ is made up of 4 layers as follows : 
+From the very beginning, Vue Storefront was designed to be backend-agnostic. This means that all eCommerce backends are integrated on the frontend under common interfaces and can be replaced without having to rewrite the frontend from scratch. Most technologies are completely different on the backend but are very similar from the frontend perspective, so we made abstractions that will make your migrations painless.
 
-![templates_d](./images/templates.png)
+### Lack of platform-specific competencies
 
-_Data Layer_ : __API Client__ - This provides a friendly abstraction layer for your e-commerce backend over network. 
+So your Magento department is not doing well, but the commercetools one is growing like crazy? If only you could move developers from one department to another...
 
-_Service Layer_ : __Composables__ - This contains business logic in _Vue.js_ framework
+**Solution**
 
-_Presentation Layer_ : __UI Components__ - _Vue Storefront_ has already launched its sister project [Storefront UI](https://www.storefrontui.io/) helping you build your UI and theme hands down.
+With Vue Storefront you can! We have common interfaces for all integrations of the same type (eCommerce, CMS, Loyalty, etc.), so once a developer learns Vue Storefront they can be confident with any tech stack that works with it.
 
-_Framework Layer_ : __Nuxt__ - _Nuxt_ works as a glue for all the framework components even though it's not a must-use. 
+### Lack of flexibility
 
-_Vue Storefront_ is a set of independent `npm` packages taking various roles of the framework. It's really up to you _how much_ of the framework you will use in your project. You can cherry-pick any combination to your advantage. 
-
-:::tip
-_Vue Storefront_ packages are standalone which allows you to use them in __any__ Vue.js enviroment so it's not a must to use Nuxt. You can use _Vue Storefront_ packages with Vue CLI or even within your custom Vue.js codebase. All you need is know how to communicate with _Vue Storefront_, which is done via interfaces over API.
-:::
-
-## Backend Integration
-_Vue Storefront_ is a frontend framework undoubtedly. It needs an e-commerce backend to fully function in its glory.
-Here is the list of e-commerce platform integrations already out in the field.
-
-- Commercetools (Stable beta)
-- Shopify (Developers Preview)
-- About You Cloud (Developers Preview)
-
-We will walk you with details of each integration in its dedicated guide. 
+Do you recall the frustration when it wasn't possible to implement your dream design or feature within your backend platform, or adding a single modal window took few days?
 
 
-## Benefits you take
-- Blazingly fast frontend
-- Ability to work with any eCommerce platform, CMS, ERP, PIM **under common, agnostic API**
-- Server Side Rendereing
-- Progressive Web App features
-- Huge flexibility in changing third-party services thanks to agnostic data formats
+**Solution**
 
-## Tech stack 
+You will forget about these issues with Vue Storefront! For the best experience, we divided the system into small and modular chunks. All parts are individual `npm` packages, so switching from one version to another should be as easy as any package installation.
+Vue Storefront was built on the firm ground of _microservice_ architecture. Each of these packages is independent and optional, so you decide how much of the framework you want to utilize. Moreover **there are absolutely no limitations in terms of UI customization**. Your theme is just a regular Nuxt.js project, which you can customize to any degree.
+
+## eCommerce Integrations
+
+Vue Storefront is a frontend framework, so it needs an e-commerce backend. You can see the list of supported e-commerce platforms on the [integrations page](./integrations).
+
+## Tech stack
+
+The speed and flexibility of Vue Storefront wouldn't be possible without the great technologies that power it:
+
 - [Vue.js](https://vuejs.org/v2/guide/)
 - [Nuxt.js](https://nuxtjs.org/guide)
-- SCSS
+- [SCSS](https://sass-lang.com/)
 - [Storefront UI](https://www.storefrontui.io/) (optional)
 - [TypeScript](https://www.typescriptlang.org/docs/home) (optional)
+- [Cypress](https://www.cypress.io/) (optional)
+
+## What's next?
+
+If you're already convinced to use Vue Storefront, check the [Installation guide](./general/installation.html).
+
+If you want to learn more, check the [Key concepts](./general/key-concepts.html) behind Vue Storefront.

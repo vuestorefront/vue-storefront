@@ -1,5 +1,5 @@
 <template>
-  <SfFooter :column="4" multiple id="footer">
+  <SfFooter :column="4" multiple class="footer">
     <SfFooterColumn :title="$t('About us')">
       <SfList>
         <SfListItem
@@ -7,7 +7,6 @@
           :key="item"
           >
           <SfMenuItem
-            :data-cy="`app-foter-url_about-us_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -20,7 +19,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_departments_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -33,7 +31,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_help_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -46,7 +43,6 @@
           :key="item"
         >
           <SfMenuItem
-            :data-cy="`app-foter-url_payment_${item.split(' ').join('-').toLowerCase()}`"
             :label="$t(item)"
           />
         </SfListItem>
@@ -54,7 +50,7 @@
     </SfFooterColumn>
     <SfFooterColumn title="Social">
       <div class="footer__socials">
-        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" width="12" height="12" />
+        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" :alt="item" width="32" height="32" />
       </div>
     </SfFooterColumn>
   </SfFooter>
@@ -76,7 +72,7 @@ export default {
       departments: ['Women fashion', 'Men fashion', 'Kidswear', 'Home'],
       help: ['Customer service', 'Size guide', 'Contact us'],
       paymentsDelivery: ['Purchase terms', 'Guarantee'],
-      social: ['facebook', 'pinterest', 'twitter', 'youtube'],
+      social: ['facebook', 'pinterest', 'google', 'twitter', 'youtube'],
       isMobile: false,
       desktopMin: 1024
     };
@@ -85,30 +81,39 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/variables";
 
-@mixin for-desktop {
-  @media screen and (min-width: $desktop-min) {
-    @content;
-  }
-}
-.sf-footer {
-  --footer-width: 100%;
-  &__container {
-    --footer-margin: var(--spacer-sm);
-    width: 100%;
-  }
-}
 .footer {
+  margin-bottom: 3.75rem;
+  @include for-desktop {
+    margin-bottom: 0;
+  }
   &__socials {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto var(--spacer-lg);
     padding: var(--spacer-base) var(--spacer-xl);
-
-    @media screen and (min-width: $desktop-min) {
-      padding: var(--spacer-sm) 0;
+    @include for-desktop {
+      justify-content: flex-start;
+      padding: var(--spacer-xs) 0;
+      margin: 0 auto;
     }
   }
   &__social-image {
-    margin: 0 var(--spacer-base) 0 0;
+    margin: 0 var(--spacer-2xs) 0 0;
+  }
+}
+.sf-footer {
+  @include for-desktop {
+    border-top: var(--spacer-xs) solid var(--c-primary);
+    padding-bottom: 0;
+    margin-top: var(--spacer-2xl);
+  }
+  &__container {
+    margin: var(--spacer-sm);
+    @include for-desktop {
+      max-width: 69rem;
+      margin: 0 auto;
+    }
   }
 }
 </style>

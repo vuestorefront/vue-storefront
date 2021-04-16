@@ -1,92 +1,102 @@
 import { apiClientFactory } from '../../src/factories/apiClientFactory';
+import { applyContextToApi } from '../../src/factories/apiClientFactory/context';
+
+jest.mock('../../src/utils', () => ({
+  integrationPluginFactory: jest.fn(),
+  Logger: {
+    debug: jest.fn()
+  }
+}));
 
 describe('[CORE - factories] apiClientFactory', () => {
   it('Should return passed config with overrides property', () => {
     const params = {
-      onSetup: jest.fn(),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
     };
 
-    const { getSettings } = apiClientFactory<any, any>(params);
+    const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
 
-    expect(getSettings()).toEqual({
-      option: 'option'
-    });
+    expect(createApiClient({}).settings).toEqual({});
   });
 
   it('Should merge with default settings when setup is called', () => {
     const params = {
-      onSetup: jest.fn(),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
     };
 
-    const { setup, getSettings } = apiClientFactory<any, any>(params);
+    const { createApiClient} = apiClientFactory<any, any>(params as any) as any;
 
-    setup({ newOption: 'newOption'});
+    const { settings } = createApiClient({ newOption: 'newOption'});
 
-    expect(getSettings()).toEqual({
-      option: 'option',
+    expect(settings).toEqual({
       newOption: 'newOption'
     });
   });
 
-  it('Should reset the settings to default after invoking setup again', () => {
+  it('Should run onCreate when setup is invoked', () => {
     const params = {
-      onSetup: jest.fn(),
-      defaultSettings: { option: 'option' }
-    };
-
-    const { setup, getSettings } = apiClientFactory<any, any>(params);
-
-    setup({ someProp: 'someval'});
-
-    setup({});
-
-    expect(getSettings()).toEqual({
-      option: 'option'
-    });
-  });
-
-  it('Should update current config with new properties', () => {
-    const params = {
-      onSetup: jest.fn(),
-      defaultSettings: { option: 'option'}
-    };
-
-    const { setup, update, getSettings } = apiClientFactory<any, any>(params);
-
-    setup({ newOption: 'newOption'});
-    update({ option: 'overwritten'});
-
-    expect(getSettings()).toEqual({
-      option: 'overwritten',
-      newOption: 'newOption'
-    });
-  });
-
-  it('Should run onSetup when setup is invoked', () => {
-    const params = {
-      onSetup: jest.fn(),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {}
     };
 
-    const { setup } = apiClientFactory<any, any>(params);
+    const { createApiClient } = apiClientFactory<any, any>(params as any);
 
-    setup({});
+    createApiClient({});
 
-    expect(params.onSetup).toHaveBeenCalled();
+    expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it('Should run onSetup when update is invoked', () => {
-    const params = {
-      onSetup: jest.fn(),
-      defaultSettings: {}
+  it('Should run given extensions', () => {
+    const beforeCreate = jest.fn(a => a);
+    const afterCreate = jest.fn(a => a);
+    const extension = {
+      name: 'extTest',
+      hooks: () => ({ beforeCreate, afterCreate })
     };
 
-    const { update } = apiClientFactory<any, any>(params);
+    const params = {
+      onCreate: jest.fn((config) => ({ config })),
+      defaultSettings: {},
+      extensions: [extension]
+    };
 
-    update({});
+    const { createApiClient } = apiClientFactory<any, any>(params as any);
+    const extensions = (createApiClient as any)._predefinedExtensions;
 
-    expect(params.onSetup).toHaveBeenCalled();
+    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+
+    expect(beforeCreate).toHaveBeenCalled();
+    expect(afterCreate).toHaveBeenCalled();
+  });
+
+  it('applyContextToApi adds context as first argument to api functions', () => {
+    const api = {
+      firstFunc: jest.fn(),
+      secondFunc: jest.fn(),
+      thirdFunc: jest.fn()
+    };
+    const context = {
+      extendQuery: jest.fn()
+    };
+
+    const apiWithContext: any = applyContextToApi(api, context);
+
+    apiWithContext.firstFunc();
+    apiWithContext.secondFunc('TEST');
+    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+
+    expect(api.firstFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) })
+    );
+    expect(api.secondFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
+      'TEST'
+    );
+    expect(api.thirdFunc).toHaveBeenCalledWith(
+      expect.objectContaining({ extendQuery: expect.any(Function) }),
+      'A', 'FEW', 'ARGS'
+    );
   });
 });

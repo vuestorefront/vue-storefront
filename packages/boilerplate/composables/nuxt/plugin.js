@@ -1,7 +1,10 @@
-import { setup } from '@vue-storefront/boilerplate-api';
+import { integrationPlugin } from '@vue-storefront/core';
 
-export default function init() {
-  // const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
+const moduleOptions = <%= serialize(options) %>;
 
-  setup({});
-}
+export default integrationPlugin(({ integration }) => {
+  integration.configure('boilerplate', {
+    ...moduleOptions
+    // other options
+  });
+});

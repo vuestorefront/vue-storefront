@@ -1,42 +1,34 @@
-import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { apolloClient, getSettings } from './../../index';
-import { CategorySearch } from './../../types/Api';
-import { CategoryQueryResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
-import { buildCategoryWhere } from './../../helpers/search';
+import { CategoryQueryResult } from '../../types/GraphQL';
+import { buildCategoryWhere } from '../../helpers/search';
+import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
-interface CategoryData {
+export interface CategoryData {
   categories: CategoryQueryResult;
 }
 
-const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
-  const { acceptLanguage } = getSettings();
-  if (!search) {
-    return await apolloClient.query<CategoryData>({
-      query: defaultQuery,
-      variables: { acceptLanguage }
-    });
-  }
+const getCategory = async (context, params, customQuery?: CustomQuery) => {
+  const { acceptLanguage } = context.config;
+  const defaultVariables = params ? {
+    where: buildCategoryWhere(context.config, params),
+    limit: params.limit,
+    offset: params.offset,
+    acceptLanguage
+  } : { acceptLanguage };
 
-  if (search.customQuery) {
-    const { query, variables } = search.customQuery;
+  const { categories } = context.extendQuery(customQuery,
+    { categories: { query: defaultQuery, variables: defaultVariables } }
+  );
 
-    return await apolloClient.query<CategoryData>({
-      query: gql`${query}`,
-      variables
-    });
-  }
-
-  return await apolloClient.query<CategoryData>({
-    query: defaultQuery,
-    variables: {
-      where: buildCategoryWhere(search),
-      limit: search.limit,
-      offset: search.offset,
-      acceptLanguage
-    }
+  const request = await (context.client as ApolloClient<any>).query<CategoryData>({
+    query: gql`${categories.query}`,
+    variables: categories.variables,
+    fetchPolicy: 'no-cache'
   });
+
+  return request;
 };
 
 export default getCategory;

@@ -1,16 +1,26 @@
 <template>
   <div>
-    <TopBar class="desktop-only" />
-    <div id="layout" >
+    <LazyHydrate when-visible>
+      <TopBar class="desktop-only" />
+    </LazyHydrate>
+    <LazyHydrate when-idle>
       <AppHeader />
+    </LazyHydrate>
+
+    <div id="layout">
       <nuxt :key="$route.fullPath"/>
-      <BottomNavigation />
-      <AppFooter />
+
+      <LazyHydrate when-visible>
+        <BottomNavigation />
+      </LazyHydrate>
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
+      <Notification />
     </div>
-    <Version />
+    <LazyHydrate when-visible>
+      <AppFooter />
+    </LazyHydrate>
   </div>
 </template>
 
@@ -19,15 +29,17 @@ import AppHeader from '~/components/AppHeader.vue';
 import BottomNavigation from '~/components/BottomNavigation.vue';
 import AppFooter from '~/components/AppFooter.vue';
 import TopBar from '~/components/TopBar.vue';
-import Version from '~/components/Version.vue';
 import CartSidebar from '~/components/CartSidebar.vue';
 import WishlistSidebar from '~/components/WishlistSidebar.vue';
 import LoginModal from '~/components/LoginModal.vue';
-// const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
-// const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+import LazyHydrate from 'vue-lazy-hydration';
+import Notification from '~/components/Notification';
 
 export default {
+  name: 'DefaultLayout',
+
   components: {
+    LazyHydrate,
     TopBar,
     AppHeader,
     BottomNavigation,
@@ -35,7 +47,7 @@ export default {
     CartSidebar,
     WishlistSidebar,
     LoginModal,
-    Version
+    Notification
   }
 };
 </script>
@@ -45,22 +57,29 @@ export default {
 
 #layout {
   box-sizing: border-box;
-  @media screen and (min-width: $desktop-min) {
+  @include for-desktop {
     max-width: 1240px;
     margin: auto;
   }
 }
 
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 // Reset CSS
 html {
   width: auto;
-  overflow-x: hidden;
+  @include for-mobile {
+    overflow-x: hidden;
+  }
 }
 body {
   overflow-x: hidden;
   color: var(--c-text);
-  font-size: var(--font-base);
-  font-family: var(--font-family-primary);
+  font-size: var(--font-size--base);
+  font-family: var(--font-family--primary);
   margin: 0;
   padding: 0;
 }
@@ -72,25 +91,25 @@ a {
   }
 }
 h1 {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family--secondary);
   font-size: var(--h1-font-size);
   line-height: 1.6;
   margin: 0;
 }
 h2 {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family--secondary);
   font-size: var(--h2-font-size);
   line-height: 1.6;
   margin: 0;
 }
 h3 {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family--secondary);
   font-size: var(--h3-font-size);
   line-height: 1.6;
   margin: 0;
 }
 h4 {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family--secondary);
   font-size: var(--h4-font-size);
   line-height: 1.6;
   margin: 0;

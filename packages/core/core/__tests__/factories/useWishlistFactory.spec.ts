@@ -1,24 +1,33 @@
 import { useWishlistFactory, UseWishlistFactoryParams } from '../../src/factories';
 import { UseWishlist } from '../../src/types';
+import { sharedRef } from './../../src/utils';
 
 let useWishlist: () => UseWishlist<any, any, any>;
-let setWishlist = null;
 let params: UseWishlistFactoryParams<any, any, any>;
+const customQuery = undefined;
 
 function createComposable() {
   params = {
-    loadWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
-    addToWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
-    isOnWishlist: jest.fn().mockReturnValueOnce(true),
-    clearWishlist: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
-    removeFromWishlist: jest
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
+    isInWishlist: jest.fn().mockReturnValueOnce(true),
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' })
   };
-  const factory = useWishlistFactory<any, any, any>(params);
-  useWishlist = factory.useWishlist;
-  setWishlist = factory.setWishlist;
+  useWishlist = useWishlistFactory<any, any, any>(params);
 }
+
+const factoryParams = {
+  addItem: jest.fn(() => null),
+  removeItem: jest.fn(),
+  load: jest.fn(),
+  clear: jest.fn(),
+  isInWishlist: jest.fn()
+};
+
+const useWishlistMock = useWishlistFactory<any, any, any>(factoryParams);
 
 describe('[CORE - factories] useWishlistFactory', () => {
   beforeEach(() => {
@@ -37,23 +46,23 @@ describe('[CORE - factories] useWishlistFactory', () => {
     it('should not load wishlist if is provided during factory creation', () => {
       createComposable();
       useWishlist();
-      expect(params.loadWishlist).not.toBeCalled();
+      expect(params.load).not.toBeCalled();
     });
     it('set given wishlist', () => {
-      const { wishlist } = useWishlist();
+      const { wishlist, setWishlist } = useWishlist();
       expect(wishlist.value).toEqual(null);
       setWishlist({ wishlist: 'test' });
-      expect(wishlist.value).toEqual({ wishlist: 'test' });
+      expect(sharedRef).toHaveBeenCalled();
     });
   });
 
   describe('computes', () => {
-    describe('isOnWishlist', () => {
-      it('should invoke implemented isOnWishlist method', () => {
-        const { isOnWishlist } = useWishlist();
-        const result = isOnWishlist({ id: 'productId' });
+    describe('isInWishlist', () => {
+      it('should invoke implemented isInWishlist method', () => {
+        const { isInWishlist } = useWishlist();
+        const result = isInWishlist({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnWishlist).toBeCalledWith({
+        expect(params.isInWishlist).toBeCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
@@ -62,48 +71,99 @@ describe('[CORE - factories] useWishlistFactory', () => {
   });
 
   describe('methods', () => {
-    describe('loadWishlist', () => {
+    describe('load', () => {
       it('load the wishlist', async () => {
         createComposable();
 
-        const { loadWishlist, wishlist } = useWishlist();
-        await loadWishlist();
-        await loadWishlist();
-        expect(params.loadWishlist).toHaveBeenCalled();
+        const { load, wishlist } = useWishlist();
+        await load();
+        expect(params.load).toHaveBeenCalledWith({ customQuery });
         expect(wishlist.value).toEqual({ id: 'mocked_wishlist' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.load.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { load, error } = useWishlistMock();
+
+        await load();
+
+        expect(error.value.load).toBe(err);
       });
     });
 
-    describe('addToWishlist', () => {
+    describe('addItem', () => {
       it('should invoke adding to wishlist', async () => {
-        const { addToWishlist, wishlist } = useWishlist();
-        await addToWishlist({ id: 'productId' });
-        expect(params.addToWishlist).toHaveBeenCalledWith({
+        const { addItem, wishlist } = useWishlist();
+        await addItem({ product: { id: 'productId' } });
+        expect(params.addItem).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
         expect(wishlist.value).toEqual({ id: 'mocked_added_wishlist' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.addItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { addItem, error } = useWishlistMock();
+
+        await addItem({
+          product: { id: 'productId' }
+        });
+
+        expect(error.value.addItem).toBe(err);
+      });
     });
 
-    describe('removeFromWishlist', () => {
+    describe('removeItem', () => {
       it('should invoke adding to wishlist', async () => {
-        const { removeFromWishlist, wishlist } = useWishlist();
-        await removeFromWishlist({ id: 'productId' });
-        expect(params.removeFromWishlist).toHaveBeenCalledWith({
+        const { removeItem, wishlist } = useWishlist();
+        await removeItem({ product: { id: 'productId' } });
+        expect(params.removeItem).toHaveBeenCalledWith({
           currentWishlist: null,
           product: { id: 'productId' }
         });
         expect(wishlist.value).toEqual({ id: 'mocked_removed_wishlist' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.removeItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { removeItem, error } = useWishlistMock();
+
+        await removeItem({
+          product: { id: 'productId' }
+        });
+
+        expect(error.value.removeItem).toBe(err);
+      });
     });
 
-    describe('clearWishlist', () => {
-      it('should invoke clearWishlist', async () => {
-        const { clearWishlist, wishlist } = useWishlist();
-        await clearWishlist();
-        expect(params.clearWishlist).toHaveBeenCalledWith({ currentWishlist: null });
+    describe('clear', () => {
+      it('should invoke clear', async () => {
+        const { clear, wishlist } = useWishlist();
+        await clear();
+        expect(params.clear).toHaveBeenCalledWith({ currentWishlist: null });
         expect(wishlist.value).toEqual({ id: 'mocked_cleared_wishlist' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.clear.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { clear, error } = useWishlistMock();
+
+        await clear();
+
+        expect(error.value.clear).toBe(err);
       });
     });
   });

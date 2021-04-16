@@ -1,0 +1,33 @@
+{{#if categories}}
+
+{{#each categories}}
+
+{{#unless allChildrenHaveOwnDocument}}
+
+{{#each children}}
+
+{{#unless hasOwnDocument}}
+
+{{> member}}
+
+{{/unless}}
+
+{{/each}}
+
+{{/unless}}
+
+{{/each}}
+
+{{else}}
+
+{{#each groups}}
+
+{{#unless allChildrenHaveOwnDocument}}
+
+{{> members.group}}
+
+{{/unless}}
+
+{{/each}}
+
+{{/if}}

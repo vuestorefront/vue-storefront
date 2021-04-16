@@ -3,20 +3,19 @@ import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
 let useCart: () => UseCart<any, any, any, any>;
-let setCart = null;
 let params: UseCartFactoryParams<any, any, any, any>;
 
 function createComposable() {
   params = {
-    loadCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
-    addToCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
-    removeFromCart: jest
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_cart' }),
-    updateQuantity: jest
+    updateItemQty: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_updated_quantity_cart' }),
-    clearCart: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
     applyCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_apply_coupon_cart' },
       updatedCoupon: 'appliedCouponMock'
@@ -24,12 +23,23 @@ function createComposable() {
     removeCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_removed_coupon_cart' }
     }),
-    isOnCart: jest.fn().mockReturnValueOnce(true)
+    isInCart: jest.fn().mockReturnValueOnce(true)
   };
-  const factory = useCartFactory<any, any, any, any>(params);
-  useCart = factory.useCart;
-  setCart = factory.setCart;
+  useCart = useCartFactory<any, any, any, any>(params);
 }
+
+const factoryParams = {
+  addItem: jest.fn(() => null),
+  removeItem: jest.fn(),
+  updateItemQty: jest.fn(),
+  load: jest.fn(),
+  clear: jest.fn(),
+  applyCoupon: jest.fn(),
+  removeCoupon: jest.fn(),
+  isInCart: jest.fn()
+};
+
+const useCartMock = useCartFactory(factoryParams);
 
 describe('[CORE - factories] useCartFactory', () => {
   beforeEach(() => {
@@ -39,20 +49,19 @@ describe('[CORE - factories] useCartFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties', async () => {
-      const { cart, coupon, loading } = useCart();
+      const { cart, loading } = useCart();
 
       expect(cart.value).toEqual(null);
-      expect(coupon.value).toEqual(null);
       expect(loading.value).toEqual(false);
     });
 
     it('should not load cart if is provided during factory creation', () => {
       createComposable();
       useCart();
-      expect(params.loadCart).not.toBeCalled();
+      expect(params.load).not.toBeCalled();
     });
     it('set given cart', () => {
-      const { cart } = useCart();
+      const { cart, setCart } = useCart();
       expect(cart.value).toEqual(null);
       setCart({ cart: 'test' });
       expect(sharedRef).toHaveBeenCalled();
@@ -60,12 +69,12 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('computes', () => {
-    describe('isOnCart', () => {
-      it('should invoke implemented isOnCart method', () => {
-        const { isOnCart } = useCart();
-        const result = isOnCart({ id: 'productId' });
+    describe('isInCart', () => {
+      it('should invoke implemented isInCart method', () => {
+        const { isInCart } = useCart();
+        const result = isInCart({ product: { id: 'productId' } });
         expect(result).toEqual(true);
-        expect(params.isOnCart).toBeCalledWith({
+        expect(params.isInCart).toBeCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });
@@ -74,100 +83,184 @@ describe('[CORE - factories] useCartFactory', () => {
   });
 
   describe('methods', () => {
-    describe('loadCart', () => {
+    describe('load', () => {
       it('load the cart', async () => {
         createComposable();
 
-        const { loadCart, cart } = useCart();
-        await loadCart();
-        await loadCart();
-        expect(params.loadCart).toHaveBeenCalled();
+        const { load, cart } = useCart();
+        await load();
+        await load();
+        expect(params.load).toHaveBeenCalled();
         expect(cart.value).toEqual({ id: 'mocked_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.load.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { load, error } = useCartMock();
+
+        await load();
+
+        expect(error.value.load).toBe(err);
       });
     });
 
-    describe('addToCart', () => {
+    describe('addItem', () => {
       it('should invoke adding to cart', async () => {
-        const { addToCart, cart } = useCart();
-        await addToCart({ id: 'productId' }, 2);
-        expect(params.addToCart).toHaveBeenCalledWith({
+        const { addItem, cart } = useCart();
+        await addItem({ product: { id: 'productId' }, quantity: 2});
+        expect(params.addItem).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
         });
         expect(cart.value).toEqual({ id: 'mocked_added_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.addItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { addItem, error } = useCartMock();
+
+        await addItem({ product: { id: 'productId' }, quantity: 1 });
+
+        expect(error.value.addItem).toBe(err);
+      });
     });
 
-    describe('removeFromCart', () => {
+    describe('removeItem', () => {
       it('should invoke adding to cart', async () => {
-        const { removeFromCart, cart } = useCart();
-        await removeFromCart({ id: 'productId' });
-        expect(params.removeFromCart).toHaveBeenCalledWith({
+        const { removeItem, cart } = useCart();
+        await removeItem({ product: { id: 'productId' }});
+        expect(params.removeItem).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' }
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.removeItem.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { removeItem, error } = useCartMock();
+
+        await removeItem({ product: { id: 'productId' } });
+
+        expect(error.value.removeItem).toBe(err);
+      });
     });
 
-    describe('updateQuantity', () => {
+    describe('updateItemQty', () => {
       it('should not invoke quantity update if quantity is not provided', async () => {
-        const { updateQuantity } = useCart();
-        await updateQuantity({ id: 'productId' });
-        expect(params.updateQuantity).not.toBeCalled();
+        const { updateItemQty } = useCart();
+        await updateItemQty({ product: { id: 'productId' } });
+        expect(params.updateItemQty).not.toBeCalled();
       });
 
       it('should not invoke quantity update if quantity is lower than 1', async () => {
-        const { updateQuantity } = useCart();
-        await updateQuantity({ id: 'productId' }, 0);
-        expect(params.updateQuantity).not.toBeCalled();
+        const { updateItemQty } = useCart();
+        await updateItemQty({ product: { id: 'productId' }, quantity: 0 });
+        expect(params.updateItemQty).not.toBeCalled();
       });
 
       it('should invoke quantity update', async () => {
-        const { updateQuantity, cart } = useCart();
-        await updateQuantity({ id: 'productId' }, 2);
-        expect(params.updateQuantity).toHaveBeenCalledWith({
+        const { updateItemQty, cart } = useCart();
+        await updateItemQty({ product: { id: 'productId' }, quantity: 2 });
+        expect(params.updateItemQty).toHaveBeenCalledWith({
           currentCart: null,
           product: { id: 'productId' },
           quantity: 2
         });
         expect(cart.value).toEqual({ id: 'mocked_updated_quantity_cart' });
       });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.updateItemQty.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { updateItemQty, error } = useCartMock();
+
+        await updateItemQty({ product: { id: 'productId' }, quantity: 1 });
+
+        expect(error.value.updateItemQty).toBe(err);
+      });
     });
 
-    describe('clearCart', () => {
-      it('should invoke clearCart', async () => {
-        const { clearCart, cart } = useCart();
-        await clearCart();
-        expect(params.clearCart).toHaveBeenCalledWith({ currentCart: null });
+    describe('clear', () => {
+      it('should invoke clear', async () => {
+        const { clear, cart } = useCart();
+        await clear();
+        expect(params.clear).toHaveBeenCalledWith({ currentCart: null });
         expect(cart.value).toEqual({ id: 'mocked_cleared_cart' });
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.clear.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { clear, error } = useCartMock();
+
+        await clear();
+
+        expect(error.value.clear).toBe(err);
       });
     });
 
     describe('applyCoupon', () => {
       it('should apply provided coupon', async () => {
-        const { applyCoupon, cart, coupon } = useCart();
-        await applyCoupon('qwerty');
+        const { applyCoupon, cart } = useCart();
+        await applyCoupon({ couponCode: 'qwerty' });
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: 'qwerty'
+          couponCode: 'qwerty'
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
-        expect(coupon.value).toEqual('appliedCouponMock');
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.applyCoupon.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { applyCoupon, error } = useCartMock();
+
+        await applyCoupon({ couponCode: 'qwerty' });
+
+        expect(error.value.applyCoupon).toBe(err);
       });
     });
 
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
-        const { removeCoupon, cart, coupon } = useCart();
-        await removeCoupon();
+        const { removeCoupon, cart } = useCart();
+        const coupon = 'some-coupon-code-12321231';
+        await removeCoupon({ coupon });
         expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon: null
+          coupon
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
-        expect(coupon.value).toBeNull();
+      });
+
+      it('should set error if factory method throwed', async () => {
+        const err = new Error('zxczxcx');
+        factoryParams.removeCoupon.mockImplementationOnce(() => {
+          throw err;
+        });
+        const { removeCoupon, error } = useCartMock();
+        const coupon = 'some-coupon-code-12321231';
+
+        await removeCoupon({ coupon });
+
+        expect(error.value.removeCoupon).toBe(err);
       });
 
       // TODO

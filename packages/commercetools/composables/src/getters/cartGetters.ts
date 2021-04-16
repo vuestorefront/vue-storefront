@@ -1,7 +1,8 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals, AgnosticDiscount } from '@vue-storefront/core';
 import { Cart, LineItem } from './../types/GraphQL';
 import { getProductAttributes } from './productGetters';
-import { createPrice, createFormatPrice } from './_utils';
+import { createPrice } from './_utils';
+import { getCouponsFromCart } from '../helpers/internals';
 
 export const getCartItems = (cart: Cart): LineItem[] => {
   if (!cart) {
@@ -11,37 +12,53 @@ export const getCartItems = (cart: Cart): LineItem[] => {
   return cart.lineItems;
 };
 
-export const getCartItemName = (product: LineItem): string => product.name;
+export const getCartItemName = (product: LineItem): string => product?.name || '';
 
-export const getCartItemImage = (product: LineItem): string => product.variant.images[0].url;
+export const getCartItemImage = (product: LineItem): string => product?.variant?.images[0]?.url || '';
 
 export const getCartItemPrice = (product: LineItem): AgnosticPrice => createPrice(product);
 
-export const getCartItemQty = (product: LineItem): number => product.quantity;
+export const getCartItemQty = (product: LineItem): number => product?.quantity || 0;
 
 export const getCartItemAttributes = (product: LineItem, filterByAttributeName?: Array<string>) =>
   getProductAttributes(product.variant, filterByAttributeName);
 
-export const getCartItemSku = (product: LineItem): string => product.variant.sku;
+export const getCartItemSku = (product: LineItem): string => product?.variant?.sku || '';
+
+const getCartSubtotalPrice = (cart: Cart, selectSpecialPrices = false): number => {
+  return getCartItems(cart).reduce((total, cartItem) => {
+    const { special, regular } = getCartItemPrice(cartItem);
+    return total + (selectSpecialPrices && special ? special : regular);
+  }, 0);
+};
 
 export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (!cart) {
     return {
       total: 0,
-      subtotal: 0
+      subtotal: 0,
+      special: 0
     };
   }
 
-  const subtotalPrice = cart.totalPrice.centAmount;
-  const shipping = cart.shippingInfo ? cart.shippingInfo.price.centAmount : 0;
-
   return {
-    total: (shipping + subtotalPrice) / 100,
-    subtotal: subtotalPrice / 100
+    total: cart.totalPrice.centAmount / 100,
+    subtotal: getCartSubtotalPrice(cart),
+    special: getCartSubtotalPrice(cart, true)
   };
 };
 
-export const getCartShippingPrice = (cart: Cart): number => cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
+export const getCartShippingPrice = (cart: Cart): number => {
+  const total = cart?.totalPrice?.centAmount;
+  const shippingInfo = cart?.shippingInfo;
+  const centAmount = shippingInfo?.shippingMethod?.zoneRates[0].shippingRates[0].freeAbove?.centAmount;
+
+  if (!shippingInfo || !total || (centAmount && total >= centAmount)) {
+    return 0;
+  }
+
+  return shippingInfo.price.centAmount / 100;
+};
 
 export const getCartTotalItems = (cart: Cart): number => {
   if (!cart) {
@@ -51,7 +68,16 @@ export const getCartTotalItems = (cart: Cart): number => {
   return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0);
 };
 
-export const getFormattedPrice = (price: number) => createFormatPrice(price);
+export const getFormattedPrice = (price: number) => price as any as string;
+
+export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
+  return getCouponsFromCart(cart);
+};
+
+// eslint-disable-next-line
+export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
+  return [];
+};
 
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
@@ -64,7 +90,9 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
-  getFormattedPrice
+  getFormattedPrice,
+  getCoupons,
+  getDiscounts
 };
 
 export default cartGetters;

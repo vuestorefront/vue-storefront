@@ -5,11 +5,10 @@
       :breadcrumbs="breadcrumbs"
     />
     <div class="product">
-      <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
-      <SfGallery
-        class="product__gallery"
-        :images="productGallery"
-      />
+      <LazyHydrate when-idle>
+        <SfGallery :images="productGallery" class="product__gallery" />
+      </LazyHydrate>
+
       <div class="product__info">
         <div class="product__header">
           <SfHeading
@@ -19,41 +18,40 @@
           />
           <SfIcon
             icon="drag"
-            size="xl"
-            color="gray-secondary"
-            class="product__drag-icon mobile-only"
+            size="xxl"
+            color="var(--c-text-disabled)"
+            class="product__drag-icon smartphone-only"
           />
         </div>
         <div class="product__price-and-rating">
           <SfPrice
-            :regular="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
-            :special="productGetters.getFormattedPrice(productGetters.getPrice(product).special)"
+            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
+            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
           <div>
             <div class="product__rating">
-              <SfRating :score="4" :max="5" />
-              <a v-if="!!reviews" href="#" class="product__count">
-                ({{ reviews.length }})
+              <SfRating
+                :score="averageRating"
+                :max="5"
+              />
+              <a v-if="!!totalReviews" href="#" class="product__count">
+                ({{ totalReviews }})
               </a>
             </div>
-            <SfButton data-cy="product-btn_read-all" class="sf-button--text desktop-only">
-              Read all reviews
-            </SfButton>
+            <SfButton class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
           </div>
         </div>
         <div>
           <p class="product__description desktop-only">
-            {{ description }}}
+            {{ description }}
           </p>
-          <SfButton data-cy="product-btn_size-guide" class="sf-button--text desktop-only product__guide">
-            Size guide
+          <SfButton class="sf-button--text desktop-only product__guide">
+            {{ $t('Size guide') }}
           </SfButton>
-          <!-- TODO: add size selector after design is added -->
           <SfSelect
-            data-cy="product-select_size"
             v-if="options.size"
-            :selected="configuration.size"
-            @change="size => updateFilter({ size })"
+            :value="configuration.size"
+            @input="size => updateFilter({ size })"
             label="Size"
             class="sf-select--underlined product__select-size"
             :required="true"
@@ -63,131 +61,103 @@
               :key="size.value"
               :value="size.value"
             >
-              <SfProductOption :label="size.label" />
+              {{size.label}}
             </SfSelectOption>
           </SfSelect>
-          <!-- TODO: add color picker after PR done by SFUI team -->
-          <div class="product__colors desktop-only">
-            <p class="product__color-label">Color:</p>
-            <div v-if="options.color">
-              <!-- TODO: handle selected logic differently as the selected prop for SfColor is a boolean -->
-              <SfColor
-                data-cy="product-color_update"
-                v-for="(color, i) in options.color"
-                :key="i"
-                :color="color.value"
-                class="product__color"
-                @click="updateFilter({color})"
-              />
-            </div>
+          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
+            <p class="product__color-label">{{ $t('Color') }}:</p>
+            <SfColor
+              v-for="(color, i) in options.color"
+              :key="i"
+              :color="color.value"
+              class="product__color"
+              @click="updateFilter({color})"
+            />
           </div>
           <SfAddToCart
-            data-cy="product-cart_add"
+            v-e2e="'product_add-to-cart'"
             :stock="stock"
             v-model="qty"
             :disabled="loading"
             :canAddToCart="stock > 0"
-            @click="addToCart(product, parseInt(qty))"
             class="product__add-to-cart"
+            @click="addItem({ product, quantity: parseInt(qty) })"
           />
-          <SfButton data-cy="product-btn_save-later" class="sf-button--text desktop-only product__save">
-            Save for later
-          </SfButton>
-          <SfButton data-cy="product-btn_add-to-compare" class="sf-button--text desktop-only product__compare">
-            Add to compare
-          </SfButton>
         </div>
-        <SfTabs :openTab="1" class="product__tabs">
-          <SfTab data-cy="product-tab_description" title="Description">
-            <div>
-              <p>
-                The Karissa V-Neck Tee features a semi-fitted shape that's
-                flattering for every figure. You can hit the gym with
-                confidence while it hugs curves and hides common "problem"
-                areas. Find stunning women's cocktail dresses and party
-                dresses.
-              </p>
-            </div>
-            <SfProperty
-              v-for="(property, i) in properties"
-              :key="i"
-              :name="property.name"
-              :value="property.value"
-              class="product__property"
-            >
-              <template v-if="property.name === 'Category'" #value>
-                <SfButton class="sf-button--text">
-                  {{ property.value }}
-                </SfButton>
-              </template>
-            </SfProperty>
-          </SfTab>
-          <SfTab title="Read review" data-cy="product-tab_reviews">
-            <SfReview
-              v-for="(review, i) in reviews"
-              :key="i"
-              :author="review.author"
-              :date="review.date"
-              :message="review.message"
-              :max-rating="5"
-              :rating="review.rating"
-              :char-limit="250"
-              read-more-text="Read more"
-              hide-full-text="Read less"
-              class="product__review"
-            />
-          </SfTab>
+
+        <LazyHydrate when-idle>
+          <SfTabs :open-tab="1" class="product__tabs">
+            <SfTab title="Description">
+              <div class="product__description">
+                  {{ $t('Product description') }}
+              </div>
+              <SfProperty
+                v-for="(property, i) in properties"
+                :key="i"
+                :name="property.name"
+                :value="property.value"
+                class="product__property"
+              >
+                <template v-if="property.name === 'Category'" #value>
+                  <SfButton class="product__property__button sf-button--text">
+                    {{ property.value }}
+                  </SfButton>
+                </template>
+              </SfProperty>
+            </SfTab>
+            <SfTab title="Read reviews">
+              <SfReview
+                v-for="review in reviews"
+                :key="reviewGetters.getReviewId(review)"
+                :author="reviewGetters.getReviewAuthor(review)"
+                :date="reviewGetters.getReviewDate(review)"
+                :message="reviewGetters.getReviewMessage(review)"
+                :max-rating="5"
+                :rating="reviewGetters.getReviewRating(review)"
+                :char-limit="250"
+                read-more-text="Read more"
+                hide-full-text="Read less"
+                class="product__review"
+              />
+            </SfTab>
             <SfTab
               title="Additional Information"
-              data-cy="product-tab_additional"
               class="product__additional-info"
             >
-              <p class="product__additional-info__title">Brand</p>
+            <div class="product__additional-info">
+              <p class="product__additional-info__title">{{ $t('Brand') }}</p>
               <p>{{ brand }}</p>
-              <p class="product__additional-info__title">Take care of me</p>
+              <p class="product__additional-info__title">{{ $t('Instruction1') }}</p>
               <p class="product__additional-info__paragraph">
-                Just here for the care instructions?
+                {{ $t('Instruction2') }}
               </p>
               <p class="product__additional-info__paragraph">
-                Yeah, we thought so
+                {{ $t('Instruction3') }}
               </p>
               <p>{{ careInstructions }}</p>
+            </div>
             </SfTab>
-          </SfTab>
-        </SfTabs>
+          </SfTabs>
+        </LazyHydrate>
       </div>
     </div>
-    <RelatedProducts
-      :products="relatedProducts"
-      :loading="relatedLoading"
-      title="Match it with"
-    />
-    <InstagramFeed />
-    <SfBanner
-      image="/homepage/bannerD.png"
-      subtitle="Fashion to Take Away"
-      title="Download our application to your mobile"
-      class="sf-banner--left desktop-only banner-app"
-    >
-      <template #call-to-action>
-        <div class="banner-app__call-to-action">
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/google.png"
-            :width="191"
-            :height="51"
-            alt="Google Play"
-          />
-          <SfImage
-            class="banner-app__image"
-            src="/homepage/apple.png"
-            :width="174"
-            :height="57"
-            alt="App Store"
-          />
-        </div>
-      </template>
-    </SfBanner>
+
+    <LazyHydrate when-visible>
+      <RelatedProducts
+        :products="relatedProducts"
+        :loading="relatedLoading"
+        title="Match it with"
+      />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <InstagramFeed />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <MobileStoreBanner />
+    </LazyHydrate>
+
   </div>
 </template>
 <script>
@@ -197,7 +167,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfProductOption,
   SfAddToCart,
   SfTabs,
   SfGallery,
@@ -215,8 +184,10 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-import { useProduct, useCart, productGetters } from '<%= options.generate.replace.composables %>';
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
+import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Product',
@@ -226,31 +197,37 @@ export default {
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
-    const { addToCart, loading, loadCart } = useCart();
+    const { addItem, loading } = useCart();
+    const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
+    const reviews = computed(() => reviewGetters.getItems(productReviews.value));
+
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
     const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
       mobile: { url: img.small },
       desktop: { url: img.normal },
-      big: { url: img.big }
+      big: { url: img.big },
+      alt: product.value._name || product.value.name
     })));
 
     onSSR(async () => {
-      await loadCart();
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
+      await searchReviews({ productId: id });
     });
 
     const updateFilter = (filter) => {
       context.root.$router.push({
         path: context.root.$route.path,
-        query: { ...configuration.value,
-          ...filter }
+        query: {
+          ...configuration.value,
+          ...filter
+        }
       });
     };
 
@@ -258,11 +235,15 @@ export default {
       updateFilter,
       configuration,
       product,
+      reviews,
+      reviewGetters,
+      averageRating: computed(() => productGetters.getAverageRating(product.value)),
+      totalReviews: computed(() => productGetters.getTotalReviews(product.value)),
       relatedProducts: computed(() => productGetters.getFiltered(relatedProducts.value, { master: true })),
       relatedLoading,
       options,
       qty,
-      addToCart,
+      addItem,
       loading,
       productGetters,
       productGallery
@@ -276,7 +257,6 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfProductOption,
     SfAddToCart,
     SfTabs,
     SfGallery,
@@ -288,7 +268,9 @@ export default {
     SfBreadcrumbs,
     SfButton,
     InstagramFeed,
-    RelatedProducts
+    RelatedProducts,
+    MobileStoreBanner,
+    LazyHydrate
   },
   data() {
     return {
@@ -309,22 +291,6 @@ export default {
         {
           name: 'Country',
           value: 'Germany'
-        }
-      ],
-      reviews: [
-        {
-          author: 'Jane D.Smith',
-          date: 'April 2019',
-          message:
-              'I was looking for a bright light for the kitchen but wanted some item more modern than a strip light. this one is perfect, very bright and looks great. I can\'t comment on interlation as I had an electrition instal it. Would recommend',
-          rating: 4
-        },
-        {
-          author: 'Mari',
-          date: 'Jan 2018',
-          message:
-              'Excellent light output from this led fitting. Relatively easy to fix to the ceiling,but having two people makes it easier, to complete the installation. Unable to comment on reliability at this time, but I am hopeful of years of use with good light levels. Excellent light output from this led fitting. Relatively easy to fix to the ceiling,',
-          rating: 5
         }
       ],
       description: 'Find stunning women cocktail and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.',
@@ -356,14 +322,12 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
 
+<style lang="scss" scoped>
 #product {
   box-sizing: border-box;
   @include for-desktop {
     max-width: 1272px;
-    padding: 0 var(--spacer-sm);
     margin: 0 auto;
   }
 }
@@ -372,17 +336,21 @@ export default {
     display: flex;
   }
   &__info {
-    margin: var(--spacer-sm) auto var(--spacer-xs);
+    margin: var(--spacer-sm) auto;
     @include for-desktop {
       max-width: 32.625rem;
       margin: 0 0 0 7.5rem;
     }
   }
   &__header {
+    --heading-title-color: var(--c-link);
+    --heading-title-font-weight: var(--font-weight--bold);
+    --heading-padding: 0;
     margin: 0 var(--spacer-sm);
     display: flex;
     justify-content: space-between;
     @include for-desktop {
+      --heading-title-font-weight: var(--font-weight--semibold);
       margin: 0 auto;
     }
   }
@@ -390,7 +358,7 @@ export default {
     animation: moveicon 1s ease-in-out infinite;
   }
   &__price-and-rating {
-    margin: var(--spacer-xs) var(--spacer-sm) var(--spacer-base);
+    margin: 0 var(--spacer-sm) var(--spacer-base);
     align-items: center;
     @include for-desktop {
       display: flex;
@@ -401,28 +369,28 @@ export default {
   &__rating {
     display: flex;
     align-items: center;
-    margin: var(--spacer-xs) 0 0 0;
+    justify-content: flex-end;
+    margin: var(--spacer-xs) 0 var(--spacer-xs);
   }
   &__count {
     @include font(
       --count-font,
-      var(--font-normal),
-      var(--font-sm),
+      var(--font-weight--normal),
+      var(--font-size--sm),
       1.4,
-      var(--font-family-secondary)
+      var(--font-family--secondary)
     );
     color: var(--c-text);
     text-decoration: none;
     margin: 0 0 0 var(--spacer-xs);
   }
   &__description {
-    color: var(--c-link);
     @include font(
       --product-description-font,
-      var(--font-light),
-      var(--font-base),
+      var(--font-weight--light),
+      var(--font-size--base),
       1.6,
-      var(--font-family-primary)
+      var(--font-family--primary)
     );
   }
   &__select-size {
@@ -434,10 +402,10 @@ export default {
   &__colors {
     @include font(
       --product-color-font,
-      var(--font-normal),
-      var(--font-lg),
+      var(--font-weight--normal),
+      var(--font-size--lg),
       1.6,
-      var(--font-family-secondary)
+      var(--font-family--secondary)
     );
     display: flex;
     align-items: center;
@@ -465,38 +433,36 @@ export default {
     margin-top: 0;
   }
   &__tabs {
+    --tabs-title-z-index: 0;
     margin: var(--spacer-lg) auto var(--spacer-2xl);
+    --tabs-title-font-size: var(--font-size--lg);
     @include for-desktop {
       margin-top: var(--spacer-2xl);
-      --tabs-content-tab-padding: 3.5rem 0 0 0;
     }
   }
   &__property {
     margin: var(--spacer-base) 0;
+    &__button {
+      --button-font-size: var(--font-size--base);
+    }
   }
   &__review {
     padding-bottom: 24px;
     border-bottom: var(--c-light) solid 1px;
     margin-bottom: var(--spacer-base);
-    &:last-of-type {
-      border: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-    @include for-desktop {
-      padding-bottom: 0;
-    }
   }
   &__additional-info {
+    color: var(--c-link);
     @include font(
       --additional-info-font,
-      var(--font-light),
-      var(--font-base),
+      var(--font-weight--light),
+      var(--font-size--sm),
       1.6,
-      var(--font-family-primary)
+      var(--font-family--primary)
     );
     &__title {
-      font-weight: var(--font-bold);
+      font-weight: var(--font-weight--normal);
+      font-size: var(--font-size--base);
       margin: 0 0 var(--spacer-sm);
       &:not(:first-child) {
         margin-top: 3.5rem;

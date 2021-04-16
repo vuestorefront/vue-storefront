@@ -1,18 +1,40 @@
-import { apolloClient, getSettings } from './../../index';
-import { ProfileResponse } from './../../types/Api';
 import { basicProfile, fullProfile } from './defaultQuery';
+import gql from 'graphql-tag';
+import ApolloClient from 'apollo-client';
+import { CustomQuery } from '@vue-storefront/core';
 
-interface Options {
+export interface GetMeParams {
   customer?: boolean;
 }
 
-const getMe = async (options: Options = {}): Promise<ProfileResponse> => {
-  const { locale, acceptLanguage } = getSettings();
-  return await apolloClient.query({
-    query: options.customer ? fullProfile : basicProfile,
-    variables: { locale, acceptLanguage },
+export interface OrdersData {
+  // TODO: When https://github.com/DivanteLtd/vue-storefront/issues/4900 is finished, please change "me: any" to "me: Pick<MeQueryInterface, "activeCart" | "customer">"
+  me: any;
+}
+
+const getMe = async (context, params: GetMeParams = {}, customQuery?: CustomQuery) => {
+  const { locale, acceptLanguage } = context.config;
+
+  const { customer }: GetMeParams = params;
+  const defaultVariables = {
+    locale,
+    acceptLanguage
+  };
+
+  const { getBasicProfile, getFullProfile } = context.extendQuery(customQuery, {
+    getBasicProfile: { query: basicProfile, variables: defaultVariables },
+    getFullProfile: { query: fullProfile, variables: defaultVariables }
+  });
+
+  const profile = customer ? getFullProfile : getBasicProfile;
+
+  const request = await (context.client as ApolloClient<any>).query<OrdersData>({
+    query: gql`${profile.query}`,
+    variables: profile.variables,
     fetchPolicy: 'no-cache'
   });
+
+  return request;
 };
 
 export default getMe;

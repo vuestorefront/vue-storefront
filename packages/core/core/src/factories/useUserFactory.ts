@@ -1,109 +1,144 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUser } from '../types';
-import { sharedRef, onSSR } from '../utils';
+import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
+import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
-export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
-  loadUser: () => Promise<USER>;
-  logOut: (params?: {currentUser?: USER}) => Promise<void>;
-  updateUser: (params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
-  register: (params: REGISTER_USER_PARAMS) => Promise<USER>;
-  logIn: (params: { username: string; password: string }) => Promise<USER>;
-  changePassword: (params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
-}
-
-interface UseUserFactory<USER, UPDATE_USER_PARAMS> {
-  useUser: () => UseUser<USER, UPDATE_USER_PARAMS>;
-  setUser: (user: USER) => void;
+export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
+  load: (context: Context, params?: any) => Promise<USER>;
+  logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
+  updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
+  register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
+  logIn: (context: Context, params: { username: string; password: string }) => Promise<USER>;
+  changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
 }
 
 export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
-): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
+) => {
+  return function useUser (): UseUser<USER, UPDATE_USER_PARAMS> {
+    const errorsFactory = (): UseUserErrors => ({
+      updateUser: null,
+      register: null,
+      login: null,
+      logout: null,
+      changePassword: null,
+      load: null
+    });
 
-  const setUser = (newUser: USER) => {
-    sharedRef('useUser-user').value = newUser;
-  };
-
-  const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
     const user: Ref<USER> = sharedRef(null, 'useUser-user');
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
+    const _factoryParams = configureFactoryParams(factoryParams);
+    const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
 
-    const updateUser = async (params: UPDATE_USER_PARAMS) => {
-      loading.value = true;
+    const setUser = (newUser: USER) => {
+      user.value = newUser;
+      Logger.debug('useUserFactory.setUser', newUser);
+    };
+
+    const resetErrorValue = () => {
+      error.value = errorsFactory();
+    };
+
+    const updateUser = async ({ user: providedUser }) => {
+      Logger.debug('useUserFactory.updateUser', providedUser);
+      resetErrorValue();
+
       try {
-        user.value = await factoryParams.updateUser({currentUser: user.value, updatedUserData: params});
+        loading.value = true;
+        user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser});
+        error.value.updateUser = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.updateUser = err;
+        Logger.error('useUser/updateUser', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const register = async (registerUserData: REGISTER_USER_PARAMS) => {
-      loading.value = true;
+    const register = async ({ user: providedUser }) => {
+      Logger.debug('useUserFactory.register', providedUser);
+      resetErrorValue();
+
       try {
-        user.value = await factoryParams.register(registerUserData);
+        loading.value = true;
+        user.value = await _factoryParams.register(providedUser);
+        error.value.register = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.register = err;
+        Logger.error('useUser/register', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const login = async (loginUserData: {
-      username: string;
-      password: string;
-    }) => {
-      loading.value = true;
+    const login = async ({ user: providedUser }) => {
+      Logger.debug('useUserFactory.login', providedUser);
+      resetErrorValue();
+
       try {
-        user.value = await factoryParams.logIn(loginUserData);
+        loading.value = true;
+        user.value = await _factoryParams.logIn(providedUser);
+        error.value.login = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.login = err;
+        Logger.error('useUser/login', err);
       } finally {
         loading.value = false;
       }
     };
 
     const logout = async () => {
+      Logger.debug('useUserFactory.logout');
+      resetErrorValue();
+
       try {
-        await factoryParams.logOut();
+        await _factoryParams.logOut();
+        error.value.logout = null;
         user.value = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.logout = err;
+        Logger.error('useUser/logout', err);
       }
     };
 
-    const changePassword = async (currentPassword: string, newPassword: string) => {
-      loading.value = true;
+    const changePassword = async (params) => {
+      Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
+      resetErrorValue();
+
       try {
-        user.value = await factoryParams.changePassword({currentUser: user.value, currentPassword, newPassword});
+        loading.value = true;
+        user.value = await _factoryParams.changePassword({
+          currentUser: user.value,
+          currentPassword: params.current,
+          newPassword: params.new
+        });
+        error.value.changePassword = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.changePassword = err;
+        Logger.error('useUser/changePassword', err);
       } finally {
         loading.value = false;
       }
     };
 
-    const refreshUser = async () => {
-      loading.value = true;
+    const load = async () => {
+      Logger.debug('useUserFactory.load');
+      resetErrorValue();
+
       try {
-        user.value = await factoryParams.loadUser();
+        loading.value = true;
+        user.value = await _factoryParams.load();
+        error.value.load = null;
       } catch (err) {
-        throw new Error(err);
+        error.value.load = err;
+        Logger.error('useUser/load', err);
       } finally {
         loading.value = false;
       }
     };
-
-    // Temporary enabled by default, related rfc: https://github.com/DivanteLtd/next/pull/330
-    onSSR(async () => {
-      if (!user.value) {
-        await refreshUser();
-      }
-    });
 
     return {
+      setUser,
       user: computed(() => user.value),
       updateUser,
       register,
@@ -111,10 +146,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       logout,
       isAuthenticated,
       changePassword,
-      refreshUser,
-      loading: computed(() => loading.value)
+      load,
+      loading: computed(() => loading.value),
+      error: computed(() => error.value)
     };
   };
-
-  return { useUser, setUser };
 };
