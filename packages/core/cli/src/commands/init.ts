@@ -5,7 +5,7 @@ import path from 'path';
 import createProject from '../scripts/createProject';
 
 export default async (args) => {
-  const CUSTOM_TEMPLATE = 'custom integration template';
+  const CUSTOM_TEMPLATE = 'Custom template from Github';
   const cwd = process.cwd();
   const integrationTemplatesDirectory = path.resolve(__dirname, '../../templates');
   const integrations = getIntegrations();
@@ -40,12 +40,12 @@ export default async (args) => {
 
   if (chosenIntegration !== CUSTOM_TEMPLATE) {
     await createProject({
-      integration: chosenIntegration,
+      integration: projectName,
       targetPath: integrationTemplatesDirectory,
       repositoryLink: integrations[chosenIntegration]
     });
     return copyProject(
-      chosenIntegration,
+      projectName,
       path.resolve(cwd, projectName),
       projectName
     );

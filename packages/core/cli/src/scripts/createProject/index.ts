@@ -18,7 +18,7 @@ async function createProject({
   repositoryLink
 }: ICreateProjectProps): Promise<void> {
   const templatePath = path.join(targetPath, integration);
-
+  console.log(templatePath);
   if (fs.existsSync(templatePath)) {
     try {
       rimraf.sync(templatePath);
