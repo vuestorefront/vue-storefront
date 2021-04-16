@@ -36,7 +36,7 @@ describe('[vsf-next-cli] createProject', () => {
   it('runs subprograms with proper arguments for relative path', async () => {
     for (const [integration, repositoryLink] of Object.entries(integrations)) {
       await createProject({
-        integration,
+        projectName: integration,
         targetPath,
         repositoryLink
       });
@@ -50,7 +50,7 @@ describe('[vsf-next-cli] createProject', () => {
 
     for (const [integration, repositoryLink] of Object.entries(integrations)) {
       await createProject({
-        integration,
+        projectName: integration,
         targetPath: absoluteTargetPath,
         repositoryLink
       });

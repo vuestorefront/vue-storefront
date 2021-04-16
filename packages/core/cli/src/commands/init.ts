@@ -1,14 +1,10 @@
-import getIntegrations from '../utils/getIntegrations';
+import { integrations } from '../utils/getIntegrations';
 import inquirer from 'inquirer';
-import copyProject from '../scripts/copyProject';
-import path from 'path';
 import createProject from '../scripts/createProject';
 
 export default async (args) => {
   const CUSTOM_TEMPLATE = 'Custom template from Github';
   const cwd = process.cwd();
-  const integrationTemplatesDirectory = path.resolve(__dirname, '../../templates');
-  const integrations = getIntegrations();
   const integrationsNames = Object.keys(integrations);
   let projectName = args[0];
 
@@ -40,30 +36,12 @@ export default async (args) => {
 
   if (chosenIntegration !== CUSTOM_TEMPLATE) {
     await createProject({
-      integration: projectName,
-      targetPath: integrationTemplatesDirectory,
+      projectName: projectName,
+      targetPath: cwd,
       repositoryLink: integrations[chosenIntegration]
     });
-    return copyProject(
-      projectName,
-      path.resolve(cwd, projectName),
-      projectName
-    );
+    return;
   }
-
-  const { otherIntegrationName } = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'otherIntegrationName',
-      message: 'Provide integration name:',
-      validate(value) {
-        if (value.trim().length === 0) {
-          return 'Please provide longer name';
-        }
-        return true;
-      }
-    }
-  ]);
 
   const { otherIntegrationGitLink } = await inquirer.prompt([
     {
@@ -82,13 +60,8 @@ export default async (args) => {
   ]);
 
   await createProject({
-    integration: otherIntegrationName,
-    targetPath: integrationTemplatesDirectory,
+    projectName: projectName,
+    targetPath: cwd,
     repositoryLink: otherIntegrationGitLink
   });
-  return copyProject(
-    otherIntegrationName,
-    path.resolve(cwd, projectName),
-    projectName
-  );
 };
