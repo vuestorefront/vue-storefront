@@ -17,6 +17,9 @@ jest.mock('path', () => ({
 jest.mock('shelljs', () => ({
   exec: jest.fn()
 }));
+jest.mock('rimraf', () => ({
+  sync: jest.fn()
+}));
 
 describe('[vsf-next-cli] createProject', () => {
   it('successful repository clone', async () => {
