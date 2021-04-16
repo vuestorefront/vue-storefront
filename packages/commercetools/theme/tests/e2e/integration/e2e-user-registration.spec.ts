@@ -35,6 +35,6 @@ context(['regression'], 'User registration', () => {
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
     page.components.loginModal.submitButton.click();
-    page.components.loginModal.container.contains(`${data.errorMessage} '"${data.customer.email}"'`).should('be.visible');
+    page.components.loginModal.emailError.contains('div', `${data.errorMessage} ${data.customer.email}`).should('be.visible');
   });
 });

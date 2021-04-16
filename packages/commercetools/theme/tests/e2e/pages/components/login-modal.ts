@@ -11,6 +11,10 @@ class LoginModal {
     return el('login-modal-email');
   }
 
+  get emailError(): Cypress.Chainable {
+    return el('login-modal-email', '.sf-input__error-message');
+  }
+
   get firstName(): Cypress.Chainable {
     return el('login-modal-firstName');
   }

@@ -10,8 +10,8 @@
     "customer": {
       "password": "Vu3S70r3fr0n7!",
       "firstName": "Jane",
-      "lastName": "Doe"   
+      "lastName": "Doe"
     },
-    "errorMessage": "There is already an existing customer with the email"
+    "errorMessage": "There is already an existing customer with this email"
   }
 }
