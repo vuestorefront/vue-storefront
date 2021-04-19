@@ -101,11 +101,11 @@ export interface UseUserShippingErrors {
 }
 export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
-  deleteAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
-  updateAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  deleteAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  updateAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery}) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserShippingErrors>;
 }
@@ -140,11 +140,11 @@ export interface UseUserBillingErrors {
 }
 export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
-  deleteAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
-  updateAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  addAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  deleteAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  updateAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: (params: { address: USER_BILLING_ITEM }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserBillingErrors>;
 }
