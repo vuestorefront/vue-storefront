@@ -1,14 +1,13 @@
-import { integrations } from '../../mock';
 import createProject from '@vue-storefront/cli/src/scripts/createProject';
-
+import log from '@vue-storefront/cli/src/utils/log';
+const shelljs = require('shelljs');
 const targetPath = 'vsf-new-project';
-const absoluteTargetPath = `/home/abc/${targetPath}`;
 
 jest.mock('@vue-storefront/cli/src/utils/log', () => ({
-  info: jest.fn()
+  info: jest.fn(),
+  success: jest.fn(),
+  error: jest.fn()
 }));
-
-import path from 'path';
 
 jest.mock('path', () => ({
   join: jest.fn(() => targetPath),
@@ -16,45 +15,37 @@ jest.mock('path', () => ({
 }));
 
 jest.mock('shelljs', () => ({
-  rm: jest.fn(),
-  mkdir: jest.fn(),
-  cd: jest.fn(),
   exec: jest.fn()
 }));
-
-const processMagicCommentsMock = require('@vue-storefront/cli/src/scripts/createProject/processMagicComments');
-jest.mock(
-  '@vue-storefront/cli/src/scripts/createProject/processMagicComments',
-  () => jest.fn()
-);
-
-jest.mock('@vue-storefront/cli/src/utils/helpers', () => ({
-  getProjectDirectoryName: (targetPath) => targetPath.split('/').pop()
+jest.mock('rimraf', () => ({
+  sync: jest.fn()
 }));
 
 describe('[vsf-next-cli] createProject', () => {
-  it('runs subprograms with proper arguments for relative path', async () => {
-    for (const [integration, repositoryLink] of Object.entries(integrations)) {
-      await createProject({
-        integration,
-        targetPath,
-        repositoryLink
-      });
-      expect(processMagicCommentsMock).toHaveBeenCalledWith(targetPath);
-    }
+  it('successful repository clone', async () => {
+    shelljs.exec.mockImplementation(() => true);
+    await createProject({
+      projectName: 'MyProject',
+      targetPath: __dirname,
+      repositoryLink: ''
+    });
+    expect(log.success).toHaveBeenCalledWith(expect.any(String));
   });
 
-  it('runs subprograms with proper arguments for absolute path', async () => {
-    (path.join as jest.Mock).mockImplementation(() => absoluteTargetPath);
-    (path.isAbsolute as jest.Mock).mockImplementation(() => true);
+  it('fail repository clone', async () => {
+    shelljs.exec.mockImplementation(() => {
+      throw new Error();
+    });
+    const testTargetPath = 'test_path';
+    const spy = jest.spyOn(process, 'cwd');
+    spy.mockReturnValue(testTargetPath);
 
-    for (const [integration, repositoryLink] of Object.entries(integrations)) {
-      await createProject({
-        integration,
-        targetPath: absoluteTargetPath,
-        repositoryLink
-      });
-      expect(processMagicCommentsMock).toHaveBeenCalledWith(absoluteTargetPath);
-    }
+    await createProject({
+      projectName: 'MyProject',
+      targetPath: testTargetPath,
+      repositoryLink: ''
+    });
+    spy.mockRestore();
+    expect(log.error).toHaveBeenCalledWith(expect.any(String));
   });
 });
