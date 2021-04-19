@@ -1,17 +1,26 @@
-export const vsfTuConfig = (outputPathName: string, integrationThemePath: string | undefined) => `module.exports = {
+interface IVsfTuConfigProps {
+  outputPathName: string;
+  themePath: string;
+  _themePath: string;
+}
+export const vsfTuConfig = ({
+  outputPathName,
+  themePath,
+  _themePath
+}: IVsfTuConfigProps) => `module.exports = {
   copy: {
     to: '${outputPathName}',
     from: [
-      {
-        path: '${integrationThemePath || '.'}',
-        ignore: ['_theme/**', 'generate-template.ts', 'theme-utils.config.js'],
-        variables: {},
+     {
+        path: '${_themePath}',
         watch: false
       },
       {
-        path: '${integrationThemePath ? integrationThemePath + '_theme' : '_theme'}',
+        path: '${themePath}',
+        ignore: ['generate-template.ts', 'theme-utils.config.js'],
+        variables: {},
         watch: false
-      }
+      },
     ]
   }
 }`;

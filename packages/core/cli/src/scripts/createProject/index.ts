@@ -1,7 +1,7 @@
 import path from 'path';
 const shell = require('shelljs');
 import log from '../../utils/log';
-import rimraf from 'rimraf';
+import { removeFolder } from '../../utils/removeFolder';
 interface ICreateProjectProps {
   projectName: string;
   targetPath: string;
@@ -16,7 +16,7 @@ async function createProject({
   const templatePath = path.join(targetPath, projectName);
   try {
     await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
-    rimraf.sync(path.join(templatePath, '.git'));
+    removeFolder(templatePath, '.git');
     log.success('Integration template initialized successfully');
   } catch (error) {
     log.error('Unable to get integration template from git repository');
