@@ -1,4 +1,4 @@
-import { integrations } from '../utils/getIntegrations';
+import integrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
 import { customTemplateStrategy } from '../scripts/initStarategy/customTemplateStarategy';
