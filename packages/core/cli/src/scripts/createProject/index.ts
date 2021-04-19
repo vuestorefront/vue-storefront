@@ -1,49 +1,25 @@
 import path from 'path';
 const shell = require('shelljs');
 import log from '../../utils/log';
-import processMagicComments from './processMagicComments';
-import * as process from 'process';
-import * as fs from 'fs';
-const rimraf = require('rimraf');
-
+import { removeFolder } from '../../utils/removeFolder';
 interface ICreateProjectProps {
-  integration: string;
+  projectName: string;
   targetPath: string;
   repositoryLink: string;
 }
 
 async function createProject({
-  integration,
+  projectName,
   targetPath,
   repositoryLink
 }: ICreateProjectProps): Promise<void> {
-  const templatePath = path.join(targetPath, integration);
-  console.log(templatePath);
-  if (fs.existsSync(templatePath)) {
-    try {
-      rimraf.sync(templatePath);
-    } catch (e) {
-      log.error('Unable to remove old template');
-      return;
-    }
-  }
+  const templatePath = path.join(targetPath, projectName);
   try {
     await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
+    removeFolder(templatePath, '.git');
+    log.success('Integration template initialized successfully');
   } catch (error) {
     log.error('Unable to get integration template from git repository');
-    return;
-  }
-
-  log.info('Updating Nuxt config');
-  try {
-    const absoluteTargetPath = path.isAbsolute(templatePath)
-      ? templatePath
-      : path.join(__dirname, templatePath);
-    const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
-    await processMagicComments(nuxtConfigPath);
-  } catch (error) {
-    log.error('No nuxt.config.js has been found in integration template');
-    process.exit(1);
   }
 }
 
