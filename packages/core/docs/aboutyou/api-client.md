@@ -3,7 +3,7 @@ platform: AboutYouCloud
 ---
 
 
-<IncludeContent content-key="api-client" />
+[comment]: <> (<IncludeContent content-key="api-client" />)
 
 <!-- Code example for setup method -->
 ::: slot setup
