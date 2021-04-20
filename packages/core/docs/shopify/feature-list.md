@@ -1,11 +1,12 @@
 # Supported features
 
 ### Navigation
-- [x] The category tree
-- [ ] Mega Menu
+- [] The category tree
+- [] Mega Menu
+- [x] Category navigation
 
 ### Category Page
-- [ ] Use filters in category page
+- [] Use filters in category page
 - [x] Use sorting in the category page
 - [x] Open the specific category page
 - [x] Use pagination
@@ -19,7 +20,7 @@
 - [x] See the product gallery
 - [x] See the prices on the product page.
 - [ ] See the discounts on the product page.
-- [ ] Have properties pre-selected (like colour, size) when opening the Variant Product Page.
+- [x] Have properties pre-selected (like colour, size) when opening the Variant Product Page.
 
 
 ### Cart
