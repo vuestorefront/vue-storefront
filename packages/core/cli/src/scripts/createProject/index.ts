@@ -17,7 +17,8 @@ async function createProject({
   try {
     await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
     removeFolder(templatePath, '.git');
-    log.success('Integration template initialized successfully');
+    log.success('Project template initialized successfully. ');
+    log.info('Check out docs.vuestorefront.io/v2');
   } catch (error) {
     log.error('Unable to get integration template from git repository');
   }

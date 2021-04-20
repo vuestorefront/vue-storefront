@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "2.3.10",
+  "version": "2.3.11",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
