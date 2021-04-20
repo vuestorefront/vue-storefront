@@ -1,4 +1,4 @@
-export const integrations: {[key: string]: string} = {
-  commercetools: '',
-  shopify: ''
+export const integrationsMock: { [key: string]: string } = {
+  Commercetools: '',
+  Shopify: ''
 };
