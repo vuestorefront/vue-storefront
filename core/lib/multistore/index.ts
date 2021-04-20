@@ -172,7 +172,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
   const storeCode = (forcedStoreCode && getStoreViewByStoreCode(forcedStoreCode))
     ? forcedStoreCode
-    : currentStoreView().storeCode
+    : (currentStoreView() ? currentStoreView().storeCode : false)
 
   if (storeCode) {
     if (typeof routeObj !== 'object') {
