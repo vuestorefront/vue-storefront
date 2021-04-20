@@ -24,7 +24,7 @@ Sometimes integrations also expose a Nuxt module to configure frontend-related p
 
 ```js
 // nuxt.config.js
-[`@vue-storefront/{INTEGRATION}/nuxt` {
+[`@vue-storefront/{INTEGRATION}/nuxt`, {
   i18n: {
     // i18n config
   }
