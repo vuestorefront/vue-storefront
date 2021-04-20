@@ -37,6 +37,10 @@ describe('[commercetools-api-client] search', () => {
     expect(buildCategoryWhere(settings, { catId: 'cat id' })).toBe('id="cat id"');
   });
 
+  it('returns category search query by key', () => {
+    expect(buildCategoryWhere(settings, { key: 'Shoes' })).toBe('key="Shoes"');
+  });
+
   it('returns category search query by slug', () => {
     expect(buildCategoryWhere(settings, { slug: 'cat slug' })).toBe('slug(en="cat slug" or de="cat slug")');
   });
@@ -47,6 +51,10 @@ describe('[commercetools-api-client] search', () => {
 
   it('returns product search query by id', () => {
     expect(buildProductWhere(settings, { id: 'product-id' })).toBe('id="product-id"');
+  });
+
+  it('returns product search query by key', () => {
+    expect(buildProductWhere(settings, { key: 'Shoes' })).toBe('key="Shoes"');
   });
 
   it('returns order search query by id', () => {

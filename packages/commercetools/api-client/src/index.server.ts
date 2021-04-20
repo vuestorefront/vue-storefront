@@ -70,13 +70,23 @@ const tokenExtension: ApiClientExtension = {
         auth: {
           onTokenChange: (newToken) => {
             if (!currentToken || currentToken.access_token !== newToken.access_token) {
-              res.cookie('vsf-commercetools-token', JSON.stringify(newToken));
+              res.cookie(
+                'vsf-commercetools-token',
+                JSON.stringify(newToken),
+                newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}
+              );
             }
           },
+
           onTokenRead: () => {
-            res.cookie('vsf-commercetools-token', rawCurrentToken);
+            res.cookie(
+              'vsf-commercetools-token',
+              rawCurrentToken,
+              currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
+            );
             return currentToken;
           },
+
           onTokenRemove: () => {
             delete req.cookies['vsf-commercetools-token'];
           }

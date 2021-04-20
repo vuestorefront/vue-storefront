@@ -1,3 +1,6 @@
-export default (): string[] => [
-  'commercetools'
-];
+export const integrations = {
+  Commercetools: 'https://github.com/vuestorefront/template-commercetools.git',
+  'Spryker (beta)': 'https://github.com/spryker/vsf-theme.git',
+  'Salesforce Commerce Cloud (beta)':
+    'https://github.com/ForkPoint/vsf-sfcc-template.git'
+};

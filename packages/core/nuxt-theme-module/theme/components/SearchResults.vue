@@ -2,15 +2,15 @@
   <div>
     <SfMegaMenu
       :visible="isSearchOpen"
-      title="$t('Search results')"
+      :title="$t('Search results')"
       class="search"
     >
       <transition name="sf-fade" mode="out-in">
-        <div v-if="products.length > 0" class="search__wrapper-results" key="results">
+        <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <SfList>
-              <SfListItem v-for="(category, key) in categories.items" :key="key">
-                <SfMenuItem :label="category.label" :link="`/c/women/${category.slug}`"/>
+              <SfListItem v-for="(category, key) in categories" :key="key">
+                <SfMenuItem :label="category.label" :link="`/c/${category.slug}`"/>
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
@@ -38,34 +38,21 @@
               </div>
             </SfScrollable>
             <div class="results--mobile smartphone-only">
-                <SfProductCard
-                  v-for="(product, index) in products"
-                  :key="index"
-                  :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
-                  :score-rating="productGetters.getAverageRating(product)"
-                  :reviews-count="7"
-                  :image="productGetters.getCoverImage(product)"
-                  :alt="productGetters.getName(product)"
-                  :title="productGetters.getName(product)"
-                  :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
-                />
-              </div>
-            <SfButton
-              v-if="categories.items && categories.items.length"
-              :link="`/c/${categories.slug}/${categories.items[0].slug}`"
-              class="sf-button--text see-all desktop-only"
-            >
-              {{ $t('See all results') }}
-            </SfButton>
+              <SfProductCard
+                v-for="(product, index) in products"
+                :key="index"
+                class="result-card"
+                :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+                :score-rating="productGetters.getAverageRating(product)"
+                :reviews-count="7"
+                :image="productGetters.getCoverImage(product)"
+                :alt="productGetters.getName(product)"
+                :title="productGetters.getName(product)"
+                :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+              />
+            </div>
           </SfMegaMenuColumn>
           <div class="action-buttons smartphone-only">
-            <SfButton
-              v-if="categories.items && categories.items.length"
-              class="action-buttons__button color-secondary"
-              :link="`/c/${categories.slug}/${categories.items[0].slug}`"
-            >
-              {{ $t('See all results') }}
-            </SfButton>
             <SfButton class="action-buttons__button color-light" @click="$emit('close')">{{ $t('Cancel') }}</SfButton>
           </div>
         </div>
@@ -91,7 +78,7 @@ import {
   SfImage
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
-import { productGetters, facetGetters } from '<%= options.generate.replace.composables %>';
+import { productGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'SearchResults',
@@ -114,11 +101,10 @@ export default {
       type: Object
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const isSearchOpen = ref(props.visible);
-    const searchResult = ref(props.result);
-    const products = computed(() => facetGetters.getProducts(searchResult.value));
-    const categories = computed(() => facetGetters.getCategoryTree(searchResult.value));
+    const products = computed(() => props.result?.products);
+    const categories = computed(() => props.result?.categories);
 
     watch(() => props.visible, (newVal) => {
       isSearchOpen.value = newVal;
@@ -126,7 +112,7 @@ export default {
         document.body.classList.add('no-scroll');
       } else {
         document.body.classList.remove('no-scroll');
-        searchResult.value.data = [];
+        emit('removeSearchResults');
       }
     });
 
@@ -202,9 +188,6 @@ export default {
   width: 100%;
   &__button {
     width: calc(100% - 32px);
-    &:first-child {
-      margin-bottom: var(--spacer-sm);
-    }
   }
 }
 .results-listing {
@@ -213,7 +196,10 @@ export default {
   margin-left: var(--spacer-2xs);
 }
 .result-card {
-  margin: var(--spacer-2xs) 0;
+  margin: var(--spacer-sm) 0;
+  @include for-desktop {
+    margin: var(--spacer-2xs) 0;
+  }
 }
 
 .before-results {
@@ -222,13 +208,14 @@ export default {
   width: 100%;
   text-align: center;
   @include for-desktop {
-    padding-bottom: var(--spacer-xl);
+    padding: 0;
   }
   &__picture {
     --image-width: 230px;
     margin-top: var(--spacer-2xl);
     @include for-desktop {
-      --image-width: 21.875rem;
+      --image-width: 18.75rem;
+      margin-top: var(--spacer-base);
     }
   }
   &__paragraph {
