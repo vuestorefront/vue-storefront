@@ -45,16 +45,26 @@ export type Option = {
 }
 
 export type ProductVariant = {
-  id: Maybe<string>;
-  sku: Maybe<string>;
-  title: Maybe<string>;
-  images: Maybe<Image>;
-  price: Maybe<number>;
-  priceV2: Maybe<Price>;
-  compareAtPrice: Maybe<number>;
-  compareAtPriceV2: Maybe<Price>;
-  selectedOptions: Maybe<Option[]>;
-  handle: Maybe<string>;
+  __typename?: 'ProductVariant';
+  _id?: Maybe<Scalars['String']>;
+  _description: Maybe<Scalars['String']>;
+  _descriptionHtml: Maybe<Scalars['String']>;
+  _slug: Maybe<Scalars['String']>;
+  _categoriesRef: string[];
+  name: Maybe<Scalars['String']>;
+  images: Maybe<Scalars['Array']>;
+  product?: Maybe<Scalars['Array']>;
+  options: Maybe<Scalars['Array']>;
+  variantBySelectedOptions?: Maybe<Scalars['Array']>;
+  _coverImage: Maybe<Scalars['String']>;
+  price: {
+    original: number;
+    current: number;
+  };
+  variants?: Maybe<Scalars['Array']>;
+  available?: Maybe<Scalars['Boolean']>;
+  productType: Maybe<Scalars['String']>;
+  _availableForSale?: Maybe<Scalars['Boolean']>;
 }
 
 export type Product = {
