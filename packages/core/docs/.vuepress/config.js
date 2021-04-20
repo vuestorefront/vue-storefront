@@ -140,8 +140,7 @@ module.exports = {
 					children: [
 						['/shopify/', 'Introduction'],
 						['/shopify/getting-started', 'Getting Started'],
-						['/shopify/api-client', 'API Client'],
-						['/shopify/composables', 'Composables'],
+						['/shopify/configuration', 'Configuration'],
 						['/shopify/feature-list', 'Feature list'],
 						['/shopify/maintainers', 'Maintainers and support']
 					]
