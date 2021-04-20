@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
-import type { Request, Response, Express } from 'express';
+import type { Request, Response } from 'express';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
@@ -668,7 +668,7 @@ export type ApiClientMethod = (...args: any) => Promise<any>
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, ApiClientMethod>;
-  extendApp?: (app: Express) => void;
+  extendApp?: ({ app: Express, configuration: any }) => void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
