@@ -67,10 +67,10 @@ export default {
   setup() {
     
     const qty = ref(1);
-    const { addToCart } = useCart();
+    const { addItem } = useCart();
 
     return {
-      addToCart,
+      addItem,
       qty
     };
   }
@@ -79,7 +79,7 @@ export default {
 Now, add the following line on your "Add to cart" button to trigger the `addToCart` event.
 
 ```
-@click="addToCart(product, parseInt(qty))"
+@click="addItem(product, parseInt(qty))"
 ```
 
 ### Step 3: List cart item
@@ -155,12 +155,12 @@ if (wrapper) {
 	a.title = "Back To Home";  
 	a.classList.add('btn');
 	a.classList.add('back-btn');
-	a.href = "https://shopify.vuestorefront.io"; 
+	a.href = "https://vsf-next-pwa.myshopify.com"; 
 	wrapper[0].appendChild(a);	
 }
 
 setTimeout(function(){
-  window.location.href="https://shopify.vuestorefront.io";
+  window.location.href="https://vsf-next-pwa.myshopify.com";
 }, 5000);
 ```
 You can edit above code as per your needs.

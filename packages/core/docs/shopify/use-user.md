@@ -48,7 +48,6 @@ This method accept two parameters, username and password and on success it will 
         <form class="form" @submit.prevent="handleSubmit(login)">
           <ValidationProvider rules="required|email" v-slot="{ errors }">
             <SfInput
-              data-cy="login-input_email"
               v-model="form.username"
               :valid="!errors[0]"
               :errorMessage="errors[0]"
@@ -59,7 +58,6 @@ This method accept two parameters, username and password and on success it will 
           </ValidationProvider>
           <ValidationProvider rules="required" v-slot="{ errors }">
             <SfInput
-              data-cy="login-input_password"
               v-model="form.password"
               :valid="!errors[0]"
               :errorMessage="errors[0]"
@@ -69,7 +67,7 @@ This method accept two parameters, username and password and on success it will 
               class="form__element"
             />
           </ValidationProvider>
-          <SfButton data-cy="login-btn_submit"
+          <SfButton
             type="submit"
             class="sf-button--full-width form__button"
             :disabled="loading"

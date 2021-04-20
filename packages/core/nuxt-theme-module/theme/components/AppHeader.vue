@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useWishlist, useUser, cartGetters, useFacet } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
@@ -119,7 +119,9 @@ export default {
     SfBadge,
     SfSearchBar,
     SearchResults,
-    SfOverlay
+    SfOverlay,
+    SfMenuItem,
+    SfLink
   },
   directives: { clickOutside },
   setup(props, { root }) {
@@ -230,6 +232,9 @@ export default {
 }
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
+  .sf-header-navigation-item__item--mobile {
+    display: none;
+  }
 }
 
 .cart-badge {

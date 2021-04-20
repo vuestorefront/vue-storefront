@@ -10,9 +10,42 @@ Default theme is located in `packages/core/nuxt-theme-module` folder and recogni
 
 ## Configuration
 
-To inherit from the default theme in your integration theme you need to install private `@vue-storefront/nuxt-theme` package. from this repo.
+To inherit the default theme from your integration theme you need to install a `@vue-storefront/nuxt-theme` [package](https://www.npmjs.com/package/@vue-storefront/nuxt-theme).
 
-In `nuxt.config.js` of your integration theme set `apiClient/composables/helpers `options to be named as your integration packages. For example under composables you can put `@vue-storefront/comemrcetools-composables`. It will be used in lodash templates inside `@vue-storefront/nuxt-theme` as a replacement for variables (like here `import { useProduct, useCart } from '<%= options.composables %>` - `options.composables` is a palceholder for value passed to composables option in `nuxt.config.js`)
+In `nuxt.config.js` within your integration theme, add `@vue-storefront/nuxt-theme` into `buildModules` key, as a second value you can pass options e.g:
+
+
+```json
+// nuxt.config.js
+{
+  buildModules: [
+    ['@vue-storefront/nuxt-theme', {
+        generate: {
+          replace: {
+            apiClient: '@vue-storefront/commercetools-api',
+            composables: '@vue-storefront/commercetools'
+          }
+        }
+      }
+    ]
+  ]
+}
+```
+
+From now on you can overwrite the default theme with your own files.
+
+Default theme is available in `/packages/core/nuxt-theme-module/theme/` folder. In it, you will find imports using `ejs` syntax. This is the reason you should provide a config for `@vue-storefront/nuxt-theme` module. In your theme you should use them when importing integration-specific packages:
+
+
+```ts
+// nuxt-theme-module/theme/pages/Product.vue
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
+```
+
+```ts
+// your-theme/theme/pages/Product.vue
+import { useProduct, useCart, productGetters, useReview, reviewGetters } from '@vue-storefront/commercetools';
+```
 
 ## How it works
 
