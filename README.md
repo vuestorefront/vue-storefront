@@ -77,20 +77,10 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 
 **Vue Storefront is and always will be Open Source, released under MIT Licence.**
 
-Most of the core team members, VS contributors and contributors in the ecosystem do this open source work in their free time. If you use Vue Storefront for a serious task, and you'd like us to invest more time on it, you can donate the project! You can support us in various ways:
+You can support us in various ways:
 
 - **Contribute** - this is how the Core Team is supporting the project!
 - **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
-
-This is how we will use the donations:
-
-- Allow the core team to work on VS
-- Thank contributors if they invested a large amount of time in contributing
-- Support projects in the ecosystem that are of great value for users
-- Infrastructure cost
-- Fees for money handling
-
-**If you would like to support us please just let us know: contributors@vuestorefront.io**
 
 ## Partners
 
