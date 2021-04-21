@@ -35,13 +35,10 @@ If you want to make it work permanently, you have to add it to your `~/.profile`
 ## How to generate and publish your template of integration?
 
 If you want to generate a template of your integration for VSF Next, you need to follow those steps:
-1. Install VSF cli globally (`yarn global add @vue-storefront/cli`) or use npx (`npx @vue-storefront/cli <command>`).
-2. In your terminal open the folder with your integration theme(e.g [commercetools](https://github.com/vuestorefront/vue-storefront/tree/next/packages/commercetools/theme)).
-3. Execute command `vsf generate-template <your-template-name> <path-to-your-theme-folder>` (e.g.: `vsf generate-template commercetools`) - last argument(`<path-to-your-theme-folder>`) by default points to current directory.
-4. The script should generate a folder with the name which you provide in the previous step and contain your template integration files.
-5. Create a new Github repository for your generated template.
-6. Push your generated files into this repository.
 
-
-
-   
+1. Install VSF cli globally (`yarn global add @vue-storefront/cli`)
+2. In your terminal `cd` to the folder with your integration theme (it's usually in `packages/theme`). Make sure `_theme` folder is generated inside of it  (you can generate it with `yarn dev`)
+3. Execute command `vsf generate-template <your-template-name>` (e.g.: `vsf generate-template commercetools`) 
+5. Create a new Github repository.
+6. `cd` into `<your-template-name>` and push it to the github repository. 
+7. Test with `cd <your-template-name> && yarn && yarn dev`

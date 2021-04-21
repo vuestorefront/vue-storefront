@@ -9,7 +9,7 @@ Click on the integration tile to read its documentation.
 <IntegrationList>
   <IntegrationTile
     name="Commercetools"
-    image="https://www.deloittedigital.de/en/solutions/commercetools/_jcr_content/par/component_container/par/column_ctrl/col3/image.coreimg.png/1593072562788/commercetools-logo.png"
+    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDv0xv5L7h00af2On5MIbw-ZC9NZ2xR4URUE1KiAtz4ht8i5s5LaiofJhZ-V9uKs85jA&usqp=CAU"
     category="eCommerce"
     isEnterprise="true"
     :from-core="true"
@@ -84,7 +84,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bazaarvoice"
-    image="https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/Bazaarvoice_logo.jpg/220px-Bazaarvoice_logo.jpg"
+    image="https://lever-client-logos.s3.us-west-2.amazonaws.com/714170d1-1117-4943-89d7-fa08f7e6af25-1599041851236.png"
     :compatibility="[]"
     category="Reviews"
     isEnterprise="true"
@@ -93,7 +93,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Redis"
-    image="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/200px-Redis_Logo.svg.png"
+    image="https://download.logo.wine/logo/Redis/Redis-Logo.wine.png"
     :compatibility="[]"
     category="Cache"
     isEnterprise="true"
