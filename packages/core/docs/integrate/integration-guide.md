@@ -189,6 +189,45 @@ const getProduct = async (context, params) => {
 
 Each API function always contains `context` as a first parameter. This is the place where you always have access to the client and config of your API connection. Usually, during the using API client, you will be using these functions without thinking about the context - the VSF core handles this. In the end, you need to provide that function to the API creation logic (section above)
 
+### GraphQL `customQuery` support
+
+VSF provides an approach to dynamically change the default predefined graphQL queries for each api request out of the box. The `context` parameter of the API method has `extendQuery` function that can be used to modify qraphQL queries using custom modifier functions. Each custom query modifier lives in the `middleware.config.js`.
+
+```js
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: { /* ... */ },
+      customQueries: {
+        'custom-query-modifier': ({ query, variables }) => {
+          variables.locale = 'en'
+          return { query, variables }
+        }
+      }
+    }
+  }
+};
+```
+
+The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value form client-side api method call.
+
+```ts
+// api-client/src/api/getProduct.js
+const getProduct = async (context: Context, params: PARAMS, customQuery: Record<string, string>) => {
+  const { products } = context.extendQuery(
+    customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  return context.client({
+    query: gql`${products.query}`,
+    variables: products.variables,
+  });
+};
+```
+
+`extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data. This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
+
 ## Creating composables
 
 Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
@@ -295,7 +334,7 @@ Each function inside of factory params has the context in the very first argumen
 
 ### Composable dependencies
 
-Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `setup`. This function is being called inside of the composable and the return values are available in the context:
+Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `provide`. This function is being called inside of the composable and the return values are available in the context:
 
 ```ts
 import { useCart } from '@vue-storefront/commercetools';
@@ -305,7 +344,7 @@ interface UserContext extends Context {
 }
 
 const factoryParams: UseUserFactoryParams = {
-  setup() {
+  provide() {
     return useCart();
   },
   load: async (context: UserContext) => {
