@@ -191,7 +191,7 @@ Each API function always contains `context` as a first parameter. This is the pl
 
 ### GraphQL `customQuery` support
 
-VSF provides an approach to dynamically change the default predefined graphQL queries for each api request out of the box. The `context` parameter of the API method has `extendQuery` function that can be used to modify qraphQL queries using custom modifier functions. Each custom query modifier lives in the `middleware.config.js`.
+Vue Storefront provides an approach to dynamically change the default predefined graphQL queries for each api request out of the box. The `context` parameter of the API method has `extendQuery` function that can be used to modify qraphQL queries using custom modifier functions. Each custom query modifier lives in the `middleware.config.js`.
 
 ```js
 module.exports = {
