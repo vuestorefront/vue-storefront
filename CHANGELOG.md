@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix Original Price Calculation typo - @akucharczyk / @lukaszjedrasik (#5472)
 - Purge loader works properly with dynamic config reload - @Fifciu
 - Multi-tab cart-sync in multi-store environment - @cewald (#5711, #5732)
+- Incorrect load of default address in checkout - @lukaszjedrasik ([#4682](https://github.com/vuestorefront/vue-storefront/issues/4682))
 
 ### Changed / Improved
 
