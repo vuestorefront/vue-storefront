@@ -11,7 +11,14 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.ts$/, use: ['ts-loader'], exclude: /node_modules/ }
+      { 
+        test: /\.ts$/,
+        use: ['ts-loader'], 
+        options: {
+          transpileOnly: true
+        }, 
+        exclude: /node_modules/ 
+      }
     ]
   },
   externals: ['@vue-storefront/core']
