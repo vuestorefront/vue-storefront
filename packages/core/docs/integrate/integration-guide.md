@@ -169,7 +169,7 @@ Vue Storefront provides an approach to dynamically change the default predefined
 ```js
 module.exports = {
   integrations: {
-    ct: {
+    ['<INTEGRATION_TAG>']: {
       location: '@vue-storefront/commercetools-api/server',
       configuration: { /* ... */ },
       customQueries: {
@@ -183,10 +183,10 @@ module.exports = {
 };
 ```
 
-The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value form client-side api method call.
+The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value from client-side api method call. `extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data.
 
 ```ts
-// api-client/src/api/getProduct.js
+// api-client/src/api/getProduct
 const getProduct = async (context: Context, params: PARAMS, customQuery: Record<string, string>) => {
   const { products } = context.extendQuery(
     customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
@@ -199,7 +199,41 @@ const getProduct = async (context: Context, params: PARAMS, customQuery: Record<
 };
 ```
 
-`extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data. This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
+Proxied version of this api method can be used within composable method with `customQuery` support. Now you can modify grapGL queries by providing modifier function identifier to composable method inside component setup function.
+
+```ts
+// composables/src/useProduct
+const productFactoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS> = {
+  async productSearch (context: Context, params: PRODUCT_SEARCH_PARAMS & { customQuery?: CustomQuery }) {
+    const { customQuery, ...searchParams } = params;
+    const product = await context['<INTEGRATION_TAG>'].api.getProduct(searchParams, customQuery)
+    return product
+  }
+}
+```
+
+```ts
+// theme/pages/Product.vue
+import { useProduct } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core`
+
+export default {
+  setup() {
+    const { products, search} = useProduct('<PRODUCT_ID>');
+
+    onSSR(async () => {
+      await search({ customQuery: { products: 'custom-query-modifier' }})
+    })
+
+    return {
+      products
+    };
+  }
+};
+
+```
+
+This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
 
 ## Creating composables
 
