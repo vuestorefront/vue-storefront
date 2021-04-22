@@ -99,42 +99,17 @@ Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folde
 
 Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your API connection, write your API functions, and expose generated API client to the users.
 
-Our API client has two parts: the proxy layer (that talks to our middleware) and a direct connection and as result, package of api-client always shares three entry points (tree-shaking reasons):
+Our API client always shares two entry points:
 
-- `@vue-storefront/{INTEGRATION}/client` - shares the `createProxyClient` and `integrationPlugin` for proxy
 - `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
 - `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types etc.
 
 
 ### Configuration
-The creation of an API client starts with the configuration. As we use middleware, this package is split into three bundles, thus you need to create three separate files with the corresponding configuration:
+The creation of an API client starts with the configuration. As we use middleware, this package is split into two bundles, thus you need to create two separate files with the corresponding configuration:
 
-- `index.client.ts` - contains the creation of API client, to be used only on the client-side, this one will redirect the functions you created into our middleware
 - `index.server.ts` - contains the creation of API client, for direct connection to the integrated platform
 - `index.ts` - main entry point, that contains everything else, such as types, helper functions etc.
-
-
-```ts
-// index.client.ts
-import { apiProxyFactory } from '@vue-storefront/core';
-
-const onCreate = (config) => {
-  // ...
-  return { config };
-};
-
-const { createApiProxy, integrationPlugin } = apiProxyFactory({
-  tag: 'ct',
-  onCreate,
-  api: { isGuest }
-});
-
-export {
-  createApiProxy,
-  integrationPlugin
-};
-```
-
 
 ```ts
 // index.server.ts
