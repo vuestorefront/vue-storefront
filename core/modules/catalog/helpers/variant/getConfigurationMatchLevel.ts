@@ -1,8 +1,8 @@
-import toString from 'lodash/toString'
-import omit from 'lodash/omit'
+import toString from 'lodash-es/toString'
+import omit from 'lodash-es/omit'
 
 /**
- * Counts how much coniguration match for specific variant
+ * Counts how much of the configuration matches for the specific variant
  */
 export default function getConfigurationMatchLevel (configuration, variant): number {
   if (!variant || !configuration) return 0

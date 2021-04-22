@@ -1,7 +1,7 @@
 import areIntlLocalesSupported from 'intl-locales-supported'
 
 export const importIntlPolyfill = async () => {
-  const IntlPolyfill = await import('intl')
+  const IntlPolyfill = await import(/* webpackChunkName: 'intl-polyfill' */ 'intl')
   global.Intl = IntlPolyfill.default
 }
 

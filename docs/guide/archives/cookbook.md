@@ -947,7 +947,7 @@ At [`vue-storefront/config/default.json`](https://github.com/vuestorefront/vue-s
     - `default`
 
 ```json
-"defaultStoreCode": "",
+"defaultStoreCode": "de",
 "storeViews": {
   "multistore": false,
   "commonCache": false,

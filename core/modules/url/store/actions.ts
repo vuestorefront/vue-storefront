@@ -2,13 +2,12 @@ import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '
 import { isServer } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
-// you can use this storage if you want to enable offline capabilities
-import { cacheStorage } from '../'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import queryString from 'query-string'
 import config from 'config'
 import { SearchQuery } from 'storefront-query-builder'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+import { removeLocalization, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -25,6 +24,7 @@ import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/pr
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
   async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any}) {
+    const cacheStorage = StorageManager.get('url')
     if (!state.dispatcherMap[url]) {
       state.dispatcherMap[url] = routeData
     }
@@ -54,6 +54,7 @@ export const actions: ActionTree<UrlState, any> = {
     await Promise.all(registrationRoutePromises)
   },
   mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
+    const cacheStorage = StorageManager.get('url')
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
@@ -86,9 +87,9 @@ export const actions: ActionTree<UrlState, any> = {
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
     `)()
     const productQuery = new SearchQuery()
-    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = (removeLocalization(url) as string).replace(/^(\/)/gm, '')
     productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
-    const products = await dispatch('product/list', { query: productQuery }, { root: true })
+    const products = await dispatch('product/findProducts', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
       const product = products.items[0]
       return transformProductUrl(product, params)
@@ -104,7 +105,7 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
-    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+    url = (removeLocalization(url) as string).replace(/^(\/)/gm, '')
 
     // search for record in ES based on `url`
     const fallbackData = await dispatch('getFallbackByUrl', { url, params })

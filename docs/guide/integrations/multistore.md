@@ -98,6 +98,7 @@ After this sequence of command, you may add the available ES index to your `vue-
 The last thing is to change the `vue-storefront/config/local.json` to configure the storeViews that are available.
 
 ```json
+"defaultStoreCode": "de",
 "storeViews": {
   "multistore": false,
   "mapStoreUrlsFor": ["de", "it"],
@@ -184,16 +185,19 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
 You can find more options available to _multistore_ in [store view](/guide/basics/configuration.html#store-views) section of _Configuration File Explained_. 
 :::
 
-After these changes, you'll have a `LanguageSwitcher` component visible on the bottom.
+After these changes, you'll have a `LanguageSwitcher` component visible on the bottom (only for default theme)
 
 By default, the language / store is switched by the URL prefix:
 
-- `http://localhost:3000` is for the default store
+- `http://localhost:3000` is for the default store which in that case is German store (`"defaultStoreCode": "de"`)
 - `http://localhost:3000/it` will switch the store to the Italian one
 - `http://localhost:3000/de` will switch the store to the German one
 
 General URL format is:
-`http://localhost:3000/{storeCode}`
+`http://localhost:3000/{storeCode}` for `"appendStoreCode": true`
+`http://localhost:3000{url}` for `"url": "/de"`
+
+**Important**: If you have set `"appendStoreCode": true` then `"url"` is ignored
 
 The storeCode may be switched by ENV variable set before running `yarn dev` / `yarn start`:
 
@@ -408,6 +412,10 @@ or
   "
 ></router-link>
 ```
+
+## E2E tests
+
+You can also check folder `test/e2e/integration/multistore` where are e2e tests showing multistore in action.
 
 ### How to extract store code from route
 

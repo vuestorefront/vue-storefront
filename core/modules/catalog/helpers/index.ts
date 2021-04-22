@@ -11,11 +11,11 @@ import { doPlatformPricesSync } from './price'
 import { setProductConfigurableOptions } from './productOptions'
 
 /** Below helpers are not used from 1.12 and can be removed to reduce bundle */
-import { populateProductConfigurationAsync, configureProductAsync } from './deprecatedHelpers'
-export {
-  populateProductConfigurationAsync,
-  configureProductAsync
-}
+// import { populateProductConfigurationAsync, configureProductAsync } from './deprecatedHelpers'
+// export {
+//   populateProductConfigurationAsync,
+//   configureProductAsync
+// }
 /***/
 
 export {
@@ -105,9 +105,9 @@ export function attributeImages (product) {
     for (let attribute of config.products.gallery.imageAttributes) {
       if (product[attribute]) {
         attributeImages.push({
-          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(product[attribute], 310, 300),
-          'error': getThumbnailPath(product[attribute], 310, 300)
+          src: getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+          loading: getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height),
+          error: getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height)
         })
       }
     }

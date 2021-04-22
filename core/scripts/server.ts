@@ -1,4 +1,5 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+import { Context } from './utils/types';
 
 let config = require('config')
 const path = require('path')
@@ -183,8 +184,14 @@ app.get('*', (req, res, next) => {
     }
   }
 
-  const site = req.headers['x-vs-store-code'] || 'main'
-  const cacheKey = `page:${site}:${req.url}`
+  const site = req.headers['x-vs-store-code'] || 'main';
+  const defaultCacheKey = `page:${site}:${req.url}`;
+  const newCacheKey = serverHooksExecutors.beforeBuildCacheKey({
+    currentKey: defaultCacheKey,
+    req,
+    site
+  })
+  const cacheKey = typeof newCacheKey === 'string' ? newCacheKey : defaultCacheKey;
 
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
@@ -192,8 +199,14 @@ app.get('*', (req, res, next) => {
       res.status(202).end(HTMLContent)
       return next()
     }
-    const context = ssr.initSSRRequestContext(app, req, res, config)
+    const context: Context = ssr.initSSRRequestContext(app, req, res, config)
     renderer.renderToString(context).then(output => {
+      if (context.server._redirect.isPending()) {
+        console.log(`redirect from [${context.url}]`)
+        // it should have arguments setup, we just need to call it
+        context.server._redirect.resolver.call(null)
+        return
+      }
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
       }

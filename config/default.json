@@ -10,6 +10,8 @@
       "minifyJS": true,
       "minifyCSS": true
     },
+    "http2ServerPush": true,
+    "compression": true,
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -72,6 +74,10 @@
     }
   },
   "initialResources": [
+    {
+      "filters": ["lang-.*"],
+      "onload": false
+    },
     {
       "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
       "type": "script",
@@ -179,66 +185,7 @@
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
-    "commonCache": false,
-    "mapStoreUrlsFor": [
-      "de",
-      "it"
-    ],
-    "de": {
-      "storeCode": "de",
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    },
-    "it": {
-      "extend": "de",
-      "storeCode": "it",
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "defaultCountry": "IT"
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    }
+    "commonCache": false
   },
   "entities": {
     "optimize": true,
@@ -576,6 +523,27 @@
     "disablePersistentAttributesCache": false
   },
   "products": {
+    "fieldsToCompress": [
+      "max_regular_price",
+      "max_price",
+      "max_regular_price",
+      "minimal_regular_price",
+      "final_price",
+      "price",
+      "special_price",
+      "original_final_price",
+      "original_price",
+      "original_special_price",
+      "final_price_incl_tax",
+      "price_incl_tax",
+      "special_price_incl_tax",
+      "final_price_tax",
+      "price_tax",
+      "special_price_tax",
+      "image",
+      "small_image",
+      "thumbnail"
+    ],
     "fieldsToCompact": {
       "minimal_price": "mp",
       "has_options": "ho",
@@ -586,21 +554,21 @@
       "tax_class_id": "tci",
       "description": "desc",
       "minimal_regular_price": "mrp",
-      "final_price": "fp",
-      "price": "p",
+      "final_price": "fp", 
+      "price": "p", 
       "special_price": "sp",
       "original_final_price": "ofp",
       "original_price": "op",
       "original_special_price": "osp",
-      "final_price_incl_tax": "fpit",
+      "final_price_incl_tax": "fpit", 
       "original_price_incl_tax": "opit",
       "price_incl_tax": "pit",
-      "special_price_incl_tax": "spit",
+      "special_price_incl_tax": "spit", 
       "final_price_tax": "fpt",
       "price_tax": "pt",
       "special_price_tax": "spt",
       "original_price_tax": "opt",
-      "image": "i",
+      "image": "i", 
       "small_image": "si",
       "thumbnail": "t"
     },
@@ -720,14 +688,16 @@
     "endpoint": "/api/user",
     "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
-    "createPassword_endpoint": "http://localhost:8080/api/user/create-password",
+    "createPassword_endpoint": "/api/user/create-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
-    "tokenInHeader": false
+    "tokenInHeader": false,
+    "tokenHeaderName": "Authorization",
+    "tokenAuthScheme": "Bearer"
   },
   "stock": {
     "synchronize": true,

@@ -65,16 +65,12 @@ export function normalizeUrlPath (url: string): string {
 }
 
 export function formatCategoryLink (category: Category, storeCode: string = currentStoreView().storeCode): string {
-  storeCode ? storeCode += '/' : storeCode = '';
-
-  if (currentStoreView().appendStoreCode === false) {
-    storeCode = ''
-  }
-
   if (category) {
-    return config.seo.useUrlDispatcher ? ('/' + storeCode + category.url_path) : ('/' + storeCode + 'c/' + category.slug)
+    return config.seo.useUrlDispatcher
+      ? localizedRoute(category.url_path, storeCode)
+      : localizedRoute('c/' + category.slug, storeCode)
   }
-  return '/' + storeCode;
+  return localizedRoute('/', storeCode)
 }
 
 export function formatProductLink (
