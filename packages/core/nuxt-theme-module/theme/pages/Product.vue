@@ -49,6 +49,7 @@
             {{ $t('Size guide') }}
           </SfButton>
           <SfSelect
+            v-e2e="'size-select'"
             v-if="options.size"
             :value="configuration.size"
             @input="size => updateFilter({ size })"

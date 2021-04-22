@@ -1,6 +1,7 @@
 import Header from './components/header';
 
 export default class Base {
+
   get path(): string {
     return '/';
   }
@@ -12,4 +13,5 @@ export default class Base {
   visit(): Cypress.Chainable {
     return cy.visit(this.path);
   }
+
 }

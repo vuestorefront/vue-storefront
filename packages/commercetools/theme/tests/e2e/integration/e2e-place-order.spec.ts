@@ -19,8 +19,8 @@ context('Order placement', () => {
     page.category.products.first().click().then(() => {
       waitHydration();
     });
-    page.product.addToCartButton.click();
-    page.product.header.openCart();
+    page.product().addToCartButton.click();
+    page.product().header.openCart();
     page.components.cart.goToCheckoutButton.click();
     page.checkout.shipping.heading.should('be.visible');
     page.checkout.shipping.fillForm(data.customer);
