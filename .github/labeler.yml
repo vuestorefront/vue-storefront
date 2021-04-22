@@ -1,10 +1,10 @@
+# Add 'Next' label to any change to packages files
+Next:
+- /**/*
+
 # Add 'core' label to any change to packages/core files within the source dir EXCEPT for the docs sub-folder
 core:
 - any: ['packages/core/**/*', '!packages/core/docs/**/*']
-
-# Add 'Next' label to any change to packages files
-Next:
-- packages/**/*
 
 # Add 'commercetools' label to any change to packages/commercetools files
 commercetools:
@@ -18,6 +18,6 @@ boilerplate:
 docs:
 - packages/core/docs/**/*
 
-# Add 'ci' label to any change to continuos integration files inside .github folder
+# Add 'ci' label to any change to continuous integration files inside .github folder
 ci:
 - .github/**/*
