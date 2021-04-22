@@ -62,9 +62,9 @@ export const Shipping = {
     shipToMyAddress: {
       handler () {
         this.useMyAddress()
-      },
-      immediate: true
-    }
+      }
+    },
+    '$route.hash': 'useMyAddress'
   },
   mounted () {
     this.checkDefaultShippingAddress()

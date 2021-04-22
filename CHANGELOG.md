@@ -39,12 +39,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - servercart-after-diff event payload - Fifciu (#5365)
 - Fix Original Price Calculation typo - @akucharczyk / @lukaszjedrasik (#5472)
 - Purge loader works properly with dynamic config reload - @Fifciu
+- Multi-tab cart-sync in multi-store environment - @cewald (#5711, #5732)
+- Incorrect load of default address in checkout - @lukaszjedrasik ([#4682](https://github.com/vuestorefront/vue-storefront/issues/4682))
+
 ### Changed / Improved
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
 - Bump dependencies versions (#4715, #4696, #4951)
 - Using dayjs for dates in taxCalc.ts to make it work properly in Safari (#5364)
 - Awaiting addItem action call inside mergeServerItem action (#5165)
+- Moved `phoneNum` to proper branch - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
